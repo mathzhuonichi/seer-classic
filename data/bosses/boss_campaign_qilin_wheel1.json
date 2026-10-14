@@ -1,0 +1,98 @@
+{
+  "id": "boss_campaign_qilin_wheel1",
+  "name": {
+    "zh": "麒麟·炽天之轮"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "麒麟空间"
+  },
+  "era": "2013",
+  "team": [
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 20000,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "immune_percent_damage"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "极度冰点",
+          "同生共死"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {},
+    "kind": "campaign_progress"
+  },
+  "campaign": {
+    "id": "qilin",
+    "stage": "wheel1",
+    "final": false
+  },
+  "strategy_notes": {
+    "zh": "留意对手的特殊能力，准备好阵容再挑战。"
+  },
+  "engine_notes": [
+    "Wheel1HP 20000 and wheel2HP 15000 are explicitly reported in 2013; wheel3–6HP 15000 reuse the later reported values as calibration, not a verified pre-2013 number.",
+    "The first four wheel immunities have reported forced-status and exceptional-skill loopholes. Only represented native/status/skill mechanisms are implemented; undisclosed server exceptions are not certified."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/51seer/20130304-566003.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

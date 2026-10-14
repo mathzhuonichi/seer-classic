@@ -1,0 +1,100 @@
+{
+  "id": 366,
+  "name": {
+    "zh": "呆呆蛹"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 94,
+    "atk": 45,
+    "def": 70,
+    "spa": 30,
+    "spd": 70,
+    "spe": 35
+  },
+  "ev_yield": {
+    "hp": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 8,
+      "skill": 20045
+    },
+    {
+      "level": 15,
+      "skill": 10047
+    },
+    {
+      "level": 22,
+      "skill": 10353
+    },
+    {
+      "level": 29,
+      "skill": 20405
+    },
+    {
+      "level": 33,
+      "skill": 10896
+    },
+    {
+      "level": 37,
+      "skill": 10899
+    },
+    {
+      "level": 41,
+      "skill": 20406
+    },
+    {
+      "level": 45,
+      "skill": 10647
+    },
+    {
+      "level": 49,
+      "skill": 10900
+    },
+    {
+      "level": 53,
+      "skill": 20407
+    },
+    {
+      "level": 57,
+      "skill": 10897
+    },
+    {
+      "level": 61,
+      "skill": 20408
+    },
+    {
+      "level": 65,
+      "skill": 10901
+    },
+    {
+      "level": 69,
+      "skill": 20409
+    },
+    {
+      "level": 73,
+      "skill": 10898
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0366",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

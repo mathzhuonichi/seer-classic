@@ -1,0 +1,2866 @@
+{
+  "description": "Original official combat-pose vectors; no redraw or raster enlargement.",
+  "portraits": {
+    "1": {
+      "path": "/portraits/vectors/1.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1.swf",
+      "source_sha256": "1494eab2530f1af805ed379addb8e0875eecc9863ea515c472533aebf9dfb081",
+      "sha256": "5e5b6ed6110725d4e24348be9c88312d7ffcf9e52b00f30b09d13e8bfbeca19d",
+      "width": 57.5,
+      "height": 89.5,
+      "bytes": 45409,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 59,
+        "y": 499,
+        "width": 115,
+        "height": 179
+      }
+    },
+    "2": {
+      "path": "/portraits/vectors/2.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/2.swf",
+      "source_sha256": "8ba351ca93c0be06fab45cf55d77ebdab7c8457e80bafb2b2b5908cda04b0cfe",
+      "sha256": "11b330c2bf02bbb5ef05aa2446d80b178faecb3331be271a0545cc6144d90ec9",
+      "width": 105,
+      "height": 152,
+      "bytes": 98629,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 121,
+        "y": 20,
+        "width": 210,
+        "height": 304
+      }
+    },
+    "3": {
+      "path": "/portraits/vectors/3.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/3.swf",
+      "source_sha256": "12306a7f790f4c898f75c3d7accc52edd2f44fc5953fbac438808e5b5a33a4eb",
+      "sha256": "c682e08a3e5eca9afa09a47eb530bb9737337a539ba4446b350f6db2f17256fd",
+      "width": 139,
+      "height": 206,
+      "bytes": 68984,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 190,
+        "y": 314,
+        "width": 278,
+        "height": 412
+      }
+    },
+    "4": {
+      "path": "/portraits/vectors/4.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/4.swf",
+      "source_sha256": "6a99c5804a493cee214619de4e6005ed80e07705def850ef46fc1b53df53fdda",
+      "sha256": "b48ddc65df126c4ebd94ce346e008e7ff0249eff9ab7ced7f31635bb0f9b81d9",
+      "width": 96.5,
+      "height": 136,
+      "bytes": 12672,
+      "format": "SVG vector paths",
+      "symbol": 86,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 184,
+        "y": 331,
+        "width": 193,
+        "height": 272
+      }
+    },
+    "5": {
+      "path": "/portraits/vectors/5.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/5.swf",
+      "source_sha256": "265f4b0cf64ed33fe42811e59b24faf754d00e453b876e2d0dc7e7d307a35575",
+      "sha256": "466e64233c929d774ccf1edabe1985be95dacde11de2ec3a11b1844cdaa0c1fe",
+      "width": 91.5,
+      "height": 145.5,
+      "bytes": 64938,
+      "format": "SVG vector paths",
+      "symbol": 38,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 76,
+        "y": 241,
+        "width": 183,
+        "height": 291
+      }
+    },
+    "6": {
+      "path": "/portraits/vectors/6.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/6.swf",
+      "source_sha256": "0414ebb722ff1153f527653dc1fb106ebf144536a0b803c5bc76c9957c4130c0",
+      "sha256": "ddc7808159e1b12f353560695d7d05e42bea8563a58afae51bddaa0493ce9854",
+      "width": 172,
+      "height": 200.5,
+      "bytes": 104688,
+      "format": "SVG vector paths",
+      "symbol": 46,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 181,
+        "y": 497,
+        "width": 344,
+        "height": 401
+      }
+    },
+    "7": {
+      "path": "/portraits/vectors/7.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/7.swf",
+      "source_sha256": "f67e81b4cb5294b16e2dc2af7d67b0396bc2b015555f8a4c8d1e4954c17952e3",
+      "sha256": "1862a77d397083737e31520fd3b844e6a337a1a3c80b592c0c8b1bb5d407c094",
+      "width": 91,
+      "height": 109,
+      "bytes": 37862,
+      "format": "SVG vector paths",
+      "symbol": 32,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 88,
+        "y": 308,
+        "width": 182,
+        "height": 218
+      }
+    },
+    "8": {
+      "path": "/portraits/vectors/8.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/8.swf",
+      "source_sha256": "b1817ecfa26bb027cab7c7f6dfff8383131eeed4a579267919b7f506878e2302",
+      "sha256": "0c0a9ae716378132de8dbeaca46a8e58daae8d936ea9d73bd5ca32bf58024744",
+      "width": 106,
+      "height": 145.5,
+      "bytes": 46652,
+      "format": "SVG vector paths",
+      "symbol": 28,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 160,
+        "y": 246,
+        "width": 212,
+        "height": 291
+      }
+    },
+    "9": {
+      "path": "/portraits/vectors/9.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/9.swf",
+      "source_sha256": "b9d897229fec5372d88098740d7b919c69e093f90808a54811baa4fbf119c078",
+      "sha256": "7ede413b3329a3f4e5ba08fc211ef16ae0015980e97e8843a0dd6c804fb95d32",
+      "width": 163,
+      "height": 192.5,
+      "bytes": 126783,
+      "format": "SVG vector paths",
+      "symbol": 41,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 171,
+        "y": 76,
+        "width": 326,
+        "height": 385
+      }
+    },
+    "10": {
+      "path": "/portraits/vectors/10.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/10.swf",
+      "source_sha256": "bb760f23db307eda53d846fd1d1f77e207d48bdb5f373ae631810e0dae1861b4",
+      "sha256": "a2eb7b687b96e551192f9d289b1697b89cf8a1d619686088a6e2b82075563e18",
+      "width": 137.5,
+      "height": 105.5,
+      "bytes": 11318,
+      "format": "SVG vector paths",
+      "symbol": 72,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 117,
+        "y": 278,
+        "width": 275,
+        "height": 211
+      }
+    },
+    "11": {
+      "path": "/portraits/vectors/11.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/11.swf",
+      "source_sha256": "f4a9cb7abdbdfa1f8040b5347251f6968221d4f00fd8b34107abbe98ee4db319",
+      "sha256": "8c70a8d2246bcc0a80a4163ea5be91a7a6519a26ba5ba35c56f384122f792635",
+      "width": 128,
+      "height": 177.5,
+      "bytes": 15457,
+      "format": "SVG vector paths",
+      "symbol": 128,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 302,
+        "y": 897,
+        "width": 256,
+        "height": 355
+      }
+    },
+    "12": {
+      "path": "/portraits/vectors/12.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/12.swf",
+      "source_sha256": "5b7fcced397abb27b0e6eba5b7fe44698c2f62e1a546109dec703ec97148d70b",
+      "sha256": "5bd87ef03f531f9cb9bba74aedab859e85ed626038e9498b3e6ee98f1ac5b357",
+      "width": 167,
+      "height": 207.5,
+      "bytes": 39412,
+      "format": "SVG vector paths",
+      "symbol": 133,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 860,
+        "y": 1049,
+        "width": 334,
+        "height": 415
+      }
+    },
+    "13": {
+      "path": "/portraits/vectors/13.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/13.swf",
+      "source_sha256": "da47ec3e4f2bd111eacc9d801e1bb32cb445f2be335c0d6e40f625b450e22ef8",
+      "sha256": "d41122df64badc0ca8b4f3036da685e438669beb93f1b2b591d7fdb94ce6848d",
+      "width": 105,
+      "height": 104.5,
+      "bytes": 9299,
+      "format": "SVG vector paths",
+      "symbol": 68,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 121,
+        "y": 1473,
+        "width": 210,
+        "height": 209
+      }
+    },
+    "14": {
+      "path": "/portraits/vectors/14.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/14.swf",
+      "source_sha256": "36ef072157dc347586792b712040e3421de29b4c089de85e3f736e99a0e46c42",
+      "sha256": "d880c319fffaca8f23285d7d8ca861733021e748187d47f2ab0c4870cf25af49",
+      "width": 94,
+      "height": 145.5,
+      "bytes": 9883,
+      "format": "SVG vector paths",
+      "symbol": 100,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 287,
+        "y": 535,
+        "width": 188,
+        "height": 291
+      }
+    },
+    "15": {
+      "path": "/portraits/vectors/15.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/15.swf",
+      "source_sha256": "1255a2e1c16497e35755e7928e594b0fef21cfd7f686c0bf61f7b1bdd38c927b",
+      "sha256": "6003eabd167d0b87745c6e8053e6bfb29280778b2582b5220b976a16f6908689",
+      "width": 164.5,
+      "height": 172.5,
+      "bytes": 22407,
+      "format": "SVG vector paths",
+      "symbol": 112,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 206,
+        "y": 428,
+        "width": 329,
+        "height": 345
+      }
+    },
+    "16": {
+      "path": "/portraits/vectors/16.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/16.swf",
+      "source_sha256": "a3c0aefddd43e8803e9c99904bf9da2b97b2af05b9d112ea6bb1514786325e27",
+      "sha256": "7ece897f589ec4a713dc1aba0b1126a69f053f503950952abe7024696103a34c",
+      "width": 104,
+      "height": 147.5,
+      "bytes": 22106,
+      "format": "SVG vector paths",
+      "symbol": 119,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 54,
+        "y": 83,
+        "width": 208,
+        "height": 295
+      }
+    },
+    "17": {
+      "path": "/portraits/vectors/17.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/17.swf",
+      "source_sha256": "13c56619efb5d0ccab651897b6b0b3a58e02ce19ec543a5b5d7b0737980cfc57",
+      "sha256": "bc047011e6d2d4b2a4e37b5c8b2974ad6ba8146c26d02e25af0225065afe4a22",
+      "width": 142.5,
+      "height": 128,
+      "bytes": 22125,
+      "format": "SVG vector paths",
+      "symbol": 89,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 75,
+        "y": 656,
+        "width": 285,
+        "height": 256
+      }
+    },
+    "18": {
+      "path": "/portraits/vectors/18.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/18.swf",
+      "source_sha256": "1ea225ea3d23117aeef488b881afe783004a1971f5cce6e36a6cda0129cfd06f",
+      "sha256": "2ec9755bdb58ab64ba3af36828cf3330bbff14f3363f88ef5e11be4422fdd1d3",
+      "width": 188.5,
+      "height": 175.5,
+      "bytes": 33483,
+      "format": "SVG vector paths",
+      "symbol": 157,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 64,
+        "y": 441,
+        "width": 377,
+        "height": 351
+      }
+    },
+    "19": {
+      "path": "/portraits/vectors/19.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/19.swf",
+      "source_sha256": "991517457d0c4a1bc726629d1344a815bdcec70411811cea8b5669e084fc8d62",
+      "sha256": "f2dd9cf0189baad117f422b97e45e99eb91d61c02ce8ecb9072566bc7a1bdaa0",
+      "width": 68.5,
+      "height": 127.5,
+      "bytes": 18371,
+      "format": "SVG vector paths",
+      "symbol": 66,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 263,
+        "y": 738,
+        "width": 137,
+        "height": 255
+      }
+    },
+    "20": {
+      "path": "/portraits/vectors/20.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/20.swf",
+      "source_sha256": "36c8a0c0a88cd4d6ec3a510fe336c3670a69f683b28e13a966ad1c9d49a72ba4",
+      "sha256": "ed85b0812d85b2992a445293f66ce4e26ea2aa7d2561f9cec0934c58734390f0",
+      "width": 174,
+      "height": 209,
+      "bytes": 22479,
+      "format": "SVG vector paths",
+      "symbol": 221,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 188,
+        "y": 117,
+        "width": 348,
+        "height": 418
+      }
+    },
+    "21": {
+      "path": "/portraits/vectors/21.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/21.swf",
+      "source_sha256": "a7e32c41b0297c0484c57089fd89cc4c328fa15db7b67781353e78e200a4319d",
+      "sha256": "c21085924b6179016b77737b992ffbaa2ba5da68a7545b568200d67bd9b99004",
+      "width": 204.5,
+      "height": 233.5,
+      "bytes": 31881,
+      "format": "SVG vector paths",
+      "symbol": 192,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 119,
+        "y": 32,
+        "width": 409,
+        "height": 467
+      }
+    },
+    "22": {
+      "path": "/portraits/vectors/22.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/22.swf",
+      "source_sha256": "7d2c9408be1443a28808b7e0ecf851764d998febc36caa6775e21b97035d4b86",
+      "sha256": "29fe6d7bec0d14bea27ad2c026f6cb0011193917fb114a230d149e58cf2403ec",
+      "width": 118,
+      "height": 135.5,
+      "bytes": 4715,
+      "format": "SVG vector paths",
+      "symbol": 104,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 126,
+        "y": 152,
+        "width": 236,
+        "height": 271
+      }
+    },
+    "23": {
+      "path": "/portraits/vectors/23.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/23.swf",
+      "source_sha256": "cf66eb555c823044882c404f7b25d3856eedc8b46cac2d39ad11a784a6d4239e",
+      "sha256": "250dbcb8a5043b849bb15eb0d4a1132cd78d10baa279d1c72c58ee70ba536122",
+      "width": 191,
+      "height": 212,
+      "bytes": 10741,
+      "format": "SVG vector paths",
+      "symbol": 55,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 573,
+        "y": 444,
+        "width": 382,
+        "height": 424
+      }
+    },
+    "24": {
+      "path": "/portraits/vectors/24.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/24.swf",
+      "source_sha256": "54f24bdad2cc5dc52d77c37d13ecce8e11897aaf462b5263cbb91436ca2c863a",
+      "sha256": "404d0fb9def88a2a9f451da1ce1ad452af479672f6c34b23996920375b871ac5",
+      "width": 129.5,
+      "height": 228,
+      "bytes": 14146,
+      "format": "SVG vector paths",
+      "symbol": 70,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 612,
+        "y": 446,
+        "width": 259,
+        "height": 456
+      }
+    },
+    "25": {
+      "path": "/portraits/vectors/25.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/25.swf",
+      "source_sha256": "b191dc2f31ced58647627835d4681153f9247322b001bccbc903cbdc6ee12b74",
+      "sha256": "0a98d264003127fd44ef2d9b8743da3034d4ab1902e4573c02638865bc01c2b5",
+      "width": 162.5,
+      "height": 97.5,
+      "bytes": 17002,
+      "format": "SVG vector paths",
+      "symbol": 82,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 63,
+        "y": 260,
+        "width": 325,
+        "height": 195
+      }
+    },
+    "26": {
+      "path": "/portraits/vectors/26.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/26.swf",
+      "source_sha256": "dc82546d21f9965e1256063948741c6dfab796ed8383adcbfd517e8e9f2bdeb6",
+      "sha256": "49b4b58db237904c6061038d3e5cd2bbca324c3176359266ceb2d43b39891990",
+      "width": 123,
+      "height": 198,
+      "bytes": 29509,
+      "format": "SVG vector paths",
+      "symbol": 142,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 208,
+        "y": 224,
+        "width": 246,
+        "height": 396
+      }
+    },
+    "27": {
+      "path": "/portraits/vectors/27.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/27.swf",
+      "source_sha256": "35db9a440e7b90bcf8d64556cd4897c4d6fbc0e9771004f47cf4c5ac13c86e02",
+      "sha256": "c85155bc4e3d87b8d3b0f37f4d6ef4ce9b26f21535dff8ee526394457531ff7a",
+      "width": 125.5,
+      "height": 155,
+      "bytes": 16945,
+      "format": "SVG vector paths",
+      "symbol": 55,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 170,
+        "y": 448,
+        "width": 251,
+        "height": 310
+      }
+    },
+    "28": {
+      "path": "/portraits/vectors/28.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/28.swf",
+      "source_sha256": "dc29cc4680552fb486b6c63777fdeae64895c796974cd8c5bc0f84695898288d",
+      "sha256": "b5a67e161f544e27d806f49bc765b91dfd3518fe19e3b223ba1a2df41a51efb5",
+      "width": 143,
+      "height": 161,
+      "bytes": 20430,
+      "format": "SVG vector paths",
+      "symbol": 82,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 105,
+        "y": 187,
+        "width": 286,
+        "height": 322
+      }
+    },
+    "29": {
+      "path": "/portraits/vectors/29.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/29.swf",
+      "source_sha256": "33947cab391718a82ad4166adda27554355a09116a4a24c3aafbdfc284a9cea9",
+      "sha256": "ac32c239c67b5190923086adea3e85b3b4a827d192d96863a9866ce51d450aba",
+      "width": 172,
+      "height": 237,
+      "bytes": 19721,
+      "format": "SVG vector paths",
+      "symbol": 75,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 99,
+        "y": 275,
+        "width": 344,
+        "height": 474
+      }
+    },
+    "30": {
+      "path": "/portraits/vectors/30.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/30.swf",
+      "source_sha256": "da29fe246d7a221c4e39bb9b5b884e6b6dce406a147015bf463d2e5fa09ef966",
+      "sha256": "4157fab426b3ca9f703f1949cf811d74f72f0ed739a2eb7c58919a88f9d1e99c",
+      "width": 94,
+      "height": 71.5,
+      "bytes": 8778,
+      "format": "SVG vector paths",
+      "symbol": 88,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 99,
+        "y": 508,
+        "width": 188,
+        "height": 143
+      }
+    },
+    "53": {
+      "path": "/portraits/vectors/53.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/53.swf",
+      "source_sha256": "0b880bc56e64b7f8f0ab499e729935d564fd07393b0ce344f8ffcf0c8b3f73bf",
+      "sha256": "21086d6522c8881ffb2c4793233e2079a03abe21f3da0a87b15a99f6d94dda73",
+      "width": 91.5,
+      "height": 99,
+      "bytes": 23871,
+      "format": "SVG vector paths",
+      "symbol": 175,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 53,
+        "y": 213,
+        "width": 183,
+        "height": 198
+      }
+    },
+    "62": {
+      "path": "/portraits/vectors/62.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/62.swf",
+      "source_sha256": "1b03bb81f58238594dc41dc2a54d9fb075476e4518c6c243ccaac2c689a470d4",
+      "sha256": "1f42831684d49d7578f2c5fac2278e4cc3a1ee09f3b8111657251b9c7c370d27",
+      "width": 100,
+      "height": 102.5,
+      "bytes": 24961,
+      "format": "SVG vector paths",
+      "symbol": 148,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 29,
+        "y": 331,
+        "width": 200,
+        "height": 205
+      }
+    },
+    "68": {
+      "path": "/portraits/vectors/68.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/68.swf",
+      "source_sha256": "110d9f830915447a53b58e0eec3933bf578e7e19f796b5d7f6cbcfc283da50cd",
+      "sha256": "9420ec97492b35396a6b10886edfd81eb585c84452e0668f3e05fec1c3e91b79",
+      "width": 73.5,
+      "height": 94,
+      "bytes": 24626,
+      "format": "SVG vector paths",
+      "symbol": 91,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 165,
+        "y": 325,
+        "width": 147,
+        "height": 188
+      }
+    },
+    "70": {
+      "path": "/portraits/vectors/70.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/70.swf",
+      "source_sha256": "43d20bfc7fdb5254743fcb5955684ce5a5805f6d159a73d30a204ac37d9390f9",
+      "sha256": "d1213a8911c3e2b2235fbd4066be80d0526265b718ca3e2ec59ae3ca4c1c36de",
+      "width": 109.5,
+      "height": 219,
+      "bytes": 10041,
+      "format": "SVG vector paths",
+      "symbol": 114,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 671,
+        "y": 662,
+        "width": 219,
+        "height": 438
+      }
+    },
+    "105": {
+      "path": "/portraits/vectors/105.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/105.swf",
+      "source_sha256": "1e59416c2717f45416d67a90d3bc200eedc411f33fe124e1c8830f4c26660fa1",
+      "sha256": "a2dc5ae5cc90dbfda4f0be57133eefb191b807c4f3e4606814d6a0b38e998b05",
+      "width": 49,
+      "height": 87,
+      "bytes": 28101,
+      "format": "SVG vector paths",
+      "symbol": 63,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 139,
+        "y": 117,
+        "width": 98,
+        "height": 174
+      }
+    },
+    "119": {
+      "path": "/portraits/vectors/119.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/119.swf",
+      "source_sha256": "bdb4a78c56d03a9ef170912ae7ec1503d0e3fb541d2be7bf050f94d51e765bb3",
+      "sha256": "61a0a9676d9afffad857b779c970e7a643b16d8f8518dc409466c48efe625564",
+      "width": 89.5,
+      "height": 91.5,
+      "bytes": 34667,
+      "format": "SVG vector paths",
+      "symbol": 41,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 57,
+        "y": 703,
+        "width": 179,
+        "height": 183
+      }
+    },
+    "133": {
+      "path": "/portraits/vectors/133.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/133.swf",
+      "source_sha256": "2b38c1a21c44acea3e3ab8bc628266b98aaa73e1c2bc2cd6198f6312a0de5a08",
+      "sha256": "921360bcce8fde6ca4e1ac5e26d36289d4bf889edf8a38fbf7005b8ea14e8ed5",
+      "width": 92.5,
+      "height": 86,
+      "bytes": 15508,
+      "format": "SVG vector paths",
+      "symbol": 95,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 51,
+        "y": 63,
+        "width": 185,
+        "height": 172
+      }
+    },
+    "158": {
+      "path": "/portraits/vectors/158.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/158.swf",
+      "source_sha256": "361c625f2782f417e956d496e2bedf30083cfc13393dd5e930462ddeceb817f8",
+      "sha256": "f438e4e27030479aee3e503a1f112a99d596cd56928ff656635b878ec6ab4cc1",
+      "width": 93,
+      "height": 102,
+      "bytes": 31290,
+      "format": "SVG vector paths",
+      "symbol": 63,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 11,
+        "y": 306,
+        "width": 186,
+        "height": 204
+      }
+    },
+    "205": {
+      "path": "/portraits/vectors/205.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/205.swf",
+      "source_sha256": "961dc10e20ea50c0934cc42be582e0dafbe6bd18c64003b0a7a71ade1c2be080",
+      "sha256": "15f7ccae46d404572428de37d18bd83ff29ac4775c8d14b52e32a8e66512ff1f",
+      "width": 90.5,
+      "height": 73,
+      "bytes": 18905,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 53,
+        "y": 748,
+        "width": 181,
+        "height": 146
+      }
+    },
+    "217": {
+      "path": "/portraits/vectors/217.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/217.swf",
+      "source_sha256": "5657a4b372c753762026687627e1bd2b0c8d1c74eb2527aa10968a5a7e2d35a3",
+      "sha256": "f0e2141829061ac3dc0a90bee1fbab175c5230fbd4fbc5480474bde3f45e5a69",
+      "width": 98.5,
+      "height": 97,
+      "bytes": 12940,
+      "format": "SVG vector paths",
+      "symbol": 33,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 151,
+        "y": 121,
+        "width": 197,
+        "height": 194
+      }
+    },
+    "219": {
+      "path": "/portraits/vectors/219.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/219.swf",
+      "source_sha256": "e51bcbd47c906c11ab364d667c4c157af00cb2df18c1fc2eeb8f2197a08dce21",
+      "sha256": "732dfa028099a8c618a35655078843f97b33ff309705083081bb79142e960ccd",
+      "width": 93.5,
+      "height": 97.5,
+      "bytes": 16762,
+      "format": "SVG vector paths",
+      "symbol": 21,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 86,
+        "y": 637,
+        "width": 187,
+        "height": 195
+      }
+    },
+    "237": {
+      "path": "/portraits/vectors/237.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/237.swf",
+      "source_sha256": "0faa8495f04dd1d70c467a215e495bd98868ec73a5aae1dfe568ebd70e40943e",
+      "sha256": "fbf321791780376b4f838145546a1eb81ebf378a863e8da3706b4f46f4e47f23",
+      "width": 93,
+      "height": 98.5,
+      "bytes": 34260,
+      "format": "SVG vector paths",
+      "symbol": 24,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 186,
+        "y": 650,
+        "width": 186,
+        "height": 197
+      }
+    },
+    "252": {
+      "path": "/portraits/vectors/252.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/252.swf",
+      "source_sha256": "1b0b9f249f0b808b234362e29a2df7df92a8b2eaebb726c40357f50ba682d3ed",
+      "sha256": "f846d18da3cce15e8f33edf84a1491fcd5ff38cfc3263ff3474e09e4e59039c4",
+      "width": 97.5,
+      "height": 81.5,
+      "bytes": 16801,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 474,
+        "y": 793,
+        "width": 195,
+        "height": 163
+      }
+    },
+    "254": {
+      "path": "/portraits/vectors/254.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/254.swf",
+      "source_sha256": "ddf5f6fffa51b841a7734b4d9d1dcaf168694a6bf4ceaff0702a73211d6dfd57",
+      "sha256": "4c61abf42c4f91465d041753a223621333c81c3024285277438f19e61f93dbcc",
+      "width": 94,
+      "height": 78.5,
+      "bytes": 16934,
+      "format": "SVG vector paths",
+      "symbol": 15,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 585,
+        "y": 716,
+        "width": 188,
+        "height": 157
+      }
+    },
+    "319": {
+      "path": "/portraits/vectors/319.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/319.swf",
+      "source_sha256": "cf7d7348ac22b1d43b8662db729417ba0fcd3109863b986d0cfd6bbc50daa979",
+      "sha256": "73680e2927706666b7a12a1a8ef7ee854220ef7e86ab0ebe3f09455a02d7d14f",
+      "width": 83.5,
+      "height": 89.5,
+      "bytes": 39437,
+      "format": "SVG vector paths",
+      "symbol": 26,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 57,
+        "y": 788,
+        "width": 167,
+        "height": 179
+      }
+    },
+    "348": {
+      "path": "/portraits/vectors/348.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/348.swf",
+      "source_sha256": "cbffa80611ba493aa27ef08b109ee96a963896d8fe655dd1e12b41b32fe2c092",
+      "sha256": "5591c451b3a79d0fee5bda73a8f807fbe14aa4d212aee2d48681bff92517754b",
+      "width": 89,
+      "height": 96,
+      "bytes": 42018,
+      "format": "SVG vector paths",
+      "symbol": 133,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 284,
+        "y": 707,
+        "width": 178,
+        "height": 192
+      }
+    },
+    "394": {
+      "path": "/portraits/vectors/394.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/394.swf",
+      "source_sha256": "c09880bc5e326c4d9a694d85c0ad43c982d3b682308e7d482cc2d13a3f3bc1c2",
+      "sha256": "8b89966a791fcda826bb3a3be50e80a2f43e81464f544b3a5296acd60aff87f3",
+      "width": 101,
+      "height": 77.5,
+      "bytes": 21578,
+      "format": "SVG vector paths",
+      "symbol": 15,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 217,
+        "y": 495,
+        "width": 202,
+        "height": 155
+      }
+    },
+    "401": {
+      "path": "/portraits/vectors/401.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/401.swf",
+      "source_sha256": "6f82f7fbf217c17f4eaf6ada58662cad3022069c3faa02bdabc1eab4c6dddbcc",
+      "sha256": "57475888c40cdc44baf9f9691a90fa3b12f44d9f04ad62d6d2169ac0d5d69b98",
+      "width": 94,
+      "height": 101.5,
+      "bytes": 46511,
+      "format": "SVG vector paths",
+      "symbol": 57,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 363,
+        "y": 676,
+        "width": 188,
+        "height": 203
+      }
+    },
+    "427": {
+      "path": "/portraits/vectors/427.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/427.swf",
+      "source_sha256": "4e8a84eb1be4afd85f06b3ebc6c518949211de7ebcf267b068d7be416f176b50",
+      "sha256": "afebad96034bc368db55ad3f76734b58909447c8170b803060959ce30c7e1486",
+      "width": 99,
+      "height": 96.5,
+      "bytes": 22976,
+      "format": "SVG vector paths",
+      "symbol": 51,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 131,
+        "y": 339,
+        "width": 198,
+        "height": 193
+      }
+    },
+    "463": {
+      "path": "/portraits/vectors/463.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/463.swf",
+      "source_sha256": "782c31a9eb915a025912ff8c825c1eeed1433ef68115ca6151fb1ae39524c5e4",
+      "sha256": "2d88ad97800dd12387677c7c03c43fe831614a04765f592efd89d8ace81cb7af",
+      "width": 93.5,
+      "height": 97.5,
+      "bytes": 17516,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 73,
+        "y": 442,
+        "width": 187,
+        "height": 195
+      }
+    },
+    "480": {
+      "path": "/portraits/vectors/480.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/480.swf",
+      "source_sha256": "4076399dced87170bdada87a2cf6963790a5d8e5a0afb0236c0da665f0e05d03",
+      "sha256": "395c7efdbcc528c10060b91eed39659c4f9e82a4a798e64779217c912d2f0a0c",
+      "width": 96,
+      "height": 97,
+      "bytes": 22485,
+      "format": "SVG vector paths",
+      "symbol": 21,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 65,
+        "y": 282,
+        "width": 192,
+        "height": 194
+      }
+    },
+    "519": {
+      "path": "/portraits/vectors/519.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/519.swf",
+      "source_sha256": "b6dc2f5f476f91972c6a3349fe5746b265ae06d75f68818777754296c3f0b3fc",
+      "sha256": "ffe5d777bca202a970216c6aefee1217ca205560dd09094d0cc7661e6f5ebdc0",
+      "width": 98,
+      "height": 83,
+      "bytes": 19294,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 483,
+        "y": 811,
+        "width": 196,
+        "height": 166
+      }
+    },
+    "571": {
+      "path": "/portraits/vectors/571.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/571.swf",
+      "source_sha256": "0c246d63862300d67aaebc8a47ff87221c3fd41fa582c2252c0a2ecb40f4998c",
+      "sha256": "26997cdee697cb2895130e85311f1673040f756341c638e340491c7da4e14c83",
+      "width": 92,
+      "height": 99.5,
+      "bytes": 20666,
+      "format": "SVG vector paths",
+      "symbol": 14,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 88,
+        "y": 355,
+        "width": 184,
+        "height": 199
+      }
+    },
+    "604": {
+      "path": "/portraits/vectors/604.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/604.swf",
+      "source_sha256": "5e8e39c461b34d930b6bd0d20c8a10a4180f58a422435297e2d8b7160143c69c",
+      "sha256": "5cb42b81d5db4caa49e12bb7628633d42de93c1118d49a1e86475ade6224a3ff",
+      "width": 79,
+      "height": 98,
+      "bytes": 25935,
+      "format": "SVG vector paths",
+      "symbol": 15,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 82,
+        "y": 188,
+        "width": 158,
+        "height": 196
+      }
+    },
+    "618": {
+      "path": "/portraits/vectors/618.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/618.swf",
+      "source_sha256": "7c8f1aec141905c072c1df70dcac60ac3f45bd553b98f0bc26fe131798402a30",
+      "sha256": "fc37e5ca9ff85d83c84f74450cfadef280bc32c204a2c68dff4acda7ed3e1fd2",
+      "width": 90,
+      "height": 76,
+      "bytes": 34929,
+      "format": "SVG vector paths",
+      "symbol": 18,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 33,
+        "y": 398,
+        "width": 180,
+        "height": 152
+      }
+    },
+    "620": {
+      "path": "/portraits/vectors/620.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/620.swf",
+      "source_sha256": "c1d2565227ffe24456e0ce255c2a5bdbbfa11f6b8494331c7afd9f4ef7e5ca8f",
+      "sha256": "28e0fabb0acc199b187404c7aa413dded29f566aca636633db0f9f297dd7717a",
+      "width": 61,
+      "height": 80.5,
+      "bytes": 35641,
+      "format": "SVG vector paths",
+      "symbol": 37,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 122,
+        "y": 216,
+        "width": 122,
+        "height": 161
+      }
+    },
+    "632": {
+      "path": "/portraits/vectors/632.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/632.swf",
+      "source_sha256": "a6380fe9c351b17cf599f6fb8268a1b53d787b74f667d8209bcaa92354f4bb3d",
+      "sha256": "8cd4c7ccfc7d1fae80bc49b227ad8e4cdd1c3d862149f5cdb16a5806fee47ff3",
+      "width": 96.5,
+      "height": 97,
+      "bytes": 37632,
+      "format": "SVG vector paths",
+      "symbol": 28,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 68,
+        "y": 366,
+        "width": 193,
+        "height": 194
+      }
+    },
+    "639": {
+      "path": "/portraits/vectors/639.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/639.swf",
+      "source_sha256": "d0f0131309b1ea5d93b314148fee9d92e734bf61c9fc8f7b47a2663727cc09f2",
+      "sha256": "eb403edabd2a602c8150f09a508999a70e5d613fb0e041305dfa2c73ba4566b2",
+      "width": 89.5,
+      "height": 96.5,
+      "bytes": 22495,
+      "format": "SVG vector paths",
+      "symbol": 24,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 134,
+        "y": 292,
+        "width": 179,
+        "height": 193
+      }
+    },
+    "732": {
+      "path": "/portraits/vectors/732.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/732.swf",
+      "source_sha256": "f4f4a4047f11cb83b93416bb23335b4491558c47d0985af2ae1244bd365da556",
+      "sha256": "ddfab71671dd230c9e82b8427b7be32a75a48a4ef0e7a9740bed1e49cf45a895",
+      "width": 67.5,
+      "height": 92,
+      "bytes": 20994,
+      "format": "SVG vector paths",
+      "symbol": 19,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 192,
+        "y": 357,
+        "width": 135,
+        "height": 184
+      }
+    },
+    "799": {
+      "path": "/portraits/vectors/799.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/799.swf",
+      "source_sha256": "09017d1120b4c999b2af0b2e11869256218993f8086ee102a53a65a39d2c15e4",
+      "sha256": "0f9731f03a7dd79e2ebedb22bf563ce5ec5948403b7e2d2052f1cee56317c8e4",
+      "width": 82.5,
+      "height": 69.5,
+      "bytes": 19342,
+      "format": "SVG vector paths",
+      "symbol": 29,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 44,
+        "y": 299,
+        "width": 165,
+        "height": 139
+      }
+    },
+    "852": {
+      "path": "/portraits/vectors/852.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/852.swf",
+      "source_sha256": "86fa018c4f08c634215efeda3399f7290b3f638e15901b2d6a2d34ac5f8e3f77",
+      "sha256": "9a9397a03557c2d5bc2fa83d2cdf6d0d32bb690ec8224758e265fac6bc329e52",
+      "width": 101.5,
+      "height": 100,
+      "bytes": 17471,
+      "format": "SVG vector paths",
+      "symbol": 39,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 147,
+        "y": 755,
+        "width": 203,
+        "height": 200
+      }
+    },
+    "988": {
+      "path": "/portraits/vectors/988.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/988.swf",
+      "source_sha256": "4b6ab77f5281151a6c3b21e8835961a31f083f7322ace2bbd9ff227e9bbce483",
+      "sha256": "a069cb89aa3e74160fafb01efcf525a40fb875ada100cc691dc9b04a85563975",
+      "width": 99,
+      "height": 79.5,
+      "bytes": 12627,
+      "format": "SVG vector paths",
+      "symbol": 16,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 75,
+        "y": 261,
+        "width": 198,
+        "height": 159
+      }
+    },
+    "1004": {
+      "path": "/portraits/vectors/1004.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1004.swf",
+      "source_sha256": "9a127ffb9410814c57362030b3416e31d390b6dbca8fe5381516ebcf336200e7",
+      "sha256": "5b705211db1881a64fca9d0b42ca05fcd0f9dbec482fa8a848c43d3b1ccb663f",
+      "width": 98.5,
+      "height": 85.5,
+      "bytes": 30286,
+      "format": "SVG vector paths",
+      "symbol": 33,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 61,
+        "y": 581,
+        "width": 197,
+        "height": 171
+      }
+    },
+    "1020": {
+      "path": "/portraits/vectors/1020.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1020.swf",
+      "source_sha256": "80c455658285a6b09697f89335bbcfe8230a657e9a964893161519f9a947c257",
+      "sha256": "c926f70abb88eb1b44e64f739cd03adebe9b919fcd9cc7192c8447e7f6aa5a7d",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 16678,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1022": {
+      "path": "/portraits/vectors/1022.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1022.swf",
+      "source_sha256": "b1b7967e3b422dada7f6f357bb620a461fba2df09d1322e6f42d5894704e7b94",
+      "sha256": "75e3361ab7fcfdd79c8089fae3cc7c38f2f10c8dee23c55907f186e5a2e38859",
+      "width": 94,
+      "height": 96,
+      "bytes": 39156,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 59,
+        "y": 192,
+        "width": 188,
+        "height": 192
+      }
+    },
+    "1032": {
+      "path": "/portraits/vectors/1032.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1032.swf",
+      "source_sha256": "04bdc8ec30ae7debbcd8ae8ad60afd6d6b2ab1daa16d9fc9a0b6045378f75ec2",
+      "sha256": "e30adf8e7fffeddfac826b1c8d796b6fa074fddb021207755e2abdb683ce31ad",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 16576,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1034": {
+      "path": "/portraits/vectors/1034.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1034.swf",
+      "source_sha256": "14067dcc6a276c78d161eaef877b1a6aa4b97327d4cccef31d48bc11a99c6c84",
+      "sha256": "b9b136ff02685ee14dd681d3bf0185dc38856b9afc83192e6e99e5c44565f5d2",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 16274,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1036": {
+      "path": "/portraits/vectors/1036.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1036.swf",
+      "source_sha256": "6495ab41ca6673ff675dc60a868f3c653beb51ab4538aaa3a51983fcacfc4539",
+      "sha256": "107908da60b332e6c0fced8ceb381b24ade92f22c8c580c49cf5b7287d1412d5",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 16574,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1038": {
+      "path": "/portraits/vectors/1038.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1038.swf",
+      "source_sha256": "3281ec9c2b4449c1e933c1a3e462b436f9ab356a4a8967ea39028d0ba9d187fc",
+      "sha256": "4bc500b1e408967bc33a16336485f11594312f2c3fdc2e24ee865f71e4a8458b",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 16574,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1040": {
+      "path": "/portraits/vectors/1040.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1040.swf",
+      "source_sha256": "0a605bd06f6d7d2a613c6af274388134a4144c95d471c6754d7b4cfa290ece32",
+      "sha256": "2e1750168858664022ebb5b3aee7738740d0e3fb1af8e05f23146b527372af20",
+      "width": 95.5,
+      "height": 93,
+      "bytes": 17400,
+      "format": "SVG vector paths",
+      "symbol": 17,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 91,
+        "y": 452,
+        "width": 191,
+        "height": 186
+      }
+    },
+    "1098": {
+      "path": "/portraits/vectors/1098.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1098.swf",
+      "source_sha256": "cda6714bb2d6dd30d54f35ef858588a82137da1992a2ea4b859e5a709f653b9d",
+      "sha256": "9766335b27b36f5481dd75ea894de6ce62ec64f4ef53e694d4ead94eda8fb62a",
+      "width": 61.5,
+      "height": 99.5,
+      "bytes": 34192,
+      "format": "SVG vector paths",
+      "symbol": 18,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 200,
+        "y": 51,
+        "width": 123,
+        "height": 199
+      }
+    },
+    "1103": {
+      "path": "/portraits/vectors/1103.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1103.swf",
+      "source_sha256": "3725af440ff37b4eb835a8c003250fd4ee164b30fcd4552e49ca0defd0503024",
+      "sha256": "437a1d4478342afeb4c70d23342d88acb140afd4bbf64f349e36068b641f1243",
+      "width": 80.5,
+      "height": 82,
+      "bytes": 37351,
+      "format": "SVG vector paths",
+      "symbol": 25,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 30,
+        "y": 202,
+        "width": 161,
+        "height": 164
+      }
+    },
+    "1106": {
+      "path": "/portraits/vectors/1106.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1106.swf",
+      "source_sha256": "e906387f1542cb977f96d11a7cade12f7e315079ec95eebe9d675f603c27b719",
+      "sha256": "1a47117ca1bf43106809ef6e2a605c143527c9d1a755ee7d1585524a56260e8a",
+      "width": 74,
+      "height": 80.5,
+      "bytes": 45723,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 51,
+        "y": 256,
+        "width": 148,
+        "height": 161
+      }
+    },
+    "1108": {
+      "path": "/portraits/vectors/1108.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1108.swf",
+      "source_sha256": "9fc4d0edf612c0a9739390bcc18946266d4421425c1ea546238d10018c653944",
+      "sha256": "5c7008ed6dfbd4372afa6002199b937bcc8f78539882b30fcafb316075e85df9",
+      "width": 69.5,
+      "height": 85,
+      "bytes": 22328,
+      "format": "SVG vector paths",
+      "symbol": 37,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 78,
+        "y": 156,
+        "width": 139,
+        "height": 170
+      }
+    },
+    "1110": {
+      "path": "/portraits/vectors/1110.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1110.swf",
+      "source_sha256": "35033a98af2b9b2c4f43f916ecc3533714f1c0042885998dc61d0c491e30e138",
+      "sha256": "feec4a2c5a708eea0a62a765bd754c7065154ae1e6790a3748845c9788606bc6",
+      "width": 75.5,
+      "height": 92,
+      "bytes": 34761,
+      "format": "SVG vector paths",
+      "symbol": 21,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 103,
+        "y": 236,
+        "width": 151,
+        "height": 184
+      }
+    },
+    "1118": {
+      "path": "/portraits/vectors/1118.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1118.swf",
+      "source_sha256": "403060016db4ef1ca97bb12dc8735bbe5889101fc1c16aceae99399878ccfab1",
+      "sha256": "c37da80c0b36c13429ca1dde7196fb00660e7032bbd69ec9a53bb462aec5dc57",
+      "width": 97.5,
+      "height": 79.5,
+      "bytes": 25517,
+      "format": "SVG vector paths",
+      "symbol": 32,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 46,
+        "y": 686,
+        "width": 195,
+        "height": 159
+      }
+    },
+    "1126": {
+      "path": "/portraits/vectors/1126.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1126.swf",
+      "source_sha256": "f4681d2fd422cc7443c907c207f5d47dcbfd11d15e7f43cb53bf256c71fe101c",
+      "sha256": "dbd86c3fbf00e6991dfb98da26e33ea7d1f42a1ca6632d8b4450fe19294d3ae9",
+      "width": 82,
+      "height": 85,
+      "bytes": 34964,
+      "format": "SVG vector paths",
+      "symbol": 28,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 172,
+        "y": 273,
+        "width": 164,
+        "height": 170
+      }
+    },
+    "1128": {
+      "path": "/portraits/vectors/1128.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1128.swf",
+      "source_sha256": "529b496a031284f62a9be9432378463de59d40b6d9ef99f3479f506b7aa9c724",
+      "sha256": "8f7aee6eca61085d6d9f2a7ba761ba9fea0e2d0e39e1a7d65c35060bce4e692b",
+      "width": 99,
+      "height": 83,
+      "bytes": 92224,
+      "format": "SVG vector paths",
+      "symbol": 32,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 29,
+        "y": 51,
+        "width": 198,
+        "height": 166
+      }
+    },
+    "1132": {
+      "path": "/portraits/vectors/1132.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1132.swf",
+      "source_sha256": "9a36a85d148f0cbf8bbffa8e7edb984765c7ecd0428db0d5a4c99f2b74117e00",
+      "sha256": "6ed815c2d39ba39596b495e78a6307544cfb58addc8f5d03e6a5c96bc0325a82",
+      "width": 86,
+      "height": 99.5,
+      "bytes": 23498,
+      "format": "SVG vector paths",
+      "symbol": 62,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 123,
+        "y": 311,
+        "width": 172,
+        "height": 199
+      }
+    },
+    "1144": {
+      "path": "/portraits/vectors/1144.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1144.swf",
+      "source_sha256": "f597b30b7fc9b1f266e6f19ffb1c5d91e166d43788127f993e0dd9d0af85b4a5",
+      "sha256": "8a66b879a7fb1f660f67d3e26939b1a2a763254bf824a2a399021e03bbc02dc7",
+      "width": 92,
+      "height": 93.5,
+      "bytes": 55326,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 81,
+        "y": 271,
+        "width": 184,
+        "height": 187
+      }
+    },
+    "1146": {
+      "path": "/portraits/vectors/1146.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1146.swf",
+      "source_sha256": "b0e8792fed4323e5e0cf60a76e7be289134ffd6c49f1065d62c6f0d029340d71",
+      "sha256": "fc25b142ebab6b5aad8b2f6ac7524eb8f1d601fd8abd2c12052e2ca114092b2a",
+      "width": 84,
+      "height": 94,
+      "bytes": 31600,
+      "format": "SVG vector paths",
+      "symbol": 40,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 51,
+        "y": 276,
+        "width": 168,
+        "height": 188
+      }
+    },
+    "1150": {
+      "path": "/portraits/vectors/1150.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1150.swf",
+      "source_sha256": "a874c4322029c5eedf5988ee7cdf9f09bf885a4ae403ca4a7fcfe1208c8e5e3b",
+      "sha256": "4eda8bf921f0a79a5007228ad3be044147e0f46f37be8ccfeec22480147c03d1",
+      "width": 78,
+      "height": 90.5,
+      "bytes": 102067,
+      "format": "SVG vector paths",
+      "symbol": 33,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 126,
+        "y": 652,
+        "width": 156,
+        "height": 181
+      }
+    },
+    "1159": {
+      "path": "/portraits/vectors/1159.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1159.swf",
+      "source_sha256": "3651cef76f344f47e39648ce17ca05fdf5b83ea30c8e5b0e628caf27ac4cbf40",
+      "sha256": "4bf375d9e68e871b6e12b18b00f7304a865b0b68eb5a86664a3e2cdc4868ecc5",
+      "width": 99,
+      "height": 79,
+      "bytes": 36365,
+      "format": "SVG vector paths",
+      "symbol": 66,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 110,
+        "y": 201,
+        "width": 198,
+        "height": 158
+      }
+    },
+    "1163": {
+      "path": "/portraits/vectors/1163.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1163.swf",
+      "source_sha256": "8b3c626b85b9da88a683fbeaf784c9ac6eb44d556de78061becd1e160287eec4",
+      "sha256": "89c8b852b7f4a4ffd166f8151f5f069c5d6d452b2ba7f315e127a0afd7f2286b",
+      "width": 95.5,
+      "height": 99.5,
+      "bytes": 66817,
+      "format": "SVG vector paths",
+      "symbol": 51,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 97,
+        "y": 638,
+        "width": 191,
+        "height": 199
+      }
+    },
+    "1165": {
+      "path": "/portraits/vectors/1165.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1165.swf",
+      "source_sha256": "66ac842ae8979d9cfed18f7b907ae2889983544d3cf792a4522e6acc3809b6ce",
+      "sha256": "3e154adf4b53dbeafc59a3d4375841238d1069b8dccde6ef63489fa24f3038ca",
+      "width": 65.5,
+      "height": 94,
+      "bytes": 45007,
+      "format": "SVG vector paths",
+      "symbol": 26,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 87,
+        "y": 178,
+        "width": 131,
+        "height": 188
+      }
+    },
+    "1168": {
+      "path": "/portraits/vectors/1168.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1168.swf",
+      "source_sha256": "67535033f2ae9e682253b3324ab4974c55d55bfb45e2b9c05a8ec494221513a6",
+      "sha256": "e411b382ca194435475f6cf7f6630981ec4fc2855fbaf4bf1fcfab30cf0ff45d",
+      "width": 74.5,
+      "height": 97.5,
+      "bytes": 80131,
+      "format": "SVG vector paths",
+      "symbol": 41,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 115,
+        "y": 126,
+        "width": 149,
+        "height": 195
+      }
+    },
+    "1190": {
+      "path": "/portraits/vectors/1190.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1190.swf",
+      "source_sha256": "ad46a7b95c30dce9b71ada0a68a882e63a33f545cb42154ad5b9a758841c2dd6",
+      "sha256": "a38a0110fc92f085a559dcce230a666f82d655b3774e8daa11e368df526404ff",
+      "width": 75,
+      "height": 101.5,
+      "bytes": 43126,
+      "format": "SVG vector paths",
+      "symbol": 26,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 73,
+        "y": 111,
+        "width": 150,
+        "height": 203
+      }
+    },
+    "1209": {
+      "path": "/portraits/vectors/1209.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1209.swf",
+      "source_sha256": "bb4a347f0cb44a02a61cc1ca988fb42d09ed073b561c912de8220bf6ffb2ef35",
+      "sha256": "d294986c5154dd147e08a3398ef8761ace70b7e2bc3b0da49d30e37c0bd9a6d3",
+      "width": 94.5,
+      "height": 84,
+      "bytes": 30607,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 57,
+        "y": 145,
+        "width": 189,
+        "height": 168
+      }
+    },
+    "1213": {
+      "path": "/portraits/vectors/1213.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1213.swf",
+      "source_sha256": "791badecc6fa54ec7371b6ae5391bf74298dd07d9c95bf64c9007dbe93612a8f",
+      "sha256": "71446bdf55a7daa9b3e9763ca68c4618193d2bb356eacbf28111f924df819a13",
+      "width": 97.5,
+      "height": 95.5,
+      "bytes": 44848,
+      "format": "SVG vector paths",
+      "symbol": 48,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 105,
+        "y": 158,
+        "width": 195,
+        "height": 191
+      }
+    },
+    "1220": {
+      "path": "/portraits/vectors/1220.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1220.swf",
+      "source_sha256": "0e47b2f3c6df4ea909faa9a3851140f0fa0cf98af5f0db82036906e59565daf3",
+      "sha256": "3103335ca5417cf334915fd3767018f0ad5159b5f812d9e7346b82655adf5ade",
+      "width": 81,
+      "height": 89,
+      "bytes": 32770,
+      "format": "SVG vector paths",
+      "symbol": 42,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 117,
+        "y": 683,
+        "width": 162,
+        "height": 178
+      }
+    },
+    "1222": {
+      "path": "/portraits/vectors/1222.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1222.swf",
+      "source_sha256": "40068e5fb40fe981b8d1bbbb6f8bc088cf0f99baefaacc3460764785f2de46cc",
+      "sha256": "3b81696192ad1288dbad18da9c04deb05b83344cbb294b6ad40a878434c6b459",
+      "width": 88.5,
+      "height": 101.5,
+      "bytes": 25665,
+      "format": "SVG vector paths",
+      "symbol": 33,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 168,
+        "y": 452,
+        "width": 177,
+        "height": 203
+      }
+    },
+    "1233": {
+      "path": "/portraits/vectors/1233.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1233.swf",
+      "source_sha256": "4e6136d5c3bd2de878580d7f9be063338a29c1ad5c5eda437043fdad9027004f",
+      "sha256": "416f13e64f12fad951c48877b22e6c3612205f2018dd7e5090aecfa33c98c255",
+      "width": 90.5,
+      "height": 84,
+      "bytes": 53769,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 34,
+        "y": 370,
+        "width": 181,
+        "height": 168
+      }
+    },
+    "1239": {
+      "path": "/portraits/vectors/1239.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1239.swf",
+      "source_sha256": "c5a420a7a0d09b9ba5f7f1ba85ae3f721b076a6d93c3b583331383ebd949f202",
+      "sha256": "e8ef8f83c5f3e6d6a311e74d053ba8647296c18943a66753414682bb041e8709",
+      "width": 67.5,
+      "height": 98.5,
+      "bytes": 51056,
+      "format": "SVG vector paths",
+      "symbol": 20,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 361,
+        "y": 356,
+        "width": 135,
+        "height": 197
+      }
+    },
+    "1241": {
+      "path": "/portraits/vectors/1241.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1241.swf",
+      "source_sha256": "d9e6ff3b71b2354582328e894afa653bb8926a0460cf80fb4a8e9579a9c11b6d",
+      "sha256": "b373ecd3354719fbfc140bc9043018f4b26d2970e5fef345cfc307c1f8935f60",
+      "width": 95,
+      "height": 96.5,
+      "bytes": 46790,
+      "format": "SVG vector paths",
+      "symbol": 36,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 10,
+        "y": 211,
+        "width": 190,
+        "height": 193
+      }
+    },
+    "1243": {
+      "path": "/portraits/vectors/1243.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1243.swf",
+      "source_sha256": "8fb7be44d342bf4060cdec89a4e4551f4f38530a0eefdb6d25b3bf635f449223",
+      "sha256": "35f443d5ebe7abe14ee6ca4bdcc7f5a1eb55264fde49f053bdaf2649d8733c41",
+      "width": 77.5,
+      "height": 88.5,
+      "bytes": 29619,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 185,
+        "y": 488,
+        "width": 155,
+        "height": 177
+      }
+    },
+    "1248": {
+      "path": "/portraits/vectors/1248.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1248.swf",
+      "source_sha256": "eca0c544b4e86aeffe49f3c945c25de3ad3bbb04466f36f6804b0cd450143539",
+      "sha256": "196d6fb3e271869f19f05c9f9b0ac942c849cefc59084ad24e465a802b2ddae8",
+      "width": 89,
+      "height": 103.5,
+      "bytes": 55515,
+      "format": "SVG vector paths",
+      "symbol": 32,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 115,
+        "y": 145,
+        "width": 178,
+        "height": 207
+      }
+    },
+    "1251": {
+      "path": "/portraits/vectors/1251.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1251.swf",
+      "source_sha256": "82a55b692b8965422bba789ccde4ef2e8e1bdcc669c90c89c4752c80361ca821",
+      "sha256": "9beac14b917b60311ea226b645b71e633fb76d4e3dc828dc32d0bb4962ef725c",
+      "width": 87,
+      "height": 97,
+      "bytes": 42247,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 44,
+        "y": 350,
+        "width": 174,
+        "height": 194
+      }
+    },
+    "1261": {
+      "path": "/portraits/vectors/1261.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1261.swf",
+      "source_sha256": "eaf94ed5927f2e326bbb36a882b0c3ad0bdee9ee1f3362f5e4c1c8545fc81988",
+      "sha256": "503762c141a7d00d614820501025a829a2adeabd91081ccc382d7a4ff32dce34",
+      "width": 77,
+      "height": 101.5,
+      "bytes": 67563,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 126,
+        "y": 522,
+        "width": 154,
+        "height": 203
+      }
+    },
+    "1271": {
+      "path": "/portraits/vectors/1271.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1271.swf",
+      "source_sha256": "ad7890960cf6a72e5722358615eaf5919bc81dda3b73c85439d70a2f6e31569c",
+      "sha256": "9f4d9e3c88ea839e1c15c281a1271e577211f4c607ece4da2942b9724e5d895e",
+      "width": 75.5,
+      "height": 98.5,
+      "bytes": 37798,
+      "format": "SVG vector paths",
+      "symbol": 24,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 123,
+        "y": 111,
+        "width": 151,
+        "height": 197
+      }
+    },
+    "1283": {
+      "path": "/portraits/vectors/1283.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1283.swf",
+      "source_sha256": "530365a421fc4bea5038ed77f868cfa63f3873ae641ff9d18a6f5d682252d8d1",
+      "sha256": "d2f37b5ec2c337c9d20fb7514195e70b10121c6de35dec2a77d92d6861c0c4b9",
+      "width": 94.5,
+      "height": 98.5,
+      "bytes": 48806,
+      "format": "SVG vector paths",
+      "symbol": 39,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 121,
+        "y": 97,
+        "width": 189,
+        "height": 197
+      }
+    },
+    "1285": {
+      "path": "/portraits/vectors/1285.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1285.swf",
+      "source_sha256": "08f0beaf9fae40211717e92b9c8aa6eab41429802bd5cb35783ad4540e651f23",
+      "sha256": "c2d84f62e31cdc8d1e6d44db7e9287c69e5f270c06149939af320f51225761a8",
+      "width": 95.5,
+      "height": 92,
+      "bytes": 33437,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 45,
+        "y": 58,
+        "width": 191,
+        "height": 184
+      }
+    },
+    "1295": {
+      "path": "/portraits/vectors/1295.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1295.swf",
+      "source_sha256": "728e921298f564cc9e7236e2a9de736fc80b8b67058019f1af8d645cedf59db8",
+      "sha256": "1daa859d82708d9a0c06b2c76bd1783318845ad5f154ec555846930fc5bf3889",
+      "width": 91.5,
+      "height": 99.5,
+      "bytes": 51716,
+      "format": "SVG vector paths",
+      "symbol": 28,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 45,
+        "y": 186,
+        "width": 183,
+        "height": 199
+      }
+    },
+    "1303": {
+      "path": "/portraits/vectors/1303.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1303.swf",
+      "source_sha256": "46ef5b84abede0a754a740dba261663e17b4083a8bb6a353f13ec679230e1674",
+      "sha256": "7e30f2a6974955e77ce0fd6f75f7b332b9e8f953f343262e3850e419c8c3e2d9",
+      "width": 98.5,
+      "height": 102,
+      "bytes": 55485,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 36,
+        "y": 233,
+        "width": 197,
+        "height": 204
+      }
+    },
+    "1305": {
+      "path": "/portraits/vectors/1305.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1305.swf",
+      "source_sha256": "3ee8a63895428ba8bdf72f36cf0769c8ae1caddb27ff3d256aad44f6f2f59fc2",
+      "sha256": "fd058b9a29ca9a1ff0d37a63ccc06b678c210ce65b31e8ca25ed61b2981fd46a",
+      "width": 88,
+      "height": 97.5,
+      "bytes": 65921,
+      "format": "SVG vector paths",
+      "symbol": 43,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 215,
+        "y": 183,
+        "width": 176,
+        "height": 195
+      }
+    },
+    "1307": {
+      "path": "/portraits/vectors/1307.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1307.swf",
+      "source_sha256": "cbee6a47314c76bcb2f80973c12c0dce81d7a8994ddfe1496a27fa6a8a3e0f27",
+      "sha256": "bafe438dedff093aa86b017ec9db8a434af6b0562a0c9142e96f84b372f73fb1",
+      "width": 95.5,
+      "height": 99,
+      "bytes": 60089,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 186,
+        "y": 366,
+        "width": 191,
+        "height": 198
+      }
+    },
+    "1309": {
+      "path": "/portraits/vectors/1309.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1309.swf",
+      "source_sha256": "ee16c84e89fbdf9605744078a98071740075a38d48669b7756ee627d05cfc895",
+      "sha256": "095d1c06d4be2800b2ebab4abfe1415c8beb7531a103a51afb4552c9ab8f2137",
+      "width": 94,
+      "height": 101,
+      "bytes": 24694,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 42,
+        "y": 51,
+        "width": 188,
+        "height": 202
+      }
+    },
+    "1311": {
+      "path": "/portraits/vectors/1311.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1311.swf",
+      "source_sha256": "a18be9c62be0abb5cbcc3dc411adf82c45b5196d1315d5fbdcefecb1ebee76b7",
+      "sha256": "a01aacba1be8db6f3e7f0bd0ff6c8bd59468ca9e1dce0945dc3a7a4056ed5049",
+      "width": 89.5,
+      "height": 100,
+      "bytes": 20490,
+      "format": "SVG vector paths",
+      "symbol": 19,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 80,
+        "y": 379,
+        "width": 179,
+        "height": 200
+      }
+    },
+    "1318": {
+      "path": "/portraits/vectors/1318.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1318.swf",
+      "source_sha256": "88e5dca136316850e77560dca1cba3858b4c5e0ff3a1ef82fa37e9ba214f22f0",
+      "sha256": "c5a8017ba3274c92b8f0583d2c3b1c0a1f40d1328d8ffd2cb48f5316ac282ac2",
+      "width": 79.5,
+      "height": 97.5,
+      "bytes": 50549,
+      "format": "SVG vector paths",
+      "symbol": 29,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 86,
+        "y": 249,
+        "width": 159,
+        "height": 195
+      }
+    },
+    "1320": {
+      "path": "/portraits/vectors/1320.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1320.swf",
+      "source_sha256": "b32382fc15c38f2842fff6baafdd6a84cd7c6101507d33970368fa4118fb1f59",
+      "sha256": "9c436b91b8708df9fc20956435c04e7269b3587cfba57341a1e4f210621960e6",
+      "width": 78.5,
+      "height": 89.5,
+      "bytes": 33215,
+      "format": "SVG vector paths",
+      "symbol": 43,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 111,
+        "y": 125,
+        "width": 157,
+        "height": 179
+      }
+    },
+    "1322": {
+      "path": "/portraits/vectors/1322.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1322.swf",
+      "source_sha256": "2d9a0e40a45b08b9edf5893dee9f9ba98296631f2190d4ec9aa15e6ea1208c43",
+      "sha256": "83e469d4156355cdb96c81fcfad104502757fc243d92f1ed076ba77f92b1a5d6",
+      "width": 100.5,
+      "height": 100.5,
+      "bytes": 37657,
+      "format": "SVG vector paths",
+      "symbol": 21,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 56,
+        "y": 269,
+        "width": 201,
+        "height": 201
+      }
+    },
+    "1324": {
+      "path": "/portraits/vectors/1324.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1324.swf",
+      "source_sha256": "41d489f76bc1b23b7e07232d196fd3e20cc514bc05017a27a6d2fda3074fab9c",
+      "sha256": "b8d814ab35b543146dd4acc0e0f0214746710e32ddcbbd2fb703ffad590b4cdc",
+      "width": 92,
+      "height": 99.5,
+      "bytes": 37771,
+      "format": "SVG vector paths",
+      "symbol": 21,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 47,
+        "y": 60,
+        "width": 184,
+        "height": 199
+      }
+    },
+    "1326": {
+      "path": "/portraits/vectors/1326.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1326.swf",
+      "source_sha256": "74bf3f58b42badd70f7c0db506a453ad7ee4dcfc4388866282b04e5d8f3110ba",
+      "sha256": "57124f7462d6bac9a527c5a74b0772bf2e1e5ac0b4d579596c5ba7e8ee444497",
+      "width": 81.5,
+      "height": 97.5,
+      "bytes": 32158,
+      "format": "SVG vector paths",
+      "symbol": 29,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 176,
+        "y": 568,
+        "width": 163,
+        "height": 195
+      }
+    },
+    "1329": {
+      "path": "/portraits/vectors/1329.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1329.swf",
+      "source_sha256": "97b92e637c63e1473f113825beaf2ef0820cb0e6ab324b73c2bcb82e41976b3e",
+      "sha256": "3c005078765884268ef69e7e6e8472fb550c46daff0290e532d88f3a11b2e02c",
+      "width": 97.5,
+      "height": 87,
+      "bytes": 34589,
+      "format": "SVG vector paths",
+      "symbol": 18,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 128,
+        "y": 402,
+        "width": 195,
+        "height": 174
+      }
+    },
+    "1344": {
+      "path": "/portraits/vectors/1344.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1344.swf",
+      "source_sha256": "4766d9b327762629729eba9e641f5847d213d4fed4d0790deed564edb79f25e2",
+      "sha256": "831b96d6ba2fad7180b8fb68606a776aaa4b7eab6349aea5ec39db1f1b330106",
+      "width": 67.5,
+      "height": 93,
+      "bytes": 44850,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 93,
+        "y": 207,
+        "width": 135,
+        "height": 186
+      }
+    },
+    "1347": {
+      "path": "/portraits/vectors/1347.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1347.swf",
+      "source_sha256": "4349428537579fb0fb05a8c5e5ee826cab6bf25d6e39a1d831c895da1dc10bd1",
+      "sha256": "124be2c7774a03198667c9ab288e45683bbb599f8459b4e3bce2a8bcb5e52fbe",
+      "width": 73,
+      "height": 92.5,
+      "bytes": 48487,
+      "format": "SVG vector paths",
+      "symbol": 32,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 51,
+        "y": 316,
+        "width": 146,
+        "height": 185
+      }
+    },
+    "1349": {
+      "path": "/portraits/vectors/1349.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1349.swf",
+      "source_sha256": "fcb3a61764b0d2fc12bb23084e0c5f20ba92e71894351147d0f7190632b46f1a",
+      "sha256": "bac9c75a9ed2daeb844944b7ea28b38e5ed4bb28cad3af323d2db6e4670fe342",
+      "width": 81.5,
+      "height": 90.5,
+      "bytes": 25001,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 50,
+        "y": 45,
+        "width": 163,
+        "height": 181
+      }
+    },
+    "1351": {
+      "path": "/portraits/vectors/1351.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1351.swf",
+      "source_sha256": "118d0fb934d2f454704709d19dc1d0d20b610eb1262ae21382d1f618d0adfd7b",
+      "sha256": "e727296f12255c228ec3eb24eec2a1a3e44ec2b68b77f25dc0bafda485245fb8",
+      "width": 99.5,
+      "height": 97.5,
+      "bytes": 94107,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 36,
+        "y": 203,
+        "width": 199,
+        "height": 195
+      }
+    },
+    "1378": {
+      "path": "/portraits/vectors/1378.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1378.swf",
+      "source_sha256": "590d192d931deeda69277225cae8b8a430370dd196ea13ac859fae3bfeda3865",
+      "sha256": "26965b4839434cffeb150843e935e9a0298668d26171bdbd5362f4ec335dcf5f",
+      "width": 82,
+      "height": 98.5,
+      "bytes": 33281,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 73,
+        "y": 61,
+        "width": 164,
+        "height": 197
+      }
+    },
+    "1380": {
+      "path": "/portraits/vectors/1380.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1380.swf",
+      "source_sha256": "310cf71f2a073fc2ffcc290d97374efd637230925c7eef7690f52b7122ea09e5",
+      "sha256": "8ac2c0e3460999e8a27f2f2488e695e8570df91cea5603bc4146fdcea3125d2f",
+      "width": 91,
+      "height": 101.5,
+      "bytes": 62277,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 130,
+        "y": 588,
+        "width": 182,
+        "height": 203
+      }
+    },
+    "1384": {
+      "path": "/portraits/vectors/1384.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1384.swf",
+      "source_sha256": "84438e5062c9e383aac62fdee1ad8fb8ec7f883d68a92421ea9114ac969be989",
+      "sha256": "62e585dccbf3fb1f1d6bc2a4e5b347d445446bece616265cd543fb748838f0e0",
+      "width": 97.5,
+      "height": 77,
+      "bytes": 28493,
+      "format": "SVG vector paths",
+      "symbol": 36,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 105,
+        "y": 132,
+        "width": 195,
+        "height": 154
+      }
+    },
+    "1388": {
+      "path": "/portraits/vectors/1388.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1388.swf",
+      "source_sha256": "4832c002e2eece134ca996b9f1571ad904840e8db8ff163b78063e93660200cc",
+      "sha256": "73690df5382a77457184e70f84751353e42dfe99736c108f1b7fc068da10ef45",
+      "width": 90,
+      "height": 94,
+      "bytes": 58910,
+      "format": "SVG vector paths",
+      "symbol": 25,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 63,
+        "y": 731,
+        "width": 180,
+        "height": 188
+      }
+    },
+    "1390": {
+      "path": "/portraits/vectors/1390.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1390.swf",
+      "source_sha256": "01ad631b26c692664ab38b16bd7843d945697470bfd642b0b2a36d2fda2fcf06",
+      "sha256": "84c6b8e70aad14c908b8286f2e8e13fbe0869f61ee33b83488a48e104c073662",
+      "width": 101,
+      "height": 96.5,
+      "bytes": 45379,
+      "format": "SVG vector paths",
+      "symbol": 34,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 50,
+        "y": 273,
+        "width": 202,
+        "height": 193
+      }
+    },
+    "1396": {
+      "path": "/portraits/vectors/1396.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1396.swf",
+      "source_sha256": "11dc7ec3de6b652e298bb5e13e38ee84d83c5e050ed139661dc4e41983acb7e4",
+      "sha256": "c819f4f9fc9fd6ac983632bec172d327413d0b1bd13ee8087d03cfca44aff270",
+      "width": 73,
+      "height": 99.5,
+      "bytes": 130312,
+      "format": "SVG vector paths",
+      "symbol": 34,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 75,
+        "y": 43,
+        "width": 146,
+        "height": 199
+      }
+    },
+    "1408": {
+      "path": "/portraits/vectors/1408.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1408.swf",
+      "source_sha256": "38d16faffc3cad972b04b1ea3d3f9f58cf47a008e602d51a785f2a37c0453139",
+      "sha256": "834663a9dca6156839700dc054c34553d77e44e5e163f4bc72c7cb761c3f9340",
+      "width": 87,
+      "height": 94,
+      "bytes": 28098,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 33,
+        "y": 360,
+        "width": 174,
+        "height": 188
+      }
+    },
+    "1419": {
+      "path": "/portraits/vectors/1419.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1419.swf",
+      "source_sha256": "ce6b87b0a6e2959cd77317e18132aa1d53f08dc51fe71d5450a35b0c97704833",
+      "sha256": "aed2370f714f7e385e7be48cf05bd8115d972a1d0a2b802a65f64531d58271e9",
+      "width": 82,
+      "height": 98,
+      "bytes": 46179,
+      "format": "SVG vector paths",
+      "symbol": 37,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 69,
+        "y": 211,
+        "width": 164,
+        "height": 196
+      }
+    },
+    "1421": {
+      "path": "/portraits/vectors/1421.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1421.swf",
+      "source_sha256": "e4cd12b2b3cd624391220467433ac24abaa01f28537938f74dcaa12750d33d01",
+      "sha256": "4051f1f6884e26763dbd47b7f582c2f08c3bdc1e970fa94375c5421335e9d5ba",
+      "width": 87,
+      "height": 98,
+      "bytes": 40554,
+      "format": "SVG vector paths",
+      "symbol": 22,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 140,
+        "y": 83,
+        "width": 174,
+        "height": 196
+      }
+    },
+    "1432": {
+      "path": "/portraits/vectors/1432.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1432.swf",
+      "source_sha256": "dd9cee402bdce6f5254eb75e9662b9e9a23e049ab18d5e4762cc2ca488070b6b",
+      "sha256": "653388ba3f28ae183b64a541d7f79b9ccdcf45c2e936c9d3c0b78e702c28968f",
+      "width": 76.5,
+      "height": 98,
+      "bytes": 28582,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 60,
+        "y": 289,
+        "width": 153,
+        "height": 196
+      }
+    },
+    "1436": {
+      "path": "/portraits/vectors/1436.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1436.swf",
+      "source_sha256": "09ef38aa79fe053cb1ba71541d5df113a633b7916938b904f24a1b6db0c1d757",
+      "sha256": "690977d8b243020a2231d0205d3ff2a693fff4cf39040ae5f91fbae93d75c2c3",
+      "width": 82,
+      "height": 88,
+      "bytes": 24847,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 6,
+        "y": 59,
+        "width": 164,
+        "height": 176
+      }
+    },
+    "1438": {
+      "path": "/portraits/vectors/1438.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1438.swf",
+      "source_sha256": "aaae21185ba227080bfd595b0db8ea01730885c6028f449d7eaecbc5d4d7995e",
+      "sha256": "e2efe95b469f37f38f981c027ee897c6061295cf20ee0489fd30dbfbc837cf99",
+      "width": 85,
+      "height": 101.5,
+      "bytes": 78472,
+      "format": "SVG vector paths",
+      "symbol": 46,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 53,
+        "y": 198,
+        "width": 170,
+        "height": 203
+      }
+    },
+    "1440": {
+      "path": "/portraits/vectors/1440.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1440.swf",
+      "source_sha256": "b0d52bc07a9b05da58662d228875b2ca1eff811ed348dfd669ac6ebedd394c12",
+      "sha256": "dc7e566ae319a4832d2e0346124d4512e9063c372936a1a902137f18c0349357",
+      "width": 66.5,
+      "height": 95.5,
+      "bytes": 39589,
+      "format": "SVG vector paths",
+      "symbol": 40,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 36,
+        "y": 259,
+        "width": 133,
+        "height": 191
+      }
+    },
+    "1442": {
+      "path": "/portraits/vectors/1442.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1442.swf",
+      "source_sha256": "146576e51b5cc5c99f15abe513edaa7916c2e0733e57921e8a2f5e3d6d84166b",
+      "sha256": "ad353c43007b2241a465728f77ea40c601e6953f180eb2cab635b8d21bb53c90",
+      "width": 74,
+      "height": 91.5,
+      "bytes": 61342,
+      "format": "SVG vector paths",
+      "symbol": 31,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 61,
+        "y": 16,
+        "width": 148,
+        "height": 183
+      }
+    },
+    "1444": {
+      "path": "/portraits/vectors/1444.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1444.swf",
+      "source_sha256": "f00e17cb1a3216c5d9a715821a731ace6ace00af0accbc08b4bf27faf6b9ff0b",
+      "sha256": "2930dd52abf1b66ac6afec2645797f9c146cdd60461abb3b3f2f422cf370846d",
+      "width": 65,
+      "height": 98.5,
+      "bytes": 40672,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 45,
+        "y": 560,
+        "width": 130,
+        "height": 197
+      }
+    },
+    "1448": {
+      "path": "/portraits/vectors/1448.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1448.swf",
+      "source_sha256": "060873b2cefd3cf87c28351a347ed673304f46493d589613cf66d4dfcd3e5543",
+      "sha256": "598717ad5f2379a2292f790afcbbdab764643d587812f319ca8f3adadacbc07f",
+      "width": 70,
+      "height": 95.5,
+      "bytes": 53257,
+      "format": "SVG vector paths",
+      "symbol": 33,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 153,
+        "y": 583,
+        "width": 140,
+        "height": 191
+      }
+    },
+    "1452": {
+      "path": "/portraits/vectors/1452.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1452.swf",
+      "source_sha256": "22d22cd02f8cb8ca17855f53396ce7ff460a53539af5d193c4d50540b2c6fcae",
+      "sha256": "b57696bba2f9a3a8183b408e18cc43b78bd09bebb58af18e3a92cc92c6baf7d5",
+      "width": 79,
+      "height": 85.5,
+      "bytes": 57327,
+      "format": "SVG vector paths",
+      "symbol": 23,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 55,
+        "y": 338,
+        "width": 158,
+        "height": 171
+      }
+    },
+    "1454": {
+      "path": "/portraits/vectors/1454.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1454.swf",
+      "source_sha256": "e368578a0ece28070d16e339e208e4564523a4ec5d8838cc1a1ddddba2ba81e6",
+      "sha256": "0c9bfb47fc3eb5b6488b8902ac4b0e43ddfa4f6ec8a52ee7024997d7ff2cfcac",
+      "width": 77,
+      "height": 86.5,
+      "bytes": 23293,
+      "format": "SVG vector paths",
+      "symbol": 29,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 116,
+        "y": 556,
+        "width": 154,
+        "height": 173
+      }
+    },
+    "1461": {
+      "path": "/portraits/vectors/1461.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1461.swf",
+      "source_sha256": "814fd3c9aac8a5a9e34a5c9c8b7e54fd8e9638ac184390cd5f4ada7da8a22ef2",
+      "sha256": "67bf6fc46e3d22af15e039dc5cad8597058e62fce2a3e10ff0d2e867b329f956",
+      "width": 98.5,
+      "height": 86,
+      "bytes": 41389,
+      "format": "SVG vector paths",
+      "symbol": 60,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 40,
+        "y": 366,
+        "width": 197,
+        "height": 172
+      }
+    },
+    "1465": {
+      "path": "/portraits/vectors/1465.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1465.swf",
+      "source_sha256": "50d1603ef8eccc81f05a66d1625462baed24b6ca8c69671b676c21b619c62e3f",
+      "sha256": "5517a9ca241bcf9e99a9495733ad3c76bcbed1ccd60f37c454f0f9250e1f2743",
+      "width": 76.5,
+      "height": 95,
+      "bytes": 31399,
+      "format": "SVG vector paths",
+      "symbol": 25,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 75,
+        "y": 76,
+        "width": 153,
+        "height": 190
+      }
+    },
+    "1470": {
+      "path": "/portraits/vectors/1470.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1470.swf",
+      "source_sha256": "cc9d7a09004ce6319237fbfd7e79021bc6291b28c8d4640be1f2d55db7a49869",
+      "sha256": "d0cde1b333b855d952725d9464ada86599192f70e6b60673296861a249993ebb",
+      "width": 86.5,
+      "height": 92,
+      "bytes": 70945,
+      "format": "SVG vector paths",
+      "symbol": 34,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 77,
+        "y": 180,
+        "width": 173,
+        "height": 184
+      }
+    },
+    "1474": {
+      "path": "/portraits/vectors/1474.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1474.swf",
+      "source_sha256": "b88a5f06b11809a06309c6aaca95c19d3648ae638afbd127d768463a27dbd83e",
+      "sha256": "d4adc2f829633e242e08a0bf303e2b1eb988b2a1a66faba3dc2dc569930fe908",
+      "width": 86.5,
+      "height": 78.5,
+      "bytes": 18130,
+      "format": "SVG vector paths",
+      "symbol": 24,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 140,
+        "y": 223,
+        "width": 173,
+        "height": 157
+      }
+    },
+    "1478": {
+      "path": "/portraits/vectors/1478.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1478.swf",
+      "source_sha256": "921120d619638fed926e9529b57f5ef0e503f9ca6c862c3271ca03d31ebb5d64",
+      "sha256": "9a33c35c967e9b745fc80bafd171278192e120ec15dd1d912a33f417c6e12828",
+      "width": 89,
+      "height": 95.5,
+      "bytes": 54703,
+      "format": "SVG vector paths",
+      "symbol": 25,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 45,
+        "y": 303,
+        "width": 178,
+        "height": 191
+      }
+    },
+    "1481": {
+      "path": "/portraits/vectors/1481.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1481.swf",
+      "source_sha256": "963c1395d734fd1756e5a535beac4d793f45419ec30ec7d836f27627c1317639",
+      "sha256": "efb697d57bc9bc1e64bca0d680683e5d3673a906b6fd1b07bbacfe5496169c0c",
+      "width": 99,
+      "height": 87,
+      "bytes": 66448,
+      "format": "SVG vector paths",
+      "symbol": 27,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 98,
+        "y": 174,
+        "width": 198,
+        "height": 174
+      }
+    },
+    "1483": {
+      "path": "/portraits/vectors/1483.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1483.swf",
+      "source_sha256": "ab6f7ae30be3e2647313c030081c98b8342c356eb5278fcd6d993667255cfd23",
+      "sha256": "a0c7208697aba09409738672a60dac543fdc39d10da96813b992ae6cf5f20f76",
+      "width": 79.5,
+      "height": 93.5,
+      "bytes": 48582,
+      "format": "SVG vector paths",
+      "symbol": 26,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 111,
+        "y": 601,
+        "width": 159,
+        "height": 187
+      }
+    },
+    "1485": {
+      "path": "/portraits/vectors/1485.svg",
+      "source": "https://seer.61.com/resource/fightResource/pet/swf/1485.swf",
+      "source_sha256": "948261eb4a7ed196274a31636575c2941dfe160b2bb189581fd336d0048fdcc8",
+      "sha256": "af40e7451197ae3a27097339f635a327972bb11fdb252298779bd7711b4a79fb",
+      "width": 81.5,
+      "height": 82.5,
+      "bytes": 37713,
+      "format": "SVG vector paths",
+      "symbol": 35,
+      "frame": 1,
+      "exporter": "JPEXS FFDec 26.3.0; static sprite display-list export",
+      "bounds_method": "Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).",
+      "svg_bounds": {
+        "x": 193,
+        "y": 613,
+        "width": 163,
+        "height": 165
+      }
+    }
+  },
+  "failures": {}
+}

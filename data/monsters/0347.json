@@ -1,0 +1,101 @@
+{
+  "id": 347,
+  "name": {
+    "zh": "远古鱼龙"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 100,
+    "def": 73,
+    "spa": 117,
+    "spd": 95,
+    "spe": 90
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 120,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 4,
+      "skill": 20372
+    },
+    {
+      "level": 9,
+      "skill": 10843
+    },
+    {
+      "level": 14,
+      "skill": 20373
+    },
+    {
+      "level": 19,
+      "skill": 10802
+    },
+    {
+      "level": 24,
+      "skill": 10844
+    },
+    {
+      "level": 29,
+      "skill": 20374
+    },
+    {
+      "level": 34,
+      "skill": 10845
+    },
+    {
+      "level": 38,
+      "skill": 20037
+    },
+    {
+      "level": 43,
+      "skill": 10846
+    },
+    {
+      "level": 48,
+      "skill": 20375
+    },
+    {
+      "level": 53,
+      "skill": 10841
+    },
+    {
+      "level": 58,
+      "skill": 10847
+    },
+    {
+      "level": 63,
+      "skill": 20377
+    },
+    {
+      "level": 68,
+      "skill": 10842
+    },
+    {
+      "level": 73,
+      "skill": 10848
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 346,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0347",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

@@ -1,0 +1,16682 @@
+{
+"monsters": [
+{
+"id": 1,
+"zh": "布布种子",
+"types": [
+"grass"
+],
+"bst": 320,
+"evolves_to": [
+2
+],
+"tags": []
+},
+{
+"id": 2,
+"zh": "布布草",
+"types": [
+"grass"
+],
+"bst": 410,
+"evolves_to": [
+3
+],
+"tags": []
+},
+{
+"id": 3,
+"zh": "布布花",
+"types": [
+"grass"
+],
+"bst": 525,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 4,
+"zh": "伊优",
+"types": [
+"water"
+],
+"bst": 314,
+"evolves_to": [
+5
+],
+"tags": []
+},
+{
+"id": 5,
+"zh": "尤里安",
+"types": [
+"water"
+],
+"bst": 405,
+"evolves_to": [
+6
+],
+"tags": []
+},
+{
+"id": 6,
+"zh": "巴鲁斯",
+"types": [
+"water"
+],
+"bst": 535,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 7,
+"zh": "小火猴",
+"types": [
+"fire"
+],
+"bst": 309,
+"evolves_to": [
+8
+],
+"tags": []
+},
+{
+"id": 8,
+"zh": "烈火猴",
+"types": [
+"fire"
+],
+"bst": 405,
+"evolves_to": [
+9
+],
+"tags": []
+},
+{
+"id": 9,
+"zh": "烈焰猩猩",
+"types": [
+"fire"
+],
+"bst": 534,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 10,
+"zh": "皮皮",
+"types": [
+"flying"
+],
+"bst": 245,
+"evolves_to": [
+11
+],
+"tags": []
+},
+{
+"id": 11,
+"zh": "比波",
+"types": [
+"flying"
+],
+"bst": 340,
+"evolves_to": [
+12
+],
+"tags": []
+},
+{
+"id": 12,
+"zh": "波克尔",
+"types": [
+"flying"
+],
+"bst": 480,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 13,
+"zh": "比比鼠",
+"types": [
+"electric"
+],
+"bst": 263,
+"evolves_to": [
+14
+],
+"tags": []
+},
+{
+"id": 14,
+"zh": "闪电鼠",
+"types": [
+"electric"
+],
+"bst": 363,
+"evolves_to": [
+15
+],
+"tags": []
+},
+{
+"id": 15,
+"zh": "天雷鼠",
+"types": [
+"electric"
+],
+"bst": 523,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 16,
+"zh": "仙人球",
+"types": [
+"grass"
+],
+"bst": 318,
+"evolves_to": [
+17
+],
+"tags": []
+},
+{
+"id": 17,
+"zh": "仙人掌",
+"types": [
+"grass"
+],
+"bst": 405,
+"evolves_to": [
+18
+],
+"tags": []
+},
+{
+"id": 18,
+"zh": "巨型仙人掌",
+"types": [
+"grass"
+],
+"bst": 525,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 19,
+"zh": "利利",
+"types": [
+"electric"
+],
+"bst": 280,
+"evolves_to": [
+20
+],
+"tags": []
+},
+{
+"id": 20,
+"zh": "绵绵",
+"types": [
+"electric"
+],
+"bst": 370,
+"evolves_to": [
+21
+],
+"tags": []
+},
+{
+"id": 21,
+"zh": "电击兔",
+"types": [
+"electric"
+],
+"bst": 500,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 22,
+"zh": "毛毛",
+"types": [
+"flying"
+],
+"bst": 261,
+"evolves_to": [
+23
+],
+"tags": []
+},
+{
+"id": 23,
+"zh": "卡洛",
+"types": [
+"flying"
+],
+"bst": 364,
+"evolves_to": [
+24
+],
+"tags": []
+},
+{
+"id": 24,
+"zh": "巴洛卡",
+"types": [
+"flying"
+],
+"bst": 499,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 25,
+"zh": "幽浮",
+"types": [
+"flying"
+],
+"bst": 262,
+"evolves_to": [
+26
+],
+"tags": []
+},
+{
+"id": 26,
+"zh": "哈尔浮",
+"types": [
+"flying"
+],
+"bst": 457,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 27,
+"zh": "小豆芽",
+"types": [
+"grass"
+],
+"bst": 300,
+"evolves_to": [
+28
+],
+"tags": []
+},
+{
+"id": 28,
+"zh": "叮叮",
+"types": [
+"grass"
+],
+"bst": 390,
+"evolves_to": [
+29
+],
+"tags": []
+},
+{
+"id": 29,
+"zh": "魔花仙子",
+"types": [
+"grass"
+],
+"bst": 490,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 30,
+"zh": "贝尔",
+"types": [
+"water"
+],
+"bst": 314,
+"evolves_to": [
+31
+],
+"tags": []
+},
+{
+"id": 31,
+"zh": "阿布",
+"types": [
+"water"
+],
+"bst": 405,
+"evolves_to": [
+32
+],
+"tags": []
+},
+{
+"id": 32,
+"zh": "巴拉龟",
+"types": [
+"water"
+],
+"bst": 530,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 33,
+"zh": "利牙鱼",
+"types": [
+"water"
+],
+"bst": 300,
+"evolves_to": [
+34
+],
+"tags": []
+},
+{
+"id": 34,
+"zh": "钢牙鲨",
+"types": [
+"water"
+],
+"bst": 480,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 35,
+"zh": "吉尔",
+"types": [
+"fire"
+],
+"bst": 309,
+"evolves_to": [
+36
+],
+"tags": []
+},
+{
+"id": 36,
+"zh": "里诺",
+"types": [
+"fire"
+],
+"bst": 405,
+"evolves_to": [
+37
+],
+"tags": []
+},
+{
+"id": 37,
+"zh": "洛吉拉斯",
+"types": [
+"fire"
+],
+"bst": 534,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 38,
+"zh": "火炎贝",
+"types": [
+"fire"
+],
+"bst": 317,
+"evolves_to": [
+39
+],
+"tags": []
+},
+{
+"id": 39,
+"zh": "贝拉米",
+"types": [
+"fire"
+],
+"bst": 394,
+"evolves_to": [
+40
+],
+"tags": []
+},
+{
+"id": 40,
+"zh": "贝尔鲁斯",
+"types": [
+"fire"
+],
+"bst": 499,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 41,
+"zh": "胡里亚",
+"types": [
+"fire"
+],
+"bst": 289,
+"evolves_to": [
+42
+],
+"tags": []
+},
+{
+"id": 42,
+"zh": "里奥斯",
+"types": [
+"fire"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 43,
+"zh": "罗奇",
+"types": [
+"electric"
+],
+"bst": 205,
+"evolves_to": [
+44
+],
+"tags": []
+},
+{
+"id": 44,
+"zh": "基罗拉",
+"types": [
+"electric"
+],
+"bst": 300,
+"evolves_to": [
+45
+],
+"tags": []
+},
+{
+"id": 45,
+"zh": "西萨琉拉",
+"types": [
+"electric"
+],
+"bst": 495,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 46,
+"zh": "小蘑菇",
+"types": [
+"grass"
+],
+"bst": 275,
+"evolves_to": [
+47
+],
+"tags": []
+},
+{
+"id": 47,
+"zh": "蘑菇怪",
+"types": [
+"grass"
+],
+"bst": 505,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 48,
+"zh": "索拉",
+"types": [
+"ice"
+],
+"bst": 327,
+"evolves_to": [
+49
+],
+"tags": []
+},
+{
+"id": 49,
+"zh": "赫拉丝",
+"types": [
+"ice"
+],
+"bst": 437,
+"evolves_to": [
+50
+],
+"tags": []
+},
+{
+"id": 50,
+"zh": "阿克希亚",
+"types": [
+"ice"
+],
+"bst": 572,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 51,
+"zh": "玄冰兽",
+"types": [
+"ice"
+],
+"bst": 310,
+"evolves_to": [
+52
+],
+"tags": []
+},
+{
+"id": 52,
+"zh": "急冻兽",
+"types": [
+"ice"
+],
+"bst": 500,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 53,
+"zh": "莫比",
+"types": [
+"ground"
+],
+"bst": 279,
+"evolves_to": [
+54
+],
+"tags": []
+},
+{
+"id": 54,
+"zh": "格格尔",
+"types": [
+"ground"
+],
+"bst": 384,
+"evolves_to": [
+55
+],
+"tags": []
+},
+{
+"id": 55,
+"zh": "鲁加斯",
+"types": [
+"ground"
+],
+"bst": 504,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 56,
+"zh": "奇洛",
+"types": [
+"ground"
+],
+"bst": 275,
+"evolves_to": [
+57
+],
+"tags": []
+},
+{
+"id": 57,
+"zh": "杰拉特",
+"types": [
+"ground"
+],
+"bst": 375,
+"evolves_to": [
+58
+],
+"tags": []
+},
+{
+"id": 58,
+"zh": "塔奇拉顿",
+"types": [
+"ground"
+],
+"bst": 490,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 59,
+"zh": "西塔",
+"types": [
+"mechanical"
+],
+"bst": 310,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 60,
+"zh": "铁达斯",
+"types": [
+"mechanical"
+],
+"bst": 415,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 61,
+"zh": "雷吉欧斯",
+"types": [
+"mechanical"
+],
+"bst": 545,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 62,
+"zh": "格林",
+"types": [
+"ground"
+],
+"bst": 286,
+"evolves_to": [
+63
+],
+"tags": []
+},
+{
+"id": 63,
+"zh": "格力姆",
+"types": [
+"ground"
+],
+"bst": 381,
+"evolves_to": [
+64
+],
+"tags": []
+},
+{
+"id": 64,
+"zh": "格鲁奇高",
+"types": [
+"ground"
+],
+"bst": 506,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 65,
+"zh": "林克",
+"types": [
+"ice"
+],
+"bst": 305,
+"evolves_to": [
+66
+],
+"tags": []
+},
+{
+"id": 66,
+"zh": "林斯奇",
+"types": [
+"ice"
+],
+"bst": 405,
+"evolves_to": [
+67
+],
+"tags": []
+},
+{
+"id": 67,
+"zh": "布林克斯",
+"types": [
+"ice"
+],
+"bst": 525,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 68,
+"zh": "米拉美",
+"types": [
+"flying"
+],
+"bst": 323,
+"evolves_to": [
+69
+],
+"tags": []
+},
+{
+"id": 69,
+"zh": "提亚斯",
+"types": [
+"flying"
+],
+"bst": 528,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 70,
+"zh": "雷伊",
+"types": [
+"electric"
+],
+"bst": 532,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 71,
+"zh": "派派",
+"types": [
+"mechanical"
+],
+"bst": 298,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 72,
+"zh": "派鲁克",
+"types": [
+"mechanical"
+],
+"bst": 408,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 73,
+"zh": "派鲁基达",
+"types": [
+"mechanical"
+],
+"bst": 543,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 74,
+"zh": "果冻鸭",
+"types": [
+"water"
+],
+"bst": 301,
+"evolves_to": [
+75
+],
+"tags": []
+},
+{
+"id": 75,
+"zh": "波浪鸭",
+"types": [
+"water"
+],
+"bst": 406,
+"evolves_to": [
+76
+],
+"tags": []
+},
+{
+"id": 76,
+"zh": "水晶鸭",
+"types": [
+"water"
+],
+"bst": 541,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 77,
+"zh": "尼尔",
+"types": [
+"psychic"
+],
+"bst": 287,
+"evolves_to": [
+78
+],
+"tags": []
+},
+{
+"id": 78,
+"zh": "菲斯利",
+"types": [
+"psychic"
+],
+"bst": 392,
+"evolves_to": [
+79
+],
+"tags": []
+},
+{
+"id": 79,
+"zh": "艾斯菲亚",
+"types": [
+"psychic"
+],
+"bst": 522,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 80,
+"zh": "帕诺",
+"types": [
+"mechanical"
+],
+"bst": 303,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 81,
+"zh": "帕拉丝",
+"types": [
+"mechanical"
+],
+"bst": 403,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 82,
+"zh": "帕尔西丝",
+"types": [
+"mechanical"
+],
+"bst": 543,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 83,
+"zh": "依依",
+"types": [
+"grass"
+],
+"bst": 302,
+"evolves_to": [
+84
+],
+"tags": []
+},
+{
+"id": 84,
+"zh": "依丁丝",
+"types": [
+"grass"
+],
+"bst": 397,
+"evolves_to": [
+85
+],
+"tags": []
+},
+{
+"id": 85,
+"zh": "依卡莱恩",
+"types": [
+"grass"
+],
+"bst": 532,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 86,
+"zh": "纳格",
+"types": [
+"ground"
+],
+"bst": 278,
+"evolves_to": [
+87
+],
+"tags": []
+},
+{
+"id": 87,
+"zh": "纳奇鲁",
+"types": [
+"ground"
+],
+"bst": 383,
+"evolves_to": [
+88
+],
+"tags": []
+},
+{
+"id": 88,
+"zh": "纳多雷",
+"types": [
+"ground"
+],
+"bst": 528,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 89,
+"zh": "迪达",
+"types": [
+"fire"
+],
+"bst": 290,
+"evolves_to": [
+90
+],
+"tags": []
+},
+{
+"id": 90,
+"zh": "迪尔克",
+"types": [
+"fire"
+],
+"bst": 520,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 91,
+"zh": "悠悠",
+"types": [
+"normal"
+],
+"bst": 465,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 92,
+"zh": "蝠迪",
+"types": [
+"flying"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 93,
+"zh": "希拉",
+"types": [
+"electric"
+],
+"bst": 544,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 94,
+"zh": "柯蓝",
+"types": [
+"ice"
+],
+"bst": 548,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 95,
+"zh": "尼布",
+"types": [
+"water"
+],
+"bst": 372,
+"evolves_to": [
+96
+],
+"tags": []
+},
+{
+"id": 96,
+"zh": "尼斯克",
+"types": [
+"water"
+],
+"bst": 552,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 97,
+"zh": "鲁克",
+"types": [
+"electric"
+],
+"bst": 301,
+"evolves_to": [
+98
+],
+"tags": []
+},
+{
+"id": 98,
+"zh": "卡鲁加",
+"types": [
+"electric"
+],
+"bst": 406,
+"evolves_to": [
+99
+],
+"tags": []
+},
+{
+"id": 99,
+"zh": "卡尔加斯",
+"types": [
+"electric"
+],
+"bst": 546,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 100,
+"zh": "卡西",
+"types": [
+"mechanical"
+],
+"bst": 339,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 101,
+"zh": "卡尔特",
+"types": [
+"mechanical"
+],
+"bst": 544,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 102,
+"zh": "奇塔",
+"types": [
+"mechanical"
+],
+"bst": 311,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 103,
+"zh": "钢塔斯",
+"types": [
+"mechanical"
+],
+"bst": 406,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 104,
+"zh": "雷吉姆斯",
+"types": [
+"mechanical"
+],
+"bst": 546,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 105,
+"zh": "丁格",
+"types": [
+"ground"
+],
+"bst": 270,
+"evolves_to": [
+106
+],
+"tags": []
+},
+{
+"id": 106,
+"zh": "丁加鲁",
+"types": [
+"ground"
+],
+"bst": 375,
+"evolves_to": [
+107
+],
+"tags": []
+},
+{
+"id": 107,
+"zh": "丁鲁特",
+"types": [
+"ground"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 108,
+"zh": "布鲁",
+"types": [
+"water"
+],
+"bst": 278,
+"evolves_to": [
+109
+],
+"tags": []
+},
+{
+"id": 109,
+"zh": "布鲁布",
+"types": [
+"water"
+],
+"bst": 388,
+"evolves_to": [
+110
+],
+"tags": []
+},
+{
+"id": 110,
+"zh": "布鲁克克",
+"types": [
+"water"
+],
+"bst": 558,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 111,
+"zh": "雷格",
+"types": [
+"mechanical"
+],
+"bst": 288,
+"evolves_to": [
+112
+],
+"tags": []
+},
+{
+"id": 112,
+"zh": "雷顿塔",
+"types": [
+"mechanical"
+],
+"bst": 388,
+"evolves_to": [
+113
+],
+"tags": []
+},
+{
+"id": 113,
+"zh": "雷纳多",
+"types": [
+"mechanical"
+],
+"bst": 548,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 114,
+"zh": "小树精",
+"types": [
+"grass"
+],
+"bst": 263,
+"evolves_to": [
+115
+],
+"tags": []
+},
+{
+"id": 115,
+"zh": "巨型树妖",
+"types": [
+"grass"
+],
+"bst": 533,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 116,
+"zh": "卡卡",
+"types": [
+"ice"
+],
+"bst": 301,
+"evolves_to": [
+117
+],
+"tags": []
+},
+{
+"id": 117,
+"zh": "利兹",
+"types": [
+"ice"
+],
+"bst": 406,
+"evolves_to": [
+118
+],
+"tags": []
+},
+{
+"id": 118,
+"zh": "克洛亚",
+"types": [
+"ice"
+],
+"bst": 546,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 119,
+"zh": "莱尼",
+"types": [
+"normal"
+],
+"bst": 299,
+"evolves_to": [
+120
+],
+"tags": []
+},
+{
+"id": 120,
+"zh": "特鲁尼",
+"types": [
+"normal"
+],
+"bst": 399,
+"evolves_to": [
+121
+],
+"tags": []
+},
+{
+"id": 121,
+"zh": "伊卡罗尼",
+"types": [
+"normal"
+],
+"bst": 534,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 122,
+"zh": "达尔",
+"types": [
+"fighting"
+],
+"bst": 330,
+"evolves_to": [
+123
+],
+"tags": []
+},
+{
+"id": 123,
+"zh": "希路达",
+"types": [
+"fighting"
+],
+"bst": 455,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 124,
+"zh": "英卡洛斯",
+"types": [
+"fighting"
+],
+"bst": 635,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 125,
+"zh": "萨格罗斯",
+"types": [
+"fighting"
+],
+"bst": 640,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 126,
+"zh": "拉博",
+"types": [
+"fighting"
+],
+"bst": 314,
+"evolves_to": [
+127
+],
+"tags": []
+},
+{
+"id": 127,
+"zh": "库博",
+"types": [
+"fighting"
+],
+"bst": 539,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 128,
+"zh": "波古",
+"types": [
+"shadow"
+],
+"bst": 290,
+"evolves_to": [
+129
+],
+"tags": []
+},
+{
+"id": 129,
+"zh": "吉拉",
+"types": [
+"shadow"
+],
+"bst": 395,
+"evolves_to": [
+130
+],
+"tags": []
+},
+{
+"id": 130,
+"zh": "吉古拉",
+"types": [
+"shadow"
+],
+"bst": 525,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 131,
+"zh": "影球",
+"types": [
+"shadow"
+],
+"bst": 305,
+"evolves_to": [
+132
+],
+"tags": []
+},
+{
+"id": 132,
+"zh": "尤纳斯",
+"types": [
+"shadow"
+],
+"bst": 550,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 133,
+"zh": "巴多",
+"types": [
+"fire"
+],
+"bst": 272,
+"evolves_to": [
+134
+],
+"tags": []
+},
+{
+"id": 134,
+"zh": "巴奈特",
+"types": [
+"fire"
+],
+"bst": 377,
+"evolves_to": [
+135
+],
+"tags": []
+},
+{
+"id": 135,
+"zh": "巴法尔",
+"types": [
+"fire"
+],
+"bst": 512,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 136,
+"zh": "卢比",
+"types": [
+"shadow"
+],
+"bst": 293,
+"evolves_to": [
+137
+],
+"tags": []
+},
+{
+"id": 137,
+"zh": "伊克多",
+"types": [
+"shadow"
+],
+"bst": 398,
+"evolves_to": [
+138
+],
+"tags": []
+},
+{
+"id": 138,
+"zh": "洛比特",
+"types": [
+"shadow"
+],
+"bst": 533,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 139,
+"zh": "迪卢卡",
+"types": [
+"psychic"
+],
+"bst": 285,
+"evolves_to": [
+140
+],
+"tags": []
+},
+{
+"id": 140,
+"zh": "艾迪希洛",
+"types": [
+"psychic"
+],
+"bst": 525,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 141,
+"zh": "肯",
+"types": [
+"fighting"
+],
+"bst": 310,
+"evolves_to": [
+142
+],
+"tags": []
+},
+{
+"id": 142,
+"zh": "肯扎特",
+"types": [
+"fighting"
+],
+"bst": 535,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 143,
+"zh": "卡塔",
+"types": [
+"mechanical"
+],
+"bst": 331,
+"evolves_to": [
+144
+],
+"tags": []
+},
+{
+"id": 144,
+"zh": "赫卡特",
+"types": [
+"mechanical"
+],
+"bst": 556,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 145,
+"zh": "吉斯",
+"types": [
+"electric"
+],
+"bst": 297,
+"evolves_to": [
+146
+],
+"tags": []
+},
+{
+"id": 146,
+"zh": "亚米拉",
+"types": [
+"electric"
+],
+"bst": 407,
+"evolves_to": [
+147
+],
+"tags": []
+},
+{
+"id": 147,
+"zh": "吉尼亚斯",
+"types": [
+"electric"
+],
+"bst": 542,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 148,
+"zh": "尼克",
+"types": [
+"fighting"
+],
+"bst": 318,
+"evolves_to": [
+149
+],
+"tags": []
+},
+{
+"id": 149,
+"zh": "贝特卡恩",
+"types": [
+"fighting"
+],
+"bst": 538,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 150,
+"zh": "查克",
+"types": [
+"normal"
+],
+"bst": 287,
+"evolves_to": [
+151
+],
+"tags": []
+},
+{
+"id": 151,
+"zh": "查莫斯",
+"types": [
+"normal"
+],
+"bst": 382,
+"evolves_to": [
+152
+],
+"tags": []
+},
+{
+"id": 152,
+"zh": "查理几斯",
+"types": [
+"normal"
+],
+"bst": 507,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 153,
+"zh": "小莹蜂",
+"types": [
+"flying"
+],
+"bst": 282,
+"evolves_to": [
+154
+],
+"tags": []
+},
+{
+"id": 154,
+"zh": "迅黄蜂",
+"types": [
+"flying"
+],
+"bst": 387,
+"evolves_to": [
+155
+],
+"tags": []
+},
+{
+"id": 155,
+"zh": "灵翼蜂",
+"types": [
+"flying"
+],
+"bst": 522,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 156,
+"zh": "迪度",
+"types": [
+"ice"
+],
+"bst": 315,
+"evolves_to": [
+157
+],
+"tags": []
+},
+{
+"id": 157,
+"zh": "巴尔克",
+"types": [
+"ice"
+],
+"bst": 515,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 158,
+"zh": "托尼",
+"types": [
+"ice"
+],
+"bst": 307,
+"evolves_to": [
+159
+],
+"tags": []
+},
+{
+"id": 159,
+"zh": "托尼亚",
+"types": [
+"ice"
+],
+"bst": 412,
+"evolves_to": [
+160
+],
+"tags": []
+},
+{
+"id": 160,
+"zh": "斯托利亚",
+"types": [
+"ice"
+],
+"bst": 547,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 161,
+"zh": "米鲁",
+"types": [
+"ice"
+],
+"bst": 307,
+"evolves_to": [
+162
+],
+"tags": []
+},
+{
+"id": 162,
+"zh": "谢鲁米",
+"types": [
+"ice"
+],
+"bst": 412,
+"evolves_to": [
+163
+],
+"tags": []
+},
+{
+"id": 163,
+"zh": "达鲁切尔",
+"types": [
+"ice"
+],
+"bst": 552,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 164,
+"zh": "闪光皮皮",
+"types": [
+"flying"
+],
+"bst": 270,
+"evolves_to": [
+165
+],
+"tags": []
+},
+{
+"id": 165,
+"zh": "闪光比波",
+"types": [
+"flying"
+],
+"bst": 365,
+"evolves_to": [
+166
+],
+"tags": []
+},
+{
+"id": 166,
+"zh": "闪光波克尔",
+"types": [
+"flying"
+],
+"bst": 510,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 167,
+"zh": "黑刺球",
+"types": [
+"grass"
+],
+"bst": 323,
+"evolves_to": [
+168
+],
+"tags": []
+},
+{
+"id": 168,
+"zh": "卡布尔",
+"types": [
+"grass"
+],
+"bst": 413,
+"evolves_to": [
+169
+],
+"tags": []
+},
+{
+"id": 169,
+"zh": "卡特斯",
+"types": [
+"grass"
+],
+"bst": 533,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 170,
+"zh": "利齿鱼",
+"types": [
+"water"
+],
+"bst": 325,
+"evolves_to": [
+171
+],
+"tags": []
+},
+{
+"id": 171,
+"zh": "魔牙鲨",
+"types": [
+"water"
+],
+"bst": 505,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 172,
+"zh": "黑火贝",
+"types": [
+"fire"
+],
+"bst": 317,
+"evolves_to": [
+173
+],
+"tags": []
+},
+{
+"id": 173,
+"zh": "贝米拉",
+"types": [
+"fire"
+],
+"bst": 397,
+"evolves_to": [
+174
+],
+"tags": []
+},
+{
+"id": 174,
+"zh": "贝鲁基德",
+"types": [
+"fire"
+],
+"bst": 512,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 175,
+"zh": "希洛",
+"types": [
+"flying"
+],
+"bst": 280,
+"evolves_to": [
+176
+],
+"tags": []
+},
+{
+"id": 176,
+"zh": "卡弗",
+"types": [
+"flying"
+],
+"bst": 380,
+"evolves_to": [
+177
+],
+"tags": []
+},
+{
+"id": 177,
+"zh": "巴弗洛",
+"types": [
+"flying"
+],
+"bst": 520,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 178,
+"zh": "达比拉",
+"types": [
+"ground"
+],
+"bst": 284,
+"evolves_to": [
+179
+],
+"tags": []
+},
+{
+"id": 179,
+"zh": "达拉克",
+"types": [
+"ground"
+],
+"bst": 389,
+"evolves_to": [
+180
+],
+"tags": []
+},
+{
+"id": 180,
+"zh": "卡斯达克",
+"types": [
+"ground"
+],
+"bst": 524,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 181,
+"zh": "洛奇",
+"types": [
+"ground"
+],
+"bst": 292,
+"evolves_to": [
+182
+],
+"tags": []
+},
+{
+"id": 182,
+"zh": "拉杰特",
+"types": [
+"ground"
+],
+"bst": 402,
+"evolves_to": [
+183
+],
+"tags": []
+},
+{
+"id": 183,
+"zh": "奇拉塔顿",
+"types": [
+"ground"
+],
+"bst": 522,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 184,
+"zh": "古鲁",
+"types": [
+"normal"
+],
+"bst": 298,
+"evolves_to": [
+185
+],
+"tags": []
+},
+{
+"id": 185,
+"zh": "梅鲁",
+"types": [
+"normal"
+],
+"bst": 513,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 186,
+"zh": "露露",
+"types": [
+"normal"
+],
+"bst": 308,
+"evolves_to": [
+187
+],
+"tags": []
+},
+{
+"id": 187,
+"zh": "魔狮迪露",
+"types": [
+"normal"
+],
+"bst": 518,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 188,
+"zh": "加格",
+"types": [
+"fighting"
+],
+"bst": 320,
+"evolves_to": [
+189
+],
+"tags": []
+},
+{
+"id": 189,
+"zh": "加格尔",
+"types": [
+"fighting"
+],
+"bst": 530,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 190,
+"zh": "林奇",
+"types": [
+"ice"
+],
+"bst": 309,
+"evolves_to": [
+191
+],
+"tags": []
+},
+{
+"id": 191,
+"zh": "林修斯",
+"types": [
+"ice"
+],
+"bst": 409,
+"evolves_to": [
+192
+],
+"tags": []
+},
+{
+"id": 192,
+"zh": "克林卡修",
+"types": [
+"ice"
+],
+"bst": 539,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 193,
+"zh": "奇达",
+"types": [
+"electric"
+],
+"bst": 220,
+"evolves_to": [
+194
+],
+"tags": []
+},
+{
+"id": 194,
+"zh": "罗卡尔",
+"types": [
+"electric"
+],
+"bst": 320,
+"evolves_to": [
+195
+],
+"tags": []
+},
+{
+"id": 195,
+"zh": "西萨拉斯",
+"types": [
+"electric"
+],
+"bst": 510,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 196,
+"zh": "祖拉",
+"types": [
+"psychic"
+],
+"bst": 300,
+"evolves_to": [
+197
+],
+"tags": []
+},
+{
+"id": 197,
+"zh": "亚梅丝",
+"types": [
+"psychic"
+],
+"bst": 535,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 198,
+"zh": "小鳍鱼",
+"types": [
+"water"
+],
+"bst": 282,
+"evolves_to": [
+199
+],
+"tags": []
+},
+{
+"id": 199,
+"zh": "贝壳鱼",
+"types": [
+"water"
+],
+"bst": 392,
+"evolves_to": [
+200
+],
+"tags": []
+},
+{
+"id": 200,
+"zh": "鳞甲龙鱼",
+"types": [
+"water"
+],
+"bst": 557,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 201,
+"zh": "SRT",
+"types": [
+"mechanical"
+],
+"bst": 335,
+"evolves_to": [
+202
+],
+"tags": []
+},
+{
+"id": 202,
+"zh": "SRX",
+"types": [
+"mechanical"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 203,
+"zh": "晶岩兽",
+"types": [
+"ground"
+],
+"bst": 305,
+"evolves_to": [
+204
+],
+"tags": []
+},
+{
+"id": 204,
+"zh": "塔姆拉",
+"types": [
+"ground"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 205,
+"zh": "阿兹",
+"types": [
+"normal"
+],
+"bst": 304,
+"evolves_to": [
+206
+],
+"tags": []
+},
+{
+"id": 206,
+"zh": "科利",
+"types": [
+"normal"
+],
+"bst": 399,
+"evolves_to": [
+207
+],
+"tags": []
+},
+{
+"id": 207,
+"zh": "星吉拉",
+"types": [
+"normal"
+],
+"bst": 524,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 208,
+"zh": "火晶兽",
+"types": [
+"fire"
+],
+"bst": 308,
+"evolves_to": [
+209
+],
+"tags": []
+},
+{
+"id": 209,
+"zh": "艮吉兽",
+"types": [
+"fire"
+],
+"bst": 418,
+"evolves_to": [
+210
+],
+"tags": []
+},
+{
+"id": 210,
+"zh": "多鲁姆",
+"types": [
+"fire"
+],
+"bst": 558,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 211,
+"zh": "水草蛙",
+"types": [
+"grass"
+],
+"bst": 278,
+"evolves_to": [
+212
+],
+"tags": []
+},
+{
+"id": 212,
+"zh": "卡其沙",
+"types": [
+"grass"
+],
+"bst": 548,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 213,
+"zh": "TOE",
+"types": [
+"mechanical"
+],
+"bst": 315,
+"evolves_to": [
+214
+],
+"tags": []
+},
+{
+"id": 214,
+"zh": "TOH",
+"types": [
+"mechanical"
+],
+"bst": 555,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 215,
+"zh": "哈莫",
+"types": [
+"dragon"
+],
+"bst": 416,
+"evolves_to": [
+216
+],
+"tags": []
+},
+{
+"id": 216,
+"zh": "哈莫雷特",
+"types": [
+"dragon"
+],
+"bst": 626,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 217,
+"zh": "扎克",
+"types": [
+"shadow"
+],
+"bst": 315,
+"evolves_to": [
+218
+],
+"tags": []
+},
+{
+"id": 218,
+"zh": "扎夫特",
+"types": [
+"shadow"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 219,
+"zh": "依卢",
+"types": [
+"light"
+],
+"bst": 350,
+"evolves_to": [
+220
+],
+"tags": []
+},
+{
+"id": 220,
+"zh": "依希亚",
+"types": [
+"light"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 221,
+"zh": "卡博",
+"types": [
+"fighting"
+],
+"bst": 325,
+"evolves_to": [
+222
+],
+"tags": []
+},
+{
+"id": 222,
+"zh": "卡库",
+"types": [
+"fighting"
+],
+"bst": 555,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 223,
+"zh": "德塔",
+"types": [
+"mechanical"
+],
+"bst": 337,
+"evolves_to": [
+224
+],
+"tags": []
+},
+{
+"id": 224,
+"zh": "赫德卡",
+"types": [
+"mechanical"
+],
+"bst": 562,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 225,
+"zh": "罗尼",
+"types": [
+"normal"
+],
+"bst": 325,
+"evolves_to": [
+226
+],
+"tags": []
+},
+{
+"id": 226,
+"zh": "吉鲁尼",
+"types": [
+"normal"
+],
+"bst": 425,
+"evolves_to": [
+227
+],
+"tags": []
+},
+{
+"id": 227,
+"zh": "伊兰罗尼",
+"types": [
+"normal"
+],
+"bst": 565,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 228,
+"zh": "查斯",
+"types": [
+"fighting"
+],
+"bst": 350,
+"evolves_to": [
+229
+],
+"tags": []
+},
+{
+"id": 229,
+"zh": "查尔顿",
+"types": [
+"fighting"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 230,
+"zh": "硬甲蟹",
+"types": [
+"normal"
+],
+"bst": 338,
+"evolves_to": [
+231
+],
+"tags": []
+},
+{
+"id": 231,
+"zh": "刺爪蟹",
+"types": [
+"normal"
+],
+"bst": 563,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 232,
+"zh": "伊娃",
+"types": [
+"psychic"
+],
+"bst": 327,
+"evolves_to": [
+233
+],
+"tags": []
+},
+{
+"id": 233,
+"zh": "伊妮娅",
+"types": [
+"psychic"
+],
+"bst": 432,
+"evolves_to": [
+234
+],
+"tags": []
+},
+{
+"id": 234,
+"zh": "伊娅丝",
+"types": [
+"psychic"
+],
+"bst": 562,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 235,
+"zh": "米隆",
+"types": [
+"ground"
+],
+"bst": 348,
+"evolves_to": [
+236
+],
+"tags": []
+},
+{
+"id": 236,
+"zh": "米洛尼",
+"types": [
+"ground"
+],
+"bst": 563,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 237,
+"zh": "吉宝",
+"types": [
+"light"
+],
+"bst": 323,
+"evolves_to": [
+238
+],
+"tags": []
+},
+{
+"id": 238,
+"zh": "吉娜",
+"types": [
+"light"
+],
+"bst": 433,
+"evolves_to": [
+239
+],
+"tags": []
+},
+{
+"id": 239,
+"zh": "吉娜斯",
+"types": [
+"light"
+],
+"bst": 568,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 240,
+"zh": "斯内克",
+"types": [
+"shadow"
+],
+"bst": 335,
+"evolves_to": [
+241
+],
+"tags": []
+},
+{
+"id": 241,
+"zh": "比格尔",
+"types": [
+"shadow"
+],
+"bst": 440,
+"evolves_to": [
+242
+],
+"tags": []
+},
+{
+"id": 242,
+"zh": "海德拉",
+"types": [
+"shadow"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 243,
+"zh": "宾波",
+"types": [
+"grass"
+],
+"bst": 317,
+"evolves_to": [
+244
+],
+"tags": []
+},
+{
+"id": 244,
+"zh": "宾多拉",
+"types": [
+"grass"
+],
+"bst": 422,
+"evolves_to": [
+245
+],
+"tags": []
+},
+{
+"id": 245,
+"zh": "宾尼纳拉",
+"types": [
+"grass"
+],
+"bst": 557,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 246,
+"zh": "艾格",
+"types": [
+"psychic"
+],
+"bst": 329,
+"evolves_to": [
+247
+],
+"tags": []
+},
+{
+"id": 247,
+"zh": "艾尔特",
+"types": [
+"psychic"
+],
+"bst": 434,
+"evolves_to": [
+248
+],
+"tags": []
+},
+{
+"id": 248,
+"zh": "艾贝多芬",
+"types": [
+"psychic"
+],
+"bst": 569,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 249,
+"zh": "浮空苗",
+"types": [
+"flying"
+],
+"bst": 281,
+"evolves_to": [
+250
+],
+"tags": []
+},
+{
+"id": 250,
+"zh": "浮空鱼",
+"types": [
+"flying"
+],
+"bst": 386,
+"evolves_to": [
+251
+],
+"tags": []
+},
+{
+"id": 251,
+"zh": "萨洛姆斯",
+"types": [
+"flying"
+],
+"bst": 521,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 252,
+"zh": "嘟噜噜",
+"types": [
+"normal"
+],
+"bst": 345,
+"evolves_to": [
+253
+],
+"tags": []
+},
+{
+"id": 253,
+"zh": "嘟噜噜王",
+"types": [
+"normal"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 254,
+"zh": "嘟咕噜",
+"types": [
+"normal"
+],
+"bst": 344,
+"evolves_to": [
+255
+],
+"tags": []
+},
+{
+"id": 255,
+"zh": "嘟咕噜达",
+"types": [
+"normal"
+],
+"bst": 449,
+"evolves_to": [
+256
+],
+"tags": []
+},
+{
+"id": 256,
+"zh": "嘟咕噜王",
+"types": [
+"normal"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 257,
+"zh": "埃闻",
+"types": [
+"ground"
+],
+"bst": 336,
+"evolves_to": [
+258
+],
+"tags": []
+},
+{
+"id": 258,
+"zh": "埃瑞克",
+"types": [
+"ground"
+],
+"bst": 441,
+"evolves_to": [
+259
+],
+"tags": []
+},
+{
+"id": 259,
+"zh": "埃里克斯",
+"types": [
+"ground"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 260,
+"zh": "提坦",
+"types": [
+"fighting"
+],
+"bst": 360,
+"evolves_to": [
+261
+],
+"tags": []
+},
+{
+"id": 261,
+"zh": "盖亚",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 262,
+"zh": "奈姬",
+"types": [
+"psychic"
+],
+"bst": 340,
+"evolves_to": [
+263
+],
+"tags": []
+},
+{
+"id": 263,
+"zh": "奈诺伊",
+"types": [
+"psychic"
+],
+"bst": 450,
+"evolves_to": [
+264
+],
+"tags": []
+},
+{
+"id": 264,
+"zh": "奈尼芬多",
+"types": [
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 265,
+"zh": "帕尼",
+"types": [
+"normal"
+],
+"bst": 366,
+"evolves_to": [
+266
+],
+"tags": []
+},
+{
+"id": 266,
+"zh": "帕格尼尼",
+"types": [
+"normal"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 267,
+"zh": "乌凯",
+"types": [
+"flying"
+],
+"bst": 327,
+"evolves_to": [
+268
+],
+"tags": []
+},
+{
+"id": 268,
+"zh": "乌力朴",
+"types": [
+"flying"
+],
+"bst": 572,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 269,
+"zh": "眼球",
+"types": [
+"normal"
+],
+"bst": 475,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 270,
+"zh": "刹洛眼",
+"types": [
+"psychic"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 271,
+"zh": "迪修眼",
+"types": [
+"ground"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 272,
+"zh": "詹士眼",
+"types": [
+"fighting"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 273,
+"zh": "塔米",
+"types": [
+"dragon"
+],
+"bst": 411,
+"evolves_to": [
+274
+],
+"tags": []
+},
+{
+"id": 274,
+"zh": "塔克林",
+"types": [
+"dragon"
+],
+"bst": 611,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 275,
+"zh": "尹赫",
+"types": [
+"fighting"
+],
+"bst": 335,
+"evolves_to": [
+276
+],
+"tags": []
+},
+{
+"id": 276,
+"zh": "尹泰奇",
+"types": [
+"fighting"
+],
+"bst": 441,
+"evolves_to": [
+277
+],
+"tags": []
+},
+{
+"id": 277,
+"zh": "尹泰拉多",
+"types": [
+"fighting"
+],
+"bst": 567,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 278,
+"zh": "沙顿",
+"types": [
+"shadow"
+],
+"bst": 335,
+"evolves_to": [
+279
+],
+"tags": []
+},
+{
+"id": 279,
+"zh": "沙比克",
+"types": [
+"shadow"
+],
+"bst": 440,
+"evolves_to": [
+280
+],
+"tags": []
+},
+{
+"id": 280,
+"zh": "沙罗希瓦",
+"types": [
+"shadow"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 281,
+"zh": "伶俐鸟",
+"types": [
+"light"
+],
+"bst": 326,
+"evolves_to": [
+282
+],
+"tags": []
+},
+{
+"id": 282,
+"zh": "伶俐雀",
+"types": [
+"light"
+],
+"bst": 436,
+"evolves_to": [
+283
+],
+"tags": []
+},
+{
+"id": 283,
+"zh": "伶俐雕",
+"types": [
+"light"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 284,
+"zh": "闪光利利",
+"types": [
+"electric"
+],
+"bst": 350,
+"evolves_to": [
+285
+],
+"tags": []
+},
+{
+"id": 285,
+"zh": "闪光绵绵",
+"types": [
+"electric"
+],
+"bst": 440,
+"evolves_to": [
+286
+],
+"tags": []
+},
+{
+"id": 286,
+"zh": "闪光电击兔",
+"types": [
+"electric"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 287,
+"zh": "厄斯",
+"types": [
+"mechanical"
+],
+"bst": 328,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 288,
+"zh": "厄斯沃姆",
+"types": [
+"mechanical"
+],
+"bst": 553,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 289,
+"zh": "约西",
+"types": [
+"water"
+],
+"bst": 360,
+"evolves_to": [
+290
+],
+"tags": []
+},
+{
+"id": 290,
+"zh": "约凡撒",
+"types": [
+"water"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 291,
+"zh": "弗曼",
+"types": [
+"ground"
+],
+"bst": 368,
+"evolves_to": [
+292
+],
+"tags": []
+},
+{
+"id": 292,
+"zh": "弗里昂",
+"types": [
+"ground"
+],
+"bst": 578,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 293,
+"zh": "迷你芽",
+"types": [
+"grass"
+],
+"bst": 334,
+"evolves_to": [
+294
+],
+"tags": []
+},
+{
+"id": 294,
+"zh": "迷你草",
+"types": [
+"grass"
+],
+"bst": 439,
+"evolves_to": [
+295
+],
+"tags": []
+},
+{
+"id": 295,
+"zh": "迷你果",
+"types": [
+"grass"
+],
+"bst": 574,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 296,
+"zh": "伊卢卡",
+"types": [
+"psychic"
+],
+"bst": 339,
+"evolves_to": [
+297
+],
+"tags": []
+},
+{
+"id": 297,
+"zh": "艾尔伊洛",
+"types": [
+"psychic"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 298,
+"zh": "迅牙虎",
+"types": [
+"ground"
+],
+"bst": 370,
+"evolves_to": [
+299
+],
+"tags": []
+},
+{
+"id": 299,
+"zh": "猛虎王",
+"types": [
+"ground"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 300,
+"zh": "谱尼",
+"types": [
+"holy"
+],
+"bst": 660,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 301,
+"zh": "黄金布布",
+"types": [
+"grass"
+],
+"bst": 364,
+"evolves_to": [
+302
+],
+"tags": []
+},
+{
+"id": 302,
+"zh": "蒙娜布布",
+"types": [
+"grass"
+],
+"bst": 469,
+"evolves_to": [
+303
+],
+"tags": []
+},
+{
+"id": 303,
+"zh": "丽莎布布",
+"types": [
+"grass"
+],
+"bst": 614,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 304,
+"zh": "伊优达",
+"types": [
+"water"
+],
+"bst": 370,
+"evolves_to": [
+305
+],
+"tags": []
+},
+{
+"id": 305,
+"zh": "利爪尤里安",
+"types": [
+"water"
+],
+"bst": 470,
+"evolves_to": [
+306
+],
+"tags": []
+},
+{
+"id": 306,
+"zh": "鲁斯王",
+"types": [
+"water"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 307,
+"zh": "炎火猴",
+"types": [
+"fire"
+],
+"bst": 358,
+"evolves_to": [
+308
+],
+"tags": []
+},
+{
+"id": 308,
+"zh": "熔火灵猴",
+"types": [
+"fire"
+],
+"bst": 458,
+"evolves_to": [
+309
+],
+"tags": []
+},
+{
+"id": 309,
+"zh": "魔焰猩猩",
+"types": [
+"fire"
+],
+"bst": 618,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 310,
+"zh": "闪光尼尔",
+"types": [
+"psychic"
+],
+"bst": 312,
+"evolves_to": [
+311
+],
+"tags": []
+},
+{
+"id": 311,
+"zh": "闪光菲斯利",
+"types": [
+"psychic"
+],
+"bst": 417,
+"evolves_to": [
+312
+],
+"tags": []
+},
+{
+"id": 312,
+"zh": "闪光艾菲亚",
+"types": [
+"psychic"
+],
+"bst": 547,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 313,
+"zh": "卡鲁",
+"types": [
+"mystic"
+],
+"bst": 335,
+"evolves_to": [
+314
+],
+"tags": []
+},
+{
+"id": 314,
+"zh": "卡克拉",
+"types": [
+"mystic"
+],
+"bst": 445,
+"evolves_to": [
+315
+],
+"tags": []
+},
+{
+"id": 315,
+"zh": "卡鲁耶克",
+"types": [
+"mystic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 316,
+"zh": "达莫拉",
+"types": [
+"ground"
+],
+"bst": 322,
+"evolves_to": [
+317
+],
+"tags": []
+},
+{
+"id": 317,
+"zh": "达拉格",
+"types": [
+"ground"
+],
+"bst": 432,
+"evolves_to": [
+318
+],
+"tags": []
+},
+{
+"id": 318,
+"zh": "卡鲁克斯",
+"types": [
+"ground"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 319,
+"zh": "轻羽蜂",
+"types": [
+"flying"
+],
+"bst": 318,
+"evolves_to": [
+320
+],
+"tags": []
+},
+{
+"id": 320,
+"zh": "迅捷蛹",
+"types": [
+"flying"
+],
+"bst": 428,
+"evolves_to": [
+321
+],
+"tags": []
+},
+{
+"id": 321,
+"zh": "哈尔翼蜂",
+"types": [
+"flying"
+],
+"bst": 568,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 322,
+"zh": "卡克",
+"types": [
+"ice"
+],
+"bst": 336,
+"evolves_to": [
+323
+],
+"tags": []
+},
+{
+"id": 323,
+"zh": "利斯",
+"types": [
+"ice"
+],
+"bst": 441,
+"evolves_to": [
+324
+],
+"tags": []
+},
+{
+"id": 324,
+"zh": "古雷亚",
+"types": [
+"ice"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 325,
+"zh": "卡门兔",
+"types": [
+"normal"
+],
+"bst": 323,
+"evolves_to": [
+326
+],
+"tags": []
+},
+{
+"id": 326,
+"zh": "海格兔",
+"types": [
+"normal"
+],
+"bst": 418,
+"evolves_to": [
+327
+],
+"tags": []
+},
+{
+"id": 327,
+"zh": "塞拉兔",
+"types": [
+"normal"
+],
+"bst": 543,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 328,
+"zh": "辛克",
+"types": [
+"normal"
+],
+"bst": 327,
+"evolves_to": [
+329
+],
+"tags": []
+},
+{
+"id": 329,
+"zh": "辛娜斯",
+"types": [
+"normal"
+],
+"bst": 532,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 330,
+"zh": "伊达",
+"types": [
+"normal"
+],
+"bst": 299,
+"evolves_to": [
+331
+],
+"tags": []
+},
+{
+"id": 331,
+"zh": "哈伊卡",
+"types": [
+"normal"
+],
+"bst": 514,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 332,
+"zh": "烈炎兽",
+"types": [
+"fire"
+],
+"bst": 316,
+"evolves_to": [
+333
+],
+"tags": []
+},
+{
+"id": 333,
+"zh": "艮米拉",
+"types": [
+"fire"
+],
+"bst": 416,
+"evolves_to": [
+334
+],
+"tags": []
+},
+{
+"id": 334,
+"zh": "多鲁鲁斯",
+"types": [
+"fire"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 335,
+"zh": "赤甲虫",
+"types": [
+"fire"
+],
+"bst": 318,
+"evolves_to": [
+336
+],
+"tags": []
+},
+{
+"id": 336,
+"zh": "赤贝利",
+"types": [
+"fire"
+],
+"bst": 423,
+"evolves_to": [
+337
+],
+"tags": []
+},
+{
+"id": 337,
+"zh": "赤西西比",
+"types": [
+"fire"
+],
+"bst": 558,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 338,
+"zh": "多塔",
+"types": [
+"mechanical"
+],
+"bst": 325,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 339,
+"zh": "托雷亚",
+"types": [
+"mechanical"
+],
+"bst": 430,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 340,
+"zh": "托雷塔斯",
+"types": [
+"mechanical"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 341,
+"zh": "索尔",
+"types": [
+"shadow"
+],
+"bst": 316,
+"evolves_to": [
+342
+],
+"tags": []
+},
+{
+"id": 342,
+"zh": "索米亚",
+"types": [
+"shadow"
+],
+"bst": 426,
+"evolves_to": [
+343
+],
+"tags": []
+},
+{
+"id": 343,
+"zh": "索比拉特",
+"types": [
+"shadow"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 344,
+"zh": "幼镰鸟",
+"types": [
+"flying"
+],
+"bst": 335,
+"evolves_to": [
+345
+],
+"tags": []
+},
+{
+"id": 345,
+"zh": "巨镰鸟",
+"types": [
+"flying"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 346,
+"zh": "宝贝鲤",
+"types": [
+"water"
+],
+"bst": 345,
+"evolves_to": [
+347
+],
+"tags": []
+},
+{
+"id": 347,
+"zh": "远古鱼龙",
+"types": [
+"water"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 348,
+"zh": "小犬苗",
+"types": [
+"normal"
+],
+"bst": 330,
+"evolves_to": [
+349
+],
+"tags": []
+},
+{
+"id": 349,
+"zh": "天才犬",
+"types": [
+"normal"
+],
+"bst": 440,
+"evolves_to": [
+350
+],
+"tags": []
+},
+{
+"id": 350,
+"zh": "夏洛犬",
+"types": [
+"normal"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 351,
+"zh": "磁碟怪",
+"types": [
+"psychic"
+],
+"bst": 343,
+"evolves_to": [
+352
+],
+"tags": []
+},
+{
+"id": 352,
+"zh": "双碟怪",
+"types": [
+"psychic"
+],
+"bst": 448,
+"evolves_to": [
+353
+],
+"tags": []
+},
+{
+"id": 353,
+"zh": "迪斯凯特",
+"types": [
+"psychic"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 354,
+"zh": "克鲁",
+"types": [
+"electric"
+],
+"bst": 305,
+"evolves_to": [
+355
+],
+"tags": []
+},
+{
+"id": 355,
+"zh": "加鲁卡",
+"types": [
+"electric"
+],
+"bst": 410,
+"evolves_to": [
+356
+],
+"tags": []
+},
+{
+"id": 356,
+"zh": "斯加尔卡",
+"types": [
+"electric"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 357,
+"zh": "布林",
+"types": [
+"water"
+],
+"bst": 297,
+"evolves_to": [
+358
+],
+"tags": []
+},
+{
+"id": 358,
+"zh": "布林多",
+"types": [
+"water"
+],
+"bst": 417,
+"evolves_to": [
+359
+],
+"tags": []
+},
+{
+"id": 359,
+"zh": "布林克克",
+"types": [
+"water"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 360,
+"zh": "艾米",
+"types": [
+"electric"
+],
+"bst": 338,
+"evolves_to": [
+361
+],
+"tags": []
+},
+{
+"id": 361,
+"zh": "艾丝柏",
+"types": [
+"electric"
+],
+"bst": 557,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 362,
+"zh": "丘波",
+"types": [
+"mechanical"
+],
+"bst": 323,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 363,
+"zh": "鲁比克",
+"types": [
+"mechanical"
+],
+"bst": 553,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 364,
+"zh": "琪可",
+"types": [
+"fire"
+],
+"bst": 325,
+"evolves_to": [
+365
+],
+"tags": []
+},
+{
+"id": 365,
+"zh": "火爆鼠",
+"types": [
+"fire"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 366,
+"zh": "呆呆蛹",
+"types": [
+"normal"
+],
+"bst": 344,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 367,
+"zh": "海纹蝶",
+"types": [
+"water"
+],
+"bst": 565,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 368,
+"zh": "炽翼蝶",
+"types": [
+"fire"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 369,
+"zh": "橡木蝶",
+"types": [
+"grass"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 370,
+"zh": "奎尼",
+"types": [
+"light"
+],
+"bst": 355,
+"evolves_to": [
+371
+],
+"tags": []
+},
+{
+"id": 371,
+"zh": "奎斯多",
+"types": [
+"light"
+],
+"bst": 454,
+"evolves_to": [
+372
+],
+"tags": []
+},
+{
+"id": 372,
+"zh": "奎比历斯",
+"types": [
+"light"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 373,
+"zh": "莫顿",
+"types": [
+"mechanical"
+],
+"bst": 305,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 374,
+"zh": "古利安",
+"types": [
+"mechanical"
+],
+"bst": 573,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 375,
+"zh": "隆米尔",
+"types": [
+"mechanical"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 376,
+"zh": "寄宿岩",
+"types": [
+"ground"
+],
+"bst": 361,
+"evolves_to": [
+377
+],
+"tags": []
+},
+{
+"id": 377,
+"zh": "宿主岩",
+"types": [
+"ground"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 378,
+"zh": "凯奴",
+"types": [
+"ice"
+],
+"bst": 333,
+"evolves_to": [
+379
+],
+"tags": []
+},
+{
+"id": 379,
+"zh": "凯瑟琳",
+"types": [
+"ice"
+],
+"bst": 433,
+"evolves_to": [
+380
+],
+"tags": []
+},
+{
+"id": 380,
+"zh": "凯凯西朴",
+"types": [
+"ice"
+],
+"bst": 573,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 381,
+"zh": "史空",
+"types": [
+"psychic"
+],
+"bst": 369,
+"evolves_to": [
+382
+],
+"tags": []
+},
+{
+"id": 382,
+"zh": "史拉达",
+"types": [
+"psychic"
+],
+"bst": 569,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 383,
+"zh": "波比",
+"types": [
+"normal"
+],
+"bst": 355,
+"evolves_to": [
+384
+],
+"tags": []
+},
+{
+"id": 384,
+"zh": "波戈",
+"types": [
+"normal"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 385,
+"zh": "基摩",
+"types": [
+"ice"
+],
+"bst": 375,
+"evolves_to": [
+386
+],
+"tags": []
+},
+{
+"id": 386,
+"zh": "基维奥拉",
+"types": [
+"ice"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 387,
+"zh": "辛诺",
+"types": [
+"grass"
+],
+"bst": 310,
+"evolves_to": [
+388
+],
+"tags": []
+},
+{
+"id": 388,
+"zh": "辛诺瓦",
+"types": [
+"grass"
+],
+"bst": 415,
+"evolves_to": [
+389
+],
+"tags": []
+},
+{
+"id": 389,
+"zh": "辛奇帕克",
+"types": [
+"grass"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 390,
+"zh": "塔拉",
+"types": [
+"dragon"
+],
+"bst": 416,
+"evolves_to": [
+391
+],
+"tags": []
+},
+{
+"id": 391,
+"zh": "塔西亚",
+"types": [
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 392,
+"zh": "夏伏兽",
+"types": [
+"fire"
+],
+"bst": 345,
+"evolves_to": [
+393
+],
+"tags": []
+},
+{
+"id": 393,
+"zh": "上古炎兽",
+"types": [
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 394,
+"zh": "嗡嗡茧",
+"types": [
+"flying"
+],
+"bst": 315,
+"evolves_to": [
+395
+],
+"tags": []
+},
+{
+"id": 395,
+"zh": "嗡嗡蝴",
+"types": [
+"flying"
+],
+"bst": 425,
+"evolves_to": [
+396
+],
+"tags": []
+},
+{
+"id": 396,
+"zh": "龙须蝴",
+"types": [
+"flying"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 397,
+"zh": "杰奥",
+"types": [
+"fighting"
+],
+"bst": 340,
+"evolves_to": [
+398
+],
+"tags": []
+},
+{
+"id": 398,
+"zh": "杰拉德",
+"types": [
+"fighting"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 399,
+"zh": "萨拉",
+"types": [
+"dragon"
+],
+"bst": 380,
+"evolves_to": [
+400
+],
+"tags": []
+},
+{
+"id": 400,
+"zh": "萨帕克",
+"types": [
+"dragon"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 401,
+"zh": "泰尼",
+"types": [
+"electric"
+],
+"bst": 335,
+"evolves_to": [
+402
+],
+"tags": []
+},
+{
+"id": 402,
+"zh": "泰克斯",
+"types": [
+"electric"
+],
+"bst": 443,
+"evolves_to": [
+403
+],
+"tags": []
+},
+{
+"id": 403,
+"zh": "泰瑞",
+"types": [
+"electric"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 404,
+"zh": "迪姆",
+"types": [
+"fighting"
+],
+"bst": 350,
+"evolves_to": [
+405
+],
+"tags": []
+},
+{
+"id": 405,
+"zh": "提姆提姆",
+"types": [
+"fighting"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 406,
+"zh": "沙尔",
+"types": [
+"ground"
+],
+"bst": 306,
+"evolves_to": [
+407
+],
+"tags": []
+},
+{
+"id": 407,
+"zh": "沙拉凯",
+"types": [
+"ground"
+],
+"bst": 419,
+"evolves_to": [
+408
+],
+"tags": []
+},
+{
+"id": 408,
+"zh": "沙恩克",
+"types": [
+"ground"
+],
+"bst": 562,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 409,
+"zh": "闪光格林",
+"types": [
+"ground"
+],
+"bst": 339,
+"evolves_to": [
+410
+],
+"tags": []
+},
+{
+"id": 410,
+"zh": "闪光格力姆",
+"types": [
+"ground"
+],
+"bst": 430,
+"evolves_to": [
+411
+],
+"tags": []
+},
+{
+"id": 411,
+"zh": "闪光格鲁高",
+"types": [
+"ground"
+],
+"bst": 555,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 412,
+"zh": "塞维",
+"types": [
+"dragon"
+],
+"bst": 414,
+"evolves_to": [
+413
+],
+"tags": []
+},
+{
+"id": 413,
+"zh": "塞维尔",
+"types": [
+"dragon"
+],
+"bst": 619,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 414,
+"zh": "乌鲁",
+"types": [
+"dragon"
+],
+"bst": 362,
+"evolves_to": [
+415
+],
+"tags": []
+},
+{
+"id": 415,
+"zh": "乌鲁卡",
+"types": [
+"dragon"
+],
+"bst": 562,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 416,
+"zh": "尼奥",
+"types": [
+"psychic"
+],
+"bst": 312,
+"evolves_to": [
+417
+],
+"tags": []
+},
+{
+"id": 417,
+"zh": "菲斯德",
+"types": [
+"psychic"
+],
+"bst": 429,
+"evolves_to": [
+418
+],
+"tags": []
+},
+{
+"id": 418,
+"zh": "艾斯菲格",
+"types": [
+"psychic"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 419,
+"zh": "塞拉",
+"types": [
+"light"
+],
+"bst": 366,
+"evolves_to": [
+420
+],
+"tags": []
+},
+{
+"id": 420,
+"zh": "拉尔斯",
+"types": [
+"light"
+],
+"bst": 455,
+"evolves_to": [
+421
+],
+"tags": []
+},
+{
+"id": 421,
+"zh": "厄尔塞拉",
+"types": [
+"light"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 422,
+"zh": "里昂",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 319,
+"evolves_to": [
+423
+],
+"tags": []
+},
+{
+"id": 423,
+"zh": "克苏昂",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 437,
+"evolves_to": [
+424
+],
+"tags": []
+},
+{
+"id": 424,
+"zh": "克尔加德",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 425,
+"zh": "迪克",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 345,
+"evolves_to": [
+426
+],
+"tags": []
+},
+{
+"id": 426,
+"zh": "迪尔科特",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 427,
+"zh": "桑帕",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 319,
+"evolves_to": [
+428
+],
+"tags": []
+},
+{
+"id": 428,
+"zh": "利桑",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 437,
+"evolves_to": [
+429
+],
+"tags": []
+},
+{
+"id": 429,
+"zh": "艾克里桑",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 430,
+"zh": "鲁迪",
+"types": [
+"water",
+"shadow"
+],
+"bst": 355,
+"evolves_to": [
+431
+],
+"tags": []
+},
+{
+"id": 431,
+"zh": "鲁尔蒂尼",
+"types": [
+"water",
+"shadow"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 432,
+"zh": "杰西卡",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 433,
+"zh": "萨尔",
+"types": [
+"fire"
+],
+"bst": 292,
+"evolves_to": [
+434
+],
+"tags": []
+},
+{
+"id": 434,
+"zh": "萨诺",
+"types": [
+"fire"
+],
+"bst": 407,
+"evolves_to": [
+435
+],
+"tags": []
+},
+{
+"id": 435,
+"zh": "萨诺拉斯",
+"types": [
+"fire"
+],
+"bst": 557,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 436,
+"zh": "黑豆芽",
+"types": [
+"grass"
+],
+"bst": 326,
+"evolves_to": [
+437
+],
+"tags": []
+},
+{
+"id": 437,
+"zh": "比恩特",
+"types": [
+"grass"
+],
+"bst": 431,
+"evolves_to": [
+438
+],
+"tags": []
+},
+{
+"id": 438,
+"zh": "魔花使者",
+"types": [
+"grass"
+],
+"bst": 561,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 439,
+"zh": "哈比特",
+"types": [
+"ground"
+],
+"bst": 300,
+"evolves_to": [
+440
+],
+"tags": []
+},
+{
+"id": 440,
+"zh": "莫鲁格尔",
+"types": [
+"ground"
+],
+"bst": 415,
+"evolves_to": [
+441
+],
+"tags": []
+},
+{
+"id": 441,
+"zh": "莫尔加斯",
+"types": [
+"ground"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 442,
+"zh": "闪光依依",
+"types": [
+"grass"
+],
+"bst": 334,
+"evolves_to": [
+443
+],
+"tags": []
+},
+{
+"id": 443,
+"zh": "闪光依丁丝",
+"types": [
+"grass"
+],
+"bst": 429,
+"evolves_to": [
+444
+],
+"tags": []
+},
+{
+"id": 444,
+"zh": "闪光依莱恩",
+"types": [
+"grass"
+],
+"bst": 578,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 445,
+"zh": "兰妮",
+"types": [
+"ice",
+"light"
+],
+"bst": 315,
+"evolves_to": [
+446
+],
+"tags": []
+},
+{
+"id": 446,
+"zh": "兰诺",
+"types": [
+"ice",
+"light"
+],
+"bst": 435,
+"evolves_to": [
+447
+],
+"tags": []
+},
+{
+"id": 447,
+"zh": "格兰诺",
+"types": [
+"ice",
+"light"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 448,
+"zh": "卡拉",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 314,
+"evolves_to": [
+449
+],
+"tags": []
+},
+{
+"id": 449,
+"zh": "拉诺",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 434,
+"evolves_to": [
+450
+],
+"tags": []
+},
+{
+"id": 450,
+"zh": "格拉诺",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 554,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 451,
+"zh": "塞德",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 320,
+"evolves_to": [
+452
+],
+"tags": []
+},
+{
+"id": 452,
+"zh": "菲拉德",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 430,
+"evolves_to": [
+453
+],
+"tags": []
+},
+{
+"id": 453,
+"zh": "菲拉斯特",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 454,
+"zh": "霹雳兽",
+"types": [
+"electric"
+],
+"bst": 346,
+"evolves_to": [
+455
+],
+"tags": []
+},
+{
+"id": 455,
+"zh": "雷光兽",
+"types": [
+"electric"
+],
+"bst": 551,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 456,
+"zh": "阿贡",
+"types": [
+"normal"
+],
+"bst": 300,
+"evolves_to": [
+457
+],
+"tags": []
+},
+{
+"id": 457,
+"zh": "波波贡",
+"types": [
+"normal"
+],
+"bst": 415,
+"evolves_to": [
+458
+],
+"tags": []
+},
+{
+"id": 458,
+"zh": "奥利贡",
+"types": [
+"normal"
+],
+"bst": 565,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 459,
+"zh": "尤达",
+"types": [
+"mechanical"
+],
+"bst": 315,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 460,
+"zh": "尤达里克",
+"types": [
+"mechanical"
+],
+"bst": 550,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 461,
+"zh": "阿尔克",
+"types": [
+"light",
+"flying"
+],
+"bst": 345,
+"evolves_to": [
+462
+],
+"tags": []
+},
+{
+"id": 462,
+"zh": "阿尔达拉",
+"types": [
+"light",
+"flying"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 463,
+"zh": "鲁格洛",
+"types": [
+"shadow"
+],
+"bst": 295,
+"evolves_to": [
+464
+],
+"tags": []
+},
+{
+"id": 464,
+"zh": "纳尔鲁",
+"types": [
+"shadow"
+],
+"bst": 415,
+"evolves_to": [
+465
+],
+"tags": []
+},
+{
+"id": 465,
+"zh": "纳鲁洛特",
+"types": [
+"shadow"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 466,
+"zh": "罗特",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 271,
+"evolves_to": [
+467
+],
+"tags": []
+},
+{
+"id": 467,
+"zh": "赛洛",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 416,
+"evolves_to": [
+468
+],
+"tags": []
+},
+{
+"id": 468,
+"zh": "罗德利斯",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 469,
+"zh": "米奈",
+"types": [
+"dragon"
+],
+"bst": 340,
+"evolves_to": [
+470
+],
+"tags": []
+},
+{
+"id": 470,
+"zh": "米奈希尔",
+"types": [
+"dragon"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 471,
+"zh": "伊特",
+"types": [
+"grass"
+],
+"bst": 290,
+"evolves_to": [
+472
+],
+"tags": []
+},
+{
+"id": 472,
+"zh": "伊洛草",
+"types": [
+"grass"
+],
+"bst": 415,
+"evolves_to": [
+473
+],
+"tags": []
+},
+{
+"id": 473,
+"zh": "伊洛花",
+"types": [
+"grass"
+],
+"bst": 565,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 474,
+"zh": "该伊",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 338,
+"evolves_to": [
+475
+],
+"tags": []
+},
+{
+"id": 475,
+"zh": "该隐",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 568,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 476,
+"zh": "库德",
+"types": [
+"ice"
+],
+"bst": 339,
+"evolves_to": [
+477
+],
+"tags": []
+},
+{
+"id": 477,
+"zh": "查库拉",
+"types": [
+"ice"
+],
+"bst": 577,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 478,
+"zh": "冰洛",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 352,
+"evolves_to": [
+479
+],
+"tags": []
+},
+{
+"id": 479,
+"zh": "冰洛伏特",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 567,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 480,
+"zh": "埃尔特",
+"types": [
+"shadow"
+],
+"bst": 341,
+"evolves_to": [
+481
+],
+"tags": []
+},
+{
+"id": 481,
+"zh": "埃洛兽",
+"types": [
+"shadow"
+],
+"bst": 561,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 482,
+"zh": "亨特",
+"types": [
+"ground"
+],
+"bst": 310,
+"evolves_to": [
+483
+],
+"tags": []
+},
+{
+"id": 483,
+"zh": "亨姆",
+"types": [
+"ground"
+],
+"bst": 540,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 484,
+"zh": "乔乔",
+"types": [
+"normal"
+],
+"bst": 350,
+"evolves_to": [
+485
+],
+"tags": []
+},
+{
+"id": 485,
+"zh": "乔安娜",
+"types": [
+"normal"
+],
+"bst": 565,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 486,
+"zh": "洛森",
+"types": [
+"electric",
+"fire"
+],
+"bst": 317,
+"evolves_to": [
+487
+],
+"tags": []
+},
+{
+"id": 487,
+"zh": "亚格洛",
+"types": [
+"electric",
+"fire"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 488,
+"zh": "劳特",
+"types": [
+"fighting"
+],
+"bst": 315,
+"evolves_to": [
+489
+],
+"tags": []
+},
+{
+"id": 489,
+"zh": "劳加德",
+"types": [
+"fighting"
+],
+"bst": 445,
+"evolves_to": [
+490
+],
+"tags": []
+},
+{
+"id": 490,
+"zh": "劳克蒙德",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 491,
+"zh": "洛洛斯",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 315,
+"evolves_to": [
+492
+],
+"tags": []
+},
+{
+"id": 492,
+"zh": "洛洛特",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 440,
+"evolves_to": [
+493
+],
+"tags": []
+},
+{
+"id": 493,
+"zh": "克洛洛特",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 494,
+"zh": "卡丹",
+"types": [
+"mechanical"
+],
+"bst": 305,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 495,
+"zh": "洛卡特",
+"types": [
+"mechanical"
+],
+"bst": 425,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 496,
+"zh": "洛卡斯特",
+"types": [
+"mechanical"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 497,
+"zh": "阿葵",
+"types": [
+"water"
+],
+"bst": 335,
+"evolves_to": [
+498
+],
+"tags": []
+},
+{
+"id": 498,
+"zh": "阿葵丽亚",
+"types": [
+"water"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 499,
+"zh": "阿零",
+"types": [
+"psychic"
+],
+"bst": 360,
+"evolves_to": [
+500
+],
+"tags": []
+},
+{
+"id": 500,
+"zh": "阿尔比零",
+"types": [
+"psychic"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 501,
+"zh": "巴斯特",
+"types": [
+"mechanical",
+"ground"
+],
+"bst": 650,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 502,
+"zh": "朵拉格",
+"types": [
+"water",
+"dragon"
+],
+"bst": 650,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 503,
+"zh": "泰格尔",
+"types": [
+"electric",
+"fighting"
+],
+"bst": 655,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 504,
+"zh": "菲尼克斯",
+"types": [
+"fire",
+"flying"
+],
+"bst": 650,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 505,
+"zh": "阿瑞斯",
+"types": [
+"light",
+"mystic"
+],
+"bst": 648,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 506,
+"zh": "诺特",
+"types": [
+"shadow"
+],
+"bst": 320,
+"evolves_to": [
+507
+],
+"tags": []
+},
+{
+"id": 507,
+"zh": "诺诺特",
+"types": [
+"shadow"
+],
+"bst": 440,
+"evolves_to": [
+508
+],
+"tags": []
+},
+{
+"id": 508,
+"zh": "桑诺特",
+"types": [
+"shadow"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 509,
+"zh": "利加",
+"types": [
+"shadow"
+],
+"bst": 305,
+"evolves_to": [
+510
+],
+"tags": []
+},
+{
+"id": 510,
+"zh": "格利加",
+"types": [
+"shadow"
+],
+"bst": 425,
+"evolves_to": [
+511
+],
+"tags": []
+},
+{
+"id": 511,
+"zh": "撒格利加",
+"types": [
+"shadow"
+],
+"bst": 563,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 512,
+"zh": "格多",
+"types": [
+"ice"
+],
+"bst": 305,
+"evolves_to": [
+513
+],
+"tags": []
+},
+{
+"id": 513,
+"zh": "格格诺",
+"types": [
+"ice"
+],
+"bst": 430,
+"evolves_to": [
+514
+],
+"tags": []
+},
+{
+"id": 514,
+"zh": "格多尔诺",
+"types": [
+"ice"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 515,
+"zh": "奈落",
+"types": [
+"dragon"
+],
+"bst": 360,
+"evolves_to": [
+516
+],
+"tags": []
+},
+{
+"id": 516,
+"zh": "奈落达尔",
+"types": [
+"dragon"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 517,
+"zh": "小艾",
+"types": [
+"dragon"
+],
+"bst": 375,
+"evolves_to": [
+518
+],
+"tags": []
+},
+{
+"id": 518,
+"zh": "奈加恩",
+"types": [
+"dragon"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 519,
+"zh": "绿毛球",
+"types": [
+"normal"
+],
+"bst": 384,
+"evolves_to": [
+520
+],
+"tags": []
+},
+{
+"id": 520,
+"zh": "古林斯特",
+"types": [
+"normal"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 521,
+"zh": "丁奇",
+"types": [
+"flying"
+],
+"bst": 355,
+"evolves_to": [
+522
+],
+"tags": []
+},
+{
+"id": 522,
+"zh": "丁里克",
+"types": [
+"flying"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 523,
+"zh": "咕咕芽",
+"types": [
+"grass"
+],
+"bst": 320,
+"evolves_to": [
+524
+],
+"tags": []
+},
+{
+"id": 524,
+"zh": "咕咕草",
+"types": [
+"grass"
+],
+"bst": 445,
+"evolves_to": [
+525
+],
+"tags": []
+},
+{
+"id": 525,
+"zh": "咕咕果",
+"types": [
+"grass"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 526,
+"zh": "托克",
+"types": [
+"fire"
+],
+"bst": 395,
+"evolves_to": [
+527
+],
+"tags": []
+},
+{
+"id": 527,
+"zh": "赫尔托克",
+"types": [
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 528,
+"zh": "乌索",
+"types": [
+"water",
+"psychic"
+],
+"bst": 305,
+"evolves_to": [
+529
+],
+"tags": []
+},
+{
+"id": 529,
+"zh": "乌索尔",
+"types": [
+"water",
+"psychic"
+],
+"bst": 425,
+"evolves_to": [
+530
+],
+"tags": []
+},
+{
+"id": 530,
+"zh": "乌索达",
+"types": [
+"water",
+"psychic"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 531,
+"zh": "萨格",
+"types": [
+"electric",
+"ice"
+],
+"bst": 370,
+"evolves_to": [
+532
+],
+"tags": []
+},
+{
+"id": 532,
+"zh": "奇格萨",
+"types": [
+"electric",
+"ice"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 533,
+"zh": "古鲁芽",
+"types": [
+"grass"
+],
+"bst": 342,
+"evolves_to": [
+534
+],
+"tags": []
+},
+{
+"id": 534,
+"zh": "古拉苗",
+"types": [
+"grass"
+],
+"bst": 452,
+"evolves_to": [
+535
+],
+"tags": []
+},
+{
+"id": 535,
+"zh": "古拉草",
+"types": [
+"grass"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 536,
+"zh": "克拉尔",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 295,
+"evolves_to": [
+537
+],
+"tags": []
+},
+{
+"id": 537,
+"zh": "克尔尼",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 435,
+"evolves_to": [
+538
+],
+"tags": []
+},
+{
+"id": 538,
+"zh": "克拉尼特",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 539,
+"zh": "艾克",
+"types": [
+"mechanical"
+],
+"bst": 370,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 540,
+"zh": "艾克斯",
+"types": [
+"mechanical"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 541,
+"zh": "赫洛",
+"types": [
+"mechanical"
+],
+"bst": 305,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 542,
+"zh": "赫格拉斯",
+"types": [
+"mechanical"
+],
+"bst": 440,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 543,
+"zh": "赫拉尼洛",
+"types": [
+"mechanical"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 544,
+"zh": "水球",
+"types": [
+"water"
+],
+"bst": 306,
+"evolves_to": [
+545
+],
+"tags": []
+},
+{
+"id": 545,
+"zh": "佐拉",
+"types": [
+"water"
+],
+"bst": 426,
+"evolves_to": [
+546
+],
+"tags": []
+},
+{
+"id": 546,
+"zh": "佐斯德",
+"types": [
+"water"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 547,
+"zh": "紫炎虫",
+"types": [
+"fire"
+],
+"bst": 321,
+"evolves_to": [
+548
+],
+"tags": []
+},
+{
+"id": 548,
+"zh": "紫妮",
+"types": [
+"fire"
+],
+"bst": 421,
+"evolves_to": [
+549
+],
+"tags": []
+},
+{
+"id": 549,
+"zh": "妮洛娜",
+"types": [
+"fire"
+],
+"bst": 561,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 550,
+"zh": "托托",
+"types": [
+"fire"
+],
+"bst": 330,
+"evolves_to": [
+551
+],
+"tags": []
+},
+{
+"id": 551,
+"zh": "乌托",
+"types": [
+"fire"
+],
+"bst": 445,
+"evolves_to": [
+552
+],
+"tags": []
+},
+{
+"id": 552,
+"zh": "乌托卡",
+"types": [
+"fire"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 553,
+"zh": "丫丫",
+"types": [
+"ground"
+],
+"bst": 335,
+"evolves_to": [
+554
+],
+"tags": []
+},
+{
+"id": 554,
+"zh": "远古甲虫",
+"types": [
+"ground"
+],
+"bst": 560,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 555,
+"zh": "宾克",
+"types": [
+"ice"
+],
+"bst": 364,
+"evolves_to": [
+556
+],
+"tags": []
+},
+{
+"id": 556,
+"zh": "宾塞克",
+"types": [
+"ice"
+],
+"bst": 574,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 557,
+"zh": "波伦",
+"types": [
+"fighting"
+],
+"bst": 319,
+"evolves_to": [
+558
+],
+"tags": []
+},
+{
+"id": 558,
+"zh": "波尼儿",
+"types": [
+"fighting"
+],
+"bst": 434,
+"evolves_to": [
+559
+],
+"tags": []
+},
+{
+"id": 559,
+"zh": "波尼斯",
+"types": [
+"fighting"
+],
+"bst": 574,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 560,
+"zh": "沃特",
+"types": [
+"ground"
+],
+"bst": 363,
+"evolves_to": [
+561
+],
+"tags": []
+},
+{
+"id": 561,
+"zh": "史沃勒",
+"types": [
+"ground"
+],
+"bst": 568,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 562,
+"zh": "莱格",
+"types": [
+"ice"
+],
+"bst": 331,
+"evolves_to": [
+563
+],
+"tags": []
+},
+{
+"id": 563,
+"zh": "莱格卡萨",
+"types": [
+"ice"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 564,
+"zh": "桑妮",
+"types": [
+"light"
+],
+"bst": 335,
+"evolves_to": [
+565
+],
+"tags": []
+},
+{
+"id": 565,
+"zh": "桑洛希",
+"types": [
+"light"
+],
+"bst": 444,
+"evolves_to": [
+566
+],
+"tags": []
+},
+{
+"id": 566,
+"zh": "桑特诺娃",
+"types": [
+"light"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 567,
+"zh": "吉姆",
+"types": [
+"normal"
+],
+"bst": 360,
+"evolves_to": [
+568
+],
+"tags": []
+},
+{
+"id": 568,
+"zh": "诺姆",
+"types": [
+"normal"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 569,
+"zh": "苍苍",
+"types": [
+"water"
+],
+"bst": 342,
+"evolves_to": [
+570
+],
+"tags": []
+},
+{
+"id": 570,
+"zh": "克拉肯",
+"types": [
+"water"
+],
+"bst": 572,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 571,
+"zh": "埃洛种子",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+572
+],
+"tags": []
+},
+{
+"id": 572,
+"zh": "布莱特",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 460,
+"evolves_to": [
+573
+],
+"tags": []
+},
+{
+"id": 573,
+"zh": "布莱卡恩",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 574,
+"zh": "克里",
+"types": [
+"water"
+],
+"bst": 340,
+"evolves_to": [
+575
+],
+"tags": []
+},
+{
+"id": 575,
+"zh": "克罗达",
+"types": [
+"water"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 576,
+"zh": "德普",
+"types": [
+"dragon"
+],
+"bst": 323,
+"evolves_to": [
+577
+],
+"tags": []
+},
+{
+"id": 577,
+"zh": "贪食龙",
+"types": [
+"dragon"
+],
+"bst": 573,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 578,
+"zh": "萨酷",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 335,
+"evolves_to": [
+579
+],
+"tags": []
+},
+{
+"id": 579,
+"zh": "库洛卡",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 580,
+"zh": "特尼",
+"types": [
+"fighting"
+],
+"bst": 321,
+"evolves_to": [
+581
+],
+"tags": []
+},
+{
+"id": 581,
+"zh": "特洛德",
+"types": [
+"fighting"
+],
+"bst": 431,
+"evolves_to": [
+582
+],
+"tags": []
+},
+{
+"id": 582,
+"zh": "特洛尼特",
+"types": [
+"fighting"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 583,
+"zh": "哆哆",
+"types": [
+"flying"
+],
+"bst": 360,
+"evolves_to": [
+584
+],
+"tags": []
+},
+{
+"id": 584,
+"zh": "阿哆啦",
+"types": [
+"flying"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 585,
+"zh": "莎莎",
+"types": [
+"psychic"
+],
+"bst": 339,
+"evolves_to": [
+586
+],
+"tags": []
+},
+{
+"id": 586,
+"zh": "墨丽萨",
+"types": [
+"psychic"
+],
+"bst": 439,
+"evolves_to": [
+587
+],
+"tags": []
+},
+{
+"id": 587,
+"zh": "墨杜萨",
+"types": [
+"psychic"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 588,
+"zh": "瑞克",
+"types": [
+"ice"
+],
+"bst": 350,
+"evolves_to": [
+589
+],
+"tags": []
+},
+{
+"id": 589,
+"zh": "克瑞斯",
+"types": [
+"ice"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 590,
+"zh": "卡罗",
+"types": [
+"light",
+"flying"
+],
+"bst": 360,
+"evolves_to": [
+591
+],
+"tags": []
+},
+{
+"id": 591,
+"zh": "杰洛恩",
+"types": [
+"light",
+"flying"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 592,
+"zh": "佩恩",
+"types": [
+"ice",
+"light"
+],
+"bst": 360,
+"evolves_to": [
+593
+],
+"tags": []
+},
+{
+"id": 593,
+"zh": "佩克特",
+"types": [
+"ice",
+"light"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 594,
+"zh": "祖洛",
+"types": [
+"psychic"
+],
+"bst": 341,
+"evolves_to": [
+595
+],
+"tags": []
+},
+{
+"id": 595,
+"zh": "卡洛达斯",
+"types": [
+"psychic"
+],
+"bst": 571,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 596,
+"zh": "史克",
+"types": [
+"fighting"
+],
+"bst": 360,
+"evolves_to": [
+597
+],
+"tags": []
+},
+{
+"id": 597,
+"zh": "史密斯",
+"types": [
+"fighting"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 598,
+"zh": "米娅",
+"types": [
+"fire"
+],
+"bst": 350,
+"evolves_to": [
+599
+],
+"tags": []
+},
+{
+"id": 599,
+"zh": "吉米丽娅",
+"types": [
+"fire"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 600,
+"zh": "安洛达斯",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 350,
+"evolves_to": [
+601
+],
+"tags": []
+},
+{
+"id": 601,
+"zh": "火刃",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 602,
+"zh": "埃森",
+"types": [
+"electric",
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+603
+],
+"tags": []
+},
+{
+"id": 603,
+"zh": "埃尔夫",
+"types": [
+"electric",
+"ice"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 604,
+"zh": "莎莉",
+"types": [
+"normal"
+],
+"bst": 310,
+"evolves_to": [
+605
+],
+"tags": []
+},
+{
+"id": 605,
+"zh": "莉莉加",
+"types": [
+"normal"
+],
+"bst": 430,
+"evolves_to": [
+606
+],
+"tags": []
+},
+{
+"id": 606,
+"zh": "克斯莉",
+"types": [
+"normal"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 607,
+"zh": "尼洛",
+"types": [
+"ice"
+],
+"bst": 315,
+"evolves_to": [
+608
+],
+"tags": []
+},
+{
+"id": 608,
+"zh": "特洛",
+"types": [
+"ice"
+],
+"bst": 440,
+"evolves_to": [
+609
+],
+"tags": []
+},
+{
+"id": 609,
+"zh": "可泰勒",
+"types": [
+"ice"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 610,
+"zh": "帕尔",
+"types": [
+"mechanical",
+"psychic"
+],
+"bst": 340,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 611,
+"zh": "卡帕达",
+"types": [
+"mechanical",
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 612,
+"zh": "西索",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 310,
+"evolves_to": [
+613
+],
+"tags": []
+},
+{
+"id": 613,
+"zh": "索拉达",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 430,
+"evolves_to": [
+614
+],
+"tags": []
+},
+{
+"id": 614,
+"zh": "玛酷索",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 615,
+"zh": "佩奇",
+"types": [
+"water",
+"shadow"
+],
+"bst": 315,
+"evolves_to": [
+616
+],
+"tags": []
+},
+{
+"id": 616,
+"zh": "佩罗德",
+"types": [
+"water",
+"shadow"
+],
+"bst": 435,
+"evolves_to": [
+617
+],
+"tags": []
+},
+{
+"id": 617,
+"zh": "肯佩德",
+"types": [
+"water",
+"shadow"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 618,
+"zh": "嘟拉",
+"types": [
+"flying"
+],
+"bst": 347,
+"evolves_to": [
+619
+],
+"tags": []
+},
+{
+"id": 619,
+"zh": "嘟嘟卡拉",
+"types": [
+"flying"
+],
+"bst": 567,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 620,
+"zh": "沙鲁",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 330,
+"evolves_to": [
+621
+],
+"tags": []
+},
+{
+"id": 621,
+"zh": "加德拉",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 450,
+"evolves_to": [
+622
+],
+"tags": []
+},
+{
+"id": 622,
+"zh": "加鲁德",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 623,
+"zh": "沃拉普",
+"types": [
+"ground",
+"dragon"
+],
+"bst": 390,
+"evolves_to": [
+624
+],
+"tags": []
+},
+{
+"id": 624,
+"zh": "沃德斯特",
+"types": [
+"ground",
+"dragon"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 625,
+"zh": "卡龙",
+"types": [
+"flying",
+"dragon"
+],
+"bst": 375,
+"evolves_to": [
+626
+],
+"tags": []
+},
+{
+"id": 626,
+"zh": "卡拉巨龙",
+"types": [
+"flying",
+"dragon"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 627,
+"zh": "晶岩虫",
+"types": [
+"ground"
+],
+"bst": 375,
+"evolves_to": [
+628
+],
+"tags": []
+},
+{
+"id": 628,
+"zh": "远古塔拉",
+"types": [
+"ground"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 629,
+"zh": "依尔",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 330,
+"evolves_to": [
+630
+],
+"tags": []
+},
+{
+"id": 630,
+"zh": "丁尼丝",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 460,
+"evolves_to": [
+631
+],
+"tags": []
+},
+{
+"id": 631,
+"zh": "依卡劳特",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 632,
+"zh": "杰丹",
+"types": [
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+633
+],
+"tags": []
+},
+{
+"id": 633,
+"zh": "杰尔德",
+"types": [
+"shadow"
+],
+"bst": 460,
+"evolves_to": [
+634
+],
+"tags": []
+},
+{
+"id": 634,
+"zh": "德格拉克",
+"types": [
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 635,
+"zh": "符诺",
+"types": [
+"fire"
+],
+"bst": 370,
+"evolves_to": [
+636
+],
+"tags": []
+},
+{
+"id": 636,
+"zh": "符拉迪诺",
+"types": [
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 637,
+"zh": "符坦",
+"types": [
+"ice"
+],
+"bst": 375,
+"evolves_to": [
+638
+],
+"tags": []
+},
+{
+"id": 638,
+"zh": "符尔加登",
+"types": [
+"ice"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 639,
+"zh": "希格",
+"types": [
+"mystic"
+],
+"bst": 330,
+"evolves_to": [
+640
+],
+"tags": []
+},
+{
+"id": 640,
+"zh": "希鲁格",
+"types": [
+"mystic"
+],
+"bst": 460,
+"evolves_to": [
+641
+],
+"tags": []
+},
+{
+"id": 641,
+"zh": "希格瑞特",
+"types": [
+"mystic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 642,
+"zh": "吉贝鲁",
+"types": [
+"water",
+"psychic"
+],
+"bst": 363,
+"evolves_to": [
+643
+],
+"tags": []
+},
+{
+"id": 643,
+"zh": "吉鲁加尔",
+"types": [
+"water",
+"psychic"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 644,
+"zh": "杰酷",
+"types": [
+"electric",
+"fire"
+],
+"bst": 330,
+"evolves_to": [
+645
+],
+"tags": []
+},
+{
+"id": 645,
+"zh": "扎尔酷",
+"types": [
+"electric",
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 646,
+"zh": "佩希",
+"types": [
+"psychic"
+],
+"bst": 345,
+"evolves_to": [
+647
+],
+"tags": []
+},
+{
+"id": 647,
+"zh": "佩斯里",
+"types": [
+"psychic"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 648,
+"zh": "卡西达",
+"types": [
+"fighting"
+],
+"bst": 340,
+"evolves_to": [
+649
+],
+"tags": []
+},
+{
+"id": 649,
+"zh": "卡奥鲁",
+"types": [
+"fighting"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 650,
+"zh": "吉诺",
+"types": [
+"normal"
+],
+"bst": 320,
+"evolves_to": [
+651
+],
+"tags": []
+},
+{
+"id": 651,
+"zh": "诺奇",
+"types": [
+"normal"
+],
+"bst": 510,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 652,
+"zh": "诺拉德",
+"types": [
+"normal"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 653,
+"zh": "卡兔宝",
+"types": [
+"ground"
+],
+"bst": 320,
+"evolves_to": [
+654
+],
+"tags": []
+},
+{
+"id": 654,
+"zh": "卡拉尼",
+"types": [
+"ground"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 655,
+"zh": "帕多",
+"types": [
+"normal"
+],
+"bst": 338,
+"evolves_to": [
+656
+],
+"tags": []
+},
+{
+"id": 656,
+"zh": "帕多尼",
+"types": [
+"normal"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 657,
+"zh": "加加洛",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 318,
+"evolves_to": [
+658
+],
+"tags": []
+},
+{
+"id": 658,
+"zh": "加洛丹",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 448,
+"evolves_to": [
+659
+],
+"tags": []
+},
+{
+"id": 659,
+"zh": "加洛德",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 660,
+"zh": "萨多",
+"types": [
+"dragon"
+],
+"bst": 350,
+"evolves_to": [
+661
+],
+"tags": []
+},
+{
+"id": 661,
+"zh": "萨多拉尼",
+"types": [
+"dragon"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 662,
+"zh": "塞西",
+"types": [
+"ground"
+],
+"bst": 315,
+"evolves_to": [
+663
+],
+"tags": []
+},
+{
+"id": 663,
+"zh": "塞迪",
+"types": [
+"ground"
+],
+"bst": 445,
+"evolves_to": [
+664
+],
+"tags": []
+},
+{
+"id": 664,
+"zh": "塞迪拉",
+"types": [
+"ground"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 665,
+"zh": "古丽",
+"types": [
+"light"
+],
+"bst": 338,
+"evolves_to": [
+666
+],
+"tags": []
+},
+{
+"id": 666,
+"zh": "古琪",
+"types": [
+"light"
+],
+"bst": 578,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 667,
+"zh": "普顿",
+"types": [
+"shadow"
+],
+"bst": 373,
+"evolves_to": [
+668
+],
+"tags": []
+},
+{
+"id": 668,
+"zh": "普拉顿",
+"types": [
+"shadow"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 669,
+"zh": "哈德",
+"types": [
+"mechanical"
+],
+"bst": 354,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 670,
+"zh": "哈德克",
+"types": [
+"mechanical"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 671,
+"zh": "冰妖",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 350,
+"evolves_to": [
+672
+],
+"tags": []
+},
+{
+"id": 672,
+"zh": "亚伦斯",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 673,
+"zh": "伊迦",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 355,
+"evolves_to": [
+674
+],
+"tags": []
+},
+{
+"id": 674,
+"zh": "洛迦",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 675,
+"zh": "迦勒",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 350,
+"evolves_to": [
+676
+],
+"tags": []
+},
+{
+"id": 676,
+"zh": "迦贺",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 677,
+"zh": "草莓多多",
+"types": [
+"fire"
+],
+"bst": 340,
+"evolves_to": [
+678
+],
+"tags": []
+},
+{
+"id": 678,
+"zh": "果然草莓",
+"types": [
+"fire"
+],
+"bst": 420,
+"evolves_to": [
+679
+],
+"tags": []
+},
+{
+"id": 679,
+"zh": "果然草莓多",
+"types": [
+"fire"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 680,
+"zh": "蜜桃多多",
+"types": [
+"flying"
+],
+"bst": 325,
+"evolves_to": [
+681
+],
+"tags": []
+},
+{
+"id": 681,
+"zh": "果然蜜桃多",
+"types": [
+"flying"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 682,
+"zh": "苹果多多",
+"types": [
+"grass"
+],
+"bst": 331,
+"evolves_to": [
+683
+],
+"tags": []
+},
+{
+"id": 683,
+"zh": "果然苹果多",
+"types": [
+"grass"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 684,
+"zh": "葡萄多多",
+"types": [
+"water"
+],
+"bst": 349,
+"evolves_to": [
+685
+],
+"tags": []
+},
+{
+"id": 685,
+"zh": "果然葡萄多",
+"types": [
+"water"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 686,
+"zh": "蜜瓜多多",
+"types": [
+"electric"
+],
+"bst": 340,
+"evolves_to": [
+687
+],
+"tags": []
+},
+{
+"id": 687,
+"zh": "果然蜜瓜多",
+"types": [
+"electric"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 688,
+"zh": "符娅",
+"types": [
+"grass"
+],
+"bst": 340,
+"evolves_to": [
+689
+],
+"tags": []
+},
+{
+"id": 689,
+"zh": "符萨塔斯",
+"types": [
+"grass"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 690,
+"zh": "泰达",
+"types": [
+"normal"
+],
+"bst": 303,
+"evolves_to": [
+691
+],
+"tags": []
+},
+{
+"id": 691,
+"zh": "泰勒斯",
+"types": [
+"normal"
+],
+"bst": 574,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 692,
+"zh": "扶来",
+"types": [
+"flying"
+],
+"bst": 330,
+"evolves_to": [
+693
+],
+"tags": []
+},
+{
+"id": 693,
+"zh": "哈特曼",
+"types": [
+"flying"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 694,
+"zh": "狄亚",
+"types": [
+"psychic"
+],
+"bst": 336,
+"evolves_to": [
+695
+],
+"tags": []
+},
+{
+"id": 695,
+"zh": "狄修斯",
+"types": [
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 696,
+"zh": "艾伦",
+"types": [
+"psychic"
+],
+"bst": 310,
+"evolves_to": [
+697
+],
+"tags": []
+},
+{
+"id": 697,
+"zh": "洛伦",
+"types": [
+"psychic"
+],
+"bst": 440,
+"evolves_to": [
+698
+],
+"tags": []
+},
+{
+"id": 698,
+"zh": "艾洛达",
+"types": [
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 699,
+"zh": "瑞特",
+"types": [
+"ground"
+],
+"bst": 355,
+"evolves_to": [
+700
+],
+"tags": []
+},
+{
+"id": 700,
+"zh": "瑞特拉",
+"types": [
+"ground"
+],
+"bst": 568,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 701,
+"zh": "西蒙",
+"types": [
+"fire"
+],
+"bst": 360,
+"evolves_to": [
+702
+],
+"tags": []
+},
+{
+"id": 702,
+"zh": "蒙特纳",
+"types": [
+"fire"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 703,
+"zh": "小可",
+"types": [
+"water"
+],
+"bst": 320,
+"evolves_to": [
+704
+],
+"tags": []
+},
+{
+"id": 704,
+"zh": "考拉",
+"types": [
+"water"
+],
+"bst": 440,
+"evolves_to": [
+705
+],
+"tags": []
+},
+{
+"id": 705,
+"zh": "考拉库",
+"types": [
+"water"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 706,
+"zh": "拉利",
+"types": [
+"ground"
+],
+"bst": 375,
+"evolves_to": [
+707
+],
+"tags": []
+},
+{
+"id": 707,
+"zh": "巧克利",
+"types": [
+"ground"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 708,
+"zh": "桑德",
+"types": [
+"electric"
+],
+"bst": 366,
+"evolves_to": [
+709
+],
+"tags": []
+},
+{
+"id": 709,
+"zh": "雷洛",
+"types": [
+"electric"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 710,
+"zh": "卡普",
+"types": [
+"psychic"
+],
+"bst": 320,
+"evolves_to": [
+711
+],
+"tags": []
+},
+{
+"id": 711,
+"zh": "卡纳德",
+"types": [
+"psychic"
+],
+"bst": 435,
+"evolves_to": [
+712
+],
+"tags": []
+},
+{
+"id": 712,
+"zh": "普利德",
+"types": [
+"psychic"
+],
+"bst": 575,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 713,
+"zh": "拉比",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 330,
+"evolves_to": [
+714
+],
+"tags": []
+},
+{
+"id": 714,
+"zh": "拉萨克",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 440,
+"evolves_to": [
+715
+],
+"tags": []
+},
+{
+"id": 715,
+"zh": "德拉萨",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 716,
+"zh": "康康",
+"types": [
+"ice"
+],
+"bst": 340,
+"evolves_to": [
+717
+],
+"tags": []
+},
+{
+"id": 717,
+"zh": "康克特",
+"types": [
+"ice"
+],
+"bst": 570,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 718,
+"zh": "符克",
+"types": [
+"normal"
+],
+"bst": 335,
+"evolves_to": [
+719
+],
+"tags": []
+},
+{
+"id": 719,
+"zh": "符达拉克",
+"types": [
+"normal"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 720,
+"zh": "皮卡",
+"types": [
+"psychic"
+],
+"bst": 312,
+"evolves_to": [
+721
+],
+"tags": []
+},
+{
+"id": 721,
+"zh": "皮卡达",
+"types": [
+"psychic"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 722,
+"zh": "库达",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 325,
+"evolves_to": [
+723
+],
+"tags": []
+},
+{
+"id": 723,
+"zh": "库鲁",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 724,
+"zh": "斯贝拉",
+"types": [
+"mechanical"
+],
+"bst": 340,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 725,
+"zh": "洛斯贝拉",
+"types": [
+"mechanical"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 726,
+"zh": "力亚",
+"types": [
+"shadow"
+],
+"bst": 317,
+"evolves_to": [
+727
+],
+"tags": []
+},
+{
+"id": 727,
+"zh": "马鲁",
+"types": [
+"shadow"
+],
+"bst": 442,
+"evolves_to": [
+728
+],
+"tags": []
+},
+{
+"id": 728,
+"zh": "马力",
+"types": [
+"shadow"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 729,
+"zh": "鱼龙王",
+"types": [
+"water"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 730,
+"zh": "斯比亚",
+"types": [
+"water",
+"shadow"
+],
+"bst": 339,
+"evolves_to": [
+731
+],
+"tags": []
+},
+{
+"id": 731,
+"zh": "斯特洛亚",
+"types": [
+"water",
+"shadow"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 732,
+"zh": "蒙多",
+"types": [
+"light"
+],
+"bst": 340,
+"evolves_to": [
+733
+],
+"tags": []
+},
+{
+"id": 733,
+"zh": "艾里蒙特",
+"types": [
+"light"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 734,
+"zh": "电雪球",
+"types": [
+"electric",
+"ice"
+],
+"bst": 340,
+"evolves_to": [
+735
+],
+"tags": []
+},
+{
+"id": 735,
+"zh": "泰坦达",
+"types": [
+"electric",
+"ice"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 736,
+"zh": "拉鲁",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 338,
+"evolves_to": [
+737
+],
+"tags": []
+},
+{
+"id": 737,
+"zh": "拉斐尔",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 738,
+"zh": "哈喽",
+"types": [
+"grass"
+],
+"bst": 333,
+"evolves_to": [
+739
+],
+"tags": []
+},
+{
+"id": 739,
+"zh": "哈德萨",
+"types": [
+"grass"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 740,
+"zh": "吉吉",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 346,
+"evolves_to": [
+741
+],
+"tags": []
+},
+{
+"id": 741,
+"zh": "吉尼萨",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 742,
+"zh": "莱克",
+"types": [
+"flying"
+],
+"bst": 329,
+"evolves_to": [
+743
+],
+"tags": []
+},
+{
+"id": 743,
+"zh": "丽萨克",
+"types": [
+"flying"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 744,
+"zh": "雷奥",
+"types": [
+"water",
+"psychic"
+],
+"bst": 329,
+"evolves_to": [
+745
+],
+"tags": []
+},
+{
+"id": 745,
+"zh": "雷奥纳",
+"types": [
+"water",
+"psychic"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 746,
+"zh": "基鲁",
+"types": [
+"normal"
+],
+"bst": 303,
+"evolves_to": [
+747
+],
+"tags": []
+},
+{
+"id": 747,
+"zh": "基格",
+"types": [
+"normal"
+],
+"bst": 433,
+"evolves_to": [
+748
+],
+"tags": []
+},
+{
+"id": 748,
+"zh": "塔格沃",
+"types": [
+"normal"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 749,
+"zh": "塔米拉",
+"types": [
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+750
+],
+"tags": []
+},
+{
+"id": 750,
+"zh": "塔米多德",
+"types": [
+"shadow"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 751,
+"zh": "珠儿鸟",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 306,
+"evolves_to": [
+752
+],
+"tags": []
+},
+{
+"id": 752,
+"zh": "克拉",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 436,
+"evolves_to": [
+753
+],
+"tags": []
+},
+{
+"id": 753,
+"zh": "克多尔",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 754,
+"zh": "斯林德",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 320,
+"evolves_to": [
+755
+],
+"tags": []
+},
+{
+"id": 755,
+"zh": "斯普林特",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 756,
+"zh": "邪特",
+"types": [
+"normal"
+],
+"bst": 352,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 757,
+"zh": "西鲁",
+"types": [
+"grass"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 758,
+"zh": "邪洛",
+"types": [
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 759,
+"zh": "斯拉特",
+"types": [
+"water"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 760,
+"zh": "炎魔",
+"types": [
+"fire"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 761,
+"zh": "库比",
+"types": [
+"water"
+],
+"bst": 330,
+"evolves_to": [
+762
+],
+"tags": []
+},
+{
+"id": 762,
+"zh": "库拉特",
+"types": [
+"water"
+],
+"bst": 445,
+"evolves_to": [
+763
+],
+"tags": []
+},
+{
+"id": 763,
+"zh": "库吉拉尔",
+"types": [
+"water"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 764,
+"zh": "依乐",
+"types": [
+"ground"
+],
+"bst": 340,
+"evolves_to": [
+765
+],
+"tags": []
+},
+{
+"id": 765,
+"zh": "依洛克",
+"types": [
+"ground"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 766,
+"zh": "多特",
+"types": [
+"grass"
+],
+"bst": 329,
+"evolves_to": [
+767
+],
+"tags": []
+},
+{
+"id": 767,
+"zh": "多雷",
+"types": [
+"grass"
+],
+"bst": 445,
+"evolves_to": [
+768
+],
+"tags": []
+},
+{
+"id": 768,
+"zh": "多格雅",
+"types": [
+"grass"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 769,
+"zh": "本竺",
+"types": [
+"psychic"
+],
+"bst": 315,
+"evolves_to": [
+770
+],
+"tags": []
+},
+{
+"id": 770,
+"zh": "本伊美",
+"types": [
+"psychic"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 771,
+"zh": "纳西",
+"types": [
+"fighting"
+],
+"bst": 338,
+"evolves_to": [
+772
+],
+"tags": []
+},
+{
+"id": 772,
+"zh": "纳迪科",
+"types": [
+"fighting"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 773,
+"zh": "亚丁",
+"types": [
+"fire"
+],
+"bst": 341,
+"evolves_to": [
+774
+],
+"tags": []
+},
+{
+"id": 774,
+"zh": "亚兰洛",
+"types": [
+"fire"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 775,
+"zh": "粉粉",
+"types": [
+"ground"
+],
+"bst": 360,
+"evolves_to": [
+776
+],
+"tags": []
+},
+{
+"id": 776,
+"zh": "灵灵",
+"types": [
+"ground"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 777,
+"zh": "迪卡",
+"types": [
+"psychic"
+],
+"bst": 321,
+"evolves_to": [
+778
+],
+"tags": []
+},
+{
+"id": 778,
+"zh": "迪纳德",
+"types": [
+"psychic"
+],
+"bst": 441,
+"evolves_to": [
+779
+],
+"tags": []
+},
+{
+"id": 779,
+"zh": "迪普利德",
+"types": [
+"psychic"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 780,
+"zh": "索斯特",
+"types": [
+"ice"
+],
+"bst": 327,
+"evolves_to": [
+781
+],
+"tags": []
+},
+{
+"id": 781,
+"zh": "赫拉克",
+"types": [
+"ice"
+],
+"bst": 447,
+"evolves_to": [
+782
+],
+"tags": []
+},
+{
+"id": 782,
+"zh": "阿克诺亚",
+"types": [
+"ice"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 783,
+"zh": "洛拉",
+"types": [
+"flying"
+],
+"bst": 349,
+"evolves_to": [
+784
+],
+"tags": []
+},
+{
+"id": 784,
+"zh": "拜洛亚斯",
+"types": [
+"flying"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 785,
+"zh": "汐汐",
+"types": [
+"water"
+],
+"bst": 332,
+"evolves_to": [
+786
+],
+"tags": []
+},
+{
+"id": 786,
+"zh": "卡西露",
+"types": [
+"water"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 787,
+"zh": "查奥德",
+"types": [
+"dragon"
+],
+"bst": 342,
+"evolves_to": [
+788
+],
+"tags": []
+},
+{
+"id": 788,
+"zh": "查德伦斯",
+"types": [
+"dragon"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 789,
+"zh": "西瓦",
+"types": [
+"ground"
+],
+"bst": 336,
+"evolves_to": [
+790
+],
+"tags": []
+},
+{
+"id": 790,
+"zh": "西瓦克",
+"types": [
+"ground"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 791,
+"zh": "杜尔",
+"types": [
+"electric"
+],
+"bst": 337,
+"evolves_to": [
+792
+],
+"tags": []
+},
+{
+"id": 792,
+"zh": "杜波",
+"types": [
+"electric"
+],
+"bst": 457,
+"evolves_to": [
+793
+],
+"tags": []
+},
+{
+"id": 793,
+"zh": "杜尼鲁",
+"types": [
+"electric"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 794,
+"zh": "萨摩",
+"types": [
+"shadow"
+],
+"bst": 339,
+"evolves_to": [
+795
+],
+"tags": []
+},
+{
+"id": 795,
+"zh": "萨弗拉",
+"types": [
+"shadow"
+],
+"bst": 599,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 796,
+"zh": "卡茨",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 332,
+"evolves_to": [
+797
+],
+"tags": []
+},
+{
+"id": 797,
+"zh": "卡修",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 422,
+"evolves_to": [
+798
+],
+"tags": []
+},
+{
+"id": 798,
+"zh": "卡修斯",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 799,
+"zh": "潇潇",
+"types": [
+"grass"
+],
+"bst": 339,
+"evolves_to": [
+800
+],
+"tags": []
+},
+{
+"id": 800,
+"zh": "达普林",
+"types": [
+"grass"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 801,
+"zh": "马修",
+"types": [
+"psychic"
+],
+"bst": 330,
+"evolves_to": [
+802
+],
+"tags": []
+},
+{
+"id": 802,
+"zh": "马切洛",
+"types": [
+"psychic"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 803,
+"zh": "迪符",
+"types": [
+"normal"
+],
+"bst": 345,
+"evolves_to": [
+804
+],
+"tags": []
+},
+{
+"id": 804,
+"zh": "迪符特",
+"types": [
+"normal"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 805,
+"zh": "吉嘟",
+"types": [
+"flying"
+],
+"bst": 340,
+"evolves_to": [
+806
+],
+"tags": []
+},
+{
+"id": 806,
+"zh": "大耳吉嘟",
+"types": [
+"flying"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 807,
+"zh": "艾派",
+"types": [
+"mechanical"
+],
+"bst": 335,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 808,
+"zh": "艾蒂森",
+"types": [
+"mechanical"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 809,
+"zh": "灵驹",
+"types": [
+"grass"
+],
+"bst": 370,
+"evolves_to": [
+810
+],
+"tags": []
+},
+{
+"id": 810,
+"zh": "灵光兽",
+"types": [
+"grass"
+],
+"bst": 470,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 811,
+"zh": "始祖灵兽",
+"types": [
+"grass"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 812,
+"zh": "汤尼熊",
+"types": [
+"fighting"
+],
+"bst": 334,
+"evolves_to": [
+813
+],
+"tags": []
+},
+{
+"id": 813,
+"zh": "狂暴战熊",
+"types": [
+"fighting"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 814,
+"zh": "琳达",
+"types": [
+"water"
+],
+"bst": 345,
+"evolves_to": [
+815
+],
+"tags": []
+},
+{
+"id": 815,
+"zh": "达瑞丽",
+"types": [
+"water"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 816,
+"zh": "奇德",
+"types": [
+"electric",
+"fire"
+],
+"bst": 340,
+"evolves_to": [
+817
+],
+"tags": []
+},
+{
+"id": 817,
+"zh": "奇吉克尔",
+"types": [
+"electric",
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 818,
+"zh": "安吉",
+"types": [
+"flying"
+],
+"bst": 331,
+"evolves_to": [
+819
+],
+"tags": []
+},
+{
+"id": 819,
+"zh": "安吉拉",
+"types": [
+"flying"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 820,
+"zh": "福克斯",
+"types": [
+"fire"
+],
+"bst": 336,
+"evolves_to": [
+821
+],
+"tags": []
+},
+{
+"id": 821,
+"zh": "烈焰火狐",
+"types": [
+"fire"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 822,
+"zh": "小蜘蛛",
+"types": [
+"ground"
+],
+"bst": 320,
+"evolves_to": [
+823
+],
+"tags": []
+},
+{
+"id": 823,
+"zh": "尖角蜘蛛",
+"types": [
+"ground"
+],
+"bst": 420,
+"evolves_to": [
+824
+],
+"tags": []
+},
+{
+"id": 824,
+"zh": "地穴蜘蛛",
+"types": [
+"ground"
+],
+"bst": 580,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 825,
+"zh": "加狄",
+"types": [
+"dragon"
+],
+"bst": 341,
+"evolves_to": [
+826
+],
+"tags": []
+},
+{
+"id": 826,
+"zh": "加布",
+"types": [
+"dragon"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 827,
+"zh": "尖嘴鸟",
+"types": [
+"flying"
+],
+"bst": 320,
+"evolves_to": [
+828
+],
+"tags": []
+},
+{
+"id": 828,
+"zh": "狂野黑鸟",
+"types": [
+"flying"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 829,
+"zh": "罗查",
+"types": [
+"psychic"
+],
+"bst": 334,
+"evolves_to": [
+830
+],
+"tags": []
+},
+{
+"id": 830,
+"zh": "深渊巨兽",
+"types": [
+"psychic"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 831,
+"zh": "隐形蝶",
+"types": [
+"shadow"
+],
+"bst": 348,
+"evolves_to": [
+832
+],
+"tags": []
+},
+{
+"id": 832,
+"zh": "斯特尔",
+"types": [
+"shadow"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 833,
+"zh": "斯奥",
+"types": [
+"light"
+],
+"bst": 336,
+"evolves_to": [
+834
+],
+"tags": []
+},
+{
+"id": 834,
+"zh": "路西法",
+"types": [
+"light"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 840,
+"zh": "牛牛",
+"types": [
+"grass"
+],
+"bst": 321,
+"evolves_to": [
+841
+],
+"tags": []
+},
+{
+"id": 841,
+"zh": "斑点牛",
+"types": [
+"grass"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 842,
+"zh": "托特",
+"types": [
+"fighting"
+],
+"bst": 302,
+"evolves_to": [
+843
+],
+"tags": []
+},
+{
+"id": 843,
+"zh": "托瑞斯",
+"types": [
+"fighting"
+],
+"bst": 442,
+"evolves_to": [
+844
+],
+"tags": []
+},
+{
+"id": 844,
+"zh": "伏地兽",
+"types": [
+"fighting"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 845,
+"zh": "阿尤",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+846
+],
+"tags": []
+},
+{
+"id": 846,
+"zh": "吉克尤斯",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 847,
+"zh": "蓝壳蟹",
+"types": [
+"water"
+],
+"bst": 344,
+"evolves_to": [
+848
+],
+"tags": []
+},
+{
+"id": 848,
+"zh": "巨钳蟹",
+"types": [
+"water"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 849,
+"zh": "雪灵",
+"types": [
+"ice"
+],
+"bst": 351,
+"evolves_to": [
+850
+],
+"tags": []
+},
+{
+"id": 850,
+"zh": "冰雪灵",
+"types": [
+"ice"
+],
+"bst": 451,
+"evolves_to": [
+851
+],
+"tags": []
+},
+{
+"id": 851,
+"zh": "冰封雪灵",
+"types": [
+"ice"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 852,
+"zh": "妙妙",
+"types": [
+"psychic"
+],
+"bst": 323,
+"evolves_to": [
+853
+],
+"tags": []
+},
+{
+"id": 853,
+"zh": "蒙米克",
+"types": [
+"psychic"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 854,
+"zh": "克迪",
+"types": [
+"fire"
+],
+"bst": 332,
+"evolves_to": [
+855
+],
+"tags": []
+},
+{
+"id": 855,
+"zh": "克莱芬",
+"types": [
+"fire"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 856,
+"zh": "潘达",
+"types": [
+"ground"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 857,
+"zh": "布尔德",
+"types": [
+"light"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 858,
+"zh": "佐洛",
+"types": [
+"water"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 859,
+"zh": "毛球",
+"types": [
+"grass"
+],
+"bst": 321,
+"evolves_to": [
+860
+],
+"tags": []
+},
+{
+"id": 860,
+"zh": "古力可可",
+"types": [
+"grass"
+],
+"bst": 581,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 861,
+"zh": "小火雀",
+"types": [
+"fire"
+],
+"bst": 347,
+"evolves_to": [
+862
+],
+"tags": []
+},
+{
+"id": 862,
+"zh": "火尾雀",
+"types": [
+"fire"
+],
+"bst": 467,
+"evolves_to": [
+863
+],
+"tags": []
+},
+{
+"id": 863,
+"zh": "烈火雀",
+"types": [
+"fire"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 864,
+"zh": "托达",
+"types": [
+"flying"
+],
+"bst": 347,
+"evolves_to": [
+865
+],
+"tags": []
+},
+{
+"id": 865,
+"zh": "托鲁克",
+"types": [
+"flying"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 866,
+"zh": "蓝蓝",
+"types": [
+"water"
+],
+"bst": 348,
+"evolves_to": [
+867
+],
+"tags": []
+},
+{
+"id": 867,
+"zh": "阿蓝多",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 868,
+"zh": "大力",
+"types": [
+"fighting"
+],
+"bst": 327,
+"evolves_to": [
+869
+],
+"tags": []
+},
+{
+"id": 869,
+"zh": "大力王",
+"types": [
+"fighting"
+],
+"bst": 577,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 870,
+"zh": "蜗蜗",
+"types": [
+"normal"
+],
+"bst": 332,
+"evolves_to": [
+871
+],
+"tags": []
+},
+{
+"id": 871,
+"zh": "杰里",
+"types": [
+"normal"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 872,
+"zh": "小海牙",
+"types": [
+"water"
+],
+"bst": 347,
+"evolves_to": [
+873
+],
+"tags": []
+},
+{
+"id": 873,
+"zh": "海牙",
+"types": [
+"water"
+],
+"bst": 467,
+"evolves_to": [
+874
+],
+"tags": []
+},
+{
+"id": 874,
+"zh": "海魂",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 875,
+"zh": "布莱克",
+"types": [
+"shadow"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 876,
+"zh": "花仙",
+"types": [
+"grass"
+],
+"bst": 326,
+"evolves_to": [
+877
+],
+"tags": []
+},
+{
+"id": 877,
+"zh": "比巴卜花仙",
+"types": [
+"grass"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 878,
+"zh": "杰尼",
+"types": [
+"normal"
+],
+"bst": 340,
+"evolves_to": [
+879
+],
+"tags": []
+},
+{
+"id": 879,
+"zh": "杰鲁尼",
+"types": [
+"normal"
+],
+"bst": 460,
+"evolves_to": [
+880
+],
+"tags": []
+},
+{
+"id": 880,
+"zh": "伊杰罗尼",
+"types": [
+"normal"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 881,
+"zh": "炽焰之刃",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 882,
+"zh": "酷滑",
+"types": [
+"flying"
+],
+"bst": 319,
+"evolves_to": [
+883
+],
+"tags": []
+},
+{
+"id": 883,
+"zh": "比巴卜酷滑",
+"types": [
+"flying"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 884,
+"zh": "达迪拉",
+"types": [
+"ground"
+],
+"bst": 340,
+"evolves_to": [
+885
+],
+"tags": []
+},
+{
+"id": 885,
+"zh": "达迪克",
+"types": [
+"ground"
+],
+"bst": 460,
+"evolves_to": [
+886
+],
+"tags": []
+},
+{
+"id": 886,
+"zh": "卡迪达克",
+"types": [
+"ground"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 887,
+"zh": "彼得",
+"types": [
+"mechanical"
+],
+"bst": 329,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 888,
+"zh": "彼得华",
+"types": [
+"mechanical"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 889,
+"zh": "沃尔斯",
+"types": [
+"fire"
+],
+"bst": 341,
+"evolves_to": [
+890
+],
+"tags": []
+},
+{
+"id": 890,
+"zh": "泰沃斯",
+"types": [
+"fire"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 891,
+"zh": "克米尔",
+"types": [
+"psychic"
+],
+"bst": 334,
+"evolves_to": [
+892
+],
+"tags": []
+},
+{
+"id": 892,
+"zh": "克米特",
+"types": [
+"psychic"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 893,
+"zh": "艾特",
+"types": [
+"ice"
+],
+"bst": 345,
+"evolves_to": [
+894
+],
+"tags": []
+},
+{
+"id": 894,
+"zh": "艾斯特",
+"types": [
+"ice"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 895,
+"zh": "奇变",
+"types": [
+"psychic"
+],
+"bst": 333,
+"evolves_to": [
+896
+],
+"tags": []
+},
+{
+"id": 896,
+"zh": "比巴卜奇变",
+"types": [
+"psychic"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 897,
+"zh": "赛特",
+"types": [
+"mechanical"
+],
+"bst": 360,
+"evolves_to": [
+898
+],
+"tags": []
+},
+{
+"id": 898,
+"zh": "赛伯斯特",
+"types": [
+"mechanical"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 899,
+"zh": "神枪",
+"types": [
+"water"
+],
+"bst": 334,
+"evolves_to": [
+900
+],
+"tags": []
+},
+{
+"id": 900,
+"zh": "比巴卜神枪",
+"types": [
+"water"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 901,
+"zh": "亚尼",
+"types": [
+"normal"
+],
+"bst": 348,
+"evolves_to": [
+902
+],
+"tags": []
+},
+{
+"id": 902,
+"zh": "亚洛尼",
+"types": [
+"normal"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 903,
+"zh": "阿尔尼",
+"types": [
+"light",
+"flying"
+],
+"bst": 344,
+"evolves_to": [
+904
+],
+"tags": []
+},
+{
+"id": 904,
+"zh": "阿尔莫尼",
+"types": [
+"light",
+"flying"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 905,
+"zh": "贝特",
+"types": [
+"water"
+],
+"bst": 352,
+"evolves_to": [
+906
+],
+"tags": []
+},
+{
+"id": 906,
+"zh": "巴布",
+"types": [
+"water"
+],
+"bst": 472,
+"evolves_to": [
+907
+],
+"tags": []
+},
+{
+"id": 907,
+"zh": "巴贝特",
+"types": [
+"water"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 908,
+"zh": "桑莫",
+"types": [
+"electric"
+],
+"bst": 350,
+"evolves_to": [
+909
+],
+"tags": []
+},
+{
+"id": 909,
+"zh": "克莱莫",
+"types": [
+"electric"
+],
+"bst": 470,
+"evolves_to": [
+910
+],
+"tags": []
+},
+{
+"id": 910,
+"zh": "桑特莫斯",
+"types": [
+"electric"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 911,
+"zh": "哈克",
+"types": [
+"flying"
+],
+"bst": 350,
+"evolves_to": [
+912
+],
+"tags": []
+},
+{
+"id": 912,
+"zh": "哈尔克",
+"types": [
+"flying"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 913,
+"zh": "诺诺",
+"types": [
+"psychic"
+],
+"bst": 338,
+"evolves_to": [
+914
+],
+"tags": []
+},
+{
+"id": 914,
+"zh": "玛琳",
+"types": [
+"psychic"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 915,
+"zh": "韦诺",
+"types": [
+"shadow"
+],
+"bst": 338,
+"evolves_to": [
+916
+],
+"tags": []
+},
+{
+"id": 916,
+"zh": "瓦诺恩",
+"types": [
+"shadow"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 917,
+"zh": "布克",
+"types": [
+"dragon"
+],
+"bst": 355,
+"evolves_to": [
+918
+],
+"tags": []
+},
+{
+"id": 918,
+"zh": "布鲁恩特",
+"types": [
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 919,
+"zh": "米尔",
+"types": [
+"grass"
+],
+"bst": 360,
+"evolves_to": [
+920
+],
+"tags": []
+},
+{
+"id": 920,
+"zh": "米尔斯",
+"types": [
+"grass"
+],
+"bst": 480,
+"evolves_to": [
+921
+],
+"tags": []
+},
+{
+"id": 921,
+"zh": "米弗瑞特",
+"types": [
+"grass"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 922,
+"zh": "艾比",
+"types": [
+"fire"
+],
+"bst": 360,
+"evolves_to": [
+923
+],
+"tags": []
+},
+{
+"id": 923,
+"zh": "艾尼塔",
+"types": [
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 924,
+"zh": "古迪",
+"types": [
+"ground"
+],
+"bst": 331,
+"evolves_to": [
+925
+],
+"tags": []
+},
+{
+"id": 925,
+"zh": "古尔扎迪",
+"types": [
+"ground"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 926,
+"zh": "迪凯",
+"types": [
+"fire"
+],
+"bst": 340,
+"evolves_to": [
+927
+],
+"tags": []
+},
+{
+"id": 927,
+"zh": "迪诺恩",
+"types": [
+"fire"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 928,
+"zh": "瑞诺",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 365,
+"evolves_to": [
+929
+],
+"tags": []
+},
+{
+"id": 929,
+"zh": "萨瑞卡",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 930,
+"zh": "洛西",
+"types": [
+"psychic"
+],
+"bst": 330,
+"evolves_to": [
+931
+],
+"tags": []
+},
+{
+"id": 931,
+"zh": "洛尼尔",
+"types": [
+"psychic"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 932,
+"zh": "马尔洛",
+"types": [
+"psychic"
+],
+"bst": 340,
+"evolves_to": [
+933
+],
+"tags": []
+},
+{
+"id": 933,
+"zh": "马尔尼洛",
+"types": [
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 934,
+"zh": "莱特",
+"types": [
+"light"
+],
+"bst": 328,
+"evolves_to": [
+935
+],
+"tags": []
+},
+{
+"id": 935,
+"zh": "莱克瑞",
+"types": [
+"light"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 936,
+"zh": "罗亚",
+"types": [
+"ice"
+],
+"bst": 308,
+"evolves_to": [
+937
+],
+"tags": []
+},
+{
+"id": 937,
+"zh": "西罗尔",
+"types": [
+"ice"
+],
+"bst": 408,
+"evolves_to": [
+938
+],
+"tags": []
+},
+{
+"id": 938,
+"zh": "特罗拉尼",
+"types": [
+"ice"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 939,
+"zh": "弗迪",
+"types": [
+"flying"
+],
+"bst": 344,
+"evolves_to": [
+940
+],
+"tags": []
+},
+{
+"id": 940,
+"zh": "弗莱塔",
+"types": [
+"flying"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 941,
+"zh": "维克",
+"types": [
+"grass"
+],
+"bst": 335,
+"evolves_to": [
+942
+],
+"tags": []
+},
+{
+"id": 942,
+"zh": "维拉尔",
+"types": [
+"grass"
+],
+"bst": 465,
+"evolves_to": [
+943
+],
+"tags": []
+},
+{
+"id": 943,
+"zh": "维尔克",
+"types": [
+"grass"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 944,
+"zh": "斯肯",
+"types": [
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+945
+],
+"tags": []
+},
+{
+"id": 945,
+"zh": "斯宾塞",
+"types": [
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 946,
+"zh": "果然多多",
+"types": [
+"grass"
+],
+"bst": 343,
+"evolves_to": [
+947
+],
+"tags": []
+},
+{
+"id": 947,
+"zh": "超级果然多",
+"types": [
+"grass"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 948,
+"zh": "闪光伊娃",
+"types": [
+"psychic"
+],
+"bst": 323,
+"evolves_to": [
+949
+],
+"tags": []
+},
+{
+"id": 949,
+"zh": "闪光伊妮娅",
+"types": [
+"psychic"
+],
+"bst": 448,
+"evolves_to": [
+950
+],
+"tags": []
+},
+{
+"id": 950,
+"zh": "闪光伊娅丝",
+"types": [
+"psychic"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 951,
+"zh": "库卡",
+"types": [
+"ground"
+],
+"bst": 326,
+"evolves_to": [
+952
+],
+"tags": []
+},
+{
+"id": 952,
+"zh": "库洛洛特",
+"types": [
+"ground"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 953,
+"zh": "泰克",
+"types": [
+"normal"
+],
+"bst": 335,
+"evolves_to": [
+954
+],
+"tags": []
+},
+{
+"id": 954,
+"zh": "泰米尔",
+"types": [
+"normal"
+],
+"bst": 455,
+"evolves_to": [
+955
+],
+"tags": []
+},
+{
+"id": 955,
+"zh": "泰米亚克",
+"types": [
+"normal"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 956,
+"zh": "陶诺",
+"types": [
+"fighting"
+],
+"bst": 347,
+"evolves_to": [
+957
+],
+"tags": []
+},
+{
+"id": 957,
+"zh": "米诺斯",
+"types": [
+"fighting"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 958,
+"zh": "加洛特",
+"types": [
+"fighting"
+],
+"bst": 346,
+"evolves_to": [
+959
+],
+"tags": []
+},
+{
+"id": 959,
+"zh": "加格洛特",
+"types": [
+"fighting"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 960,
+"zh": "哲克",
+"types": [
+"water",
+"psychic"
+],
+"bst": 327,
+"evolves_to": [
+961
+],
+"tags": []
+},
+{
+"id": 961,
+"zh": "哲希尔",
+"types": [
+"water",
+"psychic"
+],
+"bst": 447,
+"evolves_to": [
+962
+],
+"tags": []
+},
+{
+"id": 962,
+"zh": "奈哲尔",
+"types": [
+"water",
+"psychic"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 963,
+"zh": "尼坦",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 340,
+"evolves_to": [
+964
+],
+"tags": []
+},
+{
+"id": 964,
+"zh": "尼诺尔",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 460,
+"evolves_to": [
+965
+],
+"tags": []
+},
+{
+"id": 965,
+"zh": "奈尼尔",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 966,
+"zh": "哈罗威",
+"types": [
+"shadow"
+],
+"bst": 336,
+"evolves_to": [
+967
+],
+"tags": []
+},
+{
+"id": 967,
+"zh": "罗威特",
+"types": [
+"shadow"
+],
+"bst": 456,
+"evolves_to": [
+968
+],
+"tags": []
+},
+{
+"id": 968,
+"zh": "哈尔威克",
+"types": [
+"shadow"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 969,
+"zh": "希希",
+"types": [
+"flying"
+],
+"bst": 336,
+"evolves_to": [
+970
+],
+"tags": []
+},
+{
+"id": 970,
+"zh": "希莉娅",
+"types": [
+"flying"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 971,
+"zh": "派诺",
+"types": [
+"light"
+],
+"bst": 326,
+"evolves_to": [
+972
+],
+"tags": []
+},
+{
+"id": 972,
+"zh": "派拉比",
+"types": [
+"light"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 973,
+"zh": "艾弥利",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+974
+],
+"tags": []
+},
+{
+"id": 974,
+"zh": "阿克奥斯",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 975,
+"zh": "巴尔",
+"types": [
+"water"
+],
+"bst": 342,
+"evolves_to": [
+976
+],
+"tags": []
+},
+{
+"id": 976,
+"zh": "巴伯洛",
+"types": [
+"water"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 977,
+"zh": "哲尔尼",
+"types": [
+"psychic"
+],
+"bst": 320,
+"evolves_to": [
+978
+],
+"tags": []
+},
+{
+"id": 978,
+"zh": "奈迪特",
+"types": [
+"psychic"
+],
+"bst": 440,
+"evolves_to": [
+979
+],
+"tags": []
+},
+{
+"id": 979,
+"zh": "奈迪罗尼",
+"types": [
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 980,
+"zh": "文文",
+"types": [
+"light"
+],
+"bst": 318,
+"evolves_to": [
+981
+],
+"tags": []
+},
+{
+"id": 981,
+"zh": "文杰尔",
+"types": [
+"light"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 982,
+"zh": "塔尔多",
+"types": [
+"grass"
+],
+"bst": 351,
+"evolves_to": [
+983
+],
+"tags": []
+},
+{
+"id": 983,
+"zh": "塔奇多克",
+"types": [
+"grass"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 984,
+"zh": "桑奇",
+"types": [
+"electric"
+],
+"bst": 336,
+"evolves_to": [
+985
+],
+"tags": []
+},
+{
+"id": 985,
+"zh": "伯桑克",
+"types": [
+"electric"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 986,
+"zh": "迪萨",
+"types": [
+"normal"
+],
+"bst": 328,
+"evolves_to": [
+987
+],
+"tags": []
+},
+{
+"id": 987,
+"zh": "肯迪尔",
+"types": [
+"normal"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 988,
+"zh": "旦旦",
+"types": [
+"water"
+],
+"bst": 335,
+"evolves_to": [
+989
+],
+"tags": []
+},
+{
+"id": 989,
+"zh": "埃洛塔",
+"types": [
+"water"
+],
+"bst": 455,
+"evolves_to": [
+990
+],
+"tags": []
+},
+{
+"id": 990,
+"zh": "埃尔米格",
+"types": [
+"water"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 991,
+"zh": "噜卡",
+"types": [
+"fire"
+],
+"bst": 351,
+"evolves_to": [
+992
+],
+"tags": []
+},
+{
+"id": 992,
+"zh": "火噜噜",
+"types": [
+"fire"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 993,
+"zh": "克尼",
+"types": [
+"flying"
+],
+"bst": 329,
+"evolves_to": [
+994
+],
+"tags": []
+},
+{
+"id": 994,
+"zh": "布克罗",
+"types": [
+"flying"
+],
+"bst": 459,
+"evolves_to": [
+995
+],
+"tags": []
+},
+{
+"id": 995,
+"zh": "布罗尼",
+"types": [
+"flying"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 996,
+"zh": "皮拉尔",
+"types": [
+"flying"
+],
+"bst": 345,
+"evolves_to": [
+997
+],
+"tags": []
+},
+{
+"id": 997,
+"zh": "皮特萨罗",
+"types": [
+"flying"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 998,
+"zh": "乔伊",
+"types": [
+"light",
+"flying"
+],
+"bst": 340,
+"evolves_to": [
+999
+],
+"tags": []
+},
+{
+"id": 999,
+"zh": "珀伽索斯",
+"types": [
+"light",
+"flying"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1000,
+"zh": "奥尔德",
+"types": [
+"mystic"
+],
+"bst": 655,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1002,
+"zh": "多戈",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 326,
+"evolves_to": [
+1003
+],
+"tags": []
+},
+{
+"id": 1003,
+"zh": "戈登",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1004,
+"zh": "费舍",
+"types": [
+"water"
+],
+"bst": 328,
+"evolves_to": [
+1005
+],
+"tags": []
+},
+{
+"id": 1005,
+"zh": "费吉尔",
+"types": [
+"water"
+],
+"bst": 448,
+"evolves_to": [
+1006
+],
+"tags": []
+},
+{
+"id": 1006,
+"zh": "费洛舍",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1007,
+"zh": "查理",
+"types": [
+"psychic"
+],
+"bst": 340,
+"evolves_to": [
+1008
+],
+"tags": []
+},
+{
+"id": 1008,
+"zh": "查德洛",
+"types": [
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1009,
+"zh": "史迪",
+"types": [
+"fighting"
+],
+"bst": 335,
+"evolves_to": [
+1010
+],
+"tags": []
+},
+{
+"id": 1010,
+"zh": "迪马克",
+"types": [
+"fighting"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1011,
+"zh": "冰狐",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+1012
+],
+"tags": []
+},
+{
+"id": 1012,
+"zh": "暗夜冰狐",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1013,
+"zh": "亚吉",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 326,
+"evolves_to": [
+1014
+],
+"tags": []
+},
+{
+"id": 1014,
+"zh": "亚森",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1015,
+"zh": "鲁尔",
+"types": [
+"psychic"
+],
+"bst": 338,
+"evolves_to": [
+1016
+],
+"tags": []
+},
+{
+"id": 1016,
+"zh": "鲁尼卡",
+"types": [
+"psychic"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1017,
+"zh": "三尾火狐",
+"types": [
+"fire"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1018,
+"zh": "四尾火狐",
+"types": [
+"fire"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1019,
+"zh": "九尾火狐",
+"types": [
+"fire"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1020,
+"zh": "小雪球",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+1021
+],
+"tags": []
+},
+{
+"id": 1021,
+"zh": "眼镜毛球",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1022,
+"zh": "黑格",
+"types": [
+"shadow"
+],
+"bst": 330,
+"evolves_to": [
+1023
+],
+"tags": []
+},
+{
+"id": 1023,
+"zh": "黑布罗",
+"types": [
+"shadow"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1024,
+"zh": "莫卡",
+"types": [
+"ground"
+],
+"bst": 343,
+"evolves_to": [
+1025
+],
+"tags": []
+},
+{
+"id": 1025,
+"zh": "莫拉坦",
+"types": [
+"ground"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1026,
+"zh": "冰蛛",
+"types": [
+"ice"
+],
+"bst": 338,
+"evolves_to": [
+1027
+],
+"tags": []
+},
+{
+"id": 1027,
+"zh": "极寒冰蛛",
+"types": [
+"ice"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1028,
+"zh": "麦斯",
+"types": [
+"normal"
+],
+"bst": 340,
+"evolves_to": [
+1029
+],
+"tags": []
+},
+{
+"id": 1029,
+"zh": "马西莫斯",
+"types": [
+"normal"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1030,
+"zh": "多诺",
+"types": [
+"water"
+],
+"bst": 340,
+"evolves_to": [
+1031
+],
+"tags": []
+},
+{
+"id": 1031,
+"zh": "多尔尼",
+"types": [
+"water"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1032,
+"zh": "绿色雪球",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+1033
+],
+"tags": []
+},
+{
+"id": 1033,
+"zh": "眼镜绿毛球",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1034,
+"zh": "红色雪球",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+1035
+],
+"tags": []
+},
+{
+"id": 1035,
+"zh": "眼镜红毛球",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1036,
+"zh": "紫色雪球",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+1037
+],
+"tags": []
+},
+{
+"id": 1037,
+"zh": "眼镜紫毛球",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1038,
+"zh": "蓝色雪球",
+"types": [
+"ice"
+],
+"bst": 335,
+"evolves_to": [
+1039
+],
+"tags": []
+},
+{
+"id": 1039,
+"zh": "眼镜蓝毛球",
+"types": [
+"ice"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1040,
+"zh": "酷雪球",
+"types": [
+"ice"
+],
+"bst": 345,
+"evolves_to": [
+1041
+],
+"tags": []
+},
+{
+"id": 1041,
+"zh": "眼镜酷毛球",
+"types": [
+"ice"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1042,
+"zh": "铃儿",
+"types": [
+"psychic"
+],
+"bst": 346,
+"evolves_to": [
+1043
+],
+"tags": []
+},
+{
+"id": 1043,
+"zh": "铃铃猫",
+"types": [
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1044,
+"zh": "提诺",
+"types": [
+"fighting"
+],
+"bst": 358,
+"evolves_to": [
+1045
+],
+"tags": []
+},
+{
+"id": 1045,
+"zh": "瑞尔斯",
+"types": [
+"fighting"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1046,
+"zh": "纳克",
+"types": [
+"water"
+],
+"bst": 328,
+"evolves_to": [
+1047
+],
+"tags": []
+},
+{
+"id": 1047,
+"zh": "希克拉",
+"types": [
+"water"
+],
+"bst": 578,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1048,
+"zh": "伊尔",
+"types": [
+"flying"
+],
+"bst": 328,
+"evolves_to": [
+1049
+],
+"tags": []
+},
+{
+"id": 1049,
+"zh": "鹰嘴蝶",
+"types": [
+"flying"
+],
+"bst": 578,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1050,
+"zh": "耶尼",
+"types": [
+"flying"
+],
+"bst": 331,
+"evolves_to": [
+1051
+],
+"tags": []
+},
+{
+"id": 1051,
+"zh": "加耶罗",
+"types": [
+"flying"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1052,
+"zh": "祖迪",
+"types": [
+"psychic"
+],
+"bst": 341,
+"evolves_to": [
+1053
+],
+"tags": []
+},
+{
+"id": 1053,
+"zh": "吉亚尼",
+"types": [
+"psychic"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1054,
+"zh": "佩里",
+"types": [
+"mechanical"
+],
+"bst": 340,
+"evolves_to": [
+1055
+],
+"tags": []
+},
+{
+"id": 1055,
+"zh": "佩罗姆",
+"types": [
+"mechanical"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1056,
+"zh": "小岩怪",
+"types": [
+"ground"
+],
+"bst": 336,
+"evolves_to": [
+1057
+],
+"tags": []
+},
+{
+"id": 1057,
+"zh": "怪怪岩",
+"types": [
+"ground"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1058,
+"zh": "莫格",
+"types": [
+"shadow"
+],
+"bst": 335,
+"evolves_to": [
+1059
+],
+"tags": []
+},
+{
+"id": 1059,
+"zh": "莫弗克",
+"types": [
+"shadow"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1060,
+"zh": "莎尔",
+"types": [
+"grass"
+],
+"bst": 335,
+"evolves_to": [
+1061
+],
+"tags": []
+},
+{
+"id": 1061,
+"zh": "阿加莎",
+"types": [
+"grass"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1062,
+"zh": "弗德",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 335,
+"evolves_to": [
+1063
+],
+"tags": []
+},
+{
+"id": 1063,
+"zh": "里洛德",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 455,
+"evolves_to": [
+1064
+],
+"tags": []
+},
+{
+"id": 1064,
+"zh": "弗里兹",
+"types": [
+"ice",
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1065,
+"zh": "阿卡",
+"types": [
+"light"
+],
+"bst": 312,
+"evolves_to": [
+1066
+],
+"tags": []
+},
+{
+"id": 1066,
+"zh": "卡瑞",
+"types": [
+"light"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1067,
+"zh": "巴沃",
+"types": [
+"normal"
+],
+"bst": 336,
+"evolves_to": [
+1068
+],
+"tags": []
+},
+{
+"id": 1068,
+"zh": "巴克迪",
+"types": [
+"normal"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1069,
+"zh": "米咔",
+"types": [
+"light"
+],
+"bst": 607,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1070,
+"zh": "布迪",
+"types": [
+"flying"
+],
+"bst": 350,
+"evolves_to": [
+1071
+],
+"tags": []
+},
+{
+"id": 1071,
+"zh": "布克鸟",
+"types": [
+"flying"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1072,
+"zh": "莫德",
+"types": [
+"water",
+"shadow"
+],
+"bst": 337,
+"evolves_to": [
+1073
+],
+"tags": []
+},
+{
+"id": 1073,
+"zh": "莫德纳",
+"types": [
+"water",
+"shadow"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1074,
+"zh": "杰雷",
+"types": [
+"mechanical"
+],
+"bst": 312,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1075,
+"zh": "杰莱卡",
+"types": [
+"mechanical"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1076,
+"zh": "波拉",
+"types": [
+"shadow"
+],
+"bst": 332,
+"evolves_to": [
+1077
+],
+"tags": []
+},
+{
+"id": 1077,
+"zh": "波德尔",
+"types": [
+"shadow"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1078,
+"zh": "锤锤",
+"types": [
+"ground"
+],
+"bst": 347,
+"evolves_to": [
+1079
+],
+"tags": []
+},
+{
+"id": 1079,
+"zh": "岩锤怪",
+"types": [
+"ground"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1080,
+"zh": "萨奇",
+"types": [
+"psychic"
+],
+"bst": 350,
+"evolves_to": [
+1081
+],
+"tags": []
+},
+{
+"id": 1081,
+"zh": "萨菲罗",
+"types": [
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1082,
+"zh": "LEK",
+"types": [
+"mechanical"
+],
+"bst": 345,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1083,
+"zh": "LYN",
+"types": [
+"mechanical"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1084,
+"zh": "卡斯",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 338,
+"evolves_to": [
+1085
+],
+"tags": []
+},
+{
+"id": 1085,
+"zh": "兰斯特",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1086,
+"zh": "巴恩",
+"types": [
+"shadow"
+],
+"bst": 350,
+"evolves_to": [
+1087
+],
+"tags": []
+},
+{
+"id": 1087,
+"zh": "巴恩那",
+"types": [
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1088,
+"zh": "法尔",
+"types": [
+"fire"
+],
+"bst": 338,
+"evolves_to": [
+1089
+],
+"tags": []
+},
+{
+"id": 1089,
+"zh": "法洛特",
+"types": [
+"fire"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1090,
+"zh": "吉塔",
+"types": [
+"fighting"
+],
+"bst": 329,
+"evolves_to": [
+1091
+],
+"tags": []
+},
+{
+"id": 1091,
+"zh": "吉拉克",
+"types": [
+"fighting"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1092,
+"zh": "杰恩",
+"types": [
+"light"
+],
+"bst": 350,
+"evolves_to": [
+1093
+],
+"tags": []
+},
+{
+"id": 1093,
+"zh": "杰恩斯",
+"types": [
+"light"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1094,
+"zh": "列特",
+"types": [
+"fire"
+],
+"bst": 329,
+"evolves_to": [
+1095
+],
+"tags": []
+},
+{
+"id": 1095,
+"zh": "拉列尼",
+"types": [
+"fire"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1096,
+"zh": "凯拉",
+"types": [
+"ground"
+],
+"bst": 333,
+"evolves_to": [
+1097
+],
+"tags": []
+},
+{
+"id": 1097,
+"zh": "凯拉特",
+"types": [
+"ground"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1098,
+"zh": "达其",
+"types": [
+"shadow"
+],
+"bst": 345,
+"evolves_to": [
+1099
+],
+"tags": []
+},
+{
+"id": 1099,
+"zh": "达克其",
+"types": [
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1100,
+"zh": "阿凯",
+"types": [
+"grass"
+],
+"bst": 335,
+"evolves_to": [
+1101
+],
+"tags": []
+},
+{
+"id": 1101,
+"zh": "凯鲁斯",
+"types": [
+"grass"
+],
+"bst": 465,
+"evolves_to": [
+1102
+],
+"tags": []
+},
+{
+"id": 1102,
+"zh": "凯克特斯",
+"types": [
+"grass"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1103,
+"zh": "卜卡",
+"types": [
+"normal"
+],
+"bst": 315,
+"evolves_to": [
+1104
+],
+"tags": []
+},
+{
+"id": 1104,
+"zh": "卜拉",
+"types": [
+"normal"
+],
+"bst": 435,
+"evolves_to": [
+1105
+],
+"tags": []
+},
+{
+"id": 1105,
+"zh": "卜卜洛",
+"types": [
+"normal"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1106,
+"zh": "亨亨",
+"types": [
+"fighting"
+],
+"bst": 345,
+"evolves_to": [
+1107
+],
+"tags": []
+},
+{
+"id": 1107,
+"zh": "亨诺尔",
+"types": [
+"fighting"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1108,
+"zh": "杰沃",
+"types": [
+"electric",
+"ice"
+],
+"bst": 345,
+"evolves_to": [
+1109
+],
+"tags": []
+},
+{
+"id": 1109,
+"zh": "卡沃尔",
+"types": [
+"electric",
+"ice"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1110,
+"zh": "菲菲",
+"types": [
+"ice"
+],
+"bst": 334,
+"evolves_to": [
+1111
+],
+"tags": []
+},
+{
+"id": 1111,
+"zh": "菲尔洛",
+"types": [
+"ice"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1112,
+"zh": "森卡尔",
+"types": [
+"flying"
+],
+"bst": 322,
+"evolves_to": [
+1113
+],
+"tags": []
+},
+{
+"id": 1113,
+"zh": "森普特",
+"types": [
+"flying"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1114,
+"zh": "威尔",
+"types": [
+"fighting"
+],
+"bst": 338,
+"evolves_to": [
+1115
+],
+"tags": []
+},
+{
+"id": 1115,
+"zh": "威沃夫",
+"types": [
+"fighting"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1116,
+"zh": "费西",
+"types": [
+"water"
+],
+"bst": 344,
+"evolves_to": [
+1117
+],
+"tags": []
+},
+{
+"id": 1117,
+"zh": "费奥德",
+"types": [
+"water"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1118,
+"zh": "安普",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 320,
+"evolves_to": [
+1119
+],
+"tags": []
+},
+{
+"id": 1119,
+"zh": "安洛斯",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 420,
+"evolves_to": [
+1120
+],
+"tags": []
+},
+{
+"id": 1120,
+"zh": "阿洛比斯",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1121,
+"zh": "巨石灵王",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1122,
+"zh": "圣光天马",
+"types": [
+"light",
+"flying"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1123,
+"zh": "隆利",
+"types": [
+"normal"
+],
+"bst": 335,
+"evolves_to": [
+1124
+],
+"tags": []
+},
+{
+"id": 1124,
+"zh": "隆利尔",
+"types": [
+"normal"
+],
+"bst": 455,
+"evolves_to": [
+1125
+],
+"tags": []
+},
+{
+"id": 1125,
+"zh": "隆利尼斯",
+"types": [
+"normal"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1126,
+"zh": "莱斯",
+"types": [
+"light"
+],
+"bst": 345,
+"evolves_to": [
+1127
+],
+"tags": []
+},
+{
+"id": 1127,
+"zh": "卡莱洛",
+"types": [
+"light"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1128,
+"zh": "塔塔",
+"types": [
+"water"
+],
+"bst": 345,
+"evolves_to": [
+1129
+],
+"tags": []
+},
+{
+"id": 1129,
+"zh": "塔特尔",
+"types": [
+"water"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1130,
+"zh": "凯尼",
+"types": [
+"water",
+"psychic"
+],
+"bst": 335,
+"evolves_to": [
+1131
+],
+"tags": []
+},
+{
+"id": 1131,
+"zh": "凯洛亚",
+"types": [
+"water",
+"psychic"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1132,
+"zh": "可丽",
+"types": [
+"grass"
+],
+"bst": 326,
+"evolves_to": [
+1133
+],
+"tags": []
+},
+{
+"id": 1133,
+"zh": "丽多尔",
+"types": [
+"grass"
+],
+"bst": 456,
+"evolves_to": [
+1134
+],
+"tags": []
+},
+{
+"id": 1134,
+"zh": "丽丽苗",
+"types": [
+"grass"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1135,
+"zh": "沃沃尔",
+"types": [
+"ground"
+],
+"bst": 340,
+"evolves_to": [
+1136
+],
+"tags": []
+},
+{
+"id": 1136,
+"zh": "沃斯特",
+"types": [
+"ground"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1137,
+"zh": "哈尼",
+"types": [
+"dragon"
+],
+"bst": 344,
+"evolves_to": [
+1138
+],
+"tags": []
+},
+{
+"id": 1138,
+"zh": "哈尼卡",
+"types": [
+"dragon"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1139,
+"zh": "朵莉",
+"types": [
+"water"
+],
+"bst": 328,
+"evolves_to": [
+1140
+],
+"tags": []
+},
+{
+"id": 1140,
+"zh": "朵莉哈特",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1141,
+"zh": "巴特",
+"types": [
+"flying"
+],
+"bst": 341,
+"evolves_to": [
+1142
+],
+"tags": []
+},
+{
+"id": 1142,
+"zh": "巴特弗莱",
+"types": [
+"flying"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1143,
+"zh": "鲁迪诺斯",
+"types": [
+"ground"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1144,
+"zh": "古古",
+"types": [
+"grass"
+],
+"bst": 348,
+"evolves_to": [
+1145
+],
+"tags": []
+},
+{
+"id": 1145,
+"zh": "麦古古",
+"types": [
+"grass"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1146,
+"zh": "卡奇",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 336,
+"evolves_to": [
+1147
+],
+"tags": []
+},
+{
+"id": 1147,
+"zh": "卡伦尼",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1148,
+"zh": "瓦卡",
+"types": [
+"normal"
+],
+"bst": 332,
+"evolves_to": [
+1149
+],
+"tags": []
+},
+{
+"id": 1149,
+"zh": "瓦尔普",
+"types": [
+"normal"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1150,
+"zh": "努努",
+"types": [
+"fire"
+],
+"bst": 330,
+"evolves_to": [
+1151
+],
+"tags": []
+},
+{
+"id": 1151,
+"zh": "努加达斯",
+"types": [
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1152,
+"zh": "伯特",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 345,
+"evolves_to": [
+1153
+],
+"tags": []
+},
+{
+"id": 1153,
+"zh": "恩尔特",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 465,
+"evolves_to": [
+1154
+],
+"tags": []
+},
+{
+"id": 1154,
+"zh": "伯恩尼",
+"types": [
+"fire",
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1155,
+"zh": "威克",
+"types": [
+"fighting"
+],
+"bst": 340,
+"evolves_to": [
+1156
+],
+"tags": []
+},
+{
+"id": 1156,
+"zh": "威里特",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1157,
+"zh": "小尾蝶",
+"types": [
+"flying"
+],
+"bst": 337,
+"evolves_to": [
+1158
+],
+"tags": []
+},
+{
+"id": 1158,
+"zh": "彩翼蝶",
+"types": [
+"flying"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1159,
+"zh": "特拉拉",
+"types": [
+"ground"
+],
+"bst": 340,
+"evolves_to": [
+1160
+],
+"tags": []
+},
+{
+"id": 1160,
+"zh": "特拉修斯",
+"types": [
+"ground"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1161,
+"zh": "艾隆",
+"types": [
+"psychic"
+],
+"bst": 343,
+"evolves_to": [
+1162
+],
+"tags": []
+},
+{
+"id": 1162,
+"zh": "艾隆尼斯",
+"types": [
+"psychic"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1163,
+"zh": "斯洛",
+"types": [
+"dragon"
+],
+"bst": 344,
+"evolves_to": [
+1164
+],
+"tags": []
+},
+{
+"id": 1164,
+"zh": "斯利普",
+"types": [
+"dragon"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1165,
+"zh": "帕罗",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 350,
+"evolves_to": [
+1166
+],
+"tags": []
+},
+{
+"id": 1166,
+"zh": "帕莫亚",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 460,
+"evolves_to": [
+1167
+],
+"tags": []
+},
+{
+"id": 1167,
+"zh": "帕罗狄亚",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1168,
+"zh": "小布",
+"types": [
+"dragon"
+],
+"bst": 350,
+"evolves_to": [
+1169
+],
+"tags": []
+},
+{
+"id": 1169,
+"zh": "布里克",
+"types": [
+"dragon"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1170,
+"zh": "林诺",
+"types": [
+"fighting"
+],
+"bst": 342,
+"evolves_to": [
+1171
+],
+"tags": []
+},
+{
+"id": 1171,
+"zh": "林克鼠",
+"types": [
+"fighting"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1172,
+"zh": "阿彩",
+"types": [
+"grass"
+],
+"bst": 339,
+"evolves_to": [
+1173
+],
+"tags": []
+},
+{
+"id": 1173,
+"zh": "彩色菇",
+"types": [
+"grass"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1174,
+"zh": "萝可",
+"types": [
+"fire"
+],
+"bst": 340,
+"evolves_to": [
+1175
+],
+"tags": []
+},
+{
+"id": 1175,
+"zh": "芙拉萝儿",
+"types": [
+"fire"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1176,
+"zh": "兰卡",
+"types": [
+"ice"
+],
+"bst": 340,
+"evolves_to": [
+1177
+],
+"tags": []
+},
+{
+"id": 1177,
+"zh": "芙兰希儿",
+"types": [
+"ice"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1178,
+"zh": "蒙奇",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 338,
+"evolves_to": [
+1179
+],
+"tags": []
+},
+{
+"id": 1179,
+"zh": "蒙奇克",
+"types": [
+"fighting",
+"fire"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1180,
+"zh": "黑鳍鱼",
+"types": [
+"water"
+],
+"bst": 330,
+"evolves_to": [
+1181
+],
+"tags": []
+},
+{
+"id": 1181,
+"zh": "魔甲鱼",
+"types": [
+"water"
+],
+"bst": 460,
+"evolves_to": [
+1182
+],
+"tags": []
+},
+{
+"id": 1182,
+"zh": "鳞甲魔鱼",
+"types": [
+"water"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1183,
+"zh": "尼拉",
+"types": [
+"psychic"
+],
+"bst": 333,
+"evolves_to": [
+1184
+],
+"tags": []
+},
+{
+"id": 1184,
+"zh": "菲德尔",
+"types": [
+"psychic"
+],
+"bst": 453,
+"evolves_to": [
+1185
+],
+"tags": []
+},
+{
+"id": 1185,
+"zh": "艾斯德克",
+"types": [
+"psychic"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1186,
+"zh": "迪莫",
+"types": [
+"normal"
+],
+"bst": 356,
+"evolves_to": [
+1187
+],
+"tags": []
+},
+{
+"id": 1187,
+"zh": "狂狮迪卡",
+"types": [
+"normal"
+],
+"bst": 606,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1188,
+"zh": "拉洛德",
+"types": [
+"shadow"
+],
+"bst": 350,
+"evolves_to": [
+1189
+],
+"tags": []
+},
+{
+"id": 1189,
+"zh": "拉莫德斯",
+"types": [
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1190,
+"zh": "哈普",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 326,
+"evolves_to": [
+1191
+],
+"tags": []
+},
+{
+"id": 1191,
+"zh": "普兰特",
+"types": [
+"grass",
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1192,
+"zh": "巨蘑怪",
+"types": [
+"grass"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1193,
+"zh": "小瑞",
+"types": [
+"ground"
+],
+"bst": 319,
+"evolves_to": [
+1194
+],
+"tags": []
+},
+{
+"id": 1194,
+"zh": "瑞多",
+"types": [
+"ground"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1195,
+"zh": "卡桑",
+"types": [
+"mechanical"
+],
+"bst": 329,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1196,
+"zh": "卡利莫",
+"types": [
+"mechanical"
+],
+"bst": 449,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1197,
+"zh": "卡莫尔",
+"types": [
+"mechanical"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1198,
+"zh": "莉洛",
+"types": [
+"grass"
+],
+"bst": 340,
+"evolves_to": [
+1199
+],
+"tags": []
+},
+{
+"id": 1199,
+"zh": "芙莉依儿",
+"types": [
+"grass"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1200,
+"zh": "暗金鱼龙王",
+"types": [
+"water"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1201,
+"zh": "暗金炎魔",
+"types": [
+"fire"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1202,
+"zh": "暗金始祖灵兽",
+"types": [
+"grass"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1203,
+"zh": "蒙塔",
+"types": [
+"holy"
+],
+"bst": 380,
+"evolves_to": [
+1204
+],
+"tags": []
+},
+{
+"id": 1204,
+"zh": "迈尔斯",
+"types": [
+"holy"
+],
+"bst": 640,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1205,
+"zh": "琳诺",
+"types": [
+"fire"
+],
+"bst": 334,
+"evolves_to": [
+1206
+],
+"tags": []
+},
+{
+"id": 1206,
+"zh": "凯琳",
+"types": [
+"fire"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1207,
+"zh": "佩塔",
+"types": [
+"electric"
+],
+"bst": 332,
+"evolves_to": [
+1208
+],
+"tags": []
+},
+{
+"id": 1208,
+"zh": "佩吉克",
+"types": [
+"electric"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1209,
+"zh": "道尔",
+"types": [
+"mechanical"
+],
+"bst": 323,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1210,
+"zh": "道格",
+"types": [
+"mechanical"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1211,
+"zh": "巴洛里",
+"types": [
+"electric",
+"fire"
+],
+"bst": 342,
+"evolves_to": [
+1212
+],
+"tags": []
+},
+{
+"id": 1212,
+"zh": "巴里修斯",
+"types": [
+"electric",
+"fire"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1213,
+"zh": "尤米",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 340,
+"evolves_to": [
+1214
+],
+"tags": []
+},
+{
+"id": 1214,
+"zh": "尤米尔",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1215,
+"zh": "尤米娜",
+"types": [
+"ice",
+"shadow"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1216,
+"zh": "魔域仙子",
+"types": [
+"grass"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1217,
+"zh": "木木",
+"types": [
+"shadow"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1218,
+"zh": "奇纳",
+"types": [
+"water"
+],
+"bst": 328,
+"evolves_to": [
+1219
+],
+"tags": []
+},
+{
+"id": 1219,
+"zh": "亚奇",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1220,
+"zh": "博杰斯",
+"types": [
+"mechanical"
+],
+"bst": 327,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1221,
+"zh": "博卡特",
+"types": [
+"mechanical"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1222,
+"zh": "斯尔",
+"types": [
+"light"
+],
+"bst": 344,
+"evolves_to": [
+1223
+],
+"tags": []
+},
+{
+"id": 1223,
+"zh": "斯洛塔",
+"types": [
+"light"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1224,
+"zh": "阿佐",
+"types": [
+"psychic"
+],
+"bst": 341,
+"evolves_to": [
+1225
+],
+"tags": []
+},
+{
+"id": 1225,
+"zh": "佐科斯",
+"types": [
+"psychic"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1226,
+"zh": "瑞格",
+"types": [
+"fighting"
+],
+"bst": 340,
+"evolves_to": [
+1227
+],
+"tags": []
+},
+{
+"id": 1227,
+"zh": "加瑞尔",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1228,
+"zh": "科特",
+"types": [
+"ground"
+],
+"bst": 330,
+"evolves_to": [
+1229
+],
+"tags": []
+},
+{
+"id": 1229,
+"zh": "科拉岩",
+"types": [
+"ground"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1230,
+"zh": "巨齿鲨",
+"types": [
+"water"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1231,
+"zh": "洛尔",
+"types": [
+"flying"
+],
+"bst": 334,
+"evolves_to": [
+1232
+],
+"tags": []
+},
+{
+"id": 1232,
+"zh": "芙洛",
+"types": [
+"flying"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1233,
+"zh": "粽仔",
+"types": [
+"grass"
+],
+"bst": 344,
+"evolves_to": [
+1234
+],
+"tags": []
+},
+{
+"id": 1234,
+"zh": "阿粽",
+"types": [
+"grass"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1235,
+"zh": "小朗",
+"types": [
+"ground"
+],
+"bst": 327,
+"evolves_to": [
+1236
+],
+"tags": []
+},
+{
+"id": 1236,
+"zh": "朗耐克",
+"types": [
+"ground"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1237,
+"zh": "洛拉托兹",
+"types": [
+"fire"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1238,
+"zh": "炽翼火龙",
+"types": [
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1239,
+"zh": "克拉曼",
+"types": [
+"psychic"
+],
+"bst": 346,
+"evolves_to": [
+1240
+],
+"tags": []
+},
+{
+"id": 1240,
+"zh": "克伦曼尔",
+"types": [
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1241,
+"zh": "凯利",
+"types": [
+"normal"
+],
+"bst": 331,
+"evolves_to": [
+1242
+],
+"tags": []
+},
+{
+"id": 1242,
+"zh": "凯米拉",
+"types": [
+"normal"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1243,
+"zh": "杰特",
+"types": [
+"psychic"
+],
+"bst": 319,
+"evolves_to": [
+1244
+],
+"tags": []
+},
+{
+"id": 1244,
+"zh": "杰克斯",
+"types": [
+"psychic"
+],
+"bst": 439,
+"evolves_to": [
+1245
+],
+"tags": []
+},
+{
+"id": 1245,
+"zh": "杰莫尔",
+"types": [
+"psychic"
+],
+"bst": 579,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1246,
+"zh": "萨吉",
+"types": [
+"ground"
+],
+"bst": 330,
+"evolves_to": [
+1247
+],
+"tags": []
+},
+{
+"id": 1247,
+"zh": "萨姆",
+"types": [
+"ground"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1248,
+"zh": "闪光果冻鸭",
+"types": [
+"water"
+],
+"bst": 336,
+"evolves_to": [
+1249
+],
+"tags": []
+},
+{
+"id": 1249,
+"zh": "闪光波浪鸭",
+"types": [
+"water"
+],
+"bst": 456,
+"evolves_to": [
+1250
+],
+"tags": []
+},
+{
+"id": 1250,
+"zh": "闪光水晶鸭",
+"types": [
+"water"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1251,
+"zh": "艾诺",
+"types": [
+"ice"
+],
+"bst": 336,
+"evolves_to": [
+1252
+],
+"tags": []
+},
+{
+"id": 1252,
+"zh": "艾拉尔",
+"types": [
+"ice"
+],
+"bst": 586,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1253,
+"zh": "吉瓦",
+"types": [
+"psychic"
+],
+"bst": 323,
+"evolves_to": [
+1254
+],
+"tags": []
+},
+{
+"id": 1254,
+"zh": "吉拉特",
+"types": [
+"psychic"
+],
+"bst": 583,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1255,
+"zh": "幽灵迅牙虎",
+"types": [
+"ground"
+],
+"bst": 370,
+"evolves_to": [
+1256
+],
+"tags": []
+},
+{
+"id": 1256,
+"zh": "幽灵猛虎王",
+"types": [
+"ground"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1257,
+"zh": "小拜",
+"types": [
+"flying"
+],
+"bst": 334,
+"evolves_to": [
+1258
+],
+"tags": []
+},
+{
+"id": 1258,
+"zh": "拜特",
+"types": [
+"flying"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1259,
+"zh": "纳尼",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 348,
+"evolves_to": [
+1260
+],
+"tags": []
+},
+{
+"id": 1260,
+"zh": "纳扎",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1261,
+"zh": "欧拉",
+"types": [
+"flying",
+"dragon"
+],
+"bst": 343,
+"evolves_to": [
+1262
+],
+"tags": []
+},
+{
+"id": 1262,
+"zh": "西杰斯",
+"types": [
+"flying",
+"dragon"
+],
+"bst": 465,
+"evolves_to": [
+1263
+],
+"tags": []
+},
+{
+"id": 1263,
+"zh": "欧西斯",
+"types": [
+"flying",
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1264,
+"zh": "巴哈特",
+"types": [
+"light"
+],
+"bst": 343,
+"evolves_to": [
+1265
+],
+"tags": []
+},
+{
+"id": 1265,
+"zh": "巴索尔",
+"types": [
+"light"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1266,
+"zh": "萨帕罗亚",
+"types": [
+"dragon"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1267,
+"zh": "瑞姆",
+"types": [
+"ground"
+],
+"bst": 348,
+"evolves_to": [
+1268
+],
+"tags": []
+},
+{
+"id": 1268,
+"zh": "瑞德洛",
+"types": [
+"ground"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1269,
+"zh": "霍克",
+"types": [
+"flying"
+],
+"bst": 326,
+"evolves_to": [
+1270
+],
+"tags": []
+},
+{
+"id": 1270,
+"zh": "霍吉斯",
+"types": [
+"flying"
+],
+"bst": 576,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1271,
+"zh": "球球",
+"types": [
+"grass"
+],
+"bst": 345,
+"evolves_to": [
+1272
+],
+"tags": []
+},
+{
+"id": 1272,
+"zh": "荧光草",
+"types": [
+"grass"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1273,
+"zh": "卡斯奇",
+"types": [
+"mechanical"
+],
+"bst": 324,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1274,
+"zh": "卡雷尼",
+"types": [
+"mechanical"
+],
+"bst": 584,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1275,
+"zh": "阿亭",
+"types": [
+"ice"
+],
+"bst": 342,
+"evolves_to": [
+1276
+],
+"tags": []
+},
+{
+"id": 1276,
+"zh": "艾伊卡",
+"types": [
+"ice"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1277,
+"zh": "雷纳尔多",
+"types": [
+"mechanical"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1278,
+"zh": "阿诺比零",
+"types": [
+"psychic"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1279,
+"zh": "时空之零",
+"types": [
+"psychic"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1280,
+"zh": "棉棉",
+"types": [
+"psychic"
+],
+"bst": 329,
+"evolves_to": [
+1281
+],
+"tags": []
+},
+{
+"id": 1281,
+"zh": "棉花泡",
+"types": [
+"psychic"
+],
+"bst": 449,
+"evolves_to": [
+1282
+],
+"tags": []
+},
+{
+"id": 1282,
+"zh": "棉花泡泡糖",
+"types": [
+"psychic"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1283,
+"zh": "小库",
+"types": [
+"water"
+],
+"bst": 328,
+"evolves_to": [
+1284
+],
+"tags": []
+},
+{
+"id": 1284,
+"zh": "库兮兮",
+"types": [
+"water"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1285,
+"zh": "卡莱拉",
+"types": [
+"electric",
+"fire"
+],
+"bst": 335,
+"evolves_to": [
+1286
+],
+"tags": []
+},
+{
+"id": 1286,
+"zh": "卡罗特利",
+"types": [
+"electric",
+"fire"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1287,
+"zh": "卡萨",
+"types": [
+"shadow"
+],
+"bst": 361,
+"evolves_to": [
+1288
+],
+"tags": []
+},
+{
+"id": 1288,
+"zh": "卡斯托尔",
+"types": [
+"shadow"
+],
+"bst": 611,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1289,
+"zh": "波萨",
+"types": [
+"light"
+],
+"bst": 361,
+"evolves_to": [
+1290
+],
+"tags": []
+},
+{
+"id": 1290,
+"zh": "波拉克斯",
+"types": [
+"light"
+],
+"bst": 611,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1291,
+"zh": "图图",
+"types": [
+"ice"
+],
+"bst": 341,
+"evolves_to": [
+1292
+],
+"tags": []
+},
+{
+"id": 1292,
+"zh": "哈图尔",
+"types": [
+"ice"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1293,
+"zh": "可嘟",
+"types": [
+"fire"
+],
+"bst": 335,
+"evolves_to": [
+1294
+],
+"tags": []
+},
+{
+"id": 1294,
+"zh": "斯嘟尔",
+"types": [
+"fire"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1295,
+"zh": "特里",
+"types": [
+"electric"
+],
+"bst": 338,
+"evolves_to": [
+1296
+],
+"tags": []
+},
+{
+"id": 1296,
+"zh": "特里奥",
+"types": [
+"electric"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1297,
+"zh": "布鲁卡卡",
+"types": [
+"water"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1298,
+"zh": "里奥杰斯",
+"types": [
+"fire"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1299,
+"zh": "小格",
+"types": [
+"grass"
+],
+"bst": 339,
+"evolves_to": [
+1300
+],
+"tags": []
+},
+{
+"id": 1300,
+"zh": "格莫",
+"types": [
+"grass"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1301,
+"zh": "菲洛",
+"types": [
+"normal"
+],
+"bst": 342,
+"evolves_to": [
+1302
+],
+"tags": []
+},
+{
+"id": 1302,
+"zh": "菲普斯",
+"types": [
+"normal"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1303,
+"zh": "帕特",
+"types": [
+"water",
+"shadow"
+],
+"bst": 348,
+"evolves_to": [
+1304
+],
+"tags": []
+},
+{
+"id": 1304,
+"zh": "帕里斯",
+"types": [
+"water",
+"shadow"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1305,
+"zh": "利文",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 350,
+"evolves_to": [
+1306
+],
+"tags": []
+},
+{
+"id": 1306,
+"zh": "利亚斯",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1307,
+"zh": "袋袋",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 345,
+"evolves_to": [
+1308
+],
+"tags": []
+},
+{
+"id": 1308,
+"zh": "袋拉拉",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1309,
+"zh": "伊沙",
+"types": [
+"flying"
+],
+"bst": 335,
+"evolves_to": [
+1310
+],
+"tags": []
+},
+{
+"id": 1310,
+"zh": "伊力沙",
+"types": [
+"flying"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1311,
+"zh": "格拉里",
+"types": [
+"ground"
+],
+"bst": 340,
+"evolves_to": [
+1312
+],
+"tags": []
+},
+{
+"id": 1312,
+"zh": "格雷迪",
+"types": [
+"ground"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1313,
+"zh": "阿羊",
+"types": [
+"fighting"
+],
+"bst": 339,
+"evolves_to": [
+1314
+],
+"tags": []
+},
+{
+"id": 1314,
+"zh": "阿里斯",
+"types": [
+"fighting"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1315,
+"zh": "布尔扎克",
+"types": [
+"ice"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1316,
+"zh": "寒冰之魂",
+"types": [
+"ice"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1317,
+"zh": "裂冰之魂",
+"types": [
+"ice"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1318,
+"zh": "罗比",
+"types": [
+"mechanical"
+],
+"bst": 330,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1319,
+"zh": "罗伯特",
+"types": [
+"mechanical"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1320,
+"zh": "米加",
+"types": [
+"psychic"
+],
+"bst": 341,
+"evolves_to": [
+1321
+],
+"tags": []
+},
+{
+"id": 1321,
+"zh": "米兰",
+"types": [
+"psychic"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1322,
+"zh": "阿牛",
+"types": [
+"fire"
+],
+"bst": 321,
+"evolves_to": [
+1323
+],
+"tags": []
+},
+{
+"id": 1323,
+"zh": "托罗斯",
+"types": [
+"fire"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1324,
+"zh": "玛尔",
+"types": [
+"ground"
+],
+"bst": 348,
+"evolves_to": [
+1325
+],
+"tags": []
+},
+{
+"id": 1325,
+"zh": "玛可",
+"types": [
+"ground"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1326,
+"zh": "兰迪",
+"types": [
+"dragon"
+],
+"bst": 336,
+"evolves_to": [
+1327
+],
+"tags": []
+},
+{
+"id": 1327,
+"zh": "兰特",
+"types": [
+"dragon"
+],
+"bst": 466,
+"evolves_to": [
+1328
+],
+"tags": []
+},
+{
+"id": 1328,
+"zh": "索兰特",
+"types": [
+"dragon"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1329,
+"zh": "罗伊",
+"types": [
+"mechanical"
+],
+"bst": 329,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1330,
+"zh": "罗伯斯",
+"types": [
+"mechanical"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1331,
+"zh": "杰斯",
+"types": [
+"psychic"
+],
+"bst": 340,
+"evolves_to": [
+1332
+],
+"tags": []
+},
+{
+"id": 1332,
+"zh": "杰米尼",
+"types": [
+"psychic"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1333,
+"zh": "闪光迈迈",
+"types": [
+"dimension"
+],
+"bst": 340,
+"evolves_to": [
+1334
+],
+"tags": []
+},
+{
+"id": 1334,
+"zh": "闪光迈克瑞",
+"types": [
+"dimension"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1335,
+"zh": "尤尼",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 350,
+"evolves_to": [
+1336
+],
+"tags": []
+},
+{
+"id": 1336,
+"zh": "尤尼卡",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1337,
+"zh": "机械塔克林",
+"types": [
+"mechanical",
+"dragon"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1338,
+"zh": "基拉",
+"types": [
+"water"
+],
+"bst": 324,
+"evolves_to": [
+1339
+],
+"tags": []
+},
+{
+"id": 1339,
+"zh": "阿基米德",
+"types": [
+"water"
+],
+"bst": 589,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1340,
+"zh": "洛菲斯",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 347,
+"evolves_to": [
+1341
+],
+"tags": []
+},
+{
+"id": 1341,
+"zh": "洛拉菲德",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1342,
+"zh": "凯拉利",
+"types": [
+"ice"
+],
+"bst": 343,
+"evolves_to": [
+1343
+],
+"tags": []
+},
+{
+"id": 1343,
+"zh": "凯斯尔",
+"types": [
+"ice"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1344,
+"zh": "小咕",
+"types": [
+"grass"
+],
+"bst": 344,
+"evolves_to": [
+1345
+],
+"tags": []
+},
+{
+"id": 1345,
+"zh": "咕拉拉",
+"types": [
+"grass"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1346,
+"zh": "格鲁斯特",
+"types": [
+"ground"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1347,
+"zh": "哈吉",
+"types": [
+"normal"
+],
+"bst": 342,
+"evolves_to": [
+1348
+],
+"tags": []
+},
+{
+"id": 1348,
+"zh": "哈根",
+"types": [
+"normal"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1349,
+"zh": "卡隆",
+"types": [
+"ground"
+],
+"bst": 342,
+"evolves_to": [
+1350
+],
+"tags": []
+},
+{
+"id": 1350,
+"zh": "卡梅隆",
+"types": [
+"ground"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1351,
+"zh": "库尼",
+"types": [
+"fighting"
+],
+"bst": 345,
+"evolves_to": [
+1352
+],
+"tags": []
+},
+{
+"id": 1352,
+"zh": "库克",
+"types": [
+"fighting"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1353,
+"zh": "哈鲁",
+"types": [
+"ice"
+],
+"bst": 343,
+"evolves_to": [
+1354
+],
+"tags": []
+},
+{
+"id": 1354,
+"zh": "斯克鲁",
+"types": [
+"ice"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1355,
+"zh": "阿昂",
+"types": [
+"electric"
+],
+"bst": 332,
+"evolves_to": [
+1356
+],
+"tags": []
+},
+{
+"id": 1356,
+"zh": "利昂斯",
+"types": [
+"electric"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1357,
+"zh": "阿莱杰",
+"types": [
+"shadow"
+],
+"bst": 346,
+"evolves_to": [
+1358
+],
+"tags": []
+},
+{
+"id": 1358,
+"zh": "阿德莱特",
+"types": [
+"shadow"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1359,
+"zh": "尤拉",
+"types": [
+"ground"
+],
+"bst": 343,
+"evolves_to": [
+1360
+],
+"tags": []
+},
+{
+"id": 1360,
+"zh": "米尤拉",
+"types": [
+"ground"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1361,
+"zh": "阿克妮丝",
+"types": [
+"ice"
+],
+"bst": 613,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1362,
+"zh": "艾里",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 342,
+"evolves_to": [
+1363
+],
+"tags": []
+},
+{
+"id": 1363,
+"zh": "艾莫斯",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 462,
+"evolves_to": [
+1364
+],
+"tags": []
+},
+{
+"id": 1364,
+"zh": "艾里克",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1365,
+"zh": "阿杰洛",
+"types": [
+"shadow"
+],
+"bst": 348,
+"evolves_to": [
+1366
+],
+"tags": []
+},
+{
+"id": 1366,
+"zh": "阿德洛卡",
+"types": [
+"shadow"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1367,
+"zh": "古特",
+"types": [
+"ground",
+"dragon"
+],
+"bst": 355,
+"evolves_to": [
+1368
+],
+"tags": []
+},
+{
+"id": 1368,
+"zh": "朗尔德",
+"types": [
+"ground",
+"dragon"
+],
+"bst": 475,
+"evolves_to": [
+1369
+],
+"tags": []
+},
+{
+"id": 1369,
+"zh": "古朗德",
+"types": [
+"ground",
+"dragon"
+],
+"bst": 605,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1370,
+"zh": "小珊",
+"types": [
+"flying"
+],
+"bst": 343,
+"evolves_to": [
+1371
+],
+"tags": []
+},
+{
+"id": 1371,
+"zh": "珊珊",
+"types": [
+"flying"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1372,
+"zh": "小娥",
+"types": [
+"light"
+],
+"bst": 348,
+"evolves_to": [
+1373
+],
+"tags": []
+},
+{
+"id": 1373,
+"zh": "露娜",
+"types": [
+"light"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1374,
+"zh": "佐佐",
+"types": [
+"grass"
+],
+"bst": 332,
+"evolves_to": [
+1375
+],
+"tags": []
+},
+{
+"id": 1375,
+"zh": "佐梅斯",
+"types": [
+"grass"
+],
+"bst": 582,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1376,
+"zh": "莱纳",
+"types": [
+"fire"
+],
+"bst": 337,
+"evolves_to": [
+1377
+],
+"tags": []
+},
+{
+"id": 1377,
+"zh": "纳特",
+"types": [
+"fire"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1378,
+"zh": "阿曼",
+"types": [
+"normal"
+],
+"bst": 342,
+"evolves_to": [
+1379
+],
+"tags": []
+},
+{
+"id": 1379,
+"zh": "阿曼尼",
+"types": [
+"normal"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1380,
+"zh": "德莫",
+"types": [
+"electric"
+],
+"bst": 345,
+"evolves_to": [
+1381
+],
+"tags": []
+},
+{
+"id": 1381,
+"zh": "托德",
+"types": [
+"electric"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1382,
+"zh": "弗尔",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 325,
+"evolves_to": [
+1383
+],
+"tags": []
+},
+{
+"id": 1383,
+"zh": "弗洛斯",
+"types": [
+"psychic",
+"ice"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1384,
+"zh": "飘飘",
+"types": [
+"shadow"
+],
+"bst": 342,
+"evolves_to": [
+1385
+],
+"tags": []
+},
+{
+"id": 1385,
+"zh": "古斯特",
+"types": [
+"shadow"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1386,
+"zh": "加里",
+"types": [
+"fire"
+],
+"bst": 338,
+"evolves_to": [
+1387
+],
+"tags": []
+},
+{
+"id": 1387,
+"zh": "加里斯",
+"types": [
+"fire"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1388,
+"zh": "罗迪",
+"types": [
+"mechanical"
+],
+"bst": 328,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1389,
+"zh": "罗斯克",
+"types": [
+"mechanical"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1390,
+"zh": "斯图拉",
+"types": [
+"psychic"
+],
+"bst": 347,
+"evolves_to": [
+1391
+],
+"tags": []
+},
+{
+"id": 1391,
+"zh": "斯图尔特",
+"types": [
+"psychic"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1392,
+"zh": "莱奇斯",
+"types": [
+"mechanical"
+],
+"bst": 335,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1393,
+"zh": "莱伯拉",
+"types": [
+"mechanical"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1394,
+"zh": "魔化瑞诺",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 365,
+"evolves_to": [
+1395
+],
+"tags": []
+},
+{
+"id": 1395,
+"zh": "魔化萨瑞卡",
+"types": [
+"fighting",
+"ground"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1396,
+"zh": "查尔",
+"types": [
+"fighting"
+],
+"bst": 346,
+"evolves_to": [
+1397
+],
+"tags": []
+},
+{
+"id": 1397,
+"zh": "查迪斯",
+"types": [
+"fighting"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1398,
+"zh": "奈奇",
+"types": [
+"psychic"
+],
+"bst": 343,
+"evolves_to": [
+1399
+],
+"tags": []
+},
+{
+"id": 1399,
+"zh": "奈伊卡",
+"types": [
+"psychic"
+],
+"bst": 463,
+"evolves_to": [
+1400
+],
+"tags": []
+},
+{
+"id": 1400,
+"zh": "奈尼迪亚",
+"types": [
+"psychic"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1401,
+"zh": "萨里",
+"types": [
+"flying"
+],
+"bst": 344,
+"evolves_to": [
+1402
+],
+"tags": []
+},
+{
+"id": 1402,
+"zh": "萨杰斯",
+"types": [
+"flying"
+],
+"bst": 464,
+"evolves_to": [
+1403
+],
+"tags": []
+},
+{
+"id": 1403,
+"zh": "萨洛奇斯",
+"types": [
+"flying"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1404,
+"zh": "迪迪",
+"types": [
+"shadow"
+],
+"bst": 340,
+"evolves_to": [
+1405
+],
+"tags": []
+},
+{
+"id": 1405,
+"zh": "迪维拉",
+"types": [
+"shadow"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1406,
+"zh": "奥多",
+"types": [
+"flying"
+],
+"bst": 347,
+"evolves_to": [
+1407
+],
+"tags": []
+},
+{
+"id": 1407,
+"zh": "奥维兹",
+"types": [
+"flying"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1408,
+"zh": "阿普",
+"types": [
+"light"
+],
+"bst": 344,
+"evolves_to": [
+1409
+],
+"tags": []
+},
+{
+"id": 1409,
+"zh": "奥普洛",
+"types": [
+"light"
+],
+"bst": 464,
+"evolves_to": [
+1410
+],
+"tags": []
+},
+{
+"id": 1410,
+"zh": "奥莱德",
+"types": [
+"light"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1411,
+"zh": "拉伽",
+"types": [
+"shadow"
+],
+"bst": 345,
+"evolves_to": [
+1412
+],
+"tags": []
+},
+{
+"id": 1412,
+"zh": "拉摩斯",
+"types": [
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1413,
+"zh": "斯兰",
+"types": [
+"shadow"
+],
+"bst": 341,
+"evolves_to": [
+1414
+],
+"tags": []
+},
+{
+"id": 1414,
+"zh": "斯卡普",
+"types": [
+"shadow"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1415,
+"zh": "珊奇",
+"types": [
+"water"
+],
+"bst": 341,
+"evolves_to": [
+1416
+],
+"tags": []
+},
+{
+"id": 1416,
+"zh": "珊克斯",
+"types": [
+"water"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1417,
+"zh": "里尔",
+"types": [
+"normal"
+],
+"bst": 342,
+"evolves_to": [
+1418
+],
+"tags": []
+},
+{
+"id": 1418,
+"zh": "库里",
+"types": [
+"normal"
+],
+"bst": 592,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1419,
+"zh": "布尼",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 325,
+"evolves_to": [
+1420
+],
+"tags": []
+},
+{
+"id": 1420,
+"zh": "布奥尼",
+"types": [
+"fighting",
+"shadow"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1421,
+"zh": "阿莱耶",
+"types": [
+"mechanical",
+"psychic"
+],
+"bst": 331,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1422,
+"zh": "阿莱耶克",
+"types": [
+"mechanical",
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1423,
+"zh": "玛尔科",
+"types": [
+"mechanical"
+],
+"bst": 320,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1424,
+"zh": "玛卢达科",
+"types": [
+"mechanical"
+],
+"bst": 585,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1425,
+"zh": "维恩",
+"types": [
+"fire"
+],
+"bst": 305,
+"evolves_to": [
+1426
+],
+"tags": []
+},
+{
+"id": 1426,
+"zh": "维恩尼",
+"types": [
+"fire"
+],
+"bst": 450,
+"evolves_to": [
+1427
+],
+"tags": []
+},
+{
+"id": 1427,
+"zh": "格维恩",
+"types": [
+"fire"
+],
+"bst": 593,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1428,
+"zh": "哈德罗卡",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1429,
+"zh": "哈德莱斯",
+"types": [
+"grass",
+"fighting"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1430,
+"zh": "洛达尔",
+"types": [
+"ground"
+],
+"bst": 347,
+"evolves_to": [
+1431
+],
+"tags": []
+},
+{
+"id": 1431,
+"zh": "洛拉斯克",
+"types": [
+"ground"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1432,
+"zh": "登登",
+"types": [
+"ice"
+],
+"bst": 333,
+"evolves_to": [
+1433
+],
+"tags": []
+},
+{
+"id": 1433,
+"zh": "约兰登",
+"types": [
+"ice"
+],
+"bst": 588,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1434,
+"zh": "普普",
+"types": [
+"psychic"
+],
+"bst": 341,
+"evolves_to": [
+1435
+],
+"tags": []
+},
+{
+"id": 1435,
+"zh": "艾普尔",
+"types": [
+"psychic"
+],
+"bst": 591,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1436,
+"zh": "克利卡",
+"types": [
+"shadow"
+],
+"bst": 342,
+"evolves_to": [
+1437
+],
+"tags": []
+},
+{
+"id": 1437,
+"zh": "克利萨",
+"types": [
+"shadow"
+],
+"bst": 601,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1438,
+"zh": "丽娜",
+"types": [
+"water"
+],
+"bst": 341,
+"evolves_to": [
+1439
+],
+"tags": []
+},
+{
+"id": 1439,
+"zh": "丽娜丝",
+"types": [
+"water"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1440,
+"zh": "姜姜",
+"types": [
+"ground"
+],
+"bst": 342,
+"evolves_to": [
+1441
+],
+"tags": []
+},
+{
+"id": 1441,
+"zh": "姜奇斯",
+"types": [
+"ground"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1442,
+"zh": "比比拉",
+"types": [
+"ice"
+],
+"bst": 338,
+"evolves_to": [
+1443
+],
+"tags": []
+},
+{
+"id": 1443,
+"zh": "比莫拉",
+"types": [
+"ice"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1444,
+"zh": "安科",
+"types": [
+"fighting"
+],
+"bst": 322,
+"evolves_to": [
+1445
+],
+"tags": []
+},
+{
+"id": 1445,
+"zh": "比安科",
+"types": [
+"fighting"
+],
+"bst": 587,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1446,
+"zh": "金翅托达",
+"types": [
+"flying"
+],
+"bst": 347,
+"evolves_to": [
+1447
+],
+"tags": []
+},
+{
+"id": 1447,
+"zh": "金翅托鲁克",
+"types": [
+"flying"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1448,
+"zh": "瑞普",
+"types": [
+"electric",
+"fire"
+],
+"bst": 336,
+"evolves_to": [
+1449
+],
+"tags": []
+},
+{
+"id": 1449,
+"zh": "瑞德尔",
+"types": [
+"electric",
+"fire"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1450,
+"zh": "沃安",
+"types": [
+"light"
+],
+"bst": 349,
+"evolves_to": [
+1451
+],
+"tags": []
+},
+{
+"id": 1451,
+"zh": "沃力昂",
+"types": [
+"light"
+],
+"bst": 595,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1452,
+"zh": "伊索",
+"types": [
+"fighting"
+],
+"bst": 325,
+"evolves_to": [
+1453
+],
+"tags": []
+},
+{
+"id": 1453,
+"zh": "伊索里",
+"types": [
+"fighting"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1454,
+"zh": "朵纳特",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 286,
+"evolves_to": [
+1455
+],
+"tags": []
+},
+{
+"id": 1455,
+"zh": "朵格尔",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 439,
+"evolves_to": [
+1456
+],
+"tags": []
+},
+{
+"id": 1456,
+"zh": "朵格纳特",
+"types": [
+"fire",
+"psychic"
+],
+"bst": 608,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1457,
+"zh": "师师",
+"types": [
+"ground"
+],
+"bst": 342,
+"evolves_to": [
+1458
+],
+"tags": []
+},
+{
+"id": 1458,
+"zh": "阿切尔",
+"types": [
+"ground"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1459,
+"zh": "艾菲德斯",
+"types": [
+"psychic"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1460,
+"zh": "暗金杰西卡",
+"types": [
+"fighting"
+],
+"bst": 590,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1461,
+"zh": "雪啦啦",
+"types": [
+"normal"
+],
+"bst": 339,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1462,
+"zh": "拉可尼",
+"types": [
+"electric"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1463,
+"zh": "尼可拉",
+"types": [
+"light"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1464,
+"zh": "吉纳波斯",
+"types": [
+"light"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1465,
+"zh": "西尔",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 324,
+"evolves_to": [
+1466
+],
+"tags": []
+},
+{
+"id": 1466,
+"zh": "西莫",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 442,
+"evolves_to": [
+1467
+],
+"tags": []
+},
+{
+"id": 1467,
+"zh": "西莫尔",
+"types": [
+"ground",
+"shadow"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1468,
+"zh": "卡尼",
+"types": [
+"grass"
+],
+"bst": 333,
+"evolves_to": [
+1469
+],
+"tags": []
+},
+{
+"id": 1469,
+"zh": "卡普瑞",
+"types": [
+"grass"
+],
+"bst": 597,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1470,
+"zh": "小雪人",
+"types": [
+"ice"
+],
+"bst": 341,
+"evolves_to": [
+1471
+],
+"tags": []
+},
+{
+"id": 1471,
+"zh": "雪人",
+"types": [
+"ice"
+],
+"bst": 458,
+"evolves_to": [
+1472
+],
+"tags": []
+},
+{
+"id": 1472,
+"zh": "雪之魂",
+"types": [
+"ice"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1473,
+"zh": "亚梅迪丝",
+"types": [
+"psychic"
+],
+"bst": 600,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1474,
+"zh": "祖梅",
+"types": [
+"psychic"
+],
+"bst": 359,
+"evolves_to": [
+1475
+],
+"tags": []
+},
+{
+"id": 1475,
+"zh": "梅诺西",
+"types": [
+"psychic"
+],
+"bst": 596,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1476,
+"zh": "弗西",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 321,
+"evolves_to": [
+1477
+],
+"tags": []
+},
+{
+"id": 1477,
+"zh": "弗希斯",
+"types": [
+"grass",
+"shadow"
+],
+"bst": 598,
+"evolves_to": [],
+"tags": [
+"spt_boss"
+]
+},
+{
+"id": 1478,
+"zh": "纳琪",
+"types": [
+"water",
+"psychic"
+],
+"bst": 334,
+"evolves_to": [
+1479
+],
+"tags": []
+},
+{
+"id": 1479,
+"zh": "纳琪尔",
+"types": [
+"water",
+"psychic"
+],
+"bst": 463,
+"evolves_to": [
+1480
+],
+"tags": []
+},
+{
+"id": 1480,
+"zh": "纳斯琪",
+"types": [
+"water",
+"psychic"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1481,
+"zh": "金角",
+"types": [
+"ground"
+],
+"bst": 349,
+"evolves_to": [
+1482
+],
+"tags": []
+},
+{
+"id": 1482,
+"zh": "金角大魔王",
+"types": [
+"ground"
+],
+"bst": 603,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1483,
+"zh": "合金赛特",
+"types": [
+"mechanical"
+],
+"bst": 360,
+"evolves_to": [
+1484
+],
+"tags": []
+},
+{
+"id": 1484,
+"zh": "合金赛伯斯特",
+"types": [
+"mechanical"
+],
+"bst": 610,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1485,
+"zh": "小火灵",
+"types": [
+"fire"
+],
+"bst": 343,
+"evolves_to": [
+1486
+],
+"tags": []
+},
+{
+"id": 1486,
+"zh": "火灵儿",
+"types": [
+"fire"
+],
+"bst": 594,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1487,
+"zh": "霍迪斯",
+"types": [
+"flying",
+"psychic"
+],
+"bst": 458,
+"evolves_to": [],
+"tags": []
+},
+{
+"id": 1498,
+"zh": "银角",
+"types": [
+"fighting"
+],
+"bst": 330,
+"evolves_to": [
+1499
+],
+"tags": [
+"boundary_2013"
+]
+},
+{
+"id": 1499,
+"zh": "银角大魔王",
+"types": [
+"fighting"
+],
+"bst": 602,
+"evolves_to": [],
+"tags": [
+"boundary_2013"
+]
+}
+],
+"count": 1483,
+"skills": 5325,
+"cutoff": {
+"monster_id_max": 1487,
+"extra": [
+1498,
+1499
+]
+}
+}

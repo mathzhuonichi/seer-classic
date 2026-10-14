@@ -1,0 +1,66 @@
+{
+  "id": 51,
+  "name": {
+    "zh": "玄冰兽"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 50,
+    "atk": 67,
+    "def": 55,
+    "spa": 52,
+    "spd": 42,
+    "spe": 44
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 61,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 40,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 10202
+    },
+    {
+      "level": 10,
+      "skill": 20057
+    },
+    {
+      "level": 15,
+      "skill": 20061
+    },
+    {
+      "level": 20,
+      "skill": 10212
+    },
+    {
+      "level": 25,
+      "skill": 10211
+    }
+  ],
+  "evolution": [
+    {
+      "to": 52,
+      "method": "level",
+      "level": 27
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0051",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

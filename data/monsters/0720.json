@@ -1,0 +1,74 @@
+{
+  "id": 720,
+  "name": {
+    "zh": "皮卡"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 62,
+    "atk": 42,
+    "def": 45,
+    "spa": 62,
+    "spd": 46,
+    "spe": 55
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 1,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20168
+    },
+    {
+      "level": 9,
+      "skill": 10427
+    },
+    {
+      "level": 13,
+      "skill": 20885
+    },
+    {
+      "level": 17,
+      "skill": 10076
+    },
+    {
+      "level": 21,
+      "skill": 11087
+    },
+    {
+      "level": 25,
+      "skill": 20886
+    },
+    {
+      "level": 29,
+      "skill": 10430
+    }
+  ],
+  "evolution": [
+    {
+      "to": 721,
+      "method": "level",
+      "level": 31
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0720",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-04"
+}

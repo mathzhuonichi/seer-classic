@@ -1,0 +1,148 @@
+{
+  "id": "boss_spt_anyebinghu",
+  "name": {
+    "zh": "暗夜冰狐"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "泰若星 神兽谷"
+  },
+  "era": "2011-12",
+  "team": [
+    {
+      "species": 1012,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12396,
+        12399,
+        12398,
+        21249
+      ],
+      "hp_override": 8000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "stages_unclearable"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "fear",
+        "sleep",
+        "paralysis",
+        "petrify",
+        "confusion"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "同生共死"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "def": 2,
+            "spd": 2
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 50
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "crit_rate_up",
+          "params": {
+            "target": "self",
+            "stages": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12396,
+      12399,
+      12398,
+      21249
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1011,
+      "level": 1
+    },
+    "items": {},
+    "achievement": {
+      "zh": "击败暗夜冰狐"
+    },
+    "title": {
+      "zh": "暗夜猎手"
+    }
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "先激活丛林秘境的枯枝机关，再到裂空星系泰若星第四层神兽谷挑战；打败获得暗夜冰狐的精元、成就「击败暗夜冰狐」与称号「暗夜猎手」。"
+  },
+  "strategy_notes": {
+    "zh": "魔龙王魑魅魍魉、布鲁克克海洋之心等百分比扣血逐步削弱；或盖亚高伤害技能直接击杀。速度很慢（无极之冰+1后仍不到300）。"
+  },
+  "engine_notes": [
+    "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects.",
+    "Innate double-defence boost (天生强化双防并且不可消去); +2 each is an estimate.",
+    "Immune to control skills, not 同生共死; susceptible to 海洋之心、圣灵魔闪光、魑魅魍魉、静电场.",
+    "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "innate_stage_amount",
+      "crit_rate_up_amount"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201112-05-130110.html"
+  ],
+  "source_note": "4399 SPT page: 80级, 8000血左右, 2011-12-02 更新加入."
+}

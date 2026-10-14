@@ -1,0 +1,85 @@
+{
+  "id": "boss_tower_brave_f068",
+  "name": {
+    "zh": "勇者之塔 第68层 嘟噜噜王"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔"
+  },
+  "era": "2010-10",
+  "team": [
+    {
+      "species": 253,
+      "level": 300,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10693,
+        10695,
+        10694,
+        20300
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10693,
+      10695,
+      10694,
+      20300
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "reward_note": "No per-floor reward is recorded for 61-69.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f067"
+    ]
+  },
+  "capture": {
+    "zh": "勇者之塔第68层：嘟噜噜王，Lv300，每只约1500血。"
+  },
+  "strategy_notes": {
+    "zh": "先用两个精灵把嘟噜噜王的攻击减掉再上丽莎，最后1V4"
+  },
+  "engine_notes": [
+    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
+    "Identification: four enemies; only 嘟噜噜王 (嘟噜鲁) is named, the other three are unidentified."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills",
+      "level",
+      "hp",
+      "team"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
+    "https://www.juxia.com/news/2011-9-23/15944.html"
+  ],
+  "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
+}

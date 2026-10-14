@@ -1,0 +1,704 @@
+[
+  {
+    "id": "cond_block_attacks",
+    "name": {
+      "zh": "防护罩（抵挡攻击次数）"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_taken",
+        "multiplier": 0,
+        "consume_charge": true
+      }
+    ],
+    "note": "Count-based, not turn-based: blocks the next N attacking hits (op field `charges`)."
+  },
+  {
+    "id": "cond_bonus_fixed_10",
+    "name": {
+      "zh": "每回合附加10点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_20",
+    "name": {
+      "zh": "每回合附加20点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_200",
+    "name": {
+      "zh": "每回合附加200点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 200
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_25",
+    "name": {
+      "zh": "每回合附加25点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_30",
+    "name": {
+      "zh": "每回合附加30点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 30
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_40",
+    "name": {
+      "zh": "每回合附加40点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 40
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_50",
+    "name": {
+      "zh": "每回合附加50点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 50
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_60",
+    "name": {
+      "zh": "每回合附加60点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 60
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_bonus_fixed_80",
+    "name": {
+      "zh": "每回合附加80点固定伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hit",
+        "effects": [
+          {
+            "op": "fixed_damage",
+            "amount": 80
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_counter_1_1",
+    "name": {
+      "zh": "反弹1/1伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hurt",
+        "reflect_pct": 100
+      }
+    ],
+    "note": "Inferred from Flash effect 21 (反击风暴/灵光反冲): reflect 1/k of attack damage taken back to the attacker."
+  },
+  {
+    "id": "cond_counter_1_2",
+    "name": {
+      "zh": "反弹1/2伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hurt",
+        "reflect_pct": 50
+      }
+    ],
+    "note": "Inferred from Flash effect 21 (反击风暴/灵光反冲): reflect 1/k of attack damage taken back to the attacker."
+  },
+  {
+    "id": "cond_counter_1_3",
+    "name": {
+      "zh": "反弹1/3伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hurt",
+        "reflect_pct": 33.33
+      }
+    ],
+    "note": "Inferred from Flash effect 21 (反击风暴/灵光反冲): reflect 1/k of attack damage taken back to the attacker."
+  },
+  {
+    "id": "cond_counter_1_4",
+    "name": {
+      "zh": "反弹1/4伤害"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "on_hurt",
+        "reflect_pct": 25
+      }
+    ],
+    "note": "Inferred from Flash effect 21 (反击风暴/灵光反冲): reflect 1/k of attack damage taken back to the attacker."
+  },
+  {
+    "id": "cond_crit_up_1",
+    "name": {
+      "zh": "致命一击率提升"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_crit_rate",
+        "add": 1
+      }
+    ]
+  },
+  {
+    "id": "cond_dmg_dealt_div2",
+    "name": {
+      "zh": "攻击伤害变为1/2"
+    },
+    "kind": "debuff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "id": "cond_dmg_dealt_x2",
+    "name": {
+      "zh": "攻击伤害2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_dragon_power_x2",
+    "name": {
+      "zh": "龙系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "dragon"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_electric_power_x2",
+    "name": {
+      "zh": "电系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "electric"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_fire_power_x2",
+    "name": {
+      "zh": "火系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "fire"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_flying_power_x2",
+    "name": {
+      "zh": "飞行系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "flying"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_force_crit",
+    "name": {
+      "zh": "必定致命一击"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_crit_rate",
+        "force_crit": true
+      }
+    ]
+  },
+  {
+    "id": "cond_grass_power_x2",
+    "name": {
+      "zh": "草系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "grass"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_ground_power_x2",
+    "name": {
+      "zh": "地面系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "ground"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_halve_physical",
+    "name": {
+      "zh": "物理伤害减半"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_taken",
+        "when": {
+          "category": "physical"
+        },
+        "multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "id": "cond_halve_special",
+    "name": {
+      "zh": "特殊伤害减半"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_taken",
+        "when": {
+          "category": "special"
+        },
+        "multiplier": 0.5
+      }
+    ]
+  },
+  {
+    "id": "cond_ice_power_x2",
+    "name": {
+      "zh": "冰系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "ice"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_immune_stage_down",
+    "name": {
+      "zh": "免疫能力下降"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "block_stage_down"
+      }
+    ]
+  },
+  {
+    "id": "cond_immune_status",
+    "name": {
+      "zh": "免疫异常状态"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "block_status"
+      }
+    ]
+  },
+  {
+    "id": "cond_light_power_x2",
+    "name": {
+      "zh": "光系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "light"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_mechanical_power_x2",
+    "name": {
+      "zh": "机械系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "mechanical"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_psychic_power_x2",
+    "name": {
+      "zh": "超能系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "psychic"
+        },
+        "multiplier": 2
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_10",
+    "name": {
+      "zh": "每回合恢复1/10体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_3",
+    "name": {
+      "zh": "每回合恢复1/3体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 33.33
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_4",
+    "name": {
+      "zh": "每回合恢复1/4体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_5",
+    "name": {
+      "zh": "每回合恢复1/5体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_6",
+    "name": {
+      "zh": "每回合恢复1/6体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 16.67
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_regen_1_8",
+    "name": {
+      "zh": "每回合恢复1/8体力"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "turn_end",
+        "effects": [
+          {
+            "op": "heal",
+            "target": "self",
+            "pct_max_hp": 12.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cond_resist_fire_half",
+    "name": {
+      "zh": "火系伤害减半"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_taken",
+        "when": {
+          "skill_type": "fire"
+        },
+        "multiplier": 0.5
+      }
+    ],
+    "note": "Inferred from Flash effect 41 (玩水/隔绝/火焰屏障: 抵抗火系招式)."
+  },
+  {
+    "id": "cond_sure_hit",
+    "name": {
+      "zh": "攻击必定命中"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_accuracy",
+        "force_hit": true
+      }
+    ]
+  },
+  {
+    "id": "cond_water_power_x2",
+    "name": {
+      "zh": "水系技能威力2倍"
+    },
+    "kind": "buff",
+    "stack": "refresh",
+    "hooks": [
+      {
+        "on": "modify_damage_dealt",
+        "when": {
+          "skill_type": "water"
+        },
+        "multiplier": 2
+      }
+    ]
+  }
+]

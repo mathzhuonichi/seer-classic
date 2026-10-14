@@ -1,0 +1,124 @@
+{
+  "id": 444,
+  "name": {
+    "zh": "闪光依莱恩"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 100,
+    "atk": 110,
+    "def": 83,
+    "spa": 107,
+    "spd": 84,
+    "spe": 94
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10234
+    },
+    {
+      "level": 5,
+      "skill": 20020
+    },
+    {
+      "level": 9,
+      "skill": 20012
+    },
+    {
+      "level": 13,
+      "skill": 10235
+    },
+    {
+      "level": 17,
+      "skill": 10236
+    },
+    {
+      "level": 21,
+      "skill": 20108
+    },
+    {
+      "level": 25,
+      "skill": 10237
+    },
+    {
+      "level": 29,
+      "skill": 10067
+    },
+    {
+      "level": 33,
+      "skill": 20462
+    },
+    {
+      "level": 37,
+      "skill": 11182
+    },
+    {
+      "level": 41,
+      "skill": 10038
+    },
+    {
+      "level": 44,
+      "skill": 20007
+    },
+    {
+      "level": 47,
+      "skill": 10240
+    },
+    {
+      "level": 50,
+      "skill": 11180
+    },
+    {
+      "level": 53,
+      "skill": 20109
+    },
+    {
+      "level": 56,
+      "skill": 10117
+    },
+    {
+      "level": 59,
+      "skill": 10238
+    },
+    {
+      "level": 62,
+      "skill": 20110
+    },
+    {
+      "level": 65,
+      "skill": 10241
+    },
+    {
+      "level": 68,
+      "skill": 10239
+    },
+    {
+      "level": 71,
+      "skill": 20463
+    },
+    {
+      "level": 75,
+      "skill": 11181
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 443,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0444",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-08"
+}

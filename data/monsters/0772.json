@@ -1,0 +1,101 @@
+{
+  "id": 772,
+  "name": {
+    "zh": "纳迪科"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 110,
+    "def": 89,
+    "spa": 88,
+    "spd": 78,
+    "spe": 95
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20117
+    },
+    {
+      "level": 9,
+      "skill": 10022
+    },
+    {
+      "level": 13,
+      "skill": 10716
+    },
+    {
+      "level": 17,
+      "skill": 20307
+    },
+    {
+      "level": 21,
+      "skill": 10477
+    },
+    {
+      "level": 25,
+      "skill": 10718
+    },
+    {
+      "level": 30,
+      "skill": 20328
+    },
+    {
+      "level": 33,
+      "skill": 11875
+    },
+    {
+      "level": 37,
+      "skill": 11878
+    },
+    {
+      "level": 41,
+      "skill": 20952
+    },
+    {
+      "level": 45,
+      "skill": 11876
+    },
+    {
+      "level": 49,
+      "skill": 20953
+    },
+    {
+      "level": 53,
+      "skill": 11879
+    },
+    {
+      "level": 57,
+      "skill": 20954
+    },
+    {
+      "level": 61,
+      "skill": 11877
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 771,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0772",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-05"
+}

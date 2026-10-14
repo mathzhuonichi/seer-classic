@@ -1,0 +1,66 @@
+{
+  "id": 298,
+  "name": {
+    "zh": "迅牙虎"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 90,
+    "atk": 80,
+    "def": 60,
+    "spa": 40,
+    "spd": 50,
+    "spe": 50
+  },
+  "ev_yield": {
+    "hp": 1
+  },
+  "exp_yield": 70,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10987
+    },
+    {
+      "level": 8,
+      "skill": 20493
+    },
+    {
+      "level": 15,
+      "skill": 10988
+    },
+    {
+      "level": 20,
+      "skill": 20494
+    },
+    {
+      "level": 25,
+      "skill": 10989
+    },
+    {
+      "level": 30,
+      "skill": 20495
+    }
+  ],
+  "evolution": [
+    {
+      "to": 299,
+      "method": "level",
+      "level": 35
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0298",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

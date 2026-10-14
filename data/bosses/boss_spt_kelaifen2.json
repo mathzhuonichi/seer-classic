@@ -1,0 +1,86 @@
+{
+  "id": "boss_spt_kelaifen2",
+  "name": {
+    "zh": "克莱芬"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "露西欧星"
+  },
+  "era": "2011-07",
+  "team": [
+    {
+      "species": 855,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12050,
+        21052,
+        12048,
+        12051
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12050,
+      21052,
+      12048,
+      12051
+    ]
+  },
+  "reward": {
+    "monster": null,
+    "items": {},
+    "achievement": {
+      "zh": "再次击败克莱芬"
+    }
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_spt_kelaifen1"
+    ]
+  },
+  "capture": {
+    "zh": "击败酒醉的克莱芬后可再次挑战80级的清醒克莱芬，胜利获得成就「再次击败克莱芬」（精元已在第一战获得）。"
+  },
+  "strategy_notes": {
+    "zh": "80级克莱芬速度很快，攻略作者用谱尼战胜。"
+  },
+  "engine_notes": [
+    "Rematch reward is an achievement only; reward.monster is null.",
+    "HP not published; 5000 estimated from contemporary 80级 SPT bosses (古尔扎迪/米诺斯 ~5000).",
+    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201108-23-111468.html",
+    "https://news.4399.com/jdseer/xinde/m/808365.html"
+  ],
+  "source_note": "4399: 「这次是80级的克莱芬…速度貌似很不错…最后用谱尼战胜了」."
+}

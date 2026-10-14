@@ -1,0 +1,208 @@
+{
+  "id": "boss_campaign_baihu_guardians",
+  "name": {
+    "zh": "白虎·五大守护兽"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "菲尼克斯禁地 · 白虎"
+  },
+  "era": "2011",
+  "team": [
+    {
+      "species": 490,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11278,
+        20617,
+        11280,
+        11277
+      ],
+      "hp_override": 5000,
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit"
+        },
+        {
+          "rule": "script",
+          "id": "alternating_immunity",
+          "params": {
+            "on": "even_turns",
+            "order": [
+              "special",
+              "physical",
+              "status"
+            ]
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 538,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11358,
+        20457,
+        11356,
+        20528
+      ],
+      "hp_override": 1500,
+      "member_rules": [
+        {
+          "rule": "immune_ohko"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "params": {
+            "skills_zh": [
+              "同生共死",
+              "镇魂歌",
+              "极度冰点"
+            ]
+          }
+        },
+        {
+          "rule": "script",
+          "id": "always_hit"
+        },
+        {
+          "rule": "no_struggle"
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 587,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11471,
+        11466,
+        20732,
+        11470
+      ],
+      "hp_override": 2000,
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "vs_type_use_only",
+          "params": {
+            "type": "light",
+            "skill": 11470
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 617,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11546,
+        20497,
+        11548,
+        20593
+      ],
+      "hp_override": 10000,
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "params": {
+            "pct": 25,
+            "min_damage": 0
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 672,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11668,
+        11669,
+        11665,
+        20826
+      ],
+      "hp_override": 5000,
+      "stat_multipliers": {
+        "spe": 0.5
+      },
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "params": {
+            "foe_loss": 100,
+            "self_heal": 100
+          }
+        },
+        {
+          "rule": "immune_status_list",
+          "statuses": [
+            "leech"
+          ]
+        }
+      ],
+      "member_phases": []
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {},
+    "kind": "campaign_progress"
+  },
+  "campaign": {
+    "id": "baihu",
+    "stage": "guardians",
+    "final": false
+  },
+  "strategy_notes": {
+    "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
+  },
+  "engine_notes": [
+    "Guardian order follows the numbered April 2011 walkthrough, not an unordered launch announcement list. Numeric/loadout/rule calibration reuses current SPT records; guardian-specific divergence remains possible."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110426/84954.html",
+    "https://news.7k7k.com/content/20110328/82522.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

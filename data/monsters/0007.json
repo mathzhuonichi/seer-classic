@@ -1,0 +1,58 @@
+{
+  "id": 7,
+  "name": {
+    "zh": "小火猴"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 44,
+    "atk": 58,
+    "def": 44,
+    "spa": 58,
+    "spd": 44,
+    "spe": 61
+  },
+  "ev_yield": {
+    "spe": 1
+  },
+  "exp_yield": 65,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 3,
+      "skill": 20004
+    },
+    {
+      "level": 7,
+      "skill": 10007
+    },
+    {
+      "level": 9,
+      "skill": 20005
+    }
+  ],
+  "evolution": [
+    {
+      "to": 8,
+      "method": "level",
+      "level": 14
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0007",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

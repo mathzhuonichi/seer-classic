@@ -1,0 +1,37 @@
+# Graphical official-source atlas, revision 28
+
+Date: 2026-10-04. Scope: replace the catalogue-style atlas with source-backed graphical navigation through the existing world catalogue. No new habitats, encounters or scenery are added. No build, package or commit is requested.
+
+## Navigation and preserved behavior
+
+The atlas opens at the universe overview. Selecting a galaxy shows only that galaxy's graphical map; upper-level galaxy tabs and ancestor choices are absent. Selecting a planet with multiple landing regions opens its source-backed region diagram. Selecting a destination with a single landing region or selecting a region node invokes the existing `onTravel({planetId, regionId})` callback immediately. There is no added confirmation step. A return arrow moves from a planet to its galaxy, or from a galaxy or ship destination to the universe overview.
+
+The former CSS orbs, catalogue tiles, search index, simultaneous galaxy tabs, right-hand scene preview, landing list and confirmation footer are removed. Recovered source diagrams use their native hit areas on a single proportionally scaled surface. Adapted diagrams use original artwork and source-derived control anchors on the same graphical surface. Buttons remain ordinary accessible HTML controls with descriptive destination names and keyboard focus. Diagram scaling preserves the source aspect ratio and keeps node coordinates aligned with the artwork.
+
+The existing `WORLD_GALAXIES`, `WORLD_PLANETS` and `WorldDestination` callback remain authoritative for playable destinations. Ship, station and fortress navigation remains within the diagram rather than a right-hand button strip. Atlas changes do not alter encyclopedia travel, world scene generation, saved creature state or the origin-specific browser save. Existing authored challenge staging destinations must remain reachable and be distinguished from source-original places in the source metadata.
+
+## Source and implementation boundaries
+
+The source worker recovers original diagram artwork and native anchors from the official `NewWorldMap2020Panel` resource and original `resource/map/starMap/` resources. Local source assets are delivered under `public/ui/classic/maps/`. Provenance remains in that directory's manifest, while runtime page metadata is mirrored to `src/presentation/atlas-graph-assets.json`. `WorldAtlas.tsx` joins source node targets to the existing world catalogue by canonical IDs first, then original map IDs as a fallback. Region joins likewise prioritize canonical IDs, preserving the separate Cecilia snow and peak leaves that share original map ID 40. Page lookup prefers canonical planet-ID keys when provided, then original numeric map-ID keys. It neither infers a new planet from artwork nor exposes a new habitat merely because that place appears on a source diagram.
+
+The universe overview is an authorized remake composition of the five genuine illustrated galaxy selectors from source sprite 2819, frames 1–5, on the original space background. Their overview arrangement is not claimed to be original universe geometry. Ship, space-station and fortress controls reuse the original ship blueprint, original hub station illustration and the original `StarMap102` fortress control. They remain distinct controls within the graphical overview, without a right-hand base list or scene-preview photographs. The galaxy diagrams are genuine native 960-by-560 source stages, rendered at 2x resolution. The original 55 retained planet illustrations, labels and positions remain intact. Ancestor sidebar graphics and unmodeled future planet placements are omitted from those exports. Original baked headings and return artwork are used directly, without duplicate external chrome.
+
+Original planet-region SWFs are available for eight of the 37 needed multi-region pages: ship (1), Helka (30), White (484), Giant (702), Allen (29), Bast (717), Lainna (726) and space station (102). The other 29 primary endpoints return HTTP 404. The parent task authorizes 29 adapted region pages using genuine planet artwork, the original space backdrop and original GO-control chrome. These pages borrow the original `StarMap102` control anchors, with a uniform scale and centering that preserve their relative geometry. All 29 use separate canonical region IDs and direct travel callbacks. Such pages must remain identified as adaptations, rather than recovered original diagrams or proof of historical node geometry. Existing authored staging leaves likewise remain remake routes. The separate small-Phantom route (741) has no recovered independent planet illustration in the retained 55-node source set; its existing route uses an original neutral GO glyph at a released native Helix anchor. That is an explicitly documented route adaptation, not a recovered image or historical position for planet 741.
+
+Native title text is restored over the original title-plate rectangles using the source-family font; original return-arrow artwork replaces close-X artwork where the tree requires return navigation. Ship transfer binds to the original transport button, rather than the unrelated power-room illustration. Adapted challenge controls are placed separately from original rooms and one another.
+
+The component uses source artwork as the visible map. Native transparent hit areas cover the original graphics; text is rendered separately only when the metadata explicitly requires a live label. The source-family `SeerSimSun` stack introduced in revision 27 is retained. Original source era and adaptation limits are documented by the asset manifest; the interface does not claim a pixel-exact recreation of a single historical release.
+
+## Verification and handoff
+
+The final frozen metadata passes the durable command:
+
+```sh
+node tools/verification/graphical-atlas.mjs
+```
+
+The verifier traverses all **43 graphical pages and 185 controls**, reaches every one of the existing **59 destinations and 130 landing leaves**, validates **51 referenced artwork resources**, checks decoration and title rectangles and live label anchors against their page viewports, and audits **168 control pairs involving introduced or adapted hit areas**. There are no unreachable leaves, missing referenced resources or adapted-hotspot overlaps. Intentional original native/native overlaps are not classified as introduced layout errors. The verifier uses the component's canonical-ID-first joins and direct-travel rule, including the two Cecilia leaves sharing original map ID 40. Its report is saved under ignored `artifacts/ui-v28/atlas-coverage.json`.
+
+`npx tsc --noEmit` passes, and PostCSS parsing passes for the replacement atlas stylesheet. No controller, world catalogue, encounter or save implementation was changed by this worker. The verifier reads the model and source metadata without opening or modifying a game save. No build, package or commit was created.
+
+The parent task's live checks confirm the original Pano diagram without ancestor tabs or a scene-preview panel, successful direct travel through the ship's actual transport control, loaded original font families, and fully visible Helka title and return controls. The parent task performs the remaining integrated browser checks and preserves the user's separate save origin. Metadata traversal, rectangle bounds and file presence do not certify exact historical pixels, glyph-width containment or every browser interaction; the source and adaptation distinctions above remain material.

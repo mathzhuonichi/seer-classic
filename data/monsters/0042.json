@@ -1,0 +1,107 @@
+{
+  "id": 42,
+  "name": {
+    "zh": "里奥斯"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 73,
+    "atk": 81,
+    "def": 75,
+    "spa": 111,
+    "spd": 100,
+    "spe": 100
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 113,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10008
+    },
+    {
+      "level": 3,
+      "skill": 10007
+    },
+    {
+      "level": 5,
+      "skill": 20035
+    },
+    {
+      "level": 8,
+      "skill": 20048
+    },
+    {
+      "level": 12,
+      "skill": 10083
+    },
+    {
+      "level": 15,
+      "skill": 20049
+    },
+    {
+      "level": 18,
+      "skill": 10097
+    },
+    {
+      "level": 21,
+      "skill": 20050
+    },
+    {
+      "level": 24,
+      "skill": 10096
+    },
+    {
+      "level": 27,
+      "skill": 20051
+    },
+    {
+      "level": 29,
+      "skill": 10098
+    },
+    {
+      "level": 32,
+      "skill": 10099
+    },
+    {
+      "level": 36,
+      "skill": 20052
+    },
+    {
+      "level": 41,
+      "skill": 10101
+    },
+    {
+      "level": 47,
+      "skill": 10100
+    },
+    {
+      "level": 51,
+      "skill": 20053
+    },
+    {
+      "level": 56,
+      "skill": 10102
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 41,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 2,
+  "art": "m0042",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

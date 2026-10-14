@@ -1,0 +1,103 @@
+{
+  "id": 274,
+  "name": {
+    "zh": "塔克林"
+  },
+  "types": [
+    "dragon"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 120,
+    "def": 100,
+    "spa": 95,
+    "spd": 80,
+    "spe": 86
+  },
+  "ev_yield": {
+    "hp": 1,
+    "def": 1
+  },
+  "exp_yield": 112,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10611
+    },
+    {
+      "level": 5,
+      "skill": 20299
+    },
+    {
+      "level": 9,
+      "skill": 10757
+    },
+    {
+      "level": 13,
+      "skill": 10614
+    },
+    {
+      "level": 17,
+      "skill": 20203
+    },
+    {
+      "level": 21,
+      "skill": 10988
+    },
+    {
+      "level": 25,
+      "skill": 10761
+    },
+    {
+      "level": 29,
+      "skill": 20139
+    },
+    {
+      "level": 33,
+      "skill": 10758
+    },
+    {
+      "level": 37,
+      "skill": 10622
+    },
+    {
+      "level": 41,
+      "skill": 20337
+    },
+    {
+      "level": 45,
+      "skill": 10759
+    },
+    {
+      "level": 49,
+      "skill": 20338
+    },
+    {
+      "level": 53,
+      "skill": 10762
+    },
+    {
+      "level": 57,
+      "skill": 20339
+    },
+    {
+      "level": 61,
+      "skill": 10760
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 273,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m0274",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

@@ -1,0 +1,103 @@
+{
+  "id": 945,
+  "name": {
+    "zh": "斯宾塞"
+  },
+  "types": [
+    "shadow"
+  ],
+  "base": {
+    "hp": 124,
+    "atk": 82,
+    "def": 83,
+    "spa": 115,
+    "spd": 87,
+    "spe": 104
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10400
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 12255
+    },
+    {
+      "level": 13,
+      "skill": 20049
+    },
+    {
+      "level": 17,
+      "skill": 12253
+    },
+    {
+      "level": 21,
+      "skill": 11303
+    },
+    {
+      "level": 25,
+      "skill": 21167
+    },
+    {
+      "level": 29,
+      "skill": 10626
+    },
+    {
+      "level": 33,
+      "skill": 20818
+    },
+    {
+      "level": 37,
+      "skill": 11829
+    },
+    {
+      "level": 41,
+      "skill": 21168
+    },
+    {
+      "level": 45,
+      "skill": 11545
+    },
+    {
+      "level": 49,
+      "skill": 12256
+    },
+    {
+      "level": 53,
+      "skill": 21169
+    },
+    {
+      "level": 57,
+      "skill": 12254
+    },
+    {
+      "level": 61,
+      "skill": 12257
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 944,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m0945",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

@@ -1,0 +1,101 @@
+{
+  "id": 1336,
+  "name": {
+    "zh": "尤尼卡"
+  },
+  "types": [
+    "fighting",
+    "shadow"
+  ],
+  "base": {
+    "hp": 126,
+    "atk": 120,
+    "def": 85,
+    "spa": 84,
+    "spd": 87,
+    "spe": 108
+  },
+  "ev_yield": {
+    "atk": 2
+  },
+  "exp_yield": 130,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10780
+    },
+    {
+      "level": 5,
+      "skill": 20183
+    },
+    {
+      "level": 9,
+      "skill": 11393
+    },
+    {
+      "level": 13,
+      "skill": 10424
+    },
+    {
+      "level": 17,
+      "skill": 20167
+    },
+    {
+      "level": 21,
+      "skill": 13109
+    },
+    {
+      "level": 25,
+      "skill": 11501
+    },
+    {
+      "level": 29,
+      "skill": 20614
+    },
+    {
+      "level": 33,
+      "skill": 13110
+    },
+    {
+      "level": 37,
+      "skill": 13113
+    },
+    {
+      "level": 41,
+      "skill": 21628
+    },
+    {
+      "level": 45,
+      "skill": 13111
+    },
+    {
+      "level": 49,
+      "skill": 21629
+    },
+    {
+      "level": 53,
+      "skill": 13114
+    },
+    {
+      "level": 57,
+      "skill": 21630
+    },
+    {
+      "level": 61,
+      "skill": 13112
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1335,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1336",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

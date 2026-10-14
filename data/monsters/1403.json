@@ -1,0 +1,124 @@
+{
+  "id": 1403,
+  "name": {
+    "zh": "萨洛奇斯"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 121,
+    "atk": 116,
+    "def": 84,
+    "spa": 86,
+    "spd": 87,
+    "spe": 100
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 119,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 4,
+      "skill": 20016
+    },
+    {
+      "level": 8,
+      "skill": 10054
+    },
+    {
+      "level": 12,
+      "skill": 10683
+    },
+    {
+      "level": 16,
+      "skill": 20002
+    },
+    {
+      "level": 20,
+      "skill": 10688
+    },
+    {
+      "level": 24,
+      "skill": 10059
+    },
+    {
+      "level": 28,
+      "skill": 20004
+    },
+    {
+      "level": 30,
+      "skill": 10037
+    },
+    {
+      "level": 32,
+      "skill": 10108
+    },
+    {
+      "level": 36,
+      "skill": 13268
+    },
+    {
+      "level": 40,
+      "skill": 20298
+    },
+    {
+      "level": 44,
+      "skill": 10687
+    },
+    {
+      "level": 48,
+      "skill": 20092
+    },
+    {
+      "level": 52,
+      "skill": 10686
+    },
+    {
+      "level": 56,
+      "skill": 10685
+    },
+    {
+      "level": 60,
+      "skill": 20297
+    },
+    {
+      "level": 65,
+      "skill": 13270
+    },
+    {
+      "level": 67,
+      "skill": 21720
+    },
+    {
+      "level": 69,
+      "skill": 10684
+    },
+    {
+      "level": 71,
+      "skill": 21721
+    },
+    {
+      "level": 74,
+      "skill": 13269
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1402,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1403",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-10"
+}

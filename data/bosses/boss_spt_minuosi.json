@@ -1,0 +1,81 @@
+{
+  "id": "boss_spt_minuosi",
+  "name": {
+    "zh": "米诺斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "怀特星魔窟"
+  },
+  "era": "2011-10",
+  "team": [
+    {
+      "species": 957,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12285,
+        12284,
+        21187,
+        21186
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12285,
+      12284,
+      21187,
+      21186
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 956,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在怀特星魔窟挑战米诺斯，打败后获得1个米诺斯精元。"
+  },
+  "strategy_notes": {
+    "zh": "用飞行、机械、超能系克制：盖亚日月皆伤+返璞归真消耗，艾尔伊洛星体解离术，迪普利德魔力漩涡，闪光艾菲亚无限之光收尾。"
+  },
+  "engine_notes": [
+    "No special rules reported by 4399; 4399 names 狂暴烈袭 and 魂之审判 — the other two slots are the species' remaining top learnset skills.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201110-22-122129.html"
+  ],
+  "source_note": "4399 SPT page 2011-10-22: 80级, 战斗系, 5000血左右."
+}

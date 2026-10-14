@@ -1,0 +1,84 @@
+{
+  "id": 636,
+  "name": {
+    "zh": "符拉迪诺"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 113,
+    "atk": 81,
+    "def": 82,
+    "spa": 120,
+    "spd": 88,
+    "spe": 106
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 10598
+    },
+    {
+      "level": 10,
+      "skill": 20784
+    },
+    {
+      "level": 15,
+      "skill": 10034
+    },
+    {
+      "level": 20,
+      "skill": 20785
+    },
+    {
+      "level": 25,
+      "skill": 11588
+    },
+    {
+      "level": 30,
+      "skill": 11590
+    },
+    {
+      "level": 35,
+      "skill": 20786
+    },
+    {
+      "level": 40,
+      "skill": 11591
+    },
+    {
+      "level": 45,
+      "skill": 11589
+    },
+    {
+      "level": 50,
+      "skill": 20404
+    },
+    {
+      "level": 60,
+      "skill": 11592
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 635,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0636",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

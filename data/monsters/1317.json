@@ -1,0 +1,128 @@
+{
+  "id": 1317,
+  "name": {
+    "zh": "裂冰之魂"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 82,
+    "def": 84,
+    "spa": 117,
+    "spd": 88,
+    "spe": 102
+  },
+  "ev_yield": {
+    "spa": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 5,
+      "skill": 20079
+    },
+    {
+      "level": 10,
+      "skill": 10150
+    },
+    {
+      "level": 15,
+      "skill": 10204
+    },
+    {
+      "level": 19,
+      "skill": 10029
+    },
+    {
+      "level": 23,
+      "skill": 10213
+    },
+    {
+      "level": 27,
+      "skill": 20080
+    },
+    {
+      "level": 31,
+      "skill": 10151
+    },
+    {
+      "level": 35,
+      "skill": 10214
+    },
+    {
+      "level": 43,
+      "skill": 10152
+    },
+    {
+      "level": 45,
+      "skill": 20062
+    },
+    {
+      "level": 47,
+      "skill": 10154
+    },
+    {
+      "level": 49,
+      "skill": 10155
+    },
+    {
+      "level": 51,
+      "skill": 20081
+    },
+    {
+      "level": 53,
+      "skill": 10153
+    },
+    {
+      "level": 55,
+      "skill": 10156
+    },
+    {
+      "level": 57,
+      "skill": 21437
+    },
+    {
+      "level": 61,
+      "skill": 13067
+    },
+    {
+      "level": 63,
+      "skill": 21605
+    },
+    {
+      "level": 65,
+      "skill": 13068
+    },
+    {
+      "level": 67,
+      "skill": 13069
+    },
+    {
+      "level": 71,
+      "skill": 21606
+    },
+    {
+      "level": 73,
+      "skill": 13070
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 67,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1317",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

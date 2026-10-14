@@ -1,0 +1,131 @@
+{
+  "id": "boss_spt_hamoleite",
+  "name": {
+    "zh": "哈莫雷特"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "龙王圣殿"
+  },
+  "era": "2010-05",
+  "team": [
+    {
+      "species": 216,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10618,
+        10617,
+        10622,
+        20269
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "damage_only_from",
+      "types": [
+        "water",
+        "fire",
+        "grass"
+      ]
+    },
+    {
+      "rule": "no_repeat_type"
+    },
+    {
+      "rule": "script",
+      "id": "type_rotation",
+      "params": {
+        "order": [
+          "water",
+          "fire",
+          "grass"
+        ]
+      }
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "paralysis",
+        "poison",
+        "leech"
+      ]
+    },
+    {
+      "rule": "immune_percent_damage"
+    },
+    {
+      "rule": "no_struggle"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10618,
+      10617,
+      10622,
+      20269
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_hamoleite": 1
+    },
+    "achievement": {
+      "zh": "击败哈莫雷特"
+    }
+  },
+  "reward_hatches": 215,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "哈莫星龙王圣殿（早期随剧情出现在塔克星、斯科尔星）随时可挑战；打败获得哈莫雷特精元（孵化得哈莫）和成就。"
+  },
+  "strategy_notes": {
+    "zh": "准备水、火、草三系精灵按「水→火→草」轮流出手（每打一下换一只），其他属性打它不掉血。可用融合获得的丽莎布布学习花草护体提高双防，配合体力和 PP 药剂耗光攻击技能的 PP，再轮换输出；受到致命一击后留意对应防御强化并重新补强。"
+  },
+  "engine_notes": [
+    "damage_only_from types water/fire/grass: other skill types deal 0.",
+    "type_rotation (stricter than no_repeat_type): a damaging hit only counts if its skill type is the next one in the cycle 水→火→草→水…; an out-of-order hit deals 0 (techbang 2011: 如果顺序错误的话，BOSS就不会损血). 7k7k phrases it as 每种属性只能打一次 (per cycle). Rotation is by skill type here; several guides phrase it by monster type (先上水系，然后上火系…) because each pet used its own STAB move.",
+    "Immune to 麻痹、寄生种子、中毒 and 海洋之心 (percent damage).",
+    "no_struggle: the classic plan was to drain its attack PP (龙王波/龙爪闪空破/龙王灭碎阵) and then rotate safely.",
+    "HP conflict: 7k7k 2011 says 3000; 4399 (2010-06-01) and weste (2010-09) say 10000. 10000 used (two 2010 sources, and the 10-20 minute fights).",
+    "龙之意志 (20269) raises its atk/def/spa by 1; clearing boosts first was standard.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "rotation_by_skill_or_pet_type",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
+    "https://www.weste.net/2010/9-15/72453.html",
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://www.techbang.com/posts/33164-order-spt-boss-raiders-hamo-hamlet-review",
+    "https://news.4399.com/seer/zenmezhua/201101-20-85001.html"
+  ],
+  "source_note": "4399 2010-06-01: 80级 10000血, 必须水火草轮流; 7k7k 2011: 仅受水火草属性招式有效，每种属性限打一次; techbang 2011-01: 顺序错误不损血, 免疫麻痹/寄生/中毒/海洋之心."
+}

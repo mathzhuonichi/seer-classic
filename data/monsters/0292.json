@@ -1,0 +1,101 @@
+{
+  "id": 292,
+  "name": {
+    "zh": "弗里昂"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 101,
+    "def": 82,
+    "spa": 98,
+    "spd": 82,
+    "spe": 85
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 111,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 4,
+      "skill": 20041
+    },
+    {
+      "level": 7,
+      "skill": 10806
+    },
+    {
+      "level": 11,
+      "skill": 10307
+    },
+    {
+      "level": 15,
+      "skill": 20075
+    },
+    {
+      "level": 19,
+      "skill": 10309
+    },
+    {
+      "level": 23,
+      "skill": 10809
+    },
+    {
+      "level": 27,
+      "skill": 20356
+    },
+    {
+      "level": 31,
+      "skill": 10807
+    },
+    {
+      "level": 35,
+      "skill": 10588
+    },
+    {
+      "level": 39,
+      "skill": 20070
+    },
+    {
+      "level": 43,
+      "skill": 10043
+    },
+    {
+      "level": 47,
+      "skill": 20156
+    },
+    {
+      "level": 51,
+      "skill": 10810
+    },
+    {
+      "level": 55,
+      "skill": 20357
+    },
+    {
+      "level": 59,
+      "skill": 10808
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 291,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0292",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

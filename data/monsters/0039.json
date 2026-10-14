@@ -1,0 +1,79 @@
+{
+  "id": 39,
+  "name": {
+    "zh": "贝拉米"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 67,
+    "atk": 70,
+    "def": 73,
+    "spa": 70,
+    "spd": 69,
+    "spe": 45
+  },
+  "ev_yield": {
+    "def": 1,
+    "spd": 1
+  },
+  "exp_yield": 91,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 60,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 9,
+      "skill": 10087
+    },
+    {
+      "level": 13,
+      "skill": 20046
+    },
+    {
+      "level": 18,
+      "skill": 10088
+    },
+    {
+      "level": 21,
+      "skill": 10089
+    },
+    {
+      "level": 24,
+      "skill": 20042
+    },
+    {
+      "level": 27,
+      "skill": 10091
+    },
+    {
+      "level": 31,
+      "skill": 10090
+    }
+  ],
+  "evolution": [
+    {
+      "to": 40,
+      "method": "level",
+      "level": 34
+    }
+  ],
+  "evolves_from": 38,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0039",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

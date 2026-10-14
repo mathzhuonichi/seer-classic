@@ -1,0 +1,17 @@
+node_modules/
+dist/
+src-tauri/target/
+.cache/
+*.log
+.DS_Store
+artifacts/
+releases/
+src-tauri/gen/
+__pycache__/
+*.pyc
+/public/battle-animations/*.png
+/public/battle-animations/*.webp
+/public/battle-animations/*.json.gz
+/public/battle-effects/*.webp
+/public/audio/*.m4a
+/public/audio/*.mp3

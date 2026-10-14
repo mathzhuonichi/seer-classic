@@ -1,0 +1,97 @@
+{
+  "id": 92,
+  "name": {
+    "zh": "蝠迪"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 82,
+    "atk": 107,
+    "def": 81,
+    "spa": 90,
+    "spd": 82,
+    "spe": 98
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spe": 1
+  },
+  "exp_yield": 110,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 40,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 10129
+    },
+    {
+      "level": 11,
+      "skill": 20004
+    },
+    {
+      "level": 16,
+      "skill": 10284
+    },
+    {
+      "level": 24,
+      "skill": 10159
+    },
+    {
+      "level": 28,
+      "skill": 20040
+    },
+    {
+      "level": 32,
+      "skill": 10262
+    },
+    {
+      "level": 37,
+      "skill": 10259
+    },
+    {
+      "level": 40,
+      "skill": 20118
+    },
+    {
+      "level": 44,
+      "skill": 10263
+    },
+    {
+      "level": 48,
+      "skill": 10264
+    },
+    {
+      "level": 51,
+      "skill": 10260
+    },
+    {
+      "level": 55,
+      "skill": 20119
+    },
+    {
+      "level": 60,
+      "skill": 10164
+    },
+    {
+      "level": 67,
+      "skill": 10261
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 91,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0092",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

@@ -1,0 +1,100 @@
+{
+  "id": 721,
+  "name": {
+    "zh": "皮卡达"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 122,
+    "atk": 82,
+    "def": 85,
+    "spa": 112,
+    "spd": 86,
+    "spe": 95
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20168
+    },
+    {
+      "level": 9,
+      "skill": 10427
+    },
+    {
+      "level": 13,
+      "skill": 20885
+    },
+    {
+      "level": 17,
+      "skill": 10076
+    },
+    {
+      "level": 21,
+      "skill": 11087
+    },
+    {
+      "level": 25,
+      "skill": 20886
+    },
+    {
+      "level": 29,
+      "skill": 10430
+    },
+    {
+      "level": 33,
+      "skill": 20097
+    },
+    {
+      "level": 37,
+      "skill": 11766
+    },
+    {
+      "level": 41,
+      "skill": 20887
+    },
+    {
+      "level": 45,
+      "skill": 11764
+    },
+    {
+      "level": 49,
+      "skill": 11767
+    },
+    {
+      "level": 53,
+      "skill": 20888
+    },
+    {
+      "level": 57,
+      "skill": 11765
+    },
+    {
+      "level": 61,
+      "skill": 11768
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 720,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0721",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-04"
+}

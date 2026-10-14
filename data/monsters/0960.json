@@ -1,0 +1,63 @@
+{
+  "id": 960,
+  "name": {
+    "zh": "哲克"
+  },
+  "types": [
+    "water",
+    "psychic"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 66,
+    "def": 47,
+    "spa": 38,
+    "spd": 42,
+    "spe": 64
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 20,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10076
+    },
+    {
+      "level": 5,
+      "skill": 20005
+    },
+    {
+      "level": 9,
+      "skill": 12296
+    },
+    {
+      "level": 13,
+      "skill": 11726
+    },
+    {
+      "level": 17,
+      "skill": 20144
+    }
+  ],
+  "evolution": [
+    {
+      "to": 961,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0960",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

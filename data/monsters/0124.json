@@ -1,0 +1,106 @@
+{
+  "id": 124,
+  "name": {
+    "zh": "英卡洛斯"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 110,
+    "atk": 125,
+    "def": 85,
+    "spa": 115,
+    "spd": 85,
+    "spe": 115
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10361
+    },
+    {
+      "level": 7,
+      "skill": 20156
+    },
+    {
+      "level": 12,
+      "skill": 10363
+    },
+    {
+      "level": 17,
+      "skill": 10362
+    },
+    {
+      "level": 21,
+      "skill": 10364
+    },
+    {
+      "level": 26,
+      "skill": 10366
+    },
+    {
+      "level": 32,
+      "skill": 20157
+    },
+    {
+      "level": 38,
+      "skill": 10356
+    },
+    {
+      "level": 43,
+      "skill": 20158
+    },
+    {
+      "level": 48,
+      "skill": 10370
+    },
+    {
+      "level": 53,
+      "skill": 10367
+    },
+    {
+      "level": 58,
+      "skill": 20159
+    },
+    {
+      "level": 63,
+      "skill": 10371
+    },
+    {
+      "level": 68,
+      "skill": 10368
+    },
+    {
+      "level": 73,
+      "skill": 20160
+    },
+    {
+      "level": 78,
+      "skill": 10372
+    },
+    {
+      "level": 85,
+      "skill": 10369
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 123,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0124",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. Removed post-2012 learnset entries: [26026, 31836, 26027, 31837]. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

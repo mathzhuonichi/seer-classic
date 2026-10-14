@@ -1,0 +1,105 @@
+{
+  "id": 115,
+  "name": {
+    "zh": "巨型树妖"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 100,
+    "atk": 85,
+    "def": 89,
+    "spa": 112,
+    "spd": 92,
+    "spe": 55
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 116,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10047
+    },
+    {
+      "level": 4,
+      "skill": 20020
+    },
+    {
+      "level": 9,
+      "skill": 10235
+    },
+    {
+      "level": 13,
+      "skill": 20022
+    },
+    {
+      "level": 17,
+      "skill": 10074
+    },
+    {
+      "level": 21,
+      "skill": 10240
+    },
+    {
+      "level": 25,
+      "skill": 10337
+    },
+    {
+      "level": 28,
+      "skill": 20146
+    },
+    {
+      "level": 32,
+      "skill": 10067
+    },
+    {
+      "level": 36,
+      "skill": 10340
+    },
+    {
+      "level": 40,
+      "skill": 20055
+    },
+    {
+      "level": 44,
+      "skill": 10338
+    },
+    {
+      "level": 48,
+      "skill": 10341
+    },
+    {
+      "level": 52,
+      "skill": 10339
+    },
+    {
+      "level": 56,
+      "skill": 10342
+    },
+    {
+      "level": 60,
+      "skill": 20147
+    },
+    {
+      "level": 65,
+      "skill": 10343
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 114,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0115",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

@@ -1,0 +1,101 @@
+{
+  "id": 940,
+  "name": {
+    "zh": "弗莱塔"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 119,
+    "atk": 82,
+    "def": 85,
+    "spa": 115,
+    "spd": 87,
+    "spe": 106
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10009
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 9,
+      "skill": 12244
+    },
+    {
+      "level": 13,
+      "skill": 21161
+    },
+    {
+      "level": 17,
+      "skill": 12182
+    },
+    {
+      "level": 21,
+      "skill": 11324
+    },
+    {
+      "level": 25,
+      "skill": 20659
+    },
+    {
+      "level": 29,
+      "skill": 11047
+    },
+    {
+      "level": 33,
+      "skill": 21162
+    },
+    {
+      "level": 37,
+      "skill": 12245
+    },
+    {
+      "level": 41,
+      "skill": 20848
+    },
+    {
+      "level": 45,
+      "skill": 11896
+    },
+    {
+      "level": 49,
+      "skill": 12246
+    },
+    {
+      "level": 53,
+      "skill": 21163
+    },
+    {
+      "level": 57,
+      "skill": 12243
+    },
+    {
+      "level": 61,
+      "skill": 12247
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 939,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0940",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

@@ -1,0 +1,71 @@
+{
+  "id": 885,
+  "name": {
+    "zh": "达迪克"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 98,
+    "atk": 84,
+    "def": 69,
+    "spa": 62,
+    "spd": 67,
+    "spe": 80
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 100,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20220
+    },
+    {
+      "level": 10,
+      "skill": 10307
+    },
+    {
+      "level": 16,
+      "skill": 10510
+    },
+    {
+      "level": 20,
+      "skill": 10511
+    },
+    {
+      "level": 25,
+      "skill": 20117
+    },
+    {
+      "level": 30,
+      "skill": 10144
+    }
+  ],
+  "evolution": [
+    {
+      "to": 886,
+      "method": "level",
+      "level": 34
+    }
+  ],
+  "evolves_from": 884,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0885",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

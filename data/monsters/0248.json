@@ -1,0 +1,106 @@
+{
+  "id": 248,
+  "name": {
+    "zh": "艾贝多芬"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 115,
+    "atk": 109,
+    "def": 105,
+    "spa": 77,
+    "spd": 93,
+    "spe": 70
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "def": 1
+  },
+  "exp_yield": 126,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 6,
+      "skill": 20002
+    },
+    {
+      "level": 12,
+      "skill": 10427
+    },
+    {
+      "level": 17,
+      "skill": 10769
+    },
+    {
+      "level": 22,
+      "skill": 10530
+    },
+    {
+      "level": 27,
+      "skill": 20030
+    },
+    {
+      "level": 32,
+      "skill": 10681
+    },
+    {
+      "level": 37,
+      "skill": 10680
+    },
+    {
+      "level": 41,
+      "skill": 11025
+    },
+    {
+      "level": 45,
+      "skill": 20296
+    },
+    {
+      "level": 49,
+      "skill": 10099
+    },
+    {
+      "level": 53,
+      "skill": 10682
+    },
+    {
+      "level": 57,
+      "skill": 20040
+    },
+    {
+      "level": 61,
+      "skill": 10679
+    },
+    {
+      "level": 64,
+      "skill": 10678
+    },
+    {
+      "level": 67,
+      "skill": 20295
+    },
+    {
+      "level": 70,
+      "skill": 10677
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 247,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0248",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

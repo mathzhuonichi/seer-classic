@@ -1,0 +1,107 @@
+{
+  "id": 113,
+  "name": {
+    "zh": "雷纳多"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 106,
+    "atk": 82,
+    "def": 95,
+    "spa": 100,
+    "spd": 85,
+    "spe": 80
+  },
+  "ev_yield": {
+    "hp": 2,
+    "spa": 1
+  },
+  "exp_yield": 128,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 10,
+      "skill": 20111
+    },
+    {
+      "level": 15,
+      "skill": 10327
+    },
+    {
+      "level": 20,
+      "skill": 10328
+    },
+    {
+      "level": 25,
+      "skill": 10047
+    },
+    {
+      "level": 30,
+      "skill": 20144
+    },
+    {
+      "level": 35,
+      "skill": 10329
+    },
+    {
+      "level": 40,
+      "skill": 10330
+    },
+    {
+      "level": 44,
+      "skill": 10333
+    },
+    {
+      "level": 48,
+      "skill": 20073
+    },
+    {
+      "level": 51,
+      "skill": 10334
+    },
+    {
+      "level": 54,
+      "skill": 10332
+    },
+    {
+      "level": 57,
+      "skill": 10335
+    },
+    {
+      "level": 60,
+      "skill": 10331
+    },
+    {
+      "level": 63,
+      "skill": 10336
+    },
+    {
+      "level": 68,
+      "skill": 20145
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 112,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": null,
+  "art": "m0113",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

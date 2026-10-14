@@ -1,0 +1,102 @@
+{
+  "id": 353,
+  "name": {
+    "zh": "迪斯凯特"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 108,
+    "atk": 88,
+    "def": 104,
+    "spa": 84,
+    "spd": 104,
+    "spe": 95
+  },
+  "ev_yield": {
+    "def": 1,
+    "spd": 1,
+    "spe": 1
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20280
+    },
+    {
+      "level": 11,
+      "skill": 10427
+    },
+    {
+      "level": 16,
+      "skill": 20211
+    },
+    {
+      "level": 20,
+      "skill": 10680
+    },
+    {
+      "level": 24,
+      "skill": 10857
+    },
+    {
+      "level": 28,
+      "skill": 20099
+    },
+    {
+      "level": 32,
+      "skill": 10858
+    },
+    {
+      "level": 36,
+      "skill": 20383
+    },
+    {
+      "level": 40,
+      "skill": 10859
+    },
+    {
+      "level": 44,
+      "skill": 20381
+    },
+    {
+      "level": 48,
+      "skill": 10033
+    },
+    {
+      "level": 52,
+      "skill": 10860
+    },
+    {
+      "level": 56,
+      "skill": 20382
+    },
+    {
+      "level": 60,
+      "skill": 10856
+    },
+    {
+      "level": 64,
+      "skill": 10861
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 352,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0353",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

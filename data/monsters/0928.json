@@ -1,0 +1,79 @@
+{
+  "id": 928,
+  "name": {
+    "zh": "瑞诺"
+  },
+  "types": [
+    "fighting",
+    "ground"
+  ],
+  "base": {
+    "hp": 82,
+    "atk": 76,
+    "def": 55,
+    "spa": 36,
+    "spd": 55,
+    "spe": 61
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 80,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 5,
+      "skill": 20038
+    },
+    {
+      "level": 9,
+      "skill": 10309
+    },
+    {
+      "level": 13,
+      "skill": 10243
+    },
+    {
+      "level": 17,
+      "skill": 20944
+    },
+    {
+      "level": 21,
+      "skill": 12219
+    },
+    {
+      "level": 25,
+      "skill": 10549
+    },
+    {
+      "level": 29,
+      "skill": 20769
+    },
+    {
+      "level": 33,
+      "skill": 12220
+    }
+  ],
+  "evolution": [
+    {
+      "to": 929,
+      "method": "level",
+      "level": 35
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0928",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

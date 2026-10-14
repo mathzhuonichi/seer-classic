@@ -1,0 +1,118 @@
+{
+  "id": "boss_spt_kalunni",
+  "name": {
+    "zh": "卡伦尼"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "雾气石林"
+  },
+  "era": "2012-04",
+  "team": [
+    {
+      "species": 1147,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12699,
+        12696,
+        12698,
+        21405
+      ],
+      "hp_override": 8000,
+      "stat_multipliers": {
+        "spe": 0.5
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "infinite_pp"
+    },
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "script",
+      "id": "lifesteal",
+      "params": {
+        "pct_damage_dealt": 33
+      }
+    },
+    {
+      "rule": "script",
+      "id": "escalate_vs_same_foe",
+      "params": {
+        "stats": {
+          "atk": 1,
+          "spa": 1
+        },
+        "reset_on_foe_switch": true
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12699,
+      12696,
+      12698,
+      21405
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1146,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "SPT面板选择螺旋星系→卡伦尼，在雾气石林挑战，打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "谱尼圣堂之门消强→圣光气→圣灵魔闪光输出；倒下后斯加尔卡电闪光滑阵自杀，达鲁切尔、魔焰猩猩、吉米丽娅强化后大招轮流输出，雷伊收尾；换人可重置它的叠加强化。"
+  },
+  "engine_notes": [
+    "infinite_pp: the boss's skills never run out of PP (players could not win by 耗PP).",
+    "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts). (4399: 海洋之心无效(全部miss))",
+    "lifesteal: heals 1/3 of the damage its attacks deal.",
+    "escalate_vs_same_foe: while it keeps fighting the same player pet, after each of its attacks its atk and spa rise (攻击和特攻自动强化，下一回合攻击技能造成的伤害大幅提升); assumed +1/+1 per turn, reset when the player switches pets.",
+    "速度极其缓慢 — encoded as spe x0.5 (estimate).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "escalation_amount",
+      "stat_multipliers"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201204-07-152582.html",
+    "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html"
+  ],
+  "source_note": "4399 SPT page 2012-04-07: 血量8000（有待验证）, PP无限, 海洋之心无效, 伤害1/3回复自身."
+}

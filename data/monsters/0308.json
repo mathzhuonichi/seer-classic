@@ -1,0 +1,79 @@
+{
+  "id": 308,
+  "name": {
+    "zh": "熔火灵猴"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 90,
+    "atk": 82,
+    "def": 60,
+    "spa": 82,
+    "spd": 60,
+    "spe": 84
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 103,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10029
+    },
+    {
+      "level": 5,
+      "skill": 20005
+    },
+    {
+      "level": 10,
+      "skill": 10007
+    },
+    {
+      "level": 15,
+      "skill": 11017
+    },
+    {
+      "level": 19,
+      "skill": 20013
+    },
+    {
+      "level": 24,
+      "skill": 11019
+    },
+    {
+      "level": 29,
+      "skill": 11018
+    },
+    {
+      "level": 34,
+      "skill": 20507
+    },
+    {
+      "level": 39,
+      "skill": 10034
+    }
+  ],
+  "evolution": [
+    {
+      "to": 309,
+      "method": "level",
+      "level": 40
+    }
+  ],
+  "evolves_from": 307,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0308",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

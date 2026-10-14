@@ -1,0 +1,56 @@
+{
+  "id": 494,
+  "name": {
+    "zh": "卡丹"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 54,
+    "atk": 60,
+    "def": 44,
+    "spa": 45,
+    "spd": 46,
+    "spe": 56
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 50,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10074
+    },
+    {
+      "level": 5,
+      "skill": 20065
+    },
+    {
+      "level": 9,
+      "skill": 10613
+    },
+    {
+      "level": 13,
+      "skill": 10328
+    },
+    {
+      "level": 17,
+      "skill": 20365
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0494",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

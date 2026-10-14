@@ -1,0 +1,58 @@
+{
+  "id": 249,
+  "name": {
+    "zh": "浮空苗"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 45,
+    "atk": 39,
+    "def": 40,
+    "spa": 62,
+    "spd": 40,
+    "spe": 55
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 59,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 200,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 6,
+      "skill": 20016
+    },
+    {
+      "level": 11,
+      "skill": 10054
+    },
+    {
+      "level": 16,
+      "skill": 10683
+    }
+  ],
+  "evolution": [
+    {
+      "to": 250,
+      "method": "level",
+      "level": 17
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0249",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

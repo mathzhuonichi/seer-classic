@@ -1,0 +1,59 @@
+{
+  "id": 445,
+  "name": {
+    "zh": "兰妮"
+  },
+  "types": [
+    "ice",
+    "light"
+  ],
+  "base": {
+    "hp": 63,
+    "atk": 45,
+    "def": 46,
+    "spa": 60,
+    "spd": 48,
+    "spe": 53
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 70,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20234
+    },
+    {
+      "level": 9,
+      "skill": 10202
+    },
+    {
+      "level": 13,
+      "skill": 20217
+    }
+  ],
+  "evolution": [
+    {
+      "to": 446,
+      "method": "level",
+      "level": 16
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0445",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-08"
+}

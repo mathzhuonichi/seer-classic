@@ -1,0 +1,58 @@
+{
+  "id": 262,
+  "name": {
+    "zh": "奈姬"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 60,
+    "def": 45,
+    "spa": 75,
+    "spd": 50,
+    "spe": 45
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 7,
+      "skill": 20249
+    },
+    {
+      "level": 13,
+      "skill": 10194
+    },
+    {
+      "level": 19,
+      "skill": 20317
+    }
+  ],
+  "evolution": [
+    {
+      "to": 263,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0262",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

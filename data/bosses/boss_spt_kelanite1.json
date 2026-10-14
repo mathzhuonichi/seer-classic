@@ -1,0 +1,112 @@
+{
+  "id": "boss_spt_kelanite1",
+  "name": {
+    "zh": "克拉尼特（第一战）"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "戴斯星（死亡之河）"
+  },
+  "era": "2010-11",
+  "team": [
+    {
+      "species": 538,
+      "level": 50,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11358,
+        20457,
+        11356,
+        20528
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "同生共死",
+          "镇魂歌",
+          "极度冰点"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    },
+    {
+      "rule": "no_struggle"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11358,
+      20457,
+      11356,
+      20528
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_kelanite": 1
+    }
+  },
+  "reward_hatches": 536,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "flags": [
+      "no_equipment"
+    ]
+  },
+  "capture": {
+    "zh": "完成戴斯星历险后，脱掉身上全部装备来到戴斯星死亡之河，点击最左边的石像，克拉尼特划着渡船出场；50级第一战胜利获得克拉尼特精元（孵化得克拉尔）。"
+  },
+  "strategy_notes": {
+    "zh": "带6只精灵且必须有水系：先派前5只（千万别出水系）耗光它的招式PP，再上水系精灵剑舞3-4次后秒杀；残血时补药。"
+  },
+  "engine_notes": [
+    "Pre-battle requirement: the player must wear no equipment (戴斯星 can only be walked without gear) — unlock flag no_equipment.",
+    "PP-exhaust strategy is the classic answer, so no_struggle (a boss at 0 PP cannot act).",
+    "Immune to 同生共死, 镇魂歌, 极度冰点; its own skills always hit.",
+    "Skills: the Lv50 learnset top four (火光四溅/火龙的咆哮/龙族之力/进攻意识); HP not published (1500 estimate).",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201011-22-81263.html",
+    "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
+    "https://news.4399.com/seer/saiergonglue/201011-19-81094.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2010-11-22) and techbang (2011-01): 两次挑战 LV50 (精元) / LV80 (烈火之翼), 需脱装备."
+}

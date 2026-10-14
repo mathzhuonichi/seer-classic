@@ -1,0 +1,58 @@
+{
+  "id": 1248,
+  "name": {
+    "zh": "闪光果冻鸭"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 69,
+    "atk": 66,
+    "def": 58,
+    "spa": 46,
+    "spd": 44,
+    "spe": 53
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 60,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 70,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 20003
+    },
+    {
+      "level": 10,
+      "skill": 20092
+    },
+    {
+      "level": 15,
+      "skill": 10184
+    }
+  ],
+  "evolution": [
+    {
+      "to": 1249,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1248",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

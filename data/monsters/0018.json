@@ -1,0 +1,93 @@
+{
+  "id": 18,
+  "name": {
+    "zh": "巨型仙人掌"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 80,
+    "atk": 82,
+    "def": 83,
+    "spa": 100,
+    "spd": 100,
+    "spe": 80
+  },
+  "ev_yield": {
+    "spa": 2,
+    "spd": 1
+  },
+  "exp_yield": 124,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 3,
+      "skill": 20002
+    },
+    {
+      "level": 7,
+      "skill": 20007
+    },
+    {
+      "level": 9,
+      "skill": 10042
+    },
+    {
+      "level": 13,
+      "skill": 20019
+    },
+    {
+      "level": 14,
+      "skill": 20020
+    },
+    {
+      "level": 15,
+      "skill": 10038
+    },
+    {
+      "level": 20,
+      "skill": 10003
+    },
+    {
+      "level": 23,
+      "skill": 20021
+    },
+    {
+      "level": 28,
+      "skill": 20022
+    },
+    {
+      "level": 31,
+      "skill": 10043
+    },
+    {
+      "level": 32,
+      "skill": 10044
+    },
+    {
+      "level": 45,
+      "skill": 20009
+    },
+    {
+      "level": 53,
+      "skill": 10045
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 17,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0018",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

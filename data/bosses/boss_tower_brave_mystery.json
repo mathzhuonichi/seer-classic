@@ -1,0 +1,95 @@
+{
+  "id": "boss_tower_brave_mystery",
+  "name": {
+    "zh": "勇者之塔 神秘领域 谱尼"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔 神秘领域"
+  },
+  "era": "2009-12",
+  "team": [
+    {
+      "species": 300,
+      "level": 150,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11000,
+        10999,
+        10995,
+        20500
+      ],
+      "hp_override": 3000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "min": 6,
+      "min_level": 100
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11000,
+      10999,
+      10995,
+      20500
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "reward_note": "No reward (4399: 神秘领域 谱尼 无奖励). The capture line of 谱尼 (seals) is a separate encounter set (boss_puni_*).",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f060"
+    ],
+    "entry": {
+      "team_size": 6,
+      "min_level": 100
+    }
+  },
+  "capture": {
+    "zh": "神秘领域需要带上6只100级精灵才能进入；对手是???级的谱尼，打赢没有奖励。"
+  },
+  "strategy_notes": {
+    "zh": "闪光波克尔减命中、减速度，艾斯菲亚减技能PP，依卡莱恩寄生种子吸到无血。"
+  },
+  "engine_notes": [
+    "Entry requirement: exactly six pets, all Lv100 (需要带上6只100级精灵才能进入). Encoded as rule player_team_size {min:6,min_level:100} and unlock.entry; the vocabulary's player_team_size only has max.",
+    "Level '???' (above 100); 150 is a placeholder. HP not published; 3000 is an estimate. Percentage drain (寄生种子) and stat/PP drain worked.",
+    "This is the pre-seal 谱尼 of the 2009-2010 神秘领域, not the 七重封印 capture line written by another worker.",
+    "Unlock after 60F is assumed (the source lists it after 60F); the 谱尼 seal line was entered from the same 神秘领域 via the lamps beside the tower."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills",
+      "level",
+      "hp",
+      "unlock"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+  ],
+  "source_note": "4399 勇者之塔攻略 (2010-04-13), 神秘领域 row: 谱尼 ???级 圣光系, 无奖励, 需6只100级精灵."
+}

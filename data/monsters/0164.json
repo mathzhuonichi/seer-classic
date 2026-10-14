@@ -1,0 +1,66 @@
+{
+  "id": 164,
+  "name": {
+    "zh": "闪光皮皮"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 45,
+    "atk": 55,
+    "def": 40,
+    "spa": 30,
+    "spd": 35,
+    "spe": 65
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 60,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 15,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 9,
+      "skill": 10008
+    },
+    {
+      "level": 13,
+      "skill": 20015
+    },
+    {
+      "level": 16,
+      "skill": 10009
+    },
+    {
+      "level": 19,
+      "skill": 20209
+    }
+  ],
+  "evolution": [
+    {
+      "to": 165,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0164",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

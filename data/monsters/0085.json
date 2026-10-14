@@ -1,0 +1,105 @@
+{
+  "id": 85,
+  "name": {
+    "zh": "依卡莱恩"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 88,
+    "atk": 105,
+    "def": 78,
+    "spa": 102,
+    "spd": 79,
+    "spe": 80
+  },
+  "ev_yield": {
+    "atk": 2,
+    "spa": 1
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 25,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10234
+    },
+    {
+      "level": 5,
+      "skill": 20020
+    },
+    {
+      "level": 11,
+      "skill": 20012
+    },
+    {
+      "level": 16,
+      "skill": 10235
+    },
+    {
+      "level": 21,
+      "skill": 10236
+    },
+    {
+      "level": 25,
+      "skill": 20108
+    },
+    {
+      "level": 29,
+      "skill": 10237
+    },
+    {
+      "level": 33,
+      "skill": 10067
+    },
+    {
+      "level": 37,
+      "skill": 10038
+    },
+    {
+      "level": 41,
+      "skill": 20007
+    },
+    {
+      "level": 44,
+      "skill": 10240
+    },
+    {
+      "level": 47,
+      "skill": 20109
+    },
+    {
+      "level": 50,
+      "skill": 10117
+    },
+    {
+      "level": 53,
+      "skill": 10238
+    },
+    {
+      "level": 56,
+      "skill": 20110
+    },
+    {
+      "level": 59,
+      "skill": 10241
+    },
+    {
+      "level": 64,
+      "skill": 10239
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 84,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0085",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

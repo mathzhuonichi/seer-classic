@@ -1,0 +1,100 @@
+{
+  "id": 1350,
+  "name": {
+    "zh": "卡梅隆"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 135,
+    "atk": 112,
+    "def": 94,
+    "spa": 85,
+    "spd": 75,
+    "spe": 91
+  },
+  "ev_yield": {
+    "hp": 2
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20042
+    },
+    {
+      "level": 9,
+      "skill": 10047
+    },
+    {
+      "level": 13,
+      "skill": 10313
+    },
+    {
+      "level": 17,
+      "skill": 20030
+    },
+    {
+      "level": 21,
+      "skill": 10705
+    },
+    {
+      "level": 25,
+      "skill": 12534
+    },
+    {
+      "level": 29,
+      "skill": 20945
+    },
+    {
+      "level": 33,
+      "skill": 13148
+    },
+    {
+      "level": 37,
+      "skill": 13151
+    },
+    {
+      "level": 41,
+      "skill": 21650
+    },
+    {
+      "level": 45,
+      "skill": 13149
+    },
+    {
+      "level": 49,
+      "skill": 21652
+    },
+    {
+      "level": 53,
+      "skill": 13152
+    },
+    {
+      "level": 57,
+      "skill": 21651
+    },
+    {
+      "level": 61,
+      "skill": 13150
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1349,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1350",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-09"
+}

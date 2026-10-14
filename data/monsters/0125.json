@@ -1,0 +1,101 @@
+{
+  "id": 125,
+  "name": {
+    "zh": "萨格罗斯"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 132,
+    "atk": 122,
+    "def": 100,
+    "spa": 75,
+    "spd": 98,
+    "spe": 113
+  },
+  "ev_yield": {
+    "atk": 1,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10361
+    },
+    {
+      "level": 7,
+      "skill": 20156
+    },
+    {
+      "level": 12,
+      "skill": 10363
+    },
+    {
+      "level": 17,
+      "skill": 10362
+    },
+    {
+      "level": 21,
+      "skill": 10364
+    },
+    {
+      "level": 26,
+      "skill": 10366
+    },
+    {
+      "level": 32,
+      "skill": 20157
+    },
+    {
+      "level": 38,
+      "skill": 10356
+    },
+    {
+      "level": 43,
+      "skill": 20161
+    },
+    {
+      "level": 48,
+      "skill": 10376
+    },
+    {
+      "level": 53,
+      "skill": 10373
+    },
+    {
+      "level": 63,
+      "skill": 10377
+    },
+    {
+      "level": 68,
+      "skill": 10374
+    },
+    {
+      "level": 73,
+      "skill": 20163
+    },
+    {
+      "level": 78,
+      "skill": 10378
+    },
+    {
+      "level": 85,
+      "skill": 10375
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0125",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. Removed post-2012 learnset entries: [23403]. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

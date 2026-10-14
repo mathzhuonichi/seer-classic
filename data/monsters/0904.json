@@ -1,0 +1,102 @@
+{
+  "id": 904,
+  "name": {
+    "zh": "阿尔莫尼"
+  },
+  "types": [
+    "light",
+    "flying"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 114,
+    "def": 90,
+    "spa": 81,
+    "spd": 88,
+    "spe": 96
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 130,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10009
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 9,
+      "skill": 10055
+    },
+    {
+      "level": 13,
+      "skill": 20016
+    },
+    {
+      "level": 17,
+      "skill": 10630
+    },
+    {
+      "level": 21,
+      "skill": 11225
+    },
+    {
+      "level": 25,
+      "skill": 21121
+    },
+    {
+      "level": 29,
+      "skill": 12172
+    },
+    {
+      "level": 33,
+      "skill": 12169
+    },
+    {
+      "level": 37,
+      "skill": 21122
+    },
+    {
+      "level": 41,
+      "skill": 11229
+    },
+    {
+      "level": 45,
+      "skill": 20298
+    },
+    {
+      "level": 49,
+      "skill": 12170
+    },
+    {
+      "level": 53,
+      "skill": 21123
+    },
+    {
+      "level": 57,
+      "skill": 12173
+    },
+    {
+      "level": 61,
+      "skill": 12171
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 903,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0904",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

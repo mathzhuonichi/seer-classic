@@ -1,0 +1,109 @@
+{
+  "id": 1263,
+  "name": {
+    "zh": "欧西斯"
+  },
+  "types": [
+    "flying",
+    "dragon"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 116,
+    "def": 88,
+    "spa": 82,
+    "spd": 88,
+    "spe": 106
+  },
+  "ev_yield": {
+    "spe": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10201
+    },
+    {
+      "level": 5,
+      "skill": 20004
+    },
+    {
+      "level": 9,
+      "skill": 10259
+    },
+    {
+      "level": 13,
+      "skill": 11233
+    },
+    {
+      "level": 17,
+      "skill": 20183
+    },
+    {
+      "level": 21,
+      "skill": 12939
+    },
+    {
+      "level": 25,
+      "skill": 10687
+    },
+    {
+      "level": 29,
+      "skill": 21020
+    },
+    {
+      "level": 33,
+      "skill": 12940
+    },
+    {
+      "level": 37,
+      "skill": 11554
+    },
+    {
+      "level": 41,
+      "skill": 20165
+    },
+    {
+      "level": 45,
+      "skill": 12941
+    },
+    {
+      "level": 49,
+      "skill": 21534
+    },
+    {
+      "level": 53,
+      "skill": 12943
+    },
+    {
+      "level": 57,
+      "skill": 21535
+    },
+    {
+      "level": 61,
+      "skill": 12942
+    },
+    {
+      "level": 65,
+      "skill": 21576
+    },
+    {
+      "level": 70,
+      "skill": 13115
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1262,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1263",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

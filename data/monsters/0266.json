@@ -1,0 +1,105 @@
+{
+  "id": 266,
+  "name": {
+    "zh": "帕格尼尼"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 107,
+    "atk": 108,
+    "def": 92,
+    "spa": 86,
+    "spd": 84,
+    "spe": 99
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 108,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20004
+    },
+    {
+      "level": 9,
+      "skill": 10522
+    },
+    {
+      "level": 13,
+      "skill": 20290
+    },
+    {
+      "level": 17,
+      "skill": 10728
+    },
+    {
+      "level": 21,
+      "skill": 10355
+    },
+    {
+      "level": 24,
+      "skill": 20040
+    },
+    {
+      "level": 27,
+      "skill": 10731
+    },
+    {
+      "level": 31,
+      "skill": 10285
+    },
+    {
+      "level": 35,
+      "skill": 20214
+    },
+    {
+      "level": 39,
+      "skill": 10457
+    },
+    {
+      "level": 43,
+      "skill": 20318
+    },
+    {
+      "level": 47,
+      "skill": 10727
+    },
+    {
+      "level": 51,
+      "skill": 10730
+    },
+    {
+      "level": 55,
+      "skill": 20319
+    },
+    {
+      "level": 59,
+      "skill": 10729
+    },
+    {
+      "level": 63,
+      "skill": 10726
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 265,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0266",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

@@ -1,0 +1,76 @@
+{
+  "id": 877,
+  "name": {
+    "zh": "比巴卜花仙"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 126,
+    "atk": 109,
+    "def": 85,
+    "spa": 81,
+    "spd": 83,
+    "spe": 92
+  },
+  "ev_yield": {
+    "hp": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 12115
+    },
+    {
+      "level": 5,
+      "skill": 20031
+    },
+    {
+      "level": 15,
+      "skill": 10675
+    },
+    {
+      "level": 20,
+      "skill": 20572
+    },
+    {
+      "level": 30,
+      "skill": 10241
+    },
+    {
+      "level": 35,
+      "skill": 21091
+    },
+    {
+      "level": 40,
+      "skill": 21092
+    },
+    {
+      "level": 50,
+      "skill": 12116
+    },
+    {
+      "level": 55,
+      "skill": 12118
+    },
+    {
+      "level": 60,
+      "skill": 12117
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 876,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0877",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

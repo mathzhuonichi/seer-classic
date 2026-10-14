@@ -1,0 +1,175 @@
+{
+  "method": "Exact source nested movement frames 2-13, idle frame 1; original direction-specific layer order and complete source MATRIX values.",
+  "sourceManifestSha256": "fdea40ca4a3e18cc57d32d679fab5b9e735d761f9135783ab5f003d4b82ff359",
+  "sourceScripts": {
+    "ClothPreview.as": "7c58027197b53159707a1509ff97360815f5b82b34f10d9bd3e866cd6f72144f",
+    "SkeletonClothPreview.as": "0b01248921058f227e2ee609eb95e8e74903789e60beb75cd87f3bed98d7c30f",
+    "ChangeClothAction.as": "a3078e61d4412b8dac1eefb6ebdceb909ab64f555894a9e7fdedde48ee93a4b7"
+  },
+  "sourceFrameRate": 24,
+  "cycleDurationSeconds": 0.5,
+  "frameCount": 13,
+  "idleFrame": 1,
+  "walkingFrames": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "commonViewport": [
+    -25.0,
+    -47.0,
+    48.6,
+    61.2
+  ],
+  "poses": {
+    "front": {
+      "path": "/robots/classic/player-front-walk.svg",
+      "sha256": "124f869537a6663b4be27f489bc2a81583166d1f310ddcf7072ee879f56ba965",
+      "directionFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "hand1",
+        "hand",
+        "head",
+        "top",
+        "eye"
+      ]
+    },
+    "front-left": {
+      "path": "/robots/classic/player-front-left-walk.svg",
+      "sha256": "07acb138eaba6c294c1d949f7f3dc013381a8b9c595e7a91126d5d98648fc932",
+      "directionFrame": 8,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "hand",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "eye"
+      ]
+    },
+    "left": {
+      "path": "/robots/classic/player-left-walk.svg",
+      "sha256": "79fd4f7e0812ec2dc50428d1842d21ea91b5dc97800bca74d32c7080ac5ec13f",
+      "directionFrame": 16,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "hand",
+        "eye"
+      ]
+    },
+    "back-left": {
+      "path": "/robots/classic/player-back-left-walk.svg",
+      "sha256": "a6194fd8910f749f5abb950fcfdd364e2ad1bbd806b04e2e5dc5bac5eda66e4b",
+      "directionFrame": 24,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "eye",
+        "hand",
+        "head",
+        "top",
+        "hand1"
+      ]
+    },
+    "back": {
+      "path": "/robots/classic/player-back-walk.svg",
+      "sha256": "630d8574e3df2e3061942c4b41f3cf1b68cb3e1a67c25559188a27668a55af7d",
+      "directionFrame": 32,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "hand1",
+        "hand",
+        "eye",
+        "head",
+        "top"
+      ]
+    },
+    "back-right": {
+      "path": "/robots/classic/player-back-right-walk.svg",
+      "sha256": "90238a6bee882bb0d2baf68ac009c35650bcadb22155c50343ed17a46c9ac9f2",
+      "directionFrame": 40,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "eye",
+        "hand1",
+        "head",
+        "top",
+        "hand"
+      ]
+    },
+    "right": {
+      "path": "/robots/classic/player-right-walk.svg",
+      "sha256": "607a97ab4084564078df70f1e9bd5032858128974e30d14df7fee29180152b11",
+      "directionFrame": 48,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "hand",
+        "eye"
+      ]
+    },
+    "front-right": {
+      "path": "/robots/classic/player-front-right-walk.svg",
+      "sha256": "6528f66c03d19764a4c31448b0352a9bd1b282d8cf773b37c1f6daa4ff182884",
+      "directionFrame": 56,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "hand1",
+        "cloth",
+        "head",
+        "top",
+        "hand",
+        "eye"
+      ]
+    }
+  },
+  "placementAudit": {
+    "path": ".cache/classic-robots/walking-audit/placements.json",
+    "sha256": "a855e85cb990767a600dabe7f5de95f49985fcd4ff8153bb4c050d72c6e3ec07"
+  }
+}

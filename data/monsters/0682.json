@@ -1,0 +1,66 @@
+{
+  "id": 682,
+  "name": {
+    "zh": "苹果多多"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 76,
+    "def": 45,
+    "spa": 40,
+    "spd": 44,
+    "spe": 56
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10487
+    },
+    {
+      "level": 5,
+      "skill": 20572
+    },
+    {
+      "level": 10,
+      "skill": 10003
+    },
+    {
+      "level": 15,
+      "skill": 20021
+    },
+    {
+      "level": 20,
+      "skill": 10237
+    },
+    {
+      "level": 25,
+      "skill": 12158
+    }
+  ],
+  "evolution": [
+    {
+      "to": 683,
+      "method": "level",
+      "level": 28
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0682",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

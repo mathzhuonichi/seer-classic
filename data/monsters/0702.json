@@ -1,0 +1,101 @@
+{
+  "id": 702,
+  "name": {
+    "zh": "蒙特纳"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 112,
+    "atk": 83,
+    "def": 78,
+    "spa": 109,
+    "spd": 101,
+    "spe": 97
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spd": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 5,
+      "skill": 20065
+    },
+    {
+      "level": 9,
+      "skill": 10007
+    },
+    {
+      "level": 13,
+      "skill": 20858
+    },
+    {
+      "level": 17,
+      "skill": 10411
+    },
+    {
+      "level": 21,
+      "skill": 10034
+    },
+    {
+      "level": 25,
+      "skill": 20859
+    },
+    {
+      "level": 29,
+      "skill": 11167
+    },
+    {
+      "level": 33,
+      "skill": 20750
+    },
+    {
+      "level": 37,
+      "skill": 11721
+    },
+    {
+      "level": 41,
+      "skill": 20860
+    },
+    {
+      "level": 45,
+      "skill": 11719
+    },
+    {
+      "level": 49,
+      "skill": 11722
+    },
+    {
+      "level": 53,
+      "skill": 20861
+    },
+    {
+      "level": 57,
+      "skill": 11720
+    },
+    {
+      "level": 61,
+      "skill": 11723
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 701,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0702",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

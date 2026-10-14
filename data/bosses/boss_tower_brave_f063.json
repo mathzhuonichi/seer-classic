@@ -1,0 +1,117 @@
+{
+  "id": "boss_tower_brave_f063",
+  "name": {
+    "zh": "勇者之塔 第63层 约凡撒、斯托利亚、艾贝多芬"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔"
+  },
+  "era": "2010-10",
+  "team": [
+    {
+      "species": 290,
+      "level": 250,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10805,
+        10803,
+        10325,
+        20355
+      ],
+      "hp_override": 1250
+    },
+    {
+      "species": 160,
+      "level": 250,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10509,
+        10506,
+        10508,
+        20219
+      ],
+      "hp_override": 1250
+    },
+    {
+      "species": 248,
+      "level": 250,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10677,
+        10678,
+        10679,
+        20295
+      ],
+      "hp_override": 1250
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10805,
+      10803,
+      10325,
+      20355,
+      10509,
+      10506,
+      10508,
+      20219,
+      10677,
+      10678,
+      10679,
+      20295
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "reward_note": "No per-floor reward is recorded for 61-69.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f062"
+    ]
+  },
+  "capture": {
+    "zh": "勇者之塔第63层：约凡撒、斯托利亚、艾贝多芬，Lv250，每只约1250血。"
+  },
+  "strategy_notes": {
+    "zh": "约凡撒攻击高：丽莎先寄生后护体，优先强化攻击（它的狙击会打掉防御强化）"
+  },
+  "engine_notes": [
+    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
+    "https://www.juxia.com/news/2011-9-23/15944.html"
+  ],
+  "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
+}

@@ -1,0 +1,101 @@
+{
+  "id": 1472,
+  "name": {
+    "zh": "雪之魂"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 123,
+    "atk": 81,
+    "def": 87,
+    "spa": 116,
+    "spd": 88,
+    "spe": 103
+  },
+  "ev_yield": {
+    "atk": 2,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20217
+    },
+    {
+      "level": 9,
+      "skill": 10564
+    },
+    {
+      "level": 13,
+      "skill": 20496
+    },
+    {
+      "level": 17,
+      "skill": 10553
+    },
+    {
+      "level": 21,
+      "skill": 13408
+    },
+    {
+      "level": 25,
+      "skill": 21644
+    },
+    {
+      "level": 29,
+      "skill": 13224
+    },
+    {
+      "level": 33,
+      "skill": 21808
+    },
+    {
+      "level": 37,
+      "skill": 12769
+    },
+    {
+      "level": 41,
+      "skill": 21809
+    },
+    {
+      "level": 45,
+      "skill": 13406
+    },
+    {
+      "level": 49,
+      "skill": 13409
+    },
+    {
+      "level": 53,
+      "skill": 21810
+    },
+    {
+      "level": 57,
+      "skill": 13407
+    },
+    {
+      "level": 61,
+      "skill": 13410
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1471,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1472",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-12"
+}

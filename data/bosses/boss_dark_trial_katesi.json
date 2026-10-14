@@ -1,0 +1,83 @@
+{
+  "id": "boss_dark_trial_katesi",
+  "name": {
+    "zh": "暗黑武斗场 试炼之门 卡特斯"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 试炼之门"
+  },
+  "era": "2010-02",
+  "team": [
+    {
+      "species": 169,
+      "level": 60,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10045,
+        10044,
+        10490,
+        20009
+      ],
+      "hp_override": 600
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10045,
+      10044,
+      10490,
+      20009
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "reward_note": "Reward not recorded; clearing the 试炼之门 opened 暗黑第一门.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "暗黑武斗场的试炼精灵卡特斯守护试炼之门（官网图鉴：作为暗黑武斗场的试炼精灵，守护着试炼之门）。"
+  },
+  "strategy_notes": {
+    "zh": "难度★：先用几只皮皮耗它的血，再换高等级先手精灵收尾。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Level and HP are not published (difficulty ★ per 7k7k); Lv60 / 600 HP follow the door-1..5 pattern of HP ≈ 10×level and are estimates."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "reward"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20100602/8159.html",
+    "https://seer.61.com/main/spirit/165.html",
+    "https://www.hly.com/zixun/z-40425.html"
+  ],
+  "source_note": "7k7k BOSS打法全攻略 (2010-06-02) lists 试练之门 卡特斯 ★; official 图鉴 calls it the trial guardian."
+}

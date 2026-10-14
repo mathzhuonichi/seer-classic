@@ -1,0 +1,104 @@
+{
+  "id": 180,
+  "name": {
+    "zh": "卡斯达克"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 94,
+    "atk": 105,
+    "def": 81,
+    "spa": 72,
+    "spd": 77,
+    "spe": 95
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 127,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 6,
+      "skill": 20220
+    },
+    {
+      "level": 11,
+      "skill": 10307
+    },
+    {
+      "level": 16,
+      "skill": 10510
+    },
+    {
+      "level": 21,
+      "skill": 10511
+    },
+    {
+      "level": 26,
+      "skill": 20117
+    },
+    {
+      "level": 31,
+      "skill": 10144
+    },
+    {
+      "level": 36,
+      "skill": 10512
+    },
+    {
+      "level": 40,
+      "skill": 20221
+    },
+    {
+      "level": 44,
+      "skill": 10513
+    },
+    {
+      "level": 48,
+      "skill": 20222
+    },
+    {
+      "level": 52,
+      "skill": 10516
+    },
+    {
+      "level": 55,
+      "skill": 10514
+    },
+    {
+      "level": 58,
+      "skill": 20223
+    },
+    {
+      "level": 61,
+      "skill": 10517
+    },
+    {
+      "level": 64,
+      "skill": 20066
+    },
+    {
+      "level": 68,
+      "skill": 10515
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 179,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0180",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

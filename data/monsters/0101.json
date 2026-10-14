@@ -1,0 +1,104 @@
+{
+  "id": 101,
+  "name": {
+    "zh": "卡尔特"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 88,
+    "atk": 101,
+    "def": 93,
+    "spa": 90,
+    "spd": 82,
+    "spe": 90
+  },
+  "ev_yield": {
+    "atk": 2
+  },
+  "exp_yield": 114,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 10296
+    },
+    {
+      "level": 13,
+      "skill": 20066
+    },
+    {
+      "level": 17,
+      "skill": 10295
+    },
+    {
+      "level": 21,
+      "skill": 10179
+    },
+    {
+      "level": 25,
+      "skill": 20131
+    },
+    {
+      "level": 28,
+      "skill": 10226
+    },
+    {
+      "level": 31,
+      "skill": 20132
+    },
+    {
+      "level": 35,
+      "skill": 10253
+    },
+    {
+      "level": 40,
+      "skill": 10297
+    },
+    {
+      "level": 43,
+      "skill": 20133
+    },
+    {
+      "level": 47,
+      "skill": 10300
+    },
+    {
+      "level": 50,
+      "skill": 10298
+    },
+    {
+      "level": 54,
+      "skill": 20134
+    },
+    {
+      "level": 58,
+      "skill": 10301
+    },
+    {
+      "level": 63,
+      "skill": 10299
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 100,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0101",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

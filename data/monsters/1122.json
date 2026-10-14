@@ -1,0 +1,106 @@
+{
+  "id": 1122,
+  "name": {
+    "zh": "圣光天马"
+  },
+  "types": [
+    "light",
+    "flying"
+  ],
+  "base": {
+    "hp": 131,
+    "atk": 82,
+    "def": 85,
+    "spa": 120,
+    "spd": 86,
+    "spe": 106
+  },
+  "ev_yield": {
+    "spa": 2,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10068
+    },
+    {
+      "level": 5,
+      "skill": 20164
+    },
+    {
+      "level": 9,
+      "skill": 12439
+    },
+    {
+      "level": 13,
+      "skill": 20768
+    },
+    {
+      "level": 17,
+      "skill": 10631
+    },
+    {
+      "level": 21,
+      "skill": 12440
+    },
+    {
+      "level": 25,
+      "skill": 20510
+    },
+    {
+      "level": 29,
+      "skill": 12441
+    },
+    {
+      "level": 33,
+      "skill": 20050
+    },
+    {
+      "level": 37,
+      "skill": 12442
+    },
+    {
+      "level": 41,
+      "skill": 21272
+    },
+    {
+      "level": 45,
+      "skill": 12057
+    },
+    {
+      "level": 49,
+      "skill": 12443
+    },
+    {
+      "level": 53,
+      "skill": 21273
+    },
+    {
+      "level": 57,
+      "skill": 12438
+    },
+    {
+      "level": 61,
+      "skill": 12444
+    },
+    {
+      "level": 65,
+      "skill": 12646
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 999,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1122",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-03"
+}

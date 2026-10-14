@@ -1,0 +1,58 @@
+{
+  "id": 178,
+  "name": {
+    "zh": "达比拉"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 49,
+    "atk": 60,
+    "def": 46,
+    "spa": 37,
+    "spd": 42,
+    "spe": 50
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 67,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 25,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 6,
+      "skill": 20220
+    },
+    {
+      "level": 11,
+      "skill": 10307
+    },
+    {
+      "level": 16,
+      "skill": 10510
+    }
+  ],
+  "evolution": [
+    {
+      "to": 179,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0178",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

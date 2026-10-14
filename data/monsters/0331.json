@@ -1,0 +1,108 @@
+{
+  "id": 331,
+  "name": {
+    "zh": "哈伊卡"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 90,
+    "atk": 94,
+    "def": 105,
+    "spa": 82,
+    "spd": 74,
+    "spe": 69
+  },
+  "ev_yield": {
+    "def": 2
+  },
+  "exp_yield": 114,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 4,
+      "skill": 20002
+    },
+    {
+      "level": 8,
+      "skill": 10522
+    },
+    {
+      "level": 11,
+      "skill": 11065
+    },
+    {
+      "level": 14,
+      "skill": 20004
+    },
+    {
+      "level": 17,
+      "skill": 10335
+    },
+    {
+      "level": 20,
+      "skill": 10077
+    },
+    {
+      "level": 23,
+      "skill": 20030
+    },
+    {
+      "level": 26,
+      "skill": 10358
+    },
+    {
+      "level": 30,
+      "skill": 10242
+    },
+    {
+      "level": 34,
+      "skill": 20526
+    },
+    {
+      "level": 38,
+      "skill": 11069
+    },
+    {
+      "level": 42,
+      "skill": 11066
+    },
+    {
+      "level": 46,
+      "skill": 20527
+    },
+    {
+      "level": 50,
+      "skill": 11070
+    },
+    {
+      "level": 54,
+      "skill": 11067
+    },
+    {
+      "level": 58,
+      "skill": 20528
+    },
+    {
+      "level": 63,
+      "skill": 11068
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 330,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0331",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

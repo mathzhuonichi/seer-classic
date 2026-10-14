@@ -1,0 +1,83 @@
+{
+  "id": "boss_dark_door2_beilujide",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第二门 贝鲁基德"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第二门"
+  },
+  "era": "2010-02",
+  "team": [
+    {
+      "species": 174,
+      "level": 60,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10093,
+        10498,
+        10092,
+        10094
+      ],
+      "hp_override": 500
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10093,
+      10498,
+      10092,
+      10094
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_beilujide": 1
+    }
+  },
+  "reward_hatches": 172,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door1_moyasha"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第二门：60级贝鲁基德，约500血。打败获得贝鲁基德精元。"
+  },
+  "strategy_notes": {
+    "zh": "被水系、地面系克制，高等级直接一击秒杀，同等级用克制精灵。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "爆炎烈击 burns and lowers attack (技能附带烧伤效果，持续掉血，降低攻击) — skill effect, no extra rule."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98434.html",
+    "https://news.7k7k.com/content/20100225/5898.html"
+  ],
+  "source_note": "4399 第二门攻略: No.174 火系 Lv60 HP500."
+}

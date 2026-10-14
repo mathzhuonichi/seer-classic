@@ -1,0 +1,311 @@
+{
+  "id": "boss_puni_zhenshen",
+  "name": {
+    "zh": "谱尼真身"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "精灵太空站 勇者之塔 神秘领域"
+  },
+  "era": "2010-09",
+  "team": [
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 7000,
+      "label": {
+        "zh": "第1命：虚无+圣洁, 天生攻击+2"
+      },
+      "member_rules": [
+        {
+          "rule": "damage_only_from",
+          "sure_hit": true
+        },
+        {
+          "rule": "script",
+          "id": "only_sure_hit_moves_land"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss"
+        }
+      ],
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    },
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 10000,
+      "label": {
+        "zh": "第2命：元素"
+      },
+      "member_rules": [
+        {
+          "rule": "damage_only_from",
+          "types": [
+            "light",
+            "shadow"
+          ]
+        },
+        {
+          "rule": "script",
+          "id": "status_damage_allowed",
+          "params": {
+            "statuses": [
+              "burn",
+              "freeze",
+              "poison",
+              "leech"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 10000,
+      "label": {
+        "zh": "第3命：能量"
+      },
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "ko_attacker_on_big_hit",
+          "params": {
+            "threshold": 500,
+            "exclude_categories": [
+              "status"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 12000,
+      "label": {
+        "zh": "第4命：生命"
+      },
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "params": {
+            "amount": 2000
+          }
+        }
+      ]
+    },
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 60000,
+      "label": {
+        "zh": "第5命：虚无+圣洁+永恒, 天生双防+2"
+      },
+      "member_rules": [
+        {
+          "rule": "damage_only_from",
+          "sure_hit": true
+        },
+        {
+          "rule": "script",
+          "id": "only_sure_hit_moves_land"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss"
+        },
+        {
+          "rule": "unlimited_pp"
+        }
+      ],
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "def": 2,
+                "spd": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    },
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 65000,
+      "label": {
+        "zh": "第6命：轮回(准)+圣洁+永恒，体力低于1000回满"
+      },
+      "member_rules": [
+        {
+          "rule": "heal_full_below",
+          "hp": 1000
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss"
+        },
+        {
+          "rule": "unlimited_pp"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_struggle"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20500,
+      10995,
+      11000,
+      10999
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_puni": 1
+    }
+  },
+  "reward_hatches": 300,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_puni_seal7"
+    ]
+  },
+  "capture": {
+    "zh": "解开七个封印后挑战谱尼真身；谱尼有6条命（相当于6v6），依次拥有各封印的特性；全部击败获得谱尼精元（另有「传说」称号的说法）。"
+  },
+  "strategy_notes": {
+    "zh": "哈莫雷特（满级、双防/体力/攻击努力值，带腰带和双防刻印）龙之意志强化6次后龙王波为主力，魔焰猩猩辅助；仙女龙、闪光艾菲亚等耗招，闪光依依毒粉+寄生种子；最后一命血量低于1300时再用大招，一击打穿1000回满线。全程约1.5小时，需大量药剂（加血、活力药剂各近300个）。"
+  },
+  "engine_notes": [
+    "Six lives = six consecutive Puni team members (7k7k 2011: '普尼有6命，其实就是6v6多精灵对战'). Each member carries its own seal traits in member_rules / member_phases — the engine needs per-team-member rules (encounter rules apply to all).",
+    "Life traits: 7k7k 2011 gives life 1 = 虚无+圣洁 with 天生攻击+2, life 5 = 圣洁+虚无+永恒 with 天生双防+2, life 6 = 轮回(准)+圣洁+永恒 refilling below 1000 HP; lives 2-4 = 元素/能量/生命 per the spinoff summary (TapTap) which matches 7k7k on lives 1, 5, 6.",
+    "HP per life from 4399 2010: 7000 / 10000 / 10000 / 12000 / >60000 / 6500. Conflicts: a 2012 4399 guide lists 7000/8000/9000/10000/20000/65000; 7k7k 2011 says the 6th life totals 65000.",
+    "heal_full_below 1000 on life 6: to win, the final hit must take it from ≥1000 to 0 in one blow (hence '血量低于1300时可使用大招').",
+    "4399 2010 also says the player's hit rate drops when 谱尼 is below 10000 HP (命中率70%) and that its crits remove the player's defence boosts (暴击破防) — not encoded.",
+    "Daily limit (once per day) is reported only for the spinoff; the remake has no clock, so attempts_per_day is null.",
+    "PP: lives 1-4 have finite PP (35 each), so no_struggle applies and the PP-exhaust tactic works; lives 5-6 have unlimited PP.",
+    "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
+    "Level is not given by any source; 100 assumed (the battle showed ??? for seal bosses in some recollections).",
+    "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report. Other conflicting life 2/3/5 HP values remain unchanged pending separate reconciliation."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "level",
+      "life_traits_2_to_4",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/pngl/201010-16-78986.html",
+    "https://news.7k7k.com/content/20110330/82686.html",
+    "https://news.4399.com/seer/jingyanxinde/201210-18-204899.html",
+    "https://www.taptap.cn/moment/15207740754364428",
+    "https://news.7k7k.com/content/20101028/18173.html",
+    "https://news.7k7k.com/content/20110316/76909.html"
+  ],
+  "source_note": "4399 谱尼真身攻略 (2010-10) for lives and HP; 7k7k 2011-03-30 for the per-life seal traits; TapTap summary (spinoff) fills lives 2-4."
+}

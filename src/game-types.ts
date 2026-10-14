@@ -1,0 +1,43 @@
+export type StatKey = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe';
+export type Stats = Record<StatKey, number>;
+export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
+export interface MonsterView { uid: string; species: number; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; inParty: boolean; portrait: string; evolution: string | null; gender?: 0 | 1 | 2; generation?: number }
+export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string }
+export interface SpeciesView { id: number; name: string; types: string[]; baseStats: Stats; portrait: string; owned: boolean }
+export interface BattleMonsterView { uid: string; slot?: number; name: string; species: number; level: number; hp: number; maxHp: number; fainted: boolean; types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number> }
+export interface BattlePresentationFrame { id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number; critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillType?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
+export interface BattleView { name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[]; finished: boolean; won: boolean; result: string; resultReason?: string; canCapture: boolean; captureBlockedReason?: string; captured?: boolean; needsSwitch: boolean; animation: {revision: number; frames: BattlePresentationFrame[]} }
+export interface ItemView { id: string; name: string; kind: string; count: number; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted'; usableTargetUids?: string[] }
+export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;price:0;hatches?:number}
+export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[] }
+export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: {species: number; name: string; level: number}[]; rewardText: string; blockedReason?: string }
+export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
+export interface GameSnapshot { monsters: MonsterView[]; party: string[]; bosses: BossView[]; campaigns: CampaignView[]; species: SpeciesView[]; quests: QuestView[]; battle: BattleView | null; expPool: number; coins: number; notices: string[]; natures: {id: string; name: string}[]; traits: {id: string; name: string; description: string}[]; items: ItemView[]; shopItems:ShopItemView[]; modules: {fifthSkills: number; soulMarks: number; engravings: number} }
+export type GameAction =
+ | {type: 'startBattle'; bossId: string}
+ | {type: 'startCampaignStage'; campaignId: string; stageId: string}
+ | {type: 'resetCampaign'; campaignId: string}
+ | {type: 'startTraining'; species?: number; level?: number}
+ | {type: 'move'; skillId: number}
+ | {type: 'switch'; uid: string}
+ | {type: 'battleItem'; itemId: string; targetUid?: string}
+ | {type: 'capture'; itemId: string}
+ | {type: 'flee'} | {type: 'closeBattle'} | {type: 'heal'}
+ | {type: 'party'; uid: string; add: boolean}
+ | {type: 'rename'; uid: string; name: string}
+ | {type: 'equip'; uid: string; skills: number[]}
+ | {type: 'train'; uid: string; stat: StatKey; amount: number}
+ | {type: 'setEvs'; uid: string; evs: Stats}
+ | {type: 'reorderParty'; uids: string[]}
+ | {type: 'allocateExp'; uid: string; amount: number}
+ | {type: 'evolve'; uid: string}
+ | {type: 'fuse'; recipeId: string; primaryUid: string; secondaryUid: string}
+ | {type: 'useItem'; uid: string; itemId: string}
+ | {type: 'claimQuest'; questId: string}
+ | {type: 'breed'; recipeId: string; firstUid: string; secondUid: string}
+ | {type: 'buyItem'; itemId: string; quantity: number}
+ | {type: 'cheatMonster'; uid: string; level?: number; iv?: number; nature?: string; evs?: Partial<Stats>; traitId?: string | null}
+ | {type: 'cheatAcquire'; species: number; level?: number}
+ | {type: 'cheatResources'; coins?: number; expPool?: number}
+ | {type: 'dismissNotice'};
+export interface GameController { snapshot(): GameSnapshot; subscribe(listener: () => void): () => void; dispatch(action: GameAction): void; exportSave(): string; importSave(json: string): void; reset(): void }

@@ -1,0 +1,101 @@
+{
+  "id": 1201,
+  "name": {
+    "zh": "暗金炎魔"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 120,
+    "def": 95,
+    "spa": 102,
+    "spd": 75,
+    "spe": 93
+  },
+  "ev_yield": {
+    "atk": 2,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10980
+    },
+    {
+      "level": 4,
+      "skill": 20449
+    },
+    {
+      "level": 9,
+      "skill": 10981
+    },
+    {
+      "level": 14,
+      "skill": 10412
+    },
+    {
+      "level": 19,
+      "skill": 20259
+    },
+    {
+      "level": 24,
+      "skill": 10030
+    },
+    {
+      "level": 29,
+      "skill": 10985
+    },
+    {
+      "level": 34,
+      "skill": 20225
+    },
+    {
+      "level": 38,
+      "skill": 10982
+    },
+    {
+      "level": 43,
+      "skill": 10419
+    },
+    {
+      "level": 48,
+      "skill": 20340
+    },
+    {
+      "level": 53,
+      "skill": 10983
+    },
+    {
+      "level": 58,
+      "skill": 20454
+    },
+    {
+      "level": 63,
+      "skill": 10986
+    },
+    {
+      "level": 68,
+      "skill": 20455
+    },
+    {
+      "level": 73,
+      "skill": 10984
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1201",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-05"
+}

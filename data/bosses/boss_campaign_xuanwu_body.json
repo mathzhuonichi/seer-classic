@@ -1,0 +1,114 @@
+{
+  "id": "boss_campaign_xuanwu_body",
+  "name": {
+    "zh": "玄武·巴斯特"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "菲尼克斯禁地 · 玄武"
+  },
+  "era": "2011",
+  "team": [
+    {
+      "species": 501,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11145,
+        11148,
+        20569,
+        11146
+      ],
+      "hp_override": 50000,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "paralysis",
+        "poison",
+        "burn",
+        "freeze",
+        "sleep",
+        "fear",
+        "petrify",
+        "confusion",
+        "weaken",
+        "leech",
+        "flammable",
+        "frozen_solid"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "极度冰点",
+          "同生共死",
+          "绝命火焰"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {
+      "essence_boss_campaign_xuanwu_body": 1
+    },
+    "kind": "essence"
+  },
+  "campaign": {
+    "id": "xuanwu",
+    "stage": "body",
+    "final": true
+  },
+  "strategy_notes": {
+    "zh": "留意对手的特殊能力，准备好阵容再挑战。"
+  },
+  "engine_notes": [
+    "Body HP 50000 forXuanwu/Qinglong/Baihu is reported in period sources; Zhuque HP 50000 is a remake calibration.",
+    "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills.",
+    "The reported fatigue exception is represented broadly by not blocking fatigue; source-specific exception matching is not recovered. Automatic low-HP speed growth remains unmodeled because its trigger is unquantified."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
+    "https://news.7k7k.com/content/20100807/12290.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

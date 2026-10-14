@@ -1,0 +1,97 @@
+{
+  "id": "boss_puni_seal4",
+  "name": {
+    "zh": "谱尼·第四封印「生命」"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "精灵太空站 勇者之塔 神秘领域"
+  },
+  "era": "2010-05",
+  "team": [
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 8000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "heal_flat_each_turn",
+      "params": {
+        "amount": 2000
+      }
+    },
+    {
+      "rule": "no_struggle"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20500,
+      10995,
+      11000,
+      10999
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_puni_seal3"
+    ]
+  },
+  "capture": {
+    "zh": "第4封印：每回合自动回血2000。 击败后解开该封印，进入下一封印；七个封印全部解开后挑战谱尼真身才能获得谱尼精元。"
+  },
+  "strategy_notes": {
+    "zh": "查尔顿耗完PP，换上强化到+6攻击的战斗系（盖亚）或龙系（哈莫雷特）精灵，单次伤害要超过2000；或阿克希亚极度冰点、魔焰猩猩绝命火焰秒杀。"
+  },
+  "engine_notes": [
+    "heal_flat_each_turn: at each turn end 谱尼 heals a flat 2000 HP (heal_each_turn is pct-based, hence the script). Sources disagree on the amount (2000 in 4399 2010 and baidu jingyan; 1200 in the spinoff).",
+    "no_struggle: when 谱尼 has no PP left it cannot act. The universal 2010 strategy for seals 1-5 was 查尔顿 虚张声势 + 固若金汤 (and 超级药 heals) until 谱尼's 35 PP were spent, then finish it with a pet suited to the seal's rule.",
+    "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
+    "Level is not given by any source; 100 assumed (the battle showed ??? for seal bosses in some recollections).",
+    "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",
+    "Reward: none for the seal itself; progress unlocks the next seal (see chains/puni.json)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "level"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/pngl/201010-16-78980.html",
+    "https://news.7k7k.com/content/20100519/7615.html",
+    "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html"
+  ],
+  "source_note": "4399 谱尼攻略 series (2010-10, one page per seal) for the seal rules and skills/PP; HP from a later baidu jingyan summary (5000/6000/7000/8000/9000 for seals 1-5)."
+}

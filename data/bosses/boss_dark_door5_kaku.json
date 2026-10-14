@@ -1,0 +1,84 @@
+{
+  "id": "boss_dark_door5_kaku",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第五门 卡库"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第五门"
+  },
+  "era": "2010-02",
+  "team": [
+    {
+      "species": 222,
+      "level": 90,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10638,
+        10385,
+        10388,
+        10637
+      ],
+      "hp_override": 900
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10638,
+      10385,
+      10388,
+      10637
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_kaku": 1
+    }
+  },
+  "reward_hatches": 221,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door4_kelinkaxiu"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第五门：90级卡库，约900血。打败获得卡库精元。"
+  },
+  "strategy_notes": {
+    "zh": "用速度快的精灵直接大招，或用血防高的精灵耗PP。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "High attack and crit rate (容易造成致命一击); 破釜沉舟 lowers its own defence."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98439.html",
+    "https://news.7k7k.com/content/20100602/8159.html",
+    "https://news.7k7k.com/content/20100225/5898.html"
+  ],
+  "source_note": "4399 第五门攻略: No.222 战斗系 Lv90 HP900."
+}

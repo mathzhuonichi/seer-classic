@@ -1,0 +1,62 @@
+{
+  "id": 557,
+  "name": {
+    "zh": "波伦"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 62,
+    "atk": 60,
+    "def": 50,
+    "spa": 40,
+    "spd": 43,
+    "spe": 64
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 98,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 15,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 10646
+    },
+    {
+      "level": 13,
+      "skill": 10440
+    },
+    {
+      "level": 17,
+      "skill": 20687
+    }
+  ],
+  "evolution": [
+    {
+      "to": 558,
+      "method": "level",
+      "level": 19
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0557",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

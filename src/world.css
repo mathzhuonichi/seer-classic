@@ -1,0 +1,118 @@
+.world-exploration{position:relative;width:100%;height:100%;min-height:0;overflow:hidden;isolation:isolate;background:#103e64}
+.world-scene{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;cursor:crosshair;outline:none;isolation:isolate;container-type:inline-size;box-shadow:0 0 0 1px #72d3f0,0 0 0 3px #123d64}
+.world-scene:focus-visible{outline:2px solid #c4fcff;outline-offset:-2px}
+.world-background{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
+.world-authored-light{position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#ffefd60c,transparent 55%,#12304a16)}
+.world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;height:36px;padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/map-nameplate.png') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
+.world-location-hud strong{font-size:12px;font-weight:700;line-height:1.4;text-shadow:0 1px 2px #002656;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.world-gate{position:absolute;display:grid;place-items:center;padding:6px;min-width:52px;min-height:52px;background:none;border:0;border-radius:50%;box-shadow:none;z-index:3;color:#fff9df;text-shadow:0 1px 3px #142c40;transform:translate(-50%,-50%)}
+.world-gate:hover{transform:translate(-50%,-50%);background:none;border:0;box-shadow:none}
+.world-gate:focus-visible{outline:2px solid #fff7bc;outline-offset:2px}
+.world-gate-arrow{font-size:43px;line-height:43px;filter:drop-shadow(0 1px 3px #123b54) drop-shadow(0 0 5px #fff1b4);font-weight:800;animation:world-exit-glow 1.6s ease-in-out infinite}
+.world-gate-caption{position:absolute;left:50%;top:100%;transform:translateX(-50%);min-width:80px;max-width:160px;width:max-content;padding:4px 7px;border:1px solid #bddbe38c;border-radius:4px;background:#183c50e6;white-space:normal;text-align:center;opacity:0;visibility:hidden;pointer-events:none}
+.world-gate:hover .world-gate-caption,.world-gate:focus-visible .world-gate-caption{opacity:1;visibility:visible}
+.world-gate-caption-above .world-gate-caption{top:auto;bottom:100%}
+.world-gate-caption small{display:block;font-size:9px;line-height:1.3;color:#c8dce3}
+.world-gate-caption strong{display:block;font-size:12px;line-height:1.45;color:#fff7d7}
+@keyframes world-exit-glow{0%,100%{opacity:.7}50%{opacity:1;filter:drop-shadow(0 0 7px #fff1b4)}}
+.world-creature,.world-npc{position:absolute;transform:translate(-50%,-100%);display:grid;justify-items:center;align-items:end;padding:0;border:0;background:none;z-index:6;overflow:visible;cursor:pointer}
+.world-creature:hover,.world-npc:hover{transform:translate(-50%,-100%);background:none;border:0}
+.world-creature:focus-visible,.world-npc:focus-visible{outline:2px solid #d8ffdb;outline-offset:5px;border-radius:8px}
+.world-sprite-art{position:relative;width:clamp(90px,calc(var(--scene-creature-size,13)*1cqw),164px);height:clamp(90px,calc(var(--scene-creature-size,13)*1cqw),164px);filter:drop-shadow(0 4px 2px #142f4733);transition:filter .2s}
+.world-boss .world-sprite-art{width:clamp(86px,13cqw,158px);height:clamp(86px,13cqw,158px)}
+.world-creature:hover .world-sprite-art{filter:drop-shadow(0 0 5px #fff9)}
+.world-creature-shadow{position:absolute;bottom:17px;width:54%;height:9px;background:#20354038;filter:blur(2px);border-radius:50%;z-index:-1}
+.world-character-name{display:block;white-space:nowrap;border:1px solid #e6f4e376;background:#173f53b3;color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;line-height:14px;text-shadow:0 1px 2px #142b3d}
+.world-character-name small{font-size:8px;margin-left:4px;color:#e3f0db}
+.world-character-name b{display:inline-block;background:#efce70;color:#443911;font-size:7px;padding:0 3px;border-radius:2px;margin-right:2px}
+.world-player{position:absolute;transform:translate(-50%,-95%);display:grid;justify-items:center;z-index:8;pointer-events:none;transition:left var(--walk-duration,650ms) linear,top var(--walk-duration,650ms) linear}
+.world-player>span:not(.classic-robot){color:#f1fff6;background:#20445ba6;border:1px solid #d3eddf55;border-radius:4px;padding:1px 5px;font-size:9px;line-height:13px}
+.world-player .classic-robot{width:clamp(40px,6cqw,72px);height:clamp(50px,7.5cqw,90px);filter:drop-shadow(0 3px 2px #12394955)}
+.world-walk-marker{position:absolute;transform:translate(-50%,-50%);height:9px;width:25px;border:2px solid #c7fefa;border-radius:50%;box-shadow:0 0 7px #88e5d966;z-index:2;pointer-events:none;opacity:.7}
+.world-ground-hint{position:absolute;bottom:10px;left:14px;font-size:10px;line-height:1.5;color:#f0f6dc;padding:3px 6px;border-radius:3px;background:#15314466;pointer-events:none;text-shadow:0 1px 3px #17394b}
+.world-facility-art{width:clamp(58px,8cqw,98px);height:clamp(70px,10cqw,122px);filter:drop-shadow(0 3px 2px #14354b44)}
+/* Equipment artwork is already present in the original map; hit areas follow it. */
+.world-lab-facility,.world-lab-facility:hover{position:absolute;transform:translate(-50%,-50%);border:0;background:none;padding:0;box-shadow:none;z-index:4;cursor:pointer;overflow:visible;color:#f6faf4}
+.world-lab-equipment-outline{position:absolute;inset:22% 4% 2%;border:2px solid transparent;border-radius:12% 12% 18% 18%;pointer-events:none;transition:border-color .15s,box-shadow .15s}
+.world-lab-facility:hover .world-lab-equipment-outline,.world-lab-facility:focus-visible .world-lab-equipment-outline{border-color:#abe8e899;box-shadow:inset 0 0 12px #9affff30,0 0 9px #70eaff50}
+.world-lab-facility:focus-visible{outline:2px solid #ffdc85;outline-offset:3px;border-radius:12%}
+.world-lab-facility .world-character-name{position:absolute;top:0;left:50%;transform:translateX(-50%);width:max-content;max-width:100%;pointer-events:none;font-size:clamp(9px,1.35cqw,14px);line-height:1.5;border:0;background:none;color:#e5faff;padding:2px 0;text-shadow:0 1px 2px #062747,0 0 4px #002b68;font-weight:700;letter-spacing:.03em}
+.world-lab-facility:hover .world-character-name,.world-lab-facility:focus-visible .world-character-name{color:#fff5bd;text-shadow:0 1px 2px #062747,0 0 5px #80e4ff}
+.world-lab-shop .world-lab-equipment-outline{inset:0;border-radius:10%}
+.world-lab-shop .world-character-name{top:100%;font-size:clamp(9px,1.15cqw,12px);padding:2px 7px;border:1px solid #3e7599;background:#143d63eb;border-radius:3px;color:#e5faff}
+.world-original-npc{display:grid;grid-template-rows:minmax(0,1fr);place-items:end center}
+.world-original-npc .classic-robot{width:100%;height:100%;min-width:0;min-height:0}
+.npc-interaction-mark{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#f7ce59;border:2px solid #fff3bc;color:#503b0c;font-size:12px;font-weight:800;border-radius:50%;height:22px;width:22px;display:grid;place-items:center}
+.world-dialogue{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);width:min(510px,calc(100% - 34px));max-height:calc(100% - 110px);overflow:auto;background:linear-gradient(140deg,#193b50fa,#122b40fa);color:#e9f5fd;border:2px solid #8aafbe;border-radius:7px;box-shadow:0 10px 28px #06182d70;z-index:25;padding:16px 18px}
+.world-dialogue-close{position:absolute;top:7px;right:8px;border:0;background:none;color:#c0d7e1;padding:4px 7px;font-size:18px}
+.world-dialogue-body{display:flex;align-items:center;gap:15px;padding-right:16px}
+.world-dialogue-portrait{width:88px;height:88px;flex-shrink:0;position:relative}
+.world-dialogue-portrait .world-facility-art,.world-dialogue-portrait .world-original-npc{width:88px;height:88px}
+.world-dialogue-copy{min-width:0}
+.world-dialogue-copy>small{font-size:10px;letter-spacing:1px;color:var(--world-color)}
+.world-dialogue-copy h3{font-size:19px;margin:5px 0 7px;color:#f7fcff}
+.world-dialogue-copy p{font-size:12px;line-height:1.7;color:#bdd3de;margin:0}
+.world-dialogue-copy p.world-dialogue-detail{font-size:11px;padding-top:9px;color:#dcdfbd}
+.world-dialogue-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:15px}
+.world-dialogue-actions button{padding:8px 17px;font-size:12px}
+.world-arrival .world-scene{animation:world-arrive .25s ease-out}
+@keyframes world-arrive{from{opacity:.65}to{opacity:1}}
+
+/* Original creature portraits turn by instantaneous horizontal mirroring. */
+.world-roamer,.world-roamer:hover{transition:none;will-change:left,top;transform:translate(-50%,-100%) scale(var(--roam-size,1));transform-origin:50% 100%}
+/* Transparent portrait padding must still accept ordinary map clicks. */
+.world-roamer{pointer-events:none}
+.world-roamer img,.world-roamer .world-character-name{pointer-events:auto}
+.world-roaming-turn,.world-roaming-step{position:relative;width:100%;height:100%;transform-origin:50% 100%}
+.world-roaming-turn{transform:scaleX(1);transition:none}
+.world-roamer[data-direction=left] .world-roaming-turn{transform:scaleX(-1)}
+.world-roaming-step{animation:world-creature-stride .54s ease-in-out infinite;animation-play-state:paused}
+.world-roamer[data-motion=walking] .world-roaming-step{animation-play-state:running}
+.world-roamer[data-motion=idle] .world-roaming-step{animation:none}
+.world-roamer[data-motion=walking] .creature-art-idle{animation:none;transform:none}
+.world-roaming-footsteps{position:absolute;bottom:18px;left:calc(50% - 16px);width:32px;height:12px;pointer-events:none;opacity:0}
+.world-roaming-footsteps i{position:absolute;bottom:0;width:6px;height:4px;border-radius:50%;border:1px solid #e7ecd9b3;background:#5473744d;transform:rotate(-24deg);animation:world-creature-footfall .54s ease-out infinite;animation-play-state:paused}
+.world-roaming-footsteps i:first-child{left:6px}
+.world-roaming-footsteps i:last-child{right:5px;bottom:4px;animation-delay:-.27s;transform:rotate(24deg)}
+.world-roamer[data-motion=walking] .world-roaming-footsteps{opacity:.6}
+.world-roamer[data-motion=walking] .world-roaming-footsteps i{animation-play-state:running}
+@keyframes world-creature-stride{0%,50%,100%{transform:translateY(0)}25%,75%{transform:translateY(-2px)}}
+@keyframes world-creature-footfall{0%{opacity:.75;scale:.7}100%{opacity:0;scale:1.25}}
+@media(max-width:760px){.world-location-hud{top:6px;width:140px;height:32px;padding:0 16px 3px}.world-location-hud strong{font-size:11px}.world-gate{min-width:40px;min-height:40px;padding:4px}.world-gate-caption{max-width:120px}.world-gate-caption strong{font-size:10px}.world-gate-caption small{font-size:8px}.world-gate-arrow{font-size:34px;line-height:34px}.world-character-name{font-size:9px}.world-character-name small{font-size:7px}.world-dialogue{bottom:12px;padding:13px}.world-dialogue-copy h3{font-size:17px}.world-ground-hint{font-size:9px;bottom:7px;left:9px}}
+@media(max-height:500px){.world-dialogue{bottom:10px;padding:12px 15px}.world-dialogue-portrait{width:66px;height:66px}.world-dialogue-actions{margin-top:10px}.world-dialogue-copy h3{font-size:16px}.world-character-name{font-size:8px;padding:1px 4px}.world-character-name small{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.world-player{transition:none}.world-arrival .world-scene{animation:none}.world-roaming-step,.world-roaming-footsteps i,.world-gate-arrow{animation:none}.world-roaming-footsteps{display:none}}
+
+/* Revision 27: original Songti names use centered source text without invented plates. */
+.world-location-hud,.world-character-name,.world-player>span:not(.classic-robot),.world-gate-caption{font-family:SeerSimSun,SimSun,'宋体','Songti SC',STSong,serif}
+.world-character-name,.world-player>span:not(.classic-robot){border:0;background:none;border-radius:0;box-shadow:none;color:#fff;padding:1px 3px;font-size:12px;line-height:16px;font-weight:400;letter-spacing:.5px;text-shadow:-1px 0 #14242f,1px 0 #14242f,0 -1px #14242f,0 1px #14242f}
+.world-character-name small{color:inherit;font-size:10px;letter-spacing:0}
+.world-character-name b{background:none;border:0;border-radius:0;color:#ffe477;font-size:9px;padding:0 2px;text-shadow:inherit}
+.world-npc .world-character-name{color:#fff}
+.world-player>span:not(.classic-robot){color:#fff}
+.world-lab-equipment-outline{display:none}
+.world-lab-facility:focus-visible{outline:0;border-radius:0}
+.world-lab-facility .world-character-name{border:0;background:none;border-radius:0;box-shadow:none;font-weight:400;letter-spacing:.5px;text-shadow:-1px 0 #14242f,1px 0 #14242f,0 -1px #14242f,0 1px #14242f;color:#fff}
+.world-lab-facility:hover .world-character-name,.world-lab-facility:focus-visible .world-character-name{color:#ffe56d;text-shadow:-1px 0 #14242f,1px 0 #14242f,0 -1px #14242f,0 1px #14242f}
+.world-lab-fusion .world-character-name,.world-lab-breeding .world-character-name{visibility:visible;font-size:12px;font-weight:400;letter-spacing:0;text-shadow:-1px 0 #064271,1px 0 #064271,0 -1px #064271,0 1px #064271}
+.world-lab-shop .world-character-name{border:0;background:none;border-radius:0;padding:1px 3px;color:#fff}
+.world-lab-shop:hover .world-character-name,.world-lab-shop:focus-visible .world-character-name{color:#ffe56d}
+@media(max-width:760px){.world-character-name,.world-player>span:not(.classic-robot){font-size:11px}.world-character-name small{font-size:9px}}
+@media(max-height:500px){.world-character-name,.world-player>span:not(.classic-robot){font-size:10px;line-height:14px}.world-character-name small{font-size:8px}}
+/* Decompiled NpcModel/RobotModel specify blue names with a white glow;
+   ordinary player names retain the base text field's black color. */
+.world-npc .world-character-name{color:#0000ff;font-size:14px;text-shadow:-1px 0 #fff,1px 0 #fff,0 -1px #fff,0 1px #fff,0 0 3px #fff,0 0 3px #fff}
+.world-player>span:not(.classic-robot){color:#000;text-shadow:none;font-size:12px}
+@media(max-width:760px){.world-npc .world-character-name{font-size:12px}.world-player>span:not(.classic-robot){font-size:11px}}
+
+/* UI.swf map-name EditText 2804 uses SimSun, size 14 and yellow. */
+.world-location-hud strong{font-size:14px;font-weight:400;color:#ffff00;letter-spacing:0;text-shadow:none}
+.world-player>span:not(.classic-robot){font-size:12px;font-weight:400;letter-spacing:.5px}
+.world-npc .world-character-name{font-size:14px;font-weight:400}
+
+/* The floor hint follows plain scene lettering rather than an authored plate. */
+.world-ground-hint{background:none;border:0;border-radius:0;padding:0;font-size:12px;font-weight:400;letter-spacing:0;color:#fff;text-shadow:-1px 0 #14242f,1px 0 #14242f,0 -1px #14242f,0 1px #14242f}
+
+/* Laboratory facility logos follow the toolbar's cream/gold item caption. */
+.world-lab-facility .world-character-name{top:-12%;max-width:none;font-family:SeerSimHei,SimHei,'黑体','Heiti SC',sans-serif;font-size:clamp(14px,2.1cqw,20px);font-weight:900;line-height:1.15;letter-spacing:0;color:#fff0ad;-webkit-text-stroke:2px #75400a;paint-order:stroke fill;text-shadow:0 1px 0 #5b3006;background:#75400a;border:3px solid #ffe59a;border-radius:6px;box-shadow:0 0 0 2px #3985b0,0 2px 0 2px #144677;padding:3px 6px;white-space:nowrap}
+.world-lab-facility:hover .world-character-name,.world-lab-facility:focus-visible .world-character-name{color:#fff8d3;text-shadow:0 1px 0 #5b3006;border-color:#fff2b8;box-shadow:0 0 0 2px #70d7ff,0 2px 0 2px #144677}
+.world-lab-shop .world-character-name{top:8%}

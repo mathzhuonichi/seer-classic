@@ -1,0 +1,101 @@
+{
+  "id": 1484,
+  "name": {
+    "zh": "合金赛伯斯特"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 131,
+    "atk": 81,
+    "def": 90,
+    "spa": 115,
+    "spd": 88,
+    "spe": 105
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 12130
+    },
+    {
+      "level": 5,
+      "skill": 10224
+    },
+    {
+      "level": 9,
+      "skill": 11288
+    },
+    {
+      "level": 13,
+      "skill": 20365
+    },
+    {
+      "level": 17,
+      "skill": 10335
+    },
+    {
+      "level": 21,
+      "skill": 21111
+    },
+    {
+      "level": 25,
+      "skill": 12151
+    },
+    {
+      "level": 29,
+      "skill": 20754
+    },
+    {
+      "level": 33,
+      "skill": 20145
+    },
+    {
+      "level": 37,
+      "skill": 12153
+    },
+    {
+      "level": 41,
+      "skill": 12152
+    },
+    {
+      "level": 45,
+      "skill": 21112
+    },
+    {
+      "level": 49,
+      "skill": 11664
+    },
+    {
+      "level": 53,
+      "skill": 21113
+    },
+    {
+      "level": 57,
+      "skill": 12154
+    },
+    {
+      "level": 61,
+      "skill": 12155
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1483,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1484",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-12"
+}

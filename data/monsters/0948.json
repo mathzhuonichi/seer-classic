@@ -1,0 +1,66 @@
+{
+  "id": 948,
+  "name": {
+    "zh": "闪光伊娃"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 68,
+    "atk": 38,
+    "def": 45,
+    "spa": 60,
+    "spd": 70,
+    "spe": 42
+  },
+  "ev_yield": {
+    "spd": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 15,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20144
+    },
+    {
+      "level": 9,
+      "skill": 10427
+    },
+    {
+      "level": 11,
+      "skill": 12271
+    },
+    {
+      "level": 13,
+      "skill": 20283
+    },
+    {
+      "level": 17,
+      "skill": 10196
+    }
+  ],
+  "evolution": [
+    {
+      "to": 949,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0948",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

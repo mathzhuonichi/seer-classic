@@ -1,0 +1,83 @@
+{
+  "id": "boss_dark_door4_kelinkaxiu",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第四门 克林卡修"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第四门"
+  },
+  "era": "2010-02",
+  "team": [
+    {
+      "species": 192,
+      "level": 85,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10153,
+        10555,
+        10156,
+        20238
+      ],
+      "hp_override": 800
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10153,
+      10555,
+      10156,
+      20238
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_kelinkaxiu": 1
+    }
+  },
+  "reward_hatches": 190,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door4_xisalasi"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第四门：85级克林卡修，约800血。打败获得克林卡修精元。"
+  },
+  "strategy_notes": {
+    "zh": "火系大招两三回合内击杀；或60级雷吉欧斯全副武装3次后殴打。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Boosts with 宝石潜能 then hits very hard; attacks can freeze (冻伤, 持续掉血)."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98438.html",
+    "https://news.7k7k.com/content/20100602/8159.html"
+  ],
+  "source_note": "4399 第四门攻略: No.192 冰系 Lv85 HP800."
+}

@@ -1,0 +1,96 @@
+{
+  "id": "boss_spt_difute",
+  "name": {
+    "zh": "迪符特"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "怀特星 炫彩山 山神圣殿"
+  },
+  "era": "2011-06",
+  "team": [
+    {
+      "species": 804,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11941,
+        20990,
+        11938,
+        11942
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "script",
+      "id": "infinite_pp"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11941,
+      20990,
+      11938,
+      11942
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 803,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在炫彩山神秘洞窟收集齐4块灵魂残片，到最高层山神圣殿使用、点击山神解开封印后挑战；打败山神获得迪符特精元。"
+  },
+  "strategy_notes": {
+    "zh": "先消强化，然后用魔焰猩猩/阿克希亚等秒杀技秒杀；或布林克克/布鲁克克海洋之心削血后黑电、斯普林特自杀，再上雷伊或谱尼收尾；该隐暗影护盾骗物攻MISS也可。"
+  },
+  "engine_notes": [
+    "infinite_pp: the boss's skills never run out of PP (players could not win by 耗PP).",
+    "immune_status: 4399 says 烧伤、冻伤技能无效、免疫疲惫等异常状态; 海洋之心 (pct damage) explicitly works.",
+    "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses.",
+    "Unlock is an exploration step (collect 4 灵魂残片 in 炫彩山神秘洞窟), not a prior boss fight.",
+    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201108-23-111513.html",
+    "https://news.4399.com/seer/zenmezhua/201106-10-99559.html",
+    "https://news.4399.com/seer/tujian/99561.htm",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 SPT page (2011-08) gives HP 10000, PP无限 and status immunity; release 2011-06-10 per 4399 obtain guide."
+}

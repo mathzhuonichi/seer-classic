@@ -1,0 +1,130 @@
+{
+  "id": "boss_spt_nate",
+  "name": {
+    "zh": "纳特"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "恶灵深渊（火山口）"
+  },
+  "era": "2012-10",
+  "team": [
+    {
+      "species": 1377,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13210,
+        13212,
+        13209,
+        21689
+      ],
+      "hp_override": 8000,
+      "stat_multipliers": {
+        "spe": 0.4
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "stages_unclearable"
+    },
+    {
+      "rule": "immune_stage_down"
+    },
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "script",
+      "id": "status_on_attacker",
+      "params": {
+        "status": "burn",
+        "chance": 100,
+        "turns_min": 2,
+        "turns_max": 3
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13210,
+      13212,
+      13209,
+      21689
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1376,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "SPT面板选择螺旋星系→纳特→现在就去，在火山口连续点击3次触发战斗；打败获得纳特精元。"
+  },
+  "strategy_notes": {
+    "zh": "强化消不掉、弱化无效，用水系、圣灵系精灵车轮战（布鲁卡卡、鲁斯王、迈尔斯、斯加尔卡、斯普林特）。"
+  },
+  "engine_notes": [
+    "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects.",
+    "status_on_attacker: after the player's pet attacks it, the attacker is burned for 2-3 turns (必出现2-3回合烧伤).",
+    "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first.",
+    "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "skills",
+      "stat_multipliers"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
+    "https://news.4399.com/seer/tujian/203231.htm"
+  ],
+  "source_note": "4399 guide 2012-10-12: 体力8000, 天生攻击+2无法消强化, 不吃弱化与异常, 攻击后烧伤2-3回合."
+}

@@ -1,0 +1,78 @@
+{
+  "id": 847,
+  "name": {
+    "zh": "蓝壳蟹"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 67,
+    "def": 61,
+    "spa": 40,
+    "spd": 55,
+    "spe": 51
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 72,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 40,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20012
+    },
+    {
+      "level": 9,
+      "skill": 10186
+    },
+    {
+      "level": 13,
+      "skill": 10903
+    },
+    {
+      "level": 17,
+      "skill": 20013
+    },
+    {
+      "level": 21,
+      "skill": 10321
+    },
+    {
+      "level": 25,
+      "skill": 10190
+    },
+    {
+      "level": 29,
+      "skill": 20218
+    },
+    {
+      "level": 33,
+      "skill": 12031
+    }
+  ],
+  "evolution": [
+    {
+      "to": 848,
+      "method": "level",
+      "level": 36
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0847",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-07"
+}

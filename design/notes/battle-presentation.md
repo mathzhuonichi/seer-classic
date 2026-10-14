@@ -1,0 +1,25 @@
+# Classic battle presentation
+
+The primary reference is Taomee's original [Seer beginner guide: basic operations](https://seer.61.com/main/guide/jbcz.html). Its battle section explicitly documents four commands: Battle opens the active creature's skills; Items opens recovery supplies and capture capsules; Creatures allows a party replacement; Escape withdraws from battle. This is the reference for the four persistent command tabs, with a four-slot skill panel, usable inventory, party selection and withdrawal.
+
+The historical battle image referenced by that official page is [f030167cc61a06f46093fffa62e5340b.jpg](http://res.61.com/img/seer/f030167cc61a06f46093fffa62e5340b.jpg). Both the official resource URL and its HTTPS equivalent returned HTTP 404 during this revision. No screenshot of that missing image was fabricated, and the new interface is not claimed to be a pixel-exact reproduction. The battlefield, opposing health panels, mirrored enemy art and central dialogue are a remake interpretation of the classic structure and the user's requested presentation.
+
+The presentation lives in `src/components/Battle.tsx` and `src/battle.css`, independently of the recovered battle engine. The application adapter supplies ordered event frames with creature and health snapshots. Those frames play one at a time, showing each move, its damage or recovery, and any replacement in the engine's actual order. Commands remain disabled until playback finishes. The four shared creature animation modules are a physical lunge, a special attack charge/projectile, a status aura and a hit reaction. Recovery and switching also use shared effects. Creature art uses the common alpha-bounds and evolution-scale adapter; facing and animation transforms live on separate wrappers.
+
+The displayed health follows the event snapshot during playback, then converges to the final controller snapshot. Reduced-motion preferences shorten playback and remove motion without changing combat results. This animation layer does not alter damage, priority, RNG, AI, PP, item rules or victory settlement.
+
+## Representative verification
+
+`npx tsc --noEmit` passed after integration with the adapter and shared creature-art module. The development app was checked in a separate in-app browser tab at a 1,280-pixel window width. There was no horizontal overflow. The corrected source vector portraits for species 3 and 10 rendered visibly and matched the corresponding local PNG portraits; the enemy wrapper used a horizontal mirror matrix.
+
+A status move disabled all four commands during playback, consumed one PP, displayed the shared status aura and defense stage increase, processed the enemy's attack, and restored input. A special move then reduced the enemy's HP to zero and displayed the engine's victory settlement. Idle and status-playback screenshots are saved under the ignored `artifacts/presentation-v2/` directory. These are representative UI checks, not a complete combat-mechanics test suite or an official screenshot comparison.
+
+## Fixed-frame revision and retreat correction
+
+The battle presentation fills the application's game viewport. The battlefield consumes the remaining vertical space; command panels use bounded internal lists instead of growing the page. Creature selection now requires an explicit Deploy command and offers a separate details view. Items are selected first, then applied with a target selector and Use command. The Escape panel explains replacement-phase withdrawal and the absence of rewards.
+
+The recovered engine previously exposed only switch actions during forced replacement while the interface exposed Escape. The engine now accepts retreat in either active decision phase and resolves it before opponent action selection or turn effects. A retreat produces one final result, clears replacement flags and excludes all defeated-enemy reward entries, including enemies defeated earlier in the same encounter. Replacement processing checks for an exhausted party before returning to the next decision phase. Item legality now checks the selected party slot rather than comparing only item IDs. Named slot metadata keeps bench recovery distinct from the active creature's health display.
+
+Critical hits retain the engine's existing random draw and double-damage multiplier. Damage frames carry the actual critical flag, enabling a larger amber damage popup, an explicit critical-hit label and a stronger impact reaction. The grouped log helper describes creature names, skills, damage, remaining HP, status durations, stat stages and end-of-turn condition damage.
+
+The focused deterministic check in `tools/verification/battle-v3.ts` passed forced-replacement withdrawal after an earlier enemy knockout, normal withdrawal without opposing player input, exhausted-party defeat, valid bench healing and rejection of an invalid target, an ordinary RNG critical hit with its damage multiplier (seed 4), grouped critical/residual logs and the explicit trait calibration. This check does not replace a complete encounter or catalog audit.

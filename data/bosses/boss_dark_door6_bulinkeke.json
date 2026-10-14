@@ -1,0 +1,123 @@
+{
+  "id": "boss_dark_door6_bulinkeke",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第六门 布林克克"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第六门"
+  },
+  "era": "2010-06",
+  "team": [
+    {
+      "species": 359,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10882,
+        10885,
+        20143,
+        20397
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "paralysis",
+        "sleep",
+        "fear",
+        "freeze",
+        "burn",
+        "poison"
+      ]
+    },
+    {
+      "rule": "heal_full_below",
+      "hp": 200
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1,
+            "spe": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10882,
+      10885,
+      20143,
+      20397
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_bulinkeke": 1
+    }
+  },
+  "reward_hatches": 357,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door6_aieryiluo"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第六门：100级布林克克，约2000血。打败获得布林克克精元。"
+  },
+  "strategy_notes": {
+    "zh": "谱尼圣堂之门消强后攻击；2010年玩家多用魔焰猩猩绝命火焰，或鲁斯王+盖亚消强+丽莎收尾。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "heal_full_below: 4399 2011: 血量低于200自动回满; 4399 2010-06: 血少于100的时候会回满血. 200 used (later, more specific source).",
+    "immune_status_list: '免疫多种异常状态' without a list; the listed set is an assumption.",
+    "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+1/spe+1 assumed. Level not published (等级未知), 100 assumed."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "innate_stage_stat",
+      "immune_list",
+      "heal_threshold"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
+    "https://news.4399.com/seer/ahwdc/201006-04-70326.html",
+    "https://news.7k7k.com/content/20100608/8511.html"
+  ],
+  "source_note": "4399 第六门攻略: No.359 水系 HP2000, heals to full when low."
+}

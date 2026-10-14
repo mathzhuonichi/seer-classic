@@ -1,0 +1,85 @@
+{
+  "id": "boss_tower_brave_f028",
+  "name": {
+    "zh": "勇者之塔 第28层 巴鲁斯"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔"
+  },
+  "era": "2009",
+  "team": [
+    {
+      "species": 6,
+      "level": 92,
+      "iv": 15,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10027,
+        10046,
+        10025,
+        20012
+      ],
+      "hp_override": null
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10027,
+      10046,
+      10025,
+      20012
+    ]
+  },
+  "reward": {
+    "items": {
+      "item_seer_beans": 280
+    }
+  },
+  "reward_note": "item_seer_beans = 赛尔豆 (the game currency); the catalog has no currency item yet, so the amount is carried as an item count.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f027"
+    ]
+  },
+  "capture": {
+    "zh": "勇者之塔第28层：92级巴鲁斯。通过本层获得：280赛尔豆"
+  },
+  "strategy_notes": {
+    "zh": "64级巴鲁斯先用克制，再用两个克制招式"
+  },
+  "engine_notes": [
+    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters).",
+    "skills: sources name none (except where the tip implies one); the monster's highest pre-2013 learnset skills at or below its level are used."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills",
+      "hp",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+  ],
+  "source_note": "4399 勇者之塔1-60层攻略 (2010-04-13): floor, monster, level (J) and reward per floor."
+}

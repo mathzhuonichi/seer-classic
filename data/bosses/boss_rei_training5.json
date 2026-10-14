@@ -1,0 +1,149 @@
+{
+  "id": "boss_rei_training5",
+  "name": {
+    "zh": "雷伊特训·雷伊的影子"
+  },
+  "category": "story",
+  "location": {
+    "zh": "赫尔卡星 雷伊特训（湖边）"
+  },
+  "era": "2010",
+  "team": [
+    {
+      "species": 70,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10825,
+        10823,
+        20364,
+        10170
+      ],
+      "hp_override": 1200
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "require_player_species",
+      "params": {
+        "species": [
+          70
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "copy_foe_boosts"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "paralysis"
+      ]
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    },
+    {
+      "kind": "turn_limit",
+      "turns": 4
+    }
+  ],
+  "lose": [
+    {
+      "kind": "turn_limit",
+      "turns": 4
+    }
+  ],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2,
+            "spe": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "sequence",
+    "skills": [
+      10825
+    ]
+  },
+  "reward": {
+    "items": {},
+    "learn_skill": {
+      "species": 70,
+      "skill": 10825,
+      "name": {
+        "zh": "雷神天明闪"
+      }
+    }
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_rei_training4"
+    ]
+  },
+  "capture": {
+    "zh": "雷伊特训第5关：只能派自己的雷伊出战，胜利后雷伊学会「雷神天明闪」。"
+  },
+  "strategy_notes": {
+    "zh": "完成前四项技能特训并将雷伊提升至100级。先用极光刃消除倒影的天然强化，再寻找机会使用雷神觉醒与攻击技能；须在四回合内击败1200体力的倒影。"
+  },
+  "engine_notes": [
+    "The opponent is a blue mirror 雷伊 (镜影雷伊); a mirror of the player's 雷伊 at the player's level would be most faithful (script mirror_player_monster) — fixed Lv100 used here.",
+    "Superseded reconstruction: a later five-round shadow variant was previously selected. The current record explicitly chooses the earlier four-round/1200HP variant; the different period descriptions are not merged.",
+    "Pre-battle: if pirates are on the lake, shoot them with the head item first (map event).",
+    "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
+    "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
+    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "The selected original-era shadow variant uses 1200 HP/four rounds from2011-03-16 report https://news.7k7k.com/content/20110316/76887.html; later 2013 guides report a five-round variant. Fixed IV 31/nature and four-action AI are calibration rather than recovered random IV/nature behavior.",
+    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "innate_boost",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110720/92955.html",
+    "https://jingyan.baidu.com/article/afd8f4deb9f7f034e286e98c.html",
+    "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
+    "http://wenda.4399.com/question/47/477631.html",
+    "https://news.7k7k.com/content/20110316/76887.html",
+    "https://seer.61.com/dll/RobotAppDLL.swf",
+    "https://news.7k7k.com/content/20111103/103132.html"
+  ],
+  "source_note": "7k7k 2011-07 雷伊解析 lists the five 特训 opponents and how to beat them; baidu jingyan gives the skill order and the 5-turn shadow limit."
+}

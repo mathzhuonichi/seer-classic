@@ -1,0 +1,102 @@
+{
+  "id": "boss_spt_ruiersi",
+  "name": {
+    "zh": "瑞尔斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "推特星 加利部落"
+  },
+  "era": "2011-12",
+  "team": [
+    {
+      "species": 1045,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12316,
+        21278,
+        12453,
+        12455
+      ],
+      "hp_override": 2000,
+      "stat_multipliers": {
+        "atk": 2.0
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "ignore_player_damage_reduction"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12316,
+      21278,
+      12453,
+      12455
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1044,
+      "level": 1
+    },
+    "items": {},
+    "achievement": {
+      "zh": "击败瑞尔斯"
+    },
+    "title": {
+      "zh": "高傲的狂战者"
+    }
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "完成任务「决战瑞尔斯」后在卡兰星系推特星加利部落挑战，只能派一只精灵；打败获得瑞尔斯的精元、成就「击败瑞尔斯」与称号「高傲的狂战者」。"
+  },
+  "strategy_notes": {
+    "zh": "只有一只精灵上场，必须先手瞬杀：盖亚石破天惊、闪光艾菲亚超能石之力—S，或托鲁克强化攻击后飓风利袭秒杀。"
+  },
+  "engine_notes": [
+    "Single-pet challenge (仅能使用一只精灵).",
+    "ignore_player_damage_reduction: the player's protect/damage-reduction effects (谱尼虚无、希莉娅摇曳、该隐暗影护盾…) do nothing against it.",
+    "攻击力超高，基本可秒杀大部分精灵 — encoded as stat_multipliers atk 2.0 (estimate) on top of its ~2000 HP.",
+    "风林火山 clears its own stat drops, so weakening is pointless.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "stat_multipliers"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201112-26-134340.html"
+  ],
+  "source_note": "4399 SPT page: 2011-12-23 加入, 80级, 2000血左右, 单精灵挑战."
+}

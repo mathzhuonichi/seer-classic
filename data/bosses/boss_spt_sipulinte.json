@@ -1,0 +1,106 @@
+{
+  "id": "boss_spt_sipulinte",
+  "name": {
+    "zh": "斯普林特"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "地底古迹"
+  },
+  "era": "2011-04",
+  "team": [
+    {
+      "species": 755,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11841,
+        20934,
+        11836,
+        20933
+      ],
+      "hp_override": 4000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11841,
+      20934,
+      11836,
+      20933
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_sipulinte": 1
+    }
+  },
+  "reward_hatches": 754,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "quest": {
+      "zh": "忍之秘宝第四季"
+    }
+  },
+  "capture": {
+    "zh": "在钮斯处接受「忍之秘宝第四季」，激活塔克星忍魂密室的全部四个玄关后，斯普林特在第二层地底古迹复苏，点击挑战；打败获得斯普林特精元（孵化得斯林德）。"
+  },
+  "strategy_notes": {
+    "zh": "「这个新BOSS并不难」：40级以上波克尔/闪光波克尔同生共死一次后收尾；或盖亚消强化后谱尼解决。"
+  },
+  "engine_notes": [
+    "同生共死 works (the cheapest classic strategy), so it is not immune to it.",
+    "Innate boost implied by '先用盖亚消强化'; spa+1 assumed. HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate.",
+    "Its 虚空之身/黑暗遮蔽 make physical/special attacks miss for 2 turns — skill effects.",
+    "skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills",
+      "innate_stage_stats"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/tujian/94787.htm",
+    "https://news.5068.com/z/seer/gonglue/40335.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 图鉴 + 5068 (2011-04-29): 忍魂密室第二层地底古迹, 激活四玄关后出现, 精元孵化斯林德; 4399 2011: 80级."
+}

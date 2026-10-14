@@ -1,0 +1,101 @@
+{
+  "id": 788,
+  "name": {
+    "zh": "查德伦斯"
+  },
+  "types": [
+    "dragon"
+  ],
+  "base": {
+    "hp": 118,
+    "atk": 115,
+    "def": 78,
+    "spa": 82,
+    "spd": 92,
+    "spe": 97
+  },
+  "ev_yield": {
+    "spd": 1,
+    "spe": 1
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10611
+    },
+    {
+      "level": 5,
+      "skill": 20388
+    },
+    {
+      "level": 9,
+      "skill": 10068
+    },
+    {
+      "level": 13,
+      "skill": 11091
+    },
+    {
+      "level": 17,
+      "skill": 20537
+    },
+    {
+      "level": 21,
+      "skill": 11444
+    },
+    {
+      "level": 25,
+      "skill": 11641
+    },
+    {
+      "level": 29,
+      "skill": 20302
+    },
+    {
+      "level": 33,
+      "skill": 11904
+    },
+    {
+      "level": 37,
+      "skill": 11907
+    },
+    {
+      "level": 41,
+      "skill": 20970
+    },
+    {
+      "level": 45,
+      "skill": 11905
+    },
+    {
+      "level": 49,
+      "skill": 20971
+    },
+    {
+      "level": 53,
+      "skill": 11908
+    },
+    {
+      "level": 57,
+      "skill": 20972
+    },
+    {
+      "level": 61,
+      "skill": 11906
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 787,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0788",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-05"
+}

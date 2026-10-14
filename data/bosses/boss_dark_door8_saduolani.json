@@ -1,0 +1,97 @@
+{
+  "id": "boss_dark_door8_saduolani",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第八门 萨多拉尼"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第八门"
+  },
+  "era": "2011-02",
+  "team": [
+    {
+      "species": 661,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11640,
+        11090,
+        11639,
+        11089
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "always_move_first"
+    },
+    {
+      "rule": "script",
+      "id": "crit_rate_bonus",
+      "params": {
+        "stages": 2
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11640,
+      11090,
+      11639,
+      11089
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_saduolani": 1
+    }
+  },
+  "reward_hatches": 660,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door8_jialuode"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第八门：100级萨多拉尼，约1500血。打败获得萨多拉尼精元。"
+  },
+  "strategy_notes": {
+    "zh": "需要运气，速度超快、强制先手、高致命，可能每轮被秒；带血厚的精灵轮换。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "always_move_first: 强制先手. crit_rate_bonus: '高致命' — its attacks crit far more often than normal; +2 crit stages is an estimate.",
+    "Some later lists call this door's third boss 萨拉多尼; 4399 (2011) gives 萨多拉尼 No.661 龙系. Level not given; 100 assumed."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "crit_bonus"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-28-98332.html"
+  ],
+  "source_note": "4399 第八门全程攻略: No.661 龙系 HP≈1500, 速度超快 有先手招 高致命."
+}

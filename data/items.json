@@ -1,0 +1,801 @@
+[
+  {
+    "id": "item_capsule_basic",
+    "seer_id": 300001,
+    "name": {
+      "zh": "普通精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 1
+  },
+  {
+    "id": "item_capsule_medium",
+    "seer_id": 300002,
+    "name": {
+      "zh": "中级精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 1.5
+  },
+  {
+    "id": "item_capsule_advanced",
+    "seer_id": 300003,
+    "name": {
+      "zh": "高级精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 2
+  },
+  {
+    "id": "item_capsule_super",
+    "seer_id": 300004,
+    "name": {
+      "zh": "超级精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 3
+  },
+  {
+    "id": "item_capsule_special",
+    "seer_id": 300005,
+    "name": {
+      "zh": "特级精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 4
+  },
+  {
+    "id": "item_capsule_master",
+    "seer_id": 300006,
+    "name": {
+      "zh": "无敌精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": null,
+    "note": "Always catches (original Bonus 256)."
+  },
+  {
+    "id": "item_capsule_hertz",
+    "seer_id": 300008,
+    "name": {
+      "zh": "赫星精灵胶囊"
+    },
+    "kind": "capsule",
+    "era": "pre-2013",
+    "capture_multiplier": 2,
+    "note": "Original: only usable on 赫尔卡星."
+  },
+  {
+    "id": "item_potion_hp_20",
+    "seer_id": 300011,
+    "name": {
+      "zh": "初级体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 20
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_50",
+    "seer_id": 300012,
+    "name": {
+      "zh": "中级体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_100",
+    "seer_id": 300013,
+    "name": {
+      "zh": "高级体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 100
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_150",
+    "seer_id": 300014,
+    "name": {
+      "zh": "超级体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 150
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_200",
+    "seer_id": 300015,
+    "name": {
+      "zh": "特级体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 200
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_3000",
+    "seer_id": 300020,
+    "name": {
+      "zh": "万能体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 3000
+      }
+    ]
+  },
+  {
+    "id": "item_potion_hp_hertz_150",
+    "seer_id": 300022,
+    "name": {
+      "zh": "赫星体力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "heal",
+        "target": "self",
+        "amount": 150
+      }
+    ]
+  },
+  {
+    "id": "item_potion_pp_5",
+    "seer_id": 300016,
+    "name": {
+      "zh": "初级活力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "restore_pp",
+        "target": "self",
+        "amount": 5,
+        "each_skill": true
+      }
+    ],
+    "note": "Restores this many PP to every skill of the monster (recalled; confirm)."
+  },
+  {
+    "id": "item_potion_pp_10",
+    "seer_id": 300017,
+    "name": {
+      "zh": "中级活力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "restore_pp",
+        "target": "self",
+        "amount": 10,
+        "each_skill": true
+      }
+    ],
+    "note": "Restores this many PP to every skill of the monster (recalled; confirm)."
+  },
+  {
+    "id": "item_potion_pp_20",
+    "seer_id": 300018,
+    "name": {
+      "zh": "高级活力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "restore_pp",
+        "target": "self",
+        "amount": 20,
+        "each_skill": true
+      }
+    ],
+    "note": "Restores this many PP to every skill of the monster (recalled; confirm)."
+  },
+  {
+    "id": "item_potion_pp_40",
+    "seer_id": 300019,
+    "name": {
+      "zh": "超级活力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "restore_pp",
+        "target": "self",
+        "amount": 40,
+        "each_skill": true
+      }
+    ],
+    "note": "Restores this many PP to every skill of the monster (recalled; confirm)."
+  },
+  {
+    "id": "item_potion_pp_hertz_10",
+    "seer_id": 300023,
+    "name": {
+      "zh": "赫星活力药剂"
+    },
+    "kind": "battle",
+    "era": "pre-2013",
+    "battle_effects": [
+      {
+        "op": "restore_pp",
+        "target": "self",
+        "amount": 10,
+        "each_skill": true
+      }
+    ],
+    "note": "Restores this many PP to every skill of the monster (recalled; confirm)."
+  },
+  {
+    "id": "item_restore",
+    "seer_id": 300024,
+    "name": {
+      "zh": "精灵还原药剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "restore"
+    }
+  },
+  {
+    "id": "item_nature_reroll",
+    "seer_id": 300025,
+    "name": {
+      "zh": "性格重塑胶囊"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "nature_reroll"
+    }
+  },
+  {
+    "id": "item_level_down",
+    "seer_id": 300026,
+    "name": {
+      "zh": "降级秘药"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "levels",
+      "amount": -1
+    },
+    "note": "降级秘药: DecreMonLv 1, read as one level down (needs a negative `levels`)."
+  },
+  {
+    "id": "item_level_up_1",
+    "seer_id": 300122,
+    "name": {
+      "zh": "小型升级秘药"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "levels",
+      "amount": 1
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_level_up_2",
+    "seer_id": 300123,
+    "name": {
+      "zh": "中型升级秘药"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "levels",
+      "amount": 2
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_exp_x2",
+    "seer_id": 300027,
+    "name": {
+      "zh": "双倍经验加速器"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "boost",
+      "what": "exp",
+      "multiplier": 2,
+      "battles": 50
+    },
+    "note": "New raising op `boost` (not in raising SPEC section 10 yet)."
+  },
+  {
+    "id": "item_exp_x3",
+    "seer_id": 300051,
+    "name": {
+      "zh": "三倍经验加速器"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "boost",
+      "what": "exp",
+      "multiplier": 3,
+      "battles": 50
+    },
+    "note": "New raising op `boost`."
+  },
+  {
+    "id": "item_ev_x2",
+    "seer_id": 300035,
+    "name": {
+      "zh": "学习力双倍仪"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "boost",
+      "what": "ev",
+      "multiplier": 2,
+      "battles": 30
+    },
+    "note": "学习力双倍仪. New raising op `boost`."
+  },
+  {
+    "id": "item_ev_reset_atk",
+    "seer_id": 300037,
+    "name": {
+      "zh": "攻击学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "atk"
+      ]
+    }
+  },
+  {
+    "id": "item_ev_reset_def",
+    "seer_id": 300038,
+    "name": {
+      "zh": "防御学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "def"
+      ]
+    }
+  },
+  {
+    "id": "item_ev_reset_spa",
+    "seer_id": 300039,
+    "name": {
+      "zh": "特攻学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "spa"
+      ]
+    }
+  },
+  {
+    "id": "item_ev_reset_spd",
+    "seer_id": 300040,
+    "name": {
+      "zh": "特防学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "spd"
+      ]
+    }
+  },
+  {
+    "id": "item_ev_reset_spe",
+    "seer_id": 300041,
+    "name": {
+      "zh": "速度学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "spe"
+      ]
+    }
+  },
+  {
+    "id": "item_ev_reset_hp",
+    "seer_id": 300042,
+    "name": {
+      "zh": "体力学习力遗忘剂"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "ev_reset",
+      "stats": [
+        "hp"
+      ]
+    }
+  },
+  {
+    "id": "item_bead_def_20",
+    "seer_id": 300030,
+    "name": {
+      "zh": "防御能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "def": 20
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵防御20（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spd_20",
+    "seer_id": 300031,
+    "name": {
+      "zh": "特防能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spd": 20
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵特防20（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_atk_20",
+    "seer_id": 300032,
+    "name": {
+      "zh": "攻击能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "atk": 20
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵攻击20（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spa_20",
+    "seer_id": 300033,
+    "name": {
+      "zh": "特攻能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spa": 20
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵特攻20（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spe_10",
+    "seer_id": 300034,
+    "name": {
+      "zh": "速度能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spe": 10
+      },
+      "battles": 10
+    },
+    "desc": {
+      "zh": "增加精灵速度10（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_def_30",
+    "seer_id": 300045,
+    "name": {
+      "zh": "强效防御能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "def": 30
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵防御30（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spd_30",
+    "seer_id": 300046,
+    "name": {
+      "zh": "强效特防能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spd": 30
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵特防30（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_atk_30",
+    "seer_id": 300047,
+    "name": {
+      "zh": "强效攻击能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "atk": 30
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵攻击30（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spa_30",
+    "seer_id": 300048,
+    "name": {
+      "zh": "强效特攻能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spa": 30
+      },
+      "battles": 20
+    },
+    "desc": {
+      "zh": "增加精灵特攻30（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_spe_15",
+    "seer_id": 300049,
+    "name": {
+      "zh": "强效速度能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "stats": {
+        "spe": 15
+      },
+      "battles": 10
+    },
+    "desc": {
+      "zh": "增加精灵速度15（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_crit",
+    "seer_id": 300050,
+    "name": {
+      "zh": "致命能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "crit_rate_add": 1,
+      "battles": 10
+    },
+    "desc": {
+      "zh": "增加精灵技能致命一击率1/16（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_bead_reduce_damage",
+    "seer_id": 300060,
+    "name": {
+      "zh": "减伤能量珠"
+    },
+    "kind": "raising",
+    "era": "pre-2013",
+    "raising_effect": {
+      "op": "energy_bead",
+      "damage_taken_and_dealt_multiplier": 0.75,
+      "battles": 1
+    },
+    "desc": {
+      "zh": "敌我双方伤害降低1/4（赛尔间对战无效）"
+    },
+    "note": "能量珠: attaches to one monster and adds a flat stat bonus in PvE battles for N battles. New raising op `energy_bead`; the battle engine applies it when building the monster."
+  },
+  {
+    "id": "item_nature_adamant",
+    "seer_id": 300081,
+    "name": {
+      "zh": "性格转换剂：固执"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "adamant"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_nature_jolly",
+    "seer_id": 300082,
+    "name": {
+      "zh": "性格转换剂：开朗"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "jolly"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_nature_bold",
+    "seer_id": 300083,
+    "name": {
+      "zh": "性格转换剂：大胆"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "bold"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_nature_impish",
+    "seer_id": 300084,
+    "name": {
+      "zh": "性格转换剂：淘气"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "impish"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect. The modern client item name says 顽皮; renamed to 淘气 to match the 2010 nature list.",
+    "seer_name": "性格转换剂：顽皮"
+  },
+  {
+    "id": "item_nature_modest",
+    "seer_id": 300085,
+    "name": {
+      "zh": "性格转换剂：保守"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "modest"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  },
+  {
+    "id": "item_nature_timid",
+    "seer_id": 300086,
+    "name": {
+      "zh": "性格转换剂：胆小"
+    },
+    "kind": "raising",
+    "era": "uncertain",
+    "raising_effect": {
+      "op": "nature_set",
+      "nature": "timid"
+    },
+    "note": "Release date not pinned; included because the raising rules use this effect."
+  }
+]

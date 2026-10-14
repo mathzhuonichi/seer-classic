@@ -1,0 +1,126 @@
+{
+  "id": 659,
+  "name": {
+    "zh": "加洛德"
+  },
+  "types": [
+    "grass",
+    "psychic"
+  ],
+  "base": {
+    "hp": 118,
+    "atk": 112,
+    "def": 95,
+    "spa": 76,
+    "spd": 88,
+    "spe": 99
+  },
+  "ev_yield": {
+    "def": 2,
+    "spd": 1
+  },
+  "exp_yield": 128,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20020
+    },
+    {
+      "level": 9,
+      "skill": 11150
+    },
+    {
+      "level": 13,
+      "skill": 20296
+    },
+    {
+      "level": 17,
+      "skill": 10114
+    },
+    {
+      "level": 21,
+      "skill": 20570
+    },
+    {
+      "level": 25,
+      "skill": 11025
+    },
+    {
+      "level": 29,
+      "skill": 10680
+    },
+    {
+      "level": 33,
+      "skill": 20571
+    },
+    {
+      "level": 37,
+      "skill": 10341
+    },
+    {
+      "level": 41,
+      "skill": 11635
+    },
+    {
+      "level": 45,
+      "skill": 20572
+    },
+    {
+      "level": 49,
+      "skill": 11638
+    },
+    {
+      "level": 53,
+      "skill": 20573
+    },
+    {
+      "level": 57,
+      "skill": 11151
+    },
+    {
+      "level": 60,
+      "skill": 11149
+    },
+    {
+      "level": 63,
+      "skill": 20806
+    },
+    {
+      "level": 66,
+      "skill": 11152
+    },
+    {
+      "level": 69,
+      "skill": 11636
+    },
+    {
+      "level": 72,
+      "skill": 20807
+    },
+    {
+      "level": 75,
+      "skill": 11153
+    },
+    {
+      "level": 78,
+      "skill": 11637
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 658,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0659",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-02"
+}

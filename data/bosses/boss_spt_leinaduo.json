@@ -1,0 +1,100 @@
+{
+  "id": "boss_spt_leinaduo",
+  "name": {
+    "zh": "雷纳多"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "双子贝塔星"
+  },
+  "era": "2009-11",
+  "team": [
+    {
+      "species": 113,
+      "level": 75,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20145,
+        10331,
+        10336,
+        10335
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "self_hp_below_pct": 12.5
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "always_crit",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20145,
+      10331,
+      10336,
+      10335
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_leinaduo": 1
+    }
+  },
+  "reward_hatches": 111,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在双子贝塔星荒原挑战雷纳多，打败获得雷纳多精元（孵化得雷格）。"
+  },
+  "strategy_notes": {
+    "zh": "80+级火系（洛奇拉斯）火攻，再换巴鲁斯水枪/漩涡每回合约175伤害；或虚张声势降攻后漩涡磨；魔焰猩猩觉醒2次大招秒杀。残血（1/8以下）时它每击都是致命一击，最后要一口气打完。"
+  },
+  "engine_notes": [
+    "Below 1/8 HP every attack it makes is a critical hit (体力低于1/8时每次攻击都是致命一击) — phase at 12.5% → always_crit.",
+    "属性复制 (20145): for 5 turns its type becomes the foe's type; handled by the skill.",
+    "HP not given by the sources found (1500 is from earlier research notes citing 7k7k; not re-verified).",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70396.html",
+    "https://news.7k7k.com/content/20110316/76862.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05): 双子贝塔星荒原 75级; 7k7k 2011: 体力低于1/8时每次攻击都是致命一击."
+}

@@ -1,0 +1,113 @@
+{
+  "id": 306,
+  "name": {
+    "zh": "鲁斯王"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 124,
+    "atk": 120,
+    "def": 93,
+    "spa": 95,
+    "spd": 92,
+    "spe": 86
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 2
+  },
+  "exp_yield": 132,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 11008
+    },
+    {
+      "level": 6,
+      "skill": 20003
+    },
+    {
+      "level": 12,
+      "skill": 10024
+    },
+    {
+      "level": 18,
+      "skill": 20011
+    },
+    {
+      "level": 23,
+      "skill": 10020
+    },
+    {
+      "level": 28,
+      "skill": 11010
+    },
+    {
+      "level": 33,
+      "skill": 11009
+    },
+    {
+      "level": 38,
+      "skill": 20010
+    },
+    {
+      "level": 43,
+      "skill": 10025
+    },
+    {
+      "level": 47,
+      "skill": 11011
+    },
+    {
+      "level": 51,
+      "skill": 20012
+    },
+    {
+      "level": 55,
+      "skill": 11015
+    },
+    {
+      "level": 59,
+      "skill": 11012
+    },
+    {
+      "level": 62,
+      "skill": 20505
+    },
+    {
+      "level": 65,
+      "skill": 10027
+    },
+    {
+      "level": 68,
+      "skill": 11013
+    },
+    {
+      "level": 71,
+      "skill": 20506
+    },
+    {
+      "level": 74,
+      "skill": 11016
+    },
+    {
+      "level": 79,
+      "skill": 11014
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 305,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0306",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

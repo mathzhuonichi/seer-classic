@@ -1,0 +1,85 @@
+{
+  "id": "boss_paluodiya",
+  "name": {
+    "zh": "帕罗狄亚（念力之王）"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "（三周年活动「龙族大浩劫·布里克VS帕罗狄亚」）"
+  },
+  "era": "2012-04",
+  "team": [
+    {
+      "species": 1167,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12747,
+        12743,
+        12746,
+        21426
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12747,
+      12743,
+      12746,
+      21426
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_paluo": 1
+    }
+  },
+  "reward_hatches": 1165,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "2012年4月29日13:00-14:00 三周年庆「龙族大浩劫」中的「布里克VS帕罗狄亚」对决（形式参照「天马VS阿洛比斯」）：玩家帮助龙族守卫军（布里克）攻打念力之王帕罗狄亚，击败后获得精元，合成/孵化得到初级形态帕罗。"
+  },
+  "strategy_notes": {
+    "zh": "未找到同期具体打法；飞行超能系，被电、冰、暗影（对超能）系克制。"
+  },
+  "engine_notes": [
+    "Story: 帕罗狄亚's clan was to be sealed by the old dragon king; 龙王子哈莫雷特 later makes amends. The event was a one-hour server-wide face-off; some sources say every kill gave a 精元 fragment and 'enough' of them made 帕罗 — count unknown, so one essence per win is used.",
+    "Level, HP, rules and skills are NOT published in any source found; 80 / 5000 and the top learnset skills are placeholders."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "rules",
+      "essence_count"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/tujian/156454.htm",
+    "https://www.qywcom.com/article/6ef0e77a70a434651709.html"
+  ],
+  "source_note": "4399 帕罗狄亚 图鉴: obtained in the 4月29日13-14点 小布VS帕罗狄亚 event; no battle data published."
+}

@@ -1,0 +1,113 @@
+{
+  "id": 631,
+  "name": {
+    "zh": "依卡劳特"
+  },
+  "types": [
+    "grass",
+    "fighting"
+  ],
+  "base": {
+    "hp": 119,
+    "atk": 117,
+    "def": 84,
+    "spa": 95,
+    "spd": 83,
+    "spe": 102
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10234
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 10236
+    },
+    {
+      "level": 13,
+      "skill": 10237
+    },
+    {
+      "level": 17,
+      "skill": 20020
+    },
+    {
+      "level": 21,
+      "skill": 11577
+    },
+    {
+      "level": 25,
+      "skill": 20007
+    },
+    {
+      "level": 29,
+      "skill": 11397
+    },
+    {
+      "level": 33,
+      "skill": 20689
+    },
+    {
+      "level": 37,
+      "skill": 11394
+    },
+    {
+      "level": 41,
+      "skill": 11581
+    },
+    {
+      "level": 45,
+      "skill": 20110
+    },
+    {
+      "level": 49,
+      "skill": 11578
+    },
+    {
+      "level": 53,
+      "skill": 10241
+    },
+    {
+      "level": 57,
+      "skill": 20779
+    },
+    {
+      "level": 61,
+      "skill": 11579
+    },
+    {
+      "level": 65,
+      "skill": 11582
+    },
+    {
+      "level": 69,
+      "skill": 20780
+    },
+    {
+      "level": 73,
+      "skill": 11580
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 630,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0631",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

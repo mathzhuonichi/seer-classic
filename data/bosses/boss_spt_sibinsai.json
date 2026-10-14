@@ -1,0 +1,163 @@
+{
+  "id": "boss_spt_sibinsai",
+  "name": {
+    "zh": "斯宾塞"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "海盗能源站"
+  },
+  "era": "2011-10",
+  "team": [
+    {
+      "species": 945,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12254,
+        21169,
+        12257,
+        12256
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "damage_cap_per_hit",
+      "amount": 1,
+      "categories": [
+        "physical",
+        "special"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "damage_cap_breaks_on_dot",
+      "params": {
+        "statuses": [
+          "burn",
+          "freeze",
+          "poison"
+        ],
+        "chance": 80
+      }
+    },
+    {
+      "rule": "immune_stage_down"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "fear",
+        "sleep",
+        "paralysis",
+        "petrify",
+        "confusion",
+        "leech"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "同生共死",
+          "寄生种子"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 20
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "always_crit",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12254,
+      21169,
+      12257,
+      12256
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 944,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在海盗能源站挑战斯宾塞，打败后获得斯宾塞精元。"
+  },
+  "strategy_notes": {
+    "zh": "厄尔塞拉金光闪烁消强化；布林克克、布鲁克克各用5次以上海洋之心（百分比伤害不受1点限制）；降到1/5以下后用厄尔塞拉造成烧伤使护盾失效，最后谱尼圣灵魔闪光收尾。"
+  },
+  "engine_notes": [
+    "Signature mechanic (很难受到伤害): every physical or special attack deals exactly 1 damage. Percentage damage (海洋之心) and status damage are not capped.",
+    "damage_cap_breaks_on_dot: while the boss is burned/frozen/poisoned the 1-damage shield 'has a high chance to disappear' (4399: 有很大机率会消失); chance 80 is an estimate — model as a per-hit roll while the boss has a DoT status.",
+    "Innate boost exists (天生有强化，可消掉) but which stat is not stated; spa+1 is a guess. It CAN be cleared.",
+    "Below 1/5 HP every boss attack is a critical hit (always_crit).",
+    "Control/weaken skills 'basically ineffective' (同生共死、寄生种子、控场技能、弱化技能基本无效).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "innate_stage_stat",
+      "dot_break_chance"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201110-08-119108.html",
+    "https://www.doyo.cn/article/25582"
+  ],
+  "source_note": "4399 SPT page 2011-10-08: 80级, 5000血左右; 物攻/特攻只减1滴血; 掉血状态下特效大概率消失; 1/5血以下每次致命一击."
+}

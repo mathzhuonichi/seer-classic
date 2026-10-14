@@ -1,0 +1,114 @@
+{
+  "id": 334,
+  "name": {
+    "zh": "多鲁鲁斯"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 113,
+    "atk": 87,
+    "def": 98,
+    "spa": 102,
+    "spd": 100,
+    "spe": 71
+  },
+  "ev_yield": {
+    "def": 1,
+    "spa": 1,
+    "spd": 1
+  },
+  "exp_yield": 131,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20046
+    },
+    {
+      "level": 9,
+      "skill": 10087
+    },
+    {
+      "level": 13,
+      "skill": 10088
+    },
+    {
+      "level": 17,
+      "skill": 20047
+    },
+    {
+      "level": 21,
+      "skill": 10091
+    },
+    {
+      "level": 25,
+      "skill": 10090
+    },
+    {
+      "level": 29,
+      "skill": 20213
+    },
+    {
+      "level": 33,
+      "skill": 10597
+    },
+    {
+      "level": 37,
+      "skill": 10595
+    },
+    {
+      "level": 41,
+      "skill": 20259
+    },
+    {
+      "level": 45,
+      "skill": 10598
+    },
+    {
+      "level": 49,
+      "skill": 10689
+    },
+    {
+      "level": 53,
+      "skill": 20115
+    },
+    {
+      "level": 57,
+      "skill": 10691
+    },
+    {
+      "level": 61,
+      "skill": 10690
+    },
+    {
+      "level": 65,
+      "skill": 20299
+    },
+    {
+      "level": 69,
+      "skill": 10095
+    },
+    {
+      "level": 73,
+      "skill": 10692
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 333,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0334",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

@@ -1,0 +1,414 @@
+{
+  "types": [
+    {
+      "id": "grass",
+      "name": {
+        "zh": "草"
+      },
+      "species_count": 134
+    },
+    {
+      "id": "water",
+      "name": {
+        "zh": "水"
+      },
+      "species_count": 132
+    },
+    {
+      "id": "fire",
+      "name": {
+        "zh": "火"
+      },
+      "species_count": 148
+    },
+    {
+      "id": "flying",
+      "name": {
+        "zh": "飞行"
+      },
+      "species_count": 132
+    },
+    {
+      "id": "electric",
+      "name": {
+        "zh": "电"
+      },
+      "species_count": 75
+    },
+    {
+      "id": "mechanical",
+      "name": {
+        "zh": "机械"
+      },
+      "species_count": 89
+    },
+    {
+      "id": "ground",
+      "name": {
+        "zh": "地面"
+      },
+      "species_count": 158
+    },
+    {
+      "id": "normal",
+      "name": {
+        "zh": "普通"
+      },
+      "species_count": 104
+    },
+    {
+      "id": "ice",
+      "name": {
+        "zh": "冰"
+      },
+      "species_count": 138
+    },
+    {
+      "id": "psychic",
+      "name": {
+        "zh": "超能"
+      },
+      "species_count": 189
+    },
+    {
+      "id": "fighting",
+      "name": {
+        "zh": "战斗"
+      },
+      "species_count": 122
+    },
+    {
+      "id": "light",
+      "name": {
+        "zh": "光"
+      },
+      "species_count": 67
+    },
+    {
+      "id": "shadow",
+      "name": {
+        "zh": "暗影"
+      },
+      "species_count": 137
+    },
+    {
+      "id": "mystic",
+      "name": {
+        "zh": "神秘"
+      },
+      "species_count": 8
+    },
+    {
+      "id": "dragon",
+      "name": {
+        "zh": "龙"
+      },
+      "species_count": 62
+    },
+    {
+      "id": "holy",
+      "name": {
+        "zh": "圣灵"
+      },
+      "species_count": 3
+    },
+    {
+      "id": "dimension",
+      "name": {
+        "zh": "次元"
+      },
+      "species_count": 2,
+      "note": "Used by 2 pre-2013 species (#1333/#1334) and 9 skills; not on the 2010 official dex page."
+    },
+    {
+      "id": "evil",
+      "name": {
+        "zh": "邪灵"
+      },
+      "species_count": 0,
+      "note": "No pre-2013 species; kept because 3 pre-2013 boss skills (11660-11662, used by the 化身 boss monsters) are 邪灵."
+    }
+  ],
+  "chart": {
+    "grass": {
+      "water": 2,
+      "light": 2,
+      "ground": 2,
+      "grass": 0.5,
+      "fire": 0.5,
+      "flying": 0.5,
+      "mechanical": 0.5,
+      "holy": 0.5
+    },
+    "water": {
+      "fire": 2,
+      "ground": 2,
+      "grass": 0.5,
+      "water": 0.5,
+      "holy": 0.5
+    },
+    "fire": {
+      "grass": 2,
+      "mechanical": 2,
+      "ice": 2,
+      "water": 0.5,
+      "fire": 0.5,
+      "holy": 0.5
+    },
+    "flying": {
+      "grass": 2,
+      "fighting": 2,
+      "electric": 0.5,
+      "mechanical": 0.5,
+      "dimension": 0.5,
+      "evil": 0.5
+    },
+    "electric": {
+      "water": 2,
+      "flying": 2,
+      "shadow": 2,
+      "dimension": 2,
+      "grass": 0.5,
+      "electric": 0.5,
+      "holy": 0.5,
+      "mystic": 0.5,
+      "ground": 0
+    },
+    "mechanical": {
+      "ice": 2,
+      "fighting": 2,
+      "evil": 2,
+      "water": 0.5,
+      "fire": 0.5,
+      "electric": 0.5,
+      "dimension": 0.5,
+      "mechanical": 0.5
+    },
+    "ground": {
+      "fire": 2,
+      "electric": 2,
+      "mechanical": 2,
+      "grass": 0.5,
+      "shadow": 0.5,
+      "dragon": 0.5,
+      "psychic": 0.5,
+      "holy": 0.5,
+      "flying": 0
+    },
+    "normal": {},
+    "ice": {
+      "grass": 2,
+      "ground": 2,
+      "flying": 2,
+      "dimension": 2,
+      "water": 0.5,
+      "fire": 0.5,
+      "mechanical": 0.5,
+      "ice": 0.5,
+      "holy": 0.5
+    },
+    "psychic": {
+      "fighting": 2,
+      "mystic": 2,
+      "mechanical": 0.5,
+      "psychic": 0.5,
+      "light": 0
+    },
+    "fighting": {
+      "mechanical": 2,
+      "ice": 2,
+      "dragon": 2,
+      "holy": 2,
+      "shadow": 0.5,
+      "fighting": 0.5,
+      "psychic": 0.5,
+      "evil": 0.5
+    },
+    "light": {
+      "shadow": 2,
+      "psychic": 2,
+      "mechanical": 0.5,
+      "ice": 0.5,
+      "light": 0.5,
+      "holy": 0.5,
+      "evil": 0.5,
+      "grass": 0
+    },
+    "shadow": {
+      "shadow": 2,
+      "psychic": 2,
+      "dimension": 2,
+      "mechanical": 0.5,
+      "ice": 0.5,
+      "light": 0.5,
+      "holy": 0.5,
+      "evil": 0.5
+    },
+    "mystic": {
+      "mystic": 2,
+      "holy": 2,
+      "electric": 2,
+      "fighting": 0.5,
+      "evil": 0.5,
+      "ground": 0.5
+    },
+    "dragon": {
+      "dragon": 2,
+      "ice": 2,
+      "evil": 2,
+      "holy": 2,
+      "grass": 0.5,
+      "water": 0.5,
+      "fire": 0.5,
+      "electric": 0.5
+    },
+    "holy": {
+      "grass": 2,
+      "water": 2,
+      "fire": 2,
+      "electric": 2,
+      "ice": 2,
+      "dragon": 0.5,
+      "fighting": 0.5,
+      "mystic": 0.5
+    },
+    "dimension": {
+      "psychic": 2,
+      "mechanical": 2,
+      "evil": 2,
+      "flying": 2,
+      "ice": 0.5,
+      "shadow": 0
+    },
+    "evil": {
+      "light": 2,
+      "shadow": 2,
+      "mystic": 2,
+      "dimension": 2,
+      "mechanical": 0.5,
+      "ice": 0.5,
+      "psychic": 0.5,
+      "holy": 0.5
+    }
+  },
+  "dual_rule": "seer_average",
+  "_note": "Types: 16 on the 2010 official dex page + 次元 + 邪灵 (see per-type notes); 远古 and 自然 are excluded from the retained era. All 324 retained single-type coefficients match the official Unity ConfigPackage version 20260930183512, typesRelation SHA256 ec04bb1ee5fc1856ce9ed4f67b139630edc70d3a377759aa0938706428f74a5e. Fighting against evil is 0.5; the omitted neutral cell in the 4399 calculator is superseded by the official source under the user's stated authority preference. This verifies current official coefficients, not their dates of introduction. The established dual-type combination rule is retained; the Unity table does not independently certify that arithmetic. See design/notes/official-game-feel-resources.md and unity-and-swf-source-audit.md for evidence and historical limits.",
+  "composites": {
+    "mechanical_ground": [
+      "mechanical",
+      "ground"
+    ],
+    "grass_psychic": [
+      "grass",
+      "psychic"
+    ],
+    "flying_psychic": [
+      "flying",
+      "psychic"
+    ],
+    "water_shadow": [
+      "water",
+      "shadow"
+    ],
+    "fighting_fire": [
+      "fighting",
+      "fire"
+    ],
+    "water_dragon": [
+      "water",
+      "dragon"
+    ],
+    "fighting_ground": [
+      "fighting",
+      "ground"
+    ],
+    "ice_light": [
+      "ice",
+      "light"
+    ],
+    "ice_shadow": [
+      "ice",
+      "shadow"
+    ],
+    "fire_psychic": [
+      "fire",
+      "psychic"
+    ],
+    "light_flying": [
+      "light",
+      "flying"
+    ],
+    "ground_shadow": [
+      "ground",
+      "shadow"
+    ],
+    "psychic_ice": [
+      "psychic",
+      "ice"
+    ],
+    "electric_fire": [
+      "electric",
+      "fire"
+    ],
+    "water_psychic": [
+      "water",
+      "psychic"
+    ],
+    "electric_ice": [
+      "electric",
+      "ice"
+    ],
+    "fire_dragon": [
+      "fire",
+      "dragon"
+    ],
+    "grass_shadow": [
+      "grass",
+      "shadow"
+    ],
+    "mechanical_psychic": [
+      "mechanical",
+      "psychic"
+    ],
+    "fighting_shadow": [
+      "fighting",
+      "shadow"
+    ],
+    "ground_dragon": [
+      "ground",
+      "dragon"
+    ],
+    "flying_dragon": [
+      "flying",
+      "dragon"
+    ],
+    "grass_fighting": [
+      "grass",
+      "fighting"
+    ],
+    "evil_mystic": [
+      "evil",
+      "mystic"
+    ],
+    "electric_fighting": [
+      "electric",
+      "fighting"
+    ],
+    "ice_dragon": [
+      "ice",
+      "dragon"
+    ],
+    "fire_flying": [
+      "fire",
+      "flying"
+    ],
+    "mechanical_dragon": [
+      "mechanical",
+      "dragon"
+    ],
+    "light_mystic": [
+      "light",
+      "mystic"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "id": 985,
+  "name": {
+    "zh": "伯桑克"
+  },
+  "types": [
+    "electric"
+  ],
+  "base": {
+    "hp": 119,
+    "atk": 86,
+    "def": 82,
+    "spa": 115,
+    "spd": 84,
+    "spe": 100
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10455
+    },
+    {
+      "level": 5,
+      "skill": 11267
+    },
+    {
+      "level": 10,
+      "skill": 10109
+    },
+    {
+      "level": 15,
+      "skill": 20903
+    },
+    {
+      "level": 20,
+      "skill": 10266
+    },
+    {
+      "level": 25,
+      "skill": 20302
+    },
+    {
+      "level": 30,
+      "skill": 12345
+    },
+    {
+      "level": 35,
+      "skill": 21218
+    },
+    {
+      "level": 40,
+      "skill": 12346
+    },
+    {
+      "level": 45,
+      "skill": 21219
+    },
+    {
+      "level": 50,
+      "skill": 12344
+    },
+    {
+      "level": 60,
+      "skill": 12347
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 984,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0985",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

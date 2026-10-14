@@ -1,0 +1,75 @@
+{
+  "id": 474,
+  "name": {
+    "zh": "该伊"
+  },
+  "types": [
+    "ground",
+    "shadow"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 56,
+    "def": 48,
+    "spa": 63,
+    "spd": 50,
+    "spe": 56
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 10,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10193
+    },
+    {
+      "level": 5,
+      "skill": 20468
+    },
+    {
+      "level": 9,
+      "skill": 10390
+    },
+    {
+      "level": 13,
+      "skill": 20499
+    },
+    {
+      "level": 17,
+      "skill": 10405
+    },
+    {
+      "level": 21,
+      "skill": 20591
+    },
+    {
+      "level": 25,
+      "skill": 10519
+    },
+    {
+      "level": 29,
+      "skill": 10517
+    }
+  ],
+  "evolution": [
+    {
+      "to": 475,
+      "method": "level",
+      "level": 30
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0474",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

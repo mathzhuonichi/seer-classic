@@ -1,0 +1,17 @@
+.creature-art-idle {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  animation: creature-idle-breathe 2.533333s ease-in-out infinite;
+}
+
+/* Uniform scaling preserves the original silhouette and grounded framing. */
+@keyframes creature-idle-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(-1px) scale(1.01); }
+  70% { transform: translateY(-.35px) scale(1.004); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature-art-idle { animation: none; transform: none; }
+}

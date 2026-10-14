@@ -1,0 +1,80 @@
+{
+  "id": 15,
+  "name": {
+    "zh": "天雷鼠"
+  },
+  "types": [
+    "electric"
+  ],
+  "base": {
+    "hp": 80,
+    "atk": 120,
+    "def": 79,
+    "spa": 95,
+    "spd": 79,
+    "spe": 70
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20004
+    },
+    {
+      "level": 9,
+      "skill": 20006
+    },
+    {
+      "level": 13,
+      "skill": 10011
+    },
+    {
+      "level": 18,
+      "skill": 10040
+    },
+    {
+      "level": 23,
+      "skill": 20016
+    },
+    {
+      "level": 28,
+      "skill": 20011
+    },
+    {
+      "level": 35,
+      "skill": 10041
+    },
+    {
+      "level": 42,
+      "skill": 10015
+    },
+    {
+      "level": 49,
+      "skill": 20018
+    },
+    {
+      "level": 56,
+      "skill": 10010
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 14,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0015",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

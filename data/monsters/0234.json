@@ -1,0 +1,104 @@
+{
+  "id": 234,
+  "name": {
+    "zh": "伊娅丝"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 100,
+    "atk": 78,
+    "def": 84,
+    "spa": 100,
+    "spd": 120,
+    "spe": 80
+  },
+  "ev_yield": {
+    "spd": 3
+  },
+  "exp_yield": 127,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 6,
+      "skill": 20144
+    },
+    {
+      "level": 11,
+      "skill": 10427
+    },
+    {
+      "level": 16,
+      "skill": 20283
+    },
+    {
+      "level": 21,
+      "skill": 10196
+    },
+    {
+      "level": 26,
+      "skill": 10195
+    },
+    {
+      "level": 31,
+      "skill": 20284
+    },
+    {
+      "level": 36,
+      "skill": 10197
+    },
+    {
+      "level": 40,
+      "skill": 10663
+    },
+    {
+      "level": 44,
+      "skill": 20098
+    },
+    {
+      "level": 48,
+      "skill": 10660
+    },
+    {
+      "level": 51,
+      "skill": 10658
+    },
+    {
+      "level": 54,
+      "skill": 20100
+    },
+    {
+      "level": 57,
+      "skill": 10661
+    },
+    {
+      "level": 60,
+      "skill": 10659
+    },
+    {
+      "level": 63,
+      "skill": 20285
+    },
+    {
+      "level": 66,
+      "skill": 10662
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 233,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0234",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-03"
+}

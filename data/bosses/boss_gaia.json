@@ -1,0 +1,155 @@
+{
+  "id": "boss_gaia",
+  "name": {
+    "zh": "盖亚"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "帕诺星系 各星球（随机出现）"
+  },
+  "era": "2010-04",
+  "team": [
+    {
+      "species": 261,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10715,
+        10714,
+        10720,
+        20312
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10715,
+      10714,
+      10720,
+      20312
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_gaia": 1
+    },
+    "achievement": {
+      "zh": "击败盖亚"
+    }
+  },
+  "reward_hatches": 261,
+  "variants": [
+    {
+      "id": "within_2_turns",
+      "label": {
+        "zh": "周一、周五：2回合内击败盖亚"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        },
+        {
+          "kind": "turn_limit",
+          "turns": 2
+        }
+      ],
+      "lose": []
+    },
+    {
+      "id": "finish_with_crit",
+      "label": {
+        "zh": "周二、周四、周日：用致命一击击败盖亚"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        },
+        {
+          "kind": "finish_with_crit"
+        }
+      ],
+      "lose": []
+    },
+    {
+      "id": "survive_10_then_ko",
+      "label": {
+        "zh": "周三、周六：对战10回合后再击败盖亚（提前击败无效）"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        },
+        {
+          "kind": "ko_after_turn",
+          "turns": 10
+        }
+      ],
+      "lose": []
+    }
+  ],
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "盖亚每天13:00和20:00各出现30分钟，随机出现在帕诺星系的星球上（派特博士会通知）；按当天曜日的规则击败才能获得盖亚精元，没按规则打败不给精元。首次击败获成就「击败盖亚」，三种规则全部完成获「完胜盖亚」。"
+  },
+  "strategy_notes": {
+    "zh": "2回合规则：先消强化，用克制战斗系的超能/飞行精灵（艾克里桑、闪尼、艾贝多芬）两下或一次暴击打死，或秒杀技；致命一击规则：同上，靠运气或致命能量珠；10回合规则：伊娅丝魔力针刺消强、虚弱光线减攻后加血硬撑，或该隐暗影护盾轮流抵挡，满10回合后再打死。"
+  },
+  "engine_notes": [
+    "Three weekday objectives become variants the player picks (no real-time clock). The top-level win is plain ko_all for a free practice fight; the 精元 is granted only when a variant's objectives are met.",
+    "ko_after_turn {turns:10}: KOing 盖亚 before turn 10 ends the battle as a failure (提前击败无法获得精元). Counts 10 of its turns/attacks.",
+    "turn_limit {turns:2} as a win objective = won within 2 turns.",
+    "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed.",
+    "Level not given in any source found; 70 is an estimate (2010 帕诺星系 legendaries).",
+    "Hourly windows (13:00/20:00 30 min) are dropped per foundation 7.2."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "innate_boost",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20100412/6704.html",
+    "https://news.7k7k.com/content/20110316/76727.html",
+    "https://wenda.4399.com/question/2/24032.html"
+  ],
+  "source_note": "7k7k 盖亚 pages (2010-04-12, 2011-03-16): HP 2000, 战斗系, 天生强化, weekday rules; 4399 Q&A confirms the rules and 2000 HP."
+}

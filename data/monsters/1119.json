@@ -1,0 +1,84 @@
+{
+  "id": 1119,
+  "name": {
+    "zh": "安洛斯"
+  },
+  "types": [
+    "ground",
+    "shadow"
+  ],
+  "base": {
+    "hp": 96,
+    "atk": 77,
+    "def": 55,
+    "spa": 57,
+    "spd": 55,
+    "spe": 80
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 90,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10047
+    },
+    {
+      "level": 5,
+      "skill": 20228
+    },
+    {
+      "level": 9,
+      "skill": 12633
+    },
+    {
+      "level": 13,
+      "skill": 10519
+    },
+    {
+      "level": 17,
+      "skill": 20181
+    },
+    {
+      "level": 21,
+      "skill": 12634
+    },
+    {
+      "level": 25,
+      "skill": 11217
+    },
+    {
+      "level": 29,
+      "skill": 21373
+    },
+    {
+      "level": 33,
+      "skill": 10395
+    },
+    {
+      "level": 37,
+      "skill": 21204
+    }
+  ],
+  "evolution": [
+    {
+      "to": 1120,
+      "method": "level",
+      "level": 39
+    }
+  ],
+  "evolves_from": 1118,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1119",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-03"
+}

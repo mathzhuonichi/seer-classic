@@ -1,0 +1,127 @@
+// 背包 (party, max 6) and 精灵仓库 (box) over Save. Pure: each call returns a new Save.
+import type { Dex, Monster, Rng, Save } from "./types.ts";
+import { computeStats } from "./stats.ts";
+import { createMonster } from "./monster.ts";
+
+export const PARTY_MAX = 6;
+export const BOX_MAX = 1000; // the remake's box size; Seer's 仓库 grew over time
+
+const copy = (s: Save): Save => structuredClone(s);
+
+export function findMon(save: Save, uid: string): Monster {
+  const m = save.storage.find((x) => x.uid === uid);
+  if (!m) throw new Error(`no monster ${uid}`);
+  return m;
+}
+
+export function putMon(save: Save, mon: Monster): void {
+  const i = save.storage.findIndex((x) => x.uid === mon.uid);
+  if (i < 0) throw new Error(`no monster ${mon.uid}`);
+  save.storage[i] = mon;
+}
+
+
+export function boxOf(save: Save): Monster[] {
+  return save.storage.filter((m) => !save.party.includes(m.uid));
+}
+
+export function partyOf(save: Save): Monster[] {
+  return save.party.map((u) => {
+    const m = save.storage.find((x) => x.uid === u);
+    if (!m) throw new Error(`party uid ${u} missing from storage`);
+    return m;
+  });
+}
+
+// A newly obtained monster joins the party if there is room, otherwise the box.
+export function addMonster(save: Save, mon: Monster): Save {
+  if (save.storage.some((m) => m.uid === mon.uid)) throw new Error(`duplicate uid ${mon.uid}`);
+  const s = copy(save);
+  const toParty = s.party.length < PARTY_MAX;
+  if (!toParty && boxOf(s).length >= BOX_MAX) throw new Error("仓库已满");
+  s.storage.push(structuredClone(mon));
+  if (toParty) s.party.push(mon.uid);
+  if (!s.dex.owned.includes(mon.species)) s.dex.owned.push(mon.species);
+  if (!s.dex.seen.includes(mon.species)) s.dex.seen.push(mon.species);
+  return s;
+}
+
+export function deposit(save: Save, uid: string): Save {
+  if (!save.party.includes(uid)) throw new Error(`${uid} is not in the party`);
+  if (save.party.length <= 1) throw new Error("the party needs at least one monster");
+  const s = copy(save);
+  s.party = s.party.filter((u) => u !== uid);
+  return s;
+}
+
+export function withdraw(save: Save, uid: string): Save {
+  if (save.party.includes(uid)) throw new Error(`${uid} is already in the party`);
+  if (!save.storage.some((m) => m.uid === uid)) throw new Error(`no monster ${uid}`);
+  if (save.party.length >= PARTY_MAX) throw new Error("背包已满");
+  const s = copy(save);
+  s.party.push(uid);
+  return s;
+}
+
+// Swaps a party monster with a box monster in place (same party slot).
+export function swapWithBox(save: Save, partyUid: string, boxUid: string): Save {
+  const i = save.party.indexOf(partyUid);
+  if (i < 0) throw new Error(`${partyUid} is not in the party`);
+  if (save.party.includes(boxUid) || !save.storage.some((m) => m.uid === boxUid)) throw new Error(`${boxUid} is not in the box`);
+  const s = copy(save);
+  s.party[i] = boxUid;
+  return s;
+}
+
+// Reorders the party; the first monster is the one sent out first.
+export function setPartyOrder(save: Save, order: string[]): Save {
+  const same = order.length === save.party.length && order.every((u) => save.party.includes(u));
+  if (!same || new Set(order).size !== order.length) throw new Error("order must be a permutation of the party");
+  const s = copy(save);
+  s.party = [...order];
+  return s;
+}
+
+// 放生. The last party monster can never be released.
+export function release(save: Save, uid: string): Save {
+  if (save.party.includes(uid) && save.party.length <= 1) throw new Error("cannot release the last party monster");
+  if (!save.storage.some((m) => m.uid === uid)) throw new Error(`no monster ${uid}`);
+  const s = copy(save);
+  s.storage = s.storage.filter((m) => m.uid !== uid);
+  s.party = s.party.filter((u) => u !== uid);
+  return s;
+}
+
+export function rename(save: Save, uid: string, nickname: string | null): Save {
+  const s = copy(save);
+  const m = s.storage.find((x) => x.uid === uid);
+  if (!m) throw new Error(`no monster ${uid}`);
+  const name = nickname?.trim() ?? "";
+  if ([...name].length > 12) throw new Error("nickname is at most 12 characters");
+  m.nickname = name === "" ? null : name;
+  return s;
+}
+
+// 精灵恢复舱: full HP and PP, statuses cleared, for every owned monster.
+export function healAll(save: Save, dex: Dex): Save {
+  const s = copy(save);
+  for (const m of s.storage) {
+    m.hp = computeStats(m, dex).hp;
+    m.status = null;
+    m.pp = Object.fromEntries(m.skills.map((id) => [String(id), dex.skill(id).pp]));
+  }
+  return s;
+}
+
+// Boss 精元 (`kind: "essence"`, `hatches: species`): consumed to hatch the monster at
+// level 1 with a fresh 1-31 个体 and random 性格. It joins the party, or the box if full.
+export function hatchEssence(
+  save: Save, item: { id: string; kind: "essence"; hatches: number }, dex: Dex, rng: Rng, at = "",
+): { save: Save; mon: Monster } {
+  if ((save.items[item.id] ?? 0) < 1) throw new Error(`no ${item.id} left`);
+  const mon = createMonster(dex, item.hatches, 1, rng, { how: "essence", at });
+  const s = addMonster(save, mon);
+  s.items[item.id] -= 1;
+  if (s.items[item.id] === 0) delete s.items[item.id];
+  return { save: s, mon };
+}

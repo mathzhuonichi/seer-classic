@@ -1,0 +1,104 @@
+{
+  "id": 52,
+  "name": {
+    "zh": "急冻兽"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 75,
+    "atk": 112,
+    "def": 90,
+    "spa": 87,
+    "spd": 67,
+    "spe": 69
+  },
+  "ev_yield": {
+    "atk": 2
+  },
+  "exp_yield": 111,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 10202
+    },
+    {
+      "level": 10,
+      "skill": 20057
+    },
+    {
+      "level": 15,
+      "skill": 20061
+    },
+    {
+      "level": 20,
+      "skill": 10212
+    },
+    {
+      "level": 25,
+      "skill": 10211
+    },
+    {
+      "level": 30,
+      "skill": 10068
+    },
+    {
+      "level": 34,
+      "skill": 20062
+    },
+    {
+      "level": 38,
+      "skill": 10213
+    },
+    {
+      "level": 42,
+      "skill": 10216
+    },
+    {
+      "level": 45,
+      "skill": 20063
+    },
+    {
+      "level": 48,
+      "skill": 10046
+    },
+    {
+      "level": 52,
+      "skill": 10217
+    },
+    {
+      "level": 55,
+      "skill": 20064
+    },
+    {
+      "level": 58,
+      "skill": 10214
+    },
+    {
+      "level": 61,
+      "skill": 10208
+    },
+    {
+      "level": 66,
+      "skill": 10215
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 51,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0052",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

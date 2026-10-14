@@ -1,0 +1,11 @@
+.classic-robot{display:block;width:68px;height:84px;position:relative;filter:drop-shadow(0 3px 3px #10293855)}
+.classic-robot img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.classic-robot.role-captain,.classic-robot.role-scientist{width:112px;height:134px}
+.classic-robot-viewport{display:block;position:relative;height:100%;width:auto;margin:0 auto;overflow:hidden}
+.classic-robot .classic-robot-frames{width:1300%;max-width:none;height:100%;object-fit:fill;transform:translateX(0)}
+/* Cell 0 is standing; cells 1–12 are the original nested walking frames.
+   Each step exposes one complete assembly, preserving its recovered matrices. */
+.classic-robot.walking .classic-robot-frames{animation:classicRobotWalk .5s steps(12,end) infinite}
+@keyframes classicRobotWalk{from{transform:translateX(-7.6923076923%)}to{transform:translateX(-100%)}}
+@media(max-width:760px){.classic-robot{width:56px;height:70px}.classic-robot.role-captain,.classic-robot.role-scientist{width:96px;height:115px}}
+@media(prefers-reduced-motion:reduce){.classic-robot.walking .classic-robot-frames{animation-duration:.75s}}

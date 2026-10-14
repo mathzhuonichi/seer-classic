@@ -1,0 +1,58 @@
+{
+  "id": 145,
+  "name": {
+    "zh": "吉斯"
+  },
+  "types": [
+    "electric"
+  ],
+  "base": {
+    "hp": 44,
+    "atk": 60,
+    "def": 55,
+    "spa": 45,
+    "spd": 43,
+    "spe": 50
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 64,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 65,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20196
+    },
+    {
+      "level": 11,
+      "skill": 10454
+    },
+    {
+      "level": 16,
+      "skill": 10455
+    }
+  ],
+  "evolution": [
+    {
+      "to": 146,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0145",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

@@ -1,0 +1,779 @@
+{
+  "30": {
+    "path": "/ui/classic/maps/planet-30.png",
+    "sourceSymbolId": 15,
+    "width": 70.0,
+    "height": 72.0,
+    "crop2x": [
+      240,
+      241,
+      380,
+      385
+    ],
+    "sha256": "ae75dbe34c3ac5924431372f57d317df66318a8026ff49c56fe9910cf7e53f51",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "20": {
+    "path": "/ui/classic/maps/planet-20.png",
+    "sourceSymbolId": 21,
+    "width": 70.5,
+    "height": 72.0,
+    "crop2x": [
+      241,
+      241,
+      382,
+      385
+    ],
+    "sha256": "51430564c7e2a2724db245dd767c3f72e37623695f8a8e6d3ee82b7431e88072",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "10": {
+    "path": "/ui/classic/maps/planet-10.png",
+    "sourceSymbolId": 27,
+    "width": 96.5,
+    "height": 77.5,
+    "crop2x": [
+      243,
+      243,
+      436,
+      398
+    ],
+    "sha256": "0ca7058aacefe1df13187034c9ac059e300d918e672267f2db85dcbc2edb2eb5",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "15": {
+    "path": "/ui/classic/maps/planet-15.png",
+    "sourceSymbolId": 33,
+    "width": 75.0,
+    "height": 75.0,
+    "crop2x": [
+      242,
+      242,
+      392,
+      392
+    ],
+    "sha256": "43260164c6ec113babd6a8614277c419740bba1d273011cfdf0e9f637adcbe39",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "40": {
+    "path": "/ui/classic/maps/planet-40.png",
+    "sourceSymbolId": 39,
+    "width": 85.5,
+    "height": 66.0,
+    "crop2x": [
+      239,
+      278,
+      410,
+      410
+    ],
+    "sha256": "e639097bc8a1ea3967dc9a11952afda80252ce0f44d7568c2abd97ce8d0a03b3",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "25": {
+    "path": "/ui/classic/maps/planet-25.png",
+    "sourceSymbolId": 45,
+    "width": 69.0,
+    "height": 71.5,
+    "crop2x": [
+      241,
+      241,
+      379,
+      384
+    ],
+    "sha256": "476929046f0481a2a5e2ff153e40c46212d26d1d8533ea21e75d6d9aaab9b498",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "47": {
+    "path": "/ui/classic/maps/planet-47.png",
+    "sourceSymbolId": 51,
+    "width": 85.5,
+    "height": 74.0,
+    "crop2x": [
+      85,
+      96,
+      256,
+      244
+    ],
+    "sha256": "6addc0cdf899c92a74d5aef32aaa971914ae193909e9cff62e98291c298fc1f1",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "105": {
+    "path": "/ui/classic/maps/planet-105.png",
+    "sourceSymbolId": 57,
+    "width": 101.5,
+    "height": 75.5,
+    "crop2x": [
+      69,
+      98,
+      272,
+      249
+    ],
+    "sha256": "63e9a49837f1f49ec14b20cf01e69142381c635eb583e642d1bfd61a7fc23c16",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "463": {
+    "path": "/ui/classic/maps/planet-463.png",
+    "sourceSymbolId": 67,
+    "width": 114.5,
+    "height": 94.0,
+    "crop2x": [
+      120,
+      244,
+      349,
+      432
+    ],
+    "sha256": "ea9fdddf6f2e182f69a781865a2b066c14c6231ccfc8e28e4d00285d60cbc33d",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "54": {
+    "path": "/ui/classic/maps/planet-54.png",
+    "sourceSymbolId": 80,
+    "width": 82.5,
+    "height": 73.0,
+    "crop2x": [
+      29,
+      42,
+      194,
+      188
+    ],
+    "sha256": "43fd6ce2a208040bd32925286fd2b7518774b05c7154f05863ed63ea1ad9d12b",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "51": {
+    "path": "/ui/classic/maps/planet-51.png",
+    "sourceSymbolId": 87,
+    "width": 85.0,
+    "height": 61.0,
+    "crop2x": [
+      266,
+      277,
+      436,
+      399
+    ],
+    "sha256": "f8743966a92deb11b7fa4906f5ff98f653e359584b31021da6656d516f8b2ad6",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "314": {
+    "path": "/ui/classic/maps/planet-314.png",
+    "sourceSymbolId": 95,
+    "width": 63.5,
+    "height": 84.0,
+    "crop2x": [
+      223,
+      241,
+      350,
+      409
+    ],
+    "sha256": "a790df731d0f4e3a66df3a2f953ff7115ce5e67a7a60b0e4e8dc29d6121b8c81",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "57": {
+    "path": "/ui/classic/maps/planet-57.png",
+    "sourceSymbolId": 170,
+    "width": 77.5,
+    "height": 75.0,
+    "crop2x": [
+      236,
+      241,
+      391,
+      391
+    ],
+    "sha256": "d7bce6e3ac2e5e46791572d9538950b93e42e8c75eafe983a5487bae37c2556a",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "60": {
+    "path": "/ui/classic/maps/planet-60.png",
+    "sourceSymbolId": 176,
+    "width": 68.0,
+    "height": 75.0,
+    "crop2x": [
+      241,
+      241,
+      377,
+      391
+    ],
+    "sha256": "07addcf79d3a15be8617d335c03b958ef480ec6bdd6ad0a78404d2f2d1b77e88",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "325": {
+    "path": "/ui/classic/maps/planet-325.png",
+    "sourceSymbolId": 186,
+    "width": 100.0,
+    "height": 70.5,
+    "crop2x": [
+      245,
+      242,
+      445,
+      383
+    ],
+    "sha256": "f9de354eba0a70e64f01ee4deeea52b950c4bb7e0956d3081158e0e4f900341a",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "328": {
+    "path": "/ui/classic/maps/planet-328.png",
+    "sourceSymbolId": 197,
+    "width": 87.0,
+    "height": 87.0,
+    "crop2x": [
+      258,
+      250,
+      432,
+      424
+    ],
+    "sha256": "1f0821faa06f7338e922353de90ecfa9509313b90200c828ffeb4f8d56e8892d",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "333": {
+    "path": "/ui/classic/maps/planet-333.png",
+    "sourceSymbolId": 205,
+    "width": 95.0,
+    "height": 91.0,
+    "crop2x": [
+      44,
+      77,
+      234,
+      259
+    ],
+    "sha256": "e657ffeba413ed6630f01ebe0311aa49be8374fdbc0ead049e388e26d8259ce9",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "338": {
+    "path": "/ui/classic/maps/planet-338.png",
+    "sourceSymbolId": 213,
+    "width": 62.5,
+    "height": 68.5,
+    "crop2x": [
+      259,
+      275,
+      384,
+      412
+    ],
+    "sha256": "fad3ee2885b17fc00acb6f335c71de854eb87a0e9790783bd8b38be34c8d5ba9",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "688": {
+    "path": "/ui/classic/maps/planet-688.png",
+    "sourceSymbolId": 224,
+    "width": 123.0,
+    "height": 92.0,
+    "crop2x": [
+      84,
+      85,
+      330,
+      269
+    ],
+    "sha256": "8c943dfab0c387a02bdfc4fdf24d3867dcc1288ee935944255dc8432c0840a94",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "699": {
+    "path": "/ui/classic/maps/planet-699.png",
+    "sourceSymbolId": 230,
+    "width": 95.5,
+    "height": 86.0,
+    "crop2x": [
+      45,
+      60,
+      236,
+      232
+    ],
+    "sha256": "d9e7b1ec226e515dd461216fe50e3d0e21c19fc9ef68ff0ac62fd41d6fbbb072",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "82": {
+    "path": "/ui/classic/maps/planet-82.png",
+    "sourceSymbolId": 237,
+    "width": 94.5,
+    "height": 97.0,
+    "crop2x": [
+      60,
+      59,
+      249,
+      253
+    ],
+    "sha256": "48f313d4117a222acd10cd91c02d3ca9c93baff5413fc065ea9e01f091c460e4",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "948": {
+    "path": "/ui/classic/maps/planet-948.png",
+    "sourceSymbolId": 250,
+    "width": 80.5,
+    "height": 89.0,
+    "crop2x": [
+      235,
+      234,
+      396,
+      412
+    ],
+    "sha256": "fa8ad3a2ffaad12d518b91e1c1d033a73ef667d1c9c2977db585ee84f095fa77",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "929": {
+    "path": "/ui/classic/maps/planet-929.png",
+    "sourceSymbolId": 261,
+    "width": 133.0,
+    "height": 102.0,
+    "crop2x": [
+      263,
+      278,
+      529,
+      482
+    ],
+    "sha256": "8092c4ce7d9dbc43a5946afeb0379ce72ce519820b6a3b600a00dc8a204b3d66",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "95": {
+    "path": "/ui/classic/maps/planet-95.png",
+    "sourceSymbolId": 273,
+    "width": 87.5,
+    "height": 87.5,
+    "crop2x": [
+      293,
+      290,
+      468,
+      465
+    ],
+    "sha256": "318bdafcc775513e3141c5716186873d763f4ced006c7702e0047cf3f7618ee0",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "404": {
+    "path": "/ui/classic/maps/planet-404.png",
+    "sourceSymbolId": 311,
+    "width": 86.0,
+    "height": 68.0,
+    "crop2x": [
+      117,
+      127,
+      289,
+      263
+    ],
+    "sha256": "0b7864d937f4eccb59eeee71acc3597e1a52bbc03d8f07289359bf93f9fa8c35",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "411": {
+    "path": "/ui/classic/maps/planet-411.png",
+    "sourceSymbolId": 325,
+    "width": 76.5,
+    "height": 71.5,
+    "crop2x": [
+      14,
+      28,
+      167,
+      171
+    ],
+    "sha256": "aa7db3c88536bd7c1eb17c4d502cea537a2b10f0ae75d78fc91be8641effaf7f",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "424": {
+    "path": "/ui/classic/maps/planet-424.png",
+    "sourceSymbolId": 331,
+    "width": 95.5,
+    "height": 85.5,
+    "crop2x": [
+      132,
+      143,
+      323,
+      314
+    ],
+    "sha256": "11528b03ed953f53fa805ece36e8e664afc4181b3961f4555afedb521ee3216d",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "429": {
+    "path": "/ui/classic/maps/planet-429.png",
+    "sourceSymbolId": 337,
+    "width": 78.5,
+    "height": 82.5,
+    "crop2x": [
+      226,
+      226,
+      383,
+      391
+    ],
+    "sha256": "c4f8a283d594768e911931c89990cbd1edb17e1681249dc0ebdfe888f4533df6",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "435": {
+    "path": "/ui/classic/maps/planet-435.png",
+    "sourceSymbolId": 347,
+    "width": 85.5,
+    "height": 85.0,
+    "crop2x": [
+      29,
+      47,
+      200,
+      217
+    ],
+    "sha256": "f61b8c71b1262eee5a889ecca0755bdafa99a5a5e90dd39cf76b3eb2b97252fd",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "437": {
+    "path": "/ui/classic/maps/planet-437.png",
+    "sourceSymbolId": 353,
+    "width": 77.5,
+    "height": 81.0,
+    "crop2x": [
+      222,
+      225,
+      377,
+      387
+    ],
+    "sha256": "b7a1add39c324f4a7b3d8bb6ff1d12f0a5233b0932aca4205140d8428693d7f1",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "439": {
+    "path": "/ui/classic/maps/planet-439.png",
+    "sourceSymbolId": 363,
+    "width": 83.0,
+    "height": 75.5,
+    "crop2x": [
+      52,
+      65,
+      218,
+      216
+    ],
+    "sha256": "9e0f93952edd24993fb4f130e53e1b14d0ae9ff61f4cc214974059039ee6893d",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "441": {
+    "path": "/ui/classic/maps/planet-441.png",
+    "sourceSymbolId": 373,
+    "width": 77.0,
+    "height": 73.5,
+    "crop2x": [
+      22,
+      29,
+      176,
+      176
+    ],
+    "sha256": "1772f243a7802affabc71eb6693bc788fb34a5b3255893a1f0a1d499a004d814",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "459": {
+    "path": "/ui/classic/maps/planet-459.png",
+    "sourceSymbolId": 381,
+    "width": 76.5,
+    "height": 76.0,
+    "crop2x": [
+      54,
+      60,
+      207,
+      212
+    ],
+    "sha256": "bdff19ed08d47427372bee7c83d3ea28bd8c6379c69d11eeb2c224186a6430f6",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "481": {
+    "path": "/ui/classic/maps/planet-481.png",
+    "sourceSymbolId": 390,
+    "width": 76.5,
+    "height": 78.0,
+    "crop2x": [
+      140,
+      142,
+      293,
+      298
+    ],
+    "sha256": "0228ec12a123acedcf6290a873eb22079b1a6fd52b87512035e4d20a622b37e8",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "484": {
+    "path": "/ui/classic/maps/planet-484.png",
+    "sourceSymbolId": 433,
+    "width": 75.5,
+    "height": 75.0,
+    "crop2x": [
+      18,
+      28,
+      169,
+      178
+    ],
+    "sha256": "a4b1956e3359bdc541a310ba50c14d8ac6be67c3d975a9139f0272554626c43f",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "494": {
+    "path": "/ui/classic/maps/planet-494.png",
+    "sourceSymbolId": 444,
+    "width": 86.0,
+    "height": 82.5,
+    "crop2x": [
+      392,
+      393,
+      564,
+      558
+    ],
+    "sha256": "eafe1edca6616d5576025a31b9cac6f54825e32f660beaa8a9688826a9d97a03",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "497": {
+    "path": "/ui/classic/maps/planet-497.png",
+    "sourceSymbolId": 453,
+    "width": 101.5,
+    "height": 84.5,
+    "crop2x": [
+      210,
+      157,
+      413,
+      326
+    ],
+    "sha256": "f606048e0039960c1b2ad98ec4208c2f6e00c94da558c1085888d5f9fcc7af85",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "451": {
+    "path": "/ui/classic/maps/planet-451.png",
+    "sourceSymbolId": 462,
+    "width": 79.5,
+    "height": 75.0,
+    "crop2x": [
+      99,
+      105,
+      258,
+      255
+    ],
+    "sha256": "1bd935af07081c696e06534f59dffddb38aac062d79f111e98ac83342d7bbcd8",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "350": {
+    "path": "/ui/classic/maps/planet-350.png",
+    "sourceSymbolId": 475,
+    "width": 98.5,
+    "height": 72.5,
+    "crop2x": [
+      172,
+      222,
+      369,
+      367
+    ],
+    "sha256": "4378fbabec105d4fa74522fbc835166d0b38cdac269ed3fd5333acb675def24a",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "356": {
+    "path": "/ui/classic/maps/planet-356.png",
+    "sourceSymbolId": 488,
+    "width": 72.0,
+    "height": 77.5,
+    "crop2x": [
+      306,
+      249,
+      450,
+      404
+    ],
+    "sha256": "e8f19fa9b02116346cda10e29d633bbc73bf0dc047747c281eaa5d3419a34f9c",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "662": {
+    "path": "/ui/classic/maps/planet-662.png",
+    "sourceSymbolId": 510,
+    "width": 84.5,
+    "height": 75.5,
+    "crop2x": [
+      60,
+      62,
+      229,
+      213
+    ],
+    "sha256": "e718f365acce8d46ea0ba67ad5896d66ed43b6dac1b4a923d0bed956ee94d0da",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "668": {
+    "path": "/ui/classic/maps/planet-668.png",
+    "sourceSymbolId": 526,
+    "width": 76.5,
+    "height": 86.0,
+    "crop2x": [
+      60,
+      60,
+      213,
+      232
+    ],
+    "sha256": "12a61615701178b3cb0fb4291be323892256b8401060a0f92d653eb3a2710f8a",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "677": {
+    "path": "/ui/classic/maps/planet-677.png",
+    "sourceSymbolId": 532,
+    "width": 77.5,
+    "height": 80.0,
+    "crop2x": [
+      141,
+      142,
+      296,
+      302
+    ],
+    "sha256": "4410d149f1b25533dab100841cd01cb3634da2a68f79c4c2704aa3d0e72a27e2",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "683": {
+    "path": "/ui/classic/maps/planet-683.png",
+    "sourceSymbolId": 549,
+    "width": 88.5,
+    "height": 84.0,
+    "crop2x": [
+      102,
+      101,
+      279,
+      269
+    ],
+    "sha256": "7e73ddf43871e9a8aefa5f3981bf0403c53f57a8f33ad55eb42f6a37248a97e1",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "19": {
+    "path": "/ui/classic/maps/planet-19.png",
+    "sourceSymbolId": 561,
+    "width": 106.0,
+    "height": 96.5,
+    "crop2x": [
+      41,
+      66,
+      253,
+      259
+    ],
+    "sha256": "5c385751a854b64306353f097cbab2305931e5a12c10a4b4a6f68e4bdbfbcafd",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "702": {
+    "path": "/ui/classic/maps/planet-702.png",
+    "sourceSymbolId": 607,
+    "width": 68.0,
+    "height": 69.0,
+    "crop2x": [
+      55,
+      57,
+      191,
+      195
+    ],
+    "sha256": "0c3096b72fe2b98022363a273fdced2118746c934c9f4aba10fe2b00b6e8b580",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "29": {
+    "path": "/ui/classic/maps/planet-29.png",
+    "sourceSymbolId": 620,
+    "width": 87.5,
+    "height": 79.0,
+    "crop2x": [
+      188,
+      196,
+      363,
+      354
+    ],
+    "sha256": "dea6433f91ae76c79545ac9517aeff1d525ad680f695a1abc6a4c9a97cd3bd84",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "717": {
+    "path": "/ui/classic/maps/planet-717.png",
+    "sourceSymbolId": 634,
+    "width": 82.5,
+    "height": 103.5,
+    "crop2x": [
+      147,
+      91,
+      312,
+      298
+    ],
+    "sha256": "91036918d9dbc25a42f4f7bcd7f9f0ec7972a72a643040cbd11ad1f5c6233f64",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "726": {
+    "path": "/ui/classic/maps/planet-726.png",
+    "sourceSymbolId": 640,
+    "width": 100.0,
+    "height": 84.0,
+    "crop2x": [
+      56,
+      55,
+      256,
+      223
+    ],
+    "sha256": "0705bb0cbde7047c90458323a19a675b4597cd0f6dbf69763b07b49af55025ac",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "748": {
+    "path": "/ui/classic/maps/planet-748.png",
+    "sourceSymbolId": 651,
+    "width": 104.5,
+    "height": 78.5,
+    "crop2x": [
+      229,
+      238,
+      438,
+      395
+    ],
+    "sha256": "a589636a43284cc5920bc9d65925f678f6770153823ed1dbb9e6a24ea09bd4f6",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "775": {
+    "path": "/ui/classic/maps/planet-775.png",
+    "sourceSymbolId": 666,
+    "width": 109.5,
+    "height": 75.0,
+    "crop2x": [
+      60,
+      78,
+      279,
+      228
+    ],
+    "sha256": "79b64b687260cffd2be4e3ef43c0536c0f2e609c82414c51580fa41c00d8d640",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "736": {
+    "path": "/ui/classic/maps/planet-736.png",
+    "sourceSymbolId": 685,
+    "width": 121.5,
+    "height": 115.0,
+    "crop2x": [
+      74,
+      110,
+      317,
+      340
+    ],
+    "sha256": "0185ecbf582efd0f4f7b74951576374faa2f2c38efc9b3309b855ec59737cfc1",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "786": {
+    "path": "/ui/classic/maps/planet-786.png",
+    "sourceSymbolId": 698,
+    "width": 96.0,
+    "height": 89.0,
+    "crop2x": [
+      212,
+      225,
+      404,
+      403
+    ],
+    "sha256": "396e4fa8a4b6a14987a0954d85cbd5ca9881c0525c0301f17089e7752961a4c5",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "74": {
+    "path": "/ui/classic/maps/planet-74.png",
+    "sourceSymbolId": 716,
+    "width": 109.5,
+    "height": 74.0,
+    "crop2x": [
+      258,
+      272,
+      477,
+      420
+    ],
+    "sha256": "52a2c3d9695c8de1072d4ee36a305b2d71a2a6783d1951f0cb968003830929fa",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "795": {
+    "path": "/ui/classic/maps/planet-795.png",
+    "sourceSymbolId": 727,
+    "width": 88.5,
+    "height": 77.0,
+    "crop2x": [
+      14,
+      36,
+      191,
+      190
+    ],
+    "sha256": "9cce5c923c0e1c6b4dba02002c51701d5081e52b940eb21c0528ef43b31f3009",
+    "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf"
+  },
+  "region-go": {
+    "path": "/ui/classic/maps/region-go.png",
+    "sourceSymbolId": 186,
+    "width": 106.0,
+    "height": 106.0,
+    "sourceUrl": "https://seer.61.com/resource/map/starMap/102.swf"
+  }
+}

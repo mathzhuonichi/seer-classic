@@ -1,0 +1,11 @@
+.original-battle-creature{position:absolute;inset:0;overflow:visible}
+.original-battle-creature>img{position:absolute}
+.original-battle-canvas{position:absolute;inset:-35%;width:170%;height:170%;pointer-events:none;visibility:hidden}
+.original-battle-canvas canvas{display:block;width:100%!important;height:100%!important}
+.original-battle-creature.is-ready>img{visibility:hidden}
+.original-battle-creature.is-ready .original-battle-canvas{visibility:visible}
+.classic-creature-motion:has(.original-battle-creature.is-ready).motion-physical,
+.classic-creature-motion:has(.original-battle-creature.is-ready).motion-special,
+.classic-creature-motion:has(.original-battle-creature.is-ready).motion-status,
+.classic-creature-motion:has(.original-battle-creature.is-ready).motion-hit,
+.classic-creature-motion:has(.original-battle-creature.is-ready).motion-idle{animation:none}

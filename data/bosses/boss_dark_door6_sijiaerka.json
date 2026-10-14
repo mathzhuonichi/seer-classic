@@ -1,0 +1,84 @@
+{
+  "id": "boss_dark_door6_sijiaerka",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第六门 斯加尔卡"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第六门"
+  },
+  "era": "2010-06",
+  "team": [
+    {
+      "species": 356,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10874,
+        20394,
+        10876,
+        10877
+      ],
+      "hp_override": 1200
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10874,
+      20394,
+      10876,
+      10877
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_sijiaerka": 1
+    }
+  },
+  "reward_hatches": 354,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door5_yilanluoni"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第六门：100级斯加尔卡，约1200血。打败获得斯加尔卡精元。"
+  },
+  "strategy_notes": {
+    "zh": "利用速度优势，派克制精灵直接放大招；地面系强化两三次后大招。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Very high attack, slow. No special rule."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
+    "https://news.4399.com/seer/ahwdc/201006-04-70264.html",
+    "https://news.4399.com/seer/ahwdc/201006-07-70448.html"
+  ],
+  "source_note": "4399 第六门攻略 (2011-05-30): No.356 电系 Lv100 HP1200; door 6 opened 2010-06-04."
+}

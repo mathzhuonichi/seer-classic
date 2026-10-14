@@ -1,0 +1,102 @@
+{
+  "id": 573,
+  "name": {
+    "zh": "布莱卡恩"
+  },
+  "types": [
+    "grass",
+    "shadow"
+  ],
+  "base": {
+    "hp": 122,
+    "atk": 83,
+    "def": 89,
+    "spa": 120,
+    "spd": 91,
+    "spe": 95
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 2
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20007
+    },
+    {
+      "level": 9,
+      "skill": 10390
+    },
+    {
+      "level": 13,
+      "skill": 20546
+    },
+    {
+      "level": 17,
+      "skill": 11434
+    },
+    {
+      "level": 21,
+      "skill": 10067
+    },
+    {
+      "level": 25,
+      "skill": 20508
+    },
+    {
+      "level": 29,
+      "skill": 11435
+    },
+    {
+      "level": 33,
+      "skill": 20590
+    },
+    {
+      "level": 37,
+      "skill": 11237
+    },
+    {
+      "level": 41,
+      "skill": 20589
+    },
+    {
+      "level": 45,
+      "skill": 11236
+    },
+    {
+      "level": 49,
+      "skill": 11436
+    },
+    {
+      "level": 53,
+      "skill": 20712
+    },
+    {
+      "level": 57,
+      "skill": 11433
+    },
+    {
+      "level": 61,
+      "skill": 11437
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 572,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0573",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

@@ -1,0 +1,100 @@
+{
+  "id": 595,
+  "name": {
+    "zh": "卡洛达斯"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 112,
+    "atk": 80,
+    "def": 78,
+    "spa": 120,
+    "spd": 79,
+    "spe": 102
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10559
+    },
+    {
+      "level": 5,
+      "skill": 20559
+    },
+    {
+      "level": 9,
+      "skill": 10194
+    },
+    {
+      "level": 13,
+      "skill": 20099
+    },
+    {
+      "level": 17,
+      "skill": 11489
+    },
+    {
+      "level": 21,
+      "skill": 10430
+    },
+    {
+      "level": 25,
+      "skill": 20029
+    },
+    {
+      "level": 29,
+      "skill": 11492
+    },
+    {
+      "level": 33,
+      "skill": 20743
+    },
+    {
+      "level": 37,
+      "skill": 11493
+    },
+    {
+      "level": 41,
+      "skill": 20744
+    },
+    {
+      "level": 45,
+      "skill": 11490
+    },
+    {
+      "level": 49,
+      "skill": 11494
+    },
+    {
+      "level": 53,
+      "skill": 20550
+    },
+    {
+      "level": 57,
+      "skill": 11491
+    },
+    {
+      "level": 61,
+      "skill": 11495
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 594,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0595",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

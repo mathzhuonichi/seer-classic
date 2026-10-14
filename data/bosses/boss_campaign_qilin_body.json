@@ -1,0 +1,292 @@
+{
+  "id": "boss_campaign_qilin_body",
+  "name": {
+    "zh": "麒麟·阿瑞斯真身"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "麒麟空间"
+  },
+  "era": "2013",
+  "team": [
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 20000,
+      "label": {
+        "zh": "炽天"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_low_damage_crit",
+          "params": {
+            "threshold": 1000,
+            "turns": 2
+          }
+        },
+        {
+          "rule": "script",
+          "id": "campaign_counter_type_extra_damage",
+          "params": {
+            "amount": 200
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 15000,
+      "label": {
+        "zh": "日月"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "params": {
+            "mode": "priority_or_ramping"
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 15000,
+      "label": {
+        "zh": "天地"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "params": {
+            "mode": "ramping"
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 10000,
+      "label": {
+        "zh": "麒火"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "params": {
+            "mode": "critical",
+            "allowFixed": false
+          }
+        },
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "params": {
+            "foe_loss": 100,
+            "self_heal": 0
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 15000,
+      "label": {
+        "zh": "幻化"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_hurt_stage_down",
+          "params": {
+            "threshold": 1000,
+            "stats": {
+              "atk": -1,
+              "def": -1,
+              "spa": -1,
+              "spd": -1,
+              "spe": -1,
+              "acc": -1
+            }
+          }
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 505,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        13550,
+        13554,
+        21895,
+        21896
+      ],
+      "hp_override": 50000,
+      "label": {
+        "zh": "重生"
+      },
+      "member_rules": [
+        {
+          "rule": "unlimited_pp"
+        }
+      ],
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "script",
+              "id": "damage_dealt_multiplier",
+              "params": {
+                "multiplier": 1.5
+              }
+            }
+          ],
+          "once": true
+        },
+        {
+          "when": {
+            "on_faint": true
+          },
+          "do": [
+            {
+              "op": "revive",
+              "pct_max_hp": 30
+            },
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 6,
+                "def": 6,
+                "spa": 6,
+                "spd": 6,
+                "spe": 6,
+                "acc": 6
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {
+      "essence_boss_campaign_qilin_body": 1
+    },
+    "kind": "essence"
+  },
+  "campaign": {
+    "id": "qilin",
+    "stage": "body",
+    "final": true
+  },
+  "strategy_notes": {
+    "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
+  },
+  "engine_notes": [
+    "The October 4, 2013 first-person guide provides HP 20000/15000/15000/10000/15000/50000, followed by a15000HP final reactivation; these differ from later 2014 summaries.",
+    "The same2013guide table says+12stages after rebirth, while its actual walkthrough says+6. The implementation uses+6, explicitly retaining this conflict.",
+    "First-life low-damage threshold 1000 is calibrated because the source only says below an unspecified threshold. Counter-type direction and eligibility of the first hit of ramping skills are reconstruction choices.",
+    "Critical-only mode does not silently permit fixed damage: the recovered period description establishes critical attacks but does not establish a fixed-damage exception."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/gonglue/seer/jingyanxinde/305908.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

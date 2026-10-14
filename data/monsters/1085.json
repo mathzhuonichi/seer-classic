@@ -1,0 +1,104 @@
+{
+  "id": 1085,
+  "name": {
+    "zh": "兰斯特"
+  },
+  "types": [
+    "fighting",
+    "ground"
+  ],
+  "base": {
+    "hp": 128,
+    "atk": 115,
+    "def": 94,
+    "spa": 77,
+    "spd": 89,
+    "spe": 95
+  },
+  "ev_yield": {
+    "hp": 1,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10250
+    },
+    {
+      "level": 5,
+      "skill": 20117
+    },
+    {
+      "level": 9,
+      "skill": 12559
+    },
+    {
+      "level": 13,
+      "skill": 10148
+    },
+    {
+      "level": 17,
+      "skill": 20222
+    },
+    {
+      "level": 21,
+      "skill": 12560
+    },
+    {
+      "level": 25,
+      "skill": 10589
+    },
+    {
+      "level": 29,
+      "skill": 20866
+    },
+    {
+      "level": 33,
+      "skill": 12561
+    },
+    {
+      "level": 37,
+      "skill": 11878
+    },
+    {
+      "level": 41,
+      "skill": 20945
+    },
+    {
+      "level": 45,
+      "skill": 21332
+    },
+    {
+      "level": 49,
+      "skill": 12562
+    },
+    {
+      "level": 53,
+      "skill": 12564
+    },
+    {
+      "level": 57,
+      "skill": 21333
+    },
+    {
+      "level": 61,
+      "skill": 12563
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1084,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m1085",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-02"
+}

@@ -1,0 +1,101 @@
+{
+  "id": 1319,
+  "name": {
+    "zh": "罗伯特"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 115,
+    "atk": 85,
+    "def": 82,
+    "spa": 116,
+    "spd": 90,
+    "spe": 102
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spd": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10193
+    },
+    {
+      "level": 5,
+      "skill": 20234
+    },
+    {
+      "level": 9,
+      "skill": 10530
+    },
+    {
+      "level": 13,
+      "skill": 20692
+    },
+    {
+      "level": 17,
+      "skill": 11134
+    },
+    {
+      "level": 21,
+      "skill": 10333
+    },
+    {
+      "level": 25,
+      "skill": 20105
+    },
+    {
+      "level": 29,
+      "skill": 10335
+    },
+    {
+      "level": 33,
+      "skill": 21602
+    },
+    {
+      "level": 37,
+      "skill": 13064
+    },
+    {
+      "level": 41,
+      "skill": 21603
+    },
+    {
+      "level": 45,
+      "skill": 13062
+    },
+    {
+      "level": 49,
+      "skill": 13065
+    },
+    {
+      "level": 53,
+      "skill": 21604
+    },
+    {
+      "level": 57,
+      "skill": 13063
+    },
+    {
+      "level": 61,
+      "skill": 13066
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1318,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1319",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

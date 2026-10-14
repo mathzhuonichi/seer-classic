@@ -1,0 +1,99 @@
+{
+  "id": "boss_campaign_zhuque_guardians",
+  "name": {
+    "zh": "朱雀·三大守护兽"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "菲尼克斯禁地 · 朱雀"
+  },
+  "era": "2011",
+  "team": [
+    {
+      "species": 715,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11752,
+        20879,
+        11754,
+        20878
+      ],
+      "hp_override": 5000,
+      "member_rules": [],
+      "member_phases": []
+    },
+    {
+      "species": 798,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11925,
+        11927,
+        20982,
+        20639
+      ],
+      "hp_override": 5000,
+      "member_rules": [],
+      "member_phases": []
+    },
+    {
+      "species": 804,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        11941,
+        20990,
+        11938,
+        11942
+      ],
+      "hp_override": 10000,
+      "member_rules": [],
+      "member_phases": []
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {},
+    "kind": "campaign_progress"
+  },
+  "campaign": {
+    "id": "zhuque",
+    "stage": "guardians",
+    "final": false
+  },
+  "strategy_notes": {
+    "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
+  },
+  "engine_notes": [
+    "The period guide says these guardians accept control, weakening and status effects; the isolated Difute immunity is deliberately not copied. Their clear is persistent according to the August 2011 first-person guide.",
+    "Guardian HP/loadouts are calibrated from existing SPT records."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110806/94759.html",
+    "https://news.7k7k.com/content/20110805/94666.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

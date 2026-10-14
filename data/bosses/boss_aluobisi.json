@@ -1,0 +1,105 @@
+{
+  "id": "boss_aluobisi",
+  "name": {
+    "zh": "阿洛比斯"
+  },
+  "category": "story",
+  "location": {
+    "zh": "（活动《黑暗的月影之光》）"
+  },
+  "era": "2012-03",
+  "team": [
+    {
+      "species": 1120,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12636,
+        12637,
+        12635,
+        21375
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "level_drops_per_attempt",
+      "params": {
+        "start": 100,
+        "step": -10
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12636,
+      12637,
+      12635,
+      21375
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_anpu": 1
+    }
+  },
+  "reward_hatches": 1118,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "完成主线任务《阿洛比斯的哀鸣》后参加活动《黑暗的月影之光》（晚上19-20点）：阿洛比斯每6分钟可挑战一次，最开始100级，之后每次挑战等级下降10级；打败它获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "不必第一次就硬拼：每次挑战（输赢都）有10万经验券和B级技能石，阿洛比斯等级逐次降低后再用光、草、水系精灵击败。"
+  },
+  "engine_notes": [
+    "level_drops_per_attempt: the first attempt is Lv100; each further attempt the boss is 10 levels lower (100 → 90 → 80 …). The remake keeps a per-save attempt counter for this boss; floor not stated (assume 50).",
+    "consolation_reward: every attempt, won or lost, gives 100000 EXP ticket + a B-grade skill stone (item ids are placeholders).",
+    "The 4399 page does not explicitly say the win gives a 精元 — the event was the way to obtain 阿洛比斯; essence of the base form 安普 (#1118) assumed, matching other 2012 essence pets.",
+    "HP not published (5000 estimate); skills are the species' top learnset skills.",
+    "6-minute cooldown and 19-20点 window are real-time limits, dropped."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills",
+      "reward",
+      "level_floor",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/tujian/146022.htm"
+  ],
+  "source_note": "4399 阿洛比斯 图鉴 page: 活动《黑暗的月影之光》, 每6分钟挑战一次, 100级起每次降10级, 每次得10万经验券+B级技能石.",
+  "consolation_reward": {
+    "items": {
+      "item_exp_ticket_100000": 1,
+      "item_skill_stone_b": 1
+    },
+    "note": {
+      "zh": "不管击败还是被击败，每次都得到10万经验券和B级技能石"
+    }
+  }
+}

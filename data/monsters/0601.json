@@ -1,0 +1,106 @@
+{
+  "id": 601,
+  "name": {
+    "zh": "火刃"
+  },
+  "types": [
+    "fighting",
+    "fire"
+  ],
+  "base": {
+    "hp": 107,
+    "atk": 113,
+    "def": 79,
+    "spa": 113,
+    "spd": 78,
+    "spe": 110
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20456
+    },
+    {
+      "level": 9,
+      "skill": 10007
+    },
+    {
+      "level": 13,
+      "skill": 10049
+    },
+    {
+      "level": 17,
+      "skill": 10646
+    },
+    {
+      "level": 21,
+      "skill": 20747
+    },
+    {
+      "level": 25,
+      "skill": 11509
+    },
+    {
+      "level": 29,
+      "skill": 11173
+    },
+    {
+      "level": 33,
+      "skill": 20746
+    },
+    {
+      "level": 37,
+      "skill": 11510
+    },
+    {
+      "level": 41,
+      "skill": 11506
+    },
+    {
+      "level": 45,
+      "skill": 20751
+    },
+    {
+      "level": 49,
+      "skill": 11511
+    },
+    {
+      "level": 53,
+      "skill": 11513
+    },
+    {
+      "level": 57,
+      "skill": 20752
+    },
+    {
+      "level": 61,
+      "skill": 11512
+    },
+    {
+      "level": 65,
+      "skill": 11514
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 600,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0601",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

@@ -1,0 +1,58 @@
+{
+  "id": 895,
+  "name": {
+    "zh": "奇变"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 40,
+    "def": 46,
+    "spa": 76,
+    "spd": 48,
+    "spe": 58
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 30,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10429
+    },
+    {
+      "level": 5,
+      "skill": 20015
+    },
+    {
+      "level": 10,
+      "skill": 11417
+    },
+    {
+      "level": 20,
+      "skill": 20185
+    }
+  ],
+  "evolution": [
+    {
+      "to": 896,
+      "method": "level",
+      "level": 29
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0895",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

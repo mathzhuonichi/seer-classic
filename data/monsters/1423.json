@@ -1,0 +1,72 @@
+{
+  "id": 1423,
+  "name": {
+    "zh": "玛尔科"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 80,
+    "atk": 45,
+    "def": 45,
+    "spa": 65,
+    "spd": 40,
+    "spe": 45
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 60,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 70,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 9,
+      "skill": 10177
+    },
+    {
+      "level": 13,
+      "skill": 20508
+    },
+    {
+      "level": 17,
+      "skill": 12804
+    },
+    {
+      "level": 21,
+      "skill": 10329
+    },
+    {
+      "level": 25,
+      "skill": 20822
+    },
+    {
+      "level": 29,
+      "skill": 11147
+    },
+    {
+      "level": 33,
+      "skill": 21746
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1423",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-11"
+}

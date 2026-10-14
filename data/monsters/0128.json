@@ -1,0 +1,58 @@
+{
+  "id": 128,
+  "name": {
+    "zh": "波古"
+  },
+  "types": [
+    "shadow"
+  ],
+  "base": {
+    "hp": 49,
+    "atk": 48,
+    "def": 40,
+    "spa": 65,
+    "spd": 42,
+    "spe": 46
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 66,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 70,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 10389
+    },
+    {
+      "level": 10,
+      "skill": 20167
+    },
+    {
+      "level": 15,
+      "skill": 10390
+    }
+  ],
+  "evolution": [
+    {
+      "to": 129,
+      "method": "level",
+      "level": 16
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0128",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

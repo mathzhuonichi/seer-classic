@@ -1,0 +1,86 @@
+{
+  "id": "boss_spt_naduolei",
+  "name": {
+    "zh": "纳多雷"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "双子阿尔法星"
+  },
+  "era": "2009-11",
+  "team": [
+    {
+      "species": 88,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20113,
+        10247,
+        10249,
+        10246
+      ],
+      "hp_override": 1400,
+      "stat_multipliers": {
+        "def": 1.5
+      }
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20113,
+      10247,
+      10249,
+      10246
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_naduolei": 1
+    }
+  },
+  "reward_hatches": 86,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在双子阿尔法星岩地挑战纳多雷，打败获得纳多雷精元（孵化得纳格）。"
+  },
+  "strategy_notes": {
+    "zh": "火系、水系、草系克制地面：鲁斯王剑舞2次后水天一色秒杀；57级布布花叶片风暴+寄生种子再上烈焰猩猩火焰漩涡；提亚斯精神干涉也能轻松打。注意属性反转。"
+  },
+  "engine_notes": [
+    "属性反转 (skill 20113): for 5 turns its type and the foe's type are swapped, flipping the player's type advantage; handled by the skill's own effect.",
+    "防御极高 (4399: 'extremely high defence', authors guessed 2000-3000 HP from how long it took). HP 1400 per 4399 and 7k7k; def x1.5 encodes the high-defence remark (estimate).",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "stat_multipliers",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70395.html",
+    "https://news.7k7k.com/content/20110316/76862.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05) and 7k7k 2011: 双子阿尔法星岩地, 70级, 1400血, 属性反转/风沙暴击/风沙尘暴/空掌破."
+}

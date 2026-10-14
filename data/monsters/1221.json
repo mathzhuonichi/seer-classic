@@ -1,0 +1,102 @@
+{
+  "id": 1221,
+  "name": {
+    "zh": "博卡特"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 126,
+    "atk": 82,
+    "def": 110,
+    "spa": 110,
+    "spd": 75,
+    "spe": 94
+  },
+  "ev_yield": {
+    "def": 2
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 5,
+      "skill": 20135
+    },
+    {
+      "level": 9,
+      "skill": 10334
+    },
+    {
+      "level": 13,
+      "skill": 20631
+    },
+    {
+      "level": 17,
+      "skill": 10137
+    },
+    {
+      "level": 21,
+      "skill": 10335
+    },
+    {
+      "level": 25,
+      "skill": 20365
+    },
+    {
+      "level": 29,
+      "skill": 10301
+    },
+    {
+      "level": 33,
+      "skill": 21477
+    },
+    {
+      "level": 37,
+      "skill": 12846
+    },
+    {
+      "level": 41,
+      "skill": 21478
+    },
+    {
+      "level": 45,
+      "skill": 12844
+    },
+    {
+      "level": 49,
+      "skill": 12847
+    },
+    {
+      "level": 53,
+      "skill": 21479
+    },
+    {
+      "level": 57,
+      "skill": 12845
+    },
+    {
+      "level": 61,
+      "skill": 12848
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1220,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 0,
+  "art": "m1221",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-05"
+}

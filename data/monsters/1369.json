@@ -1,0 +1,109 @@
+{
+  "id": 1369,
+  "name": {
+    "zh": "古朗德"
+  },
+  "types": [
+    "ground",
+    "dragon"
+  ],
+  "base": {
+    "hp": 131,
+    "atk": 115,
+    "def": 94,
+    "spa": 82,
+    "spd": 86,
+    "spe": 97
+  },
+  "ev_yield": {
+    "hp": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 10308
+    },
+    {
+      "level": 13,
+      "skill": 11120
+    },
+    {
+      "level": 17,
+      "skill": 21039
+    },
+    {
+      "level": 21,
+      "skill": 13184
+    },
+    {
+      "level": 25,
+      "skill": 11730
+    },
+    {
+      "level": 29,
+      "skill": 20202
+    },
+    {
+      "level": 33,
+      "skill": 11750
+    },
+    {
+      "level": 37,
+      "skill": 13187
+    },
+    {
+      "level": 41,
+      "skill": 21673
+    },
+    {
+      "level": 45,
+      "skill": 13185
+    },
+    {
+      "level": 49,
+      "skill": 21674
+    },
+    {
+      "level": 53,
+      "skill": 13188
+    },
+    {
+      "level": 57,
+      "skill": 21675
+    },
+    {
+      "level": 61,
+      "skill": 13186
+    },
+    {
+      "level": 65,
+      "skill": 21725
+    },
+    {
+      "level": 70,
+      "skill": 13358
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1368,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1369",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-09"
+}

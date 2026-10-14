@@ -1,0 +1,132 @@
+{
+  "id": 1216,
+  "name": {
+    "zh": "魔域仙子"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 116,
+    "def": 90,
+    "spa": 100,
+    "spd": 84,
+    "spe": 80
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10042
+    },
+    {
+      "level": 5,
+      "skill": 20022
+    },
+    {
+      "level": 9,
+      "skill": 10061
+    },
+    {
+      "level": 13,
+      "skill": 20019
+    },
+    {
+      "level": 15,
+      "skill": 10237
+    },
+    {
+      "level": 16,
+      "skill": 20020
+    },
+    {
+      "level": 19,
+      "skill": 20031
+    },
+    {
+      "level": 23,
+      "skill": 10062
+    },
+    {
+      "level": 26,
+      "skill": 10063
+    },
+    {
+      "level": 28,
+      "skill": 20021
+    },
+    {
+      "level": 30,
+      "skill": 20032
+    },
+    {
+      "level": 32,
+      "skill": 10003
+    },
+    {
+      "level": 34,
+      "skill": 10067
+    },
+    {
+      "level": 36,
+      "skill": 10065
+    },
+    {
+      "level": 39,
+      "skill": 20033
+    },
+    {
+      "level": 41,
+      "skill": 20034
+    },
+    {
+      "level": 47,
+      "skill": 10066
+    },
+    {
+      "level": 55,
+      "skill": 10064
+    },
+    {
+      "level": 63,
+      "skill": 10017
+    },
+    {
+      "level": 65,
+      "skill": 12832
+    },
+    {
+      "level": 67,
+      "skill": 21471
+    },
+    {
+      "level": 69,
+      "skill": 12833
+    },
+    {
+      "level": 73,
+      "skill": 21472
+    },
+    {
+      "level": 75,
+      "skill": 12834
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 29,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1216",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-05"
+}

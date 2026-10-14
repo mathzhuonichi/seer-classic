@@ -1,0 +1,113 @@
+{
+  "id": "boss_rei_training1",
+  "name": {
+    "zh": "雷伊特训·里奥斯"
+  },
+  "category": "story",
+  "location": {
+    "zh": "赫尔卡星 雷伊特训（湖边）"
+  },
+  "era": "2010",
+  "team": [
+    {
+      "species": 42,
+      "level": 50,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10102,
+        10100,
+        10101,
+        10099
+      ],
+      "hp_override": 1000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "require_player_species",
+      "params": {
+        "species": [
+          70
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    },
+    {
+      "kind": "finish_with_skill",
+      "skill": 10170
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10102,
+      10100,
+      10101,
+      10099
+    ]
+  },
+  "reward": {
+    "items": {},
+    "learn_skill": {
+      "species": 70,
+      "skill": 10823,
+      "name": {
+        "zh": "极光刃"
+      }
+    }
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "雷伊特训第1关：只能派自己的雷伊出战，胜利后雷伊学会「极光刃」。"
+  },
+  "strategy_notes": {
+    "zh": "雷伊学会白光刃的等级即可战胜：白光刃乱打，适当加血。"
+  },
+  "engine_notes": [
+    "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
+    "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
+    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "skills: no source lists this opponent's skills; the species' top learnset skills are used.",
+    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110720/92955.html",
+    "https://jingyan.baidu.com/article/afd8f4deb9f7f034e286e98c.html",
+    "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
+    "http://wenda.4399.com/question/47/477631.html",
+    "https://seer.61.com/dll/RobotAppDLL.swf",
+    "https://news.7k7k.com/content/20111103/103132.html"
+  ],
+  "source_note": "7k7k 2011-07 雷伊解析 lists the five 特训 opponents and how to beat them; baidu jingyan gives the skill order and the 5-turn shadow limit."
+}

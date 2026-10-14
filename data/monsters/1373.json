@@ -1,0 +1,101 @@
+{
+  "id": 1373,
+  "name": {
+    "zh": "露娜"
+  },
+  "types": [
+    "light"
+  ],
+  "base": {
+    "hp": 122,
+    "atk": 90,
+    "def": 80,
+    "spa": 115,
+    "spd": 87,
+    "spe": 104
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20190
+    },
+    {
+      "level": 9,
+      "skill": 11412
+    },
+    {
+      "level": 13,
+      "skill": 20186
+    },
+    {
+      "level": 17,
+      "skill": 12944
+    },
+    {
+      "level": 21,
+      "skill": 10924
+    },
+    {
+      "level": 25,
+      "skill": 20144
+    },
+    {
+      "level": 29,
+      "skill": 10920
+    },
+    {
+      "level": 33,
+      "skill": 21679
+    },
+    {
+      "level": 37,
+      "skill": 13196
+    },
+    {
+      "level": 41,
+      "skill": 21680
+    },
+    {
+      "level": 45,
+      "skill": 13194
+    },
+    {
+      "level": 49,
+      "skill": 13197
+    },
+    {
+      "level": 53,
+      "skill": 21681
+    },
+    {
+      "level": 57,
+      "skill": 13195
+    },
+    {
+      "level": 61,
+      "skill": 13198
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1372,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1373",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-09"
+}

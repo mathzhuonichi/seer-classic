@@ -1,0 +1,105 @@
+{
+  "id": 715,
+  "name": {
+    "zh": "德拉萨"
+  },
+  "types": [
+    "ice",
+    "dragon"
+  ],
+  "base": {
+    "hp": 129,
+    "atk": 118,
+    "def": 94,
+    "spa": 75,
+    "spd": 79,
+    "spe": 95
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20061
+    },
+    {
+      "level": 9,
+      "skill": 10214
+    },
+    {
+      "level": 13,
+      "skill": 10614
+    },
+    {
+      "level": 17,
+      "skill": 20464
+    },
+    {
+      "level": 21,
+      "skill": 11749
+    },
+    {
+      "level": 25,
+      "skill": 10350
+    },
+    {
+      "level": 29,
+      "skill": 20517
+    },
+    {
+      "level": 33,
+      "skill": 11750
+    },
+    {
+      "level": 37,
+      "skill": 11753
+    },
+    {
+      "level": 41,
+      "skill": 20877
+    },
+    {
+      "level": 45,
+      "skill": 11751
+    },
+    {
+      "level": 49,
+      "skill": 20878
+    },
+    {
+      "level": 53,
+      "skill": 11754
+    },
+    {
+      "level": 57,
+      "skill": 20879
+    },
+    {
+      "level": 61,
+      "skill": 11752
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 714,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m0715",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

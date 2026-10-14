@@ -1,0 +1,97 @@
+{
+  "id": "boss_spt_fuxisi",
+  "name": {
+    "zh": "弗希斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "神树之巅"
+  },
+  "era": "2012-12",
+  "team": [
+    {
+      "species": 1477,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13423,
+        13422,
+        13420,
+        21818
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "mirror_status_to_attacker",
+      "params": {
+        "statuses": [
+          "poison",
+          "burn",
+          "freeze"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13423,
+      13422,
+      13420,
+      21818
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1476,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在神树之巅用头部射击左下角闪光的地方，BOSS出现后挑战；打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "带能造成异常状态并有睡眠技能的精灵（如罗德利斯）：烧伤→睡眠→补血循环；注意睡眠回合数，睡眠期间补血。"
+  },
+  "engine_notes": [
+    "mirror_status_to_attacker: whenever the player inflicts poison/burn/freeze on 弗希斯, the player's own active pet receives the same status (对手中毒、烧伤或冻伤状态时，己方也会同时中相同状态). Sleep is NOT mirrored, which the classic burn→sleep→heal loop exploits.",
+    "Pre-battle requirement: shoot the flashing spot with the head-slot item (map interaction, not a battle rule).",
+    "Level/HP not published; 80 / 10000 estimates.",
+    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://www.juxia.com/news/2012-12-28/73290.html"
+  ],
+  "source_note": "聚侠 2012-12-28: status mirroring mechanic and burn→sleep→heal strategy; no HP/level given."
+}

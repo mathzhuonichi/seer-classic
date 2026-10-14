@@ -1,0 +1,58 @@
+{
+  "id": 1103,
+  "name": {
+    "zh": "卜卡"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 78,
+    "atk": 35,
+    "def": 46,
+    "spa": 67,
+    "spd": 45,
+    "spe": 44
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 20,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 20015
+    },
+    {
+      "level": 9,
+      "skill": 10539
+    },
+    {
+      "level": 13,
+      "skill": 20671
+    }
+  ],
+  "evolution": [
+    {
+      "to": 1104,
+      "method": "level",
+      "level": 16
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1103",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-02"
+}

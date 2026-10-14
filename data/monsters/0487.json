@@ -1,0 +1,106 @@
+{
+  "id": 487,
+  "name": {
+    "zh": "亚格洛"
+  },
+  "types": [
+    "electric",
+    "fire"
+  ],
+  "base": {
+    "hp": 101,
+    "atk": 105,
+    "def": 80,
+    "spa": 110,
+    "spd": 78,
+    "spe": 106
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 10007
+    },
+    {
+      "level": 9,
+      "skill": 20164
+    },
+    {
+      "level": 13,
+      "skill": 11267
+    },
+    {
+      "level": 17,
+      "skill": 10253
+    },
+    {
+      "level": 21,
+      "skill": 20105
+    },
+    {
+      "level": 25,
+      "skill": 11268
+    },
+    {
+      "level": 29,
+      "skill": 10101
+    },
+    {
+      "level": 33,
+      "skill": 20612
+    },
+    {
+      "level": 37,
+      "skill": 11269
+    },
+    {
+      "level": 41,
+      "skill": 11271
+    },
+    {
+      "level": 45,
+      "skill": 20613
+    },
+    {
+      "level": 49,
+      "skill": 10458
+    },
+    {
+      "level": 53,
+      "skill": 11272
+    },
+    {
+      "level": 57,
+      "skill": 20614
+    },
+    {
+      "level": 61,
+      "skill": 11270
+    },
+    {
+      "level": 65,
+      "skill": 11273
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 486,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0487",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

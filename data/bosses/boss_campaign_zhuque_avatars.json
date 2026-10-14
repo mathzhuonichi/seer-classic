@@ -1,0 +1,132 @@
+{
+  "id": "boss_campaign_zhuque_avatars",
+  "name": {
+    "zh": "朱雀·三重影"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "菲尼克斯禁地 · 朱雀"
+  },
+  "era": "2011",
+  "team": [
+    {
+      "species": 504,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        21078,
+        12091,
+        12094,
+        12095
+      ],
+      "hp_override": 2000,
+      "label": {
+        "zh": "愤怒之影"
+      },
+      "member_rules": [
+        {
+          "rule": "reflect_damage",
+          "pct": 100,
+          "min_damage": 0
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 504,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        21078,
+        12091,
+        12094,
+        12095
+      ],
+      "hp_override": 2000,
+      "label": {
+        "zh": "光芒之影"
+      },
+      "member_rules": [
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "params": {}
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 504,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        21078,
+        12091,
+        12094,
+        12095
+      ],
+      "hp_override": 2000,
+      "label": {
+        "zh": "重生之影"
+      },
+      "member_rules": [
+        {
+          "rule": "lives",
+          "count": 1
+        },
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "params": {
+            "amount": 200
+          }
+        }
+      ],
+      "member_phases": []
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {},
+    "kind": "campaign_progress"
+  },
+  "campaign": {
+    "id": "zhuque",
+    "stage": "avatars",
+    "final": false
+  },
+  "strategy_notes": {
+    "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
+  },
+  "engine_notes": [
+    "Anger shadow 2000 HP and reflection are reported onrelease day; rebirth shadow 2000 HP/two lives/200 HP per turn are reported by the next-day successful player. Light shadow 2000 HP is calibrated.",
+    "Finite PP is retained for all three avatars, matching the guide; no healing menu interrupts this one enemy team."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110806/94759.html",
+    "https://news.7k7k.com/content/20110805/94666.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

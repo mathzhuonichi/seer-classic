@@ -1,0 +1,137 @@
+{
+  "id": "boss_spt_kenpeide",
+  "name": {
+    "zh": "肯佩德"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "拉铂尔星"
+  },
+  "era": "2011-01",
+  "team": [
+    {
+      "species": 617,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11546,
+        20497,
+        11548,
+        20593
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "reflect_damage",
+      "params": {
+        "pct": 25,
+        "min_damage": 0
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 80
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "ohko_attacks",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11546,
+      20497,
+      11548,
+      20593
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_kenpeide": 1
+    },
+    "achievement": {
+      "zh": "击败肯佩德"
+    }
+  },
+  "reward_hatches": 615,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "quest": {
+      "zh": "寻觅隐身之匙"
+    },
+    "flags": [
+      "wear_patrol_goggles"
+    ]
+  },
+  "capture": {
+    "zh": "完成资料室爱丽丝的「寻觅隐身之匙」任务获得巡查眼镜，戴上后到拉铂尔星点击中央的黑色油状物召唤肯佩德；打败获得肯佩德精元（孵化得佩奇）和成就。"
+  },
+  "strategy_notes": {
+    "zh": "先消强化；打掉1/5血后它会狂暴（一招秒一只），所以要么一口气打完，要么用替身：谱尼灵魂干涉→斯加尔卡自杀→雷伊雷神觉醒强化后雷神天明闪秒杀；丽莎护体磨、厄尔塞拉光芒附体6次+八尺镜大招也可。小心反射盾。"
+  },
+  "engine_notes": [
+    "Berserk: after losing 1/5 of its HP (below 80%) it enters 狂暴状态 and each attack one-shots any pet (ohko_attacks).",
+    "Reflect: '有反弹伤害的招式' / '反射盾' — damage reflection; whether always-on or a skill-triggered shield, and the percentage, are not given (always-on 25% assumed).",
+    "Innate boost (先消强化) — stat not stated; atk+1 assumed.",
+    "Skills not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "reflect_pct",
+      "innate_stage_stats",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201101-17-84758.html",
+    "https://news.5068.com/z/seer/gonglue/25651.html",
+    "https://news.4399.com/seer/tujian/84569.htm",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "5068 (2011-01): 80级 10000血, 巡查眼镜, 反弹伤害+狂暴; 4399 BOSS page (2011-01-17): 打掉五分之一血后狂暴一招秒任意精灵."
+}

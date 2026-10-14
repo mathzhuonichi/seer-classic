@@ -1,0 +1,72 @@
+{
+  "id": 887,
+  "name": {
+    "zh": "彼得"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 68,
+    "atk": 38,
+    "def": 44,
+    "spa": 65,
+    "spd": 52,
+    "spe": 62
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 80,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 12130
+    },
+    {
+      "level": 5,
+      "skill": 20065
+    },
+    {
+      "level": 9,
+      "skill": 10328
+    },
+    {
+      "level": 13,
+      "skill": 20481
+    },
+    {
+      "level": 17,
+      "skill": 10068
+    },
+    {
+      "level": 21,
+      "skill": 10135
+    },
+    {
+      "level": 25,
+      "skill": 20365
+    },
+    {
+      "level": 29,
+      "skill": 10305
+    },
+    {
+      "level": 33,
+      "skill": 21100
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m0887",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

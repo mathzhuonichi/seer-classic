@@ -1,0 +1,104 @@
+{
+  "id": 218,
+  "name": {
+    "zh": "扎夫特"
+  },
+  "types": [
+    "shadow"
+  ],
+  "base": {
+    "hp": 100,
+    "atk": 88,
+    "def": 75,
+    "spa": 120,
+    "spd": 90,
+    "spe": 87
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 115,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10250
+    },
+    {
+      "level": 6,
+      "skill": 20169
+    },
+    {
+      "level": 11,
+      "skill": 10401
+    },
+    {
+      "level": 15,
+      "skill": 10421
+    },
+    {
+      "level": 18,
+      "skill": 20270
+    },
+    {
+      "level": 22,
+      "skill": 10392
+    },
+    {
+      "level": 25,
+      "skill": 20182
+    },
+    {
+      "level": 28,
+      "skill": 10404
+    },
+    {
+      "level": 32,
+      "skill": 10394
+    },
+    {
+      "level": 36,
+      "skill": 20172
+    },
+    {
+      "level": 40,
+      "skill": 10625
+    },
+    {
+      "level": 44,
+      "skill": 10623
+    },
+    {
+      "level": 48,
+      "skill": 20271
+    },
+    {
+      "level": 52,
+      "skill": 10626
+    },
+    {
+      "level": 56,
+      "skill": 10624
+    },
+    {
+      "level": 60,
+      "skill": 20272
+    },
+    {
+      "level": 65,
+      "skill": 10627
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 217,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0218",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-03"
+}

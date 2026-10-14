@@ -1,0 +1,114 @@
+{
+  "id": 624,
+  "name": {
+    "zh": "沃德斯特"
+  },
+  "types": [
+    "ground",
+    "dragon"
+  ],
+  "base": {
+    "hp": 121,
+    "atk": 115,
+    "def": 95,
+    "spa": 103,
+    "spd": 88,
+    "spe": 78
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10223
+    },
+    {
+      "level": 5,
+      "skill": 20207
+    },
+    {
+      "level": 9,
+      "skill": 10614
+    },
+    {
+      "level": 13,
+      "skill": 11443
+    },
+    {
+      "level": 17,
+      "skill": 20570
+    },
+    {
+      "level": 21,
+      "skill": 11400
+    },
+    {
+      "level": 25,
+      "skill": 11562
+    },
+    {
+      "level": 29,
+      "skill": 11565
+    },
+    {
+      "level": 33,
+      "skill": 20773
+    },
+    {
+      "level": 37,
+      "skill": 11402
+    },
+    {
+      "level": 41,
+      "skill": 10014
+    },
+    {
+      "level": 45,
+      "skill": 20718
+    },
+    {
+      "level": 49,
+      "skill": 11399
+    },
+    {
+      "level": 53,
+      "skill": 11448
+    },
+    {
+      "level": 57,
+      "skill": 20719
+    },
+    {
+      "level": 61,
+      "skill": 11563
+    },
+    {
+      "level": 65,
+      "skill": 11566
+    },
+    {
+      "level": 69,
+      "skill": 20774
+    },
+    {
+      "level": 73,
+      "skill": 11564
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 623,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0624",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

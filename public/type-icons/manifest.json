@@ -1,0 +1,851 @@
+{
+  "description": "Original official Seer attribute button up-state artwork; no redrawn symbols.",
+  "source": "https://seer.61.com/dll/UI.swf",
+  "sourceSha256": "273a1dcd6f59e8175870df767a9f5a634d7a75b63ebca356fad66990844d49da",
+  "typeConfigSource": "https://seer.61.com/dll/RobotCoreDLL.swf",
+  "typeConfigSourceSha256": "2405e1cb24f4a44fa6183c03a51357f58895a0a9ff1e5376a6506be53cfc493f",
+  "decodedCoreSha256": "ca040870b9150463f5858ac42d0e0c347380010e12ae16d02068dc78048ccd40",
+  "embeddedTypeConfigCharacter": 149,
+  "embeddedTypeConfigSha256": "b5e670b3fb76d29429211fcef5ff04dfa44519d07e90ce09f415540e151ce220",
+  "icons": {
+    "草": {
+      "typeId": 1,
+      "symbol": "Icon_PetType_1",
+      "characterId": 1795,
+      "state": "up",
+      "path": "/type-icons/1.svg",
+      "width": 24.95,
+      "height": 30.6,
+      "sha256": "92a4b6e3d1c2137e4ec166d354d2ae78cafa2ba77e6300a52b5bee316fb587c2"
+    },
+    "水": {
+      "typeId": 2,
+      "symbol": "Icon_PetType_2",
+      "characterId": 1793,
+      "state": "up",
+      "path": "/type-icons/2.svg",
+      "width": 20.85,
+      "height": 31.7,
+      "sha256": "8fe86bdf7d1123a1b150883292cc1b67123c70896367c1fd3e11254fc3c5237f"
+    },
+    "火": {
+      "typeId": 3,
+      "symbol": "Icon_PetType_3",
+      "characterId": 1791,
+      "state": "up",
+      "path": "/type-icons/3.svg",
+      "width": 19.55,
+      "height": 31.05,
+      "sha256": "d059dc39aaa9c63c5744ce45eccfa8ce278f072c492bce7273c06706c629d180"
+    },
+    "飞行": {
+      "typeId": 4,
+      "symbol": "Icon_PetType_4",
+      "characterId": 1817,
+      "state": "up",
+      "path": "/type-icons/4.svg",
+      "width": 24.9,
+      "height": 27.8,
+      "sha256": "39b1607db3e876a50d7217b306bd6f276bff6b88a1e596daed0dcf87fe058631"
+    },
+    "电": {
+      "typeId": 5,
+      "symbol": "Icon_PetType_5",
+      "characterId": 1815,
+      "state": "up",
+      "path": "/type-icons/5.svg",
+      "width": 25.05,
+      "height": 29.65,
+      "sha256": "45b75f6c86d16820c40117f8aea9846b3c817c6d9e19d2f16cb206351e3c2d4d"
+    },
+    "机械": {
+      "typeId": 6,
+      "symbol": "Icon_PetType_6",
+      "characterId": 1813,
+      "state": "up",
+      "path": "/type-icons/6.svg",
+      "width": 24.8,
+      "height": 30.35,
+      "sha256": "821a794dd3787e8a2ceef97edbedd10aed4ebdde15ac189fc14252120ea3b4ea"
+    },
+    "地面": {
+      "typeId": 7,
+      "symbol": "Icon_PetType_7",
+      "characterId": 1811,
+      "state": "up",
+      "path": "/type-icons/7.svg",
+      "width": 27.35,
+      "height": 27.05,
+      "sha256": "2caf2a68852af89076a5e09c8c6982671d24e719f27250c34da5e99579895449"
+    },
+    "普通": {
+      "typeId": 8,
+      "symbol": "Icon_PetType_8",
+      "characterId": 1809,
+      "state": "up",
+      "path": "/type-icons/8.svg",
+      "width": 24.45,
+      "height": 30.15,
+      "sha256": "981107ff5c8320c6549e2cddf8aaf960d52e1c4ef26fac533739d31caccc39b7"
+    },
+    "冰": {
+      "typeId": 9,
+      "symbol": "Icon_PetType_9",
+      "characterId": 1807,
+      "state": "up",
+      "path": "/type-icons/9.svg",
+      "width": 21.6,
+      "height": 30.05,
+      "sha256": "df8192a444d5ac5aab4df69b1262c2ffe3247ac899d012a5238dc152ec3f73bd"
+    },
+    "超能": {
+      "typeId": 10,
+      "symbol": "Icon_PetType_10",
+      "characterId": 3567,
+      "state": "up",
+      "path": "/type-icons/10.svg",
+      "width": 31.2,
+      "height": 25.7,
+      "sha256": "d3770f3863779a1dcca6d9854fb31ca2dec94d24bb0f1037b61ce2cabac40fb1"
+    },
+    "战斗": {
+      "typeId": 11,
+      "symbol": "Icon_PetType_11",
+      "characterId": 3540,
+      "state": "up",
+      "path": "/type-icons/11.svg",
+      "width": 28.15,
+      "height": 27.2,
+      "sha256": "edd5a9cd819da5c16d9506838c3e1b827a6ac4330ea2430e8eb7e53ba77a4d9b"
+    },
+    "光": {
+      "typeId": 12,
+      "symbol": "Icon_PetType_12",
+      "characterId": 3542,
+      "state": "up",
+      "path": "/type-icons/12.svg",
+      "width": 29.8,
+      "height": 28.95,
+      "sha256": "77019cc15d23ce348eb6f57a7be6e3041e0828a5aebab6732f8d03c3b0943634"
+    },
+    "暗影": {
+      "typeId": 13,
+      "symbol": "Icon_PetType_13",
+      "characterId": 3544,
+      "state": "up",
+      "path": "/type-icons/13.svg",
+      "width": 24.6,
+      "height": 27.95,
+      "sha256": "98aecd42554200cff3e825cf4c97ec548ffb49a0e7e26dcef1a022be67c3dee0"
+    },
+    "神秘": {
+      "typeId": 14,
+      "symbol": "Icon_PetType_14",
+      "characterId": 3546,
+      "state": "up",
+      "path": "/type-icons/14.svg",
+      "width": 24.7,
+      "height": 26.1,
+      "sha256": "5ed6a6dd11695d3eb202a1474e2fec283eeb03d03eac10a53c97a60388b78a12"
+    },
+    "龙": {
+      "typeId": 15,
+      "symbol": "Icon_PetType_15",
+      "characterId": 3507,
+      "state": "up",
+      "path": "/type-icons/15.svg",
+      "width": 29.7,
+      "height": 27.35,
+      "sha256": "6585f607f4f49a40c5ed394b0ab57157f508401ca4d6c2c1f409e2023c75078b"
+    },
+    "圣灵": {
+      "typeId": 16,
+      "symbol": "Icon_PetType_16",
+      "characterId": 3509,
+      "state": "up",
+      "path": "/type-icons/16.svg",
+      "width": 30.65,
+      "height": 31.45,
+      "sha256": "14fcb6e9ef8add6cd36cae5adcc9e6cef2c40d32aca80279c25627b54c526ff5"
+    },
+    "次元": {
+      "typeId": 17,
+      "symbol": "Icon_PetType_17",
+      "characterId": 3511,
+      "state": "up",
+      "path": "/type-icons/17.svg",
+      "width": 27.05,
+      "height": 27.05,
+      "sha256": "6400f39ba6d50318e5f122adc46d9343ca381295b9af11e17239606e0027b670"
+    },
+    "远古": {
+      "typeId": 18,
+      "symbol": "Icon_PetType_18",
+      "characterId": 3513,
+      "state": "up",
+      "path": "/type-icons/18.svg",
+      "width": 27.7,
+      "height": 29.65,
+      "sha256": "fca263e2aba3b8a68c1583a7f8b3f688dc1eac132195a62c2533ce467c4c55d9"
+    },
+    "邪灵": {
+      "typeId": 19,
+      "symbol": "Icon_PetType_19",
+      "characterId": 3498,
+      "state": "up",
+      "path": "/type-icons/19.svg",
+      "width": 34.2,
+      "height": 30.95,
+      "sha256": "4eabc825cce92cd7e211a5adfbb538e7231952353d2541a4bc61bd2b99ad5f69"
+    },
+    "自然": {
+      "typeId": 20,
+      "symbol": "Icon_PetType_20",
+      "characterId": 3814,
+      "state": "up",
+      "path": "/type-icons/20.svg",
+      "width": 26.1,
+      "height": 32.0,
+      "sha256": "b3944603dbe3541fbac5d563af8481f0bcdc0caedf29e81d3ecb4edfb6a9a492"
+    },
+    "属性": {
+      "typeId": "prop",
+      "symbol": "Icon_PetType_prop",
+      "characterId": 6431,
+      "state": "up",
+      "path": "/type-icons/prop.svg",
+      "width": 30.2,
+      "height": 33.4,
+      "sha256": "c8a4c4125f2a7b2937683b79d6f111a9c421f39a82f935c23c484c1a39d67561"
+    },
+    "草超能": {
+      "typeId": 21,
+      "symbol": "Icon_PetType_21",
+      "characterId": 3816,
+      "state": "up",
+      "path": "/type-icons/21.svg",
+      "width": 33.35,
+      "height": 26.45,
+      "sha256": "ed7bd62adbefbb11b3a926ef7bfcce13983b30424a239c99082d7e4ed1f41940",
+      "sourceName": "草 超能",
+      "sourceEnglishName": "grass_psychic",
+      "componentTypeIds": [
+        1,
+        10
+      ],
+      "types": [
+        "草",
+        "超能"
+      ]
+    },
+    "草战斗": {
+      "typeId": 22,
+      "symbol": "Icon_PetType_22",
+      "characterId": 3806,
+      "state": "up",
+      "path": "/type-icons/22.svg",
+      "width": 32.5,
+      "height": 29.05,
+      "sha256": "e34558509e768685214fcf691d147da3c05b894ebfa74f2ebebe7f886775e749",
+      "sourceName": "草 战斗",
+      "sourceEnglishName": "grass_fight",
+      "componentTypeIds": [
+        1,
+        11
+      ],
+      "types": [
+        "草",
+        "战斗"
+      ]
+    },
+    "草暗影": {
+      "typeId": 23,
+      "symbol": "Icon_PetType_23",
+      "characterId": 3808,
+      "state": "up",
+      "path": "/type-icons/23.svg",
+      "width": 31.15,
+      "height": 29.65,
+      "sha256": "e4c1795de89f86bf617b5c7ec8d3963c44f311a2828d15b144d5da95ce36fcc4",
+      "sourceName": "草 暗影",
+      "sourceEnglishName": "grass_dark",
+      "componentTypeIds": [
+        1,
+        13
+      ],
+      "types": [
+        "草",
+        "暗影"
+      ]
+    },
+    "水超能": {
+      "typeId": 24,
+      "symbol": "Icon_PetType_24",
+      "characterId": 3810,
+      "state": "up",
+      "path": "/type-icons/24.svg",
+      "width": 28.55,
+      "height": 28.25,
+      "sha256": "b2255a0d36d48a227c9c61898838297d21af6263fca50f01a5d392346bd42a97",
+      "sourceName": "水 超能",
+      "sourceEnglishName": "water_psychic",
+      "componentTypeIds": [
+        2,
+        10
+      ],
+      "types": [
+        "水",
+        "超能"
+      ]
+    },
+    "水暗影": {
+      "typeId": 25,
+      "symbol": "Icon_PetType_25",
+      "characterId": 3812,
+      "state": "up",
+      "path": "/type-icons/25.svg",
+      "width": 30.7,
+      "height": 26.05,
+      "sha256": "7d7509c838531a3c603be39e28d359d5ed2a7f88439a78fab14f88e7080e1f72",
+      "sourceName": "水 暗影",
+      "sourceEnglishName": "water_dark",
+      "componentTypeIds": [
+        2,
+        13
+      ],
+      "types": [
+        "水",
+        "暗影"
+      ]
+    },
+    "水龙": {
+      "typeId": 26,
+      "symbol": "Icon_PetType_26",
+      "characterId": 3679,
+      "state": "up",
+      "path": "/type-icons/26.svg",
+      "width": 40.3,
+      "height": 32.65,
+      "sha256": "045f5925121df87aa00cac352233c009399775356dbc220f0518ac7c5582f12b",
+      "sourceName": "水 龙",
+      "sourceEnglishName": "water_dragon",
+      "componentTypeIds": [
+        2,
+        15
+      ],
+      "types": [
+        "水",
+        "龙"
+      ]
+    },
+    "火飞行": {
+      "typeId": 27,
+      "symbol": "Icon_PetType_27",
+      "characterId": 3681,
+      "state": "up",
+      "path": "/type-icons/27.svg",
+      "width": 30.7,
+      "height": 25.4,
+      "sha256": "1800cce24aa204e0715862af87483cd1b470c36e433af9a55bd3e6ad8a7279ac",
+      "sourceName": "火 飞行",
+      "sourceEnglishName": "fire_flying",
+      "componentTypeIds": [
+        3,
+        4
+      ],
+      "types": [
+        "火",
+        "飞行"
+      ]
+    },
+    "火龙": {
+      "typeId": 28,
+      "symbol": "Icon_PetType_28",
+      "characterId": 3683,
+      "state": "up",
+      "path": "/type-icons/28.svg",
+      "width": 35.15,
+      "height": 28.4,
+      "sha256": "d1395b9cbf0e854f20d4cef051e1799dea1d2fde7602a826b59c08fa1be3fc2c",
+      "sourceName": "火 龙",
+      "sourceEnglishName": "fire_dragon",
+      "componentTypeIds": [
+        3,
+        15
+      ],
+      "types": [
+        "火",
+        "龙"
+      ]
+    },
+    "火超能": {
+      "typeId": 29,
+      "symbol": "Icon_PetType_29",
+      "characterId": 3685,
+      "state": "up",
+      "path": "/type-icons/29.svg",
+      "width": 31.2,
+      "height": 31.2,
+      "sha256": "087e14540b258a72910ea2f716e8191888b812a7ce92887d815f1f76b08cab64",
+      "sourceName": "火 超能",
+      "sourceEnglishName": "fire_psychic",
+      "componentTypeIds": [
+        3,
+        10
+      ],
+      "types": [
+        "火",
+        "超能"
+      ]
+    },
+    "飞行超能": {
+      "typeId": 30,
+      "symbol": "Icon_PetType_30",
+      "characterId": 3659,
+      "state": "up",
+      "path": "/type-icons/30.svg",
+      "width": 32.35,
+      "height": 25.4,
+      "sha256": "ff5d71c81c25fb6d9c86021d0b91969029c9240329fd4fda51b197f7413bc8c2",
+      "sourceName": "飞行 超能",
+      "sourceEnglishName": "flying_psychic",
+      "componentTypeIds": [
+        4,
+        10
+      ],
+      "types": [
+        "飞行",
+        "超能"
+      ]
+    },
+    "光飞行": {
+      "typeId": 31,
+      "symbol": "Icon_PetType_31",
+      "characterId": 3672,
+      "state": "up",
+      "path": "/type-icons/31.svg",
+      "width": 31.8,
+      "height": 27.7,
+      "sha256": "1d4cf092d831f32c2f48873a2bf143653dab7e48a6c7388cb5e6b31168ef5cf0",
+      "sourceName": "光 飞行",
+      "sourceEnglishName": "flying_light",
+      "componentTypeIds": [
+        12,
+        4
+      ],
+      "types": [
+        "光",
+        "飞行"
+      ]
+    },
+    "飞行龙": {
+      "typeId": 32,
+      "symbol": "Icon_PetType_32",
+      "characterId": 3674,
+      "state": "up",
+      "path": "/type-icons/32.svg",
+      "width": 30.3,
+      "height": 27.25,
+      "sha256": "9c75c8fb69fe260a6dba76a4cb526767e9745582879bc46a7bfd7f7c0c808894",
+      "sourceName": "飞行 龙",
+      "sourceEnglishName": "flying_dragon",
+      "componentTypeIds": [
+        4,
+        15
+      ],
+      "types": [
+        "飞行",
+        "龙"
+      ]
+    },
+    "电火": {
+      "typeId": 33,
+      "symbol": "Icon_PetType_33",
+      "characterId": 3649,
+      "state": "up",
+      "path": "/type-icons/33.svg",
+      "width": 24.25,
+      "height": 33.8,
+      "sha256": "406ef0cfce7b33d957390a8a8d47e8533c264427662051bc55aeed6f26ec9da4",
+      "sourceName": "电 火",
+      "sourceEnglishName": "electric_fire",
+      "componentTypeIds": [
+        5,
+        3
+      ],
+      "types": [
+        "电",
+        "火"
+      ]
+    },
+    "电冰": {
+      "typeId": 34,
+      "symbol": "Icon_PetType_34",
+      "characterId": 3653,
+      "state": "up",
+      "path": "/type-icons/34.svg",
+      "width": 26.6,
+      "height": 31.05,
+      "sha256": "46883a52afffae28218af6e40a4184724e833967544b4c8f26866fa5c7a1bbe5",
+      "sourceName": "电 冰",
+      "sourceEnglishName": "electric_ice",
+      "componentTypeIds": [
+        5,
+        9
+      ],
+      "types": [
+        "电",
+        "冰"
+      ]
+    },
+    "电战斗": {
+      "typeId": 35,
+      "symbol": "Icon_PetType_35",
+      "characterId": 3655,
+      "state": "up",
+      "path": "/type-icons/35.svg",
+      "width": 27.3,
+      "height": 27.35,
+      "sha256": "07baff1d84f2e7646ca28342c116085c18f8d3c0661e3d4d88562ff52e7948ba",
+      "sourceName": "电 战斗",
+      "sourceEnglishName": "electric_fight",
+      "componentTypeIds": [
+        5,
+        11
+      ],
+      "types": [
+        "电",
+        "战斗"
+      ]
+    },
+    "机械地面": {
+      "typeId": 37,
+      "symbol": "Icon_PetType_37",
+      "characterId": 3610,
+      "state": "up",
+      "path": "/type-icons/37.svg",
+      "width": 27.75,
+      "height": 28.3,
+      "sha256": "eefe43eca80899765f611584cac62f4a66e65206f471ca4f0255d3b02a2e3585",
+      "sourceName": "机械 地面",
+      "sourceEnglishName": "steel_ground",
+      "componentTypeIds": [
+        6,
+        7
+      ],
+      "types": [
+        "机械",
+        "地面"
+      ]
+    },
+    "机械超能": {
+      "typeId": 38,
+      "symbol": "Icon_PetType_38",
+      "characterId": 3612,
+      "state": "up",
+      "path": "/type-icons/38.svg",
+      "width": 34.05,
+      "height": 27.2,
+      "sha256": "296ed8ebed52fb9e4499c571ad5d553e59c8c9098783935fcdc6f710e78a465f",
+      "sourceName": "机械 超能",
+      "sourceEnglishName": "steel_psychic",
+      "componentTypeIds": [
+        6,
+        10
+      ],
+      "types": [
+        "机械",
+        "超能"
+      ]
+    },
+    "机械龙": {
+      "typeId": 39,
+      "symbol": "Icon_PetType_39",
+      "characterId": 3614,
+      "state": "up",
+      "path": "/type-icons/39.svg",
+      "width": 32.05,
+      "height": 30.0,
+      "sha256": "c90e7df2e6c915510e90b12c7f8f1a7cb49c0656af64954e2a9782ad47aab111",
+      "sourceName": "机械 龙",
+      "sourceEnglishName": "steel_dragon",
+      "componentTypeIds": [
+        6,
+        15
+      ],
+      "types": [
+        "机械",
+        "龙"
+      ]
+    },
+    "地面龙": {
+      "typeId": 40,
+      "symbol": "Icon_PetType_40",
+      "characterId": 4748,
+      "state": "up",
+      "path": "/type-icons/40.svg",
+      "width": 25.6,
+      "height": 32.3,
+      "sha256": "b0afb7db016df7f6e59f084df97e5f883066dc49280caa66da4e7b30f1118aaf",
+      "sourceName": "地面 龙",
+      "sourceEnglishName": "ground_dragon",
+      "componentTypeIds": [
+        7,
+        15
+      ],
+      "types": [
+        "地面",
+        "龙"
+      ]
+    },
+    "战斗地面": {
+      "typeId": 41,
+      "symbol": "Icon_PetType_41",
+      "characterId": 4750,
+      "state": "up",
+      "path": "/type-icons/41.svg",
+      "width": 29.6,
+      "height": 25.2,
+      "sha256": "90ae880ae54ef5f56d72fcaf41394e266fa6ea6d9842e7793a9505f4a8b22732",
+      "sourceName": "战斗 地面",
+      "sourceEnglishName": "ground_fight",
+      "componentTypeIds": [
+        11,
+        7
+      ],
+      "types": [
+        "战斗",
+        "地面"
+      ]
+    },
+    "地面暗影": {
+      "typeId": 42,
+      "symbol": "Icon_PetType_42",
+      "characterId": 4752,
+      "state": "up",
+      "path": "/type-icons/42.svg",
+      "width": 29.3,
+      "height": 29.25,
+      "sha256": "ffefb65b8bde410908edef3c340288d71c087a451236c8bd12d8f5dd7cc7f72b",
+      "sourceName": "地面 暗影",
+      "sourceEnglishName": "ground_dark",
+      "componentTypeIds": [
+        7,
+        13
+      ],
+      "types": [
+        "地面",
+        "暗影"
+      ]
+    },
+    "冰龙": {
+      "typeId": 43,
+      "symbol": "Icon_PetType_43",
+      "characterId": 4754,
+      "state": "up",
+      "path": "/type-icons/43.svg",
+      "width": 33.15,
+      "height": 28.6,
+      "sha256": "8a2156ccc8db901008494fb8362c35963f81d9c6232437290e6b70b81b5738be",
+      "sourceName": "冰 龙",
+      "sourceEnglishName": "ice_dragon",
+      "componentTypeIds": [
+        9,
+        15
+      ],
+      "types": [
+        "冰",
+        "龙"
+      ]
+    },
+    "冰光": {
+      "typeId": 44,
+      "symbol": "Icon_PetType_44",
+      "characterId": 4729,
+      "state": "up",
+      "path": "/type-icons/44.svg",
+      "width": 27.0,
+      "height": 31.45,
+      "sha256": "99f694280113997b7ffc6227af839a96e552af013b84c62e1bba20ef040d36a8",
+      "sourceName": "冰 光",
+      "sourceEnglishName": "ice_light",
+      "componentTypeIds": [
+        9,
+        12
+      ],
+      "types": [
+        "冰",
+        "光"
+      ]
+    },
+    "冰暗影": {
+      "typeId": 45,
+      "symbol": "Icon_PetType_45",
+      "characterId": 4731,
+      "state": "up",
+      "path": "/type-icons/45.svg",
+      "width": 28.8,
+      "height": 28.95,
+      "sha256": "e03832ff096f41b696cc998263ea0b80550f7a01310caf699842026922f23a65",
+      "sourceName": "冰 暗影",
+      "sourceEnglishName": "ice_dark",
+      "componentTypeIds": [
+        9,
+        13
+      ],
+      "types": [
+        "冰",
+        "暗影"
+      ]
+    },
+    "超能冰": {
+      "typeId": 46,
+      "symbol": "Icon_PetType_46",
+      "characterId": 4733,
+      "state": "up",
+      "path": "/type-icons/46.svg",
+      "width": 33.1,
+      "height": 27.85,
+      "sha256": "3db3abde5d043dcdfe378eae85adbefcefec8e8e0400b2a4d259fc5089491944",
+      "sourceName": "超能 冰",
+      "sourceEnglishName": "psychic_ice",
+      "componentTypeIds": [
+        10,
+        9
+      ],
+      "types": [
+        "超能",
+        "冰"
+      ]
+    },
+    "战斗火": {
+      "typeId": 47,
+      "symbol": "Icon_PetType_47",
+      "characterId": 4746,
+      "state": "up",
+      "path": "/type-icons/47.svg",
+      "width": 29.1,
+      "height": 28.2,
+      "sha256": "ec8fa7ec3ccc9af7a6e1b357636e4cfa31aa6ff4976bc46f841691f4b1faaf82",
+      "sourceName": "战斗 火",
+      "sourceEnglishName": "fight_fire",
+      "componentTypeIds": [
+        11,
+        3
+      ],
+      "types": [
+        "战斗",
+        "火"
+      ]
+    },
+    "战斗暗影": {
+      "typeId": 48,
+      "symbol": "Icon_PetType_48",
+      "characterId": 4672,
+      "state": "up",
+      "path": "/type-icons/48.svg",
+      "width": 27.95,
+      "height": 30.45,
+      "sha256": "78e1007c8bc7cf6b474acf32337bb0cfdf7b98936e5dde84243b1596059cce5d",
+      "sourceName": "战斗 暗影",
+      "sourceEnglishName": "fight_dark",
+      "componentTypeIds": [
+        11,
+        13
+      ],
+      "types": [
+        "战斗",
+        "暗影"
+      ]
+    },
+    "光神秘": {
+      "typeId": 49,
+      "symbol": "Icon_PetType_49",
+      "characterId": 4674,
+      "state": "up",
+      "path": "/type-icons/49.svg",
+      "width": 28.1,
+      "height": 30.2,
+      "sha256": "d7e4a99ac2ac09509c8833f175dc3fe1bef7ef2fd2466f0d195c76cd6b10689d",
+      "sourceName": "光 神秘",
+      "sourceEnglishName": "light_myth",
+      "componentTypeIds": [
+        12,
+        14
+      ],
+      "types": [
+        "光",
+        "神秘"
+      ]
+    },
+    "邪灵神秘": {
+      "typeId": 62,
+      "symbol": "Icon_PetType_62",
+      "characterId": 5048,
+      "state": "up",
+      "path": "/type-icons/62.svg",
+      "width": 34.75,
+      "height": 27.8,
+      "sha256": "a7de16d3a4898cf983ab977c700caf03ad25acbc0f9889699a58ccf0974aa601",
+      "sourceName": "邪灵 神秘",
+      "sourceEnglishName": "demon_myth",
+      "componentTypeIds": [
+        19,
+        14
+      ],
+      "types": [
+        "邪灵",
+        "神秘"
+      ]
+    }
+  },
+  "aliases": {
+    "超能草": "草超能",
+    "战斗草": "草战斗",
+    "暗影草": "草暗影",
+    "超能水": "水超能",
+    "暗影水": "水暗影",
+    "龙水": "水龙",
+    "飞行火": "火飞行",
+    "龙火": "火龙",
+    "超能火": "火超能",
+    "超能飞行": "飞行超能",
+    "飞行光": "光飞行",
+    "龙飞行": "飞行龙",
+    "火电": "电火",
+    "冰电": "电冰",
+    "战斗电": "电战斗",
+    "地面机械": "机械地面",
+    "超能机械": "机械超能",
+    "龙机械": "机械龙",
+    "龙地面": "地面龙",
+    "地面战斗": "战斗地面",
+    "暗影地面": "地面暗影",
+    "龙冰": "冰龙",
+    "光冰": "冰光",
+    "暗影冰": "冰暗影",
+    "冰超能": "超能冰",
+    "火战斗": "战斗火",
+    "暗影战斗": "战斗暗影",
+    "神秘光": "光神秘",
+    "神秘邪灵": "邪灵神秘"
+  },
+  "dualCatalogCoverage": {
+    "species": 217,
+    "distinctPairs": 28,
+    "exportedCompositeSymbols": 29,
+    "method": "Matched unordered catalog component pairs to SkillXMLInfo_typeClass att; retained each original combined button up state."
+  },
+  "dualSkillCatalogCoverage": {
+    "skills": 294,
+    "distinctPairs": 29,
+    "additionalTypeIds": [
+      62
+    ],
+    "additionalSkillIds": [
+      11660,
+      11661,
+      11662
+    ]
+  }
+}

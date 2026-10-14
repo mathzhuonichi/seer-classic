@@ -1,0 +1,124 @@
+{
+  "id": "boss_spt_basuoer",
+  "name": {
+    "zh": "巴索尔"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "小幻影星 恶魔漩涡 守护残殿"
+  },
+  "era": "2012-07",
+  "team": [
+    {
+      "species": 1265,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12946,
+        12948,
+        12945,
+        21538
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "script",
+      "id": "foe_stage_each_turn",
+      "params": {
+        "stats": {
+          "acc": -1
+        }
+      }
+    },
+    {
+      "rule": "script",
+      "id": "copy_foe_boosts_on_switch_in"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12946,
+      12948,
+      12945,
+      21538
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1264,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在小幻影星—恶魔漩涡—守护残殿挑战（开放当日仅7月9日出现；玩家流传通过刷异能王第一试炼进入辨认画面后前往守护残殿的方法）；打败获得巴索尔精元。"
+  },
+  "strategy_notes": {
+    "zh": "草系克制光系；必带消强化精灵；用替死精灵吃掉命中下降，主战精灵上场重置命中；不要带着强化换人（会被复制）。"
+  },
+  "engine_notes": [
+    "foe_stage_each_turn: the player's active pet loses 1 accuracy stage every turn (switching resets it).",
+    "copy_foe_boosts_on_switch_in: when a new player pet enters carrying stat boosts, those boosts are copied onto 巴索尔.",
+    "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
+    "immune_status: 不受异常状态影响.",
+    "Availability window (only appeared on 7月9日 at launch) is meta, not modelled.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/gonglue/seer/saiergonglue/201207-06-174139.html",
+    "http://news.4399.com/news/seerwenda/174947.html",
+    "http://wenda.4399.com/question/24/242348.html"
+  ],
+  "source_note": "4399 guide 2012-07: 血量大概10000, 天生攻击+2, 每回合命中-1, 复制强化, 不吃海洋之心/异常."
+}

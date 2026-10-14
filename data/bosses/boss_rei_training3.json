@@ -1,0 +1,134 @@
+{
+  "id": "boss_rei_training3",
+  "name": {
+    "zh": "雷伊特训·雷纳多"
+  },
+  "category": "story",
+  "location": {
+    "zh": "赫尔卡星 雷伊特训（湖边）"
+  },
+  "era": "2010",
+  "team": [
+    {
+      "species": 113,
+      "level": 75,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10336,
+        10332,
+        10335,
+        20145
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "require_player_species",
+      "params": {
+        "species": [
+          70
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    },
+    {
+      "kind": "finish_with_skill",
+      "skill": 10175
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "self_hp_below_pct": 12.5
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "always_crit",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10336,
+      10332,
+      10335,
+      20145
+    ]
+  },
+  "reward": {
+    "items": {},
+    "learn_skill": {
+      "species": 70,
+      "skill": 10824,
+      "name": {
+        "zh": "元气电光球"
+      }
+    }
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_rei_training2"
+    ]
+  },
+  "capture": {
+    "zh": "雷伊特训第3关：只能派自己的雷伊出战，胜利后雷伊学会「元气电光球」。"
+  },
+  "strategy_notes": {
+    "zh": "雷伊最好100级：闪电斗气强化几次双防后用大招；如果它复制了你的强化，就先用极光刃消强化，或用克电的草/地面系S级技能石秒杀。"
+  },
+  "engine_notes": [
+    "Its own skill 属性复制 (20145) copies the player's stat changes — that is the '属性复制' the 4399 2012 guide warns about.",
+    "Below 1/8 HP every hit is a crit — trait of the 雷纳多 SPT boss (7k7k 2011), assumed to carry over.",
+    "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
+    "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
+    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "skills: no source lists this opponent's skills; the species' top learnset skills are used.",
+    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "rules",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110720/92955.html",
+    "https://jingyan.baidu.com/article/afd8f4deb9f7f034e286e98c.html",
+    "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
+    "http://wenda.4399.com/question/47/477631.html",
+    "https://seer.61.com/dll/RobotAppDLL.swf",
+    "https://news.7k7k.com/content/20111103/103132.html"
+  ],
+  "source_note": "7k7k 2011-07 雷伊解析 lists the five 特训 opponents and how to beat them; baidu jingyan gives the skill order and the 5-turn shadow limit."
+}

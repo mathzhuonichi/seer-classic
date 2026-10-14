@@ -1,0 +1,124 @@
+{
+  "id": 1397,
+  "name": {
+    "zh": "查迪斯"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 118,
+    "atk": 77,
+    "def": 100,
+    "spa": 96,
+    "spd": 120,
+    "spe": 85
+  },
+  "ev_yield": {
+    "spd": 2
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 4,
+      "skill": 20117
+    },
+    {
+      "level": 8,
+      "skill": 10645
+    },
+    {
+      "level": 12,
+      "skill": 10545
+    },
+    {
+      "level": 16,
+      "skill": 20165
+    },
+    {
+      "level": 20,
+      "skill": 10646
+    },
+    {
+      "level": 24,
+      "skill": 10462
+    },
+    {
+      "level": 28,
+      "skill": 20041
+    },
+    {
+      "level": 30,
+      "skill": 13258
+    },
+    {
+      "level": 32,
+      "skill": 10464
+    },
+    {
+      "level": 36,
+      "skill": 20011
+    },
+    {
+      "level": 40,
+      "skill": 10650
+    },
+    {
+      "level": 44,
+      "skill": 10647
+    },
+    {
+      "level": 48,
+      "skill": 20070
+    },
+    {
+      "level": 52,
+      "skill": 10651
+    },
+    {
+      "level": 56,
+      "skill": 10648
+    },
+    {
+      "level": 60,
+      "skill": 20279
+    },
+    {
+      "level": 65,
+      "skill": 10649
+    },
+    {
+      "level": 67,
+      "skill": 21713
+    },
+    {
+      "level": 69,
+      "skill": 13257
+    },
+    {
+      "level": 71,
+      "skill": 21714
+    },
+    {
+      "level": 74,
+      "skill": 13259
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1396,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1397",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-10"
+}

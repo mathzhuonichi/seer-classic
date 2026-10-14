@@ -1,0 +1,98 @@
+{
+  "id": "boss_puni_seal7",
+  "name": {
+    "zh": "谱尼·第七封印「圣洁」"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "精灵太空站 勇者之塔 神秘领域"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 300,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20500,
+        10995,
+        11000,
+        10999
+      ],
+      "hp_override": 16000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "script",
+      "id": "status_moves_always_miss"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20500,
+      10995,
+      11000,
+      10999
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_puni_seal6"
+    ]
+  },
+  "capture": {
+    "zh": "第7封印：属性技能无效：只能用带附加状态效果的攻击技能（附加状态，不是直接状态）使它烧伤、冻伤、中毒后慢慢磨死。 击败后解开该封印，进入下一封印；七个封印全部解开后挑战谱尼真身才能获得谱尼精元。"
+  },
+  "strategy_notes": {
+    "zh": "索尔大招，配合魔焰猩猩火焰旋涡（100%烧伤）、鲁斯王漩涡（100%冻伤）、光鸟圣炎、哈尔翼蜂剧毒针刺等威力技能附加状态；毒粉这种纯属性技能无效；谱尼容易MISS，需要一定运气。"
+  },
+  "engine_notes": [
+    "status_moves_always_miss blocks status moves targeting Puni. Self-targeted boosts, healing and protection remain usable; direct status application must come from secondary effects of damaging skills.",
+    "4399/7k7k 2010: '谱尼容易MISS' — its own accuracy seems low; not encoded.",
+    "Conflicting later claims: 'takes only 1/4 of damage' (baidu jingyan) and 'must solo' (sohu, spinoff). Not encoded.",
+    "HP 16000 is from a later summary (kmw.com); unverified.",
+    "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
+    "Level is not given by any source; 100 assumed (the battle showed ??? for seal bosses in some recollections).",
+    "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",
+    "Reward: none for the seal itself; progress unlocks the next seal (see chains/puni.json)."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "level",
+      "damage_rule"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/pngl/201010-16-78984.html",
+    "http://news.7k7k.com/content/20100831/13864.html",
+    "https://www.kmw.com/news/4756415.html",
+    "https://news.4399.com/seer/zenmezhua/201103-16-89472.html"
+  ],
+  "source_note": "4399 谱尼攻略 series (2010-10, one page per seal) for the seal rules and skills/PP; HP from a later baidu jingyan summary (5000/6000/7000/8000/9000 for seals 1-5)."
+}

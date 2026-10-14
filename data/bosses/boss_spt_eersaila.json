@@ -1,0 +1,318 @@
+{
+  "id": "boss_spt_eersaila",
+  "name": {
+    "zh": "厄尔塞拉"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "光之迷城"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 421,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11140,
+        20564,
+        11136,
+        10632
+      ],
+      "hp_override": 3000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    },
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "leech"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "寄生种子",
+          "镇魂歌",
+          "精神控制",
+          "同生共死",
+          "极度冰点"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11140,
+      20564,
+      11136,
+      10632
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_eersaila": 1
+    },
+    "title_on_all_variants": {
+      "zh": "七色光羽"
+    }
+  },
+  "reward_hatches": 419,
+  "variants": [
+    {
+      "id": "mon",
+      "label": {
+        "zh": "周一：免疫异常状态，血很厚"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "immune_status"
+        },
+        {
+          "rule": "script",
+          "id": "hp_multiplier",
+          "params": {
+            "multiplier": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "tue",
+      "label": {
+        "zh": "周二：MISS超高"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "evasion_bonus",
+          "params": {
+            "stages": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "wed",
+      "label": {
+        "zh": "周三：单次伤害超过150会反弹"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "params": {
+            "pct": 100,
+            "min_damage": 150
+          }
+        }
+      ]
+    },
+    {
+      "id": "thu",
+      "label": {
+        "zh": "周四：每回合回复1000体力"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "params": {
+            "amount": 1000
+          }
+        }
+      ]
+    },
+    {
+      "id": "fri",
+      "label": {
+        "zh": "周五：被打倒会回满血，只能用异常状态伤害终结"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        },
+        {
+          "kind": "finish_with_status_damage",
+          "statuses": [
+            "poison",
+            "burn",
+            "freeze"
+          ]
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "revive_unless_status_ko",
+          "params": {
+            "max_revives": 7
+          }
+        }
+      ]
+    },
+    {
+      "id": "sat",
+      "label": {
+        "zh": "周六：防御很高，血越少越容易致命一击"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "crit_rate_scales_with_hp_lost",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "def": 2,
+                "spd": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    },
+    {
+      "id": "sun",
+      "label": {
+        "zh": "周日：速度无限，体力低于1/5时秒杀任何精灵"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "always_moves_first"
+        }
+      ],
+      "phases": [
+        {
+          "when": {
+            "self_hp_below_pct": 20
+          },
+          "do": [
+            {
+              "op": "script",
+              "id": "ohko_attacks",
+              "params": {
+                "target": "self"
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
+    }
+  ],
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "完成「披着七色光羽的精灵」任务后在塔克星光之迷城挑战厄尔塞拉，每天的特性不同；首次打败获得厄尔塞拉精元（孵化得塞拉），周一到周日都打败获得称号「七色光羽」。"
+  },
+  "strategy_notes": {
+    "zh": "多用丽莎布布：周一花草能量3次+叶绿光束消强+金光绿叶；周二依卡莱恩/辛奇帕克或斯加尔卡自杀流；周三先减防再用草系（单击别超过150）；周四全力减防后丽莎强化满金光绿叶；周五依卡莱恩毒粉毒死；周六减防后丽莎进攻；周日精确控血，在它1/5体力以上时一口气打完。"
+  },
+  "engine_notes": [
+    "Seven weekday rule sets become variants the player picks (no real-time clock, foundation 7.2). Variant `rules`/`phases` are ADDED to the top-level ones (unlimited PP, always-hit, immunities apply every day).",
+    "Fri: the boss fully revives whenever a direct hit KOs it (techbang: 5回合内体力被降为0会完全恢复, 最多6～7次瞬间补满3000血); only a KO by poison/burn/freeze damage sticks — revive_unless_status_ko + finish_with_status_damage.",
+    "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed).",
+    "Mon 血很厚 (hp x2 estimate); Tue MISS超高 (evasion +3 estimate); Sat 防御很高 (def/spd +2 estimate) and 血越少越容易打致命 (read as: its crit rate rises as its HP falls; could also mean the player's crits — unclear).",
+    "HP 3000 inferred from techbang's Friday text (补满3000滴血); no source states its base HP directly.",
+    "Skills not named by any source; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward.title_on_all_variants: grant the title 七色光羽 once every variant has been cleared.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills",
+      "variant_magnitudes",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201008-14-75469.html",
+    "https://wenda.4399.com/question/2/28746.html",
+    "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
+    "https://news.4399.com/seer/tujian/74884.htm",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 周一到周日规则全攻略 (2010-08-14) and 4399 问答 (2010-11-16) give the daily traits; techbang (2011-01) gives the Friday revive, immunities and 七色光羽."
+}

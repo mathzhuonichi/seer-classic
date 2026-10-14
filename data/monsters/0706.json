@@ -1,0 +1,70 @@
+{
+  "id": 706,
+  "name": {
+    "zh": "拉利"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 73,
+    "atk": 58,
+    "def": 56,
+    "spa": 68,
+    "spd": 58,
+    "spe": 62
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 40,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20865
+    },
+    {
+      "level": 9,
+      "skill": 10307
+    },
+    {
+      "level": 13,
+      "skill": 20866
+    },
+    {
+      "level": 17,
+      "skill": 10121
+    },
+    {
+      "level": 21,
+      "skill": 10309
+    },
+    {
+      "level": 25,
+      "skill": 20513
+    }
+  ],
+  "evolution": [
+    {
+      "to": 707,
+      "method": "level",
+      "level": 29
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0706",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

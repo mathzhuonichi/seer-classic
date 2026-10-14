@@ -1,0 +1,56 @@
+{
+  "id": 338,
+  "name": {
+    "zh": "多塔"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 60,
+    "atk": 60,
+    "def": 50,
+    "spa": 60,
+    "spd": 50,
+    "spe": 45
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 5,
+      "skill": 20071
+    },
+    {
+      "level": 9,
+      "skill": 10135
+    },
+    {
+      "level": 13,
+      "skill": 20065
+    },
+    {
+      "level": 17,
+      "skill": 10019
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0338",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

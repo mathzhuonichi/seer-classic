@@ -1,0 +1,101 @@
+{
+  "id": 733,
+  "name": {
+    "zh": "艾里蒙特"
+  },
+  "types": [
+    "light"
+  ],
+  "base": {
+    "hp": 112,
+    "atk": 85,
+    "def": 80,
+    "spa": 116,
+    "spd": 87,
+    "spe": 105
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 118,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20491
+    },
+    {
+      "level": 9,
+      "skill": 10628
+    },
+    {
+      "level": 13,
+      "skill": 20447
+    },
+    {
+      "level": 17,
+      "skill": 10630
+    },
+    {
+      "level": 21,
+      "skill": 11784
+    },
+    {
+      "level": 25,
+      "skill": 20901
+    },
+    {
+      "level": 29,
+      "skill": 10634
+    },
+    {
+      "level": 33,
+      "skill": 20699
+    },
+    {
+      "level": 37,
+      "skill": 11785
+    },
+    {
+      "level": 41,
+      "skill": 20814
+    },
+    {
+      "level": 45,
+      "skill": 11782
+    },
+    {
+      "level": 49,
+      "skill": 11786
+    },
+    {
+      "level": 53,
+      "skill": 20902
+    },
+    {
+      "level": 57,
+      "skill": 11783
+    },
+    {
+      "level": 61,
+      "skill": 11787
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 732,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0733",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-04"
+}

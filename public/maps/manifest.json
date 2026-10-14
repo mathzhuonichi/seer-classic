@@ -1,0 +1,31 @@
+{
+  "kind": "locally-authored-svg-scenery",
+  "description": "Original code-authored scene layouts for an offline remake. These are not extracted original game map backgrounds.",
+  "sources": [
+    {
+      "url": "https://game.61.com/news/16501.shtml",
+      "publisher": "Taomee",
+      "use": "Primary official description and visual reference for classic Klose grassland, Volcano, Cecilia ice, and Helka technology settings. Promotional screenshot was inspected only; it is not used as a shipped asset."
+    },
+    {
+      "url": "https://game.61.com/news/17198.shtml",
+      "publisher": "Taomee",
+      "use": "Primary official reference for Helka mechanical civilization, Rei SPT encounter, and electric creatures."
+    },
+    {
+      "url": "https://kf.61.com/movie/detail?check=293&sid=2086",
+      "publisher": "Taomee customer support",
+      "use": "Primary official navigation reference connecting the interstellar map, transport cabin, Pano system, and Helka."
+    }
+  ],
+  "layoutNote": "Region coordinates, continuous paths, suggested navigation order, walking behavior, and scenery geometry are remake choices; no boss access locks are imposed.",
+  "assets": [
+    "volcano.svg",
+    "helka.svg",
+    "station.svg",
+    "ocean.svg",
+    "klose.svg",
+    "cecilia.svg",
+    "cloud.svg"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": 979,
+  "name": {
+    "zh": "奈迪罗尼"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 119,
+    "atk": 108,
+    "def": 81,
+    "spa": 108,
+    "spd": 84,
+    "spe": 100
+  },
+  "ev_yield": {
+    "hp": 2,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10076
+    },
+    {
+      "level": 5,
+      "skill": 12330
+    },
+    {
+      "level": 9,
+      "skill": 20144
+    },
+    {
+      "level": 13,
+      "skill": 11128
+    },
+    {
+      "level": 17,
+      "skill": 11025
+    },
+    {
+      "level": 21,
+      "skill": 20525
+    },
+    {
+      "level": 25,
+      "skill": 12327
+    },
+    {
+      "level": 29,
+      "skill": 11285
+    },
+    {
+      "level": 33,
+      "skill": 20849
+    },
+    {
+      "level": 37,
+      "skill": 12301
+    },
+    {
+      "level": 41,
+      "skill": 12299
+    },
+    {
+      "level": 45,
+      "skill": 21211
+    },
+    {
+      "level": 49,
+      "skill": 12328
+    },
+    {
+      "level": 53,
+      "skill": 12331
+    },
+    {
+      "level": 57,
+      "skill": 21212
+    },
+    {
+      "level": 61,
+      "skill": 12329
+    },
+    {
+      "level": 65,
+      "skill": 12332
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 978,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0979",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

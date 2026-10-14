@@ -1,0 +1,175 @@
+{
+  "id": "boss_campaign_xuanwu_guardians",
+  "name": {
+    "zh": "玄武·六大守护兽"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "菲尼克斯禁地 · 玄武"
+  },
+  "era": "2011",
+  "team": [
+    {
+      "species": 47,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        10042,
+        10001,
+        20020,
+        20004
+      ],
+      "hp_override": 3000,
+      "member_rules": [
+        {
+          "rule": "always_crit_below_pct",
+          "pct": 25
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 34,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        10075,
+        20011,
+        10076,
+        20040
+      ],
+      "hp_override": 4000,
+      "member_rules": [
+        {
+          "rule": "always_crit_below_pct",
+          "pct": 25
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 42,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        10098,
+        20051,
+        10099,
+        10096
+      ],
+      "hp_override": 5000,
+      "member_rules": [
+        {
+          "rule": "always_crit_below_pct",
+          "pct": 25
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 69,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        10161,
+        20082,
+        10162,
+        10163
+      ],
+      "hp_override": 6000,
+      "member_rules": [
+        {
+          "rule": "always_crit_below_pct",
+          "pct": 25
+        }
+      ],
+      "member_phases": []
+    },
+    {
+      "species": 88,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        20113,
+        10247,
+        10249,
+        10246
+      ],
+      "hp_override": 7000,
+      "stat_multipliers": {
+        "def": 1.5
+      },
+      "member_rules": [],
+      "member_phases": []
+    },
+    {
+      "species": 113,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": "hardy",
+      "skills": [
+        20145,
+        10331,
+        10336,
+        10335
+      ],
+      "hp_override": 8000,
+      "member_rules": [
+        {
+          "rule": "always_crit_below_pct",
+          "pct": 25
+        }
+      ],
+      "member_phases": []
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart"
+  },
+  "reward": {
+    "items": {},
+    "kind": "campaign_progress"
+  },
+  "campaign": {
+    "id": "xuanwu",
+    "stage": "guardians",
+    "final": false
+  },
+  "strategy_notes": {
+    "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
+  },
+  "engine_notes": [
+    "Guardian HP3000/4000/5000/6000/7000/8000 are calibrated; the recovered period reports establish order and carry-over, not a complete HP table.",
+    "The five non-Naduolei low-HP critical thresholds follow the quarter-HP report; the author explicitly expressed uncertainty about Naduolei."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "Exact server IV/EV/nature, attack-stat scaling and guardian HP not recovered unless separately cited."
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20100807/12290.html",
+    "https://news.4399.com/seer/jingyanxinde/201008-26-76156.html"
+  ],
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+}

@@ -1,0 +1,90 @@
+{
+  "id": "boss_spt_akexiya",
+  "name": {
+    "zh": "阿克希亚"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "塞西利亚星冰原"
+  },
+  "era": "2009-10",
+  "team": [
+    {
+      "species": 50,
+      "level": 65,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10207,
+        10208,
+        20060,
+        10218
+      ],
+      "hp_override": 1000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "heal_full_below",
+      "hp": 100
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10207,
+      10208,
+      20060,
+      10218
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_akexiya": 1
+    }
+  },
+  "reward_hatches": 48,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在塞西利亚星冰原挑战阿克希亚，打败获得阿克希亚精元（孵化得索拉）。"
+  },
+  "strategy_notes": {
+    "zh": "不能把它磨到100血以下（会补满），要一招从100以上打到0：100级火系大招秒杀；或47+级雷吉欧斯全装备铁臂5次+充能3次后大招；魔焰猩猩觉醒后火系大招。"
+  },
+  "engine_notes": [
+    "heal_full_below {hp 100}: whenever a hit leaves it at 1-99 HP it immediately returns to full HP, so it must be KO'd by a hit that takes it from >=100 to 0. Sources do not say the heal is limited to once; treated as unlimited.",
+    "HP: 4399 2010-06 and weste 2010-09 say 约1000.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "heal_repeats",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70394.html",
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
+    "https://www.weste.net/2010/9-15/72453.html"
+  ],
+  "source_note": "7k7k 2011: 65级, 特性：血低于100会补满血; 4399 2010-06: HP ~1000, 精元孵化索拉."
+}

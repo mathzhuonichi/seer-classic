@@ -1,0 +1,104 @@
+{
+  "id": 149,
+  "name": {
+    "zh": "贝特卡恩"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 91,
+    "atk": 113,
+    "def": 80,
+    "spa": 79,
+    "spd": 82,
+    "spe": 93
+  },
+  "ev_yield": {
+    "atk": 2
+  },
+  "exp_yield": 117,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10379
+    },
+    {
+      "level": 5,
+      "skill": 20117
+    },
+    {
+      "level": 9,
+      "skill": 10381
+    },
+    {
+      "level": 13,
+      "skill": 10076
+    },
+    {
+      "level": 17,
+      "skill": 20188
+    },
+    {
+      "level": 21,
+      "skill": 10386
+    },
+    {
+      "level": 25,
+      "skill": 10462
+    },
+    {
+      "level": 29,
+      "skill": 20200
+    },
+    {
+      "level": 33,
+      "skill": 10463
+    },
+    {
+      "level": 37,
+      "skill": 20201
+    },
+    {
+      "level": 41,
+      "skill": 10467
+    },
+    {
+      "level": 45,
+      "skill": 10464
+    },
+    {
+      "level": 49,
+      "skill": 20202
+    },
+    {
+      "level": 53,
+      "skill": 10468
+    },
+    {
+      "level": 57,
+      "skill": 10465
+    },
+    {
+      "level": 61,
+      "skill": 20203
+    },
+    {
+      "level": 66,
+      "skill": 10466
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 148,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0149",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

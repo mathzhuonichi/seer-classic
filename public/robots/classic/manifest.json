@@ -1,0 +1,720 @@
+{
+  "source": "https://seer.61.com/dll/UI.swf",
+  "sourceSha256": "273a1dcd6f59e8175870df767a9f5a634d7a75b63ebca356fad66990844d49da",
+  "method": "Source display-list reconstruction: exact full MATRIX, direction-labelled outer frames, nested standing frame 1, and original direction-specific layer order. Leaf paths are original FFDec exports; Flash bytecode is not executed.",
+  "skeletonSymbols": {
+    "emptyBody": 4569,
+    "compose": 4566,
+    "color": 4435,
+    "defaultCloth": 6508
+  },
+  "slotRegistrations": {
+    "foot": {
+      "character": 4558,
+      "name": "foot",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        5.3
+      ],
+      "depth": 1
+    },
+    "color": {
+      "character": 4435,
+      "name": "color",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "depth": 3
+    },
+    "decorator": {
+      "character": 54,
+      "name": "decorator",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.4,
+        -16.9
+      ],
+      "depth": 5
+    },
+    "cloth": {
+      "character": 4559,
+      "name": "cloth",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "depth": 7
+    },
+    "waist": {
+      "character": 4560,
+      "name": "waist",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.45,
+        0.05
+      ],
+      "depth": 9
+    },
+    "hand1": {
+      "character": 4561,
+      "name": "hand1",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "depth": 11
+    },
+    "hand": {
+      "character": 4561,
+      "name": "hand",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "depth": 13
+    },
+    "eye": {
+      "character": 4562,
+      "name": "eye",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.45,
+        -16.95
+      ],
+      "depth": 15
+    },
+    "head": {
+      "character": 4564,
+      "name": "head",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -14.7
+      ],
+      "depth": 17
+    },
+    "top": {
+      "character": 4565,
+      "name": "top",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        -14.45,
+        -16.95
+      ],
+      "depth": 19
+    }
+  },
+  "poses": {
+    "front": {
+      "path": "/robots/classic/player-front.svg",
+      "direction": "front",
+      "label": "down",
+      "frame": 1,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "hand1",
+        "hand",
+        "head",
+        "top",
+        "eye"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 13,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.200000000000003,
+        -46.4,
+        36.0,
+        58.6
+      ],
+      "sha256": "7652d69cb6ae9e1eb25ef3dad0b797cf91f288849b77ad3d698be8aa95baeddf"
+    },
+    "front-left": {
+      "path": "/robots/classic/player-front-left.svg",
+      "direction": "front-left",
+      "label": "leftdown",
+      "frame": 8,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "hand",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "eye"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 13,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -19.400000000000006,
+        -47.0,
+        36.2,
+        57.8
+      ],
+      "sha256": "8fab5c5cfde9417eaa7ec21cd803a57680c43a68213f3618bfd27fa2563521b7"
+    },
+    "left": {
+      "path": "/robots/classic/player-left.svg",
+      "direction": "left",
+      "label": "left",
+      "frame": 16,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "hand",
+        "eye"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 10,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.599999999999994,
+        -46.0,
+        36.0,
+        56.8
+      ],
+      "sha256": "3097cc2097569cd0b046731d75e413f57ef2772aaed37955f75cc160693af9f0"
+    },
+    "back-left": {
+      "path": "/robots/classic/player-back-left.svg",
+      "direction": "back-left",
+      "label": "leftup",
+      "frame": 24,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "eye",
+        "hand",
+        "head",
+        "top",
+        "hand1"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 10,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.599999999999994,
+        -43.2,
+        35.8,
+        54.2
+      ],
+      "sha256": "6338f8d2c8694f08f4e6cf7407da988aa46068e3084144641807530e7bf6f987"
+    },
+    "back": {
+      "path": "/robots/classic/player-back.svg",
+      "direction": "back",
+      "label": "up",
+      "frame": 32,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "hand1",
+        "hand",
+        "eye",
+        "head",
+        "top"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 10,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.599999999999994,
+        -43.2,
+        36.0,
+        52.8
+      ],
+      "sha256": "19affca81776d260edd59d2c01dbe2888168bce2fe3a6495fecef53ebe0207ff"
+    },
+    "back-right": {
+      "path": "/robots/classic/player-back-right.svg",
+      "direction": "back-right",
+      "label": "rightup",
+      "frame": 40,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "eye",
+        "hand1",
+        "head",
+        "top",
+        "hand"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 10,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.599999999999994,
+        -43.2,
+        36.0,
+        54.2
+      ],
+      "sha256": "33f63f30d68cfe26a11780345abf7addc0d5be77b1a9cd51febc44848127d439"
+    },
+    "right": {
+      "path": "/robots/classic/player-right.svg",
+      "direction": "right",
+      "label": "right",
+      "frame": 48,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "cloth",
+        "head",
+        "top",
+        "hand1",
+        "hand",
+        "eye"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 10,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -18.599999999999994,
+        -46.0,
+        36.0,
+        56.8
+      ],
+      "sha256": "f9dc95f31e338497fb8dc13a42b2fb0f7cc6e42323aa97441efe13180cfd0aba"
+    },
+    "front-right": {
+      "path": "/robots/classic/player-front-right.svg",
+      "direction": "front-right",
+      "label": "rightdown",
+      "frame": 56,
+      "nestedFrame": 1,
+      "renderOrder": [
+        "foot",
+        "color",
+        "decorator",
+        "waist",
+        "hand1",
+        "cloth",
+        "head",
+        "top",
+        "hand",
+        "eye"
+      ],
+      "equippedSlots": {
+        "head": 100001,
+        "waist": 100002,
+        "foot": 100003
+      },
+      "bodyMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -21.45
+      ],
+      "colour": "#2e78db",
+      "placementCount": 13,
+      "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+      "viewBox": [
+        -19.400000000000006,
+        -47.0,
+        38.400000000000006,
+        59.2
+      ],
+      "measuredBounds": [
+        -17.200000000000003,
+        -47.0,
+        36.2,
+        57.8
+      ],
+      "sha256": "875b641a19dda0790b28f58cc82a33a997970097d8f6f369bbfda79acabae58b"
+    }
+  },
+  "sourceAudits": {
+    "ClothPreview.as": "7c58027197b53159707a1509ff97360815f5b82b34f10d9bd3e866cd6f72144f",
+    "SkeletonClothPreview.as": "0b01248921058f227e2ee609eb95e8e74903789e60beb75cd87f3bed98d7c30f",
+    "ChangeClothAction.as": "a3078e61d4412b8dac1eefb6ebdceb909ab64f555894a9e7fdedde48ee93a4b7"
+  },
+  "sourceDisplayList": {
+    "path": ".cache/classic-robots/UI.xml",
+    "sha256": "fd592f265e68e0e242662026ab6f73990c3fdcf32660bae88b960c116b38092d"
+  },
+  "sourceNpcConfig": {
+    "source": "https://seer.61.com/resource/xml/npc.xml",
+    "sha256": "687dfc95684ba746442f25609c484a840e35a47119e14f037274524d98b65341"
+  },
+  "viewportMethod": "Offline librsvg alpha bounds of the reconstructed display list, with two logical units of padding; player views share the union viewport.",
+  "captain": {
+    "path": "/robots/classic/captain.svg",
+    "direction": "front-left",
+    "label": "leftdown",
+    "frame": 8,
+    "nestedFrame": 1,
+    "renderOrder": [
+      "foot",
+      "color",
+      "decorator",
+      "waist",
+      "hand",
+      "cloth",
+      "head",
+      "top",
+      "hand1",
+      "eye"
+    ],
+    "equippedSlots": {
+      "head": 100358,
+      "hand": 100359,
+      "waist": 100360,
+      "foot": 100361
+    },
+    "bodyMatrix": [
+      1.4,
+      0.0,
+      0.0,
+      1.4,
+      0.0,
+      -21.45
+    ],
+    "colour": "#0066ff",
+    "placementCount": 25,
+    "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+    "viewBox": [
+      -33.2,
+      -68.6,
+      67.4,
+      101.8
+    ],
+    "measuredBounds": [
+      -33.2,
+      -68.6,
+      67.4,
+      101.8
+    ],
+    "sha256": "af68ad97fa7e3153ca36ddc235ac4fe69481d73dc3ed9ec51d60d2669f565f89"
+  },
+  "scientist": {
+    "path": "/robots/classic/scientist.svg",
+    "direction": "front-left",
+    "label": "leftdown",
+    "frame": 8,
+    "nestedFrame": 1,
+    "renderOrder": [
+      "foot",
+      "color",
+      "decorator",
+      "waist",
+      "hand",
+      "cloth",
+      "head",
+      "top",
+      "hand1",
+      "eye"
+    ],
+    "equippedSlots": {
+      "head": 100354,
+      "hand": 100355,
+      "waist": 100356,
+      "foot": 100357
+    },
+    "bodyMatrix": [
+      1.4,
+      0.0,
+      0.0,
+      1.4,
+      0.0,
+      -21.45
+    ],
+    "colour": "#cccccc",
+    "placementCount": 27,
+    "placementAuditPath": ".cache/classic-robots/assembly-audit/placements.json",
+    "viewBox": [
+      -44.2,
+      -73.8,
+      86.8,
+      123.8
+    ],
+    "measuredBounds": [
+      -44.2,
+      -73.8,
+      86.8,
+      123.8
+    ],
+    "sha256": "ae66128797e8a7261ccd33870e02529a53944e8e9501b748a96ad3fc64277ac9"
+  },
+  "commonPlayerViewport": [
+    -19.400000000000006,
+    -47.0,
+    38.400000000000006,
+    59.2
+  ],
+  "sourceEquipment": [
+    {
+      "id": 100001,
+      "slot": "head",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100001.swf",
+      "sourceSha256": "96a74982658ed38ac4c9b5b39c41f8c346844c75907298f870311d5e16df98fd"
+    },
+    {
+      "id": 100002,
+      "slot": "waist",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100002.swf",
+      "sourceSha256": "de011c150dc50e37ab1a71987f89d6027bba3374d9baefa9a3ff02a421b27ddc"
+    },
+    {
+      "id": 100003,
+      "slot": "foot",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100003.swf",
+      "sourceSha256": "1e91773c1a7842f247930e809107ec5106384dac20943f590bd2160bd5935935"
+    },
+    {
+      "id": 100354,
+      "slot": "head",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100354.swf",
+      "sourceSha256": "a1845fc0316db0681428eaa6e6cdeb3081844568e5d3cbeacce6cf8e307e9a25"
+    },
+    {
+      "id": 100355,
+      "slot": "hand",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100355.swf",
+      "sourceSha256": "fff1d1b0557311faf416e316bf0e274c0eb952371c0085891deb2ed06c09a414"
+    },
+    {
+      "id": 100356,
+      "slot": "waist",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100356.swf",
+      "sourceSha256": "7ffffb5cd05ec4659d86c410ee26d0b2aeaebbec91ffba7473f38a765d9a971b"
+    },
+    {
+      "id": 100357,
+      "slot": "foot",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100357.swf",
+      "sourceSha256": "d69d61a380aaed62c5057b3678af7d1a4e0e13bc4a8e27cf94099a368170e33d"
+    },
+    {
+      "id": 100358,
+      "slot": "head",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100358.swf",
+      "sourceSha256": "3df76c7a8c15c036cea110fed25844e3ca806e3455c727043ae0a3cc3f3b75e4"
+    },
+    {
+      "id": 100359,
+      "slot": "hand",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100359.swf",
+      "sourceSha256": "4b1040b0027c9186dd16433a2d6cfd863130d3dbc23df0d609d789b011cb2c03"
+    },
+    {
+      "id": 100360,
+      "slot": "waist",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100360.swf",
+      "sourceSha256": "d623a47b832094ba5b14c3d10f18728fb6bfb9e61aca7ff6a1b3627353f6bfca"
+    },
+    {
+      "id": 100361,
+      "slot": "foot",
+      "source": "https://seer.61.com/resource/item/cloth/swf/100361.swf",
+      "sourceSha256": "1db746064ce2187857b955cbab4ca34522d20a8ccb8e938c94119d94e088c5e9"
+    }
+  ],
+  "placementAudit": {
+    "path": ".cache/classic-robots/assembly-audit/placements.json",
+    "sha256": "7051003c65e2e38b58710e139a109958156c8bc35d140611e57f9611f3456f87",
+    "placementCount": 141
+  }
+}

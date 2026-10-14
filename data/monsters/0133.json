@@ -1,0 +1,58 @@
+{
+  "id": 133,
+  "name": {
+    "zh": "巴多"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 42,
+    "atk": 56,
+    "def": 44,
+    "spa": 48,
+    "spd": 43,
+    "spe": 39
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 64,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 60,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10047
+    },
+    {
+      "level": 6,
+      "skill": 10087
+    },
+    {
+      "level": 11,
+      "skill": 20177
+    },
+    {
+      "level": 16,
+      "skill": 10302
+    }
+  ],
+  "evolution": [
+    {
+      "to": 134,
+      "method": "level",
+      "level": 19
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0133",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

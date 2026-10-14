@@ -1,0 +1,141 @@
+{
+  "id": 70,
+  "name": {
+    "zh": "雷伊"
+  },
+  "types": [
+    "electric"
+  ],
+  "base": {
+    "hp": 71,
+    "atk": 108,
+    "def": 70,
+    "spa": 101,
+    "spd": 77,
+    "spe": 105
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spe": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 4,
+      "skill": 20006
+    },
+    {
+      "level": 8,
+      "skill": 10166
+    },
+    {
+      "level": 12,
+      "skill": 10171
+    },
+    {
+      "level": 16,
+      "skill": 20004
+    },
+    {
+      "level": 20,
+      "skill": 10167
+    },
+    {
+      "level": 24,
+      "skill": 10172
+    },
+    {
+      "level": 28,
+      "skill": 20085
+    },
+    {
+      "level": 32,
+      "skill": 10010
+    },
+    {
+      "level": 36,
+      "skill": 10168
+    },
+    {
+      "level": 40,
+      "skill": 10173
+    },
+    {
+      "level": 43,
+      "skill": 20086
+    },
+    {
+      "level": 47,
+      "skill": 10169
+    },
+    {
+      "level": 51,
+      "skill": 10174
+    },
+    {
+      "level": 55,
+      "skill": 10170
+    },
+    {
+      "level": 60,
+      "skill": 20087
+    },
+    {
+      "level": 64,
+      "skill": 10175
+    },
+    {
+      "level": 70,
+      "skill": 10176
+    },
+    {
+      "level": null,
+      "skill": 10823,
+      "method": "special",
+      "condition": {
+        "zh": "雷伊特训"
+      }
+    },
+    {
+      "level": null,
+      "skill": 10824,
+      "method": "special",
+      "condition": {
+        "zh": "雷伊特训（元气电光球）"
+      }
+    },
+    {
+      "level": null,
+      "skill": 10825,
+      "method": "special",
+      "condition": {
+        "zh": "雷伊特训（雷神天明闪）"
+      }
+    },
+    {
+      "level": null,
+      "skill": 20364,
+      "method": "special",
+      "condition": {
+        "zh": "雷伊特训（雷神觉醒）"
+      }
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0070",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. Learnset entries with method \"special\" were task-taught in the Flash game (medium confidence). growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

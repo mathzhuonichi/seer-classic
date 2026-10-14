@@ -1,0 +1,105 @@
+{
+  "id": 163,
+  "name": {
+    "zh": "达鲁切尔"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 86,
+    "atk": 94,
+    "def": 80,
+    "spa": 112,
+    "spd": 83,
+    "spe": 97
+  },
+  "ev_yield": {
+    "spa": 2,
+    "spe": 1
+  },
+  "exp_yield": 125,
+  "growth": "fluctuating",
+  "growth_type": 2,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20244
+    },
+    {
+      "level": 11,
+      "skill": 10564
+    },
+    {
+      "level": 16,
+      "skill": 10563
+    },
+    {
+      "level": 20,
+      "skill": 20245
+    },
+    {
+      "level": 25,
+      "skill": 10344
+    },
+    {
+      "level": 30,
+      "skill": 20062
+    },
+    {
+      "level": 35,
+      "skill": 10565
+    },
+    {
+      "level": 39,
+      "skill": 10568
+    },
+    {
+      "level": 43,
+      "skill": 20246
+    },
+    {
+      "level": 47,
+      "skill": 10566
+    },
+    {
+      "level": 51,
+      "skill": 10569
+    },
+    {
+      "level": 55,
+      "skill": 20247
+    },
+    {
+      "level": 59,
+      "skill": 10570
+    },
+    {
+      "level": 63,
+      "skill": 10567
+    },
+    {
+      "level": 66,
+      "skill": 20248
+    },
+    {
+      "level": 70,
+      "skill": 10571
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 162,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0163",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

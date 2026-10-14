@@ -1,0 +1,195 @@
+{
+  "id": "boss_spt_laokemengde",
+  "name": {
+    "zh": "劳克蒙德"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "沃尔夫洞穴"
+  },
+  "era": "2010-10",
+  "team": [
+    {
+      "species": 490,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11278,
+        20617,
+        11280,
+        11277
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    },
+    {
+      "rule": "script",
+      "id": "alternating_immunity",
+      "params": {
+        "on": "even_turns",
+        "order": [
+          "special",
+          "physical",
+          "status"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1,
+            "spe": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11278,
+      20617,
+      11280,
+      11277
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_laokemengde": 1
+    }
+  },
+  "reward_hatches": 488,
+  "variants": [
+    {
+      "id": "healing_field",
+      "label": {
+        "zh": "愈合领域（原11:00-12:00）：双方每回合恢复10%体力"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "field_heal_each_turn",
+          "params": {
+            "pct_max_hp": 10,
+            "sides": "both"
+          }
+        }
+      ]
+    },
+    {
+      "id": "extreme_field",
+      "label": {
+        "zh": "极限领域（原14:00-15:00）：双方每回合扣100体力"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "field_damage_each_turn",
+          "params": {
+            "amount": 100,
+            "sides": "both"
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy_field",
+      "label": {
+        "zh": "能量领域（原19:00-20:00）：双方伤害翻倍"
+      },
+      "win": [
+        {
+          "kind": "ko_all"
+        }
+      ],
+      "lose": [],
+      "rules": [
+        {
+          "rule": "script",
+          "id": "field_damage_multiplier",
+          "params": {
+            "multiplier": 2,
+            "sides": "both"
+          }
+        }
+      ]
+    }
+  ],
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "quest": {
+      "zh": "奇妙的新生命"
+    }
+  },
+  "capture": {
+    "zh": "完成任务「奇妙的新生命」后，在比格星沃尔夫洞穴召唤并挑战劳克蒙德；每天三个时段各有一种领域；打败获得劳克蒙德精元（孵化得劳特）。"
+  },
+  "strategy_notes": {
+    "zh": "先消强化再打；速度250以上就能先手；用超能、飞行、暗影/电系克制，魔焰猩猩、阿克希亚等秒杀型精灵速战速决，能量领域时段（双方伤害翻倍）最有利。"
+  },
+  "engine_notes": [
+    "Three time-window fields become variants (no real-time clock): healing = both sides heal 10% max HP per turn; extreme = both lose 100 HP per turn; energy = both deal double damage.",
+    "alternating_immunity: on even turns it becomes immune to one damage class, cycling 特殊攻击无效 → 物理攻击无效 → 属性攻击无效 (techbang: 每个领域时段偶数回合会依照顺序出现…).",
+    "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+1/spe+1 assumed (matches its 规则掌控).",
+    "unlimited_pp and 100% accuracy per techbang. Very high crit damage noted; no number.",
+    "Skills not named by sources; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "innate_stage_stats",
+      "skills",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201010-16-78995.html",
+    "https://www.techbang.com/posts/33170-order-spt-boss-raiders-lauck-maunder-review",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2010-10-16): 5000血, 三领域, 需完成奇妙的新生命; techbang (2011-01): 时段, PP无限, 偶数回合轮流无效."
+}

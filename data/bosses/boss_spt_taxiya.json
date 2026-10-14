@@ -1,0 +1,142 @@
+{
+  "id": "boss_spt_taxiya",
+  "name": {
+    "zh": "塔西亚"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "龙王圣殿"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 391,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10961,
+        20448,
+        10979,
+        10975
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "leech",
+        "poison",
+        "burn",
+        "freeze"
+      ]
+    },
+    {
+      "rule": "immune_stage_down"
+    },
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "寄生种子",
+          "同生共死",
+          "极度冰点"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "status_on_attacker",
+      "params": {
+        "status": "fear",
+        "chance": 100,
+        "categories": [
+          "physical"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "foe_accuracy_penalty",
+      "params": {
+        "pct": 30
+      }
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10961,
+      20448,
+      10979,
+      10975
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_taxiya": 1
+    }
+  },
+  "reward_hatches": 390,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "哈莫星龙王圣殿（三龙之一）挑战塔西亚，打败获得塔西亚精元（孵化得塔拉）。"
+  },
+  "strategy_notes": {
+    "zh": "别用物理攻击（命中低且会被害怕）；带水火草电战斗系的特攻手：丽莎布布祈雨/花草能量循环强化，适度补血，用特攻大招；魔焰猩猩、鲁斯王也可。"
+  },
+  "engine_notes": [
+    "unlimited_pp; immune to 寄生/毒/烧伤/冻伤 and to stat drops (免疫弱化技能), 同生共死, 极度冰点.",
+    "status_on_attacker fear (physical only): taking physical damage makes the attacker afraid (4399: 非常高几率; techbang: 100%).",
+    "foe_accuracy_penalty 30: every skill used against it has its accuracy reduced by 30% (techbang: 任何技能对其命中率降低30%).",
+    "always_hit: its own skills always hit (自身技能命中率100%).",
+    "魔龙咒 struck twice per turn in the original 3v3 team version (可同时攻击2只精灵，一回合可攻击2次); single-target here.",
+    "Known 2010 bug: 龙之结界's text said it lowers the foe's 双攻 but it actually lowered 双防 — the catalog skill follows the text.",
+    "Level: 4399 2011 summary says 70级 (techbang only gives a recommended LV100).",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201009-26-78028.html",
+    "https://www.techbang.com/posts/33165-order-spt-boss-raiders-fantasia-review",
+    "https://news.4399.com/seer/spt/201008-14-75467.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2010-09-26): 血量10000左右, 免疫寄生/毒/烧伤/冻伤, 免疫弱化, PP无限, 物攻高几率被害怕."
+}

@@ -1,0 +1,3464 @@
+{
+  "pages": {
+    "galaxy-pano": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/galaxy-pano.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "planet",
+          "targetId": "helka",
+          "mapId": 30,
+          "x": 170.3,
+          "y": 115.0,
+          "width": 62.55,
+          "height": 60.4,
+          "sourceSymbolId": 15,
+          "sourceInstance": "map_30"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "ocean",
+          "mapId": 20,
+          "x": 381.55,
+          "y": 53.65,
+          "width": 55.3,
+          "height": 60.55,
+          "sourceSymbolId": 21,
+          "sourceInstance": "map_20"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "klose",
+          "mapId": 10,
+          "x": 510.1,
+          "y": 130.35,
+          "width": 83.0,
+          "height": 64.0,
+          "sourceSymbolId": 27,
+          "sourceInstance": "map_10"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "volcano",
+          "mapId": 15,
+          "x": 676.85,
+          "y": 39.85,
+          "width": 60.65,
+          "height": 64.15,
+          "sourceSymbolId": 33,
+          "sourceInstance": "map_15"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "cecilia",
+          "mapId": 40,
+          "x": 722.65,
+          "y": 155.95,
+          "width": 78.3,
+          "height": 61.85,
+          "sourceSymbolId": 39,
+          "sourceInstance": "map_40"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "cloud",
+          "mapId": 25,
+          "x": 77.75,
+          "y": 268.4,
+          "width": 53.95,
+          "height": 59.95,
+          "sourceSymbolId": 45,
+          "sourceInstance": "map_25"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "beta",
+          "mapId": 47,
+          "x": 198.2,
+          "y": 316.5,
+          "width": 78.25,
+          "height": 57.3,
+          "sourceSymbolId": 51,
+          "sourceInstance": "map_47"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "alpha",
+          "mapId": 105,
+          "x": 297.05,
+          "y": 196.7,
+          "width": 94.25,
+          "height": 58.0,
+          "sourceSymbolId": 57,
+          "sourceInstance": "map_105"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "kaku",
+          "mapId": 463,
+          "x": 631.049,
+          "y": 254.693,
+          "width": 130.298,
+          "height": 209.439,
+          "sourceSymbolId": 67,
+          "sourceInstance": "map_463"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "lucio",
+          "mapId": 54,
+          "x": 417.65,
+          "y": 398.45,
+          "width": 75.4,
+          "height": 63.5,
+          "sourceSymbolId": 80,
+          "sourceInstance": "map_54"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "snow",
+          "mapId": 51,
+          "x": 854.95,
+          "y": 384.95,
+          "width": 82.5,
+          "height": 55.7,
+          "sourceSymbolId": 87,
+          "sourceInstance": "map_51"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "byron",
+          "mapId": 314,
+          "x": 859.3,
+          "y": 203.672,
+          "width": 46.45,
+          "height": 66.228,
+          "sourceSymbolId": 95,
+          "sourceInstance": "map_314"
+        },
+        {
+          "targetKind": "back",
+          "x": 858.427,
+          "y": 501.515,
+          "width": 87.223,
+          "height": 44.208,
+          "sourceSymbolId": 160,
+          "sourceInstance": "close"
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf",
+      "sourceSpriteId": 2718,
+      "sourceFrame": 1,
+      "sourceStageCrop": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "selection": "Original native galaxy diagram, ancestor list excluded; unmodeled planet placements excluded.",
+      "sha256": "685bbc6f50960b5c4102f31812e4fcc21a6ef0fff7f394915f15791319bfa422"
+    },
+    "galaxy-kalan": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/galaxy-kalan.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "planet",
+          "targetId": "planet-57",
+          "mapId": 57,
+          "x": 170.75,
+          "y": 113.75,
+          "width": 70.1,
+          "height": 63.7,
+          "sourceSymbolId": 170,
+          "sourceInstance": "map_57"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "tuck",
+          "mapId": 60,
+          "x": 406.1,
+          "y": 41.6,
+          "width": 53.2,
+          "height": 63.432,
+          "sourceSymbolId": 176,
+          "sourceInstance": "map_60"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "eddy",
+          "mapId": 325,
+          "x": 504.24,
+          "y": 117.8,
+          "width": 89.181,
+          "height": 59.75,
+          "sourceSymbolId": 186,
+          "sourceInstance": "map_325"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-328",
+          "mapId": 328,
+          "x": 693.719,
+          "y": 29.549,
+          "width": 71.181,
+          "height": 75.416,
+          "sourceSymbolId": 197,
+          "sourceInstance": "map_328"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-333",
+          "mapId": 333,
+          "x": 92.6,
+          "y": 247.7,
+          "width": 88.25,
+          "height": 84.731,
+          "sourceSymbolId": 205,
+          "sourceInstance": "map_333"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "hamo",
+          "mapId": 338,
+          "x": 320.1,
+          "y": 199.3,
+          "width": 59.95,
+          "height": 63.5,
+          "sourceSymbolId": 213,
+          "sourceInstance": "map_338"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "twitter",
+          "mapId": 688,
+          "x": 406.625,
+          "y": 394.343,
+          "width": 100.612,
+          "height": 72.557,
+          "sourceSymbolId": 224,
+          "sourceInstance": "map_688"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-699",
+          "mapId": 699,
+          "x": 725.4,
+          "y": 148.25,
+          "width": 88.15,
+          "height": 72.05,
+          "sourceSymbolId": 230,
+          "sourceInstance": "map_699"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-82",
+          "mapId": 82,
+          "x": 247.95,
+          "y": 364.44,
+          "width": 88.0,
+          "height": 78.16,
+          "sourceSymbolId": 237,
+          "sourceInstance": "map_82"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-948",
+          "mapId": 948,
+          "x": 862.35,
+          "y": 260.25,
+          "width": 69.95,
+          "height": 72.3,
+          "sourceSymbolId": 250,
+          "sourceInstance": "map_948"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-929",
+          "mapId": 929,
+          "x": 577.59,
+          "y": 422.27,
+          "width": 147.811,
+          "height": 121.91,
+          "sourceSymbolId": 261,
+          "sourceInstance": "map_929"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-95",
+          "mapId": 95,
+          "x": 681.427,
+          "y": 329.704,
+          "width": 61.222,
+          "height": 69.646,
+          "sourceSymbolId": 273,
+          "sourceInstance": "map_95"
+        },
+        {
+          "targetKind": "back",
+          "x": 858.427,
+          "y": 501.515,
+          "width": 87.223,
+          "height": 44.208,
+          "sourceSymbolId": 160,
+          "sourceInstance": "close"
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf",
+      "sourceSpriteId": 2718,
+      "sourceFrame": 2,
+      "sourceStageCrop": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "selection": "Original native galaxy diagram, ancestor list excluded; unmodeled planet placements excluded.",
+      "sha256": "1e3de4062a510cc1f32d3bcc6007bc2376cc9991e0ed84d0991a6d1d73ae1706"
+    },
+    "galaxy-rogue": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/galaxy-rogue.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "planet",
+          "targetId": "big",
+          "mapId": 404,
+          "x": 158.099,
+          "y": 111.394,
+          "width": 74.941,
+          "height": 56.106,
+          "sourceSymbolId": 311,
+          "sourceInstance": "map_404"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-411",
+          "mapId": 411,
+          "x": 512.3,
+          "y": 114.6,
+          "width": 70.8,
+          "height": 66.65,
+          "sourceSymbolId": 325,
+          "sourceInstance": "map_411"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-424",
+          "mapId": 424,
+          "x": 643.9,
+          "y": 39.008,
+          "width": 88.15,
+          "height": 61.292,
+          "sourceSymbolId": 331,
+          "sourceInstance": "map_424"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "toti",
+          "mapId": 429,
+          "x": 843.75,
+          "y": 70.75,
+          "width": 64.45,
+          "height": 71.75,
+          "sourceSymbolId": 337,
+          "sourceInstance": "map_429"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "dase",
+          "mapId": 435,
+          "x": 207.821,
+          "y": 315.2,
+          "width": 66.558,
+          "height": 70.75,
+          "sourceSymbolId": 347,
+          "sourceInstance": "map_435"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "modusa",
+          "mapId": 437,
+          "x": 312.9,
+          "y": 182.6,
+          "width": 70.1,
+          "height": 69.7,
+          "sourceSymbolId": 353,
+          "sourceInstance": "map_437"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-439",
+          "mapId": 439,
+          "x": 686.7,
+          "y": 336.9,
+          "width": 69.9,
+          "height": 65.45,
+          "sourceSymbolId": 363,
+          "sourceInstance": "map_439"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "rabol",
+          "mapId": 441,
+          "x": 833.3,
+          "y": 234.302,
+          "width": 70.1,
+          "height": 64.498,
+          "sourceSymbolId": 373,
+          "sourceInstance": "map_441"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-459",
+          "mapId": 459,
+          "x": 424.4,
+          "y": 398.746,
+          "width": 70.0,
+          "height": 65.554,
+          "sourceSymbolId": 381,
+          "sourceInstance": "map_459"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-481",
+          "mapId": 481,
+          "x": 603.45,
+          "y": 463.95,
+          "width": 56.6,
+          "height": 65.25,
+          "sourceSymbolId": 390,
+          "sourceInstance": "map_481"
+        },
+        {
+          "targetKind": "back",
+          "x": 858.427,
+          "y": 501.515,
+          "width": 87.223,
+          "height": 44.208,
+          "sourceSymbolId": 160,
+          "sourceInstance": "close"
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf",
+      "sourceSpriteId": 2718,
+      "sourceFrame": 3,
+      "sourceStageCrop": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "selection": "Original native galaxy diagram, ancestor list excluded; unmodeled planet placements excluded.",
+      "sha256": "2e0dfa940981ed34438472bb0aa6a6848654f3043837c64145a092a4e80d7185"
+    },
+    "galaxy-likong": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/galaxy-likong.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "planet",
+          "targetId": "white",
+          "mapId": 484,
+          "x": 190.985,
+          "y": 56.683,
+          "width": 67.862,
+          "height": 67.103,
+          "sourceSymbolId": 433,
+          "sourceInstance": "map_484"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-494",
+          "mapId": 494,
+          "x": 303.61,
+          "y": 179.15,
+          "width": 83.368,
+          "height": 74.8,
+          "sourceSymbolId": 444,
+          "sourceInstance": "map_494"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-497",
+          "mapId": 497,
+          "x": 639.815,
+          "y": 18.676,
+          "width": 90.247,
+          "height": 67.879,
+          "sourceSymbolId": 453,
+          "sourceInstance": "map_497"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "grace",
+          "mapId": 451,
+          "x": 515.65,
+          "y": 126.496,
+          "width": 70.15,
+          "height": 68.254,
+          "sourceSymbolId": 462,
+          "sourceInstance": "map_451"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-350",
+          "mapId": 350,
+          "x": 90.435,
+          "y": 197.65,
+          "width": 89.415,
+          "height": 88.225,
+          "sourceSymbolId": 475,
+          "sourceInstance": "map_350"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-356",
+          "mapId": 356,
+          "x": 717.773,
+          "y": 152.9,
+          "width": 78.212,
+          "height": 63.5,
+          "sourceSymbolId": 488,
+          "sourceInstance": "map_356"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-662",
+          "mapId": 662,
+          "x": 671.6,
+          "y": 333.082,
+          "width": 64.813,
+          "height": 59.618,
+          "sourceSymbolId": 510,
+          "sourceInstance": "map_662"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "ability",
+          "mapId": 668,
+          "x": 225.85,
+          "y": 333.1,
+          "width": 55.65,
+          "height": 72.2,
+          "sourceSymbolId": 526,
+          "sourceInstance": "map_668"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-677",
+          "mapId": 677,
+          "x": 421.8,
+          "y": 421.4,
+          "width": 58.6,
+          "height": 67.0,
+          "sourceSymbolId": 532,
+          "sourceInstance": "map_677"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "tairow",
+          "mapId": 683,
+          "x": 594.45,
+          "y": 453.5,
+          "width": 72.609,
+          "height": 62.25,
+          "sourceSymbolId": 549,
+          "sourceInstance": "map_683"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-19",
+          "mapId": 19,
+          "x": 822.25,
+          "y": 245.0,
+          "width": 88.3,
+          "height": 82.3,
+          "sourceSymbolId": 561,
+          "sourceInstance": "map_19"
+        },
+        {
+          "targetKind": "back",
+          "x": 858.427,
+          "y": 501.515,
+          "width": 87.223,
+          "height": 44.208,
+          "sourceSymbolId": 160,
+          "sourceInstance": "close"
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf",
+      "sourceSpriteId": 2718,
+      "sourceFrame": 4,
+      "sourceStageCrop": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "selection": "Original native galaxy diagram, ancestor list excluded; unmodeled planet placements excluded.",
+      "sha256": "9d3110adc999444a44db188dc5ebd05c09d470b3d6920eb5c29a8d19ea461306"
+    },
+    "galaxy-helix": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/galaxy-helix.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "planet",
+          "targetId": "giant",
+          "mapId": 702,
+          "x": 735.11,
+          "y": 145.886,
+          "width": 63.944,
+          "height": 66.314,
+          "sourceSymbolId": 607,
+          "sourceInstance": "map_702"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "allen",
+          "mapId": 29,
+          "x": 507.191,
+          "y": 119.041,
+          "width": 84.002,
+          "height": 69.059,
+          "sourceSymbolId": 620,
+          "sourceInstance": "map_29"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "bast",
+          "mapId": 717,
+          "x": 849.349,
+          "y": 42.924,
+          "width": 75.39,
+          "height": 95.976,
+          "sourceSymbolId": 634,
+          "sourceInstance": "map_717"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "lainna",
+          "mapId": 726,
+          "x": 283.152,
+          "y": 193.717,
+          "width": 85.235,
+          "height": 71.583,
+          "sourceSymbolId": 640,
+          "sourceInstance": "map_726"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "demon",
+          "mapId": 748,
+          "x": 192.913,
+          "y": 322.712,
+          "width": 85.219,
+          "height": 62.188,
+          "sourceSymbolId": 651,
+          "sourceInstance": "map_748"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "devil",
+          "mapId": 775,
+          "x": 407.606,
+          "y": 407.6,
+          "width": 105.184,
+          "height": 76.538,
+          "sourceSymbolId": 666,
+          "sourceInstance": "map_775"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "phantom",
+          "mapId": 736,
+          "x": 651.096,
+          "y": 309.7,
+          "width": 116.804,
+          "height": 119.306,
+          "sourceSymbolId": 685,
+          "sourceInstance": "map_736"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "pumpkin",
+          "mapId": 786,
+          "x": 66.937,
+          "y": 256.276,
+          "width": 70.502,
+          "height": 63.224,
+          "sourceSymbolId": 698,
+          "sourceInstance": "map_786"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "planet-74",
+          "mapId": 74,
+          "x": 148.713,
+          "y": 117.571,
+          "width": 97.351,
+          "height": 63.629,
+          "sourceSymbolId": 716,
+          "sourceInstance": "map_74"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "pegasus",
+          "mapId": 795,
+          "x": 826.215,
+          "y": 246.733,
+          "width": 95.544,
+          "height": 76.067,
+          "sourceSymbolId": 727,
+          "sourceInstance": "map_795"
+        },
+        {
+          "targetKind": "back",
+          "x": 858.427,
+          "y": 501.515,
+          "width": 87.223,
+          "height": 44.208,
+          "sourceSymbolId": 160,
+          "sourceInstance": "close"
+        },
+        {
+          "targetKind": "planet",
+          "targetId": "small-phantom",
+          "mapId": 741,
+          "x": 29.0,
+          "y": 410.45,
+          "width": 41.136,
+          "height": 41.113,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5c0f\u5e7b\u5f71\u661f",
+          "labelX": 49.568,
+          "labelY": 455.563,
+          "sourceInstance": "Released anchor of the omitted map_1281 placement",
+          "adaptation": "Existing qualified small-Phantom route uses genuine GO chrome at a released native diagram anchor; independent original planet art and location are unverified."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/appRes/update/worldMap/NewWorldMap2020Panel.swf",
+      "sourceSpriteId": 2718,
+      "sourceFrame": 5,
+      "sourceStageCrop": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "selection": "Original native galaxy diagram, ancestor list excluded; unmodeled planet placements excluded.",
+      "sha256": "18e4ff5c310179499d34aa4dca6264f35adc87f6aa3041c79a5e74c433d4a38b"
+    },
+    "overview": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "heading": "\u5b87\u5b99\u822a\u884c\u56fe",
+      "nodes": [
+        {
+          "id": "galaxy-pano",
+          "targetKind": "galaxy",
+          "targetId": "pano",
+          "x": 82,
+          "y": 88,
+          "width": 204.5,
+          "height": 84.5,
+          "asset": "/ui/classic/maps/selector-pano.png",
+          "sourceSymbolId": 2819,
+          "sourceFrame": 1,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "galaxy-kalan",
+          "targetKind": "galaxy",
+          "targetId": "kalan",
+          "x": 604,
+          "y": 90,
+          "width": 204.5,
+          "height": 84.5,
+          "asset": "/ui/classic/maps/selector-kalan.png",
+          "sourceSymbolId": 2819,
+          "sourceFrame": 2,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "galaxy-rogue",
+          "targetKind": "galaxy",
+          "targetId": "rogue",
+          "x": 357,
+          "y": 236,
+          "width": 204.5,
+          "height": 84.5,
+          "asset": "/ui/classic/maps/selector-rogue.png",
+          "sourceSymbolId": 2819,
+          "sourceFrame": 3,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "galaxy-likong",
+          "targetKind": "galaxy",
+          "targetId": "likong",
+          "x": 72,
+          "y": 371,
+          "width": 204.5,
+          "height": 84.5,
+          "asset": "/ui/classic/maps/selector-likong.png",
+          "sourceSymbolId": 2819,
+          "sourceFrame": 4,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "galaxy-helix",
+          "targetKind": "galaxy",
+          "targetId": "helix",
+          "x": 638,
+          "y": 361,
+          "width": 204.5,
+          "height": 84.5,
+          "asset": "/ui/classic/maps/selector-helix.png",
+          "sourceSymbolId": 2819,
+          "sourceFrame": 5,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "base-station",
+          "targetKind": "planet",
+          "targetId": "station",
+          "x": 310,
+          "y": 440,
+          "width": 78,
+          "height": 78.4770642201835,
+          "asset": "/ui/classic/maps/ship-blueprint.png",
+          "drawLabel": true,
+          "label": "\u8d5b\u5c14\u53f7\u98de\u8239",
+          "labelX": 349.0,
+          "labelY": 521.4770642201835,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "base-space-station",
+          "targetKind": "planet",
+          "targetId": "space-station",
+          "x": 434,
+          "y": 453,
+          "width": 88,
+          "height": 74.11650485436893,
+          "asset": "/ui/classic/maps/station-hub.png",
+          "drawLabel": true,
+          "label": "\u7cbe\u7075\u592a\u7a7a\u7ad9",
+          "labelX": 478.0,
+          "labelY": 530.1165048543689,
+          "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "base-fortress",
+          "targetKind": "planet",
+          "targetId": "fortress",
+          "x": 563,
+          "y": 449,
+          "width": 81,
+          "height": 56.88837209302326,
+          "asset": "/ui/classic/maps/fortress-control.png",
+          "drawLabel": false,
+          "label": "\u82f1\u4f69\u6069\u5821\u5792",
+          "labelX": 603.5,
+          "labelY": 508.88837209302324,
+          "positionKind": "authorized-overview-composition"
+        }
+      ],
+      "layoutKind": "Remake composition of original galaxy selector artwork on the original space background."
+    },
+    "planet-1": {
+      "width": 770,
+      "height": 466,
+      "background": "/ui/classic/maps/planet-1-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "back",
+          "x": 701.45,
+          "y": 9.85,
+          "width": 37.549,
+          "height": 37.549,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "transport",
+          "mapId": 1,
+          "x": 38.625,
+          "y": 212,
+          "width": 171.0,
+          "height": 78,
+          "sourceInstance": "static-current-room",
+          "sourceSymbolId": 146,
+          "adaptation": "Canonical transport map 1 uses the original current-room transmission graphic (button146), with a hit area restricted to the room rectangle. Unmodeled scene_6 is the power room and is omitted."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "lab",
+          "mapId": 5,
+          "x": 38.625,
+          "y": 133.05,
+          "width": 171.0,
+          "height": 78.0,
+          "sourceInstance": "scene_5",
+          "sourceSymbolId": 183
+        },
+        {
+          "targetKind": "region",
+          "targetId": "captain",
+          "mapId": 4,
+          "x": 58.1,
+          "y": 57.725,
+          "width": 142.15,
+          "height": 67.425,
+          "sourceInstance": "scene_4",
+          "sourceSymbolId": 205
+        },
+        {
+          "targetKind": "region",
+          "targetId": "brave-tower",
+          "mapId": null,
+          "x": 120,
+          "y": 390,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u52c7\u8005\u4e4b\u5854\u63a5\u9a73\u533a",
+          "labelX": 137,
+          "labelY": 430,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "dark-arena",
+          "mapId": null,
+          "x": 260,
+          "y": 390,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6697\u9ed1\u6b66\u6597\u573a\u63a5\u9a73\u533a",
+          "labelX": 277,
+          "labelY": 430,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "mission-dock",
+          "mapId": null,
+          "x": 555,
+          "y": 390,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4efb\u52a1\u6311\u6218\u63a5\u9a73\u533a",
+          "labelX": 572,
+          "labelY": 430,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "challenge-dock",
+          "mapId": null,
+          "x": 665,
+          "y": 390,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u661f\u9645\u6311\u6218\u63a5\u9a73\u533a",
+          "labelX": 682,
+          "labelY": 430,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/1.swf",
+      "sourceSymbolId": 248,
+      "sourceNativeViewport": [
+        -33,
+        -3,
+        737,
+        463
+      ],
+      "adaptedRegionIds": [
+        "brave-tower",
+        "dark-arena",
+        "mission-dock",
+        "challenge-dock"
+      ],
+      "sha256": "58c7ae02782b3e355b9827988494d5bddd657aa483a379df2ee37b1609b3b5bd",
+      "titlePlate": {
+        "x": 332.2,
+        "y": 9.6,
+        "width": 104.0,
+        "height": 18.0,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 31
+      },
+      "retainedBodyIllustration": "Original placement named ad (symbol28) is the ship blueprint, not an advertisement; retained at exact original matrix."
+    },
+    "planet-30": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-30-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "temple",
+          "mapId": 32,
+          "x": 243.35,
+          "y": 39.55,
+          "width": 136.65,
+          "height": 63.25,
+          "sourceInstance": "scene_32",
+          "sourceSymbolId": 21
+        },
+        {
+          "targetKind": "region",
+          "targetId": "waste",
+          "mapId": 30,
+          "x": 248.65,
+          "y": 250.85,
+          "width": 75.95,
+          "height": 75.75,
+          "sourceInstance": "scene_30",
+          "sourceSymbolId": 43
+        },
+        {
+          "targetKind": "region",
+          "targetId": "ruins",
+          "mapId": 31,
+          "x": 104.8,
+          "y": 146.85,
+          "width": 83.3,
+          "height": 75.7,
+          "sourceInstance": "scene_31",
+          "sourceSymbolId": 47
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "training-lake",
+          "mapId": null,
+          "x": 112.37,
+          "y": 312.0,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u96f7\u4f0a\u7279\u8bad\u6e56\u8fb9",
+          "labelX": 129.37,
+          "labelY": 352.0,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/30.swf",
+      "sourceSymbolId": 71,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [
+        "training-lake"
+      ],
+      "sha256": "5ad9fe4ec234de7727c7aa764fe72c5472a542bea3a950beb0fbddd8e61478de",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 17.105,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 64
+      }
+    },
+    "planet-484": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-484-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "mapId": 445,
+          "x": 264.236,
+          "y": 292.3,
+          "width": 123.388,
+          "height": 38.75,
+          "sourceInstance": "scene_445",
+          "sourceSymbolId": 14
+        },
+        {
+          "targetKind": "region",
+          "targetId": "cavern",
+          "mapId": 479,
+          "x": 166.186,
+          "y": 201.7,
+          "width": 123.388,
+          "height": 38.75,
+          "sourceInstance": "scene_479",
+          "sourceSymbolId": 39
+        },
+        {
+          "targetKind": "region",
+          "targetId": "mine",
+          "mapId": 486,
+          "x": 474.186,
+          "y": 321.95,
+          "width": 123.388,
+          "height": 38.75,
+          "sourceInstance": "scene_486",
+          "sourceSymbolId": 65
+        },
+        {
+          "targetKind": "region",
+          "targetId": "temple",
+          "mapId": 450,
+          "x": 505.386,
+          "y": 108.65,
+          "width": 123.388,
+          "height": 38.75,
+          "sourceInstance": "scene_450",
+          "sourceSymbolId": 104
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/484.swf",
+      "sourceSymbolId": 111,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [],
+      "sha256": "49b9f8f74e9386fdc906f714c83838300e7697cf0e585f2e0af468f6ed8ada06",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 110
+      }
+    },
+    "planet-702": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-702-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "island",
+          "mapId": 702,
+          "x": 89.7,
+          "y": 303.15,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_702",
+          "sourceSymbolId": 18
+        },
+        {
+          "targetKind": "region",
+          "targetId": "forest",
+          "mapId": 706,
+          "x": 379.75,
+          "y": 174.25,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_706",
+          "sourceSymbolId": 33
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/702.swf",
+      "sourceSymbolId": 66,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [],
+      "sha256": "1b549b9528bf116072f40ff4b4269102f09aab30c9b1942da772e9b5b829e34e",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 65
+      }
+    },
+    "planet-29": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-29-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "coral",
+          "mapId": 710,
+          "x": 116.55,
+          "y": 106.5,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_710",
+          "sourceSymbolId": 13
+        },
+        {
+          "targetKind": "region",
+          "targetId": "shoal",
+          "mapId": 29,
+          "x": 54.95,
+          "y": 210.5,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_29",
+          "sourceSymbolId": 26
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/29.swf",
+      "sourceSymbolId": 61,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [],
+      "sha256": "7a3a13f4e89790b22865720d17145a2025945a72c71f6ef8033d32c1e1002d08",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 4
+      }
+    },
+    "planet-717": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-717-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "mist",
+          "mapId": 717,
+          "x": 334.45,
+          "y": 324.9,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_717",
+          "sourceSymbolId": 28
+        },
+        {
+          "targetKind": "region",
+          "targetId": "dragon-temple",
+          "mapId": 724,
+          "x": 398.2,
+          "y": 130.6,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_724",
+          "sourceSymbolId": 34
+        },
+        {
+          "targetKind": "region",
+          "targetId": "dragon-realm",
+          "mapId": 722,
+          "x": 506.25,
+          "y": 120.1,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_722",
+          "sourceSymbolId": 43
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/717.swf",
+      "sourceSymbolId": 51,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [],
+      "sha256": "fe9f4a48e6d69586208c914ec5a61b2a66749820f7b373354a6f3558efe62fd2",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 50
+      }
+    },
+    "planet-726": {
+      "width": 661,
+      "height": 390,
+      "background": "/ui/classic/maps/planet-726-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "oasis",
+          "mapId": 726,
+          "x": 120.05,
+          "y": 311.9,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_726",
+          "sourceSymbolId": 31
+        },
+        {
+          "targetKind": "region",
+          "targetId": "village",
+          "mapId": 731,
+          "x": 280.2,
+          "y": 178.85,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_731",
+          "sourceSymbolId": 46
+        },
+        {
+          "targetKind": "region",
+          "targetId": "pirate-lab",
+          "mapId": 735,
+          "x": 516.05,
+          "y": 107.1,
+          "width": 103.3,
+          "height": 38.75,
+          "sourceInstance": "scene_735",
+          "sourceSymbolId": 69
+        },
+        {
+          "targetKind": "back",
+          "x": 621.48,
+          "y": 11.427,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/726.swf",
+      "sourceSymbolId": 77,
+      "sourceNativeViewport": [
+        0,
+        0,
+        661,
+        390
+      ],
+      "adaptedRegionIds": [],
+      "sha256": "c05b8b398f54ef40a14749f7e1055fd1467eb8dfc55bb9e0506196e7e1bfe950",
+      "titlePlate": {
+        "x": 279.984,
+        "y": 6.984,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 76
+      }
+    },
+    "planet-102": {
+      "width": 900,
+      "height": 466,
+      "background": "/ui/classic/maps/planet-102-diagram.png",
+      "headingInArtwork": true,
+      "nodes": [
+        {
+          "targetKind": "back",
+          "x": 859.18,
+          "y": 13.177,
+          "width": 35.419,
+          "height": 35.419,
+          "sourceInstance": "close",
+          "asset": "/ui/classic/maps/back-arrow.png",
+          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+        },
+        {
+          "targetKind": "region",
+          "targetId": "brave-tower",
+          "mapId": 500,
+          "x": 360.514,
+          "y": 62.459,
+          "width": 41.136,
+          "height": 41.113,
+          "sourceInstance": "special_0",
+          "sourceSymbolId": 186
+        },
+        {
+          "targetKind": "region",
+          "targetId": "resources",
+          "mapId": 102,
+          "x": 807.464,
+          "y": 375.809,
+          "width": 41.136,
+          "height": 41.113,
+          "sourceInstance": "scene_102",
+          "sourceSymbolId": 186
+        },
+        {
+          "targetKind": "region",
+          "targetId": "dark-arena",
+          "mapId": 110,
+          "x": 534.364,
+          "y": 398.309,
+          "width": 41.136,
+          "height": 41.113,
+          "sourceInstance": "special_5",
+          "sourceSymbolId": 186
+        },
+        {
+          "targetKind": "region",
+          "targetId": "mystery",
+          "mapId": 10032,
+          "x": 153.0,
+          "y": 372.8,
+          "width": 34,
+          "height": 34,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u795e\u79d8\u9886\u57df",
+          "labelX": 170.0,
+          "labelY": 412.8,
+          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+        }
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/starMap/102.swf",
+      "sourceSymbolId": 197,
+      "sourceNativeViewport": [
+        -1,
+        0,
+        899,
+        466
+      ],
+      "adaptedRegionIds": [
+        "mystery"
+      ],
+      "sha256": "82c610392cf33f68d9a4d3fea5dc5be7a69b4d9a3c744779aa62696dec05a306",
+      "titlePlate": {
+        "x": 396.634,
+        "y": 6.234,
+        "width": 103.126,
+        "height": 18.783,
+        "fontSize": 14,
+        "color": "#ffffff",
+        "sourceInstance": "serverNameTxt",
+        "sourceSymbolId": 19
+      }
+    },
+    "planet-10": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-10.png",
+          "x": 393.15,
+          "y": 210.25,
+          "width": 173.70000000000002,
+          "height": 139.5,
+          "sourceSymbolId": 27
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "plain",
+          "planetId": "klose",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u514b\u6d1b\u65af\u661f\u8349\u539f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 10
+        },
+        {
+          "targetKind": "region",
+          "targetId": "swamp",
+          "planetId": "klose",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u514b\u6d1b\u65af\u661f\u6cbc\u6cfd",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 11
+        },
+        {
+          "targetKind": "region",
+          "targetId": "forest",
+          "planetId": "klose",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u514b\u6d1b\u65af\u661f\u6797\u95f4",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 12
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-25": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-25.png",
+          "x": 417.9,
+          "y": 215.64999999999998,
+          "width": 124.2,
+          "height": 128.70000000000002,
+          "sourceSymbolId": 45
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "ground",
+          "planetId": "cloud",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4e91\u9704\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 25
+        },
+        {
+          "targetKind": "region",
+          "targetId": "high",
+          "planetId": "cloud",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4e91\u9704\u661f\u9ad8\u7a7a",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 26
+        },
+        {
+          "targetKind": "region",
+          "targetId": "summit",
+          "planetId": "cloud",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4e91\u9704\u661f\u6700\u9ad8\u5c42",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 27
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-20": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-20.png",
+          "x": 416.55,
+          "y": 215.2,
+          "width": 126.9,
+          "height": 129.6,
+          "sourceSymbolId": 21
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "shallows",
+          "planetId": "ocean",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d77\u6d0b\u661f\u6d45\u6c34\u533a",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 20
+        },
+        {
+          "targetKind": "region",
+          "targetId": "deep",
+          "planetId": "ocean",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d77\u6d0b\u661f\u6df1\u6c34\u533a",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 21
+        },
+        {
+          "targetKind": "region",
+          "targetId": "seabed",
+          "planetId": "ocean",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d77\u6d0b\u661f\u6d77\u5e95",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 22
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-15": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-15.png",
+          "x": 412.5,
+          "y": 212.5,
+          "width": 135.0,
+          "height": 135.0,
+          "sourceSymbolId": 33
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "foot",
+          "planetId": "volcano",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u706b\u5c71\u661f\u5c71\u811a",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 15
+        },
+        {
+          "targetKind": "region",
+          "targetId": "cave",
+          "planetId": "volcano",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u706b\u5c71\u661f\u5c71\u6d1e",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 16
+        },
+        {
+          "targetKind": "region",
+          "targetId": "depths",
+          "planetId": "volcano",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u706b\u5c71\u661f\u6df1\u5904",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 17
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-40": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-40.png",
+          "x": 403.05,
+          "y": 220.6,
+          "width": 153.9,
+          "height": 118.8,
+          "sourceSymbolId": 39
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "snow",
+          "planetId": "cecilia",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u585e\u897f\u5229\u4e9a\u661f\u51b0\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 40
+        },
+        {
+          "targetKind": "region",
+          "targetId": "cavern",
+          "planetId": "cecilia",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u585e\u897f\u5229\u4e9a\u661f\u51b0\u7a9f",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 41
+        },
+        {
+          "targetKind": "region",
+          "targetId": "peak",
+          "planetId": "cecilia",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u585e\u897f\u5229\u4e9a\u661f\u51b0\u539f",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 40
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-60": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-60.png",
+          "x": 418.8,
+          "y": 212.5,
+          "width": 122.4,
+          "height": 135.0,
+          "sourceSymbolId": 176
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "tuck",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5854\u514b\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 60
+        },
+        {
+          "targetKind": "region",
+          "targetId": "light-city",
+          "planetId": "tuck",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5149\u4e4b\u8ff7\u57ce",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 61
+        },
+        {
+          "targetKind": "region",
+          "targetId": "underground",
+          "planetId": "tuck",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5730\u5e95\u53e4\u8ff9",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 495
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-325": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-325.png",
+          "x": 390.0,
+          "y": 216.55,
+          "width": 180.0,
+          "height": 126.9,
+          "sourceSymbolId": 186
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "eddy",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u827e\u8fea\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 325
+        },
+        {
+          "targetKind": "region",
+          "targetId": "twilight",
+          "planetId": "eddy",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u66ae\u8272\u4e4b\u57ce",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 326
+        },
+        {
+          "targetKind": "region",
+          "targetId": "music",
+          "planetId": "eddy",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u865a\u5e7b\u7684\u5730\u4e0b\u57ce\u5e02",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 327
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-338": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-338.png",
+          "x": 423.75,
+          "y": 218.35,
+          "width": 112.5,
+          "height": 123.3,
+          "sourceSymbolId": 213
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "hamo",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u54c8\u83ab\u661f\u5165\u53e3",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 338
+        },
+        {
+          "targetKind": "region",
+          "targetId": "white-sand",
+          "planetId": "hamo",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u767d\u6c99\u7f57\u57df",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 342
+        },
+        {
+          "targetKind": "region",
+          "targetId": "dragon-temple",
+          "planetId": "hamo",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9f99\u738b\u5723\u6bbf",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 348
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-404": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-404.png",
+          "x": 402.6,
+          "y": 218.8,
+          "width": 154.8,
+          "height": 122.4,
+          "sourceSymbolId": 311
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "big",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6bd4\u683c\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 404
+        },
+        {
+          "targetKind": "region",
+          "targetId": "foraging",
+          "planetId": "big",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u89c5\u98df\u6797",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 414
+        },
+        {
+          "targetKind": "region",
+          "targetId": "wolf-cave",
+          "planetId": "big",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6c83\u5c14\u592b\u6d1e\u7a74",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 423
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-435": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-435.png",
+          "x": 403.05,
+          "y": 203.5,
+          "width": 153.9,
+          "height": 153.0,
+          "sourceSymbolId": 347
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "dase",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6234\u65af\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 435
+        },
+        {
+          "targetKind": "region",
+          "targetId": "lava-canyon",
+          "planetId": "dase",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u7194\u5ca9\u5ce1\u8c37",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 436
+        },
+        {
+          "targetKind": "region",
+          "targetId": "death-river",
+          "planetId": "dase",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6b7b\u4ea1\u4e4b\u6cb3",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition."
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-437": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-437.png",
+          "x": 410.25,
+          "y": 207.1,
+          "width": 139.5,
+          "height": 145.8,
+          "sourceSymbolId": 353
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "modusa",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u58a8\u675c\u8428\u661f\u5730\u9762",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 437
+        },
+        {
+          "targetKind": "region",
+          "targetId": "stone-city",
+          "planetId": "modusa",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u77f3\u5316\u4e4b\u57ce",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 438
+        },
+        {
+          "targetKind": "region",
+          "targetId": "frozen-edge",
+          "planetId": "modusa",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6781\u51bb\u8fb9\u7f18",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 443
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-105": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-105.png",
+          "x": 388.65,
+          "y": 212.05,
+          "width": 182.70000000000002,
+          "height": 135.9,
+          "sourceSymbolId": 57
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "alpha",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u963f\u5c14\u6cd5\u661f\u5ca9\u5730",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 106
+        },
+        {
+          "targetKind": "region",
+          "targetId": "energy",
+          "planetId": "alpha",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d77\u76d7\u80fd\u6e90\u7ad9",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 46
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-54": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-54.png",
+          "x": 405.75,
+          "y": 214.3,
+          "width": 148.5,
+          "height": 131.4,
+          "sourceSymbolId": 80
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "lucio",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9732\u5e0c\u6b27\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 54
+        },
+        {
+          "targetKind": "region",
+          "targetId": "marsh",
+          "planetId": "lucio",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9732\u5e0c\u6b27\u6ce5\u6f6d",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 55
+        },
+        {
+          "targetKind": "region",
+          "targetId": "sea",
+          "planetId": "lucio",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9732\u5e0c\u6b27\u4e4b\u6d0b",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 56
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-51": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-51.png",
+          "x": 403.5,
+          "y": 225.1,
+          "width": 153.0,
+          "height": 109.8,
+          "sourceSymbolId": 87
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "snow",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u65af\u8bfa\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 51
+        },
+        {
+          "targetKind": "region",
+          "targetId": "forest",
+          "planetId": "snow",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u65af\u8bfa\u661f\u5bc6\u6797",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 52
+        },
+        {
+          "targetKind": "region",
+          "targetId": "cave",
+          "planetId": "snow",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u65af\u8bfa\u5ca9\u6d1e",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 53
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-314": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-314.png",
+          "x": 422.85,
+          "y": 204.39999999999998,
+          "width": 114.3,
+          "height": 151.20000000000002,
+          "sourceSymbolId": 95
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "deck",
+          "planetId": "byron",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u62dc\u4f26\u53f7",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 314
+        },
+        {
+          "targetKind": "region",
+          "targetId": "space",
+          "planetId": "byron",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u795e\u79d8\u7a7a\u95f4",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 315
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-463": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-463.png",
+          "x": 376.95,
+          "y": 195.39999999999998,
+          "width": 206.1,
+          "height": 169.20000000000002,
+          "sourceSymbolId": 67
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "kaku",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5361\u9177\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 463
+        },
+        {
+          "targetKind": "region",
+          "targetId": "jungle",
+          "planetId": "kaku",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5361\u9177\u661f\u4e1b\u6797",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 464
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-57": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-57.png",
+          "x": 410.25,
+          "y": 212.5,
+          "width": 139.5,
+          "height": 135.0,
+          "sourceSymbolId": 170
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "planet-57",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5c3c\u53e4\u5c14\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 57
+        },
+        {
+          "targetKind": "region",
+          "targetId": "cliff",
+          "planetId": "planet-57",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5c3c\u53e4\u5c14\u5ced\u58c1",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 58
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-429": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-429.png",
+          "x": 409.35,
+          "y": 205.75,
+          "width": 141.3,
+          "height": 148.5,
+          "sourceSymbolId": 337
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "toti",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u62d3\u68af\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 429
+        },
+        {
+          "targetKind": "region",
+          "targetId": "spring",
+          "planetId": "toti",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d3b\u529b\u6e90\u6cc9",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 430
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-441": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-441.png",
+          "x": 410.7,
+          "y": 213.85,
+          "width": 138.6,
+          "height": 132.3,
+          "sourceSymbolId": 373
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "surface",
+          "planetId": "rabol",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u62c9\u94c2\u5c14\u661f",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 441
+        },
+        {
+          "targetKind": "region",
+          "targetId": "secret",
+          "planetId": "rabol",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u62c9\u94c2\u5c14\u79d8\u5883",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 515
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-451": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-451.png",
+          "x": 408.45,
+          "y": 212.5,
+          "width": 143.1,
+          "height": 135.0,
+          "sourceSymbolId": 462
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "city",
+          "planetId": "grace",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9eef\u591c\u4e4b\u57ce",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 451
+        },
+        {
+          "targetKind": "region",
+          "targetId": "altar",
+          "planetId": "grace",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5149\u660e\u5723\u575b",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 507
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-662": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-662.png",
+          "x": 403.95,
+          "y": 212.05,
+          "width": 152.1,
+          "height": 135.9,
+          "sourceSymbolId": 510
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "planet-662",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "Y\u661f\u7403",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 662
+        },
+        {
+          "targetKind": "region",
+          "targetId": "temple",
+          "planetId": "planet-662",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u83f2\u5c3c\u514b\u65af\u795e\u6bbf",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 664
+        },
+        {
+          "targetKind": "region",
+          "targetId": "sanctuary",
+          "planetId": "planet-662",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u83f2\u5c3c\u514b\u65af\u7981\u5730",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 666
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-668": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-668.png",
+          "x": 411.15,
+          "y": 202.6,
+          "width": 137.70000000000002,
+          "height": 154.8,
+          "sourceSymbolId": 526
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "tribe",
+          "planetId": "ability",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5f02\u80fd\u90e8\u843d",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 668
+        },
+        {
+          "targetKind": "region",
+          "targetId": "guardians",
+          "planetId": "ability",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5b88\u62a4\u90e8\u843d",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 676
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-683": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-683.png",
+          "x": 400.35,
+          "y": 204.39999999999998,
+          "width": 159.3,
+          "height": 151.20000000000002,
+          "sourceSymbolId": 549
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "valley",
+          "planetId": "tairow",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6676\u77f3\u5c71\u8c37",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 683
+        },
+        {
+          "targetKind": "region",
+          "targetId": "jungle",
+          "planetId": "tairow",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4e1b\u6797\u79d8\u5883",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 684
+        },
+        {
+          "targetKind": "region",
+          "targetId": "ice-cave",
+          "planetId": "tairow",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u51b0\u5c01\u6d1e\u7a9f",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 685
+        },
+        {
+          "targetKind": "region",
+          "targetId": "beast-valley",
+          "planetId": "tairow",
+          "x": 64.55,
+          "y": 420.364,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u795e\u517d\u8c37",
+          "labelX": 86.538,
+          "labelY": 468.314,
+          "sourceInstance": "scene_100",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 686
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-741": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/region-go.png",
+          "x": 429,
+          "y": 229,
+          "width": 102,
+          "height": 102,
+          "role": "Original route glyph; independent planet artwork has not been recovered."
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "holy-peak",
+          "planetId": "small-phantom",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5723\u7075\u5cf0",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 741
+        },
+        {
+          "targetKind": "region",
+          "targetId": "whirlpool",
+          "planetId": "small-phantom",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6076\u9b54\u65cb\u6da1",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 744
+        },
+        {
+          "targetKind": "region",
+          "targetId": "remains",
+          "planetId": "small-phantom",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5b88\u62a4\u6b8b\u6bbf",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 746
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-748": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-748.png",
+          "x": 385.95,
+          "y": 209.35,
+          "width": 188.1,
+          "height": 141.3,
+          "sourceSymbolId": 651
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "gate",
+          "planetId": "demon",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5929\u7a7a\u4e4b\u95e8",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 748
+        },
+        {
+          "targetKind": "region",
+          "targetId": "falls",
+          "planetId": "demon",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u517d\u795e\u7011\u5e03",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 762
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-775": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-775.png",
+          "x": 381.45,
+          "y": 212.5,
+          "width": 197.1,
+          "height": 135.0,
+          "sourceSymbolId": 666
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "tomb",
+          "planetId": "devil",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u9b54\u795e\u9675\u5893",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 775
+        },
+        {
+          "targetKind": "region",
+          "targetId": "tower",
+          "planetId": "devil",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u901a\u5929\u5854",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 780
+        },
+        {
+          "targetKind": "region",
+          "targetId": "temple",
+          "planetId": "devil",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u4e5d\u9704\u9b54\u795e\u6bbf",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 782
+        },
+        {
+          "targetKind": "region",
+          "targetId": "abyss",
+          "planetId": "devil",
+          "x": 64.55,
+          "y": 420.364,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6076\u7075\u6df1\u6e0a",
+          "labelX": 86.538,
+          "labelY": 468.314,
+          "sourceInstance": "scene_100",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 784
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-786": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-786.png",
+          "x": 393.6,
+          "y": 199.89999999999998,
+          "width": 172.8,
+          "height": 160.20000000000002,
+          "sourceSymbolId": 698
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "valley",
+          "planetId": "pumpkin",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u5357\u74dc\u5c71\u8c37",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 786
+        },
+        {
+          "targetKind": "region",
+          "targetId": "treasure",
+          "planetId": "pumpkin",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u85cf\u5b9d\u5bc6\u5ba4",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 789
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-795": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/planet-795.png",
+          "x": 400.35,
+          "y": 210.7,
+          "width": 159.3,
+          "height": 138.6,
+          "sourceSymbolId": 727
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "island",
+          "planetId": "pegasus",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6d6e\u7a7a\u4ed9\u5c9b",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 795
+        },
+        {
+          "targetKind": "region",
+          "targetId": "crystal-cave",
+          "planetId": "pegasus",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u6676\u86c7\u9b54\u7a9f",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 799
+        },
+        {
+          "targetKind": "region",
+          "targetId": "ice-palace",
+          "planetId": "pegasus",
+          "x": 570.169,
+          "y": 456.699,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u51b0\u6676\u5947\u5bab",
+          "labelX": 592.157,
+          "labelY": 504.649,
+          "sourceInstance": "special_5",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 803
+        },
+        {
+          "targetKind": "region",
+          "targetId": "tree",
+          "planetId": "pegasus",
+          "x": 64.55,
+          "y": 420.364,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u795e\u6811\u4e4b\u5dc5",
+          "labelX": 86.538,
+          "labelY": 468.314,
+          "sourceInstance": "scene_100",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 810
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    },
+    "planet-100": {
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/space-backdrop.png",
+      "decorations": [
+        {
+          "asset": "/ui/classic/maps/fortress-control.png",
+          "x": 386,
+          "y": 212,
+          "width": 188,
+          "height": 132.037,
+          "sourceInstance": "scene_100"
+        }
+      ],
+      "nodes": [
+        {
+          "targetKind": "region",
+          "targetId": "landing",
+          "planetId": "fortress",
+          "x": 384.323,
+          "y": 97.674,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u82f1\u4f69\u6069\u5821\u5792",
+          "labelX": 406.311,
+          "labelY": 145.625,
+          "sourceInstance": "special_0",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 100
+        },
+        {
+          "targetKind": "region",
+          "targetId": "trial",
+          "planetId": "fortress",
+          "x": 862.114,
+          "y": 432.646,
+          "width": 43.974,
+          "height": 43.95,
+          "asset": "/ui/classic/maps/region-go.png",
+          "drawLabel": true,
+          "label": "\u82f1\u4f69\u6069\u5821\u5792\u4e8c\u5c42",
+          "labelX": 884.101,
+          "labelY": 480.597,
+          "sourceInstance": "scene_102",
+          "adaptation": "Existing region destination at a borrowed original StarMap102 control anchor; this planet diagram is a remake composition.",
+          "mapId": 402
+        }
+      ],
+      "layoutKind": "Authorized adaptation: original planet art, original GO chrome and borrowed StarMap102 anchors; original planet diagram endpoint returned404.",
+      "sourceTemplate": "https://seer.61.com/resource/map/starMap/102.swf",
+      "templateScale": 1.0690024022561626
+    }
+  }
+}

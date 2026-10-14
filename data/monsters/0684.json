@@ -1,0 +1,66 @@
+{
+  "id": 684,
+  "name": {
+    "zh": "葡萄多多"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 76,
+    "atk": 47,
+    "def": 43,
+    "spa": 76,
+    "spd": 48,
+    "spe": 59
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 10,
+      "skill": 11971
+    },
+    {
+      "level": 15,
+      "skill": 10013
+    },
+    {
+      "level": 20,
+      "skill": 11184
+    },
+    {
+      "level": 25,
+      "skill": 20624
+    }
+  ],
+  "evolution": [
+    {
+      "to": 685,
+      "method": "level",
+      "level": 28
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0684",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

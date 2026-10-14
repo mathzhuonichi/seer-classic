@@ -1,0 +1,109 @@
+{
+  "id": "boss_dark_door8_paduoni",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第八门 帕多尼"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第八门"
+  },
+  "era": "2011-02",
+  "team": [
+    {
+      "species": 656,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10726,
+        11634,
+        20805,
+        10729
+      ],
+      "hp_override": 1600
+    }
+  ],
+  "rules": [
+    {
+      "rule": "reflect_damage",
+      "pct": 25
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10726,
+      11634,
+      20805,
+      10729
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_paduoni": 1
+    }
+  },
+  "reward_hatches": 655,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door7_sanuolasi"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第八门：100级帕多尼，约1600血。打败获得帕多尼精元。"
+  },
+  "strategy_notes": {
+    "zh": "先消除强化后用强攻精灵；或利用高伤害技能速攻。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Innate special-attack boost (自身带有特攻强化), +1 assumed.",
+    "reflect_damage: 4399 says it 反弹伤害 without a figure; 25% is an estimate (it may instead be a skill effect).",
+    "Level not given; 100 assumed (doors 6-7 are Lv100)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "reflect_pct",
+      "innate_stage_stat"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-28-98332.html",
+    "https://news.7k7k.com/content/20110217/62678.html"
+  ],
+  "source_note": "4399 第八门全程攻略 (2011-05-28): No.656 普通系 HP≈1600; door 8 opened 2011-02-18 (7k7k)."
+}

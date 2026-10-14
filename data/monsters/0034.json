@@ -1,0 +1,110 @@
+{
+  "id": 34,
+  "name": {
+    "zh": "钢牙鲨"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 120,
+    "def": 50,
+    "spa": 95,
+    "spd": 50,
+    "spe": 95
+  },
+  "ev_yield": {
+    "atk": 2
+  },
+  "exp_yield": 118,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10011
+    },
+    {
+      "level": 4,
+      "skill": 20004
+    },
+    {
+      "level": 7,
+      "skill": 10074
+    },
+    {
+      "level": 10,
+      "skill": 20039
+    },
+    {
+      "level": 12,
+      "skill": 20018
+    },
+    {
+      "level": 14,
+      "skill": 10075
+    },
+    {
+      "level": 16,
+      "skill": 20040
+    },
+    {
+      "level": 18,
+      "skill": 20011
+    },
+    {
+      "level": 21,
+      "skill": 10076
+    },
+    {
+      "level": 26,
+      "skill": 10015
+    },
+    {
+      "level": 30,
+      "skill": 10024
+    },
+    {
+      "level": 34,
+      "skill": 10038
+    },
+    {
+      "level": 37,
+      "skill": 20041
+    },
+    {
+      "level": 41,
+      "skill": 20017
+    },
+    {
+      "level": 46,
+      "skill": 10077
+    },
+    {
+      "level": 50,
+      "skill": 10031
+    },
+    {
+      "level": 56,
+      "skill": 10072
+    },
+    {
+      "level": 62,
+      "skill": 10078
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 33,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m0034",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

@@ -1,0 +1,106 @@
+{
+  "id": "boss_spt_liaosi",
+  "name": {
+    "zh": "里奥斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "火山星洞穴深处"
+  },
+  "era": "2009-08",
+  "team": [
+    {
+      "species": 42,
+      "level": 35,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10098,
+        20051,
+        10099,
+        10096
+      ],
+      "hp_override": 340
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "self_hp_below_pct": 50
+      },
+      "do": [
+        {
+          "op": "set_ai",
+          "ai": {
+            "kind": "weighted",
+            "weights": {
+              "10099": 3,
+              "10096": 1
+            }
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "weighted",
+    "weights": {
+      "10098": 3,
+      "20051": 1,
+      "10096": 1
+    }
+  },
+  "reward": {
+    "items": {
+      "essence_liaosi": 1
+    },
+    "chance": 50,
+    "first_clear_items": {
+      "suit_blue_warrior": 1
+    }
+  },
+  "reward_hatches": 41,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在火山星山洞深处挑战里奥斯；打败「有可能」获得里奥斯精元（孵化得胡里亚），第一次打败可获得蓝武士装。"
+  },
+  "strategy_notes": {
+    "zh": "布布花40+级地震，尤里安31+级克制，巴拉龟36级水尾，烈焰猩猩39级+5-6瓶高级体力药，巴鲁斯泡沫光线/潮汐，波克尔同生共死。"
+  },
+  "engine_notes": [
+    "AI: 血多时用密集火网，血少时用回击（必定后发, priority -1）. Encoded as weighted AI favouring 密集火网, switched at 50% HP to 回击/报复; the exact threshold is not stated.",
+    "Reward was not guaranteed (打败它有可能获得) — reward.chance 50 is an estimate; first_clear_items gives the 蓝武士装 suit part once.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "ai_threshold",
+      "reward_chance",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70392.html",
+    "https://news.7k7k.com/content/20110316/76862.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05): 火山星山洞深处 35级 340滴血; 7k7k 2011: 血少时用回击必定后发."
+}

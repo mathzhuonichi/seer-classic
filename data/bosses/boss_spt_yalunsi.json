@@ -1,0 +1,124 @@
+{
+  "id": "boss_spt_yalunsi",
+  "name": {
+    "zh": "亚伦斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "拓梯星"
+  },
+  "era": "2011-02",
+  "team": [
+    {
+      "species": 672,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11668,
+        11669,
+        11665,
+        20826
+      ],
+      "hp_override": 5000,
+      "stat_multipliers": {
+        "spe": 0.5
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "drain_each_turn",
+      "params": {
+        "foe_loss": 100,
+        "self_heal": 100
+      }
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "leech"
+      ]
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11668,
+      11669,
+      11665,
+      20826
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_yalunsi": 1
+    }
+  },
+  "reward_hatches": 671,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "quest": {
+      "zh": "活力之匙"
+    }
+  },
+  "capture": {
+    "zh": "完成「活力之匙」任务后到罗格星系拓梯星活力源泉，点击出现的冰柱挑战亚伦斯；打败获得亚伦斯精元（48小时孵化得冰妖）。"
+  },
+  "strategy_notes": {
+    "zh": "先消强化，再两次海洋之心把它削到约2000，剩下的精灵车轮战；魔焰猩猩绝命火焰有机会秒杀；火、机械、战斗系强化后大招轮流打。"
+  },
+  "engine_notes": [
+    "drain_each_turn: every turn the player's active pet loses 100 HP and 亚伦斯 heals 100 (每回合从对方吸取100血，回复自身100血).",
+    "海洋之心 (percent damage) works; 寄生种子 does not.",
+    "Innate boost (先上来消强化) — stat not stated; spa+1 assumed. 速度非常慢 (spe x0.5 estimate), 攻击很弱.",
+    "Only 交错冰柱 is named (sina 2011); other slots from the learnset. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "innate_stage_stats",
+      "stat_multipliers",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201102-28-87994.html",
+    "https://blog.sina.com.cn/s/blog_752dd1260100orml.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2011-02-28): 体力5000, 每回合吸100补100, 海洋之心有效寄生无效; sina blog: 2011-02-25 加入, 80级."
+}

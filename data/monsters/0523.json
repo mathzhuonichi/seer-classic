@@ -1,0 +1,62 @@
+{
+  "id": 523,
+  "name": {
+    "zh": "咕咕芽"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 77,
+    "atk": 51,
+    "def": 58,
+    "spa": 46,
+    "spd": 45,
+    "spe": 43
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 65,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 60,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20190
+    },
+    {
+      "level": 9,
+      "skill": 10114
+    },
+    {
+      "level": 13,
+      "skill": 10042
+    },
+    {
+      "level": 17,
+      "skill": 20020
+    }
+  ],
+  "evolution": [
+    {
+      "to": 524,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0523",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

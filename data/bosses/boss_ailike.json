@@ -1,0 +1,90 @@
+{
+  "id": "boss_ailike",
+  "name": {
+    "zh": "魔神艾里克"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "九霄魔神殿"
+  },
+  "era": "2012-09",
+  "team": [
+    {
+      "species": 1364,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13203,
+        13200,
+        13202,
+        21682
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13203,
+      13200,
+      13202,
+      21682
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_aili": 1
+    }
+  },
+  "reward_hatches": 1362,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [],
+    "note": {
+      "zh": "前置剧情任务「末日！魔神宣战」：魔神被困魔神陵墓，被海盗误放出；与九霄魔神殿头顶金色感叹号的海盗对话开始。"
+    }
+  },
+  "capture": {
+    "zh": "2012年9月30日13:00-14:00「终极！神VS神！雷伊VS艾里克」：帮助雷伊（获得光之翼）打败魔神艾里克，获得艾里克精元；14:00-15:00 在线5分钟即可极速孵化。"
+  },
+  "strategy_notes": {
+    "zh": "未找到同期具体打法；飞行超能系，被电、冰、暗影系克制，雷伊为主角。"
+  },
+  "engine_notes": [
+    "The fight was part of the 雷伊 light-wings storyline (雷伊超进化 / 雷光之翼); in the remake it can follow the storyline unlock.",
+    "Level, HP, rules and skills are NOT published in any source found; 100 / 10000 and the top learnset skills are placeholders.",
+    "SPT boss 斯克鲁 (通天塔) is described as 魔神艾里克's subordinate."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "rules",
+      "location"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201209-10-195837.html",
+    "https://www.juxia.com/news/2012-9-28/61401.html",
+    "https://www.juxia.com/news/2012-9-28/61488.html"
+  ],
+  "source_note": "4399 2012-09-10 and 聚侠 2012-09-28: 9月30日13-14点 神VS神 event gives 艾里克精元; no battle data published."
+}

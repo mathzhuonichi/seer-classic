@@ -1,0 +1,94 @@
+{
+  "id": "boss_spt_ajiasha",
+  "name": {
+    "zh": "阿加莎"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "卡酷星丛林（天界秘境入口）"
+  },
+  "era": "2012-01",
+  "team": [
+    {
+      "species": 1061,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12494,
+        12495,
+        12491,
+        21296
+      ],
+      "hp_override": 8000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "drain_each_turn",
+      "params": {
+        "foe_loss": 100,
+        "self_heal": 100,
+        "below_pct": 50,
+        "foe_loss_low": 200,
+        "self_heal_low": 200
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12494,
+      12495,
+      12491,
+      21296
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1060,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在卡酷星丛林（天界秘境入口，可由SPT直接传送）挑战阿加莎，打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "海洋之心+暴击流（布鲁克克/布林克克海洋之心后谱尼等收尾）或秒杀流（魔焰猩猩绝命火焰）。"
+  },
+  "engine_notes": [
+    "drain_each_turn: every turn the player's active pet loses a flat 100 HP and the boss heals 100 HP; once the boss is below 50% HP this becomes 200/200.",
+    "No innate boost; 绿光冲击 clears the player's boosts; 藤蔓抽打 15% fear.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201201-10-137149.html"
+  ],
+  "source_note": "4399 SPT page dated 2012-01-10: 80级, 约8000血; drain aura 100/200."
+}

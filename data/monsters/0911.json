@@ -1,0 +1,66 @@
+{
+  "id": 911,
+  "name": {
+    "zh": "哈克"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 74,
+    "atk": 75,
+    "def": 48,
+    "spa": 44,
+    "spd": 46,
+    "spe": 63
+  },
+  "ev_yield": {
+    "spe": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 20,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10018
+    },
+    {
+      "level": 4,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 10022
+    },
+    {
+      "level": 12,
+      "skill": 10058
+    },
+    {
+      "level": 15,
+      "skill": 20004
+    },
+    {
+      "level": 18,
+      "skill": 10037
+    }
+  ],
+  "evolution": [
+    {
+      "to": 912,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0911",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

@@ -1,0 +1,113 @@
+{
+  "id": 169,
+  "name": {
+    "zh": "卡特斯"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 85,
+    "atk": 100,
+    "def": 100,
+    "spa": 84,
+    "spd": 84,
+    "spe": 80
+  },
+  "ev_yield": {
+    "atk": 2,
+    "def": 1
+  },
+  "exp_yield": 129,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 9,
+      "skill": 10487
+    },
+    {
+      "level": 13,
+      "skill": 20007
+    },
+    {
+      "level": 16,
+      "skill": 10042
+    },
+    {
+      "level": 19,
+      "skill": 20019
+    },
+    {
+      "level": 21,
+      "skill": 20020
+    },
+    {
+      "level": 24,
+      "skill": 10038
+    },
+    {
+      "level": 28,
+      "skill": 10003
+    },
+    {
+      "level": 32,
+      "skill": 20021
+    },
+    {
+      "level": 35,
+      "skill": 10488
+    },
+    {
+      "level": 39,
+      "skill": 20022
+    },
+    {
+      "level": 42,
+      "skill": 10043
+    },
+    {
+      "level": 44,
+      "skill": 20211
+    },
+    {
+      "level": 48,
+      "skill": 10490
+    },
+    {
+      "level": 52,
+      "skill": 10044
+    },
+    {
+      "level": 56,
+      "skill": 20009
+    },
+    {
+      "level": 60,
+      "skill": 10045
+    },
+    {
+      "level": 65,
+      "skill": 10489
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 168,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0169",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

@@ -1,0 +1,121 @@
+{
+  "id": 192,
+  "name": {
+    "zh": "克林卡修"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 83,
+    "atk": 110,
+    "def": 86,
+    "spa": 87,
+    "spd": 78,
+    "spe": 95
+  },
+  "ev_yield": {
+    "atk": 2,
+    "spe": 1
+  },
+  "exp_yield": 128,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 5,
+      "skill": 10150
+    },
+    {
+      "level": 10,
+      "skill": 20079
+    },
+    {
+      "level": 15,
+      "skill": 10204
+    },
+    {
+      "level": 19,
+      "skill": 10553
+    },
+    {
+      "level": 23,
+      "skill": 10029
+    },
+    {
+      "level": 27,
+      "skill": 10213
+    },
+    {
+      "level": 30,
+      "skill": 20080
+    },
+    {
+      "level": 33,
+      "skill": 10151
+    },
+    {
+      "level": 36,
+      "skill": 10554
+    },
+    {
+      "level": 39,
+      "skill": 10214
+    },
+    {
+      "level": 43,
+      "skill": 20237
+    },
+    {
+      "level": 46,
+      "skill": 10154
+    },
+    {
+      "level": 49,
+      "skill": 10152
+    },
+    {
+      "level": 52,
+      "skill": 20062
+    },
+    {
+      "level": 55,
+      "skill": 10155
+    },
+    {
+      "level": 58,
+      "skill": 20081
+    },
+    {
+      "level": 61,
+      "skill": 10153
+    },
+    {
+      "level": 64,
+      "skill": 10156
+    },
+    {
+      "level": 67,
+      "skill": 20238
+    },
+    {
+      "level": 70,
+      "skill": 10555
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 191,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0192",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-01"
+}

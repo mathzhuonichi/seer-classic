@@ -1,0 +1,22 @@
+.audio-settings{border:0;padding:0;margin:0 0 18px;min-width:0}
+.audio-settings legend{font-weight:700;font-size:16px;margin-bottom:10px;color:#b8e8ff}
+.audio-mute{display:flex;align-items:center;gap:8px;margin-bottom:12px;cursor:pointer}
+.audio-mute input{accent-color:#60cef3;width:16px;height:16px}
+.audio-slider{display:grid;grid-template-columns:72px minmax(70px,1fr) 42px;align-items:center;gap:10px;margin:12px 0;font-size:13px}
+.audio-slider input{width:100%;min-width:0;accent-color:#60cef3}
+.audio-slider output{text-align:right;font-variant-numeric:tabular-nums}
+.window-body .audio-slider input{padding:0;border:0;background:transparent}
+
+/* Match the original cyan settings chrome while retaining native sliders. */
+.audio-settings legend{color:#074f91;text-shadow:0 1px #c8f0ff;font-size:15px}
+.audio-settings{color:#14486e}
+.audio-slider input,.audio-mute input{accent-color:#0488d1}
+.window-body .audio-settings .muted{color:#386886}
+
+/* A uniform navy-on-light settings surface, including native audio controls. */
+.settings-console .audio-settings{color:#123e65;margin-bottom:20px}
+.settings-console .audio-settings legend{color:#104a76;text-shadow:none;border-bottom:1px solid #b5d4e6;padding-bottom:6px;width:100%;font-size:14px}
+.settings-console .audio-mute,.settings-console .audio-slider,.settings-console .audio-slider output{color:#123e65}
+.settings-console .audio-settings .muted{color:#476c86}
+.settings-console .audio-slider input{background:transparent;border:0;box-shadow:none;accent-color:#087ec0}
+.settings-console .audio-mute input{accent-color:#087ec0}

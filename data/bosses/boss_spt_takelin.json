@@ -1,0 +1,159 @@
+{
+  "id": "boss_spt_takelin",
+  "name": {
+    "zh": "塔克林"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "龙王圣殿"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 274,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10760,
+        10759,
+        20338,
+        10762
+      ],
+      "hp_override": 13000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "leech"
+      ]
+    },
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "同生共死",
+          "寄生种子",
+          "极度冰点"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "crit_rate_up",
+          "params": {
+            "target": "self",
+            "stages": 2
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 76.9
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "always_crit",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10760,
+      10759,
+      20338,
+      10762
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_takelin": 1
+    }
+  },
+  "reward_hatches": 273,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "哈莫星龙王圣殿（三龙之一）挑战塔克林，打败获得塔克林精元（孵化得塔米）。"
+  },
+  "strategy_notes": {
+    "zh": "先用丽莎布布叶绿光束等消掉天生物攻+2，再降它物攻；用毒粉、漩涡、火焰漩涡等叠加中毒/烧伤/冻伤，三重状态伤害约2回合KO；准备多只精灵轮换。"
+  },
+  "engine_notes": [
+    "Innate 物攻+2 (天生强化物攻+2，物攻900左右，消除完为450左右) — clearable.",
+    "All skills crit 1/4 of the time (crit_rate_up +2 ≈ 25%, estimate); once its HP is below 10000 every attack is a crit (techbang: 体力降到10000以下时每次攻击必定致命一击) → phase at 76.9% of 13000. 4399 instead says it crits often below 1/4 HP.",
+    "Poison, burn, freeze and fatigue work; immune to 寄生种子, 同生共死, 极度冰点.",
+    "Cosmetic: 每次攻击后位置会前移 (sprite moves forward) — not modelled.",
+    "Speed below 180. 灰飞烟灭 hit 3 of the player's pets in the 3v3 team battle version; single-target here.",
+    "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "crit_threshold",
+      "crit_rate_up_amount",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201009-26-78027.html",
+    "https://www.techbang.com/posts/33167-order-spt-boss-raiders-tarklin-review",
+    "https://news.4399.com/seer/spt/201008-14-75467.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2010-09-26): 血量13000, 天生物攻+2, 可中毒/烧伤/冻伤, 免疫寄生; 4399 2011 summary: 80级."
+}

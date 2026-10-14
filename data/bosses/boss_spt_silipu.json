@@ -1,0 +1,90 @@
+{
+  "id": "boss_spt_silipu",
+  "name": {
+    "zh": "斯利普"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "上古龙殿"
+  },
+  "era": "2012-04",
+  "team": [
+    {
+      "species": 1164,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12741,
+        12736,
+        12740,
+        21422
+      ],
+      "hp_override": 8000,
+      "stat_multipliers": {
+        "spe": 0.5
+      }
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12741,
+      12736,
+      12740,
+      21422
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1163,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "SPT面板选择螺旋星系→斯利普→现在就去，来到上古龙殿，点击沉睡中的斯利普挑战；打败获得斯利普精元。"
+  },
+  "strategy_notes": {
+    "zh": "没有明显强化、吃属性相克，较好打：凯洛亚水之结界弱化/补血→斯加尔卡自杀→盖亚返璞归真强化后石破天惊秒杀；战斗系精灵有效。"
+  },
+  "engine_notes": [
+    "4399: 每回合容易给我方精灵造成睡眠和害怕状态 — sleep likely from its 打盹/boss-only effects, fear from 展翅冲锋 (15%). The 4th skill is a guess (打盹 21422 fits the 'sleeping dragon' theme); engine may need a boss-only sleep-inflicting variant.",
+    "速度极慢 — spe x0.5 estimate.",
+    "HP and level not measured by the guide (作者用盖亚秒杀); estimates.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "stat_multipliers"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/news/seerwenda/156097.html",
+    "https://news.4399.com/seer/zenmezhua/201204-25-156108.html",
+    "https://news.4399.com/seer/tujian/156453.htm"
+  ],
+  "source_note": "4399 guide 2012-04-27: slow, frequent sleep/fear, no innate boost; HP 'not measured'."
+}

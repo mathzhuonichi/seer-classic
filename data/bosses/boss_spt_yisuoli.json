@@ -1,0 +1,143 @@
+{
+  "id": "boss_spt_yisuoli",
+  "name": {
+    "zh": "伊索里"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "冰晶奇宫"
+  },
+  "era": "2012-12",
+  "team": [
+    {
+      "species": 1453,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13371,
+        13373,
+        21784,
+        21785
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "stages_unclearable",
+      "params": {
+        "stats": [
+          "def",
+          "spd"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "immune_stage_down"
+    },
+    {
+      "rule": "script",
+      "id": "foe_cannot_boost"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2,
+            "def": 2,
+            "spd": 2
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 25
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "damage_dealt_multiplier",
+          "params": {
+            "target": "self",
+            "multiplier": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13371,
+      13373,
+      21784,
+      21785
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1452,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "瞭望舱【热门精灵推荐】第三页可前往新场景冰晶奇宫挑战伊索里；打败获得伊索的精元。"
+  },
+  "strategy_notes": {
+    "zh": "飞行/超能系克制：帕罗狄亚带禁制领域与大招为主力，斯加尔卡或斯普林特自杀辅助；尽量在它1/4血以上时打出大伤害。"
+  },
+  "engine_notes": [
+    "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost.",
+    "foe_cannot_boost: the player's pets cannot raise their stat stages during this fight (我方不能强化).",
+    "Below 1/4 HP its attack damage doubles.",
+    "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
+    "Control skills and DoT statuses do not work (immune_status).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://m.juxia.com/news/2012-12-7/70413.html"
+  ],
+  "source_note": "聚侠 2012-12-07: 100级, 10000体力, 天生攻击/防御/特防+2, 1/4以下伤害翻倍, 我方不能强化."
+}

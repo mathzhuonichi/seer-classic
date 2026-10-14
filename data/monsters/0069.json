@@ -1,0 +1,103 @@
+{
+  "id": 69,
+  "name": {
+    "zh": "提亚斯"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 80,
+    "atk": 90,
+    "def": 75,
+    "spa": 100,
+    "spd": 78,
+    "spe": 105
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 116,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10157
+    },
+    {
+      "level": 4,
+      "skill": 20004
+    },
+    {
+      "level": 8,
+      "skill": 10054
+    },
+    {
+      "level": 12,
+      "skill": 10009
+    },
+    {
+      "level": 16,
+      "skill": 10159
+    },
+    {
+      "level": 20,
+      "skill": 20017
+    },
+    {
+      "level": 24,
+      "skill": 10158
+    },
+    {
+      "level": 27,
+      "skill": 10160
+    },
+    {
+      "level": 30,
+      "skill": 10161
+    },
+    {
+      "level": 34,
+      "skill": 20082
+    },
+    {
+      "level": 38,
+      "skill": 10163
+    },
+    {
+      "level": 42,
+      "skill": 10162
+    },
+    {
+      "level": 46,
+      "skill": 20083
+    },
+    {
+      "level": 50,
+      "skill": 10164
+    },
+    {
+      "level": 54,
+      "skill": 20084
+    },
+    {
+      "level": 59,
+      "skill": 10165
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 68,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 2,
+  "art": "m0069",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

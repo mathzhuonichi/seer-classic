@@ -1,0 +1,84 @@
+{
+  "id": "boss_spt_gangyasha",
+  "name": {
+    "zh": "钢牙鲨"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "海洋星海底"
+  },
+  "era": "2009-07",
+  "team": [
+    {
+      "species": 34,
+      "level": 25,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10075,
+        20011,
+        10076,
+        20040
+      ],
+      "hp_override": 250
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10075,
+      20011,
+      10076,
+      20040
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_gangyasha": 1
+    }
+  },
+  "reward_hatches": 33,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "SPT第二关：穿上潜水套装（机械室潜艇电路小游戏获得）进入海洋星三层（深处），挑战钢牙鲨；打败获得黑矿石（原版奖励为道具；本作统一为钢牙鲨精元，孵化得利牙鱼）。"
+  },
+  "strategy_notes": {
+    "zh": "25级布布草强力吸取，或25+级电系精灵（30级雷伊鼠电火花3下），烈火猴30级以上用疯狂乱抓（别用火系技能）。"
+  },
+  "engine_notes": [
+    "Pre-battle requirement: 潜水套装 to enter 海洋星三层 (map gate, not a battle rule).",
+    "Original reward was 黑矿石/黑晶矿 (a mining item); standardised to essence_gangyasha → 利牙鱼 #33.",
+    "HP never published; 250 is an estimate.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70390.html",
+    "https://news.7k7k.com/content/20110316/76862.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05): 水系, 海洋星三层, 25级; 7k7k 2011: 冰之牙/虚张声势/猛击/噪音, reward 黑矿石."
+}

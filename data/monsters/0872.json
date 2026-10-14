@@ -1,0 +1,58 @@
+{
+  "id": 872,
+  "name": {
+    "zh": "小海牙"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 76,
+    "def": 60,
+    "spa": 49,
+    "spd": 43,
+    "spe": 54
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10223
+    },
+    {
+      "level": 5,
+      "skill": 20489
+    },
+    {
+      "level": 9,
+      "skill": 10297
+    },
+    {
+      "level": 13,
+      "skill": 10025
+    }
+  ],
+  "evolution": [
+    {
+      "to": 873,
+      "method": "level",
+      "level": 16
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0872",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

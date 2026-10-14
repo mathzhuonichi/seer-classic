@@ -1,0 +1,128 @@
+{
+  "id": 1277,
+  "name": {
+    "zh": "雷纳尔多"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 126,
+    "atk": 82,
+    "def": 100,
+    "spa": 112,
+    "spd": 90,
+    "spe": 90
+  },
+  "ev_yield": {
+    "hp": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 10,
+      "skill": 20111
+    },
+    {
+      "level": 15,
+      "skill": 10051
+    },
+    {
+      "level": 20,
+      "skill": 10328
+    },
+    {
+      "level": 25,
+      "skill": 10047
+    },
+    {
+      "level": 30,
+      "skill": 20144
+    },
+    {
+      "level": 35,
+      "skill": 10329
+    },
+    {
+      "level": 40,
+      "skill": 10330
+    },
+    {
+      "level": 42,
+      "skill": 21549
+    },
+    {
+      "level": 44,
+      "skill": 10333
+    },
+    {
+      "level": 48,
+      "skill": 20073
+    },
+    {
+      "level": 51,
+      "skill": 10334
+    },
+    {
+      "level": 54,
+      "skill": 10332
+    },
+    {
+      "level": 55,
+      "skill": 12979
+    },
+    {
+      "level": 57,
+      "skill": 10335
+    },
+    {
+      "level": 60,
+      "skill": 10331
+    },
+    {
+      "level": 63,
+      "skill": 10336
+    },
+    {
+      "level": 65,
+      "skill": 21550
+    },
+    {
+      "level": 68,
+      "skill": 20145
+    },
+    {
+      "level": 70,
+      "skill": 12980
+    },
+    {
+      "level": 73,
+      "skill": 21551
+    },
+    {
+      "level": 75,
+      "skill": 12981
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 113,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1277",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

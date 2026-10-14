@@ -1,0 +1,96 @@
+{
+  "id": 32,
+  "name": {
+    "zh": "巴拉龟"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 79,
+    "atk": 83,
+    "def": 100,
+    "spa": 85,
+    "spd": 105,
+    "spe": 78
+  },
+  "ev_yield": {
+    "spd": 3
+  },
+  "exp_yield": 126,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 4,
+      "skill": 20035
+    },
+    {
+      "level": 7,
+      "skill": 10005
+    },
+    {
+      "level": 10,
+      "skill": 20001
+    },
+    {
+      "level": 13,
+      "skill": 10013
+    },
+    {
+      "level": 15,
+      "skill": 10068
+    },
+    {
+      "level": 19,
+      "skill": 10069
+    },
+    {
+      "level": 23,
+      "skill": 20036
+    },
+    {
+      "level": 28,
+      "skill": 10070
+    },
+    {
+      "level": 33,
+      "skill": 10071
+    },
+    {
+      "level": 39,
+      "skill": 10072
+    },
+    {
+      "level": 43,
+      "skill": 20038
+    },
+    {
+      "level": 48,
+      "skill": 20037
+    },
+    {
+      "level": 53,
+      "skill": 10027
+    },
+    {
+      "level": 61,
+      "skill": 10073
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 31,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0032",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

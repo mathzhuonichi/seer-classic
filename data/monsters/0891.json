@@ -1,0 +1,62 @@
+{
+  "id": 891,
+  "name": {
+    "zh": "克米尔"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 75,
+    "atk": 72,
+    "def": 50,
+    "spa": 41,
+    "spd": 46,
+    "spe": 50
+  },
+  "ev_yield": {
+    "hp": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 50,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 12142
+    },
+    {
+      "level": 5,
+      "skill": 20183
+    },
+    {
+      "level": 10,
+      "skill": 11025
+    },
+    {
+      "level": 15,
+      "skill": 11531
+    },
+    {
+      "level": 20,
+      "skill": 20029
+    }
+  ],
+  "evolution": [
+    {
+      "to": 892,
+      "method": "level",
+      "level": 29
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0891",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

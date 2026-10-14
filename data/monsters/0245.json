@@ -1,0 +1,105 @@
+{
+  "id": 245,
+  "name": {
+    "zh": "宾尼纳拉"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 108,
+    "atk": 112,
+    "def": 86,
+    "spa": 84,
+    "spd": 74,
+    "spe": 93
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20002
+    },
+    {
+      "level": 11,
+      "skill": 10042
+    },
+    {
+      "level": 16,
+      "skill": 10672
+    },
+    {
+      "level": 20,
+      "skill": 10011
+    },
+    {
+      "level": 25,
+      "skill": 10062
+    },
+    {
+      "level": 30,
+      "skill": 20293
+    },
+    {
+      "level": 35,
+      "skill": 10673
+    },
+    {
+      "level": 40,
+      "skill": 10237
+    },
+    {
+      "level": 44,
+      "skill": 20249
+    },
+    {
+      "level": 48,
+      "skill": 10675
+    },
+    {
+      "level": 52,
+      "skill": 10676
+    },
+    {
+      "level": 56,
+      "skill": 10141
+    },
+    {
+      "level": 60,
+      "skill": 10674
+    },
+    {
+      "level": 63,
+      "skill": 10671
+    },
+    {
+      "level": 66,
+      "skill": 20294
+    },
+    {
+      "level": 69,
+      "skill": 10670
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 244,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0245",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-03"
+}

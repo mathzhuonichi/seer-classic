@@ -1,0 +1,58 @@
+{
+  "id": 122,
+  "name": {
+    "zh": "达尔"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 60,
+    "atk": 60,
+    "def": 50,
+    "spa": 55,
+    "spd": 50,
+    "spe": 55
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10361
+    },
+    {
+      "level": 7,
+      "skill": 20156
+    },
+    {
+      "level": 12,
+      "skill": 10363
+    },
+    {
+      "level": 17,
+      "skill": 10352
+    }
+  ],
+  "evolution": [
+    {
+      "to": 123,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0122",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

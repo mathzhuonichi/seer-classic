@@ -1,0 +1,101 @@
+{
+  "id": "boss_dark_door6_aieryiluo",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第六门 艾尔伊洛"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第六门"
+  },
+  "era": "2010-06",
+  "team": [
+    {
+      "species": 297,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10865,
+        10432,
+        20387,
+        10436
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1,
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10865,
+      10432,
+      20387,
+      10436
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_aieryiluo": 1
+    }
+  },
+  "reward_hatches": 296,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door6_sijiaerka"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第六门：100级艾尔伊洛，约1500血。打败获得艾尔伊洛精元。"
+  },
+  "strategy_notes": {
+    "zh": "先用盖亚或丽莎布布消除它的天生强化，再用光系/暗系强攻；或雷伊麻痹后尤纳斯黑暗之门。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+1/spa+1 assumed, clearable."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "innate_stage_stat"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
+    "https://news.4399.com/seer/ahwdc/201006-07-70448.html"
+  ],
+  "source_note": "4399 第六门攻略: No.297 超能系 Lv100 HP1500, 天生强化."
+}

@@ -1,0 +1,87 @@
+{
+  "id": "boss_spt_moguguai",
+  "name": {
+    "zh": "蘑菇怪"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "克洛斯星林间"
+  },
+  "era": "2009-07",
+  "team": [
+    {
+      "species": 47,
+      "level": 15,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10042,
+        10001,
+        20020,
+        20004
+      ],
+      "hp_override": 120
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10042,
+      10001,
+      20020,
+      20004
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_moguguai": 1
+    }
+  },
+  "reward_hatches": 46,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "SPT第一关：在克洛斯星林间挑战蘑菇怪，打败即可获得「退化小蘑菇」（原版奖励是道具而非精元；本作统一为蘑菇怪精元，孵化得小蘑菇）。"
+  },
+  "strategy_notes": {
+    "zh": "新手关：17-20级小火猴反复火焰车（带3瓶体力药），或23-30级伊优钢之爪，或20-27级布布种子疾风刃+吸收；高等级精灵乱打即死。"
+  },
+  "engine_notes": [
+    "Original reward was the item 退化小蘑菇, not a 精元; the brief standardises SPT rewards to essences (essence_moguguai → 小蘑菇 #46).",
+    "Level conflict: 4399 (2010-06) says 15级, 7k7k/4399 summaries (2011) say 10级. 15 used (older source).",
+    "HP never published; 120 is an estimate (~2x its natural Lv15 HP, in line with 里奥斯 Lv35 = 340).",
+    "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "level",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70388.html",
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05): 克洛斯星林间 15级, 针刺/撞击/毒粉/瞪眼, reward 退化小蘑菇."
+}

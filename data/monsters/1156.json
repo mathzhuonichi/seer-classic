@@ -1,0 +1,101 @@
+{
+  "id": 1156,
+  "name": {
+    "zh": "威里特"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 128,
+    "atk": 116,
+    "def": 86,
+    "spa": 78,
+    "spd": 87,
+    "spe": 95
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 125,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10047
+    },
+    {
+      "level": 5,
+      "skill": 20005
+    },
+    {
+      "level": 9,
+      "skill": 12716
+    },
+    {
+      "level": 13,
+      "skill": 10650
+    },
+    {
+      "level": 17,
+      "skill": 20489
+    },
+    {
+      "level": 21,
+      "skill": 11556
+    },
+    {
+      "level": 25,
+      "skill": 11501
+    },
+    {
+      "level": 29,
+      "skill": 20798
+    },
+    {
+      "level": 33,
+      "skill": 12717
+    },
+    {
+      "level": 37,
+      "skill": 12286
+    },
+    {
+      "level": 41,
+      "skill": 21413
+    },
+    {
+      "level": 45,
+      "skill": 12718
+    },
+    {
+      "level": 49,
+      "skill": 20490
+    },
+    {
+      "level": 53,
+      "skill": 12720
+    },
+    {
+      "level": 57,
+      "skill": 21414
+    },
+    {
+      "level": 61,
+      "skill": 12719
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1155,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1156",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-04"
+}

@@ -1,0 +1,84 @@
+{
+  "id": "boss_dark_door9_dipulide",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第九门 迪普利德"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第九门"
+  },
+  "era": "2011-05",
+  "team": [
+    {
+      "species": 779,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11891,
+        11890,
+        11892,
+        11743
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11891,
+      11890,
+      11892,
+      11743
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_dipulide": 1
+    }
+  },
+  "reward_hatches": 777,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door8_saduolani"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第九门：100级迪普利德，约1500血。打败获得迪普利德精元。"
+  },
+  "strategy_notes": {
+    "zh": "光系强攻即可，或高速高攻精灵轮番放大招。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "Level not given; 100 assumed. 4399 writes 黑暗震荡 (= 黑能震荡 11890)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98372.html",
+    "https://www.511du.com/p/6868.html"
+  ],
+  "source_note": "4399 第九门全程攻略 (2011-05-30): No.779 超能系 HP≈1500."
+}

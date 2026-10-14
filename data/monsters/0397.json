@@ -1,0 +1,74 @@
+{
+  "id": 397,
+  "name": {
+    "zh": "杰奥"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 62,
+    "atk": 68,
+    "def": 52,
+    "spa": 56,
+    "spd": 56,
+    "spe": 46
+  },
+  "ev_yield": {
+    "hp": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium",
+  "growth_type": 0,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10499
+    },
+    {
+      "level": 6,
+      "skill": 20117
+    },
+    {
+      "level": 10,
+      "skill": 11077
+    },
+    {
+      "level": 14,
+      "skill": 11082
+    },
+    {
+      "level": 18,
+      "skill": 20533
+    },
+    {
+      "level": 22,
+      "skill": 11078
+    },
+    {
+      "level": 26,
+      "skill": 10386
+    },
+    {
+      "level": 30,
+      "skill": 20234
+    }
+  ],
+  "evolution": [
+    {
+      "to": 398,
+      "method": "level",
+      "level": 31
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0397",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

@@ -1,0 +1,101 @@
+{
+  "id": 400,
+  "name": {
+    "zh": "萨帕克"
+  },
+  "types": [
+    "dragon"
+  ],
+  "base": {
+    "hp": 110,
+    "atk": 89,
+    "def": 79,
+    "spa": 114,
+    "spd": 101,
+    "spe": 97
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 119,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 5,
+      "skill": 20373
+    },
+    {
+      "level": 9,
+      "skill": 11091
+    },
+    {
+      "level": 13,
+      "skill": 10009
+    },
+    {
+      "level": 17,
+      "skill": 20536
+    },
+    {
+      "level": 21,
+      "skill": 11087
+    },
+    {
+      "level": 25,
+      "skill": 20537
+    },
+    {
+      "level": 29,
+      "skill": 10615
+    },
+    {
+      "level": 33,
+      "skill": 20098
+    },
+    {
+      "level": 37,
+      "skill": 11088
+    },
+    {
+      "level": 41,
+      "skill": 20538
+    },
+    {
+      "level": 45,
+      "skill": 11085
+    },
+    {
+      "level": 49,
+      "skill": 11089
+    },
+    {
+      "level": 53,
+      "skill": 20539
+    },
+    {
+      "level": 58,
+      "skill": 11086
+    },
+    {
+      "level": 63,
+      "skill": 11090
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 399,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0400",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

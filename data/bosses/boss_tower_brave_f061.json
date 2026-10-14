@@ -1,0 +1,117 @@
+{
+  "id": "boss_tower_brave_f061",
+  "name": {
+    "zh": "勇者之塔 第61层 刹洛眼、迪修眼、詹士眼"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔"
+  },
+  "era": "2010-10",
+  "team": [
+    {
+      "species": 270,
+      "level": 230,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10748,
+        10744,
+        10747,
+        20330
+      ],
+      "hp_override": 1150
+    },
+    {
+      "species": 271,
+      "level": 230,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10751,
+        10753,
+        10750,
+        20333
+      ],
+      "hp_override": 1150
+    },
+    {
+      "species": 272,
+      "level": 230,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10756,
+        10743,
+        10755,
+        20336
+      ],
+      "hp_override": 1150
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10748,
+      10744,
+      10747,
+      20330,
+      10751,
+      10753,
+      10750,
+      20333,
+      10756,
+      10743,
+      10755,
+      20336
+    ]
+  },
+  "reward": {
+    "items": {}
+  },
+  "reward_note": "No per-floor reward is recorded for 61-69.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f060"
+    ]
+  },
+  "capture": {
+    "zh": "勇者之塔第61层：刹洛眼、迪修眼、詹士眼，Lv230，每只约1150血。"
+  },
+  "strategy_notes": {
+    "zh": "因为对手首发超能，而且只有超能系招，光系强化三次即可；或厄尔塞拉6次光芒附体+八尺镜"
+  },
+  "engine_notes": [
+    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
+    "https://www.juxia.com/news/2011-9-23/15944.html"
+  ],
+  "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
+}

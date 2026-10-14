@@ -1,0 +1,72 @@
+{
+  "id": 1273,
+  "name": {
+    "zh": "卡斯奇"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 67,
+    "atk": 38,
+    "def": 50,
+    "spa": 64,
+    "spd": 45,
+    "spe": 60
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 60,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 40,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10128
+    },
+    {
+      "level": 5,
+      "skill": 20102
+    },
+    {
+      "level": 9,
+      "skill": 10295
+    },
+    {
+      "level": 13,
+      "skill": 20043
+    },
+    {
+      "level": 17,
+      "skill": 10134
+    },
+    {
+      "level": 21,
+      "skill": 10136
+    },
+    {
+      "level": 25,
+      "skill": 20761
+    },
+    {
+      "level": 29,
+      "skill": 11663
+    },
+    {
+      "level": 33,
+      "skill": 21544
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1273",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

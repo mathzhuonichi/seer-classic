@@ -1,0 +1,117 @@
+{
+  "id": 907,
+  "name": {
+    "zh": "巴贝特"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 88,
+    "def": 90,
+    "spa": 116,
+    "spd": 88,
+    "spe": 90
+  },
+  "ev_yield": {
+    "hp": 2,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 4,
+      "skill": 20035
+    },
+    {
+      "level": 7,
+      "skill": 10005
+    },
+    {
+      "level": 10,
+      "skill": 20001
+    },
+    {
+      "level": 13,
+      "skill": 10013
+    },
+    {
+      "level": 15,
+      "skill": 10068
+    },
+    {
+      "level": 19,
+      "skill": 10069
+    },
+    {
+      "level": 23,
+      "skill": 20036
+    },
+    {
+      "level": 28,
+      "skill": 10070
+    },
+    {
+      "level": 30,
+      "skill": 12175
+    },
+    {
+      "level": 33,
+      "skill": 10071
+    },
+    {
+      "level": 39,
+      "skill": 10072
+    },
+    {
+      "level": 43,
+      "skill": 20038
+    },
+    {
+      "level": 48,
+      "skill": 20037
+    },
+    {
+      "level": 53,
+      "skill": 10027
+    },
+    {
+      "level": 61,
+      "skill": 10073
+    },
+    {
+      "level": 63,
+      "skill": 21124
+    },
+    {
+      "level": 65,
+      "skill": 12176
+    },
+    {
+      "level": 68,
+      "skill": 12174
+    },
+    {
+      "level": 70,
+      "skill": 12177
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 906,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0907",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

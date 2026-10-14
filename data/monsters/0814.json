@@ -1,0 +1,78 @@
+{
+  "id": 814,
+  "name": {
+    "zh": "琳达"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 68,
+    "atk": 40,
+    "def": 51,
+    "spa": 69,
+    "spd": 53,
+    "spe": 64
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 71,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 25,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20002
+    },
+    {
+      "level": 9,
+      "skill": 10070
+    },
+    {
+      "level": 13,
+      "skill": 20706
+    },
+    {
+      "level": 17,
+      "skill": 11422
+    },
+    {
+      "level": 21,
+      "skill": 10190
+    },
+    {
+      "level": 25,
+      "skill": 20003
+    },
+    {
+      "level": 29,
+      "skill": 11439
+    },
+    {
+      "level": 33,
+      "skill": 21005
+    }
+  ],
+  "evolution": [
+    {
+      "to": 815,
+      "method": "level",
+      "level": 35
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0814",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-06"
+}

@@ -1,0 +1,102 @@
+{
+  "id": 804,
+  "name": {
+    "zh": "迪符特"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 130,
+    "atk": 90,
+    "def": 85,
+    "spa": 120,
+    "spd": 85,
+    "spe": 95
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 125,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20202
+    },
+    {
+      "level": 9,
+      "skill": 11417
+    },
+    {
+      "level": 13,
+      "skill": 20437
+    },
+    {
+      "level": 17,
+      "skill": 10242
+    },
+    {
+      "level": 21,
+      "skill": 11263
+    },
+    {
+      "level": 25,
+      "skill": 20988
+    },
+    {
+      "level": 29,
+      "skill": 11939
+    },
+    {
+      "level": 33,
+      "skill": 20989
+    },
+    {
+      "level": 37,
+      "skill": 11940
+    },
+    {
+      "level": 41,
+      "skill": 20700
+    },
+    {
+      "level": 45,
+      "skill": 11937
+    },
+    {
+      "level": 49,
+      "skill": 11941
+    },
+    {
+      "level": 53,
+      "skill": 20990
+    },
+    {
+      "level": 57,
+      "skill": 11938
+    },
+    {
+      "level": 61,
+      "skill": 11942
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 803,
+  "obtain": [
+    "boss"
+  ],
+  "tags": [
+    "spt_boss"
+  ],
+  "gender_code": 1,
+  "art": "m0804",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-06"
+}

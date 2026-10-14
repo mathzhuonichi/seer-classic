@@ -1,0 +1,102 @@
+{
+  "id": "boss_kaxiusi",
+  "name": {
+    "zh": "卡修斯"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "怀特星"
+  },
+  "era": "2011-06",
+  "team": [
+    {
+      "species": 798,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11925,
+        11927,
+        20982,
+        20639
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11925,
+      11927,
+      20982,
+      20639
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_kaci": 1
+    }
+  },
+  "reward_hatches": 796,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在怀特星挑战大地之神卡修斯，打败获得「卡茨的精元」，经分子转化器孵化得到卡茨（进化链 卡茨→卡修→卡修斯）。"
+  },
+  "strategy_notes": {
+    "zh": "地面暗影系，被草、飞行、光系克制。丽莎布布先用叶绿光束消掉天生攻击+2，再用克制系输出；或光系（厄尔塞拉）、谱尼长期消耗配合回复与防御强化；也可魔焰猩猩绝命火焰秒杀。卡修斯单次伤害约120-170（消强后）。"
+  },
+  "engine_notes": [
+    "Innate atk+2 (天生攻击强化+2), clearable.",
+    "融入黑暗 makes the player's skill fail if 卡修斯 moves first that turn (1 turn); 量子绝灭波 30% to add 50 fixed damage per turn for 3 turns.",
+    "Reward essence is 卡茨的精元 (base form #796), so the item slug is essence_kaci.",
+    "A later guide (9游) says it only appears 12:00-13:00 and 19:00-20:00 and that 'it reverses your boosts (它会翻转)'. Time windows are dropped; the reversal is not in the 2011 4399 page and is not encoded.",
+    "4399 files this page under its SPT section (2011-08 compilation); it was assigned here as a 战神联盟 legendary."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "location",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201108-23-111511.html",
+    "https://www.8090.com/srh/article_81086.html",
+    "https://www.9game.cn/news/9592370.html"
+  ],
+  "source_note": "4399 卡修斯介绍及攻略 (2011): 70级, 地面暗影, 约5000血, 天生攻击+2, skills 量子绝灭波/连山绝壑/融入黑暗/幻化灭影, reward 卡茨的精元."
+}

@@ -1,0 +1,110 @@
+{
+  "id": "boss_spt_sikelu",
+  "name": {
+    "zh": "斯克鲁"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "通天塔"
+  },
+  "era": "2012-09",
+  "team": [
+    {
+      "species": 1354,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13156,
+        13158,
+        13155,
+        21653
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "immune_status"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13156,
+      13158,
+      13155,
+      21653
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1353,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在通天塔挑战斯克鲁（魔神艾里克的部下），打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "未找到同期攻略；冰系，火、战斗、机械、地面系克制。"
+  },
+  "engine_notes": [
+    "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified.",
+    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "rules",
+      "phases",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81"
+  ],
+  "source_note": "Only species data and the game's SPT list (habitat 通天塔) were found; era inferred from species id between 帕里斯 and 纳特."
+}

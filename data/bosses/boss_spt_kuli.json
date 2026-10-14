@@ -1,0 +1,108 @@
+{
+  "id": "boss_spt_kuli",
+  "name": {
+    "zh": "库里"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "浮空仙岛"
+  },
+  "era": "2012-11",
+  "team": [
+    {
+      "species": 1418,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13292,
+        13294,
+        21737,
+        21736
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "random_heal",
+      "params": {
+        "chance": 20,
+        "pct_max_hp": 10
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13292,
+      13294,
+      21737,
+      21736
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1417,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在浮空仙岛挑战天马一族长老库里，打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "先消强化，纳多雷反转约3次，布鲁海洋之心约3次，自杀型精灵上场，再由水球精灵强化2次后大招击杀（伤害7000+，强化3次9000+）。"
+  },
+  "engine_notes": [
+    "random_heal: 'has a chance to heal' (有几率回血) — chance and amount not given (20% / 10% max HP are placeholders). Its 星光奔腾击 already has 15% to heal 1/4 HP; the 'chance to heal' may simply be that effect.",
+    "海洋之心 works (used in the reference strategy).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "random_heal",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20121112/541577.html"
+  ],
+  "source_note": "7k7k 2012-11-12: 体力1w, 有几率回血, 攻击+2, 普通系."
+}

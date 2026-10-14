@@ -1,0 +1,108 @@
+{
+  "id": "boss_spt_luolasike",
+  "name": {
+    "zh": "洛拉斯克"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "晶蛇魔窟"
+  },
+  "era": "2012-11",
+  "team": [
+    {
+      "species": 1431,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        13326,
+        13327,
+        13325,
+        21758
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "immune_pct_damage"
+    },
+    {
+      "rule": "immune_status"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      13326,
+      13327,
+      13325,
+      21758
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1430,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在晶蛇魔窟挑战洛拉斯克，打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "未找到同期攻略；地面系，草、水、冰、飞行（免疫地面技能）系有利。"
+  },
+  "engine_notes": [
+    "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified.",
+    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "rules",
+      "phases",
+      "era"
+    ]
+  },
+  "sources": [],
+  "source_note": "Only species data and the game's SPT list (habitat 晶蛇魔窟) were available; era inferred from species id between 库里 and 伊索里."
+}

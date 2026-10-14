@@ -1,0 +1,74 @@
+{
+  "id": 23,
+  "name": {
+    "zh": "卡洛"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 63,
+    "atk": 60,
+    "def": 55,
+    "spa": 60,
+    "spd": 50,
+    "spe": 76
+  },
+  "ev_yield": {
+    "spe": 2
+  },
+  "exp_yield": 85,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 60,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 4,
+      "skill": 20025
+    },
+    {
+      "level": 9,
+      "skill": 10054
+    },
+    {
+      "level": 13,
+      "skill": 10008
+    },
+    {
+      "level": 17,
+      "skill": 20016
+    },
+    {
+      "level": 22,
+      "skill": 10055
+    },
+    {
+      "level": 27,
+      "skill": 20026
+    },
+    {
+      "level": 32,
+      "skill": 20017
+    }
+  ],
+  "evolution": [
+    {
+      "to": 24,
+      "method": "level",
+      "level": 36
+    }
+  ],
+  "evolves_from": 22,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0023",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}

@@ -1,0 +1,118 @@
+{
+  "id": 359,
+  "name": {
+    "zh": "布林克克"
+  },
+  "types": [
+    "water"
+  ],
+  "base": {
+    "hp": 110,
+    "atk": 118,
+    "def": 94,
+    "spa": 98,
+    "spd": 82,
+    "spe": 90
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 6,
+      "skill": 20004
+    },
+    {
+      "level": 11,
+      "skill": 10878
+    },
+    {
+      "level": 16,
+      "skill": 10883
+    },
+    {
+      "level": 20,
+      "skill": 20142
+    },
+    {
+      "level": 25,
+      "skill": 10321
+    },
+    {
+      "level": 30,
+      "skill": 10323
+    },
+    {
+      "level": 35,
+      "skill": 20395
+    },
+    {
+      "level": 38,
+      "skill": 10879
+    },
+    {
+      "level": 41,
+      "skill": 10324
+    },
+    {
+      "level": 44,
+      "skill": 20141
+    },
+    {
+      "level": 47,
+      "skill": 10881
+    },
+    {
+      "level": 50,
+      "skill": 20125
+    },
+    {
+      "level": 54,
+      "skill": 10884
+    },
+    {
+      "level": 58,
+      "skill": 20396
+    },
+    {
+      "level": 62,
+      "skill": 10880
+    },
+    {
+      "level": 66,
+      "skill": 10885
+    },
+    {
+      "level": 70,
+      "skill": 20397
+    },
+    {
+      "level": 74,
+      "skill": 10882
+    },
+    {
+      "level": 78,
+      "skill": 20143
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 358,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0359",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

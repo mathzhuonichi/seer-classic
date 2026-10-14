@@ -1,0 +1,290 @@
+{
+  "packageVersion": "20260930181402",
+  "selectionPolicy": "Official battle theme and eight short interaction cues only. Capture/reward/level-up assignments use named official effects as remake mappings; exact historical controller bindings are not certified.",
+  "bundles": [
+    {
+      "packageVersion": "20260930181402",
+      "bundle": {
+        "bundleName": "game_audios_bgm_fightbg_sound",
+        "fileHash": "3a02f5aee9cb4db311d53729f6fde5a2",
+        "fileSize": 243977
+      },
+      "url": "https://newseer.61.com/Assets/StandaloneWindows64/DefaultPackage/3a02f5aee9cb4db311d53729f6fde5a2",
+      "bytes": 243977,
+      "sha256": "5a3605e7dcaf59e8e57e8441a365a262cd702754a4a0223c83c08264832338df",
+      "assets": [
+        {
+          "assetPath": "Assets/Game/Audios/bgm/FightBg_Sound.mp3",
+          "bundleId": 101,
+          "dependIds": []
+        }
+      ]
+    },
+    {
+      "packageVersion": "20260930181402",
+      "bundle": {
+        "bundleName": "game_audios_effect",
+        "fileHash": "c3ebc19c5cc885b9109c4fb74ada7326",
+        "fileSize": 876667
+      },
+      "url": "https://newseer.61.com/Assets/StandaloneWindows64/DefaultPackage/c3ebc19c5cc885b9109c4fb74ada7326",
+      "bytes": 876667,
+      "sha256": "68378467a86b7e07d07ca42182a809966629e12d4468072256bf2c14199c7296",
+      "assets": [
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_do.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_fa.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_la.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_mi.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_re.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/apl_sol.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/ButtonHit.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/click.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/crystalloop.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/dangoClick.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/dangoLv.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effcet_ClickOnDialog.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_ClickOnButton.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_ClickOnTab.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_DiamondUpgrade.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_DrawMark.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_DrawMarkOpen.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_DrawPet.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_DrawPetSkip.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_EquipmentMark.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_GetAchieve.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_GetHeadFrame.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_GetItems.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_GetPet.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_Interlude.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_Upgrade.wav",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Effect_WoodClick.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/flipPage.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/pencilWriting.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Sound_Lost.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/Sound_Win.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/spring_baozhu.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/spring_drum.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/spring_laohuji.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/spring_nienie.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        },
+        {
+          "assetPath": "Assets/Game/Audios/effect/xinshou3.mp3",
+          "bundleId": 1062,
+          "dependIds": []
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "key": "battle",
+      "file": "battle.m4a",
+      "decodedSource": "game__FightBg_Sound.wav",
+      "durationSeconds": 68.54530612244898,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "899d9ebf24cfad2de62ce6f41dfc594c774213ba44db21474d2ab797461e592b"
+    },
+    {
+      "key": "click",
+      "file": "click.m4a",
+      "decodedSource": "game__Effect_ClickOnButton.wav",
+      "durationSeconds": 0.47020408163265304,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "283080732ef92cd0d9e2e92c3ebdc0aba430ee4c4f0b7ae4271dc488670741a6"
+    },
+    {
+      "key": "tab",
+      "file": "tab.m4a",
+      "decodedSource": "game__Effect_ClickOnTab.wav",
+      "durationSeconds": 0.5224489795918368,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "5f4c09a68f2a53e7b867149f1db5072aedf2d0860429d0df1f46eb0af789d7b4"
+    },
+    {
+      "key": "capture",
+      "file": "capture.m4a",
+      "decodedSource": "game__Effect_GetPet.wav",
+      "durationSeconds": 2.1188208616780044,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "c27e7668bdb26585765ec2b555f438fccb95e7a9a82d8af2011ce3e4940f32f3"
+    },
+    {
+      "key": "win",
+      "file": "win.m4a",
+      "decodedSource": "game__Sound_Win.wav",
+      "durationSeconds": 3.3959183673469386,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "87a7819b5c9a780e05f1d7f1f0a01c9fe0dbe0923d9330d8cc29775c950d11c3"
+    },
+    {
+      "key": "lose",
+      "file": "lose.m4a",
+      "decodedSource": "game__Sound_Lost.wav",
+      "durationSeconds": 4.231836734693878,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "0d4b3977d401c7cbc5e0b88024bbcdde75a910f78c443303d977c5d45f55cf07"
+    },
+    {
+      "key": "reward",
+      "file": "reward.m4a",
+      "decodedSource": "game__Effect_GetItems.wav",
+      "durationSeconds": 1.0187755102040816,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "6355f2bd47533721d0f85845ef6de155a5ed2ceebfdb52e5b4ac8a3ca63afc81"
+    },
+    {
+      "key": "level-up",
+      "file": "level-up.m4a",
+      "decodedSource": "game__Effect_Upgrade.wav",
+      "durationSeconds": 1.3380498866213153,
+      "encoding": "AAC 64 kbps at 44100 Hz, converted from official decoded PCM",
+      "sha256": "ef1d20caa0139053044eb6e22102f61f5e19060b187a84fb918e499908c1bf91"
+    },
+    {
+      "key": "heal",
+      "file": "heal.mp3",
+      "officialUrl": "https://seer.61.com/resource/active/sound/cure.mp3",
+      "encoding": "Original MP3 copied unchanged",
+      "sha256": "207954de0f29d4bbed72edd461f37676498d7929b82fd10b271c17b7507bfd24"
+    }
+  ]
+}

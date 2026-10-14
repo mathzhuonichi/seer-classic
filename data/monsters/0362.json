@@ -1,0 +1,68 @@
+{
+  "id": 362,
+  "name": {
+    "zh": "丘波"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 45,
+    "def": 52,
+    "spa": 62,
+    "spd": 48,
+    "spe": 51
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 62,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 20,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20111
+    },
+    {
+      "level": 9,
+      "skill": 10887
+    },
+    {
+      "level": 13,
+      "skill": 20137
+    },
+    {
+      "level": 17,
+      "skill": 10296
+    },
+    {
+      "level": 21,
+      "skill": 10888
+    },
+    {
+      "level": 25,
+      "skill": 20399
+    },
+    {
+      "level": 29,
+      "skill": 10333
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0362",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

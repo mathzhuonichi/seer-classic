@@ -1,0 +1,105 @@
+{
+  "id": 236,
+  "name": {
+    "zh": "米洛尼"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 110,
+    "atk": 82,
+    "def": 85,
+    "spa": 112,
+    "spd": 91,
+    "spe": 83
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 112,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10250
+    },
+    {
+      "level": 4,
+      "skill": 20117
+    },
+    {
+      "level": 7,
+      "skill": 10307
+    },
+    {
+      "level": 10,
+      "skill": 20165
+    },
+    {
+      "level": 13,
+      "skill": 10121
+    },
+    {
+      "level": 16,
+      "skill": 10308
+    },
+    {
+      "level": 20,
+      "skill": 20068
+    },
+    {
+      "level": 24,
+      "skill": 10519
+    },
+    {
+      "level": 28,
+      "skill": 10309
+    },
+    {
+      "level": 32,
+      "skill": 20212
+    },
+    {
+      "level": 36,
+      "skill": 10666
+    },
+    {
+      "level": 40,
+      "skill": 10664
+    },
+    {
+      "level": 44,
+      "skill": 20286
+    },
+    {
+      "level": 48,
+      "skill": 10667
+    },
+    {
+      "level": 52,
+      "skill": 10665
+    },
+    {
+      "level": 56,
+      "skill": 20287
+    },
+    {
+      "level": 60,
+      "skill": 10668
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 235,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0236",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-03"
+}

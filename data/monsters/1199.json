@@ -1,0 +1,101 @@
+{
+  "id": 1199,
+  "name": {
+    "zh": "芙莉依儿"
+  },
+  "types": [
+    "grass"
+  ],
+  "base": {
+    "hp": 124,
+    "atk": 78,
+    "def": 88,
+    "spa": 115,
+    "spd": 88,
+    "spe": 97
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10535
+    },
+    {
+      "level": 5,
+      "skill": 20013
+    },
+    {
+      "level": 9,
+      "skill": 12204
+    },
+    {
+      "level": 13,
+      "skill": 20020
+    },
+    {
+      "level": 17,
+      "skill": 10675
+    },
+    {
+      "level": 21,
+      "skill": 10340
+    },
+    {
+      "level": 25,
+      "skill": 20165
+    },
+    {
+      "level": 29,
+      "skill": 10917
+    },
+    {
+      "level": 33,
+      "skill": 20275
+    },
+    {
+      "level": 37,
+      "skill": 12811
+    },
+    {
+      "level": 41,
+      "skill": 21459
+    },
+    {
+      "level": 45,
+      "skill": 12809
+    },
+    {
+      "level": 49,
+      "skill": 12812
+    },
+    {
+      "level": 53,
+      "skill": 21460
+    },
+    {
+      "level": 57,
+      "skill": 12810
+    },
+    {
+      "level": 61,
+      "skill": 12813
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1198,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1199",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-05"
+}

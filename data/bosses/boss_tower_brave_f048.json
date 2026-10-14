@@ -1,0 +1,87 @@
+{
+  "id": "boss_tower_brave_f048",
+  "name": {
+    "zh": "勇者之塔 第48层 迪尔克"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 资源区 勇者之塔"
+  },
+  "era": "2009",
+  "team": [
+    {
+      "species": 90,
+      "level": 120,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20116,
+        10256,
+        10257,
+        10255
+      ],
+      "hp_override": 600
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20116,
+      10256,
+      10257,
+      10255
+    ]
+  },
+  "reward": {
+    "items": {
+      "item_seer_beans": 320
+    }
+  },
+  "reward_note": "item_seer_beans = 赛尔豆 (the game currency); the catalog has no currency item yet, so the amount is carried as an item count.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_tower_brave_f047"
+    ]
+  },
+  "capture": {
+    "zh": "勇者之塔第48层：??级迪尔克。"
+  },
+  "strategy_notes": {
+    "zh": "小心它的浴火重生。上里奥斯用封印，洛比特用黑雾"
+  },
+  "engine_notes": [
+    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
+    "HP is not published per floor. Two data points: 50F 水晶鸭 refills to 900; 57F 艾斯菲亚 has 750 HP. Estimates: 600 for 31-49, 750 for every 51-60 monster.",
+    "浴火重生 is the boss's own skill (the tip warns about it); it is kept in the skill list."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills",
+      "level",
+      "hp",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+  ],
+  "source_note": "4399 勇者之塔1-60层攻略 (2010-04-13): monster, ?? level, reward and tip per floor."
+}

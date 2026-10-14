@@ -1,0 +1,105 @@
+{
+  "id": 415,
+  "name": {
+    "zh": "乌鲁卡"
+  },
+  "types": [
+    "dragon"
+  ],
+  "base": {
+    "hp": 102,
+    "atk": 75,
+    "def": 75,
+    "spa": 110,
+    "spd": 95,
+    "spe": 105
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 118,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20265
+    },
+    {
+      "level": 9,
+      "skill": 11091
+    },
+    {
+      "level": 13,
+      "skill": 20555
+    },
+    {
+      "level": 17,
+      "skill": 11119
+    },
+    {
+      "level": 21,
+      "skill": 11120
+    },
+    {
+      "level": 25,
+      "skill": 20320
+    },
+    {
+      "level": 29,
+      "skill": 11122
+    },
+    {
+      "level": 33,
+      "skill": 11121
+    },
+    {
+      "level": 37,
+      "skill": 20438
+    },
+    {
+      "level": 41,
+      "skill": 11125
+    },
+    {
+      "level": 45,
+      "skill": 20556
+    },
+    {
+      "level": 49,
+      "skill": 11123
+    },
+    {
+      "level": 53,
+      "skill": 11126
+    },
+    {
+      "level": 57,
+      "skill": 20525
+    },
+    {
+      "level": 61,
+      "skill": 11124
+    },
+    {
+      "level": 65,
+      "skill": 11127
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 414,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0415",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-08"
+}

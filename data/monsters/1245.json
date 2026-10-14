@@ -1,0 +1,101 @@
+{
+  "id": 1245,
+  "name": {
+    "zh": "杰莫尔"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 119,
+    "atk": 76,
+    "def": 90,
+    "spa": 110,
+    "spd": 91,
+    "spe": 93
+  },
+  "ev_yield": {
+    "def": 1,
+    "spd": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10223
+    },
+    {
+      "level": 5,
+      "skill": 20004
+    },
+    {
+      "level": 9,
+      "skill": 10429
+    },
+    {
+      "level": 13,
+      "skill": 20723
+    },
+    {
+      "level": 17,
+      "skill": 10680
+    },
+    {
+      "level": 21,
+      "skill": 12912
+    },
+    {
+      "level": 25,
+      "skill": 20848
+    },
+    {
+      "level": 29,
+      "skill": 10435
+    },
+    {
+      "level": 33,
+      "skill": 20096
+    },
+    {
+      "level": 37,
+      "skill": 11494
+    },
+    {
+      "level": 41,
+      "skill": 21516
+    },
+    {
+      "level": 45,
+      "skill": 12910
+    },
+    {
+      "level": 49,
+      "skill": 12913
+    },
+    {
+      "level": 53,
+      "skill": 20275
+    },
+    {
+      "level": 57,
+      "skill": 12911
+    },
+    {
+      "level": 61,
+      "skill": 12914
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1244,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1245",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-06"
+}

@@ -1,0 +1,113 @@
+{
+  "id": 297,
+  "name": {
+    "zh": "艾尔伊洛"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 106,
+    "atk": 110,
+    "def": 86,
+    "spa": 106,
+    "spd": 80,
+    "spe": 100
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10004
+    },
+    {
+      "level": 5,
+      "skill": 20098
+    },
+    {
+      "level": 9,
+      "skill": 10076
+    },
+    {
+      "level": 13,
+      "skill": 10427
+    },
+    {
+      "level": 17,
+      "skill": 20099
+    },
+    {
+      "level": 21,
+      "skill": 10862
+    },
+    {
+      "level": 25,
+      "skill": 10429
+    },
+    {
+      "level": 29,
+      "skill": 20384
+    },
+    {
+      "level": 33,
+      "skill": 10863
+    },
+    {
+      "level": 37,
+      "skill": 10866
+    },
+    {
+      "level": 41,
+      "skill": 20385
+    },
+    {
+      "level": 45,
+      "skill": 10864
+    },
+    {
+      "level": 49,
+      "skill": 20386
+    },
+    {
+      "level": 53,
+      "skill": 10435
+    },
+    {
+      "level": 57,
+      "skill": 20187
+    },
+    {
+      "level": 61,
+      "skill": 10432
+    },
+    {
+      "level": 65,
+      "skill": 10436
+    },
+    {
+      "level": 69,
+      "skill": 20387
+    },
+    {
+      "level": 73,
+      "skill": 10865
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 296,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0297",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

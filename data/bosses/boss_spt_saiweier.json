@@ -1,0 +1,104 @@
+{
+  "id": "boss_spt_saiweier",
+  "name": {
+    "zh": "塞维尔"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "龙王圣殿"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 413,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11114,
+        20554,
+        11115,
+        11118
+      ],
+      "hp_override": 10000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "leech",
+        "poison",
+        "burn",
+        "freeze"
+      ]
+    },
+    {
+      "rule": "heal_full_below",
+      "hp": 200
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11114,
+      20554,
+      11115,
+      11118
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_saiweier": 1
+    }
+  },
+  "reward_hatches": 412,
+  "reward_note": "Victory grants the original Seville-family essence, represented as an essence item hatching infant Sevi (species 412); the catalog and official Monster XML give level-32 evolution to species 413.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在龙王圣殿直接挑战塞维尔，胜利后获得精元，孵化为塞维，32级进化为塞维尔。"
+  },
+  "strategy_notes": {
+    "zh": "寄生、中毒、烧伤和冻伤无法生效。留意「不灭意志」带来的致命一击；体力低于200时会回满，强化后用克制技能收尾。"
+  },
+  "engine_notes": [
+    "User-requested single-player adaptation: exactly one Seville opponent. Tarklin and Tasia are not added as cooperative teammates or as an artificial three-enemy raid. Their existing ordinary challenges and the Azure Dragon guardian sequence remain unchanged.",
+    "Level 80 and 10000 HP are authored solo difficulty values, not a reconstruction of historical cooperative difficulty. A 2010 guide reports approximately 140000 HP for the cooperative version; that multiplayer value is intentionally not reused.",
+    "The retained four skill IDs are original species-413 learnset skills. Source discussions identify Dragon Flight and Immortal Will as common actions. Status immunity is bounded to the poison, burn, freeze and leech effects described by period guides.",
+    "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified.",
+    "Official MapConfig symbol 155 identifies map 349 as Challenge Seville, with replacement map 1147. The remake uses its already modeled Dragon Temple meeting point; it does not claim to render the original map-349 encounter scene."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "original_healing_amount",
+      "original_hook_timing"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201009-26-78033.html",
+    "https://news.4399.com/seer/spt/201008-14-75467.html",
+    "https://news.7k7k.com/content/20100816/12670.html",
+    "https://seer.61.com/dll/RobotCoreDLL.swf"
+  ],
+  "source_note": "Period SPT guides identify the Seville battle, essence reward, original cooperative three-dragon format, common actions and low-HP recovery. The current one-opponent solo format and HP/level calibration are explicit remake choices requested by the user."
+}

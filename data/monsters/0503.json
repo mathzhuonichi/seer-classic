@@ -1,0 +1,106 @@
+{
+  "id": 503,
+  "name": {
+    "zh": "泰格尔"
+  },
+  "types": [
+    "electric",
+    "fighting"
+  ],
+  "base": {
+    "hp": 131,
+    "atk": 120,
+    "def": 97,
+    "spa": 120,
+    "spd": 93,
+    "spe": 94
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 150,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20202
+    },
+    {
+      "level": 9,
+      "skill": 10268
+    },
+    {
+      "level": 13,
+      "skill": 10462
+    },
+    {
+      "level": 17,
+      "skill": 10650
+    },
+    {
+      "level": 21,
+      "skill": 20852
+    },
+    {
+      "level": 25,
+      "skill": 11709
+    },
+    {
+      "level": 29,
+      "skill": 11083
+    },
+    {
+      "level": 33,
+      "skill": 20689
+    },
+    {
+      "level": 37,
+      "skill": 11710
+    },
+    {
+      "level": 41,
+      "skill": 11713
+    },
+    {
+      "level": 45,
+      "skill": 20475
+    },
+    {
+      "level": 49,
+      "skill": 11711
+    },
+    {
+      "level": 53,
+      "skill": 20853
+    },
+    {
+      "level": 57,
+      "skill": 11714
+    },
+    {
+      "level": 61,
+      "skill": 20854
+    },
+    {
+      "level": 65,
+      "skill": 11712
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0503",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

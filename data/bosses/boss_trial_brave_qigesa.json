@@ -1,0 +1,84 @@
+{
+  "id": "boss_trial_brave_qigesa",
+  "name": {
+    "zh": "奇格萨"
+  },
+  "category": "event",
+  "location": {
+    "zh": "英佩恩堡垒 二层"
+  },
+  "era": "2010-11",
+  "team": [
+    {
+      "species": 532,
+      "level": 60,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11346,
+        11349,
+        11345,
+        20662
+      ],
+      "hp_override": 1000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11346,
+      11349,
+      11345,
+      20662
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_qigesa": 1
+    }
+  },
+  "reward_hatches": 531,
+  "reward_note": "Beating 奇格萨 gave its first stage 萨格 (4399: 击败后获得新精灵萨格); encoded as 奇格萨 精元 hatching 萨格.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在英佩恩堡垒二层与奇格萨进行普通精灵挑战，胜利后获得萨格精元；无需其他玩家或组队入口。"
+  },
+  "strategy_notes": {
+    "zh": "攻略作者只放了一个千烈就打倒了它——实力不强，难点在于遇到它。"
+  },
+  "engine_notes": [
+    "Current single-player adaptation: a direct ordinary challenge against one Qigesa. No cooperative lobby, other-player requirement, random-floor ladder, or multiplayer formation is implemented. The original 2010 source required a team and placed Qigesa on a random floor; that is historical context only.",
+    "Level/HP not published; the boss went down to one big hit, so Lv60 / 1000 HP are low-confidence estimates.",
+    "Historical source quotation: \"挑战必须由组队进行\". This describes the original multiplayer mode and is not an entry rule in the remake."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://m.news.4399.com/seer/saiergonglue/201011-12-80618.html"
+  ],
+  "source_note": "4399 赛尔号勇士试炼 (2010-11-12): location, co-op rule, random floor, 萨格 reward."
+}

@@ -1,0 +1,132 @@
+{
+  "id": "boss_spt_kawoer",
+  "name": {
+    "zh": "卡沃尔"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "巨石星 石源密林"
+  },
+  "era": "2012-03",
+  "team": [
+    {
+      "species": 1109,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12614,
+        12613,
+        12610,
+        21363
+      ],
+      "hp_override": 8000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "status_on_attacker",
+      "params": {
+        "status": "paralysis",
+        "chance": 100
+      }
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "fear",
+        "sleep",
+        "paralysis",
+        "petrify",
+        "confusion"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "灵魂干涉"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1,
+            "spe": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12614,
+      12613,
+      12610,
+      21363
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 1108,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "螺旋星系巨石星→熔岩大地→石源密林（或SPT面板直达），挑战卡沃尔，打败获得精元。"
+  },
+  "strategy_notes": {
+    "zh": "弱点圣灵、地面系。谱尼：圣堂之门消强→生命回血→圣光气→圣灵魔闪光轮；被麻痹时加血；或盖亚消强后谱尼/迈尔斯大招打出2500+。"
+  },
+  "engine_notes": [
+    "status_on_attacker: whenever the player's pet successfully attacks 卡沃尔, the attacker is paralysed (100%).",
+    "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed from its 冰雷幻阵.",
+    "Immune to control skills such as 灵魂干涉. 4399: 'this boss is weak: low attack, not fast'.",
+    "HP not published; 8000 estimated (contemporary 螺旋星系 SPT bosses had 8000-12000).",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "innate_stage_stats",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201203-05-146475.html",
+    "https://news.4399.com/seer/jingyanxinde/201208-13-186773.html"
+  ],
+  "source_note": "4399 SPT page 2012-03-05 and 螺旋星系 summary: 天生强化，我方攻击后100%麻痹."
+}

@@ -1,0 +1,102 @@
+{
+  "id": "boss_spt_delasa",
+  "name": {
+    "zh": "德拉萨"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "怀特矿场"
+  },
+  "era": "2011-03",
+  "team": [
+    {
+      "species": 715,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11752,
+        20879,
+        11754,
+        20878
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11752,
+      20879,
+      11754,
+      20878
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_delasa": 1
+    }
+  },
+  "reward_hatches": 713,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在怀特星怀特矿场挑战德拉萨，打败获得德拉萨精元（孵化得拉比）。"
+  },
+  "strategy_notes": {
+    "zh": "丽莎布布叶绿光束消强化，然后大招；或盖亚、魔焰猩猩100级轮班，战斗系/火系克制冰龙；消强后上哈莫雷特直接大招。"
+  },
+  "engine_notes": [
+    "Very thin sourcing: only the 4399 2011 summary (70级, 消强化 then 大招) and a 4399 问答 dated 2011-03-24.",
+    "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 5000 is an estimate.",
+    "skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills",
+      "innate_stage_stats",
+      "rules"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+    "http://wenda.4399.com/question/6/64186.html"
+  ],
+  "source_note": "4399 SPT+BOSS全攻略 (2011-07): 德拉萨 70级, 叶绿光束消强化然后大招; 4399 问答 2011-03-24."
+}

@@ -1,0 +1,147 @@
+/* The original client uses one scene above its blue navigation rail. */
+html,body,#root{height:100%;overflow:hidden}
+#root{display:grid;grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr);place-items:start center;background:#061f3c;container-type:size}
+.game-shell{
+  --muted:#c0e8ff;--accent:#ffdc61;--line:#087ad4;--panel:#28a6eb;
+  width:min(100cqw,calc(100cqh * 960 / 650));
+  height:min(100cqh,calc(100cqw * 650 / 960));
+  max-height:100%;position:relative;display:grid;
+  grid-template-rows:minmax(0,1fr) 14%;overflow:hidden;
+  color:#fff;background:#0b82d4;font:13px SeerSimSun,SimSun,'宋体','Songti SC',STSong,serif;
+  container-type:inline-size;box-shadow:0 0 0 1px #0056b0;
+}
+.game-shell button{border-radius:5px}
+.game-stage{position:relative;min-height:0;overflow:hidden;isolation:isolate}
+.exploration-layer,.battle-layer{height:100%;width:100%;min-height:0}
+.exploration-layer[hidden]{display:none}
+.battle-layer{position:absolute;inset:0}
+.game-shell.is-in-battle{grid-template-rows:minmax(0,1fr)}
+.game-hud[hidden],.game-shortcuts[hidden]{display:none}
+.game-hud{position:relative;z-index:12;min-height:0;background:#0b82d4}
+.game-toolbar{
+  position:relative;width:92%;height:100%;margin:0 auto;
+  background:url('/ui/classic/toolbar-rail.png') center bottom / auto 100% no-repeat;
+}
+.game-toolbar>button,.game-shortcuts>button,.game-settings-shortcut{
+  position:absolute;padding:0;border:0;background:transparent;box-shadow:none;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.game-toolbar>button{top:6%;height:72%;width:8%;min-width:38px;flex-direction:column}
+.game-toolbar>button>img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.game-toolbar .toolbar-bag{left:15%}
+.game-toolbar .toolbar-dex{left:27%;padding:4px}
+.game-toolbar .toolbar-atlas{left:calc(52.2% - 6%);top:0;width:12%;height:100%}
+.game-toolbar .toolbar-monsters{right:20%}
+.game-toolbar .toolbar-recovery{right:8%;padding:4px}
+.game-toolbar>button:hover:not(:disabled),.game-shortcuts>button:hover:not(:disabled){transform:none;filter:brightness(1.18) drop-shadow(0 0 3px #fff)}
+.game-toolbar>button.active,.game-shortcuts>button.active{filter:brightness(1.2) drop-shadow(0 0 4px #fff887)}
+.game-toolbar button:focus-visible,.game-shortcuts button:focus-visible,.game-settings-shortcut:focus-visible{outline:2px solid #ffe26a;outline-offset:1px}
+.game-toolbar>button:disabled{opacity:.5}
+.game-shortcuts{position:absolute;inset:0;z-index:13;pointer-events:none}
+.game-shortcuts>button{pointer-events:auto;top:9px;width:clamp(36px,6cqw,62px);height:clamp(36px,6cqw,62px)}
+.game-shortcuts img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.game-shortcuts .shortcut-quests{left:13px}
+.game-shortcuts .shortcut-challenge{right:64px}
+.game-settings-shortcut{right:12px;top:11px;z-index:14;flex-direction:column;gap:2px;min-width:34px;color:#ffe56a;font-size:10px;text-shadow:1px 1px #003b87}
+.game-settings-shortcut img{width:22px;height:22px;object-fit:contain;pointer-events:none}
+.game-settings-shortcut:hover:not(:disabled){transform:none;filter:brightness(1.2)}
+.hud-alert{position:absolute;right:5px;top:2px;width:9px;height:9px;background:#ffdb4b;border:1px solid #ad6500;border-radius:50%;box-shadow:0 0 4px #fff6}
+
+/* Shared window chrome retains ordinary HTML controls and drag behavior. */
+.scene-window{
+  position:absolute;z-index:20;left:50%;top:12px;transform:translateX(-50%);
+  width:min(920px,calc(100% - 36px));height:min(650px,calc(100% - 24px));
+  max-height:calc(100% - 24px);display:flex;flex-direction:column;
+  color:#fff;background:#29a7eb url('/ui/classic/panel-background.png') center / 100% 100% no-repeat;
+  border:3px solid #b9e7ff;border-radius:8px;outline:1px solid #0a5193;
+  box-shadow:inset 0 0 0 2px #1287d0,0 4px 10px #00265370;overflow:hidden;
+  animation:window-in .12s ease-out;
+}
+.scene-window.compact{width:min(590px,calc(100% - 36px));height:auto}
+.window-titlebar{
+  min-height:38px;position:relative;display:flex;align-items:center;justify-content:center;
+  background:#28a7ef url('/ui/classic/petbag-header-circuit.png') center bottom / 100% 7px no-repeat;
+  border-bottom:2px solid #037dcc;padding:0 43px 0 16px;
+  cursor:move;touch-action:none;user-select:none;
+}
+.window-titlebar h2{font-size:16px;font-weight:400;letter-spacing:0;margin:0;color:white;text-shadow:1px 1px #0068ac,-1px -1px #0068ac}
+.window-titlebar>button{position:absolute;right:5px;top:4px;width:27px;height:27px;border:0;padding:0;background:none;border-radius:50%;box-shadow:none}
+.window-titlebar>button img{width:100%;height:100%;display:block;pointer-events:none}
+.window-titlebar>button:hover{transform:none;filter:brightness(1.18)}
+.window-body{flex:1;min-height:0;padding:0;overflow:hidden;scrollbar-color:#06bdfa #07469a;scrollbar-width:thin}
+.scene-window.compact .window-body{padding:12px;overflow:auto}
+.window-body h3{font-size:14px}
+.window-body input,.window-body select{background:#0e3c78;color:#e7f8ff;border:1px solid #04bafa;border-radius:4px;font-size:12px;padding:7px}
+.window-body .primary,.game-shell .primary{background:linear-gradient(#ffe977,#f6bd2a);color:#613e00;border-color:#b17914;box-shadow:inset 0 1px #fff4aa}
+.scene-window-shield{position:absolute;inset:0;z-index:19;background:transparent}
+.game-toast{position:absolute;z-index:30;left:50%;bottom:12px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;max-width:min(700px,94%);background:#07366df2!important;color:#fff;border:2px solid #15d4ff;padding:9px 13px;font-size:12px;box-shadow:0 3px 6px #00172f66}
+.game-toast:hover{transform:translateX(-50%)}
+.game-toast>span{margin-left:auto;opacity:.7}
+.inventory-resources{display:flex;align-items:center;justify-content:flex-end;gap:22px;flex-shrink:0;padding:8px 14px;color:#fff;font-size:11px;border-bottom:1px solid #00baff}
+.inventory-resources b{margin-left:7px;color:#ffe267;font-variant-numeric:tabular-nums}
+
+/* The existing loading and efficient settings/recovery flows share the shell. */
+.battle-loading{position:absolute;inset:0;z-index:25;background:radial-gradient(ellipse at 50% 40%,#125bac,#092a62 65%);display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;gap:14px;color:#fff}
+.loading-kicker{font-size:11px;letter-spacing:5px;color:#86e6ff}
+.battle-loading h2{font-size:25px;letter-spacing:3px;margin:0}
+.battle-loading .creature-art{z-index:1}
+.loading-orbits{position:absolute;left:50%;top:43%;width:340px;height:340px;border:1px solid #29bce52b;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 55px #29bce50a,0 0 0 100px #29bce507;pointer-events:none}
+.loading-progress{height:12px;background:#00295f;border:1px solid #16caff;border-radius:4px;overflow:hidden;width:min(420px,75%);margin-top:5px;z-index:1}
+.loading-progress i{display:block;height:100%;background:linear-gradient(90deg,#00a2ff,#85f4ff);transition:width .18s ease}
+.loading-caption{display:flex;justify-content:space-between;width:min(420px,75%);font-size:11px;color:#ccefff}
+.loading-caption b{font-variant-numeric:tabular-nums}
+.recovery-console{text-align:center;padding:10px 20px}
+.recovery-symbol{font-size:44px;color:#a3ffff;margin:0 0 14px}
+.recovery-roster{display:grid;gap:8px;margin:18px 0}
+.recovery-roster>div{display:flex;justify-content:space-between;background:#0e3b76;padding:10px 13px;border:1px solid #0cf3ff;border-radius:4px;font-size:12px}
+.recovery-roster>div>span:last-child{color:#a8ffcf;font-variant-numeric:tabular-nums}
+.recovery-console>.primary{min-width:180px}
+.settings-console{padding:15px 17px;background:#f5fbff;color:#123e65;border:1px solid #77abc9;border-radius:4px;box-shadow:inset 0 1px #fff}
+.settings-console h3:not(:first-child){margin-top:22px}
+.settings-console p{font-size:12px;color:#3e6580;line-height:1.7}
+.settings-console button{background:linear-gradient(#e9faff,#bee3f7);color:#104775;border-color:#4f8eb7;box-shadow:inset 0 1px #fff}
+.settings-console .small{font-size:11px}
+.boot-screen{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#0c3e87;color:#fff}
+.boot-screen h1{font-size:26px;letter-spacing:6px}
+.boot-screen p{font-size:13px;color:#b9edff}
+.boot-pulse{height:8px;width:220px;background:linear-gradient(90deg,#006dd6,#53e7ff,#006dd6);background-size:200%;animation:boot 1.5s ease infinite;border-radius:5px}
+@keyframes boot{to{background-position:200%}}
+@keyframes window-in{from{opacity:.6;margin-top:5px}to{opacity:1;margin-top:0}}
+@media(max-width:700px){
+ .scene-window{top:8px;width:calc(100% - 18px);height:calc(100% - 16px);max-height:calc(100% - 16px)}
+ .scene-window.compact{width:calc(100% - 28px);height:auto}
+ .window-titlebar{min-height:33px}.window-titlebar h2{font-size:15px}
+ .window-titlebar>button{width:25px;height:25px;top:2px}
+ .game-shortcuts>button{top:6px}.game-shortcuts .shortcut-quests{left:8px}.game-shortcuts .shortcut-challenge{right:48px}
+ .game-settings-shortcut{right:7px;top:8px;font-size:9px}.game-settings-shortcut img{width:18px;height:18px}
+ .inventory-resources{gap:14px;font-size:10px}.loading-progress,.loading-caption{width:80%}
+ .battle-loading{gap:10px}.battle-loading .creature-art{max-height:160px}
+}
+@media(prefers-reduced-motion:reduce){.scene-window,.boot-pulse{animation:none}}
+
+.game-toolbar .toolbar-label{font-size:12px;font-weight:400;color:#ffe954;text-shadow:1px 1px #664100,-1px -1px #664100;line-height:1;white-space:nowrap}
+.game-toolbar .toolbar-dex>img,.game-toolbar .toolbar-recovery>img{height:78%}
+/* Battle settings sit above the command deck, clear of both original HP frames. */
+.game-shell.is-in-battle .game-settings-shortcut{top:auto;bottom:170px;right:10px}
+
+/* Revision 27: settings use a light content well within original nine-slice chrome. */
+.scene-window:has(.settings-console){background:#c8eafa;border-image-source:url('/ui/classic/panel-background.png');border-image-slice:35 55 37 54;border-image-width:12px 16px;border-image-repeat:stretch;border-radius:7px}
+.scene-window:has(.settings-console) .window-body{padding:12px;overflow:auto;overscroll-behavior:contain;scrollbar-color:#258ec4 #d3eaf7;background:#d6effb}
+.settings-console h3,.settings-console legend{color:#104a76;text-shadow:none}
+.settings-console h3{padding-bottom:6px;border-bottom:1px solid #b5d4e6;font-size:14px}
+.settings-console .small,.settings-console .muted{color:#476c86}
+.settings-console button:hover:not(:disabled){background:linear-gradient(#fff,#d0f3ff);color:#07578c;border-color:#087fc2;transform:none}
+.settings-console button:disabled{opacity:.5;color:#5a7a91}
+.settings-console input:not([type=range]):not([type=checkbox]),.settings-console select{background:#fff;color:#123e65;border-color:#74a7c7}
+.settings-console input[type=checkbox]{accent-color:#087ec0}
+@media(max-width:700px){.scene-window:has(.settings-console) .window-body{padding:8px}.settings-console{padding:12px}}
+
+/* Dynamic official fields use SimSun; static source SVG lettering is untouched. */
+.game-shell .management-panel,.game-shell .galaxy-atlas{font-family:SeerSimSun,SimSun,'宋体','Songti SC',STSong,serif}
+
+/* PetBag supplies its own native title and frame at the recovered 647:471 ratio. */
+.game-stage:has(.official-petbag){container-type:size}
+.scene-window:has(.official-petbag){top:6px;width:min(820px,calc(100cqw - 16px),calc((100cqh - 12px) * 647 / 471));height:auto;max-height:none;aspect-ratio:647 / 471;border:0;outline:0;background:none;border-radius:0;box-shadow:0 4px 10px #00265370}
+.scene-window:has(.official-petbag) .window-titlebar{position:absolute;inset:0 0 auto;height:12%;min-height:0;z-index:2;padding:0;background:none;border:0}
+.scene-window:has(.official-petbag) .window-titlebar h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.scene-window:has(.official-petbag) .window-titlebar>button{top:5px;right:7px}

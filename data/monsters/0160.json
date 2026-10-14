@@ -1,0 +1,104 @@
+{
+  "id": 160,
+  "name": {
+    "zh": "斯托利亚"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 75,
+    "atk": 89,
+    "def": 85,
+    "spa": 110,
+    "spd": 92,
+    "spe": 96
+  },
+  "ev_yield": {
+    "spa": 3
+  },
+  "exp_yield": 128,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20062
+    },
+    {
+      "level": 11,
+      "skill": 10211
+    },
+    {
+      "level": 16,
+      "skill": 10204
+    },
+    {
+      "level": 21,
+      "skill": 10503
+    },
+    {
+      "level": 26,
+      "skill": 20149
+    },
+    {
+      "level": 31,
+      "skill": 10504
+    },
+    {
+      "level": 36,
+      "skill": 20216
+    },
+    {
+      "level": 40,
+      "skill": 10351
+    },
+    {
+      "level": 44,
+      "skill": 20217
+    },
+    {
+      "level": 48,
+      "skill": 10505
+    },
+    {
+      "level": 52,
+      "skill": 10507
+    },
+    {
+      "level": 55,
+      "skill": 20218
+    },
+    {
+      "level": 58,
+      "skill": 10508
+    },
+    {
+      "level": 61,
+      "skill": 10506
+    },
+    {
+      "level": 64,
+      "skill": 20219
+    },
+    {
+      "level": 69,
+      "skill": 10509
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 159,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0160",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

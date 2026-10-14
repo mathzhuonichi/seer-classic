@@ -1,0 +1,119 @@
+{
+  "id": "boss_spt_kelanite2",
+  "name": {
+    "zh": "克拉尼特（第二战）"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "戴斯星（死亡之河）"
+  },
+  "era": "2010-11",
+  "team": [
+    {
+      "species": 538,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11357,
+        11359,
+        20528,
+        20666
+      ],
+      "hp_override": 3000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "同生共死",
+          "镇魂歌",
+          "极度冰点"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    },
+    {
+      "rule": "no_struggle"
+    },
+    {
+      "rule": "script",
+      "id": "always_moves_first"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11357,
+      11359,
+      20528,
+      20666
+    ]
+  },
+  "reward": {
+    "items": {},
+    "achievement": {
+      "zh": "烈火之翼"
+    }
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_spt_kelanite1"
+    ],
+    "flags": [
+      "no_equipment"
+    ]
+  },
+  "capture": {
+    "zh": "打败50级克拉尼特后可再挑战80级克拉尼特，胜利获得称号/成就「烈火之翼」（精元已在第一战获得）。"
+  },
+  "strategy_notes": {
+    "zh": "它只有两个攻击招（共10PP）和两个属性招：两只30级丘波斜转12-15次耗光攻击PP，再用会寄生种子的草系精灵慢慢吸死；或100级水系队伍虚张声势+剑舞后强攻。"
+  },
+  "engine_notes": [
+    "Lv80 rematch: 强制先攻 (always_moves_first).",
+    "Skill set reconstructed from 4399's '两个攻击招（共10PP），两个属性招': 火龙红莲击 (PP5) + 赤色龙息 (PP5) + 进攻意识 + 自我暗示.",
+    "Reward is an achievement/title only; reward_hatches null.",
+    "HP not published (3000 estimate; 4399 rates the fight only 三星).",
+    "no_struggle matters: once both attack skills are at 0 PP it can only use status moves.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201011-22-81263.html",
+    "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
+    "https://news.4399.com/seer/saiergonglue/201011-19-81094.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2010-11-22): 第二形态 80级, 两个攻击招共10PP + 两个属性招; techbang: 80级强制先攻, 奖励烈火之翼."
+}

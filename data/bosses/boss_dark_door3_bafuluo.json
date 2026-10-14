@@ -1,0 +1,96 @@
+{
+  "id": "boss_dark_door3_bafuluo",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第三门 巴弗洛"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第三门"
+  },
+  "era": "2010-02",
+  "team": [
+    {
+      "species": 177,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        20215,
+        10502,
+        10056,
+        10009
+      ],
+      "hp_override": 700
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "镇魂歌"
+        ]
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      20215,
+      10502,
+      10056,
+      10009
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_bafuluo": 1
+    }
+  },
+  "reward_hatches": 175,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door2_beilujide"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第三门：70级巴弗洛，约700血。打败获得巴弗洛精元。"
+  },
+  "strategy_notes": {
+    "zh": "被电系克制；同等级可先用闪光波克尔同生共死，再用克制精灵先手补杀。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "镇魂歌 (its own skill): the target faints unless the boss is beaten within 3 turns (三回合内未能击败则己方死亡) — a perish-count effect; the boss used it against higher-level pets first.",
+    "immune_skill_list: the player's 镇魂歌 has no effect on it (7k7k: BOSS巴菲洛用镇魂歌无效).",
+    "风压极闪 is a priority attack that may lower defence."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98436.html",
+    "https://news.7k7k.com/content/20100602/8159.html",
+    "https://news.7k7k.com/content/20100225/5898.html"
+  ],
+  "source_note": "4399 第三门攻略: No.177 飞行系 Lv70 HP700."
+}

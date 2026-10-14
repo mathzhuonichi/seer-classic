@@ -1,0 +1,120 @@
+{
+  "id": "boss_rei",
+  "name": {
+    "zh": "雷伊"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "赫尔卡星 第三层 荒地（雷雨天）"
+  },
+  "era": "2009",
+  "team": [
+    {
+      "species": 70,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10170,
+        10176,
+        20087,
+        20086
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "immune_status"
+    },
+    {
+      "rule": "heal_full_below",
+      "hp": 100
+    },
+    {
+      "rule": "script",
+      "id": "always_moves_first"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1,
+            "spe": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10170,
+      10176,
+      20087,
+      20086
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_rei": 1
+    }
+  },
+  "reward_hatches": 70,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "雷伊只在雷雨天出现在赫尔卡星第三层荒地：每个整点开始的前10分钟左右（早期为每晚20:00-22:00）。打败雷伊获得雷伊的精元，孵化得到雷伊（2011年起精元只在周五至周日发放）。"
+  },
+  "strategy_notes": {
+    "zh": "丽莎布布单挑：叶绿光束消强化 → 花粉多次降低雷伊命中 → 光合作用补血 → 花草能量强化3次 → 叶绿光束打死（每下约500）；或满级卡鲁克斯破攻、大地之力强化后爆裂极突刺（每下1000-1200，暴击直接秒）；或该隐暗影护盾与攻击循环。"
+  },
+  "engine_notes": [
+    "Storm encounter: 雷伊 only appears while it is 雷雨天 on 赫尔卡星 (hourly window). The remake has no clock — treat as always available, or as a map event that can be triggered once per in-game 'storm'.",
+    "Traits per 7k7k 2011 雷伊解析: 无视速度 (encoded as always_moves_first: 雷伊 acts first regardless of speed), 免疫属性技能, 天生强化, 高miss率. 免疫属性技能 is encoded as immune_status; classic strategies still lowered its accuracy with 花粉, so stat drops are NOT blocked.",
+    "高miss率 comes from its 电闪光 (speed -1, accuracy -1) — no separate rule.",
+    "heal_full_below 100: 7k7k 2011 boss guide says '血低于100会补满血' — the last hit must take it from ≥100 HP to 0.",
+    "Level: 7k7k 2011 says it started at 55 and was raised by 5 each time it returned, 70 at the time of writing; 70 used.",
+    "Innate boost stats not stated; atk+1 spe+1 assumed (it must be cleared with 叶绿光束 / 日月皆伤 style moves).",
+    "Weekday-only reward (Fri–Sun, 2011) dropped per foundation 7.2."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "innate_boost",
+      "skills",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110720/92955.html",
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://m.18183.com/gonglue/202209/4157723.html",
+    "https://www.511du.com/p/7130.html",
+    "https://jingyan.baidu.com/article/ff41162571735a12e5823742.html"
+  ],
+  "source_note": "7k7k 2011 雷伊解析: 赫尔卡星3层 整点10分钟, 体力2000, 无视速度/免疫属性技能/天生强化/高miss; 7k7k 2011 boss list: Lv55→70, 血低于100补满."
+}

@@ -1,0 +1,110 @@
+{
+  "id": 552,
+  "name": {
+    "zh": "乌托卡"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 106,
+    "atk": 112,
+    "def": 85,
+    "spa": 115,
+    "spd": 86,
+    "spe": 81
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 127,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 10007
+    },
+    {
+      "level": 9,
+      "skill": 20270
+    },
+    {
+      "level": 13,
+      "skill": 10818
+    },
+    {
+      "level": 17,
+      "skill": 20361
+    },
+    {
+      "level": 21,
+      "skill": 10412
+    },
+    {
+      "level": 25,
+      "skill": 11390
+    },
+    {
+      "level": 29,
+      "skill": 20360
+    },
+    {
+      "level": 33,
+      "skill": 10821
+    },
+    {
+      "level": 37,
+      "skill": 11380
+    },
+    {
+      "level": 41,
+      "skill": 11383
+    },
+    {
+      "level": 45,
+      "skill": 20681
+    },
+    {
+      "level": 49,
+      "skill": 11385
+    },
+    {
+      "level": 53,
+      "skill": 20685
+    },
+    {
+      "level": 57,
+      "skill": 10820
+    },
+    {
+      "level": 61,
+      "skill": 11392
+    },
+    {
+      "level": 65,
+      "skill": 20686
+    },
+    {
+      "level": 69,
+      "skill": 11391
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 551,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0552",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

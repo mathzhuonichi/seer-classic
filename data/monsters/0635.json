@@ -1,0 +1,66 @@
+{
+  "id": 635,
+  "name": {
+    "zh": "符诺"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 73,
+    "atk": 51,
+    "def": 52,
+    "spa": 70,
+    "spd": 58,
+    "spe": 66
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 10598
+    },
+    {
+      "level": 10,
+      "skill": 20784
+    },
+    {
+      "level": 15,
+      "skill": 10034
+    },
+    {
+      "level": 20,
+      "skill": 20785
+    },
+    {
+      "level": 25,
+      "skill": 11588
+    }
+  ],
+  "evolution": [
+    {
+      "to": 636,
+      "method": "level",
+      "level": 28
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0635",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

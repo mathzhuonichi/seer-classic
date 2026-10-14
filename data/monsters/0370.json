@@ -1,0 +1,58 @@
+{
+  "id": 370,
+  "name": {
+    "zh": "奎尼"
+  },
+  "types": [
+    "light"
+  ],
+  "base": {
+    "hp": 65,
+    "atk": 60,
+    "def": 62,
+    "spa": 70,
+    "spd": 54,
+    "spe": 44
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 68,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 50,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10234
+    },
+    {
+      "level": 7,
+      "skill": 20273
+    },
+    {
+      "level": 12,
+      "skill": 10922
+    },
+    {
+      "level": 17,
+      "skill": 20419
+    }
+  ],
+  "evolution": [
+    {
+      "to": 371,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0370",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

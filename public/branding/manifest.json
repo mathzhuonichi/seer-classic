@@ -1,0 +1,19 @@
+{
+  "seer-official.ico": {
+    "source": "https://game-res.61.com/seer/index/images/favicon.ico?v=0929",
+    "bytes": 22382
+  },
+  "seer-logo.svg": {
+    "source": "https://seerh5.61.com/resource/web/image/logo.svg",
+    "bytes": 15115
+  },
+  "seer-logo.jpg": {
+    "source": "https://webres.61.com/seer/site/images/logo.jpg",
+    "bytes": 18342
+  },
+  "seer-official.png": {
+    "source": "seer-official.ico",
+    "conversion": "Lossless PNG conversion of the original 64-by-64 ICO frame with macOS sips.",
+    "bytes": 6386
+  }
+}

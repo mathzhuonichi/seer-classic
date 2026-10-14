@@ -1,0 +1,58 @@
+{
+  "id": 351,
+  "name": {
+    "zh": "磁碟怪"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 63,
+    "atk": 53,
+    "def": 59,
+    "spa": 49,
+    "spd": 59,
+    "spe": 60
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 65,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20280
+    },
+    {
+      "level": 11,
+      "skill": 10427
+    },
+    {
+      "level": 16,
+      "skill": 20211
+    }
+  ],
+  "evolution": [
+    {
+      "to": 352,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0351",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

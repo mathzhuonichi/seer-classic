@@ -1,0 +1,2739 @@
+{
+  "sourceUrl": "https://seer.61.com/dll/RobotCoreDLL.swf",
+  "sourceDecodedSha256": "ca040870b9150463f5858ac42d0e0c347380010e12ae16d02068dc78048ccd40",
+  "shopSourceUrl": "https://seer.61.com/resource/xml/shop_config.xml",
+  "shopSourceSha256": "9d0d094b47bd36153e62a41d6c5dc16e3937683341d49387654e4e8554b29091",
+  "scope": "Audit only; not a recruitment or reward policy. Two paid families have confirmed source-supported repeated parental breeding routes. Unlimited purchases and historical paid exclusivity are not established.",
+  "symbols": {
+    "products": 310,
+    "items": 108,
+    "exchangeClient": 275,
+    "exchangeActivity": 154,
+    "parentalBreeding": 166
+  },
+  "species": [
+    {
+      "initialSpecies": 143,
+      "name": "卡塔",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 200797,
+          "sourceSpecies": 144,
+          "price": 20,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200714",
+              "Name": "100级赫卡特M",
+              "Max": "999",
+              "IsMidle": "1",
+              "ExchangeId": "920"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 298,
+      "name": "迅牙虎",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200257,
+          "sourceSpecies": 298,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400119",
+              "Name": "谜之精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "298",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400119",
+              "Name": "谜之精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "298",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200260,
+          "sourceSpecies": 298,
+          "price": 500,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400119",
+              "Name": "谜之精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "298",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "400094",
+              "Name": "虎王坐骑芯片",
+              "Max": "99",
+              "UseMax": "0"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400119",
+              "Name": "谜之精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "298",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 346,
+      "name": "宝贝鲤",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200892,
+          "sourceSpecies": 729,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200812",
+              "Name": "鱼龙王",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400127",
+              "ExchangeId": "1249"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400127",
+              "Name": "鱼龙王的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "729",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 245359,
+          "sourceSpecies": 729,
+          "price": 98,
+          "productType": -1,
+          "items": [
+            {
+              "ID": "1706584",
+              "Name": "98钻购买鱼龙王",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 373,
+      "name": "莫顿",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 200796,
+          "sourceSpecies": 375,
+          "price": 30,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200713",
+              "Name": "100级隆米尔M",
+              "Max": "999",
+              "IsMidle": "1",
+              "ExchangeId": "922"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 506,
+      "name": "诺特",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201028,
+          "sourceSpecies": 508,
+          "price": 150,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200952",
+              "Name": "桑诺特",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400230",
+              "ExchangeId": "1245"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400230",
+              "Name": "桑诺特的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "506",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 526,
+      "name": "托克",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201158,
+          "sourceSpecies": 527,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700141",
+              "Name": "赫尔托克",
+              "Max": "2",
+              "IsMidle": "1",
+              "TargetId": "400152",
+              "ExchangeId": "1411"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400152",
+              "Name": "赫尔托克的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "526",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 539,
+      "name": "艾克",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201027,
+          "sourceSpecies": 540,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200951",
+              "Name": "艾克斯",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400438",
+              "ExchangeId": "1244"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400438",
+              "Name": "艾克斯精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "539",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 596,
+      "name": "史克",
+      "status": "confirmed-source-breeding",
+      "basis": "Official EggsXMLInfo row 6 provides this offspring from parents 597 and 599; BreedPanel explicitly allows another breeding cycle after chamber cooldown, without a lifetime claimed branch or client parent deletion.",
+      "routes": [
+        {
+          "productId": 201111,
+          "sourceSpecies": 597,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700078",
+              "Name": "史密斯",
+              "Max": "2",
+              "IsMidle": "1",
+              "TargetId": "400158",
+              "ExchangeId": "1348"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400158",
+              "Name": "史密斯的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "596",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 201172,
+          "sourceSpecies": 597,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700164",
+              "Name": "史密斯的精元M",
+              "Max": "2",
+              "IsMidle": "1",
+              "TargetId": "400158",
+              "ExchangeId": "1406"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400158",
+              "Name": "史密斯的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "596",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional",
+      "parentalBreeding": {
+        "eggId": 6,
+        "maleSpecies": 597,
+        "maleName": "史密斯",
+        "femaleSpecies": 599,
+        "femaleName": "吉米丽娅",
+        "outputs": [
+          {
+            "species": 596,
+            "name": "史克",
+            "probabilityPercent": 50
+          },
+          {
+            "species": 598,
+            "name": "米娅",
+            "probabilityPercent": 45
+          },
+          {
+            "species": 600,
+            "name": "安洛达斯",
+            "probabilityPercent": 5
+          }
+        ],
+        "minimumLevel": 50,
+        "maleGeneration": 0,
+        "coinCost": 5000,
+        "cooldownHours": 72,
+        "commands": [
+          "GET_BREED_INFO",
+          "GET_BREED_PET",
+          "START_BREED",
+          "GET_HATCH_PET"
+        ],
+        "parentRetentionEvidence": "START_BREED sends parent catch times; client success subtracts coins and reports egg, without removing or modifying parent pets. Server retention not independently replayed."
+      }
+    },
+    {
+      "initialSpecies": 598,
+      "name": "米娅",
+      "status": "confirmed-source-breeding",
+      "basis": "Official EggsXMLInfo row 6 provides this offspring from parents 597 and 599; BreedPanel explicitly allows another breeding cycle after chamber cooldown, without a lifetime claimed branch or client parent deletion.",
+      "routes": [
+        {
+          "productId": 201025,
+          "sourceSpecies": 599,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200949",
+              "Name": "吉米丽娅",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400159",
+              "ExchangeId": "1242"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400159",
+              "Name": "吉米丽娅的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "598",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional",
+      "parentalBreeding": {
+        "eggId": 6,
+        "maleSpecies": 597,
+        "maleName": "史密斯",
+        "femaleSpecies": 599,
+        "femaleName": "吉米丽娅",
+        "outputs": [
+          {
+            "species": 596,
+            "name": "史克",
+            "probabilityPercent": 50
+          },
+          {
+            "species": 598,
+            "name": "米娅",
+            "probabilityPercent": 45
+          },
+          {
+            "species": 600,
+            "name": "安洛达斯",
+            "probabilityPercent": 5
+          }
+        ],
+        "minimumLevel": 50,
+        "maleGeneration": 0,
+        "coinCost": 5000,
+        "cooldownHours": 72,
+        "commands": [
+          "GET_BREED_INFO",
+          "GET_BREED_PET",
+          "START_BREED",
+          "GET_HATCH_PET"
+        ],
+        "parentRetentionEvidence": "START_BREED sends parent catch times; client success subtracts coins and reports egg, without removing or modifying parent pets. Server retention not independently replayed."
+      }
+    },
+    {
+      "initialSpecies": 677,
+      "name": "草莓多多",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200396,
+          "sourceSpecies": 677,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200401,
+          "sourceSpecies": 677,
+          "price": 290,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 680,
+      "name": "蜜桃多多",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200398,
+          "sourceSpecies": 680,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200401,
+          "sourceSpecies": 680,
+          "price": 290,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 682,
+      "name": "苹果多多",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201040,
+          "sourceSpecies": 683,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200970",
+              "Name": "全价购买果然苹果多",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200399,
+          "sourceSpecies": 682,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200401,
+          "sourceSpecies": 682,
+          "price": 290,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 684,
+      "name": "葡萄多多",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200397,
+          "sourceSpecies": 684,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200401,
+          "sourceSpecies": 684,
+          "price": 290,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 686,
+      "name": "蜜瓜多多",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200400,
+          "sourceSpecies": 686,
+          "price": 70,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200401,
+          "sourceSpecies": 686,
+          "price": 290,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300364",
+              "Name": "草莓精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300365",
+              "Name": "葡萄精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300366",
+              "Name": "蜜桃多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300367",
+              "Name": "苹果精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "300368",
+              "Name": "蜜瓜多精粹",
+              "Max": "99",
+              "IsMidle": "1"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "IsMidle": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400552",
+              "Name": "果然草莓精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "677",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400555",
+              "Name": "葡萄精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "684",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400553",
+              "Name": "水蜜桃精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "680",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400554",
+              "Name": "苹果精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "682",
+              "BreedMonLv": "1",
+              "BreedTime": "15",
+              "VipBreedTime": "15"
+            },
+            {
+              "ID": "400556",
+              "Name": "哈密瓜精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "686",
+              "BreedMonLv": "1",
+              "BreedTime": "15"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 734,
+      "name": "电雪球",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200353,
+          "sourceSpecies": 734,
+          "price": 350,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "300066",
+              "Name": "通用刻印激活水晶",
+              "Max": "999",
+              "UseMax": "0"
+            },
+            {
+              "ID": "400214",
+              "Name": "泰坦达的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "734",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "400838",
+              "Name": "泰坦达成长药剂",
+              "Max": "99",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400214",
+              "Name": "泰坦达的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "734",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200355,
+          "sourceSpecies": 734,
+          "price": 130,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400214",
+              "Name": "泰坦达的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "734",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "400839",
+              "Name": "泰坦达快速孵化剂",
+              "Max": "99",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400214",
+              "Name": "泰坦达的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "734",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 760,
+      "name": "炎魔",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200891,
+          "sourceSpecies": 760,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200811",
+              "Name": "炎魔",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400133",
+              "ExchangeId": "1248"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400133",
+              "Name": "炎魔的精元",
+              "Max": "999",
+              "UseMax": "1",
+              "BreedMonID": "760",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 245360,
+          "sourceSpecies": 760,
+          "price": 98,
+          "productType": -1,
+          "items": [
+            {
+              "ID": "1706585",
+              "Name": "98钻购买炎魔",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 809,
+      "name": "灵驹",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200890,
+          "sourceSpecies": 811,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200810",
+              "Name": "始祖灵兽",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400207",
+              "ExchangeId": "1031"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400207",
+              "Name": "始祖灵兽的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "811",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 245358,
+          "sourceSpecies": 811,
+          "price": 98,
+          "productType": -1,
+          "items": [
+            {
+              "ID": "1706583",
+              "Name": "98钻购买始祖灵兽",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200344,
+          "sourceSpecies": 811,
+          "price": 350,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400207",
+              "Name": "始祖灵兽的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "811",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400207",
+              "Name": "始祖灵兽的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "811",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200346,
+          "sourceSpecies": 811,
+          "price": 480,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400207",
+              "Name": "始祖灵兽的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "811",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "400823",
+              "Name": "禁地圣泉结晶",
+              "Max": "99",
+              "UseMax": "0"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400207",
+              "Name": "始祖灵兽的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "811",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 818,
+      "name": "安吉",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201041,
+          "sourceSpecies": 819,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200971",
+              "Name": "全价购买安吉拉",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 831,
+      "name": "隐形蝶",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201026,
+          "sourceSpecies": 832,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200950",
+              "Name": "斯特尔",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400295",
+              "ExchangeId": "1243"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400295",
+              "Name": "斯特尔的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "831",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 864,
+      "name": "托达",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200827,
+          "sourceSpecies": 865,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200738",
+              "Name": "托鲁克",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "400215",
+              "ExchangeId": "940"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400215",
+              "Name": "托鲁克的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "864",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200360,
+          "sourceSpecies": 864,
+          "price": 390,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400215",
+              "Name": "托鲁克的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "864",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "400844",
+              "Name": "翱翔之翼",
+              "Max": "99",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400215",
+              "Name": "托鲁克的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "864",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 897,
+      "name": "赛特",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200831,
+          "sourceSpecies": 898,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200742",
+              "Name": "赛伯斯特",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "1500081",
+              "ExchangeId": "944"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "1500081",
+              "Name": "赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "897",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 917,
+      "name": "布克",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201044,
+          "sourceSpecies": 918,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200974",
+              "Name": "全价购买布鲁恩特",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 928,
+      "name": "瑞诺",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200829,
+          "sourceSpecies": 929,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200740",
+              "Name": "萨瑞卡",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "1500080",
+              "ExchangeId": "942"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "1500080",
+              "Name": "萨瑞卡的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "928",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 984,
+      "name": "桑奇",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201043,
+          "sourceSpecies": 985,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200973",
+              "Name": "全价购买伯桑克",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1002,
+      "name": "多戈",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201154,
+          "sourceSpecies": 1003,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700137",
+              "Name": "戈登",
+              "Max": "2",
+              "IsMidle": "1",
+              "TargetId": "400240",
+              "ExchangeId": "1407"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400240",
+              "Name": "戈登的精元",
+              "Max": "999",
+              "UseMax": "1",
+              "BreedMonID": "1002",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1114,
+      "name": "威尔",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201029,
+          "sourceSpecies": 1115,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200953",
+              "Name": "威沃夫",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400281",
+              "ExchangeId": "1246"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400281",
+              "Name": "威沃夫的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1114",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 201127,
+          "sourceSpecies": 1115,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700101",
+              "Name": "保卫战购买威沃夫",
+              "Max": "2",
+              "IsMidle": "1",
+              "ExchangeId": "1351"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1155,
+      "name": "威克",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 201030,
+          "sourceSpecies": 1156,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200954",
+              "Name": "威里特",
+              "Max": "1",
+              "IsMidle": "1",
+              "TargetId": "400293",
+              "ExchangeId": "1247"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400293",
+              "Name": "威里特的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1155",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 201128,
+          "sourceSpecies": 1156,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700102",
+              "Name": "保卫战购买威里特",
+              "Max": "2",
+              "IsMidle": "1",
+              "ExchangeId": "1352"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1178,
+      "name": "蒙奇",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200785,
+          "sourceSpecies": 1179,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200702",
+              "Name": "蒙奇克",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400303",
+              "ExchangeId": "913"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400303",
+              "Name": "蒙奇克的精元",
+              "Max": "999",
+              "UseMax": "1",
+              "BreedMonID": "1178",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1205,
+      "name": "琳诺",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201039,
+          "sourceSpecies": 1206,
+          "price": 50,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200969",
+              "Name": "全价购买凯琳",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1226,
+      "name": "瑞格",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200786,
+          "sourceSpecies": 1227,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200703",
+              "Name": "加瑞尔",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400324",
+              "ExchangeId": "914"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400324",
+              "Name": "加瑞尔的精元",
+              "Max": "999",
+              "UseMax": "1",
+              "BreedMonID": "1226",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1246,
+      "name": "萨吉",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201042,
+          "sourceSpecies": 1247,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200972",
+              "Name": "全价购买萨姆",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1259,
+      "name": "纳尼",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200787,
+          "sourceSpecies": 1260,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200704",
+              "Name": "纳扎",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400338",
+              "ExchangeId": "915"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400338",
+              "Name": "纳扎的精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1259",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 201126,
+          "sourceSpecies": 1260,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700100",
+              "Name": "保卫战购买纳扎",
+              "Max": "2",
+              "IsMidle": "1",
+              "ExchangeId": "1344"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1318,
+      "name": "罗比",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 200800,
+          "sourceSpecies": 1319,
+          "price": 20,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200717",
+              "Name": "100级罗伯特M",
+              "Max": "999",
+              "IsMidle": "1",
+              "ExchangeId": "925"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1329,
+      "name": "罗伊",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 200799,
+          "sourceSpecies": 1330,
+          "price": 20,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200716",
+              "Name": "100级罗伯斯M",
+              "Max": "999",
+              "IsMidle": "1",
+              "ExchangeId": "924"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1333,
+      "name": "闪光迈迈",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 201045,
+          "sourceSpecies": 1334,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200975",
+              "Name": "全价购买闪光迈克瑞",
+              "Max": "1",
+              "IsMidle": "1"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1372,
+      "name": "小娥",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200788,
+          "sourceSpecies": 1373,
+          "price": 100,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200705",
+              "Name": "露娜",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400415",
+              "ExchangeId": "916"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400415",
+              "Name": "露娜的精元",
+              "Max": "999",
+              "UseMax": "1",
+              "BreedMonID": "1372",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1388,
+      "name": "罗迪",
+      "status": "unresolved",
+      "basis": "Named paid acquisition item is source backed; exact repeated acquisition and lifetime restrictions are unresolved.",
+      "routes": [
+        {
+          "productId": 200801,
+          "sourceSpecies": 1389,
+          "price": 20,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200718",
+              "Name": "100级罗斯克M",
+              "Max": "999",
+              "IsMidle": "1",
+              "ExchangeId": "923"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "unresolved"
+    },
+    {
+      "initialSpecies": 1394,
+      "name": "魔化瑞诺",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200830,
+          "sourceSpecies": 1395,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200741",
+              "Name": "魔化萨瑞卡",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "400426",
+              "ExchangeId": "943"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400426",
+              "Name": "魔化萨瑞卡精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1394",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1419,
+      "name": "布尼",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200789,
+          "sourceSpecies": 1420,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200706",
+              "Name": "布奥尼",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400439",
+              "ExchangeId": "917"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400439",
+              "Name": "神斧魔牛布奥尼精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1419",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 201125,
+          "sourceSpecies": 1420,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1700099",
+              "Name": "保卫战购买布奥尼",
+              "Max": "2",
+              "IsMidle": "1",
+              "ExchangeId": "1342"
+            }
+          ],
+          "hatchItems": [],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1446,
+      "name": "金翅托达",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200828,
+          "sourceSpecies": 1447,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200739",
+              "Name": "金翅托鲁克",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "400457",
+              "ExchangeId": "941"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400457",
+              "Name": "金翅托鲁克精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1446",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1481,
+      "name": "金角",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200790,
+          "sourceSpecies": 1482,
+          "price": 300,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200707",
+              "Name": "金角大魔王",
+              "Max": "999",
+              "IsMidle": "1",
+              "TargetId": "400481",
+              "ExchangeId": "918"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400481",
+              "Name": "金角大魔王精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1481",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    },
+    {
+      "initialSpecies": 1483,
+      "name": "合金赛特",
+      "status": "conditional",
+      "basis": "Exact hatch item binding supports repeat hatching if multiple items are actually obtainable; lifetime purchase and exchange limits are unresolved.",
+      "routes": [
+        {
+          "productId": 200832,
+          "sourceSpecies": 1484,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "1200743",
+              "Name": "合金赛伯斯特",
+              "Max": "99",
+              "IsMidle": "1",
+              "TargetId": "400478",
+              "ExchangeId": "945"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400478",
+              "Name": "合金赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1483",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200676,
+          "sourceSpecies": 1483,
+          "price": 400,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400478",
+              "Name": "合金赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1483",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400478",
+              "Name": "合金赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1483",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        },
+        {
+          "productId": 200677,
+          "sourceSpecies": 1483,
+          "price": 450,
+          "productType": 0,
+          "items": [
+            {
+              "ID": "400478",
+              "Name": "合金赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1483",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            },
+            {
+              "ID": "300066",
+              "Name": "通用刻印激活水晶",
+              "Max": "999",
+              "UseMax": "0"
+            }
+          ],
+          "hatchItems": [
+            {
+              "ID": "400478",
+              "Name": "合金赛伯斯特精元",
+              "Max": "99",
+              "UseMax": "1",
+              "BreedMonID": "1483",
+              "BreedMonLv": "1",
+              "BreedTime": "1800",
+              "VipBreedTime": "900"
+            }
+          ],
+          "activeShopRow": null
+        }
+      ],
+      "purchaseStatus": "conditional"
+    }
+  ],
+  "breedingSource": {
+    "coreUrl": "https://seer.61.com/dll/RobotCoreDLL.swf",
+    "eggSymbol": 166,
+    "eggXmlSha256": "33696cb59dd78cd7ead6ef1072aa3c314a30a797e6dfc611188ecff679befaec",
+    "panelUrl": "https://seer.61.com/module/com/robot/module/app/PetBreedPanel.swf",
+    "handbookUrl": "https://seer.61.com/module/com/robot/module/book/PetBreedBook.swf",
+    "statusBoundary": "Confirmed intended repeated breeding in official source; live historical/current server transactions not replayed."
+  }
+}

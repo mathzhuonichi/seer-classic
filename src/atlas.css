@@ -1,0 +1,28 @@
+/* Official map diagrams retain their native artwork and coordinate system. */
+.galaxy-atlas{display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;background:#032b55;color:#fff;font:12px SeerSimSun,SimSun,'宋体','Songti SC',STSong,serif}
+.atlas-graph-heading{position:relative;display:flex;justify-content:center;align-items:center;min-height:38px;padding:3px 94px;flex-shrink:0;background:#249fe4 url('/ui/classic/petbag-header-circuit.png') center/auto 42px repeat-x;border-bottom:2px solid #005a9d}
+.atlas-graph-heading h3{margin:0;font-size:16px!important;font-weight:400;line-height:1.4;color:#fff;text-shadow:0 1px #035591;white-space:nowrap}
+.galaxy-atlas .atlas-return{position:absolute;left:8px;top:4px;bottom:4px;display:flex;align-items:center;gap:5px;padding:3px 7px;border:0;border-radius:0;background:none;box-shadow:none;color:#fff;font-family:inherit;font-size:12px;cursor:pointer}
+.atlas-return>span:first-child{font-size:24px;line-height:1;color:#b0f1ff}
+.atlas-return img{width:32px;height:26px;object-fit:contain}
+.galaxy-atlas .atlas-return:hover{background:none;transform:none;filter:brightness(1.2);color:#ffe47a}
+.galaxy-atlas .atlas-return:focus-visible{outline:2px solid #ffe878;outline-offset:0}
+.atlas-graph-stage{flex:1;min-height:0;min-width:0;display:grid;place-items:center;overflow:hidden;container-type:size;background:#032b55}
+.atlas-native-diagram{position:relative;width:min(100cqw,calc(100cqh * var(--diagram-ratio)));max-width:100%;max-height:100%;flex-shrink:0;container-type:inline-size;isolation:isolate}
+.atlas-diagram-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
+.galaxy-atlas .atlas-native-node{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;outline:0;overflow:visible;cursor:pointer;font:inherit;color:#fff}
+.atlas-native-node>img{width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;display:block}
+.galaxy-atlas .atlas-native-node:hover{background:transparent;border:0;box-shadow:none;transform:none;filter:brightness(1.15)}
+.atlas-node-focus{position:absolute;inset:3px;border:2px solid transparent;pointer-events:none;border-radius:50%}
+.atlas-native-node:focus-visible .atlas-node-focus{border-color:#fff296;box-shadow:0 0 4px #ffc83e}
+.atlas-native-label{position:absolute;top:100%;left:50%;transform:translateX(-50%);display:block;width:max-content;white-space:nowrap;pointer-events:none;font-size:clamp(9px,1.35cqw,13px);font-weight:400;line-height:1.5;letter-spacing:0;color:#fff;text-shadow:-1px 0 #002d67,1px 0 #002d67,0 -1px #002d67,0 1px #002d67}
+.atlas-native-node:hover .atlas-native-label,.atlas-native-node:focus-visible .atlas-native-label{color:#ffe57a}
+.atlas-source-unavailable{color:#b7eaff;font-size:12px;padding:20px;text-align:center}
+@media(max-width:700px){.atlas-graph-heading{min-height:32px;padding:3px 70px}.atlas-graph-heading h3{font-size:14px!important}.galaxy-atlas .atlas-return{left:4px;font-size:11px;padding:2px 4px}.atlas-return>span:first-child{font-size:22px}}
+
+/* Baked source headings and return artwork do not gain duplicate live chrome. */
+.atlas-heading-in-art h3{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.atlas-heading-in-art.atlas-back-in-art{min-height:0;height:0;padding:0;border:0;background:none;overflow:hidden}
+
+.atlas-native-decoration{position:absolute;display:block;object-fit:contain;pointer-events:none;user-select:none}
+.atlas-native-title{position:absolute;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font-family:inherit;font-weight:400;line-height:1;letter-spacing:0;pointer-events:none;text-shadow:0 1px #063d70}

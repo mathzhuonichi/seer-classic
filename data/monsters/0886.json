@@ -1,0 +1,117 @@
+{
+  "id": 886,
+  "name": {
+    "zh": "卡迪达克"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 128,
+    "atk": 114,
+    "def": 89,
+    "spa": 82,
+    "spd": 87,
+    "spe": 100
+  },
+  "ev_yield": {
+    "hp": 2,
+    "atk": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20220
+    },
+    {
+      "level": 10,
+      "skill": 10307
+    },
+    {
+      "level": 16,
+      "skill": 10510
+    },
+    {
+      "level": 20,
+      "skill": 10511
+    },
+    {
+      "level": 25,
+      "skill": 20117
+    },
+    {
+      "level": 30,
+      "skill": 10144
+    },
+    {
+      "level": 35,
+      "skill": 10512
+    },
+    {
+      "level": 39,
+      "skill": 20221
+    },
+    {
+      "level": 43,
+      "skill": 10513
+    },
+    {
+      "level": 45,
+      "skill": 20222
+    },
+    {
+      "level": 47,
+      "skill": 10516
+    },
+    {
+      "level": 50,
+      "skill": 10514
+    },
+    {
+      "level": 53,
+      "skill": 20223
+    },
+    {
+      "level": 55,
+      "skill": 10517
+    },
+    {
+      "level": 58,
+      "skill": 20066
+    },
+    {
+      "level": 60,
+      "skill": 10515
+    },
+    {
+      "level": 62,
+      "skill": 12129
+    },
+    {
+      "level": 65,
+      "skill": 21099
+    },
+    {
+      "level": 68,
+      "skill": 12128
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 885,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0886",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-08"
+}

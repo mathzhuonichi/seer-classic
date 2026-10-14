@@ -1,0 +1,868 @@
+{
+  "sourceUrl": "https://seer.61.com/dll/RobotCoreDLL.swf",
+  "sourceDecodedSha256": "ca040870b9150463f5858ac42d0e0c347380010e12ae16d02068dc78048ccd40",
+  "productSymbol": 310,
+  "itemSymbol": 108,
+  "scope": "Verified fixed paid acquisition options; historical exclusivity and completeness beyond these sources remain unverified.",
+  "species": [
+    {
+      "rewardSpecies": 143,
+      "name": "卡塔",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 144,
+          "productId": 200797,
+          "itemIds": "1200714",
+          "name": "100级赫卡特M",
+          "price": 20,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 298,
+      "name": "迅牙虎",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 298,
+          "productId": 200257,
+          "itemIds": "400119",
+          "name": "谜之精元",
+          "price": 400,
+          "hatchSpecies": 298,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 298,
+          "productId": 200260,
+          "itemIds": "400119|400094|20098",
+          "name": "猛虎王跨年放送",
+          "price": 500,
+          "hatchSpecies": 298,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 346,
+      "name": "宝贝鲤",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 729,
+          "productId": 200892,
+          "itemIds": "1200812",
+          "name": "鱼龙王",
+          "price": 400,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 729,
+          "productId": 245359,
+          "itemIds": "1706584",
+          "name": "98钻购买鱼龙王",
+          "price": 98,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 373,
+      "name": "莫顿",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 375,
+          "productId": 200796,
+          "itemIds": "1200713",
+          "name": "100级隆米尔M",
+          "price": 30,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 506,
+      "name": "诺特",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 508,
+          "productId": 201028,
+          "itemIds": "1200952",
+          "name": "桑诺特",
+          "price": 150,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 526,
+      "name": "托克",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 527,
+          "productId": 201158,
+          "itemIds": "1700141",
+          "name": "赫尔托克",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 539,
+      "name": "艾克",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 540,
+          "productId": 201027,
+          "itemIds": "1200951",
+          "name": "艾克斯",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 596,
+      "name": "史克",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 597,
+          "productId": 201111,
+          "itemIds": "1700078",
+          "name": "史密斯",
+          "price": 100,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 597,
+          "productId": 201172,
+          "itemIds": "1700164",
+          "name": "商城购买史密斯",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 598,
+      "name": "米娅",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 599,
+          "productId": 201025,
+          "itemIds": "1200949",
+          "name": "吉米丽娅",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 677,
+      "name": "草莓多多",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 677,
+          "productId": 200396,
+          "itemIds": "300364|400552",
+          "name": "果然多单选套组A",
+          "price": 70,
+          "hatchSpecies": 677,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 677,
+          "productId": 200401,
+          "itemIds": "300364|400552|300365|400555|300366|400553|300367|400554|300368|400556",
+          "name": "果然多缤纷套组",
+          "price": 290,
+          "hatchSpecies": 677,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 680,
+      "name": "蜜桃多多",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 680,
+          "productId": 200398,
+          "itemIds": "300366|400553",
+          "name": "果然多单选套组C",
+          "price": 70,
+          "hatchSpecies": 680,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 680,
+          "productId": 200401,
+          "itemIds": "300364|400552|300365|400555|300366|400553|300367|400554|300368|400556",
+          "name": "果然多缤纷套组",
+          "price": 290,
+          "hatchSpecies": 680,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 682,
+      "name": "苹果多多",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 683,
+          "productId": 201040,
+          "itemIds": "1200970",
+          "name": "全价购买果然苹果多",
+          "price": 70,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 682,
+          "productId": 200399,
+          "itemIds": "300367|400554",
+          "name": "果然多单选套组D",
+          "price": 70,
+          "hatchSpecies": 682,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 682,
+          "productId": 200401,
+          "itemIds": "300364|400552|300365|400555|300366|400553|300367|400554|300368|400556",
+          "name": "果然多缤纷套组",
+          "price": 290,
+          "hatchSpecies": 682,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 684,
+      "name": "葡萄多多",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 684,
+          "productId": 200397,
+          "itemIds": "300365|400555",
+          "name": "果然多单选套组B",
+          "price": 70,
+          "hatchSpecies": 684,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 684,
+          "productId": 200401,
+          "itemIds": "300364|400552|300365|400555|300366|400553|300367|400554|300368|400556",
+          "name": "果然多缤纷套组",
+          "price": 290,
+          "hatchSpecies": 684,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 686,
+      "name": "蜜瓜多多",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 686,
+          "productId": 200400,
+          "itemIds": "300368|400556",
+          "name": "果然多单选套组E",
+          "price": 70,
+          "hatchSpecies": 686,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 686,
+          "productId": 200401,
+          "itemIds": "300364|400552|300365|400555|300366|400553|300367|400554|300368|400556",
+          "name": "果然多缤纷套组",
+          "price": 290,
+          "hatchSpecies": 686,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 734,
+      "name": "电雪球",
+      "evidence": [
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 734,
+          "productId": 200353,
+          "itemIds": "20136|300066|400214|400838",
+          "name": "上等精灵强力礼包",
+          "price": 350,
+          "hatchSpecies": 734,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 734,
+          "productId": 200355,
+          "itemIds": "20136|400214|400839",
+          "name": "上等精灵超值礼包",
+          "price": 130,
+          "hatchSpecies": 734,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 760,
+      "name": "炎魔",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 760,
+          "productId": 200891,
+          "itemIds": "1200811",
+          "name": "炎魔",
+          "price": 400,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 760,
+          "productId": 245360,
+          "itemIds": "1706585",
+          "name": "98钻购买炎魔",
+          "price": 98,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 809,
+      "name": "灵驹",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 811,
+          "productId": 200890,
+          "itemIds": "1200810",
+          "name": "始祖灵兽",
+          "price": 400,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 811,
+          "productId": 245358,
+          "itemIds": "1706583",
+          "name": "98钻购买始祖灵兽",
+          "price": 98,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 811,
+          "productId": 200344,
+          "itemIds": "400207",
+          "name": "始祖灵兽精元",
+          "price": 350,
+          "hatchSpecies": 811,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 811,
+          "productId": 200346,
+          "itemIds": "400207|400823",
+          "name": "始祖灵兽套组",
+          "price": 480,
+          "hatchSpecies": 811,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 818,
+      "name": "安吉",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 819,
+          "productId": 201041,
+          "itemIds": "1200971",
+          "name": "全价购买安吉拉",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 831,
+      "name": "隐形蝶",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 832,
+          "productId": 201026,
+          "itemIds": "1200950",
+          "name": "斯特尔",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 864,
+      "name": "托达",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 865,
+          "productId": 200827,
+          "itemIds": "1200738",
+          "name": "托鲁克",
+          "price": 400,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 864,
+          "productId": 200360,
+          "itemIds": "20187|400215|400844",
+          "name": "托鲁克战斗套组",
+          "price": 390,
+          "hatchSpecies": 864,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 897,
+      "name": "赛特",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 898,
+          "productId": 200831,
+          "itemIds": "1200742",
+          "name": "赛伯斯特",
+          "price": 400,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 917,
+      "name": "布克",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 918,
+          "productId": 201044,
+          "itemIds": "1200974",
+          "name": "全价购买布鲁恩特",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 928,
+      "name": "瑞诺",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 929,
+          "productId": 200829,
+          "itemIds": "1200740",
+          "name": "萨瑞卡",
+          "price": 400,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 984,
+      "name": "桑奇",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 985,
+          "productId": 201043,
+          "itemIds": "1200973",
+          "name": "全价购买伯桑克",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1002,
+      "name": "多戈",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1003,
+          "productId": 201154,
+          "itemIds": "1700137",
+          "name": "戈登",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1114,
+      "name": "威尔",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1115,
+          "productId": 201029,
+          "itemIds": "1200953",
+          "name": "威沃夫",
+          "price": 100,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1115,
+          "productId": 201127,
+          "itemIds": "1700101",
+          "name": "保卫战购买威沃夫",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1155,
+      "name": "威克",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1156,
+          "productId": 201030,
+          "itemIds": "1200954",
+          "name": "威里特",
+          "price": 100,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1156,
+          "productId": 201128,
+          "itemIds": "1700102",
+          "name": "保卫战购买威里特",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1178,
+      "name": "蒙奇",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1179,
+          "productId": 200785,
+          "itemIds": "1200702",
+          "name": "蒙奇克",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1205,
+      "name": "琳诺",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1206,
+          "productId": 201039,
+          "itemIds": "1200969",
+          "name": "全价购买凯琳",
+          "price": 50,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1226,
+      "name": "瑞格",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1227,
+          "productId": 200786,
+          "itemIds": "1200703",
+          "name": "加瑞尔",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1246,
+      "name": "萨吉",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1247,
+          "productId": 201042,
+          "itemIds": "1200972",
+          "name": "全价购买萨姆",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1259,
+      "name": "纳尼",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1260,
+          "productId": 200787,
+          "itemIds": "1200704",
+          "name": "纳扎",
+          "price": 300,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1260,
+          "productId": 201126,
+          "itemIds": "1700100",
+          "name": "保卫战购买纳扎",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1318,
+      "name": "罗比",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1319,
+          "productId": 200800,
+          "itemIds": "1200717",
+          "name": "100级罗伯特M",
+          "price": 20,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1329,
+      "name": "罗伊",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1330,
+          "productId": 200799,
+          "itemIds": "1200716",
+          "name": "100级罗伯斯M",
+          "price": 20,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1333,
+      "name": "闪光迈迈",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1334,
+          "productId": 201045,
+          "itemIds": "1200975",
+          "name": "全价购买闪光迈克瑞",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1372,
+      "name": "小娥",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1373,
+          "productId": 200788,
+          "itemIds": "1200705",
+          "name": "露娜",
+          "price": 100,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1388,
+      "name": "罗迪",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1389,
+          "productId": 200801,
+          "itemIds": "1200718",
+          "name": "100级罗斯克M",
+          "price": 20,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1394,
+      "name": "魔化瑞诺",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1395,
+          "productId": 200830,
+          "itemIds": "1200741",
+          "name": "魔化萨瑞卡",
+          "price": 400,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1419,
+      "name": "布尼",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1420,
+          "productId": 200789,
+          "itemIds": "1200706",
+          "name": "布奥尼",
+          "price": 300,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1420,
+          "productId": 201125,
+          "itemIds": "1700099",
+          "name": "保卫战购买布奥尼",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1446,
+      "name": "金翅托达",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1447,
+          "productId": 200828,
+          "itemIds": "1200739",
+          "name": "金翅托鲁克",
+          "price": 400,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1481,
+      "name": "金角",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1482,
+          "productId": 200790,
+          "itemIds": "1200707",
+          "name": "金角大魔王",
+          "price": 300,
+          "currency": "diamonds"
+        }
+      ]
+    },
+    {
+      "rewardSpecies": 1483,
+      "name": "合金赛特",
+      "evidence": [
+        {
+          "kind": "named-pet-product",
+          "sourceSpecies": 1484,
+          "productId": 200832,
+          "itemIds": "1200743",
+          "name": "合金赛伯斯特",
+          "price": 400,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 1483,
+          "productId": 200676,
+          "itemIds": "400478",
+          "name": "合金赛博思特的精元",
+          "price": 400,
+          "hatchSpecies": 1483,
+          "currency": "diamonds"
+        },
+        {
+          "kind": "product-hatch-binding",
+          "sourceSpecies": 1483,
+          "productId": 200677,
+          "itemIds": "400478|300066|20193|20297",
+          "name": "合金赛伯斯特礼包",
+          "price": 450,
+          "hatchSpecies": 1483,
+          "currency": "diamonds"
+        }
+      ]
+    }
+  ],
+  "currencyEvidence": {
+    "currency": "diamonds",
+    "productClass": "GoldProductXMLInfo",
+    "productConfigName": "product_diamond.xml",
+    "purchaseCommand": "GOLD_BUY_PRODUCT",
+    "ordinaryItemCommand": "ITEM_BUY",
+    "moneyConversionProductId": 200000,
+    "moneyConversionSourceSymbol": 175,
+    "moneyConversionPrice": 1,
+    "moneyConversionDiamonds": 10
+  },
+  "excludedFreeFamilies": [
+    {
+      "species": 205,
+      "reason": "Existing mapped wild capsule route."
+    },
+    {
+      "species": 807,
+      "reason": "Official PetXML IsRareMon=1, an original rare wild creature; paid level-100 option does not replace its wild membership."
+    }
+  ]
+}

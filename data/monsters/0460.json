@@ -1,0 +1,101 @@
+{
+  "id": 460,
+  "name": {
+    "zh": "尤达里克"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 108,
+    "atk": 108,
+    "def": 87,
+    "spa": 80,
+    "spd": 85,
+    "spe": 82
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1
+  },
+  "exp_yield": 118,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10019
+    },
+    {
+      "level": 5,
+      "skill": 20156
+    },
+    {
+      "level": 9,
+      "skill": 11210
+    },
+    {
+      "level": 13,
+      "skill": 10224
+    },
+    {
+      "level": 17,
+      "skill": 20038
+    },
+    {
+      "level": 21,
+      "skill": 10179
+    },
+    {
+      "level": 25,
+      "skill": 10333
+    },
+    {
+      "level": 29,
+      "skill": 20298
+    },
+    {
+      "level": 33,
+      "skill": 11211
+    },
+    {
+      "level": 37,
+      "skill": 10608
+    },
+    {
+      "level": 41,
+      "skill": 20480
+    },
+    {
+      "level": 45,
+      "skill": 11212
+    },
+    {
+      "level": 49,
+      "skill": 20481
+    },
+    {
+      "level": 53,
+      "skill": 11214
+    },
+    {
+      "level": 57,
+      "skill": 20482
+    },
+    {
+      "level": 61,
+      "skill": 11213
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 459,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0460",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

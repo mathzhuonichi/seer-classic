@@ -1,0 +1,101 @@
+{
+  "id": 974,
+  "name": {
+    "zh": "阿克奥斯"
+  },
+  "types": [
+    "ice",
+    "shadow"
+  ],
+  "base": {
+    "hp": 123,
+    "atk": 81,
+    "def": 89,
+    "spa": 117,
+    "spd": 89,
+    "spe": 96
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 120,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10157
+    },
+    {
+      "level": 5,
+      "skill": 20216
+    },
+    {
+      "level": 9,
+      "skill": 11837
+    },
+    {
+      "level": 13,
+      "skill": 20639
+    },
+    {
+      "level": 17,
+      "skill": 10344
+    },
+    {
+      "level": 21,
+      "skill": 10393
+    },
+    {
+      "level": 25,
+      "skill": 20709
+    },
+    {
+      "level": 29,
+      "skill": 10782
+    },
+    {
+      "level": 33,
+      "skill": 21204
+    },
+    {
+      "level": 37,
+      "skill": 12319
+    },
+    {
+      "level": 41,
+      "skill": 21205
+    },
+    {
+      "level": 45,
+      "skill": 12317
+    },
+    {
+      "level": 49,
+      "skill": 12320
+    },
+    {
+      "level": 53,
+      "skill": 21206
+    },
+    {
+      "level": 57,
+      "skill": 12318
+    },
+    {
+      "level": 61,
+      "skill": 12321
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 973,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0974",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

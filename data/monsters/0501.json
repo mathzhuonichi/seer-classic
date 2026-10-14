@@ -1,0 +1,106 @@
+{
+  "id": 501,
+  "name": {
+    "zh": "巴斯特"
+  },
+  "types": [
+    "mechanical",
+    "ground"
+  ],
+  "base": {
+    "hp": 125,
+    "atk": 100,
+    "def": 120,
+    "spa": 95,
+    "spd": 120,
+    "spe": 90
+  },
+  "ev_yield": {
+    "def": 1,
+    "spd": 1
+  },
+  "exp_yield": 150,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 11141
+    },
+    {
+      "level": 5,
+      "skill": 20276
+    },
+    {
+      "level": 9,
+      "skill": 10705
+    },
+    {
+      "level": 13,
+      "skill": 10703
+    },
+    {
+      "level": 17,
+      "skill": 20565
+    },
+    {
+      "level": 21,
+      "skill": 11142
+    },
+    {
+      "level": 25,
+      "skill": 11147
+    },
+    {
+      "level": 29,
+      "skill": 20566
+    },
+    {
+      "level": 33,
+      "skill": 11143
+    },
+    {
+      "level": 37,
+      "skill": 10667
+    },
+    {
+      "level": 41,
+      "skill": 20567
+    },
+    {
+      "level": 45,
+      "skill": 11144
+    },
+    {
+      "level": 49,
+      "skill": 20568
+    },
+    {
+      "level": 53,
+      "skill": 11145
+    },
+    {
+      "level": 57,
+      "skill": 11148
+    },
+    {
+      "level": 61,
+      "skill": 20569
+    },
+    {
+      "level": 65,
+      "skill": 11146
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0501",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

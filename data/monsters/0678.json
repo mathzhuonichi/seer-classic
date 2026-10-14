@@ -1,0 +1,70 @@
+{
+  "id": 678,
+  "name": {
+    "zh": "果然草莓"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 83,
+    "atk": 65,
+    "def": 65,
+    "spa": 78,
+    "spd": 66,
+    "spe": 63
+  },
+  "ev_yield": {
+    "hp": 2
+  },
+  "exp_yield": 88,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 10412
+    },
+    {
+      "level": 10,
+      "skill": 11959
+    },
+    {
+      "level": 15,
+      "skill": 20030
+    },
+    {
+      "level": 20,
+      "skill": 11960
+    },
+    {
+      "level": 25,
+      "skill": 21000
+    },
+    {
+      "level": 30,
+      "skill": 11167
+    }
+  ],
+  "evolution": [
+    {
+      "to": 679,
+      "method": "level",
+      "level": 33
+    }
+  ],
+  "evolves_from": 677,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0678",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-03"
+}

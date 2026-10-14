@@ -1,0 +1,101 @@
+{
+  "id": 1475,
+  "name": {
+    "zh": "梅诺西"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 126,
+    "atk": 82,
+    "def": 85,
+    "spa": 117,
+    "spd": 86,
+    "spe": 100
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1
+  },
+  "exp_yield": 127,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10559
+    },
+    {
+      "level": 5,
+      "skill": 20168
+    },
+    {
+      "level": 9,
+      "skill": 10530
+    },
+    {
+      "level": 13,
+      "skill": 20491
+    },
+    {
+      "level": 17,
+      "skill": 11531
+    },
+    {
+      "level": 21,
+      "skill": 13416
+    },
+    {
+      "level": 25,
+      "skill": 20741
+    },
+    {
+      "level": 29,
+      "skill": 11025
+    },
+    {
+      "level": 33,
+      "skill": 21813
+    },
+    {
+      "level": 37,
+      "skill": 11523
+    },
+    {
+      "level": 41,
+      "skill": 21814
+    },
+    {
+      "level": 45,
+      "skill": 13414
+    },
+    {
+      "level": 49,
+      "skill": 13417
+    },
+    {
+      "level": 53,
+      "skill": 21815
+    },
+    {
+      "level": 57,
+      "skill": 13415
+    },
+    {
+      "level": 61,
+      "skill": 13418
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 1474,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m1475",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-12"
+}

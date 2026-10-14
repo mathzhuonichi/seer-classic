@@ -1,0 +1,114 @@
+{
+  "id": "boss_buleike",
+  "name": {
+    "zh": "布莱克"
+  },
+  "category": "legendary",
+  "location": {
+    "zh": "（单挑战）"
+  },
+  "era": "2011-08",
+  "team": [
+    {
+      "species": 875,
+      "level": 70,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12112,
+        21090,
+        21089,
+        12114
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "always_moves_first"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12112,
+      21090,
+      21089,
+      12114
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_buleike": 1
+    },
+    "achievement": {
+      "zh": "击败布莱克"
+    }
+  },
+  "reward_hatches": 875,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "单挑战：选择一只精灵与布莱克一对一；首次击败获得成就「击败布莱克」和布莱克的精元，分子转化器孵化24小时后得到布莱克。"
+  },
+  "strategy_notes": {
+    "zh": "暗影系，被光、圣灵、电系克制：厄尔塞拉金光闪烁消强化→八尺镜→奇幻光芒致命一击1600+秒杀；谱尼圣堂之门消强后生命回血、圣灵魔闪光；雷伊雷神天明闪4倍特效直接秒；魔焰猩猩绝命火焰秒杀。"
+  },
+  "engine_notes": [
+    "always_moves_first: '速度无限，必定先出招' — 布莱克 acts first every turn regardless of speed or priority.",
+    "Innate attack boost (攻击天生强化), magnitude not stated; atk+1 assumed (clearable).",
+    "Single-pet battle (单挑战) → player_team_size 1.",
+    "Location not stated in the 2011 guides (the encounter was reached from the 战神联盟 storyline / SPT panel).",
+    "Not covered here: the 暗黑武斗场 '暗黑布莱克' (beat 9 布莱克 with different natures for 暗黑布莱克的精元) — date and gate details not found."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "innate_boost",
+      "location",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110815/95405.html",
+    "https://wap.zol.com.cn/ask/x_26551746.html"
+  ],
+  "source_note": "7k7k 2011-08-15 打布莱克的几种方法: 70级, 约2000血, 单挑, 速度无限必定先出招, 攻击天生强化, skills 双重暗影/暗夜守护/深黑恐惧/斗志复燃."
+}

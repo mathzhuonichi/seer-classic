@@ -1,0 +1,66 @@
+{
+  "id": 1034,
+  "name": {
+    "zh": "红色雪球"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 40,
+    "def": 45,
+    "spa": 72,
+    "spd": 53,
+    "spe": 55
+  },
+  "ev_yield": {
+    "spd": 1
+  },
+  "exp_yield": 60,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 20,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10193
+    },
+    {
+      "level": 5,
+      "skill": 10568
+    },
+    {
+      "level": 10,
+      "skill": 20061
+    },
+    {
+      "level": 15,
+      "skill": 10345
+    },
+    {
+      "level": 20,
+      "skill": 12039
+    },
+    {
+      "level": 25,
+      "skill": 20063
+    }
+  ],
+  "evolution": [
+    {
+      "to": 1035,
+      "method": "level",
+      "level": 26
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1034",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Original Flash Monster XML (official RobotCoreDLL.swf symbol23) verified in revision25 overrides modern H5 CatchRate: capture probability remains server-side and this metadata alone does not establish a wild encounter.",
+  "existed_by": "2011-12"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "boss_spt_guerzhadi",
+  "name": {
+    "zh": "古尔扎迪"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "守护部落"
+  },
+  "era": "2011-09",
+  "team": [
+    {
+      "species": 925,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12213,
+        21145,
+        12215,
+        12212
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12213,
+      21145,
+      12215,
+      12212
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 924,
+      "level": 1
+    },
+    "items": {},
+    "achievement": {
+      "zh": "击败古尔扎迪"
+    },
+    "title": {
+      "zh": "毁灭者"
+    }
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在守护部落挑战古尔扎迪，打败获得古尔扎迪精元、成就「击败古尔扎迪」和称号「毁灭者」。"
+  },
+  "strategy_notes": {
+    "zh": "没有天生强化、速度不快、PP有限，可以耗招：鲁比克斜转耗光技能后丽莎布布收尾；或高个体丽莎布布花草能量强化两次，硬吃大地之怒，究极吸取回血，金光绿叶/叶绿光束收尾。"
+  },
+  "engine_notes": [
+    "Normal finite PP (the classic tactic was 耗PP), high crit rate on its attacks per 4399; no extra rules."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201109-17-115971.html"
+  ],
+  "source_note": "4399 SPT page 2011-09-17: 80级, 约5000血, skills 大地之怒/巨石身躯/乱石风暴/混乱之雨."
+}

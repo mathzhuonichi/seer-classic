@@ -1,0 +1,64 @@
+{
+  "id": 1209,
+  "name": {
+    "zh": "道尔"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 70,
+    "atk": 63,
+    "def": 55,
+    "spa": 49,
+    "spd": 42,
+    "spe": 44
+  },
+  "ev_yield": {
+    "def": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 60,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10019
+    },
+    {
+      "level": 5,
+      "skill": 20090
+    },
+    {
+      "level": 10,
+      "skill": 10333
+    },
+    {
+      "level": 15,
+      "skill": 12822
+    },
+    {
+      "level": 20,
+      "skill": 20352
+    },
+    {
+      "level": 25,
+      "skill": 10826
+    },
+    {
+      "level": 30,
+      "skill": 10580
+    }
+  ],
+  "evolution": [],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 0,
+  "art": "m1209",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-05"
+}

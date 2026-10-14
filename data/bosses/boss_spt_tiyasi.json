@@ -1,0 +1,115 @@
+{
+  "id": "boss_spt_tiyasi",
+  "name": {
+    "zh": "提亚斯"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "云霄星最高层"
+  },
+  "era": "2009-09",
+  "team": [
+    {
+      "species": 69,
+      "level": 45,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10161,
+        20082,
+        10162,
+        10163
+      ],
+      "hp_override": 500
+    }
+  ],
+  "rules": [
+    {
+      "rule": "flee_after_skill",
+      "skill": 20082,
+      "count": 2
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [
+    {
+      "kind": "script",
+      "id": "boss_fled"
+    }
+  ],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "crit_rate_up",
+          "params": {
+            "target": "self",
+            "stages": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10161,
+      20082,
+      10162,
+      10163
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_tiyasi": 1
+    }
+  },
+  "reward_hatches": 68,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在云霄星最高处挑战提亚斯，打败获得提亚斯精元（孵化得米拉美）；若它用了两次精神干涉就会自动逃跑，本次不算胜利。"
+  },
+  "strategy_notes": {
+    "zh": "35+级波克尔同生共死后换45-50级烈焰猩猩收尾；或100级精灵大招速攻，在它第二次精神干涉之前解决；必中技能可以无视命中下降。"
+  },
+  "engine_notes": [
+    "flee_after_skill {skill 20082 精神干涉, count 2}: on the second successful use of 精神干涉 the boss leaves; the battle ends as a failure (lose: boss_fled).",
+    "打它容易MISS: explained by 精神干涉 itself (foe accuracy -2 per use); no extra evasion rule added.",
+    "它却容易致命一击: crit_rate_up +2 stages at battle start (magnitude is an estimate).",
+    "HP never published; 500 is an estimate.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "crit_rate_up_amount",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201006-05-70393.html",
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://news.7k7k.com/content/20100602/8159.html"
+  ],
+  "source_note": "4399 BOSS series (2010-06-05): 云霄星最高处 45级; 「打它容易MISS，它却容易致命一击，只要它两次精神干涉就自动逃跑」."
+}

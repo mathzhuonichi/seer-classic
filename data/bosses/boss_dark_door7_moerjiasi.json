@@ -1,0 +1,83 @@
+{
+  "id": "boss_dark_door7_moerjiasi",
+  "name": {
+    "zh": "暗黑武斗场 暗黑第七门 莫尔加斯"
+  },
+  "category": "tower",
+  "location": {
+    "zh": "精灵太空站 暗黑武斗场 暗黑第七门"
+  },
+  "era": "2010-08",
+  "team": [
+    {
+      "species": 441,
+      "level": 100,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11179,
+        20461,
+        10124,
+        10126
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11179,
+      20461,
+      10124,
+      10126
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_moerjiasi": 1
+    }
+  },
+  "reward_hatches": 439,
+  "reward_note": "Each door boss, when beaten, gave its 暗黑精灵's 精元 (4399 2010-06-04: 通关后获得精元), hatching the line's first stage.",
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_dark_door7_mohuashizhe"
+    ]
+  },
+  "capture": {
+    "zh": "暗黑武斗场暗黑第七门：100级莫尔加斯，约2000血。打败获得莫尔加斯精元。"
+  },
+  "strategy_notes": {
+    "zh": "消除强化后，用丽莎布布花草能量+金光绿叶秒杀；或先寄生种子再大招。"
+  },
+  "engine_notes": [
+    "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
+    "All skills ground-type with side effects; high special attack."
+  ],
+  "confidence": {
+    "level": "high",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/ahwdc/201105-30-98441.html",
+    "https://news.4399.com/seer/ahwdc/201008-25-76095.html"
+  ],
+  "source_note": "4399 第七门攻略: No.441 地面系 Lv100 HP2000."
+}

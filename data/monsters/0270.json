@@ -1,0 +1,101 @@
+{
+  "id": 270,
+  "name": {
+    "zh": "刹洛眼"
+  },
+  "types": [
+    "psychic"
+  ],
+  "base": {
+    "hp": 105,
+    "atk": 90,
+    "def": 80,
+    "spa": 110,
+    "spd": 95,
+    "spe": 100
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spd": 1
+  },
+  "exp_yield": 115,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 10,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10737
+    },
+    {
+      "level": 5,
+      "skill": 20283
+    },
+    {
+      "level": 9,
+      "skill": 10738
+    },
+    {
+      "level": 13,
+      "skill": 10522
+    },
+    {
+      "level": 17,
+      "skill": 20324
+    },
+    {
+      "level": 21,
+      "skill": 10477
+    },
+    {
+      "level": 25,
+      "skill": 10742
+    },
+    {
+      "level": 29,
+      "skill": 20325
+    },
+    {
+      "level": 34,
+      "skill": 10745
+    },
+    {
+      "level": 38,
+      "skill": 20328
+    },
+    {
+      "level": 42,
+      "skill": 10746
+    },
+    {
+      "level": 46,
+      "skill": 20329
+    },
+    {
+      "level": 50,
+      "skill": 10747
+    },
+    {
+      "level": 54,
+      "skill": 20330
+    },
+    {
+      "level": 58,
+      "skill": 10744
+    },
+    {
+      "level": 62,
+      "skill": 10748
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 269,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0270",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

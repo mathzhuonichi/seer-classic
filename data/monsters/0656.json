@@ -1,0 +1,124 @@
+{
+  "id": 656,
+  "name": {
+    "zh": "帕多尼"
+  },
+  "types": [
+    "normal"
+  ],
+  "base": {
+    "hp": 115,
+    "atk": 87,
+    "def": 90,
+    "spa": 112,
+    "spd": 82,
+    "spe": 102
+  },
+  "ev_yield": {
+    "spa": 2
+  },
+  "exp_yield": 118,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20004
+    },
+    {
+      "level": 9,
+      "skill": 10522
+    },
+    {
+      "level": 13,
+      "skill": 20290
+    },
+    {
+      "level": 17,
+      "skill": 10728
+    },
+    {
+      "level": 21,
+      "skill": 10355
+    },
+    {
+      "level": 25,
+      "skill": 20040
+    },
+    {
+      "level": 29,
+      "skill": 10285
+    },
+    {
+      "level": 33,
+      "skill": 11632
+    },
+    {
+      "level": 37,
+      "skill": 20214
+    },
+    {
+      "level": 41,
+      "skill": 11633
+    },
+    {
+      "level": 45,
+      "skill": 20318
+    },
+    {
+      "level": 49,
+      "skill": 10731
+    },
+    {
+      "level": 53,
+      "skill": 20804
+    },
+    {
+      "level": 57,
+      "skill": 10457
+    },
+    {
+      "level": 60,
+      "skill": 10730
+    },
+    {
+      "level": 63,
+      "skill": 20319
+    },
+    {
+      "level": 66,
+      "skill": 10727
+    },
+    {
+      "level": 69,
+      "skill": 10729
+    },
+    {
+      "level": 72,
+      "skill": 20805
+    },
+    {
+      "level": 75,
+      "skill": 10726
+    },
+    {
+      "level": 78,
+      "skill": 11634
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 655,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0656",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-02"
+}

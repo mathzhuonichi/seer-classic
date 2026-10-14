@@ -1,0 +1,115 @@
+{
+  "id": "boss_spt_pitesaluo",
+  "name": {
+    "zh": "皮特萨罗"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "泰若星 丛林之境"
+  },
+  "era": "2011-11",
+  "team": [
+    {
+      "species": 997,
+      "level": 65,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        12373,
+        12370,
+        21233,
+        12372
+      ],
+      "hp_override": 5000
+    }
+  ],
+  "rules": [],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 1
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 50
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "foe",
+          "stats": {
+            "acc": -1
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      12373,
+      12370,
+      21233,
+      12372
+    ]
+  },
+  "reward": {
+    "monster": {
+      "species": 996,
+      "level": 1
+    },
+    "items": {}
+  },
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "进入裂空星系泰若星二层丛林之境，点击右下角的鸟蛋出现皮特萨罗，战胜后获得一个皮特萨罗精元。"
+  },
+  "strategy_notes": {
+    "zh": "用电系或冰系（雷伊、杜尼鲁）：魔龙消强并弱化 → 斯普林特自杀 → 雷伊雷神觉醒强化后致命一击秒杀。"
+  },
+  "engine_notes": [
+    "Innate special-attack boost (天生特攻强化); magnitude not stated, +1 assumed.",
+    "Below half HP the player's pets' accuracy drops (血量降至一半时我方精灵命中率下降); encoded as a one-time foe acc -1, magnitude/repeat unknown.",
+    "Weakening works but its skill 绝灭射线 removes its own stat drops; often uses 怒鸣.",
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "hp",
+      "innate_stage_amount",
+      "half_hp_accuracy_drop"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201111-21-127453.html"
+  ],
+  "source_note": "4399 SPT page: 65级, 5000血左右, 2011-11-18 加入."
+}

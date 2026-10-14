@@ -1,0 +1,111 @@
+{
+  "id": "boss_spt_moduosa",
+  "name": {
+    "zh": "墨杜萨"
+  },
+  "category": "spt",
+  "location": {
+    "zh": "墨杜萨星"
+  },
+  "era": "2011-01",
+  "team": [
+    {
+      "species": 587,
+      "level": 80,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11471,
+        11466,
+        20732,
+        11470
+      ],
+      "hp_override": 2000
+    }
+  ],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "vs_type_use_only",
+      "params": {
+        "type": "light",
+        "skill": 11470
+      }
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [
+    {
+      "when": {
+        "self_hp_below_pct": 50
+      },
+      "do": [
+        {
+          "op": "script",
+          "id": "always_crit",
+          "params": {
+            "target": "self"
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      11471,
+      11466,
+      20732,
+      11470
+    ]
+  },
+  "reward": {
+    "items": {
+      "essence_moduosa": 1
+    },
+    "achievement": {
+      "zh": "击败墨杜萨"
+    }
+  },
+  "reward_hatches": 585,
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": []
+  },
+  "capture": {
+    "zh": "在墨杜萨星挑战墨杜萨，战胜后获得墨杜萨精元（孵化得莎莎）和成就。"
+  },
+  "strategy_notes": {
+    "zh": "光系免疫超能：派光系精灵（厄尔塞拉等）上场，它只会用决然一击；先消强化；或寄生种子+防护罩，准备三个替死鬼精灵。"
+  },
+  "engine_notes": [
+    "vs_type_use_only: while the player's active pet is 光系 it only uses 决然一击 (普通系) — its 超能 moves do 0 to light (type chart psychic→light = 0).",
+    "Below 1/2 HP every attack crits (体力低于2分之一会暴击).",
+    "Skills besides 决然一击 not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+  ],
+  "confidence": {
+    "level": "medium",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "skills"
+    ]
+  },
+  "sources": [
+    "https://news.4399.com/seer/spt/201101-12-84389.html",
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+  ],
+  "source_note": "4399 BOSS page (2011-01-12): 80级, 2000血, 体力低于1/2会暴击, 打光系只会用决然一击, 精元+成就."
+}

@@ -1,0 +1,74 @@
+{
+  "id": 922,
+  "name": {
+    "zh": "艾比"
+  },
+  "types": [
+    "fire"
+  ],
+  "base": {
+    "hp": 83,
+    "atk": 42,
+    "def": 46,
+    "spa": 79,
+    "spd": 45,
+    "spe": 65
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 80,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10412
+    },
+    {
+      "level": 5,
+      "skill": 20489
+    },
+    {
+      "level": 9,
+      "skill": 10076
+    },
+    {
+      "level": 13,
+      "skill": 20181
+    },
+    {
+      "level": 17,
+      "skill": 11173
+    },
+    {
+      "level": 21,
+      "skill": 10255
+    },
+    {
+      "level": 25,
+      "skill": 20748
+    },
+    {
+      "level": 29,
+      "skill": 10598
+    }
+  ],
+  "evolution": [
+    {
+      "to": 923,
+      "method": "level",
+      "level": 32
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0922",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-09"
+}

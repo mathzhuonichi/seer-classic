@@ -1,0 +1,101 @@
+{
+  "id": 981,
+  "name": {
+    "zh": "文杰尔"
+  },
+  "types": [
+    "light"
+  ],
+  "base": {
+    "hp": 118,
+    "atk": 80,
+    "def": 86,
+    "spa": 115,
+    "spd": 85,
+    "spe": 104
+  },
+  "ev_yield": {
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 120,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 15,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20030
+    },
+    {
+      "level": 9,
+      "skill": 11412
+    },
+    {
+      "level": 13,
+      "skill": 20381
+    },
+    {
+      "level": 17,
+      "skill": 10631
+    },
+    {
+      "level": 21,
+      "skill": 10634
+    },
+    {
+      "level": 25,
+      "skill": 21056
+    },
+    {
+      "level": 29,
+      "skill": 12335
+    },
+    {
+      "level": 33,
+      "skill": 20346
+    },
+    {
+      "level": 37,
+      "skill": 12336
+    },
+    {
+      "level": 41,
+      "skill": 21213
+    },
+    {
+      "level": 45,
+      "skill": 12333
+    },
+    {
+      "level": 49,
+      "skill": 12337
+    },
+    {
+      "level": 53,
+      "skill": 21214
+    },
+    {
+      "level": 57,
+      "skill": 12334
+    },
+    {
+      "level": 61,
+      "skill": 12338
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 980,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0981",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-10"
+}

@@ -1,0 +1,125 @@
+{
+  "id": 224,
+  "name": {
+    "zh": "赫德卡"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 101,
+    "atk": 108,
+    "def": 88,
+    "spa": 104,
+    "spd": 86,
+    "spe": 75
+  },
+  "ev_yield": {
+    "atk": 1,
+    "spa": 1
+  },
+  "exp_yield": 117,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 5,
+      "skill": 20038
+    },
+    {
+      "level": 9,
+      "skill": 10226
+    },
+    {
+      "level": 12,
+      "skill": 10047
+    },
+    {
+      "level": 15,
+      "skill": 20071
+    },
+    {
+      "level": 18,
+      "skill": 10105
+    },
+    {
+      "level": 21,
+      "skill": 10137
+    },
+    {
+      "level": 24,
+      "skill": 20192
+    },
+    {
+      "level": 27,
+      "skill": 10640
+    },
+    {
+      "level": 30,
+      "skill": 10639
+    },
+    {
+      "level": 33,
+      "skill": 20278
+    },
+    {
+      "level": 36,
+      "skill": 10451
+    },
+    {
+      "level": 39,
+      "skill": 10448
+    },
+    {
+      "level": 42,
+      "skill": 20193
+    },
+    {
+      "level": 45,
+      "skill": 10452
+    },
+    {
+      "level": 48,
+      "skill": 10449
+    },
+    {
+      "level": 51,
+      "skill": 10194
+    },
+    {
+      "level": 54,
+      "skill": 10453
+    },
+    {
+      "level": 57,
+      "skill": 20195
+    },
+    {
+      "level": 60,
+      "skill": 10450
+    },
+    {
+      "level": 63,
+      "skill": 20279
+    },
+    {
+      "level": 67,
+      "skill": 10641
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 223,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0224",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-03"
+}

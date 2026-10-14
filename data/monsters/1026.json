@@ -1,0 +1,78 @@
+{
+  "id": 1026,
+  "name": {
+    "zh": "冰蛛"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 76,
+    "atk": 74,
+    "def": 47,
+    "spa": 45,
+    "spd": 44,
+    "spe": 52
+  },
+  "ev_yield": {
+    "hp": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium_slow",
+  "growth_type": 3,
+  "catch_rate": 30,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10157
+    },
+    {
+      "level": 5,
+      "skill": 20061
+    },
+    {
+      "level": 9,
+      "skill": 12238
+    },
+    {
+      "level": 13,
+      "skill": 11406
+    },
+    {
+      "level": 17,
+      "skill": 20594
+    },
+    {
+      "level": 21,
+      "skill": 10345
+    },
+    {
+      "level": 25,
+      "skill": 11789
+    },
+    {
+      "level": 29,
+      "skill": 20247
+    },
+    {
+      "level": 33,
+      "skill": 12425
+    }
+  ],
+  "evolution": [
+    {
+      "to": 1027,
+      "method": "level",
+      "level": 34
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1026",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-12"
+}

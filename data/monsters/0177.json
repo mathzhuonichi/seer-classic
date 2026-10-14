@@ -1,0 +1,110 @@
+{
+  "id": 177,
+  "name": {
+    "zh": "巴弗洛"
+  },
+  "types": [
+    "flying"
+  ],
+  "base": {
+    "hp": 91,
+    "atk": 95,
+    "def": 75,
+    "spa": 80,
+    "spd": 80,
+    "spe": 99
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "spe": 1
+  },
+  "exp_yield": 121,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 3,
+      "skill": 20025
+    },
+    {
+      "level": 6,
+      "skill": 10008
+    },
+    {
+      "level": 10,
+      "skill": 10054
+    },
+    {
+      "level": 14,
+      "skill": 20016
+    },
+    {
+      "level": 18,
+      "skill": 10500
+    },
+    {
+      "level": 23,
+      "skill": 20026
+    },
+    {
+      "level": 28,
+      "skill": 10055
+    },
+    {
+      "level": 33,
+      "skill": 10501
+    },
+    {
+      "level": 38,
+      "skill": 20017
+    },
+    {
+      "level": 42,
+      "skill": 10009
+    },
+    {
+      "level": 44,
+      "skill": 20027
+    },
+    {
+      "level": 48,
+      "skill": 20028
+    },
+    {
+      "level": 52,
+      "skill": 10056
+    },
+    {
+      "level": 56,
+      "skill": 20029
+    },
+    {
+      "level": 60,
+      "skill": 10502
+    },
+    {
+      "level": 64,
+      "skill": 20214
+    },
+    {
+      "level": 70,
+      "skill": 20215
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 176,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0177",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-12"
+}

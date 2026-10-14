@@ -1,0 +1,126 @@
+{
+  "id": 324,
+  "name": {
+    "zh": "古雷亚"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 101,
+    "atk": 94,
+    "def": 88,
+    "spa": 111,
+    "spd": 87,
+    "spe": 100
+  },
+  "ev_yield": {
+    "hp": 1,
+    "spa": 1,
+    "spe": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10250
+    },
+    {
+      "level": 5,
+      "skill": 20057
+    },
+    {
+      "level": 9,
+      "skill": 10150
+    },
+    {
+      "level": 14,
+      "skill": 20079
+    },
+    {
+      "level": 19,
+      "skill": 10553
+    },
+    {
+      "level": 23,
+      "skill": 10346
+    },
+    {
+      "level": 27,
+      "skill": 20517
+    },
+    {
+      "level": 31,
+      "skill": 10554
+    },
+    {
+      "level": 35,
+      "skill": 10151
+    },
+    {
+      "level": 39,
+      "skill": 20518
+    },
+    {
+      "level": 42,
+      "skill": 10152
+    },
+    {
+      "level": 45,
+      "skill": 10155
+    },
+    {
+      "level": 48,
+      "skill": 20237
+    },
+    {
+      "level": 51,
+      "skill": 11049
+    },
+    {
+      "level": 54,
+      "skill": 11052
+    },
+    {
+      "level": 57,
+      "skill": 20150
+    },
+    {
+      "level": 60,
+      "skill": 11050
+    },
+    {
+      "level": 63,
+      "skill": 11053
+    },
+    {
+      "level": 66,
+      "skill": 20151
+    },
+    {
+      "level": 69,
+      "skill": 11051
+    },
+    {
+      "level": 72,
+      "skill": 20519
+    },
+    {
+      "level": 76,
+      "skill": 11054
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 323,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0324",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-05"
+}

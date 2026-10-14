@@ -1,0 +1,114 @@
+{
+  "id": 356,
+  "name": {
+    "zh": "斯加尔卡"
+  },
+  "types": [
+    "electric"
+  ],
+  "base": {
+    "hp": 111,
+    "atk": 115,
+    "def": 102,
+    "spa": 90,
+    "spd": 84,
+    "spe": 73
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "def": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10001
+    },
+    {
+      "level": 6,
+      "skill": 20006
+    },
+    {
+      "level": 11,
+      "skill": 10873
+    },
+    {
+      "level": 16,
+      "skill": 10171
+    },
+    {
+      "level": 20,
+      "skill": 20023
+    },
+    {
+      "level": 25,
+      "skill": 10289
+    },
+    {
+      "level": 30,
+      "skill": 10404
+    },
+    {
+      "level": 35,
+      "skill": 20127
+    },
+    {
+      "level": 38,
+      "skill": 10875
+    },
+    {
+      "level": 41,
+      "skill": 10292
+    },
+    {
+      "level": 44,
+      "skill": 20393
+    },
+    {
+      "level": 47,
+      "skill": 10291
+    },
+    {
+      "level": 50,
+      "skill": 20398
+    },
+    {
+      "level": 54,
+      "skill": 10294
+    },
+    {
+      "level": 58,
+      "skill": 20130
+    },
+    {
+      "level": 62,
+      "skill": 10874
+    },
+    {
+      "level": 66,
+      "skill": 10877
+    },
+    {
+      "level": 70,
+      "skill": 20394
+    },
+    {
+      "level": 74,
+      "skill": 10876
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 355,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0356",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-07"
+}

@@ -1,0 +1,113 @@
+{
+  "id": 628,
+  "name": {
+    "zh": "远古塔拉"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 128,
+    "atk": 105,
+    "def": 107,
+    "spa": 75,
+    "spd": 104,
+    "spe": 81
+  },
+  "ev_yield": {
+    "def": 1,
+    "spd": 1
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10201
+    },
+    {
+      "level": 5,
+      "skill": 20076
+    },
+    {
+      "level": 9,
+      "skill": 10584
+    },
+    {
+      "level": 13,
+      "skill": 10309
+    },
+    {
+      "level": 17,
+      "skill": 20131
+    },
+    {
+      "level": 21,
+      "skill": 11574
+    },
+    {
+      "level": 25,
+      "skill": 11571
+    },
+    {
+      "level": 29,
+      "skill": 20078
+    },
+    {
+      "level": 33,
+      "skill": 11386
+    },
+    {
+      "level": 37,
+      "skill": 20776
+    },
+    {
+      "level": 41,
+      "skill": 10589
+    },
+    {
+      "level": 45,
+      "skill": 10587
+    },
+    {
+      "level": 49,
+      "skill": 20256
+    },
+    {
+      "level": 53,
+      "skill": 11575
+    },
+    {
+      "level": 57,
+      "skill": 20777
+    },
+    {
+      "level": 61,
+      "skill": 11572
+    },
+    {
+      "level": 65,
+      "skill": 11576
+    },
+    {
+      "level": 69,
+      "skill": 20778
+    },
+    {
+      "level": 73,
+      "skill": 11573
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 627,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0628",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

@@ -1,0 +1,120 @@
+{
+  "id": 1143,
+  "name": {
+    "zh": "鲁迪诺斯"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 138,
+    "atk": 111,
+    "def": 110,
+    "spa": 75,
+    "spd": 90,
+    "spe": 74
+  },
+  "ev_yield": {
+    "atk": 3
+  },
+  "exp_yield": 130,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10086
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 9,
+      "skill": 10120
+    },
+    {
+      "level": 12,
+      "skill": 20065
+    },
+    {
+      "level": 15,
+      "skill": 10121
+    },
+    {
+      "level": 20,
+      "skill": 10076
+    },
+    {
+      "level": 23,
+      "skill": 20025
+    },
+    {
+      "level": 26,
+      "skill": 10123
+    },
+    {
+      "level": 28,
+      "skill": 10122
+    },
+    {
+      "level": 30,
+      "skill": 12686
+    },
+    {
+      "level": 32,
+      "skill": 20653
+    },
+    {
+      "level": 34,
+      "skill": 12687
+    },
+    {
+      "level": 36,
+      "skill": 20066
+    },
+    {
+      "level": 39,
+      "skill": 10014
+    },
+    {
+      "level": 43,
+      "skill": 10125
+    },
+    {
+      "level": 47,
+      "skill": 20067
+    },
+    {
+      "level": 51,
+      "skill": 10126
+    },
+    {
+      "level": 55,
+      "skill": 10124
+    },
+    {
+      "level": 57,
+      "skill": 12688
+    },
+    {
+      "level": 60,
+      "skill": 21399
+    },
+    {
+      "level": 63,
+      "skill": 12689
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 55,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m1143",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2012-03"
+}

@@ -1,0 +1,63 @@
+{
+  "id": 536,
+  "name": {
+    "zh": "克拉尔"
+  },
+  "types": [
+    "fire",
+    "dragon"
+  ],
+  "base": {
+    "hp": 52,
+    "atk": 58,
+    "def": 42,
+    "spa": 40,
+    "spd": 47,
+    "spe": 56
+  },
+  "ev_yield": {
+    "atk": 1
+  },
+  "exp_yield": 70,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10611
+    },
+    {
+      "level": 5,
+      "skill": 20028
+    },
+    {
+      "level": 9,
+      "skill": 10079
+    },
+    {
+      "level": 13,
+      "skill": 10252
+    },
+    {
+      "level": 17,
+      "skill": 20664
+    }
+  ],
+  "evolution": [
+    {
+      "to": 537,
+      "method": "level",
+      "level": 20
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0536",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2011-01"
+}

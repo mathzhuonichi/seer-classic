@@ -1,0 +1,133 @@
+{
+  "id": "boss_rei_training4",
+  "name": {
+    "zh": "雷伊特训·阿克希亚"
+  },
+  "category": "story",
+  "location": {
+    "zh": "赫尔卡星 雷伊特训（湖边）"
+  },
+  "era": "2010",
+  "team": [
+    {
+      "species": 50,
+      "level": 65,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10209,
+        10208,
+        10207,
+        20060
+      ],
+      "hp_override": 1500
+    }
+  ],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    },
+    {
+      "rule": "script",
+      "id": "require_player_species",
+      "params": {
+        "species": [
+          70
+        ]
+      }
+    },
+    {
+      "rule": "heal_full_below",
+      "hp": 100
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    },
+    {
+      "kind": "ko_after_turn",
+      "turns": 10
+    },
+    {
+      "kind": "script",
+      "id": "finish_while_foe_status",
+      "params": {
+        "status": "paralysis"
+      }
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "skills": [
+      10209,
+      10208,
+      10207,
+      20060
+    ]
+  },
+  "reward": {
+    "items": {},
+    "learn_skill": {
+      "species": 70,
+      "skill": 20364,
+      "name": {
+        "zh": "雷神觉醒"
+      }
+    }
+  },
+  "variants": null,
+  "limits": {
+    "attempts_per_day": null
+  },
+  "unlock": {
+    "requires": [
+      "boss_rei_training3"
+    ],
+    "note": {
+      "zh": "雷伊特训第4关要求雷伊80级以上"
+    }
+  },
+  "capture": {
+    "zh": "雷伊特训第4关：只能派自己的雷伊出战，胜利后雷伊学会「雷神觉醒」。"
+  },
+  "strategy_notes": {
+    "zh": "雷伊80级以上：先用闪电斗气抵挡十回合（注意补血），十回合后雷祭麻痹它，充电后瞬雷天闪；它血量少于100会回满，需控制血量，在麻痹状态下一击KO。"
+  },
+  "engine_notes": [
+    "Win needs all three: KO, not before turn 10 (ko_after_turn), and the finishing blow must land while 阿克希亚 is paralysed (script finish_while_foe_status {status: paralysis}).",
+    "heal_full_below 100 is the 阿克希亚 SPT trait ('血低于100会自动回血'), which the 9游 guide confirms for this stage.",
+    "Player 雷伊 level ≥ 80 required to challenge (unlock note).",
+    "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
+    "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
+    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "skills: no source lists this opponent's skills; the species' top learnset skills are used.",
+    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
+  ],
+  "confidence": {
+    "level": "low",
+    "uncertain": [
+      "iv",
+      "evs",
+      "nature",
+      "level",
+      "hp",
+      "skills",
+      "era"
+    ]
+  },
+  "sources": [
+    "https://news.7k7k.com/content/20110720/92955.html",
+    "https://jingyan.baidu.com/article/afd8f4deb9f7f034e286e98c.html",
+    "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
+    "http://wenda.4399.com/question/47/477631.html",
+    "https://www.9game.cn/news/9481572.html",
+    "https://seer.61.com/dll/RobotAppDLL.swf",
+    "https://news.7k7k.com/content/20111103/103132.html"
+  ],
+  "source_note": "7k7k 2011-07 雷伊解析 lists the five 特训 opponents and how to beat them; baidu jingyan gives the skill order and the 5-turn shadow limit."
+}

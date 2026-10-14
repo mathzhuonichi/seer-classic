@@ -1,0 +1,245 @@
+{
+  "sourceUrl": "https://seer.61.com/dll/UI.swf",
+  "assets": {
+    "frame": {
+      "path": "/ui/classic/petbag/frame.png",
+      "symbolId": 735,
+      "sourceExport": ".cache/classic-ui-v28/petbag-shapes/735.png",
+      "crop": [
+        0,
+        0,
+        1294,
+        942
+      ],
+      "width": 1294,
+      "height": 942,
+      "logicalWidth": 647.0,
+      "logicalHeight": 471.0,
+      "sha256": "f724435c9c19b9c8ac6a55c928aedd284704961b6fa1cb996a741c0100e36ac5"
+    },
+    "slot": {
+      "path": "/ui/classic/petbag/slot.png",
+      "symbolId": 45,
+      "sourceExport": ".cache/classic-ui-v28/petbag-extra/45.png",
+      "crop": [
+        0,
+        0,
+        190,
+        212
+      ],
+      "width": 190,
+      "height": 212,
+      "logicalWidth": 95.0,
+      "logicalHeight": 106.0,
+      "sha256": "e1ead326dec5606279dbdfda9306f740f2174151a75ca4ddf82bfcc2e35273a7"
+    },
+    "tab": {
+      "path": "/ui/classic/petbag/tab.png",
+      "symbolId": 766,
+      "sourceExport": ".cache/classic-ui-v28/petbag-extra/766.png",
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "width": 181,
+      "height": 100,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "sha256": "b762c17de403eeb460fa7725800202f29e65bed2e34378e14316c172d4069990"
+    },
+    "nav-first": {
+      "path": "/ui/classic/petbag/nav-first.png",
+      "symbolId": 759,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/sprites/DefineSprite_759__fla.n_1j7cb5k6lp98_11__fla.n_1j7cb5k6lp98_11/1.png",
+      "crop": [
+        3,
+        1,
+        64,
+        66
+      ],
+      "width": 61,
+      "height": 65,
+      "logicalWidth": 30.5,
+      "logicalHeight": 32.5,
+      "sha256": "9d80ce77595d53819b5bfb179f67b45fcafb24ea8706c43701ef30335220ccac"
+    },
+    "nav-heal": {
+      "path": "/ui/classic/petbag/nav-heal.png",
+      "symbolId": 745,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_745/1_up.png",
+      "crop": [
+        2,
+        2,
+        67,
+        67
+      ],
+      "width": 65,
+      "height": 65,
+      "logicalWidth": 32.5,
+      "logicalHeight": 32.5,
+      "sha256": "9d8688e9db72c854bf49566b05a2d00f80d8b3c5b763e0486e7a2b195919ddeb"
+    },
+    "nav-switch": {
+      "path": "/ui/classic/petbag/nav-switch.png",
+      "symbolId": 743,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_743/1_up.png",
+      "crop": [
+        3,
+        2,
+        111,
+        106
+      ],
+      "width": 108,
+      "height": 104,
+      "logicalWidth": 54.0,
+      "logicalHeight": 52.0,
+      "sha256": "40572b6751ac843e11054c48d5d3d163dc2d754942bc16519c2bf8f97511305a"
+    },
+    "nav-default": {
+      "path": "/ui/classic/petbag/nav-default.png",
+      "symbolId": 748,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_748/1_up.png",
+      "crop": [
+        0,
+        1,
+        64,
+        62
+      ],
+      "width": 64,
+      "height": 61,
+      "logicalWidth": 32.0,
+      "logicalHeight": 30.5,
+      "sha256": "95305ae7be9d6a859f138817c5138e2aa1283a461277ce64c605e907aae4fdaa"
+    },
+    "nav-dex": {
+      "path": "/ui/classic/petbag/nav-dex.png",
+      "symbolId": 752,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_752/1_up.png",
+      "crop": [
+        1,
+        0,
+        66,
+        66
+      ],
+      "width": 65,
+      "height": 66,
+      "logicalWidth": 32.5,
+      "logicalHeight": 33.0,
+      "sha256": "87bab1bb0d3026e4c4733b394064b9a9263c4735e474b75e16d53e8569f7b580"
+    },
+    "nav-traits": {
+      "path": "/ui/classic/petbag/nav-traits.png",
+      "symbolId": 763,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_763/1_up.png",
+      "crop": [
+        0,
+        0,
+        68,
+        74
+      ],
+      "width": 68,
+      "height": 74,
+      "logicalWidth": 34.0,
+      "logicalHeight": 37.0,
+      "sha256": "34165e5277e48022eff1ed881a93d68a166c4fac99ab81687b16609cdb80b1f7"
+    },
+    "nav-storage": {
+      "path": "/ui/classic/petbag/nav-storage.png",
+      "symbolId": 765,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_765/1_up.png",
+      "crop": [
+        1,
+        1,
+        66,
+        66
+      ],
+      "width": 65,
+      "height": 65,
+      "logicalWidth": 32.5,
+      "logicalHeight": 32.5,
+      "sha256": "b6637151521e4fe20179814bc29fa9fae210a07eb02d81f684e356eb647d9c79"
+    },
+    "nav-mark": {
+      "path": "/ui/classic/petbag/nav-mark.png",
+      "symbolId": 740,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/buttons/DefineButton2_740/1_up.png",
+      "crop": [
+        20,
+        20,
+        100,
+        100
+      ],
+      "width": 80,
+      "height": 80,
+      "logicalWidth": 40.0,
+      "logicalHeight": 40.0,
+      "sha256": "7f41e7de1064f6d945d1fda7e024dbf8658e2e0e7adc48a3d22af279e6cf6ca6"
+    },
+    "tab-info": {
+      "path": "/ui/classic/petbag/tab-info.png",
+      "symbolId": 770,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/sprites/DefineSprite_770__fla.n_182pk13pbme8_18__fla.n_182pk13pbme8_18/1.png",
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "width": 181,
+      "height": 100,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "sha256": "e8bbd984b8c8f3a6ea2a13ed723185cf5cc3f9b19b0af2b151ea6b3f8f70e8e5"
+    },
+    "tab-ability": {
+      "path": "/ui/classic/petbag/tab-ability.png",
+      "symbolId": 773,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/sprites/DefineSprite_773__fla.n_1g1pvfvrvp10_19__fla.n_1g1pvfvrvp10_19/1.png",
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "width": 181,
+      "height": 100,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "sha256": "3e65bf0aac28ea1667d794e554b1eac60691064724e60d3e532375886bacc374"
+    },
+    "tab-items": {
+      "path": "/ui/classic/petbag/tab-items.png",
+      "symbolId": 776,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/sprites/DefineSprite_776__fla.n_qnaohhkbr24_20__fla.n_qnaohhkbr24_20/1.png",
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "width": 181,
+      "height": 100,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "sha256": "205402ed1fec249492c522c4dae3a51b88b73b84e4daf1c5e6ad6c3e7773c2c3"
+    },
+    "tab-data": {
+      "path": "/ui/classic/petbag/tab-data.png",
+      "symbolId": 779,
+      "sourceExport": ".cache/classic-ui-v28/petbag-parts/sprites/DefineSprite_779__fla.n_cop41ekjhsu_21__fla.n_cop41ekjhsu_21/1.png",
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "width": 181,
+      "height": 100,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "sha256": "31335b42a36fa0cfd24e9a28b739a7852658aa4ce23e58bef0005370ceabd80e"
+    }
+  }
+}

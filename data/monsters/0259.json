@@ -1,0 +1,106 @@
+{
+  "id": 259,
+  "name": {
+    "zh": "埃里克斯"
+  },
+  "types": [
+    "ground"
+  ],
+  "base": {
+    "hp": 120,
+    "atk": 107,
+    "def": 107,
+    "spa": 76,
+    "spd": 86,
+    "spe": 80
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 1,
+    "def": 1
+  },
+  "exp_yield": 126,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10006
+    },
+    {
+      "level": 7,
+      "skill": 20041
+    },
+    {
+      "level": 13,
+      "skill": 10142
+    },
+    {
+      "level": 19,
+      "skill": 20068
+    },
+    {
+      "level": 24,
+      "skill": 10706
+    },
+    {
+      "level": 29,
+      "skill": 10121
+    },
+    {
+      "level": 34,
+      "skill": 20077
+    },
+    {
+      "level": 39,
+      "skill": 10705
+    },
+    {
+      "level": 41,
+      "skill": 11039
+    },
+    {
+      "level": 45,
+      "skill": 20220
+    },
+    {
+      "level": 49,
+      "skill": 10702
+    },
+    {
+      "level": 53,
+      "skill": 10667
+    },
+    {
+      "level": 57,
+      "skill": 20301
+    },
+    {
+      "level": 61,
+      "skill": 10115
+    },
+    {
+      "level": 65,
+      "skill": 10703
+    },
+    {
+      "level": 69,
+      "skill": 20306
+    },
+    {
+      "level": 73,
+      "skill": 10701
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 258,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0259",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-04"
+}

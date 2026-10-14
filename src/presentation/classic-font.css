@@ -1,0 +1,3 @@
+/* Development-only: use the original UI typeface from this Mac's installed Office bundle. */
+@font-face{font-family:SeerSimSun;src:local('SimSun'),url('/.cache/classic-ui-v27/local-simsun.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:SeerSimHei;src:local('SimHei'),url('/.cache/classic-ui-v27/local-simhei.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}

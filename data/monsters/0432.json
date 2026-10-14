@@ -1,0 +1,105 @@
+{
+  "id": 432,
+  "name": {
+    "zh": "杰西卡"
+  },
+  "types": [
+    "fighting"
+  ],
+  "base": {
+    "hp": 114,
+    "atk": 118,
+    "def": 103,
+    "spa": 87,
+    "spd": 87,
+    "spe": 81
+  },
+  "ev_yield": {
+    "hp": 1,
+    "atk": 2
+  },
+  "exp_yield": 138,
+  "growth": "medium",
+  "growth_type": 0,
+  "catch_rate": 0,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10499
+    },
+    {
+      "level": 6,
+      "skill": 20117
+    },
+    {
+      "level": 10,
+      "skill": 11077
+    },
+    {
+      "level": 14,
+      "skill": 11082
+    },
+    {
+      "level": 18,
+      "skill": 20533
+    },
+    {
+      "level": 22,
+      "skill": 11078
+    },
+    {
+      "level": 26,
+      "skill": 10386
+    },
+    {
+      "level": 30,
+      "skill": 20234
+    },
+    {
+      "level": 34,
+      "skill": 11079
+    },
+    {
+      "level": 38,
+      "skill": 11083
+    },
+    {
+      "level": 42,
+      "skill": 20320
+    },
+    {
+      "level": 46,
+      "skill": 11080
+    },
+    {
+      "level": 50,
+      "skill": 20534
+    },
+    {
+      "level": 54,
+      "skill": 11084
+    },
+    {
+      "level": 58,
+      "skill": 20535
+    },
+    {
+      "level": 62,
+      "skill": 11081
+    },
+    {
+      "level": 64,
+      "skill": 11165
+    }
+  ],
+  "evolution": [],
+  "evolves_from": 398,
+  "obtain": [
+    "event"
+  ],
+  "tags": [],
+  "gender_code": 1,
+  "art": "m0432",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2010-08"
+}

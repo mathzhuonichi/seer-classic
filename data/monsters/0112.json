@@ -1,0 +1,75 @@
+{
+  "id": 112,
+  "name": {
+    "zh": "雷顿塔"
+  },
+  "types": [
+    "mechanical"
+  ],
+  "base": {
+    "hp": 76,
+    "atk": 57,
+    "def": 70,
+    "spa": 70,
+    "spd": 60,
+    "spe": 55
+  },
+  "ev_yield": {
+    "hp": 2
+  },
+  "exp_yield": 98,
+  "growth": "medium",
+  "growth_type": 4,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10127
+    },
+    {
+      "level": 5,
+      "skill": 20045
+    },
+    {
+      "level": 10,
+      "skill": 20111
+    },
+    {
+      "level": 15,
+      "skill": 10327
+    },
+    {
+      "level": 20,
+      "skill": 10328
+    },
+    {
+      "level": 25,
+      "skill": 10047
+    },
+    {
+      "level": 30,
+      "skill": 20144
+    },
+    {
+      "level": 35,
+      "skill": 10329
+    }
+  ],
+  "evolution": [
+    {
+      "to": 113,
+      "method": "level",
+      "level": 39,
+      "automatic": false
+    }
+  ],
+  "evolves_from": 111,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": null,
+  "art": "m0112",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Classic manual level evolution recovered from official RobotCoreDLL.swf PetXMLInfo binary 23 (EvolvingLv and EvolvFlag) and EvolveXMLInfo binary 44 (Branch MonTo), extracted 2026-10-03. No evolution resource is specified for these branch records; confirmation is retained in the remake monster-raising panel.",
+  "existed_by": "2009-11"
+}

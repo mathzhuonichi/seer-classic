@@ -1,0 +1,62 @@
+{
+  "id": 48,
+  "name": {
+    "zh": "索拉"
+  },
+  "types": [
+    "ice"
+  ],
+  "base": {
+    "hp": 54,
+    "atk": 56,
+    "def": 48,
+    "spa": 65,
+    "spd": 53,
+    "spe": 51
+  },
+  "ev_yield": {
+    "spa": 1
+  },
+  "exp_yield": 70,
+  "growth": "slow",
+  "growth_type": 5,
+  "catch_rate": 45,
+  "learnset": [
+    {
+      "level": 1,
+      "skill": 10200
+    },
+    {
+      "level": 5,
+      "skill": 10201
+    },
+    {
+      "level": 9,
+      "skill": 20056
+    },
+    {
+      "level": 13,
+      "skill": 20057
+    },
+    {
+      "level": 17,
+      "skill": 10202
+    }
+  ],
+  "evolution": [
+    {
+      "to": 49,
+      "method": "level",
+      "level": 18
+    }
+  ],
+  "evolves_from": null,
+  "obtain": [
+    "wild"
+  ],
+  "tags": [],
+  "gender_code": 2,
+  "art": "m0048",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "existed_by": "2009-11"
+}
