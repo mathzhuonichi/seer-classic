@@ -62,22 +62,22 @@ try {
       const underLevel = game.exportSave();
       game.dispatch({ type: 'evolve', uid: infant.uid });
       assert.equal(game.exportSave(), underLevel, 'Bojiesi cannot evolve below the source minimum level.');
-      game.dispatch({ type: 'cheatMonster', uid: infant.uid, level: 40 });
-      assert.equal(game.snapshot().monsters.find(mon => mon.uid === infant.uid).species, 1220, 'Bojiesi requires manual confirmation at level 40.');
+      game.dispatch({ type: 'useItem', uid: infant.uid, itemId: 'item_level_up_1' });
+      assert.equal(game.snapshot().monsters.find(mon => mon.uid === infant.uid).level, 40, 'Normal training reaches the source level threshold.');
+      assert.equal(game.snapshot().monsters.find(mon => mon.uid === infant.uid).species, 1221, 'Bojiesi evolves automatically at level 40 under the ordinary mechanical rule.');
       const adultRoute = index.get(1221)?.routes.find(route => route.kind === 'evolution' && route.bossId === boss.id);
       assert.ok(adultRoute, 'Correcting the infant reward preserves Bokate obtainability.');
       assert.deepEqual(adultRoute.evolutionChain, [{ from: 1220, to: 1221, level: 40 }]);
-      assert.ok(initial.get(1221).initialForms.some(form => form.species === 1220 && form.evolutionPath.every(step => step.implemented && step.automatic === false)));
-      game.dispatch({ type: 'evolve', uid: infant.uid });
+      assert.ok(initial.get(1221).initialForms.some(form => form.species === 1220 && form.evolutionPath.every(step => step.implemented && step.automatic === true)));
       const restored = createGame(catalog, game.exportSave());
-      assert.equal(restored.snapshot().monsters.find(mon => mon.uid === infant.uid).species, 1221, 'Manual evolution and instance identity survive reload.');
+      assert.equal(restored.snapshot().monsters.find(mon => mon.uid === infant.uid).species, 1221, 'Automatic evolution and instance identity survive reload.');
       for (const species of [1220, 1221]) assert.ok(restored.snapshot().species.find(mon => mon.id === species).owned, 'Both forms remain registered.');
     }
   }
 
   const sourceInfant = JSON.parse(fs.readFileSync('data/monsters/1220.json', 'utf8'));
   assert.deepEqual(byId.get(1220), sourceInfant, 'Standalone and runtime species records agree.');
-  assert.deepEqual(sourceInfant.evolution, [{ to: 1221, method: 'level', level: 40, automatic: false }]);
+  assert.deepEqual(sourceInfant.evolution, [{ to: 1221, method: 'level', level: 40, automatic: true }]);
   const catalogIndex = JSON.parse(fs.readFileSync('data/catalog_index.json', 'utf8'));
   assert.deepEqual(catalogIndex.monsters.find(mon => mon.id === 1220).evolves_to, [1221], 'Catalog index preserves the same forward edge.');
 
@@ -120,7 +120,7 @@ try {
   restored.dispatch({ type: 'useItem', itemId: 'essence_boss_spt_ajiasha', uid: restored.snapshot().party[0] });
   assert.deepEqual(restored.snapshot().monsters.slice(before).map(mon => [mon.species, mon.level]), [[1060, 1]]);
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
-  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 manual evolution and reload', 'three catalog outputs agree', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
+  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
 } finally {
   await server.close();
   if (originalStorage) Object.defineProperty(globalThis, 'localStorage', originalStorage);

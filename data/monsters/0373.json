@@ -55,7 +55,20 @@
       "skill": 10927
     }
   ],
-  "evolution": [],
+  "evolution": [
+    {
+      "to": 374,
+      "method": "level",
+      "level": 30,
+      "automatic": false
+    },
+    {
+      "to": 375,
+      "method": "level",
+      "level": 30,
+      "automatic": false
+    }
+  ],
   "evolves_from": null,
   "obtain": [
     "wild"
@@ -63,6 +76,6 @@
   "tags": [],
   "gender_code": null,
   "art": "m0373",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v33: the user requested a direct manual choice among the original evolution branches at the source level, without the original item costs. The choice is never automatic. See data/evolution-rules.json for original targets, trigger flags, and item costs.",
   "existed_by": "2010-07"
 }

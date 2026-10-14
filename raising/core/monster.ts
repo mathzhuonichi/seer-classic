@@ -242,6 +242,11 @@ function levelUpOnce(m: Monster, dex: Dex, events: RaisingEvent[]): void {
 
 export interface EvolveContext { item?: string; special?: string[] }
 
+// Branches always need an explicit choice, even if just one target is unlocked yet.
+export function requiresEvolutionChoice(mon: Monster, dex: Dex): boolean {
+  return new Set(dex.species(mon.species).evolution.map(entry => entry.to)).size > 1;
+}
+
 // Level evolutions whose level is reached. Branching species can return several.
 export function levelEvolutions(mon: Monster, dex: Dex): number[] {
   return dex
@@ -283,6 +288,7 @@ export function autoEvolve(mon: Monster, dex: Dex): Result {
   let cur = mon;
   const events: RaisingEvent[] = [];
   for (;;) {
+    if (requiresEvolutionChoice(cur, dex)) return { mon: cur, events };
     const opts = levelEvolutions(cur, dex);
     if (opts.length !== 1) return { mon: cur, events };
     const r = evolve(cur, opts[0], dex);

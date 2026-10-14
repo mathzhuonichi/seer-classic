@@ -13,7 +13,7 @@ import {meetsWildCapturePrerequisite} from '../battle/core/src/capture';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from './progression/fusion';
 import { SEER_SCRIPTS } from '../battle/core/src/scripts/index.ts';
 import { attackTypes } from '../battle/core/src/typechart.ts';
-import { makeDex, createMonster, computeStats, expToNext, addMonster, deposit, withdraw, rename, healAll, findMon, putMon, equipSkills, addEvs, gainLevels, setIv, changeNature, levelEvolutions, evolutionOptions, evolve, applyBattleRewards, allocatePoolExp, useRaisingItem, activeBeads, tickBoosts, hatchEssence, type Monster, type Save, type Species, type Nature, type Skill, type RaisingItem } from '../raising/core/index.ts';
+import { makeDex, createMonster, computeStats, expToNext, addMonster, deposit, withdraw, rename, healAll, findMon, putMon, equipSkills, addEvs, gainLevels, setIv, changeNature, levelEvolutions, evolutionOptions, requiresEvolutionChoice, evolve, applyBattleRewards, allocatePoolExp, useRaisingItem, activeBeads, tickBoosts, hatchEssence, type Monster, type Save, type Species, type Nature, type Skill, type RaisingItem } from '../raising/core/index.ts';
 import { newSave, deserialize, serialize } from '../raising/game/save.ts';
 import { BOX_MAX, PARTY_MAX } from '../raising/core/storage.ts';
 import { loadCatalog, type CatalogData } from './mechanics/catalog';
@@ -217,7 +217,12 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   function monsterView(mon:Monster):MonsterView {
     const sp=dex.species(mon.species); const trait=traits.find(t=>t.id===save.game.traits[mon.uid]);
     const evolutions=evolutionOptions(mon,dex);
-    return {uid:mon.uid,species:sp.id,name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,inParty:save.party.includes(mon.uid),portrait:portrait(sp.id),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,gender:getBreedingGender(sp.id),generation:mon.generation??0};
+    const evolutionChoices=sp.evolution.filter(edge=>edge.method==='level'&&edge.level!==undefined).map(edge=>{
+      const level=edge.level!;
+      const blockedReason=mon.level<level?`达到 Lv.${level} 后可进化。`:capacityReason(edge.to,mon.uid);
+      return {species:edge.to,name:dex.species(edge.to).name.zh,level,ready:!blockedReason,blockedReason};
+    });
+    return {uid:mon.uid,species:sp.id,name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,inParty:save.party.includes(mon.uid),portrait:portrait(sp.id),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,evolutionChoices,gender:getBreedingGender(sp.id),generation:mon.generation??0};
   }
   function battleMon(mon:Mon):BattleMonsterView {return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(mon.species.id),skills:mon.skills.map(id=>skillView(id,mon.pp)),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
   const questData = [
@@ -288,7 +293,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   function boundedAutoEvolve(mon:Monster):Monster {
     let current=mon;
     for(const visited=new Set<number>();!visited.has(current.species);){
-      visited.add(current.species);const options=levelEvolutions(current,dex);if(options.length!==1)break;
+      visited.add(current.species);if(requiresEvolutionChoice(current,dex))break;
+      const options=levelEvolutions(current,dex);if(options.length!==1)break;
       const reason=capacityReason(options[0],mon.uid);if(reason){notice(`${reason}本次保留当前形态与已获得的经验，腾出额度后可手动进化。`);break;}
       current=evolve(current,options[0],dex).mon;
     }
@@ -470,7 +476,14 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       case 'equip':replace(equipSkills(findMon(save,action.uid),action.skills,dex));break;
       case 'train': {const amount=Math.max(1,Math.floor(action.amount));if(save.game.coins<amount*10)throw new Error('赛尔豆不足。');const old=findMon(save,action.uid);const next=addEvs(old,{[action.stat]:amount}).mon;const gain=next.evs[action.stat]-old.evs[action.stat];if(!gain)throw new Error('学习力已达到上限。');replace(next);save.game.coins-=gain*10;notice(`${statZh[action.stat]}学习力增加 ${gain}。`);break;}
       case 'allocateExp':save=full(allocatePoolExp(save,action.uid,action.amount,dex).save);replace(boundedAutoEvolve(findMon(save,action.uid)));break;
-      case 'evolve': {const mon=findMon(save,action.uid);const options=evolutionOptions(mon,dex);if(!options.length)throw new Error('尚未满足进化条件。');ensureSpeciesCapacity(options[0],mon.uid);replace(evolve(mon,options[0],dex).mon);break;}
+      case 'evolve': {
+        const mon=findMon(save,action.uid),options=evolutionOptions(mon,dex);
+        if(action.toSpecies===undefined&&requiresEvolutionChoice(mon,dex))throw new Error('请选择要进化的分支。');
+        const target=action.toSpecies??options[0];
+        if(target===undefined||!options.includes(target))throw new Error('尚未满足所选形态的进化条件。');
+        ensureSpeciesCapacity(target,mon.uid);replace(evolve(mon,target,dex).mon);
+        notice(`${dex.species(mon.species).name.zh}已进化为${dex.species(target).name.zh}！`);break;
+      }
       case 'fuse': {
         const recipe=FUSION_RECIPES.find(entry=>entry.id===action.recipeId);
         if(!recipe)throw new Error('融合配方不存在。');
@@ -530,6 +543,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
             throw new Error(`${dex.species(findMon(save,action.uid).species).name.zh}已使用${name}，剩余 ${bead.battles_left} 场战斗；失效前不能替换，未消耗新道具。`);
           }
           save=full(useRaisingItem(save,action.uid,item as unknown as RaisingItem,dex,rng).save);
+          const effect=(item as unknown as RaisingItem).raising_effect;
+          if(effect.op==='exp'||effect.op==='levels'&&effect.amount>0)replace(boundedAutoEvolve(findMon(save,action.uid)));
         } else throw new Error('该道具请在战斗中使用。');
         break;
       }

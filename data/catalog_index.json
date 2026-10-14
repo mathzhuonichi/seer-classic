@@ -669,7 +669,9 @@
 "mechanical"
 ],
 "bst": 310,
-"evolves_to": [],
+"evolves_to": [
+60
+],
 "tags": []
 },
 {
@@ -679,7 +681,9 @@
 "mechanical"
 ],
 "bst": 415,
-"evolves_to": [],
+"evolves_to": [
+61
+],
 "tags": []
 },
 {
@@ -801,7 +805,9 @@
 "mechanical"
 ],
 "bst": 298,
-"evolves_to": [],
+"evolves_to": [
+72
+],
 "tags": []
 },
 {
@@ -811,7 +817,9 @@
 "mechanical"
 ],
 "bst": 408,
-"evolves_to": [],
+"evolves_to": [
+73
+],
 "tags": []
 },
 {
@@ -899,7 +907,9 @@
 "mechanical"
 ],
 "bst": 303,
-"evolves_to": [],
+"evolves_to": [
+81
+],
 "tags": []
 },
 {
@@ -909,7 +919,9 @@
 "mechanical"
 ],
 "bst": 403,
-"evolves_to": [],
+"evolves_to": [
+82
+],
 "tags": []
 },
 {
@@ -1021,7 +1033,11 @@
 "normal"
 ],
 "bst": 465,
-"evolves_to": [],
+"evolves_to": [
+92,
+93,
+94
+],
 "tags": []
 },
 {
@@ -1117,7 +1133,9 @@
 "mechanical"
 ],
 "bst": 339,
-"evolves_to": [],
+"evolves_to": [
+101
+],
 "tags": []
 },
 {
@@ -1137,7 +1155,9 @@
 "mechanical"
 ],
 "bst": 311,
-"evolves_to": [],
+"evolves_to": [
+103
+],
 "tags": []
 },
 {
@@ -1147,7 +1167,9 @@
 "mechanical"
 ],
 "bst": 406,
-"evolves_to": [],
+"evolves_to": [
+104
+],
 "tags": []
 },
 {
@@ -3013,7 +3035,11 @@
 "normal"
 ],
 "bst": 475,
-"evolves_to": [],
+"evolves_to": [
+270,
+271,
+272
+],
 "tags": []
 },
 {
@@ -3213,7 +3239,9 @@
 "mechanical"
 ],
 "bst": 328,
-"evolves_to": [],
+"evolves_to": [
+288
+],
 "tags": []
 },
 {
@@ -3783,7 +3811,9 @@
 "mechanical"
 ],
 "bst": 325,
-"evolves_to": [],
+"evolves_to": [
+339
+],
 "tags": []
 },
 {
@@ -3793,7 +3823,9 @@
 "mechanical"
 ],
 "bst": 430,
-"evolves_to": [],
+"evolves_to": [
+340
+],
 "tags": []
 },
 {
@@ -4049,7 +4081,9 @@
 "mechanical"
 ],
 "bst": 323,
-"evolves_to": [],
+"evolves_to": [
+363
+],
 "tags": []
 },
 {
@@ -4091,7 +4125,11 @@
 "normal"
 ],
 "bst": 344,
-"evolves_to": [],
+"evolves_to": [
+367,
+368,
+369
+],
 "tags": []
 },
 {
@@ -4165,7 +4203,10 @@
 "mechanical"
 ],
 "bst": 305,
-"evolves_to": [],
+"evolves_to": [
+374,
+375
+],
 "tags": []
 },
 {
@@ -5148,7 +5189,9 @@
 "mechanical"
 ],
 "bst": 315,
-"evolves_to": [],
+"evolves_to": [
+460
+],
 "tags": []
 },
 {
@@ -5552,7 +5595,9 @@
 "mechanical"
 ],
 "bst": 305,
-"evolves_to": [],
+"evolves_to": [
+495
+],
 "tags": []
 },
 {
@@ -5562,7 +5607,9 @@
 "mechanical"
 ],
 "bst": 425,
-"evolves_to": [],
+"evolves_to": [
+496
+],
 "tags": []
 },
 {
@@ -6061,7 +6108,9 @@
 "mechanical"
 ],
 "bst": 370,
-"evolves_to": [],
+"evolves_to": [
+540
+],
 "tags": []
 },
 {
@@ -6081,7 +6130,9 @@
 "mechanical"
 ],
 "bst": 305,
-"evolves_to": [],
+"evolves_to": [
+542
+],
 "tags": []
 },
 {
@@ -6091,7 +6142,9 @@
 "mechanical"
 ],
 "bst": 440,
-"evolves_to": [],
+"evolves_to": [
+543
+],
 "tags": []
 },
 {
@@ -6863,7 +6916,9 @@
 "psychic"
 ],
 "bst": 340,
-"evolves_to": [],
+"evolves_to": [
+611
+],
 "tags": []
 },
 {
@@ -7543,7 +7598,9 @@
 "mechanical"
 ],
 "bst": 354,
-"evolves_to": [],
+"evolves_to": [
+670
+],
 "tags": []
 },
 {
@@ -8166,7 +8223,9 @@
 "mechanical"
 ],
 "bst": 340,
-"evolves_to": [],
+"evolves_to": [
+725
+],
 "tags": []
 },
 {
@@ -8535,7 +8594,11 @@
 "normal"
 ],
 "bst": 352,
-"evolves_to": [],
+"evolves_to": [
+757,
+758,
+759
+],
 "tags": []
 },
 {
@@ -9102,7 +9165,9 @@
 "mechanical"
 ],
 "bst": 335,
-"evolves_to": [],
+"evolves_to": [
+808
+],
 "tags": []
 },
 {
@@ -9931,7 +9996,9 @@
 "mechanical"
 ],
 "bst": 329,
-"evolves_to": [],
+"evolves_to": [
+888
+],
 "tags": []
 },
 {
@@ -12024,7 +12091,9 @@
 "mechanical"
 ],
 "bst": 312,
-"evolves_to": [],
+"evolves_to": [
+1075
+],
 "tags": []
 },
 {
@@ -12110,7 +12179,9 @@
 "mechanical"
 ],
 "bst": 345,
-"evolves_to": [],
+"evolves_to": [
+1083
+],
 "tags": []
 },
 {
@@ -13391,7 +13462,9 @@
 "mechanical"
 ],
 "bst": 329,
-"evolves_to": [],
+"evolves_to": [
+1196
+],
 "tags": []
 },
 {
@@ -13401,7 +13474,9 @@
 "mechanical"
 ],
 "bst": 449,
-"evolves_to": [],
+"evolves_to": [
+1197
+],
 "tags": []
 },
 {
@@ -13539,7 +13614,9 @@
 "mechanical"
 ],
 "bst": 323,
-"evolves_to": [],
+"evolves_to": [
+1210
+],
 "tags": []
 },
 {
@@ -14251,7 +14328,9 @@
 "mechanical"
 ],
 "bst": 324,
-"evolves_to": [],
+"evolves_to": [
+1274
+],
 "tags": []
 },
 {
@@ -14747,7 +14826,9 @@
 "mechanical"
 ],
 "bst": 330,
-"evolves_to": [],
+"evolves_to": [
+1319
+],
 "tags": []
 },
 {
@@ -14867,7 +14948,9 @@
 "mechanical"
 ],
 "bst": 329,
-"evolves_to": [],
+"evolves_to": [
+1330
+],
 "tags": []
 },
 {
@@ -15530,7 +15613,9 @@
 "mechanical"
 ],
 "bst": 328,
-"evolves_to": [],
+"evolves_to": [
+1389
+],
 "tags": []
 },
 {
@@ -15574,7 +15659,9 @@
 "mechanical"
 ],
 "bst": 335,
-"evolves_to": [],
+"evolves_to": [
+1393
+],
 "tags": []
 },
 {
@@ -15901,7 +15988,9 @@
 "psychic"
 ],
 "bst": 331,
-"evolves_to": [],
+"evolves_to": [
+1422
+],
 "tags": []
 },
 {
@@ -15922,7 +16011,9 @@
 "mechanical"
 ],
 "bst": 320,
-"evolves_to": [],
+"evolves_to": [
+1424
+],
 "tags": []
 },
 {
@@ -16347,7 +16438,10 @@
 "normal"
 ],
 "bst": 339,
-"evolves_to": [],
+"evolves_to": [
+1462,
+1463
+],
 "tags": []
 },
 {

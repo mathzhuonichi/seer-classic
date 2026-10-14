@@ -151,7 +151,8 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 - `level`: available once level ≥ `level`. After a battle, single-branch level
   evolutions happen **automatically**, chaining if several are due (a level-40
   种子 becomes 花) [recalled]. Branching species (several level entries) wait for
-  the player's choice. `applyBattleRewards(..., { autoEvolve: false })` turns
+  the player's choice, even when only one branch has reached its required level.
+  `applyBattleRewards(..., { autoEvolve: false })` turns
   this off.
 - `item`: available while the game passes that item; `special`: available when
   the game confirms the condition (by `script` id, else `condition` text).

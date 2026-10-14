@@ -71,7 +71,12 @@ automation and event items. The current application supplies spirit beads at
 runtime through `src/progression/fusion.ts`, reusing essence hatching with the
 user-approved material-free rules. Traits and engraving interfaces are provided
 by the application mechanics modules rather than this original item table.
-No pre-2013 species evolves by item in the source data, so there are no evolution items.
+The initial recovered bundle omitted conditional evolution tables. The official retained
+`EvolveXMLInfo` table does contain item-triggered evolutions, including branch choices.
+Revision 33 applies the approved mechanical/branch simplification through
+`tools/assets/build_evolution_rules.py`; original trigger flags and item costs remain
+recorded in `data/evolution-rules.json`. Other item and super-evolution routes are not
+implicitly supplied by the ordinary item table.
 
 ## Known gaps
 

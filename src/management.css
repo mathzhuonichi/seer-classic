@@ -240,3 +240,17 @@
 .official-petbag .petbag-skill-summary small{font-size:9px;color:#bdeaff}
 .official-petbag .petbag-party-strip{top:77%;gap:6px}
 .official-petbag .petbag-status{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Evolution targets stay explicit when a species has more than one branch. */
+.raising-evolution h4{color:#103d69}
+.raising-evolution-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;margin:9px 0}
+.management-panel .raising-evolution-options>button{display:flex;align-items:center;gap:7px;min-width:0;padding:7px;text-align:left;background:#edf7fd;border-color:#5692bc;color:#103d69;text-shadow:none}
+.management-panel .raising-evolution-options>button:hover:not(:disabled){background:#d7f3ff;border-color:#087fc2}
+.management-panel .raising-evolution-options>button[aria-pressed=true]{background:#fff2bb;border-color:#a27317;box-shadow:inset 0 0 0 1px #ffd765}
+.management-panel .raising-evolution-options>button:disabled{opacity:.75;cursor:default}
+.raising-evolution-art{display:block;width:44px;height:44px;flex:0 0 44px}
+.raising-evolution-copy{display:flex;flex-direction:column;gap:3px;min-width:0;line-height:1.4;overflow-wrap:anywhere}
+.raising-evolution-copy strong{font-size:11px;color:#103d69}
+.raising-evolution-copy small,.raising-evolution-state{font-size:10px;color:#365e79}
+.raising-evolution-copy .raising-evolution-blocked{font-size:10px;color:#8a4726}
+.raising-evolution-confirm{width:100%;margin-top:3px;font-size:11px!important}

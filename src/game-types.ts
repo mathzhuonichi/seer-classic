@@ -1,7 +1,8 @@
 export type StatKey = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 export type Stats = Record<StatKey, number>;
 export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
-export interface MonsterView { uid: string; species: number; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; inParty: boolean; portrait: string; evolution: string | null; gender?: 0 | 1 | 2; generation?: number }
+export interface EvolutionChoiceView {species:number;name:string;level:number;ready:boolean;blockedReason?:string}
+export interface MonsterView { uid: string; species: number; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
 export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string }
 export interface SpeciesView { id: number; name: string; types: string[]; baseStats: Stats; portrait: string; owned: boolean; wildCapture?: boolean }
 export interface BattleMonsterView { uid: string; slot?: number; name: string; species: number; level: number; hp: number; maxHp: number; fainted: boolean; types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number> }
@@ -32,7 +33,7 @@ export type GameAction =
  | {type: 'setEvs'; uid: string; evs: Stats}
  | {type: 'reorderParty'; uids: string[]}
  | {type: 'allocateExp'; uid: string; amount: number}
- | {type: 'evolve'; uid: string}
+ | {type: 'evolve'; uid: string; toSpecies?:number}
  | {type: 'fuse'; recipeId: string; primaryUid: string; secondaryUid: string}
  | {type: 'useItem'; uid: string; itemId: string}
  | {type: 'claimQuest'; questId: string}

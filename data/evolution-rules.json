@@ -1,0 +1,2394 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "v33",
+  "source": {
+    "url": "https://seer.61.com/dll/RobotCoreDLL.swf",
+    "retrievedAt": "2026-10-14",
+    "encodedSha256": "4fdde653317cf81ad34bcd87e0a4e01c2f518bfe4cfadcc396bbad6b698b1e1e",
+    "decodedSha256": "e97b3f53a5f0242e89018bee91be508dc8fc6f41ae5e4bc5818d8f5161e81c42",
+    "xml": [
+      {
+        "file": "23-PetXMLInfo_xmlClass.xml",
+        "sha256": "bc1fd07bdad0f5086807a8c91d6e27e9638f8ec6fed28c44468a15281d08214d"
+      },
+      {
+        "file": "44-EvolveXMLInfo_xmlcls.xml",
+        "sha256": "f88fa14c15e7fe725e848c152de4a30bdd3e4bb2988429be66290ba6184ad80d"
+      }
+    ],
+    "scope": "Retained official Flash client configuration. Target and level evidence is separate from the user-approved remake behavior."
+  },
+  "remakePolicy": {
+    "mechanical-level": "Automatically evolve mechanical species along source-backed single-target, resource-free trigger edges at their source level.",
+    "branch-choice": "Retain every target and source level at the six traditional branch points; replace item costs with an explicit manual target choice.",
+    "repeatAcquisition": "Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap; this generator does not change acquisition limits or historical repeatability evidence.",
+    "exclusions": "Do not infer missing levels from reverse ancestry; do not convert unrelated single-item or super-evolution forms without a separate rule."
+  },
+  "coverage": {
+    "mechanicalTransitions": 43,
+    "branchPoints": 6,
+    "branchTransitions": 16,
+    "newlyReachableFormsFromV32Audit": 45,
+    "deferredMissingFormsFromV32Audit": 32
+  },
+  "rules": [
+    {
+      "from": 59,
+      "name": "西塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 60,
+          "method": "level",
+          "level": 18,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "59",
+          "DefName": "西塔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "18",
+          "EvolvFlag": "1"
+        },
+        "branches": [
+          {
+            "MonTo": "60"
+          }
+        ]
+      }
+    },
+    {
+      "from": 60,
+      "name": "铁达斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 61,
+          "method": "level",
+          "level": 38,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "60",
+          "DefName": "铁达斯",
+          "Type": "6",
+          "EvolvesFrom": "59",
+          "EvolvesTo": "0",
+          "EvolvingLv": "38",
+          "EvolvFlag": "2"
+        },
+        "branches": [
+          {
+            "MonTo": "61"
+          }
+        ]
+      }
+    },
+    {
+      "from": 71,
+      "name": "派派",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 72,
+          "method": "level",
+          "level": 17,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "71",
+          "DefName": "派派",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "17",
+          "EvolvFlag": "3"
+        },
+        "branches": [
+          {
+            "MonTo": "72"
+          }
+        ]
+      }
+    },
+    {
+      "from": 72,
+      "name": "派鲁克",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 73,
+          "method": "level",
+          "level": 36,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "72",
+          "DefName": "派鲁克",
+          "Type": "6",
+          "EvolvesFrom": "71",
+          "EvolvesTo": "0",
+          "EvolvingLv": "36",
+          "EvolvFlag": "4"
+        },
+        "branches": [
+          {
+            "MonTo": "73"
+          }
+        ]
+      }
+    },
+    {
+      "from": 80,
+      "name": "帕诺",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 81,
+          "method": "level",
+          "level": 16,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "80",
+          "DefName": "帕诺",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "16",
+          "EvolvFlag": "5"
+        },
+        "branches": [
+          {
+            "MonTo": "81"
+          }
+        ]
+      }
+    },
+    {
+      "from": 81,
+      "name": "帕拉丝",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 82,
+          "method": "level",
+          "level": 35,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "81",
+          "DefName": "帕拉丝",
+          "Type": "6",
+          "EvolvesFrom": "80",
+          "EvolvesTo": "0",
+          "EvolvingLv": "35",
+          "EvolvFlag": "6"
+        },
+        "branches": [
+          {
+            "MonTo": "82"
+          }
+        ]
+      }
+    },
+    {
+      "from": 91,
+      "name": "悠悠",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 92,
+          "method": "level",
+          "level": 20,
+          "automatic": false
+        },
+        {
+          "to": 93,
+          "method": "level",
+          "level": 20,
+          "automatic": false
+        },
+        {
+          "to": 94,
+          "method": "level",
+          "level": 20,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "91",
+          "DefName": "悠悠",
+          "Type": "8",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "20",
+          "EvolvFlag": "7"
+        },
+        "branches": [
+          {
+            "MonTo": "92",
+            "EvolvItem": "400004",
+            "EvolvItemCount": "20"
+          },
+          {
+            "MonTo": "93",
+            "EvolvItem": "400008",
+            "EvolvItemCount": "20"
+          },
+          {
+            "MonTo": "94",
+            "EvolvItem": "400003",
+            "EvolvItemCount": "20"
+          }
+        ]
+      }
+    },
+    {
+      "from": 100,
+      "name": "卡西",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 101,
+          "method": "level",
+          "level": 29,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "100",
+          "DefName": "卡西",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "29",
+          "EvolvFlag": "8"
+        },
+        "branches": [
+          {
+            "MonTo": "101"
+          }
+        ]
+      }
+    },
+    {
+      "from": 102,
+      "name": "奇塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 103,
+          "method": "level",
+          "level": 18,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "102",
+          "DefName": "奇塔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "18",
+          "EvolvFlag": "9"
+        },
+        "branches": [
+          {
+            "MonTo": "103"
+          }
+        ]
+      }
+    },
+    {
+      "from": 103,
+      "name": "钢塔斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 104,
+          "method": "level",
+          "level": 38,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "103",
+          "DefName": "钢塔斯",
+          "Type": "6",
+          "EvolvesFrom": "102",
+          "EvolvesTo": "0",
+          "EvolvingLv": "38",
+          "EvolvFlag": "10"
+        },
+        "branches": [
+          {
+            "MonTo": "104"
+          }
+        ]
+      }
+    },
+    {
+      "from": 111,
+      "name": "雷格",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 112,
+          "method": "level",
+          "level": 19,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "111",
+          "DefName": "雷格",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "19",
+          "EvolvFlag": "11"
+        },
+        "branches": [
+          {
+            "MonTo": "112"
+          }
+        ]
+      }
+    },
+    {
+      "from": 112,
+      "name": "雷顿塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 113,
+          "method": "level",
+          "level": 39,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "112",
+          "DefName": "雷顿塔",
+          "Type": "6",
+          "EvolvesFrom": "111",
+          "EvolvesTo": "0",
+          "EvolvingLv": "39",
+          "EvolvFlag": "12"
+        },
+        "branches": [
+          {
+            "MonTo": "113"
+          }
+        ]
+      }
+    },
+    {
+      "from": 143,
+      "name": "卡塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 144,
+          "method": "level",
+          "level": 28,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "143",
+          "DefName": "卡塔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "144",
+          "EvolvingLv": "28",
+          "EvolvFlag": "13"
+        },
+        "branches": [
+          {
+            "MonTo": "144"
+          }
+        ]
+      }
+    },
+    {
+      "from": 201,
+      "name": "SRT",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 202,
+          "method": "level",
+          "level": 27,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "201",
+          "DefName": "SRT",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "202",
+          "EvolvingLv": "27",
+          "EvolvFlag": "14"
+        },
+        "branches": [
+          {
+            "MonTo": "202"
+          }
+        ]
+      }
+    },
+    {
+      "from": 213,
+      "name": "TOE",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 214,
+          "method": "level",
+          "level": 29,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "213",
+          "DefName": "TOE",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "214",
+          "EvolvingLv": "29",
+          "EvolvFlag": "16"
+        },
+        "branches": [
+          {
+            "MonTo": "214"
+          }
+        ]
+      }
+    },
+    {
+      "from": 223,
+      "name": "德塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 224,
+          "method": "level",
+          "level": 31,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "223",
+          "DefName": "德塔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "224",
+          "EvolvingLv": "31",
+          "EvolvFlag": "17"
+        },
+        "branches": [
+          {
+            "MonTo": "224"
+          }
+        ]
+      }
+    },
+    {
+      "from": 269,
+      "name": "眼球",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 270,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 271,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 272,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "269",
+          "DefName": "眼球",
+          "Type": "8",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "18"
+        },
+        "branches": [
+          {
+            "MonTo": "270",
+            "EvolvItem": "400033",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "271",
+            "EvolvItem": "400031",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "272",
+            "EvolvItem": "400028",
+            "EvolvItemCount": "30"
+          }
+        ]
+      }
+    },
+    {
+      "from": 287,
+      "name": "厄斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 288,
+          "method": "level",
+          "level": 30,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "287",
+          "DefName": "厄斯",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "19"
+        },
+        "branches": [
+          {
+            "MonTo": "288"
+          }
+        ]
+      }
+    },
+    {
+      "from": 338,
+      "name": "多塔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 339,
+          "method": "level",
+          "level": 21,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "338",
+          "DefName": "多塔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvingLv": "21",
+          "EvolvFlag": "20"
+        },
+        "branches": [
+          {
+            "MonTo": "339"
+          }
+        ]
+      }
+    },
+    {
+      "from": 339,
+      "name": "托雷亚",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 340,
+          "method": "level",
+          "level": 41,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "339",
+          "DefName": "托雷亚",
+          "Type": "6",
+          "EvolvesFrom": "338",
+          "EvolvingLv": "41",
+          "EvolvFlag": "21"
+        },
+        "branches": [
+          {
+            "MonTo": "340"
+          }
+        ]
+      }
+    },
+    {
+      "from": 362,
+      "name": "丘波",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 363,
+          "method": "level",
+          "level": 30,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "362",
+          "DefName": "丘波",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "22"
+        },
+        "branches": [
+          {
+            "MonTo": "363"
+          }
+        ]
+      }
+    },
+    {
+      "from": 366,
+      "name": "呆呆蛹",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 367,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 368,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 369,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "366",
+          "DefName": "呆呆蛹",
+          "Type": "8",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "23"
+        },
+        "branches": [
+          {
+            "MonTo": "367",
+            "EvolvItem": "400006",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "368",
+            "EvolvItem": "400007",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "369",
+            "EvolvItem": "400005",
+            "EvolvItemCount": "30"
+          }
+        ]
+      }
+    },
+    {
+      "from": 373,
+      "name": "莫顿",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 374,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 375,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "373",
+          "DefName": "莫顿",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "24"
+        },
+        "branches": [
+          {
+            "MonTo": "374",
+            "EvolvItem": "400001",
+            "EvolvItemCount": "100"
+          },
+          {
+            "MonTo": "375",
+            "EvolvItem": "400002",
+            "EvolvItemCount": "25"
+          }
+        ]
+      }
+    },
+    {
+      "from": 459,
+      "name": "尤达",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 460,
+          "method": "level",
+          "level": 30,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "459",
+          "DefName": "尤达",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "26"
+        },
+        "branches": [
+          {
+            "MonTo": "460"
+          }
+        ]
+      }
+    },
+    {
+      "from": 494,
+      "name": "卡丹",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 495,
+          "method": "level",
+          "level": 20,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "494",
+          "DefName": "卡丹",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "20",
+          "EvolvFlag": "28"
+        },
+        "branches": [
+          {
+            "MonTo": "495"
+          }
+        ]
+      }
+    },
+    {
+      "from": 495,
+      "name": "洛卡特",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 496,
+          "method": "level",
+          "level": 40,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "495",
+          "DefName": "洛卡特",
+          "Type": "6",
+          "EvolvesFrom": "494",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "29"
+        },
+        "branches": [
+          {
+            "MonTo": "496"
+          }
+        ]
+      }
+    },
+    {
+      "from": 539,
+      "name": "艾克",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 540,
+          "method": "level",
+          "level": 32,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "539",
+          "DefName": "艾克",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "32",
+          "EvolvFlag": "30"
+        },
+        "branches": [
+          {
+            "MonTo": "540"
+          }
+        ]
+      }
+    },
+    {
+      "from": 541,
+      "name": "赫洛",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 542,
+          "method": "level",
+          "level": 20,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "541",
+          "DefName": "赫洛",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "20",
+          "EvolvFlag": "31"
+        },
+        "branches": [
+          {
+            "MonTo": "542"
+          }
+        ]
+      }
+    },
+    {
+      "from": 542,
+      "name": "赫格拉斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 543,
+          "method": "level",
+          "level": 40,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "542",
+          "DefName": "赫格拉斯",
+          "Type": "6",
+          "EvolvesFrom": "541",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "32"
+        },
+        "branches": [
+          {
+            "MonTo": "543"
+          }
+        ]
+      }
+    },
+    {
+      "from": 610,
+      "name": "帕尔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 611,
+          "method": "level",
+          "level": 28,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "610",
+          "DefName": "帕尔",
+          "Type": "38",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "28",
+          "EvolvFlag": "33"
+        },
+        "branches": [
+          {
+            "MonTo": "611"
+          }
+        ]
+      }
+    },
+    {
+      "from": 669,
+      "name": "哈德",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 670,
+          "method": "level",
+          "level": 30,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "669",
+          "DefName": "哈德",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "36"
+        },
+        "branches": [
+          {
+            "MonTo": "670"
+          }
+        ]
+      }
+    },
+    {
+      "from": 724,
+      "name": "斯贝拉",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 725,
+          "method": "level",
+          "level": 26,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "724",
+          "DefName": "斯贝拉",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "26",
+          "EvolvFlag": "40"
+        },
+        "branches": [
+          {
+            "MonTo": "725"
+          }
+        ]
+      }
+    },
+    {
+      "from": 756,
+      "name": "邪特",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 757,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 758,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        },
+        {
+          "to": 759,
+          "method": "level",
+          "level": 30,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "756",
+          "DefName": "邪特",
+          "Type": "8",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "30",
+          "EvolvFlag": "41"
+        },
+        "branches": [
+          {
+            "MonTo": "757",
+            "EvolvItem": "400005",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "758",
+            "EvolvItem": "400007",
+            "EvolvItemCount": "30"
+          },
+          {
+            "MonTo": "759",
+            "EvolvItem": "400006",
+            "EvolvItemCount": "30"
+          }
+        ]
+      }
+    },
+    {
+      "from": 807,
+      "name": "艾派",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 808,
+          "method": "level",
+          "level": 34,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "807",
+          "DefName": "艾派",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "43"
+        },
+        "branches": [
+          {
+            "MonTo": "808"
+          }
+        ]
+      }
+    },
+    {
+      "from": 887,
+      "name": "彼得",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 888,
+          "method": "level",
+          "level": 34,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "887",
+          "DefName": "彼得",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "45"
+        },
+        "branches": [
+          {
+            "MonTo": "888"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1074,
+      "name": "杰雷",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1075,
+          "method": "level",
+          "level": 34,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1074",
+          "DefName": "杰雷",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "46"
+        },
+        "branches": [
+          {
+            "MonTo": "1075"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1082,
+      "name": "LEK",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1083,
+          "method": "level",
+          "level": 36,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1082",
+          "DefName": "LEK",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "36",
+          "EvolvFlag": "47"
+        },
+        "branches": [
+          {
+            "MonTo": "1083"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1195,
+      "name": "卡桑",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1196,
+          "method": "level",
+          "level": 19,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1195",
+          "DefName": "卡桑",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "19",
+          "EvolvFlag": "49"
+        },
+        "branches": [
+          {
+            "MonTo": "1196"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1196,
+      "name": "卡利莫",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1197,
+          "method": "level",
+          "level": 35,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1196",
+          "DefName": "卡利莫",
+          "Type": "6",
+          "EvolvesFrom": "1195",
+          "EvolvesTo": "0",
+          "EvolvingLv": "35",
+          "EvolvFlag": "50"
+        },
+        "branches": [
+          {
+            "MonTo": "1197"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1209,
+      "name": "道尔",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1210,
+          "method": "level",
+          "level": 34,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1209",
+          "DefName": "道尔",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "51"
+        },
+        "branches": [
+          {
+            "MonTo": "1210"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1220,
+      "name": "博杰斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1221,
+          "method": "level",
+          "level": 40,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1220",
+          "DefName": "博杰斯",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "52"
+        },
+        "branches": [
+          {
+            "MonTo": "1221"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1273,
+      "name": "卡斯奇",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1274,
+          "method": "level",
+          "level": 35,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1273",
+          "DefName": "卡斯奇",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "35",
+          "EvolvFlag": "53"
+        },
+        "branches": [
+          {
+            "MonTo": "1274"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1318,
+      "name": "罗比",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1319,
+          "method": "level",
+          "level": 39,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1318",
+          "DefName": "罗比",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "39",
+          "EvolvFlag": "54"
+        },
+        "branches": [
+          {
+            "MonTo": "1319"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1329,
+      "name": "罗伊",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1330,
+          "method": "level",
+          "level": 39,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1329",
+          "DefName": "罗伊",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "39",
+          "EvolvFlag": "55"
+        },
+        "branches": [
+          {
+            "MonTo": "1330"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1388,
+      "name": "罗迪",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1389,
+          "method": "level",
+          "level": 36,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1388",
+          "DefName": "罗迪",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "36",
+          "EvolvFlag": "56"
+        },
+        "branches": [
+          {
+            "MonTo": "1389"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1392,
+      "name": "莱奇斯",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1393,
+          "method": "level",
+          "level": 38,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1392",
+          "DefName": "莱奇斯",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "38",
+          "EvolvFlag": "57"
+        },
+        "branches": [
+          {
+            "MonTo": "1393"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1421,
+      "name": "阿莱耶",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1422,
+          "method": "level",
+          "level": 40,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1421",
+          "DefName": "阿莱耶",
+          "Type": "38",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "58"
+        },
+        "branches": [
+          {
+            "MonTo": "1422"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1423,
+      "name": "玛尔科",
+      "kind": "mechanical-level",
+      "transitions": [
+        {
+          "to": 1424,
+          "method": "level",
+          "level": 35,
+          "automatic": true
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1423",
+          "DefName": "玛尔科",
+          "Type": "6",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "35",
+          "EvolvFlag": "59"
+        },
+        "branches": [
+          {
+            "MonTo": "1424"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1461,
+      "name": "雪啦啦",
+      "kind": "branch-choice",
+      "transitions": [
+        {
+          "to": 1462,
+          "method": "level",
+          "level": 40,
+          "automatic": false
+        },
+        {
+          "to": 1463,
+          "method": "level",
+          "level": 40,
+          "automatic": false
+        }
+      ],
+      "source": {
+        "monster": {
+          "ID": "1461",
+          "DefName": "雪啦啦",
+          "Type": "8",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "60"
+        },
+        "branches": [
+          {
+            "MonTo": "1462",
+            "EvolvItem": "1200467",
+            "EvolvItemCount": "1"
+          },
+          {
+            "MonTo": "1463",
+            "EvolvItem": "1200466",
+            "EvolvItemCount": "1"
+          }
+        ]
+      }
+    }
+  ],
+  "deferredMissingForms": [
+    {
+      "species": 432,
+      "name": "杰西卡",
+      "from": 398,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "398",
+          "DefName": "杰拉德",
+          "Type": "11",
+          "EvolvesFrom": "397",
+          "EvolvesTo": "0",
+          "EvolvingLv": "63",
+          "EvolvFlag": "25"
+        },
+        "branches": [
+          {
+            "MonTo": "432",
+            "EvolvItem": "400671",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "432",
+        "DefName": "杰西卡",
+        "Type": "11",
+        "EvolvesFrom": "398",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 652,
+      "name": "诺拉德",
+      "from": 651,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "651",
+          "DefName": "诺奇",
+          "Type": "8",
+          "EvolvesFrom": "650",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "34"
+        },
+        "branches": [
+          {
+            "MonTo": "652",
+            "EvolvItem": "400098",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "652",
+        "DefName": "诺拉德",
+        "Type": "8",
+        "EvolvesFrom": "651",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 729,
+      "name": "鱼龙王",
+      "from": 347,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "347",
+          "DefName": "远古鱼龙",
+          "Type": "2",
+          "EvolvesFrom": "346",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "39"
+        },
+        "branches": [
+          {
+            "MonTo": "729",
+            "EvolvItem": "400933",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "729",
+        "DefName": "鱼龙王",
+        "Type": "2",
+        "EvolvesFrom": "347",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 811,
+      "name": "始祖灵兽",
+      "from": 810,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "810",
+          "DefName": "灵光兽",
+          "Type": "1",
+          "EvolvesFrom": "809",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "42"
+        },
+        "branches": [
+          {
+            "MonTo": "811",
+            "EvolvItem": "400823",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "811",
+        "DefName": "始祖灵兽",
+        "Type": "1",
+        "EvolvesFrom": "810",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 881,
+      "name": "炽焰之刃",
+      "from": 601,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "601",
+          "DefName": "火刃",
+          "Type": "47",
+          "EvolvesFrom": "600",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "44"
+        },
+        "branches": [
+          {
+            "MonTo": "881",
+            "EvolvItem": "400851",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "881",
+        "DefName": "炽焰之刃",
+        "Type": "47",
+        "EvolvesFrom": "601",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 1017,
+      "name": "三尾火狐",
+      "from": 821,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "821",
+          "DefName": "烈焰火狐",
+          "Type": "3",
+          "EvolvesFrom": "820",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1017",
+        "DefName": "三尾火狐",
+        "Type": "3",
+        "EvolvesFrom": "821",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1018,
+      "name": "四尾火狐",
+      "from": 1017,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1017",
+          "DefName": "三尾火狐",
+          "Type": "3",
+          "EvolvesFrom": "821",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1018",
+        "DefName": "四尾火狐",
+        "Type": "3",
+        "EvolvesFrom": "1017",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1019,
+      "name": "九尾火狐",
+      "from": 1018,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1018",
+          "DefName": "四尾火狐",
+          "Type": "3",
+          "EvolvesFrom": "1017",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1019",
+        "DefName": "九尾火狐",
+        "Type": "3",
+        "EvolvesFrom": "1018",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1121,
+      "name": "巨石灵王",
+      "from": 1120,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1120",
+          "DefName": "阿洛比斯",
+          "Type": "42",
+          "EvolvesFrom": "1119",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1121",
+        "DefName": "巨石灵王",
+        "Type": "42",
+        "EvolvesFrom": "1120",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1122,
+      "name": "圣光天马",
+      "from": 999,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "999",
+          "DefName": "珀伽索斯",
+          "Type": "31",
+          "EvolvesFrom": "998",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1122",
+        "DefName": "圣光天马",
+        "Type": "31",
+        "EvolvesFrom": "999",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1143,
+      "name": "鲁迪诺斯",
+      "from": 55,
+      "category": "single-item-trigger",
+      "source": {
+        "monster": {
+          "ID": "55",
+          "DefName": "鲁加斯",
+          "Type": "7",
+          "EvolvesFrom": "54",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "48"
+        },
+        "branches": [
+          {
+            "MonTo": "1143",
+            "EvolvItem": "1200047",
+            "EvolvItemCount": "1"
+          }
+        ]
+      },
+      "targetMonster": {
+        "ID": "1143",
+        "DefName": "鲁迪诺斯",
+        "Type": "7",
+        "EvolvesFrom": "55",
+        "EvolvesTo": "0"
+      },
+      "limitation": "The single-target item conversion has no approved remake rule."
+    },
+    {
+      "species": 1192,
+      "name": "巨蘑怪",
+      "from": 47,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "47",
+          "DefName": "蘑菇怪",
+          "Type": "1",
+          "EvolvesFrom": "46",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1192",
+        "DefName": "巨蘑怪",
+        "Type": "1",
+        "EvolvesFrom": "47",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1215,
+      "name": "尤米娜",
+      "from": 1214,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1214",
+          "DefName": "尤米尔",
+          "Type": "45",
+          "EvolvesFrom": "1213",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1215",
+        "DefName": "尤米娜",
+        "Type": "45",
+        "EvolvesFrom": "1214",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1216,
+      "name": "魔域仙子",
+      "from": 29,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "29",
+          "DefName": "魔花仙子",
+          "Type": "1",
+          "EvolvesFrom": "28",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1216",
+        "DefName": "魔域仙子",
+        "Type": "1",
+        "EvolvesFrom": "29",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1230,
+      "name": "巨齿鲨",
+      "from": 34,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "34",
+          "DefName": "钢牙鲨",
+          "Type": "2",
+          "EvolvesFrom": "33",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1230",
+        "DefName": "巨齿鲨",
+        "Type": "2",
+        "EvolvesFrom": "34",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1237,
+      "name": "洛拉托兹",
+      "from": 37,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "37",
+          "DefName": "洛吉拉斯",
+          "Type": "3",
+          "EvolvesFrom": "36",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1237",
+        "DefName": "洛拉托兹",
+        "Type": "3",
+        "EvolvesFrom": "37",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1238,
+      "name": "炽翼火龙",
+      "from": 1237,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1237",
+          "DefName": "洛拉托兹",
+          "Type": "3",
+          "EvolvesFrom": "37",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1238",
+        "DefName": "炽翼火龙",
+        "Type": "3",
+        "EvolvesFrom": "1237",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1266,
+      "name": "萨帕罗亚",
+      "from": 400,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "400",
+          "DefName": "萨帕克",
+          "Type": "15",
+          "EvolvesFrom": "399",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1266",
+        "DefName": "萨帕罗亚",
+        "Type": "15",
+        "EvolvesFrom": "400",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1277,
+      "name": "雷纳尔多",
+      "from": 113,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "113",
+          "DefName": "雷纳多",
+          "Type": "6",
+          "EvolvesFrom": "112",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1277",
+        "DefName": "雷纳尔多",
+        "Type": "6",
+        "EvolvesFrom": "113",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1278,
+      "name": "阿诺比零",
+      "from": 500,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "500",
+          "DefName": "阿尔比零",
+          "Type": "10",
+          "EvolvesFrom": "499",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1278",
+        "DefName": "阿诺比零",
+        "Type": "10",
+        "EvolvesFrom": "500",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1279,
+      "name": "时空之零",
+      "from": 1278,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "1278",
+          "DefName": "阿诺比零",
+          "Type": "10",
+          "EvolvesFrom": "500",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1279",
+        "DefName": "时空之零",
+        "Type": "10",
+        "EvolvesFrom": "1278",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1297,
+      "name": "布鲁卡卡",
+      "from": 110,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "110",
+          "DefName": "布鲁克克",
+          "Type": "2",
+          "EvolvesFrom": "109",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1297",
+        "DefName": "布鲁卡卡",
+        "Type": "2",
+        "EvolvesFrom": "110",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1298,
+      "name": "里奥杰斯",
+      "from": 42,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "42",
+          "DefName": "里奥斯",
+          "Type": "3",
+          "EvolvesFrom": "41",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1298",
+        "DefName": "里奥杰斯",
+        "Type": "3",
+        "EvolvesFrom": "42",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1316,
+      "name": "寒冰之魂",
+      "from": 67,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "67",
+          "DefName": "布林克斯",
+          "Type": "9",
+          "EvolvesFrom": "66",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1316",
+        "DefName": "寒冰之魂",
+        "Type": "9",
+        "EvolvesFrom": "67",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1317,
+      "name": "裂冰之魂",
+      "from": 67,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "67",
+          "DefName": "布林克斯",
+          "Type": "9",
+          "EvolvesFrom": "66",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1317",
+        "DefName": "裂冰之魂",
+        "Type": "9",
+        "EvolvesFrom": "67",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1346,
+      "name": "格鲁斯特",
+      "from": 64,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "64",
+          "DefName": "格鲁奇高",
+          "Type": "7",
+          "EvolvesFrom": "63",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1346",
+        "DefName": "格鲁斯特",
+        "Type": "7",
+        "EvolvesFrom": "64",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1361,
+      "name": "阿克妮丝",
+      "from": 50,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "50",
+          "DefName": "阿克希亚",
+          "Type": "9",
+          "EvolvesFrom": "49",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1361",
+        "DefName": "阿克妮丝",
+        "Type": "9",
+        "EvolvesFrom": "50",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1428,
+      "name": "哈德罗卡",
+      "from": 739,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "739",
+          "DefName": "哈德萨",
+          "Type": "1",
+          "EvolvesFrom": "738",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1428",
+        "DefName": "哈德罗卡",
+        "Type": "23",
+        "EvolvesFrom": "739",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1429,
+      "name": "哈德莱斯",
+      "from": 739,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "739",
+          "DefName": "哈德萨",
+          "Type": "1",
+          "EvolvesFrom": "738",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1429",
+        "DefName": "哈德莱斯",
+        "Type": "22",
+        "EvolvesFrom": "739",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1459,
+      "name": "艾菲德斯",
+      "from": 77,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "77",
+          "DefName": "尼尔",
+          "Type": "10",
+          "EvolvesFrom": "0",
+          "EvolvesTo": "78",
+          "EvolvingLv": "17"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1459",
+        "DefName": "艾菲德斯",
+        "Type": "10",
+        "EvolvesFrom": "77",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1464,
+      "name": "吉纳波斯",
+      "from": 239,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "239",
+          "DefName": "吉娜斯",
+          "Type": "12",
+          "EvolvesFrom": "238",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1464",
+        "DefName": "吉纳波斯",
+        "Type": "12",
+        "EvolvesFrom": "239",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    },
+    {
+      "species": 1473,
+      "name": "亚梅迪丝",
+      "from": 197,
+      "category": "special-ancestry",
+      "source": {
+        "monster": {
+          "ID": "197",
+          "DefName": "亚梅丝",
+          "Type": "10",
+          "EvolvesFrom": "196",
+          "EvolvesTo": "0"
+        },
+        "branches": []
+      },
+      "targetMonster": {
+        "ID": "1473",
+        "DefName": "亚梅迪丝",
+        "Type": "10",
+        "EvolvesFrom": "197",
+        "EvolvesTo": "0"
+      },
+      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+    }
+  ]
+}

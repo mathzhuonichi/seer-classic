@@ -73,7 +73,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
       for (let step = 0; step < source.species.length; step++) {
         const evolution = byId.get(current).evolution.find((edge: any) => edge.method === 'level' && edge.level <= 100);
         if (!evolution) break;
-        evolver.dispatch({ type: 'evolve', uid: infant.uid });
+        evolver.dispatch({ type: 'evolve', uid: infant.uid, toSpecies: evolution.to });
         assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, evolution.to);
         assert(evolver.snapshot().species.find(mon => mon.id === evolution.to)!.owned);
         current = evolution.to; chain.push(current);
@@ -132,7 +132,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
   assert(game.snapshot().monsters.some(mon => mon.species === 41), 'Liaosi essence must hatch Huliya, not adult Liaosi.');
   const reloaded = createGame(structuredClone(source), game.exportSave());
   assert(reloaded.snapshot().monsters.some(mon => mon.species === 41));
-  const manualEvolutionChecks: number[][] = [];
+  const manualEvolutionChecks: number[][] = [], automaticEvolutionChecks: number[][] = [];
   for (const [bossId, chain] of [['boss_spt_leinaduo', [111, 112, 113]], ['boss_spt_yalunsi', [671, 672]]] as const) {
     const routeFixture = structuredClone(source);
     routeFixture.skills.find((skill: any) => skill.id === 10001).accuracy = null;
@@ -152,16 +152,25 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     const position = prepared.storage.findIndex((mon: any) => mon.uid === infant.uid);
     // Raising a fixture to level 100 isolates evolution wiring from grind time.
     prepared.storage[position] = gainLevels(prepared.storage[position], 99, dex).mon;
-    assert.equal(autoEvolve(prepared.storage[position], dex).mon.species, chain[0], 'Chamber evolution must remain manual.');
+    const automatic = chain[0] === 111;
+    assert.equal(autoEvolve(prepared.storage[position], dex).mon.species, automatic ? chain.at(-1) : chain[0], automatic ? 'The ordinary mechanical chain evolves automatically.' : 'The unchanged non-mechanical chamber evolution remains manual.');
     const evolver = createGame(structuredClone(source), JSON.stringify(prepared));
-    for (const species of chain.slice(1)) {
-      evolver.dispatch({ type: 'evolve', uid: infant.uid });
+    if (automatic) {
+      // Exercise ordinary training on the actual hatched infant instead of manually
+      // selecting each mechanical form from the level-100 fixture.
+      const training = JSON.parse(collector.exportSave()); training.exp_pool = 1e9;
+      evolver.importSave(JSON.stringify(training));
+      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: 1e9 });
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, chain.at(-1));
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 100);
+    } else for (const species of chain.slice(1)) {
+      evolver.dispatch({ type: 'evolve', uid: infant.uid, toSpecies: species });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, species);
-      assert(evolver.snapshot().species.find(mon => mon.id === species)!.owned, 'An evolved species must register in the encyclopedia.');
     }
+    for (const species of chain) assert(evolver.snapshot().species.find(mon => mon.id === species)!.owned, 'Every evolved form is registered before reload.');
     const restored = createGame(structuredClone(source), evolver.exportSave());
     for (const species of chain) assert(restored.snapshot().species.find(mon => mon.id === species)!.owned);
-    manualEvolutionChecks.push([...chain]);
+    (automatic ? automaticEvolutionChecks : manualEvolutionChecks).push([...chain]);
   }
   for (const npc of NPC_ONLY_SPECIES) {
     const npcGame = createGame(structuredClone(source));
@@ -212,8 +221,9 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     availableOnlyViaAuthoredReward: routes.filter(entry => entry.status === 'available' && entry.routes.every(route => route.authoredReward)).length,
     campaignCount: CHALLENGE_CAMPAIGNS.length,
     manualEvolutionChecks,
+    automaticEvolutionChecks,
     simplifiedHabitatChains,
-    checks: ['all mapped habitats tested for actual capture, named interception, or gated collection task', 'map collection gates reject with and without location and preserve saved inventory and unlocks', 'first simplified habitat batch captured, evolved, registered, and reloaded through controller', 'all runtime essence items checked against catalog and original hatch metadata', 'reachable level-evolution edges checked by raising API', 'real victory/essence/hatch/reload fixture', 'two source-confirmed manual evolution chains through controller and reload', 'NPC normal recruitment rejected; modifier retained'],
+    checks: ['all mapped habitats tested for actual capture, named interception, or gated collection task', 'map collection gates reject with and without location and preserve saved inventory and unlocks', 'first simplified habitat batch captured, explicitly evolved, registered, and reloaded through controller', 'all runtime essence items checked against catalog and original hatch metadata', 'reachable level-evolution edges checked by raising API', 'real victory/essence/hatch/reload fixture', 'ordinary mechanical chain through pooled experience and unchanged non-mechanical manual chain; both register every form and survive reload', 'NPC normal recruitment rejected; modifier retained'],
   };
   mkdirSync(outputDirectory, { recursive: true });
   writeFileSync(`${outputDirectory}/audit.json`, JSON.stringify({ summary, sourceHashes, habitatCaptures, habitatInterceptions, habitatCollectionGates, explicitHatchBindings, evolutionEdges, routes,

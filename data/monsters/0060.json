@@ -60,7 +60,14 @@
       "skill": 10136
     }
   ],
-  "evolution": [],
+  "evolution": [
+    {
+      "to": 61,
+      "method": "level",
+      "level": 38,
+      "automatic": true
+    }
+  ],
   "evolves_from": 59,
   "obtain": [
     "event"
@@ -68,6 +75,6 @@
   "tags": [],
   "gender_code": null,
   "art": "m0060",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v33: the user requested ordinary automatic level evolution for mechanical species. The target and level are recovered from official PetXMLInfo and EvolveXMLInfo; automatic evolution replaces the original trigger and supersedes any earlier manual-confirmation policy. See data/evolution-rules.json for original fields.",
   "existed_by": "2009-11"
 }
