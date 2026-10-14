@@ -52,7 +52,7 @@ interface AcquisitionSpecies {
 export interface AcquisitionEncounter {
   id: string; name?: { zh: string }; category?: string; team: { species: number }[];
   reward_hatches?: number;
-  reward?: { items?: Record<string, number>; learn_skill?: unknown };
+  reward?: { items?: Record<string, number>; monster?: { species: number; level?: number }; learn_skill?: unknown };
 }
 export interface AcquisitionCatalog {
   species: AcquisitionSpecies[];
@@ -62,7 +62,7 @@ export interface AcquisitionCatalog {
 
 /** Original infant reward bindings take precedence over the defeated final form. */
 export function resolveEncounterEssenceSpecies(boss: AcquisitionEncounter): number {
-  return boss.reward_hatches ?? boss.team.at(-1)!.species;
+  return boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)!.species;
 }
 
 /** Paid membership remains source-backed; actual named SPT prerequisites gate the quest. */

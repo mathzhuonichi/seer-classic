@@ -63,7 +63,14 @@
       "skill": 12846
     }
   ],
-  "evolution": [],
+  "evolution": [
+    {
+      "to": 1221,
+      "method": "level",
+      "level": 40,
+      "automatic": false
+    }
+  ],
   "evolves_from": null,
   "obtain": [
     "event"
@@ -71,6 +78,6 @@
   "tags": [],
   "gender_code": 0,
   "art": "m1220",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Classic manual level evolution recovered from official RobotCoreDLL.swf on 2026-10-14: PetXMLInfo binary 23 specifies EvolvingLv 40 and EvolvFlag 52; EvolveXMLInfo binary 44 maps flag 52 to Branch MonTo 1221 without evolution resources. The remake retains manual confirmation, matching the existing chamber-evolution policy.",
   "existed_by": "2012-05"
 }

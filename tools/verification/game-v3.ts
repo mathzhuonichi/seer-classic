@@ -24,7 +24,15 @@ const order=[...initial.party].reverse();game.dispatch({type:'reorderParty',uids
 const saved=game.exportSave();const restored=createGame(structuredClone(catalog),saved);assert.deepEqual(restored.snapshot().party,order);assert.deepEqual(restored.snapshot().monsters.find(m=>m.uid===uid)!.evs,trained.evs);
 const potion='item_potion_hp_20',beforeItems=restored.snapshot().items.find(i=>i.id===potion)!.count;
 restored.dispatch({type:'startTraining',species:10,level:3});assert(restored.snapshot().battle);
-restored.dispatch({type:'battleItem',itemId:potion,targetUid:uid});assert.equal(restored.snapshot().items.find(i=>i.id===potion)!.count,beforeItems-1);
+const beforeIneffectivePotion=restored.snapshot().battle!.log;
+restored.dispatch({type:'battleItem',itemId:potion,targetUid:uid});assert.equal(restored.snapshot().items.find(i=>i.id===potion)!.count,beforeItems);
+assert.deepEqual(restored.snapshot().battle!.log,beforeIneffectivePotion,'A full-HP potion must not advance combat.');
+const injuredSave=JSON.parse(saved);injuredSave.storage.find((monster:any)=>monster.uid===uid).hp=1;
+const injured=createGame(structuredClone(catalog),JSON.stringify(injuredSave));
+injured.dispatch({type:'startTraining',species:10,level:3});
+assert(injured.snapshot().items.find(i=>i.id===potion)!.usableTargetUids.includes(uid));
+injured.dispatch({type:'battleItem',itemId:potion,targetUid:uid});
+assert.equal(injured.snapshot().items.find(i=>i.id===potion)!.count,beforeItems-1,'A potion used on an injured target is consumed.');
 const coins=restored.snapshot().coins,exp=restored.snapshot().expPool;
 restored.dispatch({type:'flee'});assert.equal(restored.snapshot().battle!.won,false);assert.equal(restored.snapshot().coins,coins);assert.equal(restored.snapshot().expPool,exp);assert(restored.snapshot().battle!.log.some(l=>l.includes('本次不发放战斗奖励')));
 restored.dispatch({type:'closeBattle'});assert.equal(restored.snapshot().battle,null);
@@ -39,7 +47,7 @@ for(let seed=1;seed<=96;seed++){
  const attack=candidate.snapshot().battle!.player.skills.find(skill=>skill.category==='物理')!;
  candidate.dispatch({type:'move',skillId:attack.id});
  if(candidate.snapshot().battle!.animation.frames.some(frame=>frame.kind==='hit'&&frame.critical)){
-  criticalSeed=seed;fs.writeFileSync(path.join(root,'artifacts/presentation-v3/critical-visual-save.json'),before);fs.writeFileSync(path.join(root,'artifacts/presentation-v3/critical-visual-info.json'),JSON.stringify({seed,species:10,level:100,skill:attack.id}));break;
+  criticalSeed=seed;fs.mkdirSync(path.join(root,'artifacts/presentation-v3'),{recursive:true});fs.writeFileSync(path.join(root,'artifacts/presentation-v3/critical-visual-save.json'),before);fs.writeFileSync(path.join(root,'artifacts/presentation-v3/critical-visual-info.json'),JSON.stringify({seed,species:10,level:100,skill:attack.id}));break;
  }
 }
 assert(criticalSeed>0);console.log(JSON.stringify({ordinaryCatalogCriticalSeed:criticalSeed,adapterCriticalFrame:true}));

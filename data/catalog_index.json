@@ -13660,7 +13660,9 @@
 "mechanical"
 ],
 "bst": 327,
-"evolves_to": [],
+"evolves_to": [
+1221
+],
 "tags": []
 },
 {
