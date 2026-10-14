@@ -31,10 +31,28 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
 
   const habitatCaptures: { species: number; planetId: string; regionId: string }[] = [];
   const habitatInterceptions: { species: number; planetId: string; regionId: string; battle: string | null }[] = [];
+  const habitatCollectionGates: { species: number; planetId: string; regionId: string; questId: string }[] = [];
   const simplifiedHabitatChains: number[][] = [];
   for (const planet of WORLD_PLANETS) for (const region of planet.regions) for (const species of region.creatures) {
     const game = createGame(structuredClone(source));
-    game.dispatch({ type: 'startTraining', species, level: region.levels[0] });
+    if(region.recruitmentSpecies?.includes(species)){
+      const quest=game.snapshot().quests.find(quest=>quest.rewardSpecies===species&&quest.group==='spt-recruitment');
+      assert(quest,`Map collection entry ${species} must have an accessible task.`);
+      const before=game.exportSave();
+      for(const location of [{planetId:planet.id,regionId:region.id},{}]){
+        game.dispatch({type:'startTraining',species,...location});
+        assert.equal(game.snapshot().battle,null,`Map collection entry ${species} cannot bypass recruitment conditions.`);
+        assert.equal(game.exportSave(),before,`Rejected map entry ${species} cannot grant a creature, essence, or shop unlock.`);
+      }
+      habitatCollectionGates.push({species,planetId:planet.id,regionId:region.id,questId:quest.id});
+      continue;
+    }
+    if(species===416){
+      game.dispatch({type:'cheatAcquire',species:77,level:50});
+      const partner=game.snapshot().monsters.find(mon=>mon.species===77)!;
+      game.dispatch({type:'reorderParty',uids:[partner.uid,...game.snapshot().party.filter(uid=>uid!==partner.uid)]});
+    }
+    game.dispatch({ type: 'startTraining', species, planetId:planet.id, regionId:region.id, level: region.creatureLevels?.[species]?.[0]??region.levels[0] });
     if (!game.snapshot().battle?.canCapture || game.snapshot().battle?.enemy.species !== species) {
       habitatInterceptions.push({ species, planetId: planet.id, regionId: region.id, battle: game.snapshot().battle?.name ?? null });
       continue;
@@ -157,7 +175,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
   const oldCatalog = structuredClone(original);
   for (const boss of oldCatalog.bosses) delete boss.reward_hatches;
   for (const species of oldCatalog.species) if ([111, 112, 671].includes(species.id)) species.evolution = [];
-  const baseline = buildAcquisitionIndex(oldCatalog, oldWorld);
+  const baseline = buildAcquisitionIndex(oldCatalog, oldWorld, undefined, []);
   const newlyAvailable = available.filter(id => baseline.get(id)?.status !== 'available');
   const noLongerAvailable = [...baseline].filter(([id, entry]) => entry.status === 'available' && index.get(id)?.status !== 'available').map(([id]) => id);
   const explicitRewardSpecies = new Set(original.bosses.flatMap((boss: any) => Object.keys(boss.reward?.items ?? {}).some(id => id.startsWith('essence_')) ? [resolveEncounterEssenceSpecies(boss)] : []));
@@ -174,7 +192,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
   assert.equal(Object.values(groups).flat().length, missing.length);
   assert.equal(new Set(Object.values(groups).flat()).size, missing.length);
   const routes = [...index].map(([id, entry]) => ({ id, name: byId.get(id).name.zh, obtainMetadata: byId.get(id).obtain, ...entry }));
-  const sourceHashes = Object.fromEntries(['src/game.ts', 'src/progression/acquisition.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/components/Dex.tsx', 'src/components/WorldMap.tsx', 'src/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/gamedata.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
+  const sourceHashes = Object.fromEntries(['src/game.ts', 'src/progression/acquisition.ts', 'src/progression/recruitment.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'src/components/Dex.tsx', 'src/components/WorldMap.tsx', 'src/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/gamedata.json', 'data/habitats.json', 'data/acquisition-policy.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
   sourceHashes['data/bosses/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(original.bosses)).digest('hex');
   const summary = {
     catalogSpecies: index.size, excludedNpcSpecies: [...NPC_ONLY_SPECIES], collectibleDenominator: index.size - NPC_ONLY_SPECIES.size,
@@ -184,20 +202,21 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
       partial: families.filter(family => family.status === 'partial').length, missing: families.filter(family => family.status === 'missing').length,
       withAnyRoute: families.filter(family => family.availableSpecies.length).length },
     missingSpecies: missing.length, baselineAvailableSpecies: [...baseline.values()].filter(entry => entry.status === 'available').length,
+    baselineKind: 'legacy native routes without collection recruitment',
     newlyAvailable: newlyAvailable.map(id => ({ id, name: byId.get(id).name.zh })),
     noLongerAvailable,
     groupCounts: Object.fromEntries(Object.entries(groups).map(([name, ids]) => [name, ids.length])),
-    mappedCaptureSpecies: new Set(habitatCaptures.map(entry => entry.species)).size, namedEncounterCount: source.bosses.length,
+    mappedCaptureSpecies: new Set(habitatCaptures.map(entry => entry.species)).size, mappedCollectionGateSpecies:new Set(habitatCollectionGates.map(entry=>entry.species)).size, namedEncounterCount: source.bosses.length,
     originalRewardBindings: explicitHatchBindings.length, restoredInfantBindings: explicitHatchBindings.filter(entry => entry.actualSpecies !== entry.enemySpecies).length,
     evolutionEdgesChecked: evolutionEdges.length,
     availableOnlyViaAuthoredReward: routes.filter(entry => entry.status === 'available' && entry.routes.every(route => route.authoredReward)).length,
     campaignCount: CHALLENGE_CAMPAIGNS.length,
     manualEvolutionChecks,
     simplifiedHabitatChains,
-    checks: ['all mapped habitats tested with actual capsule capture', 'first simplified habitat batch captured, evolved, registered, and reloaded through controller', 'all runtime essence items checked against catalog and original hatch metadata', 'reachable level-evolution edges checked by raising API', 'real victory/essence/hatch/reload fixture', 'two source-confirmed manual evolution chains through controller and reload', 'NPC normal recruitment rejected; modifier retained'],
+    checks: ['all mapped habitats tested for actual capture, named interception, or gated collection task', 'map collection gates reject with and without location and preserve saved inventory and unlocks', 'first simplified habitat batch captured, evolved, registered, and reloaded through controller', 'all runtime essence items checked against catalog and original hatch metadata', 'reachable level-evolution edges checked by raising API', 'real victory/essence/hatch/reload fixture', 'two source-confirmed manual evolution chains through controller and reload', 'NPC normal recruitment rejected; modifier retained'],
   };
   mkdirSync(outputDirectory, { recursive: true });
-  writeFileSync(`${outputDirectory}/audit.json`, JSON.stringify({ summary, sourceHashes, habitatCaptures, habitatInterceptions, explicitHatchBindings, evolutionEdges, routes,
+  writeFileSync(`${outputDirectory}/audit.json`, JSON.stringify({ summary, sourceHashes, habitatCaptures, habitatInterceptions, habitatCollectionGates, explicitHatchBindings, evolutionEdges, routes,
     families: families.map(family => ({ ...family, members: family.memberIds.map(id => ({ id, name: byId.get(id).name.zh, status: index.get(id)!.status })) })),
     missingGroups: Object.fromEntries(Object.entries(groups).map(([group, ids]) => [group, ids.map(id => ({ id, name: byId.get(id).name.zh }))])) }, null, 2) + '\n');
   const lines = ['# Complete missing acquisition list', '', 'Generated by tools/verification/dex-acquisition.ts. Names preserve the recovered Chinese catalog. Every listed species is in the completeness denominator and lacks an implemented normal route.', ''];

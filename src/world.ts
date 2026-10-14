@@ -1,5 +1,6 @@
 import type { BossView } from './game-types';
 import { ADDITIONAL_WORLD_PLANETS } from './world-expansion';
+import { addHabitatRegions } from './world-habitat-regions';
 import mapArtwork from './presentation/map-art-assets.json';
 import generatedHabitats from '../data/habitats.json';
 
@@ -11,9 +12,13 @@ export interface WorldRegion {
   creatureLevels?: Record<number, [number, number]>;
   /** Species shown once per scene, such as special map spawns. */
   scarceCreatures?: number[];
+  /** Visible map contacts that open a collection quest instead of a field battle. */
+  recruitmentSpecies?: number[];
   facility?: 'recovery' | 'missions' | 'challenges';
   originalMapId?: number;
   background?: string; backgroundKind?: 'official' | 'authored';
+  /** Recovered artwork reused when this original subregion has no local art. */
+  backgroundMapId?: number; sceneAttribution?: string;
   /** An authored challenge rendezvous, not a claimed original encounter location. */
   challengeStaging?: boolean;
 }
@@ -158,9 +163,10 @@ WORLD_PLANETS.find(planet => planet.id === 'planet-57')!.regions.push({
 });
 
 // Initial forms placed from original map spawn lists; see tools/assets/build_habitats.mjs.
+addHabitatRegions(WORLD_PLANETS);
 export interface GeneratedHabitat {
   species: number; name: string; planetId: string; regionId: string; levels: [number, number];
-  scarce: boolean; route: 'capture' | 'challenge'; evidence: string;
+  scarce: boolean; route: 'capture' | 'challenge' | 'recruitment'; evidence: string;
 }
 export const GENERATED_HABITATS = generatedHabitats.habitats as unknown as GeneratedHabitat[];
 for (const habitat of GENERATED_HABITATS) {
@@ -168,6 +174,7 @@ for (const habitat of GENERATED_HABITATS) {
   region.creatures = [...new Set([...region.creatures, habitat.species])];
   region.creatureLevels = { ...region.creatureLevels, [habitat.species]: habitat.levels };
   if (habitat.scarce) region.scarceCreatures = [...(region.scarceCreatures ?? []), habitat.species];
+  if (habitat.route === 'recruitment') region.recruitmentSpecies = [...(region.recruitmentSpecies ?? []), habitat.species];
 }
 
 // The public manifest retains complete provenance; this projection supplies
@@ -178,7 +185,7 @@ for(const planet of WORLD_PLANETS) {
   const base=artwork[String(planet.originalMapId)];
   if(base){planet.background=artworkUrl(base);planet.sceneAttribution='Recovered official background; see public/maps/original-manifest.json for provenance.'}
   for(const region of planet.regions) {
-    const image=artwork[String(region.originalMapId)]??base;
+    const image=artwork[String(region.originalMapId)]??artwork[String(region.backgroundMapId)]??base;
     if(image){region.background=artworkUrl(image);region.backgroundKind='official'}
   }
 }

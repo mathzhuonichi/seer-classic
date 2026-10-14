@@ -26,3 +26,17 @@
 .shop-categories{scrollbar-width:thin}
 .item-shop-management{padding:7px 9px 9px!important}
 @media(max-width:620px){.item-shop-management{padding:4px 5px 5px!important}}
+
+/* Essence reservations share the species allowance across all item names. */
+.shop-allowance{margin:14px 0;padding:11px 13px;background:#e3f2fa;border:1px solid #8dbdd8;border-radius:5px}
+.shop-allowance dl{display:flex;justify-content:space-between;gap:12px;margin:0}
+.shop-allowance dl>div{text-align:center;flex:1}
+.shop-allowance dt{font-size:10px;color:#4c748b}
+.shop-allowance dd{margin:4px 0 0;color:#07549b;font-size:18px;font-variant-numeric:tabular-nums}
+.shop-allowance p{margin:9px 0 0;color:#53798c;font-size:10px;line-height:1.6;text-align:center}
+.shop-product-scroll b.unavailable{color:#8c6850;white-space:nowrap}
+.shop-order-blocked{color:#8a6030;line-height:1.7}
+.shop-product-heading>div:last-child{min-width:0}
+.window-body .shop-product-heading h3{overflow-wrap:anywhere}
+.item-shop-management .management-confirm-row>span{min-width:0;font-size:11px;line-height:1.7}
+@media(max-width:480px){.item-shop-inner{grid-template-columns:145px minmax(0,1fr)}.shop-detail-scroll{padding:10px}.management-panel .shop-product-scroll>button{flex-wrap:wrap;gap:3px;padding:8px}.management-panel .shop-product-scroll>button.active{padding:7px}.shop-product-scroll button>b{font-size:9px;margin-left:auto}.shop-allowance{padding:9px 7px}.shop-allowance dl{gap:6px}.shop-allowance dd{font-size:16px}.item-shop-management .management-confirm-row{flex-wrap:wrap}.item-shop-management .management-confirm-row>button{margin-left:auto}.shop-quantity-presets{flex-wrap:wrap}}

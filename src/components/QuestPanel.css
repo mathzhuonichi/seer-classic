@@ -1,34 +1,42 @@
-.quest-tabs{display:flex;gap:8px;margin-bottom:14px}
-.quest-tabs button[aria-pressed=true]{background:#dfba71;color:#392a17;border-color:#f4d79a}
-.quest-prerequisites{list-style:none;padding:0;margin:12px 0 16px;display:grid;gap:7px}
-.quest-prerequisites li{display:flex;align-items:center;gap:10px;font-size:11px}
-.quest-prerequisites li>span{color:#aac0cf;min-width:66px}
-.quest-prerequisites li>span.cleared{color:#a1dbc0}
-.quest-prerequisites button{flex:1;text-align:left;font-size:12px;padding:7px 9px}
-
-/* Original pet-bag navy wells provide the task-card chrome. */
-.quest-panel .quest-console article{background:#0e3765 url('/ui/classic/petbag-well.png') center/100% 100% no-repeat;border:0;border-radius:7px;padding:16px;color:#e3f6ff}
-.quest-panel .quest-console h3{color:#fff}
-.quest-panel .quest-console p{color:#b5dcf4}
-.quest-panel .quest-status{color:#ffe486}
-.quest-prerequisites li>span{color:#afd4ee}
-.quest-prerequisites li>span.cleared{color:#9af5ce}
-.quest-tabs button[aria-pressed=true]{background:linear-gradient(#78dcff,#0995df 48%,#0776c2 49%,#0d62a6);color:#fff;border-color:#04559b;box-shadow:inset 0 0 0 1px #58e2ff}
-
-/* A bounded diary page keeps navigation visible below its scrollable entries. */
+/* Keep task navigation visible while a bounded set of cards scrolls. */
 .scene-window.compact:has(.quest-panel){height:min(650px,calc(100% - 24px))}
 .scene-window:has(.quest-panel) .window-body{overflow:hidden;display:flex;flex-direction:column}
 .quest-panel{display:flex;flex-direction:column;height:100%;min-height:0;flex:1}
-.quest-tabs{flex-shrink:0;gap:6px;margin:0 0 9px}
+.quest-tabs{display:flex;align-items:center;flex-wrap:wrap;flex-shrink:0;gap:6px;margin:0 0 9px}
 .quest-tabs button{padding:6px 10px;font-size:12px}
+.quest-tabs button[aria-pressed=true]{background:linear-gradient(#78dcff,#0995df 48%,#0776c2 49%,#0d62a6);color:#fff;border-color:#04559b;box-shadow:inset 0 0 0 1px #58e2ff}
+.quest-tabs .quest-back{margin-left:auto;font-size:11px}
+.quest-filter{display:flex;gap:7px;flex-shrink:0;margin-bottom:9px}
+.quest-filter input{flex:1;min-width:0}
+.quest-filter select{max-width:115px}
 .quest-console{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:10px;scrollbar-color:#1998d7 #064b84;padding:0 2px 6px}
-.quest-console article{flex-shrink:0}
-.quest-console article h3{margin:7px 0;font-size:14px;font-weight:400}
-.quest-console article p{font-size:12px;line-height:1.6;margin:5px 0}
-.quest-console article>div{display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:11px}
-.quest-console article>div>button{padding:6px 9px;font-size:12px}
+.quest-panel .quest-console article{flex-shrink:0;background:#0e3765 url('/ui/classic/petbag-well.png') center/100% 100% no-repeat;border:0;border-radius:7px;padding:13px 15px;color:#e3f6ff}
+.quest-card-heading{display:flex;align-items:center;gap:12px;min-width:0}
+.quest-card-heading>div:last-child{flex:1;min-width:0}
+.quest-console article h3{margin:0 0 5px;font-size:14px;font-weight:400;line-height:1.5;color:#fff}
+.quest-panel .quest-status{color:#b5dcf4;font-size:11px}
+.quest-panel .quest-status.ready{color:#ffe486}
+.quest-console article p{font-size:11px;line-height:1.7;margin:9px 0;color:#b5dcf4}
+.quest-prerequisites{list-style:none;padding:0;margin:11px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 9px}
+.quest-prerequisites li{display:flex;align-items:center;gap:6px;min-width:0;font-size:11px}
+.quest-condition-status{color:#afd4ee;width:13px;flex-shrink:0;text-align:center}
+.quest-prerequisites li.complete .quest-condition-status{color:#9af5ce}
+.quest-prerequisites button{display:flex;align-items:center;justify-content:space-between;gap:6px;flex:1;min-width:0;text-align:left;font-size:11px;padding:6px 8px}
+.quest-prerequisites button>span:first-child{min-width:0}
+.quest-prerequisites small{display:block;font-size:9px;line-height:1.4;opacity:.8}
+.quest-prerequisites strong{display:block;font-size:11px;font-weight:400;line-height:1.6;overflow-wrap:anywhere}
+.quest-card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;padding-top:9px;border-top:1px solid #38749b}
+.quest-card-footer>span{color:#c4e7fb;font-variant-numeric:tabular-nums}
+.quest-card-footer>button{flex-shrink:0;padding:7px 12px;font-size:12px}
 .quest-pagination{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:7px;padding:6px 8px;background:#0a5596;border:1px solid #28c0ed;color:#e6f8ff;font-size:12px}
 .quest-pagination>button{width:28px;height:27px;padding:0;color:#fff;border:1px solid #49b9e8;background:#0878be;font-size:21px;line-height:1}
 .quest-pagination select{padding:3px 5px!important;min-width:43px}
 .quest-pagination>span{font-size:10px;color:#bfebff}
 .quest-empty{text-align:center;padding:22px;color:#e6f8ff}
+@media(max-width:480px){.quest-panel .quest-console article{padding:11px}.quest-prerequisites{grid-template-columns:1fr}.quest-pagination{gap:7px}.quest-tabs button{padding:6px 8px}.quest-filter select{max-width:102px}}
+.quest-repeat{display:inline-block;margin-left:10px;font-size:10px;color:#add9f1}
+.quest-console article .quest-allowance{color:#b1dcf3;font-size:10px;font-variant-numeric:tabular-nums}
+.quest-console article .quest-blocked{color:#ffe19d;font-size:11px}
+.quest-console article .quest-feedback{color:#9af5ce;margin-bottom:0}
+.quest-hatch-link{font-size:10px;padding:5px 7px;margin-top:9px}
+.quest-battle-hint{flex-shrink:0;margin:6px 0 0;font-size:11px;color:#ffe19d}

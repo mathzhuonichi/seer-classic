@@ -230,6 +230,18 @@ export function getSceneLayout(planet:WorldPlanet,region:WorldRegion):SceneLayou
 
 export function creatureSceneHome(layout:SceneLayout,index:number,count:number):ScenePoint {
   if(count===1)return layout.homes[1]??layout.boss;
+  // Keep the original six-position composition for ordinary populations. Rich
+  // habitats need distinct anchors rather than wrapping onto occupied homes.
+  if(count>layout.homes.length) {
+    const xs=layout.homes.map(home=>home.x),ys=layout.homes.map(home=>home.y);
+    const width=Math.max(60,Math.max(...xs)-Math.min(...xs));
+    const height=Math.max(32,Math.max(...ys)-Math.min(...ys));
+    const left=Math.max(8,Math.min(92-width,(Math.min(...xs)+Math.max(...xs)-width)/2));
+    const top=Math.max(38,Math.min(92-height,(Math.min(...ys)+Math.max(...ys)-height)/2));
+    const columns=Math.ceil(Math.sqrt(count*1.5)),rows=Math.ceil(count/columns);
+    const row=Math.floor(index/columns),inRow=Math.min(columns,count-row*columns);
+    return point(left+width*(index%columns+.5)/inRow,top+height*(row+.5)/rows);
+  }
   return layout.homes[index%layout.homes.length];
 }
 

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildAcquisitionIndex, buildPaidAcquisitionSeeds, type AcquisitionCatalog} from '../../src/progression/acquisition';
+import {buildAcquisitionIndex, type AcquisitionCatalog} from '../../src/progression/acquisition';
 import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition';
+import {buildRecruitmentRewards} from '../../src/progression/recruitment';
 
 export function verifyBaseFormAcquisition() {
   const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));
@@ -28,7 +29,8 @@ export function verifyBaseFormAcquisition() {
   edge(806,807);edge(807,806); // rootless cycle
   edge(801,808); // sibling must never provide a route for 805
   const tiny={species,bosses:[]} satisfies AcquisitionCatalog;
-  assert.deepEqual(buildPaidAcquisitionSeeds(tiny),[],'An empty miniature SPT catalog must not auto-unlock paid seeds.');
+  const withoutTasks=buildAcquisitionIndex(tiny,[],[],[],[]);
+  assert.equal(withoutTasks.get(800)!.status,'unimplemented','Explicit empty additional seeds disable automatic collection tasks.');
   const injected=buildAcquisitionIndex(tiny,[],[],[
     {species:800,route:{kind:'quest',entrySpecies:800,questId:'paid-base-800',label:'Paid initial quest'}},
     {species:808,route:{kind:'boss',entrySpecies:808,bossId:'adult-sibling',label:'Adult sibling reward'}},
@@ -48,7 +50,11 @@ export function verifyBaseFormAcquisition() {
   assert.equal(injected.get(804)!.status,'available','An injected initial quest extends real forward evolution.');
   for(const id of [122,123,124,125])assert(initial.get(id)!.excluded&&initial.get(id)!.initialForms.every(base=>!base.routes.length));
   for(const [id,entry] of initial)for(const base of entry.initialForms)for(const route of base.routes)assert.equal(route.entrySpecies,base.species,`Initial entry belongs to the root for ${id}`);
-  const paidSeeds=buildPaidAcquisitionSeeds(catalog),paidGraph=buildAcquisitionIndex(catalog);
-  for(const seed of paidSeeds){assert(paidGraph.get(seed.species)?.routes.some(route=>route.kind==='quest'&&route.questId===seed.route.questId));assert.equal(seed.route.entrySpecies,seed.species);}
-  return {paidInitialSeeds:paidSeeds.length,catalogSpecies:catalog.species.length,checkedInitialEntries:initial.size,passed:['19/20/21 adult route retained but unavailable initial entry hidden','starter and fusion infant links','source branch initial forms','multi-root ancestry and shortest paths','unsupported ancestry transformation distinguished','rootless cycle rejected','sibling adult reward rejected','paid initial quest seed extends evolution','outside-catalog seeds ignored','NPC entries excluded','all advertised routes match their initial form']};
+  const rewards=buildRecruitmentRewards(catalog),recruitmentGraph=buildAcquisitionIndex(catalog);
+  for(const reward of rewards){
+    const route=recruitmentGraph.get(reward.rewardSpecies)?.routes.find(route=>route.kind==='quest'&&route.questId===reward.questId);
+    assert(route,`Reachable collection prerequisites unlock ${reward.questId}.`);assert.equal(route.entrySpecies,reward.rewardSpecies);
+    for(const condition of reward.prerequisites)if(condition.kind==='species')assert.equal(recruitmentGraph.get(condition.species)?.status,'available');
+  }
+  return {recruitmentRewards:rewards.length,catalogSpecies:catalog.species.length,checkedInitialEntries:initial.size,passed:['19/20/21 adult route retained without borrowing its initial entry','starter and fusion infant links','source branch initial forms','multi-root ancestry and shortest paths','unsupported ancestry transformation distinguished','rootless cycle rejected','sibling adult reward rejected','gated initial recruitment extends evolution','explicit empty task baseline','outside-catalog seeds ignored','NPC entries excluded','all advertised routes match their initial form']};
 }

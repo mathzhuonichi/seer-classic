@@ -1,0 +1,690 @@
+{
+ "note": "Source-supported habitat regions added to existing planets. Original membership and encounters are preserved; scenery is explicitly reused from the recovered parent map.",
+ "source": {
+  "repository": "https://github.com/Nattsu39/seer_data",
+  "commit": "a00bcdd",
+  "files": {
+   "maps.json": "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3",
+   "map_config.json": "f10888991945008d7f38f328de40b9f014418680c5670752f5bb1cdbfd3f35f3",
+   "petbook.json": "a6fa0f49b192725298c6e447e37a10edcba3631864796715fca74983e2c7b2ba"
+  }
+ },
+ "regions": [
+  {
+   "id": "habitat-13",
+   "originalMapId": 13,
+   "name": "克洛斯星地心",
+   "planetId": "klose",
+   "sourceParentMapId": 10,
+   "backgroundMapId": 10,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 348,
+     "source": "Monsters",
+     "levels": [
+      15,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-34",
+   "originalMapId": 34,
+   "name": "精灵广场",
+   "planetId": "helka",
+   "sourceParentMapId": 30,
+   "backgroundMapId": 30,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 74,
+     "source": "BossCatchable",
+     "levels": [
+      17,
+      17
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-38",
+   "originalMapId": 38,
+   "name": "麦田村",
+   "planetId": "allen",
+   "sourceParentMapId": 29,
+   "backgroundMapId": 29,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1144,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-47",
+   "originalMapId": 47,
+   "name": "双子贝塔星",
+   "planetId": "beta",
+   "sourceParentMapId": 47,
+   "backgroundMapId": 47,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 119,
+     "source": "Monsters",
+     "levels": [
+      15,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-48",
+   "originalMapId": 48,
+   "name": "海盗要塞废墟",
+   "planetId": "beta",
+   "sourceParentMapId": 47,
+   "backgroundMapId": 47,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 184,
+     "source": "Monsters",
+     "levels": [
+      17,
+      18
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-64",
+   "originalMapId": 64,
+   "name": "沙漠窑洞",
+   "planetId": "tuck",
+   "sourceParentMapId": 60,
+   "backgroundMapId": 60,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 257,
+     "source": "Monsters",
+     "levels": [
+      15,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-105",
+   "originalMapId": 105,
+   "name": "双子阿尔法星",
+   "planetId": "alpha",
+   "sourceParentMapId": 105,
+   "backgroundMapId": 105,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 89,
+     "source": "Monsters",
+     "levels": [
+      16,
+      17
+     ]
+    },
+    {
+     "id": 91,
+     "source": "BossCatchable",
+     "levels": [
+      10,
+      10
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-329",
+   "originalMapId": 329,
+   "name": "潘迪拉宝盒",
+   "planetId": "eddy",
+   "sourceParentMapId": 325,
+   "backgroundMapId": 325,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 287,
+     "source": "BossCatchable",
+     "levels": [
+      29,
+      29
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-330",
+   "originalMapId": 330,
+   "name": "斯科尔浮岛",
+   "planetId": "planet-328",
+   "sourceParentMapId": 328,
+   "backgroundMapId": 328,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 422,
+     "source": "Monsters",
+     "levels": [
+      16,
+      17
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-352",
+   "originalMapId": 352,
+   "name": "蜜桃森林",
+   "planetId": "planet-350",
+   "sourceParentMapId": 350,
+   "backgroundMapId": 350,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 219,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 281,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 370,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 665,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-425",
+   "originalMapId": 425,
+   "name": "时空罗盘",
+   "planetId": "planet-424",
+   "sourceParentMapId": 424,
+   "backgroundMapId": 424,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 499,
+     "source": "Monsters",
+     "levels": [
+      30,
+      40
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-442",
+   "originalMapId": 442,
+   "name": "尼古尔海底",
+   "planetId": "planet-57",
+   "sourceParentMapId": 57,
+   "backgroundMapId": 57,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 814,
+     "source": "BossCatchable",
+     "levels": [
+      18,
+      18
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-461",
+   "originalMapId": 461,
+   "name": "赫鲁卡城",
+   "planetId": "planet-459",
+   "sourceParentMapId": 459,
+   "backgroundMapId": 459,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 588,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-476",
+   "originalMapId": 476,
+   "name": "阳光大地",
+   "planetId": "planet-497",
+   "sourceParentMapId": 497,
+   "backgroundMapId": 497,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 742,
+     "source": "Monsters",
+     "levels": [
+      21,
+      22
+     ]
+    },
+    {
+     "id": 980,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-478",
+   "originalMapId": 478,
+   "name": "黑色洞穴",
+   "planetId": "white",
+   "sourceParentMapId": 484,
+   "backgroundMapId": 484,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 416,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-505",
+   "originalMapId": 505,
+   "name": "暮色之城",
+   "planetId": "eddy",
+   "sourceParentMapId": 325,
+   "backgroundMapId": 325,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 720,
+     "source": "Monsters",
+     "levels": [
+      15,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-665",
+   "originalMapId": 665,
+   "name": "五行仙境",
+   "planetId": "planet-494",
+   "sourceParentMapId": 494,
+   "backgroundMapId": 494,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 872,
+     "source": "BossCatchable",
+     "levels": [
+      1,
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-669",
+   "originalMapId": 669,
+   "name": "异能山谷",
+   "planetId": "ability",
+   "sourceParentMapId": 668,
+   "backgroundMapId": 668,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 884,
+     "source": "Monsters",
+     "levels": [
+      15,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-675",
+   "originalMapId": 675,
+   "name": "机械王国",
+   "planetId": "helka",
+   "sourceParentMapId": 30,
+   "backgroundMapId": 30,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 59,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 102,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-689",
+   "originalMapId": 689,
+   "name": "睡梦空间",
+   "planetId": "white",
+   "sourceParentMapId": 484,
+   "backgroundMapId": 484,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1015,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-691",
+   "originalMapId": 691,
+   "name": "斯诺秘洞",
+   "planetId": "snow",
+   "sourceParentMapId": 53,
+   "backgroundMapId": 53,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 378,
+     "source": "BossCatchable",
+     "levels": [
+      16,
+      16
+     ]
+    },
+    {
+     "id": 1020,
+     "source": "Monsters",
+     "levels": [
+      15,
+      18
+     ]
+    },
+    {
+     "id": 1026,
+     "source": "BossCatchable",
+     "levels": [
+      20,
+      20
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-693",
+   "originalMapId": 693,
+   "name": "拉铂尔仙境",
+   "planetId": "rabol",
+   "sourceParentMapId": 441,
+   "backgroundMapId": 441,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1048,
+     "source": "Monsters",
+     "levels": [
+      12,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-694",
+   "originalMapId": 694,
+   "name": "新泽部落",
+   "planetId": "twitter",
+   "sourceParentMapId": 688,
+   "backgroundMapId": 688,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1056,
+     "source": "Monsters",
+     "levels": [
+      14,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-697",
+   "originalMapId": 697,
+   "name": "迷雾森林",
+   "planetId": "twitter",
+   "sourceParentMapId": 688,
+   "backgroundMapId": 688,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 799,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 1024,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-707",
+   "originalMapId": 707,
+   "name": "异能空间",
+   "planetId": "ability",
+   "sourceParentMapId": 668,
+   "backgroundMapId": 668,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 905,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 908,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 911,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 919,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 926,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    },
+    {
+     "id": 958,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-727",
+   "originalMapId": 727,
+   "name": "冰火绝命崖",
+   "planetId": "lainna",
+   "sourceParentMapId": 726,
+   "backgroundMapId": 726,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 751,
+     "source": "BossCatchable",
+     "levels": [
+      40,
+      40
+     ]
+    },
+    {
+     "id": 936,
+     "source": "BossCatchable",
+     "levels": [
+      40,
+      40
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-750",
+   "originalMapId": 750,
+   "name": "幽暗迷宫",
+   "planetId": "demon",
+   "sourceParentMapId": 748,
+   "backgroundMapId": 748,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1273,
+     "source": "Monsters",
+     "levels": [
+      13,
+      16
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-1063",
+   "originalMapId": 1063,
+   "name": "降世山巅",
+   "planetId": "twitter",
+   "sourceParentMapId": 688,
+   "backgroundMapId": 688,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 139,
+     "source": "Monsters",
+     "levels": [
+      50,
+      100
+     ]
+    }
+   ]
+  },
+  {
+   "id": "habitat-1303",
+   "originalMapId": 1303,
+   "name": "黑白森林",
+   "planetId": "alpha",
+   "sourceParentMapId": 105,
+   "backgroundMapId": 105,
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "species": [
+    {
+     "id": 1450,
+     "source": "Monsters",
+     "levels": [
+      16,
+      20
+     ]
+    }
+   ]
+  }
+ ],
+ "additionalFoundinSpecies": [
+  760,
+  818,
+  831
+ ]
+}

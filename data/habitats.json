@@ -5,8 +5,14 @@
   "commit": "a00bcdd",
   "files": {
    "resource/config/xml/maps.json": "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3",
-   "resource/config/xml/petbook.json": "a6fa0f49b192725298c6e447e37a10edcba3631864796715fca74983e2c7b2ba"
+   "resource/config/xml/petbook.json": "a6fa0f49b192725298c6e447e37a10edcba3631864796715fca74983e2c7b2ba",
+   "resource/config/xml/map_config.json": "f10888991945008d7f38f328de40b9f014418680c5670752f5bb1cdbfd3f35f3"
   }
+ },
+ "recruitmentPolicy": {
+  "file": "data/acquisition-policy.json",
+  "sha256": "a5127134679bdb4b1745212be7fb586d76d6c3c61e6d1cdb19be36ebd9bd7f83",
+  "rule": "Converted paid/VIP/lottery forms with only a Foundin location use a collection-quest contact at that location; source spawn routes are preserved."
  },
  "habitats": [
   {
@@ -21,6 +27,71 @@
    "scarce": false,
    "route": "capture",
    "evidence": "maps.json Map 31 赫尔卡星遗迹 Monsters"
+  },
+  {
+   "species": 19,
+   "name": "利利",
+   "planetId": "klose",
+   "regionId": "habitat-13",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 13 克洛斯星地心 Monsters"
+  },
+  {
+   "species": 59,
+   "name": "西塔",
+   "planetId": "helka",
+   "regionId": "habitat-675",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 675 机械王国 BossCatchable"
+  },
+  {
+   "species": 74,
+   "name": "果冻鸭",
+   "planetId": "helka",
+   "regionId": "habitat-34",
+   "levels": [
+    17,
+    17
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 34 精灵广场 BossCatchable"
+  },
+  {
+   "species": 89,
+   "name": "迪达",
+   "planetId": "alpha",
+   "regionId": "habitat-105",
+   "levels": [
+    16,
+    17
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 105 双子阿尔法星 Monsters"
+  },
+  {
+   "species": 91,
+   "name": "悠悠",
+   "planetId": "alpha",
+   "regionId": "habitat-105",
+   "levels": [
+    10,
+    10
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 105 双子阿尔法星 BossCatchable"
   },
   {
    "species": 97,
@@ -38,6 +109,19 @@
   {
    "species": 100,
    "name": "卡西",
+   "planetId": "eddy",
+   "regionId": "habitat-329",
+   "levels": [
+    9,
+    10
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 329 潘迪拉宝盒 Monsters"
+  },
+  {
+   "species": 100,
+   "name": "卡西",
    "planetId": "planet-481",
    "regionId": "landing",
    "levels": [
@@ -47,6 +131,45 @@
    "scarce": true,
    "route": "capture",
    "evidence": "maps.json Map 481 般若星 BossCatchable"
+  },
+  {
+   "species": 102,
+   "name": "奇塔",
+   "planetId": "helka",
+   "regionId": "habitat-675",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 675 机械王国 BossCatchable"
+  },
+  {
+   "species": 119,
+   "name": "莱尼",
+   "planetId": "beta",
+   "regionId": "habitat-47",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 47 双子贝塔星 Monsters"
+  },
+  {
+   "species": 139,
+   "name": "迪卢卡",
+   "planetId": "twitter",
+   "regionId": "habitat-1063",
+   "levels": [
+    50,
+    100
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 1063 降世山巅 Monsters"
   },
   {
    "species": 156,
@@ -75,6 +198,19 @@
    "evidence": "maps.json Map 52 斯诺星密林 Monsters"
   },
   {
+   "species": 184,
+   "name": "古鲁",
+   "planetId": "beta",
+   "regionId": "habitat-48",
+   "levels": [
+    17,
+    18
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 48 海盗要塞废墟 Monsters"
+  },
+  {
    "species": 211,
    "name": "水草蛙",
    "planetId": "lucio",
@@ -99,6 +235,19 @@
    "scarce": true,
    "route": "capture",
    "evidence": "maps.json Map 314 拜伦号 BossCatchable"
+  },
+  {
+   "species": 219,
+   "name": "依卢",
+   "planetId": "planet-350",
+   "regionId": "habitat-352",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 352 蜜桃森林 BossCatchable"
   },
   {
    "species": 235,
@@ -137,7 +286,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 683 泰若星 BossCatchable"
+   "evidence": "maps.json Map 683 晶石山谷 BossCatchable"
   },
   {
    "species": 254,
@@ -150,7 +299,20 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 683 泰若星 BossCatchable"
+   "evidence": "maps.json Map 683 晶石山谷 BossCatchable"
+  },
+  {
+   "species": 257,
+   "name": "埃闻",
+   "planetId": "tuck",
+   "regionId": "habitat-64",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 64 沙漠窑洞 Monsters"
   },
   {
    "species": 269,
@@ -176,7 +338,20 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 327 地下之城 Monsters"
+   "evidence": "maps.json Map 327 虚幻的地下城市 Monsters"
+  },
+  {
+   "species": 281,
+   "name": "伶俐鸟",
+   "planetId": "planet-350",
+   "regionId": "habitat-352",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 352 蜜桃森林 BossCatchable"
   },
   {
    "species": 284,
@@ -192,6 +367,19 @@
    "evidence": "maps.json Map 31 赫尔卡星遗迹 Monsters"
   },
   {
+   "species": 287,
+   "name": "厄斯",
+   "planetId": "eddy",
+   "regionId": "habitat-329",
+   "levels": [
+    29,
+    29
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 329 潘迪拉宝盒 BossCatchable"
+  },
+  {
    "species": 291,
    "name": "弗曼",
    "planetId": "planet-328",
@@ -202,7 +390,20 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 328 斯科尔星球 Monsters"
+   "evidence": "maps.json Map 328 斯科尔星 Monsters"
+  },
+  {
+   "species": 293,
+   "name": "迷你芽",
+   "planetId": "planet-328",
+   "regionId": "habitat-330",
+   "levels": [
+    16,
+    17
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 330 斯科尔浮岛 Monsters"
   },
   {
    "species": 293,
@@ -220,15 +421,15 @@
   {
    "species": 335,
    "name": "赤甲虫",
-   "planetId": "volcano",
-   "regionId": "depths",
+   "planetId": "cecilia",
+   "regionId": "peak",
    "levels": [
-    15,
-    16
+    14,
+    15
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 17 火山星山洞深处 Monsters"
+   "evidence": "maps.json Map 40 塞西利亚星 Monsters"
   },
   {
    "species": 335,
@@ -241,20 +442,20 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 40 塞西利亚星球 Monsters"
+   "evidence": "maps.json Map 40 塞西利亚星 Monsters"
   },
   {
    "species": 335,
    "name": "赤甲虫",
-   "planetId": "cecilia",
-   "regionId": "peak",
+   "planetId": "volcano",
+   "regionId": "depths",
    "levels": [
-    14,
-    15
+    15,
+    16
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 40 塞西利亚星球 Monsters"
+   "evidence": "maps.json Map 17 火山星山洞深处 Monsters"
   },
   {
    "species": 344,
@@ -268,6 +469,45 @@
    "scarce": false,
    "route": "capture",
    "evidence": "petbook.json Foundin 斯科尔星"
+  },
+  {
+   "species": 348,
+   "name": "小犬苗",
+   "planetId": "klose",
+   "regionId": "habitat-13",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 13 克洛斯星地心 Monsters"
+  },
+  {
+   "species": 370,
+   "name": "奎尼",
+   "planetId": "planet-350",
+   "regionId": "habitat-352",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 352 蜜桃森林 BossCatchable"
+  },
+  {
+   "species": 378,
+   "name": "凯奴",
+   "planetId": "snow",
+   "regionId": "habitat-691",
+   "levels": [
+    16,
+    16
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 691 斯诺秘洞 BossCatchable"
   },
   {
    "species": 385,
@@ -304,8 +544,8 @@
     8,
     11
    ],
-   "scarce": false,
-   "route": "capture",
+   "scarce": true,
+   "route": "recruitment",
    "evidence": "petbook.json Foundin 火山星"
   },
   {
@@ -322,6 +562,32 @@
    "evidence": "petbook.json Foundin 露希欧星"
   },
   {
+   "species": 416,
+   "name": "尼奥",
+   "planetId": "white",
+   "regionId": "habitat-478",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 478 黑色洞穴 BossCatchable"
+  },
+  {
+   "species": 422,
+   "name": "里昂",
+   "planetId": "planet-328",
+   "regionId": "habitat-330",
+   "levels": [
+    16,
+    17
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 330 斯科尔浮岛 Monsters"
+  },
+  {
    "species": 430,
    "name": "鲁迪",
    "planetId": "tuck",
@@ -330,8 +596,8 @@
     24,
     27
    ],
-   "scarce": false,
-   "route": "capture",
+   "scarce": true,
+   "route": "recruitment",
    "evidence": "petbook.json Foundin 塔克星"
   },
   {
@@ -358,7 +624,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 402 英佩恩堡垒2层 BossCatchable"
+   "evidence": "maps.json Map 402 英佩恩堡垒二层 BossCatchable"
   },
   {
    "species": 448,
@@ -371,7 +637,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 683 泰若星 BossCatchable"
+   "evidence": "maps.json Map 683 晶石山谷 BossCatchable"
   },
   {
    "species": 463,
@@ -385,6 +651,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "maps.json Map 411 陨石地带 Monsters"
+  },
+  {
+   "species": 469,
+   "name": "米奈",
+   "planetId": "alpha",
+   "regionId": "habitat-1303",
+   "levels": [
+    12,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 1303 黑白森林 Monsters"
   },
   {
    "species": 469,
@@ -426,6 +705,19 @@
    "evidence": "maps.json Map 424 空间补给站 Monsters"
   },
   {
+   "species": 499,
+   "name": "阿零",
+   "planetId": "planet-424",
+   "regionId": "habitat-425",
+   "levels": [
+    30,
+    40
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 425 时空罗盘 Monsters"
+  },
+  {
    "species": 509,
    "name": "利加",
    "planetId": "byron",
@@ -449,7 +741,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 683 泰若星 BossCatchable"
+   "evidence": "maps.json Map 683 晶石山谷 BossCatchable"
   },
   {
    "species": 523,
@@ -475,7 +767,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 327 地下之城 BossCatchable"
+   "evidence": "maps.json Map 327 虚幻的地下城市 BossCatchable"
   },
   {
    "species": 544,
@@ -488,20 +780,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 BossCatchable"
-  },
-  {
-   "species": 555,
-   "name": "宾克",
-   "planetId": "cecilia",
-   "regionId": "snow",
-   "levels": [
-    19,
-    20
-   ],
-   "scarce": false,
-   "route": "capture",
-   "evidence": "maps.json Map 40 塞西利亚星球 Monsters"
+   "evidence": "maps.json Map 29 浅滩海岛 BossCatchable"
   },
   {
    "species": 555,
@@ -514,7 +793,20 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 40 塞西利亚星球 Monsters"
+   "evidence": "maps.json Map 40 塞西利亚星 Monsters"
+  },
+  {
+   "species": 555,
+   "name": "宾克",
+   "planetId": "cecilia",
+   "regionId": "snow",
+   "levels": [
+    19,
+    20
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 40 塞西利亚星 Monsters"
   },
   {
    "species": 557,
@@ -538,9 +830,22 @@
     27,
     30
    ],
-   "scarce": false,
-   "route": "capture",
+   "scarce": true,
+   "route": "recruitment",
    "evidence": "petbook.json Foundin 海兹尔星"
+  },
+  {
+   "species": 569,
+   "name": "苍苍",
+   "planetId": "planet-57",
+   "regionId": "habitat-442",
+   "levels": [
+    18,
+    18
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 442 尼古尔海底 BossCatchable"
   },
   {
    "species": 569,
@@ -577,9 +882,22 @@
     24,
     27
    ],
-   "scarce": false,
-   "route": "capture",
+   "scarce": true,
+   "route": "recruitment",
    "evidence": "petbook.json Foundin 菲尔纳星"
+  },
+  {
+   "species": 588,
+   "name": "瑞克",
+   "planetId": "planet-459",
+   "regionId": "habitat-461",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 461 赫鲁卡城 BossCatchable"
   },
   {
    "species": 604,
@@ -631,7 +949,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 650,
@@ -645,6 +963,19 @@
    "scarce": true,
    "route": "challenge",
    "evidence": "petbook.json Foundin 双子阿尔法星"
+  },
+  {
+   "species": 665,
+   "name": "古丽",
+   "planetId": "planet-350",
+   "regionId": "habitat-352",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 352 蜜桃森林 BossCatchable"
   },
   {
    "species": 667,
@@ -696,7 +1027,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 BossCatchable"
+   "evidence": "maps.json Map 29 浅滩海岛 BossCatchable"
   },
   {
    "species": 699,
@@ -735,7 +1066,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 BossCatchable"
+   "evidence": "maps.json Map 29 浅滩海岛 BossCatchable"
   },
   {
    "species": 706,
@@ -761,7 +1092,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 716,
@@ -775,6 +1106,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "maps.json Map 486 怀特矿场 Monsters"
+  },
+  {
+   "species": 720,
+   "name": "皮卡",
+   "planetId": "eddy",
+   "regionId": "habitat-505",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 505 暮色之城 Monsters"
   },
   {
    "species": 726,
@@ -800,7 +1144,20 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 21 海洋星二 BossCatchable"
+   "evidence": "maps.json Map 21 海洋星深水区 BossCatchable"
+  },
+  {
+   "species": 732,
+   "name": "蒙多",
+   "planetId": "planet-350",
+   "regionId": "habitat-352",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 352 蜜桃森林 BossCatchable"
   },
   {
    "species": 732,
@@ -826,7 +1183,46 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 497 SUN星球 Monsters"
+   "evidence": "maps.json Map 497 SUN星 Monsters"
+  },
+  {
+   "species": 742,
+   "name": "莱克",
+   "planetId": "planet-497",
+   "regionId": "habitat-476",
+   "levels": [
+    21,
+    22
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 476 阳光大地 Monsters"
+  },
+  {
+   "species": 751,
+   "name": "珠儿鸟",
+   "planetId": "lainna",
+   "regionId": "habitat-727",
+   "levels": [
+    40,
+    40
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 727 冰火绝命崖 BossCatchable"
+  },
+  {
+   "species": 760,
+   "name": "炎魔",
+   "planetId": "volcano",
+   "regionId": "foot",
+   "levels": [
+    20,
+    25
+   ],
+   "scarce": true,
+   "route": "recruitment",
+   "evidence": "petbook.json Foundin 火山星"
   },
   {
    "species": 764,
@@ -840,6 +1236,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "maps.json Map 782 九霄魔神殿 Monsters"
+  },
+  {
+   "species": 764,
+   "name": "依乐",
+   "planetId": "white",
+   "regionId": "habitat-478",
+   "levels": [
+    21,
+    22
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 478 黑色洞穴 Monsters"
   },
   {
    "species": 766,
@@ -865,7 +1274,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 497 SUN星球 BossCatchable"
+   "evidence": "maps.json Map 497 SUN星 BossCatchable"
   },
   {
    "species": 771,
@@ -878,7 +1287,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 19 决斗圣地 BossCatchable"
+   "evidence": "maps.json Map 19 斗者擂台 BossCatchable"
   },
   {
    "species": 773,
@@ -930,7 +1339,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 494 麦兹星球 BossCatchable"
+   "evidence": "maps.json Map 494 麦兹星 BossCatchable"
   },
   {
    "species": 789,
@@ -942,7 +1351,7 @@
     24
    ],
    "scarce": true,
-   "route": "challenge",
+   "route": "recruitment",
    "evidence": "petbook.json Foundin 卡酷星"
   },
   {
@@ -957,6 +1366,32 @@
    "scarce": false,
    "route": "capture",
    "evidence": "petbook.json Foundin 怀特星"
+  },
+  {
+   "species": 799,
+   "name": "潇潇",
+   "planetId": "twitter",
+   "regionId": "habitat-697",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 697 迷雾森林 BossCatchable"
+  },
+  {
+   "species": 801,
+   "name": "马修",
+   "planetId": "white",
+   "regionId": "habitat-689",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 689 睡梦空间 BossCatchable"
   },
   {
    "species": 801,
@@ -988,19 +1423,6 @@
    "species": 805,
    "name": "吉嘟",
    "planetId": "grace",
-   "regionId": "city",
-   "levels": [
-    15,
-    16
-   ],
-   "scarce": false,
-   "route": "capture",
-   "evidence": "maps.json Map 451 黑色星球 Monsters"
-  },
-  {
-   "species": 805,
-   "name": "吉嘟",
-   "planetId": "grace",
    "regionId": "altar",
    "levels": [
     20,
@@ -1009,6 +1431,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "maps.json Map 507 光明圣坛 Monsters"
+  },
+  {
+   "species": 805,
+   "name": "吉嘟",
+   "planetId": "grace",
+   "regionId": "city",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 451 黯夜之城 Monsters"
   },
   {
    "species": 812,
@@ -1021,7 +1456,33 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
+  },
+  {
+   "species": 814,
+   "name": "琳达",
+   "planetId": "planet-57",
+   "regionId": "habitat-442",
+   "levels": [
+    18,
+    18
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 442 尼古尔海底 BossCatchable"
+  },
+  {
+   "species": 818,
+   "name": "安吉",
+   "planetId": "kaku",
+   "regionId": "surface",
+   "levels": [
+    23,
+    26
+   ],
+   "scarce": true,
+   "route": "recruitment",
+   "evidence": "petbook.json Foundin 卡酷星"
   },
   {
    "species": 822,
@@ -1035,6 +1496,32 @@
    "scarce": false,
    "route": "capture",
    "evidence": "petbook.json Foundin 格雷斯星"
+  },
+  {
+   "species": 822,
+   "name": "小蜘蛛",
+   "planetId": "twitter",
+   "regionId": "habitat-697",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 697 迷雾森林 BossCatchable"
+  },
+  {
+   "species": 831,
+   "name": "隐形蝶",
+   "planetId": "byron",
+   "regionId": "deck",
+   "levels": [
+    27,
+    30
+   ],
+   "scarce": true,
+   "route": "recruitment",
+   "evidence": "petbook.json Foundin 拜伦号"
   },
   {
    "species": 840,
@@ -1073,7 +1560,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 852,
@@ -1157,6 +1644,19 @@
    "species": 861,
    "name": "小火雀",
    "planetId": "planet-494",
+   "regionId": "habitat-665",
+   "levels": [
+    1,
+    1
+   ],
+   "scarce": true,
+   "route": "challenge",
+   "evidence": "maps.json Map 665 五行仙境 BossCatchable"
+  },
+  {
+   "species": 861,
+   "name": "小火雀",
+   "planetId": "planet-494",
    "regionId": "landing",
    "levels": [
     10,
@@ -1178,6 +1678,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "petbook.json Foundin 未来星"
+  },
+  {
+   "species": 872,
+   "name": "小海牙",
+   "planetId": "planet-494",
+   "regionId": "habitat-665",
+   "levels": [
+    1,
+    1
+   ],
+   "scarce": true,
+   "route": "challenge",
+   "evidence": "maps.json Map 665 五行仙境 BossCatchable"
   },
   {
    "species": 876,
@@ -1203,7 +1716,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 668 异能星 BossCatchable"
+   "evidence": "maps.json Map 668 异能部落 BossCatchable"
   },
   {
    "species": 882,
@@ -1216,7 +1729,20 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 497 SUN星球 BossCatchable"
+   "evidence": "maps.json Map 497 SUN星 BossCatchable"
+  },
+  {
+   "species": 884,
+   "name": "达迪拉",
+   "planetId": "ability",
+   "regionId": "habitat-669",
+   "levels": [
+    15,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 669 异能山谷 Monsters"
   },
   {
    "species": 891,
@@ -1230,6 +1756,19 @@
    "scarce": false,
    "route": "capture",
    "evidence": "petbook.json Foundin 未来星"
+  },
+  {
+   "species": 893,
+   "name": "艾特",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
   },
   {
    "species": 893,
@@ -1255,7 +1794,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 350 果然多星 BossCatchable"
+   "evidence": "maps.json Map 350 草莓乐土 BossCatchable"
   },
   {
    "species": 899,
@@ -1268,7 +1807,85 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 22 海洋星三 BossCatchable"
+   "evidence": "maps.json Map 22 海洋星海底 BossCatchable"
+  },
+  {
+   "species": 905,
+   "name": "贝特",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
+   "species": 908,
+   "name": "桑莫",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
+   "species": 911,
+   "name": "哈克",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
+   "species": 919,
+   "name": "米尔",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
+   "species": 926,
+   "name": "迪凯",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
+   "species": 936,
+   "name": "罗亚",
+   "planetId": "lainna",
+   "regionId": "habitat-727",
+   "levels": [
+    40,
+    40
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 727 冰火绝命崖 BossCatchable"
   },
   {
    "species": 941,
@@ -1297,6 +1914,19 @@
    "evidence": "maps.json Map 51 斯诺星 BossCatchable"
   },
   {
+   "species": 958,
+   "name": "加洛特",
+   "planetId": "ability",
+   "regionId": "habitat-707",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 707 异能空间 BossCatchable"
+  },
+  {
    "species": 960,
    "name": "哲克",
    "planetId": "tairow",
@@ -1307,7 +1937,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 683 泰若星 BossCatchable"
+   "evidence": "maps.json Map 683 晶石山谷 BossCatchable"
   },
   {
    "species": 966,
@@ -1333,7 +1963,20 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 Monsters"
+   "evidence": "maps.json Map 20 海洋星 Monsters"
+  },
+  {
+   "species": 980,
+   "name": "文文",
+   "planetId": "planet-497",
+   "regionId": "habitat-476",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 476 阳光大地 BossCatchable"
   },
   {
    "species": 986,
@@ -1372,7 +2015,33 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 BossCatchable"
+   "evidence": "maps.json Map 29 浅滩海岛 BossCatchable"
+  },
+  {
+   "species": 1015,
+   "name": "鲁尔",
+   "planetId": "white",
+   "regionId": "habitat-689",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 689 睡梦空间 BossCatchable"
+  },
+  {
+   "species": 1020,
+   "name": "小雪球",
+   "planetId": "snow",
+   "regionId": "habitat-691",
+   "levels": [
+    15,
+    18
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 691 斯诺秘洞 Monsters"
   },
   {
    "species": 1022,
@@ -1386,6 +2055,32 @@
    "scarce": true,
    "route": "capture",
    "evidence": "maps.json Map 786 南瓜山谷 BossCatchable"
+  },
+  {
+   "species": 1024,
+   "name": "莫卡",
+   "planetId": "twitter",
+   "regionId": "habitat-697",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 697 迷雾森林 BossCatchable"
+  },
+  {
+   "species": 1026,
+   "name": "冰蛛",
+   "planetId": "snow",
+   "regionId": "habitat-691",
+   "levels": [
+    20,
+    20
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 691 斯诺秘洞 BossCatchable"
   },
   {
    "species": 1042,
@@ -1411,7 +2106,33 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 19 决斗圣地 BossCatchable"
+   "evidence": "maps.json Map 19 斗者擂台 BossCatchable"
+  },
+  {
+   "species": 1048,
+   "name": "伊尔",
+   "planetId": "rabol",
+   "regionId": "habitat-693",
+   "levels": [
+    12,
+    15
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 693 拉铂尔仙境 Monsters"
+  },
+  {
+   "species": 1056,
+   "name": "小岩怪",
+   "planetId": "twitter",
+   "regionId": "habitat-694",
+   "levels": [
+    14,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 694 新泽部落 Monsters"
   },
   {
    "species": 1058,
@@ -1425,6 +2146,19 @@
    "scarce": true,
    "route": "capture",
    "evidence": "maps.json Map 786 南瓜山谷 BossCatchable"
+  },
+  {
+   "species": 1058,
+   "name": "莫格",
+   "planetId": "twitter",
+   "regionId": "habitat-697",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 697 迷雾森林 BossCatchable"
   },
   {
    "species": 1060,
@@ -1554,7 +2288,7 @@
    ],
    "scarce": false,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 Monsters"
+   "evidence": "maps.json Map 29 浅滩海岛 Monsters"
   },
   {
    "species": 1128,
@@ -1567,7 +2301,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 29 海螺浅滩 BossCatchable"
+   "evidence": "maps.json Map 29 浅滩海岛 BossCatchable"
   },
   {
    "species": 1130,
@@ -1607,6 +2341,19 @@
    "scarce": true,
    "route": "challenge",
    "evidence": "petbook.json Foundin 艾伦星"
+  },
+  {
+   "species": 1144,
+   "name": "古古",
+   "planetId": "allen",
+   "regionId": "habitat-38",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 38 麦田村 BossCatchable"
   },
   {
    "species": 1150,
@@ -1827,7 +2574,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 1253,
@@ -1895,6 +2642,19 @@
    "evidence": "maps.json Map 748 天空之门 BossCatchable"
   },
   {
+   "species": 1273,
+   "name": "卡斯奇",
+   "planetId": "demon",
+   "regionId": "habitat-750",
+   "levels": [
+    13,
+    16
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 750 幽暗迷宫 Monsters"
+  },
+  {
    "species": 1283,
    "name": "小库",
    "planetId": "demon",
@@ -1931,7 +2691,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 19 决斗圣地 BossCatchable"
+   "evidence": "maps.json Map 19 斗者擂台 BossCatchable"
   },
   {
    "species": 1303,
@@ -1957,7 +2717,7 @@
    ],
    "scarce": true,
    "route": "challenge",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 1359,
@@ -1970,7 +2730,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 1376,
@@ -1996,7 +2756,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 19 决斗圣地 BossCatchable"
+   "evidence": "maps.json Map 19 斗者擂台 BossCatchable"
   },
   {
    "species": 1390,
@@ -2022,7 +2782,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 1417,
@@ -2048,7 +2808,7 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 20 海洋星一 BossCatchable"
+   "evidence": "maps.json Map 20 海洋星 BossCatchable"
   },
   {
    "species": 1444,
@@ -2061,7 +2821,20 @@
    ],
    "scarce": true,
    "route": "capture",
-   "evidence": "maps.json Map 19 决斗圣地 BossCatchable"
+   "evidence": "maps.json Map 19 斗者擂台 BossCatchable"
+  },
+  {
+   "species": 1450,
+   "name": "沃安",
+   "planetId": "alpha",
+   "regionId": "habitat-1303",
+   "levels": [
+    16,
+    20
+   ],
+   "scarce": false,
+   "route": "capture",
+   "evidence": "maps.json Map 1303 黑白森林 Monsters"
   }
  ]
 }

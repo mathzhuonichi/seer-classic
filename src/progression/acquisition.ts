@@ -1,6 +1,8 @@
 import bundle from '../../data/gamedata.json';
 import {buildInitialFormAcquisitionIndex} from './initial-acquisition';
-import {buildPaidSPTRecruitments} from './spt-recruitment';
+import {getEligibleRecruitmentSPTs} from './spt-recruitment';
+import {buildRecruitmentRewards,MAX_RECRUITMENT_PREREQUISITES,type RecruitmentPrerequisite} from './recruitment';
+import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture';
 import { WORLD_PLANETS, type WorldPlanet } from '../world';
 import { CHALLENGE_CAMPAIGNS } from './challenge-campaigns';
 import { FUSION_RECIPES, type FusionRecipe } from './fusion';
@@ -22,11 +24,13 @@ export interface AcquisitionRoute {
   fusionRecipeId?: string;
   /** Breeding offspring and their evolved forms remain second-generation. */
   breedingRecipeId?: string;
+  /** One of these reachable forms must be active when attempting this capture. */
+  requiredActiveSpecies?: readonly number[];
   sourceSpecies?: number;
   evolutionChain?: { from: number; to: number; level: number }[];
   authoredReward?: boolean;
 }
-export interface AcquisitionSeed { species:number; route:AcquisitionRoute }
+export interface AcquisitionSeed { species:number; route:AcquisitionRoute; prerequisites?:readonly RecruitmentPrerequisite[] }
 export interface SpeciesAcquisition {
   status: 'available' | 'npc' | 'unimplemented';
   description: string;
@@ -45,7 +49,7 @@ export interface AcquisitionFamily {
   entryRoutes: AcquisitionRoute[];
 }
 interface AcquisitionSpecies {
-  id: number; name: { zh: string }; obtain?: string[]; catch_rate?: number;
+  id: number; name: { zh: string }; types?: readonly string[]; obtain?: string[]; catch_rate?: number;
   evolves_from?: number | null;
   evolution: { to: number; method: string; level?: number; automatic?: boolean }[];
 }
@@ -65,19 +69,24 @@ export function resolveEncounterEssenceSpecies(boss: AcquisitionEncounter): numb
   return boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)!.species;
 }
 
-/** Paid membership remains source-backed; actual named SPT prerequisites gate the quest. */
-export function buildPaidAcquisitionSeeds(catalog:AcquisitionCatalog):AcquisitionSeed[] {
-  const definitions=new Map(catalog.species.map(species=>[species.id,species]));
-  return buildPaidSPTRecruitments(catalog).filter(quest=>quest.prerequisiteBossIds.length>0).map(quest=>({
-    species:quest.rewardSpecies,
-    route:{kind:'quest',entrySpecies:quest.rewardSpecies,questId:quest.questId,
-      label:`SPT 招募任务：完成 ${quest.prerequisiteBossIds.length} 项指定的前序 SPT 挑战后，领取${definitions.get(quest.rewardSpecies)!.name.zh}初始形态`},
-  }));
-}
-
-export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: WorldPlanet[] = WORLD_PLANETS, recipes: readonly FusionRecipe[] = FUSION_RECIPES, additionalSeeds: readonly AcquisitionSeed[] = buildPaidAcquisitionSeeds(catalog), breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
+/** Omitting additionalSeeds enables gated recruitment; an explicit array replaces it. */
+export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: WorldPlanet[] = WORLD_PLANETS, recipes: readonly FusionRecipe[] = FUSION_RECIPES, additionalSeeds?: readonly AcquisitionSeed[], breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
   const index = new Map<number, SpeciesAcquisition>();
   const definitions = new Map(catalog.species.map(species => [species.id, species]));
+  const recruitment = additionalSeeds === undefined ? buildRecruitmentRewards(catalog, planets) : [];
+  const eligibleBosses = new Map(getEligibleRecruitmentSPTs(catalog)
+    .filter(boss => boss.team.every(mon => definitions.has(mon.species)))
+    .map(boss => [boss.id, boss]));
+  const gatedSeeds: AcquisitionSeed[] = (additionalSeeds ?? []).filter(seed => seed.prerequisites !== undefined);
+  for (const reward of recruitment) {
+    const requirements = reward.prerequisites.map(condition => condition.kind === 'species'
+      ? `收集${definitions.get(condition.species)?.name.zh ?? condition.species}`
+      : `击败${eligibleBosses.get(condition.bossId)?.name?.zh ?? condition.bossId}`);
+    gatedSeeds.push({ species: reward.rewardSpecies, prerequisites: reward.prerequisites,
+      route: { kind: 'quest', entrySpecies: reward.rewardSpecies, questId: reward.questId,
+        label: `精灵招募：${requirements.join('、')} → 领取${reward.name}精元并孵化` } });
+  }
+  const conditionalCaptures: AcquisitionSeed[] = [];
   for (const species of catalog.species) index.set(species.id, {
     status: NPC_ONLY_SPECIES.has(species.id) ? 'npc' : 'unimplemented',
     description: NPC_ONLY_SPECIES.has(species.id) ? '本作将这个剧情伙伴家族列为展示精灵，不计入常规收集目标。' : '当前版本尚未实现这只精灵的获取路线。',
@@ -102,11 +111,20 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: Worl
     // The controller redirects a catalog target that appears in a named boss team.
     const intercepted = catalog.bosses.some(boss => boss.team.some(mon => mon.species === id) && !boss.id.includes('tower') && !boss.id.includes('dark_door'));
     const [low, high] = region.creatureLevels?.[id] ?? region.levels;
-    if (!species || intercepted) continue;
-    if (species.obtain?.includes('wild') && (species.catch_rate ?? 0) > 0) add(id, {
-      kind: 'wild', entrySpecies: id, planetId: planet.id, regionId: region.id,
-      label: `${region.name}：与 Lv.${low}–${high} 的${species.name.zh}对战，使用胶囊捕捉`,
-    });
+    // A source Foundin marker can be a collection-task location rather than an
+    // executable encounter. Keep this gate even when generated tasks are disabled.
+    if (!species || intercepted || region.recruitmentSpecies?.includes(id)) continue;
+    if (species.obtain?.includes('wild') && (species.catch_rate ?? 0) > 0) {
+      const route: AcquisitionRoute = {
+        kind: 'wild', entrySpecies: id, planetId: planet.id, regionId: region.id,
+        label: `${region.name}：与 Lv.${low}–${high} 的${species.name.zh}对战，使用胶囊捕捉`,
+      };
+      if (id === 416) {
+        route.requiredActiveSpecies = NIAO_CAPTURE_PARTNERS;
+        route.label += `（需先获得并派出${NIAO_CAPTURE_PARTNERS.map(partner => definitions.get(partner)?.name.zh ?? `#${partner}`).join(' / ')}中的任一形态）`;
+        conditionalCaptures.push({ species: id, route });
+      } else add(id, route);
+    }
     // Non-capturable field species use the controller's challenge-for-essence battle.
     else if (region.creatureLevels?.[id]) add(id, {
       kind: 'wild', entrySpecies: id, planetId: planet.id, regionId: region.id,
@@ -131,13 +149,27 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: Worl
       });
     }
   }
-  for(const seed of additionalSeeds)add(seed.species,seed.route);
-  // Fusion and level evolution share a fixed point: a newly obtained fusion
-  // family can supply a later recipe, but an unavailable parent never grants one.
+  for(const seed of additionalSeeds??[])if(seed.prerequisites===undefined)add(seed.species,seed.route);
+  // Recruitment, conditional capture, fusion, breeding and evolution share a
+  // fixed point. An unavailable prerequisite never grants its dependent reward.
   // Labels depend on the recipe/output, not every combination of parent routes.
   // This bounds the graph and keeps alternate parent acquisition paths readable.
   for (let pass = 0; pass < catalog.species.length; pass++) {
     let added = false;
+    for (const seed of conditionalCaptures) {
+      if (!seed.route.requiredActiveSpecies!.some(id => index.get(id)?.status === 'available')
+        || index.get(seed.species)?.routes.some(route => route.label === seed.route.label)) continue;
+      add(seed.species, seed.route); added = true;
+    }
+    for (const seed of gatedSeeds) {
+      if (!index.has(seed.species) || NPC_ONLY_SPECIES.has(seed.species)
+        || !seed.prerequisites!.length || seed.prerequisites!.length > MAX_RECRUITMENT_PREREQUISITES
+        || !seed.prerequisites!.every(condition => condition.kind === 'species'
+          ? index.get(condition.species)?.status === 'available' : eligibleBosses.has(condition.bossId))
+        || index.get(seed.species)!.routes.some(route => route.label === seed.route.label)) continue;
+      add(seed.species, seed.route);
+      added = true;
+    }
     for (const recipe of breedingRecipes) {
       if (recipe.minLevel > 100) continue;
       // The original client requires a first-generation male; female generation is unrestricted.
