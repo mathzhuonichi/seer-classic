@@ -48,9 +48,9 @@ export async function runFusionAudit() {
     let expectedFinal = infant.species;
     while (form(expectedFinal).some(evolution => evolution.method === 'level' && (evolution.level ?? 101) <= 100)) {
       expectedFinal = form(expectedFinal).find(evolution => evolution.method === 'level' && (evolution.level ?? 101) <= 100)!.to;
-      reloaded.dispatch({ type: 'evolve', uid: infant.uid });
-      assert.equal(reloaded.snapshot().monsters.find(monster => monster.uid === infant.uid)!.species, expectedFinal);
     }
+    // Level edits use the same automatic evolution policy as pooled experience.
+    assert.equal(reloaded.snapshot().monsters.find(monster => monster.uid === infant.uid)!.species, expectedFinal);
     rows.push(recipe.id);
   }
   game.importSave(baseline);

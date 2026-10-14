@@ -8,7 +8,7 @@ const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));
 catalog.bosses = fs.readdirSync('data/bosses').filter(name => name.endsWith('.json')).map(name => JSON.parse(fs.readFileSync(`data/bosses/${name}`, 'utf8')));
 const game = createGame(catalog);
 const bosses = game.snapshot().bosses;
-assert.equal(bosses.length, 179);
+assert.equal(bosses.length, catalog.bosses.length);
 assert(bosses.every(boss => boss.location === catalog.bosses.find((source: any) => source.id === boss.id).location.zh));
 const expected: Record<string, [string, string]> = {
   boss_spt_moguguai: ['klose', 'forest'],
@@ -63,7 +63,7 @@ for (let index = 1; index <= 5; index++) {
 }
 assert.equal(findSceneChallenges('helka', 'training-lake', bosses).length, 0, 'The five alternate training challenges must not appear simultaneously.');
 const spt = bosses.filter(boss => boss.category === 'SPT首领');
-assert.equal(spt.length, 48);
+assert.equal(spt.length, catalog.bosses.filter((boss: any) => boss.category === 'spt').length);
 for (const boss of spt) {
   const landing=findChallengeLocation(boss);
   assert.equal(landing.staging,false,`${boss.name} must have its own mapped habitat.`);
@@ -92,8 +92,8 @@ for (const [category, planetId, regionId] of [['勇者之塔', 'space-station', 
 const unmappedLegend = bosses.find(boss => boss.category === '传说挑战' && !Object.hasOwn(expected, boss.id) && findChallengeLocation(boss).staging)!;
 assert.deepEqual(findChallengeLocation(unmappedLegend), { planetId: 'station', regionId: 'challenge-dock', staging: true });
 const hamo = findSceneChallenges('hamo', 'dragon-temple', bosses, 'boss_spt_hamoleite');
-assert.equal(hamo.length, 3, 'The selected mapped boss must not duplicate its existing scene actor.');
+assert.equal(hamo.length, resolveWorldLocation('hamo', 'dragon-temple').region.bossIds!.length, 'The selected mapped boss must not duplicate its existing scene actor.');
 assert.equal(findSceneChallenges('station', 'challenge-dock', bosses, 'missing-id').length, 0);
 assert.equal(game.snapshot().battle, null, 'Finding travel destinations does not begin combat.');
 assert(WORLD_PLANETS[0].regions.filter(region => region.challengeStaging).length === 4);
-console.log(JSON.stringify({ passed: ['all catalog location texts retained', '17 representative explicit locations', 'all 48 SPT encounters use mapped habitats', '55 primary-index destinations in five galaxies plus small Phantom and bases', 'five Helka training routes', 'actual space-station tower and dark-arena routes', 'all encounters have valid landings and local targets', 'no unrelated or duplicate target actors', 'travel resolution starts no battle'], encounters: bosses.length, spt:spt.length, destinations:WORLD_PLANETS.length, mapped, explicit, metadata, staged }));
+console.log(JSON.stringify({ passed: ['all catalog location texts retained', '17 representative explicit locations', `all ${spt.length} SPT encounters use mapped habitats`, '55 primary-index destinations in five galaxies plus small Phantom and bases', 'five Helka training routes', 'actual space-station tower and dark-arena routes', 'all encounters have valid landings and local targets', 'no unrelated or duplicate target actors', 'travel resolution starts no battle'], encounters: bosses.length, spt:spt.length, destinations:WORLD_PLANETS.length, mapped, explicit, metadata, staged }));

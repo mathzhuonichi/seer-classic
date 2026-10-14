@@ -101,9 +101,16 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: Worl
     const species = definitions.get(id);
     // The controller redirects a catalog target that appears in a named boss team.
     const intercepted = catalog.bosses.some(boss => boss.team.some(mon => mon.species === id) && !boss.id.includes('tower') && !boss.id.includes('dark_door'));
-    if (species?.obtain?.includes('wild') && (species.catch_rate ?? 0) > 0 && !intercepted) add(id, {
+    const [low, high] = region.creatureLevels?.[id] ?? region.levels;
+    if (!species || intercepted) continue;
+    if (species.obtain?.includes('wild') && (species.catch_rate ?? 0) > 0) add(id, {
       kind: 'wild', entrySpecies: id, planetId: planet.id, regionId: region.id,
-      label: `${region.name}：与 Lv.${region.levels[0]}–${region.levels[1]} 的${species.name.zh}对战，使用胶囊捕捉`,
+      label: `${region.name}：与 Lv.${low}–${high} 的${species.name.zh}对战，使用胶囊捕捉`,
+    });
+    // Non-capturable field species use the controller's challenge-for-essence battle.
+    else if (region.creatureLevels?.[id]) add(id, {
+      kind: 'wild', entrySpecies: id, planetId: planet.id, regionId: region.id,
+      label: `${region.name}：挑战 Lv.${low}–${high} 的${species.name.zh}，胜利后获得精元并孵化`,
     });
   }
   // Match the controller's essence registry, including shared item IDs.

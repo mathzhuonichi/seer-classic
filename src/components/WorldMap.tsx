@@ -161,7 +161,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     y:clamp(playerPosition.y,(playerHeight*.95+3)/sceneSize.height*100,100-(playerHeight*.05+3)/sceneSize.height*100),
   };
   const habitatSpecies=region.creatures.map(id=>s.species.find(sp=>sp.id===id)).filter(sp=>!!sp);
-  const localCreatures=buildWorldPopulation(`${planet.id}/${region.id}`,habitatSpecies,6,region.levels);
+  const localCreatures=buildWorldPopulation(`${planet.id}/${region.id}`,habitatSpecies,6,region.levels,region.creatureLevels,region.scarceCreatures);
   const localBosses=findSceneChallenges(planet.id,region.id,s.bosses,travelTo?.bossId);
   const creature=selection?.kind==='creature'?s.species.find(sp=>sp.id===selection.id):undefined;
   const creatureLevel=selection?.kind==='creature'?(selection.level??region.levels[0]):region.levels[0];

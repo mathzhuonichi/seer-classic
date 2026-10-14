@@ -397,7 +397,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
           const wild=createMonster(dex,species,action.level??Math.max(5,findMon(save,save.party[0]).level),rng);
           const id=`recruit-${species}`;const essence=`essence_recruit_${species}`;
           if(!catalog.items.some(i=>i.id===essence))catalog.items.push({id:essence,name:{zh:`${sp.name.zh}精元`},kind:'essence',hatches:species});
-          start({id,name:{zh:`SPT 招募：${sp.name.zh}`},team:[wild],rules:[{rule:'no_capture'}],win:[{kind:'ko_all'}],reward:{items:{[essence]:1}}});
+          start({id,name:{zh:`野外挑战：${sp.name.zh}`},team:[wild],rules:[{rule:'no_capture'}],win:[{kind:'ko_all'}],reward:{items:{[essence]:1}}});
         }
         break;}
       case 'move':turn({kind:'move',skill:action.skillId});break;

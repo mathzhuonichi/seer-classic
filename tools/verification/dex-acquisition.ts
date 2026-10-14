@@ -65,15 +65,26 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
       simplifiedHabitatChains.push(chain);
     }
   }
+  // The controller owns its catalog copy, so check each reward essence by hatching it.
   const explicitHatchBindings: Record<string, unknown>[] = [];
+  const hatchProbe = createGame(structuredClone(source)), probeSave = hatchProbe.exportSave();
+  const hatchItem = (itemId: string) => {
+    const save = JSON.parse(probeSave); save.items[itemId] = 1;
+    const game = createGame(structuredClone(source), JSON.stringify(save)), before = game.snapshot().monsters.length;
+    game.dispatch({ type: 'useItem', itemId, uid: game.snapshot().party[0] });
+    return game.snapshot().monsters.slice(before).map(mon => mon.species)[0];
+  };
   for (const boss of original.bosses) {
-    const mutated = runtime.bosses.find((candidate: any) => candidate.id === boss.id);
-    for (const itemId of Object.keys(mutated.reward.items ?? {}).filter(id => id.startsWith('essence_'))) {
-      const item = runtime.items.find((candidate: any) => candidate.id === itemId);
-      assert(item?.kind === 'essence' && byId.has(item.hatches), `Missing usable essence binding: ${boss.id}/${itemId}`);
+    const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));
+    const intermediate = !!campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
+    const explicit = Object.keys(boss.reward?.items ?? {}).filter(id => id.startsWith('essence_'));
+    const itemIds = explicit.length ? explicit : !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' ? [`essence_${boss.id}`] : [];
+    for (const itemId of itemIds) {
+      const hatched = hatchItem(itemId);
+      assert(byId.has(hatched), `Missing usable essence binding: ${boss.id}/${itemId}`);
       if (boss.reward_hatches !== undefined) {
-        assert.equal(item.hatches, boss.reward_hatches, `Original hatch binding must survive: ${boss.id}`);
-        explicitHatchBindings.push({ bossId: boss.id, itemId, actualSpecies: item.hatches, originalSpecies: boss.reward_hatches, enemySpecies: boss.team.at(-1).species });
+        assert.equal(hatched, boss.reward_hatches, `Original hatch binding must survive: ${boss.id}`);
+        explicitHatchBindings.push({ bossId: boss.id, itemId, actualSpecies: hatched, originalSpecies: boss.reward_hatches, enemySpecies: boss.team.at(-1).species });
       }
     }
   }

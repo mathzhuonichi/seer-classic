@@ -1,11 +1,16 @@
 import type { BossView } from './game-types';
 import { ADDITIONAL_WORLD_PLANETS } from './world-expansion';
 import mapArtwork from './presentation/map-art-assets.json';
+import generatedHabitats from '../data/habitats.json';
 
 /** Authored exploration layout. Navigation preferences do not modify gameplay saves. */
 export interface WorldRegion {
   id: string; name: string; description: string; x: number; y: number;
   creatures: number[]; levels: [number, number]; bossIds?: string[];
+  /** Per-species encounter levels; species without an entry use `levels`. */
+  creatureLevels?: Record<number, [number, number]>;
+  /** Species shown once per scene, such as special map spawns. */
+  scarceCreatures?: number[];
   facility?: 'recovery' | 'missions' | 'challenges';
   originalMapId?: number;
   background?: string; backgroundKind?: 'official' | 'authored';
@@ -151,6 +156,19 @@ WORLD_PLANETS.find(planet => planet.id === 'planet-57')!.regions.push({
   id: 'cliff', originalMapId: 58, name: '尼古尔峭壁', description: '查斯在尼古尔峭壁活动，可以直接使用胶囊捕捉。',
   x: 72, y: 62, creatures: [228], levels: [20, 21],
 });
+
+// Initial forms placed from original map spawn lists; see tools/assets/build_habitats.mjs.
+export interface GeneratedHabitat {
+  species: number; name: string; planetId: string; regionId: string; levels: [number, number];
+  scarce: boolean; route: 'capture' | 'challenge'; evidence: string;
+}
+export const GENERATED_HABITATS = generatedHabitats.habitats as unknown as GeneratedHabitat[];
+for (const habitat of GENERATED_HABITATS) {
+  const region = WORLD_PLANETS.find(planet => planet.id === habitat.planetId)!.regions.find(region => region.id === habitat.regionId)!;
+  region.creatures = [...new Set([...region.creatures, habitat.species])];
+  region.creatureLevels = { ...region.creatureLevels, [habitat.species]: habitat.levels };
+  if (habitat.scarce) region.scarceCreatures = [...(region.scarceCreatures ?? []), habitat.species];
+}
 
 // The public manifest retains complete provenance; this projection supplies
 // only offline paths and cache identities to the game.

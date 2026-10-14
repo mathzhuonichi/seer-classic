@@ -21,21 +21,25 @@ export function buildWorldPopulation(
   habitatSpecies: readonly SpeciesView[],
   targetCount = 6,
   levels: readonly [number, number] = [1, 1],
+  speciesLevels: Readonly<Record<number, readonly [number, number]>> = {},
+  scarceIds: readonly number[] = [],
 ): WorldCreatureInstance[] {
+  const isScarce = (id: number) => scarceSpecies.has(id) || scarceIds.includes(id);
   const habitat = [...new Map(habitatSpecies.map(species => [species.id, species])).values()];
   const instances: WorldCreatureInstance[] = [];
   const counts = new Map<number, number>();
   const add = (species: SpeciesView) => {
     const ordinal = counts.get(species.id) ?? 0;
     counts.set(species.id, ordinal + 1);
-    const level = levels[0] + (species.id + ordinal) % (levels[1] - levels[0] + 1);
+    const [low, high] = speciesLevels[species.id] ?? levels;
+    const level = low + (species.id + ordinal) % (high - low + 1);
     instances.push({ instanceId: `${sceneId}:${species.id}:${ordinal}`, species, ordinal, level,
-      scarce: scarceSpecies.has(species.id) });
+      scarce: isScarce(species.id) });
   };
 
   // Retain each existing habitat species before distributing ordinary duplicates.
   habitat.forEach(add);
-  const ordinary = habitat.filter(species => !scarceSpecies.has(species.id));
+  const ordinary = habitat.filter(species => !isScarce(species.id));
   if (!ordinary.length) return instances;
   const goal = Math.max(habitat.length, targetCount);
   for (let index = 0; instances.length < goal; index++) add(ordinary[index % ordinary.length]);

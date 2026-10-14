@@ -10,7 +10,7 @@ export function verifyBaseFormAcquisition() {
   for(const id of [19,20,21]){
     const entry=initial.get(id)!;
     assert.deepEqual(entry.initialForms.map(base=>base.species),[19]);
-    assert.equal(entry.initialForms[0].routes.length,0,'Adult challenge reward must never become an infant acquisition entry.');
+    assert(entry.initialForms[0].routes.every(route=>route.entrySpecies===19),'Adult challenge reward must never become an infant acquisition entry.');
   }
   assert.equal(graph.get(21)!.status,'available','The adult challenge stays in the internal coverage graph.');
   for(const [id,root] of [[3,1],[6,4],[9,7],[303,301],[306,304],[309,307]]){
