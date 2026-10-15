@@ -12,7 +12,7 @@ import {createServer} from 'vite';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const output=path.resolve(root,process.argv[2]??'artifacts/game-display-v43');
-const files=['src/presentation/game-display.ts','src/components/GameWindow.tsx','src/components/WorldMap.tsx','src/components/TypeFilter.tsx','src/components/TypeIcon.tsx'];
+const files=['src/presentation/game-display.ts','src/components/GameWindow.tsx','src/components/WorldMap.tsx','src/components/TypeFilter.tsx','src/components/TypeIcon.tsx','src/presentation/world-interaction.ts'];
 const sources=new Map(files.map(file=>[file,fs.readFileSync(path.join(root,file),'utf8')]));
 const hash=text=>createHash('sha256').update(text).digest('hex');
 const checks=[],layouts=[],coordinates=[];
@@ -55,6 +55,7 @@ const cacheDir=fs.mkdtempSync(path.join(cacheParent,'game-display-'));
 try{
   server=await createServer({root,cacheDir,configFile:false,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
   const {gameDisplayLayout,getLayoutZoom}=await server.ssrLoadModule('/src/presentation/game-display.ts');
+  const {contactApproachPoint}=await server.ssrLoadModule('/src/presentation/world-interaction.ts');
   check('Each viewport retains the original 960:650 fit without overflowing',()=>{
     for(const [name,width,height] of viewportCases){
       const layout=gameDisplayLayout(width,height),rendered={width:layout.width*layout.zoom,height:layout.height*layout.zoom};
@@ -112,12 +113,12 @@ try{
   check('Roaming edge constraints use layout dimensions and remain inside the scene after scaling',()=>{
     for(const zoom of [1,1.5,2,3])for(const edge of [0,100]){
       const scene={clientWidth:1000,clientHeight:600,getBoundingClientRect:()=>{throw Error('Roaming constraints must not mix rendered and layout sizes');}};
-      const styles={},element={offsetWidth:140,offsetHeight:180,dataset:{},style:{setProperty:(key,value)=>{styles[key]=value;}},closest:()=>scene,getClientRects:()=>[{}]};
+      const styles={},element={offsetWidth:140,offsetHeight:180,dataset:{},style:{setProperty:(key,value)=>{styles[key]=value;}},closest:()=>scene,getClientRects:()=>[{}],querySelector:()=>({offsetHeight:16})};
       const state={current:{position:{x:edge,y:edge},rest:500,leg:null,facing:'right'}};
-      const tick=handler(files[2],'tick',{button:{current:element},battle:false,document:{hidden:false,querySelector:()=>({})},freeze:{current:true},last:0,layout:{},clamp:(value,min,max)=>Math.max(min,Math.min(max,value)),constrainScenePoint:(_layout,point)=>point,home:{x:50,y:50},state,between:()=>{throw Error('Paused fixture must not roam');},frame:0,requestAnimationFrame:()=>1},'RoamingCreature');
+      const tick=handler(files[2],'tick',{button:{current:element},battle:false,document:{hidden:false,querySelector:()=>({})},freeze:{current:true},last:0,layout:{},clamp:(value,min,max)=>Math.max(min,Math.min(max,value)),constrainHabitatPoint:(_layout,point)=>point,home:{x:50,y:50},state,between:()=>{throw Error('Paused fixture must not roam');},frame:0,requestAnimationFrame:()=>1},'RoamingCreature');
       tick(16);const x=Number.parseFloat(element.style.left)/100*scene.clientWidth,y=Number.parseFloat(element.style.top)/100*scene.clientHeight;
       assert((x-70)*zoom>=12*zoom-1e-7);assert((x+70)*zoom<=(1000-12)*zoom+1e-7);
-      assert((y-180)*zoom>=12*zoom-1e-7);assert(y*zoom<=(600-12)*zoom+1e-7);assert.equal(styles['--roam-size'],'1');
+      assert((y-180)*zoom>=12*zoom-1e-7);assert((y+20)*zoom<=(600-12)*zoom+1e-7);assert.equal(styles['--roam-size'],'1');
     }
   });
   check('Map walk direction and elapsed time are invariant when scene and actor rectangles scale together',()=>{
@@ -125,8 +126,64 @@ try{
     for(const zoom of [1,1.5,2,3]){
       const scene={left:23,top:11,width:1000*zoom,height:600*zoom};let duration,direction;
       const element={closest:()=>({getBoundingClientRect:()=>scene}),getBoundingClientRect:()=>({left:scene.left+170*zoom,width:60*zoom,top:scene.top+164*zoom,height:80*zoom})};
-      const walk=handler(files[2],'walk',{cancelWalk(){},setSelection(){},setShowDetails(){},constrainScenePoint:(_layout,point)=>point,layout:{},player:{current:element},preference:{x:20,y:40},setPlayerDirection:value=>{direction=value;},robotDirection:(dx,dy)=>Math.atan2(dy,dx),setDuration:value=>{duration=value;},setMoving(){},setPreference(){},movementTimer:{current:null},setTimeout:()=>1});
+      const walk=handler(files[2],'walk',{cancelWalk(){},setSelection(){},setShowDetails(){},constrainScenePoint:(_layout,point)=>point,layout:{},player:{current:element},preference:{x:20,y:40},setPlayerDirection:value=>{direction=value;},robotDirection:(dx,dy)=>Math.atan2(dy,dx),setDuration:value=>{duration=value;},setMoving(){},setPreference(){},movementTimer:{current:null},setTimeout:()=>1,window:{matchMedia:()=>({matches:false})}});
       walk(80,75);if(!baseline)baseline={duration,direction};close(duration,baseline.duration);close(direction,baseline.direction);
+    }
+  });
+
+  check('Creature contact stops on the incoming side and nearby clicks open without a second walk',()=>{
+    for(const zoom of [1,1.5,3])for(const from of [{x:10,y:50},{x:90,y:50},{x:50,y:10},{x:50,y:90},{x:90,y:80},{x:52,y:51}]){
+      const scene={left:23,top:11,width:1000*zoom,height:600*zoom};
+      const robot={left:scene.left+from.x*10*zoom-30*zoom,top:scene.top+from.y*6*zoom-76*zoom,width:60*zoom,height:80*zoom};
+      const target={kind:'creature',id:10,instanceId:'fixture:10:0'};let destination,after,selection,cancelled=false,position;
+      const approach=handler(files[2],'approach',{player:{current:{getBoundingClientRect:()=>robot}},visiblePlayerPosition:from,contactApproachPoint,
+        walk:(x,y,callback)=>{destination={x,y};after=callback;return true;},setApproachingInstance(){},setSelection:value=>{selection=value;},
+        cancelWalk:()=>{cancelled=true;},setDuration(){},setShowDetails(){},setPreference:callback=>{position=callback({});}},'WorldMap');
+      approach({stopPropagation(){},currentTarget:{closest:()=>({getBoundingClientRect:()=>scene}),getBoundingClientRect:()=>({width:100*zoom})}},target,50,50);
+      const startDistance=Math.hypot((from.x-50)*10,(from.y-50)*6);
+      if(startDistance<=56){assert(!destination);assert(cancelled);assert.deepEqual(selection,target);close(position.x,from.x);close(position.y,from.y);}
+      else{
+        assert(destination);assert.equal(selection,undefined,'No early popup while walking');
+        close(Math.hypot((destination.x-50)*10,(destination.y-50)*6),56,'Contact clearance');
+        assert((destination.x-50)*(from.x-50)+(destination.y-50)*(from.y-50)>0,'Never cross the contact');
+        assert(Math.hypot(destination.x-from.x,destination.y-from.y)<Math.hypot(50-from.x,50-from.y));
+        after();assert.deepEqual(selection,target);
+      }
+    }
+  });
+
+  check('Reduced motion finishes interaction immediately when CSS walking has no transition',()=>{
+    let completed=false,moving,duration;
+    const walk=handler(files[2],'walk',{cancelWalk(){},setSelection(){},setShowDetails(){},constrainScenePoint:(_layout,p)=>p,layout:{},player:{current:null},preference:{x:10,y:20},
+      setPlayerDirection(){},robotDirection:()=>0,setDuration:value=>{duration=value;},setMoving:value=>{moving=value;},setPreference(){},movementTimer:{current:null},
+      window:{matchMedia:()=>({matches:true})},setTimeout:()=>{throw Error('Reduced motion must not wait on an invisible transition');}});
+    walk(80,70,()=>{completed=true;});assert.equal(duration,0);assert.equal(moving,false);assert(completed);
+  });
+
+  check('Creature approach clears its roaming lock after both immediate and animated arrival',()=>{
+    for(const reducedMotion of [true,false]){
+      const scene={left:0,top:0,width:1000,height:600};
+      const robot={left:70,top:224,width:60,height:80};
+      const player={current:{closest:()=>({getBoundingClientRect:()=>scene}),getBoundingClientRect:()=>robot}};
+      const movementTimer={current:null},target={kind:'creature',id:10,instanceId:'fixture:10:0'};
+      let moving=false,duration,selection=null,approachingInstance=null,timer,position={x:10,y:50};
+      const shared={player,movementTimer,setMoving:value=>{moving=value;},setApproachingInstance:value=>{approachingInstance=value;},
+        setSelection:value=>{selection=value;},setDuration:value=>{duration=value;},setShowDetails(){},setPreference:callback=>{position=callback(position);}};
+      const cancelWalk=handler(files[2],'cancelWalk',{...shared,clearTimeout:()=>{timer=null;}},'WorldMap');
+      const walk=handler(files[2],'walk',{...shared,cancelWalk,constrainScenePoint:(_layout,point)=>point,layout:{},preference:position,
+        setPlayerDirection(){},robotDirection:()=>0,window:{matchMedia:()=>({matches:reducedMotion})},setTimeout:callback=>{timer=callback;return 1;}},'WorldMap');
+      const approach=handler(files[2],'approach',{...shared,cancelWalk,walk,visiblePlayerPosition:position,contactApproachPoint},'WorldMap');
+      approach({stopPropagation(){},currentTarget:{closest:()=>({getBoundingClientRect:()=>scene}),getBoundingClientRect:()=>({width:100})}},target,50,50);
+      close(position.x,44.4);close(position.y,50);
+      if(reducedMotion){
+        assert.equal(timer,undefined,'Immediate arrival must not schedule a walk');assert.equal(duration,0);
+      }else{
+        assert.equal(selection,null);assert.equal(approachingInstance,target.instanceId);assert.equal(moving,true);assert(duration>0);
+        assert.equal(typeof timer,'function');timer();
+      }
+      assert.deepEqual(selection,target);assert.equal(moving,false);assert.equal(movementTimer.current,null);
+      assert.equal(approachingInstance,null,'Arrival must release the approach lock so closing interaction resumes roaming');
+      shared.setSelection(null);assert.equal(approachingInstance,null);
     }
   });
 

@@ -36,7 +36,13 @@
       "sourceSvgSha256": "7e33fb454529ed268f549af83cff1ea93b0254b2445859eb8f6079b10d8f41ec",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/10001",
+        "width": 2048,
+        "height": 1370,
+        "sha256": "744892c86876cb4e8ed0876aea9cb4d2b7451aea5277aba7f75a03fd59437f8b"
+      }
     },
     "10002": {
       "skillId": 10002,
@@ -71,7 +77,13 @@
       "sourceSvgSha256": "99c843119b734eeca8dd05c9a8d9d557369b269449894be769df8da2bbb69fde",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 77
+      "representativeFrame": 77,
+      "hd": {
+        "path": "/battle-effects/hd/10002",
+        "width": 2048,
+        "height": 949,
+        "sha256": "f4577ebce634a58fa4ae4b27e136f08fc2c2290e9772b3c0096e29b9fe9eceb8"
+      }
     },
     "10003": {
       "skillId": 10003,
@@ -106,7 +118,13 @@
       "sourceSvgSha256": "5519445682f20696106f5882ca684569f34108770920c1cf608c78fc2011f5b4",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 16
+      "representativeFrame": 16,
+      "hd": {
+        "path": "/battle-effects/hd/10003",
+        "width": 2048,
+        "height": 709,
+        "sha256": "cf04ed5448e2e69176b0c3edf89475ef436ce0370a251de5fc70f22ac2465315"
+      }
     },
     "10004": {
       "skillId": 10004,
@@ -141,7 +159,13 @@
       "sourceSvgSha256": "f885342d2f40eb6626e4bf2654bf69912a517e5d5403182cf09eba2a8a49437b",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 5
+      "representativeFrame": 5,
+      "hd": {
+        "path": "/battle-effects/hd/10004",
+        "width": 1651,
+        "height": 2048,
+        "sha256": "fb29c0de634bb43f63a0464780f09f6df0de5a2af0eac3d4e4d51c0ba5377323"
+      }
     },
     "10005": {
       "skillId": 10005,
@@ -176,7 +200,13 @@
       "sourceSvgSha256": "3921a769fb2358a507952978680fbc0041a75397776b84ece6c928d33298b02f",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 11
+      "representativeFrame": 11,
+      "hd": {
+        "path": "/battle-effects/hd/10005",
+        "width": 1916,
+        "height": 2048,
+        "sha256": "be727c70b064696b9ae789b1af64158bc6c45586f3befcb5b4ed079d5fe8bdd4"
+      }
     },
     "10006": {
       "skillId": 10006,
@@ -211,7 +241,13 @@
       "sourceSvgSha256": "a568420ae40c8653902fbc9ba72474d09663bee15dc42fac02069b6a236b4848",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 3
+      "representativeFrame": 3,
+      "hd": {
+        "path": "/battle-effects/hd/10006",
+        "width": 2048,
+        "height": 1640,
+        "sha256": "a5d1ca043a4f826e47e461ce3c2fae1da13898010a6db29f783aba315887d33b"
+      }
     },
     "10007": {
       "skillId": 10007,
@@ -246,7 +282,13 @@
       "sourceSvgSha256": "7ac3faa9f75bbf50bf2b59b4718544c07929ab0ea078e472e6a52989912838e3",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 47
+      "representativeFrame": 47,
+      "hd": {
+        "path": "/battle-effects/hd/10007",
+        "width": 2048,
+        "height": 786,
+        "sha256": "d09fc4a880037ed67a1a19ebb6a7436371a858d7ddde7e73ac4ff8312b08e6b0"
+      }
     },
     "10008": {
       "skillId": 10008,
@@ -282,7 +324,13 @@
       "sourceSvgSha256": "6c324b3b4c7481edd1398ae4db3769042d370926beb6b101696e8e8ba0bd42dc",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 6
+      "representativeFrame": 6,
+      "hd": {
+        "path": "/battle-effects/hd/10008",
+        "width": 2048,
+        "height": 688,
+        "sha256": "a51dc9bbd5485f1748029e6ad59c0f5bc4368179802c0e71506da37766f9a820"
+      }
     },
     "10009": {
       "skillId": 10009,
@@ -318,7 +366,13 @@
       "sourceSvgSha256": "c9a8f8579a102717c884246c8f11daac51d6764ae414354bcfc82ed0a72c8dc2",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 8
+      "representativeFrame": 8,
+      "hd": {
+        "path": "/battle-effects/hd/10009",
+        "width": 2048,
+        "height": 1128,
+        "sha256": "a56794c466fdfa5eeea72c0eedce489b0356b7cd15942547c771547499945dfb"
+      }
     },
     "10011": {
       "skillId": 10011,
@@ -354,7 +408,13 @@
       "sourceSvgSha256": "7844b393052fe4f8ff5af1b9869469f72e5ffdd80d6abc7bc25eecbfb6c57144",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 4
+      "representativeFrame": 4,
+      "hd": {
+        "path": "/battle-effects/hd/10011",
+        "width": 2048,
+        "height": 1160,
+        "sha256": "809ca663427e01c1b514f6e74219be18238cf0db32fdcee56ea8eb01f8b30888"
+      }
     },
     "10018": {
       "skillId": 10018,
@@ -390,7 +450,13 @@
       "sourceSvgSha256": "ffb67356fe4832bfce4aea169e0cfa260d0793bbc643a8693f336f75b48db6fb",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/10018",
+        "width": 2048,
+        "height": 993,
+        "sha256": "746c163c7cec3919329dd6f170de5d8317a1f225cc34276f4c1cbd9e8db1180a"
+      }
     },
     "10029": {
       "skillId": 10029,
@@ -426,7 +492,13 @@
       "sourceSvgSha256": "c0b3426a086f60ab255c952002f791d9470d0102d4c755f125ffac40e1c49a2e",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 22
+      "representativeFrame": 22,
+      "hd": {
+        "path": "/battle-effects/hd/10029",
+        "width": 1485,
+        "height": 2048,
+        "sha256": "0dca0334fe70c99a914358de172b52d6acffc139448f7a2df12dbe915baa1ba5"
+      }
     },
     "10031": {
       "skillId": 10031,
@@ -462,7 +534,13 @@
       "sourceSvgSha256": "f06bb4a508ffdee1ea7df7604a57840f53a78549b4a3a3a8b31993e0c3d63f77",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/10031",
+        "width": 1959,
+        "height": 2048,
+        "sha256": "52dfb85868dab54663eaa7a3504256f0a6ed8fa54e81b919c83d56983fb59510"
+      }
     },
     "10038": {
       "skillId": 10038,
@@ -498,7 +576,13 @@
       "sourceSvgSha256": "092e79f29b903f0a1957e9084bbd6c9870b94e50d132c0ade31f67b7a24fb24b",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/10038",
+        "width": 2048,
+        "height": 1975,
+        "sha256": "289ba5f1b291db1045e83d8243687742a86eae1fd3bfc191dd975778fc5871c1"
+      }
     },
     "10042": {
       "skillId": 10042,
@@ -534,7 +618,13 @@
       "sourceSvgSha256": "b5f7808e647d7a6a2879d61510e84d30dad09fa3e84744c5b61a2fcd66e44e28",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/10042",
+        "width": 2048,
+        "height": 1348,
+        "sha256": "39742b0b77b70064d38eae56cd95e904a0630c81ffe0d48c5d62dcaab32a7fcc"
+      }
     },
     "10047": {
       "skillId": 10047,
@@ -570,7 +660,13 @@
       "sourceSvgSha256": "1a65e9a8e529cea661e9ef4035157e3465cbd87f2bb26012b7a15e8189625c7e",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/10047",
+        "width": 2048,
+        "height": 1840,
+        "sha256": "22193eeae0befe37e7fa71089a08123998443764e4b562ffdb7c37e55af86ad7"
+      }
     },
     "10048": {
       "skillId": 10048,
@@ -606,7 +702,13 @@
       "sourceSvgSha256": "af5601d333762c6c11da647d007778009c82493a259f0d2743dd7fa289cc6dc9",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 4
+      "representativeFrame": 4,
+      "hd": {
+        "path": "/battle-effects/hd/10048",
+        "width": 2048,
+        "height": 1372,
+        "sha256": "4a4b400c67059ef89fe1694f96f9599ac992ea8f778b6d529d406a8212b89c89"
+      }
     },
     "10054": {
       "skillId": 10054,
@@ -642,7 +744,13 @@
       "sourceSvgSha256": "a516b75b38f1bde4c5f83c4196de9e0eb8621c21ff99ba71d82894c112253375",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 6
+      "representativeFrame": 6,
+      "hd": {
+        "path": "/battle-effects/hd/10054",
+        "width": 2048,
+        "height": 1645,
+        "sha256": "92bab3943e8baf09fca65b32865fec4ba996477fdcc0fc86c33acff4029a7f70"
+      }
     },
     "10067": {
       "skillId": 10067,
@@ -678,7 +786,13 @@
       "sourceSvgSha256": "038e565970326caf454b463c223a2f983afb65f0fda2095338f72a43f215ec89",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 14
+      "representativeFrame": 14,
+      "hd": {
+        "path": "/battle-effects/hd/10067",
+        "width": 2048,
+        "height": 1628,
+        "sha256": "794383425eecf6d4eb4e522fb9e0b73f7720a42f378be0874e19d63533b4ea81"
+      }
     },
     "10076": {
       "skillId": 10076,
@@ -714,7 +828,13 @@
       "sourceSvgSha256": "0643286d08761fed3f82f0bcc3650711a0569da61d5668cc82ca8db189048da5",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 5
+      "representativeFrame": 5,
+      "hd": {
+        "path": "/battle-effects/hd/10076",
+        "width": 2048,
+        "height": 1630,
+        "sha256": "499df2e2773870dbce4a8430425c0bad2d0890828688adee8acd49062c1e4dfb"
+      }
     },
     "10086": {
       "skillId": 10086,
@@ -750,7 +870,13 @@
       "sourceSvgSha256": "a759ec319460cd37d1e3ddfb3736f1925c8934b81b884af002b3112ce8cc7816",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/10086",
+        "width": 2048,
+        "height": 1193,
+        "sha256": "afb9002c9a9ee508e305a4137aca5bc64dc0a1502f06d34e66c0f73e15f70acb"
+      }
     },
     "10087": {
       "skillId": 10087,
@@ -786,7 +912,13 @@
       "sourceSvgSha256": "0227bb50ba161dcfa46830904315d90dfbd1f596adbce38187e567235f72c625",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/10087",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "302a74b991a186d26f9866c52b3a1a2e0d270900c9fffb14b51e98a2a7018c4f"
+      }
     },
     "10088": {
       "skillId": 10088,
@@ -822,7 +954,13 @@
       "sourceSvgSha256": "d44ac6f8ad66c75fb827a949b3214006fbcfd16f74d7aea4925e8bb57192e419",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 9
+      "representativeFrame": 9,
+      "hd": {
+        "path": "/battle-effects/hd/10088",
+        "width": 2048,
+        "height": 1868,
+        "sha256": "a5dcc733cd1af501392c6e8c0a8c78b3d0eabf4df13085b0089e072a2d9456a7"
+      }
     },
     "10121": {
       "skillId": 10121,
@@ -858,7 +996,13 @@
       "sourceSvgSha256": "8cebea07c01214dc8d0039ef11dd309f19b91e3174523b661ca63d8250fd9143",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 4
+      "representativeFrame": 4,
+      "hd": {
+        "path": "/battle-effects/hd/10121",
+        "width": 2048,
+        "height": 1888,
+        "sha256": "9a10435637142b2977b5ecaf698368185b1f4d9ba8107d9a1fa1e84b043b22d3"
+      }
     },
     "10127": {
       "skillId": 10127,
@@ -894,7 +1038,13 @@
       "sourceSvgSha256": "a30b32913b48985a4a621563e4c6b025c51bd4ba56df73534fcfc0489ab72eb1",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 6
+      "representativeFrame": 6,
+      "hd": {
+        "path": "/battle-effects/hd/10127",
+        "width": 2048,
+        "height": 1637,
+        "sha256": "d676eafb3a8d5082a5964b645bf984994ee79cf9580316141042e800dafb6cd2"
+      }
     },
     "10128": {
       "skillId": 10128,
@@ -930,7 +1080,13 @@
       "sourceSvgSha256": "97d741c1e50e359a2e67ac3b328e7f9019d5422f2191d642b7d5ab71c881a7b8",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 2
+      "representativeFrame": 2,
+      "hd": {
+        "path": "/battle-effects/hd/10128",
+        "width": 2048,
+        "height": 1847,
+        "sha256": "f2fcfbcde407789a972fdec8b2cbba65728bf5da94d64fd605d52bb76ef29efa"
+      }
     },
     "10129": {
       "skillId": 10129,
@@ -966,7 +1122,13 @@
       "sourceSvgSha256": "44b138f0208d9ef8f6057c820910655c34c506ee2daa6c227e601b96b9b52960",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 10
+      "representativeFrame": 10,
+      "hd": {
+        "path": "/battle-effects/hd/10129",
+        "width": 1919,
+        "height": 2048,
+        "sha256": "5e49641c93ac6c65b3c6c0d466a8357de1326a4c94328ddcb6b030f1d06980e4"
+      }
     },
     "10150": {
       "skillId": 10150,
@@ -1002,7 +1164,13 @@
       "sourceSvgSha256": "a3950ab1cdcfd742bd9742a8fadd1edc2ebe12eb1d80b16209fddf49387bb441",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 10
+      "representativeFrame": 10,
+      "hd": {
+        "path": "/battle-effects/hd/10150",
+        "width": 2048,
+        "height": 1048,
+        "sha256": "ff2af683a25d93a8fd5f2267898ac80488cd52a3d249cf7c05aa3a760c41042b"
+      }
     },
     "10157": {
       "skillId": 10157,
@@ -1038,7 +1206,13 @@
       "sourceSvgSha256": "c12755f399639cee313a1987bacba1feb1d0ed1a8c77d0e7b14da93246d0c40d",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 8
+      "representativeFrame": 8,
+      "hd": {
+        "path": "/battle-effects/hd/10157",
+        "width": 2048,
+        "height": 1628,
+        "sha256": "7b7faaf6c4a9cbbc59fef3a046a419087dc083b369160723a5e49277452c7384"
+      }
     },
     "10175": {
       "skillId": 10175,
@@ -1073,7 +1247,13 @@
       "sourceSvgSha256": "b462122e49ae872db90bd55cc40a0f65751b96265c807ebd7f2985554b43a67c",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 3
+      "representativeFrame": 3,
+      "hd": {
+        "path": "/battle-effects/hd/10175",
+        "width": 2048,
+        "height": 1261,
+        "sha256": "79ebb94c107ac9fd8e8c189ef3b37e72065efa681e21643d4b7a9c2a4699177d"
+      }
     },
     "10176": {
       "skillId": 10176,
@@ -1108,7 +1288,13 @@
       "sourceSvgSha256": "a2b42cbdacf9f2929299229f4eab398b80593bcdf1262c8dd61740f1425ad288",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/10176",
+        "width": 2048,
+        "height": 1870,
+        "sha256": "04226295bf3c623861fd8d8a9b92fd4c7c78ddd2e3133e058279ced17e6973ff"
+      }
     },
     "10194": {
       "skillId": 10194,
@@ -1144,7 +1330,13 @@
       "sourceSvgSha256": "0d3b18d2386ac945ebb10cd039dcac5cedafde847086eca0e7872a0b644646fb",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/10194",
+        "width": 1967,
+        "height": 2048,
+        "sha256": "5a6f80612abf5360d4028f3298282e81c86a9994aed7be3face4b0a41217f4c4"
+      }
     },
     "10201": {
       "skillId": 10201,
@@ -1180,7 +1372,13 @@
       "sourceSvgSha256": "b39b419657ea3d8179d53e0f0af7057fd456a17173aee22bcfe8c784b7c8eff6",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 5
+      "representativeFrame": 5,
+      "hd": {
+        "path": "/battle-effects/hd/10201",
+        "width": 2048,
+        "height": 1057,
+        "sha256": "c073c4a7faeb57d526bccf8aaa966f3e267272395ca8151d2400b25331d0bd08"
+      }
     },
     "10204": {
       "skillId": 10204,
@@ -1216,7 +1414,13 @@
       "sourceSvgSha256": "05836c9536a274fdf0ace52bd522c4ccd24629adbde1e2e89e305e0f9196818b",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/10204",
+        "width": 2048,
+        "height": 1669,
+        "sha256": "e013930aa73a8a233783f363aa3113f480d7433fdcf0d19718bbb8eabb86a8a9"
+      }
     },
     "10223": {
       "skillId": 10223,
@@ -1252,7 +1456,13 @@
       "sourceSvgSha256": "f2fc3d78b9d35d0c4fb642d1f1d17b42204f89384ecc0f0e5276ddeb6e7bb4c2",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 3
+      "representativeFrame": 3,
+      "hd": {
+        "path": "/battle-effects/hd/10223",
+        "width": 2048,
+        "height": 1836,
+        "sha256": "5bd40f80289364fc71682fd109a0ac385148b881560e3fc6f4a8a533c2a6096f"
+      }
     },
     "10250": {
       "skillId": 10250,
@@ -1288,7 +1498,13 @@
       "sourceSvgSha256": "8d7698063eefe9272b63f00fd49b7473cadad52e88bf8911b0a949548749e864",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 9
+      "representativeFrame": 9,
+      "hd": {
+        "path": "/battle-effects/hd/10250",
+        "width": 2048,
+        "height": 1645,
+        "sha256": "bdc1f203037e95523968bf2a21899d958553f58aacc2c1fe963adcb1e4d4b106"
+      }
     },
     "10390": {
       "skillId": 10390,
@@ -1324,7 +1540,13 @@
       "sourceSvgSha256": "ee2a88ec5f8e70e70d08ceb61fb9c72e11ac33f71bfad1024bc59031075c3c8f",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/10390",
+        "width": 2048,
+        "height": 1827,
+        "sha256": "ae2c995bb0ad94759a22473b53c84bf00b567d61ec7d47bbcfdf0c7810fd309a"
+      }
     },
     "10427": {
       "skillId": 10427,
@@ -1360,7 +1582,13 @@
       "sourceSvgSha256": "de11cabdfc0278d361ca3167fa2468a4a728f0c2a3a58273c9a81f4c5d6cdf90",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/10427",
+        "width": 2048,
+        "height": 1100,
+        "sha256": "acfe28b30760452d2090184909fdf3dae9c2f309de469d041e3de863c682d2ba"
+      }
     },
     "10522": {
       "skillId": 10522,
@@ -1396,7 +1624,13 @@
       "sourceSvgSha256": "16a0a271f69a1b3619f38351a89b0b6b3ba4fb23f4dde9bdf9179e34c5822372",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 2
+      "representativeFrame": 2,
+      "hd": {
+        "path": "/battle-effects/hd/10522",
+        "width": 2048,
+        "height": 1291,
+        "sha256": "2adc497ef559036a51c35ea98a4c7a97f7150fb30a7fe82369970aaef8b875ce"
+      }
     },
     "10825": {
       "skillId": 10825,
@@ -1431,7 +1665,13 @@
       "sourceSvgSha256": "63fb5a5183e8a17dae73d84cf363b1ea15b56155999e7a7d0f2bb814db3a40e8",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/10825",
+        "width": 2048,
+        "height": 1234,
+        "sha256": "5d56d92bd5927892953c0c061ba061734a9c5c3d1e946afe2134b74557777465"
+      }
     },
     "11000": {
       "skillId": 11000,
@@ -1466,7 +1706,13 @@
       "sourceSvgSha256": "716d3e14b2b751dfba1990a0cf40475be0ad507bfa9f691ff5a1e49827ee1bac",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 2
+      "representativeFrame": 2,
+      "hd": {
+        "path": "/battle-effects/hd/11000",
+        "width": 2048,
+        "height": 1320,
+        "sha256": "95e576c5d8fcf0bfb78af39d1527d191078b4ec9d1813bc07112bc1e67602fb1"
+      }
     },
     "20001": {
       "skillId": 20001,
@@ -1501,7 +1747,13 @@
       "sourceSvgSha256": "c085d0fdb474fc502b68f8b2a1aeeb6935d25830558c81c40b1941ac1ff7311a",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 16
+      "representativeFrame": 16,
+      "hd": {
+        "path": "/battle-effects/hd/20001",
+        "width": 2048,
+        "height": 1067,
+        "sha256": "cbf84c80ec2d03160cdac0c6cd05b5653d1b6ca0a226b13fe281d1afa3c34056"
+      }
     },
     "20002": {
       "skillId": 20002,
@@ -1536,7 +1788,13 @@
       "sourceSvgSha256": "e833a4feff13a8ff1d6c597369e98c3de3d40bbe98618fcb5d8905d71a0c4d35",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 54
+      "representativeFrame": 54,
+      "hd": {
+        "path": "/battle-effects/hd/20002",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "35abfe3d39f36ff018e62f943804f92feffdf8a3461c12c3dea674b786d0b6a4"
+      }
     },
     "20004": {
       "skillId": 20004,
@@ -1571,7 +1829,13 @@
       "sourceSvgSha256": "a4cbfa82acc15469100d3260c1461d87dfd81091da9ffeb4aa2d82d60814960c",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 59
+      "representativeFrame": 59,
+      "hd": {
+        "path": "/battle-effects/hd/20004",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "8bbe150b55092489b253054ca3e6b28306d4f12fe42baabd857399abd481504c"
+      }
     },
     "20006": {
       "skillId": 20006,
@@ -1607,7 +1871,13 @@
       "sourceSvgSha256": "a9442621f8ee2ffef0cfb26ebd06a907678dad8f55074650f77936b5df9c8331",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 39
+      "representativeFrame": 39,
+      "hd": {
+        "path": "/battle-effects/hd/20006",
+        "width": 1815,
+        "height": 2048,
+        "sha256": "b5ca48b6534455d81624799dd02b24fdbd2aceb83e4f4ad28e93ebea2f9906a9"
+      }
     },
     "20007": {
       "skillId": 20007,
@@ -1643,7 +1913,13 @@
       "sourceSvgSha256": "76e138ffd6cb40be287b26c7b1d6e6c89cb864111b5397d99fc56f73b4598fcb",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 19
+      "representativeFrame": 19,
+      "hd": {
+        "path": "/battle-effects/hd/20007",
+        "width": 1201,
+        "height": 2048,
+        "sha256": "0a32cfb93683e4dfca3752fc35d1c75dbcead0cd59d41de085ea3f550a9c2d44"
+      }
     },
     "20011": {
       "skillId": 20011,
@@ -1679,7 +1955,13 @@
       "sourceSvgSha256": "7cb22852a2e288d72ee23af943251b90a71ee79e74de93a5e1673d58b644f136",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 6
+      "representativeFrame": 6,
+      "hd": {
+        "path": "/battle-effects/hd/20011",
+        "width": 2048,
+        "height": 859,
+        "sha256": "0b1ea395361d32924ce8875d84ae81f2e86a64e8e1f3ebcf2c24c57d853ffb56"
+      }
     },
     "20013": {
       "skillId": 20013,
@@ -1715,7 +1997,13 @@
       "sourceSvgSha256": "36631891c4f25401d3b3b7630069136d95c41fe8a9a5631c248f8834172b29bb",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 11
+      "representativeFrame": 11,
+      "hd": {
+        "path": "/battle-effects/hd/20013",
+        "width": 2048,
+        "height": 1088,
+        "sha256": "8b995e3a5eea3b30b3b7441462056fd0e6e3e71fc183bf3a60dca2e60681f533"
+      }
     },
     "20015": {
       "skillId": 20015,
@@ -1751,7 +2039,13 @@
       "sourceSvgSha256": "ef92f3b66e6feb5fd1d6e5e597ab9923b5304a311c343c2a5b52efa496a9bd51",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 41
+      "representativeFrame": 41,
+      "hd": {
+        "path": "/battle-effects/hd/20015",
+        "width": 2048,
+        "height": 663,
+        "sha256": "760cac61ddf21e0c46ee53209dbda88f7cad02ee10dd7be670c2cf3b654631e9"
+      }
     },
     "20016": {
       "skillId": 20016,
@@ -1787,7 +2081,13 @@
       "sourceSvgSha256": "38c3c79cc7bd0a976b082f35b64cb3876fa0a65008a4a60f40334fe85f9ea275",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 28
+      "representativeFrame": 28,
+      "hd": {
+        "path": "/battle-effects/hd/20016",
+        "width": 2048,
+        "height": 903,
+        "sha256": "c993ba748b16bd7fecb60bd630ea23f1a1abb4e0f883ce98f2fb7aa0f9771447"
+      }
     },
     "20017": {
       "skillId": 20017,
@@ -1823,7 +2123,13 @@
       "sourceSvgSha256": "5448a15914ce37a0042c45416426c9d83f25f03b1ca1e286524abec73eea116d",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/20017",
+        "width": 2048,
+        "height": 1480,
+        "sha256": "83e8b36be6e81abf12af32b052b5c7edf24597b0ad75e854d2f65ee0dbe3671d"
+      }
     },
     "20018": {
       "skillId": 20018,
@@ -1859,7 +2165,13 @@
       "sourceSvgSha256": "a81386ac9e32af27b27f16f2abbd7426767db222f989dfaaa3a0a0eaf3b93a9a",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 2
+      "representativeFrame": 2,
+      "hd": {
+        "path": "/battle-effects/hd/20018",
+        "width": 2048,
+        "height": 1651,
+        "sha256": "ff9c41a81c1dc8eb09107ec5287a2f948bd17f1dfd985336829fb6f1d5cf455b"
+      }
     },
     "20019": {
       "skillId": 20019,
@@ -1895,7 +2207,13 @@
       "sourceSvgSha256": "b2bf2cc63a1093d137dc084096691a2ebae83315fa25b8e71bfbd2b1ee9f9761",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 15
+      "representativeFrame": 15,
+      "hd": {
+        "path": "/battle-effects/hd/20019",
+        "width": 2048,
+        "height": 275,
+        "sha256": "7a933e765759ad691c9d778108f115161b3f89886774bd9596b9eac70b0b8daa"
+      }
     },
     "20020": {
       "skillId": 20020,
@@ -1931,7 +2249,13 @@
       "sourceSvgSha256": "1e783d19b33cb3f369f88f9df3594b3e9e458dbed2e17a08b7964b2df768add8",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 15
+      "representativeFrame": 15,
+      "hd": {
+        "path": "/battle-effects/hd/20020",
+        "width": 2048,
+        "height": 670,
+        "sha256": "31a8355f26afa622b85d61b6e5b6ec42c0a4b827fd1a3eb0cdb7fe3295b4887e"
+      }
     },
     "20039": {
       "skillId": 20039,
@@ -1967,7 +2291,13 @@
       "sourceSvgSha256": "d02869248af3cbc02239c4a4e20dc3d5b0a85e1b7893f5d092b1131380e3c93c",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 13
+      "representativeFrame": 13,
+      "hd": {
+        "path": "/battle-effects/hd/20039",
+        "width": 2048,
+        "height": 1358,
+        "sha256": "7a2fdc0f19775dd9a79567a4785b43179c63d918d3e45ea36009a57eb9872794"
+      }
     },
     "20040": {
       "skillId": 20040,
@@ -2003,7 +2333,13 @@
       "sourceSvgSha256": "875d444f66bd5694864ccd7a9cccfff157bd4ead2f1fb1abc13aae606b86e857",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 12
+      "representativeFrame": 12,
+      "hd": {
+        "path": "/battle-effects/hd/20040",
+        "width": 2048,
+        "height": 1081,
+        "sha256": "a74293da9ce92fc4197d58c5814c275ffb80bcfec681ca0ac05a67705771a233"
+      }
     },
     "20041": {
       "skillId": 20041,
@@ -2039,7 +2375,13 @@
       "sourceSvgSha256": "b462122e49ae872db90bd55cc40a0f65751b96265c807ebd7f2985554b43a67c",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 2
+      "representativeFrame": 2,
+      "hd": {
+        "path": "/battle-effects/hd/20041",
+        "width": 2048,
+        "height": 1266,
+        "sha256": "fdaa9b68309d460fa69a22ed868862ac1fb084501ca59b7002743b6ceae813b7"
+      }
     },
     "20042": {
       "skillId": 20042,
@@ -2075,7 +2417,13 @@
       "sourceSvgSha256": "11c4af4f31ea7a4bb1c85bee93b38a4018791a31b66d53083e139d511774b278",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 39
+      "representativeFrame": 39,
+      "hd": {
+        "path": "/battle-effects/hd/20042",
+        "width": 2048,
+        "height": 1109,
+        "sha256": "916fee1cc033a8f6984b89512e23866a699c66079d64024d034837fdaf449cec"
+      }
     },
     "20045": {
       "skillId": 20045,
@@ -2111,7 +2459,13 @@
       "sourceSvgSha256": "86558c0267c0ff141035a49b29083bcd44a8543c9d351179f6ddcfd40ec5ebf3",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 38
+      "representativeFrame": 38,
+      "hd": {
+        "path": "/battle-effects/hd/20045",
+        "width": 2048,
+        "height": 2045,
+        "sha256": "fd021b1ac1d4f21468478df79ff860abd56f25bd0f489e4c9f3c53745705311d"
+      }
     },
     "20046": {
       "skillId": 20046,
@@ -2147,7 +2501,13 @@
       "sourceSvgSha256": "fc7a24f04401b1b8d4389eda140a391376a8a344f3021068c830d5a2f9515d41",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 4
+      "representativeFrame": 4,
+      "hd": {
+        "path": "/battle-effects/hd/20046",
+        "width": 2048,
+        "height": 1109,
+        "sha256": "02432ec214d78b16caa01fa8783d290ae54dd2f246a51216125083b62d690f2b"
+      }
     },
     "20049": {
       "skillId": 20049,
@@ -2183,7 +2543,13 @@
       "sourceSvgSha256": "7bac37116d9d8c2d9add2756107d215ef715d656fe8a1407b8496dd98439e792",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 3
+      "representativeFrame": 3,
+      "hd": {
+        "path": "/battle-effects/hd/20049",
+        "width": 2048,
+        "height": 2024,
+        "sha256": "3582425c43c2dc2e1f832b304a09d52ab48f1c83b47d554ec097ac9cc361e53b"
+      }
     },
     "20057": {
       "skillId": 20057,
@@ -2219,7 +2585,13 @@
       "sourceSvgSha256": "e0c77271d46e0e4c588562f1b22750e8d556054f3b6a8faed3f0ac2d80e97df8",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 3
+      "representativeFrame": 3,
+      "hd": {
+        "path": "/battle-effects/hd/20057",
+        "width": 2048,
+        "height": 1275,
+        "sha256": "4444fc21bf5a81cce58918b2c59ffa25b2f30493b3b612fc8c95ec5068679dc6"
+      }
     },
     "20065": {
       "skillId": 20065,
@@ -2255,7 +2627,13 @@
       "sourceSvgSha256": "f264a0c732022e4426d3b1aa41f1accb762a3c25a1f5d54e0264f4c9749dfd4b",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 17
+      "representativeFrame": 17,
+      "hd": {
+        "path": "/battle-effects/hd/20065",
+        "width": 2048,
+        "height": 1303,
+        "sha256": "66924534bb961950dff164a0f146e0083a8bfbf315a650b75d001b483c3d036f"
+      }
     },
     "20098": {
       "skillId": 20098,
@@ -2291,7 +2669,13 @@
       "sourceSvgSha256": "082a2faf3ca3778c375775f90e705b22caa50de6fec3a86f8fa45edcf11d64be",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 1
+      "representativeFrame": 1,
+      "hd": {
+        "path": "/battle-effects/hd/20098",
+        "width": 2048,
+        "height": 1925,
+        "sha256": "3f6457a489be7d4d99f1db72f142cfa3365567707c6851dd2abc84fa89c135f1"
+      }
     },
     "20117": {
       "skillId": 20117,
@@ -2327,7 +2711,13 @@
       "sourceSvgSha256": "b445d704930b344cfb28fb04999c4bf2a0cddc23a2f80fd23ccd879e5663d7b3",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 18
+      "representativeFrame": 18,
+      "hd": {
+        "path": "/battle-effects/hd/20117",
+        "width": 2048,
+        "height": 1951,
+        "sha256": "e84075a95e0c5a7058b9a300f4fa5e103b3df31ff20a694245d0890e4da8d463"
+      }
     },
     "20181": {
       "skillId": 20181,
@@ -2363,7 +2753,13 @@
       "sourceSvgSha256": "25d9aa91356f4f47f671fdf7ed8564041b45b35b9644486be164b82d3723e8c7",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 10
+      "representativeFrame": 10,
+      "hd": {
+        "path": "/battle-effects/hd/20181",
+        "width": 2048,
+        "height": 1508,
+        "sha256": "f4d2a220b93a45858a88770c1a8770ecf121e76bb80adb6d950f08f456ef15ee"
+      }
     },
     "20500": {
       "skillId": 20500,
@@ -2398,7 +2794,13 @@
       "sourceSvgSha256": "51131d64b20afa57904cc926a2936cb42793daba6fd810a3159e1d212257d339",
       "registration": "Original sprite bounds from FFDec SVG normalization. PNG viewport includes filter padding; UI centers the full raster viewport at the actual target.",
       "encoding": "Lossless WebP exact=True; transparent RGB preserved",
-      "representativeFrame": 7
+      "representativeFrame": 7,
+      "hd": {
+        "path": "/battle-effects/hd/20500",
+        "width": 1798,
+        "height": 2048,
+        "sha256": "557e532f08cb791cafff5b403dffdf50db8db8560db155794922509ec43071bd"
+      }
     }
   },
   "unsupported": {},

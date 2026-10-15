@@ -56,9 +56,9 @@
 @media(max-width:620px){.breeding-management{padding:4px 5px 5px!important}}
 
 /* Recovered branding and machinery stay decorative around live controls. */
-.breeding-management{background-image:url('/ui/classic/breeding-bottom-rail.png'),url('/ui/classic/breeding-grid.png');background-position:center bottom,left top;background-size:100% 30px,21.5px 153px;background-repeat:no-repeat,repeat;padding-bottom:30px!important}
+.breeding-management{background-image:url('/ui/classic/hd/breeding-bottom-rail-4x.png'),url('/ui/classic/hd/breeding-grid-4x.png');background-position:center bottom,left top;background-size:100% 30px,21.5px 153px;background-repeat:no-repeat,repeat;padding-bottom:30px!important}
 .breeding-management>.management-panel-heading{min-height:75px;background:transparent;border-bottom:2px solid #0cafef;box-shadow:none;padding:4px 12px}
-.breeding-management>.management-panel-heading strong{display:block;width:min(332px,65%);height:67px;background:url('/ui/classic/breeding-title.png') left center/contain no-repeat;font-size:0;text-shadow:none;flex-shrink:0}
+.breeding-management>.management-panel-heading strong{display:block;width:min(332px,65%);height:67px;background:url('/ui/classic/hd/breeding-title-4x.png') left center/contain no-repeat;font-size:0;text-shadow:none;flex-shrink:0}
 .breeding-management>.management-panel-heading>span{color:#bae3ff;text-shadow:none}
-.breeding-panel .fusion-detail-scroll{background-image:url('/ui/classic/breeding-grid.png');background-size:21.5px 153px;background-repeat:repeat}
+.breeding-panel .fusion-detail-scroll{background-image:url('/ui/classic/hd/breeding-grid-4x.png');background-size:21.5px 153px;background-repeat:repeat}
 @media(max-width:620px){.breeding-management>.management-panel-heading{min-height:57px}.breeding-management>.management-panel-heading strong{height:49px;width:65%}.breeding-management>.management-panel-heading>span{font-size:9px}}

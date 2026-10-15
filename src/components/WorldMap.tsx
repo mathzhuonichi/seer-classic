@@ -3,8 +3,9 @@ import type { GameController, GameSnapshot, SpeciesView } from '../game-types';
 import { WORLD_PLANETS, findChallengeLocation, findSceneChallenges, findSpeciesLocation, readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../world';
 import { CreatureArt } from './CreatureArt';
 import { buildWorldPopulation } from '../presentation/world-population';
-import { constrainScenePoint, creatureSceneHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation';
+import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation';
 import {getSceneExits,type SceneExit} from '../presentation/scene-exits';
+import {contactApproachPoint} from '../presentation/world-interaction';
 import ClassicRobot from './ClassicRobot';
 import '../world.css';
 
@@ -38,6 +39,15 @@ function RoamingCreature({species,instanceId,level,index,count,layout,frozen,bat
   const home=creatureSceneHome(layout,index,count);
   useEffect(()=>{
     let frame=0,last=0;
+    const habitat=layout.habitat??layout.walk;
+    const habitatBounds={left:Math.min(...habitat.map(p=>p.x)),right:Math.max(...habitat.map(p=>p.x)),
+      top:Math.min(...habitat.map(p=>p.y)),bottom:Math.max(...habitat.map(p=>p.y))};
+    if(layout.homeRoam){
+      habitatBounds.left=Math.max(habitatBounds.left,home.x-layout.homeRoam.x);
+      habitatBounds.right=Math.min(habitatBounds.right,home.x+layout.homeRoam.x);
+      habitatBounds.top=Math.max(habitatBounds.top,home.y-layout.homeRoam.y);
+      habitatBounds.bottom=Math.min(habitatBounds.bottom,home.y+layout.homeRoam.y);
+    }
     const resetClock=()=>{last=0};
     document.addEventListener('visibilitychange',resetClock);
     const tick=(now:number)=>{
@@ -51,17 +61,29 @@ function RoamingCreature({species,instanceId,level,index,count,layout,frozen,bat
       const paused=freeze.current||blocked;
       const delta=last?Math.min(80,now-last):0;last=now;
       if(visible){
-        // The full host includes the portrait, its bob margin and the name badge.
-        // Uniform host fitting is only needed when the viewport is unusually small.
+        // The host ends at the creature's feet; its name is outside the art box.
+        // Reserve space for the separate label when fitting a small viewport.
         const padding=Math.min(12,Math.max(1,Math.min(scene.width,scene.height)*.04));
-        const fit=Math.min(1,(scene.width-padding*2)/element.offsetWidth,(scene.height-padding*2)/element.offsetHeight);
+        const labelHeight=(element.querySelector<HTMLElement>('.world-character-name')?.offsetHeight??0)+4;
+        const fit=Math.min(1,(scene.width-padding*2)/element.offsetWidth,(scene.height-padding*2)/(element.offsetHeight+labelHeight));
         element.style.setProperty('--roam-size',String(Math.max(.01,fit)));
         const width=element.offsetWidth*Math.max(.01,fit),height=element.offsetHeight*Math.max(.01,fit);
         const bounds={left:(width/2+padding)/scene.width*100,right:100-(width/2+padding)/scene.width*100,
-          top:(height+padding)/scene.height*100,bottom:100-padding/scene.height*100};
-        const constrain=(point:WorldPoint):WorldPoint=>constrainScenePoint(layout,{
-          x:clamp(point.x,bounds.left,bounds.right),y:clamp(point.y,bounds.top,bounds.bottom)});
+          top:(height+padding)/scene.height*100,bottom:100-(padding+labelHeight*Math.max(.01,fit))/scene.height*100};
+        const constrain=(point:WorldPoint):WorldPoint=>constrainHabitatPoint(layout,{
+          x:clamp(layout.homeRoam?clamp(point.x,habitatBounds.left,habitatBounds.right):point.x,bounds.left,bounds.right),
+          y:clamp(layout.homeRoam?clamp(point.y,habitatBounds.top,habitatBounds.bottom):point.y,bounds.top,bounds.bottom)});
         const center=constrain(home);
+        const randomHabitatPoint=()=>{
+          const left=Math.max(bounds.left,habitatBounds.left),right=Math.min(bounds.right,habitatBounds.right);
+          const top=Math.max(bounds.top,habitatBounds.top),bottom=Math.min(bounds.bottom,habitatBounds.bottom);
+          if(right<=left||bottom<=top)return center;
+          for(let attempt=0;attempt<24;attempt++){
+            const candidate={x:between(left,right),y:between(top,bottom)},projected=constrain(candidate);
+            if(Math.hypot(candidate.x-projected.x,candidate.y-projected.y)<.001)return candidate;
+          }
+          return center;
+        };
         if(!state.current)state.current={position:constrain({x:home.x+between(-7,7),y:home.y+between(-5,5)}),rest:between(150,1400),leg:null,facing:'right'};
         const roam=state.current;
         roam.position=constrain(roam.position);
@@ -69,15 +91,14 @@ function RoamingCreature({species,instanceId,level,index,count,layout,frozen,bat
           if(!roam.leg){
             roam.rest-=delta;
             if(roam.rest<=0){
-              // Mix short meanders, long excursions and occasional returns.
-              // Each new leg starts from the current position, without a loop
-              // around a fixed home or a shared timing pattern.
+              // Independent routes stay inside the creature habitat; the player's
+              // unrestricted interaction plane is deliberately separate.
               const choice=Math.random();
               const target=choice<.45
                 ? constrain({x:roam.position.x+between(-layout.roam.x,layout.roam.x),y:roam.position.y+between(-layout.roam.y,layout.roam.y)})
                 : choice<.9
-                  ? constrain({x:between(bounds.left,bounds.right),y:between(bounds.top,bounds.bottom)})
-                  : constrain({x:center.x+between(-12,12),y:center.y+between(-10,10)});
+                  ? randomHabitatPoint()
+                  : constrain({x:center.x+between(-layout.roam.x,layout.roam.x),y:center.y+between(-layout.roam.y,layout.roam.y)});
               const dx=target.x-roam.position.x,dy=target.y-roam.position.y;
               const distance=Math.hypot(dx*scene.width/100,dy*scene.height/100);
               if(distance>3){
@@ -150,7 +171,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const {planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
   const layout=useMemo(()=>getSceneLayout(planet,region),[planet,region]);
   const background=region.background??planet.background;
-  const official=region.backgroundKind==='official'||background.includes('/maps/original/');
+  const official=region.backgroundKind==='official'||region.backgroundKind==='remastered'||background.includes('/maps/original/');
   const aspect=imageSize.source===background?imageSize.width/imageSize.height:1000/580;
   const playerPosition=constrainScenePoint(layout,{x:preference.x,y:preference.y});
   const exits=getSceneExits(planet,region);
@@ -235,9 +256,12 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       y:(current.top+current.height*.95-scene.top)/scene.height*100}:{x:preference.x,y:preference.y};
     const dx=(targetX-actual.x)*(scene?.width??100)/100,dy=(targetY-actual.y)*(scene?.height??100)/100;
     if(Math.hypot(dx,dy)>.5)setPlayerDirection(robotDirection(dx,dy));
-    const elapsed=Math.max(320,Math.hypot(dx,dy)/Math.max(90,(scene?.width??1000)*.22)*1000);
-    setDuration(elapsed);setMoving(true);setPreference(old=>({...old,x:targetX,y:targetY}));
+    const elapsed=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:
+      Math.max(320,Math.hypot(dx,dy)/Math.max(90,(scene?.width??1000)*.22)*1000);
+    setDuration(elapsed);setMoving(elapsed>0);setPreference(old=>({...old,x:targetX,y:targetY}));
+    if(elapsed===0){after?.();return false;}
     movementTimer.current=setTimeout(()=>{setMoving(false);movementTimer.current=null;after?.()},elapsed);
+    return true;
   }
   function walkClick(event:MouseEvent<HTMLDivElement>){const rect=event.currentTarget.getBoundingClientRect();walk((event.clientX-rect.left)/rect.width*100,(event.clientY-rect.top)/rect.height*100)}
   function walkKey(event:KeyboardEvent<HTMLDivElement>){
@@ -255,8 +279,22 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
   },[preference.x,preference.y,s.battle,layout]);
   function approach(event:MouseEvent<HTMLButtonElement>,target:Selection,x:number,y:number){
-    event.stopPropagation();walk(x-7,y+3,()=>{setApproachingInstance(null);setSelection(target)});
-    if(target.kind==='creature')setApproachingInstance(target.instanceId??null);
+    event.stopPropagation();
+    const robot=player.current?.getBoundingClientRect();
+    const scene=event.currentTarget.closest('.world-scene')!.getBoundingClientRect();
+    const actual=robot?{x:(robot.left+robot.width/2-scene.left)/scene.width*100,
+      y:(robot.top+robot.height*.95-scene.top)/scene.height*100}:visiblePlayerPosition;
+    const contact=event.currentTarget.getBoundingClientRect();
+    const clearance=Math.max(scene.width*.025,Math.min(scene.width*.08,(contact.width+(robot?.width??scene.width*.06))*.35));
+    const stop=contactApproachPoint(actual,{x,y},scene,clearance);
+    const interact=()=>{setApproachingInstance(null);setSelection(target)};
+    if(Math.hypot((stop.x-actual.x)*scene.width/100,(stop.y-actual.y)*scene.height/100)<1){
+      // A nearby click opens immediately, and also stops an interrupted walk.
+      cancelWalk();setDuration(0);setShowDetails(false);
+      setPreference(old=>({...old,x:actual.x,y:actual.y}));interact();return;
+    }
+    const walking=walk(stop.x,stop.y,interact);
+    if(walking&&target.kind==='creature')setApproachingInstance(target.instanceId??null);
   }
   function gate(event:MouseEvent<HTMLButtonElement>,exit:SceneExit){event.stopPropagation();const next=planet.regions.find(candidate=>candidate.id===exit.targetRegionId)!;walk(exit.anchor.x,exit.anchor.y,()=>visit(planet,next,exit.entry))}
   function details(){if(creature&&onInteract)onInteract({kind:'species',species:creature.id});else if(boss&&onInteract)onInteract({kind:'species',species:boss.species});else setShowDetails(v=>!v)}
@@ -264,7 +302,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${duration}ms`} as CSSProperties;
   const at=(point:WorldPoint):CSSProperties=>({left:`${point.x}%`,top:`${point.y}%`});
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
-    <div key={`${planet.id}/${region.id}`} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={official?'official':'authored'} data-map-id={region.originalMapId??planet.originalMapId} tabIndex={0} aria-label={`${region.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
+    <div key={`${planet.id}/${region.id}`} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={region.backgroundKind??(official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId} tabIndex={0} aria-label={`${region.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
       <img className="world-background" src={background} alt="" draggable={false} onLoad={event=>{const image=event.currentTarget;setImageSize({source:background,width:image.naturalWidth,height:image.naturalHeight})}}/>
       {!official&&<div className="world-authored-light" aria-hidden="true"/>}
       <div className="world-location-hud" title={`${planet.subtitle} · ${region.facility?'飞船设施':`Lv.${region.levels[0]}–${region.levels[1]}`}`}><strong>{region.name}</strong></div>
@@ -272,8 +310,24 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       {localCreatures.map(({species,instanceId,level},index)=><RoamingCreature key={instanceId} species={species} instanceId={instanceId} level={level} index={index} count={localCreatures.length} layout={layout}
         frozen={approachingInstance===instanceId||(selection?.kind==='creature'&&selection.instanceId===instanceId)} battle={!!s.battle}
         onApproach={(event,x,y)=>approach(event,{kind:'creature',id:species.id,instanceId,level},x,y)}/>)}
-      {localBosses.map((b,index)=>{const home=constrainScenePoint(layout,{x:layout.boss.x+(index-(localBosses.length-1)/2)*15,y:layout.boss.y});return <button key={b.id} className="world-creature world-boss" style={at(home)} aria-label={`与${b.name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={b.name}/></div><span className="world-character-name"><b>{b.category==='SPT首领'?'SPT':'挑战'}</b> {b.name}<small>Lv.{b.level}</small></span></button>})}
-      {campaignContact&&<button className="world-creature world-boss world-campaign-contact" data-campaign={campaignContact.id} style={at(layout.boss)} aria-label={`与${campaignContactName}互动，查看挑战进度`} onClick={event=>approach(event,{kind:'campaign',id:campaignContact.id},layout.boss.x,layout.boss.y)}><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={campaignContact.species} name={campaignContactName}/></div><span className="world-character-name">{campaignContactName}<small>{campaignProgress}</small></span></button>}
+      {localBosses.map((b,index)=>{
+        const actor=getSceneBossActor(layout,b.id),home=getSceneBossHome(layout,b.id,index,localBosses.length);
+        return <button key={b.id} className={`world-creature world-boss${actor?' world-native-actor':''}`} data-boss={b.id} data-species={b.species}
+          style={{...at(home),...(actor?{width:`${actor.width}%`,height:`${actor.height}%`}:{})}}
+          aria-label={`与${b.name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}>
+          {actor?<img className="world-native-actor-art" src={actor.src} alt="" draggable={false}/>:<><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={b.name}/></div></>}
+          <span className="world-character-name"><b>{b.category==='SPT首领'?'SPT':'挑战'}</b> {b.name}<small>Lv.{b.level}</small></span>
+        </button>;
+      })}
+      {campaignContact&&(()=>{
+        const actor=getSceneBossActor(layout,`campaign:${campaignContact.id}`),home=actor?.anchor??layout.boss;
+        return <button className={`world-creature world-boss world-campaign-contact${actor?' world-native-actor':''}`} data-campaign={campaignContact.id}
+          style={{...at(home),...(actor?{width:`${actor.width}%`,height:`${actor.height}%`}:{})}}
+          aria-label={`与${campaignContactName}互动，查看挑战进度`} onClick={event=>approach(event,{kind:'campaign',id:campaignContact.id},home.x,home.y)}>
+          {actor?<img className="world-native-actor-art" src={actor.src} alt="" draggable={false}/>:<><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={campaignContact.species} name={campaignContactName}/></div></>}
+          <span className="world-character-name">{campaignContactName}<small>{campaignProgress}</small></span>
+        </button>;
+      })()}
       {region.facility&&<button className="world-npc" style={at(layout.npc)} aria-label={`与${facilityName}互动`} onClick={event=>approach(event,{kind:'facility'},layout.npc.x,layout.npc.y)}><Facility kind={region.facility}/>{!laboratory&&<span className="npc-interaction-mark">{region.facility==='missions'?'!':'✦'}</span>}<span className="world-character-name">{facilityName}</span></button>}
       {laboratory&&laboratoryFacilities.map(facility=><button key={facility.page}
         className={`world-lab-facility world-lab-${facility.page}`}

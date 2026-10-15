@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "method": "Original vector geometry with registered AI bitmap parts",
+  "pixelPolicy": "Generated PNG bytes copied unchanged; SVG viewport registration only.",
+  "review": {
+    "status": "accepted",
+    "method": "Original and restored HUDs reviewed at four times native size by two reviewers.",
+    "notes": "The original vector paths, placements and gradients remain unchanged. Restored bitmap interiors retain the reviewed blue and silver structure, with small differences in highlights and fine edge details. They are not pixel-identical source artwork."
+  },
+  "parts": [
+    {
+      "part": 0,
+      "path": "/ui/classic/hd/battle-hud-part-0-v44.png",
+      "sha256": "8fc827069718add38e4f2cc30a29ae041b8cfa8638d8ebee29be7933872e4b82",
+      "width": 1815,
+      "height": 866,
+      "alpha128Bounds": [
+        20,
+        89,
+        1799,
+        776
+      ],
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Faithful high-resolution restoration of this original 2D Flash game UI image, not a redesign. A tiny blue futuristic UI tab: vertical dark left edge, top horizontal short blue ledge, long descending diagonal top roof to pointed right wedge, flat stepped lower edge, cyan thin outline and simple blue flat gradients. Preserve the exact silhouette. Enlarge clean straight/curved edges and flat source gradients only. Keep the exact 44:21 aspect ratio of the entire source canvas and same normalized positioning. Output an enlarged transparent PNG, landscape wide shallow canvas matching 44:21, with at least 4x original dimensions in BOTH axes. Keep original transparent exterior. No new objects, texture, scratches, glow, shadows, 3D, perspective, photographic lighting, lettering or extra padding. Retain exact blue/grey source colors. Every source opaque pixel region keeps its source function and original boundary. This is a single tiny HUD part, not a whole game screen.",
+        "transparentBackground": true
+      }
+    },
+    {
+      "part": 1,
+      "path": "/ui/classic/hd/battle-hud-part-1-v44.png",
+      "sha256": "4f8575c23780e029d852ea827ba81c4fe4ce802ee5d3a922021faeda59d08d16",
+      "width": 2112,
+      "height": 744,
+      "alpha128Bounds": [
+        16,
+        203,
+        2096,
+        529
+      ],
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Faithful high-resolution restoration of this original 2D Flash game UI image, not a redesign. An extremely wide shallow futuristic blue information plate, with thin white silver top strip, stepped angled right-pointing end, darker left seam and tiny top decorative diagonal seams. Preserve all outlines and straight edges exactly. Enlarge clean straight/curved edges and flat source gradients only. Keep the exact 142:25 aspect ratio of the entire source canvas and same normalized positioning. Output an enlarged transparent PNG, landscape wide shallow canvas matching 142:25, with at least 4x original dimensions in BOTH axes. Keep original transparent exterior. No new objects, texture, scratches, glow, shadows, 3D, perspective, photographic lighting, lettering or extra padding. Retain exact blue/grey source colors. Every source opaque pixel region keeps its source function and original boundary. This is a single tiny HUD part, not a whole game screen.",
+        "transparentBackground": true
+      }
+    },
+    {
+      "part": 2,
+      "path": "/ui/classic/hd/battle-hud-part-2-v44.png",
+      "sha256": "0731c66587cc3be16c63b922bb8060dcd9d83e1ca1fee407d3a9cfeeb9f9713d",
+      "width": 2079,
+      "height": 756,
+      "alpha128Bounds": [
+        11,
+        277,
+        2069,
+        478
+      ],
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Faithful high-resolution restoration of this original 2D Flash game UI image, not a redesign. An extremely wide shallow silver-grey gradient rounded rectangular health-bar trough, with charcoal exterior one-pixel outline and pale interior rim, and a narrow vertical seam near the left end. Preserve the exact shape, seam and grey smooth gradient. Do not add a colored health fill. Enlarge clean straight/curved edges and flat source gradients only. Keep the exact 279:31 aspect ratio of the entire source canvas and same normalized positioning. Output an enlarged transparent PNG, landscape wide shallow canvas matching 279:31, with at least 4x original dimensions in BOTH axes. Keep original transparent exterior. No new objects, texture, scratches, glow, shadows, 3D, perspective, photographic lighting, lettering or extra padding. Retain exact blue/grey source colors. Every source opaque pixel region keeps its source function and original boundary. This is a single tiny HUD part, not a whole game screen.",
+        "transparentBackground": true
+      }
+    }
+  ],
+  "assets": {
+    "battle-hud-player": {
+      "source": "public/ui/classic/hd/battle-hud-player.svg",
+      "sourceSha256": "6ab7058f4e7dd71c6142379cf4fe3a73992ac3542baca2c7e3104b3a1f95b01c",
+      "path": "/ui/classic/hd/battle-hud-player-v44.svg",
+      "sha256": "8a2a0eec44c530fc6790381fa23be9faef1bf50cd53ca908c340e5106d7d2d52",
+      "sourceGeometryUnchanged": true,
+      "registration": [
+        {
+          "part": 0,
+          "sourceRgbaSha256": "838e5180e84dd210e82bc6c580843dff4d0d35deccf4551af8054131cf6d8695",
+          "sourcePngSha256": "204c1abf1ac949433a7311a5dae5e1b819e04cedf6a803d56f52adc34721cb4e",
+          "sourceSize": [
+            44,
+            21
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            43,
+            20
+          ],
+          "scale": [
+            0.02417088251826869,
+            0.02911208151382824
+          ]
+        },
+        {
+          "part": 1,
+          "sourceRgbaSha256": "97039ee8a22ef268fa01bb7a5743cf3213375f273364e6067188d8506ebc4984",
+          "sourcePngSha256": "367f4d62545779677b9f39f2b06b2da2f5cd5e3cf875129e5b056aba618e88e1",
+          "sourceSize": [
+            142,
+            25
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            141,
+            24
+          ],
+          "scale": [
+            0.06778846153846153,
+            0.0736196319018405
+          ]
+        },
+        {
+          "part": 2,
+          "sourceRgbaSha256": "346659af474838e647d2029e62d5390cc3ecc28e540938b070adf271fcd2a41e",
+          "sourcePngSha256": "96f282509a156ca4314b091ff28c47396756aa42e483d7464a78b5b652cfb925",
+          "sourceSize": [
+            279,
+            31
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            278,
+            30
+          ],
+          "scale": [
+            0.13508260447035958,
+            0.14925373134328357
+          ]
+        }
+      ]
+    },
+    "battle-hud-opponent": {
+      "source": "public/ui/classic/hd/battle-hud-opponent.svg",
+      "sourceSha256": "7be26fe73144a6ec45b352650a8bea5383c90f5d31010f9601c98eda7ae5a0ff",
+      "path": "/ui/classic/hd/battle-hud-opponent-v44.svg",
+      "sha256": "c6543572d641cdb7ba26fedad170866aa670fd1cc2337826daab4f20976df8c9",
+      "sourceGeometryUnchanged": true,
+      "registration": [
+        {
+          "part": 0,
+          "sourceRgbaSha256": "838e5180e84dd210e82bc6c580843dff4d0d35deccf4551af8054131cf6d8695",
+          "sourcePngSha256": "204c1abf1ac949433a7311a5dae5e1b819e04cedf6a803d56f52adc34721cb4e",
+          "sourceSize": [
+            44,
+            21
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            43,
+            20
+          ],
+          "scale": [
+            0.02417088251826869,
+            0.02911208151382824
+          ]
+        },
+        {
+          "part": 1,
+          "sourceRgbaSha256": "97039ee8a22ef268fa01bb7a5743cf3213375f273364e6067188d8506ebc4984",
+          "sourcePngSha256": "367f4d62545779677b9f39f2b06b2da2f5cd5e3cf875129e5b056aba618e88e1",
+          "sourceSize": [
+            142,
+            25
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            141,
+            24
+          ],
+          "scale": [
+            0.06778846153846153,
+            0.0736196319018405
+          ]
+        },
+        {
+          "part": 2,
+          "sourceRgbaSha256": "346659af474838e647d2029e62d5390cc3ecc28e540938b070adf271fcd2a41e",
+          "sourcePngSha256": "96f282509a156ca4314b091ff28c47396756aa42e483d7464a78b5b652cfb925",
+          "sourceSize": [
+            279,
+            31
+          ],
+          "sourceAlpha128Bounds": [
+            0,
+            0,
+            278,
+            30
+          ],
+          "scale": [
+            0.13508260447035958,
+            0.14925373134328357
+          ]
+        }
+      ]
+    }
+  }
+}

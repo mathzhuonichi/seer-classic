@@ -11,6 +11,13 @@ export interface OriginalSkillEffect {
   fps: number;
   representativeFrame?: number;
   sha256: string;
+  /** Original SWF display-list frames, rendered directly at the recorded size. */
+  hd?: {
+    path: string;
+    width: number;
+    height: number;
+    sha256: string;
+  };
 }
 
 const effects: Record<string, OriginalSkillEffect> = manifest.effects;

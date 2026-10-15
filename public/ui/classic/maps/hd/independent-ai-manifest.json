@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "assets": {
+    "ship-blueprint": {
+      "tool": "built-in image_gen",
+      "prompt": "Faithful HD restoration of the exact original blue spacecraft blueprint card,327:329 aspect ratio. Preserve every contour of the ship and turbine, line positions, blue color, original very fine horizontal scanlines, top/bottom crop. Preserve entire rectangular translucent blue background as well as original line transparency; do NOT remove the blue card background or cut out the ship. No new labels, geometry, glow, extra texture or dimensional rendering. Sharper original thin cyan lines at higher resolution only.",
+      "sourcePath": "public/ui/classic/maps/ship-blueprint.png",
+      "sourceSha256": "7f73d71dfd2752f1d1d9807266646dbc3e0152568659de3124f517e0a18b2094",
+      "sourceWidth": 327,
+      "sourceHeight": 329,
+      "width": 1247,
+      "height": 1261,
+      "sha256": "647b66c3fca87e91fe7ad412e8f5c09734b900fbf41479432e8fdc539bbc7dc9",
+      "generatedFile": "exec-ead6108d-4992-45ca-8e4a-cf6d27be0b9a.png",
+      "review": "Original framing, contours, palette and flat Flash styling visually compared. Conservative AI redraw is not pixel-identical source art.",
+      "path": "/ui/classic/maps/hd/ship-blueprint-v44.svg",
+      "bitmapPath": "/ui/classic/maps/hd/ship-blueprint-v44.png",
+      "bitmapSha256": "70713b2f0ae5ee12daba5ec9d7c62eb3bcb5479c9b97edd7a6b0009b4214f30a",
+      "alphaMethod": "Original source PNG alpha mask; generated color alpha made opaque in SVG only. Generated PNG bytes unchanged."
+    },
+    "station-hub": {
+      "tool": "built-in image_gen",
+      "prompt": "Conservative faithful high-definition redraw of the attached exact original tiny Flash space-station icon. Preserve412:347 aspect ratio, exact silhouette, pose/viewpoint, original simple flat cel colors and shading. Preserve all original tower positions and heights, cyan window strips, ring with small gold markings, circular base, lower-left access ramp with same panels, and navy cast shadow. Transparent background with the exact original occupied bounds. Do not redesign architecture, add structures, add highlights, gloss, texture, tiny surface details or realistic lighting. Clean the original blurry pixel edges only.",
+      "sourcePath": "public/ui/classic/maps/station-hub.png",
+      "sourceSha256": "8068ab1b18f8baf4bad475b36373834c5c7707fd191e1c4f895afff327171568",
+      "sourceWidth": 412,
+      "sourceHeight": 347,
+      "width": 1367,
+      "height": 1151,
+      "sha256": "be17e7e53a891ba7e452255a19325866785ccd5fc15135bc356e26e4d0f6e0f8",
+      "generatedFile": "exec-486ed20e-e5bb-4a64-bf59-607b23b1a87c.png",
+      "review": "Original framing, contours, palette and flat Flash styling visually compared. Conservative AI redraw is not pixel-identical source art.",
+      "path": "/ui/classic/maps/hd/station-hub-v44.png"
+    }
+  }
+}

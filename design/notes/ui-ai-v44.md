@@ -1,0 +1,15 @@
+# Conservative AI restoration of seven classic UI images
+
+Seven source-referenced images are enabled: the map icon's normal and hover states, the pet-bag information well, circuit strip and complete frame, and the battle skill rail and log panel. Every selected PNG is copied unchanged from the built-in image generator to `public/ui/classic/hd/*-v44.png`. `ai-manifest.json` records original and generated hashes, dimensions, alpha statistics, prompts, registration and review decisions. Original source files remain intact.
+
+The map uses a sibling `map-v44.svg`. All seven original vector paths, text, matrices, viewBoxes, styles and state structure are retained verbatim outside its two image elements. Each generated image receives a uniform placement calibrated to the source's occupied alpha bounds. The maximum edge discrepancies at alpha 128 are 0.194 and 0.352 original pixels. Native-layout comparisons include both original button states.
+
+The circuit-strip generation has a 3:1 canvas while the source strip is 383:84. The accepted generation preserves the shallow drawing within plain-color padding. Its SVG wrapper crops only that padding with equal horizontal/vertical scale; it does not stretch the art. Original-size comparison confirms the line and dot placement.
+
+Transparent generation of the log panel repeatedly removed portions of its navy center. Those outputs were rejected. The accepted output is a complete opaque color layer, and its SVG wrapper applies the original PNG as an alpha mask. At the original 599x273 size, the rendered alpha channel matches every original pixel exactly. The original border shape and translucent blue field are retained without editing the generated PNG. This deliberately retains the source-resolution alpha boundary.
+
+The well was regenerated to restore the source's two rounded and two chamfered corners, then received a targeted source-color edit to reduce overly bright lower-corner motifs. The other accepted panels retain their original object counts, layout and text, including the eight pet-bag hexagons and the title. These are AI redraws, so minor color, halo and line differences remain; they are not pixel-identical source exports.
+
+Integration changes are limited to fourteen existing CSS asset URLs across six files and the map icon lookup in `App.tsx`. The CSS layout rules are unchanged. `atlas.css` receives only its shared circuit-strip URL change; atlas presentation data, map scenes, portraits and battle-effect assets are outside this change.
+
+Validation covers all seven copied PNG hashes, unchanged original source hashes, wrapper structure and dimensions, exact log alpha, referenced runtime paths, TypeScript and whitespace checks. An independent in-app-browser comparison loads all fourteen original/result images without browser warnings or errors and verifies the SVG mask, circuit strip, rail and full pet-bag composition. Its review page is `artifacts/ui-ai-v44/review.html`, with registration evidence in `artifacts/ui-ai-v44/integration.json`. Full game interaction validation belongs to the main task.

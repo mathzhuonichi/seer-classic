@@ -8,6 +8,7 @@ import argparse
 import concurrent.futures
 import hashlib
 import json
+import shutil
 import struct
 import subprocess
 import urllib.request
@@ -46,18 +47,33 @@ def pet_character(data):
     raise ValueError('No named pet display-list symbol')
 
 
-def export(sid, java, ffdec):
-    work = ROOT / '.cache/vector-export' / str(sid)
+def export(sid, java, ffdec, *, cache_dir=None, output_dir=None, source_dir=None):
+    work = (cache_dir or ROOT / '.cache/vector-export') / str(sid)
     work.mkdir(parents=True, exist_ok=True)
     url = f'{BASE}{sid}.swf'
     swf = work / f'{sid}.swf'
     if not swf.exists():
-        swf.write_bytes(urllib.request.urlopen(url, timeout=20).read())
+        cached_source = source_dir / f'{sid}.swf' if source_dir else None
+        if cached_source and cached_source.exists():
+            shutil.copyfile(cached_source, swf)
+        else:
+            swf.write_bytes(urllib.request.urlopen(url, timeout=20).read())
     data = swf.read_bytes()
     if data[:3] not in (b'CWS', b'FWS'):
         raise ValueError('Not a supported Flash file')
     character = pet_character(data)
     for kind in ('svg', 'png'):
+        cached = list((work / kind).rglob(f'1.{kind}'))
+        if len(cached) == 1:
+            try:
+                if kind == 'svg':
+                    ET.parse(cached[0])
+                else:
+                    with Image.open(cached[0]) as image:
+                        image.verify()
+                continue
+            except (OSError, ValueError, ET.ParseError):
+                pass
         subprocess.run([
             java, '-Xmx512m', '-Djava.awt.headless=true',
             '-Dapple.awt.UIElement=true', '-jar', ffdec, '-cli',
@@ -92,7 +108,7 @@ def export(sid, java, ffdec):
     svg.set('viewBox', f'{x*2:g} {y*2:g} {width*2:g} {height*2:g}')
     svg.set('width', f'{width:g}')
     svg.set('height', f'{height:g}')
-    destination = ROOT / 'public/portraits/vectors' / f'{sid}.svg'
+    destination = (output_dir or ROOT / 'public/portraits/vectors') / f'{sid}.svg'
     destination.parent.mkdir(parents=True, exist_ok=True)
     tree.write(destination, encoding='utf-8', xml_declaration=True)
     return str(sid), {
@@ -112,8 +128,14 @@ def main():
     parser.add_argument('ids', nargs='+', type=int)
     parser.add_argument('--java', required=True)
     parser.add_argument('--ffdec', required=True)
+    parser.add_argument('--cache-dir', type=Path, default=ROOT / '.cache/vector-export')
+    parser.add_argument('--source-dir', type=Path)
+    parser.add_argument('--output-dir', type=Path, default=ROOT / 'public/portraits/vectors')
+    parser.add_argument('--manifest', type=Path)
+    parser.add_argument('--jobs', type=int, default=2)
+    parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
-    target = ROOT / 'public/portraits/vectors/manifest.json'
+    target = args.manifest or args.output_dir / 'manifest.json'
     manifest = json.loads(target.read_text()) if target.exists() else {
         'description': 'Original official combat-pose vectors; no redraw or raster enlargement.',
         'portraits': {}, 'failures': {},
@@ -121,17 +143,24 @@ def main():
 
     def attempt(sid):
         try:
-            return export(sid, str(Path(args.java).resolve()), str(Path(args.ffdec).resolve()))
+            return export(sid, str(Path(args.java).resolve()), str(Path(args.ffdec).resolve()),
+                          cache_dir=args.cache_dir, output_dir=args.output_dir, source_dir=args.source_dir)
         except Exception as error:
             return str(sid), {'error': str(error), 'source': f'{BASE}{sid}.swf'}
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-        for sid, result in pool.map(attempt, args.ids):
+    ids = args.ids
+    if args.resume:
+        ids = [sid for sid in ids if str(sid) not in manifest['portraits'] or not (args.output_dir / f'{sid}.svg').exists()]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, min(args.jobs, 3))) as pool:
+        futures = [pool.submit(attempt, sid) for sid in ids]
+        for future in concurrent.futures.as_completed(futures):
+            sid, result = future.result()
             manifest['failures' if 'error' in result else 'portraits'][sid] = result
             if 'error' not in result:
                 manifest['failures'].pop(sid, None)
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+            target.with_suffix('.tmp').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+            target.with_suffix('.tmp').replace(target)
             detail = result['error'] if 'error' in result else f'{result["width"]} x {result["height"]} vector units'
             print(sid, detail, flush=True)
 

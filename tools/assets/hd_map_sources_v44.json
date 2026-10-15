@@ -1,0 +1,660 @@
+{
+  "schemaVersion": 1,
+  "maps": [
+    {
+      "mapId": 2,
+      "baselinePath": "/maps/original/2.png",
+      "baselineSha256": "5958fbba5ec9bc04322900244d20a556bb52693c42c39a8dcbfce43ec3c8fd8f",
+      "sourceUrl": "https://seer.61.com/resource/map/2.swf",
+      "sourceSha256": "541523f562395fc4b0d088a53614cfbe9d5583f918ed049f537667dd43996d12",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/2.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/2.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 90,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        -46.65,
+        -8.2,
+        1142.1,
+        594.2
+      ],
+      "maxMeanRgbError": 3.135,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 20,
+      "baselinePath": "/maps/original/20.png",
+      "baselineSha256": "fbd9630ddb16350fe6d2b0d4b4a065de490bd9556aceff4091da95e2b2798709",
+      "sourceUrl": "https://seer.61.com/resource/map/20.swf",
+      "sourceSha256": "19e4e10ae27c208491fc939b35419bbc213bc3ba438ae4e2e40412462bbbdccc",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/20.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/20.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 129,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 3.531,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 25,
+      "baselinePath": "/maps/original/25.png",
+      "baselineSha256": "7bf42283c9dd5dcb45d96e20145755a23589bfa24cd4a83551503de38277f6d1",
+      "sourceUrl": "https://seer.61.com/resource/map/25.swf",
+      "sourceSha256": "b6790fb8d47419827fe2baf5a61a672e7dfdd4319df483e9bdeea54957e12c6f",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/25.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/25.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 47,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 5.322,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 42,
+      "baselinePath": "/maps/original/42.png",
+      "baselineSha256": "2e2ccfdb7b81f97f2b5ed21b3f99e902c4621ee3163984f800fa4f56a9d0c962",
+      "sourceUrl": "https://seer.61.com/resource/map/42.swf",
+      "sourceSha256": "5a270f6818e25cabb530abead7c83f2bc60c2a3dc6f8e32edf1f97584dc1e298",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/42.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/42.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 55,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 8.762,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 43,
+      "baselinePath": "/maps/original/43.jpg",
+      "baselineSha256": "93bf11d98d19e2ccbb2a7ea97830fa56ea1be8cebdfbd85498abb5c2002c307f",
+      "sourceUrl": "https://seer.61.com/resource/map/43.swf",
+      "sourceSha256": "e5e54388499442225b7712084aecbc69fcc696b0c06f34125986c6c6914a6e06",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/43.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/43.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 64,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 6.959,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 52,
+      "baselinePath": "/maps/original/52.png",
+      "baselineSha256": "cb5f64914b9928470fd6c48298fcaae20c4e7e7b5cc2b64dd15f14d73885da60",
+      "sourceUrl": "https://seer.61.com/resource/map/52.swf",
+      "sourceSha256": "95a8685f88330eb0804432c4265ef410b57860b3e83b47e79e231092183a7f30",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/52.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/52.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 43,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 8.418,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 53,
+      "baselinePath": "/maps/original/53.png",
+      "baselineSha256": "f075177b196ee178671d6ff108b981421b67951f96383e4a545479e7f1dad1cf",
+      "sourceUrl": "https://seer.61.com/resource/map/53.swf",
+      "sourceSha256": "c4286155f38e4d8b0f832301b13be9182c402567453ed865cf51332574b6f2ec",
+      "cachedSource": "../analysis/codex-takeover-2026-10-14/map-placement-v44/swf/53.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/53.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 45,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 5.925,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 54,
+      "baselinePath": "/maps/original/54.png",
+      "baselineSha256": "2005bf4ef7ce72bc6732f0b2cb9e5107a115129460b38681f1e3670ffb5770c1",
+      "sourceUrl": "https://seer.61.com/resource/map/54.swf",
+      "sourceSha256": "ef8d784727c0bd92b111bd12f66100d3027b5e939c30a1130428e5706dda5f5b",
+      "cachedSource": "../analysis/codex-takeover-2026-10-14/map-placement-v44/swf/54.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/54.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 35,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        -1,
+        0,
+        961,
+        560
+      ],
+      "maxMeanRgbError": 6.431,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 106,
+      "baselinePath": "/maps/original/106.jpg",
+      "baselineSha256": "b73ec0fd87cd161ad5001b7c4c70edbef91f8803182e976c3817932ae658e95f",
+      "sourceUrl": "https://seer.61.com/resource/map/106.swf",
+      "sourceSha256": "19242ca126b9c55803458685aec84f4152c6eadd97bef2c99a9bbf125ddf9784",
+      "cachedSource": "../analysis/codex-takeover-2026-10-14/map-placement-v44/swf/106.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/106.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 141,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 5.684,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 325,
+      "baselinePath": "/maps/original/325.png",
+      "baselineSha256": "3d2df86f7859603d1166629d8456473430447d9aced03f4532b6ba133e87532b",
+      "sourceUrl": "https://seer.61.com/resource/map/325.swf",
+      "sourceSha256": "2efe9900826a32630dc135f97a35ed1b0b8f6b0b61e69e604b8287756d69fdfe",
+      "cachedSource": "../analysis/codex-takeover-2026-10-14/map-placement-v44/swf/325.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/325.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 57,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        -3.65,
+        -1,
+        970.3,
+        561
+      ],
+      "maxMeanRgbError": 7.111,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 328,
+      "baselinePath": "/maps/original/328.jpg",
+      "baselineSha256": "dc3e78052207632e11bd23fc2410be3de59bdbff3d81088f35b5af4750471c6b",
+      "sourceUrl": "https://seer.61.com/resource/map/328.swf",
+      "sourceSha256": "cb91411459c4f98b10159ca47b9e08ff722178c6a0b391640ab356b7afd47baa",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/328.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/328.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 27,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 6.657,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 450,
+      "baselinePath": "/maps/original/450.jpg",
+      "baselineSha256": "15225f816b4d1125f4d552ce44ef0c9ba077f2fcd8189ea230141a92fcfc5ea2",
+      "sourceUrl": "https://seer.61.com/resource/map/450.swf",
+      "sourceSha256": "1650ff1ac5eab33e7d6d0fc253fb8639ba40784ddd716023c3c2969931b12001",
+      "cachedSource": "../analysis/codex-takeover-2026-10-14/map-placement-v44/swf/450.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/450.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 47,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 4.896,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 463,
+      "baselinePath": "/maps/original/463.png",
+      "baselineSha256": "de4b3d2f54c1e1f5888a28a7d5c583ec9632832834184864a242bd2fcbb5eca9",
+      "sourceUrl": "https://seer.61.com/resource/map/463.swf",
+      "sourceSha256": "43e1a1dc8f962c0a35fd7b40fd200c379ade47222fb6103f7cee685c5348b58c",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/463.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/463.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 12,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 1.564,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 484,
+      "baselinePath": "/maps/original/484.jpg",
+      "baselineSha256": "628bdd3263918c66f5cf35c357e00e00652c8761744cab8f958003a25c803fb7",
+      "sourceUrl": "https://seer.61.com/resource/map/484.swf",
+      "sourceSha256": "2240966ce95c91c04de5b4fcec3c8163ec7b3fb33004a818d06d210fa3b628b7",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/484.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/484.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 82,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 4.801,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 494,
+      "baselinePath": "/maps/original/494.jpg",
+      "baselineSha256": "125eafde716f267df833ebf9f0aaff202fc4ea7229c26900141450b586941cd5",
+      "sourceUrl": "https://seer.61.com/resource/map/494.swf",
+      "sourceSha256": "ec4b8b7a25f6b605ebb02e4953880fffb08e847c9df8d8d3832925714ee9d4cf",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/494.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/494.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 34,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 4.283,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 664,
+      "baselinePath": "/maps/original/664.jpg",
+      "baselineSha256": "19e24373bd85a9c77ea992c1ba502b04fca917e120e59b1a928908eb005d54bd",
+      "sourceUrl": "https://seer.61.com/resource/map/664.swf",
+      "sourceSha256": "352c2606e9b99b245590e72d8a9cba9bb99e5ef8f4b0295a70cefda4d7f5ec14",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/664.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/664.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 0,
+        "character": 39,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": ""
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 7.958,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly.",
+      "opaqueExterior": "#000000"
+    },
+    {
+      "mapId": 683,
+      "baselinePath": "/maps/original/683.jpg",
+      "baselineSha256": "7d7b967683a116887afe86a176bc421cd9fa161d951d06df81f96a6584063c50",
+      "sourceUrl": "https://seer.61.com/resource/map/683.swf",
+      "sourceSha256": "0a1ec85f1e93d2e187faf7539d96f078e6d68c7d060f7c4723446cf6e688fadf",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/683.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/683.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 19,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 6.365,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 685,
+      "baselinePath": "/maps/original/685.jpg",
+      "baselineSha256": "e9042014d8d336116c2f318666060fbad68c3276e0c306dd02554599398580e3",
+      "sourceUrl": "https://seer.61.com/resource/map/685.swf",
+      "sourceSha256": "1fa314ba1148812d4d48b8d9226758b95e926f70a413183e992f130d32a7109d",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/685.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/685.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 34,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 10.804,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly."
+    },
+    {
+      "mapId": 775,
+      "baselinePath": "/maps/original/775.jpg",
+      "baselineSha256": "97157bce9600f4687831a30d24a52f1cbc9d321dbb694d26d3ca155a0e348a35",
+      "sourceUrl": "https://seer.61.com/resource/map/775.swf",
+      "sourceSha256": "d990f880174090df927107e8ac406517070529688608ae7ae4fb6acb2b60e644",
+      "cachedSource": ".cache/hd-ui-v44/map-sources/775.swf",
+      "cachedSvg": ".cache/hd-ui-v44/map-svg/775.swf/1.svg",
+      "sourcePlacement": {
+        "depth": 1,
+        "flags": 38,
+        "flags2": 4,
+        "character": 9,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "name": "bg_mc",
+        "remainingBytes": "01"
+      },
+      "localViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "maxMeanRgbError": 7.416,
+      "visualReview": "Side-by-side review preserves the original scene, silhouette, terrain and major structures. Original source first-frame ambient effects and renderer antialiasing may differ slightly.",
+      "opaqueExterior": "#000000"
+    }
+  ],
+  "rejectedSourceSnapshotIds": [
+    41,
+    46,
+    47,
+    51,
+    55,
+    58,
+    60,
+    61,
+    326,
+    327,
+    333,
+    338,
+    342,
+    423,
+    435,
+    436,
+    437,
+    438,
+    439,
+    441,
+    479,
+    497,
+    676,
+    762
+  ]
+}

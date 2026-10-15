@@ -1,18 +1,236 @@
 import type { WorldPlanet, WorldRegion } from '../world';
 
 export interface ScenePoint { x: number; y: number }
+export interface SceneBossActor {
+  src:string;
+  /** Original actor crop dimensions, as percentages of the displayed scene. */
+  width:number;
+  height:number;
+  /** Bottom center of the source crop in the same scene coordinate system. */
+  anchor:ScenePoint;
+}
 export interface SceneLayout {
   /** The interaction plane covers 96% of the image; terrain does not block clicks. */
   walk: readonly ScenePoint[];
+  /** Wildlife stays on its source-derived or explicitly authored terrain. */
+  habitat?: readonly ScenePoint[];
   homes: readonly ScenePoint[];
   entry: ScenePoint;
   npc: ScenePoint;
   boss: ScenePoint;
+  /** Source-verified contacts, keyed by encounter ID rather than species. */
+  bossHomes?: Readonly<Record<string,ScenePoint>>;
+  bossActors?: Readonly<Record<string,SceneBossActor>>;
   gates: readonly [ScenePoint, ScenePoint];
   roam: ScenePoint;
+  /** Optional local territory keeps a crowded authored composition readable. */
+  homeRoam?: ScenePoint;
   creatureSize?: number;
 }
 const point=(x:number,y:number):ScenePoint=>({x,y});
+// Source identities, original matrices, masks, crop bounds and hashes are kept
+// in public/maps/actors/manifest.json. These are original map poses, not battle
+// portraits enlarged to a shared size.
+const originalBossActors:Record<number,Readonly<Record<string,SceneBossActor>>>={
+  17:{
+    'boss_spt_liaosi':{src:'/maps/actors/17-liaosi.svg',width:63/960*100,height:94/560*100,anchor:point(813.5/960*100,243/560*100)},
+  },
+  22:{
+    'boss_spt_gangyasha':{src:'/maps/actors/22-steeltooth-shark.svg',width:84/960*100,height:98/560*100,anchor:point(871/960*100,133/560*100)},
+  },
+  40:{
+    'boss_spt_akexiya':{src:'/maps/actors/40-akexiya.svg',width:131/960*100,height:158/560*100,anchor:point(602.5/960*100,165/560*100)},
+  },
+  348:{
+    'boss_spt_takelin':{src:'/maps/actors/348-takelin.svg',width:99/960*100,height:66/560*100,anchor:point(807.5/960*100,219/560*100)},
+    'boss_spt_saiweier':{src:'/maps/actors/348-saiweier.svg',width:109/960*100,height:104/560*100,anchor:point(632.5/960*100,188/560*100)},
+    'boss_spt_taxiya':{src:'/maps/actors/348-taxiya.svg',width:78/960*100,height:93/560*100,anchor:point(450.0/960*100,177/560*100)},
+    'boss_spt_hamoleite':{src:'/maps/actors/348-hamoleite.svg',width:140/960*100,height:137/560*100,anchor:point(194.0/960*100,167/560*100)},
+  },
+  507:{
+    'boss_buleike':{src:'/maps/actors/507-buleike.svg',width:70/960*100,height:135/560*100,anchor:point(414.0/960*100,227/560*100)},
+  },
+  731:{
+    'boss_spt_pulante':{src:'/maps/actors/731-pulante.svg',width:60/960*100,height:96/560*100,anchor:point(504.0/960*100,335/560*100)},
+  },
+  799:{
+    'boss_spt_luolasike':{src:'/maps/actors/799-luolasike.svg',width:84/960*100,height:74/560*100,anchor:point(155.0/960*100,312/560*100)},
+  },
+  803:{
+    'boss_spt_yisuoli':{src:'/maps/actors/803-yisuoli.svg',width:77/960*100,height:86/560*100,anchor:point(653.5/960*100,419/560*100)},
+  },
+  10032:{
+    'campaign:puni':{src:'/maps/actors/10032-puni.svg',width:165/960*100,height:165/560*100,anchor:point(439.5/960*100,245/560*100)},
+  },
+};
+// Maps 54, 314 and 325 retain their nonstandard original background viewport;
+// convert source stage coordinates by its origin and extent, recorded in the manifest.
+const originalBossHomes:Record<number,Readonly<Record<string,ScenePoint>>>={
+  12:{
+    'boss_spt_moguguai':point(694.00000000/960*100,125.00000000/560*100),
+  },
+  17:{
+    'boss_spt_liaosi':point(813.50000000/960*100,243.00000000/560*100),
+  },
+  22:{
+    'boss_spt_gangyasha':point(871.00000000/960*100,133.00000000/560*100),
+  },
+  27:{
+    'boss_spt_tiyasi':point(334.50000000/960*100,393.00000000/560*100),
+  },
+  32:{
+    'boss_rei':point(760.50000000/960*100,271.00000000/560*100),
+  },
+  40:{
+    'boss_spt_akexiya':point(602.50000000/960*100,165.00000000/560*100),
+  },
+  46:{
+    'boss_spt_sibinsai':point(844.50000000/960*100,141.00000000/560*100),
+  },
+  49:{
+    'boss_spt_leinaduo':point(480.00000000/960*100,197.00000000/560*100),
+  },
+  53:{
+    'boss_spt_moshidilu':point(391.00000000/960*100,162.00000000/560*100),
+  },
+  54:{
+    'boss_spt_kelaifen1':point((164+1)/961*100,129/560*100),
+    'boss_spt_kelaifen2':point((254+1)/961*100,129/560*100),
+  },
+  61:{
+    'boss_spt_eersaila':point(621.79200000/960*100,482.27200000/560*100),
+  },
+  106:{
+    'boss_spt_naduolei':point(459.00000000/960*100,275.00000000/560*100),
+  },
+  314:{
+    'boss_spt_younasi':point((621.5+1.65)/962*100,294/560*100),
+  },
+  325:{
+    'boss_spt_nainifenduo':point((599+3.65)/970.3*100,(302.0006408691406+1)/561*100),
+  },
+  348:{
+    'boss_spt_hamoleite':point(194.00000000/960*100,167.00000000/560*100),
+    'boss_spt_takelin':point(807.50000000/960*100,219.00000000/560*100),
+    'boss_spt_taxiya':point(450.00000000/960*100,177.00000000/560*100),
+    'boss_spt_saiweier':point(632.50000000/960*100,188.00000000/560*100),
+  },
+  402:{
+    'boss_trial_brave_qigesa':point(566.40000000/960*100,464.80000000/560*100),
+  },
+  423:{
+    'boss_spt_laokemengde':point(634.00000000/960*100,290.00000000/560*100),
+  },
+  429:{
+    'boss_spt_yalunsi':point(510.52800000/960*100,393.68000000/560*100),
+  },
+  435:{
+    'boss_spt_kelanite1':point(324.50000000/960*100,342.00000000/560*100),
+    'boss_spt_kelanite2':point(414.50000000/960*100,342.00000000/560*100),
+  },
+  438:{
+    'boss_spt_moduosa':point(501.77500000/960*100,242.60000000/560*100),
+  },
+  441:{
+    'boss_spt_kenpeide':point(601.00000000/960*100,241.00000000/560*100),
+  },
+  445:{
+    'boss_kaxiusi':point(736.92990341/960*100,207.91623383/560*100),
+  },
+  450:{
+    'boss_spt_difute':point(612.00000000/960*100,300.00000000/560*100),
+  },
+  464:{
+    'boss_spt_ajiasha':point(789.50000000/960*100,265.00000000/560*100),
+  },
+  479:{
+    'boss_spt_minuosi':point(664.50000000/960*100,270.00000000/560*100),
+  },
+  486:{
+    'boss_spt_delasa':point(817.00000000/960*100,217.00000000/560*100),
+  },
+  495:{
+    'boss_spt_sipulinte':point(476.00000000/960*100,228.00000000/560*100),
+  },
+  507:{
+    'boss_buleike':point(414.00000000/960*100,227.00000000/560*100),
+  },
+  666:{
+    'boss_campaign_xuanwu_body':point(189.31200000/960*100,408.24000000/560*100),
+    'boss_campaign_qinglong_body':point(333.31200000/960*100,408.24000000/560*100),
+    'boss_campaign_baihu_body':point(477.31200000/960*100,408.24000000/560*100),
+    'boss_campaign_zhuque_body':point(621.31200000/960*100,408.24000000/560*100),
+  },
+  676:{
+    'boss_spt_guerzhadi':point(292.00000000/960*100,494.00000000/560*100),
+  },
+  684:{
+    'boss_spt_pitesaluo':point(583.00000000/960*100,485.00000000/560*100),
+  },
+  686:{
+    'boss_spt_anyebinghu':point(451.00000000/960*100,158.00000000/560*100),
+  },
+  688:{
+    'boss_spt_ruiersi':point(480.45000000/960*100,189.95000000/560*100),
+  },
+  702:{
+    'boss_spt_lansite':point(629.00000000/960*100,298.00000000/560*100),
+  },
+  706:{
+    'boss_spt_kawoer':point(646.36800000/960*100,434.33600000/560*100),
+  },
+  710:{
+    'boss_spt_kailuoya':point(638.50000000/960*100,426.00000000/560*100),
+  },
+  717:{
+    'boss_spt_kalunni':point(680.50000000/960*100,389.00000000/560*100),
+  },
+  722:{
+    'boss_paluodiya':point(677.61600000/960*100,490.33600000/560*100),
+  },
+  724:{
+    'boss_spt_silipu':point(695.00000000/960*100,359.00000000/560*100),
+  },
+  731:{
+    'boss_spt_pulante':point(504.00000000/960*100,335.00000000/560*100),
+  },
+  735:{
+    'boss_spt_bokate':point(610.50000000/960*100,373.00000000/560*100),
+  },
+  746:{
+    'boss_spt_basuoer':point(735.00000000/960*100,182.00000000/560*100),
+  },
+  762:{
+    'boss_spt_palisi':point(355.50000000/960*100,258.00000000/560*100),
+  },
+  780:{
+    'boss_spt_sikelu':point(608.00000000/960*100,404.00000000/560*100),
+  },
+  782:{
+    'boss_ailike':point(353.56800000/960*100,474.20800000/560*100),
+  },
+  784:{
+    'boss_spt_nate':point(155.50000000/960*100,231.00000000/560*100),
+  },
+  789:{
+    'boss_spt_situerte':point(254.50000000/960*100,491.00000000/560*100),
+  },
+  795:{
+    'boss_spt_kuli':point(282.50000000/960*100,407.00000000/560*100),
+  },
+  799:{
+    'boss_spt_luolasike':point(155.00000000/960*100,312.00000000/560*100),
+  },
+  803:{
+    'boss_spt_yisuoli':point(653.50000000/960*100,419.00000000/560*100),
+  },
+  810:{
+    'boss_spt_fuxisi':point(148.50000000/960*100,432.00000000/560*100),
+  },
+  10032:{
+    'campaign:puni':point(439.50000000/960*100,245.00000000/560*100),
+  },
+};
 const rectangle=(left:number,top:number,right:number,bottom:number)=>[
   point(left,top),point(right,top),point(right,bottom),point(left,bottom),
 ];
@@ -219,45 +437,69 @@ const originalOverrides:Record<number,Partial<SceneLayout>>={
     homes:[point(28,60),point(44,58),point(59,63),point(32,77),point(49,80),point(65,79)],
     entry:point(24,74),npc:point(44,74),boss:point(54,73),
     gates:[point(20,56),point(79,69)],roam:point(2.5,2),creatureSize:13},
+  // The forest clearing has staggered ground between the giant mushrooms.
+  // Separate local territories keep six independently moving residents readable.
+  726:{walk:[point(41,70),point(65,66),point(77,72),point(85,84),point(69,97),point(42,97),point(29,89),point(32,80)],
+    homes:[point(49,71),point(64,76),point(79,81),point(36,84),point(51,88),point(66,94)],
+    roam:point(2.2,1.5),homeRoam:point(2.2,1.5)},
 };
 
 export function getSceneLayout(planet:WorldPlanet,region:WorldRegion):SceneLayout {
   const source=region.background??planet.background;
-  const originalId=Number(source.match(/\/maps\/original\/(\d+)\./)?.[1]);
+  const originalId=region.backgroundAssetMapId??Number(source.match(/\/maps\/original\/(\d+)\./)?.[1]);
   const placement=originalFloors[originalId]
     ? {...floorLayout(originalFloors[originalId]),...originalOverrides[originalId]}
     : themeLayouts[planet.theme]??common;
-  // Retain useful artwork anchors, but make the whole map usable. Original
-  // road masks are placement references and no longer restrict interaction.
-  return {...placement,walk:rectangle(1,1,99,99),roam:point(25,20)};
+  // Player navigation remains free. Wildlife uses the separate terrain polygon
+  // and its local roaming radius instead of inheriting the full click plane.
+  return {...placement,bossHomes:originalBossHomes[originalId],bossActors:originalBossActors[originalId],habitat:placement.habitat??placement.walk,walk:rectangle(1,1,99,99)};
 }
 
 export function creatureSceneHome(layout:SceneLayout,index:number,count:number):ScenePoint {
-  if(count===1)return layout.homes[1]??layout.boss;
+  if(count===1)return constrainHabitatPoint(layout,layout.homes[1]??layout.boss);
   // Keep the original six-position composition for ordinary populations. Rich
   // habitats need distinct anchors rather than wrapping onto occupied homes.
   if(count>layout.homes.length) {
-    const xs=layout.homes.map(home=>home.x),ys=layout.homes.map(home=>home.y);
-    const width=Math.max(60,Math.max(...xs)-Math.min(...xs));
-    const height=Math.max(32,Math.max(...ys)-Math.min(...ys));
-    const left=Math.max(8,Math.min(92-width,(Math.min(...xs)+Math.max(...xs)-width)/2));
-    const top=Math.max(38,Math.min(92-height,(Math.min(...ys)+Math.max(...ys)-height)/2));
-    const columns=Math.ceil(Math.sqrt(count*1.5)),rows=Math.ceil(count/columns);
-    const row=Math.floor(index/columns),inRow=Math.min(columns,count-row*columns);
-    return point(left+width*(index%columns+.5)/inRow,top+height*(row+.5)/rows);
+    const polygon=layout.habitat??layout.walk;
+    const xs=polygon.map(home=>home.x),ys=polygon.map(home=>home.y);
+    const left=Math.min(...xs),top=Math.min(...ys);
+    const width=Math.max(...xs)-left,height=Math.max(...ys)-top;
+    const columns=Math.max(1,Math.ceil(Math.sqrt(count*width/Math.max(height,1))));
+    const rows=Math.max(1,Math.ceil(count/columns));
+    // Sample inside the polygon, rather than projecting a wide grid onto its
+    // boundary. Denser grids also cover narrow and concave authored terrain.
+    for(let density=1;density<=8;density++){
+      const candidates:ScenePoint[]=[];
+      for(let y=0;y<rows*density;y++)for(let x=0;x<columns*density;x++){
+        const candidate=point(left+width*(x+.5)/(columns*density),top+height*(y+.5)/(rows*density));
+        if(insideScenePolygon(polygon,candidate))candidates.push(candidate);
+      }
+      if(candidates.length>=count)return candidates[Math.floor(((index%count)+.5)*candidates.length/count)];
+    }
   }
-  return layout.homes[index%layout.homes.length];
+  return constrainHabitatPoint(layout,layout.homes[index%layout.homes.length]??layout.boss);
 }
 
-/** Project a click onto the nearest edge when it falls outside the scene floor. */
-export function constrainScenePoint(layout:SceneLayout,position:ScenePoint):ScenePoint {
+/** Use an encounter-specific source point, or the existing remake arrangement. */
+export function getSceneBossHome(layout:SceneLayout,bossId:string,index:number,count:number):ScenePoint {
+  return layout.bossActors?.[bossId]?.anchor??layout.bossHomes?.[bossId]??constrainScenePoint(layout,point(layout.boss.x+(index-(count-1)/2)*15,layout.boss.y));
+}
+
+export function getSceneBossActor(layout:SceneLayout,bossId:string):SceneBossActor|undefined {
+  return layout.bossActors?.[bossId];
+}
+
+function insideScenePolygon(polygon:readonly ScenePoint[],position:ScenePoint):boolean {
   let inside=false;
-  const polygon=layout.walk;
   for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){
     const a=polygon[i],b=polygon[j];
     if((a.y>position.y)!==(b.y>position.y)&&position.x<(b.x-a.x)*(position.y-a.y)/(b.y-a.y)+a.x)inside=!inside;
   }
-  if(inside)return position;
+  return inside;
+}
+
+function constrainPolygonPoint(polygon:readonly ScenePoint[],position:ScenePoint):ScenePoint {
+  if(insideScenePolygon(polygon,position))return position;
   let nearest=polygon[0],distance=Infinity;
   for(let i=0;i<polygon.length;i++){
     const a=polygon[i],b=polygon[(i+1)%polygon.length],dx=b.x-a.x,dy=b.y-a.y;
@@ -266,4 +508,14 @@ export function constrainScenePoint(layout:SceneLayout,position:ScenePoint):Scen
     if(d<distance){distance=d;nearest=candidate}
   }
   return nearest;
+}
+
+/** Project a player click onto the free scene interaction plane. */
+export function constrainScenePoint(layout:SceneLayout,position:ScenePoint):ScenePoint {
+  return constrainPolygonPoint(layout.walk,position);
+}
+
+/** Keep wildlife inside its own terrain without changing player navigation. */
+export function constrainHabitatPoint(layout:SceneLayout,position:ScenePoint):ScenePoint {
+  return constrainPolygonPoint(layout.habitat??layout.walk,position);
 }

@@ -1,7 +1,7 @@
 /* The modifier is scoped to the whole game frame, above both scene and toolbar. */
 .modifier-backdrop{position:absolute;inset:0;z-index:60;display:grid;place-items:center;background:#001d47c9;padding:12px;isolation:isolate}
 .modifier-dialog{position:relative;width:min(680px,100%);height:min(650px,100%);min-height:0;display:flex;flex-direction:column;background:#e6f7ff;color:#073d6a;border:3px solid #81ddff;border-radius:8px;box-shadow:0 0 0 1px #0067b8,0 8px 24px #001a4666;overflow:hidden;outline:none}
-.modifier-titlebar{height:36px;min-height:36px;display:flex;align-items:center;justify-content:center;background:#229ee8 url('/ui/classic/petbag-header-circuit.png') center bottom / 100% 6px no-repeat;border-bottom:2px solid #0788c9;position:relative;padding:0 36px}
+.modifier-titlebar{height:36px;min-height:36px;display:flex;align-items:center;justify-content:center;background:#229ee8 url('/ui/classic/hd/petbag-header-circuit-v44.svg') center bottom / 100% 6px no-repeat;border-bottom:2px solid #0788c9;position:relative;padding:0 36px}
 .modifier-titlebar h2{font-size:16px;margin:0;color:white;font-weight:400;text-shadow:1px 1px #00478a}
 .modifier-titlebar button{position:absolute;top:4px;right:5px;width:25px;height:25px;padding:0;border:0;background:none;box-shadow:none}
 .modifier-titlebar img{width:100%;height:100%;display:block;pointer-events:none}
@@ -10,7 +10,7 @@
 .modifier-dialog input,.modifier-dialog select{font:inherit;font-size:12px;color:#08375d;background:#fff;border:1px solid #519dc6;border-radius:3px;padding:6px;min-width:0;max-width:100%}
 .modifier-picker select{width:100%}
 .modifier-current{display:flex;align-items:center;gap:10px;margin-top:6px}
-.modifier-portrait{height:52px;width:52px;position:relative;flex-shrink:0;background:#0a3978 url('/ui/classic/petbag-well.png') center / 100% 100% no-repeat;border-radius:5px;overflow:hidden}
+.modifier-portrait{height:52px;width:52px;position:relative;flex-shrink:0;background:#0a3978 url('/ui/classic/hd/petbag-well-v44.png') center / 100% 100% no-repeat;border-radius:5px;overflow:hidden}
 .modifier-portrait>img{width:100%;height:100%;object-fit:contain;display:block}
 .modifier-current>div:last-child{min-width:0}
 .modifier-current strong{display:block;font-size:14px;font-weight:400;line-height:1.5;color:#063e74;overflow-wrap:anywhere}

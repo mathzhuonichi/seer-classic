@@ -10,7 +10,7 @@
 .quest-filter input{flex:1;min-width:0}
 .quest-filter select{max-width:115px}
 .quest-console{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:10px;scrollbar-color:#1998d7 #064b84;padding:0 2px 6px}
-.quest-panel .quest-console article{flex-shrink:0;background:#0e3765 url('/ui/classic/petbag-well.png') center/100% 100% no-repeat;border:0;border-radius:7px;padding:13px 15px;color:#e3f6ff}
+.quest-panel .quest-console article{flex-shrink:0;background:#0e3765 url('/ui/classic/hd/petbag-well-v44.png') center/100% 100% no-repeat;border:0;border-radius:7px;padding:13px 15px;color:#e3f6ff}
 .quest-card-heading{display:flex;align-items:center;gap:12px;min-width:0}
 .quest-card-heading>div:last-child{flex:1;min-width:0}
 .quest-console article h3{margin:0 0 5px;font-size:14px;font-weight:400;line-height:1.5;color:#fff}

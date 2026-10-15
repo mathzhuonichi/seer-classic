@@ -1,0 +1,498 @@
+{
+  "schema": 1,
+  "source": "Existing classic UI raster images and original map SVG wrapper.",
+  "generation": "Built-in image_gen; conservative source-referenced edits.",
+  "assets": {
+    "map-icon-normal": {
+      "source": ".cache/hd-ui-v44/ai-inputs/ui-map-embedded-0.png",
+      "sourceImage": {
+        "width": 111,
+        "height": 100,
+        "sha256": "6f45c64e4b923df0dde46d4248b74d9e615df76748619b3f4c5909ce742ce229",
+        "bytes": 14678,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.5973873873873874,
+        "partialFraction": 0.02027027027027027,
+        "alpha128Bounds": [
+          14,
+          17,
+          93,
+          87
+        ]
+      },
+      "path": "/ui/classic/hd/map-icon-normal-v44.png",
+      "generatedImage": {
+        "width": 1322,
+        "height": 1190,
+        "sha256": "cb1391089cb6f48c65d54534d7c677c145884f0be0971673096721174c891805",
+        "bytes": 729861,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.6659282472444349,
+        "partialFraction": 0.33382956813587766,
+        "alpha128Bounds": [
+          232,
+          217,
+          1090,
+          981
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Use case: precise-object-edit. Faithfully restore the attached tiny blue orbital-map icon. Preserve original canvas ratio 111:100 and the SAME small icon occupancy within it: the opaque disk bounding box is x=14 to 93, y=17 to 87 in the original 111x100 canvas; keep these normalized coordinates exactly at high resolution. Transparent empty margins must remain around the disk; do NOT enlarge the disk to fill the canvas. Preserve every original white orbit ring, central cyan orb, four yellow dots, outer blue ring, bottom blue dot and the tiny blue fasteners with their original counts and locations. Keep the original simple blue flat Flash style and only existing highlights. No new glow, extra white specks, symbols, stars, fasteners, strokes, texture, strong shine or redesign. Preserve the round source disk silhouette, source color palette and actual transparent exterior with clean edges. Return a high-resolution PNG with genuine alpha, at least 1000 pixels wide.",
+        "transparentBackground": true
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted after an original-layout SVG comparison. Original paths, text and matrices remain unchanged; only the bitmap is replaced and uniformly registered. The alpha-128 occupied bounds differ by at most 0.194 original pixels."
+      },
+      "registration": {
+        "method": "Uniform image placement fitted to the original alpha-128 occupied bounds; source paths, matrices and viewBoxes unchanged.",
+        "x": -7.062827225130889,
+        "y": -2.882198952879584,
+        "width": 121.12565445026178,
+        "height": 109.03141361256544,
+        "scale": 0.09162303664921466,
+        "resultingBounds": [
+          14.193717277486911,
+          16.999999999999996,
+          92.80628272251309,
+          87.0
+        ]
+      },
+      "runtimePath": "/ui/classic/hd/map-v44.svg",
+      "runtimeSha256": "af409bb95d51bb35d5102f54c0c94d8e6ac088afc2ce87fb272ecb1db10c68d8"
+    },
+    "map-icon-glow": {
+      "source": ".cache/hd-ui-v44/ai-inputs/ui-map-embedded-1.png",
+      "sourceImage": {
+        "width": 111,
+        "height": 100,
+        "sha256": "bcfdfddc57612a79adbf62aa6730d01dd43afda16f55b40ea124303f545ef860",
+        "bytes": 21728,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.296036036036036,
+        "partialFraction": 0.26063063063063063,
+        "alpha128Bounds": [
+          11,
+          13,
+          96,
+          89
+        ]
+      },
+      "path": "/ui/classic/hd/map-icon-glow-v44.png",
+      "generatedImage": {
+        "width": 1322,
+        "height": 1190,
+        "sha256": "98a062978ef947324cf8f71faa944f4b09c1b07ba7d7498c4a69b80d4eaabdd9",
+        "bytes": 1236879,
+        "alphaRange": [
+          0,
+          254
+        ],
+        "transparentFraction": 0.3875138254999428,
+        "partialFraction": 0.6124861745000572,
+        "alpha128Bounds": [
+          145,
+          124,
+          1170,
+          1032
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Use case: precise-object-edit. Faithfully restore the attached original HOVER state of the blue orbital-map icon. Preserve canvas ratio111:100 and the icon's ORIGINAL placement and size within that canvas. Its disk and visible strong rim occupy roughly x=11 to96 and y=13 to89; its faint original cyan halo occupies x=7 to100 and y=6 to90. Do NOT enlarge or recenter it. Keep the surrounding transparent margins. Preserve precisely every source white orbit ring, central cyan orb, four yellow dots, bottom blue dot and original tiny fasteners; no new fasteners or marks. Keep exactly the existing subtle cyan hover glow, do not amplify or expand it. Original flat Flash blue cartoon palette and simple highlights, no added texture, gloss, extra lighting or 3D. Clean faithful high-resolution transparent PNG, at least1000 pixels wide.",
+        "transparentBackground": true
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted with original cyan hover halo retained. Uniform registration preserves the original strong-alpha occupied bounds within 0.352 original pixels. Minor AI halo/line differences remain."
+      },
+      "registration": {
+        "method": "Uniform image placement fitted to the original alpha-128 occupied bounds; source paths, matrices and viewBoxes unchanged.",
+        "x": -1.0243902439024453,
+        "y": 3.068292682926824,
+        "width": 109.62926829268294,
+        "height": 98.6829268292683,
+        "scale": 0.08292682926829269,
+        "resultingBounds": [
+          10.999999999999995,
+          13.351219512195117,
+          96.0,
+          88.64878048780487
+        ]
+      },
+      "runtimePath": "/ui/classic/hd/map-v44.svg",
+      "runtimeSha256": "af409bb95d51bb35d5102f54c0c94d8e6ac088afc2ce87fb272ecb1db10c68d8"
+    },
+    "petbag-well": {
+      "source": "public/ui/classic/petbag-well.png",
+      "sourceImage": {
+        "width": 642,
+        "height": 472,
+        "sha256": "4773e7a6a2bdf83f726656f68df875d6eacf89590945266b39948c5d008bc078",
+        "bytes": 9971,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "transparentFraction": 0.0,
+        "partialFraction": 0.0,
+        "alpha128Bounds": [
+          0,
+          0,
+          642,
+          472
+        ]
+      },
+      "path": "/ui/classic/hd/petbag-well-v44.png",
+      "generatedImage": {
+        "width": 1462,
+        "height": 1076,
+        "sha256": "fa5986581785a590592007c6e3e1db25bf4937ba0ed383aefaa31846a35a2fde",
+        "bytes": 1178584,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "transparentFraction": 0.0,
+        "partialFraction": 0.0,
+        "alpha128Bounds": [
+          0,
+          0,
+          1462,
+          1076
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Use case: precise-object-edit. Image1 is the EDIT TARGET whose geometry is correct. Image2 is the ORIGINAL COLOR REFERENCE. Change ONLY the colors of Image1 to match the restrained source palette. Preserve its four corner shapes exactly (upper-left chamfer, upper-right round, lower-left round, lower-right chamfer), every edge and every lower-corner polygon position. The complete large flat interior must be RGB(9,56,108) / #09386c. Both lower-corner small motifs must be the subtle dark muted cyan RGB(7,86,129) / #075681, NOT bright cyan. Reduce those motifs' brightness to the original low contrast against the navy interior. The outer blue rim should match image2, without increasing its glow or saturation. No new geometry, gradients, lighting, shine, texture, opacity changes or detail. Same 642:472 aspect ratio, fully opaque high-resolution PNG. The desired result is quiet and flat like the source, not a vibrant modern game UI.",
+        "transparentBackground": false,
+        "previousPrompt": "Use case: precise-object-edit. Faithful higher-resolution restoration of the exact original simple Flash information panel, same 642:472 aspect ratio. Preserve all coordinates, flat colors and border thickness. VERY IMPORTANT CORNER SHAPES: upper-left corner is diagonally chamfered; upper-right corner is ROUND; lower-left corner is ROUND; lower-right corner is diagonally chamfered. Preserve those four different original shapes, do not replace rounded corners with chamfers. The interior is a single completely flat opaque dark blue color RGB 9,56,108, no gradients or textures. Preserve precisely the two original small lower-corner cyan geometric motifs. Thin cyan outer border with original dark inset border. No added details, no shine, lighting, gloss, shading or 3D. Keep the full image rectangular and opaque. Increase clarity only, preserve the original understated flat artwork.",
+        "previousGeneratedSha256": "1ac89140e58e5bd18857daaf112a05e5e5a1e36caebe9bb7fee29f1fc9ccc647"
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted after re-generation restored the original rounded upper-right/lower-left corners and chamfered upper-left/lower-right corners. The complete opaque blue panel and its two lower motifs remain. A final source-color edit reduces the excessive brightness of the two lower motifs while keeping the corrected geometry."
+      },
+      "runtimePath": "/ui/classic/hd/petbag-well-v44.png",
+      "runtimeSha256": "fa5986581785a590592007c6e3e1db25bf4937ba0ed383aefaa31846a35a2fde"
+    },
+    "petbag-header-circuit": {
+      "source": "public/ui/classic/petbag-header-circuit.png",
+      "sourceImage": {
+        "width": 383,
+        "height": 84,
+        "sha256": "e75be6d5d4967b729e2b20cf3849ae254922e9d3ed9a213709147452c003b6f4",
+        "bytes": 3694,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "transparentFraction": 0.0,
+        "partialFraction": 0.0,
+        "alpha128Bounds": [
+          0,
+          0,
+          383,
+          84
+        ]
+      },
+      "path": "/ui/classic/hd/petbag-header-circuit-v44.png",
+      "generatedImage": {
+        "width": 2172,
+        "height": 724,
+        "sha256": "2fdaeea40724e2b06ee66eeb35f6265b81c9343adfa801d87aecd69cf21f796f",
+        "bytes": 1171269,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "transparentFraction": 0.0,
+        "partialFraction": 0.0,
+        "alpha128Bounds": [
+          0,
+          0,
+          2172,
+          724
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Use case: precise-object-edit. Reconstruct the provided original flat Flash circuit strip faithfully at high resolution, preserving every original polygon, circle, line, position and flat color. The ORIGINAL ART has aspect ratio 383:84 (4.5595238:1). Output a 3:1 opaque canvas, with the original complete strip centered vertically, spanning the ENTIRE width, and occupying exactly 65.8% of the canvas height. Fill the equal 17.1% top and bottom padding bands with the same untextured cyan background as the strip. The padding is outside the artwork and will be cropped by a viewport. Within the centered strip use the exact source proportions with NO stretching: shallow horizontal circuit lines, the same two tiny circles, the same left three small slashes and original angled right turn. Keep flat cyan background RGB approximately 46,167,238 and darker cyan glyphs, no gradient, no shadows, no glossy or oily finish, no 3D, no additional polygons, no texture, no border, no text. The long shallow artwork must remain shallow within the wider canvas. Do not scale it vertically to fill the canvas.",
+        "transparentBackground": false
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted after an equal-scale crop of generated plain-color padding. Native 383x84 comparison retains original line and dot positions; the 3:1 PNG is not stretched to the original strip ratio."
+      },
+      "registration": {
+        "method": "Equal-scale SVG viewport removes only generated plain-color padding; no image stretch.",
+        "viewBox": [
+          0,
+          96,
+          2172,
+          476.3655352480418
+        ],
+        "logicalSize": [
+          383,
+          84
+        ]
+      },
+      "runtimePath": "/ui/classic/hd/petbag-header-circuit-v44.svg",
+      "runtimeSha256": "ed6cb38501e145428dc00e9ad9f43188e1a9a5d6208dbd463cf1ddc63e8f42f6"
+    },
+    "battle-skill-rail": {
+      "source": "public/ui/classic/battle-skill-rail.png",
+      "sourceImage": {
+        "width": 839,
+        "height": 282,
+        "sha256": "319355464cea7bd2ebe026aacc4159e993d4901068f62b00d8145710ba36e54d",
+        "bytes": 3531,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.03953541450054523,
+        "partialFraction": 0.8721290966111295,
+        "alpha128Bounds": [
+          0,
+          0,
+          838,
+          282
+        ]
+      },
+      "path": "/ui/classic/hd/battle-skill-rail-v44.png",
+      "generatedImage": {
+        "width": 2164,
+        "height": 727,
+        "sha256": "e981644076165212b4c1b9c421a315f8e2946a70fa8c42998c2d05f8af245da3",
+        "bytes": 1327670,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.06973814348587744,
+        "partialFraction": 0.9302516863417127,
+        "alpha128Bounds": [
+          1,
+          0,
+          2157,
+          709
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Exact high-resolution restoration of the attached original Flash battle UI rail. Preserve839:282 aspect ratio, exact crop, all borders and horizontal thin-line positions, dark navy translucent panel, cyan top rim and original top angled notches. Preserve ALL original semi-transparency in the blue rectangle; it is a translucent overlay, NOT an opaque blue box and NOT a cutout with center deleted. Preserve transparent pixels outside the frame. No new shading, sheen, gradients, textures, symbols or text. Clean flat crisp existing geometry only.",
+        "transparentBackground": true
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted after checking the complete filled blue rail, original top notches and horizontal lines. Generated partial alpha is retained; minor edge/color variance remains."
+      },
+      "runtimePath": "/ui/classic/hd/battle-skill-rail-v44.png",
+      "runtimeSha256": "e981644076165212b4c1b9c421a315f8e2946a70fa8c42998c2d05f8af245da3"
+    },
+    "battle-log-panel": {
+      "source": "public/ui/classic/battle-log-panel.png",
+      "sourceImage": {
+        "width": 599,
+        "height": 273,
+        "sha256": "9b89575d1456972101f27996bd7e151421d11fe13a50274d2f93f9f5ec19b630",
+        "bytes": 9477,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.002329890476801996,
+        "partialFraction": 0.8457196670886153,
+        "alpha128Bounds": [
+          0,
+          0,
+          598,
+          273
+        ]
+      },
+      "path": "/ui/classic/hd/battle-log-panel-v44.png",
+      "generatedImage": {
+        "width": 1859,
+        "height": 846,
+        "sha256": "0d36a6661847fa3613b8b895e52b04f22faca8d7e24a0bb72527e12ea8801217",
+        "bytes": 1271586,
+        "alphaRange": [
+          255,
+          255
+        ],
+        "transparentFraction": 0.0,
+        "partialFraction": 0.0,
+        "alpha128Bounds": [
+          0,
+          0,
+          1859,
+          846
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Use case: precise-object-edit. Faithfully restore the exact attached original Flash battle log UI panel as a FULLY OPAQUE color layer. The original alpha channel will be restored separately by the application; do not perform background removal. Fill every pixel, including all dark navy areas, with its original visible color. Preserve EXACT 599:273 aspect ratio and normalized geometry: panel cropped flush to top, left, right and bottom canvas edges, no added margin or padding, original thin cyan lower rounded rim and side rails at identical locations. Original center is flat navy RGB(0,30,73) with the same faint circular technical line patterns: left circle centered about x=100/599,y=122/273, right circle centered about x=498/599,y=229/273, same radii, crossings and arcs. Keep the original very faint pattern contrast. Preserve original border shape, thickness, white inset side bars and blue line colors. No restyling, no new symbols, no invented geometry, no extra glow, texture, gradients, shadows, gloss or oily finish. No text. Output sharp high-resolution opaque PNG of the complete original panel, every interior area filled dark blue, NOT transparent and NOT a hollow frame.",
+        "transparentBackground": false
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted only after an opaque color re-generation and original alpha-mask integration. Native 599x273 rendered alpha is identical to the original at every pixel; there are no interior holes. Circles and edge rails retain original positions; line contrast is slightly stronger."
+      },
+      "registration": {
+        "method": "Uniform color-image placement beneath the original PNG alpha mask; no generated pixels changed.",
+        "viewBox": [
+          0,
+          0,
+          599,
+          273
+        ],
+        "alphaSource": "public/ui/classic/battle-log-panel.png",
+        "alphaSha256": "9b89575d1456972101f27996bd7e151421d11fe13a50274d2f93f9f5ec19b630"
+      },
+      "runtimePath": "/ui/classic/hd/battle-log-panel-v44.svg",
+      "runtimeSha256": "642a928bcaab92ae84c4d92863e0957683b19e54249710af2bef03143955c4ce"
+    },
+    "petbag-frame": {
+      "source": "public/ui/classic/petbag/frame.png",
+      "sourceImage": {
+        "width": 1294,
+        "height": 942,
+        "sha256": "f724435c9c19b9c8ac6a55c928aedd284704961b6fa1cb996a741c0100e36ac5",
+        "bytes": 162977,
+        "alphaRange": [
+          0,
+          255
+        ],
+        "transparentFraction": 0.00039050066122590953,
+        "partialFraction": 0.02907753242960323,
+        "alpha128Bounds": [
+          0,
+          0,
+          1294,
+          942
+        ]
+      },
+      "path": "/ui/classic/hd/petbag-frame-v44.png",
+      "generatedImage": {
+        "width": 1470,
+        "height": 1070,
+        "sha256": "b0f825b7ddb2a5dccc87066c87bc96fb11083c3bdda89593782ad505312d3858",
+        "bytes": 1762984,
+        "alphaRange": [
+          0,
+          252
+        ],
+        "transparentFraction": 0.00015004132494119142,
+        "partialFraction": 0.9998499586750588,
+        "alpha128Bounds": [
+          0,
+          0,
+          1470,
+          1070
+        ]
+      },
+      "generation": {
+        "tool": "Built-in image_gen",
+        "prompt": "Faithful high-definition restoration of this original 2D Flash pet bag panel. Preserve exact1294:942 aspect ratio and pixel-normalized geometry, crop and palette: blue outer frame, title \u7cbe\u7075\u80cc\u5305 exactly, left8hexagons (first3yellow then5pale blue), left portrait well with original blue emblem and cyan projector, three top blue buttons, right horizontal status panel with exact separators, large right dark-blue info well, bottom blank blue band. Preserve tiny original transparent corner pixels only; DO NOT remove any dark/navy/black interior, do NOT make holes. Keep complete original flat matte UI, existing gradients only, no added shading/gloss/textures, labels or invented marks. Output highest supported resolution with cleaner sharper original lines.",
+        "transparentBackground": true
+      },
+      "pixelPolicy": "Copied generated PNG bytes unchanged; no pixel edits or resampling.",
+      "review": {
+        "status": "accepted",
+        "method": "Original and generated image inspection, native-layout comparison where registration or alpha required a wrapper.",
+        "notes": "Accepted after checking all eight left hexagons, title text, three top buttons, portrait well, projector and right panels. The output preserves the source layout and is not pixel-identical artwork."
+      },
+      "runtimePath": "/ui/classic/hd/petbag-frame-v44.png",
+      "runtimeSha256": "b0f825b7ddb2a5dccc87066c87bc96fb11083c3bdda89593782ad505312d3858"
+    }
+  },
+  "originalMapWrapper": {
+    "path": "/ui/classic/map.svg",
+    "sha256": "23cb2095a043dc71f2822adb15e9fec15f932dc5359ab859b2bcace198623a15",
+    "preservedPathCount": 7,
+    "viewBox": "16 30.5 199 155"
+  },
+  "limitations": [
+    "AI redraws are not lossless copies of source art; minor color and line differences remain.",
+    "The log panel deliberately retains the original-resolution alpha field."
+  ],
+  "verification": {
+    "logNativeAlphaMaximumDifference": 0,
+    "logNativeAlphaMeanDifference": 0,
+    "mapNormalBoundsMaximumError": 0.19371727748691114,
+    "mapGlowBoundsMaximumError": 0.35121951219512937,
+    "generatedPngsCopiedUnchanged": 7,
+    "sourceMapPathsRetained": 7,
+    "runtimeChanges": [
+      {
+        "file": "src/management.css",
+        "replacements": {
+          "/ui/classic/petbag-well.png": 2,
+          "/ui/classic/petbag-header-circuit.png": 3,
+          "/ui/classic/petbag/frame.png": 2
+        }
+      },
+      {
+        "file": "src/atlas.css",
+        "replacements": {
+          "/ui/classic/petbag-header-circuit.png": 1
+        }
+      },
+      {
+        "file": "src/game-shell.css",
+        "replacements": {
+          "/ui/classic/petbag-header-circuit.png": 1
+        }
+      },
+      {
+        "file": "src/battle.css",
+        "replacements": {
+          "/ui/classic/battle-skill-rail.png": 1,
+          "/ui/classic/battle-log-panel.png": 1
+        }
+      },
+      {
+        "file": "src/components/Modifier.css",
+        "replacements": {
+          "/ui/classic/petbag-well.png": 1,
+          "/ui/classic/petbag-header-circuit.png": 1
+        }
+      },
+      {
+        "file": "src/components/QuestPanel.css",
+        "replacements": {
+          "/ui/classic/petbag-well.png": 1
+        }
+      },
+      {
+        "file": "src/App.tsx",
+        "replacements": {
+          "map icon file": "hd/map-v44.svg"
+        }
+      }
+    ]
+  }
+}

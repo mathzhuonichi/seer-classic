@@ -1,0 +1,6291 @@
+{
+  "description": "Static original first-pose source recovery; no ActionScript execution, AI redraw, or H5 raster enlargement in this pipeline.",
+  "source_count": 1483,
+  "selected_count": 1483,
+  "counts": {
+    "retained-vector": 136,
+    "pure-vector": 1200,
+    "direct-source-4x": 70,
+    "vector-body-with-bitmap-effects": 7,
+    "direct-source-2x": 69,
+    "original-raster-body": 1
+  },
+  "retained_svg_files_unchanged": 143,
+  "source_swf_bytes": 75783026,
+  "validation": "Exact source geometry preservation, expanded alpha bounds, independent raster comparisons; source-scale-sensitive effects retain direct 2x pixels.",
+  "retained_filter_selection": {
+    "799": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0118,
+        "alpha_iou_16": 0.93986,
+        "rgb_mae_white": 12.4649,
+        "rgb_mae_black": 14.2344
+      },
+      "selection": "source-render",
+      "source_render_scale": 4,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1248": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0201,
+        "alpha_iou_16": 0.94718,
+        "rgb_mae_white": 13.7258,
+        "rgb_mae_black": 14.7413
+      },
+      "selection": "source-render",
+      "source_render_scale": 2,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1295": {
+      "current_svg_comparison": {
+        "aspect_error": 0.01072,
+        "alpha_iou_16": 0.97017,
+        "rgb_mae_white": 8.1959,
+        "rgb_mae_black": 8.9014
+      },
+      "selection": "source-render",
+      "source_render_scale": 4,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1305": {
+      "current_svg_comparison": {
+        "aspect_error": 0.00636,
+        "alpha_iou_16": 0.9602,
+        "rgb_mae_white": 10.0736,
+        "rgb_mae_black": 8.3208
+      },
+      "selection": "source-render",
+      "source_render_scale": 4,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1318": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0,
+        "alpha_iou_16": 0.99059,
+        "rgb_mae_white": 2.2258,
+        "rgb_mae_black": 1.9405
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    },
+    "1380": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0,
+        "alpha_iou_16": 0.98725,
+        "rgb_mae_white": 0.9571,
+        "rgb_mae_black": 1.4486
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    },
+    "1388": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0,
+        "alpha_iou_16": 0.99632,
+        "rgb_mae_white": 1.8553,
+        "rgb_mae_black": 1.6803
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    },
+    "1390": {
+      "current_svg_comparison": {
+        "aspect_error": 0.0,
+        "alpha_iou_16": 0.99517,
+        "rgb_mae_white": 1.6447,
+        "rgb_mae_black": 1.1982
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    },
+    "1421": {
+      "current_svg_comparison": {
+        "aspect_error": 0.04751,
+        "alpha_iou_16": 0.8263,
+        "rgb_mae_white": 18.6156,
+        "rgb_mae_black": 20.6684
+      },
+      "selection": "source-render",
+      "source_render_scale": 4,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1438": {
+      "current_svg_comparison": {
+        "aspect_error": 0.03614,
+        "alpha_iou_16": 0.90175,
+        "rgb_mae_white": 22.4845,
+        "rgb_mae_black": 26.0869
+      },
+      "selection": "source-render",
+      "source_render_scale": 2,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1448": {
+      "current_svg_comparison": {
+        "aspect_error": 0.00532,
+        "alpha_iou_16": 0.98166,
+        "rgb_mae_white": 4.1855,
+        "rgb_mae_black": 3.2504
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    },
+    "1461": {
+      "current_svg_comparison": {
+        "aspect_error": 0.19267,
+        "alpha_iou_16": 0.83188,
+        "rgb_mae_white": 20.7878,
+        "rgb_mae_black": 29.7837
+      },
+      "selection": "source-render",
+      "source_render_scale": 2,
+      "reason": "Direct source pixels preserve source effects more closely; original SVG file is retained."
+    },
+    "1483": {
+      "current_svg_comparison": {
+        "aspect_error": 0.00549,
+        "alpha_iou_16": 0.98501,
+        "rgb_mae_white": 5.2571,
+        "rgb_mae_black": 5.6314
+      },
+      "selection": "retained-svg",
+      "source_render_scale": 4,
+      "reason": "Current SVG remains within source agreement threshold."
+    }
+  },
+  "portraits": {
+    "1": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1.svg"
+    },
+    "2": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/2.svg"
+    },
+    "3": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/3.svg"
+    },
+    "4": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/4.svg"
+    },
+    "5": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/5.svg"
+    },
+    "6": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/6.svg"
+    },
+    "7": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/7.svg"
+    },
+    "8": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/8.svg"
+    },
+    "9": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/9.svg"
+    },
+    "10": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/10.svg"
+    },
+    "11": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/11.svg"
+    },
+    "12": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/12.svg"
+    },
+    "13": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/13.svg"
+    },
+    "14": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/14.svg"
+    },
+    "15": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/15.svg"
+    },
+    "16": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/16.svg"
+    },
+    "17": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/17.svg"
+    },
+    "18": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/18.svg"
+    },
+    "19": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/19.svg"
+    },
+    "20": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/20.svg"
+    },
+    "21": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/21.svg"
+    },
+    "22": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/22.svg"
+    },
+    "23": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/23.svg"
+    },
+    "24": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/24.svg"
+    },
+    "25": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/25.svg"
+    },
+    "26": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/26.svg"
+    },
+    "27": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/27.svg"
+    },
+    "28": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/28.svg"
+    },
+    "29": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/29.svg"
+    },
+    "30": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/30.svg"
+    },
+    "31": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/31.svg"
+    },
+    "32": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/32.svg"
+    },
+    "33": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/33.svg"
+    },
+    "34": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/34.svg"
+    },
+    "35": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/35.svg"
+    },
+    "36": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/36.svg"
+    },
+    "37": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/37.svg"
+    },
+    "38": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/38.svg"
+    },
+    "39": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/39.svg"
+    },
+    "40": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/40.svg"
+    },
+    "41": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/41.svg"
+    },
+    "42": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/42.svg"
+    },
+    "43": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/43.svg"
+    },
+    "44": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/44.svg"
+    },
+    "45": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/45.svg"
+    },
+    "46": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/46.svg"
+    },
+    "47": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/47.svg"
+    },
+    "48": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/48.svg"
+    },
+    "49": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/49.svg"
+    },
+    "50": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/50.svg"
+    },
+    "51": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/51.svg"
+    },
+    "52": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/52.svg"
+    },
+    "53": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/53.svg"
+    },
+    "54": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/54.svg"
+    },
+    "55": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/55.svg"
+    },
+    "56": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/56.svg"
+    },
+    "57": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/57.svg"
+    },
+    "58": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/58.svg"
+    },
+    "59": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/59.svg"
+    },
+    "60": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/60.svg"
+    },
+    "61": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/61.svg"
+    },
+    "62": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/62.svg"
+    },
+    "63": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/63.svg"
+    },
+    "64": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/64.svg"
+    },
+    "65": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/65.svg"
+    },
+    "66": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/66.svg"
+    },
+    "67": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/67.svg"
+    },
+    "68": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/68.svg"
+    },
+    "69": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/69.svg"
+    },
+    "70": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/70.svg"
+    },
+    "71": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/71.svg"
+    },
+    "72": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/72.svg"
+    },
+    "73": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/73.svg"
+    },
+    "74": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/74.svg"
+    },
+    "75": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/75.svg"
+    },
+    "76": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/76.svg"
+    },
+    "77": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/77.svg"
+    },
+    "78": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/78.svg"
+    },
+    "79": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/79.svg"
+    },
+    "80": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/80.svg"
+    },
+    "81": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/81.svg"
+    },
+    "82": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/82.svg"
+    },
+    "83": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/83.svg"
+    },
+    "84": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/84.svg"
+    },
+    "85": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/85.svg"
+    },
+    "86": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/86.svg"
+    },
+    "87": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/87.svg"
+    },
+    "88": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/88.svg"
+    },
+    "89": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/89.svg"
+    },
+    "90": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/90.svg"
+    },
+    "91": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/91.svg"
+    },
+    "92": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/92.svg"
+    },
+    "93": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/93.svg"
+    },
+    "94": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/94.svg"
+    },
+    "95": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/95.svg"
+    },
+    "96": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/96.svg"
+    },
+    "97": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/97.svg"
+    },
+    "98": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/98.svg"
+    },
+    "99": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/99.svg"
+    },
+    "100": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/100.svg"
+    },
+    "101": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/101.svg"
+    },
+    "102": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/102.svg"
+    },
+    "103": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/103.svg"
+    },
+    "104": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/104.svg"
+    },
+    "105": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/105.svg"
+    },
+    "106": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/106.svg"
+    },
+    "107": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/107.svg"
+    },
+    "108": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/108.svg"
+    },
+    "109": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/109.svg"
+    },
+    "110": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/110.svg"
+    },
+    "111": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/111.svg"
+    },
+    "112": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/112.svg"
+    },
+    "113": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/113.svg"
+    },
+    "114": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/114.svg"
+    },
+    "115": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/115.svg"
+    },
+    "116": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/116.svg"
+    },
+    "117": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/117.svg"
+    },
+    "118": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/118.svg"
+    },
+    "119": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/119.svg"
+    },
+    "120": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/120.svg"
+    },
+    "121": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/121.svg"
+    },
+    "122": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/122.svg"
+    },
+    "123": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/123.svg"
+    },
+    "124": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/124.svg"
+    },
+    "125": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/125.svg"
+    },
+    "126": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/126.svg"
+    },
+    "127": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/127.svg"
+    },
+    "128": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/128.svg"
+    },
+    "129": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/129.svg"
+    },
+    "130": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/130.svg"
+    },
+    "131": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/131.svg"
+    },
+    "132": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/132.svg"
+    },
+    "133": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/133.svg"
+    },
+    "134": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/134.svg"
+    },
+    "135": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/135.svg"
+    },
+    "136": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/136.png",
+      "embedded_bitmap_sizes": []
+    },
+    "137": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/137.png",
+      "embedded_bitmap_sizes": []
+    },
+    "138": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/138.svg"
+    },
+    "139": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/139.svg"
+    },
+    "140": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/140.svg"
+    },
+    "141": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/141.svg"
+    },
+    "142": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/142.svg"
+    },
+    "143": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/143.svg"
+    },
+    "144": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/144.svg"
+    },
+    "145": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/145.svg"
+    },
+    "146": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/146.svg"
+    },
+    "147": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/147.svg"
+    },
+    "148": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/148.svg"
+    },
+    "149": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/149.svg"
+    },
+    "150": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/150.svg"
+    },
+    "151": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/151.svg"
+    },
+    "152": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/152.svg"
+    },
+    "153": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/153.svg"
+    },
+    "154": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/154.svg"
+    },
+    "155": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/155.svg"
+    },
+    "156": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/156.svg"
+    },
+    "157": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/157.svg"
+    },
+    "158": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/158.svg"
+    },
+    "159": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/159.svg"
+    },
+    "160": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/160.svg"
+    },
+    "161": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/161.svg"
+    },
+    "162": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/162.svg"
+    },
+    "163": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/163.svg"
+    },
+    "164": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/164.svg"
+    },
+    "165": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/165.svg"
+    },
+    "166": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/166.svg"
+    },
+    "167": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/167.svg"
+    },
+    "168": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/168.svg"
+    },
+    "169": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/169.svg"
+    },
+    "170": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/170.svg"
+    },
+    "171": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/171.svg"
+    },
+    "172": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/172.svg"
+    },
+    "173": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/173.svg"
+    },
+    "174": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/174.svg"
+    },
+    "175": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/175.svg"
+    },
+    "176": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/176.svg"
+    },
+    "177": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/177.svg"
+    },
+    "178": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/178.svg"
+    },
+    "179": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/179.svg"
+    },
+    "180": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/180.png",
+      "embedded_bitmap_sizes": []
+    },
+    "181": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/181.svg"
+    },
+    "182": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/182.svg"
+    },
+    "183": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/183.svg"
+    },
+    "184": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/184.svg"
+    },
+    "185": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/185.svg"
+    },
+    "186": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/186.svg"
+    },
+    "187": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/187.svg"
+    },
+    "188": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/188.svg"
+    },
+    "189": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/189.svg"
+    },
+    "190": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/190.svg"
+    },
+    "191": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/191.svg"
+    },
+    "192": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/192.svg"
+    },
+    "193": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/193.svg"
+    },
+    "194": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/194.svg"
+    },
+    "195": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/195.svg"
+    },
+    "196": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/196.svg"
+    },
+    "197": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/197.svg"
+    },
+    "198": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/198.svg"
+    },
+    "199": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/199.svg"
+    },
+    "200": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/200.svg"
+    },
+    "201": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/201.svg"
+    },
+    "202": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/202.svg"
+    },
+    "203": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/203.svg"
+    },
+    "204": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/204.svg"
+    },
+    "205": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/205.svg"
+    },
+    "206": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/206.svg"
+    },
+    "207": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/207.svg"
+    },
+    "208": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/208.svg"
+    },
+    "209": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/209.svg"
+    },
+    "210": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/210.svg"
+    },
+    "211": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/211.svg"
+    },
+    "212": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/212.svg"
+    },
+    "213": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/213.svg"
+    },
+    "214": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/214.svg"
+    },
+    "215": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/215.svg"
+    },
+    "216": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/216.svg"
+    },
+    "217": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/217.svg"
+    },
+    "218": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/218.png",
+      "embedded_bitmap_sizes": []
+    },
+    "219": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/219.svg"
+    },
+    "220": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/220.svg"
+    },
+    "221": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/221.svg"
+    },
+    "222": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/222.svg"
+    },
+    "223": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/223.svg"
+    },
+    "224": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/224.svg"
+    },
+    "225": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/225.svg"
+    },
+    "226": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/226.svg"
+    },
+    "227": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/227.svg"
+    },
+    "228": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/228.svg"
+    },
+    "229": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/229.svg"
+    },
+    "230": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/230.svg"
+    },
+    "231": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/231.svg"
+    },
+    "232": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/232.svg"
+    },
+    "233": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/233.svg"
+    },
+    "234": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/234.svg"
+    },
+    "235": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/235.svg"
+    },
+    "236": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/236.svg"
+    },
+    "237": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/237.svg"
+    },
+    "238": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/238.svg"
+    },
+    "239": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/239.svg"
+    },
+    "240": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/240.svg"
+    },
+    "241": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/241.svg"
+    },
+    "242": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/242.svg"
+    },
+    "243": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/243.svg"
+    },
+    "244": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/244.svg"
+    },
+    "245": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/245.svg"
+    },
+    "246": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/246.svg"
+    },
+    "247": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/247.svg"
+    },
+    "248": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/248.svg"
+    },
+    "249": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/249.svg"
+    },
+    "250": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/250.svg"
+    },
+    "251": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/251.svg"
+    },
+    "252": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/252.svg"
+    },
+    "253": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/253.svg"
+    },
+    "254": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/254.svg"
+    },
+    "255": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/255.svg"
+    },
+    "256": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/256.svg"
+    },
+    "257": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/257.svg"
+    },
+    "258": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/258.svg"
+    },
+    "259": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/259.svg"
+    },
+    "260": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/260.svg"
+    },
+    "261": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/261.svg"
+    },
+    "262": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/262.svg"
+    },
+    "263": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/263.svg"
+    },
+    "264": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/264.svg"
+    },
+    "265": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/265.svg"
+    },
+    "266": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/266.svg"
+    },
+    "267": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/267.svg"
+    },
+    "268": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/268.svg"
+    },
+    "269": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/269.svg"
+    },
+    "270": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/270.svg"
+    },
+    "271": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/271.svg"
+    },
+    "272": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/272.svg"
+    },
+    "273": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/273.svg"
+    },
+    "274": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/274.svg"
+    },
+    "275": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/275.svg"
+    },
+    "276": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/276.svg"
+    },
+    "277": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/277.svg"
+    },
+    "278": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/278.svg"
+    },
+    "279": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/279.svg"
+    },
+    "280": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/280.svg"
+    },
+    "281": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/281.svg"
+    },
+    "282": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/282.svg"
+    },
+    "283": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/283.svg"
+    },
+    "284": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/284.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "285": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/285.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "286": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/286.svg"
+    },
+    "287": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/287.svg"
+    },
+    "288": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/288.svg"
+    },
+    "289": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/289.svg"
+    },
+    "290": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/290.svg"
+    },
+    "291": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/291.svg"
+    },
+    "292": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/292.svg"
+    },
+    "293": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/293.svg"
+    },
+    "294": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/294.svg"
+    },
+    "295": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/295.svg"
+    },
+    "296": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/296.svg"
+    },
+    "297": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/297.png",
+      "embedded_bitmap_sizes": []
+    },
+    "298": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/298.svg"
+    },
+    "299": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/299.svg"
+    },
+    "300": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/300.png",
+      "embedded_bitmap_sizes": []
+    },
+    "301": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/301.svg"
+    },
+    "302": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/302.svg"
+    },
+    "303": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/303.svg"
+    },
+    "304": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/304.svg"
+    },
+    "305": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/305.svg"
+    },
+    "306": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/306.svg"
+    },
+    "307": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/307.svg"
+    },
+    "308": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/308.svg"
+    },
+    "309": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/309.svg"
+    },
+    "310": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/310.svg"
+    },
+    "311": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/311.svg"
+    },
+    "312": {
+      "representation": "vector-body-with-bitmap-effects",
+      "path": "/portraits/vectors/312.svg"
+    },
+    "313": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/313.svg"
+    },
+    "314": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/314.svg"
+    },
+    "315": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/315.png",
+      "embedded_bitmap_sizes": []
+    },
+    "316": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/316.svg"
+    },
+    "317": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/317.svg"
+    },
+    "318": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/318.svg"
+    },
+    "319": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/319.svg"
+    },
+    "320": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/320.svg"
+    },
+    "321": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/321.svg"
+    },
+    "322": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/322.png",
+      "embedded_bitmap_sizes": []
+    },
+    "323": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/323.png",
+      "embedded_bitmap_sizes": []
+    },
+    "324": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/324.svg"
+    },
+    "325": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/325.svg"
+    },
+    "326": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/326.svg"
+    },
+    "327": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/327.svg"
+    },
+    "328": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/328.svg"
+    },
+    "329": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/329.svg"
+    },
+    "330": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/330.svg"
+    },
+    "331": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/331.svg"
+    },
+    "332": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/332.svg"
+    },
+    "333": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/333.svg"
+    },
+    "334": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/334.svg"
+    },
+    "335": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/335.svg"
+    },
+    "336": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/336.svg"
+    },
+    "337": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/337.svg"
+    },
+    "338": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/338.svg"
+    },
+    "339": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/339.svg"
+    },
+    "340": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/340.svg"
+    },
+    "341": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/341.svg"
+    },
+    "342": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/342.svg"
+    },
+    "343": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/343.svg"
+    },
+    "344": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/344.svg"
+    },
+    "345": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/345.svg"
+    },
+    "346": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/346.svg"
+    },
+    "347": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/347.svg"
+    },
+    "348": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/348.svg"
+    },
+    "349": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/349.svg"
+    },
+    "350": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/350.svg"
+    },
+    "351": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/351.svg"
+    },
+    "352": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/352.svg"
+    },
+    "353": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/353.svg"
+    },
+    "354": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/354.svg"
+    },
+    "355": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/355.svg"
+    },
+    "356": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/356.svg"
+    },
+    "357": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/357.svg"
+    },
+    "358": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/358.svg"
+    },
+    "359": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/359.svg"
+    },
+    "360": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/360.svg"
+    },
+    "361": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/361.svg"
+    },
+    "362": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/362.svg"
+    },
+    "363": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/363.svg"
+    },
+    "364": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/364.png",
+      "embedded_bitmap_sizes": []
+    },
+    "365": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/365.png",
+      "embedded_bitmap_sizes": []
+    },
+    "366": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/366.svg"
+    },
+    "367": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/367.svg"
+    },
+    "368": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/368.svg"
+    },
+    "369": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/369.svg"
+    },
+    "370": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/370.svg"
+    },
+    "371": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/371.svg"
+    },
+    "372": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/372.svg"
+    },
+    "373": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/373.svg"
+    },
+    "374": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/374.svg"
+    },
+    "375": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/375.svg"
+    },
+    "376": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/376.svg"
+    },
+    "377": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/377.svg"
+    },
+    "378": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/378.svg"
+    },
+    "379": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/379.svg"
+    },
+    "380": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/380.svg"
+    },
+    "381": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/381.svg"
+    },
+    "382": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/382.svg"
+    },
+    "383": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/383.svg"
+    },
+    "384": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/384.svg"
+    },
+    "385": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/385.svg"
+    },
+    "386": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/386.svg"
+    },
+    "387": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/387.svg"
+    },
+    "388": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/388.svg"
+    },
+    "389": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/389.svg"
+    },
+    "390": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/390.svg"
+    },
+    "391": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/391.svg"
+    },
+    "392": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/392.svg"
+    },
+    "393": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/393.svg"
+    },
+    "394": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/394.svg"
+    },
+    "395": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/395.svg"
+    },
+    "396": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/396.svg"
+    },
+    "397": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/397.svg"
+    },
+    "398": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/398.svg"
+    },
+    "399": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/399.svg"
+    },
+    "400": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/400.svg"
+    },
+    "401": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/401.svg"
+    },
+    "402": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/402.svg"
+    },
+    "403": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/403.svg"
+    },
+    "404": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/404.svg"
+    },
+    "405": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/405.svg"
+    },
+    "406": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/406.svg"
+    },
+    "407": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/407.svg"
+    },
+    "408": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/408.svg"
+    },
+    "409": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/409.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "410": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/410.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "411": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/411.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "412": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/412.svg"
+    },
+    "413": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/413.svg"
+    },
+    "414": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/414.svg"
+    },
+    "415": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/415.svg"
+    },
+    "416": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/416.svg"
+    },
+    "417": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/417.svg"
+    },
+    "418": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/418.svg"
+    },
+    "419": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/419.svg"
+    },
+    "420": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/420.svg"
+    },
+    "421": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/421.svg"
+    },
+    "422": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/422.svg"
+    },
+    "423": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/423.svg"
+    },
+    "424": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/424.svg"
+    },
+    "425": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/425.svg"
+    },
+    "426": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/426.svg"
+    },
+    "427": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/427.svg"
+    },
+    "428": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/428.svg"
+    },
+    "429": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/429.svg"
+    },
+    "430": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/430.svg"
+    },
+    "431": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/431.svg"
+    },
+    "432": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/432.svg"
+    },
+    "433": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/433.svg"
+    },
+    "434": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/434.svg"
+    },
+    "435": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/435.svg"
+    },
+    "436": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/436.svg"
+    },
+    "437": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/437.svg"
+    },
+    "438": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/438.svg"
+    },
+    "439": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/439.svg"
+    },
+    "440": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/440.svg"
+    },
+    "441": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/441.svg"
+    },
+    "442": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/442.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "443": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/443.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "444": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/444.png",
+      "embedded_bitmap_sizes": [
+        [
+          "150",
+          "147"
+        ]
+      ]
+    },
+    "445": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/445.svg"
+    },
+    "446": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/446.svg"
+    },
+    "447": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/447.svg"
+    },
+    "448": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/448.svg"
+    },
+    "449": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/449.svg"
+    },
+    "450": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/450.svg"
+    },
+    "451": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/451.svg"
+    },
+    "452": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/452.svg"
+    },
+    "453": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/453.svg"
+    },
+    "454": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/454.svg"
+    },
+    "455": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/455.svg"
+    },
+    "456": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/456.svg"
+    },
+    "457": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/457.svg"
+    },
+    "458": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/458.svg"
+    },
+    "459": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/459.svg"
+    },
+    "460": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/460.svg"
+    },
+    "461": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/461.svg"
+    },
+    "462": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/462.svg"
+    },
+    "463": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/463.svg"
+    },
+    "464": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/464.svg"
+    },
+    "465": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/465.svg"
+    },
+    "466": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/466.svg"
+    },
+    "467": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/467.svg"
+    },
+    "468": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/468.svg"
+    },
+    "469": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/469.svg"
+    },
+    "470": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/470.svg"
+    },
+    "471": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/471.svg"
+    },
+    "472": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/472.svg"
+    },
+    "473": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/473.svg"
+    },
+    "474": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/474.svg"
+    },
+    "475": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/475.svg"
+    },
+    "476": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/476.svg"
+    },
+    "477": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/477.svg"
+    },
+    "478": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/478.svg"
+    },
+    "479": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/479.svg"
+    },
+    "480": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/480.svg"
+    },
+    "481": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/481.svg"
+    },
+    "482": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/482.svg"
+    },
+    "483": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/483.svg"
+    },
+    "484": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/484.svg"
+    },
+    "485": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/485.svg"
+    },
+    "486": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/486.svg"
+    },
+    "487": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/487.svg"
+    },
+    "488": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/488.svg"
+    },
+    "489": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/489.png",
+      "embedded_bitmap_sizes": []
+    },
+    "490": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/490.svg"
+    },
+    "491": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/491.svg"
+    },
+    "492": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/492.svg"
+    },
+    "493": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/493.svg"
+    },
+    "494": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/494.svg"
+    },
+    "495": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/495.svg"
+    },
+    "496": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/496.svg"
+    },
+    "497": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/497.svg"
+    },
+    "498": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/498.svg"
+    },
+    "499": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/499.svg"
+    },
+    "500": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/500.svg"
+    },
+    "501": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/501.svg"
+    },
+    "502": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/502.svg"
+    },
+    "503": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/503.svg"
+    },
+    "504": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/504.svg"
+    },
+    "505": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/505.svg"
+    },
+    "506": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/506.svg"
+    },
+    "507": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/507.svg"
+    },
+    "508": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/508.png",
+      "embedded_bitmap_sizes": []
+    },
+    "509": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/509.svg"
+    },
+    "510": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/510.png",
+      "embedded_bitmap_sizes": []
+    },
+    "511": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/511.png",
+      "embedded_bitmap_sizes": []
+    },
+    "512": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/512.svg"
+    },
+    "513": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/513.svg"
+    },
+    "514": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/514.svg"
+    },
+    "515": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/515.svg"
+    },
+    "516": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/516.svg"
+    },
+    "517": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/517.svg"
+    },
+    "518": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/518.svg"
+    },
+    "519": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/519.svg"
+    },
+    "520": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/520.svg"
+    },
+    "521": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/521.svg"
+    },
+    "522": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/522.svg"
+    },
+    "523": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/523.svg"
+    },
+    "524": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/524.svg"
+    },
+    "525": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/525.svg"
+    },
+    "526": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/526.svg"
+    },
+    "527": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/527.svg"
+    },
+    "528": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/528.svg"
+    },
+    "529": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/529.svg"
+    },
+    "530": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/530.svg"
+    },
+    "531": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/531.png",
+      "embedded_bitmap_sizes": []
+    },
+    "532": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/532.png",
+      "embedded_bitmap_sizes": []
+    },
+    "533": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/533.svg"
+    },
+    "534": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/534.svg"
+    },
+    "535": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/535.svg"
+    },
+    "536": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/536.svg"
+    },
+    "537": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/537.svg"
+    },
+    "538": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/538.svg"
+    },
+    "539": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/539.svg"
+    },
+    "540": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/540.svg"
+    },
+    "541": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/541.png",
+      "embedded_bitmap_sizes": []
+    },
+    "542": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/542.png",
+      "embedded_bitmap_sizes": []
+    },
+    "543": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/543.png",
+      "embedded_bitmap_sizes": []
+    },
+    "544": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/544.svg"
+    },
+    "545": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/545.svg"
+    },
+    "546": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/546.svg"
+    },
+    "547": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/547.svg"
+    },
+    "548": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/548.svg"
+    },
+    "549": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/549.svg"
+    },
+    "550": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/550.svg"
+    },
+    "551": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/551.svg"
+    },
+    "552": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/552.svg"
+    },
+    "553": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/553.svg"
+    },
+    "554": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/554.svg"
+    },
+    "555": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/555.png",
+      "embedded_bitmap_sizes": []
+    },
+    "556": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/556.svg"
+    },
+    "557": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/557.svg"
+    },
+    "558": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/558.svg"
+    },
+    "559": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/559.svg"
+    },
+    "560": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/560.svg"
+    },
+    "561": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/561.svg"
+    },
+    "562": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/562.svg"
+    },
+    "563": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/563.svg"
+    },
+    "564": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/564.svg"
+    },
+    "565": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/565.svg"
+    },
+    "566": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/566.svg"
+    },
+    "567": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/567.svg"
+    },
+    "568": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/568.svg"
+    },
+    "569": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/569.svg"
+    },
+    "570": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/570.svg"
+    },
+    "571": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/571.svg"
+    },
+    "572": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/572.svg"
+    },
+    "573": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/573.svg"
+    },
+    "574": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/574.svg"
+    },
+    "575": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/575.png",
+      "embedded_bitmap_sizes": []
+    },
+    "576": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/576.svg"
+    },
+    "577": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/577.png",
+      "embedded_bitmap_sizes": []
+    },
+    "578": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/578.svg"
+    },
+    "579": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/579.svg"
+    },
+    "580": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/580.svg"
+    },
+    "581": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/581.svg"
+    },
+    "582": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/582.svg"
+    },
+    "583": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/583.svg"
+    },
+    "584": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/584.svg"
+    },
+    "585": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/585.svg"
+    },
+    "586": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/586.svg"
+    },
+    "587": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/587.svg"
+    },
+    "588": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/588.svg"
+    },
+    "589": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/589.png",
+      "embedded_bitmap_sizes": []
+    },
+    "590": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/590.svg"
+    },
+    "591": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/591.svg"
+    },
+    "592": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/592.svg"
+    },
+    "593": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/593.svg"
+    },
+    "594": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/594.svg"
+    },
+    "595": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/595.svg"
+    },
+    "596": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/596.svg"
+    },
+    "597": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/597.svg"
+    },
+    "598": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/598.svg"
+    },
+    "599": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/599.svg"
+    },
+    "600": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/600.svg"
+    },
+    "601": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/601.svg"
+    },
+    "602": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/602.svg"
+    },
+    "603": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/603.png",
+      "embedded_bitmap_sizes": []
+    },
+    "604": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/604.svg"
+    },
+    "605": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/605.svg"
+    },
+    "606": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/606.svg"
+    },
+    "607": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/607.svg"
+    },
+    "608": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/608.svg"
+    },
+    "609": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/609.svg"
+    },
+    "610": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/610.png",
+      "embedded_bitmap_sizes": []
+    },
+    "611": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/611.png",
+      "embedded_bitmap_sizes": []
+    },
+    "612": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/612.svg"
+    },
+    "613": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/613.svg"
+    },
+    "614": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/614.svg"
+    },
+    "615": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/615.svg"
+    },
+    "616": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/616.svg"
+    },
+    "617": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/617.svg"
+    },
+    "618": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/618.svg"
+    },
+    "619": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/619.svg"
+    },
+    "620": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/620.svg"
+    },
+    "621": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/621.svg"
+    },
+    "622": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/622.svg"
+    },
+    "623": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/623.svg"
+    },
+    "624": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/624.svg"
+    },
+    "625": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/625.svg"
+    },
+    "626": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/626.svg"
+    },
+    "627": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/627.svg"
+    },
+    "628": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/628.svg"
+    },
+    "629": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/629.svg"
+    },
+    "630": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/630.svg"
+    },
+    "631": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/631.svg"
+    },
+    "632": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/632.svg"
+    },
+    "633": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/633.svg"
+    },
+    "634": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/634.svg"
+    },
+    "635": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/635.svg"
+    },
+    "636": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/636.svg"
+    },
+    "637": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/637.svg"
+    },
+    "638": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/638.svg"
+    },
+    "639": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/639.svg"
+    },
+    "640": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/640.svg"
+    },
+    "641": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/641.svg"
+    },
+    "642": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/642.svg"
+    },
+    "643": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/643.svg"
+    },
+    "644": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/644.svg"
+    },
+    "645": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/645.svg"
+    },
+    "646": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/646.svg"
+    },
+    "647": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/647.svg"
+    },
+    "648": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/648.svg"
+    },
+    "649": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/649.svg"
+    },
+    "650": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/650.svg"
+    },
+    "651": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/651.svg"
+    },
+    "652": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/652.svg"
+    },
+    "653": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/653.svg"
+    },
+    "654": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/654.svg"
+    },
+    "655": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/655.svg"
+    },
+    "656": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/656.svg"
+    },
+    "657": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/657.svg"
+    },
+    "658": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/658.svg"
+    },
+    "659": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/659.svg"
+    },
+    "660": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/660.svg"
+    },
+    "661": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/661.svg"
+    },
+    "662": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/662.svg"
+    },
+    "663": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/663.svg"
+    },
+    "664": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/664.svg"
+    },
+    "665": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/665.svg"
+    },
+    "666": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/666.svg"
+    },
+    "667": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/667.svg"
+    },
+    "668": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/668.svg"
+    },
+    "669": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/669.svg"
+    },
+    "670": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/670.svg"
+    },
+    "671": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/671.svg"
+    },
+    "672": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/672.svg"
+    },
+    "673": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/673.png",
+      "embedded_bitmap_sizes": []
+    },
+    "674": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/674.svg"
+    },
+    "675": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/675.svg"
+    },
+    "676": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/676.svg"
+    },
+    "677": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/677.svg"
+    },
+    "678": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/678.svg"
+    },
+    "679": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/679.svg"
+    },
+    "680": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/680.svg"
+    },
+    "681": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/681.svg"
+    },
+    "682": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/682.svg"
+    },
+    "683": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/683.png",
+      "embedded_bitmap_sizes": []
+    },
+    "684": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/684.svg"
+    },
+    "685": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/685.svg"
+    },
+    "686": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/686.svg"
+    },
+    "687": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/687.svg"
+    },
+    "688": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/688.svg"
+    },
+    "689": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/689.svg"
+    },
+    "690": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/690.svg"
+    },
+    "691": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/691.svg"
+    },
+    "692": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/692.svg"
+    },
+    "693": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/693.svg"
+    },
+    "694": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/694.png",
+      "embedded_bitmap_sizes": []
+    },
+    "695": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/695.svg"
+    },
+    "696": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/696.png",
+      "embedded_bitmap_sizes": []
+    },
+    "697": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/697.png",
+      "embedded_bitmap_sizes": []
+    },
+    "698": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/698.png",
+      "embedded_bitmap_sizes": []
+    },
+    "699": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/699.svg"
+    },
+    "700": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/700.svg"
+    },
+    "701": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/701.svg"
+    },
+    "702": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/702.svg"
+    },
+    "703": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/703.svg"
+    },
+    "704": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/704.svg"
+    },
+    "705": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/705.svg"
+    },
+    "706": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/706.svg"
+    },
+    "707": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/707.svg"
+    },
+    "708": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/708.svg"
+    },
+    "709": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/709.svg"
+    },
+    "710": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/710.svg"
+    },
+    "711": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/711.svg"
+    },
+    "712": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/712.svg"
+    },
+    "713": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/713.svg"
+    },
+    "714": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/714.svg"
+    },
+    "715": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/715.svg"
+    },
+    "716": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/716.svg"
+    },
+    "717": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/717.svg"
+    },
+    "718": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/718.svg"
+    },
+    "719": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/719.svg"
+    },
+    "720": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/720.svg"
+    },
+    "721": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/721.svg"
+    },
+    "722": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/722.svg"
+    },
+    "723": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/723.svg"
+    },
+    "724": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/724.svg"
+    },
+    "725": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/725.svg"
+    },
+    "726": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/726.svg"
+    },
+    "727": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/727.svg"
+    },
+    "728": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/728.svg"
+    },
+    "729": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/729.svg"
+    },
+    "730": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/730.svg"
+    },
+    "731": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/731.svg"
+    },
+    "732": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/732.svg"
+    },
+    "733": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/733.svg"
+    },
+    "734": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/734.svg"
+    },
+    "735": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/735.svg"
+    },
+    "736": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/736.svg"
+    },
+    "737": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/737.svg"
+    },
+    "738": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/738.svg"
+    },
+    "739": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/739.svg"
+    },
+    "740": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/740.svg"
+    },
+    "741": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/741.png",
+      "embedded_bitmap_sizes": []
+    },
+    "742": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/742.png",
+      "embedded_bitmap_sizes": []
+    },
+    "743": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/743.png",
+      "embedded_bitmap_sizes": []
+    },
+    "744": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/744.svg"
+    },
+    "745": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/745.svg"
+    },
+    "746": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/746.svg"
+    },
+    "747": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/747.svg"
+    },
+    "748": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/748.svg"
+    },
+    "749": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/749.svg"
+    },
+    "750": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/750.svg"
+    },
+    "751": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/751.svg"
+    },
+    "752": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/752.svg"
+    },
+    "753": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/753.svg"
+    },
+    "754": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/754.svg"
+    },
+    "755": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/755.png",
+      "embedded_bitmap_sizes": []
+    },
+    "756": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/756.svg"
+    },
+    "757": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/757.svg"
+    },
+    "758": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/758.svg"
+    },
+    "759": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/759.svg"
+    },
+    "760": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/760.svg"
+    },
+    "761": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/761.svg"
+    },
+    "762": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/762.svg"
+    },
+    "763": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/763.svg"
+    },
+    "764": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/764.svg"
+    },
+    "765": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/765.svg"
+    },
+    "766": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/766.svg"
+    },
+    "767": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/767.svg"
+    },
+    "768": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/768.svg"
+    },
+    "769": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/769.svg"
+    },
+    "770": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/770.svg"
+    },
+    "771": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/771.svg"
+    },
+    "772": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/772.svg"
+    },
+    "773": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/773.svg"
+    },
+    "774": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/774.svg"
+    },
+    "775": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/775.svg"
+    },
+    "776": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/776.svg"
+    },
+    "777": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/777.svg"
+    },
+    "778": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/778.svg"
+    },
+    "779": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/779.svg"
+    },
+    "780": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/780.svg"
+    },
+    "781": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/781.svg"
+    },
+    "782": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/782.svg"
+    },
+    "783": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/783.png",
+      "embedded_bitmap_sizes": []
+    },
+    "784": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/784.svg"
+    },
+    "785": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/785.svg"
+    },
+    "786": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/786.svg"
+    },
+    "787": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/787.svg"
+    },
+    "788": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/788.svg"
+    },
+    "789": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/789.svg"
+    },
+    "790": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/790.svg"
+    },
+    "791": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/791.svg"
+    },
+    "792": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/792.png",
+      "embedded_bitmap_sizes": []
+    },
+    "793": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/793.svg"
+    },
+    "794": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/794.svg"
+    },
+    "795": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/795.svg"
+    },
+    "796": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/796.svg"
+    },
+    "797": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/797.svg"
+    },
+    "798": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/798.svg"
+    },
+    "799": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/799.png",
+      "embedded_bitmap_sizes": []
+    },
+    "800": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/800.svg"
+    },
+    "801": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/801.svg"
+    },
+    "802": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/802.svg"
+    },
+    "803": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/803.svg"
+    },
+    "804": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/804.svg"
+    },
+    "805": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/805.svg"
+    },
+    "806": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/806.svg"
+    },
+    "807": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/807.svg"
+    },
+    "808": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/808.svg"
+    },
+    "809": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/809.svg"
+    },
+    "810": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/810.svg"
+    },
+    "811": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/811.png",
+      "embedded_bitmap_sizes": []
+    },
+    "812": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/812.svg"
+    },
+    "813": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/813.svg"
+    },
+    "814": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/814.svg"
+    },
+    "815": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/815.svg"
+    },
+    "816": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/816.svg"
+    },
+    "817": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/817.svg"
+    },
+    "818": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/818.svg"
+    },
+    "819": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/819.svg"
+    },
+    "820": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/820.svg"
+    },
+    "821": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/821.svg"
+    },
+    "822": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/822.svg"
+    },
+    "823": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/823.svg"
+    },
+    "824": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/824.svg"
+    },
+    "825": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/825.svg"
+    },
+    "826": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/826.svg"
+    },
+    "827": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/827.svg"
+    },
+    "828": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/828.svg"
+    },
+    "829": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/829.svg"
+    },
+    "830": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/830.svg"
+    },
+    "831": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/831.svg"
+    },
+    "832": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/832.svg"
+    },
+    "833": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/833.png",
+      "embedded_bitmap_sizes": []
+    },
+    "834": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/834.png",
+      "embedded_bitmap_sizes": []
+    },
+    "840": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/840.svg"
+    },
+    "841": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/841.svg"
+    },
+    "842": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/842.svg"
+    },
+    "843": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/843.svg"
+    },
+    "844": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/844.svg"
+    },
+    "845": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/845.svg"
+    },
+    "846": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/846.svg"
+    },
+    "847": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/847.svg"
+    },
+    "848": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/848.svg"
+    },
+    "849": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/849.svg"
+    },
+    "850": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/850.svg"
+    },
+    "851": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/851.svg"
+    },
+    "852": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/852.svg"
+    },
+    "853": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/853.svg"
+    },
+    "854": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/854.svg"
+    },
+    "855": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/855.svg"
+    },
+    "856": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/856.svg"
+    },
+    "857": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/857.svg"
+    },
+    "858": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/858.svg"
+    },
+    "859": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/859.svg"
+    },
+    "860": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/860.svg"
+    },
+    "861": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/861.svg"
+    },
+    "862": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/862.svg"
+    },
+    "863": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/863.svg"
+    },
+    "864": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/864.svg"
+    },
+    "865": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/865.svg"
+    },
+    "866": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/866.svg"
+    },
+    "867": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/867.svg"
+    },
+    "868": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/868.svg"
+    },
+    "869": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/869.svg"
+    },
+    "870": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/870.svg"
+    },
+    "871": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/871.svg"
+    },
+    "872": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/872.svg"
+    },
+    "873": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/873.svg"
+    },
+    "874": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/874.png",
+      "embedded_bitmap_sizes": []
+    },
+    "875": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/875.png",
+      "embedded_bitmap_sizes": []
+    },
+    "876": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/876.svg"
+    },
+    "877": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/877.svg"
+    },
+    "878": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/878.svg"
+    },
+    "879": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/879.svg"
+    },
+    "880": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/880.svg"
+    },
+    "881": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/881.png",
+      "embedded_bitmap_sizes": []
+    },
+    "882": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/882.svg"
+    },
+    "883": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/883.svg"
+    },
+    "884": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/884.png",
+      "embedded_bitmap_sizes": []
+    },
+    "885": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/885.svg"
+    },
+    "886": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/886.svg"
+    },
+    "887": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/887.svg"
+    },
+    "888": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/888.svg"
+    },
+    "889": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/889.png",
+      "embedded_bitmap_sizes": []
+    },
+    "890": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/890.png",
+      "embedded_bitmap_sizes": []
+    },
+    "891": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/891.svg"
+    },
+    "892": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/892.svg"
+    },
+    "893": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/893.png",
+      "embedded_bitmap_sizes": []
+    },
+    "894": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/894.png",
+      "embedded_bitmap_sizes": []
+    },
+    "895": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/895.svg"
+    },
+    "896": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/896.svg"
+    },
+    "897": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/897.svg"
+    },
+    "898": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/898.png",
+      "embedded_bitmap_sizes": []
+    },
+    "899": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/899.svg"
+    },
+    "900": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/900.svg"
+    },
+    "901": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/901.svg"
+    },
+    "902": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/902.svg"
+    },
+    "903": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/903.svg"
+    },
+    "904": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/904.png",
+      "embedded_bitmap_sizes": []
+    },
+    "905": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/905.svg"
+    },
+    "906": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/906.svg"
+    },
+    "907": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/907.svg"
+    },
+    "908": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/908.png",
+      "embedded_bitmap_sizes": []
+    },
+    "909": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/909.png",
+      "embedded_bitmap_sizes": []
+    },
+    "910": {
+      "representation": "original-raster-body",
+      "path": "/portraits/910.png",
+      "reason": "Original main-body layers are bitmaps; retain their native limit pending separately approved reconstruction."
+    },
+    "911": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/911.png",
+      "embedded_bitmap_sizes": []
+    },
+    "912": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/912.png",
+      "embedded_bitmap_sizes": []
+    },
+    "913": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/913.svg"
+    },
+    "914": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/914.svg"
+    },
+    "915": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/915.svg"
+    },
+    "916": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/916.svg"
+    },
+    "917": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/917.svg"
+    },
+    "918": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/918.svg"
+    },
+    "919": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/919.svg"
+    },
+    "920": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/920.png",
+      "embedded_bitmap_sizes": []
+    },
+    "921": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/921.svg"
+    },
+    "922": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/922.svg"
+    },
+    "923": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/923.svg"
+    },
+    "924": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/924.svg"
+    },
+    "925": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/925.svg"
+    },
+    "926": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/926.svg"
+    },
+    "927": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/927.svg"
+    },
+    "928": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/928.svg"
+    },
+    "929": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/929.svg"
+    },
+    "930": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/930.svg"
+    },
+    "931": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/931.svg"
+    },
+    "932": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/932.png",
+      "embedded_bitmap_sizes": []
+    },
+    "933": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/933.svg"
+    },
+    "934": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/934.svg"
+    },
+    "935": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/935.svg"
+    },
+    "936": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/936.svg"
+    },
+    "937": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/937.svg"
+    },
+    "938": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/938.svg"
+    },
+    "939": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/939.svg"
+    },
+    "940": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/940.svg"
+    },
+    "941": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/941.svg"
+    },
+    "942": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/942.svg"
+    },
+    "943": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/943.svg"
+    },
+    "944": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/944.png",
+      "embedded_bitmap_sizes": []
+    },
+    "945": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/945.png",
+      "embedded_bitmap_sizes": []
+    },
+    "946": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/946.svg"
+    },
+    "947": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/947.svg"
+    },
+    "948": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/948.png",
+      "embedded_bitmap_sizes": []
+    },
+    "949": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/949.png",
+      "embedded_bitmap_sizes": []
+    },
+    "950": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/950.png",
+      "embedded_bitmap_sizes": []
+    },
+    "951": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/951.svg"
+    },
+    "952": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/952.svg"
+    },
+    "953": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/953.svg"
+    },
+    "954": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/954.svg"
+    },
+    "955": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/955.svg"
+    },
+    "956": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/956.svg"
+    },
+    "957": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/957.svg"
+    },
+    "958": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/958.png",
+      "embedded_bitmap_sizes": []
+    },
+    "959": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/959.png",
+      "embedded_bitmap_sizes": []
+    },
+    "960": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/960.svg"
+    },
+    "961": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/961.png",
+      "embedded_bitmap_sizes": []
+    },
+    "962": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/962.svg"
+    },
+    "963": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/963.svg"
+    },
+    "964": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/964.svg"
+    },
+    "965": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/965.svg"
+    },
+    "966": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/966.svg"
+    },
+    "967": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/967.svg"
+    },
+    "968": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/968.png",
+      "embedded_bitmap_sizes": []
+    },
+    "969": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/969.svg"
+    },
+    "970": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/970.svg"
+    },
+    "971": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/971.svg"
+    },
+    "972": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/972.png",
+      "embedded_bitmap_sizes": []
+    },
+    "973": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/973.svg"
+    },
+    "974": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/974.svg"
+    },
+    "975": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/975.svg"
+    },
+    "976": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/976.svg"
+    },
+    "977": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/977.svg"
+    },
+    "978": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/978.png",
+      "embedded_bitmap_sizes": []
+    },
+    "979": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/979.png",
+      "embedded_bitmap_sizes": []
+    },
+    "980": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/980.svg"
+    },
+    "981": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/981.svg"
+    },
+    "982": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/982.svg"
+    },
+    "983": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/983.svg"
+    },
+    "984": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/984.svg"
+    },
+    "985": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/985.svg"
+    },
+    "986": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/986.svg"
+    },
+    "987": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/987.svg"
+    },
+    "988": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/988.svg"
+    },
+    "989": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/989.svg"
+    },
+    "990": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/990.svg"
+    },
+    "991": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/991.svg"
+    },
+    "992": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/992.png",
+      "embedded_bitmap_sizes": []
+    },
+    "993": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/993.svg"
+    },
+    "994": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/994.svg"
+    },
+    "995": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/995.svg"
+    },
+    "996": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/996.svg"
+    },
+    "997": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/997.svg"
+    },
+    "998": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/998.svg"
+    },
+    "999": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/999.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1000": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1000.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1002": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1002.svg"
+    },
+    "1003": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1003.svg"
+    },
+    "1004": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1004.svg"
+    },
+    "1005": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1005.svg"
+    },
+    "1006": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1006.svg"
+    },
+    "1007": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1007.svg"
+    },
+    "1008": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1008.svg"
+    },
+    "1009": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1009.svg"
+    },
+    "1010": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1010.svg"
+    },
+    "1011": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1011.svg"
+    },
+    "1012": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1012.svg"
+    },
+    "1013": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1013.svg"
+    },
+    "1014": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1014.svg"
+    },
+    "1015": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1015.svg"
+    },
+    "1016": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1016.svg"
+    },
+    "1017": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1017.svg"
+    },
+    "1018": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1018.svg"
+    },
+    "1019": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1019.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1020": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1020.svg"
+    },
+    "1021": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1021.svg"
+    },
+    "1022": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1022.svg"
+    },
+    "1023": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1023.svg"
+    },
+    "1024": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1024.svg"
+    },
+    "1025": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1025.svg"
+    },
+    "1026": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1026.svg"
+    },
+    "1027": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1027.svg"
+    },
+    "1028": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1028.svg"
+    },
+    "1029": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1029.svg"
+    },
+    "1030": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1030.svg"
+    },
+    "1031": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1031.svg"
+    },
+    "1032": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1032.svg"
+    },
+    "1033": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1033.svg"
+    },
+    "1034": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1034.svg"
+    },
+    "1035": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1035.svg"
+    },
+    "1036": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1036.svg"
+    },
+    "1037": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1037.svg"
+    },
+    "1038": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1038.svg"
+    },
+    "1039": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1039.svg"
+    },
+    "1040": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1040.svg"
+    },
+    "1041": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1041.svg"
+    },
+    "1042": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1042.svg"
+    },
+    "1043": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1043.svg"
+    },
+    "1044": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1044.svg"
+    },
+    "1045": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1045.svg"
+    },
+    "1046": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1046.svg"
+    },
+    "1047": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1047.svg"
+    },
+    "1048": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1048.svg"
+    },
+    "1049": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1049.svg"
+    },
+    "1050": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1050.svg"
+    },
+    "1051": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1051.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1052": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1052.svg"
+    },
+    "1053": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1053.svg"
+    },
+    "1054": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1054.svg"
+    },
+    "1055": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1055.svg"
+    },
+    "1056": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1056.svg"
+    },
+    "1057": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1057.svg"
+    },
+    "1058": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1058.svg"
+    },
+    "1059": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1059.svg"
+    },
+    "1060": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1060.svg"
+    },
+    "1061": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1061.svg"
+    },
+    "1062": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1062.svg"
+    },
+    "1063": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1063.svg"
+    },
+    "1064": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1064.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1065": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1065.svg"
+    },
+    "1066": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1066.svg"
+    },
+    "1067": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1067.svg"
+    },
+    "1068": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1068.svg"
+    },
+    "1069": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1069.svg"
+    },
+    "1070": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1070.svg"
+    },
+    "1071": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1071.svg"
+    },
+    "1072": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1072.svg"
+    },
+    "1073": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1073.svg"
+    },
+    "1074": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1074.svg"
+    },
+    "1075": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1075.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1076": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1076.svg"
+    },
+    "1077": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1077.svg"
+    },
+    "1078": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1078.svg"
+    },
+    "1079": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1079.svg"
+    },
+    "1080": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1080.svg"
+    },
+    "1081": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1081.svg"
+    },
+    "1082": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1082.svg"
+    },
+    "1083": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1083.svg"
+    },
+    "1084": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1084.svg"
+    },
+    "1085": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1085.svg"
+    },
+    "1086": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1086.svg"
+    },
+    "1087": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1087.svg"
+    },
+    "1088": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1088.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1089": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1089.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1090": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1090.svg"
+    },
+    "1091": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1091.svg"
+    },
+    "1092": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1092.svg"
+    },
+    "1093": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1093.svg"
+    },
+    "1094": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1094.svg"
+    },
+    "1095": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1095.svg"
+    },
+    "1096": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1096.svg"
+    },
+    "1097": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1097.svg"
+    },
+    "1098": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1098.svg"
+    },
+    "1099": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1099.svg"
+    },
+    "1100": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1100.svg"
+    },
+    "1101": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1101.svg"
+    },
+    "1102": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1102.svg"
+    },
+    "1103": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1103.svg"
+    },
+    "1104": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1104.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1105": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1105.svg"
+    },
+    "1106": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1106.svg"
+    },
+    "1107": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1107.svg"
+    },
+    "1108": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1108.svg"
+    },
+    "1109": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1109.svg"
+    },
+    "1110": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1110.svg"
+    },
+    "1111": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1111.svg"
+    },
+    "1112": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1112.svg"
+    },
+    "1113": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1113.svg"
+    },
+    "1114": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1114.svg"
+    },
+    "1115": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1115.svg"
+    },
+    "1116": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1116.svg"
+    },
+    "1117": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1117.svg"
+    },
+    "1118": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1118.svg"
+    },
+    "1119": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1119.svg"
+    },
+    "1120": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1120.svg"
+    },
+    "1121": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1121.svg"
+    },
+    "1122": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1122.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1123": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1123.svg"
+    },
+    "1124": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1124.svg"
+    },
+    "1125": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1125.svg"
+    },
+    "1126": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1126.svg"
+    },
+    "1127": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1127.svg"
+    },
+    "1128": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1128.svg"
+    },
+    "1129": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1129.svg"
+    },
+    "1130": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1130.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1131": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1131.svg"
+    },
+    "1132": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1132.svg"
+    },
+    "1133": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1133.svg"
+    },
+    "1134": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1134.svg"
+    },
+    "1135": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1135.svg"
+    },
+    "1136": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1136.svg"
+    },
+    "1137": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1137.svg"
+    },
+    "1138": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1138.svg"
+    },
+    "1139": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1139.svg"
+    },
+    "1140": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1140.svg"
+    },
+    "1141": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1141.svg"
+    },
+    "1142": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1142.svg"
+    },
+    "1143": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1143.svg"
+    },
+    "1144": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1144.svg"
+    },
+    "1145": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1145.svg"
+    },
+    "1146": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1146.svg"
+    },
+    "1147": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1147.svg"
+    },
+    "1148": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1148.svg"
+    },
+    "1149": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1149.svg"
+    },
+    "1150": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1150.svg"
+    },
+    "1151": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1151.svg"
+    },
+    "1152": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1152.svg"
+    },
+    "1153": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1153.svg"
+    },
+    "1154": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1154.svg"
+    },
+    "1155": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1155.svg"
+    },
+    "1156": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1156.svg"
+    },
+    "1157": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1157.svg"
+    },
+    "1158": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1158.svg"
+    },
+    "1159": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1159.svg"
+    },
+    "1160": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1160.svg"
+    },
+    "1161": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1161.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1162": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1162.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1163": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1163.svg"
+    },
+    "1164": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1164.svg"
+    },
+    "1165": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1165.svg"
+    },
+    "1166": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1166.svg"
+    },
+    "1167": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1167.svg"
+    },
+    "1168": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1168.svg"
+    },
+    "1169": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1169.svg"
+    },
+    "1170": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1170.svg"
+    },
+    "1171": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1171.svg"
+    },
+    "1172": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1172.svg"
+    },
+    "1173": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1173.svg"
+    },
+    "1174": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1174.svg"
+    },
+    "1175": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1175.svg"
+    },
+    "1176": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1176.svg"
+    },
+    "1177": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1177.svg"
+    },
+    "1178": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1178.svg"
+    },
+    "1179": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1179.svg"
+    },
+    "1180": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1180.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1181": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1181.svg"
+    },
+    "1182": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1182.svg"
+    },
+    "1183": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1183.svg"
+    },
+    "1184": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1184.svg"
+    },
+    "1185": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1185.svg"
+    },
+    "1186": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1186.svg"
+    },
+    "1187": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1187.svg"
+    },
+    "1188": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1188.svg"
+    },
+    "1189": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1189.svg"
+    },
+    "1190": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1190.svg"
+    },
+    "1191": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1191.svg"
+    },
+    "1192": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1192.svg"
+    },
+    "1193": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1193.svg"
+    },
+    "1194": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1194.svg"
+    },
+    "1195": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1195.svg"
+    },
+    "1196": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1196.svg"
+    },
+    "1197": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1197.svg"
+    },
+    "1198": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1198.svg"
+    },
+    "1199": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1199.svg"
+    },
+    "1200": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1200.svg"
+    },
+    "1201": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1201.svg"
+    },
+    "1202": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1202.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1203": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1203.svg"
+    },
+    "1204": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1204.svg"
+    },
+    "1205": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1205.svg"
+    },
+    "1206": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1206.svg"
+    },
+    "1207": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1207.svg"
+    },
+    "1208": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1208.svg"
+    },
+    "1209": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1209.svg"
+    },
+    "1210": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1210.svg"
+    },
+    "1211": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1211.svg"
+    },
+    "1212": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1212.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1213": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1213.svg"
+    },
+    "1214": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1214.svg"
+    },
+    "1215": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1215.svg"
+    },
+    "1216": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1216.svg"
+    },
+    "1217": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1217.svg"
+    },
+    "1218": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1218.svg"
+    },
+    "1219": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1219.svg"
+    },
+    "1220": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1220.svg"
+    },
+    "1221": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1221.svg"
+    },
+    "1222": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1222.svg"
+    },
+    "1223": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1223.svg"
+    },
+    "1224": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1224.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1225": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1225.svg"
+    },
+    "1226": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1226.svg"
+    },
+    "1227": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1227.svg"
+    },
+    "1228": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1228.svg"
+    },
+    "1229": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1229.svg"
+    },
+    "1230": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1230.svg"
+    },
+    "1231": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1231.svg"
+    },
+    "1232": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1232.svg"
+    },
+    "1233": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1233.svg"
+    },
+    "1234": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1234.svg"
+    },
+    "1235": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1235.svg"
+    },
+    "1236": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1236.svg"
+    },
+    "1237": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1237.svg"
+    },
+    "1238": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1238.svg"
+    },
+    "1239": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1239.svg"
+    },
+    "1240": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1240.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1241": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1241.svg"
+    },
+    "1242": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1242.svg"
+    },
+    "1243": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1243.svg"
+    },
+    "1244": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1244.svg"
+    },
+    "1245": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1245.svg"
+    },
+    "1246": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1246.svg"
+    },
+    "1247": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1247.svg"
+    },
+    "1248": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1248.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1249": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1249.svg"
+    },
+    "1250": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1250.svg"
+    },
+    "1251": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1251.svg"
+    },
+    "1252": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1252.svg"
+    },
+    "1253": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1253.svg"
+    },
+    "1254": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1254.svg"
+    },
+    "1255": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1255.svg"
+    },
+    "1256": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1256.svg"
+    },
+    "1257": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1257.svg"
+    },
+    "1258": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1258.svg"
+    },
+    "1259": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1259.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1260": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1260.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1261": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1261.svg"
+    },
+    "1262": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1262.svg"
+    },
+    "1263": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1263.svg"
+    },
+    "1264": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1264.svg"
+    },
+    "1265": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1265.svg"
+    },
+    "1266": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1266.svg"
+    },
+    "1267": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1267.svg"
+    },
+    "1268": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1268.svg"
+    },
+    "1269": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1269.svg"
+    },
+    "1270": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1270.svg"
+    },
+    "1271": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1271.svg"
+    },
+    "1272": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1272.svg"
+    },
+    "1273": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1273.svg"
+    },
+    "1274": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1274.svg"
+    },
+    "1275": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1275.svg"
+    },
+    "1276": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1276.svg"
+    },
+    "1277": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1277.svg"
+    },
+    "1278": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1278.svg"
+    },
+    "1279": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1279.svg"
+    },
+    "1280": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1280.svg"
+    },
+    "1281": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1281.svg"
+    },
+    "1282": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1282.svg"
+    },
+    "1283": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1283.svg"
+    },
+    "1284": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1284.svg"
+    },
+    "1285": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1285.svg"
+    },
+    "1286": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1286.svg"
+    },
+    "1287": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1287.svg"
+    },
+    "1288": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1288.svg"
+    },
+    "1289": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1289.svg"
+    },
+    "1290": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1290.svg"
+    },
+    "1291": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1291.svg"
+    },
+    "1292": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1292.svg"
+    },
+    "1293": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1293.svg"
+    },
+    "1294": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1294.svg"
+    },
+    "1295": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1295.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1296": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1296.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1297": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1297.svg"
+    },
+    "1298": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1298.svg"
+    },
+    "1299": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1299.svg"
+    },
+    "1300": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1300.svg"
+    },
+    "1301": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1301.svg"
+    },
+    "1302": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1302.svg"
+    },
+    "1303": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1303.svg"
+    },
+    "1304": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1304.svg"
+    },
+    "1305": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1305.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1306": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1306.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1307": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1307.svg"
+    },
+    "1308": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1308.svg"
+    },
+    "1309": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1309.svg"
+    },
+    "1310": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1310.svg"
+    },
+    "1311": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1311.svg"
+    },
+    "1312": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1312.svg"
+    },
+    "1313": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1313.svg"
+    },
+    "1314": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1314.svg"
+    },
+    "1315": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1315.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1316": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1316.svg"
+    },
+    "1317": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1317.svg"
+    },
+    "1318": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1318.svg"
+    },
+    "1319": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1319.svg"
+    },
+    "1320": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1320.svg"
+    },
+    "1321": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1321.svg"
+    },
+    "1322": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1322.svg"
+    },
+    "1323": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1323.svg"
+    },
+    "1324": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1324.svg"
+    },
+    "1325": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1325.svg"
+    },
+    "1326": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1326.svg"
+    },
+    "1327": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1327.svg"
+    },
+    "1328": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1328.svg"
+    },
+    "1329": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1329.svg"
+    },
+    "1330": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1330.svg"
+    },
+    "1331": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1331.svg"
+    },
+    "1332": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1332.svg"
+    },
+    "1333": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1333.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1334": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1334.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1335": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1335.svg"
+    },
+    "1336": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1336.svg"
+    },
+    "1337": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1337.svg"
+    },
+    "1338": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1338.svg"
+    },
+    "1339": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1339.svg"
+    },
+    "1340": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1340.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1341": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1341.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1342": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1342.svg"
+    },
+    "1343": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1343.svg"
+    },
+    "1344": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1344.svg"
+    },
+    "1345": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1345.svg"
+    },
+    "1346": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1346.svg"
+    },
+    "1347": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1347.svg"
+    },
+    "1348": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1348.svg"
+    },
+    "1349": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1349.svg"
+    },
+    "1350": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1350.svg"
+    },
+    "1351": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1351.svg"
+    },
+    "1352": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1352.svg"
+    },
+    "1353": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1353.svg"
+    },
+    "1354": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1354.svg"
+    },
+    "1355": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1355.svg"
+    },
+    "1356": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1356.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1357": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1357.svg"
+    },
+    "1358": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1358.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1359": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1359.svg"
+    },
+    "1360": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1360.svg"
+    },
+    "1361": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1361.svg"
+    },
+    "1362": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1362.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1363": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1363.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1364": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1364.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1365": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1365.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1366": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1366.svg"
+    },
+    "1367": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1367.svg"
+    },
+    "1368": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1368.svg"
+    },
+    "1369": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1369.svg"
+    },
+    "1370": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1370.svg"
+    },
+    "1371": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1371.svg"
+    },
+    "1372": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1372.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1373": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1373.svg"
+    },
+    "1374": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1374.svg"
+    },
+    "1375": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1375.svg"
+    },
+    "1376": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1376.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1377": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1377.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1378": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1378.svg"
+    },
+    "1379": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1379.svg"
+    },
+    "1380": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1380.svg"
+    },
+    "1381": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1381.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1382": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1382.svg"
+    },
+    "1383": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1383.svg"
+    },
+    "1384": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1384.svg"
+    },
+    "1385": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1385.svg"
+    },
+    "1386": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1386.svg"
+    },
+    "1387": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1387.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1388": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1388.svg"
+    },
+    "1389": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1389.svg"
+    },
+    "1390": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1390.svg"
+    },
+    "1391": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1391.svg"
+    },
+    "1392": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1392.svg"
+    },
+    "1393": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1393.svg"
+    },
+    "1394": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1394.svg"
+    },
+    "1395": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1395.svg"
+    },
+    "1396": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1396.svg"
+    },
+    "1397": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1397.svg"
+    },
+    "1398": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1398.svg"
+    },
+    "1399": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1399.svg"
+    },
+    "1400": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1400.svg"
+    },
+    "1401": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1401.svg"
+    },
+    "1402": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1402.svg"
+    },
+    "1403": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1403.svg"
+    },
+    "1404": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1404.svg"
+    },
+    "1405": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1405.svg"
+    },
+    "1406": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1406.svg"
+    },
+    "1407": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1407.svg"
+    },
+    "1408": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1408.svg"
+    },
+    "1409": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1409.svg"
+    },
+    "1410": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1410.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1411": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1411.svg"
+    },
+    "1412": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1412.svg"
+    },
+    "1413": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1413.svg"
+    },
+    "1414": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1414.svg"
+    },
+    "1415": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1415.svg"
+    },
+    "1416": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1416.svg"
+    },
+    "1417": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1417.svg"
+    },
+    "1418": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1418.svg"
+    },
+    "1419": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1419.svg"
+    },
+    "1420": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1420.svg"
+    },
+    "1421": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1421.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1422": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1422.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1423": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1423.svg"
+    },
+    "1424": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1424.svg"
+    },
+    "1425": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1425.svg"
+    },
+    "1426": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1426.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1427": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1427.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1428": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1428.svg"
+    },
+    "1429": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1429.svg"
+    },
+    "1430": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1430.svg"
+    },
+    "1431": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1431.svg"
+    },
+    "1432": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1432.svg"
+    },
+    "1433": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1433.svg"
+    },
+    "1434": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1434.svg"
+    },
+    "1435": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1435.svg"
+    },
+    "1436": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1436.svg"
+    },
+    "1437": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1437.svg"
+    },
+    "1438": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1438.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1439": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1439.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1440": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1440.svg"
+    },
+    "1441": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1441.svg"
+    },
+    "1442": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1442.svg"
+    },
+    "1443": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1443.svg"
+    },
+    "1444": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1444.svg"
+    },
+    "1445": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1445.svg"
+    },
+    "1446": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1446.svg"
+    },
+    "1447": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1447.svg"
+    },
+    "1448": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1448.svg"
+    },
+    "1449": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1449.svg"
+    },
+    "1450": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1450.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1451": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1451.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1452": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1452.svg"
+    },
+    "1453": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1453.svg"
+    },
+    "1454": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1454.svg"
+    },
+    "1455": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1455.svg"
+    },
+    "1456": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1456.svg"
+    },
+    "1457": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1457.svg"
+    },
+    "1458": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1458.svg"
+    },
+    "1459": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1459.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1460": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1460.svg"
+    },
+    "1461": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1461.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1462": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1462.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1463": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1463.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1464": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1464.svg"
+    },
+    "1465": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1465.svg"
+    },
+    "1466": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1466.svg"
+    },
+    "1467": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1467.svg"
+    },
+    "1468": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1468.svg"
+    },
+    "1469": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1469.svg"
+    },
+    "1470": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1470.svg"
+    },
+    "1471": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1471.svg"
+    },
+    "1472": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1472.svg"
+    },
+    "1473": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1473.svg"
+    },
+    "1474": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1474.svg"
+    },
+    "1475": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1475.svg"
+    },
+    "1476": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1476.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1477": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1477.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1478": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1478.svg"
+    },
+    "1479": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1479.svg"
+    },
+    "1480": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1480.svg"
+    },
+    "1481": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1481.svg"
+    },
+    "1482": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1482.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1483": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1483.svg"
+    },
+    "1484": {
+      "representation": "direct-source-2x",
+      "path": "/portraits/source-renders/1484.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1485": {
+      "representation": "retained-vector",
+      "path": "/portraits/vectors/1485.svg"
+    },
+    "1486": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1486.svg"
+    },
+    "1487": {
+      "representation": "direct-source-4x",
+      "path": "/portraits/source-renders/1487.png",
+      "embedded_bitmap_sizes": []
+    },
+    "1498": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1498.svg"
+    },
+    "1499": {
+      "representation": "pure-vector",
+      "path": "/portraits/vectors/1499.svg"
+    }
+  },
+  "preserved_layout_sha256": "4dd19e0ac1e8c9bde73736cd74107334e718ce792073611be83975c877a6c04f",
+  "storage": "New generated SVG and PNG payloads are local and gitignored; retained original SVGs, manifests, profiles and reproducible tools remain tracked.",
+  "runtime_overrides": {
+    "910": {
+      "representation": "conservative-ai-redraw",
+      "path": "/portraits/hd/910-v44.png"
+    }
+  },
+  "runtime_counts": {
+    "retained-vector": 136,
+    "pure-vector": 1200,
+    "direct-source-4x": 70,
+    "vector-body-with-bitmap-effects": 7,
+    "direct-source-2x": 69,
+    "conservative-ai-redraw": 1
+  }
+}

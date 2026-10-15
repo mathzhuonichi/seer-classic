@@ -1,51 +1,86 @@
 #!/usr/bin/env node
-/** Measure the SVG's own rendered silhouette, independent of SWF/PNG coordinates. */
+/** Calibrate complete SVG alpha with a native renderer; no browser or Java. */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 const args=process.argv.slice(2);
-function value(flag,fallback){const index=args.indexOf(flag);return index<0?fallback:args[index+1]}
-const modulePath=value('--playwright','/Users/chizhuoni/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
-const executable=value('--browser','/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
-const {chromium}=await import(modulePath);
+function opt(flag,fallback){const i=args.indexOf(flag);return i<0?fallback:args[i+1]}
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const manifestFile=path.join(root,'public/portraits/vectors/manifest.json');
+const manifestFile=path.resolve(opt('--manifest',path.join(root,'public/portraits/vectors/manifest.json')));
+const rawDir=path.resolve(opt('--raw-dir',path.join(root,'.cache/vector-export')));
+const outputRoot=path.resolve(opt('--output-root',path.join(root,'public')));
+const renderDir=opt('--render-dir',null);
+const reportFile=path.resolve(opt('--report',path.join(root,'.cache/vector-viewport-report.json')));
+const renderer=path.resolve(opt('--resvg',path.join(root,'.cache/portrait-v44/runtime/node_modules/@resvg/resvg-js/index.js')));
+const auditOnly=args.includes('--audit-existing');
+const allowBitmaps=args.includes('--allow-bitmaps');
+const {Resvg}=await import(pathToFileURL(renderer).href);
+const renderOptions={font:{loadSystemFonts:false}};
 const manifest=JSON.parse(await fs.readFile(manifestFile,'utf8'));
-const start=args.indexOf('--ids');
-const ids=start<0?Object.keys(manifest.portraits):args.slice(start+1).map(Number).map(String);
-const browser=await chromium.launch({headless:true,executablePath:executable});
-const page=await browser.newPage();
-await page.setContent('<canvas></canvas>');
-try {
-  for(const id of ids){
-    const item=manifest.portraits[id];if(!item)continue;
-    const directory=path.join(root,'.cache/vector-export',id,'svg');
-    const folder=(await fs.readdir(directory)).find(name=>name.startsWith('DefineSprite_'));
-    const source=await fs.readFile(path.join(directory,folder,'1.svg'),'utf8');
-    const bounds=await page.evaluate(async svg=>{
-      const blob=new Blob([svg],{type:'image/svg+xml'}),url=URL.createObjectURL(blob);
-      const image=new Image();image.src=url;await image.decode();
-      const canvas=document.querySelector('canvas');canvas.width=Math.ceil(image.naturalWidth);canvas.height=Math.ceil(image.naturalHeight);
-      const context=canvas.getContext('2d',{willReadFrequently:true});context.clearRect(0,0,canvas.width,canvas.height);context.drawImage(image,0,0);
-      const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
-      let x=canvas.width,y=canvas.height,right=0,bottom=0;
-      for(let row=0;row<canvas.height;row++)for(let col=0;col<canvas.width;col++)if(pixels[(row*canvas.width+col)*4+3]){x=Math.min(x,col);y=Math.min(y,row);right=Math.max(right,col+1);bottom=Math.max(bottom,row+1)}
-      URL.revokeObjectURL(url);if(right<=x||bottom<=y)throw new Error('Empty exported SVG');
-      return {x:x-2,y:y-2,width:right-x+4,height:bottom-y+4};
-    },source);
-    const destination=path.join(root,'public',item.path);
-    let svg=await fs.readFile(destination,'utf8');
-    // FFDec exported at 2x: preserve its coordinates, expose unzoomed logical size.
-    const width=bounds.width/2,height=bounds.height/2;
-    svg=svg.replace(/viewBox="[^"]*"/,`viewBox="${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}"`);
-    svg=svg.replace(/(<svg\b[^>]*?)\bwidth="[^"]*"/,`$1width="${width}"`).replace(/(<svg\b[^>]*?)\bheight="[^"]*"/,`$1height="${height}"`);
-    await fs.writeFile(destination,svg);
-    item.width=width;item.height=height;item.bytes=Buffer.byteLength(svg);
-    item.sha256=createHash('sha256').update(svg).digest('hex');
-    item.bounds_method='Rendered exported SVG alpha in Chromium; two exported-coordinate pixels of viewport padding (one logical vector unit).';
-    item.svg_bounds=bounds;delete item.viewport_pending;
-    console.log(`Calibrated ${id}: ${width} x ${height}`);
+const ids=opt('--ids',null)?.split(',')??Object.keys(manifest.portraits);
+const report={renderer:'@resvg/resvg-js 2.6.2',auditOnly,portraits:{}};
+try{report.portraits=JSON.parse(await fs.readFile(reportFile,'utf8')).portraits??{}}catch(error){if(error.code!=='ENOENT')throw error}
+async function save(file,data){await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file+'.tmp',JSON.stringify(data,null,2)+'\n');await fs.rename(file+'.tmp',file)}
+function viewport(svg){
+ const tag=svg.match(/<svg\b[^>]*>/)?.[0];if(!tag)throw Error('Missing SVG root');
+ const vb=tag.match(/\bviewBox="([^"]*)"/);if(vb)return vb[1].trim().split(/[ ,]+/).map(Number);
+ const w=parseFloat(tag.match(/\bwidth="([^"]*)"/)?.[1]),h=parseFloat(tag.match(/\bheight="([^"]*)"/)?.[1]);
+ if(!(w>0&&h>0))throw Error('Invalid source viewport');return [0,0,w,h];
+}
+function withViewport(svg,[x,y,w,h],logicalScale=1){return svg.replace(/<svg\b[^>]*>/,tag=>tag.replace(/\s(?:viewBox|width|height)="[^"]*"/g,'').slice(0,-1)+` viewBox="${x} ${y} ${w} ${h}" width="${w/logicalScale}" height="${h/logicalScale}">`)}
+function alphaBounds(render){
+ const {width,height,pixels}=render;let l=width,t=height,r=0,b=0;
+ for(let y=0;y<height;y++)for(let x=0;x<width;x++)if(pixels[(y*width+x)*4+3]){l=Math.min(l,x);t=Math.min(t,y);r=Math.max(r,x+1);b=Math.max(b,y+1)}
+ if(r<=l||b<=t)throw Error('Empty SVG silhouette');return [l,t,r,b];
+}
+function expandedBounds(svg){
+ let [x,y,w,h]=viewport(svg);
+ if(w*h>30000000){
+  if(/\bviewBox=/.test(svg.match(/<svg\b[^>]*>/)?.[0]??''))throw Error('Oversized transformed source viewport');
+  const bbox=new Resvg(svg,renderOptions).getBBox();if(!bbox)throw Error('Missing large-source geometry');
+  ({x,y,width:w,height:h}=bbox);
+ }
+ for(let pad=64;pad<=1024;pad*=2){
+  const view=[Math.floor(x-pad),Math.floor(y-pad),Math.ceil(w+2*pad),Math.ceil(h+2*pad)];
+  if(view[2]*view[3]>32000000)throw Error('Expanded viewport exceeds bounded render size');
+  const rendered=new Resvg(withViewport(svg,view),renderOptions).render(),[l,t,r,b]=alphaBounds(rendered);
+  if(l>=8&&t>=8&&r<=rendered.width-8&&b<=rendered.height-8)return {alpha:[l+view[0],t+view[1],r+view[0],b+view[1]],expansion:pad};
+ }
+ throw Error('Visible alpha reaches expanded source viewport');
+}
+async function rawSvg(id){const dir=path.join(rawDir,id,'svg');const folder=(await fs.readdir(dir)).find(n=>n.startsWith('DefineSprite_'));if(!folder)throw Error('Missing first-pose SVG export');return fs.readFile(path.join(dir,folder,'1.svg'),'utf8')}
+let processed=0;
+for(const id of ids){
+ const item=manifest.portraits[id];if(!item||item.error)continue;
+ try{
+  const destination=path.join(outputRoot,item.path.replace(/^\//,''));let svg=auditOnly?await fs.readFile(destination,'utf8'):await rawSvg(id);
+  if(/<(?:script|foreignObject)\b/i.test(svg)||/\bon\w+\s*=/i.test(svg)||(!allowBitmaps&&/<image\b/i.test(svg)))throw Error('Unapproved bitmap or active SVG content');
+  if([...svg.matchAll(/(?:xlink:)?href="([^"]+)"/g)].some(m=>!m[1].startsWith('#')&&!(allowBitmaps&&/^data:image\/(?:png|jpeg);base64,/i.test(m[1]))))throw Error('External SVG reference');
+  const original=viewport(svg),{alpha,expansion}=expandedBounds(svg),[l,t,r,b]=alpha;
+  const filters=(svg.match(/<filter\b/g)||[]).length,edgePadding=[l-original[0],t-original[1],original[0]+original[2]-r,original[1]+original[3]-b];
+  const entry={alpha,expansion,filters,originalViewport:original,edgePadding,clipped:edgePadding.some(v=>v<0)};
+  if(!auditOnly){
+   svg=svg.replace(/\sffdec:[\w-]+="[^"]*"/g,'').replace(/\sxmlns:ffdec="[^"]*"/g,'');
+   let bounds,rendered,finalAlpha,finalPadding;
+   for(let border=2;border<=6;border++){
+    bounds=[l-border,t-border,r-l+2*border,b-t+2*border];
+    rendered=new Resvg(withViewport(svg,bounds),renderOptions).render();finalAlpha=alphaBounds(rendered);
+    finalPadding=[finalAlpha[0],finalAlpha[1],rendered.width-finalAlpha[2],rendered.height-finalAlpha[3]];
+    if(finalPadding.every(v=>v>=2))break;
+   }
+   if(finalPadding.some(v=>v<2))throw Error('Calibrated render lost required transparent padding');
+   svg=withViewport(svg,bounds,2);
+   await fs.mkdir(path.dirname(destination),{recursive:true});await fs.writeFile(destination,svg);
+   if(renderDir){await fs.mkdir(renderDir,{recursive:true});await fs.writeFile(path.join(renderDir,id+'.png'),rendered.asPng())}
+   Object.assign(item,{width:bounds[2]/2,height:bounds[3]/2,bytes:Buffer.byteLength(svg),sha256:createHash('sha256').update(svg).digest('hex'),bounds_method:'Expanded SVG alpha measured with resvg 2.6.2; at least two exported-coordinate pixels (one logical vector unit) of transparent padding.',svg_bounds:{x:bounds[0],y:bounds[1],width:bounds[2],height:bounds[3]},alpha_bounds:[finalAlpha[0]/2,finalAlpha[1]/2,(finalAlpha[2]-finalAlpha[0])/2,(finalAlpha[3]-finalAlpha[1])/2],source_filter_count:filters});
+   delete item.viewport_pending;entry.finalPadding=finalPadding;
   }
-  await fs.writeFile(manifestFile,JSON.stringify(manifest,null,2)+'\n');
-} finally {await browser.close()}
+  report.portraits[id]=entry;
+ }catch(error){report.portraits[id]={error:String(error.message||error)}}
+ processed++;
+ if(processed%25===0){await save(reportFile,report);if(!auditOnly)await save(manifestFile,manifest);console.log(`${processed}/${ids.length} viewport checks; ${Object.keys(report.portraits).length} cumulative`)}
+}
+await save(reportFile,report);if(!auditOnly)await save(manifestFile,manifest);
+const failures=Object.values(report.portraits).filter(p=>p.error).length;
+console.log(`${Object.keys(report.portraits).length} checked; ${failures} errors; auditOnly=${auditOnly}`);if(failures)process.exitCode=1;

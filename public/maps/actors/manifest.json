@@ -1,0 +1,2720 @@
+{
+  "version": 1,
+  "scope": "Original map actor vectors and required source masks. Cropping changes only the SVG viewport; source paths, colors, pose and registration remain unchanged.",
+  "actors": {
+    "boss_spt_gangyasha": {
+      "mapId": 22,
+      "src": "/maps/actors/22-steeltooth-shark.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        829,
+        35,
+        84,
+        98
+      ],
+      "anchor": [
+        871,
+        133
+      ],
+      "sourceInstance": "animator_mc.boss_mc",
+      "sourceSymbol": 67,
+      "sourceFrame": 1,
+      "sourceParentSymbol": 68,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        816.15,
+        5.45
+      ],
+      "preservedMasks": [
+        {
+          "symbol": 61,
+          "depth": 3,
+          "clipDepth": 9
+        }
+      ],
+      "excludedSiblings": [
+        60
+      ],
+      "sourceUrl": "https://seer.61.com/resource/map/22.swf",
+      "sourceSha256": "9594139c0760bd705735dac60da94c18d918a8e50a3f4a04a1a1c3e7e0e16c7c",
+      "sha256": "e2466a60f784887b22c5ad6d4314ff86c2847dece41f1a3c8098d6348ed53548",
+      "bytes": 19250,
+      "alphaBoundsAt1x": [
+        829,
+        35,
+        913,
+        133
+      ],
+      "identityEvidence": "Named boss_mc in the map 22 animator, visually identified as the original Steeltooth Shark. The parent mask restores the original cave occlusion.",
+      "rendering": "Cropped SVG at original scene-relative dimensions; static source frame 1, not a reconstructed animation."
+    },
+    "boss_spt_liaosi": {
+      "mapId": 17,
+      "src": "/maps/actors/17-liaosi.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        782,
+        149,
+        63,
+        94
+      ],
+      "anchor": [
+        813.5,
+        243
+      ],
+      "sourceInstance": "depth_mc.bossHu",
+      "sourceSymbol": 686,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1.06048583984375,
+        0.0,
+        0.0,
+        1.06048583984375,
+        790.0,
+        230.0
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/17.swf",
+      "sourceSha256": "3626bfc77de2b9d57ee1016268dbde7493c3ed3d72423bb950095b52d913ed42",
+      "sha256": "9c8fc5982929f0e08772413247437e5d624b5e889ea909b5dc65be2dba644745",
+      "bytes": 16501,
+      "alphaBoundsAt1x": [
+        782,
+        149,
+        845,
+        243
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_takelin": {
+      "mapId": 348,
+      "src": "/maps/actors/348-takelin.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        758,
+        153,
+        99,
+        66
+      ],
+      "anchor": [
+        807.5,
+        219
+      ],
+      "sourceInstance": "control_mc.takelin",
+      "sourceSymbol": 125,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        -0.1999969482421875,
+        0.0,
+        0.0,
+        0.1999969482421875,
+        807.95,
+        200.4
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sha256": "96e68e05f01f1af40162e72dd661e96f6f18c3a5e755280b6242666625f5f5b8",
+      "bytes": 282765,
+      "alphaBoundsAt1x": [
+        758,
+        153,
+        857,
+        219
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_saiweier": {
+      "mapId": 348,
+      "src": "/maps/actors/348-saiweier.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        578,
+        84,
+        109,
+        104
+      ],
+      "anchor": [
+        632.5,
+        188
+      ],
+      "sourceInstance": "control_mc.saiweier",
+      "sourceSymbol": 137,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        632.55,
+        136.0
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sha256": "d6500c91cf6114c174787e3ae6db7b64c98ee0975d6a97b31f8543a036150108",
+      "bytes": 112965,
+      "alphaBoundsAt1x": [
+        578,
+        84,
+        687,
+        188
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_taxiya": {
+      "mapId": 348,
+      "src": "/maps/actors/348-taxiya.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        411,
+        84,
+        78,
+        93
+      ],
+      "anchor": [
+        450.0,
+        177
+      ],
+      "sourceInstance": "control_mc.taxiya",
+      "sourceSymbol": 181,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        450.25,
+        130.55
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sha256": "1af6192a5e2a67bd515131dc6459f62d9b4f55c5b8596a3c6e08bec9becbbedb",
+      "bytes": 96084,
+      "alphaBoundsAt1x": [
+        411,
+        84,
+        489,
+        177
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_hamoleite": {
+      "mapId": 348,
+      "src": "/maps/actors/348-hamoleite.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        124,
+        30,
+        140,
+        137
+      ],
+      "anchor": [
+        194.0,
+        167
+      ],
+      "sourceInstance": "control_mc.hamo",
+      "sourceSymbol": 217,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        190.85,
+        93.4
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sha256": "4c4884c010127c08cd22b19da5fe48447dc33f3b784ae9e6c60af8b2b0ba5f85",
+      "bytes": 76896,
+      "alphaBoundsAt1x": [
+        124,
+        30,
+        264,
+        167
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_buleike": {
+      "mapId": 507,
+      "src": "/maps/actors/507-buleike.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        379,
+        92,
+        70,
+        135
+      ],
+      "anchor": [
+        414.0,
+        227
+      ],
+      "sourceInstance": "control_mc.bulaikeNPC",
+      "sourceSymbol": 206,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        0.82635498046875,
+        0.0,
+        0.0,
+        0.8255157470703125,
+        23.9,
+        16.95
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/507.swf",
+      "sourceSha256": "0c8c4e3e61efdcaee6af6b7d87e5621a2cdf0dc77dc9be44dd71c8911f543842",
+      "sha256": "72c3c0c1bdb722fb08e22b9192e3e590651c22d05d2ce39efe5565d299d1164b",
+      "bytes": 60164,
+      "alphaBoundsAt1x": [
+        379,
+        92,
+        449,
+        227
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_pulante": {
+      "mapId": 731,
+      "src": "/maps/actors/731-pulante.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        474,
+        239,
+        60,
+        96
+      ],
+      "anchor": [
+        504.0,
+        335
+      ],
+      "sourceInstance": "control_mc.sptboss",
+      "sourceSymbol": 37,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        471.6,
+        239.35
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/731.swf",
+      "sourceSha256": "5c3ecc817bd75fd3bafb2afe91b85f1d8dd92fc8bf55ce42c9c47c3598590f82",
+      "sha256": "83a58dc826f86b669b7ff18c38de6524db24616851cfc9f26fd6c5fb65c5cbf7",
+      "bytes": 94195,
+      "alphaBoundsAt1x": [
+        474,
+        239,
+        534,
+        335
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_luolasike": {
+      "mapId": 799,
+      "src": "/maps/actors/799-luolasike.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        113,
+        238,
+        84,
+        74
+      ],
+      "anchor": [
+        155.0,
+        312
+      ],
+      "sourceInstance": "control_mc.spt",
+      "sourceSymbol": 16,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        -428.8,
+        106.8
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/799.swf",
+      "sourceSha256": "23de8bb54dd62eac0323b48416e26a9056b96ec687300183cf1fb2e61accb0ae",
+      "sha256": "8dfd04dfa93ad081d6509d3bcfb8a9cf309033521729fa7115632cda9f6b906a",
+      "bytes": 93652,
+      "alphaBoundsAt1x": [
+        113,
+        238,
+        197,
+        312
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_yisuoli": {
+      "mapId": 803,
+      "src": "/maps/actors/803-yisuoli.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        615,
+        333,
+        77,
+        86
+      ],
+      "anchor": [
+        653.5,
+        419
+      ],
+      "sourceInstance": "control_mc.spt",
+      "sourceSymbol": 24,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        615.85,
+        333.45
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/803.swf",
+      "sourceSha256": "0d9ed368006798dc6bedd1f4e7ccc923693c989bb72cdf71e45f52486a5330b5",
+      "sha256": "391f68af53875fff7d675b7118857c14fffb4f251ec51b5ccfbbd34750ed197b",
+      "bytes": 79233,
+      "alphaBoundsAt1x": [
+        615,
+        333,
+        692,
+        419
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "campaign:puni": {
+      "mapId": 10032,
+      "src": "/maps/actors/10032-puni.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        357,
+        80,
+        165,
+        165
+      ],
+      "anchor": [
+        439.5,
+        245
+      ],
+      "sourceInstance": "depth_mc.hh",
+      "sourceSymbol": 163,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        351.2,
+        80.8
+      ],
+      "sourceAncestorOpacity": 1,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/10032.swf",
+      "sourceSha256": "657a73d6b79d5c03bce08f05bc92319854e080a2e87e5a4d06a80aae014f8920",
+      "sha256": "c0b837d1fbd88039bd976b68c9b3f2e4965a4b4ec91b0e94b834fb4de1a5cb9a",
+      "bytes": 39756,
+      "alphaBoundsAt1x": [
+        357,
+        80,
+        522,
+        245
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    },
+    "boss_spt_akexiya": {
+      "mapId": 40,
+      "src": "/maps/actors/40-akexiya.svg",
+      "stage": {
+        "width": 960,
+        "height": 560
+      },
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ],
+      "crop": [
+        537,
+        7,
+        131,
+        158
+      ],
+      "anchor": [
+        602.5,
+        165
+      ],
+      "sourceInstance": "control_mc.akxyMc",
+      "sourceSymbol": 72,
+      "sourceFrame": 1,
+      "sourceMatrix": [
+        0.504486083984375,
+        0.0,
+        0.0,
+        0.5041351318359375,
+        753.6,
+        115.95
+      ],
+      "sourceAncestorOpacity": 0.80078125,
+      "preservedMasks": [],
+      "sourceUrl": "https://seer.61.com/resource/map/40.swf",
+      "sourceSha256": "f5eeda36f6f7467a47cf481d096bb88836cbea85719b65b3b9d26fa14fed14e1",
+      "sha256": "eacee4567cd030e102ef74d288402927ba08f0f7ca63dd0a0cdd266cb7f683fe",
+      "bytes": 29977,
+      "alphaBoundsAt1x": [
+        537,
+        7,
+        668,
+        165
+      ],
+      "identityEvidence": "Named map instance, original first-frame pose, visually compared with the matching catalog species; source map registration retained.",
+      "rendering": "Original SVG paths, colors and internal display list. Only source registration and crop viewport restored; no raster enlargement or pose reconstruction."
+    }
+  },
+  "contacts": {
+    "boss_spt_moguguai": {
+      "mapId": 12,
+      "anchor": [
+        694.0,
+        125
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.mushroom_1",
+      "sourceSymbol": 82,
+      "sourceMatrix": [
+        0.29571533203125,
+        0.0908050537109375,
+        -0.0908050537109375,
+        0.29571533203125,
+        678.95,
+        93.1
+      ],
+      "sourceBounds": [
+        687,
+        98,
+        701,
+        125
+      ],
+      "sourceSha256": "0205946dc6e45bcd0e6343445451cb3d51a8c3787ebd56a31954c44cbe52bd37",
+      "sourceUrl": "https://seer.61.com/resource/map/12.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_tiyasi": {
+      "mapId": 27,
+      "anchor": [
+        334.5,
+        393
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossMC",
+      "sourceSymbol": 205,
+      "sourceMatrix": [
+        0.4813232421875,
+        0.0,
+        0.0,
+        0.4813232421875,
+        303.0,
+        312.1
+      ],
+      "sourceBounds": [
+        302,
+        311,
+        367,
+        393
+      ],
+      "sourceSha256": "14f588505b9e26d5480c0be0dddb96e4ab0ad9e069fa357b595c4a86d20ca4f3",
+      "sourceUrl": "https://seer.61.com/resource/map/27.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_gangyasha": {
+      "mapId": 22,
+      "anchor": [
+        871,
+        133
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "animator_mc.boss_mc",
+      "sourceSymbol": 67,
+      "sourceSha256": "9594139c0760bd705735dac60da94c18d918a8e50a3f4a04a1a1c3e7e0e16c7c",
+      "sourceUrl": "https://seer.61.com/resource/map/22.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_liaosi": {
+      "mapId": 17,
+      "anchor": [
+        813.5,
+        243
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "depth_mc.bossHu",
+      "sourceSymbol": 686,
+      "sourceSha256": "3626bfc77de2b9d57ee1016268dbde7493c3ed3d72423bb950095b52d913ed42",
+      "sourceUrl": "https://seer.61.com/resource/map/17.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_rei": {
+      "mapId": 32,
+      "anchor": [
+        760.5,
+        271
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossBtn",
+      "sourceSymbol": 666,
+      "sourceMatrix": [
+        0.5936737060546875,
+        0.0,
+        0.0,
+        0.5936737060546875,
+        736.8,
+        144.2
+      ],
+      "sourceBounds": [
+        736,
+        144,
+        785,
+        271
+      ],
+      "sourceSha256": "6b05dcc090b0a793328a786da697feee06b9121f69caadcbeaecdae0ce90de06",
+      "sourceUrl": "https://seer.61.com/resource/map/32.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_akexiya": {
+      "mapId": 40,
+      "anchor": [
+        602.5,
+        165
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.akxyMc",
+      "sourceSymbol": 72,
+      "sourceSha256": "f5eeda36f6f7467a47cf481d096bb88836cbea85719b65b3b9d26fa14fed14e1",
+      "sourceUrl": "https://seer.61.com/resource/map/40.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_eersaila": {
+      "mapId": 61,
+      "anchor": [
+        621.7919999999999,
+        482.27200000000005
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The retained map contains doors but no Ersaila actor or named boss contact.",
+      "sourceUrl": "https://seer.61.com/resource/map/61.swf",
+      "sourceSha256": "097e8a5fd6f14663d6c2db0aaaf01f36ee1844a02d0844144f0ff36bb55d918b",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_sipulinte": {
+      "mapId": 495,
+      "anchor": [
+        476.0,
+        228.0
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossBtn",
+      "sourceSymbol": 243,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        436.0,
+        115.0
+      ],
+      "sourceBounds": [
+        436.0,
+        115.0,
+        516.0,
+        228.0
+      ],
+      "sourceSha256": "35750b28d2b3b95d75b3c1e0c5d00790083ce349b6129ec41bccbcdc11a47bb3",
+      "sourceUrl": "https://seer.61.com/resource/map/495.swf",
+      "evidence": "Original DefineButton2 transparent hit-test rectangle; position and dimensions verified in 4_hittest SVG.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_nainifenduo": {
+      "mapId": 325,
+      "anchor": [
+        599.0,
+        302.0006408691406
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss_btn",
+      "sourceSymbol": 423,
+      "sourceMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.4000091552734375,
+        564.0,
+        204.0
+      ],
+      "sourceBounds": [
+        564.0,
+        204.0,
+        634.0,
+        302.0006408691406
+      ],
+      "sourceSha256": "2efe9900826a32630dc135f97a35ed1b0b8f6b0b61e69e604b8287756d69fdfe",
+      "sourceUrl": "https://seer.61.com/resource/map/325.swf",
+      "evidence": "Original DefineButton2 transparent hit-test rectangle; position and dimensions verified in 4_hittest SVG.",
+      "sceneViewport": [
+        -3.65,
+        -1,
+        970.3,
+        561
+      ]
+    },
+    "boss_spt_hamoleite": {
+      "mapId": 348,
+      "anchor": [
+        194.0,
+        167
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.hamo",
+      "sourceSymbol": 217,
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_takelin": {
+      "mapId": 348,
+      "anchor": [
+        807.5,
+        219
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.takelin",
+      "sourceSymbol": 125,
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_taxiya": {
+      "mapId": 348,
+      "anchor": [
+        450.0,
+        177
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.taxiya",
+      "sourceSymbol": 181,
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_saiweier": {
+      "mapId": 348,
+      "anchor": [
+        632.5,
+        188
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.saiweier",
+      "sourceSymbol": 137,
+      "sourceSha256": "25bfa3e46a04bdb41313ac118f739c2765e6eb8820447adedfc00605eabf51c5",
+      "sourceUrl": "https://seer.61.com/resource/map/348.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_laokemengde": {
+      "mapId": 423,
+      "anchor": [
+        634.0,
+        290
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "animator_mc.sptBoss",
+      "sourceSymbol": 425,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        638.1,
+        115.45
+      ],
+      "sourceBounds": [
+        547,
+        0,
+        721,
+        290
+      ],
+      "sourceSha256": "c53907b74fef2f6189d09f1d671e46836f1d4d5ef72e07bf03e7e40faf0508c7",
+      "sourceUrl": "https://seer.61.com/resource/map/423.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kelanite1": {
+      "mapId": 435,
+      "anchor": [
+        324.5,
+        342
+      ],
+      "kind": "authored-variant-offset",
+      "sourceInstance": "top_mc.boss_mc",
+      "sourceSymbol": 455,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        20.75,
+        -38.5
+      ],
+      "sourceBounds": [
+        314,
+        198,
+        425,
+        342
+      ],
+      "sourceSha256": "045f2e4c6571acd48cb00a46dd276a1b656a270144e1e71609d71207e62a6404",
+      "sourceUrl": "https://seer.61.com/resource/map/435.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage. Two remake variants are spaced 90 source units apart around that contact so both remain selectable.",
+      "originalAnchor": [
+        369.5,
+        342
+      ],
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kelanite2": {
+      "mapId": 435,
+      "anchor": [
+        414.5,
+        342
+      ],
+      "kind": "authored-variant-offset",
+      "sourceInstance": "top_mc.boss_mc",
+      "sourceSymbol": 455,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        20.75,
+        -38.5
+      ],
+      "sourceBounds": [
+        314,
+        198,
+        425,
+        342
+      ],
+      "sourceSha256": "045f2e4c6571acd48cb00a46dd276a1b656a270144e1e71609d71207e62a6404",
+      "sourceUrl": "https://seer.61.com/resource/map/435.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage. Two remake variants are spaced 90 source units apart around that contact so both remain selectable.",
+      "originalAnchor": [
+        369.5,
+        342
+      ],
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_moduosa": {
+      "mapId": 438,
+      "anchor": [
+        501.775,
+        242.6
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.hit",
+      "sourceSymbol": 87,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        456.25,
+        106.25
+      ],
+      "sourceBounds": [
+        455.75,
+        126.55,
+        547.8,
+        242.6
+      ],
+      "sourceSha256": "f0017d7c0d1955edd97c59246a7b0a9fe20535d7fb43b25540d85666acdcb550",
+      "sourceUrl": "https://seer.61.com/resource/map/438.swf",
+      "evidence": "First display-list geometry bounds; original interaction, not a visual species assertion.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_naduolei": {
+      "mapId": 106,
+      "anchor": [
+        459.0,
+        275
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossMC",
+      "sourceSymbol": 170,
+      "sourceMatrix": [
+        1.2242279052734375,
+        0.0,
+        0.0,
+        1.2242279052734375,
+        458.05,
+        258.35
+      ],
+      "sourceBounds": [
+        422,
+        223,
+        496,
+        275
+      ],
+      "sourceSha256": "19242ca126b9c55803458685aec84f4152c6eadd97bef2c99a9bbf125ddf9784",
+      "sourceUrl": "https://seer.61.com/resource/map/106.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_sibinsai": {
+      "mapId": 46,
+      "anchor": [
+        844.5,
+        141
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "depth_mc.siBinSaiBoss",
+      "sourceSymbol": 455,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        0.0,
+        0.0
+      ],
+      "sourceBounds": [
+        816,
+        81,
+        873,
+        141
+      ],
+      "sourceSha256": "6f00e9ae4b464b4195bc742f0e96795d472dce7fd1f44cd503245334d68a284a",
+      "sourceUrl": "https://seer.61.com/resource/map/46.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_leinaduo": {
+      "mapId": 49,
+      "anchor": [
+        480.0,
+        197
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossMC",
+      "sourceSymbol": 52,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        480.2,
+        153.0
+      ],
+      "sourceBounds": [
+        404,
+        110,
+        556,
+        197
+      ],
+      "sourceSha256": "92b54c7a80618e1ec15f0d65987f3ccf83f06145f272dd6c4536cf3252d48b70",
+      "sourceUrl": "https://seer.61.com/resource/map/49.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kelaifen1": {
+      "mapId": 54,
+      "anchor": [
+        164.0,
+        129
+      ],
+      "kind": "authored-variant-offset",
+      "sourceInstance": "depth_mc.sptMC",
+      "sourceSymbol": 380,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        194.0,
+        80.0
+      ],
+      "sourceBounds": [
+        143,
+        31,
+        275,
+        129
+      ],
+      "sourceSha256": "ef8d784727c0bd92b111bd12f66100d3027b5e939c30a1130428e5706dda5f5b",
+      "sourceUrl": "https://seer.61.com/resource/map/54.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage. Two remake variants are spaced 90 source units apart around that contact so both remain selectable.",
+      "originalAnchor": [
+        209.0,
+        129
+      ],
+      "sceneViewport": [
+        -1,
+        0,
+        961,
+        560
+      ]
+    },
+    "boss_spt_kelaifen2": {
+      "mapId": 54,
+      "anchor": [
+        254.0,
+        129
+      ],
+      "kind": "authored-variant-offset",
+      "sourceInstance": "depth_mc.sptMC",
+      "sourceSymbol": 380,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        194.0,
+        80.0
+      ],
+      "sourceBounds": [
+        143,
+        31,
+        275,
+        129
+      ],
+      "sourceSha256": "ef8d784727c0bd92b111bd12f66100d3027b5e939c30a1130428e5706dda5f5b",
+      "sourceUrl": "https://seer.61.com/resource/map/54.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage. Two remake variants are spaced 90 source units apart around that contact so both remain selectable.",
+      "originalAnchor": [
+        209.0,
+        129
+      ],
+      "sceneViewport": [
+        -1,
+        0,
+        961,
+        560
+      ]
+    },
+    "boss_spt_moshidilu": {
+      "mapId": 53,
+      "anchor": [
+        391.0,
+        162
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss",
+      "sourceSymbol": 181,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        339.65,
+        93.4
+      ],
+      "sourceBounds": [
+        339,
+        93,
+        443,
+        162
+      ],
+      "sourceSha256": "c4286155f38e4d8b0f832301b13be9182c402567453ed865cf51332574b6f2ec",
+      "sourceUrl": "https://seer.61.com/resource/map/53.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_younasi": {
+      "mapId": 314,
+      "anchor": [
+        621.5,
+        294
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss_mc",
+      "sourceSymbol": 366,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        568.0,
+        214.0
+      ],
+      "sourceBounds": [
+        568,
+        214,
+        675,
+        294
+      ],
+      "sourceSha256": "cdc0e89da3734501e6008c35deac0e25b19d597f42f13556ecfbdce57cd6af29",
+      "sourceUrl": "https://seer.61.com/resource/map/314.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        -1.65,
+        0,
+        962,
+        560
+      ]
+    },
+    "boss_spt_ajiasha": {
+      "mapId": 464,
+      "anchor": [
+        789.5,
+        265
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "depth_mc.spt",
+      "sourceSymbol": 402,
+      "sourceMatrix": [
+        0.999786376953125,
+        0.0,
+        0.0,
+        1.0,
+        -3.25,
+        -0.45
+      ],
+      "sourceBounds": [
+        674,
+        97,
+        905,
+        265
+      ],
+      "sourceSha256": "7c4eb72988df84690cba79950af77677765f2e2d45687afb9ce2647912c3f65b",
+      "sourceUrl": "https://seer.61.com/resource/map/464.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_ruiersi": {
+      "mapId": 688,
+      "anchor": [
+        480.45,
+        189.95
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.ruiersi",
+      "sourceSymbol": 110,
+      "sourceMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.000244140625,
+        480.45,
+        189.95
+      ],
+      "sourceBounds": null,
+      "sourceSha256": "298f41bc364156c1a078e368e53a59cc3dce4a7d3fd57765e13cd93940bc4e01",
+      "sourceUrl": "https://seer.61.com/resource/map/688.swf",
+      "evidence": "Empty first frame; original named instance registration retained.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_yalunsi": {
+      "mapId": 429,
+      "anchor": [
+        510.528,
+        393.67999999999995
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "No named Yalunsi encounter was identified among the current story actors.",
+      "sourceUrl": "https://seer.61.com/resource/map/429.swf",
+      "sourceSha256": "0ad2b0d1d80b232019fae008767152f0fd317e47117f4e241b31776123fd7451",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kenpeide": {
+      "mapId": 441,
+      "anchor": [
+        601.0,
+        241
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBtn",
+      "sourceSymbol": 319,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        457.6,
+        112.85
+      ],
+      "sourceBounds": [
+        450,
+        104,
+        752,
+        241
+      ],
+      "sourceSha256": "34663dec97ed44d4701c3888a72c172c81790ebf43a7354af685c43d3f0003fa",
+      "sourceUrl": "https://seer.61.com/resource/map/441.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_kaxiusi": {
+      "mapId": 445,
+      "anchor": [
+        736.9299034118652,
+        207.9162338256836
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.kaxiusiMC",
+      "sourceSymbol": 450,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        706.0,
+        76.15
+      ],
+      "sourceBounds": [
+        706.0021942138671,
+        96.00355224609375,
+        767.8576126098633,
+        207.9162338256836
+      ],
+      "sourceSha256": "e9adc85a589d37cc0a9aee3a31e4844eb5280f8fa9a7f8e41814117523cfbd6f",
+      "sourceUrl": "https://seer.61.com/resource/map/445.swf",
+      "evidence": "First display-list geometry bounds; original interaction, not a visual species assertion.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_delasa": {
+      "mapId": 486,
+      "anchor": [
+        817.0,
+        217
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss_619",
+      "sourceSymbol": 303,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        787.9,
+        155.8
+      ],
+      "sourceBounds": [
+        707,
+        93,
+        927,
+        217
+      ],
+      "sourceSha256": "1b16a8203319bc23b0adf474aeb5f39780f58ccd40f2a5e9ad5293c8625f4bcf",
+      "sourceUrl": "https://seer.61.com/resource/map/486.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_difute": {
+      "mapId": 450,
+      "anchor": [
+        612.0,
+        300
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.npc",
+      "sourceSymbol": 125,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        0.0,
+        0.0
+      ],
+      "sourceBounds": [
+        388,
+        0,
+        836,
+        300
+      ],
+      "sourceSha256": "1650ff1ac5eab33e7d6d0fc253fb8639ba40784ddd716023c3c2969931b12001",
+      "sourceUrl": "https://seer.61.com/resource/map/450.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_minuosi": {
+      "mapId": 479,
+      "anchor": [
+        664.5,
+        270
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss",
+      "sourceSymbol": 98,
+      "sourceMatrix": [
+        2.0,
+        0.0,
+        0.0,
+        2.0,
+        594.0,
+        100.0
+      ],
+      "sourceBounds": [
+        594,
+        101,
+        735,
+        270
+      ],
+      "sourceSha256": "4067eeec5fb93ecd3076477a9a0b3d9f94cb92c7425fc5381d87708852bd8a50",
+      "sourceUrl": "https://seer.61.com/resource/map/479.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_buleike": {
+      "mapId": 507,
+      "anchor": [
+        414.0,
+        227
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.bulaikeNPC",
+      "sourceSymbol": 206,
+      "sourceSha256": "0c8c4e3e61efdcaee6af6b7d87e5621a2cdf0dc77dc9be44dd71c8911f543842",
+      "sourceUrl": "https://seer.61.com/resource/map/507.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_campaign_xuanwu_body": {
+      "mapId": 666,
+      "anchor": [
+        189.31199999999998,
+        408.24000000000007
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The four guardian encounters share one remake hub; door-to-guardian identity is not established by the static source.",
+      "sourceUrl": "https://seer.61.com/resource/map/666.swf",
+      "sourceSha256": "b0dcff9f93e3da9f62439ece23d13dc81d18834f439a51109768b553ffe8c7e0",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_campaign_qinglong_body": {
+      "mapId": 666,
+      "anchor": [
+        333.312,
+        408.24000000000007
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The four guardian encounters share one remake hub; door-to-guardian identity is not established by the static source.",
+      "sourceUrl": "https://seer.61.com/resource/map/666.swf",
+      "sourceSha256": "b0dcff9f93e3da9f62439ece23d13dc81d18834f439a51109768b553ffe8c7e0",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_campaign_baihu_body": {
+      "mapId": 666,
+      "anchor": [
+        477.31199999999995,
+        408.24000000000007
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The four guardian encounters share one remake hub; door-to-guardian identity is not established by the static source.",
+      "sourceUrl": "https://seer.61.com/resource/map/666.swf",
+      "sourceSha256": "b0dcff9f93e3da9f62439ece23d13dc81d18834f439a51109768b553ffe8c7e0",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_campaign_zhuque_body": {
+      "mapId": 666,
+      "anchor": [
+        621.312,
+        408.24000000000007
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The four guardian encounters share one remake hub; door-to-guardian identity is not established by the static source.",
+      "sourceUrl": "https://seer.61.com/resource/map/666.swf",
+      "sourceSha256": "b0dcff9f93e3da9f62439ece23d13dc81d18834f439a51109768b553ffe8c7e0",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_guerzhadi": {
+      "mapId": 676,
+      "anchor": [
+        292.0,
+        494
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "depth_mc.spt",
+      "sourceSymbol": 728,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        295.0,
+        465.0
+      ],
+      "sourceBounds": [
+        226,
+        385,
+        358,
+        494
+      ],
+      "sourceSha256": "eb0d3ff62f29543eed8110bfff15bccafd10f27e7bb2a0726596e9d93d4d59bd",
+      "sourceUrl": "https://seer.61.com/resource/map/676.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_pitesaluo": {
+      "mapId": 684,
+      "anchor": [
+        583.0,
+        485
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 453,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        585.25,
+        450.05
+      ],
+      "sourceBounds": [
+        516,
+        416,
+        650,
+        485
+      ],
+      "sourceSha256": "e7ef2f2019ceb455f557eebf86091a9123a6b517763c0e876d72d127a44d8108",
+      "sourceUrl": "https://seer.61.com/resource/map/684.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_anyebinghu": {
+      "mapId": 686,
+      "anchor": [
+        451.0,
+        158
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptAnyebinghu",
+      "sourceSymbol": 616,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        451.95,
+        118.15
+      ],
+      "sourceBounds": [
+        407,
+        61,
+        495,
+        158
+      ],
+      "sourceSha256": "f7e7e7c12feaefd9cdd1f85b8a8dff08d8bc5bc7513c9bbddb8f59ad00c261ce",
+      "sourceUrl": "https://seer.61.com/resource/map/686.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_lansite": {
+      "mapId": 702,
+      "anchor": [
+        629.0,
+        298
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossStone",
+      "sourceSymbol": 123,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        628.95,
+        245.45
+      ],
+      "sourceBounds": [
+        580,
+        193,
+        678,
+        298
+      ],
+      "sourceSha256": "bebdcde9d2e5ebd9715d1cbc0b3c37799d58c0cf5469f48614363b069e8be6ac",
+      "sourceUrl": "https://seer.61.com/resource/map/702.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kawoer": {
+      "mapId": 706,
+      "anchor": [
+        646.368,
+        434.336
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "No named Kawoer actor is present in the inspected first display list.",
+      "sourceUrl": "https://seer.61.com/resource/map/706.swf",
+      "sourceSha256": "69ca584dca6d6cfa0a5621bf3470ff301cdba0d0a315a9dfb75bfec9c4b4ea29",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kailuoya": {
+      "mapId": 710,
+      "anchor": [
+        638.5,
+        426
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.spt",
+      "sourceSymbol": 127,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        0.0,
+        0.0
+      ],
+      "sourceBounds": [
+        614,
+        403,
+        663,
+        426
+      ],
+      "sourceSha256": "e7e7c8efe5642d0e617d16f8da797a0489b27c0a0dab2a5ca90eb5be02e18297",
+      "sourceUrl": "https://seer.61.com/resource/map/710.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kalunni": {
+      "mapId": 717,
+      "anchor": [
+        680.5,
+        389
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 162,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        585.05,
+        194.35
+      ],
+      "sourceBounds": [
+        553,
+        193,
+        808,
+        389
+      ],
+      "sourceSha256": "6953f59a7084718a7a2b204aa9b778d7390053b85de1dc3f0ec6af0112c24da1",
+      "sourceUrl": "https://seer.61.com/resource/map/717.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_paluodiya": {
+      "mapId": 722,
+      "anchor": [
+        677.6160000000001,
+        490.336
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The source contains Pamoya and a vortex, not a verified Parodiya contact.",
+      "sourceUrl": "https://seer.61.com/resource/map/722.swf",
+      "sourceSha256": "2f65402c9c159fcfcb5c448b021cad8068b64ee3df244dc6b27f62a433034569",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_silipu": {
+      "mapId": 724,
+      "anchor": [
+        695.0,
+        359
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 65,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        593.05,
+        277.0
+      ],
+      "sourceBounds": [
+        593,
+        277,
+        797,
+        359
+      ],
+      "sourceSha256": "648430ac45d30c39a9e5584a126bb5d8e022aa5dc08a3deb71490a4210dcfc62",
+      "sourceUrl": "https://seer.61.com/resource/map/724.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_pulante": {
+      "mapId": 731,
+      "anchor": [
+        504.0,
+        335
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.sptboss",
+      "sourceSymbol": 37,
+      "sourceSha256": "5c3ecc817bd75fd3bafb2afe91b85f1d8dd92fc8bf55ce42c9c47c3598590f82",
+      "sourceUrl": "https://seer.61.com/resource/map/731.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_bokate": {
+      "mapId": 735,
+      "anchor": [
+        610.5,
+        373
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.bossMC",
+      "sourceSymbol": 958,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        503.55,
+        -57.05
+      ],
+      "sourceBounds": [
+        511,
+        0,
+        710,
+        373
+      ],
+      "sourceSha256": "1e9a069aa9edb973a2210ec29467e1fe9155b19972dc8d5b14f6f75d3e0a19a6",
+      "sourceUrl": "https://seer.61.com/resource/map/735.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_basuoer": {
+      "mapId": 746,
+      "anchor": [
+        735.0,
+        182
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 702,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        703.0,
+        114.4
+      ],
+      "sourceBounds": [
+        704,
+        116,
+        766,
+        182
+      ],
+      "sourceSha256": "67a3c34343f9f70863d33f117323d963ab244f93d4d9ef59974803ed780224c0",
+      "sourceUrl": "https://seer.61.com/resource/map/746.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_palisi": {
+      "mapId": 762,
+      "anchor": [
+        355.5,
+        258
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 141,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        250.1,
+        75.3
+      ],
+      "sourceBounds": [
+        250,
+        74,
+        461,
+        258
+      ],
+      "sourceSha256": "6c23dcc247ed90d17a97d324e7223f8d20b999db4c0822ff19f4410718d79cea",
+      "sourceUrl": "https://seer.61.com/resource/map/762.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_sikelu": {
+      "mapId": 780,
+      "anchor": [
+        608.0,
+        404
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 1220,
+      "sourceMatrix": [
+        0.9989471435546875,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "sourceBounds": [
+        585,
+        360,
+        631,
+        404
+      ],
+      "sourceSha256": "42699198e6c36115af48dd2e6d36a5314e20a6b61284d957ef5fa64c223d429d",
+      "sourceUrl": "https://seer.61.com/resource/map/780.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_ailike": {
+      "mapId": 782,
+      "anchor": [
+        353.568,
+        474.2080000000001
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The source contains only the entrance/exit; Alike is dynamically supplied elsewhere.",
+      "sourceUrl": "https://seer.61.com/resource/map/782.swf",
+      "sourceSha256": "5cda89bc432ecc95836a437589e4e0b29fb0703f3a5efc5b32e65f8e53c0724f",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_nate": {
+      "mapId": 784,
+      "anchor": [
+        155.5,
+        231
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 135,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        1.05,
+        -1.8
+      ],
+      "sourceBounds": [
+        19,
+        127,
+        292,
+        231
+      ],
+      "sourceSha256": "0ec4394b043af00118d6b1aae984fae223c04f16b645385903fd205c34fae383",
+      "sourceUrl": "https://seer.61.com/resource/map/784.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_situerte": {
+      "mapId": 789,
+      "anchor": [
+        254.5,
+        491
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 931,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        206.55,
+        424.45
+      ],
+      "sourceBounds": [
+        205,
+        423,
+        304,
+        491
+      ],
+      "sourceSha256": "55f951c0ffc10750cfe704fd40042aa93fdcf3a766a8efb9fde6d5b6134847d2",
+      "sourceUrl": "https://seer.61.com/resource/map/789.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_kuli": {
+      "mapId": 795,
+      "anchor": [
+        282.5,
+        407
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.sptBoss",
+      "sourceSymbol": 478,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        188.5,
+        171.3
+      ],
+      "sourceBounds": [
+        172,
+        172,
+        393,
+        407
+      ],
+      "sourceSha256": "4ab16cf08ee4abe168e5b353d34a9b74b79a451a304c358c85d7e9e684faa74f",
+      "sourceUrl": "https://seer.61.com/resource/map/795.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_luolasike": {
+      "mapId": 799,
+      "anchor": [
+        155.0,
+        312
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.spt",
+      "sourceSymbol": 16,
+      "sourceSha256": "23de8bb54dd62eac0323b48416e26a9056b96ec687300183cf1fb2e61accb0ae",
+      "sourceUrl": "https://seer.61.com/resource/map/799.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_yisuoli": {
+      "mapId": 803,
+      "anchor": [
+        653.5,
+        419
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "control_mc.spt",
+      "sourceSymbol": 24,
+      "sourceSha256": "0d9ed368006798dc6bedd1f4e7ccc923693c989bb72cdf71e45f52486a5330b5",
+      "sourceUrl": "https://seer.61.com/resource/map/803.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_spt_fuxisi": {
+      "mapId": 810,
+      "anchor": [
+        148.5,
+        432
+      ],
+      "kind": "original-interaction",
+      "sourceInstance": "control_mc.boss",
+      "sourceSymbol": 1118,
+      "sourceMatrix": [
+        1,
+        0,
+        0,
+        1,
+        0.0,
+        0.0
+      ],
+      "sourceBounds": [
+        78,
+        309,
+        219,
+        432
+      ],
+      "sourceSha256": "07095298ada3e2d5a1439381a2ca96d52e3fa6e31135065eedb9e65b741874fd",
+      "sourceUrl": "https://seer.61.com/resource/map/810.swf",
+      "evidence": "Original interaction silhouette bounds, rendered in the source stage.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "campaign:puni": {
+      "mapId": 10032,
+      "anchor": [
+        439.5,
+        245
+      ],
+      "kind": "original-visible-actor",
+      "sourceInstance": "depth_mc.hh",
+      "sourceSymbol": 163,
+      "sourceSha256": "657a73d6b79d5c03bce08f05bc92319854e080a2e87e5a4d06a80aae014f8920",
+      "sourceUrl": "https://seer.61.com/resource/map/10032.swf",
+      "evidence": "Original visible map pose, including its source registration, opacity and required masks.",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    },
+    "boss_trial_brave_qigesa": {
+      "mapId": 402,
+      "anchor": [
+        566.4,
+        464.79999999999995
+      ],
+      "kind": "retained-remake-placement",
+      "evidence": "The Qigesa trial is a remake encounter on the retained source challenge floor.",
+      "sourceUrl": "https://seer.61.com/resource/map/402.swf",
+      "sourceSha256": "394ffccf07f0dc70b92990d00cdeee53bc9ae6ca7b72438f30ab08992715bc8d",
+      "sceneViewport": [
+        0,
+        0,
+        960,
+        560
+      ]
+    }
+  },
+  "areas": [
+    {
+      "mapId": 12,
+      "planet": "klose",
+      "region": "forest",
+      "contacts": [
+        "boss_spt_moguguai"
+      ]
+    },
+    {
+      "mapId": 27,
+      "planet": "cloud",
+      "region": "summit",
+      "contacts": [
+        "boss_spt_tiyasi"
+      ]
+    },
+    {
+      "mapId": 22,
+      "planet": "ocean",
+      "region": "seabed",
+      "contacts": [
+        "boss_spt_gangyasha"
+      ]
+    },
+    {
+      "mapId": 17,
+      "planet": "volcano",
+      "region": "depths",
+      "contacts": [
+        "boss_spt_liaosi"
+      ]
+    },
+    {
+      "mapId": 32,
+      "planet": "helka",
+      "region": "temple",
+      "contacts": [
+        "boss_rei"
+      ]
+    },
+    {
+      "mapId": 40,
+      "planet": "cecilia",
+      "region": "peak",
+      "contacts": [
+        "boss_spt_akexiya"
+      ]
+    },
+    {
+      "mapId": 61,
+      "planet": "tuck",
+      "region": "light-city",
+      "contacts": [
+        "boss_spt_eersaila"
+      ]
+    },
+    {
+      "mapId": 495,
+      "planet": "tuck",
+      "region": "underground",
+      "contacts": [
+        "boss_spt_sipulinte"
+      ]
+    },
+    {
+      "mapId": 325,
+      "planet": "eddy",
+      "region": "landing",
+      "contacts": [
+        "boss_spt_nainifenduo"
+      ]
+    },
+    {
+      "mapId": 348,
+      "planet": "hamo",
+      "region": "dragon-temple",
+      "contacts": [
+        "boss_spt_hamoleite",
+        "boss_spt_takelin",
+        "boss_spt_taxiya",
+        "boss_spt_saiweier"
+      ]
+    },
+    {
+      "mapId": 423,
+      "planet": "big",
+      "region": "wolf-cave",
+      "contacts": [
+        "boss_spt_laokemengde"
+      ]
+    },
+    {
+      "mapId": 435,
+      "planet": "dase",
+      "region": "death-river",
+      "contacts": [
+        "boss_spt_kelanite1",
+        "boss_spt_kelanite2"
+      ]
+    },
+    {
+      "mapId": 438,
+      "planet": "modusa",
+      "region": "stone-city",
+      "contacts": [
+        "boss_spt_moduosa"
+      ]
+    },
+    {
+      "mapId": 106,
+      "planet": "alpha",
+      "region": "surface",
+      "contacts": [
+        "boss_spt_naduolei"
+      ]
+    },
+    {
+      "mapId": 46,
+      "planet": "alpha",
+      "region": "energy",
+      "contacts": [
+        "boss_spt_sibinsai"
+      ]
+    },
+    {
+      "mapId": 49,
+      "planet": "beta",
+      "region": "surface",
+      "contacts": [
+        "boss_spt_leinaduo"
+      ]
+    },
+    {
+      "mapId": 54,
+      "planet": "lucio",
+      "region": "surface",
+      "contacts": [
+        "boss_spt_kelaifen1",
+        "boss_spt_kelaifen2"
+      ]
+    },
+    {
+      "mapId": 53,
+      "planet": "snow",
+      "region": "cave",
+      "contacts": [
+        "boss_spt_moshidilu"
+      ]
+    },
+    {
+      "mapId": 314,
+      "planet": "byron",
+      "region": "deck",
+      "contacts": [
+        "boss_spt_younasi"
+      ]
+    },
+    {
+      "mapId": 464,
+      "planet": "kaku",
+      "region": "jungle",
+      "contacts": [
+        "boss_spt_ajiasha"
+      ]
+    },
+    {
+      "mapId": 688,
+      "planet": "twitter",
+      "region": "galia",
+      "contacts": [
+        "boss_spt_ruiersi"
+      ]
+    },
+    {
+      "mapId": 429,
+      "planet": "toti",
+      "region": "surface",
+      "contacts": [
+        "boss_spt_yalunsi"
+      ]
+    },
+    {
+      "mapId": 441,
+      "planet": "rabol",
+      "region": "surface",
+      "contacts": [
+        "boss_spt_kenpeide"
+      ]
+    },
+    {
+      "mapId": 445,
+      "planet": "white",
+      "region": "surface",
+      "contacts": [
+        "boss_kaxiusi"
+      ]
+    },
+    {
+      "mapId": 486,
+      "planet": "white",
+      "region": "mine",
+      "contacts": [
+        "boss_spt_delasa"
+      ]
+    },
+    {
+      "mapId": 450,
+      "planet": "white",
+      "region": "temple",
+      "contacts": [
+        "boss_spt_difute"
+      ]
+    },
+    {
+      "mapId": 479,
+      "planet": "white",
+      "region": "cavern",
+      "contacts": [
+        "boss_spt_minuosi"
+      ]
+    },
+    {
+      "mapId": 507,
+      "planet": "grace",
+      "region": "altar",
+      "contacts": [
+        "boss_buleike"
+      ]
+    },
+    {
+      "mapId": 666,
+      "planet": "planet-662",
+      "region": "sanctuary",
+      "contacts": [
+        "boss_campaign_xuanwu_body",
+        "boss_campaign_qinglong_body",
+        "boss_campaign_baihu_body",
+        "boss_campaign_zhuque_body"
+      ]
+    },
+    {
+      "mapId": 676,
+      "planet": "ability",
+      "region": "guardians",
+      "contacts": [
+        "boss_spt_guerzhadi"
+      ]
+    },
+    {
+      "mapId": 684,
+      "planet": "tairow",
+      "region": "jungle",
+      "contacts": [
+        "boss_spt_pitesaluo"
+      ]
+    },
+    {
+      "mapId": 686,
+      "planet": "tairow",
+      "region": "beast-valley",
+      "contacts": [
+        "boss_spt_anyebinghu"
+      ]
+    },
+    {
+      "mapId": 702,
+      "planet": "giant",
+      "region": "island",
+      "contacts": [
+        "boss_spt_lansite"
+      ]
+    },
+    {
+      "mapId": 706,
+      "planet": "giant",
+      "region": "forest",
+      "contacts": [
+        "boss_spt_kawoer"
+      ]
+    },
+    {
+      "mapId": 710,
+      "planet": "allen",
+      "region": "coral",
+      "contacts": [
+        "boss_spt_kailuoya"
+      ]
+    },
+    {
+      "mapId": 717,
+      "planet": "bast",
+      "region": "mist",
+      "contacts": [
+        "boss_spt_kalunni"
+      ]
+    },
+    {
+      "mapId": 722,
+      "planet": "bast",
+      "region": "dragon-realm",
+      "contacts": [
+        "boss_paluodiya"
+      ]
+    },
+    {
+      "mapId": 724,
+      "planet": "bast",
+      "region": "dragon-temple",
+      "contacts": [
+        "boss_spt_silipu"
+      ]
+    },
+    {
+      "mapId": 731,
+      "planet": "lainna",
+      "region": "village",
+      "contacts": [
+        "boss_spt_pulante"
+      ]
+    },
+    {
+      "mapId": 735,
+      "planet": "lainna",
+      "region": "pirate-lab",
+      "contacts": [
+        "boss_spt_bokate"
+      ]
+    },
+    {
+      "mapId": 746,
+      "planet": "small-phantom",
+      "region": "remains",
+      "contacts": [
+        "boss_spt_basuoer"
+      ]
+    },
+    {
+      "mapId": 762,
+      "planet": "demon",
+      "region": "falls",
+      "contacts": [
+        "boss_spt_palisi"
+      ]
+    },
+    {
+      "mapId": 780,
+      "planet": "devil",
+      "region": "tower",
+      "contacts": [
+        "boss_spt_sikelu"
+      ]
+    },
+    {
+      "mapId": 782,
+      "planet": "devil",
+      "region": "temple",
+      "contacts": [
+        "boss_ailike"
+      ]
+    },
+    {
+      "mapId": 784,
+      "planet": "devil",
+      "region": "abyss",
+      "contacts": [
+        "boss_spt_nate"
+      ]
+    },
+    {
+      "mapId": 789,
+      "planet": "pumpkin",
+      "region": "treasure",
+      "contacts": [
+        "boss_spt_situerte"
+      ]
+    },
+    {
+      "mapId": 795,
+      "planet": "pegasus",
+      "region": "island",
+      "contacts": [
+        "boss_spt_kuli"
+      ]
+    },
+    {
+      "mapId": 799,
+      "planet": "pegasus",
+      "region": "crystal-cave",
+      "contacts": [
+        "boss_spt_luolasike"
+      ]
+    },
+    {
+      "mapId": 803,
+      "planet": "pegasus",
+      "region": "ice-palace",
+      "contacts": [
+        "boss_spt_yisuoli"
+      ]
+    },
+    {
+      "mapId": 810,
+      "planet": "pegasus",
+      "region": "tree",
+      "contacts": [
+        "boss_spt_fuxisi"
+      ]
+    },
+    {
+      "mapId": 10032,
+      "planet": "space-station",
+      "region": "mystery",
+      "contacts": [
+        "campaign:puni"
+      ]
+    },
+    {
+      "mapId": 402,
+      "planet": "fortress",
+      "region": "trial",
+      "contacts": [
+        "boss_trial_brave_qigesa"
+      ]
+    }
+  ],
+  "sourceCoordinateSystem": "Source SWF 960x560 stage. The current nonstandard backgrounds retain their display viewport mapping; exact crop metadata is recorded separately where applicable.",
+  "sceneViewports": {
+    "54": [
+      -1,
+      0,
+      961,
+      560
+    ],
+    "314": [
+      -1.65,
+      0,
+      962,
+      560
+    ],
+    "325": [
+      -3.65,
+      -1,
+      970.3,
+      561
+    ]
+  },
+  "sceneViewportEvidence": {
+    "54": "Final original background SVG viewBox; x = -1 and width = 961.",
+    "314": "Retained original H5 bitmap canvas is 962 by 560; source bg.x 1.95 plus offx -3.6 gives source origin -1.65.",
+    "325": "Final original background SVG viewBox; origin (-3.65,-1), extent (970.3,561)."
+  }
+}

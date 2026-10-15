@@ -1,0 +1,1034 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "ui": {
+      "url": "https://seer.61.com/dll/UI.swf",
+      "sha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "path": ".cache/hd-ui-v44/sources/UI.swf"
+    },
+    "fight": {
+      "url": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "path": ".cache/hd-ui-v44/sources/PetFightDLL.swf"
+    },
+    "breeding": {
+      "url": "https://seer.61.com/module/com/robot/module/app/PetBreedPanel.swf",
+      "sha256": "6b8c3ddfc2f23bfc4376338f77085ccf645db2d00ca840256b50bea2b15e4fae",
+      "path": ".cache/hd-ui-v44/sources/PetBreedPanel.swf"
+    }
+  },
+  "assets": [
+    {
+      "name": "toolbar-rail",
+      "baselinePath": "/ui/classic/toolbar-rail.png",
+      "baselineSha256": "b1c5303da048c2e07e1a960aac5edd514f0cebfb47c738a0a1bd0117d3372de9",
+      "sourceGroup": "ui",
+      "symbolId": 5923,
+      "crop": [
+        0,
+        0,
+        1577,
+        181
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/shapes/5923.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/shapes/5923.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "panel-background",
+      "baselinePath": "/ui/classic/panel-background.png",
+      "baselineSha256": "42b6a4c58ccb2035e2e33668c9c4a472a4ef85b42f0f4a124fbbd9bdcdd96a9b",
+      "sourceGroup": "ui",
+      "symbolId": 1432,
+      "crop": [
+        0,
+        0,
+        481,
+        591
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/shapes/1432.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/shapes/1432.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag-well",
+      "baselinePath": "/ui/classic/petbag-well.png",
+      "baselineSha256": "4773e7a6a2bdf83f726656f68df875d6eacf89590945266b39948c5d008bc078",
+      "sourceGroup": "ui",
+      "symbolId": 812,
+      "crop": [
+        620,
+        226,
+        1262,
+        698
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "petbag-projector",
+      "baselinePath": "/ui/classic/petbag-projector.png",
+      "baselineSha256": "efc12b3a09d71953f3c00a9ba07009eafbbceb29da59c3e330a771e82fe7fc62",
+      "sourceGroup": "ui",
+      "symbolId": 812,
+      "crop": [
+        243,
+        268,
+        601,
+        695
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.svg",
+        "png4x": ".cache/hd-ui-v44/ui-4x/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.png"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail.",
+      "publishRaster4x": true,
+      "maxRasterMeanRgbError": 1.649,
+      "visibleVectorCoverageFraction": 0.11502230711865294
+    },
+    {
+      "name": "petbag-header-circuit",
+      "baselinePath": "/ui/classic/petbag-header-circuit.png",
+      "baselineSha256": "e75be6d5d4967b729e2b20cf3849ae254922e9d3ed9a213709147452c003b6f4",
+      "sourceGroup": "ui",
+      "symbolId": 812,
+      "crop": [
+        802,
+        46,
+        1185,
+        130
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_812_PetBagPanel_UI_PetBagPanel_UI/1.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "battle-skill-outline",
+      "baselinePath": "/ui/classic/battle-skill-outline.png",
+      "baselineSha256": "4a91e1350b6872426383cb2b8dae72350f014b8568949b59497dae2839a63961",
+      "sourceGroup": "ui",
+      "symbolId": 6505,
+      "crop": [
+        4,
+        11,
+        265,
+        112
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_6505_ui_Normal_PetSkilBtn_ui_Normal_PetSkilBtn/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_6505_ui_Normal_PetSkilBtn_ui_Normal_PetSkilBtn/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-capture",
+      "baselinePath": "/ui/classic/battle-capture.png",
+      "baselineSha256": "ded80edbbc4913de03f7e0fa87d80d0955add5e6f22bb0338a2803be96d24f4f",
+      "sourceGroup": "fight",
+      "symbolId": 978,
+      "crop": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_978/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_978/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-items",
+      "baselinePath": "/ui/classic/battle-items.png",
+      "baselineSha256": "2b7b996f13b5dc11504a9dcdeeb6db460a60baceb7f372627a1b39067bf8b795",
+      "sourceGroup": "fight",
+      "symbolId": 974,
+      "crop": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_974/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_974/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-fight",
+      "baselinePath": "/ui/classic/battle-fight.png",
+      "baselineSha256": "8a2aac604b02898ea896ab9b88eaeb9ec600b476625f6807d136f112ee80d4c5",
+      "sourceGroup": "fight",
+      "symbolId": 998,
+      "crop": [
+        210,
+        69,
+        479,
+        291
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_998/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_998/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-creatures",
+      "baselinePath": "/ui/classic/battle-creatures.png",
+      "baselineSha256": "4fca215b6dd4eb0167b13f3773b2a21e8d2b35bd54796ad06ae1e072e28c9c68",
+      "sourceGroup": "fight",
+      "symbolId": 982,
+      "crop": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_982/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_982/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-retreat",
+      "baselinePath": "/ui/classic/battle-retreat.png",
+      "baselineSha256": "cb670384ec6a3f46ef8588a63e762f37776fcde8fc80f8f1be7303977c884b55",
+      "sourceGroup": "fight",
+      "symbolId": 970,
+      "crop": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_970/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_970/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-command-rail",
+      "baselinePath": "/ui/classic/battle-command-rail.png",
+      "baselineSha256": "0f531620aeb06eb65ed145adcddacfefb7358230eb5d8e037626a1db9150099f",
+      "sourceGroup": "fight",
+      "symbolId": 999,
+      "crop": [
+        0,
+        0,
+        1345,
+        326
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_999/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_999/1.svg",
+        "png4x": ".cache/hd-ui-v44/fight-4x/DefineSprite_999/1.png"
+      },
+      "publish": false,
+      "reason": "FFDec SVG omits the original nested scale-9 bitmap stretching, leaving visible gaps. Keep the faithful PNG; the separate command frame is recovered as a pure vector.",
+      "publishRaster4x": true,
+      "maxRasterMeanRgbError": 1.416,
+      "visibleVectorCoverageFraction": 0.3912285903254499
+    },
+    {
+      "name": "battle-hp-bar",
+      "baselinePath": "/ui/classic/battle-hp-bar.png",
+      "baselineSha256": "3a87c789a3349ffd975edab45e665b592bc1b612a8f374a689dc5caacd6786a8",
+      "sourceGroup": "fight",
+      "symbolId": 750,
+      "crop": [
+        0,
+        0,
+        500,
+        45
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_750/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_750/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-command-frame",
+      "baselinePath": "/ui/classic/battle-command-frame.png",
+      "baselineSha256": "326ff337ecb356b30622de371f72c939d5658eafe543619bfa0714c72690a657",
+      "sourceGroup": "fight",
+      "symbolId": 961,
+      "crop": [
+        0,
+        0,
+        527,
+        326
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_961/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_961/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-hud-player",
+      "baselinePath": "/ui/classic/battle-hud-player.png",
+      "baselineSha256": "89ac6fe8d95ed9e2e292eb0ab3d54d3af5de48ff2019c034e6ad2421d5d1c787",
+      "sourceGroup": "fight",
+      "symbolId": 764,
+      "crop": [
+        0,
+        0,
+        586,
+        150
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_764_mainPanel_fla.MyInfoPanel_31_mainPanel_fla.MyInfoPanel_31/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_764_mainPanel_fla.MyInfoPanel_31_mainPanel_fla.MyInfoPanel_31/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-hud-opponent",
+      "baselinePath": "/ui/classic/battle-hud-opponent.png",
+      "baselineSha256": "d22ea416ed8fd68d01073490ea8d4a2439424bccecd34a2a59e6842d1592e3b3",
+      "sourceGroup": "fight",
+      "symbolId": 1021,
+      "crop": [
+        0,
+        0,
+        583,
+        145
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_1021_mainPanel_fla.OtherInfoPanel_39_mainPanel_fla.OtherInfoPanel_39/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_1021_mainPanel_fla.OtherInfoPanel_39_mainPanel_fla.OtherInfoPanel_39/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "battle-skill-rail",
+      "baselinePath": "/ui/classic/battle-skill-rail.png",
+      "baselineSha256": "319355464cea7bd2ebe026aacc4159e993d4901068f62b00d8145710ba36e54d",
+      "sourceGroup": "fight",
+      "symbolId": 4,
+      "crop": [
+        0,
+        0,
+        839,
+        282
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/sprites/DefineSprite_4/1.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/sprites/DefineSprite_4/1.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "battle-log-panel",
+      "baselinePath": "/ui/classic/battle-log-panel.png",
+      "baselineSha256": "9b89575d1456972101f27996bd7e151421d11fe13a50274d2f93f9f5ec19b630",
+      "sourceGroup": "fight",
+      "symbolId": 1001,
+      "crop": [
+        0,
+        53,
+        599,
+        326
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/fight-png/shapes/1001.png",
+        "svg": ".cache/hd-ui-v44/fight-svg/shapes/1001.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "petbag/frame",
+      "baselinePath": "/ui/classic/petbag/frame.png",
+      "baselineSha256": "f724435c9c19b9c8ac6a55c928aedd284704961b6fa1cb996a741c0100e36ac5",
+      "sourceGroup": "ui",
+      "symbolId": 735,
+      "crop": [
+        0,
+        0,
+        1294,
+        942
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/shapes/735.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/shapes/735.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "petbag/slot",
+      "baselinePath": "/ui/classic/petbag/slot.png",
+      "baselineSha256": "e1ead326dec5606279dbdfda9306f740f2174151a75ca4ddf82bfcc2e35273a7",
+      "sourceGroup": "ui",
+      "symbolId": 45,
+      "crop": [
+        0,
+        0,
+        190,
+        212
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/shapes/45.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/shapes/45.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/tab",
+      "baselinePath": "/ui/classic/petbag/tab.png",
+      "baselineSha256": "b762c17de403eeb460fa7725800202f29e65bed2e34378e14316c172d4069990",
+      "sourceGroup": "ui",
+      "symbolId": 766,
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/shapes/766.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/shapes/766.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-first",
+      "baselinePath": "/ui/classic/petbag/nav-first.png",
+      "baselineSha256": "9d80ce77595d53819b5bfb179f67b45fcafb24ea8706c43701ef30335220ccac",
+      "sourceGroup": "ui",
+      "symbolId": 759,
+      "crop": [
+        3,
+        1,
+        64,
+        66
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_759__fla.n_1j7cb5k6lp98_11__fla.n_1j7cb5k6lp98_11/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_759__fla.n_1j7cb5k6lp98_11__fla.n_1j7cb5k6lp98_11/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-heal",
+      "baselinePath": "/ui/classic/petbag/nav-heal.png",
+      "baselineSha256": "9d8688e9db72c854bf49566b05a2d00f80d8b3c5b763e0486e7a2b195919ddeb",
+      "sourceGroup": "ui",
+      "symbolId": 745,
+      "crop": [
+        2,
+        2,
+        67,
+        67
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_745/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_745/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-switch",
+      "baselinePath": "/ui/classic/petbag/nav-switch.png",
+      "baselineSha256": "40572b6751ac843e11054c48d5d3d163dc2d754942bc16519c2bf8f97511305a",
+      "sourceGroup": "ui",
+      "symbolId": 743,
+      "crop": [
+        3,
+        2,
+        111,
+        106
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_743/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_743/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-default",
+      "baselinePath": "/ui/classic/petbag/nav-default.png",
+      "baselineSha256": "95305ae7be9d6a859f138817c5138e2aa1283a461277ce64c605e907aae4fdaa",
+      "sourceGroup": "ui",
+      "symbolId": 748,
+      "crop": [
+        0,
+        1,
+        64,
+        62
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_748/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_748/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-dex",
+      "baselinePath": "/ui/classic/petbag/nav-dex.png",
+      "baselineSha256": "87bab1bb0d3026e4c4733b394064b9a9263c4735e474b75e16d53e8569f7b580",
+      "sourceGroup": "ui",
+      "symbolId": 752,
+      "crop": [
+        1,
+        0,
+        66,
+        66
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_752/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_752/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-traits",
+      "baselinePath": "/ui/classic/petbag/nav-traits.png",
+      "baselineSha256": "34165e5277e48022eff1ed881a93d68a166c4fac99ab81687b16609cdb80b1f7",
+      "sourceGroup": "ui",
+      "symbolId": 763,
+      "crop": [
+        0,
+        0,
+        68,
+        74
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_763/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_763/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-storage",
+      "baselinePath": "/ui/classic/petbag/nav-storage.png",
+      "baselineSha256": "b6637151521e4fe20179814bc29fa9fae210a07eb02d81f684e356eb647d9c79",
+      "sourceGroup": "ui",
+      "symbolId": 765,
+      "crop": [
+        1,
+        1,
+        66,
+        66
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_765/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_765/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/nav-mark",
+      "baselinePath": "/ui/classic/petbag/nav-mark.png",
+      "baselineSha256": "7f41e7de1064f6d945d1fda7e024dbf8658e2e0e7adc48a3d22af279e6cf6ca6",
+      "sourceGroup": "ui",
+      "symbolId": 740,
+      "crop": [
+        20,
+        20,
+        100,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/buttons/DefineButton2_740/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/buttons/DefineButton2_740/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/tab-info",
+      "baselinePath": "/ui/classic/petbag/tab-info.png",
+      "baselineSha256": "e8bbd984b8c8f3a6ea2a13ed723185cf5cc3f9b19b0af2b151ea6b3f8f70e8e5",
+      "sourceGroup": "ui",
+      "symbolId": 770,
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_770__fla.n_182pk13pbme8_18__fla.n_182pk13pbme8_18/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_770__fla.n_182pk13pbme8_18__fla.n_182pk13pbme8_18/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/tab-ability",
+      "baselinePath": "/ui/classic/petbag/tab-ability.png",
+      "baselineSha256": "3e65bf0aac28ea1667d794e554b1eac60691064724e60d3e532375886bacc374",
+      "sourceGroup": "ui",
+      "symbolId": 773,
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_773__fla.n_1g1pvfvrvp10_19__fla.n_1g1pvfvrvp10_19/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_773__fla.n_1g1pvfvrvp10_19__fla.n_1g1pvfvrvp10_19/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/tab-items",
+      "baselinePath": "/ui/classic/petbag/tab-items.png",
+      "baselineSha256": "205402ed1fec249492c522c4dae3a51b88b73b84e4daf1c5e6ad6c3e7773c2c3",
+      "sourceGroup": "ui",
+      "symbolId": 776,
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_776__fla.n_qnaohhkbr24_20__fla.n_qnaohhkbr24_20/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_776__fla.n_qnaohhkbr24_20__fla.n_qnaohhkbr24_20/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "petbag/tab-data",
+      "baselinePath": "/ui/classic/petbag/tab-data.png",
+      "baselineSha256": "31335b42a36fa0cfd24e9a28b739a7852658aa4ce23e58bef0005370ceabd80e",
+      "sourceGroup": "ui",
+      "symbolId": 779,
+      "crop": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-png/sprites/DefineSprite_779__fla.n_cop41ekjhsu_21__fla.n_cop41ekjhsu_21/1.png",
+        "svg": ".cache/hd-ui-v44/ui-svg/sprites/DefineSprite_779__fla.n_cop41ekjhsu_21__fla.n_cop41ekjhsu_21/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "map-nameplate",
+      "baselinePath": "/ui/classic/map-nameplate.png",
+      "baselineSha256": "3c150f9e2b05edd286259bc8a3e837a80ea468def0415b0d46c6262c2af5c1e3",
+      "sourceGroup": "ui",
+      "symbolId": 2799,
+      "crop": [
+        0,
+        0,
+        233,
+        53
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/shapes/2799.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/shapes/2799.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "skill-button",
+      "baselinePath": "/ui/classic/skill-button.png",
+      "baselineSha256": "86ecbcb39399965bc62be538427cd1a8556a3ed347cca1a80481dd7e08b8126e",
+      "sourceGroup": "ui",
+      "symbolId": 5472,
+      "crop": [
+        0,
+        0,
+        278,
+        83
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/shapes/5472.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/shapes/5472.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "map",
+      "baselinePath": "/ui/classic/map.png",
+      "baselineSha256": "0280b4c07b74c9aebf8c445de5a43f78eacd7f17e64ee58f9fb8f656806b75b6",
+      "sourceGroup": "ui",
+      "symbolId": 5935,
+      "crop": [
+        16,
+        31,
+        215,
+        186
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5935/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5935/1.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "guide",
+      "baselinePath": "/ui/classic/guide.png",
+      "baselineSha256": "4aae694dece240d5ded6db72b9e6b637cd06002ad935b860627545a7cece2947",
+      "sourceGroup": "ui",
+      "symbolId": 4470,
+      "crop": [
+        10,
+        38,
+        134,
+        134
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_4470__fla.n_m0letoeqs9g_153__fla.n_m0letoeqs9g_153/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_4470__fla.n_m0letoeqs9g_153__fla.n_m0letoeqs9g_153/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "raising",
+      "baselinePath": "/ui/classic/raising.png",
+      "baselineSha256": "595308d1e66704baf6427170ce0c00ced81ca34bb56114eb47346c0f8296a1cc",
+      "sourceGroup": "ui",
+      "symbolId": 5544,
+      "crop": [
+        28,
+        38,
+        157,
+        144
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5544__fla.Timeline_184__fla.Timeline_184/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5544__fla.Timeline_184__fla.Timeline_184/1.svg"
+      },
+      "publish": true,
+      "maxMeanRgbError": 10.0,
+      "visualReview": "The original geometry and lettering match; Flash and SVG glow/antialias kernels differ slightly."
+    },
+    {
+      "name": "sound",
+      "baselinePath": "/ui/classic/sound.png",
+      "baselineSha256": "3b9ac60729e202eec896344fa02a76eb995cd8c6fb523f11cb5938bbc5e7c8b3",
+      "sourceGroup": "ui",
+      "symbolId": 5968,
+      "crop": [
+        0,
+        0,
+        34,
+        35
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5968__fla.n_1rk7do9luiio_95__fla.n_1rk7do9luiio_95/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5968__fla.n_1rk7do9luiio_95__fla.n_1rk7do9luiio_95/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "profile",
+      "baselinePath": "/ui/classic/profile.png",
+      "baselineSha256": "fdf1c5861970d5e8fa56640d75865a70402e2a9fc453fdd9c89ad15032385e4c",
+      "sourceGroup": "ui",
+      "symbolId": 5973,
+      "crop": [
+        0,
+        0,
+        33,
+        33
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5973__fla.n_1m6ur50qrd70_97__fla.n_1m6ur50qrd70_97/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5973__fla.n_1m6ur50qrd70_97__fla.n_1m6ur50qrd70_97/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "close",
+      "baselinePath": "/ui/classic/close.png",
+      "baselineSha256": "d0ea3fd81f0ed770742ad12bdf25b42f0e8f18f51097321e8bcd0f0e1b48e063",
+      "sourceGroup": "ui",
+      "symbolId": 4969,
+      "crop": [
+        0,
+        0,
+        60,
+        60
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/buttons/DefineButton2_4969_Close_Btn_Close_Btn/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/buttons/DefineButton2_4969_Close_Btn_Close_Btn/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "mission",
+      "baselinePath": "/ui/classic/mission.png",
+      "baselineSha256": "1f06d430f31f3a5568069003f0dcd6e6d382b41c3671422bfa22445a1fc122b6",
+      "sourceGroup": "ui",
+      "symbolId": 1648,
+      "crop": [
+        8,
+        10,
+        114,
+        113
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_1648_task_main_icon_task_main_icon/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_1648_task_main_icon_task_main_icon/1.svg"
+      },
+      "publish": true,
+      "maxMeanRgbError": 12,
+      "visualReview": "Native-size and enlarged side-by-side review preserves every shape and label. Flash raster glow and SVG filter/antialias kernels differ; no source curve or color was edited."
+    },
+    {
+      "name": "spt",
+      "baselinePath": "/ui/classic/spt.png",
+      "baselineSha256": "26065d09ccda54b3c26bcee570be7ad09fd6e01f04e7e5fffe12483ad2f4b983",
+      "sourceGroup": "ui",
+      "symbolId": 3019,
+      "crop": [
+        0,
+        0,
+        199,
+        216
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_3019_spt_spt/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_3019_spt_spt/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "new-spt",
+      "baselinePath": "/ui/classic/new-spt.png",
+      "baselineSha256": "cd73af9456c84e1903bc3b23cb4438ea150de4e79d167a3eeeeb63f9bae4202a",
+      "sourceGroup": "ui",
+      "symbolId": 5589,
+      "crop": [
+        9,
+        3,
+        118,
+        110
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5589_newSpt_newSpt/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5589_newSpt_newSpt/1.svg"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    {
+      "name": "recover",
+      "baselinePath": "/ui/classic/recover.png",
+      "baselineSha256": "b5648318413225fc5e96d3788fab41c66de4f79b6d098f2290f62f504713edb2",
+      "sourceGroup": "ui",
+      "symbolId": 6236,
+      "crop": [
+        31,
+        20,
+        796,
+        528
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_6236_RecoverMC_RecoverMC/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_6236_RecoverMC_RecoverMC/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "dex",
+      "baselinePath": "/ui/classic/dex.png",
+      "baselineSha256": "87bab1bb0d3026e4c4733b394064b9a9263c4735e474b75e16d53e8569f7b580",
+      "sourceGroup": "ui",
+      "symbolId": 752,
+      "crop": [
+        1,
+        0,
+        66,
+        66
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/buttons/DefineButton2_752/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/buttons/DefineButton2_752/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "restore",
+      "baselinePath": "/ui/classic/restore.png",
+      "baselineSha256": "9d8688e9db72c854bf49566b05a2d00f80d8b3c5b763e0486e7a2b195919ddeb",
+      "sourceGroup": "ui",
+      "symbolId": 745,
+      "crop": [
+        2,
+        2,
+        67,
+        67
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/buttons/DefineButton2_745/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/buttons/DefineButton2_745/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "settings-frame",
+      "baselinePath": "/ui/classic/settings-frame.png",
+      "baselineSha256": "8fcaaaa8f6c4a192e0bf979598b959f04460a39ba505ade784a1a4a70c2ae1a5",
+      "sourceGroup": "ui",
+      "symbolId": 5948,
+      "crop": [
+        0,
+        0,
+        217,
+        175
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-more-png/sprites/DefineSprite_5948/1.png",
+        "svg": ".cache/hd-ui-v44/ui-more-svg/sprites/DefineSprite_5948/1.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "bag",
+      "baselinePath": "/ui/classic/bag.png",
+      "baselineSha256": "e37e17a0c010dd20c6b75cceb1fa6f720fc00e8c6aabea4ad59360aaad21bc07",
+      "sourceGroup": "ui",
+      "symbolId": 3140,
+      "crop": [
+        24,
+        254,
+        141,
+        358
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-final-png/sprites/DefineSprite_3140__fla.n_1hld6h378c6o_121__fla.n_1hld6h378c6o_121/1.png",
+        "svg": ".cache/hd-ui-v44/ui-final-svg/sprites/DefineSprite_3140__fla.n_1hld6h378c6o_121__fla.n_1hld6h378c6o_121/1.svg"
+      },
+      "publish": true,
+      "maxMeanRgbError": 14,
+      "visualReview": "Native-size and enlarged side-by-side review preserves every shape and label. Flash raster glow and SVG filter/antialias kernels differ; no source curve or color was edited."
+    },
+    {
+      "name": "creatures",
+      "baselinePath": "/ui/classic/creatures.png",
+      "baselineSha256": "3d6e28a79c308876113647ab549a87676bc5de1ecda3b619a1d7647aaff253ff",
+      "sourceGroup": "ui",
+      "symbolId": 3521,
+      "crop": [
+        2,
+        1,
+        136,
+        136
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-final-png/sprites/DefineSprite_3521_PetBagIcon_PetBagIcon/1.png",
+        "svg": ".cache/hd-ui-v44/ui-final-svg/sprites/DefineSprite_3521_PetBagIcon_PetBagIcon/1.svg"
+      },
+      "publish": true,
+      "maxMeanRgbError": 14,
+      "visualReview": "Native-size and enlarged side-by-side review preserves every shape and label. Flash raster glow and SVG filter/antialias kernels differ; no source curve or color was edited."
+    },
+    {
+      "name": "dex-labeled",
+      "baselinePath": "/ui/classic/dex-labeled.png",
+      "baselineSha256": "9da5b750b370dfd6221ea6e29b159f3eaa1ff526fe546f506f6ac193c934a7eb",
+      "sourceGroup": "ui",
+      "symbolId": 3470,
+      "crop": [
+        6,
+        3,
+        135,
+        109
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/ui-final-png/buttons/DefineButton2_3470/1_up.png",
+        "svg": ".cache/hd-ui-v44/ui-final-svg/buttons/DefineButton2_3470/1_up.svg"
+      },
+      "publish": true
+    },
+    {
+      "name": "breeding-title",
+      "baselinePath": "/ui/classic/breeding-title.png",
+      "baselineSha256": "8ed9497c798934ec48dca6c85989cde69e00c5cc325de7c4be2a49c67f13975c",
+      "sourceGroup": "breeding",
+      "symbolId": 66,
+      "crop": [
+        156,
+        18,
+        820,
+        174
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/breeding-png/sprites/DefineSprite_66_breed_ui_breed_ui/1.png",
+        "svg": ".cache/hd-ui-v44/breeding-svg/sprites/DefineSprite_66_breed_ui_breed_ui/1.svg",
+        "png4x": ".cache/hd-ui-v44/breeding-4x/DefineSprite_66_breed_ui_breed_ui/1.png"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail.",
+      "publishRaster4x": true,
+      "maxRasterMeanRgbError": 2.779,
+      "visibleVectorCoverageFraction": 0.7505406240346
+    },
+    {
+      "name": "breeding-grid",
+      "baselinePath": "/ui/classic/breeding-grid.png",
+      "baselineSha256": "eff76690815d09c98d67e2a71668267bb2f3a866ad4f466fbb9c6a3a69e42189",
+      "sourceGroup": "breeding",
+      "symbolId": 66,
+      "crop": [
+        881,
+        190,
+        924,
+        496
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/breeding-png/sprites/DefineSprite_66_breed_ui_breed_ui/1.png",
+        "svg": ".cache/hd-ui-v44/breeding-svg/sprites/DefineSprite_66_breed_ui_breed_ui/1.svg",
+        "png4x": ".cache/hd-ui-v44/breeding-4x/DefineSprite_66_breed_ui_breed_ui/1.png"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail.",
+      "publishRaster4x": true,
+      "maxRasterMeanRgbError": 0.581,
+      "visibleVectorCoverageFraction": 1.0
+    },
+    {
+      "name": "breeding-bottom-rail",
+      "baselinePath": "/ui/classic/breeding-bottom-rail.png",
+      "baselineSha256": "03b87c6ccb661521f6834d4df5ba6a0dfd255c68427aea2d02332070c26c2dd3",
+      "sourceGroup": "breeding",
+      "symbolId": 66,
+      "crop": [
+        26,
+        741,
+        971,
+        818
+      ],
+      "cachedExports": {
+        "png": ".cache/hd-ui-v44/breeding-png/sprites/DefineSprite_66_breed_ui_breed_ui/1.png",
+        "svg": ".cache/hd-ui-v44/breeding-svg/sprites/DefineSprite_66_breed_ui_breed_ui/1.svg",
+        "png4x": ".cache/hd-ui-v44/breeding-4x/DefineSprite_66_breed_ui_breed_ui/1.png"
+      },
+      "publish": false,
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail.",
+      "publishRaster4x": true,
+      "maxRasterMeanRgbError": 2.3,
+      "visibleVectorCoverageFraction": 0.9435305435305436
+    }
+  ]
+}

@@ -1,0 +1,1964 @@
+{
+  "schemaVersion": 1,
+  "exporter": "JPEXS FFDec 26.3.0",
+  "method": "Original source first frame, unchanged curves/colors/bitmap layers; exact PNG crop replay and SVG viewport registration.",
+  "assets": {
+    "toolbar-rail": {
+      "baselinePath": "/ui/classic/toolbar-rail.png",
+      "baselineSha256": "b1c5303da048c2e07e1a960aac5edd514f0cebfb47c738a0a1bd0117d3372de9",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5923,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "2160f45ac1e86ab0f7f05a0c9643b9ba20ef4fd30843d0d9275c91322f94d754",
+      "sourceSvgSha256": "e6f60a6fd06b6e40df07179aeccdc814ee2cb0dd6f381cb57881fa0e0387e96f",
+      "sourceCrop2x": [
+        0,
+        0,
+        1577,
+        181
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 14,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/toolbar-rail.svg",
+      "sha256": "4376940540e9b3fa1bfd0c75588fe6cd0c352d0df60d7e916ddc80291856b64c",
+      "bytes": 11702,
+      "logicalWidth": 788.5,
+      "logicalHeight": 90.5,
+      "viewBox2x": [
+        0,
+        0,
+        1577,
+        181
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 1.18442
+    },
+    "panel-background": {
+      "baselinePath": "/ui/classic/panel-background.png",
+      "baselineSha256": "42b6a4c58ccb2035e2e33668c9c4a472a4ef85b42f0f4a124fbbd9bdcdd96a9b",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 1432,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "cb9fb768b68ba2286f8ef470acfbaad48ef5f8b36e3491ff26b455b1d405652d",
+      "sourceSvgSha256": "877a50588adca0dde31d91ed1b8380be1732374d4db70df0ad357ed128df48a4",
+      "sourceCrop2x": [
+        0,
+        0,
+        481,
+        591
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 4,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/panel-background.svg",
+      "sha256": "7fb953cefa215813b4d9ebd79df6e0b8b2f9a553eecbdd26b52a62fde0530e16",
+      "bytes": 2821,
+      "logicalWidth": 240.5,
+      "logicalHeight": 295.5,
+      "viewBox2x": [
+        0,
+        0,
+        481,
+        591
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.285358
+    },
+    "petbag-well": {
+      "baselinePath": "/ui/classic/petbag-well.png",
+      "baselineSha256": "4773e7a6a2bdf83f726656f68df875d6eacf89590945266b39948c5d008bc078",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 812,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "aad3f8b708b7adb219993f9a666f87eaed080c02576aa5b8f1e52ada95ca37c6",
+      "sourceSvgSha256": "2449b609c429e61b13f931489bd9b08618ea0f31193caf2096cbfc5d74b9175a",
+      "sourceCrop2x": [
+        620,
+        226,
+        1262,
+        698
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 400,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "647",
+          "471"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "petbag-projector": {
+      "baselinePath": "/ui/classic/petbag-projector.png",
+      "baselineSha256": "efc12b3a09d71953f3c00a9ba07009eafbbceb29da59c3e330a771e82fe7fc62",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 812,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "aad3f8b708b7adb219993f9a666f87eaed080c02576aa5b8f1e52ada95ca37c6",
+      "sourceSvgSha256": "2449b609c429e61b13f931489bd9b08618ea0f31193caf2096cbfc5d74b9175a",
+      "sourceCrop2x": [
+        243,
+        268,
+        601,
+        695
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 400,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "647",
+          "471"
+        ]
+      ],
+      "path": "/ui/classic/hd/petbag-projector-4x.png",
+      "sha256": "f911f9b50ca3f79e78f068acc6f1edccff9ba7a7e624831f037aee8c7f4cd6ca",
+      "bytes": 133523,
+      "status": "exported",
+      "classification": "source-rendered-mixed-4x",
+      "logicalWidth": 179.0,
+      "logicalHeight": 213.5,
+      "pixelWidth": 716,
+      "pixelHeight": 854,
+      "nativeRenderingZoom": 4,
+      "sourceCrop4x": [
+        486,
+        536,
+        1202,
+        1390
+      ],
+      "sourcePng4xSha256": "a09db61c9d25ce36bd84fb60f5cc7ef994e43b59986ebf6d6c491a5035459897",
+      "comparisonMeanRgbError": 1.148897,
+      "method": "Direct FFDec rendering at 4x from original curves, source filters and embedded bitmaps. No enlargement of the previous PNG; embedded bitmap detail remains source-limited.",
+      "visibleVectorCoverageFraction": 0.11502230711865294
+    },
+    "petbag-header-circuit": {
+      "baselinePath": "/ui/classic/petbag-header-circuit.png",
+      "baselineSha256": "e75be6d5d4967b729e2b20cf3849ae254922e9d3ed9a213709147452c003b6f4",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 812,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "aad3f8b708b7adb219993f9a666f87eaed080c02576aa5b8f1e52ada95ca37c6",
+      "sourceSvgSha256": "2449b609c429e61b13f931489bd9b08618ea0f31193caf2096cbfc5d74b9175a",
+      "sourceCrop2x": [
+        802,
+        46,
+        1185,
+        130
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 400,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "647",
+          "471"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "battle-skill-outline": {
+      "baselinePath": "/ui/classic/battle-skill-outline.png",
+      "baselineSha256": "4a91e1350b6872426383cb2b8dae72350f014b8568949b59497dae2839a63961",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 6505,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "a5f7dc8cd782148aab95e40a17bd99abec5f96c16398a93aa06ee3163cd46c08",
+      "sourceSvgSha256": "e98d79042e77cf1ad024dac450e5ea44fc2793c988de08d52166c267e5a0bd07",
+      "sourceCrop2x": [
+        4,
+        11,
+        265,
+        112
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 2,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-skill-outline.svg",
+      "sha256": "7529357a48c13b205706b5ce60aa85252c1b5ca4e6342c1ef1989b1403dbd2e9",
+      "bytes": 1629,
+      "logicalWidth": 130.5,
+      "logicalHeight": 50.5,
+      "viewBox2x": [
+        -2.4499999999999886,
+        4.950000000000003,
+        261,
+        101
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.388883
+    },
+    "battle-capture": {
+      "baselinePath": "/ui/classic/battle-capture.png",
+      "baselineSha256": "ded80edbbc4913de03f7e0fa87d80d0955add5e6f22bb0338a2803be96d24f4f",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 978,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "832996ddf401ed46aa36cbb9c4cb1bc12bf5a2bf1a4af071a2d4cb3d77598ddf",
+      "sourceSvgSha256": "245109be9ac2cb84e8995a9d5a22ba7796aa1239aecb7006cf01748ffb3c64ca",
+      "sourceCrop2x": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 9,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-capture.svg",
+      "sha256": "67b29e6255f83c6792597dc955f0da7bcd075a4f3e129f67cce016eae86a2080",
+      "bytes": 8067,
+      "logicalWidth": 91.5,
+      "logicalHeight": 63.5,
+      "viewBox2x": [
+        -2.0999999999999943,
+        -2.1000000000000014,
+        183,
+        127
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 3.315348
+    },
+    "battle-items": {
+      "baselinePath": "/ui/classic/battle-items.png",
+      "baselineSha256": "2b7b996f13b5dc11504a9dcdeeb6db460a60baceb7f372627a1b39067bf8b795",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 974,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "d0efee40754d2a65963493e746d3786c48c14cf7b4023d9e897f1e15f7e9dc9d",
+      "sourceSvgSha256": "eae7862ef39d02ff6012964a644a3539868829329810107dde9e253709e2b4b7",
+      "sourceCrop2x": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 10,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-items.svg",
+      "sha256": "c1a42cc0654ff3f3ede55fbcf04a743b4ab3325b1cd4af9e3f4f657efb145434",
+      "bytes": 8390,
+      "logicalWidth": 91.5,
+      "logicalHeight": 63.5,
+      "viewBox2x": [
+        -2.0999999999999943,
+        -2.1000000000000014,
+        183,
+        127
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 3.474463
+    },
+    "battle-fight": {
+      "baselinePath": "/ui/classic/battle-fight.png",
+      "baselineSha256": "8a2aac604b02898ea896ab9b88eaeb9ec600b476625f6807d136f112ee80d4c5",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 998,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "d174b782ab274ad77101a5c0247d496003b8c0a13f442fd61117cc73c292afa1",
+      "sourceSvgSha256": "a0bf48db9a4146ce00c3e3cf33a51b5398fbac321444c416883ac9569cb2d3c6",
+      "sourceCrop2x": [
+        210,
+        69,
+        479,
+        291
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-fight.svg",
+      "sha256": "6f9c23f5abf3ccd416a8b6d96f06007682b4c8cbca1dce407d4216709ef1fa70",
+      "bytes": 18544,
+      "logicalWidth": 134.5,
+      "logicalHeight": 111.0,
+      "viewBox2x": [
+        193.64999999999998,
+        53.0,
+        269,
+        222
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 3.370156
+    },
+    "battle-creatures": {
+      "baselinePath": "/ui/classic/battle-creatures.png",
+      "baselineSha256": "4fca215b6dd4eb0167b13f3773b2a21e8d2b35bd54796ad06ae1e072e28c9c68",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 982,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "4f8a04b5bc676c439bfbdbebdd0cc8eea8bc21199b3dc95bbfde6445a7906d44",
+      "sourceSvgSha256": "c0b6e8030fb50f5ac9a9784418b4f3bc037c663af1577f13317e29c4e6049273",
+      "sourceCrop2x": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 10,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-creatures.svg",
+      "sha256": "382d73447e2bb8fa178753276dc7c1aea15230a99de1d6137cfffa638f346b7e",
+      "bytes": 8629,
+      "logicalWidth": 91.5,
+      "logicalHeight": 63.5,
+      "viewBox2x": [
+        -2.0999999999999943,
+        -2.1000000000000014,
+        183,
+        127
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 3.830529
+    },
+    "battle-retreat": {
+      "baselinePath": "/ui/classic/battle-retreat.png",
+      "baselineSha256": "cb670384ec6a3f46ef8588a63e762f37776fcde8fc80f8f1be7303977c884b55",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 970,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "c5804a091684a9b68dd722dc4777c81ae7517a9c8b2d7cdd06e0e85ab90c9bfa",
+      "sourceSvgSha256": "898f147807783807ee19939f77239deedddb325d776fd5c34b4314718deab49d",
+      "sourceCrop2x": [
+        14,
+        14,
+        197,
+        141
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 10,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-retreat.svg",
+      "sha256": "d70cec39502442fc36e6af89e328b4a93d939772c0ee76c8d92158e64c7b1f1c",
+      "bytes": 9076,
+      "logicalWidth": 91.5,
+      "logicalHeight": 63.5,
+      "viewBox2x": [
+        -2.0999999999999943,
+        -2.1000000000000014,
+        183,
+        127
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 3.729802
+    },
+    "battle-command-rail": {
+      "baselinePath": "/ui/classic/battle-command-rail.png",
+      "baselineSha256": "0f531620aeb06eb65ed145adcddacfefb7358230eb5d8e037626a1db9150099f",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 999,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "7a04658683ac6d9a1b2f15164cdda6baa7271dab4f59ae82f44fd8afefc505eb",
+      "sourceSvgSha256": "faccddd8e26dcaaece3daf8138c10df484e991869da2df4645af85df5134730f",
+      "sourceCrop2x": [
+        0,
+        0,
+        1345,
+        326
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 37,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "419",
+          "141"
+        ]
+      ],
+      "path": "/ui/classic/hd/battle-command-rail-4x.png",
+      "sha256": "cb99077ef7f3be7ad9d2717d9a6e2ed8e06d804d66124e5a04da04c8385da67f",
+      "bytes": 52320,
+      "status": "exported",
+      "classification": "source-rendered-mixed-4x",
+      "logicalWidth": 672.5,
+      "logicalHeight": 163.0,
+      "pixelWidth": 2690,
+      "pixelHeight": 652,
+      "nativeRenderingZoom": 4,
+      "sourceCrop4x": [
+        0,
+        0,
+        2690,
+        652
+      ],
+      "sourcePng4xSha256": "3486a3eb7517632317573829951cf1367f1a11679c2f383c3045a569303cd75d",
+      "comparisonMeanRgbError": 0.915543,
+      "method": "Direct FFDec rendering at 4x from original curves, source filters and embedded bitmaps. No enlargement of the previous PNG; embedded bitmap detail remains source-limited.",
+      "visibleVectorCoverageFraction": 0.3912285903254499
+    },
+    "battle-hp-bar": {
+      "baselinePath": "/ui/classic/battle-hp-bar.png",
+      "baselineSha256": "3a87c789a3349ffd975edab45e665b592bc1b612a8f374a689dc5caacd6786a8",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 750,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "db1265f35ec31871f7ebc73bbfdfd26280223ec1746d711c67a35509f985cc16",
+      "sourceSvgSha256": "9c94affd683d7865f564f2dc7875c2b90fe48291e4d9a4eb3bfa51bf36fbf536",
+      "sourceCrop2x": [
+        0,
+        0,
+        500,
+        45
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 2,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-hp-bar.svg",
+      "sha256": "b5d12f722ac2eab228646d7b17b32694dfe62a6b7d3aa4ea88d842250d51958c",
+      "bytes": 2522,
+      "logicalWidth": 250.0,
+      "logicalHeight": 22.5,
+      "viewBox2x": [
+        0,
+        0,
+        500,
+        45
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 1.282
+    },
+    "battle-command-frame": {
+      "baselinePath": "/ui/classic/battle-command-frame.png",
+      "baselineSha256": "326ff337ecb356b30622de371f72c939d5658eafe543619bfa0714c72690a657",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 961,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "2dc4860efa4fa832d81fe0042efaa85a9c195073a01892adb4ad94cd4b918dbe",
+      "sourceSvgSha256": "8cea326c7f712d0e53284121e683da9ecb66275db3678acc364aa879dbc32592",
+      "sourceCrop2x": [
+        0,
+        0,
+        527,
+        326
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 27,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/battle-command-frame.svg",
+      "sha256": "03548a0e805acadce0210b72b9103292618c1768a18edc878c0140ec5d975c1d",
+      "bytes": 18381,
+      "logicalWidth": 263.5,
+      "logicalHeight": 163.0,
+      "viewBox2x": [
+        0,
+        0,
+        527,
+        326
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.597418
+    },
+    "battle-hud-player": {
+      "baselinePath": "/ui/classic/battle-hud-player.png",
+      "baselineSha256": "89ac6fe8d95ed9e2e292eb0ab3d54d3af5de48ff2019c034e6ad2421d5d1c787",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 764,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "72c5e5f858ccb3748411f8bfee0880c51df5d98b6f333ea257832973e558d6c8",
+      "sourceSvgSha256": "cfe991468e1fc22d6a56865f799d84c3752bf312a4922ad2b9b71edf7ddb7048",
+      "sourceCrop2x": [
+        0,
+        0,
+        586,
+        150
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 3,
+      "embeddedBitmapSizes": [
+        [
+          "44",
+          "21"
+        ],
+        [
+          "142",
+          "25"
+        ],
+        [
+          "279",
+          "31"
+        ]
+      ],
+      "path": "/ui/classic/hd/battle-hud-player.svg",
+      "sha256": "6ab7058f4e7dd71c6142379cf4fe3a73992ac3542baca2c7e3104b3a1f95b01c",
+      "bytes": 20124,
+      "logicalWidth": 293.0,
+      "logicalHeight": 75.0,
+      "viewBox2x": [
+        0,
+        0,
+        586,
+        150
+      ],
+      "classification": "mixed-source",
+      "status": "exported",
+      "comparisonMeanRgbError": 2.815529
+    },
+    "battle-hud-opponent": {
+      "baselinePath": "/ui/classic/battle-hud-opponent.png",
+      "baselineSha256": "d22ea416ed8fd68d01073490ea8d4a2439424bccecd34a2a59e6842d1592e3b3",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 1021,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "c77d6517e95d14bb686fbde44fe2c2a0f92073af3eded01c8ced7a6cec329e84",
+      "sourceSvgSha256": "55bd52b81479538931aa6f8d0aaa63bde5cd6c60f8ce377370f7a5b0331613bf",
+      "sourceCrop2x": [
+        0,
+        0,
+        583,
+        145
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 3,
+      "embeddedBitmapSizes": [
+        [
+          "44",
+          "21"
+        ],
+        [
+          "142",
+          "25"
+        ],
+        [
+          "279",
+          "31"
+        ]
+      ],
+      "path": "/ui/classic/hd/battle-hud-opponent.svg",
+      "sha256": "7be26fe73144a6ec45b352650a8bea5383c90f5d31010f9601c98eda7ae5a0ff",
+      "bytes": 20160,
+      "logicalWidth": 291.5,
+      "logicalHeight": 72.5,
+      "viewBox2x": [
+        0,
+        0,
+        583,
+        145
+      ],
+      "classification": "mixed-source",
+      "status": "exported",
+      "comparisonMeanRgbError": 2.844435
+    },
+    "battle-skill-rail": {
+      "baselinePath": "/ui/classic/battle-skill-rail.png",
+      "baselineSha256": "319355464cea7bd2ebe026aacc4159e993d4901068f62b00d8145710ba36e54d",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 4,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "7af1fc621db44987811113e604d3d4a170b1ab864d0c9aa284780736da7294a7",
+      "sourceSvgSha256": "ce44e14fce8d71e39b79f7c0fd5db00c4e1ee2ee2191be6d721e4c512cfa631e",
+      "sourceCrop2x": [
+        0,
+        0,
+        839,
+        282
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 1,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "419",
+          "141"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "battle-log-panel": {
+      "baselinePath": "/ui/classic/battle-log-panel.png",
+      "baselineSha256": "9b89575d1456972101f27996bd7e151421d11fe13a50274d2f93f9f5ec19b630",
+      "sourceUrl": "https://seer.61.com/dll/PetFightDLL.swf",
+      "sourceSha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970",
+      "sourceSymbol": 1001,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "a5e8f6a34274c938a836f8eb346c4e3eeda60d8b3afeaa53485216ead402616e",
+      "sourceSvgSha256": "9e6ef20642638333b29712c2759533a3cd42fc46d3a19fdefbebdf0153e52bfe",
+      "sourceCrop2x": [
+        0,
+        53,
+        599,
+        326
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 1,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "299",
+          "163"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "petbag/frame": {
+      "baselinePath": "/ui/classic/petbag/frame.png",
+      "baselineSha256": "f724435c9c19b9c8ac6a55c928aedd284704961b6fa1cb996a741c0100e36ac5",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 735,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "156770c8eff1dad52a3a3046526c1e84ebbffad8ca53fdb39eb73948805cae1e",
+      "sourceSvgSha256": "7e5be9b563de704f04b5cb320c1a7c18a719941d13a906140ce50e440c56a886",
+      "sourceCrop2x": [
+        0,
+        0,
+        1294,
+        942
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 1,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "647",
+          "471"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "petbag/slot": {
+      "baselinePath": "/ui/classic/petbag/slot.png",
+      "baselineSha256": "e1ead326dec5606279dbdfda9306f740f2174151a75ca4ddf82bfcc2e35273a7",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 45,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "0c1e7465f20c164b7be3b55a00a33881d45b3818c1807a625ab8fc83ac4b8f95",
+      "sourceSvgSha256": "6b04fd243980c46fe4ae3769cc26eac6da2c8b13a08054226268a94cdf632cfe",
+      "sourceCrop2x": [
+        0,
+        0,
+        190,
+        212
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 3,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-slot.svg",
+      "sha256": "1d3aeb4d0017a0136444514aef4c67ed2188a70535d962d32e71578eef2f0cbe",
+      "bytes": 1121,
+      "logicalWidth": 95.0,
+      "logicalHeight": 106.0,
+      "viewBox2x": [
+        0,
+        0,
+        190,
+        212
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.145184
+    },
+    "petbag/tab": {
+      "baselinePath": "/ui/classic/petbag/tab.png",
+      "baselineSha256": "b762c17de403eeb460fa7725800202f29e65bed2e34378e14316c172d4069990",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 766,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "27c7f9c08d5751ddd34201af5934e82c42fcb2c1866a9b874a25e457869498a1",
+      "sourceSvgSha256": "fe76f29b1afc1bc29779e90d10c7ee7b85b121a0a1fe3d0838a31e5ad81d63c2",
+      "sourceCrop2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 4,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-tab.svg",
+      "sha256": "52e7ce5e902a90e2535dba06ad70475b29acd685673a050724b3b15c7ffecaf7",
+      "bytes": 1501,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "viewBox2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.331326
+    },
+    "petbag/nav-first": {
+      "baselinePath": "/ui/classic/petbag/nav-first.png",
+      "baselineSha256": "9d80ce77595d53819b5bfb179f67b45fcafb24ea8706c43701ef30335220ccac",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 759,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "90ffff57814e6c07b55912a06f22e1fb8f022d038466f784c60a207801784dc4",
+      "sourceSvgSha256": "9089181a45631bf497686ba9234c2cf7e55683e4ee874c209deaad03877e506a",
+      "sourceCrop2x": [
+        3,
+        1,
+        64,
+        66
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 12,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-first.svg",
+      "sha256": "edccc32786394eac904110bd304318a48ab60358dc57276c86c7b2eb6967ede0",
+      "bytes": 11146,
+      "logicalWidth": 30.5,
+      "logicalHeight": 32.5,
+      "viewBox2x": [
+        3,
+        1,
+        61,
+        65
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.521648
+    },
+    "petbag/nav-heal": {
+      "baselinePath": "/ui/classic/petbag/nav-heal.png",
+      "baselineSha256": "9d8688e9db72c854bf49566b05a2d00f80d8b3c5b763e0486e7a2b195919ddeb",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 745,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "5d37e3526ab2397de04d6935c27ce4c0fbf8063c3cf044615522a2017741d719",
+      "sourceSvgSha256": "f81825e22a7dc38db4280e1ea58771ddf54f82afccfbf3833d04e17e181042e3",
+      "sourceCrop2x": [
+        2,
+        2,
+        67,
+        67
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 11,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-heal.svg",
+      "sha256": "a28a8daa757f5a4073a316e6a1035c1ff3555e131f70d088ff04691d9dc56d6c",
+      "bytes": 10226,
+      "logicalWidth": 32.5,
+      "logicalHeight": 32.5,
+      "viewBox2x": [
+        2,
+        2,
+        65,
+        65
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.50856
+    },
+    "petbag/nav-switch": {
+      "baselinePath": "/ui/classic/petbag/nav-switch.png",
+      "baselineSha256": "40572b6751ac843e11054c48d5d3d163dc2d754942bc16519c2bf8f97511305a",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 743,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "77f81851ad1908cd58236aee5a4434fd55bf0739365f512742d9a7f5b663556c",
+      "sourceSvgSha256": "37766d53e3d1bfd753b005853a12e13e8c39a8daf4582c2d753af65bb342cb7b",
+      "sourceCrop2x": [
+        3,
+        2,
+        111,
+        106
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 25,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-switch.svg",
+      "sha256": "67fdcb8f8987b87f668cede4ac552fd7f6071bfe3c2c3a1a0fa29a845be0b0f3",
+      "bytes": 15658,
+      "logicalWidth": 54.0,
+      "logicalHeight": 52.0,
+      "viewBox2x": [
+        3,
+        2,
+        108,
+        104
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.536236
+    },
+    "petbag/nav-default": {
+      "baselinePath": "/ui/classic/petbag/nav-default.png",
+      "baselineSha256": "95305ae7be9d6a859f138817c5138e2aa1283a461277ce64c605e907aae4fdaa",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 748,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "9fead73f5d15cbec85c9c08cc5416032070d5fad68298fd32ae050c3940985fb",
+      "sourceSvgSha256": "a426eb4283f55cc9d4b33bcb55bd44ee791307c9e41d558717f71909b40b6c71",
+      "sourceCrop2x": [
+        0,
+        1,
+        64,
+        62
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 12,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-default.svg",
+      "sha256": "b4805820a862f20a9d3ce8f10276b9ec6806683462cb42ca3d316bdfd075a844",
+      "bytes": 4972,
+      "logicalWidth": 32.0,
+      "logicalHeight": 30.5,
+      "viewBox2x": [
+        0,
+        1,
+        64,
+        61
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.30473
+    },
+    "petbag/nav-dex": {
+      "baselinePath": "/ui/classic/petbag/nav-dex.png",
+      "baselineSha256": "87bab1bb0d3026e4c4733b394064b9a9263c4735e474b75e16d53e8569f7b580",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 752,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "554b419ea976b62ccb36bc26be69fa30accc299eb528f800790043b319d0e899",
+      "sourceSvgSha256": "4cbe5cf217ab862b429d1d8219651fadcf701ce9e551d618127344f75ad332dc",
+      "sourceCrop2x": [
+        1,
+        0,
+        66,
+        66
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-dex.svg",
+      "sha256": "d3a0699ddeee4dd146765e0306dd069898919b0c53eb5162a97312484c16415c",
+      "bytes": 8648,
+      "logicalWidth": 32.5,
+      "logicalHeight": 33.0,
+      "viewBox2x": [
+        1,
+        0,
+        65,
+        66
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.578089
+    },
+    "petbag/nav-traits": {
+      "baselinePath": "/ui/classic/petbag/nav-traits.png",
+      "baselineSha256": "34165e5277e48022eff1ed881a93d68a166c4fac99ab81687b16609cdb80b1f7",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 763,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "89ff57f4961d117f17bb20f1bb7f2ceff07530f4569636c497280e14890e08fa",
+      "sourceSvgSha256": "ad1befb9515ab34fec4ae5307d33230a18464de2679b76ce307c2b4c7ec1b3ac",
+      "sourceCrop2x": [
+        0,
+        0,
+        68,
+        74
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-traits.svg",
+      "sha256": "58666a0c916a3436d1a899cc2696732c76e5f5533d3e5d5da2d2bfd1d3ed9ae7",
+      "bytes": 9985,
+      "logicalWidth": 34.0,
+      "logicalHeight": 37.0,
+      "viewBox2x": [
+        0,
+        0,
+        68,
+        74
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.34433
+    },
+    "petbag/nav-storage": {
+      "baselinePath": "/ui/classic/petbag/nav-storage.png",
+      "baselineSha256": "b6637151521e4fe20179814bc29fa9fae210a07eb02d81f684e356eb647d9c79",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 765,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "345784cb67976527fc26fe3d9db87d02fc6da99eba5232d7233b139c7c31884c",
+      "sourceSvgSha256": "1f8e8c20985204d9390472e796e84a0ad6288691ab118d197ebd73a3d29298b3",
+      "sourceCrop2x": [
+        1,
+        1,
+        66,
+        66
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 19,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-storage.svg",
+      "sha256": "b3833e8f0f10d9a5ae7796ae3915f69aa7f5eb24731f03cb157fdf70c853ece5",
+      "bytes": 16358,
+      "logicalWidth": 32.5,
+      "logicalHeight": 32.5,
+      "viewBox2x": [
+        1,
+        1,
+        65,
+        65
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.658777
+    },
+    "petbag/nav-mark": {
+      "baselinePath": "/ui/classic/petbag/nav-mark.png",
+      "baselineSha256": "7f41e7de1064f6d945d1fda7e024dbf8658e2e0e7adc48a3d22af279e6cf6ca6",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 740,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "7c70fa901d23cefc3c4ee3a351c6e6e9c5dce01e99d30a6e3475d344d0b65ace",
+      "sourceSvgSha256": "9b0840748307cac106fc931c1f43e59e0127962c98fb7e47ad44df94a3ddc9c5",
+      "sourceCrop2x": [
+        20,
+        20,
+        100,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 10,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-nav-mark.svg",
+      "sha256": "c774d4f987b91c7749a2dc47975156e4407b46e9dcb232e4dc4ff1e47f6ec56c",
+      "bytes": 10372,
+      "logicalWidth": 40.0,
+      "logicalHeight": 40.0,
+      "viewBox2x": [
+        5.75,
+        5.899999999999999,
+        80,
+        80
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 7.194635
+    },
+    "petbag/tab-info": {
+      "baselinePath": "/ui/classic/petbag/tab-info.png",
+      "baselineSha256": "e8bbd984b8c8f3a6ea2a13ed723185cf5cc3f9b19b0af2b151ea6b3f8f70e8e5",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 770,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "8b5b8cb1ab02dd0895edcb79c4a0095f6237093edcc1915b27bdce72bf496056",
+      "sourceSvgSha256": "a922a3d97c90ac5f9ddef689c1e340bf239ea0e20abeb62dc662870f44b4df23",
+      "sourceCrop2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 6,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-tab-info.svg",
+      "sha256": "e83d3505486949069a568df95ee553576b365817d235e2db4c977fe318f8c4cf",
+      "bytes": 4752,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "viewBox2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.455341
+    },
+    "petbag/tab-ability": {
+      "baselinePath": "/ui/classic/petbag/tab-ability.png",
+      "baselineSha256": "3e65bf0aac28ea1667d794e554b1eac60691064724e60d3e532375886bacc374",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 773,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "a36091925300c456a8855b1f53ee56b3c91e18aa05bb854c4c0534fdd6a590f4",
+      "sourceSvgSha256": "dcd4abcf31d14b78a1c8c174be3cb9e91f406142a1264c7d64a89863ed716f21",
+      "sourceCrop2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 6,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-tab-ability.svg",
+      "sha256": "24acf575e3477a76c9d800f0acf932a809de36cd45ecf7b3c8b683456f8be6f2",
+      "bytes": 4643,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "viewBox2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.405764
+    },
+    "petbag/tab-items": {
+      "baselinePath": "/ui/classic/petbag/tab-items.png",
+      "baselineSha256": "205402ed1fec249492c522c4dae3a51b88b73b84e4daf1c5e6ad6c3e7773c2c3",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 776,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "02f6ae047e52777b7b9936dd9c43431f774e4e15523545b312157121b59260e3",
+      "sourceSvgSha256": "8fa8b6e30ed7a5ec6cd1a74c01cc4841fccbae4295a12a59de0f52679dfe98af",
+      "sourceCrop2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 6,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-tab-items.svg",
+      "sha256": "98851438c3f4928b5a1c00ffee0dbc191d7f7c0c10b2c12a54e126276f44a80c",
+      "bytes": 4706,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "viewBox2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.517017
+    },
+    "petbag/tab-data": {
+      "baselinePath": "/ui/classic/petbag/tab-data.png",
+      "baselineSha256": "31335b42a36fa0cfd24e9a28b739a7852658aa4ce23e58bef0005370ceabd80e",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 779,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "a4a4c3c874099fc385ebd61cf521c0fdefb5d6fef7f7ad21c75ea6ca9a0896db",
+      "sourceSvgSha256": "a290ea1fdfe44a1d18930c9666595308e846ab5bea99e0abfcfee93b82c55607",
+      "sourceCrop2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 6,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/petbag-tab-data.svg",
+      "sha256": "ecb57eefdccdfe35de6adc98b1d722ee8aca5f479d14b3cddbe08f6a7c93dbb1",
+      "bytes": 6137,
+      "logicalWidth": 90.5,
+      "logicalHeight": 50.0,
+      "viewBox2x": [
+        0,
+        0,
+        181,
+        100
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.439853
+    },
+    "map-nameplate": {
+      "baselinePath": "/ui/classic/map-nameplate.png",
+      "baselineSha256": "3c150f9e2b05edd286259bc8a3e837a80ea468def0415b0d46c6262c2af5c1e3",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 2799,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "cbc1f518e8a525239335e3160b8fdd1ab8b44de6b95112f57c886e07c9955054",
+      "sourceSvgSha256": "f61d99d6a14dbdd5d96c92c202fb3eb398fcfbeda5d1f3c7969fa4fd67e57f7f",
+      "sourceCrop2x": [
+        0,
+        0,
+        233,
+        53
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 7,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/map-nameplate.svg",
+      "sha256": "771eac08b93a03154ab75c58f86d88b43f969b34e53e04aadb0169646861308d",
+      "bytes": 2995,
+      "logicalWidth": 116.5,
+      "logicalHeight": 26.5,
+      "viewBox2x": [
+        0,
+        0,
+        233,
+        53
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.655168
+    },
+    "skill-button": {
+      "baselinePath": "/ui/classic/skill-button.png",
+      "baselineSha256": "86ecbcb39399965bc62be538427cd1a8556a3ed347cca1a80481dd7e08b8126e",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5472,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "dc58e5e04c9281c94383765b8cfcc498af9b1a01d2d4ed7d8f7351375275b441",
+      "sourceSvgSha256": "29c6cbef28ecf9eaf17acd94f7a7fac6cc042fda4b86f18f6998cd192cbf0655",
+      "sourceCrop2x": [
+        0,
+        0,
+        278,
+        83
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 3,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/skill-button.svg",
+      "sha256": "a579b1fc8873d2a196bc51c783bd6b968077b659beb2b57f6edf8c75292e1e47",
+      "bytes": 1330,
+      "logicalWidth": 139.0,
+      "logicalHeight": 41.5,
+      "viewBox2x": [
+        0,
+        0,
+        278,
+        83
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.442013
+    },
+    "map": {
+      "baselinePath": "/ui/classic/map.png",
+      "baselineSha256": "0280b4c07b74c9aebf8c445de5a43f78eacd7f17e64ee58f9fb8f656806b75b6",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5935,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "7dc80d4dd96d28e5191c47cf5d2f2fc991cf5e2f13752872bb73dbbb10ce93b6",
+      "sourceSvgSha256": "4c7ba1b8489dcab58ee23aeed1d300f2c6ed6c2ef0838316430c990b0dd14e7f",
+      "sourceCrop2x": [
+        16,
+        31,
+        215,
+        186
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 7,
+      "embeddedBitmapCount": 2,
+      "embeddedBitmapSizes": [
+        [
+          "111",
+          "100"
+        ],
+        [
+          "111",
+          "100"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "guide": {
+      "baselinePath": "/ui/classic/guide.png",
+      "baselineSha256": "4aae694dece240d5ded6db72b9e6b637cd06002ad935b860627545a7cece2947",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 4470,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "4e65caab88e092c4b0d45aa52443eefb9a3ce71930cc859f98011ea88711c6c4",
+      "sourceSvgSha256": "805b0d621ffa4ae170418577ea9b0d6d69154a9c8db6a1c9ad7188de81ca1e23",
+      "sourceCrop2x": [
+        10,
+        38,
+        134,
+        134
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 120,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/guide.svg",
+      "sha256": "5d7e484fdcdae72653078c637131aa9c4892c06b5100b806c79bae131f92e246",
+      "bytes": 84580,
+      "logicalWidth": 62.0,
+      "logicalHeight": 48.0,
+      "viewBox2x": [
+        -0.09999999999999432,
+        27.700000000000003,
+        124,
+        96
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 6.683244
+    },
+    "raising": {
+      "baselinePath": "/ui/classic/raising.png",
+      "baselineSha256": "595308d1e66704baf6427170ce0c00ced81ca34bb56114eb47346c0f8296a1cc",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5544,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "b3a1927ac3907bbbbf24789393f5d0f5fc62d5e348ee890e39a78219c4d3b68e",
+      "sourceSvgSha256": "e88db4a72ad15589f24d83f39626c328d6f215290d21e7a41ac3c8e193614ade",
+      "sourceCrop2x": [
+        28,
+        38,
+        157,
+        144
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 92,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/raising.svg",
+      "sha256": "f45f330c673340519b276ff0d133bcd2d819a969f2189153a692e82ac146735a",
+      "bytes": 92031,
+      "logicalWidth": 64.5,
+      "logicalHeight": 53.0,
+      "viewBox2x": [
+        13.799999999999997,
+        23.700000000000003,
+        129,
+        106
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 9.50312
+    },
+    "sound": {
+      "baselinePath": "/ui/classic/sound.png",
+      "baselineSha256": "3b9ac60729e202eec896344fa02a76eb995cd8c6fb523f11cb5938bbc5e7c8b3",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5968,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "b9da160ed06d2f93d7725f9bca5de2dfbaf9642a60a6241205110ac4c4ac9f14",
+      "sourceSvgSha256": "fd7c0685167f9fb525c6e5334dce26e1a02d261707efaec7f8bf953d8eab8db1",
+      "sourceCrop2x": [
+        0,
+        0,
+        34,
+        35
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 5,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/sound.svg",
+      "sha256": "600a9529c7dd19018750d3dd5df0e46640c5855ab615fc53e097fabe8d05dfbf",
+      "bytes": 1563,
+      "logicalWidth": 17.0,
+      "logicalHeight": 17.5,
+      "viewBox2x": [
+        0,
+        0,
+        34,
+        35
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.267507
+    },
+    "profile": {
+      "baselinePath": "/ui/classic/profile.png",
+      "baselineSha256": "fdf1c5861970d5e8fa56640d75865a70402e2a9fc453fdd9c89ad15032385e4c",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5973,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "e8b933800afefa67c63237256d271e651a5c8a691e418c523d9b4af7ca52a17a",
+      "sourceSvgSha256": "2704c71e6eb94a0151683673c5eb876ae9790e09c6184d50ffc7134fd8395c5c",
+      "sourceCrop2x": [
+        0,
+        0,
+        33,
+        33
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 5,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/profile.svg",
+      "sha256": "2210b53b3d1bb4ae7c849a8a1551d4bff5dd3f197112f99f1c9c2c64606a63c6",
+      "bytes": 3875,
+      "logicalWidth": 16.5,
+      "logicalHeight": 16.5,
+      "viewBox2x": [
+        0,
+        0,
+        33,
+        33
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.496174
+    },
+    "close": {
+      "baselinePath": "/ui/classic/close.png",
+      "baselineSha256": "d0ea3fd81f0ed770742ad12bdf25b42f0e8f18f51097321e8bcd0f0e1b48e063",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 4969,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "6e07f340e63dc5239787656ead207b7dc8699055654167229309f9beecb5c080",
+      "sourceSvgSha256": "e354ed565a0020a176ad2f98ccd0310ee65a9b7dd1605dff0446d174254b4eba",
+      "sourceCrop2x": [
+        0,
+        0,
+        60,
+        60
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 4,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/close.svg",
+      "sha256": "fcbc22ca1f57d04f0a1147b602082694656cdd1fc8360a68e71a88bb95516ffc",
+      "bytes": 2112,
+      "logicalWidth": 30.0,
+      "logicalHeight": 30.0,
+      "viewBox2x": [
+        0,
+        0,
+        60,
+        60
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.723889
+    },
+    "mission": {
+      "baselinePath": "/ui/classic/mission.png",
+      "baselineSha256": "1f06d430f31f3a5568069003f0dcd6e6d382b41c3671422bfa22445a1fc122b6",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 1648,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "785f94a278631736dc45e2e1453a9f82e9f6afeedc4425f03740807a141488df",
+      "sourceSvgSha256": "07104cad7324781656277461b4b0c0e1f152394a4a2c27cf175e67164a9268d3",
+      "sourceCrop2x": [
+        8,
+        10,
+        114,
+        113
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 10,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/mission.svg",
+      "sha256": "2bfac272c036ab0d943f1bde776f7ead80810a949255e81e83c6d16cf386e53f",
+      "bytes": 15839,
+      "logicalWidth": 53.0,
+      "logicalHeight": 51.5,
+      "viewBox2x": [
+        -2.299999999999997,
+        -0.3999999999999986,
+        106,
+        103
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 11.070373
+    },
+    "spt": {
+      "baselinePath": "/ui/classic/spt.png",
+      "baselineSha256": "26065d09ccda54b3c26bcee570be7ad09fd6e01f04e7e5fffe12483ad2f4b983",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 3019,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "162695e73aa7079ff24cec74c3561d09cfe14c4300320716e24a6e4420fd4c5a",
+      "sourceSvgSha256": "99215fd8997c5d792d7b859a4d7ee2cbde910ddbdeb2e2a539ad1022bbab073c",
+      "sourceCrop2x": [
+        0,
+        0,
+        199,
+        216
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 61,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/spt.svg",
+      "sha256": "5438fc8e44a0008bda0a8d7cda520a35326790928e91e72f97d9b6f898ccdaa0",
+      "bytes": 54762,
+      "logicalWidth": 99.5,
+      "logicalHeight": 108.0,
+      "viewBox2x": [
+        0,
+        0,
+        199,
+        216
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.349169
+    },
+    "new-spt": {
+      "baselinePath": "/ui/classic/new-spt.png",
+      "baselineSha256": "cd73af9456c84e1903bc3b23cb4438ea150de4e79d167a3eeeeb63f9bae4202a",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5589,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "8c05f70fcc372e7a2b7ed648e623c83ee237dba5381a7bff97923a52298faed6",
+      "sourceSvgSha256": "213b941bf72d729de2a970a7ad2ada87631d148801e702af328b2d582c7125f6",
+      "sourceCrop2x": [
+        9,
+        3,
+        118,
+        110
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 268,
+      "embeddedBitmapCount": 1,
+      "embeddedBitmapSizes": [
+        [
+          "53",
+          "53"
+        ]
+      ],
+      "classification": "retained-bitmap-source",
+      "status": "retained",
+      "reason": "The retained crop is an original bitmap surface; wrapping it in SVG would not recover additional detail."
+    },
+    "recover": {
+      "baselinePath": "/ui/classic/recover.png",
+      "baselineSha256": "b5648318413225fc5e96d3788fab41c66de4f79b6d098f2290f62f504713edb2",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 6236,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "23f3da8593a0f998c991e88733dbfebd159f776a9fc7c25c3d7acc27bf33bd79",
+      "sourceSvgSha256": "ad39c51656469c428b3f9e81dd006244da4c99d7e13d3e1587aaea345633173c",
+      "sourceCrop2x": [
+        31,
+        20,
+        796,
+        528
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 341,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/recover.svg",
+      "sha256": "06037c804a141994edf3ed45ad01c87c9b3d9b90039dcddf154d2448a35a2cbd",
+      "bytes": 290486,
+      "logicalWidth": 382.5,
+      "logicalHeight": 254.0,
+      "viewBox2x": [
+        8.949999999999989,
+        -2.0,
+        765,
+        508
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 2.258361
+    },
+    "dex": {
+      "baselinePath": "/ui/classic/dex.png",
+      "baselineSha256": "87bab1bb0d3026e4c4733b394064b9a9263c4735e474b75e16d53e8569f7b580",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 752,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "554b419ea976b62ccb36bc26be69fa30accc299eb528f800790043b319d0e899",
+      "sourceSvgSha256": "4cbe5cf217ab862b429d1d8219651fadcf701ce9e551d618127344f75ad332dc",
+      "sourceCrop2x": [
+        1,
+        0,
+        66,
+        66
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 18,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/dex.svg",
+      "sha256": "d3a0699ddeee4dd146765e0306dd069898919b0c53eb5162a97312484c16415c",
+      "bytes": 8648,
+      "logicalWidth": 32.5,
+      "logicalHeight": 33.0,
+      "viewBox2x": [
+        1,
+        0,
+        65,
+        66
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.578089
+    },
+    "restore": {
+      "baselinePath": "/ui/classic/restore.png",
+      "baselineSha256": "9d8688e9db72c854bf49566b05a2d00f80d8b3c5b763e0486e7a2b195919ddeb",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 745,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "5d37e3526ab2397de04d6935c27ce4c0fbf8063c3cf044615522a2017741d719",
+      "sourceSvgSha256": "f81825e22a7dc38db4280e1ea58771ddf54f82afccfbf3833d04e17e181042e3",
+      "sourceCrop2x": [
+        2,
+        2,
+        67,
+        67
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 11,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/restore.svg",
+      "sha256": "a28a8daa757f5a4073a316e6a1035c1ff3555e131f70d088ff04691d9dc56d6c",
+      "bytes": 10226,
+      "logicalWidth": 32.5,
+      "logicalHeight": 32.5,
+      "viewBox2x": [
+        2,
+        2,
+        65,
+        65
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 0.50856
+    },
+    "settings-frame": {
+      "baselinePath": "/ui/classic/settings-frame.png",
+      "baselineSha256": "8fcaaaa8f6c4a192e0bf979598b959f04460a39ba505ade784a1a4a70c2ae1a5",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 5948,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "ed405219d004a62d4b40a452bb5541b25c0a2a8dd5cb364542ba2721ce882340",
+      "sourceSvgSha256": "f718a5e7c3f0fa224febba7c431b7798e148092fdcc9f46ddf17f4ffbfca0bc2",
+      "sourceCrop2x": [
+        0,
+        0,
+        217,
+        175
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 24,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/settings-frame.svg",
+      "sha256": "c2e67724ef067297b622cd155c3f95ee8120c780449e02350260bd1c1470eaca",
+      "bytes": 17117,
+      "logicalWidth": 108.5,
+      "logicalHeight": 87.5,
+      "viewBox2x": [
+        0,
+        0,
+        217,
+        175
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 1.192574
+    },
+    "bag": {
+      "baselinePath": "/ui/classic/bag.png",
+      "baselineSha256": "e37e17a0c010dd20c6b75cceb1fa6f720fc00e8c6aabea4ad59360aaad21bc07",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 3140,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "436aa29d5324d19d39d72c80dd0a6c2879b25d1f1f6ad7d24b2f68275f56faef",
+      "sourceSvgSha256": "8d263f9fe4a99abebad30ef7ce1b8181f197565540a808cf71a8422f88734eec",
+      "sourceCrop2x": [
+        24,
+        254,
+        141,
+        358
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 118,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/bag.svg",
+      "sha256": "3cbe72f5406c4ced6e215f77a63199408813875e0ae4f6964725d8233299f853",
+      "bytes": 56812,
+      "logicalWidth": 58.5,
+      "logicalHeight": 52.0,
+      "viewBox2x": [
+        9.75,
+        239.55,
+        117,
+        104
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 13.387245
+    },
+    "creatures": {
+      "baselinePath": "/ui/classic/creatures.png",
+      "baselineSha256": "3d6e28a79c308876113647ab549a87676bc5de1ecda3b619a1d7647aaff253ff",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 3521,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "c404a3d5b63106a00ff85fce7c12d722088cc96f7b4141bdc149fb67c63b8f10",
+      "sourceSvgSha256": "8b531f9c1225f181b3d0cf7fb8d23e98d50ef2300aca6e1d427e8825d3208698",
+      "sourceCrop2x": [
+        2,
+        1,
+        136,
+        136
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 41,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/creatures.svg",
+      "sha256": "887684239bcc249f363a80f5be01e861cbe4e7a2e279169654f902ddbfa45709",
+      "bytes": 29756,
+      "logicalWidth": 67.0,
+      "logicalHeight": 67.5,
+      "viewBox2x": [
+        -6.100000000000001,
+        -7.450000000000003,
+        134,
+        135
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 13.628413
+    },
+    "dex-labeled": {
+      "baselinePath": "/ui/classic/dex-labeled.png",
+      "baselineSha256": "9da5b750b370dfd6221ea6e29b159f3eaa1ff526fe546f506f6ac193c934a7eb",
+      "sourceUrl": "https://seer.61.com/dll/UI.swf",
+      "sourceSha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+      "sourceSymbol": 3470,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "72b0744f4624b96d60b5e5020deb5c53fdf4853a2a683e499ce80d3b8a02e30e",
+      "sourceSvgSha256": "0c03af1334fda77a603db5419e67be5f0d1e74012e75a7abe0569d643a59d73d",
+      "sourceCrop2x": [
+        6,
+        3,
+        135,
+        109
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 20,
+      "embeddedBitmapCount": 0,
+      "embeddedBitmapSizes": [],
+      "path": "/ui/classic/hd/dex-labeled.svg",
+      "sha256": "de9b12f3646e678d980afdd2382f55a0805955c6d65d14b201db88023a5a0252",
+      "bytes": 14551,
+      "logicalWidth": 64.5,
+      "logicalHeight": 53.0,
+      "viewBox2x": [
+        6,
+        3,
+        129,
+        106
+      ],
+      "classification": "pure-vector",
+      "status": "exported",
+      "comparisonMeanRgbError": 2.822364
+    },
+    "breeding-title": {
+      "baselinePath": "/ui/classic/breeding-title.png",
+      "baselineSha256": "8ed9497c798934ec48dca6c85989cde69e00c5cc325de7c4be2a49c67f13975c",
+      "sourceUrl": "https://seer.61.com/module/com/robot/module/app/PetBreedPanel.swf",
+      "sourceSha256": "6b8c3ddfc2f23bfc4376338f77085ccf645db2d00ca840256b50bea2b15e4fae",
+      "sourceSymbol": 66,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "d1a21a75fb1f023030ae20b764097eb4af53f95f3f669b878259004d337c4347",
+      "sourceSvgSha256": "6eaf33cb29be59ddfdae28187d51f1b530dd74a1638ba69e446e874fa5b9fda1",
+      "sourceCrop2x": [
+        156,
+        18,
+        820,
+        174
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 500,
+      "embeddedBitmapCount": 3,
+      "embeddedBitmapSizes": [
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ]
+      ],
+      "path": "/ui/classic/hd/breeding-title-4x.png",
+      "sha256": "b13387c37e87319480cb00950cccf9f519a3f5b2a4f516ecf3f29834c32cc23a",
+      "bytes": 101943,
+      "status": "exported",
+      "classification": "source-rendered-mixed-4x",
+      "logicalWidth": 332.0,
+      "logicalHeight": 78.0,
+      "pixelWidth": 1328,
+      "pixelHeight": 312,
+      "nativeRenderingZoom": 4,
+      "sourceCrop4x": [
+        312,
+        36,
+        1640,
+        348
+      ],
+      "sourcePng4xSha256": "8ee552490a8df3fdfe65231d680559511695a53f2449050e7b1343d3a7de1483",
+      "comparisonMeanRgbError": 2.279107,
+      "method": "Direct FFDec rendering at 4x from original curves, source filters and embedded bitmaps. No enlargement of the previous PNG; embedded bitmap detail remains source-limited.",
+      "visibleVectorCoverageFraction": 0.7505406240346
+    },
+    "breeding-grid": {
+      "baselinePath": "/ui/classic/breeding-grid.png",
+      "baselineSha256": "eff76690815d09c98d67e2a71668267bb2f3a866ad4f466fbb9c6a3a69e42189",
+      "sourceUrl": "https://seer.61.com/module/com/robot/module/app/PetBreedPanel.swf",
+      "sourceSha256": "6b8c3ddfc2f23bfc4376338f77085ccf645db2d00ca840256b50bea2b15e4fae",
+      "sourceSymbol": 66,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "d1a21a75fb1f023030ae20b764097eb4af53f95f3f669b878259004d337c4347",
+      "sourceSvgSha256": "6eaf33cb29be59ddfdae28187d51f1b530dd74a1638ba69e446e874fa5b9fda1",
+      "sourceCrop2x": [
+        881,
+        190,
+        924,
+        496
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 500,
+      "embeddedBitmapCount": 3,
+      "embeddedBitmapSizes": [
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ]
+      ],
+      "path": "/ui/classic/hd/breeding-grid-4x.png",
+      "sha256": "2dfb5a5db28ef844392d56d408471a7e450003e8080663e33d076c10d2dce291",
+      "bytes": 1763,
+      "status": "exported",
+      "classification": "source-rendered-mixed-4x",
+      "logicalWidth": 21.5,
+      "logicalHeight": 153.0,
+      "pixelWidth": 86,
+      "pixelHeight": 612,
+      "nativeRenderingZoom": 4,
+      "sourceCrop4x": [
+        1762,
+        380,
+        1848,
+        992
+      ],
+      "sourcePng4xSha256": "8ee552490a8df3fdfe65231d680559511695a53f2449050e7b1343d3a7de1483",
+      "comparisonMeanRgbError": 0.080914,
+      "method": "Direct FFDec rendering at 4x from original curves, source filters and embedded bitmaps. No enlargement of the previous PNG; embedded bitmap detail remains source-limited.",
+      "visibleVectorCoverageFraction": 1.0
+    },
+    "breeding-bottom-rail": {
+      "baselinePath": "/ui/classic/breeding-bottom-rail.png",
+      "baselineSha256": "03b87c6ccb661521f6834d4df5ba6a0dfd255c68427aea2d02332070c26c2dd3",
+      "sourceUrl": "https://seer.61.com/module/com/robot/module/app/PetBreedPanel.swf",
+      "sourceSha256": "6b8c3ddfc2f23bfc4376338f77085ccf645db2d00ca840256b50bea2b15e4fae",
+      "sourceSymbol": 66,
+      "sourceFrame": 1,
+      "sourceZoom": 2,
+      "sourcePngSha256": "d1a21a75fb1f023030ae20b764097eb4af53f95f3f669b878259004d337c4347",
+      "sourceSvgSha256": "6eaf33cb29be59ddfdae28187d51f1b530dd74a1638ba69e446e874fa5b9fda1",
+      "sourceCrop2x": [
+        26,
+        741,
+        971,
+        818
+      ],
+      "sourceReplayRgbaIdentical": true,
+      "vectorPathCount": 500,
+      "embeddedBitmapCount": 3,
+      "embeddedBitmapSizes": [
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ],
+        [
+          "291",
+          "215"
+        ]
+      ],
+      "path": "/ui/classic/hd/breeding-bottom-rail-4x.png",
+      "sha256": "ee48af28d62a5eb10cc87f4380986a27248ef2b30c3de338a23b58a27676a2f3",
+      "bytes": 14558,
+      "status": "exported",
+      "classification": "source-rendered-mixed-4x",
+      "logicalWidth": 472.5,
+      "logicalHeight": 38.5,
+      "pixelWidth": 1890,
+      "pixelHeight": 154,
+      "nativeRenderingZoom": 4,
+      "sourceCrop4x": [
+        52,
+        1482,
+        1942,
+        1636
+      ],
+      "sourcePng4xSha256": "8ee552490a8df3fdfe65231d680559511695a53f2449050e7b1343d3a7de1483",
+      "comparisonMeanRgbError": 1.800261,
+      "method": "Direct FFDec rendering at 4x from original curves, source filters and embedded bitmaps. No enlargement of the previous PNG; embedded bitmap detail remains source-limited.",
+      "visibleVectorCoverageFraction": 0.9435305435305436
+    }
+  }
+}

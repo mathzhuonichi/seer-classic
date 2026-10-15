@@ -3,7 +3,7 @@
 .world-scene:focus-visible{outline:2px solid #c4fcff;outline-offset:-2px}
 .world-background{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
 .world-authored-light{position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#ffefd60c,transparent 55%,#12304a16)}
-.world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;height:36px;padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/map-nameplate.png') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
+.world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;height:36px;padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/hd/map-nameplate.svg') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
 .world-location-hud strong{font-size:12px;font-weight:700;line-height:1.4;text-shadow:0 1px 2px #002656;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .world-gate{position:absolute;display:grid;place-items:center;padding:6px;min-width:52px;min-height:52px;background:none;border:0;border-radius:50%;box-shadow:none;z-index:3;color:#fff9df;text-shadow:0 1px 3px #142c40;transform:translate(-50%,-50%)}
 .world-gate:hover{transform:translate(-50%,-50%);background:none;border:0;box-shadow:none}
@@ -20,14 +20,15 @@
 .world-creature:focus-visible,.world-npc:focus-visible{outline:2px solid #d8ffdb;outline-offset:5px;border-radius:8px}
 .world-sprite-art{position:relative;width:clamp(90px,calc(var(--scene-creature-size,13)*1cqw),164px);height:clamp(90px,calc(var(--scene-creature-size,13)*1cqw),164px);filter:drop-shadow(0 4px 2px #142f4733);transition:filter .2s}
 .world-boss .world-sprite-art{width:clamp(86px,13cqw,158px);height:clamp(86px,13cqw,158px)}
+.world-native-actor-art{display:block;width:100%;height:100%;object-fit:contain;user-select:none}
+.world-native-actor:hover .world-native-actor-art{filter:drop-shadow(0 0 3px #fff8)}
 .world-creature:hover .world-sprite-art{filter:drop-shadow(0 0 5px #fff9)}
-.world-creature-shadow{position:absolute;bottom:17px;width:54%;height:9px;background:#20354038;filter:blur(2px);border-radius:50%;z-index:-1}
+.world-creature-shadow{position:absolute;bottom:-4px;width:54%;height:9px;background:#20354038;filter:blur(2px);border-radius:50%;z-index:-1}
 .world-character-name{display:block;white-space:nowrap;border:1px solid #e6f4e376;background:#173f53b3;color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;line-height:14px;text-shadow:0 1px 2px #142b3d}
 .world-character-name small{font-size:8px;margin-left:4px;color:#e3f0db}
 .world-character-name b{display:inline-block;background:#efce70;color:#443911;font-size:7px;padding:0 3px;border-radius:2px;margin-right:2px}
-/* A campaign contact's scene coordinate is its foot point, not its label. */
-.world-campaign-contact .world-character-name{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);width:max-content}
-.world-campaign-contact .world-creature-shadow{bottom:-4px}
+/* Every creature and NPC uses its visible foot point as the scene coordinate. */
+.world-creature>.world-character-name,.world-npc>.world-character-name{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);width:max-content}
 .world-player{position:absolute;transform:translate(-50%,-95%);display:grid;justify-items:center;z-index:8;pointer-events:none;transition:left var(--walk-duration,650ms) linear,top var(--walk-duration,650ms) linear}
 .world-player>span:not(.classic-robot){color:#f1fff6;background:#20445ba6;border:1px solid #d3eddf55;border-radius:4px;padding:1px 5px;font-size:9px;line-height:13px}
 .world-player .classic-robot{width:clamp(40px,6cqw,72px);height:clamp(50px,7.5cqw,90px);filter:drop-shadow(0 3px 2px #12394955)}
@@ -73,7 +74,7 @@
 .world-roamer[data-motion=walking] .world-roaming-step{animation-play-state:running}
 .world-roamer[data-motion=idle] .world-roaming-step{animation:none}
 .world-roamer[data-motion=walking] .creature-art-idle{animation:none;transform:none}
-.world-roaming-footsteps{position:absolute;bottom:18px;left:calc(50% - 16px);width:32px;height:12px;pointer-events:none;opacity:0}
+.world-roaming-footsteps{position:absolute;bottom:-4px;left:calc(50% - 16px);width:32px;height:12px;pointer-events:none;opacity:0}
 .world-roaming-footsteps i{position:absolute;bottom:0;width:6px;height:4px;border-radius:50%;border:1px solid #e7ecd9b3;background:#5473744d;transform:rotate(-24deg);animation:world-creature-footfall .54s ease-out infinite;animation-play-state:paused}
 .world-roaming-footsteps i:first-child{left:6px}
 .world-roaming-footsteps i:last-child{right:5px;bottom:4px;animation-delay:-.27s;transform:rotate(24deg)}

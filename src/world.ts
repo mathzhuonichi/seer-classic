@@ -2,6 +2,7 @@ import type { BossView } from './game-types';
 import { ADDITIONAL_WORLD_PLANETS } from './world-expansion';
 import { addHabitatRegions } from './world-habitat-regions';
 import mapArtwork from './presentation/map-art-assets.json';
+import mapHdArtwork from './presentation/map-hd-assets.json';
 import generatedHabitats from '../data/habitats.json';
 
 /** Authored exploration layout. Navigation preferences do not modify gameplay saves. */
@@ -20,9 +21,11 @@ export interface WorldRegion {
   /** Remake battle facilities occupy authored rooms without changing boss maps. */
   battleFacility?: 'random' | 'elite' | 'classic';
   originalMapId?: number;
-  background?: string; backgroundKind?: 'official' | 'authored';
+  background?: string; backgroundKind?: 'official' | 'remastered' | 'authored';
   /** Recovered artwork reused when this original subregion has no local art. */
   backgroundMapId?: number; sceneAttribution?: string;
+  /** Resolved source map identity, independent of its original or HD asset URL. */
+  backgroundAssetMapId?: number;
   /** An authored challenge rendezvous, not a claimed original encounter location. */
   challengeStaging?: boolean;
 }
@@ -183,14 +186,19 @@ for (const habitat of GENERATED_HABITATS) {
 
 // The public manifest retains complete provenance; this projection supplies
 // only offline paths and cache identities to the game.
-const artwork=mapArtwork as Record<string,{path:string;sha256:string}>;
+const artwork={...mapArtwork,...mapHdArtwork} as Record<string,{path:string;sha256:string}>;
 const artworkUrl=(entry:{path:string;sha256:string})=>`${entry.path}?v=${entry.sha256.slice(0,12)}`;
+const artworkAttribution=(entry:{path:string})=>entry.path.startsWith('/maps/hd/')
+  ?'Conservative AI restoration of the existing scene; original retained. See public/maps/hd/manifest.json.'
+  :'Recovered official background; see public/maps/original-manifest.json for provenance.';
 for(const planet of WORLD_PLANETS) {
   const base=artwork[String(planet.originalMapId)];
-  if(base){planet.background=artworkUrl(base);planet.sceneAttribution='Recovered official background; see public/maps/original-manifest.json for provenance.'}
+  if(base){planet.background=artworkUrl(base);planet.sceneAttribution=artworkAttribution(base)}
   for(const region of planet.regions) {
-    const image=artwork[String(region.originalMapId)]??artwork[String(region.backgroundMapId)]??base;
-    if(image){region.background=artworkUrl(image);region.backgroundKind='official'}
+    const mapId=[region.originalMapId,region.backgroundMapId,planet.originalMapId].find(id=>id!==undefined&&artwork[String(id)]);
+    const image=artwork[String(mapId)];
+    if(image){region.background=artworkUrl(image);region.backgroundAssetMapId=mapId;
+      region.backgroundKind=image.path.startsWith('/maps/hd/')?'remastered':'official';region.sceneAttribution=artworkAttribution(image)}
   }
 }
 export interface WorldPreference { planetId: string; regionId: string; x: number; y: number; visited: string[] }

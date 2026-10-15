@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "bitmaps": [
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 1,
+      "key": "galaxy-pano-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/1.png",
+      "rgbaSha256": "6200dba6c0bdc129d049ed39cf6bc97563b984867c2dfa3fc403fe88c5a81017",
+      "originalSize": [
+        960,
+        560
+      ],
+      "occurrences": [
+        {
+          "asset": "galaxy-pano",
+          "index": 0
+        },
+        {
+          "asset": "galaxy-kalan",
+          "index": 0
+        },
+        {
+          "asset": "galaxy-rogue",
+          "index": 0
+        },
+        {
+          "asset": "galaxy-likong",
+          "index": 0
+        },
+        {
+          "asset": "galaxy-helix",
+          "index": 0
+        },
+        {
+          "asset": "space-backdrop",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 127,
+      "key": "galaxy-pano-1",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/127.png",
+      "rgbaSha256": "9ca08b4bca420a7b6fc99cda05f1da0cbff166f69a7307c78ab066afd4b8d7be",
+      "originalSize": [
+        189,
+        165
+      ],
+      "occurrences": [
+        {
+          "asset": "galaxy-pano",
+          "index": 1
+        },
+        {
+          "asset": "selector-pano",
+          "index": 1
+        },
+        {
+          "asset": "selector-pano",
+          "index": 3
+        },
+        {
+          "asset": "space-backdrop",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 294,
+      "key": "galaxy-kalan-1",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/294.png",
+      "rgbaSha256": "433271ff3e61c91874a7fbabd9b07ba0cdf4868f4ca054e154057928644beb46",
+      "originalSize": [
+        251,
+        180
+      ],
+      "occurrences": [
+        {
+          "asset": "galaxy-kalan",
+          "index": 1
+        },
+        {
+          "asset": "selector-kalan",
+          "index": 1
+        },
+        {
+          "asset": "selector-kalan",
+          "index": 3
+        }
+      ]
+    },
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 418,
+      "key": "galaxy-rogue-1",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/418.png",
+      "rgbaSha256": "9a2add6ef5f6a186986b6e0f2f163e457ee8c7a27078ba0d2cea2890539628d1",
+      "originalSize": [
+        164,
+        160
+      ],
+      "occurrences": [
+        {
+          "asset": "galaxy-rogue",
+          "index": 1
+        },
+        {
+          "asset": "selector-rogue",
+          "index": 1
+        },
+        {
+          "asset": "selector-rogue",
+          "index": 3
+        }
+      ]
+    },
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 576,
+      "key": "galaxy-likong-1",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/576.png",
+      "rgbaSha256": "e6d519965c353cafaf671a9e3f5d373bd383895ac8f12525ec2ce51cdf294c61",
+      "originalSize": [
+        236,
+        173
+      ],
+      "occurrences": [
+        {
+          "asset": "galaxy-likong",
+          "index": 1
+        },
+        {
+          "asset": "selector-likong",
+          "index": 1
+        },
+        {
+          "asset": "selector-likong",
+          "index": 3
+        }
+      ]
+    },
+    {
+      "sourceGroup": "NewWorldMap2020Panel",
+      "bitmapId": 2723,
+      "key": "selector-pano-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/NewWorldMap2020Panel/2723.png",
+      "rgbaSha256": "884f4b987f33df6ced126287a792781a0511a35e9dffc4a15b4d4a00198a5ad8",
+      "originalSize": [
+        250,
+        115
+      ],
+      "occurrences": [
+        {
+          "asset": "selector-pano",
+          "index": 0
+        },
+        {
+          "asset": "selector-kalan",
+          "index": 0
+        },
+        {
+          "asset": "selector-rogue",
+          "index": 0
+        },
+        {
+          "asset": "selector-likong",
+          "index": 0
+        },
+        {
+          "asset": "selector-helix",
+          "index": 0
+        },
+        {
+          "asset": "selector-pano",
+          "index": 2
+        },
+        {
+          "asset": "selector-kalan",
+          "index": 2
+        },
+        {
+          "asset": "selector-rogue",
+          "index": 2
+        },
+        {
+          "asset": "selector-likong",
+          "index": 2
+        },
+        {
+          "asset": "selector-helix",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "sourceGroup": "StarMap-1",
+      "bitmapId": 26,
+      "key": "planet-1-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-1/26.png",
+      "rgbaSha256": "f45fd13c2e38003b2f54aeb6870804527ac32f3268b4e7c2c52431875fb1ad01",
+      "originalSize": [
+        1381,
+        662
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-1",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "sourceGroup": "StarMap-484",
+      "bitmapId": 1,
+      "key": "planet-484-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-484/1.png",
+      "rgbaSha256": "4979129c3f511bdc02636a6ecb4f6d98d4638e01d45b7a60dc63ce38b42f3cd2",
+      "originalSize": [
+        661,
+        390
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-484",
+          "index": 0
+        }
+      ],
+      "preserveOriginalAlpha": true
+    },
+    {
+      "sourceGroup": "StarMap-702",
+      "bitmapId": 1,
+      "key": "planet-702-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-702/1.png",
+      "rgbaSha256": "16948b6d837eb3b03590f4c652e4727144959c03d67b90cf8b2a1442389a9d1a",
+      "originalSize": [
+        661,
+        390
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-702",
+          "index": 0
+        }
+      ],
+      "preserveOriginalAlpha": true
+    },
+    {
+      "sourceGroup": "StarMap-29",
+      "bitmapId": 1,
+      "key": "planet-29-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-29/1.png",
+      "rgbaSha256": "db355441eb7cca829c020b98200bc55e3ab7219b2ed2581c71f9b466c1698f3f",
+      "originalSize": [
+        661,
+        390
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-29",
+          "index": 0
+        }
+      ],
+      "preserveOriginalAlpha": true
+    },
+    {
+      "sourceGroup": "StarMap-717",
+      "bitmapId": 1,
+      "key": "planet-717-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-717/1.png",
+      "rgbaSha256": "e0bfaa469c7b0b62808dea501963aa0b370a47764bfe651fb20de3901bfe40b9",
+      "originalSize": [
+        661,
+        390
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-717",
+          "index": 0
+        }
+      ],
+      "preserveOriginalAlpha": true
+    },
+    {
+      "sourceGroup": "StarMap-726",
+      "bitmapId": 1,
+      "key": "planet-726-0",
+      "originalPath": ".cache/hd-ui-v44/atlas-raw-bitmaps/StarMap-726/1.png",
+      "rgbaSha256": "fa4975c464da466ddda81405598ce8ea5d6b3e8a79bdfda750e0ab4d5bc42984",
+      "originalSize": [
+        661,
+        390
+      ],
+      "occurrences": [
+        {
+          "asset": "planet-726",
+          "index": 0
+        }
+      ],
+      "preserveOriginalAlpha": true
+    }
+  ]
+}

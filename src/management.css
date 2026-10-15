@@ -59,27 +59,27 @@
 .management-panel :is(.raising-scroll,.inventory-detail-scroll,.inventory-list-scroll,.dex-entry-scroll,.dex-index-grid,.challenge-entry-scroll,.challenge-index-scroll,.management-roster){scrollbar-color:#2c93cd #d6edf9;scrollbar-width:thin}
 
 /* Reuse the recovered Panel_Background sprite as visible panel chrome. */
-.management-panel{background:#2da3e8 url('/ui/classic/panel-background.png') center/100% 100% no-repeat;padding:7px 9px 9px;box-sizing:border-box}
-.management-panel-heading{background-image:url('/ui/classic/panel-background.png');background-size:100% 100%;background-repeat:no-repeat}
+.management-panel{background:#2da3e8 url('/ui/classic/hd/panel-background.svg') center/100% 100% no-repeat;padding:7px 9px 9px;box-sizing:border-box}
+.management-panel-heading{background-image:url('/ui/classic/hd/panel-background.svg');background-size:100% 100%;background-repeat:no-repeat}
 .management-roster,.inventory-item-list,.dex-index,.challenge-index{background-color:#8ad3f7}
 .management-panel :is(.management-selected,.inventory-detail-scroll,.dex-entry-scroll,.challenge-entry-scroll){border:2px solid #075799;border-radius:6px;box-shadow:inset 0 0 0 1px #bdeaff}
 .management-panel .management-roster{border-left:1px solid #0c79b9;border-top:1px solid #0c79b9;border-bottom:1px solid #0c79b9;border-radius:5px 0 0 5px}
 @media(max-width:620px){.management-panel{padding:4px 5px 5px}}
 
 /* Text-free official pet-bag circuitwork and portrait projector. */
-.management-panel-heading{background-image:url('/ui/classic/petbag-header-circuit.png');background-size:auto 100%;background-repeat:repeat-x;background-color:#2ba4e8}
-.management-roster,.inventory-item-list,.dex-index,.challenge-index{background-image:url('/ui/classic/petbag-header-circuit.png');background-position:center bottom;background-size:auto 42px;background-repeat:repeat-x}
-.raising-profile{background:#0e3765 url('/ui/classic/petbag-well.png') center/100% 100% no-repeat;border:0;border-radius:8px;padding:12px 14px;margin-bottom:10px;color:#e8f8ff}
+.management-panel-heading{background-image:url('/ui/classic/hd/petbag-header-circuit-v44.svg');background-size:auto 100%;background-repeat:repeat-x;background-color:#2ba4e8}
+.management-roster,.inventory-item-list,.dex-index,.challenge-index{background-image:url('/ui/classic/hd/petbag-header-circuit-v44.svg');background-position:center bottom;background-size:auto 42px;background-repeat:repeat-x}
+.raising-profile{background:#0e3765 url('/ui/classic/hd/petbag-well-v44.png') center/100% 100% no-repeat;border:0;border-radius:8px;padding:12px 14px;margin-bottom:10px;color:#e8f8ff}
 .raising-profile .raising-identity>small,.raising-profile .raising-identity dl,.raising-profile .raising-identity dt{color:#acd9f6}
 .raising-profile .raising-identity h3,.raising-profile .raising-identity dd{color:#fff}
-.raising-portrait{border-radius:0;background:url('/ui/classic/petbag-projector.png') center/100% 100% no-repeat}
-.dex-entry-art{background:url('/ui/classic/petbag-projector.png') center/100% 100% no-repeat;border-radius:6px;height:166px;padding-bottom:20px}
+.raising-portrait{border-radius:0;background:url('/ui/classic/hd/petbag-projector-4x.png') center/100% 100% no-repeat}
+.dex-entry-art{background:url('/ui/classic/hd/petbag-projector-4x.png') center/100% 100% no-repeat;border-radius:6px;height:166px;padding-bottom:20px}
 .dex-entry-art .creature-art{height:calc(100% - 16px)}
 @media(max-width:620px){.raising-profile{padding:10px}.dex-entry-art{height:135px}}
 
 /* PetBagPanel_UI #812 layout: navigation, projector, detail well, party strip. */
-.management-panel.official-petbag{position:relative;display:grid;grid-template-columns:13% 28% minmax(0,1fr);grid-template-rows:9% minmax(0,65%) 4% minmax(0,22%);gap:0 12px;padding:8px 22px 12px;background:#2da3e8 url('/ui/classic/panel-background.png') center/100% 100% no-repeat;color:#e9f8ff;font-family:SeerSimSun,SimSun,serif;container-type:inline-size;overflow:hidden}
-.official-petbag .petbag-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:center;position:relative;background:url('/ui/classic/petbag-header-circuit.png') center/auto 100% repeat-x;min-height:0}
+.management-panel.official-petbag{position:relative;display:grid;grid-template-columns:13% 28% minmax(0,1fr);grid-template-rows:9% minmax(0,65%) 4% minmax(0,22%);gap:0 12px;padding:8px 22px 12px;background:#2da3e8 url('/ui/classic/hd/panel-background.svg') center/100% 100% no-repeat;color:#e9f8ff;font-family:SeerSimSun,SimSun,serif;container-type:inline-size;overflow:hidden}
+.official-petbag .petbag-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:center;position:relative;background:url('/ui/classic/hd/petbag-header-circuit-v44.svg') center/auto 100% repeat-x;min-height:0}
 .official-petbag .petbag-heading>strong{font-size:clamp(20px,3.4cqw,32px);color:#fff;text-shadow:2px 2px #0b457a,-1px -1px #0b457a;font-weight:700}
 .official-petbag .petbag-heading>span{position:absolute;right:12px;font-size:12px;color:#ddf6ff}
 .official-petbag .petbag-navigation{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1px;min-width:0}
@@ -88,7 +88,7 @@
 .official-petbag .petbag-nav>span{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:10px;white-space:nowrap;background:#064c81df;border:1px solid #53d0ff;padding:0 4px;border-radius:3px}
 .official-petbag .petbag-nav:focus-visible{outline:2px solid #ffe776;outline-offset:0}
 .official-petbag .petbag-nav[aria-pressed=true]{filter:drop-shadow(0 0 3px #fff)}
-.official-petbag .petbag-portrait{grid-column:2;grid-row:2;display:flex;flex-direction:column;min-height:0;min-width:0;background:url('/ui/classic/petbag-projector.png') center/100% 100% no-repeat;padding:8px 9px 17px;box-sizing:border-box;color:#e9f8ff}
+.official-petbag .petbag-portrait{grid-column:2;grid-row:2;display:flex;flex-direction:column;min-height:0;min-width:0;background:url('/ui/classic/hd/petbag-projector-4x.png') center/100% 100% no-repeat;padding:8px 9px 17px;box-sizing:border-box;color:#e9f8ff}
 .official-petbag .petbag-portrait-name{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;background:#078fdc;border:1px solid #0ee2ff;border-radius:6px;font-size:12px;line-height:1.5;padding:3px;flex-shrink:0;text-shadow:0 1px #064b91}
 .official-petbag .petbag-portrait-name strong{max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .official-petbag .petbag-portrait-name small{font-size:11px}
@@ -101,7 +101,7 @@
 .official-petbag .management-tabs{height:43px;min-height:43px;padding:0;gap:5px;background:none;border:0;justify-content:space-between;margin-bottom:6px}
 .official-petbag .management-tabs>button{flex:1;min-width:0;margin:0;padding:3px 5px;border:0;border-radius:0;background:url('/ui/classic/petbag-tab.png') center/100% 100% no-repeat;color:#fff;box-shadow:none;font-size:clamp(13px,2.1cqw,20px);text-shadow:1px 1px #0560b0}
 .official-petbag .management-tabs>button.active{filter:brightness(1.18);color:#fff9b9}
-.official-petbag .raising-scroll{background:#103b68 url('/ui/classic/petbag-well.png') center/100% 100% no-repeat;border:0;border-radius:8px;padding:12px 17px;margin:0;color:#e7f6ff;scrollbar-color:#3cc1ff #07305a}
+.official-petbag .raising-scroll{background:#103b68 url('/ui/classic/hd/petbag-well-v44.png') center/100% 100% no-repeat;border:0;border-radius:8px;padding:12px 17px;margin:0;color:#e7f6ff;scrollbar-color:#3cc1ff #07305a}
 .official-petbag .raising-scroll>.management-hint{color:#c5e8ff;font-size:10px;margin:0 0 7px}
 .official-petbag .petbag-information{display:grid;grid-template-columns:1fr 1fr;gap:9px 15px;padding-bottom:12px;border-bottom:1px solid #2477ae}
 .official-petbag .petbag-information>div{display:flex;justify-content:space-between;align-items:center;gap:5px;font-size:11px}
@@ -167,7 +167,7 @@
 .official-petbag .petbag-nav>span{font-size:9px;line-height:1.2;padding:0 3px}
 .official-petbag .petbag-ability-switch{flex-shrink:0}
 /* Coordinates follow the clean #735 display-list frame (1295 × 940). */
-.management-panel.official-petbag{display:block;padding:0;background:#2da3e8 url('/ui/classic/petbag/frame.png') center/100% 100% no-repeat}
+.management-panel.official-petbag{display:block;padding:0;background:#2da3e8 url('/ui/classic/hd/petbag-frame-v44.png') center/100% 100% no-repeat}
 .official-petbag .petbag-heading{position:absolute;left:18%;right:4%;top:2%;height:10%;background:none}
 .official-petbag .petbag-heading>strong{visibility:hidden}
 .official-petbag .petbag-heading>span{top:10px}
@@ -190,23 +190,23 @@
 .official-petbag .petbag-status{position:absolute;left:3%;right:3%;top:74%;height:3%;font-size:clamp(9px,1.3cqw,11px)}
 .official-petbag .petbag-party-strip{position:absolute;left:5%;right:5%;top:78%;bottom:3%;padding:0;gap:10px}
 .official-petbag .petbag-storage{top:13%;bottom:26%}
-.management-panel.official-petbag{background-image:url('/ui/classic/petbag/frame.png')}
-.official-petbag .management-tabs>button{background-image:url('/ui/classic/petbag/tab.png')}
-.official-petbag button.petbag-nav-lead{background-image:url('/ui/classic/petbag/nav-first.png')}
-.official-petbag button.petbag-nav-heal{background-image:url('/ui/classic/petbag/nav-heal.png')}
-.official-petbag button.petbag-nav-storage{background-image:url('/ui/classic/petbag/nav-default.png')}
-.official-petbag button.petbag-nav-party{background-image:url('/ui/classic/petbag/nav-storage.png')}
-.official-petbag button.petbag-nav-swap{background-image:url('/ui/classic/petbag/nav-switch.png')}
-.official-petbag button.petbag-nav-skills{background-image:url('/ui/classic/petbag/nav-mark.png')}
-.official-petbag button.petbag-nav-evs{background-image:url('/ui/classic/petbag/nav-traits.png')}
-.official-petbag button.petbag-nav-experience{background-image:url('/ui/classic/petbag/nav-dex.png')}
-.official-petbag .petbag-party-strip .compact-monster,.official-petbag .petbag-empty-slot{border:0;border-radius:0;background:transparent url('/ui/classic/petbag/slot.png') center/100% 100% no-repeat;box-shadow:none;padding:7px 8px 8px!important}
-.official-petbag .petbag-party-strip .compact-monster.selected{border:0;background:transparent url('/ui/classic/petbag/slot.png') center/100% 100% no-repeat;box-shadow:none;filter:drop-shadow(0 0 3px #ffdf6d)}
+.management-panel.official-petbag{background-image:url('/ui/classic/hd/petbag-frame-v44.png')}
+.official-petbag .management-tabs>button{background-image:url('/ui/classic/hd/petbag-tab.svg')}
+.official-petbag button.petbag-nav-lead{background-image:url('/ui/classic/hd/petbag-nav-first.svg')}
+.official-petbag button.petbag-nav-heal{background-image:url('/ui/classic/hd/petbag-nav-heal.svg')}
+.official-petbag button.petbag-nav-storage{background-image:url('/ui/classic/hd/petbag-nav-default.svg')}
+.official-petbag button.petbag-nav-party{background-image:url('/ui/classic/hd/petbag-nav-storage.svg')}
+.official-petbag button.petbag-nav-swap{background-image:url('/ui/classic/hd/petbag-nav-switch.svg')}
+.official-petbag button.petbag-nav-skills{background-image:url('/ui/classic/hd/petbag-nav-mark.svg')}
+.official-petbag button.petbag-nav-evs{background-image:url('/ui/classic/hd/petbag-nav-traits.svg')}
+.official-petbag button.petbag-nav-experience{background-image:url('/ui/classic/hd/petbag-nav-dex.svg')}
+.official-petbag .petbag-party-strip .compact-monster,.official-petbag .petbag-empty-slot{border:0;border-radius:0;background:transparent url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat;box-shadow:none;padding:7px 8px 8px!important}
+.official-petbag .petbag-party-strip .compact-monster.selected{border:0;background:transparent url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat;box-shadow:none;filter:drop-shadow(0 0 3px #ffdf6d)}
 .official-petbag .petbag-empty-slot>span{font-size:15px}
-.official-petbag .management-tabs>button.petbag-tab-概况{background-image:url('/ui/classic/petbag/tab-info.png');font-size:0}
-.official-petbag .management-tabs>button.petbag-tab-详情{background-image:url('/ui/classic/petbag/tab-ability.png');font-size:0}
-.official-petbag .management-tabs>button.petbag-tab-道具{background-image:url('/ui/classic/petbag/tab-items.png');font-size:0}
-.official-petbag .management-tabs>button.petbag-tab-养成{background-image:url('/ui/classic/petbag/tab-data.png');font-size:0}
+.official-petbag .management-tabs>button.petbag-tab-概况{background-image:url('/ui/classic/hd/petbag-tab-info.svg');font-size:0}
+.official-petbag .management-tabs>button.petbag-tab-详情{background-image:url('/ui/classic/hd/petbag-tab-ability.svg');font-size:0}
+.official-petbag .management-tabs>button.petbag-tab-道具{background-image:url('/ui/classic/hd/petbag-tab-items.svg');font-size:0}
+.official-petbag .management-tabs>button.petbag-tab-养成{background-image:url('/ui/classic/hd/petbag-tab-data.svg');font-size:0}
 .official-petbag .management-tabs>button:is(.active,:hover,:focus-visible){background-position:center;background-size:100% 100%;background-repeat:no-repeat;background-color:transparent;box-shadow:none}
 
 /* Portrait geometry is normalized only inside the PetBag projector. */

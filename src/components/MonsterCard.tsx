@@ -11,7 +11,7 @@ export default function MonsterCard({monster,onClick,selected=false,compact=fals
   if(presentation==='petbag-party')return <button type="button" className={`monster-card petbag-party-card ${selected?'selected':''}`} aria-pressed={selected} onClick={onClick} title={`${monster.name}${isMonster?` · Lv.${monster.level} · 体力 ${monster.hp}/${monster.stats.hp}`:''}`}>
     <span className="petbag-party-number">{slot??`#${species}`}</span>
     <small className="petbag-party-level">{isMonster?`Lv.${monster.level}`:owned?'已收集':'未收集'}</small>
-    <div className="petbag-party-art"><CreatureArt species={appearanceSpecies} name={monster.name} fill={.96} scaleByStage={false} verticalAlign="center"/></div>
+    <div className="petbag-party-art"><CreatureArt species={appearanceSpecies} name={monster.name} fill={.96} verticalAlign="center"/></div>
     <span className="petbag-party-identity"><strong>{monster.name}</strong><span className="petbag-party-type"><TypeIcon type={monster.types} focusable={false}/></span></span>
     {isMonster&&<span className="petbag-party-hp"><span className="petbag-party-hp-track" aria-hidden="true"><i style={{width:`${Math.max(0,Math.min(100,monster.hp/monster.stats.hp*100))}%`}}/></span><span>HP {monster.hp}/{monster.stats.hp}</span></span>}
   </button>;

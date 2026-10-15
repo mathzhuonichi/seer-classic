@@ -166,7 +166,7 @@
 
 /* Original client command artwork with the existing immediate control flow. */
 .classic-battle{background:#062968}
-.classic-command-deck{position:relative;height:156px;min-height:156px;padding:0;flex-shrink:0;background:url('/ui/classic/battle-command-rail.png') center / 100% 100% no-repeat}
+.classic-command-deck{position:relative;height:156px;min-height:156px;padding:0;flex-shrink:0;background:url('/ui/classic/hd/battle-command-rail-4x.png') center / 100% 100% no-repeat}
 .classic-command-tabs{position:absolute;right:1.5%;top:0;width:19%;height:91%;min-width:142px;display:block;padding:0;background:none;border:0;z-index:2}
 .classic-command-diamond>button{position:absolute;display:block;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;min-width:0;width:48%;height:46%;border-radius:0}
 .classic-command-diamond>button>img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
@@ -182,14 +182,14 @@
 .classic-command-caption{color:#a6efff;margin:0 0 8px;font-size:10px}
 .classic-command-caption small{color:#9cdaff}
 .classic-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 5px;width:min(290px,100%)}
-.classic-skill,.classic-empty-skill{position:relative;height:53px;min-height:0;padding:5px 6px 5px 30px!important;text-align:left;border:0;border-radius:4px;background:#053580 url('/ui/classic/battle-skill-outline.png') center / 100% 100% no-repeat;color:#fff;box-shadow:none;overflow:hidden}
+.classic-skill,.classic-empty-skill{position:relative;height:53px;min-height:0;padding:5px 6px 5px 30px!important;text-align:left;border:0;border-radius:4px;background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;box-shadow:none;overflow:hidden}
 .classic-skill>div{position:absolute;left:5px;top:10px;display:flex;flex-direction:column;align-items:center;gap:3px}
 .classic-skill>div>.type-icon{width:21px;height:21px}
 .classic-skill>div>small{font-size:7px;color:#86ddff}
 .classic-skill>strong{display:block;font-size:12px;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:18px;color:#fff}
 .classic-skill footer{display:flex;align-items:center;justify-content:space-between;gap:3px;color:#9edbff;font-size:9px;white-space:nowrap}
 .classic-skill footer b{color:#fff}
-.classic-skill:hover:not(:disabled){background:#0754a5 url('/ui/classic/battle-skill-outline.png') center / 100% 100% no-repeat;box-shadow:inset 0 0 12px #18eaff66}
+.classic-skill:hover:not(:disabled){background:#0754a5 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;box-shadow:inset 0 0 12px #18eaff66}
 .classic-empty-skill{display:grid;place-items:center;color:#6ea4d9;padding:8px!important;font-size:11px}
 .classic-skill:disabled{opacity:.45}
 .classic-party-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
@@ -239,9 +239,9 @@
 .command-content-battle .classic-command-caption{display:none}
 
 /* The recovered classic module places the record, skills and diamond in one row. */
-.classic-command-deck{height:156px;min-height:156px;background:url('/ui/classic/battle-skill-rail.png') center bottom / 100% 87% no-repeat}
+.classic-command-deck{height:156px;min-height:156px;background:url('/ui/classic/hd/battle-skill-rail-v44.png') center bottom / 100% 87% no-repeat}
 .classic-command-tabs{right:1%;top:0;width:27%;height:100%;background:none}
-.classic-command-diamond{position:absolute;inset:0;background:url('/ui/classic/battle-command-frame.png') center / 100% 100% no-repeat}
+.classic-command-diamond{position:absolute;inset:0;background:url('/ui/classic/hd/battle-command-frame.svg') center / 100% 100% no-repeat}
 .classic-command-tabs.has-settings .classic-command-diamond{bottom:22px}
 .classic-command-tabs>.classic-battle-settings{position:absolute;left:24%;right:24%;bottom:0;height:20px;min-height:0;padding:0 8px;display:block;border:1px solid #2aa6df;border-radius:4px;background:linear-gradient(#135e9b,#083c73);color:#dcf6ff;font-size:10px;letter-spacing:2px;line-height:18px;box-shadow:inset 0 1px #5ec5ec44}
 .classic-command-diamond>button{width:40%;height:37%}
@@ -254,7 +254,7 @@
 .classic-command-content{margin:0 29% 0 31%;padding:26px 10px 8px}
 .classic-dialogue{
  position:absolute;left:1%;bottom:8px;z-index:4;width:29%;height:140px;min-height:0;
- background:#05265c url('/ui/classic/battle-log-panel.png') center / 100% 100% no-repeat;
+ background:#05265c url('/ui/classic/hd/battle-log-panel-v44.svg') center / 100% 100% no-repeat;
  border:0;color:#e1f5ff;padding:29px 21px 9px 12px;overflow:hidden;
 }
 .classic-dialogue.is-expanded{height:46%;min-height:140px;max-height:46%;width:29%;flex:none}
@@ -274,9 +274,9 @@
 .classic-health-row{grid-template-columns:minmax(0,1fr) 45px minmax(0,1fr);padding:19px 18px 0}
 .classic-health,.classic-health.foe{
  position:relative;max-width:345px;height:112px;padding:0;border:0;border-radius:0;box-shadow:none;
- background:url('/ui/classic/battle-hud-player.png') left top / 100% auto no-repeat;color:#fff;
+ background:url('/ui/classic/hd/battle-hud-player-v44.svg') left top / 100% auto no-repeat;color:#fff;
 }
-.classic-health.foe{background-image:url('/ui/classic/battle-hud-opponent.png');margin-left:auto}
+.classic-health.foe{background-image:url('/ui/classic/hd/battle-hud-opponent-v44.svg');margin-left:auto}
 .classic-health-portrait{position:absolute;left:1.5%;top:6%;width:21.8%;height:64%;display:grid;place-items:center;overflow:hidden}
 .classic-health-portrait img{width:100%;height:100%;object-fit:contain}
 .classic-health.foe .classic-health-portrait{left:auto;right:1.5%}
@@ -288,7 +288,7 @@
 .classic-health.foe .classic-health-heading>span{left:auto;right:1%}
 .classic-hp-track{position:absolute;left:29.5%;right:2%;top:21%;height:27%;margin:0;border:0;border-radius:7px;background:transparent;overflow:hidden}
 .classic-health.foe .classic-hp-track{left:2%;right:29.5%}
-.classic-hp-track i{border-radius:7px;background:url('/ui/classic/battle-hp-bar.png') left top / auto 100% no-repeat;box-shadow:none}
+.classic-hp-track i{border-radius:7px;background:url('/ui/classic/hd/battle-hp-bar.svg') left top / auto 100% no-repeat;box-shadow:none}
 .classic-health.foe .classic-hp-track i{float:right;background-position:right top}
 .classic-hp-track>span{font-size:11px;line-height:20px;color:#fff;text-shadow:1px 1px #822200,-1px -1px #822200}
 .classic-health-footer{position:absolute;left:0;right:0;bottom:0;min-height:15px;margin:0;padding:1px 4px;border-radius:4px;background:#032651bf}
@@ -340,6 +340,6 @@
 .classic-health.foe .classic-hp-track i{transform:scaleX(-1)}
 /* The original diamond hit area must not cover its four neighboring commands. */
 .classic-command-tabs .command-battle{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-.classic-skill.category-属性,.classic-skill.category-特殊{background:#053580 url('/ui/classic/battle-skill-outline.png') center / 100% 100% no-repeat;color:#fff;border:0}
-.classic-skill.category-属性:hover:not(:disabled),.classic-skill.category-特殊:hover:not(:disabled){background:#0754a5 url('/ui/classic/battle-skill-outline.png') center / 100% 100% no-repeat}
+.classic-skill.category-属性,.classic-skill.category-特殊{background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;border:0}
+.classic-skill.category-属性:hover:not(:disabled),.classic-skill.category-特殊:hover:not(:disabled){background:#0754a5 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat}
 .classic-health .battle-team-count,.classic-health .battle-team-count i{color:#c8ecff}
