@@ -29,7 +29,7 @@ try {
     assert(region.background.startsWith('/maps/original/10032.svg?v='));assert.equal(region.backgroundKind,'official');
     const game=make();for(const id of bossIds)assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id===id)),expectedLocation,id);
     assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_seal1')),findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_zhenshen')),'Campaign entry and final-body travel cannot choose different battle backdrops');
-    assert(getSceneExits(planet,region).length>0,'The arena keeps a return route');assert.deepEqual(getSceneLayout(planet,region).boss,{x:45.828125,y:55},'The neutral contact uses the central platform anchor, with the official horizontal registration point');
+    assert(getSceneExits(planet,region).length>0,'The arena keeps a return route');const anchor=getSceneLayout(planet,region).boss;assert(Math.abs(anchor.x*960/100-446.5)<.01&&Math.abs(anchor.y*560/100-225.5)<.01,'The neutral contact grounds its visible feet at the recovered platform top-face center');
     report.location={...expectedLocation,originalMapId:region.originalMapId,background:region.background,boss:getSceneLayout(planet,region).boss};
   });
   check('The physical Puni route joins Brave Tower and preserves the three independent facility doors',()=>{

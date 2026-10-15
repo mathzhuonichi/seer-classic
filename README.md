@@ -2,6 +2,8 @@
 
 A local macOS, single-player Seer remake focused on PvE battles and monster raising. The interface is Chinese. The original Claude battle and raising engines are retained, with the complete recovered classic catalog and original portraits.
 
+Revision 41 centers Puni's actual foot point on the recovered platform's top face. The name label sits outside the portrait layout, keeping the placement stable when the window changes size.
+
 Revision 40 restores the Mystery Realm's missing original platform and green energy surface beneath Puni by retaining the official `animator_mc` first frame alongside the background. All seven multi-stage challenge pages now use opaque panels for titles, stages, details, rewards and controls. Narrow windows retain a readable scrolling detail pane. See `design/notes/challenge-presentation-v40.md` for source provenance and verification.
 
 Revision 39 puts missions, SPT and settings on the same bottom navigation rail as inventory, the map and creature management, leaving scene headings clear. Battle portraits are centered using their visible artwork bounds; type badges use the correct icon selector and frame slots, and the opponent level field no longer covers its label. Battle settings remain available inside the command area. Browser checks cover the campaign page, battle header and settings at normal and 640-pixel widths.

@@ -41,3 +41,9 @@ All seven campaigns use this component: Xuanwu, Qinglong, Baihu, Zhuque, Qilin, 
 - Browser console checks report no warnings or errors. Screenshots are retained in the local analysis directory under `browser-v40`.
 
 This pass changes presentation and asset export only. It does not claim a new full campaign playthrough or change combat balance.
+
+## Revision 41: center Puni on the recovered platform
+
+The previous 55-percent vertical position grounded Puni near the platform's front edge. The contact also included its name label in normal layout, offsetting the visible feet from its scene coordinate. The contact now anchors the art directly at the top-face center, approximately (446.5, 225.5) in the 960 by 560 source image, with the label positioned separately below it. Other creature placements are unchanged.
+
+Browser geometry at 1280 and 640 pixels wide places the art's bottom center within 0.02 source pixels of that point, and the label stays below the feet. The updated placement check and TypeScript pass. Screenshots are retained under `browser-v41` in the local analysis directory.
