@@ -168,16 +168,16 @@
 .classic-battle{background:#062968}
 .classic-command-deck{position:relative;height:156px;min-height:156px;padding:0;flex-shrink:0;background:url('/ui/classic/battle-command-rail.png') center / 100% 100% no-repeat}
 .classic-command-tabs{position:absolute;right:1.5%;top:0;width:19%;height:91%;min-width:142px;display:block;padding:0;background:none;border:0;z-index:2}
-.classic-command-tabs>button{position:absolute;display:block;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;min-width:0;width:48%;height:46%;border-radius:0}
-.classic-command-tabs>button>img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.classic-command-diamond>button{position:absolute;display:block;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;min-width:0;width:48%;height:46%;border-radius:0}
+.classic-command-diamond>button>img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
 .classic-command-tabs .command-capture{left:0;top:0}
 .classic-command-tabs .command-items{right:0;top:0}
 .classic-command-tabs .command-party{left:0;bottom:0}
 .classic-command-tabs .command-escape{right:0;bottom:0}
 .classic-command-tabs .command-battle{left:21%;top:26%;width:58%;height:48%;z-index:3}
-.classic-command-tabs>button.active{background:transparent;color:inherit;border:0;filter:brightness(1.15) drop-shadow(0 0 2px #8dffff)}
-.classic-command-tabs>button:hover:not(:disabled){background:transparent;filter:brightness(1.2)}
-.classic-command-tabs>button:disabled{opacity:.45;filter:grayscale(.65)}
+.classic-command-diamond>button.active{background:transparent;color:inherit;border:0;filter:brightness(1.15) drop-shadow(0 0 2px #8dffff)}
+.classic-command-diamond>button:hover:not(:disabled){background:transparent;filter:brightness(1.2)}
+.classic-command-diamond>button:disabled{opacity:.45;filter:grayscale(.65)}
 .classic-command-content{margin:0 22% 0 13%;height:100%;min-height:0;max-height:none;overflow:auto;padding:29px 10px 9px;border:0;background:none;border-radius:0;scrollbar-color:#03bcff #073975;scrollbar-width:thin;overscroll-behavior:contain}
 .classic-command-caption{color:#a6efff;margin:0 0 8px;font-size:10px}
 .classic-command-caption small{color:#9cdaff}
@@ -240,14 +240,17 @@
 
 /* The recovered classic module places the record, skills and diamond in one row. */
 .classic-command-deck{height:156px;min-height:156px;background:url('/ui/classic/battle-skill-rail.png') center bottom / 100% 87% no-repeat}
-.classic-command-tabs{right:1%;top:0;width:27%;height:100%;background:url('/ui/classic/battle-command-frame.png') center / 100% 100% no-repeat}
-.classic-command-tabs>button{width:40%;height:37%}
+.classic-command-tabs{right:1%;top:0;width:27%;height:100%;background:none}
+.classic-command-diamond{position:absolute;inset:0;background:url('/ui/classic/battle-command-frame.png') center / 100% 100% no-repeat}
+.classic-command-tabs.has-settings .classic-command-diamond{bottom:22px}
+.classic-command-tabs>.classic-battle-settings{position:absolute;left:24%;right:24%;bottom:0;height:20px;min-height:0;padding:0 8px;display:block;border:1px solid #2aa6df;border-radius:4px;background:linear-gradient(#135e9b,#083c73);color:#dcf6ff;font-size:10px;letter-spacing:2px;line-height:18px;box-shadow:inset 0 1px #5ec5ec44}
+.classic-command-diamond>button{width:40%;height:37%}
 .classic-command-tabs .command-capture{left:7%;top:11%}
 .classic-command-tabs .command-items{right:7%;top:11%}
 .classic-command-tabs .command-party{left:7%;bottom:8%}
 .classic-command-tabs .command-escape{right:7%;bottom:8%}
 .classic-command-tabs .command-battle{left:24%;top:19%;width:52%;height:65%}
-.classic-command-tabs>button>img{object-fit:fill}
+.classic-command-diamond>button>img{object-fit:fill}
 .classic-command-content{margin:0 29% 0 31%;padding:26px 10px 8px}
 .classic-dialogue{
  position:absolute;left:1%;bottom:8px;z-index:4;width:29%;height:140px;min-height:0;
@@ -313,22 +316,25 @@
 }
 
 .classic-health,.classic-health.foe{height:auto;aspect-ratio:586 / 185}
-.classic-health-portrait{top:3%;height:69%;width:21.8%}
+.classic-health-portrait{left:1.8771%;top:5.4054%;width:20.9898%;height:66.4865%;z-index:1}
+.classic-health.foe .classic-health-portrait{left:auto;right:1.8771%}
 .classic-health-heading{left:29%;right:2%;top:0;height:17%;padding:0;align-items:center}
 .classic-health.foe .classic-health-heading{left:2%;right:29%;justify-content:flex-end}
 .classic-health-heading>strong{font-size:clamp(10px,1.4cqw,14px);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.classic-health-level{position:absolute;left:36%;top:66%;width:18%;height:16%;display:grid;place-items:center;background:linear-gradient(#faffff,#76b7d4);color:#17446c;font-size:11px;font-weight:bold}
-.classic-health.foe .classic-health-level{left:auto;right:36%}
-.classic-health-type{position:absolute;left:1.3%;top:52%;width:12%;height:28%;display:grid;place-items:center}
-.classic-health.foe .classic-health-type{left:auto;right:1.3%}
-.classic-health-type>.type-icon{width:90%;height:90%}
+.classic-health-level{position:absolute;left:36%;top:66%;width:13%;height:14%;display:grid;place-items:center;background:linear-gradient(#faffff,#76b7d4);color:#17446c;font-size:11px;font-weight:bold;font-variant-numeric:tabular-nums}
+/* The opponent artwork's Lv label is offset, not a mirror of the player label. */
+.classic-health.foe .classic-health-level{left:auto;right:25.7%}
+/* Keep the source frame's circular badge in front of the alpha-centered portrait. */
+.classic-health-type{position:absolute;left:.6826%;top:51.3514%;width:7.8498%;height:24.8649%;display:grid;place-items:center;z-index:2;border:1px solid #2c9cf3;border-radius:50%;background:#04366d;box-shadow:inset 0 0 0 1px #0760a7}
+.classic-health.foe .classic-health-type{left:auto;right:.6826%;top:50.2703%}
+.classic-health-type>.battle-type-icon{width:80%;height:80%;flex-basis:auto}
 .classic-hp-track{top:20%;height:16%;border-radius:6px}
 .classic-health-footer{bottom:0;height:15%;min-height:13px}
 .classic-dialogue{padding-top:27px;border:2px solid #2ca8dc;border-radius:6px;background-size:100% 100%}
 .classic-record-title{position:absolute;top:-23px;left:0;right:0;text-align:center;font-size:11px;line-height:20px;color:#a4ddff;font-weight:400}
 .classic-dialogue .classic-log-toggle{top:-23px;right:0}
 .classic-dialogue .classic-log-toggle.is-collapse{top:-23px}
-@container(max-width:780px){.classic-health,.classic-health.foe{height:auto}.classic-health-level{font-size:9px}.classic-health-type>.type-icon{width:90%;height:90%}.classic-hp-track{top:20%;height:16%}.classic-health-heading>strong{font-size:10px}.classic-record-title{font-size:9px}}
+@container(max-width:780px){.classic-health,.classic-health.foe{height:auto}.classic-health-level{font-size:9px}.classic-hp-track{top:20%;height:16%}.classic-health-heading>strong{font-size:10px}.classic-record-title{font-size:9px}}
 
 .classic-hp-track i{background-size:100% 100%}
 .classic-health.foe .classic-hp-track i{transform:scaleX(-1)}

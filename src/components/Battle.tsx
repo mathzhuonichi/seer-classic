@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame, GameAction, GameController, GameSnapshot } from '../game-types';
-import { getCreatureArt } from '../presentation/creature-art';
+import { creatureArtStyle, getCreatureArt } from '../presentation/creature-art';
 import BattleTeamStrip from './BattleTeamStrip';
 import BattleSkillEffect from './BattleSkillEffect';
 import {getSkillEffectDurationMs} from './battle-skill-effects';
@@ -25,12 +25,13 @@ const stageLabels: Record<string, string> = { atk: '攻击', def: '防御', spa:
 const durations = { physical: 680, special: 700, status: 620, hit: 490, heal: 530, switch: 620, capture: 2200, message: 480 };
 
 function Health({ monster, team, enemy }: { monster: BattleMonsterView; team: BattleMonsterView[]; enemy?: boolean }) {
+  const appearance=monster.appearanceSpecies??monster.species;
   const percent = Math.max(0, Math.min(100, monster.hp / monster.maxHp * 100));
   const conditionDescription = [...monster.statuses, ...Object.entries(monster.stages).filter(([, value]) => value !== 0).map(([stat, value]) => `${stageLabels[stat] || stat}${value > 0 ? '提升' : '下降'} ${Math.abs(value)} 级`)].join('，') || '无异常状态或能力变化';
   return <section className={`classic-health ${enemy ? 'foe' : 'ally'}`} aria-label={`${enemy ? '对手' : '我方'}${monster.name}体力`}>
-    <div className="classic-health-portrait"><img src={getCreatureArt(monster.appearanceSpecies??monster.species).src} alt="" draggable={false}/></div>
+    <div className="classic-health-portrait"><img src={getCreatureArt(appearance).src} style={creatureArtStyle(appearance,undefined,{scaleByStage:false,fill:.9,verticalAlign:'center'})} alt="" draggable={false}/></div>
     <div className="classic-health-type"><TypeIcon type={monster.types}/></div>
-    <div className="classic-health-heading"><strong>{monster.name}</strong></div><span className="classic-health-level">{monster.level}</span>
+    <div className="classic-health-heading"><strong title={monster.name}>{monster.name}</strong></div><span className="classic-health-level" aria-label={`等级 ${monster.level}`}>{monster.level}</span>
     <div className="classic-hp-track" role="progressbar" aria-valuenow={monster.hp} aria-valuemin={0} aria-valuemax={monster.maxHp} aria-label="体力"><i style={{ width: `${percent}%` }} /><span>{monster.hp} / {monster.maxHp}</span></div>
     <div className="classic-health-footer"><div className="classic-conditions" title={conditionDescription} aria-label={conditionDescription}>{monster.statuses.map(status => <span key={status} className="condition">{status}</span>)}{Object.entries(monster.stages).filter(([, value]) => value !== 0).map(([stat, value]) => <span key={stat} className={value > 0 ? 'stage-up' : 'stage-down'}>{stageLabels[stat] || stat}{value > 0 ? '↑' : '↓'}{Math.abs(value)}</span>)}</div><BattleTeamStrip team={team} activeUid={monster.uid} enemy={enemy}/></div>
   </section>;
@@ -66,7 +67,7 @@ function Combatant({ monster, side, frame, captured = false, busy = false, actio
   </div>;
 }
 
-export default function Battle({ s, c, commandRequest, background }: { s: GameSnapshot; c: GameController; commandRequest?: { command: 'party' | 'items'; id: number }; background?:string }) {
+export default function Battle({ s, c, commandRequest, background, onSettings }: { s: GameSnapshot; c: GameController; commandRequest?: { command: 'party' | 'items'; id: number }; background?:string; onSettings?:()=>void }) {
   const b = s.battle!;
   const [tab, setTab] = useState<Command>(b.needsSwitch ? 'party' : 'battle');
   const [frame, setFrame] = useState<BattlePresentationFrame | null>(null);
@@ -210,8 +211,8 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
       </div>
       {showLog && <div id={recordId} className="classic-battle-history" role="log" aria-label="完整战斗记录" tabIndex={0}>{b.log.map((line, index) => <p key={index}>{line}</p>)}</div>}
     </section>
-    {b.finished && !busy ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status"><div><strong>{b.captured ? '捕捉成功！' : b.won ? '挑战胜利！' : b.resultReason==='turn_cap'?'本场平局':'战斗结束'}</strong><p>{b.result}</p></div></div> : <div className="classic-command-deck" aria-busy={busy}>
-      <nav className="classic-command-tabs" aria-label="战斗指令"><button className={`command-capture ${tab==='items'&&itemCategory==='capsule'?'active':''}`} aria-label="捕捉" title="捕捉" aria-pressed={tab==='items'&&itemCategory==='capsule'} disabled={disabled||b.needsSwitch||!b.canCapture} onClick={()=>{gameAudio.playSfx('tab');setItemCategory('capsule');setItemSelection('');setTab('items')}}><img src="/ui/classic/battle-capture.png" alt="" draggable={false}/></button>{commands.map(command => <button key={command.id} className={`command-${command.id} ${tab === command.id&&(command.id!=='items'||itemCategory!=='capsule') ? 'active' : ''}`} aria-label={command.label} title={command.label} disabled={disabled || (b.needsSwitch && command.id !== 'party' && command.id !== 'escape')} aria-pressed={tab === command.id&&(command.id!=='items'||itemCategory!=='capsule')} onClick={() => {gameAudio.playSfx('tab');if(command.id==='items')setItemCategory('recovery');setTab(command.id);}}><img src={`/ui/classic/${command.asset}.png`} alt="" draggable={false}/></button>)}</nav>
+    {b.finished && !busy ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status"><div><strong>{b.captured ? '捕捉成功！' : b.won ? '挑战胜利！' : b.resultReason==='turn_cap'?'本场平局':'战斗结束'}</strong><p>{b.result}</p></div>{onSettings&&<button onClick={onSettings}>设置</button>}</div> : <div className="classic-command-deck" aria-busy={busy}>
+      <nav className={`classic-command-tabs${onSettings?' has-settings':''}`} aria-label="战斗指令"><div className="classic-command-diamond"><button className={`command-capture ${tab==='items'&&itemCategory==='capsule'?'active':''}`} aria-label="捕捉" title="捕捉" aria-pressed={tab==='items'&&itemCategory==='capsule'} disabled={disabled||b.needsSwitch||!b.canCapture} onClick={()=>{gameAudio.playSfx('tab');setItemCategory('capsule');setItemSelection('');setTab('items')}}><img src="/ui/classic/battle-capture.png" alt="" draggable={false}/></button>{commands.map(command => <button key={command.id} className={`command-${command.id} ${tab === command.id&&(command.id!=='items'||itemCategory!=='capsule') ? 'active' : ''}`} aria-label={command.label} title={command.label} disabled={disabled || (b.needsSwitch && command.id !== 'party' && command.id !== 'escape')} aria-pressed={tab === command.id&&(command.id!=='items'||itemCategory!=='capsule')} onClick={() => {gameAudio.playSfx('tab');if(command.id==='items')setItemCategory('recovery');setTab(command.id);}}><img src={`/ui/classic/${command.asset}.png`} alt="" draggable={false}/></button>)}</div>{onSettings&&<button className="classic-battle-settings" onClick={onSettings}>设置</button>}</nav>
       <div className={`classic-command-content command-content-${tab} ${tab === 'items' ? 'classic-item-panel' : ''}`}>
         {tab === 'battle' && <><div className="classic-command-caption"><span>选择技能</span><small>将鼠标停留在技能上查看效果</small></div><div className="classic-skill-grid">{Array.from({ length: 4 }, (_, slot) => {
           const skill = skillSlots[slot];

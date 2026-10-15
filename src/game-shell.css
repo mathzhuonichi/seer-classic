@@ -16,35 +16,26 @@ html,body,#root{height:100%;overflow:hidden}
 .exploration-layer[hidden]{display:none}
 .battle-layer{position:absolute;inset:0}
 .game-shell.is-in-battle{grid-template-rows:minmax(0,1fr)}
-.game-hud[hidden],.game-shortcuts[hidden]{display:none}
+.game-hud[hidden]{display:none}
 .game-hud{position:relative;z-index:12;min-height:0;background:#0b82d4}
 .game-toolbar{
-  position:relative;width:92%;height:100%;margin:0 auto;
+  position:relative;width:96%;height:100%;margin:0 auto;display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.3fr) repeat(3,minmax(0,1fr));
+  gap:.6%;align-items:center;
   background:url('/ui/classic/toolbar-rail.png') center bottom / auto 100% no-repeat;
 }
-.game-toolbar>button,.game-shortcuts>button,.game-settings-shortcut{
-  position:absolute;padding:0;border:0;background:transparent;box-shadow:none;
+.game-toolbar>button{
+  position:relative;padding:0;border:0;background:transparent;box-shadow:none;
   display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
-.game-toolbar>button{top:6%;height:72%;width:8%;min-width:38px;flex-direction:column}
+.game-toolbar>button{height:82%;width:100%;min-width:0;min-height:0;flex-direction:column}
 .game-toolbar>button>img{width:100%;height:100%;object-fit:contain;pointer-events:none}
-.game-toolbar .toolbar-bag{left:15%}
-.game-toolbar .toolbar-dex{left:27%;padding:4px}
-.game-toolbar .toolbar-atlas{left:calc(52.2% - 6%);top:0;width:12%;height:100%}
-.game-toolbar .toolbar-monsters{right:20%}
-.game-toolbar .toolbar-recovery{right:8%;padding:4px}
-.game-toolbar>button:hover:not(:disabled),.game-shortcuts>button:hover:not(:disabled){transform:none;filter:brightness(1.18) drop-shadow(0 0 3px #fff)}
-.game-toolbar>button.active,.game-shortcuts>button.active{filter:brightness(1.2) drop-shadow(0 0 4px #fff887)}
-.game-toolbar button:focus-visible,.game-shortcuts button:focus-visible,.game-settings-shortcut:focus-visible{outline:2px solid #ffe26a;outline-offset:1px}
+.game-toolbar .toolbar-atlas{height:100%}
+.game-toolbar .toolbar-dex,.game-toolbar .toolbar-recovery,.game-toolbar .toolbar-settings{padding:4px}
+.game-toolbar>button:hover:not(:disabled){transform:none;filter:brightness(1.18) drop-shadow(0 0 3px #fff)}
+.game-toolbar>button.active{filter:brightness(1.2) drop-shadow(0 0 4px #fff887)}
+.game-toolbar button:focus-visible{outline:2px solid #ffe26a;outline-offset:1px}
 .game-toolbar>button:disabled{opacity:.5}
-.game-shortcuts{position:absolute;inset:0;z-index:13;pointer-events:none}
-.game-shortcuts>button{pointer-events:auto;top:9px;width:clamp(36px,6cqw,62px);height:clamp(36px,6cqw,62px)}
-.game-shortcuts img{width:100%;height:100%;object-fit:contain;pointer-events:none}
-.game-shortcuts .shortcut-quests{left:13px}
-.game-shortcuts .shortcut-challenge{right:64px}
-.game-settings-shortcut{right:12px;top:11px;z-index:14;flex-direction:column;gap:2px;min-width:34px;color:#ffe56a;font-size:10px;text-shadow:1px 1px #003b87}
-.game-settings-shortcut img{width:22px;height:22px;object-fit:contain;pointer-events:none}
-.game-settings-shortcut:hover:not(:disabled){transform:none;filter:brightness(1.2)}
 .hud-alert{position:absolute;right:5px;top:2px;width:9px;height:9px;background:#ffdb4b;border:1px solid #ad6500;border-radius:50%;box-shadow:0 0 4px #fff6}
 
 /* Shared window chrome retains ordinary HTML controls and drag behavior. */
@@ -113,17 +104,13 @@ html,body,#root{height:100%;overflow:hidden}
  .scene-window.compact{width:calc(100% - 28px);height:auto}
  .window-titlebar{min-height:33px}.window-titlebar h2{font-size:15px}
  .window-titlebar>button{width:25px;height:25px;top:2px}
- .game-shortcuts>button{top:6px}.game-shortcuts .shortcut-quests{left:8px}.game-shortcuts .shortcut-challenge{right:48px}
- .game-settings-shortcut{right:7px;top:8px;font-size:9px}.game-settings-shortcut img{width:18px;height:18px}
  .inventory-resources{gap:14px;font-size:10px}.loading-progress,.loading-caption{width:80%}
  .battle-loading{gap:10px}.battle-loading .creature-art{max-height:160px}
 }
 @media(prefers-reduced-motion:reduce){.scene-window,.boot-pulse{animation:none}}
 
-.game-toolbar .toolbar-label{font-size:12px;font-weight:400;color:#ffe954;text-shadow:1px 1px #664100,-1px -1px #664100;line-height:1;white-space:nowrap}
-.game-toolbar .toolbar-dex>img,.game-toolbar .toolbar-recovery>img{height:78%}
-/* Battle settings sit above the command deck, clear of both original HP frames. */
-.game-shell.is-in-battle .game-settings-shortcut{top:auto;bottom:170px;right:10px}
+.game-toolbar .toolbar-label{font-size:clamp(8px,1.25cqw,14px);font-weight:400;color:#ffe954;text-shadow:1px 1px #664100,-1px -1px #664100;line-height:1;white-space:nowrap}
+.game-toolbar .toolbar-dex>img,.game-toolbar .toolbar-recovery>img,.game-toolbar .toolbar-settings>img{height:78%}
 
 /* Revision 27: settings use a light content well within original nine-slice chrome. */
 .scene-window:has(.settings-console){background:#c8eafa;border-image-source:url('/ui/classic/panel-background.png');border-image-slice:35 55 37 54;border-image-width:12px 16px;border-image-repeat:stretch;border-radius:7px}

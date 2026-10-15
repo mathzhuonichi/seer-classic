@@ -32,18 +32,17 @@ if(import.meta.env.DEV)void import('./presentation/classic-font.css');
 
 type WindowKind='atlas'|'monsters'|'fusion'|'breeding'|'shop'|'bag'|'dex'|'quests'|'challenge'|'facilities'|'recovery'|'settings';
 const classicTools:{id:WindowKind;asset:string;label:string}[]=[
+ {id:'quests',asset:'mission',label:'任务'},
+ {id:'challenge',asset:'new-spt',label:'SPT'},
  {id:'bag',asset:'bag',label:'道具'},
  {id:'dex',asset:'dex',label:'图鉴'},
  {id:'atlas',asset:'map',label:'地图'},
  {id:'monsters',asset:'creatures',label:'精灵'},
  {id:'recovery',asset:'restore',label:'恢复'},
+ {id:'settings',asset:'profile',label:'设置'},
 ];
 const classicIconFiles:Record<string,string>={bag:'bag-4x.png',creatures:'creatures-4x.png',mission:'mission-4x.png','new-spt':'new-spt-vector.svg'};
 const classicIcon=(asset:string)=>`/ui/classic/${classicIconFiles[asset]??`${asset}.svg`}`;
-const classicShortcuts:{id:WindowKind;asset:string;label:string}[]=[
- {id:'quests',asset:'mission',label:'任务'},
- {id:'challenge',asset:'new-spt',label:'SPT'},
-];
 const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',facilities:'太空站 · 对战设施',recovery:'精灵恢复舱',settings:'航行设置'};
 export default function App(){const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');useEffect(()=>{loadGameData().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>}
 function currentBattleScene(){
@@ -143,13 +142,11 @@ export function Game({controller:c}:{controller:GameController}){
  function leaveLoading(){preparationId.current++;preparationAbort.current?.abort();preparationAbort.current=null;c.dispatch({type:'flee'});c.dispatch({type:'closeBattle'});setPreparation(null);preparing.current=false;clearIdleBattleAnimations()}
  const notices=message||s.notices[0];
  useEffect(()=>{if(!notices)return;const timer=setTimeout(()=>{setMessage('');c.dispatch({type:'dismissNotice'})},3500);return()=>clearTimeout(timer)},[notices,c]);
- return <div className={`game-shell${s.battle||preparation?' is-in-battle':''}`} onClickCapture={event=>{const target=event.target as HTMLElement;const button=target.closest('button');if(button&&!button.disabled&&!target.closest('.battle-layer'))gameAudio.playSfx(target.closest('.game-toolbar,.game-shortcuts')?'tab':'click')}}>
+ return <div className={`game-shell${s.battle||preparation?' is-in-battle':''}`} onClickCapture={event=>{const target=event.target as HTMLElement;const button=target.closest('button');if(button&&!button.disabled&&!target.closest('.battle-layer'))gameAudio.playSfx(target.closest('.game-toolbar')?'tab':'click')}}>
   <div className="game-stage">
-   <nav className="game-shortcuts" aria-label="航行功能" hidden={!!s.battle||!!preparation}>{classicShortcuts.map(tool=><button key={tool.id} className={`shortcut-${tool.id} ${windowKind===tool.id?'active':''}`} aria-label={tool.label} title={tool.label} aria-pressed={windowKind===tool.id} onClick={()=>open(tool.id)}><img src={classicIcon(tool.asset)} alt="" draggable={false}/>{tool.id==='quests'&&s.quests.some(q=>q.claimable??(q.complete&&!q.claimed))&&<i className="hud-alert"/>}</button>)}</nav>
-   <button className="game-settings-shortcut" aria-label="设置" title="设置" aria-pressed={windowKind==='settings'} disabled={!!preparation} onClick={()=>open('settings')}><img src="/ui/classic/profile.svg" alt="" draggable={false}/><span>设置</span></button>
    <div className="exploration-layer" hidden={!!s.battle||!!activeCampaign}><WorldMap s={s} c={uiController} onNavigate={navigate} focusSpecies={focusSpecies} travelTo={travelTo} onSceneChange={rememberScene} onInteract={event=>{if(event.kind==='species'){setDexFocus(event.species);setWindowKind('dex')}else{setQuestFocusId(event.questId);setWindowKind('quests')}}}/></div>
    {activeCampaign&&!s.battle&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={campaignScene.current?.src} onLeave={()=>setCampaignId(null)} onManage={()=>setWindowKind('monsters')}/>}
-   {s.battle&&!preparation&&<div className="battle-layer"><Battle s={s} c={uiController} commandRequest={battleCommand} background={battleScene.src}/></div>}
+   {s.battle&&!preparation&&<div className="battle-layer"><Battle s={s} c={uiController} commandRequest={battleCommand} background={battleScene.src} onSettings={()=>open('settings')}/></div>}
    {preparation&&<BattleLoading state={preparation} onLeave={leaveLoading}/>}
    {notices&&!preparation&&!s.battle&&<button className="game-toast" aria-label="关闭提示" onClick={()=>{setMessage('');c.dispatch({type:'dismissNotice'})}}>{notices}<span>×</span></button>}
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={()=>setWindowKind(null)}/>}
@@ -169,7 +166,7 @@ export function Game({controller:c}:{controller:GameController}){
    </GameWindow>}
    <input ref={file} type="file" accept=".json" hidden onChange={async event=>{const f=event.target.files?.[0];if(f)try{c.importSave(await f.text());setMessage('航行存档已载入。');setWindowKind(null)}catch(error){setMessage('存档无法读取：'+String(error))}event.target.value=''}}/>
   </div>
-  <footer className="game-hud" hidden={!!s.battle||!!preparation}><nav className="game-toolbar" aria-label="主界面功能">{classicTools.map(tool=><button key={tool.id} className={`toolbar-${tool.id} ${windowKind===tool.id?'active':''}`} aria-label={tool.label} title={tool.label} aria-pressed={windowKind===tool.id} onClick={()=>open(tool.id)}><img src={classicIcon(tool.asset)} alt="" draggable={false}/>{['dex','recovery'].includes(tool.id)&&<span className="toolbar-label">{tool.label}</span>}</button>)}</nav></footer>
+  <footer className="game-hud" hidden={!!s.battle||!!preparation}><nav className="game-toolbar" aria-label="主界面功能">{classicTools.map(tool=><button key={tool.id} className={`toolbar-${tool.id} ${windowKind===tool.id?'active':''}`} aria-label={tool.label} title={tool.label} aria-pressed={windowKind===tool.id} onClick={()=>open(tool.id)}><img src={classicIcon(tool.asset)} alt="" draggable={false}/>{['dex','recovery','settings'].includes(tool.id)&&<span className="toolbar-label">{tool.label}</span>}{tool.id==='quests'&&s.quests.some(q=>q.claimable??(q.complete&&!q.claimed))&&<i className="hud-alert"/>}</button>)}</nav></footer>
   {modifier&&<Modifier s={s} c={c} m={monster} onSelect={setSelected} close={()=>setModifier(false)}/>}
  </div>;
 }
