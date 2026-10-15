@@ -7,6 +7,7 @@ const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage')
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 const checks=[],failures=[];
+const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,selectionActions:0,resetActions:0,batches:0,npcModifierSpecies:[],species:[]};
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,4000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
   const {createGame,loadGameData,advanceBattlePresentation}=await server.ssrLoadModule('/src/game.ts');
@@ -23,6 +24,81 @@ try {
   const owned=(game,uid)=>parse(game).storage.find(value=>value.uid===uid),view=(game,uid)=>game.snapshot().monsters.find(value=>value.uid===uid);
   function reject(game,action,label){const save=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);game.dispatch(action);assert.equal(game.exportSave(),save,`${label}: save, resources, and RNG stay unchanged`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle unchanged`);}
   function select(game,uid,species){const before=parse(game),priorView=game.snapshot(),priorBytes=JSON.stringify(priorView),beforeMon=view(game,uid);game.dispatch({type:'setSkin',uid,species});const after=parse(game),value=after.storage.find(entry=>entry.uid===uid),expected=structuredClone(before);if(species===null||species===value.species)delete expected.storage.find(entry=>entry.uid===uid).skinSpecies;else expected.storage.find(entry=>entry.uid===uid).skinSpecies=species;assert.deepEqual(after,expected,'Exactly the selected instance skin changes; actual identity and all gameplay state are preserved');assert.equal(view(game,uid).appearanceSpecies,species??value.species);assert.equal(view(game,uid).portrait,`/portraits/${species??value.species}.png`);const {appearanceSpecies:a,portrait:p,...afterGameplay}=view(game,uid),{appearanceSpecies:b,portrait:q,...beforeGameplay}=beforeMon;assert.deepEqual(afterGameplay,beforeGameplay,'Stats, types, name, gender, generation, skills, and evolution eligibility remain actual');assert.equal(JSON.stringify(priorView),priorBytes,'Prior snapshot remains immutable');}
+
+  // Independently traverse forward from every possible ancestor. The production
+  // implementation traverses a reverse-parent map; neither its helper nor its
+  // returned skin options supply this oracle. BFS also records the shortest
+  // directed distance so each species can exercise its most distant ancestor.
+  const expectedSkins=new Map(catalog.species.map(row=>[row.id,new Map([[row.id,0]])]));
+  for(const ancestor of catalog.species){
+    const queue=[[ancestor.id,0]],seen=new Set([ancestor.id]);
+    for(let index=0;index<queue.length;index++){
+      const [id,distance]=queue[index];
+      for(const edge of byId.get(id).evolution){
+        assert(byId.has(edge.to),`${id}: every forward target exists`);
+        if(seen.has(edge.to))continue;
+        seen.add(edge.to);expectedSkins.get(edge.to).set(ancestor.id,distance+1);queue.push([edge.to,distance+1]);
+      }
+    }
+  }
+  check('All 1483 catalog species expose exact directed skin choices and support selection plus reset at level one',()=>{
+    assert.equal(catalog.species.length,1483);
+    const batchSize=64;
+    for(let start=0;start<catalog.species.length;start+=batchSize){
+      const rows=catalog.species.slice(start,start+batchSize),save=structuredClone(base);
+      save.storage=rows.map(row=>mon(row.id,1,`all-skins-${row.id}`));
+      save.party=save.storage.slice(0,6).map(value=>value.uid);save.game.traits={};
+      const game=make(save),beforeSave=game.exportSave();
+      const originals=new Map(parse(game).storage.map(value=>[value.uid,value]));
+      assert.equal(game.snapshot().monsters.length,rows.length,'The batch loads without resetting its save');
+      assert(game.snapshot().monsters.length<=64,'Fixtures stay far below the storage capacity');
+      for(const row of rows){
+        const uid=`all-skins-${row.id}`,original=originals.get(uid),beforeView=view(game,uid),priorBytes=JSON.stringify(beforeView);
+        const expected=expectedSkins.get(row.id),choices=beforeView.skinOptions;
+        assert(Array.isArray(choices)&&choices.length>0,`${row.id}: every owned form has a skin selector`);
+        assert.equal(choices[0].species,row.id,`${row.id}: the default form is always first`);
+        assert.deepEqual(choices.map(choice=>choice.species).sort((a,b)=>a-b),[...expected.keys()].sort((a,b)=>a-b),`${row.id}: no missing ancestor, sibling, descendant, or unrelated option`);
+        for(const choice of choices)assert.equal(choice.name,byId.get(choice.species).name.zh,`${row.id}: every option names its actual catalog form`);
+        assert.equal(beforeView.appearanceSpecies,row.id);assert.equal(beforeView.portrait,`/portraits/${row.id}.png`);
+        const [target,distance]=[...expected].sort((a,b)=>b[1]-a[1]||a[0]-b[0])[0];
+        game.dispatch({type:'setSkin',uid,species:target});
+        const selected=owned(game,uid),selectedView=view(game,uid),{skinSpecies,...identity}=selected;
+        assert.deepEqual(identity,original,`${row.id}: selecting an appearance preserves every real monster field`);
+        assert.equal(skinSpecies,target===row.id?undefined:target);
+        assert.equal(selectedView.appearanceSpecies,target);assert.equal(selectedView.portrait,`/portraits/${target}.png`);
+        const {appearanceSpecies:a,portrait:p,...selectedGameplay}=selectedView,{appearanceSpecies:b,portrait:q,...priorGameplay}=beforeView;
+        assert.deepEqual(selectedGameplay,priorGameplay,`${row.id}: presentation selection preserves gameplay and party membership`);
+        assert.equal(JSON.stringify(beforeView),priorBytes,`${row.id}: the prior monster view is immutable`);
+        game.dispatch({type:'setSkin',uid,species:null});
+        assert.deepEqual(owned(game,uid),original,`${row.id}: reset restores precisely the original stored instance`);
+        assert.equal(view(game,uid).appearanceSpecies,row.id);assert.equal(view(game,uid).portrait,`/portraits/${row.id}.png`);
+        exhaustive.total++;exhaustive.selectionActions++;exhaustive.resetActions++;
+        exhaustive[choices.length===1?'defaultOnly':'multiple']++;
+        exhaustive[beforeView.inParty?'partyCases':'storageCases']++;
+        exhaustive.species.push({species:row.id,choices:choices.map(choice=>choice.species),selected:target,distance,inParty:beforeView.inParty,level:1});
+      }
+      assert.equal(game.exportSave(),beforeSave,'Every batch preserves the entire save, resources, collection records, and RNG after reset');
+      exhaustive.batches++;
+    }
+    assert.equal(exhaustive.total,1483);assert.equal(exhaustive.defaultOnly+exhaustive.multiple,1483);
+    assert.equal(exhaustive.partyCases+exhaustive.storageCases,1483);
+    assert(exhaustive.partyCases>0&&exhaustive.storageCases>0);
+    assert.equal(new Set(exhaustive.species.map(value=>value.species)).size,1483);
+  });
+  check('All four NPC species also expose skins when actually acquired through the modifier',()=>{
+    const game=make(base);
+    for(const species of [122,123,124,125]){
+      const before=new Set(game.snapshot().monsters.map(value=>value.uid));
+      game.dispatch({type:'cheatAcquire',species,level:1});
+      const added=game.snapshot().monsters.filter(value=>!before.has(value.uid));
+      assert.equal(added.length,1);const value=added[0];assert.equal(value.species,species);
+      assert.deepEqual(value.skinOptions.map(choice=>choice.species).sort((a,b)=>a-b),[...expectedSkins.get(species).keys()].sort((a,b)=>a-b));
+      const target=[...expectedSkins.get(species)].sort((a,b)=>b[1]-a[1]||a[0]-b[0])[0][0];
+      select(game,value.uid,target);select(game,value.uid,null);exhaustive.npcModifierSpecies.push(species);
+    }
+    assert(game.snapshot().monsters.some(value=>[122,123,124,125].includes(value.species)&&value.inParty));
+    assert(game.snapshot().monsters.some(value=>[122,123,124,125].includes(value.species)&&!value.inParty));
+  });
 
   for(const [species,ancestors] of [[1,[]],[3,[1,2]],[93,[91]],[1316,[65,66,67]],[1317,[65,66,67]],[1428,[738,739]],[1459,[77,78,79]],[1019,[820,821,1017,1018]]])check(`${species}: only current form and directed ancestors are selectable even at level one`,()=>{
     for(const level of [1,100]){const {game,uid}=fixture(species,level),choices=view(game,uid).skinOptions.map(choice=>choice.species);assert.equal(choices[0],species);assert.deepEqual([...choices].sort((a,b)=>a-b),[species,...ancestors].sort((a,b)=>a-b));for(const id of choices){assert.equal(view(game,uid).skinOptions.find(choice=>choice.species===id).name,byId.get(id).name.zh);select(game,uid,id);}select(game,uid,null);}
@@ -107,6 +183,7 @@ try {
     const transformed=advanceBattlePresentation(switched,{type:'transform',side:0,slot:0,species:3,hp:state.player.hp,maxHp:state.player.maxHp},catalog.species);assert.equal(transformed.player.appearanceSpecies,3);assert.equal(transformed.player.portrait,'/portraits/3.png');assert.equal(JSON.stringify(state),bytes);
   });
   check('Regression fixtures never mutate the source catalog',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
-  fs.mkdirSync('artifacts/skins',{recursive:true});fs.writeFileSync('artifacts/skins/controller.json',JSON.stringify({checks,failures},null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,failures},null,2));assert.equal(failures.length,0,`${failures.length} skin verification failures`);
+  fs.mkdirSync('artifacts/skins',{recursive:true});fs.writeFileSync('artifacts/skins/controller.json',JSON.stringify({exhaustive,checks,failures},null,2)+'\n');
+  const {species:details,...coverage}=exhaustive;
+  console.log(JSON.stringify({passed:checks.length,exhaustive:coverage,failures},null,2));assert.equal(failures.length,0,`${failures.length} skin verification failures`);
 } finally {await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;}

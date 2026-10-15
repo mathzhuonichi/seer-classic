@@ -53,6 +53,8 @@ A field-level comparison against v34 commit `619c510` confirms:
 
 ## Per-individual cosmetic skins
 
+The skin feature applies to every owned individual in the complete 1,483-species catalog, including initial forms, ordinary and mechanical evolution families, branch families, special forms, and modifier-only NPC forms. There is no species-category allowlist. A form without an earlier directed ancestor still has the same selector with its default appearance; the rule does not invent an extra costume or permit a higher or sibling form.
+
 The optional `Monster.skinSpecies` field stores an ancestor appearance for one owned individual. Leaving it absent selects the current species. `buildSkinOptions` derives legal choices from the executable forward evolution graph, starting with the current form and walking directed parents. It never grants permission from shared family labels, art stages, sibling branches, or unrelated reverse metadata. For example, 729 can display 347 or 346; 93 can display 91 but not sibling 92 or 94.
 
 `setSkin` validates the requested integer against this ancestry and changes only that individual. Explicit `null` or the current species restores the default. Missing or illegal values are rejected without changing the stored monster. Active battles block cosmetic management. Names, real species, types, stats, skills, collection credit, capture prerequisites, breeding/fusion identity, generation, and six-copy accounting continue to use the real species.
@@ -77,3 +79,12 @@ A battle records each player slot's starting appearance separately from gameplay
 - Screenshots are stored under `analysis/codex-takeover-2026-10-14/browser-v35/`: `special-manual-lv60.png`, `ancestor-skin-selected.png`, and `ancestor-skin-battle.png`. The independent test server and tab were closed; the original port-1426 preview remains available with its separate save.
 
 This is a development/debug delivery. No production or native release was built or pushed. Historical activity/server restrictions remain outside the verified source evidence. The development server continues to emit its existing public-JSON import warnings; these are separate from the clean browser console observed in this test.
+
+
+## Full-catalog skin coverage follow-up
+
+The user explicitly required the feature for every creature. A second read-only UI audit found no category, level, evolution-kind, or party/warehouse restriction. The selector is available on the information/details tab for every owned individual; only active battle prevents editing.
+
+Independent server rendering checked 31 real controller instances across the petbag details, standalone raising details, and complete monster-management panel (93 renders). Coverage included initial and ordinary forms, mechanical forms, independent single forms, every one of the 20 branch destinations, special forms, and all four modifier-only NPC forms. Thirty fixtures were stored outside the party. Every surface exposed the selector and its current-form option. All 1,483 catalog art profiles resolve to existing local image files.
+
+The expanded `tools/verification/skins.mjs` passes all 27 groups. Its independent oracle walks forward from every potential ancestor, then checks the real controller for all 1,483 species in 24 batches at level 1. All 1,483 selections and 1,483 resets preserve actual identity and restore the entire batch save byte-for-byte. Coverage includes 144 party instances and 1,339 warehouse instances; all four NPC forms additionally pass after actual modifier acquisition. There are 635 forms with only their own default appearance and 848 with at least one earlier directed ancestor. The ignored `artifacts/skins/controller.json` report records each species, complete option list, tested ancestor, and storage location. Production behavior already met this global scope; this follow-up adds exhaustive verification and records the requirement explicitly.
