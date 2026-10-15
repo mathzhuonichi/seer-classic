@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export clean original bg_mc artwork from cached official map SWFs."""
+"""Export original map backgrounds and explicitly retained static scene layers."""
 import argparse
 import concurrent.futures
 import hashlib
@@ -9,6 +9,7 @@ import subprocess
 import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from restore_mystery_realm_floor import restore_floor
 
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / '.cache/map-assets'
@@ -54,15 +55,27 @@ def export(map_id, java, jar):
     svg.set('width', f'{width:g}')
     svg.set('height', f'{height:g}')
     destination = OUT / f'{map_id}.svg'
-    ET.ElementTree(svg).write(destination, encoding='utf-8', xml_declaration=True)
-    return dict(mapId=map_id, path=f'/maps/original/{destination.name}', width=width, height=height,
-                sha256=digest(destination), bytes=destination.stat().st_size,
+    staged = directory / 'registered-background.svg'
+    ET.ElementTree(svg).write(staged, encoding='utf-8', xml_declaration=True)
+    result = dict(mapId=map_id, path=f'/maps/original/{destination.name}', width=width, height=height,
+                sha256=digest(staged), bytes=staged.stat().st_size,
                 url=f'https://seer.61.com/resource/map/{map_id}.swf', swfSha256=digest(swf),
                 source='Official Flash bg_mc first frame, statically exported with FFDec 26.3.0; original viewport registration retained.',
                 format='SVG', sourceSymbol=int(symbol), sourceFrame=1,
                 sourceXmlSha256=digest(xml), exportedSvgSha256=digest(exported),
                 originalStage=dict(width=width, height=height), viewBox=[x,y,width,height],
                 viewportMethod='FFDec normalization offset and original root placement matrix, clipped to the original SWF stage.')
+    if map_id == 10032:
+        result['backgroundOnlySha256'] = result['sha256']
+        result.update(restore_floor(swf, staged, staged))
+        result.update(
+            source='Official Flash bg_mc and animator_mc first frames; the original platform, energy surface and machine vectors are restored in source placement and depth order.',
+            sourceLayers=[dict(name='bg_mc', symbol=3, frame=1, depth=1),
+                          dict(name='animator_mc', symbol=19, frame=1, depth=3)],
+            restorationTool='tools/assets/restore_mystery_realm_floor.py',
+            restorationScope='Static animator frame 1 only; control_mc, top_mc, scripted events and subsequent animation frames are excluded.')
+    staged.replace(destination)
+    return result
 
 
 def main():
@@ -73,7 +86,10 @@ def main():
     args = parser.parse_args()
     path = ROOT / 'public/maps/original-manifest.json'
     manifest = json.loads(path.read_text())
+    CACHE.mkdir(parents=True, exist_ok=True)
+    OUT.mkdir(parents=True, exist_ok=True)
     ids = args.ids or list(map(int, manifest['failures']))
+    exported_ids = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         jobs = {pool.submit(export,n,args.java,args.ffdec): n for n in ids}
         for job in concurrent.futures.as_completed(jobs):
@@ -81,12 +97,19 @@ def main():
             try:
                 manifest['maps'][str(n)] = job.result()
                 manifest['failures'].pop(str(n), None)
-                print(f'{n}: exported original bg_mc', flush=True)
+                exported_ids.append(str(n))
+                print(f'{n}: exported original scene artwork', flush=True)
             except Exception as error:
                 manifest['failures'][str(n)] = str(error)
                 print(f'{n}: {error}', flush=True)
     manifest['maps'] = dict(sorted(manifest['maps'].items(), key=lambda pair:int(pair[0])))
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    index_path = ROOT / 'src/presentation/map-art-assets.json'
+    index = json.loads(index_path.read_text())
+    for key in exported_ids:
+        entry = manifest['maps'][key]
+        index[key] = dict(path=entry['path'], sha256=entry['sha256'])
+    index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n')
 
 
 if __name__ == '__main__':

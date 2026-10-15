@@ -3532,11 +3532,11 @@
       "path": "/maps/original/10032.svg",
       "width": 960.0,
       "height": 560.0,
-      "sha256": "f5796507d290a74e84fcc8e837c24494f6a17d386ad1fb9b6fe8c8d94270e6f0",
-      "bytes": 186131,
+      "sha256": "5076e708ffc8f1f491c64859f1438d6a43833308e5f5fb68d2574c6fe250cb32",
+      "bytes": 225843,
       "url": "https://seer.61.com/resource/map/10032.swf",
       "swfSha256": "657a73d6b79d5c03bce08f05bc92319854e080a2e87e5a4d06a80aae014f8920",
-      "source": "Official Flash bg_mc first frame, statically exported with FFDec 26.3.0; original viewport registration retained.",
+      "source": "Official Flash bg_mc and animator_mc first frames; the original platform, energy surface and machine vectors are restored in source placement and depth order.",
       "format": "SVG",
       "sourceSymbol": 3,
       "sourceFrame": 1,
@@ -3552,7 +3552,220 @@
         960.0,
         560.0
       ],
-      "viewportMethod": "FFDec normalization offset and original root placement matrix, clipped to the original SWF stage."
+      "viewportMethod": "FFDec normalization offset and original root placement matrix, clipped to the original SWF stage.",
+      "sourceLayers": [
+        {
+          "name": "bg_mc",
+          "symbol": 3,
+          "frame": 1,
+          "depth": 1
+        },
+        {
+          "name": "animator_mc",
+          "symbol": 19,
+          "frame": 1,
+          "depth": 3
+        }
+      ],
+      "restorationTool": "tools/assets/restore_mystery_realm_floor.py",
+      "restorationScope": "Static animator frame 1 only; control_mc, top_mc, scripted events and subsequent animation frames are excluded.",
+      "backgroundOnlySha256": "f5796507d290a74e84fcc8e837c24494f6a17d386ad1fb9b6fe8c8d94270e6f0",
+      "staticOverlay": {
+        "sourceInstance": "animator_mc",
+        "sourceSymbol": 19,
+        "sourceFrame": 1,
+        "sourceDepth": 3,
+        "matrix": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "shapes": [
+          {
+            "character": 4,
+            "bounds": [
+              -36.9,
+              36.9,
+              -24.9,
+              24.9
+            ],
+            "fills": 1,
+            "lines": 0
+          },
+          {
+            "character": 5,
+            "bounds": [
+              -200.0,
+              199.95,
+              -109.25,
+              109.2
+            ],
+            "fills": 1,
+            "lines": 0
+          },
+          {
+            "character": 7,
+            "bounds": [
+              -116.2,
+              116.15,
+              -72.5,
+              72.5
+            ],
+            "fills": 2,
+            "lines": 0
+          },
+          {
+            "character": 13,
+            "bounds": [
+              0.0,
+              165.15,
+              0.0,
+              140.3
+            ],
+            "fills": 13,
+            "lines": 0
+          },
+          {
+            "character": 17,
+            "bounds": [
+              0.0,
+              193.75,
+              0.0,
+              140.4
+            ],
+            "fills": 7,
+            "lines": 0
+          }
+        ],
+        "matrixUnits": "Linear coefficients are unitless; source translation values are SWF twips (20 per pixel).",
+        "animatorFirstFrame": [
+          {
+            "depth": 1,
+            "flags": 6,
+            "flags2": 0,
+            "character": 12,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              9639,
+              4900
+            ],
+            "remainingBytes": ""
+          },
+          {
+            "depth": 9,
+            "flags": 6,
+            "flags2": 0,
+            "character": 16,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              13448,
+              -73
+            ],
+            "remainingBytes": ""
+          },
+          {
+            "depth": 11,
+            "flags": 6,
+            "flags2": 0,
+            "character": 18,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              7004,
+              3377
+            ],
+            "remainingBytes": ""
+          }
+        ],
+        "energyFirstFrame": [
+          {
+            "depth": 1,
+            "flags": 70,
+            "flags2": 0,
+            "character": 4,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              -605,
+              -169
+            ],
+            "clipDepth": 4,
+            "remainingBytes": ""
+          },
+          {
+            "depth": 2,
+            "flags": 6,
+            "flags2": 0,
+            "character": 6,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              -988,
+              -123
+            ],
+            "remainingBytes": ""
+          },
+          {
+            "depth": 5,
+            "flags": 6,
+            "flags2": 1,
+            "character": 8,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              -604,
+              125
+            ],
+            "remainingBytes": "01021aaf73ff0000000000000000000021"
+          },
+          {
+            "depth": 7,
+            "flags": 14,
+            "flags2": 1,
+            "character": 11,
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              -604,
+              -46
+            ],
+            "multiply": [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ],
+            "add": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "remainingBytes": "0202108153ff000000000000000000002101000000000000000008"
+          }
+        ],
+        "filterHandling": "Sprite 8 has a zero-blur, zero-strength GlowFilter. Sprite 11 has zero blur/strength in its glow and blur filters and is fully transparent in frame 1. These filters are visually inert.",
+        "scope": "Original static decoration only; control_mc, top_mc and ActionScript are excluded."
+      }
     }
   },
   "failures": {},
