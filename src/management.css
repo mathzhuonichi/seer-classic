@@ -254,3 +254,12 @@
 .raising-evolution-copy small,.raising-evolution-state{font-size:10px;color:#365e79}
 .raising-evolution-copy .raising-evolution-blocked{font-size:10px;color:#8a4726}
 .raising-evolution-confirm{width:100%;margin-top:3px;font-size:11px!important}
+
+/* Per-instance skins share the information panel without changing identity. */
+.raising-skins{margin:0 0 10px;padding:8px 9px;border:1px solid #9fc1cf;border-radius:5px;background:#eaf5f8;color:#18394d}
+.raising-skin-picker{display:flex;align-items:center;gap:10px}
+.raising-skin-picker>label{font-size:11px;font-weight:700;white-space:nowrap}
+.raising-skin-picker>select{flex:1;min-width:0;font-size:11px;padding:5px 7px}
+.raising-skins>p{margin:6px 0 0;font-size:10px;line-height:1.5}
+.official-petbag .raising-skins{background:#074f95;border-color:#1386bd;color:#e1f5ff}
+.official-petbag .raising-skin-picker>select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}

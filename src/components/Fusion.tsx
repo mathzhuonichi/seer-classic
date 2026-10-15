@@ -49,7 +49,7 @@ export default function Fusion({s,c,initialRecipeId,onOpenBeads}:{s:GameSnapshot
     const allowed=isPrimary?recipe.primary:recipe.secondary,minLevel=isPrimary?recipe.minPrimaryLevel:recipe.minSecondaryLevel;
     return <div className="fusion-parent-card">
       <label htmlFor={`fusion-${role}`}><strong>{label}</strong><small>背包 / 仓库</small></label>
-      <div className="fusion-parent-art">{monster?<CreatureArt species={monster.species} name={monster.name}/>:<span aria-hidden="true">◎</span>}</div>
+      <div className="fusion-parent-art">{monster?<CreatureArt species={monster.appearanceSpecies??monster.species} name={monster.name}/>:<span aria-hidden="true">◎</span>}</div>
       <select id={`fusion-${role}`} aria-label={`选择${label}`} disabled={activeBattle} value={monster?.uid??''} onChange={e=>{if(isPrimary){setPrimaryUid(e.target.value);if(e.target.value===secondaryUid)setSecondaryUid('')}else setSecondaryUid(e.target.value);setFeedback('');setObtained(null)}}>
         <option value="">{choices.length?'选择已有精灵':'暂无符合配方的精灵'}</option>
         {choices.map(m=><option key={m.uid} value={m.uid} disabled={m.level<minLevel}>{m.inParty?'背包':'仓库'} · {m.name} · Lv.{m.level}{m.level<minLevel?'（等级不足）':''}</option>)}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply the approved v33/v34 evolution policies using pinned official XML.
+"""Apply the approved v33-v35 evolution policies using pinned official XML.
 
 Use --source-dir for the extracted RobotCoreDLL XML directory. The default is
 .cache/evolution-v33. --check verifies the generated records without writing.
@@ -31,11 +31,13 @@ V33_DEFERRED_MISSING = {
     1316, 1317, 1346, 1361, 1428, 1429, 1459, 1464, 1473,
 }
 SOURCE_LEVEL_TARGETS = {432, 652, 729, 811, 881, 1143}
+LEVEL_ONE_OVERRIDES = {729, 881, 1143}
 CANONICAL_PARENT_OVERRIDES = {1459: 79}
 SPECIAL_BRANCH_PARENTS = {67, 739}
 SPECIAL_STAGE = {1018: 2, 1019: 3, 1238: 2, 1279: 2}
 NOTE_PREFIX = " Remake evolution policy v33: "
-SPECIAL_NOTE_PREFIX = " Remake evolution policy v34: "
+SPECIAL_NOTE_PREFIX = " Remake evolution policy v35: "
+PREVIOUS_SPECIAL_NOTE_PREFIX = " Remake evolution policy v34: "
 ANCESTRY_NOTE_PREFIX = " Remake ancestry policy v34: "
 NOTES = {
     "mechanical-level": (
@@ -143,15 +145,26 @@ def main() -> None:
                        for row in super_records), f"Canonical predecessor is not source-supported: {predecessor} -> {target}"
         if target in SOURCE_LEVEL_TARGETS:
             assert branch is not None, f"Source-level target lacks a matching source branch: {target}"
-            level = int(source["monster"]["EvolvingLv"])
-            assert level in {1, 34, 40, 63}
-            kind = "special-source-level"
-            level_evidence = {
-                "kind": "source-gate", "originalLevel": level,
-                "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-                "interpretation": ("The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
-                                   if level == 1 else "The target-specific source level is retained while the original item gate is removed."),
-            }
+            original_level = int(source["monster"]["EvolvingLv"])
+            assert original_level in {1, 34, 40, 63}
+            if target in LEVEL_ONE_OVERRIDES:
+                assert original_level == 1
+                level = 60
+                kind = "special-remake-override"
+                level_evidence = {
+                    "kind": "remake-override", "originalLevel": original_level, "remakeLevel": level,
+                    "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+                    "interpretation": "The original value 1 belonged to an item-gated conversion. The user now requires remake level 60 and manual confirmation; the original source field remains unchanged in provenance. This is an explicit override, not a recovered level-60 source rule.",
+                }
+            else:
+                assert original_level > 1
+                level = original_level
+                kind = "special-source-level"
+                level_evidence = {
+                    "kind": "source-gate", "originalLevel": original_level,
+                    "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+                    "interpretation": "The target-specific source level is retained while the original item gate is removed. The remake requires manual confirmation.",
+                }
         else:
             assert branch is None, f"A source branch must be reviewed instead of assigned a fallback: {target}"
             # A different ordinary EvolvesTo edge's level is not target evidence.
@@ -164,8 +177,7 @@ def main() -> None:
                 "baseLevel": 60, "specialStage": stage, "stageIncrement": 10,
                 "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified.",
             }
-        transition = {"to": target, "method": "level", "level": level,
-                      "automatic": predecessor not in SPECIAL_BRANCH_PARENTS}
+        transition = {"to": target, "method": "level", "level": level, "automatic": False}
         target_evidence = {
             "targetMonster": target_monster,
             "superEvolutions": super_records,
@@ -191,20 +203,23 @@ def main() -> None:
             "species": target, "name": by_id[target]["name"]["zh"], "from": original_predecessor,
             "category": "single-item-trigger" if branch else "special-ancestry",
             "source": original_source, "targetMonster": target_monster,
-            "resolution": {"policyVersion": "v34", "from": predecessor, **transition,
+            "resolution": {"policyVersion": "v35", "from": predecessor, **transition,
                            "levelSource": level_evidence["kind"]},
         })
     assert sum(row["category"] == "single-item-trigger" for row in resolved) == 6
     assert len(special_rules) == 30
     assert sum(len(rule["transitions"]) for rule in special_rules.values()) == 32
     assert {rule["from"] for rule in special_rules.values() if rule["kind"] == "special-branch-choice"} == SPECIAL_BRANCH_PARENTS
-    assert sum(rule["kind"] == "special-source-level" for rule in special_rules.values()) == 6
+    assert sum(rule["kind"] == "special-source-level" for rule in special_rules.values()) == 3
+    assert sum(rule["kind"] == "special-remake-override" for rule in special_rules.values()) == 3
     assert sum(rule["kind"] == "special-remake-level" for rule in special_rules.values()) == 22
+    assert all(not edge["automatic"] and edge["level"] > 1
+               for rule in special_rules.values() for edge in rule["transitions"])
     rules = sorted([*rules, *special_rules.values()], key=lambda rule: rule["from"])
 
     policy = {
         "schemaVersion": 2,
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "source": {
             "url": SOURCE_URL,
             "retrievedAt": "2026-10-14",
@@ -216,18 +231,20 @@ def main() -> None:
         "remakePolicy": {
             "mechanical-level": "Automatically evolve mechanical species along source-backed single-target, resource-free trigger edges at their source level.",
             "branch-choice": "Retain every target and source level at the six traditional branch points; replace item costs with an explicit manual target choice.",
-            "special-source-level": "Convert six source item-trigger edges into automatic level evolution, retaining their literal EvolvingLv values including 1 and removing item costs.",
-            "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, use remake level 60, then 70 and 80 for successive special stages.",
+            "special-source-level": "Retain the three meaningful source item-trigger levels, 63, 34, and 40, while removing item costs and requiring manual confirmation.",
+            "special-remake-override": "Replace the three original item-trigger levels of 1, for 347 to 729, 601 to 881, and 55 to 1143, with explicit remake level 60 and manual confirmation. Preserve the original value 1 in source evidence.",
+            "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, retain remake level 60, then 70 and 80 for successive special stages; every transition requires manual confirmation.",
             "special-branch-choice": "The two genuine special forks, from 67 and 739, require a manual choice at remake level 60.",
+            "specialConfirmation": "All 32 special and super-evolution transitions require an explicit player action. None triggers automatically from training, experience, level items, or loading an existing save.",
             "canonicalAncestry": "The source SuperEvolves record for 1459 accepts 77, 78, and 79. Use mature 79 in both the forward rule and runtime reverse ancestry; preserve the original EvolvesFrom 77 in provenance. Do not add infancy-to-super shortcuts.",
             "repeatAcquisition": "Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap; this generator does not change acquisition limits or historical repeatability evidence.",
-            "sourceBoundary": "Fallback levels are explicit remake decisions. The pinned XML establishes target relationships and listed gates; complete historical activity and server-side restrictions remain unverified.",
+            "sourceBoundary": "Fallback levels and the three level-1-to-60 overrides are explicit remake decisions. The pinned XML establishes target relationships and original gates; complete historical activity and server-side restrictions remain unverified.",
             "exclusions": "Do not infer target-specific source levels from another ordinary edge; do not add unreviewed forms outside the 32 historical v33 omissions.",
         },
         "coverage": {"mechanicalTransitions": 43, "traditionalBranchPoints": 6, "traditionalBranchTransitions": 16,
-                     "specialTransitions": 32, "specialBranchPoints": 2, "specialBranchTransitions": 4,
+                     "specialTransitions": 32, "manualSpecialTransitions": 32, "specialBranchPoints": 2, "specialBranchTransitions": 4,
                      "branchPoints": 8, "branchTransitions": 20, "totalTransitions": 91,
-                     "sourceLevelTransitions": 65, "fallbackLevelTransitions": 26,
+                     "sourceLevelTransitions": 62, "fallbackLevelTransitions": 26, "overrideLevelTransitions": 3,
                      "newlyReachableFormsFromV32Audit": 77, "newlyReachableFormsInV34": 32,
                      "deferredMissingFormsFromV32Audit": 0, "ancestryOverrides": 1},
         "rules": rules,
@@ -250,13 +267,18 @@ def main() -> None:
         else:
             level = rule["transitions"][0]["level"]
             if rule["kind"] == "special-source-level":
-                note = (f"the user approved ordinary automatic level evolution for this special conversion. The literal source EvolvingLv {level} "
-                        "is retained while the original item gate is removed; a source value of 1 does not mean that this was ordinary level-one evolution. ")
+                note = (f"the user requires manual confirmation for this special conversion. The target-specific source EvolvingLv {level} "
+                        "is retained while the original item gate is removed. ")
+            elif rule["kind"] == "special-remake-override":
+                note = (f"the user replaces this original item-gated EvolvingLv 1 conversion with remake level {level} and manual confirmation. "
+                        "The original value 1 remains in provenance; level 60 is an explicit remake override, not an original-source level. ")
             else:
-                note = (f"the user approved simplifying this special conversion to level evolution. Level {level} is an explicit remake fallback "
+                note = (f"the user requires manual confirmation for this special conversion. Level {level} remains an explicit remake fallback "
                         "because the pinned target-specific source records do not supply a level; successive special stages use levels 60, 70, and 80. ")
-                note += "This true branch requires manual target selection. " if rule["kind"] == "special-branch-choice" else "The single-target transition is automatic. "
-            species["source_note"] = species["source_note"].split(SPECIAL_NOTE_PREFIX)[0] + SPECIAL_NOTE_PREFIX + note + "See data/evolution-rules.json for original fields and the exact source/remake distinction."
+                if rule["kind"] == "special-branch-choice":
+                    note += "The player must select the desired branch. "
+            prior_note = species["source_note"].split(PREVIOUS_SPECIAL_NOTE_PREFIX)[0].split(SPECIAL_NOTE_PREFIX)[0]
+            species["source_note"] = prior_note + SPECIAL_NOTE_PREFIX + note + "See data/evolution-rules.json for original fields and the exact source/remake distinction."
         outputs[relative] = encode(species)
         by_id[species_id]["evolution"] = species["evolution"]
         by_id[species_id]["source_note"] = species["source_note"]
@@ -288,7 +310,8 @@ def main() -> None:
             (ROOT / relative).write_bytes(outputs[relative])
     print(json.dumps({"mode": "check" if args.check else "write", "mechanicalTransitions": 43,
                       "traditionalBranchPoints": 6, "traditionalBranchTransitions": 16,
-                      "specialTransitions": 32, "specialBranchPoints": 2, "changedFiles": len(changed)}))
+                      "specialTransitions": 32, "manualSpecialTransitions": 32, "levelOneOverrides": 3,
+                      "specialBranchPoints": 2, "changedFiles": len(changed)}))
 
 
 if __name__ == "__main__":

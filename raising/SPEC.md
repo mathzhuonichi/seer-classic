@@ -149,16 +149,22 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 ## 7. Evolution
 
 - `level`: available once level ≥ `level`. After a battle, single-branch level
-  evolutions happen **automatically**, chaining if several are due (a level-40
+  evolutions without `automatic: false` happen **automatically**, chaining if several are due (a level-40
   种子 becomes 花) [recalled]. Branching species (several level entries) wait for
   the player's choice, even when only one branch has reached its required level.
   `applyBattleRewards(..., { autoEvolve: false })` turns
-  this off.
+  this off. All 32 application special transitions use `automatic: false`;
+  their level threshold enables explicit confirmation, never automatic conversion.
 - `item`: available while the game passes that item; `special`: available when
   the game confirms the condition (by `script` id, else `condition` text).
 - Evolving keeps uid, level, exp, 个体, 学习力, 性格, nickname, learned and equipped
   skills. The new form also learns its own learnset up to the current level
   (auto-equipping into free slots). HP shifts by the change in max HP [chosen].
+- Optional `skinSpecies` is cosmetic. The application validates it against the
+  current species and its directed ancestors; it never changes battle or raising
+  identity. Evolution retains a still-valid ancestor skin, and same-species
+  restoration retains it. Absent or invalid skins use the current appearance.
+  Sibling branches and descendants are not valid ancestor skins.
 
 ## 8. Party, box and healing
 

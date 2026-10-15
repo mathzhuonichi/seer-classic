@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "policyVersion": "v34",
+  "policyVersion": "v35",
   "source": {
     "url": "https://seer.61.com/dll/RobotCoreDLL.swf",
     "retrievedAt": "2026-10-14",
@@ -25,12 +25,14 @@
   "remakePolicy": {
     "mechanical-level": "Automatically evolve mechanical species along source-backed single-target, resource-free trigger edges at their source level.",
     "branch-choice": "Retain every target and source level at the six traditional branch points; replace item costs with an explicit manual target choice.",
-    "special-source-level": "Convert six source item-trigger edges into automatic level evolution, retaining their literal EvolvingLv values including 1 and removing item costs.",
-    "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, use remake level 60, then 70 and 80 for successive special stages.",
+    "special-source-level": "Retain the three meaningful source item-trigger levels, 63, 34, and 40, while removing item costs and requiring manual confirmation.",
+    "special-remake-override": "Replace the three original item-trigger levels of 1, for 347 to 729, 601 to 881, and 55 to 1143, with explicit remake level 60 and manual confirmation. Preserve the original value 1 in source evidence.",
+    "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, retain remake level 60, then 70 and 80 for successive special stages; every transition requires manual confirmation.",
     "special-branch-choice": "The two genuine special forks, from 67 and 739, require a manual choice at remake level 60.",
+    "specialConfirmation": "All 32 special and super-evolution transitions require an explicit player action. None triggers automatically from training, experience, level items, or loading an existing save.",
     "canonicalAncestry": "The source SuperEvolves record for 1459 accepts 77, 78, and 79. Use mature 79 in both the forward rule and runtime reverse ancestry; preserve the original EvolvesFrom 77 in provenance. Do not add infancy-to-super shortcuts.",
     "repeatAcquisition": "Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap; this generator does not change acquisition limits or historical repeatability evidence.",
-    "sourceBoundary": "Fallback levels are explicit remake decisions. The pinned XML establishes target relationships and listed gates; complete historical activity and server-side restrictions remain unverified.",
+    "sourceBoundary": "Fallback levels and the three level-1-to-60 overrides are explicit remake decisions. The pinned XML establishes target relationships and original gates; complete historical activity and server-side restrictions remain unverified.",
     "exclusions": "Do not infer target-specific source levels from another ordinary edge; do not add unreviewed forms outside the 32 historical v33 omissions."
   },
   "coverage": {
@@ -38,13 +40,15 @@
     "traditionalBranchPoints": 6,
     "traditionalBranchTransitions": 16,
     "specialTransitions": 32,
+    "manualSpecialTransitions": 32,
     "specialBranchPoints": 2,
     "specialBranchTransitions": 4,
     "branchPoints": 8,
     "branchTransitions": 20,
     "totalTransitions": 91,
-    "sourceLevelTransitions": 65,
+    "sourceLevelTransitions": 62,
     "fallbackLevelTransitions": 26,
+    "overrideLevelTransitions": 3,
     "newlyReachableFormsFromV32Audit": 77,
     "newlyReachableFormsInV34": 32,
     "deferredMissingFormsFromV32Audit": 0,
@@ -60,7 +64,7 @@
           "to": 1216,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -121,7 +125,7 @@
           "to": 1230,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -182,7 +186,7 @@
           "to": 1237,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -226,7 +230,7 @@
           "to": 1298,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -287,7 +291,7 @@
           "to": 1192,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -348,7 +352,7 @@
           "to": 1361,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -403,20 +407,21 @@
     {
       "from": 55,
       "name": "鲁加斯",
-      "kind": "special-source-level",
+      "kind": "special-remake-override",
       "transitions": [
         {
           "to": 1143,
           "method": "level",
-          "level": 1,
-          "automatic": true
+          "level": 60,
+          "automatic": false
         }
       ],
       "levelEvidence": {
-        "kind": "source-gate",
+        "kind": "remake-override",
         "originalLevel": 1,
+        "remakeLevel": 60,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+        "interpretation": "The original value 1 belonged to an item-gated conversion. The user now requires remake level 60 and manual confirmation; the original source field remains unchanged in provenance. This is an explicit override, not a recovered level-60 source rule."
       },
       "source": {
         "monster": {
@@ -534,7 +539,7 @@
           "to": 1346,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -714,7 +719,7 @@
           "to": 1459,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -978,7 +983,7 @@
           "to": 1297,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -1097,7 +1102,7 @@
           "to": 1277,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -1187,7 +1192,7 @@
           "to": 1473,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -1355,7 +1360,7 @@
           "to": 1464,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -1547,20 +1552,21 @@
     {
       "from": 347,
       "name": "远古鱼龙",
-      "kind": "special-source-level",
+      "kind": "special-remake-override",
       "transitions": [
         {
           "to": 729,
           "method": "level",
-          "level": 1,
-          "automatic": true
+          "level": 60,
+          "automatic": false
         }
       ],
       "levelEvidence": {
-        "kind": "source-gate",
+        "kind": "remake-override",
         "originalLevel": 1,
+        "remakeLevel": 60,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+        "interpretation": "The original value 1 belonged to an item-gated conversion. The user now requires remake level 60 and manual confirmation; the original source field remains unchanged in provenance. This is an explicit override, not a recovered level-60 source rule."
       },
       "source": {
         "monster": {
@@ -1743,14 +1749,14 @@
           "to": 432,
           "method": "level",
           "level": 63,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
         "kind": "source-gate",
         "originalLevel": 63,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+        "interpretation": "The target-specific source level is retained while the original item gate is removed. The remake requires manual confirmation."
       },
       "source": {
         "monster": {
@@ -1793,7 +1799,7 @@
           "to": 1266,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -1941,7 +1947,7 @@
           "to": 1278,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2066,20 +2072,21 @@
     {
       "from": 601,
       "name": "火刃",
-      "kind": "special-source-level",
+      "kind": "special-remake-override",
       "transitions": [
         {
           "to": 881,
           "method": "level",
-          "level": 1,
-          "automatic": true
+          "level": 60,
+          "automatic": false
         }
       ],
       "levelEvidence": {
-        "kind": "source-gate",
+        "kind": "remake-override",
         "originalLevel": 1,
+        "remakeLevel": 60,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+        "interpretation": "The original value 1 belonged to an item-gated conversion. The user now requires remake level 60 and manual confirmation; the original source field remains unchanged in provenance. This is an explicit override, not a recovered level-60 source rule."
       },
       "source": {
         "monster": {
@@ -2151,14 +2158,14 @@
           "to": 652,
           "method": "level",
           "level": 34,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
         "kind": "source-gate",
         "originalLevel": 34,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+        "interpretation": "The target-specific source level is retained while the original item gate is removed. The remake requires manual confirmation."
       },
       "source": {
         "monster": {
@@ -2402,14 +2409,14 @@
           "to": 811,
           "method": "level",
           "level": 40,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
         "kind": "source-gate",
         "originalLevel": 40,
         "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
-        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+        "interpretation": "The target-specific source level is retained while the original item gate is removed. The remake requires manual confirmation."
       },
       "source": {
         "monster": {
@@ -2452,7 +2459,7 @@
           "to": 1017,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2525,7 +2532,7 @@
           "to": 1122,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2587,7 +2594,7 @@
           "to": 1018,
           "method": "level",
           "level": 70,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2631,7 +2638,7 @@
           "to": 1019,
           "method": "level",
           "level": 80,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2733,7 +2740,7 @@
           "to": 1121,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -2897,7 +2904,7 @@
           "to": 1215,
           "method": "level",
           "level": 60,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -3003,7 +3010,7 @@
           "to": 1238,
           "method": "level",
           "level": 70,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -3076,7 +3083,7 @@
           "to": 1279,
           "method": "level",
           "level": 70,
-          "automatic": true
+          "automatic": false
         }
       ],
       "levelEvidence": {
@@ -3360,12 +3367,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 398,
         "to": 432,
         "method": "level",
         "level": 63,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "source-gate"
       }
     },
@@ -3400,12 +3407,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 651,
         "to": 652,
         "method": "level",
         "level": 34,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "source-gate"
       }
     },
@@ -3440,13 +3447,13 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 347,
         "to": 729,
         "method": "level",
-        "level": 1,
-        "automatic": true,
-        "levelSource": "source-gate"
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-override"
       }
     },
     {
@@ -3480,12 +3487,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 810,
         "to": 811,
         "method": "level",
         "level": 40,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "source-gate"
       }
     },
@@ -3520,13 +3527,13 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 601,
         "to": 881,
         "method": "level",
-        "level": 1,
-        "automatic": true,
-        "levelSource": "source-gate"
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-override"
       }
     },
     {
@@ -3552,12 +3559,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 821,
         "to": 1017,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3584,12 +3591,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1017,
         "to": 1018,
         "method": "level",
         "level": 70,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3616,12 +3623,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1018,
         "to": 1019,
         "method": "level",
         "level": 80,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3648,12 +3655,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1120,
         "to": 1121,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3680,12 +3687,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 999,
         "to": 1122,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3720,13 +3727,13 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 55,
         "to": 1143,
         "method": "level",
-        "level": 1,
-        "automatic": true,
-        "levelSource": "source-gate"
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-override"
       }
     },
     {
@@ -3752,12 +3759,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 47,
         "to": 1192,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3784,12 +3791,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1214,
         "to": 1215,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3816,12 +3823,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 29,
         "to": 1216,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3848,12 +3855,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 34,
         "to": 1230,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3880,12 +3887,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 37,
         "to": 1237,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3912,12 +3919,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1237,
         "to": 1238,
         "method": "level",
         "level": 70,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3944,12 +3951,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 400,
         "to": 1266,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -3976,12 +3983,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 113,
         "to": 1277,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4008,12 +4015,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 500,
         "to": 1278,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4040,12 +4047,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 1278,
         "to": 1279,
         "method": "level",
         "level": 70,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4072,12 +4079,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 110,
         "to": 1297,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4104,12 +4111,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 42,
         "to": 1298,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4136,7 +4143,7 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 67,
         "to": 1316,
         "method": "level",
@@ -4168,7 +4175,7 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 67,
         "to": 1317,
         "method": "level",
@@ -4200,12 +4207,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 64,
         "to": 1346,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4232,12 +4239,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 50,
         "to": 1361,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4264,7 +4271,7 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 739,
         "to": 1428,
         "method": "level",
@@ -4296,7 +4303,7 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 739,
         "to": 1429,
         "method": "level",
@@ -4329,12 +4336,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 79,
         "to": 1459,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4361,12 +4368,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 239,
         "to": 1464,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     },
@@ -4393,12 +4400,12 @@
         "EvolvesTo": "0"
       },
       "resolution": {
-        "policyVersion": "v34",
+        "policyVersion": "v35",
         "from": 197,
         "to": 1473,
         "method": "level",
         "level": 60,
-        "automatic": true,
+        "automatic": false,
         "levelSource": "remake-fallback"
       }
     }

@@ -8,6 +8,7 @@ import {getEligibleRecruitmentSPTs} from './progression/spt-recruitment';
 import {acquisitionAllowance,acquisitionLimitReason,SPECIES_COPY_LIMIT} from './progression/acquisition-limits';
 import { BREEDING_RECIPES, canBreedParents, chooseBreedingOutcome, getBreedingGender } from './progression/breeding';
 import {buildCollectionAncestry,type CollectionSpecies} from './progression/collection-ancestry';
+import {buildSkinOptions,appearanceSpecies,sanitizeSkin} from './progression/skins';
 import {createItemShopViews,isShopItemAvailable} from './progression/item-shop';
 import {meetsWildCapturePrerequisite} from '../battle/core/src/capture';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from './progression/fusion';
@@ -60,10 +61,12 @@ export function advanceBattlePresentation(state: BattlePresentationState, event:
     case 'faint': member.hp = 0; member.fainted = true; break;
     case 'switch_in': case 'transform': {
       updateHp();
+      const previousSpecies=member.species;
       if (event.species !== undefined) member.species = event.species;
+      if(event.type==='transform'||member.species!==previousSpecies)member.appearanceSpecies=member.species;
       if (event.name) member.name = event.name;
       if (event.level !== undefined) member.level = event.level;
-      member.portrait = portrait(member.species);
+      member.portrait = portrait(member.appearanceSpecies??member.species);
       const definition = Array.isArray(species)?species.find(mon=>mon.id===member.species):species?.get(member.species);
       if (event.types) member.types = event.types.map((type:string) => typesZh[type] ?? type);
       else if (definition) member.types = definition.types.map(type => typesZh[type] ?? type);
@@ -125,6 +128,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const dex = makeDex(catalog as unknown as {species:Species[];skills:Skill[];natures:Nature[]});
   const data = buildDataSet(catalog as unknown as RawData);
   const collectionAncestry=buildCollectionAncestry(catalog.species as unknown as CollectionSpecies[]);
+  const skinOptions=buildSkinOptions(catalog.species as unknown as Species[]);
   const bosses = catalog.bosses as unknown as BossEncounter[];
   const availableTraits=traits.filter(t=>t.implemented);
   const campaignForBoss=(id:string)=>CHALLENGE_CAMPAIGNS.find(c=>c.stages.some(stage=>stage.bossIds.includes(id)));
@@ -162,6 +166,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   let save!: FullSave;
   let rng: Rng;
   let battle: Battle | null = null;
+  let battleAppearances=new Map<number,{species:number;appearanceSpecies:number}>();
+  const transformedSlots=new Set<string>();
   let battleName = '';
   let currentBoss: BossEncounter | null = null;
   let currentCampaign: {id:string;stageId:string} | null = null;
@@ -185,7 +191,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     for (const item of catalog.items) if (item.kind === 'battle' || item.kind === 'capsule' || item.kind === 'raising') save.items[String(item.id)] = 5;
     save.rng_state = [...rng.s];
   }
-  function parse(text:string) { save=full(deserialize(text,dex)); if(!(cureId in save.items))save.items[cureId]=5; rng=new Rng(save.rng_state ?? save.seed); }
+  function parse(text:string) { save=full(deserialize(text,dex)); for(const mon of save.storage)sanitizeSkin(mon,skinOptions); if(!(cureId in save.items))save.items[cureId]=5; rng=new Rng(save.rng_state ?? save.seed); }
   const previous = initialSave ?? readLocalSave();
   if (previous) { try {parse(previous);} catch {fresh();notices=['旧存档无法读取，已创建新存档。'];} } else fresh();
   // Grant the newly introduced supply once without replacing an existing player's stock.
@@ -216,15 +222,19 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function monsterView(mon:Monster):MonsterView {
     const sp=dex.species(mon.species); const trait=traits.find(t=>t.id===save.game.traits[mon.uid]);
+    const appearance=appearanceSpecies(mon,skinOptions);
     const evolutions=evolutionOptions(mon,dex);
     const evolutionChoices=sp.evolution.filter(edge=>edge.method==='level'&&edge.level!==undefined).map(edge=>{
       const level=edge.level!;
       const blockedReason=mon.level<level?`达到 Lv.${level} 后可进化。`:capacityReason(edge.to,mon.uid);
       return {species:edge.to,name:dex.species(edge.to).name.zh,level,ready:!blockedReason,blockedReason};
     });
-    return {uid:mon.uid,species:sp.id,name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,inParty:save.party.includes(mon.uid),portrait:portrait(sp.id),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,evolutionChoices,gender:getBreedingGender(sp.id),generation:mon.generation??0};
+    return {uid:mon.uid,species:sp.id,appearanceSpecies:appearance,skinOptions:(skinOptions.get(sp.id)??[sp.id]).map(species=>({species,name:dex.species(species).name.zh})),name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,inParty:save.party.includes(mon.uid),portrait:portrait(appearance),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,evolutionChoices,gender:getBreedingGender(sp.id),generation:mon.generation??0};
   }
-  function battleMon(mon:Mon):BattleMonsterView {return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(mon.species.id),skills:mon.skills.map(id=>skillView(id,mon.pp)),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
+  function battleMon(mon:Mon):BattleMonsterView {
+    const original=mon.side===0?battleAppearances.get(mon.slot):undefined;
+    const appearance=original?.species===mon.species.id&&!transformedSlots.has(`${mon.side}:${mon.slot}`)?original.appearanceSpecies:mon.species.id;
+    return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,appearanceSpecies:appearance,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(appearance),skills:mon.skills.map(id=>skillView(id,mon.pp)),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
   const questData = [
     {id:'first-victory',name:'初次胜利',description:'赢得一次野外遭遇或首领挑战，领取皮皮。',species:10,ready:()=>save.game.battlesWon>=1,progress:()=>`${Math.min(1,save.game.battlesWon)}/1`},
     {id:'three-victories',name:'成长之路',description:'赢得三场战斗，领取比比鼠。',species:13,ready:()=>save.game.battlesWon>=3,progress:()=>`${Math.min(3,save.game.battlesWon)}/3`},
@@ -284,7 +294,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function emit() {persist();refresh();listeners.forEach(l=>l());}
   function notice(text:string) {notices=[text,...notices].slice(0,5);}
-  function replace(mon:Monster) {putMon(save,mon);}
+  function replace(mon:Monster) {sanitizeSkin(mon,skinOptions);putMon(save,mon);}
   function ensureAcquisitionCapacity() {
     // Reject before generating a monster, so a full box does not consume reward RNG.
     if(save.party.length>=PARTY_MAX&&save.storage.length-save.party.length>=BOX_MAX)throw new Error('仓库已满');
@@ -323,6 +333,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       const side:0|1=e.type==='capture_attempt'||e.side===1?1:0;
       let kind:BattlePresentationFrame['kind']='message';
       const activeBefore=side===1?shown.enemy:shown.player;
+      if(e.type==='transform')transformedSlots.add(`${e.side===1?1:0}:${e.slot??(e.side===1?shown.enemy.slot:shown.player.slot)??0}`);
       shown=advanceBattlePresentation(shown,e,data.species);
       const text=eventText(e,[shown.player,shown.enemy]);
       let skillType:string|undefined;
@@ -409,7 +420,10 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     if(boss) {const errors=validateEncounter(boss,player);if(errors.length)throw new Error(errors.join('；'));}
     const wild=createMonster(dex,species,level??Math.max(3,Math.round(player.team[0].level*0.85)),rng);
     encounterMonster=wild;
+    battleAppearances=new Map(roster.map((mon,slot)=>[slot,{species:mon.species,appearanceSpecies:appearanceSpecies(mon,skinOptions)}]));
+    transformedSlots.clear();
     battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts},seed:rng.nextU32(),sides:[player,{kind:'wild',team:[wild]}],encounter:boss??undefined});
+    for(const event of battle.initialEvents)if(event.type==='transform')transformedSlots.add(`${event.side===1?1:0}:${event.slot??battle.sides[event.side===1?1:0].active}`);
     for(const mon of battle.sides[0].team) {
       const trait=traits.find(t=>t.id===save.game.traits[mon.uid!]);
       if(trait) mon.conditions.push({id:`trait-${trait.id}`,def:{id:`trait-${trait.id}`,name:{zh:trait.name},kind:'buff',removed_on_switch:false,hooks:trait.hooks as Hook[]},turns:Infinity,appliedTurn:0});
@@ -476,6 +490,12 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       case 'equip':replace(equipSkills(findMon(save,action.uid),action.skills,dex));break;
       case 'train': {const amount=Math.max(1,Math.floor(action.amount));if(save.game.coins<amount*10)throw new Error('赛尔豆不足。');const old=findMon(save,action.uid);const next=addEvs(old,{[action.stat]:amount}).mon;const gain=next.evs[action.stat]-old.evs[action.stat];if(!gain)throw new Error('学习力已达到上限。');replace(next);save.game.coins-=gain*10;notice(`${statZh[action.stat]}学习力增加 ${gain}。`);break;}
       case 'allocateExp':save=full(allocatePoolExp(save,action.uid,action.amount,dex).save);replace(boundedAutoEvolve(findMon(save,action.uid)));break;
+      case 'setSkin': {
+        const mon=findMon(save,action.uid),target=action.species===null?mon.species:action.species;
+        if(!Number.isInteger(target)||!skinOptions.get(mon.species)?.includes(target))throw new Error('只能选择当前形态或其进化前形态作为皮肤。');
+        const next={...mon};if(target===mon.species)delete next.skinSpecies;else next.skinSpecies=target;
+        replace(next);notice(`外观已设为${dex.species(target).name.zh}，能力与技能保持不变。`);break;
+      }
       case 'evolve': {
         const mon=findMon(save,action.uid),options=evolutionOptions(mon,dex);
         if(action.toSpecies===undefined&&requiresEvolutionChoice(mon,dex))throw new Error('请选择要进化的分支。');

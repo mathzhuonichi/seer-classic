@@ -158,7 +158,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     const evolver = createGame(structuredClone(source), JSON.stringify(prepared));
     if (automatic) {
       // Exercise ordinary training on the actual hatched infant at both the old
-      // mechanical endpoint and the separately approved super-evolution threshold.
+      // mechanical endpoint and the separately approved manual special threshold.
       const training = JSON.parse(collector.exportSave()); training.exp_pool = 1e9;
       evolver.importSave(JSON.stringify(training));
       evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(byId.get(111).growth, 39, 0) });
@@ -166,6 +166,8 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 39);
       const growth = byId.get(113).growth;
       evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(growth, 60, 0) - totalExp(growth, 39, 0) });
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, 113, 'The special form requires a deliberate selection.');
+      evolver.dispatch({ type: 'evolve', uid: infant.uid, toSpecies: 1277 });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, 1277);
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 60);
     } else for (const species of chain.slice(1)) {

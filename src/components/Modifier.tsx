@@ -56,7 +56,7 @@ export default function Modifier({s,c,m,onSelect,close}:{s:GameSnapshot;c:GameCo
    <header className="modifier-titlebar"><h2 id="modifier-title">航行修改器</h2><button aria-label="关闭修改器" onClick={close}><img src="/ui/classic/close.svg" alt="" draggable={false}/></button></header>
    <div className="modifier-target">
     <label className="modifier-picker" htmlFor="modifier-monster">选择要修改的精灵<select ref={picker} id="modifier-monster" value={m?.uid??''} disabled={!s.monsters.length} onChange={event=>onSelect(event.target.value)}>{!s.monsters.length&&<option value="">尚未持有精灵</option>}{s.monsters.map((mon,index)=><option key={mon.uid} value={mon.uid}>{mon.name} · Lv.{mon.level} · {location(mon,s)} · 持有第 {index+1} 只</option>)}</select></label>
-    {m?<div className="modifier-current" role="status" aria-label="当前修改目标"><div className="modifier-portrait"><img src={getCreatureArt(m.species).src} alt={m.speciesName} draggable={false}/></div><div><strong>正在修改：{m.name}</strong><span>#{m.species} {m.speciesName} · Lv.{m.level} · {location(m,s)}</span></div></div>:<p>先添加精灵，再选择修改目标。</p>}
+    {m?<div className="modifier-current" role="status" aria-label="当前修改目标"><div className="modifier-portrait"><img src={getCreatureArt(m.appearanceSpecies??m.species).src} alt={m.speciesName} draggable={false}/></div><div><strong>正在修改：{m.name}</strong><span>#{m.species} {m.speciesName} · Lv.{m.level} · {location(m,s)}</span></div></div>:<p>先添加精灵，再选择修改目标。</p>}
    </div>
    <div className="modifier-scroll">
     {m&&<MonsterEditor key={m.uid} m={m} s={s} c={c}/>}

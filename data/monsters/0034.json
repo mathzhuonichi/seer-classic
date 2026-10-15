@@ -100,7 +100,7 @@
       "to": 1230,
       "method": "level",
       "level": 60,
-      "automatic": true
+      "automatic": false
     }
   ],
   "evolves_from": 33,
@@ -112,6 +112,6 @@
   ],
   "gender_code": 1,
   "art": "m0034",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v34: the user approved simplifying this special conversion to level evolution. Level 60 is an explicit remake fallback because the pinned target-specific source records do not supply a level; successive special stages use levels 60, 70, and 80. The single-target transition is automatic. See data/evolution-rules.json for original fields and the exact source/remake distinction.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v35: the user requires manual confirmation for this special conversion. Level 60 remains an explicit remake fallback because the pinned target-specific source records do not supply a level; successive special stages use levels 60, 70, and 80. See data/evolution-rules.json for original fields and the exact source/remake distinction.",
   "existed_by": "2009-11"
 }

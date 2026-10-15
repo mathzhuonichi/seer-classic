@@ -13,6 +13,10 @@ export default function Raising({m,s,c,presentation,requestedTab}:{m:MonsterView
   const [evs,setEvs]=useState(()=>draftsFor(m.evs)),[preset,setPreset]=useState(''),[feedback,setFeedback]=useState('');
   const [slot,setSlot]=useState(0),[skillSearch,setSkillSearch]=useState(''),[skillId,setSkillId]=useState<number>();
   const [itemId,setItemId]=useState('');
+  const [skinFeedback,setSkinFeedback]=useState('');
+  const skinOptions=m.skinOptions??[{species:m.species,name:m.speciesName}];
+  const appearanceSpecies=m.appearanceSpecies??m.species;
+  const skinName=skinOptions.find(option=>option.species===appearanceSpecies)?.name??m.speciesName;
   const [evolutionSelection,setEvolutionSelection]=useState<{uid:string;fromSpecies:number;toSpecies:number}>();
   const evolutionChoices=m.evolutionChoices??[];
   const chosenEvolution=evolutionChoices.find(choice=>choice.species===evolutionSelection?.toSpecies&&evolutionSelection.uid===m.uid&&evolutionSelection.fromSpecies===m.species&&choice.ready&&!choice.blockedReason);
@@ -20,6 +24,7 @@ export default function Raising({m,s,c,presentation,requestedTab}:{m:MonsterView
   useEffect(()=>{setEvolutionSelection(current=>current&&current.uid===m.uid&&current.fromSpecies===m.species&&evolutionChoices.some(choice=>choice.species===current.toSpecies&&choice.ready&&!choice.blockedReason)?current:undefined)},[m.uid,m.species,evolutionChoices]);
   useEffect(()=>{if(requestedTab)setTab(requestedTab.tab)},[requestedTab?.id]);
   useEffect(()=>setNickname(m.name),[m.uid,m.name]);
+  useEffect(()=>setSkinFeedback(''),[m.uid,m.species]);
   useEffect(()=>setEvs(draftsFor(m.evs)),[m.uid,m.evs.hp,m.evs.atk,m.evs.def,m.evs.spa,m.evs.spd,m.evs.spe]);
   const values=statKeys.map(key=>Number(evs[key]));
   const valid=values.every((value,i)=>evs[statKeys[i]].trim()!==''&&Number.isInteger(value)&&value>=0&&value<=255);
@@ -45,11 +50,22 @@ export default function Raising({m,s,c,presentation,requestedTab}:{m:MonsterView
     if(result?.species===evolutionTarget.species&&result.species!==m.species){setFeedback(`已进化为${evolutionTarget.name}。`);setEvolutionSelection(undefined)}
     else setFeedback(snapshot.notices[0]??'进化未完成，请查看目标条件。');
   }
+  function setSkin(species:number){
+    if(activeBattle||!skinOptions.some(option=>option.species===species))return;
+    c.dispatch({type:'setSkin',uid:m.uid,species:species===m.species?null:species});
+    const snapshot=c.snapshot(),result=snapshot.monsters.find(mon=>mon.uid===m.uid);
+    setSkinFeedback(result&&(result.appearanceSpecies??result.species)===species?'此精灵的皮肤已保存。':snapshot.notices[0]??'皮肤未更换，请重新选择。');
+  }
   return <section className="raising-compact" aria-label={`${m.name}详情`}>
     <nav className="management-tabs" aria-label="精灵详情分页">{(presentation==='petbag'?[['概况','信息'],['详情','能力'],['道具','道具'],['养成','资料']]:[['详情','详情'],['技能','技能'],['养成','养成'],['道具','道具']]).map(([name,label])=><button key={name} aria-pressed={tab===name||name==='详情'&&presentation==='petbag'&&tab==='技能'} className={`${tab===name||name==='详情'&&presentation==='petbag'&&tab==='技能'?'active':''} ${presentation==='petbag'?`petbag-tab-${name}`:''}`} onClick={()=>{setTab(name);setFeedback('')}}>{label}</button>)}</nav>
     <fieldset className="raising-scroll" disabled={activeBattle}>
       {activeBattle&&<p className="management-hint">战斗中可查看详情；养成操作在战斗结束后进行。</p>}
-      {presentation!=='petbag'&&(<div className="raising-profile"><div className="raising-portrait"><CreatureArt species={m.species} name={m.name}/></div><div className="raising-identity"><small>NO. {String(m.species).padStart(4,'0')} · Lv.{m.level}</small><h3>{m.name}</h3><span className="raising-type-icons"><TypeIcon type={m.types}/></span><dl><div><dt>个体值</dt><dd>{m.iv} / 31</dd></div><div><dt>性格</dt><dd>{m.nature}</dd></div><div><dt>特性</dt><dd>{m.trait||'无'}</dd></div></dl><div className="hp-bar"><i style={{width:`${Math.max(0,Math.min(100,m.hp/m.stats.hp*100))}%`}}/></div><small>体力 {m.hp} / {m.stats.hp}</small></div></div>)}
+      {presentation!=='petbag'&&(<div className="raising-profile"><div className="raising-portrait"><CreatureArt species={appearanceSpecies} name={m.name}/></div><div className="raising-identity"><small>NO. {String(m.species).padStart(4,'0')} · Lv.{m.level}</small><h3>{m.name}</h3><span className="raising-type-icons"><TypeIcon type={m.types}/></span><dl><div><dt>个体值</dt><dd>{m.iv} / 31</dd></div><div><dt>性格</dt><dd>{m.nature}</dd></div><div><dt>特性</dt><dd>{m.trait||'无'}</dd></div></dl><div className="hp-bar"><i style={{width:`${Math.max(0,Math.min(100,m.hp/m.stats.hp*100))}%`}}/></div><small>体力 {m.hp} / {m.stats.hp}</small></div></div>)}
+      {(tab==='概况'||presentation!=='petbag'&&tab==='详情')&&<section className="raising-skins" aria-label="精灵皮肤">
+        <div className="raising-skin-picker"><label htmlFor={`skin-${m.uid}`}>皮肤外观</label><select id={`skin-${m.uid}`} aria-label="选择精灵皮肤" value={appearanceSpecies} onChange={event=>setSkin(Number(event.target.value))}>{skinOptions.map(option=><option key={option.species} value={option.species}>{option.name}{option.species===m.species?'（默认外观）':''}</option>)}</select></div>
+        <p>当前外观：{skinName}。仅改变此精灵外观，属性与技能保持当前形态。</p>
+        {skinFeedback&&<p className="management-feedback" role="status">{skinFeedback}</p>}
+      </section>}
       {tab==='概况'&&<div className="petbag-overview"><div className="petbag-information"><div><span>精灵编号</span><strong>{String(m.species).padStart(4,'0')}</strong></div><div><span>性格</span><strong>{m.nature}</strong></div><div><span>个体值</span><strong>{m.iv} / 31</strong></div><div><span>特性</span><strong>{m.trait||'无'}</strong></div></div><div className="petbag-stat-summary">{statKeys.map(key=><div key={key}><span>{statNames[key]}</span><strong>{m.stats[key]}</strong></div>)}</div><div className="petbag-experience"><span>升级经验</span><meter value={m.exp} max={Math.max(1,m.expToNext)}/><small>{m.exp} / {m.expToNext}</small></div><div className="petbag-skill-summary"><strong>当前技能</strong>{m.skills.map(sk=><div key={sk.id}><span>{sk.name}</span><small>PP {sk.pp}/{sk.maxPp}</small></div>)}</div></div>}
       {tab==='详情'&&<><div className="stat-table-heading"><strong>能力与学习力</strong><span>种族值总和 <b>{statKeys.reduce((sum,key)=>sum+m.baseStats[key],0)}</b></span></div><table className="management-stat-table"><thead><tr><th scope="col">能力</th><th scope="col">种族值</th><th scope="col">学习力</th><th scope="col">当前属性</th></tr></thead><tbody>{statKeys.map(key=><tr key={key}><th scope="row">{statNames[key]}</th><td>{m.baseStats[key]}</td><td><div className="ev-cell"><input aria-label={`${statNames[key]}学习力`} type="number" min="0" max="255" step="1" value={evs[key]} onChange={e=>{setEvs(old=>({...old,[key]:e.target.value}));setFeedback('')}}/><button aria-label={`清空${statNames[key]}学习力`} onClick={()=>{setEvs(old=>({...old,[key]:'0'}));setFeedback('')}}>清空</button></div></td><td><strong>{m.stats[key]}</strong></td></tr>)}</tbody></table>
         <div className={`ev-total ${!valid||total>510?'invalid':''}`}><span>学习力合计 <strong>{valid?total:'—'} / 510</strong></span><small>{!valid?'每项须为 0–255 整数':total>510?'超出总上限，请调整':dirty?'尚未保存':'已保存'}</small></div>

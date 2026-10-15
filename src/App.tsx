@@ -90,7 +90,7 @@ export function Game({controller:c}:{controller:GameController}){
   battleLevels.current=new Map(battle.party.map(mon=>[mon.uid,mon.level]));
   const campaign=action.type==='startCampaignStage'?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===action.campaignId):undefined;
   const initial={name:battle.name,species:battle.enemy.species,location:campaign?.location??scene.name,progress:0,step:'连接战斗场景…'};setPreparation(initial);
-  const sources=[...new Set([scene.src,...[...battle.party,...battle.enemyParty].flatMap(m=>[getCreatureArt(m.species).src,m.portrait])])];
+  const sources=[...new Set([scene.src,...[...battle.party,...battle.enemyParty].flatMap(m=>[getCreatureArt(m.appearanceSpecies??m.species).src,m.portrait])])];
   try{
    await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
    await waitForBattleLoad(250,signal);
@@ -98,7 +98,7 @@ export function Game({controller:c}:{controller:GameController}){
    await preloadBattleImages(sources,signal,(loaded,total)=>{if(request===preparationId.current)setPreparation({...initial,progress:Math.round(loaded/total*75),step:'准备精灵立绘与场景…'})});
    if(request!==preparationId.current)return;
    setPreparation({...initial,progress:80,step:'准备精灵动作…'});
-   await preloadBattleAnimations([battle.player.species,battle.enemy.species],{signal});
+   await preloadBattleAnimations([battle.player.appearanceSpecies??battle.player.species,battle.enemy.appearanceSpecies??battle.enemy.species],{signal});
    if(request!==preparationId.current)return;
    setPreparation({...initial,progress:90,step:'部署出战精灵…'});
    await waitForBattleLoad(600,signal);

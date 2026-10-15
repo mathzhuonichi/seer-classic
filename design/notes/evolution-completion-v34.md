@@ -1,5 +1,7 @@
 # Special evolution completion v34
 
+Historical policy: revision 35 supersedes the automatic special transitions and three Lv.1 gates described below. See [evolution-skins-v35.md](evolution-skins-v35.md) for the current manual policy and Lv.60 overrides.
+
 ## Result and approved policy
 
 The user approved simplifying the 32 remaining special and super-evolution forms into level evolution, using original target-specific source levels where available. These forms now have executable forward transitions. The independently exported acquisition closure reaches all 1,479 eligible forms; the four existing NPC-only forms remain excluded. All 632 initial forms, 34 fusion recipes, eight breeding recipes, and 316 collection rewards remain reachable.

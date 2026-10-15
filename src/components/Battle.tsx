@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame, GameAction, GameController, GameSnapshot } from '../game-types';
-import { creatureArtStyle, getCreatureArt } from '../presentation/creature-art';
+import { getCreatureArt } from '../presentation/creature-art';
 import BattleTeamStrip from './BattleTeamStrip';
 import BattleSkillEffect from './BattleSkillEffect';
 import {getSkillEffectDurationMs} from './battle-skill-effects';
@@ -28,7 +28,7 @@ function Health({ monster, team, enemy }: { monster: BattleMonsterView; team: Ba
   const percent = Math.max(0, Math.min(100, monster.hp / monster.maxHp * 100));
   const conditionDescription = [...monster.statuses, ...Object.entries(monster.stages).filter(([, value]) => value !== 0).map(([stat, value]) => `${stageLabels[stat] || stat}${value > 0 ? '提升' : '下降'} ${Math.abs(value)} 级`)].join('，') || '无异常状态或能力变化';
   return <section className={`classic-health ${enemy ? 'foe' : 'ally'}`} aria-label={`${enemy ? '对手' : '我方'}${monster.name}体力`}>
-    <div className="classic-health-portrait"><img src={getCreatureArt(monster.species).src} alt="" draggable={false}/></div>
+    <div className="classic-health-portrait"><img src={getCreatureArt(monster.appearanceSpecies??monster.species).src} alt="" draggable={false}/></div>
     <div className="classic-health-type"><TypeIcon type={monster.types}/></div>
     <div className="classic-health-heading"><strong>{monster.name}</strong></div><span className="classic-health-level">{monster.level}</span>
     <div className="classic-hp-track" role="progressbar" aria-valuenow={monster.hp} aria-valuemin={0} aria-valuemax={monster.maxHp} aria-label="体力"><i style={{ width: `${percent}%` }} /><span>{monster.hp} / {monster.maxHp}</span></div>
@@ -44,7 +44,7 @@ function Combatant({ monster, side, frame, captured = false, busy = false, actio
   const critical = effect === 'hit' && !!frame?.critical;
   const sourceEffectActor=effectCue?.move.side===side;
   const sourceEffectTarget=effectCue?.move.targetSide===side;
-  const art = getCreatureArt(monster.species);
+  const art = getCreatureArt(monster.appearanceSpecies??monster.species);
   const groundY = 50 + art.bounds.height / Math.max(art.bounds.width, art.bounds.height) * art.physicalScale * .9 * 50;
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !monster.statuses.some(status => ['睡眠', '石化', '冰封'].includes(status));
   const actionClass = ['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture'].includes(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';
@@ -52,7 +52,7 @@ function Combatant({ monster, side, frame, captured = false, busy = false, actio
     <div className={`classic-creature-motion ${actionClass}`}>
       <div className="classic-ground-shadow" />
       <div className={`classic-creature-facing ${side === 1 ? 'mirrored' : ''}`}>
-        <div className="classic-art-box"><BattleCreatureAnimation species={monster.species} name={monster.name} kind={originalFrame?.kind || 'idle'} eventKey={originalFrame?.id || 'idle'} resting={resting}/></div>
+        <div className="classic-art-box"><BattleCreatureAnimation species={monster.appearanceSpecies??monster.species} name={monster.name} kind={originalFrame?.kind || 'idle'} eventKey={originalFrame?.id || 'idle'} resting={resting}/></div>
       </div>
       {effect === 'status' && !sourceEffectActor && <div className="classic-status-ring" aria-hidden="true"><i /><i /><i /></div>}
       {effect === 'heal' && <div className="classic-heal-sparks" aria-hidden="true">＋<span>＋</span><i>＋</i></div>}
@@ -120,6 +120,8 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
         return;
       }
       const next = batch[cursor++];
+      const actor=next.side===0?next.player:next.enemy;
+      const actorAppearance=actor.appearanceSpecies??actor.species;
       setFrame(next);
       if (next.kind === 'capture') setCaptureResolved(!!next.captureSuccess);
       if (next.kind === 'heal') gameAudio.playSfx('heal');
@@ -132,7 +134,7 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
       if (['physical','special','status'].includes(next.kind)) {
         const effectDuration=getSkillEffectDurationMs(next.skillId);
         if(effectDuration){
-          const timing=battleAnimationTiming(next.side===0?next.player.species:next.enemy.species,next.kind);
+          const timing=battleAnimationTiming(actorAppearance,next.kind);
           const startDelay=reducedMotion?0:timing?.hitMs??0;
           const duration=reducedMotion?160:effectDuration;
           setSkillEffect({move:next,delay:startDelay,duration});clearTimeout(effectTimer);
@@ -141,7 +143,7 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
         }else{setSkillEffect(null);effectEndsAt=0;}
       }
       if (!reducedMotion && ['physical','special','status'].includes(next.kind)) {
-        const timing=battleAnimationTiming(next.side===0?next.player.species:next.enemy.species,next.kind);
+        const timing=battleAnimationTiming(actorAppearance,next.kind);
         if (timing) {
           setSourceAction(next);clearTimeout(actionTimer);
           actionEndsAt=performance.now()+timing.durationMs;
@@ -216,7 +218,7 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
           return skill ? <button key={`${slot}-${skill.id}`} className={`classic-skill category-${skill.category}`} title={skill.description || `${skill.name}：${skill.category}技能，威力 ${skill.power}`} disabled={disabled || b.needsSwitch || (skill.maxPp > 0 && skill.pp <= 0)} onClick={() => submit({ type: 'move', skillId: skill.id })}><div><TypeIcon type={skillIconType(skill)} focusable={false}/><small>{skill.category}</small></div><strong>{skill.name}</strong><footer><span>威力 <b>{skill.power || '—'}</b></span><span>PP <b>{skill.pp}</b> / {skill.maxPp}</span></footer></button> : <div className="classic-empty-skill" key={slot}>未装备技能</div>;
         })}</div></>}
         {tab === 'items' && <><nav className="classic-item-category-tabs" aria-label="战斗道具分类">{visibleItemCategories.map(category => <button key={category.id} className={activeItemCategory === category.id ? 'active' : ''} aria-pressed={activeItemCategory === category.id} disabled={disabled || b.needsSwitch} onClick={() => { setItemCategory(category.id); setItemSelection(''); }}>{category.label}</button>)}</nav><div className="classic-item-workspace"><div className="classic-item-grid">{items.map(item => <button key={item.id} title={item.description} className={selectedItem?.id === item.id ? 'selected' : ''} disabled={disabled || b.needsSwitch} aria-pressed={selectedItem?.id === item.id} onClick={() => setItemSelection(item.id)}><span className="classic-item-symbol">{activeItemCategory === 'capsule' ? '◉' : activeItemCategory === 'status' ? '✧' : '＋'}</span><strong>{item.name}</strong><span>× {item.count}</span></button>)}{!items.length && <p className="classic-panel-empty">{activeItemCategory === 'capsule' ? '暂无精灵胶囊，请到道具管理补充。' : activeItemCategory === 'status' ? '暂无异常解除道具。' : '暂无体力或 PP 恢复道具。'}</p>}</div>{activeItemCategory === 'capsule' ? <div className="classic-item-actions classic-capture-actions"><p>{b.canCapture ? selectedItem?.description || '先选择精灵胶囊。削减体力、施加异常状态能提高捕捉机会。' : b.captureBlockedReason || '首领与招募挑战无法捕捉，请通过挑战奖励获得精元。'}</p><div className="classic-capture-target"><span>捕捉目标</span><strong>{b.enemy.name}</strong><small>HP {b.enemy.hp}/{b.enemy.maxHp}</small></div><button className="classic-confirm" aria-label="使用选中胶囊捕捉" disabled={disabled || b.needsSwitch || !b.canCapture || !selectedItem} onClick={() => selectedItem && submit({ type: 'capture', itemId: selectedItem.id })}>捕捉</button></div> : <div className="classic-item-actions"><p>{!itemHelpsTarget && target ? `${target.name}当前无需此道具，请选择需要恢复的精灵或其他道具。` : selectedItem?.description || '先选择道具，再选择目标精灵。'}</p><label>使用目标<select value={target?.uid || ''} disabled={disabled || b.needsSwitch || !targets.length} onChange={event => setItemTarget(event.target.value)}>{targets.map(mon => <option key={mon.uid} value={mon.uid}>{mon.name} · HP {mon.hp}/{mon.maxHp}{activeItemCategory === 'status' && mon.statuses.length ? ` · ${mon.statuses.join(' / ')}` : ''}</option>)}</select></label><button className="classic-confirm" disabled={disabled || b.needsSwitch || !selectedItem || !target || !itemHelpsTarget} onClick={() => selectedItem && target && submit({ type: 'battleItem', itemId: selectedItem.id, targetUid: target.uid })}>使用</button></div>}</div></>}
-        {tab === 'party' && <><div className="classic-command-caption"><span>{b.needsSwitch ? '当前精灵无法战斗，请选择替补' : '选择精灵'}</span><small>选择后点击出战</small></div><div className="classic-party-grid">{b.party.map(monster => <button key={monster.uid} disabled={disabled} className={`${monster.uid === b.player.uid ? 'current' : ''} ${monster.uid === selectedParty.uid ? 'selected' : ''}`} aria-pressed={monster.uid === selectedParty.uid} onClick={() => setPartySelection(monster.uid)}><img src={getCreatureArt(monster.species).src} alt="" /><strong>{monster.name}<small>Lv.{monster.level}</small></strong><span>{monster.uid === b.player.uid ? '出战中' : monster.hp <= 0 ? '无法战斗' : `${monster.hp} / ${monster.maxHp}`}</span><i style={{ width: `${Math.max(0, monster.hp / monster.maxHp * 100)}%` }} /></button>)}</div><div className="classic-party-actions"><span>{selectedParty.name} · <TypeIcon type={selectedParty.types}/> · HP {selectedParty.hp}/{selectedParty.maxHp}</span><button disabled={disabled} onClick={() => setShowDetails(true)}>详情</button><button className="classic-confirm" disabled={disabled || selectedParty.uid === b.player.uid || selectedParty.hp <= 0} onClick={() => submit({ type: 'switch', uid: selectedParty.uid })}>出战</button></div></>}
+        {tab === 'party' && <><div className="classic-command-caption"><span>{b.needsSwitch ? '当前精灵无法战斗，请选择替补' : '选择精灵'}</span><small>选择后点击出战</small></div><div className="classic-party-grid">{b.party.map(monster => <button key={monster.uid} disabled={disabled} className={`${monster.uid === b.player.uid ? 'current' : ''} ${monster.uid === selectedParty.uid ? 'selected' : ''}`} aria-pressed={monster.uid === selectedParty.uid} onClick={() => setPartySelection(monster.uid)}><img src={getCreatureArt(monster.appearanceSpecies??monster.species).src} alt="" /><strong>{monster.name}<small>Lv.{monster.level}</small></strong><span>{monster.uid === b.player.uid ? '出战中' : monster.hp <= 0 ? '无法战斗' : `${monster.hp} / ${monster.maxHp}`}</span><i style={{ width: `${Math.max(0, monster.hp / monster.maxHp * 100)}%` }} /></button>)}</div><div className="classic-party-actions"><span>{selectedParty.name} · <TypeIcon type={selectedParty.types}/> · HP {selectedParty.hp}/{selectedParty.maxHp}</span><button disabled={disabled} onClick={() => setShowDetails(true)}>详情</button><button className="classic-confirm" disabled={disabled || selectedParty.uid === b.player.uid || selectedParty.hp <= 0} onClick={() => submit({ type: 'switch', uid: selectedParty.uid })}>出战</button></div></>}
         {tab === 'escape' && <div className="classic-escape-panel"><div><strong>{b.needsSwitch ? `${b.player.name}已失去战斗能力` : '撤离本场战斗'}</strong><p>{b.needsSwitch ? '可以派出替补精灵，或直接撤离。' : '立即离开当前战斗，不再执行本回合攻击。'}撤离不会获得本场战斗奖励。</p></div><button disabled={disabled} onClick={() => submit({ type: 'flee' })}>撤离战斗 →</button></div>}
       </div>
     </div>}

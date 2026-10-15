@@ -1,4 +1,4 @@
-/** Independent v34 regression: approved special transitions, legacy saves, and branch entry routes. */
+/** Independent v35 regression: approved special transitions, legacy saves, and branch entry routes. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -6,14 +6,15 @@ import { createServer } from 'vite';
 
 const BASELINE_REVISION = '6e92e09';
 // These expectations come from the approved policy, not from the generator output.
-const SOURCE_LEVELS = [[398,432,63],[651,652,34],[347,729,1],[810,811,40],[601,881,1],[55,1143,1]];
+const SOURCE_LEVELS = [[398,432,63],[651,652,34],[810,811,40]];
+const OVERRIDE_LEVELS = [[347,729,60],[601,881,60],[55,1143,60]];
 const REMAKE_LEVELS = [[821,1017,60],[1017,1018,70],[1018,1019,80],[1120,1121,60],[999,1122,60],
   [47,1192,60],[1214,1215,60],[29,1216,60],[34,1230,60],[37,1237,60],[1237,1238,70],
   [400,1266,60],[113,1277,60],[500,1278,60],[1278,1279,70],[110,1297,60],[42,1298,60],
   [67,1316,60],[67,1317,60],[64,1346,60],[50,1361,60],[739,1428,60],[739,1429,60],
   [79,1459,60],[239,1464,60],[197,1473,60]];
 const BRANCH_PARENTS = new Set([67,739]);
-const EXPECTED = [...SOURCE_LEVELS,...REMAKE_LEVELS].map(([from,to,level])=>({from,to,level,method:'level',automatic:!BRANCH_PARENTS.has(from)}));
+const EXPECTED = [...SOURCE_LEVELS,...OVERRIDE_LEVELS,...REMAKE_LEVELS].map(([from,to,level])=>({from,to,level,method:'level',automatic:false}));
 const targetIds = new Set(EXPECTED.map(edge=>edge.to)), parentIds = new Set(EXPECTED.map(edge=>edge.from));
 const source = JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/gamedata.json`],{encoding:'utf8',maxBuffer:50*1024*1024}));
 const oldById = new Map(source.species.map(row=>[row.id,row]));
@@ -64,7 +65,7 @@ try {
     const order=(a,b)=>a.from-b.from||a.to-b.to;
     assert.deepEqual(additions.sort(order),EXPECTED.map(({from,to,level,method,automatic})=>({from,to,method,level,automatic})).sort(order));
   });
-  check('Evidence distinguishes the six source-level gates from the 26 remake-level transitions',()=>{
+  check('Evidence distinguishes three source gates, three explicit level-one overrides, and 26 fallback levels',()=>{
     const policy=JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8'));
     const oldPolicy=JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/evolution-rules.json`],{encoding:'utf8',maxBuffer:10*1024*1024}));
     for(const rule of oldPolicy.rules)assert.deepEqual(policy.rules.find(value=>value.from===rule.from&&value.kind===rule.kind),rule,'Prior evidence rows are preserved');
@@ -72,8 +73,10 @@ try {
     assert.equal(added.flatMap(rule=>rule.transitions).length,32);
     for(const rule of added)for(const transition of rule.transitions){const expected=EXPECTED.find(edge=>edge.from===rule.from&&edge.to===transition.to);assert(expected,'Every evidence row belongs to the approved target set');
       const sourceGate=SOURCE_LEVELS.some(([from,to])=>from===rule.from&&to===transition.to);
-      assert.equal(rule.levelEvidence.kind,sourceGate?'source-gate':'remake-fallback');
-      assert.equal(rule.levelEvidence.originalLevel,sourceGate?expected.level:null,'Fallback levels are not presented as source levels');
+      const override=OVERRIDE_LEVELS.some(([from,to])=>from===rule.from&&to===transition.to);
+      assert.equal(rule.levelEvidence.kind,sourceGate?'source-gate':override?'remake-override':'remake-fallback');
+      assert.equal(rule.levelEvidence.originalLevel,sourceGate?expected.level:override?1:null,'Source level-one evidence remains distinct from the approved level-60 override');
+      if(override)assert.equal(rule.levelEvidence.remakeLevel,60);
       assert.equal(transition.level,expected.level);
     }
     assert.equal(policy.deferredMissingForms.length,0,'All 32 previously deferred forms are resolved');
@@ -114,11 +117,16 @@ try {
     trained.game.dispatch({type:'useItem',uid:trained.uid,itemId:'item_level_up_1'});
     const after=parse(trained.game),value=after.storage.find(entry=>entry.uid===trained.uid);
     assert.equal(value.level,Math.max(2,edge.level));assert.deepEqual(after.rng_state,before.rng_state,'Training uses no RNG');
-    if(edge.automatic){assert.equal(value.species,edge.to,'Single-target transition is automatic');assert.equal(autoEvolve(mon(edge.from,edge.level),dex).mon.species,edge.to);}
-    else{assert.equal(value.species,edge.from,'Branch remains unchanged until selection');assert.equal(autoEvolve(mon(edge.from,100),dex).mon.species,edge.from);reject(trained.game,{type:'evolve',uid:trained.uid},'Branch requires an explicit target');assertSelected(trained.game,trained.uid,edge.to);}
+    assert.equal(value.species,edge.from,'Special training never automatically changes form');
+    assert.equal(autoEvolve(mon(edge.from,100),dex).mon.species,edge.from);
+    if(BRANCH_PARENTS.has(edge.from))reject(trained.game,{type:'evolve',uid:trained.uid},'Branch requires an explicit target');
+    assertSelected(trained.game,trained.uid,edge.to);
+    const bulk=fixture(edge.from,1);bulk.game.dispatch({type:'allocateExp',uid:bulk.uid,amount:1e9});
+    assert.equal(parse(bulk.game).storage.find(entry=>entry.uid===bulk.uid).species,edge.from,'Bulk experience also preserves the special parent');
+    assert.equal(parse(bulk.game).storage.find(entry=>entry.uid===bulk.uid).level,100);
     const legacy=fixture(edge.from,100);assert.equal(parse(legacy.game).storage.find(entry=>entry.uid===legacy.uid).species,edge.from,'Loading an old max-level save does not transform it');
     reject(legacy.game,{type:'evolve',uid:legacy.uid,toSpecies:1},'Unrelated target');
-    assertSelected(legacy.game,legacy.uid,edge.to,!edge.automatic);
+    assertSelected(legacy.game,legacy.uid,edge.to,!BRANCH_PARENTS.has(edge.from)?false:true);
     transitions.push({from:edge.from,to:edge.to,level:edge.level,automatic:edge.automatic});
   });
 
@@ -137,22 +145,26 @@ try {
     allowed.dispatch({type:'evolve',uid:origin.uid,toSpecies:edge.to});assert.equal(parse(allowed).storage.find(value=>value.uid===origin.uid).species,edge.to,'The sixth combined copy is permitted');
   });
 
-  for(const chain of [[821,1017,1018,1019],[37,1237,1238],[500,1278,1279]])check(`${chain.join('->')}: high-level automatic chain and capped intermediate recovery`,()=>{
+  for(const chain of [[821,1017,1018,1019],[37,1237,1238],[500,1278,1279]])check(`${chain.join('->')}: bulk training stops and each special step remains manual`,()=>{
     const {game,uid}=fixture(chain[0],59);game.dispatch({type:'allocateExp',uid,amount:1e9});
-    const complete=parse(game);assert.equal(complete.storage.find(value=>value.uid===uid).species,chain.at(-1));assert.equal(complete.storage.find(value=>value.uid===uid).level,100);
-    for(const id of chain)assert(complete.dex.owned.includes(id),'Skipped intermediate form is registered');
+    const complete=parse(game);assert.equal(complete.storage.find(value=>value.uid===uid).species,chain[0]);assert.equal(complete.storage.find(value=>value.uid===uid).level,100);
+    for(const to of chain.slice(1))assertSelected(game,uid,to);
+    for(const id of chain)assert(parse(game).dex.owned.includes(id),'Each selected intermediate form is registered');
     const save=structuredClone(base),origin=mon(chain[0],59),blocked=chain[2];save.storage.push(origin,...Array.from({length:6},(_,i)=>mon(blocked,1,`chain-cap-${blocked}-${i}`)));
     const capped=make(save);capped.dispatch({type:'allocateExp',uid:origin.uid,amount:1e9});const trained=parse(capped),held=trained.storage.find(value=>value.uid===origin.uid);
-    assert.equal(held.species,chain[1]);assert.equal(held.level,100);assert(trained.exp_pool<save.exp_pool);assert.deepEqual(trained.rng_state,save.rng_state);
-    reject(capped,{type:'evolve',uid:origin.uid,toSpecies:blocked},'Manual retry at the same intermediate cap');
+    assert.equal(held.species,chain[0]);assert.equal(held.level,100);assert(trained.exp_pool<save.exp_pool);assert.deepEqual(trained.rng_state,save.rng_state);
+    assertSelected(capped,origin.uid,chain[1]);
+    reject(capped,{type:'evolve',uid:origin.uid,toSpecies:blocked},'Manual retry at the intermediate cap');
     const freed=parse(capped);freed.storage=freed.storage.filter(value=>value.uid!==`chain-cap-${blocked}-0`);const recovered=make(freed);
     for(const to of chain.slice(2))assertSelected(recovered,origin.uid,to);
     assert.equal(parse(recovered).storage.find(value=>value.uid===origin.uid).species,chain.at(-1));
   });
-  check('Literal source level-one gates can be crossed after the ordinary parent chain',()=>{
-    for(const [initial,target] of [[346,729],[54,1143]]){
+  check('Original level-one source gates now require manual level-60 selection after ordinary parents',()=>{
+    for(const [initial,parent,target] of [[346,347,729],[54,55,1143],[600,601,881]]){
       const {game,uid}=fixture(initial,1);game.dispatch({type:'allocateExp',uid,amount:1e9});
-      assert.equal(parse(game).storage.find(value=>value.uid===uid).species,target);
+      assert.equal(parse(game).storage.find(value=>value.uid===uid).species,parent);
+      assertSelected(game,uid,target);
+      for(const level of [1,59]){const under=fixture(parent,level);reject(under.game,{type:'evolve',uid:under.uid,toSpecies:target},'Level-one override rejects below level 60');}
     }
   });
 
@@ -163,8 +175,8 @@ try {
     const route=initial.get(1459).initialForms.find(value=>value.species===77);assert(route&&route.routes.length>0);
     assert.deepEqual(route.evolutionPath.map(step=>[step.from,step.to,step.level]),[[77,78,17],[78,79,37],[79,1459,60]]);
     assert(route.evolutionPath.every(step=>step.implemented));
-    assert.equal(autoEvolve(mon(77,100),dex).mon.species,1459);
-    for(const [from,level,to] of [[77,16,78],[78,36,79],[79,59,1459]]){const {game,uid}=fixture(from,level);game.dispatch({type:'useItem',uid,itemId:'item_level_up_1'});assert.equal(parse(game).storage.find(value=>value.uid===uid).species,to);}
+    assert.equal(autoEvolve(mon(77,100),dex).mon.species,79,'Ordinary Nier chain stops before the manual special form');
+    for(const [from,level,to] of [[77,16,78],[78,36,79],[79,59,79]]){const {game,uid}=fixture(from,level);game.dispatch({type:'useItem',uid,itemId:'item_level_up_1'});assert.equal(parse(game).storage.find(value=>value.uid===uid).species,to);}
   });
 
   for(const [root,parent,targets,predecessor,parentLevel] of [[65,67,[1316,1317],66,36],[738,739,[1428,1429],738,33]]){
@@ -198,7 +210,7 @@ try {
     for(const [id,entry]of baseline)if(entry.status==='available')assert.equal(acquisition.get(id).status,'available');
   });
   check('Controllers and test fixtures leave the input catalog unchanged',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
-  const report={baselineRevision:BASELINE_REVISION,sourceLevelTransitions:SOURCE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,transitions,repeatRoutes,checks,failures};
+  const report={baselineRevision:BASELINE_REVISION,sourceLevelTransitions:SOURCE_LEVELS.length,overrideLevelTransitions:OVERRIDE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,transitions,repeatRoutes,checks,failures};
   fs.mkdirSync('artifacts/evolution-specials',{recursive:true});fs.writeFileSync('artifacts/evolution-specials/controller.json',JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify({transitions:transitions.length,repeatRoutes:repeatRoutes.length,passed:checks.length,failures},null,2));assert.equal(failures.length,0,`${failures.length} special evolution verification failures`);
 } finally {await server.close();if(beforeStorage)Object.defineProperty(globalThis,'localStorage',beforeStorage);else delete globalThis.localStorage;}

@@ -14,7 +14,7 @@ export interface Text { zh: string; en?: string }
 export interface LearnsetEntry { level: number; skill: number }
 
 export interface EvolutionEntry {
-  /** Some classic evolutions require confirmation in the evolution chamber. */
+  /** False requires explicit confirmation even when the level gate is satisfied. */
   automatic?: boolean;
   to: number;
   method: "level" | "item" | "special";
@@ -67,6 +67,8 @@ export interface Monster {
   obtained: { how: string; at: string };
   /** Original breeding generation; absent in legacy saves means an acquired first generation. */
   generation?: number;
+  /** Cosmetic ancestor form; absent means the current species appearance. */
+  skinSpecies?: number;
 }
 
 export interface Save {

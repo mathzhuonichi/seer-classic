@@ -97,8 +97,8 @@
     {
       "to": 881,
       "method": "level",
-      "level": 1,
-      "automatic": true
+      "level": 60,
+      "automatic": false
     }
   ],
   "evolves_from": 600,
@@ -108,6 +108,6 @@
   "tags": [],
   "gender_code": 1,
   "art": "m0601",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v34: the user approved ordinary automatic level evolution for this special conversion. The literal source EvolvingLv 1 is retained while the original item gate is removed; a source value of 1 does not mean that this was ordinary level-one evolution. See data/evolution-rules.json for original fields and the exact source/remake distinction.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v35: the user replaces this original item-gated EvolvingLv 1 conversion with remake level 60 and manual confirmation. The original value 1 remains in provenance; level 60 is an explicit remake override, not an original-source level. See data/evolution-rules.json for original fields and the exact source/remake distinction.",
   "existed_by": "2011-01"
 }

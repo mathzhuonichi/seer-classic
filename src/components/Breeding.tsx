@@ -35,7 +35,7 @@ export default function Breeding({s,c,initialRecipeId,onOpenDex,onOpenMonsters}:
   const value=isMale?maleUid:femaleUid,setValue=isMale?setMaleUid:setFemaleUid;
   return <div className="fusion-parent-card">
    <label htmlFor={`breeding-${role}`}>{label}<small> · Lv.{recipe.minLevel} 以上</small></label>
-   <div className="fusion-parent-art"><CreatureArt species={selected?.species??allowed[0]} name={selected?.name??name(allowed[0])}/></div>
+   <div className="fusion-parent-art"><CreatureArt species={selected?.appearanceSpecies??selected?.species??allowed[0]} name={selected?.name??name(allowed[0])}/></div>
    <select id={`breeding-${role}`} aria-label={`选择${label}`} value={value} onChange={event=>setValue(event.target.value)} disabled={activeBattle}>
     <option value="">{choices.length?'请选择精灵':'尚未持有指定精灵'}</option>
     {choices.map(mon=><option key={mon.uid} value={mon.uid}>{mon.name} · Lv.{mon.level} · {mon.inParty?'背包':'仓库'}{isMale&&(mon.generation??0)>0?' · 繁殖后代，不能作为雄性亲本':''}</option>)}
@@ -66,7 +66,7 @@ export default function Breeding({s,c,initialRecipeId,onOpenDex,onOpenMonsters}:
     <p className="fusion-hatch-note">幼体使用随机性格与个体值，不保证继承双亲的数值。繁殖所得雄性不能再次作为雄性亲本。</p>
     <div className="fusion-confirm"><span>{activeBattle?'战斗中无法繁殖':valid?'双亲符合配对条件':'请选择符合条件的两只精灵'}</span><button className="primary" disabled={!valid||activeBattle} onClick={breed}>繁殖并孵化</button></div>
     {feedback&&<p className="fusion-feedback" role="status">{feedback}</p>}
-    {offspring&&<div className="fusion-obtained"><div className="fusion-outcome-art"><CreatureArt species={offspring.species} name={offspring.name}/></div><div><small>孵化成功</small><strong>{offspring.name} · Lv.{offspring.level}</strong><span>已加入{offspring.inParty?'背包':'仓库'} · 双亲保留</span></div><button onClick={()=>onOpenMonsters(offspring.uid)}>查看幼体 →</button></div>}
+    {offspring&&<div className="fusion-obtained"><div className="fusion-outcome-art"><CreatureArt species={offspring.appearanceSpecies??offspring.species} name={offspring.name}/></div><div><small>孵化成功</small><strong>{offspring.name} · Lv.{offspring.level}</strong><span>已加入{offspring.inParty?'背包':'仓库'} · 双亲保留</span></div><button onClick={()=>onOpenMonsters(offspring.uid)}>查看幼体 →</button></div>}
    </>}</div>
   </div>
  </section>;

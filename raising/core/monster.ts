@@ -163,6 +163,7 @@ export function restoreMonster(mon: Monster, dex: Dex, rng: Rng): Result {
     uid: mon.uid, iv: rollIv(rng, IV_MIN), how: mon.obtained.how, at: mon.obtained.at,
   });
   fresh.nickname = mon.nickname;
+  if (mon.skinSpecies !== undefined) fresh.skinSpecies = mon.skinSpecies;
   return {
     mon: fresh,
     events: [
