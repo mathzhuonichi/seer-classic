@@ -377,6 +377,117 @@ function matchup(b: Battle, self: Mon, foe: View): number {
   return Math.max(0, ...attacks) / foe.maxHp * 100 - threat(b, self, foe) / Math.max(1, self.hp) * 65 + hpRatio(self) * 15;
 }
 
+const hpCost = (mon: View, amount: number) => Math.min(Math.max(0, amount), Math.max(0, mon.hp)) / mon.maxHp * 100;
+const controlled = (mon: View) => mon.conditions.some(c => c.turns > 0 && c.def.control);
+function afterDecisionTurn(mon: Mon, hp: number): Mon {
+  // An existing one-turn buff expires after the entry/stay turn. Permanent
+  // traits and shared gifts survive; projecting time never edits their objects.
+  return {...mon, hp, conditions: mon.conditions.filter(c => c.turns > 1).map(c => ({...c, turns: c.turns === Infinity ? Infinity : c.turns - 1}))};
+}
+
+function controlBeforeMoveRisk(b: Battle, mon: Mon, foe: View, move: Skill): number {
+  const ownPriority = priority(mon, foe, move);
+  const earlier = observedMoves(b, foe).filter(skill => {
+    const enemyPriority = priority(foe, mon, skill);
+    return enemyPriority > ownPriority || enemyPriority === ownPriority && stat(foe, 'spe') >= stat(mon, 'spe');
+  });
+  return observedControlRisk(b, mon, {...foe, observedMoves: earlier}, '');
+}
+
+/** One following attack opportunity, in percentages of full combatant HP. */
+function nextExchange(b: Battle, mon: Mon, foe: View, controlRisk = 0, suppressedReply = 0): {value: number; hp: number} {
+  if (mon.hp <= 0 || foe.hp <= 0) return {value: 0, hp: Math.max(0, mon.hp)};
+  const incoming = threat(b, mon, foe) * (1 - suppressedReply);
+  const options = mon.skills.filter(id => mon.pp[id] > 0).map(id => {
+    const skill = b.skill(id), raw = damage(b, mon, foe, skill), hit = hitChance(mon, foe, skill);
+    const available = controlled(mon) ? 0 : 1 - Math.max(controlRisk, controlBeforeMoveRisk(b, mon, foe, skill) * (1 - suppressedReply));
+    const before = actsBeforeThreat(b, mon, foe, skill);
+    const canAct = before || mon.hp > incoming;
+    const dealt = canAct ? Math.min(foe.hp, raw * hit) * available : 0;
+    const preventsReply = canAct && before && raw >= foe.hp && hit >= .7;
+    const taken = incoming * (preventsReply ? 1 - hit * available : 1);
+    return {value: dealt / foe.maxHp * 100 - hpCost(mon, taken), hp: Math.max(0, mon.hp - taken)};
+  });
+  return options.sort((a, z) => z.value - a.value)[0] ?? {value: -hpCost(mon, incoming), hp: Math.max(0, mon.hp - incoming)};
+}
+
+function lostSwitchInvestment(b: Battle, mon: Mon, foe: View, incoming: number): number {
+  const reset = {...mon, stages: Object.fromEntries(Object.keys(mon.stages).map(key => [key, 0])) as Mon['stages'], conditions: mon.conditions.filter(c => c.def.removed_on_switch === false)};
+  const positive = Object.fromEntries(Object.entries(mon.stages).filter(([, value]) => value > 0));
+  // Value the terminal resource that a survivor would retain, using the same
+  // bounded setup/buff weights as ordinary move choice. This includes inherited
+  // speed/accuracy, but never charges for persistent beads, traits or gifts.
+  let value = utility(b, reset, foe, STRUGGLE_SKILL, {op:'stat_stage',target:'self',stats:positive}, incoming, 0);
+  for (const condition of mon.conditions) if (condition.turns > 1 && condition.def.removed_on_switch !== false && condition.def.kind === 'buff') {
+    value += utility(b, reset, foe, STRUGGLE_SKILL, {op:'add_condition',target:'self',condition:condition.id}, incoming, 0);
+  }
+  return Math.max(0, value);
+}
+
+/** A voluntary switch must repay its lost action and paid entry over two decisions. */
+function switchingNetGain(b: Battle, self: Mon, member: Mon, foe: View, best: ReturnType<typeof bestMove>) {
+  const incoming = threat(b, self, foe), skill = b.skill(best.id), before = actsBeforeThreat(b, self, foe, skill);
+  const acts = !controlled(self) && (before || self.hp > incoming);
+  const actionChance = acts ? 1 - controlBeforeMoveRisk(b, self, foe, skill) : 0;
+  const dealt = Math.min(foe.hp, damage(b, self, foe, skill) * hitChance(self, foe, skill)) * actionChance;
+  let preventedReply = 0, continuedControl = 0;
+  if (before && actionChance > 0) for (const op of skill.effects ?? []) {
+    if (!when(op.when, self, foe, skill)) continue;
+    const chance = actionChance * hitChance(self, foe, skill) * (op.chance ?? 100) / 100;
+    if (op.op === 'status' && effectTarget(op) === 'foe' && !typeBlocked(b, self, foe, skill)) {
+      const ids: string[] = Array.isArray(op.status) ? op.status : [op.status];
+      const control = ids.filter(id => b.data.conditions.get(id)?.control && canStatus(b, foe, self, id)).length / ids.length;
+      preventedReply = Math.max(preventedReply, chance * control);
+      // A first-acting control consumes one duration at this turn's end.
+      // Carry only its public probability of surviving into the next action.
+      const lasting = ids.reduce((sum, id) => {
+        const def = b.data.conditions.get(id);
+        if (!def?.control || def.hooks.some(h => h.cure_on_attack_hit) || !canStatus(b, foe, self, id)) return sum;
+        const turns = op.turns ?? def.default_turns;
+        const survives = Array.isArray(turns) ? clamp((turns[1] - Math.max(2, turns[0]) + 1) / (turns[1] - turns[0] + 1)) : turns === undefined || turns > 1 ? 1 : 0;
+        return sum + survives;
+      }, 0) / ids.length;
+      continuedControl = Math.max(continuedControl, chance * lasting);
+    }
+    if (op.op === 'protect') preventedReply = Math.max(preventedReply, chance);
+    if (op.op === 'add_condition' && effectTarget(op) === 'self' && !self.conditions.some(c => c.id === op.condition)) {
+      const def = b.data.conditions.get(op.condition);
+      if (def) {
+        if (def.hooks.some(h => h.on === 'block_move' && !h.script && !h.when)) preventedReply = Math.max(preventedReply, chance);
+        const shielded = {...self, conditions: [...self.conditions, {id:def.id,def,turns:typeof op.turns === 'number' ? op.turns : 1,appliedTurn:b.turn + 1}]};
+        // Reuse the pure damage model: an attack-only shield must not reduce
+        // a publicly observed fixed/percent component of the same threat.
+        if (incoming > 0) preventedReply = Math.max(preventedReply, chance * clamp(1 - threat(b, shielded, foe) / incoming));
+      }
+    }
+  }
+  const stayIncoming = incoming * (1 - preventedReply);
+  let healing = 0;
+  if (acts && !hasRule(b, foe, 'block_heal')) for (const op of skill.effects ?? []) {
+    if (op.op !== 'heal' || effectTarget(op) !== 'self' || !when(op.when, self, foe, skill)) continue;
+    healing += (op.pct_max_hp ? self.maxHp * op.pct_max_hp / 100 * actionChance : op.pct_damage_dealt ? dealt * op.pct_damage_dealt / 100 : (op.amount ?? 0) * actionChance) * (op.chance ?? 100) / 100;
+  }
+  const hpBeforeHit = before && acts ? Math.min(self.maxHp, self.hp + healing) : self.hp;
+  const lostNow = Math.min(stayIncoming, hpBeforeHit), afterHit = Math.max(0, hpBeforeHit - stayIncoming);
+  const stayHp = !before && acts && afterHit > 0 ? Math.min(self.maxHp, afterHit + healing) : afterHit;
+  const foeAfterStay = {...foe, hp: Math.max(0, foe.hp - dealt)};
+  const stays = stayHp > 0;
+  // If the lead falls, the same reserve gets a free entry. Its next attack must
+  // be included in the stay branch, rather than rewarding a 1-HP preservation.
+  const continuation = nextExchange(b, stays ? afterDecisionTurn(self, stayHp) : member, foeAfterStay, 0, continuedControl);
+  const actionValue = Math.max(0, best.score - .01) * actionChance, stayHpCost = lostNow / self.maxHp * 100;
+  const stay = actionValue - stayHpCost + continuation.value;
+
+  const entryDamage = threat(b, member, foe), afterEntry = afterDecisionTurn(member, Math.max(0, member.hp - entryDamage));
+  const entryControl = observedControlRisk(b, member, foe, '');
+  const switched = nextExchange(b, afterEntry, foe, entryControl);
+  const investment = stays && continuation.hp > 0 ? lostSwitchInvestment(b, self, foe, incoming) : 0;
+  const entryHpCost = hpCost(member, entryDamage), switchValue = switched.value - entryHpCost - investment;
+  return {net: switchValue - stay, stay, switch: switchValue, actionValue, actionChance, dealt, stayHpCost,
+    stayHp, freeReplacement: !stays, continuation: continuation.value, entryHpCost, entryControl,
+    switchedContinuation: switched.value, investment, preventedReply, continuedControl};
+}
+
 export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
   const self = b.active(side.index), foe = publicOpponent(b, self), best = bestMove(b, self, foe, ai);
   if (ai.allow_switch && self.turnsActive >= 2 && !best.ko) {
@@ -387,7 +498,7 @@ export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
       const afterEntry = {...member, hp: member.hp - incoming};
       const next = bestMove(b, afterEntry, foe, ai);
       const canAct = actsBeforeThreat(b, afterEntry, foe, b.skill(next.id));
-      return {action, score: matchup(b, afterEntry, foe), safe: member.hp > incoming * 1.25 && (canAct || afterEntry.hp > incoming * 1.1)};
+      return {action, score: matchup(b, afterEntry, foe), safe: member.hp > incoming * 1.25 && (canAct || afterEntry.hp > incoming * 1.1) && switchingNetGain(b, self, member, foe, best).net > 0};
     }).filter(row => row.safe).sort((a, z) => z.score - a.score);
     // A switch pays a full turn; require a substantial and survivable improvement.
     if (candidates[0] && candidates[0].score > current + 35 && best.score < 70) return candidates[0].action;

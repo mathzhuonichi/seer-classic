@@ -3,7 +3,6 @@ import { traitScripts } from './mechanics/traits';
 import { campaignScripts } from './mechanics/campaign-rules';
 import { npcTrainingScripts } from './mechanics/npc-training';
 import { normalizeNpcTrainingEncounter } from './progression/npc-training';
-import { normalizeBossSkillPolicy } from './progression/boss-skill-policy';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from './progression/challenge-campaigns';
 import { NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies } from './progression/acquisition';
 import {buildRecruitmentRewards,recruitmentProgress,isSpeciesRepeatable,type RecruitmentCatalog,type RecruitmentReward} from './progression/recruitment';
@@ -419,7 +418,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function start(boss:BossEncounter|null,species=10,level?:number,campaignContext?:{id:string;stageId:string}) {
     if(battle&&!battle.result) throw new Error('请先完成当前战斗。');
-    if(boss)boss=normalizeNpcTrainingEncounter(catalog,normalizeBossSkillPolicy(catalog,boss));
+    if(boss)boss=normalizeNpcTrainingEncounter(catalog,boss);
     const stage=campaignContext?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===campaignContext.id)!.stages.find(entry=>entry.id===campaignContext.stageId):undefined;
     let roster=save.party.map(uid=>findMon(save,uid));
     if(stage?.requiredSpecies)roster=roster.filter(mon=>mon.species===stage.requiredSpecies&&mon.level>=(stage.minLevel??1)&&mon.hp>0).slice(0,1);

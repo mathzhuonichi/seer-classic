@@ -1,4 +1,4 @@
-/** Boss self-KO boundary and public-information trainer support decisions. */
+/** Source-preserving Boss loadouts and public-information trainer support decisions. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -10,10 +10,13 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 const report={checks:[],failures:[],bossChanges:[],supportWitnesses:[]};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
-  const [{loadCatalog},{normalizeBossSkillPolicy:normalize,isBossSelfKoSkill},{createBattle,buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/boss-skill-policy.ts','/battle/core/src/index.ts','/battle/core/src/battle.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
+  const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle,buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
+    '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/battle.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),skills=new Map(catalog.skills.map(s=>[s.id,s]));
+  // This is an audit classification, not a rule for rewriting original Bosses.
+  const selfKoScripts=new Set(['seer_eff_59','seer_eff_71','seer_eff_72','seer_eff_112','seer_eff_144']);
+  const isBossSelfKoSkill=skill=>(skill.effects??[]).some(effect=>effect.op==='script'&&selfKoScripts.has(effect.id)||effect.op==='recoil'&&Number(effect.pct_max_hp)>=100);
   const banned=new Set(catalog.skills.filter(isBossSelfKoSkill).map(s=>s.id));
   function references(value,path='',found=[]){
     if(!value||typeof value!=='object')return found;
@@ -30,17 +33,16 @@ try {
     report.originalReferences=catalog.bosses.flatMap(boss=>references(boss,boss.id));
     assert.deepEqual(report.originalReferences,[{path:'boss_tower_brave_f061.team[0].skills',id:20330},{path:'boss_tower_brave_f061.ai.skills',id:20330}]);
     for(const boss of catalog.bosses){
-      const next=normalize(catalog,boss);assert.deepEqual(references(next),[]);assert.deepEqual(normalize(catalog,next),next);
+      const next=normalize(catalog,boss);assert.deepEqual(next,boss);assert.deepEqual(references(next),references(boss));assert.deepEqual(normalize(catalog,next),next);
       if(JSON.stringify(next)!==JSON.stringify(boss))report.bossChanges.push(boss.id);
     }
-    assert.deepEqual(report.bossChanges,['boss_tower_brave_f061']);
+    assert.deepEqual(report.bossChanges,[]);
   });
-  check('Tower 61 changes only its one legal support slot and matching AI entry',()=>{
-    const original=catalog.bosses.find(b=>b.id==='boss_tower_brave_f061'),expected=structuredClone(original);
-    expected.team[0].skills=expected.team[0].skills.map(id=>id===20330?20328:id);expected.ai.skills=expected.ai.skills.map(id=>id===20330?20328:id);
-    assert.deepEqual(normalize(catalog,original),expected);
-    assert(catalog.species.find(m=>m.id===270).learnset.some(row=>row.skill===20328&&row.level===38));
-    report.towerReplacement={species:270,removed:{id:20330,name:skills.get(20330).name.zh},replacement:{id:20328,name:skills.get(20328).name.zh}};
+  check('Tower 61 retains its period-attested sacrifice and matching AI entry',()=>{
+    const original=catalog.bosses.find(b=>b.id==='boss_tower_brave_f061'),adapted=normalize(catalog,original);
+    assert.deepEqual(adapted,original);assert(adapted.team[0].skills.includes(20330));assert(adapted.ai.skills.includes(20330));
+    assert(!adapted.team[0].skills.includes(20328));
+    report.towerLoadout={species:270,retained:{id:20330,name:skills.get(20330).name.zh},source:'https://news.4399.com/seer/yzzt/201006-23-71411.html'};
   });
   check('Original Sgalka/Sprint bosses and every Puni seal/life stay unchanged',()=>{
     for(const boss of catalog.bosses.filter(b=>b.id.includes('puni')||b.team.some(m=>[356,755].includes(m.species))))assert.deepEqual(normalize(catalog,boss),boss,boss.id);
@@ -48,11 +50,11 @@ try {
     for(const id of [21168,21324])assert(!isBossSelfKoSkill(skills.get(id)),'Half-current-HP costs remain usable');
     assert(isBossSelfKoSkill(skills.get(11109)),'Miss-only all-HP failure is classified by effect, not name');
   });
-  check('Trainer loadouts stay identical while explicit boss AI/phase move payloads are sanitized',()=>{
+  check('Trainer loadouts and original Boss AI/phase move payloads are never rewritten by a blanket ban',()=>{
     const trainer={id:'trainer-support-boundary',category:'trainer',team:[{species:356,level:100,skills:[20398,10876]},{species:599,level:100,skills:[20749,11508]}],ai:{kind:'smart'}};
     assert.deepEqual(normalize(catalog,trainer),trainer);
     const boss={id:'boss-policy-fixture',category:'spt',team:[{species:270,level:100,skills:[20330,10748],ai:{kind:'sequence',skills:[20330,10748]}}],ai:{kind:'weighted',weights:{20330:3,10748:2}},phases:[{when:{first_turn:true},do:[{op:'set_skills',skills:[20330,10748]},{op:'set_ai',ai:{kind:'sequence',skills:[20330,10748]}},{op:'use_skill',skill:20330},{op:'revive',pct_max_hp:100}]}]};
-    const adapted=normalize(catalog,boss);assert.deepEqual(references(adapted),[]);assert.equal(adapted.ai.weights['20328'],3);assert.equal(adapted.ai.weights['10748'],2);assert.deepEqual(adapted.phases[0].do.at(-1),{op:'revive',pct_max_hp:100});
+    const adapted=normalize(catalog,boss);assert.deepEqual(adapted,boss);assert.equal(adapted.ai.weights['20330'],3);assert.deepEqual(adapted.team[0].ai.skills,[20330,10748]);assert.deepEqual(adapted.phases[0].do.at(-1),{op:'revive',pct_max_hp:100});
   });
 
   const WAIT=990460,FOE=990461,WEAK=990462,STRONG=990463;
@@ -133,14 +135,22 @@ try {
     }
   });
   const {createGame}=await server.ssrLoadModule('/src/game.ts');
-  check('The actual controller start applies the Tower 61 policy while retaining its three-member boss team and HP',()=>{
+  check('The actual controller preserves Tower 61 original skills, three-member team and HP',()=>{
     const game=createGame(catalog,'');game.dispatch({type:'startBattle',bossId:'boss_tower_brave_f061'});
     const state=game.snapshot();assert(state.battle,JSON.stringify(state.notices));assert.equal(state.battle.enemy.species,270);assert.equal(state.battle.enemy.hp,1150);
-    assert(state.battle.enemy.skills.some(skill=>skill.id===20328));assert(!state.battle.enemy.skills.some(skill=>skill.id===20330));assert.equal(state.battle.enemyParty.length,3);
+    assert(state.battle.enemy.skills.some(skill=>skill.id===20330));assert(!state.battle.enemy.skills.some(skill=>skill.id===20328));assert.equal(state.battle.enemyParty.length,3);
     report.controllerWitness={boss:'boss_tower_brave_f061',species:state.battle.enemy.species,hp:state.battle.enemy.hp,skills:state.battle.enemy.skills.map(skill=>skill.id),members:state.battle.enemyParty.length};
   });
+  check('Tower 61 sacrifice retains the original next-member order and only the documented defensive transfer',()=>{
+    const original=catalog.bosses.find(b=>b.id==='boss_tower_brave_f061');
+    const b=createBattle({data,scripts:SEER_SCRIPTS,seed:47,sides:[{kind:'player',team:[member(FOE,[WAIT],{hp:10000,atk:100,def:300,spa:100,spd:300,spe:100})]}],encounter:normalize(catalog,original)});
+    turn(b,{kind:'move',skill:20330});
+    assert(b.sides[1].team[0].fainted);assert.equal(b.active(1).species.id,271);assert.equal(b.active(1).slot,1);
+    assert.deepEqual(b.active(1).stages,{atk:0,def:1,spa:0,spd:1,spe:0,acc:0,eva:0});
+    assert(b.sides[1].team.every(mon=>!mon.conditions.some(c=>c.id.startsWith('npc_gaia_')||c.id==='seer_eff_59')));
+  });
   check('Catalog and all production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  const watched=['src/progression/boss-skill-policy.ts','battle/core/src/tactics.ts','battle/core/src/battle.ts'];
+  const watched=['src/game.ts','src/progression/npc-training.ts','battle/core/src/tactics.ts','battle/core/src/battle.ts'];
   report.sourceHashes=Object.fromEntries(watched.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 } catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally {

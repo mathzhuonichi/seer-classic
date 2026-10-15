@@ -1,5 +1,7 @@
 # Peak Duel roster, loadouts and tactical behavior
 
+The original-Boss self-KO exclusion described below was superseded by V47. Contemporary encounter evidence confirms Tower 61's original sacrifice move, which is restored without the V46 replacement policy. See [the V47 source review](boss-loadout-fidelity-v47.md) and [the V47 integration record](combat-fidelity-v47.md) for the current behavior and verification.
+
 Revision 46 renames the former raw-BST facility to **巅峰对决 (Peak Duel)** while keeping its stable ID `elite`. The currently implemented pool contains **124 species**: the original 103 collectible species with raw BST at least 600, plus the 21 entries below. Bafro (177) and Brook (110) are excluded as requested. Each match still samples six distinct species uniformly without replacement; an inheritance donor and a particular recipient are not forced into the same team.
 
 The user has separately requested engraving research from Claude. Engraving-dependent roles remain part of the design scope. The three retained candidate plans and their dependencies are recorded in [the source review](classic-pvp-sources-v46.md). Their pending implementation is not a judgment that they lack competitive value. No new engraving effects or parameters are invented in this revision.
