@@ -2,6 +2,7 @@ import {useEffect,useState} from 'react';
 import type {GameController,GameSnapshot} from '../game-types';
 import {CreatureArt} from './CreatureArt';
 import '../management.css';
+import './BattleFacilities.css';
 
 export interface BattleFacilitiesProps {
   s:GameSnapshot;c:GameController;facilityId?:string;onManage?:()=>void;

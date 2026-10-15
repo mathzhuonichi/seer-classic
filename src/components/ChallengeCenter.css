@@ -1,0 +1,11 @@
+/* Keep identity visible when the fixed-aspect game leaves a short detail pane. */
+.challenge-management{container:challenge-panel / size}
+.challenge-entry-hero{min-width:0}
+@container challenge-panel (max-width:700px) or (max-height:400px){
+ .challenge-management .challenge-entry-hero{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:12px;margin-bottom:10px}
+ .challenge-management .challenge-entry-hero .challenge-entry-art{width:72px;height:72px;margin:0}
+ .challenge-management .challenge-entry-hero .dex-entry-title{min-width:0;text-align:left}
+ .challenge-management .challenge-entry-hero .dex-entry-title>small{display:block;font-size:9px;line-height:1.5;letter-spacing:0}
+ .challenge-management .challenge-entry-hero .dex-entry-title h3{margin:4px 0 6px;font-size:18px;line-height:1.25;overflow-wrap:anywhere}
+ .challenge-management .challenge-entry-hero+:is(.challenge-description,.trainer-roster){margin-top:10px}
+}

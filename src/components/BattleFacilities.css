@@ -1,0 +1,11 @@
+/* A short game frame scrolls the full classic lineup instead of shrinking it. */
+.battle-facilities{container:battle-facilities-panel / size}
+@container battle-facilities-panel (max-height:400px){
+ .battle-facilities .facility-content-classic{display:block;overflow:auto;overscroll-behavior:contain;padding:10px 12px}
+ .battle-facilities .facility-content-classic .facility-team-layout{display:block;flex:none;overflow:visible}
+ .battle-facilities .facility-content-classic .facility-team-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible;margin:0 0 12px;padding:0}
+ .battle-facilities .facility-content-classic .facility-team-options>button{padding:8px 7px}
+ .battle-facilities .facility-content-classic .facility-team-preview{overflow:visible;padding:0}
+ .battle-facilities .facility-content-classic .facility-start-row{position:static;flex-wrap:wrap;gap:8px;margin-top:14px}
+ .battle-facilities .facility-content-classic .facility-preparation{flex-wrap:wrap;margin-top:8px;padding-bottom:4px}
+}

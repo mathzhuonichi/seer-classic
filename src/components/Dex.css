@@ -1,0 +1,14 @@
+/* Use the actual window height: a wide viewport can still have a short game stage. */
+.dex-management{container:dex-manager / size}
+
+@container dex-manager (max-height:390px){
+  .dex-entry-hero{
+    display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;
+    gap:12px;margin-bottom:8px;
+  }
+  .dex-entry-hero .dex-entry-art{width:72px;height:84px;padding-bottom:12px;margin:0}
+  .dex-entry-hero .dex-entry-title{min-width:0;text-align:left}
+  .dex-entry-hero .dex-entry-title>small{display:block}
+  .dex-entry-hero .dex-entry-title h3{margin:4px 0 6px;font-size:17px;overflow-wrap:anywhere}
+  .dex-entry-hero .dex-type-icons .battle-type-icon{width:22px;height:22px;flex-basis:22px}
+}
