@@ -24,29 +24,35 @@ try {
     '/src/mechanics/catalog.ts','/src/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/battle/core/src/index.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/src/world.ts',
     '/src/progression/battle-facilities.ts','/src/presentation/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
+  const {npcTrainingScripts}=await server.ssrLoadModule('/src/mechanics/npc-training.ts');
+  const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
+  const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),data=buildDataSet(catalog),byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
   const trainedRewards=new Set(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`]:[]));
   const eligible=catalog.species.filter(row=>!npc.has(row.id)),high=eligible.filter(row=>sumBase(row)>=600);
   report.catalog={all:catalog.species.length,eligible:eligible.length,high:high.length,exactly600:high.filter(row=>sumBase(row)===600).length};
-  function ordinary(mon,label='member',allowTraining=false){
+  function ordinary(mon,label='member',allowTraining=false,profile){
     const species=byId.get(mon.species);assert(species,`${label}: known species`);assert(!npc.has(mon.species),`${label}: collectible species`);
     assert.equal(mon.level,100,`${label}: level`);assert.equal(mon.iv,31,`${label}: IV`);assert(catalog.natures.some(row=>row.id===mon.nature),`${label}: standard nature`);
     assert.equal(statKeys.reduce((sum,key)=>sum+(mon.evs[key]??0),0),510,`${label}: EV total`);
     assert(statKeys.every(key=>Number.isInteger(mon.evs[key]??0)&&(mon.evs[key]??0)>=0&&(mon.evs[key]??0)<=255),`${label}: EV bounds`);
     assert.equal(mon.skills.length,4,`${label}: four skills`);assert.equal(new Set(mon.skills).size,4,`${label}: distinct skills`);
     for(const id of mon.skills)assert(skills.has(id)&&(species.learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100)||allowTraining&&trainedRewards.has(`${mon.species}/${id}`)),`${label}: ${id} is naturally learned by Lv100 or an explicit matching-species training reward`);
-    for(const key of ['hp','hp_override','stats','stat_multipliers','pp','member_rules','member_phases','beads','types'])assert(!(key in mon),`${label}: no boss override ${key}`);
+    for(const key of ['hp','hp_override','stat_multipliers','pp','member_phases','beads','types'])assert(!(key in mon),`${label}: no boss override ${key}`);
+    assert.equal(mon.training_profile,profile,`${label}: only an explicitly approved profile`);
+    if(profile==='rei-classic-full')assert.deepEqual(mon.stats,expectedStats(mon));else assert(!('stats' in mon));
+    if(profile?.startsWith('gaia-'))assert.deepEqual(mon.member_rules,[{rule:'script',id:profile==='gaia-blood-seal'?'npc_gaia_blood_seal':'npc_gaia_evil_seal'}]);else assert(!('member_rules' in mon));
   }
   function encounterChecks(encounter,label){
     assert.equal(encounter.category,'trainer');assert.equal(encounter.team.length,6);assert.equal(new Set(encounter.team.map(mon=>mon.species)).size,6);
-    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`,encounter.facility==='classic'));
+    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`,encounter.facility==='classic',expectedProfile(encounter.id,mon.species)));
     assert.deepEqual(encounter.rules,[{rule:'no_capture'}]);assert.deepEqual(encounter.reward,{items:{}});assert.deepEqual(encounter.phases,[]);
     assert.equal(encounter.ai.kind,'smart');assert.equal(encounter.ai.allow_switch,true);
-    const battle=createBattle({data,seed:97,sides:[{kind:'player',team:[{species:1,level:100,skills:[10001]}]}],encounter});
+    const battle=createBattle({data,scripts:npcTrainingScripts,seed:97,sides:[{kind:'player',team:[{species:1,level:100,skills:[10001]}]}],encounter});
     assert.equal(battle.sides[1].kind,'trainer');
     for(const [index,mon] of encounter.team.entries()){
-      const expected=computeStats(mon,dex),actual=battle.sides[1].team[index];
-      assert.deepEqual(actual.stats,expected,`${label}/${index}: ordinary battle stats`);assert.equal(actual.maxHp,expected.hp);
+      const expected=expectedStats(mon),actual=battle.sides[1].team[index];
+      assert.deepEqual(actual.stats,expected,`${label}/${index}: ordinary stats plus only source-pinned training`);assert.equal(actual.maxHp,expected.hp);
     }
   }
   check('Independent catalog oracle covers all 1479 collectible forms and all 103 BST600 forms',()=>{
@@ -96,11 +102,11 @@ try {
       for(const facilityId of ['random','elite'])assert(new Set(generated.filter(row=>row.facilityId===facilityId).map(row=>JSON.stringify(row.species))).size>1,'Different seeds produce different teams');
     } finally {Math.random=oldRandom;globalThis.fetch=oldFetch;}
   });
-  check('All classic teams are stable six-member Lv100 rosters with ordinary stats and no boss perks',()=>{
+  check('All classic teams are stable six-member Lv100 rosters with only explicit source-pinned training',()=>{
     for(const team of classic.teams){
       const rng=new Rng(7),before=[...rng.s],a=createFacilityEncounter(catalog,'classic',rng,team.id),b=createFacilityEncounter(catalog,'classic',new Rng(29),team.id);
       encounterChecks(a,team.id);assert.deepEqual(a,b);assert.deepEqual(rng.s,before,'Choosing a fixed roster does not draw a random team');
-      assert.deepEqual(a.team,catalog.trainers.find(row=>row.id===team.id).team);assert.deepEqual(a.team.map(mon=>mon.species),team.opponents.map(mon=>mon.species));
+      assert.deepEqual(a.team.map(({stats,member_rules,...member})=>member),catalog.trainers.find(row=>row.id===team.id).team);assert.deepEqual(a.team.map(mon=>mon.species),team.opponents.map(mon=>mon.species));
       const original=JSON.stringify(catalog.trainers);a.team[0].skills.length=0;assert.equal(JSON.stringify(catalog.trainers),original,'Returned encounter owns its mutable arrays');
     }
     assert(catalog.trainers.every(trainer=>trainer.team.length===6&&trainer.team.every(mon=>mon.level===100)));

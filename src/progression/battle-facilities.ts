@@ -4,9 +4,10 @@ import type {CatalogData} from '../mechanics/catalog';
 import type {BattleFacilityView,BattleFacilityGroupView} from '../game-types';
 import {NPC_ONLY_SPECIES} from './acquisition';
 import {trainerSkillOrigin} from './trainer-skills';
+import {normalizeNpcTrainingEncounter,npcTrainingProfileView} from './npc-training';
 
 export const CLASSIC_TEAM_GROUPS:BattleFacilityGroupView[]=[
-  {id:'trained',name:'特训主力',description:'完成技能特训的原形态与融合主力，按强化、控场和收尾职责配合。'},
+  {id:'trained',name:'特训主力',description:'雷伊完成能力与技能特训，盖亚装备一项特训特性；原形态与融合主力按强化、控场和收尾职责配合。'},
   {id:'foundation',name:'初代基础',description:'初代普通精灵独立编队，练习属性配合、控场与续航。'},
   {id:'specialist',name:'主题专精',description:'融合、龙族与闪光精灵分别组队；各有明确主题与属性弱点。'},
   {id:'legendary',name:'传说阵容',description:'传说精灵按普通培养与技能规则对战。'},
@@ -33,6 +34,7 @@ export function buildFacilityViews(catalog:CatalogData):BattleFacilityView[] {
       const encounter=raw as unknown as BossEncounter;
       return {id:encounter.id,name:encounter.name?.zh??encounter.id,description:(encounter.strategy_notes as {zh?:string})?.zh??'',groupId:String(raw.roster_group??'foundation'),opponents:encounter.team.map((mon,index)=>({
         species:mon.species,name:species.get(mon.species)!.name.zh,level:mon.level,baseTotal:baseTotal(species.get(mon.species)!),
+        training:npcTrainingProfileView(mon.species,mon.training_profile),
         role:((raw.team as {role?:{zh:string}}[])[index].role)?.zh,
         skills:mon.skills.map(id=>{const origin=trainerSkillOrigin(catalog,mon.species,id);return {id,name:skills.get(id)?.name.zh??String(id),...(origin?.kind==='training'?{training:origin.source}:{} )};}),
       }))};
@@ -66,7 +68,7 @@ export function createFacilityEncounter(catalog:CatalogData,facilityId:string,rn
   if(facilityId==='classic') {
     const team=catalog.trainers?.find(row=>row.id===teamId);
     if(!team)throw new Error('请选择固定战术队伍。');
-    return {...structuredClone(team) as unknown as BossEncounter,facility:facilityId};
+    return normalizeNpcTrainingEncounter(catalog,{...structuredClone(team) as unknown as BossEncounter,facility:facilityId});
   }
   if(teamId!==undefined)throw new Error('随机对战无需指定固定队伍。');
   const pool=facilityPool(catalog,facilityId==='elite'?600:0);

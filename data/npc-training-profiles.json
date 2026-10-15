@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "scope": "Explicit level-100 neutral-nature NPC profiles for elite encounters and authored trained-group trainers only. Ordinary random encounters, original bosses, foundation teams, and player saves do not acquire training from this table.",
+  "profiles": [
+    {
+      "id": "rei-classic-full",
+      "species": 70,
+      "label": "能力特训完成",
+      "description": "体力+60、攻击+20、防御+30、特攻+10、特防+20、速度+20；另行保留已学的技能特训招式。",
+      "kind": "flat-stats",
+      "expectedBase": {"hp":71,"atk":108,"def":70,"spa":101,"spd":77,"spe":105},
+      "statBonus": {"hp":60,"atk":20,"def":30,"spa":10,"spd":20,"spe":20},
+      "equivalentBaseTotal": 612,
+      "sources": [
+        {"url":"https://news.7k7k.com/content/20100604/8365.html","published":"2010-06-04","evidence":"Explicit maximum permanent additions: HP 60, attack 20, defense 30, special attack 10, special defense 20, speed 20."},
+        {"url":"https://news.4399.com/seer/jingyanxinde/201107-06-102970.html","published":"2011-07-06","evidence":"Period analysis corroborating Rei's classic training additions; independently reviewed during source research."}
+      ],
+      "implementationBoundary": "The retained base total is 532. At level 100 with a neutral nature, adding 160 actual stat points is equivalent to 80 base-stat points, giving 612. The source's separate 610 table uses differing underlying values and is not copied over the catalog. Nature ordering and lower-level scaling are unverified: this profile adds final stat points only to level-100 neutral NPCs. Skill training is separate and grants no player ability training."
+    },
+    {
+      "id": "gaia-blood-seal",
+      "species": 261,
+      "label": "嗜血之力",
+      "description": "在场且存活时，每回合结束恢复最大体力的5%；只装备这一项特训特性。",
+      "kind": "passive",
+      "expectedBase": {"hp":105,"atk":119,"def":87,"spa":96,"spd":78,"spe":105},
+      "script": "npc_gaia_blood_seal",
+      "exclusiveGroup": "gaia-classic-second-trait",
+      "sources": [{"url":"https://news.7k7k.com/content/20110427/85061.html","published":"2011-04-27","evidence":"Blood seal restores 5 percent HP each turn; the training interface replaces the currently equipped seal rather than stacking all three."}],
+      "implementationBoundary": "One selected second trait. This remake uses end-of-turn healing, floors fractional HP, heals only the active living owner, and retains the trait across switches. It does not change base stats or claim an equivalent BST."
+    },
+    {
+      "id": "gaia-evil-seal",
+      "species": 261,
+      "label": "邪气凛然",
+      "description": "攻击类技能命中并造成伤害后追加30点伤害，每次技能只追加一次；只装备这一项特训特性。",
+      "kind": "passive",
+      "expectedBase": {"hp":105,"atk":119,"def":87,"spa":96,"spd":78,"spe":105},
+      "script": "npc_gaia_evil_seal",
+      "exclusiveGroup": "gaia-classic-second-trait",
+      "sources": [{"url":"https://news.7k7k.com/content/20110427/85061.html","published":"2011-04-27","evidence":"Evil seal adds 30 damage to attack-category skills; only one of the three training seals is equipped."}],
+      "implementationBoundary": "One fixed-damage follow-up per successful damaging physical or special move, including multi-hit moves. Misses, protection, immunity, status moves, damage-over-time ticks, and a fainted owner or target do not trigger it. The fixed follow-up follows existing fixed-damage defenses. Exact historic server ordering is not recovered."
+    }
+  ],
+  "unselectedOptions": [
+    {"species":261,"label":"石破天惊","exclusiveGroup":"gaia-classic-second-trait","effect":"Attack-category skills have a 5 percent chance to double power.","implemented":false,"reason":"Neither authored trained team selects this third seal. It is recorded as an alternative, not stacked with the selected two.","sources":["https://news.7k7k.com/content/20110427/85061.html"]}
+  ]
+}

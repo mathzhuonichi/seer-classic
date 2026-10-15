@@ -28,7 +28,8 @@
       "role": {
         "zh": "特训强化·高速收割"
       },
-      "tactical_role": "Reward-trained original-form electric setup, boost removal, and priority finishing"
+      "tactical_role": "Reward-trained original-form electric setup, boost removal, and priority finishing",
+      "training_profile": "rei-classic-full"
     },
     {
       "species": 261,
@@ -48,7 +49,8 @@
       "role": {
         "zh": "消强攻坚·自我恢复"
       },
-      "tactical_role": "Physical setup, opposing boost removal, and recovery"
+      "tactical_role": "Physical setup, opposing boost removal, and recovery",
+      "training_profile": "gaia-evil-seal"
     },
     {
       "species": 798,
@@ -152,12 +154,12 @@
     "items": {}
   },
   "strategy_notes": {
-    "zh": "雷伊、卡修斯、布莱克与托鲁克争抢先手，盖亚和魔焰猩猩补上消强与先制火力。物攻占比高且恢复点少，烧伤和高物防尤其有效。"
+    "zh": "完成能力特训的雷伊与装备邪气凛然的盖亚，配合卡修斯、布莱克、托鲁克与魔焰猩猩争抢先手。物攻占比高且恢复点少，烧伤和高物防尤其有效。"
   },
-  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "source_note": "Authored remake roster from retained classic catalog species, not a recovered historical team. Members use level 100, IV 31, total EV 510, neutral nature and finite PP. Explicit NPC training profiles add the source-backed classic Rei ability training or exactly one Gaia second trait. See data/npc-training-profiles.json for source pins and implementation limits. Other members retain ordinary formulas; only species 70 uses explicitly recovered task-reward moves.",
   "design_notes": [
     "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
-    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
-    "Fast original forms use priority and coverage; the deliberately physical bias offers visible counterplay."
+    "No scripted boss phases, collection rewards, HP override or unlimited PP.",
+    "Ability training is explicit encounter context, separate from learned skills. It never changes original bosses, global species base stats, or player training progress."
   ]
 }

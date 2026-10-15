@@ -148,6 +148,8 @@ export interface BossEncounter {
 // ---------- battle input ----------
 
 export interface MonsterInput {
+  /** Explicit NPC context; the game adapter resolves this before battle creation. */
+  training_profile?: string;
   uid?: string;
   species: number;
   level: number;

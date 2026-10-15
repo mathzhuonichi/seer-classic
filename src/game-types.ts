@@ -6,7 +6,8 @@ export interface EvolutionChoiceView {species:number;name:string;level:number;re
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
 export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: {species:number;name:string;level:number}[] }
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
-export interface BattleFacilityOpponentView {species:number;name:string;level:number;baseTotal:number;role?:string;skills?:{id:number;name:string;training?:string}[]}
+export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<Stats>}
+export interface BattleFacilityOpponentView {species:number;name:string;level:number;baseTotal:number;role?:string;training?:NpcTrainingView;skills?:{id:number;name:string;training?:string}[]}
 export interface BattleFacilityTeamView {id:string;name:string;description:string;groupId?:string;opponents:BattleFacilityOpponentView[]}
 export interface BattleFacilityView { id: string; name: string; description: string; opponentCount: 6; level: 100; poolSize?: number; groups?:BattleFacilityGroupView[];teams?:BattleFacilityTeamView[] }
 export interface SpeciesView { id: number; name: string; types: string[]; baseStats: Stats; portrait: string; owned: boolean; wildCapture?: boolean }

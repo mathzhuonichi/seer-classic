@@ -1,6 +1,8 @@
 import { buildDataSet, createBattle, Rng, validateEncounter, type Battle, type Mon, type Action, type BattleEvent, type BossEncounter, type RawData, type Hook } from '../battle/core/src/index.ts';
 import { traitScripts } from './mechanics/traits';
 import { campaignScripts } from './mechanics/campaign-rules';
+import { npcTrainingScripts } from './mechanics/npc-training';
+import { normalizeNpcTrainingEncounter } from './progression/npc-training';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from './progression/challenge-campaigns';
 import { NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies } from './progression/acquisition';
 import {buildRecruitmentRewards,recruitmentProgress,isSpeciesRepeatable,type RecruitmentCatalog,type RecruitmentReward} from './progression/recruitment';
@@ -416,6 +418,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function start(boss:BossEncounter|null,species=10,level?:number,campaignContext?:{id:string;stageId:string}) {
     if(battle&&!battle.result) throw new Error('请先完成当前战斗。');
+    if(boss)boss=normalizeNpcTrainingEncounter(catalog,boss);
     const stage=campaignContext?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===campaignContext.id)!.stages.find(entry=>entry.id===campaignContext.stageId):undefined;
     let roster=save.party.map(uid=>findMon(save,uid));
     if(stage?.requiredSpecies)roster=roster.filter(mon=>mon.species===stage.requiredSpecies&&mon.level>=(stage.minLevel??1)&&mon.hp>0).slice(0,1);
@@ -426,7 +429,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     encounterMonster=wild;
     battleAppearances=new Map(roster.map((mon,slot)=>[slot,{species:mon.species,appearanceSpecies:appearanceSpecies(mon,skinOptions)}]));
     transformedSlots.clear();
-    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts},seed:rng.nextU32(),sides:wild?[player,{kind:'wild',team:[wild]}]:[player],encounter:boss??undefined});
+    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),sides:wild?[player,{kind:'wild',team:[wild]}]:[player],encounter:boss??undefined});
     for(const event of battle.initialEvents)if(event.type==='transform')transformedSlots.add(`${event.side===1?1:0}:${event.slot??battle.sides[event.side===1?1:0].active}`);
     for(const mon of battle.sides[0].team) {
       const trait=traits.find(t=>t.id===save.game.traits[mon.uid!]);

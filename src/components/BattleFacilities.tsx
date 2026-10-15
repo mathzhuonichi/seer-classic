@@ -38,6 +38,7 @@ export default function BattleFacilities({s,c,facilityId,onManage}:BattleFacilit
             <div className="facility-six-roster" aria-label="查看队员配招">{team.opponents.map((mon,index)=><button key={`${index}-${mon.species}`} aria-label={`${mon.name}，Lv.${mon.level}，查看配招`} aria-pressed={mon===member} className={mon===member?'active':''} onClick={()=>setMemberIndex(index)}><div className="facility-roster-art"><CreatureArt species={mon.species} name={mon.name}/></div><strong>{mon.name}</strong><span>Lv.{mon.level}</span></button>)}</div>
             {member&&<section className="facility-member-detail" aria-label={`${member.name}配招详情`}>
               <header><strong>{member.name}</strong><span>种族值总和 {member.baseTotal}</span></header>
+              {member.training&&<div className="facility-training" aria-label={`${member.name}特训状态`}><strong>{member.training.label}</strong>{member.training.equivalentBaseTotal!==undefined&&<span>Lv.100 中性能力折算：等效种族值 {member.training.equivalentBaseTotal}</span>}<p>{member.training.description}</p></div>}
               {member.role&&<p>{member.role}</p>}
               {!!member.skills?.length&&<ul>{member.skills.map(skill=><li key={skill.id}><span>{skill.name}</span>{skill.training&&<small title={skill.training}>特训技能</small>}</li>)}</ul>}
             </section>}

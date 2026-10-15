@@ -38,6 +38,9 @@ try {
   const [{loadCatalog},{createGame},{buildFacilityViews,createFacilityEncounter},{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{makeDex,computeStats},{buildAcquisitionIndex},{buildRecruitmentRewards},{FUSION_RECIPES},{default:BattleFacilities}]=await Promise.all([
     '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/battle-facilities.ts','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/src/progression/fusion.ts','/src/components/BattleFacilities.tsx',
   ].map(path=>server.ssrLoadModule(path)));
+  const {npcTrainingScripts}=await server.ssrLoadModule('/src/mechanics/npc-training.ts');
+  const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
+  const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),trainers=catalog.trainers??[],byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row])),dex=makeDex(catalog),data=buildDataSet(catalog);
   const rewards=new Map(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`,boss]]:[]));
   const natural=(species,id)=>byId.get(species)?.learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100);
@@ -62,7 +65,7 @@ try {
   });
   for(const trainer of trainers)check(`${trainer.id}: six ordinary Lv100 builds expose four legal moves and complementary roles`,()=>{
     assert.equal(trainer.category,'trainer');assert.equal(trainer.team.length,6);assert.equal(new Set(trainer.team.map(mon=>mon.species)).size,6);assert.deepEqual(trainer.rules,[{rule:'no_capture'}]);assert.deepEqual(trainer.phases,[]);assert.deepEqual(trainer.reward,{items:{}});assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
-    const encounter=createFacilityEncounter(catalog,'classic',new Rng(731),trainer.id),battle=createBattle({data,scripts:SEER_SCRIPTS,seed:731,sides:[{kind:'player',team:[{species:125,level:100,skills:[10001]}]}],encounter});
+    const encounter=createFacilityEncounter(catalog,'classic',new Rng(731),trainer.id),battle=createBattle({data,scripts:{...SEER_SCRIPTS,...npcTrainingScripts},seed:731,sides:[{kind:'player',team:[{species:125,level:100,skills:[10001]}]}],encounter});
     const categories=new Set(),types=new Set(),roles=new Set();let utilityMembers=0;
     for(const [index,mon] of trainer.team.entries()){
       assert.equal(mon.level,100);assert.equal(mon.iv,31);assert(catalog.natures.some(row=>row.id===mon.nature));assert.equal(statKeys.reduce((sum,key)=>sum+(mon.evs[key]??0),0),510);assert(statKeys.every(key=>Number.isInteger(mon.evs[key]??0)&&(mon.evs[key]??0)>=0&&(mon.evs[key]??0)<=255));
@@ -70,7 +73,9 @@ try {
       for(const key of ['hp','hp_override','stats','stat_multipliers','pp','member_rules','member_phases','beads','types'])assert(!(key in mon),`${trainer.id}/${mon.species}: no boss advantage ${key}`);
       for(const id of mon.skills){assert(expectedOrigin(mon.species,id),`${trainer.id}/${mon.species}/${id}: independent natural-or-reward oracle`);assert.equal(trainerSkillOrigin(catalog,mon.species,id)?.kind,expectedOrigin(mon.species,id));}
       const moves=mon.skills.map(id=>skills.get(id));assert(moves.some(skill=>skill.category!=='status'&&skill.power>0),'Every member can deal ordinary damage');moves.filter(skill=>skill.category!=='status').forEach(skill=>categories.add(skill.category));if(moves.some(skill=>skill.category==='status'||skill.effects?.some(effect=>effect.op==='clear_stages')))utilityMembers++;
-      assert.deepEqual(battle.sides[1].team[index].stats,computeStats(mon,dex),'Training changes legal moves, never grants hidden boss stats');
+      assert.equal(mon.training_profile,expectedProfile(trainer.id,mon.species),'Only four explicitly approved members carry a training profile');
+      const actual=battle.sides[1].team[index];assert.deepEqual(actual.stats,expectedStats(mon),'Ordinary formula plus only the independently pinned Rei training additions');assert(Object.values(actual.stages).every(value=>value===0),'Permanent training does not create stat stages');
+      assert.deepEqual(actual.conditions.filter(c=>c.id.startsWith('npc_gaia_')).map(c=>c.id),mon.training_profile==='gaia-blood-seal'?['npc_gaia_blood_seal']:mon.training_profile==='gaia-evil-seal'?['npc_gaia_evil_seal']:[],'Exactly one chosen Gaia trait belongs only to its owner');
     }
     assert(types.size>=2);assert(roles.size>=4);assert(utilityMembers>=2);
     teams.push({id:trainer.id,group:trainer.roster_group,species:trainer.team.map(mon=>mon.species),types:[...types],attackCategories:[...categories],utilityMembers,trainedMoves:trainer.team.flatMap(mon=>mon.skills.filter(id=>expectedOrigin(mon.species,id)==='training').map(id=>({species:mon.species,skill:id})))});
@@ -100,7 +105,7 @@ try {
     for(const team of classic.teams){const trainer=trainers.find(row=>row.id===team.id);assert.equal(team.groupId,trainer.roster_group);assert.equal(team.opponents.length,6);
       for(const [index,mon] of team.opponents.entries()){const raw=trainer.team[index];assert.equal(mon.role,raw.role.zh);assert.deepEqual(mon.skills.map(skill=>skill.id),raw.skills);for(const skill of mon.skills){assert.equal(skill.name,skills.get(skill.id).name.zh);assert.equal(!!skill.training,expectedOrigin(mon.species,skill.id)==='training');if(skill.training)assert.equal(skill.training,rewards.get(`${mon.species}/${skill.id}`).name.zh);}}
     }
-    const html=renderToStaticMarkup(React.createElement(BattleFacilities,{s:game.snapshot(),c:game,facilityId:'classic'}));const core=classic.teams.find(row=>row.id==='trainer_trained_core');assert(html.includes(`aria-label="${core.name}完整阵容"`));assert(html.includes('雷神觉醒')&&html.includes('雷神天明闪')&&html.includes('特训技能'));assert.equal((html.match(/，查看配招"/g)??[]).length,6);
+    const html=renderToStaticMarkup(React.createElement(BattleFacilities,{s:game.snapshot(),c:game,facilityId:'classic'}));const core=classic.teams.find(row=>row.id==='trainer_trained_core');assert(html.includes(`aria-label="${core.name}完整阵容"`));assert(html.includes('雷神觉醒')&&html.includes('雷神天明闪')&&html.includes('特训技能'));assert(html.includes('612')&&html.includes('532')&&html.includes('能力特训完成'),'The preview distinguishes original base total from trained equivalent strength');assert.equal((html.match(/，查看配招"/g)??[]).length,6);
   });
   for(const team of classic.teams){
     const path=`/src/components/BattleFacilities.tsx?auditGroup=${encodeURIComponent(team.groupId)}&auditTeam=${encodeURIComponent(team.id)}&auditMember=0`,{default:SelectedFacilities}=await server.ssrLoadModule(path);
