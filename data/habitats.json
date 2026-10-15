@@ -11,7 +11,7 @@
  },
  "recruitmentPolicy": {
   "file": "data/acquisition-policy.json",
-  "sha256": "7b9227c8dc00300d7acf58e33e3ddbcbfc3aacda483c6c7e2c843c82d5d096ef",
+  "sha256": "79eaf5bc6eb42200cda3c9372826f88dd929e76062e17f28dbd7dc4d17e9edc9",
   "rule": "Converted paid/VIP/lottery forms with only a Foundin location use a collection-quest contact at that location; source spawn routes are preserved."
  },
  "habitats": [

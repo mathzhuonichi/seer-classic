@@ -5,7 +5,7 @@ import { createGame } from '../../src/game';
 import { WORLD_PLANETS } from '../../src/world';
 import { CHALLENGE_CAMPAIGNS } from '../../src/progression/challenge-campaigns';
 import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/progression/acquisition';
-import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng } from '../../raising/core/index';
+import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index';
 
 /** Audit catalog-wide route coverage without granting generic remote recruitment. */
 export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisition-v14') {
@@ -150,27 +150,33 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     assert(infant, `Actual boss reward must produce seed form ${chain[0]}`);
     const prepared = JSON.parse(collector.exportSave());
     const position = prepared.storage.findIndex((mon: any) => mon.uid === infant.uid);
-    // Raising a fixture to level 100 isolates evolution wiring from grind time.
-    prepared.storage[position] = gainLevels(prepared.storage[position], 99, dex).mon;
     const automatic = chain[0] === 111;
+    // Level 39 completes the original mechanical chain without crossing its new
+    // level-60 super evolution. The unchanged manual chain is tested at level 100.
+    prepared.storage[position] = gainLevels(prepared.storage[position], (automatic ? 39 : 100) - infant.level, dex).mon;
     assert.equal(autoEvolve(prepared.storage[position], dex).mon.species, automatic ? chain.at(-1) : chain[0], automatic ? 'The ordinary mechanical chain evolves automatically.' : 'The unchanged non-mechanical chamber evolution remains manual.');
     const evolver = createGame(structuredClone(source), JSON.stringify(prepared));
     if (automatic) {
-      // Exercise ordinary training on the actual hatched infant instead of manually
-      // selecting each mechanical form from the level-100 fixture.
+      // Exercise ordinary training on the actual hatched infant at both the old
+      // mechanical endpoint and the separately approved super-evolution threshold.
       const training = JSON.parse(collector.exportSave()); training.exp_pool = 1e9;
       evolver.importSave(JSON.stringify(training));
-      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: 1e9 });
+      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(byId.get(111).growth, 39, 0) });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, chain.at(-1));
-      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 100);
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 39);
+      const growth = byId.get(113).growth;
+      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(growth, 60, 0) - totalExp(growth, 39, 0) });
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, 1277);
+      assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 60);
     } else for (const species of chain.slice(1)) {
       evolver.dispatch({ type: 'evolve', uid: infant.uid, toSpecies: species });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, species);
     }
-    for (const species of chain) assert(evolver.snapshot().species.find(mon => mon.id === species)!.owned, 'Every evolved form is registered before reload.');
+    const recordedChain = automatic ? [...chain, 1277] : [...chain];
+    for (const species of recordedChain) assert(evolver.snapshot().species.find(mon => mon.id === species)!.owned, 'Every evolved form is registered before reload.');
     const restored = createGame(structuredClone(source), evolver.exportSave());
-    for (const species of chain) assert(restored.snapshot().species.find(mon => mon.id === species)!.owned);
-    (automatic ? automaticEvolutionChecks : manualEvolutionChecks).push([...chain]);
+    for (const species of recordedChain) assert(restored.snapshot().species.find(mon => mon.id === species)!.owned);
+    (automatic ? automaticEvolutionChecks : manualEvolutionChecks).push(recordedChain);
   }
   for (const npc of NPC_ONLY_SPECIES) {
     const npcGame = createGame(structuredClone(source));

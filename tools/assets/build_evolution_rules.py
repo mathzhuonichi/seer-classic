@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply the approved v33 evolution policy using pinned official XML evidence.
+"""Apply the approved v33/v34 evolution policies using pinned official XML.
 
 Use --source-dir for the extracted RobotCoreDLL XML directory. The default is
 .cache/evolution-v33. --check verifies the generated records without writing.
@@ -19,17 +19,24 @@ SOURCE_URL = "https://seer.61.com/dll/RobotCoreDLL.swf"
 SOURCE_HASHES = {
     "23-PetXMLInfo_xmlClass.xml": "bc1fd07bdad0f5086807a8c91d6e27e9638f8ec6fed28c44468a15281d08214d",
     "44-EvolveXMLInfo_xmlcls.xml": "f88fa14c15e7fe725e848c152de4a30bdd3e4bb2988429be66290ba6184ad80d",
+    "160-SuperEvolves.xml": "9fb8c3a1b0c8ee38b0c8f052060ad00f5bfdec54aff757d10505658b748b8b85",
 }
 SOURCE_FIELDS = ("ID", "DefName", "Type", "EvolvesFrom", "EvolvesTo", "EvolvingLv", "EvolvFlag")
 BRANCH_FROM = {91, 269, 366, 373, 756, 1461}
-# The v32 acquisition audit had 77 missing forms. These 32 remain outside this
-# approved mechanical / traditional branch policy; they are not new rewards.
-DEFERRED_MISSING = {
+# The v32 acquisition audit had 77 missing forms. v33 resolved 45; the user
+# subsequently approved level-evolution adaptations for these remaining 32.
+V33_DEFERRED_MISSING = {
     432, 652, 729, 811, 881, 1017, 1018, 1019, 1121, 1122, 1143, 1192,
     1215, 1216, 1230, 1237, 1238, 1266, 1277, 1278, 1279, 1297, 1298,
     1316, 1317, 1346, 1361, 1428, 1429, 1459, 1464, 1473,
 }
+SOURCE_LEVEL_TARGETS = {432, 652, 729, 811, 881, 1143}
+CANONICAL_PARENT_OVERRIDES = {1459: 79}
+SPECIAL_BRANCH_PARENTS = {67, 739}
+SPECIAL_STAGE = {1018: 2, 1019: 3, 1238: 2, 1279: 2}
 NOTE_PREFIX = " Remake evolution policy v33: "
+SPECIAL_NOTE_PREFIX = " Remake evolution policy v34: "
+ANCESTRY_NOTE_PREFIX = " Remake ancestry policy v34: "
 NOTES = {
     "mechanical-level": (
         "the user requested ordinary automatic level evolution for mechanical species. "
@@ -75,6 +82,11 @@ def main() -> None:
                 for row in xml["23-PetXMLInfo_xmlClass.xml"].iter("Monster")}
     evolves = {int(row.get("ID")): [dict(branch.attrib) for branch in row.findall("Branch")]
                for row in xml["44-EvolveXMLInfo_xmlcls.xml"].iter("Evolve")}
+    super_evolves = [
+        {"attributes": dict(row.attrib),
+         "inputItems": [dict(item.attrib) for item in row.findall("./In/Item")]}
+        for row in xml["160-SuperEvolves.xml"].iter("SuperEvolve")
+    ]
     catalog = read_json("data/gamedata.json")
     by_id = {row["id"]: row for row in catalog["species"]}
     index = read_json("data/catalog_index.json")
@@ -116,24 +128,83 @@ def main() -> None:
     assert sum(len(rule["transitions"]) for rule in branch_rules) == 16
     assert 671 not in {rule["from"] for rule in rules}, "Non-mechanical chamber evolution is outside this policy"
 
-    deferred = []
-    for target in sorted(DEFERRED_MISSING):
-        predecessor = int(monsters[target]["EvolvesFrom"])
+    resolved = []
+    special_rules = {}
+    for target in sorted(V33_DEFERRED_MISSING):
+        original_predecessor = int(monsters[target]["EvolvesFrom"])
+        predecessor = CANONICAL_PARENT_OVERRIDES.get(target, original_predecessor)
+        original_source = evidence(original_predecessor)
         source = evidence(predecessor)
         branch = next((branch for branch in source["branches"] if int(branch["MonTo"]) == target), None)
-        deferred.append({
-            "species": target, "name": by_id[target]["name"]["zh"], "from": predecessor,
+        super_records = [row for row in super_evolves if int(row["attributes"]["Target"]) == target]
+        target_monster = {key: monsters[target][key] for key in SOURCE_FIELDS if key in monsters[target]}
+        if super_records:
+            assert any(predecessor in [int(value) for value in row["attributes"]["Origin"].split()]
+                       for row in super_records), f"Canonical predecessor is not source-supported: {predecessor} -> {target}"
+        if target in SOURCE_LEVEL_TARGETS:
+            assert branch is not None, f"Source-level target lacks a matching source branch: {target}"
+            level = int(source["monster"]["EvolvingLv"])
+            assert level in {1, 34, 40, 63}
+            kind = "special-source-level"
+            level_evidence = {
+                "kind": "source-gate", "originalLevel": level,
+                "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+                "interpretation": ("The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+                                   if level == 1 else "The target-specific source level is retained while the original item gate is removed."),
+            }
+        else:
+            assert branch is None, f"A source branch must be reviewed instead of assigned a fallback: {target}"
+            # A different ordinary EvolvesTo edge's level is not target evidence.
+            assert int(monsters[predecessor].get("EvolvesTo", "0")) != target
+            stage = SPECIAL_STAGE.get(target, 1)
+            level = 60 + 10 * (stage - 1)
+            kind = "special-branch-choice" if predecessor in SPECIAL_BRANCH_PARENTS else "special-remake-level"
+            level_evidence = {
+                "kind": "remake-fallback", "originalLevel": None,
+                "baseLevel": 60, "specialStage": stage, "stageIncrement": 10,
+                "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified.",
+            }
+        transition = {"to": target, "method": "level", "level": level,
+                      "automatic": predecessor not in SPECIAL_BRANCH_PARENTS}
+        target_evidence = {
+            "targetMonster": target_monster,
+            "superEvolutions": super_records,
+            "edgeBasis": ("conditional-forward-branch" if branch else "super-evolution-forward-origin"
+                          if super_records else "reverse-ancestry-adapted-to-forward-level-evolution"),
+        }
+        if predecessor != original_predecessor:
+            target_evidence["ancestryAdaptation"] = {
+                "originalEvolvesFrom": original_predecessor, "runtimeEvolvesFrom": predecessor,
+                "reason": "Select the source-supported mature predecessor to preserve the normal automatic chain and keep the runtime acquisition ancestry consistent.",
+            }
+        if predecessor not in special_rules:
+            special_rules[predecessor] = {
+                "from": predecessor, "name": by_id[predecessor]["name"]["zh"],
+                "kind": kind, "transitions": [], "levelEvidence": level_evidence,
+                "source": {**source, "targets": []},
+            }
+        rule = special_rules[predecessor]
+        assert rule["kind"] == kind and rule["levelEvidence"] == level_evidence
+        rule["transitions"].append(transition)
+        rule["source"]["targets"].append(target_evidence)
+        resolved.append({
+            "species": target, "name": by_id[target]["name"]["zh"], "from": original_predecessor,
             "category": "single-item-trigger" if branch else "special-ancestry",
-            "source": source,
-            "targetMonster": {key: monsters[target][key] for key in SOURCE_FIELDS if key in monsters[target]},
-            "limitation": ("The single-target item conversion has no approved remake rule."
-                           if branch else "Reverse ancestry does not supply an executable forward evolution or its level."),
+            "source": original_source, "targetMonster": target_monster,
+            "resolution": {"policyVersion": "v34", "from": predecessor, **transition,
+                           "levelSource": level_evidence["kind"]},
         })
-    assert sum(row["category"] == "single-item-trigger" for row in deferred) == 6
+    assert sum(row["category"] == "single-item-trigger" for row in resolved) == 6
+    assert len(special_rules) == 30
+    assert sum(len(rule["transitions"]) for rule in special_rules.values()) == 32
+    assert {rule["from"] for rule in special_rules.values() if rule["kind"] == "special-branch-choice"} == SPECIAL_BRANCH_PARENTS
+    assert sum(rule["kind"] == "special-source-level" for rule in special_rules.values()) == 6
+    assert sum(rule["kind"] == "special-remake-level" for rule in special_rules.values()) == 22
+    rules = sorted([*rules, *special_rules.values()], key=lambda rule: rule["from"])
 
     policy = {
-        "schemaVersion": 1,
-        "policyVersion": "v33",
+        "schemaVersion": 2,
+        "policyVersion": "v34",
         "source": {
             "url": SOURCE_URL,
             "retrievedAt": "2026-10-14",
@@ -145,13 +216,23 @@ def main() -> None:
         "remakePolicy": {
             "mechanical-level": "Automatically evolve mechanical species along source-backed single-target, resource-free trigger edges at their source level.",
             "branch-choice": "Retain every target and source level at the six traditional branch points; replace item costs with an explicit manual target choice.",
+            "special-source-level": "Convert six source item-trigger edges into automatic level evolution, retaining their literal EvolvingLv values including 1 and removing item costs.",
+            "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, use remake level 60, then 70 and 80 for successive special stages.",
+            "special-branch-choice": "The two genuine special forks, from 67 and 739, require a manual choice at remake level 60.",
+            "canonicalAncestry": "The source SuperEvolves record for 1459 accepts 77, 78, and 79. Use mature 79 in both the forward rule and runtime reverse ancestry; preserve the original EvolvesFrom 77 in provenance. Do not add infancy-to-super shortcuts.",
             "repeatAcquisition": "Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap; this generator does not change acquisition limits or historical repeatability evidence.",
-            "exclusions": "Do not infer missing levels from reverse ancestry; do not convert unrelated single-item or super-evolution forms without a separate rule.",
+            "sourceBoundary": "Fallback levels are explicit remake decisions. The pinned XML establishes target relationships and listed gates; complete historical activity and server-side restrictions remain unverified.",
+            "exclusions": "Do not infer target-specific source levels from another ordinary edge; do not add unreviewed forms outside the 32 historical v33 omissions.",
         },
-        "coverage": {"mechanicalTransitions": 43, "branchPoints": 6, "branchTransitions": 16,
-                     "newlyReachableFormsFromV32Audit": 45, "deferredMissingFormsFromV32Audit": 32},
+        "coverage": {"mechanicalTransitions": 43, "traditionalBranchPoints": 6, "traditionalBranchTransitions": 16,
+                     "specialTransitions": 32, "specialBranchPoints": 2, "specialBranchTransitions": 4,
+                     "branchPoints": 8, "branchTransitions": 20, "totalTransitions": 91,
+                     "sourceLevelTransitions": 65, "fallbackLevelTransitions": 26,
+                     "newlyReachableFormsFromV32Audit": 77, "newlyReachableFormsInV34": 32,
+                     "deferredMissingFormsFromV32Audit": 0, "ancestryOverrides": 1},
         "rules": rules,
-        "deferredMissingForms": deferred,
+        "resolvedHistoricalMissingForms": resolved,
+        "deferredMissingForms": [],
     }
 
     outputs = {"data/evolution-rules.json": encode(policy)}
@@ -164,11 +245,36 @@ def main() -> None:
         # Only the reviewed targets are replaced. Other existing edges survive.
         species["evolution"] = ([edge for edge in species["evolution"] if edge["to"] not in targets]
                                 + rule["transitions"])
-        species["source_note"] = species["source_note"].split(NOTE_PREFIX)[0] + NOTE_PREFIX + NOTES[rule["kind"]]
+        if rule["kind"] in NOTES:
+            species["source_note"] = species["source_note"].split(NOTE_PREFIX)[0] + NOTE_PREFIX + NOTES[rule["kind"]]
+        else:
+            level = rule["transitions"][0]["level"]
+            if rule["kind"] == "special-source-level":
+                note = (f"the user approved ordinary automatic level evolution for this special conversion. The literal source EvolvingLv {level} "
+                        "is retained while the original item gate is removed; a source value of 1 does not mean that this was ordinary level-one evolution. ")
+            else:
+                note = (f"the user approved simplifying this special conversion to level evolution. Level {level} is an explicit remake fallback "
+                        "because the pinned target-specific source records do not supply a level; successive special stages use levels 60, 70, and 80. ")
+                note += "This true branch requires manual target selection. " if rule["kind"] == "special-branch-choice" else "The single-target transition is automatic. "
+            species["source_note"] = species["source_note"].split(SPECIAL_NOTE_PREFIX)[0] + SPECIAL_NOTE_PREFIX + note + "See data/evolution-rules.json for original fields and the exact source/remake distinction."
         outputs[relative] = encode(species)
         by_id[species_id]["evolution"] = species["evolution"]
         by_id[species_id]["source_note"] = species["source_note"]
         index_by_id[species_id]["evolves_to"] = [edge["to"] for edge in species["evolution"]]
+
+    for target, predecessor in CANONICAL_PARENT_OVERRIDES.items():
+        relative = f"data/monsters/{target:04}.json"
+        species = json.loads(outputs[relative]) if relative in outputs else read_json(relative)
+        species["evolves_from"] = predecessor
+        note = (f"use mature predecessor {predecessor} for the approved special level evolution. "
+                f"The original EvolvesFrom {monsters[target]['EvolvesFrom']} is retained in data/evolution-rules.json; "
+                "the pinned SuperEvolves Origin list explicitly supports the selected mature form. This preserves the normal automatic family chain.")
+        species["source_note"] = species["source_note"].split(ANCESTRY_NOTE_PREFIX)[0] + ANCESTRY_NOTE_PREFIX + note
+        outputs[relative] = encode(species)
+        by_id[target]["evolves_from"] = predecessor
+        by_id[target]["source_note"] = species["source_note"]
+        if "evolves_from" in index_by_id[target]:
+            index_by_id[target]["evolves_from"] = predecessor
 
     outputs["data/gamedata.json"] = encode(catalog, indent=None)
     outputs["data/catalog_index.json"] = encode(index, indent=0, newline=False)
@@ -181,7 +287,8 @@ def main() -> None:
         for relative in changed:
             (ROOT / relative).write_bytes(outputs[relative])
     print(json.dumps({"mode": "check" if args.check else "write", "mechanicalTransitions": 43,
-                      "branchPoints": 6, "branchTransitions": 16, "changedFiles": len(changed)}))
+                      "traditionalBranchPoints": 6, "traditionalBranchTransitions": 16,
+                      "specialTransitions": 32, "specialBranchPoints": 2, "changedFiles": len(changed)}))
 
 
 if __name__ == "__main__":

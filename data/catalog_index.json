@@ -325,7 +325,9 @@
 "grass"
 ],
 "bst": 490,
-"evolves_to": [],
+"evolves_to": [
+1216
+],
 "tags": []
 },
 {
@@ -381,7 +383,9 @@
 "water"
 ],
 "bst": 480,
-"evolves_to": [],
+"evolves_to": [
+1230
+],
 "tags": [
 "spt_boss"
 ]
@@ -417,7 +421,9 @@
 "fire"
 ],
 "bst": 534,
-"evolves_to": [],
+"evolves_to": [
+1237
+],
 "tags": []
 },
 {
@@ -473,7 +479,9 @@
 "fire"
 ],
 "bst": 540,
-"evolves_to": [],
+"evolves_to": [
+1298
+],
 "tags": [
 "spt_boss"
 ]
@@ -531,7 +539,9 @@
 "grass"
 ],
 "bst": 505,
-"evolves_to": [],
+"evolves_to": [
+1192
+],
 "tags": [
 "spt_boss"
 ]
@@ -567,7 +577,9 @@
 "ice"
 ],
 "bst": 572,
-"evolves_to": [],
+"evolves_to": [
+1361
+],
 "tags": [
 "spt_boss"
 ]
@@ -625,7 +637,9 @@
 "ground"
 ],
 "bst": 504,
-"evolves_to": [],
+"evolves_to": [
+1143
+],
 "tags": []
 },
 {
@@ -727,7 +741,9 @@
 "ground"
 ],
 "bst": 506,
-"evolves_to": [],
+"evolves_to": [
+1346
+],
 "tags": []
 },
 {
@@ -761,7 +777,10 @@
 "ice"
 ],
 "bst": 525,
-"evolves_to": [],
+"evolves_to": [
+1316,
+1317
+],
 "tags": []
 },
 {
@@ -897,7 +916,9 @@
 "psychic"
 ],
 "bst": 522,
-"evolves_to": [],
+"evolves_to": [
+1459
+],
 "tags": []
 },
 {
@@ -1247,7 +1268,9 @@
 "water"
 ],
 "bst": 558,
-"evolves_to": [],
+"evolves_to": [
+1297
+],
 "tags": []
 },
 {
@@ -1281,7 +1304,9 @@
 "mechanical"
 ],
 "bst": 548,
-"evolves_to": [],
+"evolves_to": [
+1277
+],
 "tags": [
 "spt_boss"
 ]
@@ -2227,7 +2252,9 @@
 "psychic"
 ],
 "bst": 535,
-"evolves_to": [],
+"evolves_to": [
+1473
+],
 "tags": []
 },
 {
@@ -2697,7 +2724,9 @@
 "light"
 ],
 "bst": 568,
-"evolves_to": [],
+"evolves_to": [
+1464
+],
 "tags": []
 },
 {
@@ -3913,7 +3942,9 @@
 "water"
 ],
 "bst": 600,
-"evolves_to": [],
+"evolves_to": [
+729
+],
 "tags": []
 },
 {
@@ -4484,7 +4515,9 @@
 "fighting"
 ],
 "bst": 580,
-"evolves_to": [],
+"evolves_to": [
+432
+],
 "tags": []
 },
 {
@@ -4506,7 +4539,9 @@
 "dragon"
 ],
 "bst": 590,
-"evolves_to": [],
+"evolves_to": [
+1266
+],
 "tags": []
 },
 {
@@ -5663,7 +5698,9 @@
 "psychic"
 ],
 "bst": 570,
-"evolves_to": [],
+"evolves_to": [
+1278
+],
 "tags": []
 },
 {
@@ -6813,7 +6850,9 @@
 "fire"
 ],
 "bst": 600,
-"evolves_to": [],
+"evolves_to": [
+881
+],
 "tags": []
 },
 {
@@ -7397,7 +7436,9 @@
 "normal"
 ],
 "bst": 510,
-"evolves_to": [],
+"evolves_to": [
+652
+],
 "tags": []
 },
 {
@@ -8395,7 +8436,10 @@
 "grass"
 ],
 "bst": 588,
-"evolves_to": [],
+"evolves_to": [
+1428,
+1429
+],
 "tags": []
 },
 {
@@ -9199,7 +9243,9 @@
 "grass"
 ],
 "bst": 470,
-"evolves_to": [],
+"evolves_to": [
+811
+],
 "tags": []
 },
 {
@@ -9321,7 +9367,9 @@
 "fire"
 ],
 "bst": 586,
-"evolves_to": [],
+"evolves_to": [
+1017
+],
 "tags": []
 },
 {
@@ -11264,7 +11312,9 @@
 "flying"
 ],
 "bst": 600,
-"evolves_to": [],
+"evolves_to": [
+1122
+],
 "tags": []
 },
 {
@@ -11458,7 +11508,9 @@
 "fire"
 ],
 "bst": 589,
-"evolves_to": [],
+"evolves_to": [
+1018
+],
 "tags": []
 },
 {
@@ -11468,7 +11520,9 @@
 "fire"
 ],
 "bst": 595,
-"evolves_to": [],
+"evolves_to": [
+1019
+],
 "tags": []
 },
 {
@@ -12612,7 +12666,9 @@
 "shadow"
 ],
 "bst": 600,
-"evolves_to": [],
+"evolves_to": [
+1121
+],
 "tags": []
 },
 {
@@ -13674,7 +13730,9 @@
 "shadow"
 ],
 "bst": 590,
-"evolves_to": [],
+"evolves_to": [
+1215
+],
 "tags": []
 },
 {
@@ -13925,7 +13983,9 @@
 "fire"
 ],
 "bst": 583,
-"evolves_to": [],
+"evolves_to": [
+1238
+],
 "tags": []
 },
 {
@@ -14382,7 +14442,9 @@
 "psychic"
 ],
 "bst": 585,
-"evolves_to": [],
+"evolves_to": [
+1279
+],
 "tags": []
 },
 {

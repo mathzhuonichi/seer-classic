@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "policyVersion": "v33",
+  "schemaVersion": 2,
+  "policyVersion": "v34",
   "source": {
     "url": "https://seer.61.com/dll/RobotCoreDLL.swf",
     "retrievedAt": "2026-10-14",
@@ -14,6 +14,10 @@
       {
         "file": "44-EvolveXMLInfo_xmlcls.xml",
         "sha256": "f88fa14c15e7fe725e848c152de4a30bdd3e4bb2988429be66290ba6184ad80d"
+      },
+      {
+        "file": "160-SuperEvolves.xml",
+        "sha256": "9fb8c3a1b0c8ee38b0c8f052060ad00f5bfdec54aff757d10505658b748b8b85"
       }
     ],
     "scope": "Retained official Flash client configuration. Target and level evidence is separate from the user-approved remake behavior."
@@ -21,17 +25,448 @@
   "remakePolicy": {
     "mechanical-level": "Automatically evolve mechanical species along source-backed single-target, resource-free trigger edges at their source level.",
     "branch-choice": "Retain every target and source level at the six traditional branch points; replace item costs with an explicit manual target choice.",
+    "special-source-level": "Convert six source item-trigger edges into automatic level evolution, retaining their literal EvolvingLv values including 1 and removing item costs.",
+    "special-remake-level": "Use the canonical mature predecessor for single-target special forms. Where the pinned source has no target-specific level, use remake level 60, then 70 and 80 for successive special stages.",
+    "special-branch-choice": "The two genuine special forks, from 67 and 739, require a manual choice at remake level 60.",
+    "canonicalAncestry": "The source SuperEvolves record for 1459 accepts 77, 78, and 79. Use mature 79 in both the forward rule and runtime reverse ancestry; preserve the original EvolvesFrom 77 in provenance. Do not add infancy-to-super shortcuts.",
     "repeatAcquisition": "Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap; this generator does not change acquisition limits or historical repeatability evidence.",
-    "exclusions": "Do not infer missing levels from reverse ancestry; do not convert unrelated single-item or super-evolution forms without a separate rule."
+    "sourceBoundary": "Fallback levels are explicit remake decisions. The pinned XML establishes target relationships and listed gates; complete historical activity and server-side restrictions remain unverified.",
+    "exclusions": "Do not infer target-specific source levels from another ordinary edge; do not add unreviewed forms outside the 32 historical v33 omissions."
   },
   "coverage": {
     "mechanicalTransitions": 43,
-    "branchPoints": 6,
-    "branchTransitions": 16,
-    "newlyReachableFormsFromV32Audit": 45,
-    "deferredMissingFormsFromV32Audit": 32
+    "traditionalBranchPoints": 6,
+    "traditionalBranchTransitions": 16,
+    "specialTransitions": 32,
+    "specialBranchPoints": 2,
+    "specialBranchTransitions": 4,
+    "branchPoints": 8,
+    "branchTransitions": 20,
+    "totalTransitions": 91,
+    "sourceLevelTransitions": 65,
+    "fallbackLevelTransitions": 26,
+    "newlyReachableFormsFromV32Audit": 77,
+    "newlyReachableFormsInV34": 32,
+    "deferredMissingFormsFromV32Audit": 0,
+    "ancestryOverrides": 1
   },
   "rules": [
+    {
+      "from": 29,
+      "name": "魔花仙子",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1216,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "29",
+          "DefName": "魔花仙子",
+          "Type": "1",
+          "EvolvesFrom": "28",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1216",
+              "DefName": "魔域仙子",
+              "Type": "1",
+              "EvolvesFrom": "29",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "6",
+                  "Origin": "27 28 29",
+                  "Target": "1216",
+                  "BitSetId": "25606",
+                  "Desc": "魔域仙子超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200108",
+                    "Count": "1",
+                    "BitSetId": "27206"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 34,
+      "name": "钢牙鲨",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1230,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "34",
+          "DefName": "钢牙鲨",
+          "Type": "2",
+          "EvolvesFrom": "33",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1230",
+              "DefName": "巨齿鲨",
+              "Type": "2",
+              "EvolvesFrom": "34",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "7",
+                  "Origin": "33 34",
+                  "Target": "1230",
+                  "BitSetId": "25607",
+                  "Desc": "巨齿鲨超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200101",
+                    "Count": "1",
+                    "BitSetId": "27207"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 37,
+      "name": "洛吉拉斯",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1237,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "37",
+          "DefName": "洛吉拉斯",
+          "Type": "3",
+          "EvolvesFrom": "36",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1237",
+              "DefName": "洛拉托兹",
+              "Type": "3",
+              "EvolvesFrom": "37",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          }
+        ]
+      }
+    },
+    {
+      "from": 42,
+      "name": "里奥斯",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1298,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "42",
+          "DefName": "里奥斯",
+          "Type": "3",
+          "EvolvesFrom": "41",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1298",
+              "DefName": "里奥杰斯",
+              "Type": "3",
+              "EvolvesFrom": "42",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "10",
+                  "Origin": "41 42",
+                  "Target": "1298",
+                  "BitSetId": "25610",
+                  "Desc": "里奥杰斯超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200212",
+                    "Count": "1",
+                    "BitSetId": "27210"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 47,
+      "name": "蘑菇怪",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1192,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "47",
+          "DefName": "蘑菇怪",
+          "Type": "1",
+          "EvolvesFrom": "46",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1192",
+              "DefName": "巨蘑怪",
+              "Type": "1",
+              "EvolvesFrom": "47",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "4",
+                  "Origin": "46 47",
+                  "Target": "1192",
+                  "BitSetId": "25604",
+                  "Desc": "巨蘑怪超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200101",
+                    "Count": "1",
+                    "BitSetId": "27204"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 50,
+      "name": "阿克希亚",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1361,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "50",
+          "DefName": "阿克希亚",
+          "Type": "9",
+          "EvolvesFrom": "49",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1361",
+              "DefName": "阿克妮丝",
+              "Type": "9",
+              "EvolvesFrom": "50",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "12",
+                  "Origin": "48 49 50",
+                  "Target": "1361",
+                  "BitSetId": "25612",
+                  "Desc": "阿克妮丝超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200329",
+                    "Count": "1",
+                    "BitSetId": "27212"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 55,
+      "name": "鲁加斯",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 1143,
+          "method": "level",
+          "level": 1,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 1,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+      },
+      "source": {
+        "monster": {
+          "ID": "55",
+          "DefName": "鲁加斯",
+          "Type": "7",
+          "EvolvesFrom": "54",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "48"
+        },
+        "branches": [
+          {
+            "MonTo": "1143",
+            "EvolvItem": "1200047",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1143",
+              "DefName": "鲁迪诺斯",
+              "Type": "7",
+              "EvolvesFrom": "55",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "3",
+                  "Origin": "53 54 55",
+                  "Target": "1143",
+                  "BitSetId": "25603",
+                  "Desc": "鲁迪诺斯超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200047",
+                    "Count": "1",
+                    "BitSetId": "27203"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "conditional-forward-branch"
+          }
+        ]
+      }
+    },
     {
       "from": 59,
       "name": "西塔",
@@ -91,6 +526,128 @@
       }
     },
     {
+      "from": 64,
+      "name": "格鲁奇高",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1346,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "64",
+          "DefName": "格鲁奇高",
+          "Type": "7",
+          "EvolvesFrom": "63",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1346",
+              "DefName": "格鲁斯特",
+              "Type": "7",
+              "EvolvesFrom": "64",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "11",
+                  "Origin": "62 63 64",
+                  "Target": "1346",
+                  "BitSetId": "25611",
+                  "Desc": "格鲁斯特超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200287",
+                    "Count": "1",
+                    "BitSetId": "27211"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 67,
+      "name": "布林克斯",
+      "kind": "special-branch-choice",
+      "transitions": [
+        {
+          "to": 1316,
+          "method": "level",
+          "level": 60,
+          "automatic": false
+        },
+        {
+          "to": 1317,
+          "method": "level",
+          "level": 60,
+          "automatic": false
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "67",
+          "DefName": "布林克斯",
+          "Type": "9",
+          "EvolvesFrom": "66",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1316",
+              "DefName": "寒冰之魂",
+              "Type": "9",
+              "EvolvesFrom": "67",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          },
+          {
+            "targetMonster": {
+              "ID": "1317",
+              "DefName": "裂冰之魂",
+              "Type": "9",
+              "EvolvesFrom": "67",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          }
+        ]
+      }
+    },
+    {
       "from": 71,
       "name": "派派",
       "kind": "mechanical-level",
@@ -144,6 +701,72 @@
         "branches": [
           {
             "MonTo": "73"
+          }
+        ]
+      }
+    },
+    {
+      "from": 79,
+      "name": "艾斯菲亚",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1459,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "79",
+          "DefName": "艾斯菲亚",
+          "Type": "10",
+          "EvolvesFrom": "78",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1459",
+              "DefName": "艾菲德斯",
+              "Type": "10",
+              "EvolvesFrom": "77",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "13",
+                  "Origin": "77 78 79",
+                  "Target": "1459",
+                  "BitSetId": "25613",
+                  "Desc": "艾菲德斯超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200454",
+                    "Count": "1",
+                    "BitSetId": "27213"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin",
+            "ancestryAdaptation": {
+              "originalEvolvesFrom": 77,
+              "runtimeEvolvesFrom": 79,
+              "reason": "Select the source-supported mature predecessor to preserve the normal automatic chain and keep the runtime acquisition ancestry consistent."
+            }
           }
         ]
       }
@@ -347,6 +970,67 @@
       }
     },
     {
+      "from": 110,
+      "name": "布鲁克克",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1297,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "110",
+          "DefName": "布鲁克克",
+          "Type": "2",
+          "EvolvesFrom": "109",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1297",
+              "DefName": "布鲁卡卡",
+              "Type": "2",
+              "EvolvesFrom": "110",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "58",
+                  "Origin": "108 109 110",
+                  "Target": "1297",
+                  "BitSetId": "25658",
+                  "Desc": "布鲁卡卡超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200213",
+                    "Count": "1",
+                    "BitSetId": "27257"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
       "from": 111,
       "name": "雷格",
       "kind": "mechanical-level",
@@ -405,6 +1089,67 @@
       }
     },
     {
+      "from": 113,
+      "name": "雷纳多",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1277,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "113",
+          "DefName": "雷纳多",
+          "Type": "6",
+          "EvolvesFrom": "112",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1277",
+              "DefName": "雷纳尔多",
+              "Type": "6",
+              "EvolvesFrom": "113",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "9",
+                  "Origin": "111 112 113",
+                  "Target": "1277",
+                  "BitSetId": "25609",
+                  "Desc": "雷纳尔多超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200184",
+                    "Count": "1",
+                    "BitSetId": "27209"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
       "from": 143,
       "name": "卡塔",
       "kind": "mechanical-level",
@@ -429,6 +1174,87 @@
         "branches": [
           {
             "MonTo": "144"
+          }
+        ]
+      }
+    },
+    {
+      "from": 197,
+      "name": "亚梅丝",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1473,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "197",
+          "DefName": "亚梅丝",
+          "Type": "10",
+          "EvolvesFrom": "196",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1473",
+              "DefName": "亚梅迪丝",
+              "Type": "10",
+              "EvolvesFrom": "197",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "15",
+                  "Origin": "196 197",
+                  "Target": "1473",
+                  "BitSetId": "25615",
+                  "Desc": "亚梅迪丝超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200469",
+                    "Count": "1",
+                    "BitSetId": "27215"
+                  }
+                ]
+              },
+              {
+                "attributes": {
+                  "ID": "832",
+                  "Origin": "197",
+                  "Target": "1473",
+                  "NewMsgLog": "",
+                  "Desc": "20181229 亚梅迪丝超进化"
+                },
+                "inputItems": []
+              },
+              {
+                "attributes": {
+                  "ID": "900",
+                  "Origin": "196 197",
+                  "Target": "1473",
+                  "NewMsgLog": "",
+                  "Desc": "祖拉亚梅丝超进化"
+                },
+                "inputItems": []
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
           }
         ]
       }
@@ -516,6 +1342,67 @@
         "branches": [
           {
             "MonTo": "224"
+          }
+        ]
+      }
+    },
+    {
+      "from": 239,
+      "name": "吉娜斯",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1464,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "239",
+          "DefName": "吉娜斯",
+          "Type": "12",
+          "EvolvesFrom": "238",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1464",
+              "DefName": "吉纳波斯",
+              "Type": "12",
+              "EvolvesFrom": "239",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "14",
+                  "Origin": "237 238 239",
+                  "Target": "1464",
+                  "BitSetId": "25614",
+                  "Desc": "吉纳波斯超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200456",
+                    "Count": "1",
+                    "BitSetId": "27214"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
           }
         ]
       }
@@ -658,6 +1545,73 @@
       }
     },
     {
+      "from": 347,
+      "name": "远古鱼龙",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 729,
+          "method": "level",
+          "level": 1,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 1,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+      },
+      "source": {
+        "monster": {
+          "ID": "347",
+          "DefName": "远古鱼龙",
+          "Type": "2",
+          "EvolvesFrom": "346",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "39"
+        },
+        "branches": [
+          {
+            "MonTo": "729",
+            "EvolvItem": "400933",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "729",
+              "DefName": "鱼龙王",
+              "Type": "2",
+              "EvolvesFrom": "347",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "100",
+                  "Origin": "347",
+                  "Target": "729",
+                  "Desc": "鱼龙王",
+                  "BitSetId": "19273"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1701997",
+                    "Count": "1",
+                    "Name": "远古鱼龙超进化道具"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "conditional-forward-branch"
+          }
+        ]
+      }
+    },
+    {
       "from": 362,
       "name": "丘波",
       "kind": "mechanical-level",
@@ -781,6 +1735,117 @@
       }
     },
     {
+      "from": 398,
+      "name": "杰拉德",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 432,
+          "method": "level",
+          "level": 63,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 63,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+      },
+      "source": {
+        "monster": {
+          "ID": "398",
+          "DefName": "杰拉德",
+          "Type": "11",
+          "EvolvesFrom": "397",
+          "EvolvesTo": "0",
+          "EvolvingLv": "63",
+          "EvolvFlag": "25"
+        },
+        "branches": [
+          {
+            "MonTo": "432",
+            "EvolvItem": "400671",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "432",
+              "DefName": "杰西卡",
+              "Type": "11",
+              "EvolvesFrom": "398",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "conditional-forward-branch"
+          }
+        ]
+      }
+    },
+    {
+      "from": 400,
+      "name": "萨帕克",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1266,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "400",
+          "DefName": "萨帕克",
+          "Type": "15",
+          "EvolvesFrom": "399",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1266",
+              "DefName": "萨帕罗亚",
+              "Type": "15",
+              "EvolvesFrom": "400",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "8",
+                  "Origin": "399 400",
+                  "Target": "1266",
+                  "BitSetId": "25608",
+                  "Desc": "萨帕罗亚超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200156",
+                    "Count": "1",
+                    "BitSetId": "27208"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
       "from": 459,
       "name": "尤达",
       "kind": "mechanical-level",
@@ -863,6 +1928,50 @@
         "branches": [
           {
             "MonTo": "496"
+          }
+        ]
+      }
+    },
+    {
+      "from": 500,
+      "name": "阿尔比零",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1278,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "500",
+          "DefName": "阿尔比零",
+          "Type": "10",
+          "EvolvesFrom": "499",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1278",
+              "DefName": "阿诺比零",
+              "Type": "10",
+              "EvolvesFrom": "500",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
           }
         ]
       }
@@ -955,6 +2064,56 @@
       }
     },
     {
+      "from": 601,
+      "name": "火刃",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 881,
+          "method": "level",
+          "level": 1,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 1,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The source value 1 is retained literally. This was an item-gated conversion, not evidence of ordinary level-one evolution."
+      },
+      "source": {
+        "monster": {
+          "ID": "601",
+          "DefName": "火刃",
+          "Type": "47",
+          "EvolvesFrom": "600",
+          "EvolvesTo": "0",
+          "EvolvingLv": "1",
+          "EvolvFlag": "44"
+        },
+        "branches": [
+          {
+            "MonTo": "881",
+            "EvolvItem": "400851",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "881",
+              "DefName": "炽焰之刃",
+              "Type": "47",
+              "EvolvesFrom": "601",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "conditional-forward-branch"
+          }
+        ]
+      }
+    },
+    {
       "from": 610,
       "name": "帕尔",
       "kind": "mechanical-level",
@@ -979,6 +2138,56 @@
         "branches": [
           {
             "MonTo": "611"
+          }
+        ]
+      }
+    },
+    {
+      "from": 651,
+      "name": "诺奇",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 652,
+          "method": "level",
+          "level": 34,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 34,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+      },
+      "source": {
+        "monster": {
+          "ID": "651",
+          "DefName": "诺奇",
+          "Type": "8",
+          "EvolvesFrom": "650",
+          "EvolvesTo": "0",
+          "EvolvingLv": "34",
+          "EvolvFlag": "34"
+        },
+        "branches": [
+          {
+            "MonTo": "652",
+            "EvolvItem": "400098",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "652",
+              "DefName": "诺拉德",
+              "Type": "8",
+              "EvolvesFrom": "651",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "conditional-forward-branch"
           }
         ]
       }
@@ -1037,6 +2246,67 @@
         "branches": [
           {
             "MonTo": "725"
+          }
+        ]
+      }
+    },
+    {
+      "from": 739,
+      "name": "哈德萨",
+      "kind": "special-branch-choice",
+      "transitions": [
+        {
+          "to": 1428,
+          "method": "level",
+          "level": 60,
+          "automatic": false
+        },
+        {
+          "to": 1429,
+          "method": "level",
+          "level": 60,
+          "automatic": false
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "739",
+          "DefName": "哈德萨",
+          "Type": "1",
+          "EvolvesFrom": "738",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1428",
+              "DefName": "哈德罗卡",
+              "Type": "23",
+              "EvolvesFrom": "739",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          },
+          {
+            "targetMonster": {
+              "ID": "1429",
+              "DefName": "哈德莱斯",
+              "Type": "22",
+              "EvolvesFrom": "739",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
           }
         ]
       }
@@ -1124,6 +2394,100 @@
       }
     },
     {
+      "from": 810,
+      "name": "灵光兽",
+      "kind": "special-source-level",
+      "transitions": [
+        {
+          "to": 811,
+          "method": "level",
+          "level": 40,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "source-gate",
+        "originalLevel": 40,
+        "field": "PetXMLInfo.EvolvingLv for the EvolveXMLInfo branch targeting this form",
+        "interpretation": "The target-specific source level is retained while the original item gate is removed."
+      },
+      "source": {
+        "monster": {
+          "ID": "810",
+          "DefName": "灵光兽",
+          "Type": "1",
+          "EvolvesFrom": "809",
+          "EvolvesTo": "0",
+          "EvolvingLv": "40",
+          "EvolvFlag": "42"
+        },
+        "branches": [
+          {
+            "MonTo": "811",
+            "EvolvItem": "400823",
+            "EvolvItemCount": "1"
+          }
+        ],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "811",
+              "DefName": "始祖灵兽",
+              "Type": "1",
+              "EvolvesFrom": "810",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "conditional-forward-branch"
+          }
+        ]
+      }
+    },
+    {
+      "from": 821,
+      "name": "烈焰火狐",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1017,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "821",
+          "DefName": "烈焰火狐",
+          "Type": "3",
+          "EvolvesFrom": "820",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1017",
+              "DefName": "三尾火狐",
+              "Type": "3",
+              "EvolvesFrom": "821",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          }
+        ]
+      }
+    },
+    {
       "from": 887,
       "name": "彼得",
       "kind": "mechanical-level",
@@ -1148,6 +2512,156 @@
         "branches": [
           {
             "MonTo": "888"
+          }
+        ]
+      }
+    },
+    {
+      "from": 999,
+      "name": "珀伽索斯",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1122,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "999",
+          "DefName": "珀伽索斯",
+          "Type": "31",
+          "EvolvesFrom": "998",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1122",
+              "DefName": "圣光天马",
+              "Type": "31",
+              "EvolvesFrom": "999",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "2",
+                  "Origin": "998 999",
+                  "Target": "1122",
+                  "BitSetId": "25602",
+                  "Desc": "圣光天马超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200035",
+                    "Count": "1",
+                    "Name": "天马超进化能量",
+                    "BitSetId": "27202"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1017,
+      "name": "三尾火狐",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1018,
+          "method": "level",
+          "level": 70,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 2,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1017",
+          "DefName": "三尾火狐",
+          "Type": "3",
+          "EvolvesFrom": "821",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1018",
+              "DefName": "四尾火狐",
+              "Type": "3",
+              "EvolvesFrom": "1017",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1018,
+      "name": "四尾火狐",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1019,
+          "method": "level",
+          "level": 80,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 3,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1018",
+          "DefName": "四尾火狐",
+          "Type": "3",
+          "EvolvesFrom": "1017",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1019",
+              "DefName": "九尾火狐",
+              "Type": "3",
+              "EvolvesFrom": "1018",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
           }
         ]
       }
@@ -1206,6 +2720,83 @@
         "branches": [
           {
             "MonTo": "1083"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1120,
+      "name": "阿洛比斯",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1121,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1120",
+          "DefName": "阿洛比斯",
+          "Type": "42",
+          "EvolvesFrom": "1119",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1121",
+              "DefName": "巨石灵王",
+              "Type": "42",
+              "EvolvesFrom": "1120",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "1",
+                  "Origin": "1118 1119 1120",
+                  "Target": "1121",
+                  "BitSetId": "25601",
+                  "Desc": "巨石灵王超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200036",
+                    "Count": "1",
+                    "BitSetId": "27201"
+                  }
+                ]
+              },
+              {
+                "attributes": {
+                  "ID": "83",
+                  "Origin": "1118 1119 1120",
+                  "Target": "1121",
+                  "BitSetId": "25601",
+                  "Desc": "巨石灵王超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1701476",
+                    "Count": "400",
+                    "name": "褐色恶魔碎片"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
           }
         ]
       }
@@ -1298,6 +2889,83 @@
       }
     },
     {
+      "from": 1214,
+      "name": "尤米尔",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1215,
+          "method": "level",
+          "level": 60,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 1,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1214",
+          "DefName": "尤米尔",
+          "Type": "45",
+          "EvolvesFrom": "1213",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1215",
+              "DefName": "尤米娜",
+              "Type": "45",
+              "EvolvesFrom": "1214",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [
+              {
+                "attributes": {
+                  "ID": "5",
+                  "Origin": "1213 1214",
+                  "Target": "1215",
+                  "BitSetId": "25605",
+                  "Desc": "尤米娜超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1200107",
+                    "Count": "1",
+                    "BitSetId": "27205"
+                  }
+                ]
+              },
+              {
+                "attributes": {
+                  "ID": "84",
+                  "Origin": "1213 1214",
+                  "Target": "1215",
+                  "BitSetId": "25605",
+                  "Desc": "尤米娜超进化"
+                },
+                "inputItems": [
+                  {
+                    "ID": "1701478",
+                    "Count": "400",
+                    "name": "紫色恶魔碎片"
+                  }
+                ]
+              }
+            ],
+            "edgeBasis": "super-evolution-forward-origin"
+          }
+        ]
+      }
+    },
+    {
       "from": 1220,
       "name": "博杰斯",
       "kind": "mechanical-level",
@@ -1327,6 +2995,50 @@
       }
     },
     {
+      "from": 1237,
+      "name": "洛拉托兹",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1238,
+          "method": "level",
+          "level": 70,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 2,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1237",
+          "DefName": "洛拉托兹",
+          "Type": "3",
+          "EvolvesFrom": "37",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1238",
+              "DefName": "炽翼火龙",
+              "Type": "3",
+              "EvolvesFrom": "1237",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
+          }
+        ]
+      }
+    },
+    {
       "from": 1273,
       "name": "卡斯奇",
       "kind": "mechanical-level",
@@ -1351,6 +3063,50 @@
         "branches": [
           {
             "MonTo": "1274"
+          }
+        ]
+      }
+    },
+    {
+      "from": 1278,
+      "name": "阿诺比零",
+      "kind": "special-remake-level",
+      "transitions": [
+        {
+          "to": 1279,
+          "method": "level",
+          "level": 70,
+          "automatic": true
+        }
+      ],
+      "levelEvidence": {
+        "kind": "remake-fallback",
+        "originalLevel": null,
+        "baseLevel": 60,
+        "specialStage": 2,
+        "stageIncrement": 10,
+        "interpretation": "No target-specific level is present in the pinned PetXMLInfo, EvolveXMLInfo, or applicable SuperEvolves records. This threshold is an explicit remake rule; complete historical activity and server restrictions remain unverified."
+      },
+      "source": {
+        "monster": {
+          "ID": "1278",
+          "DefName": "阿诺比零",
+          "Type": "10",
+          "EvolvesFrom": "500",
+          "EvolvesTo": "0"
+        },
+        "branches": [],
+        "targets": [
+          {
+            "targetMonster": {
+              "ID": "1279",
+              "DefName": "时空之零",
+              "Type": "10",
+              "EvolvesFrom": "1278",
+              "EvolvesTo": "0"
+            },
+            "superEvolutions": [],
+            "edgeBasis": "reverse-ancestry-adapted-to-forward-level-evolution"
           }
         ]
       }
@@ -1572,7 +3328,7 @@
       }
     }
   ],
-  "deferredMissingForms": [
+  "resolvedHistoricalMissingForms": [
     {
       "species": 432,
       "name": "杰西卡",
@@ -1603,7 +3359,15 @@
         "EvolvesFrom": "398",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 398,
+        "to": 432,
+        "method": "level",
+        "level": 63,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 652,
@@ -1635,7 +3399,15 @@
         "EvolvesFrom": "651",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 651,
+        "to": 652,
+        "method": "level",
+        "level": 34,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 729,
@@ -1667,7 +3439,15 @@
         "EvolvesFrom": "347",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 347,
+        "to": 729,
+        "method": "level",
+        "level": 1,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 811,
@@ -1699,7 +3479,15 @@
         "EvolvesFrom": "810",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 810,
+        "to": 811,
+        "method": "level",
+        "level": 40,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 881,
@@ -1731,7 +3519,15 @@
         "EvolvesFrom": "601",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 601,
+        "to": 881,
+        "method": "level",
+        "level": 1,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 1017,
@@ -1755,7 +3551,15 @@
         "EvolvesFrom": "821",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 821,
+        "to": 1017,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1018,
@@ -1779,7 +3583,15 @@
         "EvolvesFrom": "1017",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1017,
+        "to": 1018,
+        "method": "level",
+        "level": 70,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1019,
@@ -1803,7 +3615,15 @@
         "EvolvesFrom": "1018",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1018,
+        "to": 1019,
+        "method": "level",
+        "level": 80,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1121,
@@ -1827,7 +3647,15 @@
         "EvolvesFrom": "1120",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1120,
+        "to": 1121,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1122,
@@ -1851,7 +3679,15 @@
         "EvolvesFrom": "999",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 999,
+        "to": 1122,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1143,
@@ -1883,7 +3719,15 @@
         "EvolvesFrom": "55",
         "EvolvesTo": "0"
       },
-      "limitation": "The single-target item conversion has no approved remake rule."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 55,
+        "to": 1143,
+        "method": "level",
+        "level": 1,
+        "automatic": true,
+        "levelSource": "source-gate"
+      }
     },
     {
       "species": 1192,
@@ -1907,7 +3751,15 @@
         "EvolvesFrom": "47",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 47,
+        "to": 1192,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1215,
@@ -1931,7 +3783,15 @@
         "EvolvesFrom": "1214",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1214,
+        "to": 1215,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1216,
@@ -1955,7 +3815,15 @@
         "EvolvesFrom": "29",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 29,
+        "to": 1216,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1230,
@@ -1979,7 +3847,15 @@
         "EvolvesFrom": "34",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 34,
+        "to": 1230,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1237,
@@ -2003,7 +3879,15 @@
         "EvolvesFrom": "37",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 37,
+        "to": 1237,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1238,
@@ -2027,7 +3911,15 @@
         "EvolvesFrom": "1237",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1237,
+        "to": 1238,
+        "method": "level",
+        "level": 70,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1266,
@@ -2051,7 +3943,15 @@
         "EvolvesFrom": "400",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 400,
+        "to": 1266,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1277,
@@ -2075,7 +3975,15 @@
         "EvolvesFrom": "113",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 113,
+        "to": 1277,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1278,
@@ -2099,7 +4007,15 @@
         "EvolvesFrom": "500",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 500,
+        "to": 1278,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1279,
@@ -2123,7 +4039,15 @@
         "EvolvesFrom": "1278",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 1278,
+        "to": 1279,
+        "method": "level",
+        "level": 70,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1297,
@@ -2147,7 +4071,15 @@
         "EvolvesFrom": "110",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 110,
+        "to": 1297,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1298,
@@ -2171,7 +4103,15 @@
         "EvolvesFrom": "42",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 42,
+        "to": 1298,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1316,
@@ -2195,7 +4135,15 @@
         "EvolvesFrom": "67",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 67,
+        "to": 1316,
+        "method": "level",
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1317,
@@ -2219,7 +4167,15 @@
         "EvolvesFrom": "67",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 67,
+        "to": 1317,
+        "method": "level",
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1346,
@@ -2243,7 +4199,15 @@
         "EvolvesFrom": "64",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 64,
+        "to": 1346,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1361,
@@ -2267,7 +4231,15 @@
         "EvolvesFrom": "50",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 50,
+        "to": 1361,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1428,
@@ -2291,7 +4263,15 @@
         "EvolvesFrom": "739",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 739,
+        "to": 1428,
+        "method": "level",
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1429,
@@ -2315,7 +4295,15 @@
         "EvolvesFrom": "739",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 739,
+        "to": 1429,
+        "method": "level",
+        "level": 60,
+        "automatic": false,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1459,
@@ -2340,7 +4328,15 @@
         "EvolvesFrom": "77",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 79,
+        "to": 1459,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1464,
@@ -2364,7 +4360,15 @@
         "EvolvesFrom": "239",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 239,
+        "to": 1464,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     },
     {
       "species": 1473,
@@ -2388,7 +4392,16 @@
         "EvolvesFrom": "197",
         "EvolvesTo": "0"
       },
-      "limitation": "Reverse ancestry does not supply an executable forward evolution or its level."
+      "resolution": {
+        "policyVersion": "v34",
+        "from": 197,
+        "to": 1473,
+        "method": "level",
+        "level": 60,
+        "automatic": true,
+        "levelSource": "remake-fallback"
+      }
     }
-  ]
+  ],
+  "deferredMissingForms": []
 }

@@ -1,5 +1,9 @@
 # Evolution simplification v33
 
+This note records the first, mechanical/branch-only revision. The user subsequently
+approved the remaining special evolutions; revision 34 resolves the deferred list
+under the separate source-versus-remake rules in `evolution-completion-v34.md`.
+
 ## Approved behavior and evidence
 
 The user requested ordinary level evolution for mechanical species and a direct choice of branch for branching evolution. Branch-family initial forms must remain repeatedly obtainable under the existing six-per-species cap.

@@ -103,7 +103,14 @@
       "skill": 10084
     }
   ],
-  "evolution": [],
+  "evolution": [
+    {
+      "to": 1238,
+      "method": "level",
+      "level": 70,
+      "automatic": true
+    }
+  ],
   "evolves_from": 37,
   "obtain": [
     "event"
@@ -111,6 +118,6 @@
   "tags": [],
   "gender_code": 1,
   "art": "m1237",
-  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md.",
+  "source_note": "Stats, EV yield, learnset from github.com/Nattsu39/seer_data (modern H5 client config, commit a00bcdd, fetched 2026-10-02); same ids as the Flash client. growth: GrowthType 4 mapped to \"medium\" (raising thread to confirm). obtain is inferred from catch rate (low confidence). Base stats may include post-2012 种族值 changes; see data/README.md. Remake evolution policy v34: the user approved simplifying this special conversion to level evolution. Level 70 is an explicit remake fallback because the pinned target-specific source records do not supply a level; successive special stages use levels 60, 70, and 80. The single-target transition is automatic. See data/evolution-rules.json for original fields and the exact source/remake distinction.",
   "existed_by": "2012-06"
 }

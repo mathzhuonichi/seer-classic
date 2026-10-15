@@ -23,7 +23,12 @@ try {
   const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/progression/acquisition.ts');
   const catalog = await loadGameData(), sourceBytes = JSON.stringify(catalog), dex = makeDex(catalog);
   const byId = new Map(catalog.species.map(row => [row.id, row]));
-  const branches = catalog.species.filter(row => new Set(row.evolution.map(edge => edge.to)).size > 1);
+  const evolutionRules = JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8')).rules;
+  // This verifier owns the six v33 traditional branch families. The later v34
+  // branches start at evolved parents and have their own complete entry-route
+  // and cap checks in evolution-specials.mjs.
+  const traditionalBranchIds = new Set(evolutionRules.filter(rule=>rule.kind==='branch-choice').map(rule=>rule.from));
+  const branches = catalog.species.filter(row => traditionalBranchIds.has(row.id));
   const parse = game => JSON.parse(game.exportSave());
   const fresh = parse(createGame(catalog, ''));
   fresh.rng_state = [101,202,303,404];
@@ -70,8 +75,9 @@ try {
   }
 
   check('Production data contains distinct, selectable level branches', () => {
-    assert(branches.length > 0, 'No branch evolution data was installed');
+    assert.equal(branches.length,6,'All six approved traditional branch families remain covered');
     for (const row of branches) {
+      assert(new Set(row.evolution.map(edge=>edge.to)).size>1);
       assert(row.evolution.every(edge => edge.method === 'level' && Number.isInteger(edge.level) && edge.level >= 1 && edge.level <= 100));
       assert.equal(new Set(row.evolution.map(edge => edge.to)).size, row.evolution.length, 'No duplicated branch targets');
     }
@@ -160,7 +166,6 @@ try {
     assert.equal(parse(make(save)).items.essence_daidaiyong,20,'Legacy surplus remains intact');
   });
 
-  const evolutionRules = fs.existsSync('data/evolution-rules.json') ? JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8')).rules : [];
   const mechanicalRules = evolutionRules.filter(rule=>rule.kind==='mechanical-level');
   check('The source-backed ordinary mechanical rule set is installed',()=>assert.equal(mechanicalRules.reduce((sum,rule)=>sum+rule.transitions.length,0),43));
   for(const rule of mechanicalRules)for(const edge of rule.transitions)check(`${rule.from}->${edge.to}: ordinary mechanical level threshold and cap`,()=>{

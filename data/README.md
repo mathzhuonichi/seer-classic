@@ -73,10 +73,13 @@ user-approved material-free rules. Traits and engraving interfaces are provided
 by the application mechanics modules rather than this original item table.
 The initial recovered bundle omitted conditional evolution tables. The official retained
 `EvolveXMLInfo` table does contain item-triggered evolutions, including branch choices.
-Revision 33 applies the approved mechanical/branch simplification through
+Revisions 33 and 34 apply the approved mechanical, branch and special-evolution simplification through
 `tools/assets/build_evolution_rules.py`; original trigger flags and item costs remain
-recorded in `data/evolution-rules.json`. Other item and super-evolution routes are not
-implicitly supplied by the ordinary item table.
+recorded in `data/evolution-rules.json`. Explicit source levels take priority, including
+the level-1 gates that originally required a separate item. Missing target-specific
+levels use documented remake thresholds of 60, then 70 and 80 for later special stages.
+These forward evolution rules are separate from the ordinary item table; they do not
+claim that the original game offered material-free level evolution.
 
 ## Known gaps
 
