@@ -490,8 +490,10 @@ evolution offers), `evolve(mon, to)` (carry-over rules: `raising/SPEC.md` sectio
 
 ## 10. Remake decisions (where faithful and practical differ)
 
-- **No 特性, 第五技能, 魂印, 刻印.** 特性 existed from mid-2011 (fusion
-  bonuses) but is left out for v1; the other three arrived after 2012.
+- **No 特性, 第五技能, 魂印 in v1.** 特性 existed from mid-2011 (fusion
+  bonuses) but is left out for v1; 第五技能 and 魂印 arrived after 2012.
+  刻印 existed from 2011 and are now installed through 2013
+  (`design/notes/engravings-2013.md`).
 - **个体 rolls 1–31** for new monsters, as in the original; 0 is reachable only
   through raising items. (Raising thread: please change the roll.)
 - **Bosses give 精元, not capture**, and only when the objective is met.

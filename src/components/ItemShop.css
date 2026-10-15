@@ -40,3 +40,20 @@
 .window-body .shop-product-heading h3{overflow-wrap:anywhere}
 .item-shop-management .management-confirm-row>span{min-width:0;font-size:11px;line-height:1.7}
 @media(max-width:480px){.item-shop-inner{grid-template-columns:145px minmax(0,1fr)}.shop-detail-scroll{padding:10px}.management-panel .shop-product-scroll>button{flex-wrap:wrap;gap:3px;padding:8px}.management-panel .shop-product-scroll>button.active{padding:7px}.shop-product-scroll button>b{font-size:9px;margin-left:auto}.shop-allowance{padding:9px 7px}.shop-allowance dl{gap:6px}.shop-allowance dd{font-size:16px}.item-shop-management .management-confirm-row{flex-wrap:wrap}.item-shop-management .management-confirm-row>button{margin-left:auto}.shop-quantity-presets{flex-wrap:wrap}}
+
+/* Engraving page: monster-scoped classifier in the product index. */
+.engraving-shop-filters{display:grid;gap:6px;padding:9px 9px 8px}
+.engraving-shop-filters>label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#103d69}
+.engraving-shop-filters select,.engraving-shop-filters input{min-width:0;width:100%;font-size:11px;padding:5px 7px;box-sizing:border-box}
+.engraving-shop-filters>label>select{flex:1}
+.engraving-chip-row{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.engraving-chip-row>button{padding:4px 0;font-size:11px}
+.engraving-chip-row>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);font-weight:700}
+.engraving-shop-hint{margin:0;padding:7px 10px 9px;font-size:10px;line-height:1.6;color:#4c748b;border-top:1px solid #8dbdd8}
+.engraving-shop-facts{display:grid;gap:6px;margin:18px 0 6px}
+.engraving-shop-facts>div{display:flex;gap:12px;font-size:12px;line-height:1.6}
+.engraving-shop-facts dt{width:64px;flex-shrink:0;color:#5f8597}
+.engraving-shop-facts dd{margin:0;color:#103d69}
+.engraving-shop .management-confirm-row{margin-top:10px}
+.shop-product-art>span.engraving-art-glyph{font-size:44px;font-weight:700;line-height:1}
+@media(max-width:480px){.engraving-chip-row>button{font-size:10px}}

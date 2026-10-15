@@ -1,4 +1,4 @@
-import { buildDataSet, createBattle, Rng, validateEncounter, type Battle, type Mon, type Action, type BattleEvent, type BossEncounter, type RawData, type Hook } from '../battle/core/src/index.ts';
+import { buildDataSet, createBattle, Rng, validateEncounter, type Battle, type Mon, type Action, type BattleEvent, type BossEncounter, type RawData, type Hook, type Skill as BattleSkill } from '../battle/core/src/index.ts';
 import { traitScripts } from './mechanics/traits';
 import { campaignScripts } from './mechanics/campaign-rules';
 import { npcTrainingScripts } from './mechanics/npc-training';
@@ -23,13 +23,14 @@ import { BOX_MAX, PARTY_MAX } from '../raising/core/storage.ts';
 import { loadCatalog, type CatalogData } from './mechanics/catalog';
 import {WORLD_PLANETS} from './world';
 import { traits, fifthSkills, soulMarks, engravings, type MonsterModules } from './mechanics/modules';
+import { activeEngravings, engravingBlockedReason, engravingById, engravingEffectGroup, engravingSkillOverrides, engravingStatBonus, engravingStatKeys, ENGRAVING_SLOTS, type EngravingDefinition } from './mechanics/engravings';
 import { readLocalSave, writeLocalSave } from './mechanics/persistence';
 import { battleEventText, displayedDamage, groupedBattleLog } from './presentation/battle-log';
 import { createCatalogViews } from './presentation/catalog-views';
-import type { CampaignView, GameController, GameSnapshot, GameAction, MonsterView, SkillView, BattleMonsterView, BattlePresentationFrame, QuestView } from './game-types';
+import type { CampaignView, EngravingView, MonsterEngravingsView, GameController, GameSnapshot, GameAction, MonsterView, SkillView, BattleMonsterView, BattlePresentationFrame, QuestView } from './game-types';
 
 export const loadGameData = loadCatalog;
-interface GameExtras { coins: number; traits: Record<string,string>; quests: string[]; battlesWon: number; modules: Record<string,MonsterModules>; campaigns: Record<string,string[]>; shopUnlocked:string[]; recruitmentClaims:Record<string,number> }
+interface GameExtras { coins: number; traits: Record<string,string>; quests: string[]; battlesWon: number; modules: Record<string,MonsterModules>; engravingStock: Record<string,number>; campaigns: Record<string,string[]>; shopUnlocked:string[]; recruitmentClaims:Record<string,number> }
 type FullSave = Save & {game: GameExtras};
 const typesZh: Record<string,string> = {grass:'草',water:'水',fire:'火',flying:'飞行',electric:'电',mechanical:'机械',ground:'地面',normal:'普通',ice:'冰',psychic:'超能',fighting:'战斗',light:'光',shadow:'暗影',mystic:'神秘',dragon:'龙',holy:'圣灵',dimension:'次元',evil:'邪灵'};
 const statZh: Record<string,string> = {hp:'体力',atk:'攻击',def:'防御',spa:'特攻',spd:'特防',spe:'速度'};
@@ -98,7 +99,7 @@ export function advanceBattlePresentation(state: BattlePresentationState, event:
   if (member.uid === next.enemy.uid && side === 1) next.enemy = member;
   return next;
 }
-const extras = ():GameExtras => ({coins:1000,traits:{},quests:[],battlesWon:0,modules:{},campaigns:{},shopUnlocked:[],recruitmentClaims:{}});
+const extras = ():GameExtras => ({coins:1000,traits:{},quests:[],battlesWon:0,modules:{},engravingStock:{},campaigns:{},shopUnlocked:[],recruitmentClaims:{}});
 function itemDescription(item:Record<string,unknown>):string {
   const description=(item.desc as {zh?:string})?.zh;
   const beadPolicy='同一精灵同时只能使用一颗能量珠；每结束一场战斗减少一次，耗尽后失效，期间不能替换。';
@@ -190,7 +191,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   let ownedSet=new Set<number>(),seenSet=new Set<number>();
   const listeners = new Set<()=>void>();
   let cached: GameSnapshot;
-  const full = (base: Save):FullSave => {const result=Object.assign(base,{game:(base as FullSave).game ?? extras()});result.game.campaigns??={};result.game.shopUnlocked??=[];result.game.recruitmentClaims??={};return result;};
+  const full = (base: Save):FullSave => {const result=Object.assign(base,{game:(base as FullSave).game ?? extras()});result.game.campaigns??={};result.game.modules??={};result.game.engravingStock??={};result.game.shopUnlocked??=[];result.game.recruitmentClaims??={};return result;};
   function fresh() {
     save = full(newSave(Date.now() >>> 0)); rng = new Rng(save.seed);
     for (const id of [1,4,7]) {const mon=createMonster(dex,id,5,rng,{how:'gift',at:new Date().toISOString()});save=full(addMonster(save,mon));save.game.traits[mon.uid]=availableTraits[rng.int(0,availableTraits.length-1)].id;}
@@ -221,10 +222,41 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     ownedLedgerLength=save.dex.owned.length;seenLedgerLength=save.dex.seen.length;
     save.rng_state=[...rng.s];writeLocalSave(serialize(save));
   }
-  function skillView(id:number,pp?:Record<string,number>):SkillView {
-    const skill=data.skills.get(id)!;
+  function skillView(id:number,pp?:Record<string,number>,engraved?:BattleSkill):SkillView {
+    const skill=engraved??data.skills.get(id)!;
     if (!skill) return {id,name:'挣扎',type:'无',category:'物理',power:50,pp:0,maxPp:0,description:'技能耗尽时使用。'};
-    return {id,name:skill.name.zh,type:attackTypes(data.types,skill.type).map(type=>typesZh[type]??type).join('·'),category:skill.category==='physical'?'物理':skill.category==='special'?'特殊':'属性',power:skill.power,pp:pp?.[id] ?? skill.pp,maxPp:skill.pp,description:String((skill as any).desc?.zh ?? '')};
+    return {id,name:skill.name.zh,type:attackTypes(data.types,skill.type).map(type=>typesZh[type]??type).join('·'),category:skill.category==='physical'?'物理':skill.category==='special'?'特殊':'属性',power:skill.power+(skill.power_bonus??0),pp:pp?.[id] ?? skill.pp,maxPp:skill.pp,description:String((skill as any).desc?.zh ?? '')};
+  }
+  const engravingHolder=(mon:Monster)=>({species:mon.species,level:mon.level,skills:mon.skills,learned:mon.learned});
+  const equippedEngravings=(uid:string)=>save.game.modules[uid]?.engravings??[];
+  /** Battle-only engraving effects. Saved HP and PP stay on the unengraved scale. */
+  function engravingLoadout(mon:Monster) {
+    const active=activeEngravings(equippedEngravings(mon.uid),engravingHolder(mon));
+    const bonus=engravingStatBonus(active),overrides=engravingSkillOverrides(active,id=>data.skills.get(id));
+    const ppBonus=Object.fromEntries(Object.entries(overrides??{}).map(([id,skill])=>[id,skill.pp-data.skills.get(Number(id))!.pp])) as Record<string,number>;
+    return {bonus,overrides,ppBonus,hpBonus:bonus.hp??0};
+  }
+  /** Equipped copies per engraving across every monster; owned = stock + equipped, capped by the original Max. */
+  function equippedEngravingCounts() {
+    const counts:Record<string,number>={};
+    for(const mods of Object.values(save.game.modules))for(const id of mods.engravings??[])counts[id]=(counts[id]??0)+1;
+    return counts;
+  }
+  function engravingView(def:EngravingDefinition,mon:Monster,equipped=equippedEngravingCounts()):EngravingView {
+    const reason=engravingBlockedReason(def,engravingHolder(mon));
+    const moveName=def.moveIds?.map(id=>data.skills.get(id)?.name.zh).filter(Boolean).join('、');
+    return {id:def.id,name:def.name.zh,slot:def.slot,effect:def.effect.desc,levelMin:def.levelMin,bound:def.species.length>0,moveName:moveName||undefined,moveIds:def.moveIds,
+      group:engravingEffectGroup(def),statKeys:engravingStatKeys(def),era:def.era,ready:!reason,reason,note:def.notes?.join(' '),
+      maxOwned:def.maxOwned,stock:save.game.engravingStock[def.id]??0,equipped:equipped[def.id]??0,equippedHere:equippedEngravings(mon.uid).includes(def.id)};
+  }
+  function monsterEngravings(mon:Monster):MonsterEngravingsView {
+    const ids=equippedEngravings(mon.uid);
+    const pick=(slot:EngravingDefinition['slot'])=>{const def=ids.map(engravingById).find(e=>e?.slot===slot);return def?engravingView(def,mon):null;};
+    return {ability:pick('ability'),skill:pick('skill'),bonus:engravingStatBonus(activeEngravings(ids,engravingHolder(mon)))};
+  }
+  function engravingOptions(uid:string):EngravingView[] {
+    const mon=findMon(save,uid),known=new Set([...mon.skills,...mon.learned]),equipped=equippedEngravingCounts();
+    return engravings.filter(def=>(!def.species.length||def.species.includes(mon.species))&&(def.slot==='ability'||def.moveIds!.some(id=>known.has(id)))).map(def=>engravingView(def,mon,equipped));
   }
   function monsterView(mon:Monster):MonsterView {
     const sp=dex.species(mon.species); const trait=traits.find(t=>t.id===save.game.traits[mon.uid]);
@@ -235,12 +267,12 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       const blockedReason=mon.level<level?`达到 Lv.${level} 后可进化。`:capacityReason(edge.to,mon.uid);
       return {species:edge.to,name:dex.species(edge.to).name.zh,level,ready:!blockedReason,blockedReason};
     });
-    return {uid:mon.uid,species:sp.id,appearanceSpecies:appearance,skinOptions:(skinOptions.get(sp.id)??[sp.id]).map(species=>({species,name:dex.species(species).name.zh})),name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,inParty:save.party.includes(mon.uid),portrait:portrait(appearance),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,evolutionChoices,gender:getBreedingGender(sp.id),generation:mon.generation??0};
+    return {uid:mon.uid,species:sp.id,appearanceSpecies:appearance,skinOptions:(skinOptions.get(sp.id)??[sp.id]).map(species=>({species,name:dex.species(species).name.zh})),name:mon.nickname||sp.name.zh,speciesName:sp.name.zh,level:mon.level,exp:mon.exp,expToNext:expToNext(sp.growth,mon.level),iv:mon.iv,nature:dex.nature(mon.nature).name.zh,natureId:mon.nature,types:sp.types.map(t=>typesZh[t]??t),baseStats:{...sp.base},stats:computeStats(mon,dex),evs:mon.evs,hp:mon.hp,skills:mon.skills.map(id=>skillView(id,mon.pp)),learned:mon.learned.map(id=>skillView(id,mon.pp)),trait:trait?.name??'无',traitId:trait?.id??null,engravings:monsterEngravings(mon),inParty:save.party.includes(mon.uid),portrait:portrait(appearance),evolution:evolutions.length?evolutions.map(id=>dex.species(id).name.zh).join(' / '):null,evolutionChoices,gender:getBreedingGender(sp.id),generation:mon.generation??0};
   }
   function battleMon(mon:Mon):BattleMonsterView {
     const original=mon.side===0?battleAppearances.get(mon.slot):undefined;
     const appearance=original?.species===mon.species.id&&!transformedSlots.has(`${mon.side}:${mon.slot}`)?original.appearanceSpecies:mon.species.id;
-    return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,appearanceSpecies:appearance,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(appearance),skills:mon.skills.map(id=>skillView(id,mon.pp)),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
+    return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,appearanceSpecies:appearance,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(appearance),skills:mon.skills.map(id=>skillView(id,mon.pp,mon.skillOverrides?.[id])),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
   const questData = [
     {id:'first-victory',name:'初次胜利',description:'赢得一次野外遭遇或首领挑战，领取皮皮。',species:10,ready:()=>save.game.battlesWon>=1,progress:()=>`${Math.min(1,save.game.battlesWon)}/1`},
     {id:'three-victories',name:'成长之路',description:'赢得三场战斗，领取比比鼠。',species:13,ready:()=>save.game.battlesWon>=3,progress:()=>`${Math.min(3,save.game.battlesWon)}/3`},
@@ -369,7 +401,11 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function settle() {
     if (!battle?.result || battleSettled) return; battleSettled=true;
-    for(const entry of battle.exportTeam(0)) {const mon=findMon(save,entry.uid!);replace({...mon,hp:entry.hp,pp:entry.pp,status:null});}
+    for(const entry of battle.exportTeam(0)) {
+      const mon=findMon(save,entry.uid!),engraving=engravingLoadout(mon),pp:Record<string,number>={...entry.pp};
+      for(const [id,extra] of Object.entries(engraving.ppBonus))if(pp[id]!==undefined)pp[id]=Math.max(0,pp[id]-extra);
+      replace({...mon,hp:entry.hp>0?Math.max(1,entry.hp-engraving.hpBonus):0,pp,status:null});
+    }
     save.items={...battle.sides[0].items};
     rng.s=[...battle.rng.s];
     save=full(applyBattleRewards(save,battle.result.defeated,dex,{autoEvolve:false}).save);
@@ -422,7 +458,12 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     const stage=campaignContext?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===campaignContext.id)!.stages.find(entry=>entry.id===campaignContext.stageId):undefined;
     let roster=save.party.map(uid=>findMon(save,uid));
     if(stage?.requiredSpecies)roster=roster.filter(mon=>mon.species===stage.requiredSpecies&&mon.level>=(stage.minLevel??1)&&mon.hp>0).slice(0,1);
-    const player={kind:'player' as const,name:'赛尔',team:roster.map(m=>({...m,stats:computeStats(m,dex),beads:activeBeads(save,m.uid)})),items:save.items};
+    const player={kind:'player' as const,name:'赛尔',team:roster.map(m=>{
+      const engraving=engravingLoadout(m),stats={...computeStats(m,dex)},pp={...m.pp};
+      for(const [key,value] of Object.entries(engraving.bonus))stats[key as keyof typeof stats]+=value;
+      for(const [id,extra] of Object.entries(engraving.ppBonus))if(pp[id]!==undefined)pp[id]+=extra;
+      return {...m,stats,hp:m.hp>0?m.hp+engraving.hpBonus:0,pp,skill_overrides:engraving.overrides,beads:activeBeads(save,m.uid)};
+    }),items:save.items};
     if(!player.team.some(m=>m.hp>0)) throw new Error('精灵体力耗尽，请使用恢复舱。');
     if(boss) {const errors=validateEncounter(boss,player);if(errors.length)throw new Error(errors.join('；'));}
     const wild=boss?null:createMonster(dex,species,level??Math.max(3,Math.round(player.team[0].level*0.85)),rng);
@@ -503,6 +544,35 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       }
       case 'rename':save=full(rename(save,action.uid,action.name||null));break;
       case 'equip':replace(equipSkills(findMon(save,action.uid),action.skills,dex));break;
+      case 'buyEngraving': {
+        if(battle&&!battle.result)throw new Error('请先结束战斗，再前往商城。');
+        const def=engravingById(action.engravingId);
+        if(!def)throw new Error('刻印不存在。');
+        const stock=save.game.engravingStock,owned=(stock[def.id]??0)+(equippedEngravingCounts()[def.id]??0);
+        if(owned>=def.maxOwned)throw new Error(`${def.name.zh}最多持有 ${def.maxOwned} 个（含已装备）。`);
+        stock[def.id]=(stock[def.id]??0)+1;
+        notice(`${def.name.zh} ×1 已放入刻印库存。`);
+        break;
+      }
+      case 'setEngraving': {
+        const mon=findMon(save,action.uid);
+        if(!ENGRAVING_SLOTS.includes(action.slot))throw new Error('刻印槽位不存在。');
+        const equipped=equippedEngravings(mon.uid),previous=equipped.find(id=>engravingById(id)?.slot===action.slot);
+        if((previous??null)===action.engravingId)break;
+        const def=action.engravingId===null?undefined:engravingById(action.engravingId),stock=save.game.engravingStock;
+        if(action.engravingId!==null){
+          if(!def||def.slot!==action.slot)throw new Error('刻印不存在。');
+          const reason=engravingBlockedReason(def,engravingHolder(mon));
+          if(reason)throw new Error(`${def.name.zh}：${reason}。`);
+          if(!stock[def.id])throw new Error(`${def.name.zh}库存不足，请先在商城购买。`);
+        }
+        // Equipping takes one copy from the stock; the replaced or removed copy returns to it.
+        if(previous)stock[previous]=(stock[previous]??0)+1;
+        if(def&&!--stock[def.id])delete stock[def.id];
+        save.game.modules[mon.uid]={...save.game.modules[mon.uid],engravings:[...equipped.filter(id=>id!==previous),...(def?[def.id]:[])]};
+        notice(def?`${mon.nickname??dex.species(mon.species).name.zh}装备了${def.name.zh}。`:'已卸下刻印，放回刻印库存。');
+        break;
+      }
       case 'train': {const amount=Math.max(1,Math.floor(action.amount));if(save.game.coins<amount*10)throw new Error('赛尔豆不足。');const old=findMon(save,action.uid);const next=addEvs(old,{[action.stat]:amount}).mon;const gain=next.evs[action.stat]-old.evs[action.stat];if(!gain)throw new Error('学习力已达到上限。');replace(next);save.game.coins-=gain*10;notice(`${statZh[action.stat]}学习力增加 ${gain}。`);break;}
       case 'allocateExp':save=full(allocatePoolExp(save,action.uid,action.amount,dex).save);replace(boundedAutoEvolve(findMon(save,action.uid)));break;
       case 'setSkin': {
@@ -606,5 +676,5 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     emit();
   }
   persist();refresh();
-  return {snapshot:()=>cached,subscribe:(listener)=>{listeners.add(listener);return()=>listeners.delete(listener);},dispatch,exportSave:()=>serialize(save),importSave:(text)=>{parse(text);battle=null;notice('存档已导入。');emit();},reset:()=>{fresh();battle=null;notices=['新旅程已开始。'];emit();}};
+  return {snapshot:()=>cached,subscribe:(listener)=>{listeners.add(listener);return()=>listeners.delete(listener);},dispatch,engravingOptions,exportSave:()=>serialize(save),importSave:(text)=>{parse(text);battle=null;notice('存档已导入。');emit();},reset:()=>{fresh();battle=null;notices=['新旅程已开始。'];emit();}};
 }

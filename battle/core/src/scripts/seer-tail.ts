@@ -365,11 +365,12 @@ const TAIL: Record<string, ScriptEntry> = {
     hook(c) { if (c.item) return -c.amount; },
   },
   // 损失1/2的体力，给予对手同等的伤害   (1/2 of max HP, capped by current HP)
+  // p[0] truthy: the 敌我同伤刻印 removes the user's own loss.
   seer_eff_80: {
-    apply(c) {
+    apply(c, p) {
       const n = Math.min(c.user.hp, Math.floor(c.user.maxHp / 2));
       fixed(c, n);
-      if (!c.battle.result) selfLoss(c.battle, c.user, n);
+      if (!c.battle.result && !p?.[0]) selfLoss(c.battle, c.user, n);
     },
   },
   // 若先手攻击，则将所受伤害2倍反击给对手   (for the rest of this turn)

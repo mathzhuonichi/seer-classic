@@ -3,7 +3,16 @@ export type Stats = Record<StatKey, number>;
 export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
 export interface SkinChoiceView {species:number;name:string}
 export interface EvolutionChoiceView {species:number;name:string;level:number;ready:boolean;blockedReason?:string}
-export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
+/** A 2013 ability or skill engraving as it applies to one monster. */
+export interface EngravingView {
+  id: string; name: string; slot: 'ability' | 'skill'; effect: string; levelMin: number; bound: boolean; moveName?: string; moveIds?: number[];
+  /** Skill engravings: classifier group (ENGRAVING_EFFECT_GROUPS). Ability engravings: raised stats. */
+  group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
+  /** Owned = stock + equipped copies, at most maxOwned (original Max). */
+  maxOwned: number; stock: number; equipped: number; equippedHere: boolean;
+}
+export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<Stats> }
+export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings?: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
 export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: {species:number;name:string;level:number}[] }
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
 export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<Stats>}
@@ -36,6 +45,8 @@ export type GameAction =
  | {type: 'party'; uid: string; add: boolean}
  | {type: 'rename'; uid: string; name: string}
  | {type: 'equip'; uid: string; skills: number[]}
+ | {type: 'setEngraving'; uid: string; slot: 'ability' | 'skill'; engravingId: string | null}
+ | {type: 'buyEngraving'; engravingId: string}
  | {type: 'train'; uid: string; stat: StatKey; amount: number}
  | {type: 'setEvs'; uid: string; evs: Stats}
  | {type: 'reorderParty'; uids: string[]}
@@ -51,4 +62,4 @@ export type GameAction =
  | {type: 'cheatAcquire'; species: number; level?: number}
  | {type: 'cheatResources'; coins?: number; expPool?: number}
  | {type: 'dismissNotice'};
-export interface GameController { snapshot(): GameSnapshot; subscribe(listener: () => void): () => void; dispatch(action: GameAction): void; exportSave(): string; importSave(json: string): void; reset(): void }
+export interface GameController { snapshot(): GameSnapshot; subscribe(listener: () => void): () => void; dispatch(action: GameAction): void; engravingOptions?(uid: string): EngravingView[]; exportSave(): string; importSave(json: string): void; reset(): void }

@@ -172,7 +172,7 @@ hits 地面 0x, and 草 hits 光 2x while 光 hits 草 0x.
 | 6-monster party, 4 equipped skills | yes | all period guides; 怀旧服 "4个主动技能槽位" | H |
 | 第五技能 (5th skill) | **no**, 2014 | official news 2014-06-13: 丽莎布布 super-evolution "with a new fifth skill" | H |
 | 魂印 | no (about 2014+) | absent from every pre-2013 guide found; RULES/SPEC already exclude it | M |
-| 刻印 | no (later) | jiangshibiao lists it as a modern stat source; no period mention | M |
+| 刻印 | **yes**, by 2011 (ability and skill engravings); universal engravings from mid-2014 | 7k7k articles 2011-03-05 and 2011-05-16; 2013-07-06 client table (`engravings-2013.md`) | H |
 | 特性 | **yes**, by June 2011, via fusion materials | Sina blog 2011-06-22 | M |
 | 精灵融合 / 元神珠 hatching | yes (2011) | same blog; 怀旧服 guides (元神珠孵化) | M |
 | 超进化 | yes, by July 2012 (雷纳尔多, 圣光天马, 巨石灵王, 仙女龙, 魔域仙子, 巨齿鲨, 巨蘑怪, 鲁迪诺斯) | 4399 2012-07-28 | H |

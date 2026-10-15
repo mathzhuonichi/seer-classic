@@ -261,8 +261,20 @@
 .raising-skin-picker>label{font-size:11px;font-weight:700;white-space:nowrap}
 .raising-skin-picker>select{flex:1;min-width:0;font-size:11px;padding:5px 7px}
 .raising-skins>p{margin:6px 0 0;font-size:10px;line-height:1.5}
+.raising-engravings{margin:10px 0 0;padding:8px 9px;border:1px solid #9fc1cf;border-radius:5px;background:#eaf5f8;color:#18394d}
+.raising-engravings .stat-table-heading{margin:0 0 6px}
+.engraving-slot{display:grid;gap:3px;margin:0 0 7px}
+.engraving-slot>label{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;white-space:nowrap}
+.engraving-slot select{flex:1;min-width:0;font-size:11px;padding:5px 7px}
+.engraving-slot>small{font-size:10px;line-height:1.5;padding-left:2px}
+.engraving-slot>small.engraving-inactive{color:#b0352c}
+.management-stat-table .engraving-bonus{margin-left:4px;color:#c98a00;font-size:10px;font-weight:700}
 .official-petbag .raising-skins{background:#074f95;border-color:#1386bd;color:#e1f5ff}
 .official-petbag .raising-skin-picker>select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
+.official-petbag .raising-engravings{background:#074f95;border-color:#1386bd;color:#e1f5ff}
+.official-petbag .raising-scroll .raising-engravings .stat-table-heading,.official-petbag .raising-scroll .raising-engravings .stat-table-heading>span{color:#e1f5ff}
+.official-petbag .engraving-slot select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
+.official-petbag .engraving-slot>small.engraving-inactive{color:#ffb4a8}
 
 /* Trainer previews disclose ordinary roster members before battle. */
 .trainer-roster{margin:12px 0;padding:10px;border:1px solid #a7c7d6;border-radius:6px;background:#e6f3f8}
