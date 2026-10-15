@@ -29,7 +29,8 @@ def export(map_id, java, jar):
     if not swf.exists():
         swf.write_bytes(urllib.request.urlopen(f'https://seer.61.com/resource/map/{map_id}.swf', timeout=25).read())
     if not xml.exists():
-        subprocess.run([java, '-Xmx384m', '-jar', jar, '-swf2xml', str(swf), str(xml)], check=True,
+        subprocess.run([java, '-Xmx384m', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true',
+                        '-jar', jar, '-cli', '-swf2xml', str(swf), str(xml)], check=True,
                        stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     source = ET.parse(xml).getroot()
     bg = next(node for node in source.findall('./tags/item') if node.get('name') == 'bg_mc')
@@ -38,7 +39,8 @@ def export(map_id, java, jar):
     if matrix.get('hasScale') != 'false' or matrix.get('hasRotate') != 'false':
         raise ValueError('This background needs a separate placement calibration.')
     directory = CACHE / f'{map_id}-bg'
-    subprocess.run([java, '-Xmx384m', '-jar', jar, '-selectid', symbol, '-select', '1',
+    subprocess.run([java, '-Xmx384m', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true',
+                    '-jar', jar, '-cli', '-selectid', symbol, '-select', '1',
                     '-format', 'sprite:svg', '-export', 'sprite', str(directory), str(swf)], check=True,
                    stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     exported = next(directory.rglob('1.svg'))

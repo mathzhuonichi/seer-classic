@@ -13,7 +13,7 @@ manifest = json.loads(manifest_path.read_text())
 ids = [manifest['assets'][name]['symbolId'] for name in NAMES] + [5584]
 cache = ROOT / '.cache/classic-ui-v27/png4x'
 subprocess.run([str(ROOT / '.cache/vector-export/jre/jdk-17.0.20.1+1-jre/Contents/Home/bin/java'),
-                '-Xmx2g', '-Djava.awt.headless=true', '-jar', str(ROOT / '.cache/vector-export/ffdec/ffdec.jar'),
+                '-Xmx2g', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true', '-jar', str(ROOT / '.cache/vector-export/ffdec/ffdec.jar'), '-cli',
                 '-selectid', ','.join(map(str, ids)), '-select', ','.join(f'{sid}:1' for sid in ids),
                 '-zoom', '4', '-format', 'sprite:png,button:png', '-export', 'sprite,button',
                 str(cache), str(ROOT / '.cache/classic-robots/UI.swf')], check=True)

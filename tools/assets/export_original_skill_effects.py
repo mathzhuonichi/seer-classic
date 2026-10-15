@@ -32,7 +32,8 @@ def export(skill_id, java, jar, skills):
             raise ValueError('Official response is not a SWF')
         swf.write_bytes(data)
     xml = CACHE / f'skill{skill_id}.xml'
-    run = lambda args: subprocess.run([java, '-Xmx512m', '-jar', jar] + args,
+    run = lambda args: subprocess.run([java, '-Xmx512m', '-Djava.awt.headless=true',
+        '-Dapple.awt.UIElement=true', '-jar', jar, '-cli'] + args,
         check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=90)
     if not xml.exists():
         run(['-swf2xml', str(swf), str(xml)])
@@ -94,7 +95,8 @@ def registration(skill_id, java, jar, effect):
     directory = ROOT / f'.cache/gamefeel-resources/skill-registration/{skill_id}'
     files = list(directory.rglob('1.svg'))
     if not files:
-        subprocess.run([java, '-Xmx384m', '-jar', jar, '-selectid', str(effect['sourceSymbol']),
+        subprocess.run([java, '-Xmx384m', '-Djava.awt.headless=true',
+            '-Dapple.awt.UIElement=true', '-jar', jar, '-cli', '-selectid', str(effect['sourceSymbol']),
             '-select', f"{effect['sourceSymbol']}:1", '-format', 'sprite:svg', '-export', 'sprite',
             str(directory), str(CACHE / f'fightResource/skill/swf/{skill_id}.swf')],
             check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=90)

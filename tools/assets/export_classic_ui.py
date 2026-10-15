@@ -32,7 +32,7 @@ def main():
         if any(asset.get('sourceSwf') == str(clean.relative_to(ROOT)) for asset in manifest['assets'].values()):
             source = ROOT / '.cache/capture-official-v25/PetFightDLL-live.swf'
             xml_path = ROOT / '.cache/classic-ui-v26/fight-current.xml'
-            subprocess.run([args.java, '-Xmx1g', '-Djava.awt.headless=true', '-jar', args.ffdec,
+            subprocess.run([args.java, '-Xmx1g', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true', '-jar', args.ffdec, '-cli',
                             '-swf2xml', str(source), str(xml_path)], check=True)
             tree = ET.parse(xml_path)
             for item in tree.getroot().iter('item'):
@@ -48,7 +48,7 @@ def main():
                             tags.remove(child)
             selected_xml = clean.with_suffix('.xml')
             tree.write(selected_xml, encoding='utf-8', xml_declaration=True)
-            subprocess.run([args.java, '-Xmx1g', '-Djava.awt.headless=true', '-jar', args.ffdec,
+            subprocess.run([args.java, '-Xmx1g', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true', '-jar', args.ffdec, '-cli',
                             '-xml2swf', str(selected_xml), str(clean)], check=True)
     groups = {}
     for name, asset in manifest['assets'].items():
@@ -60,7 +60,7 @@ def main():
         groups.setdefault((group, source), set()).add(asset['symbolId'])
     for (group, source_path), ids in ([] if args.verify_only else groups.items()):
         source = ROOT / source_path
-        subprocess.run([args.java, '-Xmx2g', '-Djava.awt.headless=true', '-jar', args.ffdec,
+        subprocess.run([args.java, '-Xmx2g', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true', '-jar', args.ffdec, '-cli',
                         '-selectid', ','.join(map(str, sorted(ids))),
                         '-select', ','.join(f'{sid}:1' for sid in sorted(ids)),
                         '-zoom', '2', '-format', 'sprite:png,button:png,shape:png,image:png',

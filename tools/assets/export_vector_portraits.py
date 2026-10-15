@@ -59,7 +59,8 @@ def export(sid, java, ffdec):
     character = pet_character(data)
     for kind in ('svg', 'png'):
         subprocess.run([
-            java, '-Xmx512m', '-Djava.awt.headless=true', '-jar', ffdec,
+            java, '-Xmx512m', '-Djava.awt.headless=true',
+            '-Dapple.awt.UIElement=true', '-jar', ffdec, '-cli',
             '-selectid', str(character), '-select', f'{character}:1',
             '-format', f'sprite:{kind}', '-zoom', '2', '-export', 'sprite',
             str(work / kind), str(swf),

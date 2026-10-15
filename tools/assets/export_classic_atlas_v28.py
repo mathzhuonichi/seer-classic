@@ -18,7 +18,8 @@ RUNTIME = ROOT / 'src/presentation/atlas-graph-assets.json'
 
 
 def ffdec(*args):
-    result = subprocess.run([str(JAVA), '-Xmx2g', '-Djava.awt.headless=true', '-jar', str(FFDEC), *map(str, args)],
+    result = subprocess.run([str(JAVA), '-Xmx2g', '-Dapple.awt.UIElement=true', '-Djava.awt.headless=true',
+                             '-jar', str(FFDEC), '-cli', *map(str, args)],
                             stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     if result.returncode:
         raise RuntimeError(result.stderr.decode()[-1000:])
