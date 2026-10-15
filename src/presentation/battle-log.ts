@@ -53,7 +53,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     }
     case 'flee': return `${event.side === 1 ? '对手' : '我方'}撤离了战斗。`;
     case 'boss_fled': return '对手撤离了战斗。';
-    case 'battle_end': return event.reason === 'capture' ? '捕捉成功，战斗结束！' : event.reason === 'flee' ? '已撤离战斗，本次不发放战斗奖励。' : event.success ? '战斗胜利！' : '战斗结束。';
+    case 'battle_end': return event.reason === 'capture' ? '捕捉成功，战斗结束！' : event.reason === 'flee' ? '已撤离战斗，本次不发放战斗奖励。' : event.reason==='turn_cap'?'达到回合上限，本场平局。':event.success ? '战斗胜利！' : '战斗结束。';
     case 'say': return String(event.text?.zh ?? event.text ?? '');
     default: return '';
   }

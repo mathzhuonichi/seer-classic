@@ -17,12 +17,12 @@ try{
  const catalog=await loadCatalog(),trainers=catalog.trainers??[],without={...catalog,trainers:[]};
  const species=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
  const inputBytes=JSON.stringify(catalog),data=buildDataSet(catalog);
- check('Three trainer rosters contain nine ordinary legal Lv80 builds',()=>{
+ check('Three trainer rosters contain eighteen ordinary legal Lv100 builds',()=>{
   assert.equal(trainers.length,3);assert.deepEqual(trainers.map(row=>row.ai.style).sort(),['attrition','control','offense']);
-  for(const trainer of trainers){assert.equal(trainer.category,'trainer');assert.equal(trainer.team.length,3);assert.deepEqual(trainer.reward,{items:{}});assert.deepEqual(trainer.phases,[]);assert.deepEqual(trainer.rules,[{rule:'no_capture'}]);assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
-   for(const mon of trainer.team){assert.equal(mon.level,80);assert.equal(mon.iv,31);assert.equal(mon.nature,'hardy');assert.equal(Object.values(mon.evs).reduce((a,b)=>a+b,0),510);assert(Object.values(mon.evs).every(value=>Number.isInteger(value)&&value>=0&&value<=255));assert.equal(mon.skills.length,4);assert.equal(new Set(mon.skills).size,4);
+  for(const trainer of trainers){assert.equal(trainer.category,'trainer');assert.equal(trainer.team.length,6);assert.equal(new Set(trainer.team.map(mon=>mon.species)).size,6);assert.deepEqual(trainer.reward,{items:{}});assert.deepEqual(trainer.phases,[]);assert.deepEqual(trainer.rules,[{rule:'no_capture'}]);assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
+   for(const mon of trainer.team){assert.equal(mon.level,100);assert.equal(mon.iv,31);assert.equal(mon.nature,'hardy');assert.equal(Object.values(mon.evs).reduce((a,b)=>a+b,0),510);assert(Object.values(mon.evs).every(value=>Number.isInteger(value)&&value>=0&&value<=255));assert.equal(mon.skills.length,4);assert.equal(new Set(mon.skills).size,4);
     for(const key of ['hp','hp_override','stats','stat_multipliers','pp','member_rules','member_phases','beads','types'])assert(!(key in mon),key);
-    for(const id of mon.skills)assert(skills.has(id)&&species.get(mon.species).learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=80),`${mon.species}/${id}`);
+    for(const id of mon.skills)assert(skills.has(id)&&species.get(mon.species).learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100),`${mon.species}/${id}`);
    }
   }
  });
@@ -39,15 +39,15 @@ try{
   assert.equal(after.bosses.filter(row=>row.category==='训练师对战').length,3);
   assert(!after.shopItems.some(row=>row.id.includes('trainer_')));
  });
- check('Trainer tab renders a disclosed three-member team and meaningful reward copy',()=>{
+ check('Trainer tab renders a disclosed six-member team and meaningful reward copy',()=>{
   const html=renderToStaticMarkup(React.createElement(ChallengeCenter,{s:game.snapshot(),c:game,onTravel:()=>{}}));
-  assert(html.includes('训练师对战'));assert(html.includes('aria-label="训练师队伍"'));assert(html.includes('对方阵容 · 3'));assert(html.includes('与训练师互动'));assert(html.includes('赛尔豆与经验。'));
+  assert(html.includes('训练师对战'));assert(html.includes('aria-label="训练师队伍"'));assert(html.includes('对方阵容 · 6'));assert(html.includes('与训练师互动'));assert(html.includes('赛尔豆与经验。'));
   assert(!html.includes('获得首领精元'));assert(!html.includes('不解锁新的精灵获取路线'));
-  for(const trainer of trainers){const view=game.snapshot().bosses.find(row=>row.id===trainer.id);assert.equal(view.opponents.length,3);assert(view.opponents.every(mon=>mon.level===80));assert.deepEqual(findChallengeLocation(view),{planetId:'space-station',regionId:'resources',staging:false});}
+  for(const trainer of trainers){const view=game.snapshot().bosses.find(row=>row.id===trainer.id);assert.equal(view.opponents.length,6);assert(view.opponents.every(mon=>mon.level===100));assert.deepEqual(findChallengeLocation(view),{planetId:'space-station',regionId:'resources',staging:false});}
  });
  for(const trainer of trainers){
   const candidate=createGame(catalog,saved);candidate.dispatch({type:'startBattle',bossId:trainer.id});
-  check(`${trainer.id}: public start action preserves real roster and blocks capture`,()=>{const b=candidate.snapshot().battle;assert(b);assert.equal(b.enemyParty.length,3);assert.deepEqual(b.enemyParty.map(mon=>mon.species),trainer.team.map(mon=>mon.species));assert.equal(b.canCapture,false);assert(b.enemyParty.every(mon=>mon.level===80));});
+  check(`${trainer.id}: public start action preserves real roster and blocks capture`,()=>{const b=candidate.snapshot().battle;assert(b);assert.equal(b.enemyParty.length,6);assert.deepEqual(b.enemyParty.map(mon=>mon.species),trainer.team.map(mon=>mon.species));assert.equal(b.canCapture,false);assert(b.enemyParty.every(mon=>mon.level===100));});
   candidate.dispatch({type:'flee'});const fled=JSON.parse(candidate.exportSave());
   check(`${trainer.id}: retreat does not unlock rewards or collection`,()=>{assert.deepEqual(fled.dex,JSON.parse(saved).dex);assert.deepEqual(fled.game.shopUnlocked,JSON.parse(saved).game.shopUnlocked);assert(!fled.progress.bosses_cleared.includes(trainer.id));});
  }
@@ -68,10 +68,14 @@ try{
   controller.push({trainer:trainer.id,fixture:'one-HP reward integration only',actions,coins:after.game.coins-before.game.coins,pooledExperience:after.exp_pool-before.exp_pool});
  }
  const balanced=[
-  {species:6,level:80,iv:31,evs:{hp:255,spa:255},nature:'hardy',skills:[10027,10024,10025,20012]},
-  {species:61,level:80,iv:31,evs:{hp:255,spa:255},nature:'hardy',skills:[10140,10105,20074,20038]},
-  {species:24,level:80,iv:31,evs:{hp:255,spe:255},nature:'hardy',skills:[10056,20027,20026,20016]},
+  {species:6,level:100,iv:31,evs:{hp:255,spa:255},nature:'hardy',skills:[10027,10024,10025,20012]},
+  {species:61,level:100,iv:31,evs:{hp:255,spa:255},nature:'hardy',skills:[10140,10105,20074,20038]},
+  {species:24,level:100,iv:31,evs:{hp:255,spe:255},nature:'hardy',skills:[10056,20027,20026,20016]},
+  {species:70,level:100,iv:31,evs:{atk:255,spe:255},nature:'hardy',skills:[10176,10170,10166,20085]},
+  {species:3,level:100,iv:31,evs:{hp:255,spd:255},nature:'hardy',skills:[20007,20009,10016,10014]},
+  {species:9,level:100,iv:31,evs:{atk:255,spe:255},nature:'hardy',skills:[10030,10031,10033,20014]},
  ];
+ for(const mon of balanced)assert(mon.skills.every(id=>species.get(mon.species).learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100)));
  for(const trainer of trainers)for(const seed of [7,29,101]){
   const battle=createBattle({data,scripts:SEER_SCRIPTS,seed,sides:[{kind:'boss',team:structuredClone(balanced),ai:{kind:'smart',allow_switch:true}},{kind:'boss',team:structuredClone(trainer.team)}],encounter:structuredClone(trainer)});
   let iterations=0;while(!battle.result&&iterations++<400)battle.resolveTurn();
@@ -82,7 +86,7 @@ try{
  }
  check('A real trainer voluntarily pivots after two natural turns and survives the entry hit',()=>{
   const trainer=trainers.find(row=>row.id==='trainer_offense');
-  const player={species:6,level:80,iv:31,evs:{hp:255,def:255},nature:'hardy',skills:[10024,10027,20011,20012]};
+  const player={species:6,level:100,iv:31,evs:{hp:255,def:255},nature:'hardy',skills:[10024,10027,20011,20012]};
   assert(player.skills.every(id=>species.get(player.species).learnset.some(row=>row.skill===id&&row.level>=1&&row.level<=player.level)));
   const battle=createBattle({data,scripts:SEER_SCRIPTS,seed:7,sides:[{kind:'player',team:[player]},{kind:'trainer',team:structuredClone(trainer.team),ai:trainer.ai}],encounter:structuredClone(trainer)});
   const trace=[];

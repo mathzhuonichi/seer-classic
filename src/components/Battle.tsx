@@ -111,7 +111,7 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
         setFrame(null);
         setSourceAction(null);
         setSkillEffect(null);
-        if (latest.current.finished && !latest.current.captured && latest.current.resultReason!=='flee') gameAudio.playSfx(latest.current.won ? 'win' : 'lose');
+        if (latest.current.finished && !latest.current.captured && !['flee','turn_cap'].includes(latest.current.resultReason??'')) gameAudio.playSfx(latest.current.won ? 'win' : 'lose');
         setBusy(false);
         locked.current = false;
         if (latest.current.needsSwitch) { setTab('party'); setPartySelection(latest.current.party.find(mon => mon.hp > 0)?.uid || ''); setDialogue('精灵失去战斗能力，请选择下一位出战精灵。'); }
@@ -210,7 +210,7 @@ export default function Battle({ s, c, commandRequest, background }: { s: GameSn
       </div>
       {showLog && <div id={recordId} className="classic-battle-history" role="log" aria-label="完整战斗记录" tabIndex={0}>{b.log.map((line, index) => <p key={index}>{line}</p>)}</div>}
     </section>
-    {b.finished && !busy ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status"><div><strong>{b.captured ? '捕捉成功！' : b.won ? '挑战胜利！' : '战斗结束'}</strong><p>{b.result}</p></div></div> : <div className="classic-command-deck" aria-busy={busy}>
+    {b.finished && !busy ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status"><div><strong>{b.captured ? '捕捉成功！' : b.won ? '挑战胜利！' : b.resultReason==='turn_cap'?'本场平局':'战斗结束'}</strong><p>{b.result}</p></div></div> : <div className="classic-command-deck" aria-busy={busy}>
       <nav className="classic-command-tabs" aria-label="战斗指令"><button className={`command-capture ${tab==='items'&&itemCategory==='capsule'?'active':''}`} aria-label="捕捉" title="捕捉" aria-pressed={tab==='items'&&itemCategory==='capsule'} disabled={disabled||b.needsSwitch||!b.canCapture} onClick={()=>{gameAudio.playSfx('tab');setItemCategory('capsule');setItemSelection('');setTab('items')}}><img src="/ui/classic/battle-capture.png" alt="" draggable={false}/></button>{commands.map(command => <button key={command.id} className={`command-${command.id} ${tab === command.id&&(command.id!=='items'||itemCategory!=='capsule') ? 'active' : ''}`} aria-label={command.label} title={command.label} disabled={disabled || (b.needsSwitch && command.id !== 'party' && command.id !== 'escape')} aria-pressed={tab === command.id&&(command.id!=='items'||itemCategory!=='capsule')} onClick={() => {gameAudio.playSfx('tab');if(command.id==='items')setItemCategory('recovery');setTab(command.id);}}><img src={`/ui/classic/${command.asset}.png`} alt="" draggable={false}/></button>)}</nav>
       <div className={`classic-command-content command-content-${tab} ${tab === 'items' ? 'classic-item-panel' : ''}`}>
         {tab === 'battle' && <><div className="classic-command-caption"><span>选择技能</span><small>将鼠标停留在技能上查看效果</small></div><div className="classic-skill-grid">{Array.from({ length: 4 }, (_, slot) => {

@@ -168,7 +168,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const creatureLevel=selection?.kind==='creature'?(selection.level??region.levels[0]):region.levels[0];
   const boss=selection?.kind==='boss'?s.bosses.find(b=>b.id===selection.id):undefined;
   const activeFacility=region.facility;
-  const facilityName=region.facility==='missions'?'罗杰船长':region.facility==='recovery'?'派特博士':'传送管理员';
+  const facilityName=region.facility==='missions'?'罗杰船长':region.facility==='recovery'?'派特博士':region.facility==='battle'?'对战管理员':'传送管理员';
   const laboratory=planet.id==='station'&&region.id==='lab';
   // The original map contains the equipment: bind interaction to its actual footprint.
   const laboratoryFacilities=[
@@ -281,7 +281,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       <button className="world-dialogue-close" aria-label="离开对话" onClick={()=>setSelection(null)}>×</button>
       <div className="world-dialogue-body">{(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={(creature??boss)!.name}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
         <div className="world-dialogue-copy"><small>{creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`:'飞船联络'}</small><h3>{creature?.name??boss?.name??facilityName}</h3>
-          <p>{creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`:activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':'选择下一站，或者从挑战档案寻找新的对手。'}</p>
+          <p>{creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`:activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
           {showDetails&&<p className="world-dialogue-detail">{boss?.description??(creature?`精灵编号 #${creature.id}，等级 Lv.${creatureLevel}。${creature.wildCapture===false?'击败后通过精元孵化获得，不能使用胶囊。':'先削弱野生精灵的体力，再从战斗道具使用精灵胶囊。'}`:region.description)}</p>}
         </div>
       </div>
@@ -292,6 +292,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
         {laboratory&&<button onClick={()=>{setSelection(null);onNavigate?.('shop')}}>道具商城</button>}
         {activeFacility==='missions'&&<button className="primary" onClick={()=>onNavigate?.('quests')}>航行任务</button>}
         {activeFacility==='challenges'&&<button className="primary" onClick={()=>onNavigate?.('challenge')}>挑战档案</button>}
+        {activeFacility==='battle'&&region.battleFacility&&<button className="primary" onClick={()=>{setSelection(null);onNavigate?.(`facilities:${region.battleFacility}`)}}>选择对战</button>}
       </>}<button className="subtle" onClick={()=>setSelection(null)}>离开</button></div>
     </section>}
   </section>;

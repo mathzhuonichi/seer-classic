@@ -340,6 +340,19 @@ bypass trapping. Existing historical encounters do not opt in. Optional styles
 `offense`, `control`, and `attrition` adjust supported effect preferences; they
 do not alter stats or damage rules. See `design/notes/offline-battle-ai-v36.md`.
 
+The public opponent view records revealed moves once per decision and reuses
+that immutable observation for all candidate evaluations. There is no search
+tree or unbounded retry loop. The existing default limit of 200 completed turns
+ends prolonged recovery/status battles with `winner: null`, `reason: turn_cap`.
+The UI identifies this as a draw and grants no victory bonus. Full PP restoration
+(`amount: "all"` or omitted) fills each existing move to its finite maximum.
+
+Space Station facilities generate six distinct ordinary Lv.100 opponents with
+exactly six seeded partial-Fisher-Yates draws; the elite pool includes base-stat
+totals equal to 600. Fixed teams use the separate trainer catalog. Facility
+encounters forbid capture but do not add boss ability overrides, boss progress,
+essences or collection unlocks. See `design/notes/station-battle-facilities-v37.md`.
+
 ## 11. Determinism
 
 One seeded PRNG per battle (`sfc32`, seed from `createBattle`). The order of

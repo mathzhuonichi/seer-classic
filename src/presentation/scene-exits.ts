@@ -219,6 +219,20 @@ export function getSceneExits(planet: WorldPlanet, region: WorldRegion): SceneEx
       if (target) add(from, target, point(x, y), facing, 'official');
     }
   }
+  // Activate three unused visible hub approaches without relabeling the tower,
+  // dark arena, or mystery realm. These local facility links are authored.
+  if (planet.id === 'space-station') {
+    const hub = regions.find(candidate => candidate.id === 'resources');
+    const rooms = [
+      ['random-arena',18,49,'left'],
+      ['elite-arena',86,30,'right'],
+      ['classic-arena',50,86,'down'],
+    ] as const;
+    if (hub) for (const [id,x,y,facing] of rooms) {
+      const target = regions.find(candidate => candidate.id === id);
+      if (target) add(hub,target,point(x,y),facing,'authored');
+    }
+  }
   function authoredAnchor(from: WorldRegion, facing: SceneExitFacing): ScenePoint {
     const choices = facing === 'left' ? [point(14, 82), point(14, 56), point(14, 30)]
       : facing === 'right' ? [point(86, 82), point(86, 56), point(86, 30)]

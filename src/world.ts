@@ -14,7 +14,9 @@ export interface WorldRegion {
   scarceCreatures?: number[];
   /** Visible map contacts that open a collection quest instead of a field battle. */
   recruitmentSpecies?: number[];
-  facility?: 'recovery' | 'missions' | 'challenges';
+  facility?: 'recovery' | 'missions' | 'challenges' | 'battle';
+  /** Remake battle facilities occupy authored rooms without changing boss maps. */
+  battleFacility?: 'random' | 'elite' | 'classic';
   originalMapId?: number;
   background?: string; backgroundKind?: 'official' | 'authored';
   /** Recovered artwork reused when this original subregion has no local art. */

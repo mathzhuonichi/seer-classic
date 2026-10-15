@@ -7,7 +7,7 @@ import { computeStats } from './stats.ts';
 import { accuracyStageMultiplier, stageMultiplier, STAB } from './constants.ts';
 import { attackTypes, effectiveness } from './typechart.ts';
 
-type View = Pick<Mon, 'side' | 'slot' | 'species' | 'level' | 'types' | 'stats' | 'maxHp' | 'hp' | 'stages' | 'conditions' | 'turnsActive' | 'rules'>;
+type View = Pick<Mon, 'side' | 'slot' | 'species' | 'level' | 'types' | 'stats' | 'maxHp' | 'hp' | 'stages' | 'conditions' | 'turnsActive' | 'rules'> & {observedMoves?:Skill[]};
 const clamp = (n: number, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, n));
 const hpRatio = (m: View) => m.hp / Math.max(1, m.maxHp);
 const status = (m: View, id: unknown) => m.conditions.some(c => c.def.kind === 'status' && (id === true || id === 'any' || c.id === id || Array.isArray(id) && id.includes(c.id)));
@@ -16,14 +16,18 @@ function publicOpponent(battle: Battle, mon: Mon): View {
   const foe = battle.foeOf(mon);
   const stats = computeStats(foe.species.base, foe.level, 15);
   const revealed = new Set<string>();
+  const moves=new Set<number>();
   let slot = 0;
   for (const event of [...battle.initialEvents, ...battle.log]) {
     if (event.side !== foe.side) continue;
     if (event.type === 'switch_in') slot = event.slot;
+    if (event.type === 'transform' && slot === foe.slot) moves.clear();
+    if (event.type === 'move_used' && slot === foe.slot) moves.add(event.skill);
     if (slot === foe.slot && ['condition_added', 'condition_refreshed', 'status_applied'].includes(event.type)) revealed.add(event.condition ?? event.status);
   }
   return { side: foe.side, slot: foe.slot, species: foe.species, level: foe.level,
     types: foe.types, stats, maxHp: stats.hp, hp: hpRatio(foe) * stats.hp,
+    observedMoves:[...moves].map(id=>battle.data.skills.get(id)).filter((skill):skill is Skill=>!!skill),
     // Status icons are visible directly; other conditions require an announcement.
     // In particular, unannounced energy beads and innate traits stay hidden.
     stages: foe.stages, conditions: foe.conditions.filter(c => c.def.kind === 'status' || revealed.has(c.id)), turnsActive: foe.turnsActive, rules: foe.rules };
@@ -140,6 +144,8 @@ function damage(b: Battle, self: View, foe: View, skill: Skill): number {
 
 /** Move announcements are public; switches/transformations delimit their owner. */
 function observedMoves(b: Battle, foe: View): Skill[] {
+  // A public view is local to this decision; score all candidates against one scan.
+  if(foe.observedMoves)return foe.observedMoves;
   let slot = 0;
   const seen = new Set<number>();
   for (const e of [...b.initialEvents, ...b.log]) {

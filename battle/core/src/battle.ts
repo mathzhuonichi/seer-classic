@@ -1346,8 +1346,9 @@ export class Battle {
       }
       case 'restore_pp': {
         const ids = op.skill ? [op.skill] : tgt.skills;
-        for (const id of ids) tgt.pp[id] = Math.min(tgt.maxPp[id], tgt.pp[id] + (op.amount ?? tgt.maxPp[id]));
-        this.emit({ type: 'pp_restored', side: tgt.side, slot: tgt.slot, name: tgt.name, amount: op.amount ?? null });
+        const amount=typeof op.amount==='number'&&Number.isFinite(op.amount)?Math.max(0,op.amount):null;
+        for (const id of ids) if(Number.isFinite(tgt.maxPp[id]))tgt.pp[id]=amount===null?tgt.maxPp[id]:Math.min(tgt.maxPp[id],tgt.pp[id]+amount);
+        this.emit({ type: 'pp_restored', side: tgt.side, slot: tgt.slot, name: tgt.name, amount });
         return;
       }
       case 'pp_drain': {

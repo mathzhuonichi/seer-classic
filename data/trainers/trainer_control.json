@@ -10,7 +10,7 @@
   "team": [
     {
       "species": 42,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "hp": 255,
@@ -27,7 +27,7 @@
     },
     {
       "species": 67,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "spa": 255,
@@ -44,7 +44,7 @@
     },
     {
       "species": 24,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "hp": 255,
@@ -58,6 +58,57 @@
         10056
       ],
       "tactical_role": "Attack and speed control, recovery, and ground immunity pivot"
+    },
+    {
+      "species": 110,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10326,
+        10325,
+        10321,
+        20141
+      ],
+      "tactical_role": "Water pressure, special-defense control, and priority coverage"
+    },
+    {
+      "species": 318,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11038,
+        20514,
+        20513,
+        20066
+      ],
+      "tactical_role": "Physical-attack suppression, speed control, and ground pressure"
+    },
+    {
+      "species": 79,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10221,
+        10197,
+        20101,
+        10196
+      ],
+      "tactical_role": "Psychic pressure with speed and accuracy disruption"
     }
   ],
   "rules": [
@@ -81,9 +132,9 @@
     "items": {}
   },
   "strategy_notes": {
-    "zh": "里奥斯用烧伤和封印削弱攻势；布林克斯消除强化；巴洛卡降低攻击与速度，并用栖息恢复。保留直接攻击，抓住对手受限的回合进攻。 对方全员 Lv.80、个体值 31、学习力合计 510、实干性格；仅使用本形态在 80 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
+    "zh": "洛吉拉斯、布林克斯、巴洛卡、布鲁克克、卡鲁克斯与艾斯菲亚协同作战，通过能力下降、速度控制与回复寻找出手机会。 对方全员 Lv.100、个体值 31、学习力合计 510、实干性格；仅使用本形态在 100 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
   },
-  "source_note": "Original remake trainer composition using retained catalog species and naturally learned level-80-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
+  "source_note": "Original remake six-member trainer composition using retained catalog species and naturally learned level-100-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
   "design_notes": [
     "This encounter is loaded separately from acquisition and boss definitions.",
     "Switching is explicitly opt-in and does not change historical scripted encounter order.",

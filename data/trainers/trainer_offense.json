@@ -10,7 +10,7 @@
   "team": [
     {
       "species": 9,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "atk": 255,
@@ -27,7 +27,7 @@
     },
     {
       "species": 70,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "atk": 255,
@@ -44,7 +44,7 @@
     },
     {
       "species": 6,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {
         "hp": 255,
@@ -58,6 +58,57 @@
         20012
       ],
       "tactical_role": "Bulky water attacker and fire or ground matchup pivot"
+    },
+    {
+      "species": 216,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10618,
+        10617,
+        10622,
+        20269
+      ],
+      "tactical_role": "Dragon setup, reliable coverage, and physical pressure"
+    },
+    {
+      "species": 261,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10715,
+        10710,
+        20309,
+        20312
+      ],
+      "tactical_role": "Physical pressure, opposing boost removal, and reusable recovery"
+    },
+    {
+      "species": 61,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10140,
+        10105,
+        20074,
+        20072
+      ],
+      "tactical_role": "Special pressure with defensive setup and speed control"
     }
   ],
   "rules": [
@@ -81,9 +132,9 @@
     "items": {}
   },
   "strategy_notes": {
-    "zh": "火、电、水三系相互补位。烈焰猩猩寻找强化机会，雷伊用先制技能收尾，巴鲁斯应对火系与地面系。 对方全员 Lv.80、个体值 31、学习力合计 510、实干性格；仅使用本形态在 80 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
+    "zh": "烈焰猩猩、雷伊与巴鲁斯负责火电水配合，哈莫雷特、盖亚和雷吉欧斯提供强化与攻坚。抓住属性和先制优势，尽快取得突破。 对方全员 Lv.100、个体值 31、学习力合计 510、实干性格；仅使用本形态在 100 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
   },
-  "source_note": "Original remake trainer composition using retained catalog species and naturally learned level-80-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
+  "source_note": "Original remake six-member trainer composition using retained catalog species and naturally learned level-100-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
   "design_notes": [
     "This encounter is loaded separately from acquisition and boss definitions.",
     "Switching is explicitly opt-in and does not change historical scripted encounter order.",

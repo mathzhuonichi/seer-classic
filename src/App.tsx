@@ -12,6 +12,7 @@ import ItemShop from './components/ItemShop';
 import Inventory from './components/Inventory';
 import Dex from './components/Dex';
 import ChallengeCenter from './components/ChallengeCenter';
+import BattleFacilities from './components/BattleFacilities';
 import QuestPanel from './components/QuestPanel';
 import ChallengeCampaignScene from './components/ChallengeCampaignScene';
 import {CHALLENGE_CAMPAIGNS} from './progression/challenge-campaigns';
@@ -29,7 +30,7 @@ import './app.css';
 import './game-shell.css';
 if(import.meta.env.DEV)void import('./presentation/classic-font.css');
 
-type WindowKind='atlas'|'monsters'|'fusion'|'breeding'|'shop'|'bag'|'dex'|'quests'|'challenge'|'recovery'|'settings';
+type WindowKind='atlas'|'monsters'|'fusion'|'breeding'|'shop'|'bag'|'dex'|'quests'|'challenge'|'facilities'|'recovery'|'settings';
 const classicTools:{id:WindowKind;asset:string;label:string}[]=[
  {id:'bag',asset:'bag',label:'道具'},
  {id:'dex',asset:'dex',label:'图鉴'},
@@ -43,7 +44,7 @@ const classicShortcuts:{id:WindowKind;asset:string;label:string}[]=[
  {id:'quests',asset:'mission',label:'任务'},
  {id:'challenge',asset:'new-spt',label:'SPT'},
 ];
-const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',recovery:'精灵恢复舱',settings:'航行设置'};
+const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',facilities:'太空站 · 对战设施',recovery:'精灵恢复舱',settings:'航行设置'};
 export default function App(){const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');useEffect(()=>{loadGameData().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>}
 function currentBattleScene(){
  const preference=readWorldPreference(),{planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
@@ -66,6 +67,7 @@ export function Game({controller:c}:{controller:GameController}){
  const [breedingRecipeId,setBreedingRecipeId]=useState<string>();
  const [bagPocket,setBagPocket]=useState<string>();
  const [questFocusId,setQuestFocusId]=useState<string>();
+ const [facilityId,setFacilityId]=useState<string>();
  const battleLevels=useRef<Map<string,number>|null>(null),battleLevelUpPending=useRef(false);
  const preparing=useRef(false),preparationId=useRef(0),preparationAbort=useRef<AbortController|null>(null),file=useRef<HTMLInputElement>(null);
  useEffect(()=>()=>{preparationId.current++;preparationAbort.current?.abort();clearIdleBattleAnimations()},[]);
@@ -118,10 +120,10 @@ export function Game({controller:c}:{controller:GameController}){
   if(action.type==='closeBattle'){const before=c.snapshot(),result=before.battle?.result;battleLevelUpPending.current=!!before.battle?.finished&&!!before.battle.won&&!!battleLevels.current&&battleLevelGained(battleLevels.current,before.monsters);c.dispatch(action);setWindowKind(null);if(result)setMessage(result);return}
   const campaign=action.type==='startBattle'?CHALLENGE_CAMPAIGNS.find(entry=>entry.stages.some(stage=>stage.bossIds.includes(action.bossId))):action.type==='startTraining'&&action.species!==70?CHALLENGE_CAMPAIGNS.find(entry=>entry.species===action.species):undefined;
   if(campaign){openCampaign(campaign.id);return}
-  if(action.type==='startBattle'||action.type==='startTraining'||action.type==='startCampaignStage')void beginBattle(action);else{const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound)};
+  if(action.type==='startBattle'||action.type==='startTraining'||action.type==='startCampaignStage'||action.type==='startFacility')void beginBattle(action);else{const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound)};
  }}),[c]);
  function open(kind:WindowKind){if(preparation)return;if(s.battle&&!s.battle.finished){if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});setWindowKind(null);return}if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}}if(kind==='quests')setQuestFocusId(undefined);if(kind==='monsters')setFusionRecipeId(undefined);if(kind==='bag')setBagPocket(undefined);setWindowKind(current=>current===kind?null:kind)}
- function navigate(page:string){if(page==='breeding')setBreedingRecipeId(undefined);if(page==='quests'||page==='home')setQuestFocusId(undefined);if(page==='fusion')setFusionRecipeId(undefined);const target:Record<string,WindowKind>={atlas:'atlas',map:'atlas',home:'quests',monsters:'monsters',fusion:'fusion',breeding:'breeding',shop:'shop',bag:'bag',dex:'dex',quests:'quests',challenge:'challenge',recovery:'recovery',settings:'settings'};setWindowKind(target[page]??null)}
+ function navigate(page:string){if(page.startsWith('facilities:')){setFacilityId(page.slice('facilities:'.length));setWindowKind('facilities');return}if(page==='breeding')setBreedingRecipeId(undefined);if(page==='quests'||page==='home')setQuestFocusId(undefined);if(page==='fusion')setFusionRecipeId(undefined);const target:Record<string,WindowKind>={atlas:'atlas',map:'atlas',home:'quests',monsters:'monsters',fusion:'fusion',breeding:'breeding',shop:'shop',bag:'bag',dex:'dex',quests:'quests',challenge:'challenge',facilities:'facilities',recovery:'recovery',settings:'settings'};setWindowKind(target[page]??null)}
  function exportSave(){const url=URL.createObjectURL(new Blob([c.exportSave()],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='赛尔号-星际存档.json';link.click();URL.revokeObjectURL(url);setMessage('航行存档已导出。')}
  function locate(_species:number,route:AcquisitionRoute){
   setFocusSpecies(undefined);
@@ -160,6 +162,7 @@ export function Game({controller:c}:{controller:GameController}){
     {windowKind==='bag'&&<Inventory s={s} c={uiController} onSave={exportSave} onMessage={setMessage} initialPocket={bagPocket}/>}
     {windowKind==='dex'&&<Dex s={s} c={uiController} onLocate={locate} focusSpecies={dexFocus}/>}
     {windowKind==='challenge'&&<ChallengeCenter s={s} c={uiController} onExplore={()=>setWindowKind('atlas')} onTravel={travelToChallenge} onCampaign={openCampaign}/>}
+    {windowKind==='facilities'&&<BattleFacilities s={s} c={uiController} facilityId={facilityId} onManage={()=>setWindowKind('monsters')}/>}
     {windowKind==='quests'&&<QuestPanel s={s} c={uiController} focusQuestId={questFocusId} onTravel={travelToChallenge} onLocateSpecies={species=>{setDexFocus(species);setWindowKind('dex')}} onOpenBag={()=>{setBagPocket('essence');setWindowKind('bag')}}/>}
     {windowKind==='recovery'&&<section className="recovery-console"><div className="recovery-symbol">✚</div><h3>恢复体力与技能 PP</h3><div className="recovery-roster">{s.party.map(uid=>{const m=s.monsters.find(m=>m.uid===uid)!;return <div key={uid}><span>{m.name}</span><span>{m.hp} / {m.stats.hp}</span></div>})}</div><button className="primary" onClick={()=>{c.dispatch({type:'heal'});gameAudio.playSfx('heal');setWindowKind(null)}}>恢复全队</button></section>}
     {windowKind==='settings'&&<section className="settings-console"><AudioSettings/><h3>航行存档</h3><p>旅程自动保存。导出文件可保留或转移当前进度。</p><div className="action-row"><button onClick={exportSave}>导出存档</button><button disabled={!!s.battle&&!s.battle.finished} onClick={()=>file.current?.click()}>导入存档</button></div><h3>开发工具</h3><button disabled={!!s.battle&&!s.battle.finished} onClick={()=>{setWindowKind(null);setModifier(true)}}>修改器</button><h3>画面</h3><button onClick={()=>{if(document.fullscreenElement)void document.exitFullscreen();else void document.documentElement.requestFullscreen().catch(()=>setMessage('当前预览窗口不支持全屏，可扩大游戏窗口。'))}}>切换全屏</button><p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 0.3.2 · 本地单人航行</p></section>}
