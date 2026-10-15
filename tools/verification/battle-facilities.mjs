@@ -25,10 +25,12 @@ try {
     '/src/progression/battle-facilities.ts','/src/presentation/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
   const {npcTrainingScripts}=await server.ssrLoadModule('/src/mechanics/npc-training.ts');
-  const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
+  const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure','facility_elite'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
   const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),data=buildDataSet(catalog),byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
   const trainedRewards=new Set(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`]:[]));
+  const eliteAdditions=new Set([70,261,421,468,774,798,865,875,927,1260,1447,1477,359,356,755,599,587,990,826,691,432]);
+  const eliteEligible=mon=>sumBase(mon)>=600||eliteAdditions.has(mon.id);
   const eligible=catalog.species.filter(row=>!npc.has(row.id)),high=eligible.filter(row=>sumBase(row)>=600);
   report.catalog={all:catalog.species.length,eligible:eligible.length,high:high.length,exactly600:high.filter(row=>sumBase(row)===600).length};
   function ordinary(mon,label='member',allowTraining=false,profile){
@@ -45,7 +47,7 @@ try {
   }
   function encounterChecks(encounter,label){
     assert.equal(encounter.category,'trainer');assert.equal(encounter.team.length,6);assert.equal(new Set(encounter.team.map(mon=>mon.species)).size,6);
-    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`,encounter.facility==='classic',expectedProfile(encounter.id,mon.species)));
+    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`,['classic','elite'].includes(encounter.facility),expectedProfile(encounter.id,mon.species)));
     assert.deepEqual(encounter.rules,[{rule:'no_capture'}]);assert.deepEqual(encounter.reward,{items:{}});assert.deepEqual(encounter.phases,[]);
     assert.equal(encounter.ai.kind,'smart');assert.equal(encounter.ai.allow_switch,true);
     const battle=createBattle({data,scripts:npcTrainingScripts,seed:97,sides:[{kind:'player',team:[{species:1,level:100,skills:[10001]}]}],encounter});
@@ -69,7 +71,7 @@ try {
   check('Three published facilities disclose six Lv100 opponents and the exact random pool sizes',()=>{
     assert.deepEqual(views.map(row=>row.id).sort(),['classic','elite','random']);
     for(const view of views){assert.equal(view.level,100);assert.equal(view.opponentCount,6);assert(view.name&&view.description);}
-    assert.equal(views.find(row=>row.id==='random').poolSize,1479);assert.equal(views.find(row=>row.id==='elite').poolSize,103);
+    assert.equal(views.find(row=>row.id==='random').poolSize,1479);assert.equal(views.find(row=>row.id==='elite').poolSize,124);
     assert.equal(classic.teams.length,catalog.trainers.length);assert(classic.teams.length>0);assert.deepEqual(classic.teams.map(row=>row.id).sort(),catalog.trainers.map(row=>row.id).sort());
     for(const team of classic.teams){assert.equal(team.opponents.length,6);assert(team.name&&team.description);for(const mon of team.opponents){assert.equal(mon.level,100);assert.equal(mon.baseTotal,sumBase(byId.get(mon.species)));}}
   });
@@ -96,7 +98,7 @@ try {
       for(const facilityId of ['random','elite'])for(const seed of [1,2,3,7,11,19,29,41,59,97,101,2026]){
         const first=new Rng(seed),second=new Rng(seed),before=[...first.s],a=createFacilityEncounter(catalog,facilityId,first),b=createFacilityEncounter(catalog,facilityId,second);
         assert.deepEqual(a,b,`${facilityId}/${seed}: same seed yields the same full encounter`);assert.deepEqual(first.s,second.s);assert.notDeepEqual(first.s,before,'A valid randomized roster consumes RNG');
-        encounterChecks(a,`${facilityId}/${seed}`);if(facilityId==='elite')assert(a.team.every(mon=>sumBase(byId.get(mon.species))>=600));
+        encounterChecks(a,`${facilityId}/${seed}`);if(facilityId==='elite')assert(a.team.every(mon=>eliteEligible(byId.get(mon.species))));
         generated.push({facilityId,seed,species:a.team.map(mon=>mon.species),baseTotals:a.team.map(mon=>sumBase(byId.get(mon.species))),rngAfter:[...first.s]});
       }
       for(const facilityId of ['random','elite'])assert(new Set(generated.filter(row=>row.facilityId===facilityId).map(row=>JSON.stringify(row.species))).size>1,'Different seeds produce different teams');
@@ -132,7 +134,7 @@ try {
   for(const action of actions)check(`${action.facilityId}/${action.teamId??'generated'}: starts publicly, blocks capture, and leaves collection intact on retreat`,()=>{
     const first=make(),second=make(),before=parse(first);first.dispatch(action);second.dispatch(action);
     const battle=first.snapshot().battle;assert(battle);assert(!battle.finished);assert.equal(battle.enemyParty.length,6);assert(battle.enemyParty.every(mon=>mon.level===100));assert.equal(new Set(battle.enemyParty.map(mon=>mon.species)).size,6);assert.equal(battle.canCapture,false);
-    if(action.facilityId==='elite')assert(battle.enemyParty.every(mon=>sumBase(byId.get(mon.species))>=600));
+    if(action.facilityId==='elite')assert(battle.enemyParty.every(mon=>eliteEligible(byId.get(mon.species))));
     assert.deepEqual(first.snapshot().battle,second.snapshot().battle);assert.equal(first.exportSave(),second.exportSave());assert.notDeepEqual(parse(first).rng_state,before.rng_state);
     assert(battle.party.some(mon=>mon.level<100),'No hidden Lv100 gate is imposed on the player');
     reject(first,{type:'startFacility',facilityId:'random'},'An active battle cannot be replaced');reject(first,{type:'capture',itemId:'item_capsule_master'},'Facility opponents cannot be captured');

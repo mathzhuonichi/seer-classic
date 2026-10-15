@@ -26,7 +26,7 @@ export default function BattleFacilities({s,c,facilityId,onManage}:BattleFacilit
     <div className="management-panel-heading"><strong>太空站对战中心</strong><span>六精灵对战 · 对方 Lv.100</span></div>
     <nav className="management-tabs facility-mode-tabs" aria-label="对战模式">{facilities.map(row=><button key={row.id} className={row.id===facility?.id?'active':''} aria-pressed={row.id===facility?.id} onClick={()=>{setSelected(row.id);setTeamId('')}}>{row.name}</button>)}</nav>
     {facility?<div className={`facility-content ${classic?'facility-content-classic':''}`}>
-      <header className="facility-introduction"><small>{classic?'经典固定阵容':facility.id==='elite'?'种族值总和 ≥ 600':'随机六精灵'}</small><h3>{facility.name}</h3><p>{facility.description}</p></header>
+      <header className="facility-introduction"><small>{classic?'经典固定阵容':facility.id==='elite'?'精选主力与战术搭档':'随机六精灵'}</small><h3>{facility.name}</h3><p>{facility.description}</p></header>
       {!classic&&<div className="facility-rules" aria-label="对战规格"><span><b>6</b> 只对手</span><span><b>100</b> 级</span><span><b>{facility.poolSize??0}</b> 只候选精灵</span></div>}
       {classic?<>
         {!!groups.length&&<nav className="facility-group-tabs" aria-label="阵容分组">{groups.map(row=><button key={row.id} className={row.id===group?.id?'active':''} aria-pressed={row.id===group?.id} onClick={()=>{setGroupId(row.id);setTeamId('');setMemberIndex(0)}}>{row.name}<small>{facility.teams?.filter(team=>team.groupId===row.id).length} 队</small></button>)}</nav>}
@@ -44,7 +44,7 @@ export default function BattleFacilities({s,c,facilityId,onManage}:BattleFacilit
             </section>}
           </section>:<p className="management-empty">暂无可挑战的经典队伍。</p>}
         </div>
-      </>:<section className="facility-random-preview" aria-label="随机对手说明"><div className="facility-random-slots" aria-hidden="true">{Array.from({length:6},(_,index)=><span key={index}><b>?</b><small>Lv.100</small></span>)}</div><p>每次开始对战都会重新抽取六只不同的精灵。{facility.id==='elite'?'每只对手的种族值总和均不低于 600。':'对方阵容会在进入战斗后揭晓。'}</p></section>}
+      </>:<section className="facility-random-preview" aria-label="随机对手说明"><div className="facility-random-slots" aria-hidden="true">{Array.from({length:6},(_,index)=><span key={index}><b>?</b><small>Lv.100</small></span>)}</div><p>每次开始对战都会重新抽取六只不同的精灵。{facility.id==='elite'?'高种族值主力与精选战术精灵同池登场，特训精灵使用对应的强化状态。':'对方阵容会在进入战斗后揭晓。'}</p></section>}
       <div className="facility-start-row"><div><strong>你的出战队伍 {s.party.length} / 6</strong><span>{ready?`${ready} 只精灵可以出战`:'请先恢复精灵，或将精灵加入出战队伍。'}</span></div><button className="primary" disabled={unavailable} onClick={()=>c.dispatch({type:'startFacility',facilityId:facility.id,...(classic&&team?{teamId:team.id}:{})})}>{classic?'挑战这支队伍 →':'随机匹配并开战 →'}</button></div>
       <div className="facility-preparation"><button disabled={!!s.battle&&!s.battle.finished} onClick={()=>c.dispatch({type:'heal'})}>恢复全队</button>{onManage&&<button onClick={onManage}>调整出战队伍</button>}</div>
     </div>:<div className="management-empty">对战设施暂不可用。</div>}

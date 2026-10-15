@@ -189,7 +189,7 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
     // These rooms reuse the recovered resource-hub art. Their purposes and
     // doorway connections are remake additions, not recovered original maps.
     {"id":"random-arena","name":"随机对战室","description":"与对战管理员交谈，迎战每次重新抽取的六只百级精灵。","x":25,"y":62,"creatures":[],"levels":[100,100],"facility":"battle","battleFacility":"random","backgroundMapId":102,"sceneAttribution":"Authored random-battle room reusing the retained official map 102 backdrop."},
-    {"id":"elite-arena","name":"精英对战室","description":"在这里随机挑战六只种族值总和不低于600的百级精灵。","x":73,"y":44,"creatures":[],"levels":[100,100],"facility":"battle","battleFacility":"elite","backgroundMapId":102,"sceneAttribution":"Authored elite-battle room reusing the retained official map 102 backdrop."},
+    {"id":"elite-arena","name":"巅峰对决室","description":"在这里挑战由精选主力与战术搭档组成的随机百级六精灵队伍。","x":73,"y":44,"creatures":[],"levels":[100,100],"facility":"battle","battleFacility":"elite","backgroundMapId":102,"sceneAttribution":"Authored elite-battle room reusing the retained official map 102 backdrop."},
     {"id":"classic-arena","name":"经典对战室","description":"选择一支经典固定阵容，查看完整队伍后开始六精灵百级对战。","x":52,"y":75,"creatures":[],"levels":[100,100],"facility":"battle","battleFacility":"classic","backgroundMapId":102,"sceneAttribution":"Authored classic-team room reusing the retained official map 102 backdrop."}
   ]),
   destination("fortress","ship","英佩恩堡垒",100,"station","#75b8dc",[

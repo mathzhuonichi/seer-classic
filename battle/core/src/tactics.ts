@@ -91,6 +91,15 @@ function hitChance(self: View, foe: View, skill: Skill): number {
 function effectTarget(op: EffectOp): 'self' | 'foe' {
   return op.target ?? (['heal', 'restore_pp', 'protect', 'cure_status', 'transform', 'set_skills', 'set_ai', 'revive', 'say'].includes(op.op) ? 'self' : 'foe');
 }
+function ordinaryTrainerDuel(b: Battle, self: View): boolean {
+  return b.sides[self.side].kind === 'trainer' && ['player', 'trainer'].includes(b.sides[1 - self.side].kind);
+}
+type TeamGift = 'critical' | 'inheritance';
+function teamGift(skill: Skill): TeamGift | undefined {
+  if ([20398, 20932].includes(skill.id) && skill.effects?.some(e => e.op === 'script' && e.id === 'seer_eff_71')) return 'critical';
+  if (skill.id === 20749 && skill.effects?.some(e => e.op === 'script' && e.id === 'seer_eff_59' && e.params?.[0] === 4 && e.params?.[1] === 5)) return 'inheritance';
+  return undefined;
+}
 function priority(self: View, foe: View, skill: Skill): number {
   let result = skill.priority ?? 0;
   for (const e of skill.effects ?? []) if (e.op === 'priority_if' && when(e.when, self, foe, skill)) result = e.priority;
@@ -134,10 +143,22 @@ function damage(b: Battle, self: View, foe: View, skill: Skill): number {
     if (e.op === 'fixed_damage' && !hasRule(b, foe, 'immune_fixed_damage')) amount += (e.amount ?? 0) * q;
     if (e.op === 'pct_damage' && !hasRule(b, foe, 'immune_percent_damage')) amount += (e.pct_max_hp ? foe.maxHp * e.pct_max_hp : foe.hp * (e.pct_current_hp ?? 0)) / 100 * q;
     if (e.op === 'ohko' && !hasRule(b, foe, 'immune_ohko')) amount += foe.hp * q;
+    // Sea Heart's pinned script is a known quarter of maximum HP. This reads
+    // the public HP model; no live callback or hidden opponent build is used.
+    if (ordinaryTrainerDuel(b, self) && skill.id === 20143 && e.op === 'script' && e.id === 'seer_eff_28' && e.params?.[0] === 4 && !hasRule(b, foe, 'immune_percent_damage')) amount += Math.floor(foe.maxHp / 4) * q;
   }
   for (const r of rules(b, foe)) {
     if (r.rule === 'damage_only_from' && ((r.types && !r.types.some((t: string) => attackTypes(b.data.types, skill.type).includes(t))) || (r.skills && !r.skills.includes(skill.id)) || (r.categories && !r.categories.includes(skill.category)) || (r.sure_hit && skill.accuracy !== null) || (r.super_effective && eff <= 1))) amount = 0;
     if (r.rule === 'invulnerable_turns' && b.turn <= r.turns) amount = 0;
+  }
+  // The already installed Gaia seal follows a successful damaging attack once.
+  // Its separate fixed hit is not scaled by ordinary attack-only reductions.
+  if (amount > 0 && ['physical', 'special'].includes(skill.category) && self.conditions.some(c => c.id === 'npc_gaia_evil_seal' && c.turns > 0) && !hasRule(b, foe, 'immune_fixed_damage')) {
+    let bonus = 30;
+    for (const h of hooks(self, 'modify_damage_dealt', foe, skill)) if ((h.kinds ?? ['attack']).includes('fixed')) bonus *= h.multiplier ?? 1;
+    for (const h of hooks(foe, 'modify_damage_taken', self, skill)) if ((h.kinds ?? ['attack']).includes('fixed')) bonus *= h.multiplier ?? 1;
+    for (const r of rules(b, foe)) if (r.rule === 'damage_cap_per_hit') bonus = Math.min(bonus, r.amount);
+    amount += Math.max(0, Math.floor(bonus));
   }
   return Math.max(0, amount);
 }
@@ -172,6 +193,77 @@ function canStatus(b: Battle, target: View, other: View, id: string): boolean {
   return !hooks(target, 'block_status', other).some(h => !h.statuses || h.statuses.includes(id));
 }
 
+function observedControlRisk(b: Battle, self: Mon, foe: View, condition: string): number {
+  // Estimate the next unprotected turn without mutating the existing buff.
+  const exposed = {...self, conditions: self.conditions.filter(c => c.id !== condition)};
+  return Math.max(0, ...observedMoves(b, foe).flatMap(skill => {
+    if (typeBlocked(b, foe, exposed, skill)) return [];
+    return (skill.effects ?? []).filter(op => op.op === 'status' && effectTarget(op) === 'foe' && when(op.when, foe, exposed, skill)).map(op => {
+      const ids: string[] = Array.isArray(op.status) ? op.status : [op.status];
+      const dangerous = ids.filter(id => {
+        const def = b.data.conditions.get(id);
+        return !!def && (def.control || def.hooks.some(h => h.on === 'before_move' && h.prevent)) && canStatus(b, exposed, foe, id);
+      }).length / ids.length;
+      return dangerous * clamp((op.chance ?? 100) / 100) * hitChance(foe, exposed, skill);
+    });
+  }));
+}
+
+function pendingGift(mon: Mon): boolean {
+  return mon.conditions.some(c => c.turns > 0 && (c.id === 'seer_eff_59' || c.id === 'seer_eff_71' && (c.data?.pool?.left ?? 1) > 0));
+}
+function poweredMoves(b: Battle, mon: Mon): Skill[] {
+  return mon.skills.filter(id => mon.pp[id] > 0).map(id => b.skill(id)).filter(skill => skill.category !== 'status' && skill.power > 0);
+}
+function projectedInheritance(mon: Mon): Mon {
+  // Transfer adds only speed and accuracy +1. It never copies the donor's stages.
+  return {...mon, stages: {...mon.stages, spe: Math.min(6, mon.stages.spe + 1), acc: Math.min(6, mon.stages.acc + 1)}};
+}
+function giftBenefit(b: Battle, recipient: Mon, foe: View, gift: TeamGift): number {
+  const attacks = poweredMoves(b, recipient);
+  if (!attacks.length || recipient.hp <= threat(b, recipient, foe) * .6) return 0;
+  const bestDamage = Math.max(0, ...attacks.map(skill => damage(b, recipient, foe, skill) * hitChance(recipient, foe, skill)));
+  if (bestDamage <= 0) return 0;
+  if (gift === 'critical') {
+    if (recipient.conditions.some(c => c.turns > 0 && c.def.hooks.some(h => h.on === 'modify_crit_rate' && h.force_crit))) return 0;
+    // Two shared critical attacks approximately add two ordinary attacks.
+    return Math.min(110, bestDamage / foe.maxHp * 200);
+  }
+  const projected = projectedInheritance(recipient);
+  const control = recipient.skills.filter(id => recipient.pp[id] > 0).map(id => b.skill(id)).filter(skill =>
+    skill.effects?.some(e => e.op === 'status' && effectTarget(e) === 'foe' && ['sleep', 'paralysis', 'fear', 'petrify', 'fatigue'].includes(e.status) && canStatus(b, foe, recipient, e.status)));
+  const accuracyGain = Math.max(0, ...[...attacks, ...control].map(skill => hitChance(projected, foe, skill) - hitChance(recipient, foe, skill)));
+  const speedGain = projected.stages.spe > recipient.stages.spe;
+  const overtakes = speedGain && stat(recipient, 'spe') <= stat(foe, 'spe') && stat(projected, 'spe') > stat(foe, 'spe');
+  return (speedGain ? 18 : 0) + (overtakes ? 20 : 0) + accuracyGain * 80 + (control.length && (speedGain || accuracyGain > 0) ? 20 : 0);
+}
+function usefulRecipients(b: Battle, self: Mon, foe: View, gift: TeamGift): {mon: Mon; benefit: number}[] {
+  return b.sides[self.side].team.filter(mon => !mon.fainted && mon.hp > 0 && mon.slot !== self.slot)
+    .map(mon => ({mon, benefit: giftBenefit(b, mon, foe, gift)})).filter(row => row.benefit > 0);
+}
+function canGiveTeamGift(b: Battle, self: Mon, foe: View, skill: Skill): boolean {
+  const gift = teamGift(skill);
+  return !!gift && ordinaryTrainerDuel(b, self) && !b.sides[self.side].team.some(mon => !mon.fainted && pendingGift(mon)) && usefulRecipients(b, self, foe, gift).length > 0;
+}
+
+/** A smart trainer must not self-KO merely because its other moves ran out. */
+export function requiresTrainerSupportFallback(b: Battle, side: Side): boolean {
+  if (side.kind !== 'trainer' || (b.active(side.index).ai ?? side.ai ?? {kind:'smart'}).kind !== 'smart') return false;
+  const self = b.active(side.index), ids = self.skills.filter(id => self.pp[id] > 0);
+  if (!ids.length || !ids.every(id => teamGift(b.skill(id)))) return false;
+  const foe = publicOpponent(b, self);
+  const incoming = threat(b, self, foe);
+  return ids.every(id => !canGiveTeamGift(b, self, foe, b.skill(id)) || teamGiftUtility(b, self, foe, b.skill(id), incoming) <= 0);
+}
+
+function teamGiftUtility(b: Battle, self: Mon, foe: View, skill: Skill, incoming: number): number {
+  const gift = teamGift(skill);
+  if (!gift || !canGiveTeamGift(b, self, foe, skill)) return 0;
+  const benefit = Math.max(...usefulRecipients(b, self, foe, gift).map(row => row.benefit));
+  const urgent = actsBeforeThreat(b, self, foe, skill) && incoming >= self.hp ? 30 : hpRatio(self) < .35 ? 12 : 0;
+  return benefit - hpRatio(self) * 70 + urgent;
+}
+
 function utility(b: Battle, self: Mon, foe: View, skill: Skill, op: EffectOp, incoming: number, dealt: number): number {
   if (!when(op.when, self, foe, skill)) return 0;
   if (typeBlocked(b, self, foe, skill) && op.target !== 'self') return 0;
@@ -180,6 +272,14 @@ function utility(b: Battle, self: Mon, foe: View, skill: Skill, op: EffectOp, in
   const sign = toSelf ? 1 : -1;
   let value = 0;
   switch (op.op) {
+    case 'script':
+      if (op.id === 'seer_eff_71' || op.id === 'seer_eff_59') value = teamGiftUtility(b, self, foe, skill, incoming);
+      if (ordinaryTrainerDuel(b, self) && skill.id === 11924 && op.id === 'seer_eff_85') {
+        const gains = Object.fromEntries(Object.entries(foe.stages).filter(([, stage]) => stage > 0));
+        value = utility(b, self, foe, skill, {op:'clear_stages',target:'foe',which:'up'}, incoming, dealt) +
+          utility(b, self, foe, skill, {op:'stat_stage',target:'self',stats:gains}, incoming, dealt);
+      }
+      break;
     case 'heal': {
       if (hasRule(b, toSelf ? foe : self, 'block_heal')) break;
       const amount = op.pct_max_hp ? target.maxHp * op.pct_max_hp / 100 : op.pct_damage_dealt ? dealt * op.pct_damage_dealt / 100 : op.amount ?? 0;
@@ -240,6 +340,10 @@ function utility(b: Battle, self: Mon, foe: View, skill: Skill, op: EffectOp, in
         if (h.on === 'turn_end' && h.damage_pct_max_hp) value -= sign * h.damage_pct_max_hp * 2;
         for (const e of h.effects ?? []) if (h.on === 'turn_end' && e.op === 'heal') value += sign * Math.min(1 - hpRatio(target), (e.pct_max_hp ?? 0) / 100) * 180;
       }
+      if (toSelf && ordinaryTrainerDuel(b, self) && skill.id === 21020 && op.condition === 'cond_immune_status') {
+        const remaining = self.conditions.find(c => c.id === op.condition)?.turns ?? 0;
+        value += observedControlRisk(b, self, foe, op.condition) * (remaining > 0 ? 50 : 80);
+      }
       // Unmodelled buffs get one cautious trial, never repeated blind setup.
       if (!value && !self.usedSkills.has(skill.id)) value = 8;
       break;
@@ -264,7 +368,8 @@ function score(b: Battle, self: Mon, foe: View, skill: Skill, ai: AiSpec): {scor
   return {score: score + hit * .01, ko};
 }
 function bestMove(b: Battle, self: Mon, foe: View, ai: AiSpec) {
-  const ids = self.skills.filter(id => self.pp[id] > 0);
+  const ids = self.skills.filter(id => self.pp[id] > 0 &&
+    (b.sides[self.side].kind !== 'trainer' || !teamGift(b.skill(id)) || canGiveTeamGift(b, self, foe, b.skill(id)) && teamGiftUtility(b, self, foe, b.skill(id), threat(b, self, foe)) > 0));
   return (ids.length ? ids : [STRUGGLE_SKILL.id]).map(id => ({id, ...score(b, self, foe, b.skill(id), ai)})).sort((a, z) => z.score - a.score || a.id - z.id)[0];
 }
 function matchup(b: Battle, self: Mon, foe: View): number {
@@ -297,5 +402,11 @@ export function tacticalReplacement(b: Battle, side: Side): Action | undefined {
   // A faint replacement is free and ignores voluntary-switch traps, even when
   // called by queueReplacements before the global phase becomes 'replace'.
   return side.team.filter(mon => !mon.fainted && mon.slot !== side.active)
-    .map(mon => ({action: {kind: 'switch' as const, slot: mon.slot}, score: matchup(b, mon, foe)})).sort((a, z) => z.score - a.score)[0]?.action;
+    .map(mon => {
+      const inheritance = ordinaryTrainerDuel(b, mon) && mon.conditions.some(c => c.id === 'seer_eff_59' && c.turns > 0 && c.def.hooks.some(h => h.on === 'on_switch_in' && h.params instanceof Array && h.params[0] === 4 && h.params[1] === 5));
+      const critical = ordinaryTrainerDuel(b, mon) && mon.conditions.some(c => c.id === 'seer_eff_71' && (c.data?.pool?.left ?? 0) > 0);
+      const projected = inheritance ? projectedInheritance(mon) : mon;
+      const bonus = inheritance ? giftBenefit(b, mon, foe, 'inheritance') : critical ? giftBenefit(b, mon, foe, 'critical') : 0;
+      return {action: {kind: 'switch' as const, slot: mon.slot}, score: matchup(b, projected, foe) + bonus};
+    }).sort((a, z) => z.score - a.score || a.action.slot - z.action.slot)[0]?.action;
 }

@@ -47,10 +47,10 @@ try {
     const random=createFacilityEncounter(catalog,'random',new Rng(9));assert.deepEqual(normalize(catalog,random),random);
     assert.equal(facilityPool(catalog,600).length,103);assert(!facilityPool(catalog,600).some(m=>[70,261].includes(m.id)));
   });
-  check('Elite accepts an explicitly selected profile while preserving its original admission pool',()=>{
+  check('Elite accepts source-pinned profiles while the generic raw-BST filter remains unchanged',()=>{
     const elite={...structuredClone(core),facility:'elite'};
     assert.deepEqual(normalize(catalog,elite).team,normalized.team);
-    const generated=createFacilityEncounter(catalog,'elite',new Rng(9));assert.deepEqual(normalize(catalog,generated),generated);assert(generated.team.every(m=>m.training_profile===undefined));
+    const generated=createFacilityEncounter(catalog,'elite',new Rng(9));assert.deepEqual(normalize(catalog,generated),generated);for(const member of generated.team)assert.equal(member.training_profile,member.species===70?'rei-classic-full':member.species===261?'gaia-evil-seal':undefined);
   });
   check('Forbidden contexts reject profiles rather than strengthening original or early encounters',()=>{
     for(const patch of [{category:'legendary'},{category:'wild'},{category:'player'},{facility:'random'},{roster_group:'foundation'},{facility:'classic',roster_group:'foundation'},{category:'legendary',facility:'elite'}])assert.throws(()=>normalize(catalog,{...structuredClone(core),...patch}));

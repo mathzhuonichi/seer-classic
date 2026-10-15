@@ -11,7 +11,7 @@ import { Rng } from './rng.ts';
 import { computeStats } from './stats.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from './typechart.ts';
 import { chooseAiAction } from './ai.ts';
-import { tacticalReplacement } from './tactics.ts';
+import { requiresTrainerSupportFallback, tacticalReplacement } from './tactics.ts';
 import { meetsWildCapturePrerequisite, rollReconstructedCapture } from './capture.ts';
 
 export const STRUGGLE_SKILL: Skill = {
@@ -266,7 +266,10 @@ export class Battle {
     const mon = this.active(sideIndex);
     const actions: Action[] = [];
     const usable = mon.skills.filter((id) => mon.pp[id] > 0);
-    if (usable.length) for (const id of usable) actions.push({ kind: 'move', skill: id });
+    if (usable.length) {
+      for (const id of usable) actions.push({ kind: 'move', skill: id });
+      if (requiresTrainerSupportFallback(this, side)) actions.push({kind:'move',skill:STRUGGLE_SKILL.id});
+    }
     else actions.push({ kind: 'move', skill: STRUGGLE_SKILL.id });
 
     const switchBlocked = hasRule(foeSide, 'no_switch') || this.hooks(mon, 'block_switch').length > 0;

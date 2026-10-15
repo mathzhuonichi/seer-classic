@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "name": "巅峰对决",
+  "minimumBaseTotal": 600,
+  "scope": "Every collectible species with raw BST at least 600 remains eligible. Exactly these additional species use authored elite-only loadouts. Stable facility ID elite and uniform six-species sampling without replacement are preserved. Ordinary random encounters and original boss records are unchanged.",
+  "basis": "The user approved the V45 twelve-species non-multi-hit shortlist and three conditional support specialists after source and engine review. Bafro 177 and Brook 110 were explicitly excluded. See design/notes/elite-candidates-v45.md and tools/verification/elite-sub600-audit.mjs for the prior review, not a claim of exhaustive competitive ranking. The user subsequently approved species 599 specifically as a self-sacrifice support that grants the next entrant speed and accuracy, and authorized further period research and role-based additions. Five more species are selected from 2011-2012 matchup discussions. This is the currently implemented baseline; engraving-dependent candidates remain in the design review pending the user's separately collected sources.",
+  "excludedCandidates": [
+    177,
+    110
+  ],
+  "additions": [
+    {
+      "species": 70,
+      "name": "雷伊",
+      "role": "能力与技能特训·高速收割",
+      "reviewedBaseTotal": 532,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          10825,
+          20364,
+          10823,
+          10166
+        ],
+        "training_profile": "rei-classic-full"
+      },
+      "selectionReason": "Exact-species reward moves: attack/speed +2, priority +2, clear boosts; permanent training is a separate NPC profile."
+    },
+    {
+      "species": 261,
+      "name": "盖亚",
+      "role": "邪气凛然·物攻压制",
+      "reviewedBaseTotal": 590,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          10715,
+          20312,
+          10710,
+          20309
+        ],
+        "training_profile": "gaia-evil-seal"
+      },
+      "selectionReason": "Attack 119, speed 105; attack/accuracy +2, 150-power boost removal, priority, healing; optional single seal is separate."
+    },
+    {
+      "species": 421,
+      "name": "厄尔塞拉",
+      "role": "全能强化·特攻消强",
+      "reviewedBaseTotal": 581,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "spa": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11140,
+          20564,
+          10632,
+          11135
+        ]
+      },
+      "selectionReason": "Special attack 112, speed 103; five-stat setup and direct removal of opposing boosts."
+    },
+    {
+      "species": 468,
+      "name": "罗德利斯",
+      "role": "睡眠控场·特攻爆发",
+      "reviewedBaseTotal": 576,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "spa": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11224,
+          20486,
+          20488,
+          11017
+        ]
+      },
+      "selectionReason": "Special attack 114, speed 108; 90-accuracy sleep plus special attack +2 and a 150-power finisher."
+    },
+    {
+      "species": 774,
+      "name": "亚兰洛",
+      "role": "睡眠控场·特攻命中强化",
+      "reviewedBaseTotal": 581,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "spa": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11884,
+          20486,
+          20957,
+          10981
+        ]
+      },
+      "selectionReason": "HP 123, special attack 113, speed 102; sleep and special attack/accuracy +2."
+    },
+    {
+      "species": 798,
+      "name": "卡修斯",
+      "role": "提速攻坚·必中收尾",
+      "reviewedBaseTotal": 592,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11925,
+          20982,
+          11924,
+          10223
+        ]
+      },
+      "selectionReason": "Attack 118, speed 101; sure-hit 150 power, offense/speed setup, priority and source-pinned theft of useful opposing boosts."
+    },
+    {
+      "species": 865,
+      "name": "托鲁克",
+      "role": "高速飞攻·防御强化",
+      "reviewedBaseTotal": 597,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12079,
+          21070,
+          12080,
+          10060
+        ]
+      },
+      "selectionReason": "Speed 115; attack +2 and both defenses +1, priority +2, boost removal; scripted blind-wind utility requires separate AI work."
+    },
+    {
+      "species": 875,
+      "name": "布莱克",
+      "role": "全能强化·消强与先制收尾",
+      "reviewedBaseTotal": 597,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12112,
+          21090,
+          11919,
+          12110
+        ]
+      },
+      "selectionReason": "Attack 117, speed 102; five-stat setup, 130-power boost removal, 85-power priority."
+    },
+    {
+      "species": 927,
+      "name": "迪诺恩",
+      "role": "攻速强化·恢复续航",
+      "reviewedBaseTotal": 595,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12217,
+          20114,
+          12216,
+          20116
+        ]
+      },
+      "selectionReason": "Attack/speed +2, priority, full heal with self-fatigue cost; slower initial speed 91."
+    },
+    {
+      "species": 1260,
+      "name": "纳扎",
+      "role": "睡眠控场·攻速强化",
+      "reviewedBaseTotal": 598,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12937,
+          20486,
+          21533,
+          12934
+        ]
+      },
+      "selectionReason": "Attack 119, speed 105; sleep, attack/speed setup and 75-power priority."
+    },
+    {
+      "species": 1447,
+      "name": "金翅托鲁克",
+      "role": "高速飞攻·防御强化",
+      "reviewedBaseTotal": 597,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12079,
+          21070,
+          12080,
+          10060
+        ]
+      },
+      "selectionReason": "The catalog base stats, types and learnset equal species 865; separate identity, same battle build."
+    },
+    {
+      "species": 1477,
+      "name": "弗希斯",
+      "role": "特攻强化·消强与先制收尾",
+      "reviewedBaseTotal": 598,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "spa": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          13423,
+          21817,
+          13422,
+          13421
+        ]
+      },
+      "selectionReason": "Special attack 116, speed 103; special attack +2, 75-power special priority and boost removal; full heal is an alternative fifth move."
+    },
+    {
+      "species": 359,
+      "name": "布林克克",
+      "role": "比例削血·物攻收尾",
+      "reviewedBaseTotal": 592,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "hp": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          20143,
+          10882,
+          20397,
+          10321
+        ]
+      },
+      "selectionReason": "Sea Heart percent-HP support paired with aligned physical STAB, attack setup and priority."
+    },
+    {
+      "species": 356,
+      "name": "斯加尔卡",
+      "role": "自我牺牲·队友致命支援",
+      "reviewedBaseTotal": 575,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "hp": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          20398,
+          10876,
+          10874,
+          10289
+        ]
+      },
+      "selectionReason": "Team critical support with a strong physical finisher, psychic coverage and electric priority; the AI requires a useful living reserve before sacrificing."
+    },
+    {
+      "species": 755,
+      "name": "斯普林特",
+      "role": "特攻输出·队友致命支援",
+      "reviewedBaseTotal": 590,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "spa": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          20932,
+          11841,
+          20931,
+          11837
+        ]
+      },
+      "selectionReason": "Team critical support paired with dual-type special offense, special-attack setup and special priority; the AI requires a useful living reserve before sacrificing."
+    },
+    {
+      "species": 599,
+      "name": "吉米丽娅",
+      "role": "传承支援·下一只速度命中提升",
+      "reviewedBaseTotal": 575,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "hp": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          20749,
+          11508,
+          20750,
+          20488
+        ]
+      },
+      "selectionReason": "Skill 20749 sacrifices the owner and gives the next entrant speed and accuracy +1 each (effect 59 parameters 4 and 5). It does not copy current stages. HP/speed investment prioritizes surviving and completing the handoff. Fire attack with its fixed 50 damage, special-attack setup and defensive/speed setup remain alternatives while it stays active.",
+      "sources": [
+        "https://news.7k7k.com/content/20110303/66457.html"
+      ]
+    },
+    {
+      "species": 587,
+      "name": "墨杜萨",
+      "role": "传承受益·石化控场与双防强化",
+      "reviewedBaseTotal": 579,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "hp": 255,
+          "spa": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          20731,
+          20730,
+          20732,
+          11470
+        ]
+      },
+      "selectionReason": "A period inheritance recipient: petrification, dual-defense setup, special-attack setup, and a neutral special attack. The four-move plan is usable without the support donor as well.",
+      "sources": [
+        "https://news.7k7k.com/content/20110303/66457.html"
+      ]
+    },
+    {
+      "species": 990,
+      "name": "埃尔米格",
+      "role": "先制消强·水系特攻压制",
+      "reviewedBaseTotal": 585,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "hp": 255,
+          "spa": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          12355,
+          11293,
+          21224,
+          12358
+        ]
+      },
+      "selectionReason": "Period priority boost-removal role. Authored legal build combines priority clearing, stronger reliable clearing, special-attack/accuracy setup and a water finisher.",
+      "sources": [
+        "https://news.4399.com/seer/jingyanxinde/201210-10-202521.html"
+      ]
+    },
+    {
+      "species": 826,
+      "name": "加布",
+      "role": "先制消强·龙系免控攻坚",
+      "reviewedBaseTotal": 591,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "hp": 255,
+          "spa": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11994,
+          21020,
+          20538,
+          11996
+        ]
+      },
+      "selectionReason": "Period priority boost-removal role. Authored legal build combines priority clearing, status immunity, special-attack setup and a dragon finisher.",
+      "sources": [
+        "https://news.4399.com/seer/jingyanxinde/201210-10-202521.html"
+      ]
+    },
+    {
+      "species": 691,
+      "name": "泰勒斯",
+      "role": "固定伤害·消强与先制收尾",
+      "reviewedBaseTotal": 574,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "atk": 255,
+          "spe": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11690,
+          10321,
+          20185,
+          11691
+        ]
+      },
+      "selectionReason": "Period common lead and physical core. Authored legal build combines 150 fixed damage, priority, removal of opposing boosts and an aligned physical finisher.",
+      "sources": [
+        "https://news.7k7k.com/51seer/dfzs/2012/0110/112055.html",
+        "https://news.4399.com/seer/jingyanxinde/201210-10-202521.html"
+      ]
+    },
+    {
+      "species": 432,
+      "name": "杰西卡",
+      "role": "穿透削血·连击先制强攻",
+      "reviewedBaseTotal": 590,
+      "build": {
+        "level": 100,
+        "iv": 31,
+        "evs": {
+          "hp": 255,
+          "atk": 255
+        },
+        "nature": "hardy",
+        "skills": [
+          11165,
+          11078,
+          20535,
+          11081
+        ]
+      },
+      "selectionReason": "Period attack/HP set: flat-damage pressure, genuine effect-31 three-to-five-hit priority, attack setup and a fighting finisher. Skill 11078 has independent source multi-hit evidence and is not an inferred AtkNum-only operation.",
+      "sources": [
+        "https://news.4399.com/seer/jingyanxinde/201105-16-96748.html",
+        "https://news.7k7k.com/51seer/dfzs/2012/0110/112055.html"
+      ]
+    }
+  ],
+  "originalPoolSkillPolicy": "Only elite automatic loadouts exclude fixed multi_hit operations lacking original seer_effects 31 evidence. Genuine effect-31 multi-hit skills remain eligible. Ordinary random loadouts and catalog skill data are unchanged. An eligible four-move set is required; no fallback reintroduces excluded moves."
+}
