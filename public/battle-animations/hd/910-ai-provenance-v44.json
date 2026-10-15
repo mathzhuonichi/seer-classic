@@ -1,0 +1,163 @@
+{
+  "revision": 1,
+  "species": 910,
+  "kind": "accepted-ai-source-bitmap-override",
+  "counts": {
+    "original-vector": 8,
+    "retained-original-cell": 17,
+    "ai-source-bitmap": 1
+  },
+  "sourceSwfSha256": "cb819751e8c4080d6cc96487157529cb5affe36459376b8bd257bd3b5678766f",
+  "originalMetadataSha256": "9c9fb5724717c4b3c9b564cf51736c2a719d03eb6e08b5ddbe40c2540f7c52c0",
+  "originalAtlasSha256": "262548f96c65d283862200106d185aba38d8c5820c46a64706a6d88381b4ccd2",
+  "sourceOnlyReportSha256": "e119892b093a22c5897304da352fe7cac691a86551657d34fcb3324b3a07c7dc",
+  "sourceOnlyMetadataSha256": "e3a415bf90361b5e0fe496e8b7585a862c3f305222e14d1a92cf9d12d68ed91d",
+  "sourceOnlyAtlasSha256": "9238c0d117297748f114d7dd9766490a5e2da8e47921c7d5b16cec7c0c3ab1e6",
+  "meta": "/battle-animations/hd/910-ai-v44.json.gz",
+  "atlas": "/battle-animations/hd/910-ai-v44.png",
+  "metaSha256": "09b79f6c7c7521f95b2f55628b0fa7679f0b8aa7e6874528fe1da31845ee89e5",
+  "atlasSha256": "b66eb3f1eb4d72c902745adff2ff814c5835ccf5c3d1906808227bb1767ae703",
+  "atlasWidth": 3323,
+  "atlasHeight": 3751,
+  "atlasRgbaBytes": 49858292,
+  "reportPath": ".cache/battle-ai-910/composition/report.json",
+  "reportSha256": "eafaeee3d841c2bd84d3927fd032add81506bd6365623746938816534a5ed5fb",
+  "validationPath": ".cache/battle-ai-910/composition/verification.json",
+  "validationSha256": "e66ea208a6dfadf219e0d1820e37c1f5b16c471d446cc1aba8b00dbda3e69041",
+  "acceptedAiPart": {
+    "bitmapCharacter": 19,
+    "shapeCharacter": 20,
+    "cell": "3",
+    "mode": "ai-source-bitmap",
+    "sourcePngSha256": "c1850d7fe0c9e400cb8cabe4f4a0de55dbd58ff234566bffcc8024112fbb4e87",
+    "sourcePngSize": [
+      264,
+      378
+    ],
+    "sourceSvgSha256": "f67656afbdcf061f2f3cb2f138ca8aff3fb8423b07010cfc1a18793da72f0683",
+    "generatedPngSha256": "49d5c4d20103d0df4eb18183466e85cd8f6590ecb037e0f069ddd11385eb68f1",
+    "acceptedPng": "/battle-animations/hd/910-bitmap-19-v44.png",
+    "acceptedPngSha256": "49d5c4d20103d0df4eb18183466e85cd8f6590ecb037e0f069ddd11385eb68f1",
+    "acceptedPngSize": [
+      1048,
+      1501
+    ],
+    "prompt": "Conservatively redraw this exact classic 2D Flash game animation component at high resolution. This is ONE detached head-and-torso animation part: orange spiky flame mane, pale lightning-shaped forehead mark, two small black-and-white eyes looking right, open red mouth with exact white teeth and pink tongue, white lower face/chest. It has NO arms or legs. Keep the precise expression, every spike tip and silhouette contour, the same tilted pose and all original flat color regions. Do not soften the fierce eyes or change the mouth. Faithful clean flat vector-like cartoon finish, same orange/yellow/brown/white palette, smooth crisp contours and flat fill regions. No oil painting, no painterly texture, no 3D shading, no new gradients, no glossy reinterpretation, no text. Preserve the complete existing pose, proportional dimensions, relative feature positions and transparent silhouette; this is an animation replacement that must fit the original joints. The PNG canvas must use exactly the same aspect ratio as the attached reference and the same tight framing, with truly transparent background. Render at least four times the source dimensions, ideally about 1500 pixels on the long edge. Add no parts and no extra objects.",
+    "originalRegistration": {
+      "svgWidth": "98.05px",
+      "svgHeight": "140.35px",
+      "groupTransform": "matrix(1.0, 0.0, 0.0, 1.0, 48.8, 70.25)",
+      "pattern": {
+        "height": "378",
+        "id": "PatternID_20_1",
+        "overflow": "visible",
+        "patternTransform": "matrix(0.3713, 0.0, 0.0, 0.3713, -48.8, -70.25)",
+        "patternUnits": "userSpaceOnUse",
+        "viewBox": "0 0 264 378",
+        "width": "264"
+      },
+      "imageWidth": "264",
+      "imageHeight": "378",
+      "shapePath": "M-48.8 -70.25 L49.25 -70.25 49.25 70.1 -48.8 70.1 -48.8 -70.25"
+    },
+    "replacementSvgSha256": "e4e1948f0d9b1c9192e721cb5e3b3d729f55a31e79f55b1e76b08a160366d85d",
+    "renderedCellPixels": [
+      1012,
+      1452
+    ],
+    "renderedCellRgbaSha256": "47367f7a70f3586a6193c12f9a02d512d36553b6afff14808c0864269af83c77",
+    "normalization": "Entire unchanged candidate PNG mapped to original logical image width/height with preserveAspectRatio=none; no alpha-bound crop, translation, recoloring or pixel editing."
+  },
+  "unchangedSourceOnlyCellIds": [
+    "0",
+    "1",
+    "2",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25"
+  ],
+  "retainedOriginalCellIds": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "10",
+    "11",
+    "13",
+    "14",
+    "16",
+    "17",
+    "18",
+    "19",
+    "23",
+    "24"
+  ],
+  "originalVectorCellIds": [
+    "0",
+    "9",
+    "12",
+    "15",
+    "20",
+    "21",
+    "22",
+    "25"
+  ],
+  "animationInvariant": "All original vertices, indices, colors, materials, labels, actions and timing are preserved. Only atlas dimensions and UV coordinates change.",
+  "visualAcceptance": {
+    "reviewState": "accepted-head-only",
+    "decision": "Head/body bitmap 19 accepted after independent visual and actual WebGL comparison. All eight second-round alternatives were rejected; other original cells remain exact.",
+    "acceptedBitmapIds": [
+      19
+    ],
+    "rejectedAlternativeBitmapIds": [
+      3,
+      13,
+      16,
+      22,
+      25,
+      28,
+      31,
+      35
+    ],
+    "browserEvidence": "artifacts/battle-animation-hd-v44/species-910-ai-head-review.json",
+    "browserEvidenceSha256": "7b7a7a50f044c2bb3305bedf5e3599a49681428fffead8a23ae100c58cb84691",
+    "browserContact": "artifacts/battle-animation-hd-v44/species-910-ai-head-contact.png",
+    "browserContactSha256": "042d1cc9681fafdfd73d3992005c296853dfdc57af0910a72b25e10c211346bc",
+    "posePairs": 15,
+    "actions": [
+      "standby",
+      "attack",
+      "sa",
+      "cp",
+      "hited"
+    ],
+    "minimumAlphaIoU": 0.988795518207283,
+    "maximumPremultipliedRgbMean0To255": 4.862749066873082,
+    "reviewedMetaSha256": "09b79f6c7c7521f95b2f55628b0fa7679f0b8aa7e6874528fe1da31845ee89e5",
+    "reviewedAtlasSha256": "b66eb3f1eb4d72c902745adff2ff814c5835ccf5c3d1906808227bb1767ae703",
+    "scope": "Representative first/middle/last WebGL pose pairs across all five actions; not a claim that every animation frame was visually inspected."
+  },
+  "transfer": "The accepted AI input PNG, composed atlas and metadata are project-local public resources. Reproduction of the original-source generation still requires the separately pinned source cache."
+}
