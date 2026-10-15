@@ -72,6 +72,7 @@ export interface Side {
   team: Mon[];
   active: number;
   items: Record<string, number>;
+  unlimitedItems: Set<string>;
   rules: BossRule[];
   ai?: AiSpec;
   pending: Action | null;
@@ -178,6 +179,7 @@ export class Battle {
     const side: Side = {
       index, kind: input.kind, name: input.name ?? (index === 0 ? 'player' : input.kind),
       team: [], active: 0, items: { ...(input.items ?? {}) }, rules, ai: input.ai,
+      unlimitedItems: new Set(input.unlimited_items ?? []),
       pending: null, needsReplacement: false,
     };
     side.team = input.team.map((m, slot) => this.buildMon(index, slot, m, lives));
@@ -275,9 +277,9 @@ export class Battle {
     const switchBlocked = hasRule(foeSide, 'no_switch') || this.hooks(mon, 'block_switch').length > 0;
     if (!switchBlocked) actions.push(...bench);
     if (!hasRule(foeSide, 'no_items')) {
-      for (const [id, n] of Object.entries(side.items)) {
+      for (const id of new Set([...Object.keys(side.items), ...side.unlimitedItems])) {
         const item = this.data.items.get(id);
-        if (n > 0 && item?.battle_effects?.length) {
+        if (((side.items[id] ?? 0) > 0 || side.unlimitedItems.has(id)) && item?.battle_effects?.length) {
           const revives = item.battle_effects.some((effect) => effect.op === 'revive');
           for (const target of side.team.filter((member) => revives ? member.fainted : !member.fainted)) {
             if (item.battle_effects.some(effect => {
@@ -337,6 +339,7 @@ export class Battle {
       rng: [...this.rng.s],
       sides: this.sides.map((s) => ({
         kind: s.kind, name: s.name, active: s.active, items: { ...s.items },
+        ...(s.unlimitedItems.size ? {unlimited_items: [...s.unlimitedItems]} : {}),
         needsReplacement: s.needsReplacement,
         team: s.team.map((m) => ({
           uid: m.uid, slot: m.slot, species: m.species.id, name: m.name, level: m.level, types: [...m.types],
@@ -926,7 +929,7 @@ export class Battle {
       if (full && target.hp < full.hp && (full.times === undefined || (target.persist.fullHeals ?? 0) < full.times)) {
         target.persist.fullHeals = (target.persist.fullHeals ?? 0) + 1;
         target.hp = target.maxHp;
-        this.emit({ type: 'heal', side: target.side, amount: target.maxHp, hp: target.hp, maxHp: target.maxHp, reason: 'heal_full_below' });
+        this.emit({ type: 'heal', side: target.side, slot: target.slot, name: target.name, amount: target.maxHp, hp: target.hp, maxHp: target.maxHp, reason: 'heal_full_below' });
       }
     }
     if (target.hp <= 0) {
@@ -1050,13 +1053,13 @@ export class Battle {
       existing.appliedTurn = this.appliedTurnFor(target);
       if (level) existing.level = level;
       if (charges !== undefined) existing.charges = stack === 'add' ? (existing.charges ?? 0) + charges : charges;
-      this.emit({ type: 'condition_refreshed', side: target.side, condition: def.id, turns: existing.turns });
+      this.emit({ type: 'condition_refreshed', side: target.side, slot: target.slot, condition: def.id, turns: existing.turns });
       return true;
     }
     target.conditions.push({ id: def.id, def, turns: n, level, charges, appliedTurn: this.appliedTurnFor(target) });
     this.emit({
       type: def.kind === 'status' ? 'status_applied' : 'condition_added',
-      side: target.side, name:target.name, conditionName:def.name?.zh, condition: def.id, status: def.kind === 'status' ? def.id : undefined, turns: n, level,
+      side: target.side, slot: target.slot, name:target.name, conditionName:def.name?.zh, condition: def.id, status: def.kind === 'status' ? def.id : undefined, turns: n, level,
     });
     return true;
   }
@@ -1077,7 +1080,7 @@ export class Battle {
     const c = mon.conditions.find((x) => x.id === id);
     if (!c) return;
     mon.conditions = mon.conditions.filter((x) => x !== c);
-    this.emit({ type: 'condition_removed', side: mon.side, name:mon.name,conditionName:c.def.name?.zh, condition: id, reason: expired ? 'expired' : 'removed' });
+    this.emit({ type: 'condition_removed', side: mon.side, slot: mon.slot, name:mon.name,conditionName:c.def.name?.zh, condition: id, reason: expired ? 'expired' : 'removed' });
     for (const h of c.def.hooks) {
       if (h.on !== 'on_expire') continue;
       if (expired && h.effects) this.runEffects(h.effects, mon, this.foeOf(mon), emptyCtx());
@@ -1276,7 +1279,7 @@ export class Battle {
 
   private useItem(side: Side, itemId: string, slot: number): void {
     const item = this.data.items.get(itemId)!;
-    side.items[itemId]--;
+    if (!side.unlimitedItems.has(itemId)) side.items[itemId]--;
     const mon = side.team[slot];
     this.emit({ type: 'item_used', side: side.index, item: itemId, slot, targetName: mon.name });
     this.usingItem = true;

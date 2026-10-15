@@ -3,6 +3,7 @@ import { traitScripts } from './mechanics/traits';
 import { campaignScripts } from './mechanics/campaign-rules';
 import { npcTrainingScripts } from './mechanics/npc-training';
 import { normalizeNpcTrainingEncounter } from './progression/npc-training';
+import { normalizeBattleSupplyItems, trainerBattleSupplies } from './progression/battle-supplies';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from './progression/challenge-campaigns';
 import { NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies } from './progression/acquisition';
 import {buildRecruitmentRewards,recruitmentProgress,isSpeciesRepeatable,type RecruitmentCatalog,type RecruitmentReward} from './progression/recruitment';
@@ -124,7 +125,7 @@ function itemDescription(item:Record<string,unknown>):string {
 
 export function createGame(catalog: CatalogData, initialSave?: string): GameController {
   // Runtime rewards belong to this controller. Static definitions are shared read-only.
-  catalog = {...catalog, items:[...catalog.items], bosses:structuredClone(catalog.bosses)};
+  catalog = {...catalog, items:normalizeBattleSupplyItems(catalog.items), bosses:structuredClone(catalog.bosses)};
   // A simple remake supply fills the recovered catalogue's missing cure-item category.
   const cureId='item_status_cure';
   if(!catalog.items.some(item=>item.id===cureId))catalog.items.push({id:cureId,name:{zh:'异常解除剂'},kind:'battle',desc:{zh:'解除选中精灵的全部异常状态，不清除能力变化。'},battle_effects:[{op:'cure_status',target:'self'}],source:'Authored remake supply; the recovered item catalogue contains no status-cure consumables.'});
@@ -168,7 +169,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const natureViews=catalog.natures.map(n=>({id:String(n.id),name:(n.name as {zh:string}).zh}));
   const traitViews=availableTraits.map(t=>({id:t.id,name:t.name,description:t.description}));
   const moduleCounts={fifthSkills:fifthSkills.length,soulMarks:soulMarks.length,engravings:engravings.length};
-  const shopViews=createItemShopViews(catalog.items.map(item=>({id:String(item.id),name:(item.name as {zh?:string})?.zh??String(item.id),kind:String(item.kind),description:itemDescription(item),price:0 as const,...(typeof item.hatches==='number'?{hatches:item.hatches}:{})})));
+  const shopViews=createItemShopViews(catalog.items.filter(item=>!item.trainer_supply_only).map(item=>({id:String(item.id),name:(item.name as {zh?:string})?.zh??String(item.id),kind:String(item.kind),description:itemDescription(item),price:0 as const,...(typeof item.hatches==='number'?{hatches:item.hatches}:{})})));
   let save!: FullSave;
   let rng: Rng;
   let battle: Battle | null = null;
@@ -194,7 +195,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   function fresh() {
     save = full(newSave(Date.now() >>> 0)); rng = new Rng(save.seed);
     for (const id of [1,4,7]) {const mon=createMonster(dex,id,5,rng,{how:'gift',at:new Date().toISOString()});save=full(addMonster(save,mon));save.game.traits[mon.uid]=availableTraits[rng.int(0,availableTraits.length-1)].id;}
-    for (const item of catalog.items) if (item.kind === 'battle' || item.kind === 'capsule' || item.kind === 'raising') save.items[String(item.id)] = 5;
+    for (const item of catalog.items) if (!item.trainer_supply_only && (item.kind === 'battle' || item.kind === 'capsule' || item.kind === 'raising')) save.items[String(item.id)] = 5;
     save.rng_state = [...rng.s];
   }
   function parse(text:string) { save=full(deserialize(text,dex)); for(const mon of save.storage)sanitizeSkin(mon,skinOptions); if(!(cureId in save.items))save.items[cureId]=5; rng=new Rng(save.rng_state ?? save.seed); }
@@ -294,9 +295,10 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function refresh() {
     const inventory=battle&&!battleSettled?battle.sides[0].items:save.items;
+    const unlimitedItems=battle&&!battleSettled?battle.sides[0].unlimitedItems:new Set<string>();
     const legalItems=battle?.legalActions(0).filter(action=>action.kind==='item');
     const captureBlockedReason=!battle?undefined:currentBoss?(currentBoss.category==='trainer'?'训练师的精灵不可捕捉。':'首领与招募挑战不可捕捉，胜利后通过精元或任务获取。'):!meetsWildCapturePrerequisite(battle.active(1).species.id,battle.active(0).species.id)?'捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':save.party.length>=PARTY_MAX&&save.storage.length-save.party.length>=BOX_MAX?'仓库已满':capacityReason(battle.active(1).species.id);
-    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)],description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
+    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
   }
   function emit() {persist();refresh();listeners.forEach(l=>l());}
   function notice(text:string) {notices=[text,...notices].slice(0,5);}
@@ -422,14 +424,15 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     const stage=campaignContext?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===campaignContext.id)!.stages.find(entry=>entry.id===campaignContext.stageId):undefined;
     let roster=save.party.map(uid=>findMon(save,uid));
     if(stage?.requiredSpecies)roster=roster.filter(mon=>mon.species===stage.requiredSpecies&&mon.level>=(stage.minLevel??1)&&mon.hp>0).slice(0,1);
-    const player={kind:'player' as const,name:'赛尔',team:roster.map(m=>({...m,stats:computeStats(m,dex),beads:activeBeads(save,m.uid)})),items:save.items};
+    const unlimitedItems=trainerBattleSupplies(catalog,boss);
+    const player={kind:'player' as const,name:'赛尔',team:roster.map(m=>({...m,stats:computeStats(m,dex),beads:activeBeads(save,m.uid)})),items:save.items,unlimited_items:unlimitedItems};
     if(!player.team.some(m=>m.hp>0)) throw new Error('精灵体力耗尽，请使用恢复舱。');
     if(boss) {const errors=validateEncounter(boss,player);if(errors.length)throw new Error(errors.join('；'));}
     const wild=boss?null:createMonster(dex,species,level??Math.max(3,Math.round(player.team[0].level*0.85)),rng);
     encounterMonster=wild;
     battleAppearances=new Map(roster.map((mon,slot)=>[slot,{species:mon.species,appearanceSpecies:appearanceSpecies(mon,skinOptions)}]));
     transformedSlots.clear();
-    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),sides:wild?[player,{kind:'wild',team:[wild]}]:[player],encounter:boss??undefined});
+    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),sides:wild?[player,{kind:'wild',team:[wild]}]:[player,{kind:boss!.category==='trainer'?'trainer':'boss',team:boss!.team,unlimited_items:unlimitedItems}],encounter:boss??undefined});
     for(const event of battle.initialEvents)if(event.type==='transform')transformedSlots.add(`${event.side===1?1:0}:${event.slot??battle.sides[event.side===1?1:0].active}`);
     for(const mon of battle.sides[0].team) {
       const trait=traits.find(t=>t.id===save.game.traits[mon.uid!]);
@@ -550,7 +553,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       case 'buyItem': {
         if(battle&&!battle.result)throw new Error('请先结束战斗，再前往商城。');
         const item=catalog.items.find(entry=>String(entry.id)===action.itemId);
-        if(!item||!isShopItemAvailable({id:action.itemId,kind:String(item.kind)},new Set(save.game.shopUnlocked)))throw new Error('这件道具尚未进入商城。');
+        if(!item||item.trainer_supply_only||!isShopItemAvailable({id:action.itemId,kind:String(item.kind)},new Set(save.game.shopUnlocked)))throw new Error('这件道具尚未进入商城。');
         if(!Number.isSafeInteger(action.quantity)||action.quantity<1||action.quantity>999)throw new Error('购买数量须为1至999的整数。');
         if(item.kind==='essence'&&typeof item.hatches==='number'){
           if(!isSpeciesRepeatable(item.hatches))throw new Error('此精灵的来源只允许领取一次。');

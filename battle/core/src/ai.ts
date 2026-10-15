@@ -10,6 +10,7 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
   const mon = battle.active(side.index);
   const usable = mon.skills.filter((id) => mon.pp[id] > 0);
   const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
+  // Smart trainers may restore exhausted PP before resorting to Struggle.
   if (!usable.length) return ai.kind === 'smart' ? tacticalAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
   if (mon.vol.forcedSkill !== undefined && usable.includes(mon.vol.forcedSkill)) {
     const id = mon.vol.forcedSkill;

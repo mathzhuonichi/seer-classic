@@ -1,0 +1,28 @@
+# V48 trainer battle supplies
+
+Trainer encounters and all three battle facilities give both sides unlimited access to `item_potion_hp_250`, `item_potion_pp_20`, and `item_status_cure`. A use spends the whole action. It restores at most 250 HP, adds 20 PP to each equipped skill up to that skill's maximum, or removes status conditions while retaining stages and ordinary buffs. None revives a fainted creature. No-items rules, heal blocking, potion backlash, valid targets, and the 200-turn draw limit still apply.
+
+The HP and PP choices follow documented classic use, rather than the largest imported configuration number. The 3000-HP and 40-PP definitions are excluded from the runtime catalog because their classic-period public availability is unverified. Their original JSON rows and old save counts are preserved. The 250-HP definition is borrowed only for eligible battles: it is neither a new-save grant nor a shop product. The status cure remains explicitly authored remake content. See [the source audit](battle-supplies-v48.md) for dates, exact IDs, alternative potion restrictions, and evidential limits.
+
+## Implementation
+
+`Side.unlimitedItems` is a separate per-side set. Legal item actions use the union of positive finite stock and that set; consumption skips only granted IDs. The controller grants the set only at an explicit `category: trainer` boundary. No infinite numeric value or artificial stock count enters a save. Leaving a battle restores finite inventory presentation. Original Boss and wild encounters keep their finite supply rules and receive no grant; the two unverified item exclusions apply to the runtime catalog generally.
+
+Both battle and inventory views display `∞` and accept useful zero-stock targets. Inventory success feedback uses accepted turn advancement, so unchanged finite stock does not falsely report failure. Status application, refresh and removal events now carry the affected team slot; the conditional full-heal event does too. Public history can therefore distinguish the active creature from a benched recipient.
+
+## Opponent decisions
+
+Only smart trainer item selection is added. The existing attack/switch decision remains the fallback. A safe finishing move takes priority. Each legal active-creature supply is projected using its actual effects, incoming damage, direct end-of-turn damage, known control, and the next action opportunity. A potion must outperform the fallback after paying its lost action. Healing that still loses the creature before a useful action, blocked healing, and visible scripted potion backlash are rejected. PP restoration values exhausted useful moves; cures preserve non-status boosts.
+
+Repeated unlimited use additionally requires public progress against the same entered opponent, growing own HP sufficient to build toward an attack, or a changed status burden. There is no fixed potion cooldown. Necessary partial-heal sequences remain possible; finite supplies must actually cover the projected sequence. The progress check excludes unrelated bench recovery, consumes no RNG, and does not inspect hidden opposing builds or pending actions. These are bounded tactical heuristics, not a proof of optimal play or termination for every arbitrary team.
+
+## Verification
+
+- `tools/verification/battle-supplies-v48.mjs`: 18 checks and 22 public trainer/facility entries. Covers symmetric grants, useful targets, actual HP/PP/status effects, complete turns, finite-stock conservation, save round trips, excluded legacy items, shop rejection, and Boss/wild boundaries.
+- `tools/verification/potion-ai-v48.mjs`: 19 checks, including beneficial healing/PP/cure decisions, safe finishers, blocked healing/backlash, finite-stock limits, public bench-event isolation, deterministic decisions and necessary consecutive partial heals.
+- Twelve fixed real six-member matchups all ended by knockout in 10–28 turns. Sides used 20 and 14 potions respectively. Two repeated mirrored matchups each ended in 60 turns with eight uses per side and identical results. Across all 14 runs: 66 item uses, longest consecutive item sequence three, zero turn-cap results. A separate synthetic partial-heal case legitimately used eight consecutive potions before attacking.
+- Existing no-supply regressions passed: 39 AI checks with 120 NPC cases, 10 liveness checks with 191 battles covering all 1,479 eligible species, and 15 switch-policy checks. The V47 fixed switch sample retained 185 turns and 8/6 voluntary switches. These ran before the final removal of an obsolete event-target inference; the new potion suite ran again afterward with explicit slot events and final PP20 supplies.
+- The final TypeScript check and 18 Boss/support checks passed; no original Boss data or item-source JSON changed. `git diff --check` passed.
+- An isolated port-1438 UI fixture rendered the production controller, battle component and inventory component with synthetic damaged creatures and zero finite supply stock. Real clicks used HP250 on turn 1 and PP20 through inventory on turn 2; finite stock remained zero, both surfaces displayed `∞`, and successful use feedback appeared. The HP item capped 80 HP at 251, then the opponent's 72 damage left 179. PP rose from 1 to 21. This fixture did not use the player's normal save or port-1432 session.
+
+Machine-readable reports and UI evidence live under ignored `artifacts/battle-supplies-v48/` and `artifacts/potion-ai-v48/`. The final tactics SHA-256 is `926b5ad9450ac81186bdd03459ea03eb61f2c8477f35a2d41912875fda90cd11`. The source audit distinguishes dated use from source-table evidence; this change does not certify all historical items or all possible battles. No distributable build, packaging, push, or publication was performed.

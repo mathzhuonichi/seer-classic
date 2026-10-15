@@ -488,8 +488,112 @@ function switchingNetGain(b: Battle, self: Mon, member: Mon, foe: View, best: Re
     switchedContinuation: switched.value, investment, preventedReply, continuedControl};
 }
 
-export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
-  const self = b.active(side.index), foe = publicOpponent(b, self), best = bestMove(b, self, foe, ai);
+type PotionKind = 'heal' | 'restore_pp' | 'cure_status';
+const potionKinds = new Set(['heal', 'restore_pp', 'cure_status']);
+
+/** Repeating unlimited recovery needs public progress, not an arbitrary cooldown. */
+function potionProgress(b: Battle, self: Mon, foe: View, kind: PotionKind, growingHp: boolean): boolean {
+  let ownSlot = 0, foeSlot = 0, low = 1, ownHp = 1;
+  const statuses = new Set<string>();
+  let previous: {low: number; hp: number; statuses: string} | undefined;
+  for (const event of [...b.initialEvents, ...b.log]) {
+    if (event.side === foe.side) {
+      if (event.type === 'switch_in' || event.type === 'transform') {
+        if (event.type === 'switch_in') foeSlot = event.slot;
+        low = event.maxHp ? event.hp / event.maxHp : 1;
+        previous = undefined; // A publicly entered individual starts a new exchange.
+      }
+      if (['damage', 'heal'].includes(event.type) && (event.slot ?? foeSlot) === foeSlot && event.maxHp) low = Math.min(low, event.hp / event.maxHp);
+    }
+    if (event.side !== self.side) continue;
+    if (event.type === 'switch_in') ownSlot = event.slot;
+    const slot = event.slot ?? ownSlot;
+    if (slot !== self.slot) continue;
+    if (event.maxHp) ownHp = event.hp / event.maxHp;
+    if (['switch_out', 'faint', 'revive'].includes(event.type)) statuses.clear();
+    if (event.type === 'status_applied') statuses.add(event.status);
+    if (event.type === 'condition_removed') statuses.delete(event.condition);
+    if (event.type === 'item_used' && b.data.items.get(event.item)?.battle_effects?.some(op => op.op === kind)) {
+      previous = {low, hp: ownHp, statuses: [...statuses].sort().join(',')};
+    }
+  }
+  if (!previous || Math.min(low, hpRatio(foe)) < previous.low - 1e-6) return true;
+  // Several partial potions may build enough HP to earn an attack. Repeated
+  // full-heal cycles that return to the same or lower HP earn no such credit.
+  if (kind === 'heal' && growingHp && hpRatio(self) > previous.hp + 1e-6) return true;
+  return kind === 'cure_status' && self.conditions.filter(c => c.def.kind === 'status').map(c => c.id).sort().join(',') !== previous.statuses;
+}
+
+function potionTickDamage(mon: Mon, foe: View): number {
+  return hooks(mon, 'turn_end', foe).reduce((sum, hook) => sum + (hook.damage_pct_max_hp ? Math.max(1, Math.floor(mon.maxHp * hook.damage_pct_max_hp / 100)) : 0), 0);
+}
+
+function potionAction(b: Battle, side: Side, self: Mon, foe: View, best: ReturnType<typeof bestMove>, fallback: Action, ai: AiSpec): Action | undefined {
+  if (side.kind !== 'trainer') return undefined;
+  const actions = b.legalActions(side.index).filter((action): action is Extract<Action, {kind:'item'}> => action.kind === 'item' && (action.target ?? side.active) === side.active);
+  if (!actions.length) return undefined;
+  const incoming = threat(b, self, foe), move = b.skill(best.id);
+  if (best.ko && !controlled(self) && (actsBeforeThreat(b, self, foe, move) || self.hp > incoming) && controlBeforeMoveRisk(b, self, foe, move) === 0) return undefined;
+  const reserve = fallback.kind === 'switch' ? side.team[fallback.slot] : side.team.filter(mon => !mon.fainted && mon.slot !== self.slot).sort((a, z) => matchup(b, z, foe) - matchup(b, a, foe))[0] ?? {...self, hp: 0};
+  const existing = switchingNetGain(b, self, reserve, foe, best);
+  const baseline = fallback.kind === 'switch' ? existing.switch : existing.stay;
+  const rows = actions.flatMap(action => {
+    const ops = b.data.items.get(action.item)?.battle_effects ?? [];
+    if (!ops.length || ops.some(op => !potionKinds.has(op.op) || effectTarget(op) !== 'self' || (op.chance ?? 100) !== 100)) return [];
+    const projected: Mon = {...self, pp: {...self.pp}, conditions: [...self.conditions]};
+    let recovered = 0, resource = 0, helped = false, kind: PotionKind | undefined;
+    for (const op of ops) {
+      if (!when(op.when, self, foe)) continue;
+      if (op.op === 'heal') {
+        // A visible item-heal interceptor includes the real potion-backlash
+        // script. Never invoke it, or assume an unknown interceptor is benign.
+        if (hasRule(b, foe, 'block_heal') || self.conditions.some(c => c.turns > 0 && c.def.hooks.some(h => h.on === 'on_heal_incoming' && h.script))) continue;
+        const amount = op.pct_max_hp ? self.maxHp * op.pct_max_hp / 100 : op.amount ?? 0;
+        const gain = Math.max(0, Math.min(amount, self.maxHp - projected.hp));
+        projected.hp += gain; recovered += gain; helped ||= gain > 0; kind = 'heal';
+      }
+      if (op.op === 'restore_pp') {
+        let restoredValue = 0;
+        for (const id of op.skill ? [op.skill] : self.skills) {
+          if (!(id in projected.pp) || !Number.isFinite(self.maxPp[id])) continue;
+          projected.pp[id] = Math.min(self.maxPp[id], projected.pp[id] + (Number.isFinite(op.amount) ? Math.max(0, op.amount) : self.maxPp[id]));
+          if (self.pp[id] === 0 && projected.pp[id] > 0 && !teamGift(b.skill(id))) {
+            const value = Math.min(100, Math.max(0, score(b, projected, foe, b.skill(id), ai).score - .01));
+            restoredValue = Math.max(restoredValue, value * Math.min(2, projected.pp[id]));
+          }
+        }
+        resource += restoredValue; helped ||= restoredValue > 0; kind = 'restore_pp';
+      }
+      if (op.op === 'cure_status') {
+        const removed = projected.conditions.filter(c => c.def.kind === 'status' && (!op.statuses || op.statuses.includes(c.id)));
+        projected.conditions = projected.conditions.filter(c => !removed.includes(c));
+        // Direct public damage-over-time is avoided now and on the next turn.
+        for (const c of removed) for (const h of c.def.hooks) if (h.on === 'turn_end' && h.damage_pct_max_hp) resource += h.damage_pct_max_hp * Math.min(2, c.turns);
+        helped ||= removed.length > 0; kind = 'cure_status';
+      }
+    }
+    if (!helped || !kind) return [];
+    const hit = threat(b, projected, foe) + potionTickDamage(projected, foe), afterHp = projected.hp - hit;
+    if (afterHp <= 0) return [];
+    if (side.unlimitedItems.has(action.item) && !potionProgress(b, self, foe, kind, afterHp > self.hp)) return [];
+    let next = afterDecisionTurn(projected, afterHp), additionalHeals = 0;
+    const nextBest = bestMove(b, next, foe, ai), nextMove = b.skill(nextBest.id), nextIncoming = threat(b, next, foe);
+    const requiredHp = actsBeforeThreat(b, next, foe, nextMove) ? 1 : nextIncoming + 1;
+    if (next.hp < requiredHp && recovered > hit && projected.maxHp - hit >= requiredHp) {
+      additionalHeals = Math.ceil((requiredHp - next.hp) / (recovered - hit));
+      next = {...next, hp: Math.min(projected.maxHp - hit, next.hp + additionalHeals * (recovered - hit))};
+    }
+    if (additionalHeals && !side.unlimitedItems.has(action.item) && side.items[action.item] < additionalHeals + 1) return [];
+    if (controlled(next) || next.hp < requiredHp || controlBeforeMoveRisk(b, next, foe, nextMove) >= 1) return [];
+    const future = nextExchange(b, next, foe, observedControlRisk(b, projected, foe, ''));
+    const futureTick = hpCost({...next, hp: future.hp}, potionTickDamage(next, foe));
+    const value = (recovered / self.maxHp * 100 + resource - hpCost(projected, hit) + future.value - futureTick) / (additionalHeals + 1);
+    return value > baseline + .01 ? [{action, value}] : [];
+  });
+  return rows.sort((a, z) => z.value - a.value || a.action.item.localeCompare(z.action.item))[0]?.action;
+}
+
+function battleAction(b: Battle, side: Side, ai: AiSpec, self: Mon, foe: View, best: ReturnType<typeof bestMove>): Action {
   if (ai.allow_switch && self.turnsActive >= 2 && !best.ko) {
     const options = b.legalActions(side.index).filter((a): a is Extract<Action, {kind:'switch'}> => a.kind === 'switch');
     const current = matchup(b, self, foe);
@@ -504,6 +608,12 @@ export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
     if (candidates[0] && candidates[0].score > current + 35 && best.score < 70) return candidates[0].action;
   }
   return {kind: 'move', skill: best.id};
+}
+
+export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
+  const self = b.active(side.index), foe = publicOpponent(b, self), best = bestMove(b, self, foe, ai);
+  const fallback = battleAction(b, side, ai, self, foe, best);
+  return potionAction(b, side, self, foe, best, fallback, ai) ?? fallback;
 }
 
 export function tacticalReplacement(b: Battle, side: Side): Action | undefined {

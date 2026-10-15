@@ -186,6 +186,8 @@ export interface SideInput {
   kind: 'player' | 'wild' | 'boss' | 'trainer';
   team: MonsterInput[];
   items?: Record<string, number>;
+  /** Battle-only supply access; finite inventory quantities stay unchanged. */
+  unlimited_items?: string[];
   ai?: AiSpec;
   rules?: BossRule[];   // rules protecting this side's monsters (boss rules)
 }
