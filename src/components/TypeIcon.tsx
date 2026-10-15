@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {elementName,elementParts,typeAssets,type ElementTypes} from '../presentation/element-types';
+import {getLayoutZoom} from '../presentation/game-display';
 import './type-icon.css';
 
 /** Original official button artwork, with a tooltip outside clipping card panels. */
@@ -14,17 +15,18 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
   const tooltipId = useId();
   const [insideButton, setInsideButton] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [position, setPosition] = useState<{ left: number; top: number; below: boolean }>();
+  const [position, setPosition] = useState<{ left: number; top: number; below: boolean; zoom:number }>();
 
   function placeTooltip() {
     if (!icon.current) return;
     const anchor = icon.current.getBoundingClientRect();
-    const width = tooltip.current?.offsetWidth ?? Math.max(54, label.length * 12 + 20);
-    const height = tooltip.current?.offsetHeight ?? 30;
-    const half = Math.min(width / 2, (window.innerWidth - 16) / 2);
-    const below = anchor.top < height + 14;
-    setPosition({ left: Math.max(half + 8, Math.min(window.innerWidth - half - 8, anchor.left + anchor.width / 2)),
-      top: below ? anchor.bottom + 7 : anchor.top - 7, below });
+    const zoom=getLayoutZoom(icon.current),margin=8*zoom;
+    const width = (tooltip.current?.offsetWidth ?? Math.max(54, label.length * 12 + 20))*zoom;
+    const height = (tooltip.current?.offsetHeight ?? 30)*zoom;
+    const half = Math.min(width / 2, (window.innerWidth - 2*margin) / 2);
+    const below = anchor.top < height + 14*zoom;
+    setPosition({ left: Math.max(half + margin, Math.min(window.innerWidth - half - margin, anchor.left + anchor.width / 2))/zoom,
+      top: (below ? anchor.bottom + 7*zoom : anchor.top - 7*zoom)/zoom, below,zoom });
   }
   function show() { placeTooltip(); setVisible(true); }
   function synchronize() { if (hovered.current || focused.current) show(); else setVisible(false); }
@@ -47,7 +49,11 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
     window.addEventListener('resize', placeTooltip);
     window.addEventListener('scroll', placeTooltip, true);
     window.addEventListener('keydown', dismiss);
+    const scaledHost=icon.current?.closest('.game-shell,.icon-type-menu');
+    const observer=new MutationObserver(placeTooltip);
+    if(scaledHost)observer.observe(scaledHost,{attributes:true,attributeFilter:['style']});
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', placeTooltip);
       window.removeEventListener('scroll', placeTooltip, true);
       window.removeEventListener('keydown', dismiss);
@@ -65,6 +71,6 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
     </span>
     {visible && position && createPortal(<span ref={tooltip} id={tooltipId} role="tooltip"
       className={`battle-type-tooltip${position.below ? ' is-below' : ''}`}
-      style={{ left: position.left, top: position.top }}>{label}</span>, document.body)}
+      style={{ left: position.left, top: position.top,zoom:position.zoom,maxWidth:`calc(${100/position.zoom}vw - 16px)` }}>{label}</span>, document.body)}
   </>;
 }

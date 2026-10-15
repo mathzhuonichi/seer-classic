@@ -43,7 +43,8 @@ function RoamingCreature({species,instanceId,level,index,count,layout,frozen,bat
     const tick=(now:number)=>{
       const element=button.current;
       if(!element)return;
-      const scene=element.closest('.world-scene')!.getBoundingClientRect();
+      const sceneElement=element.closest<HTMLElement>('.world-scene')!;
+      const scene={width:sceneElement.clientWidth,height:sceneElement.clientHeight};
       const visible=!!element.getClientRects().length&&scene.width>0&&scene.height>0;
       const blocked=battle||document.hidden||!visible||
         !!document.querySelector('.scene-window,.scene-window-shield,.modal-backdrop,.battle-loading');

@@ -2,6 +2,8 @@
 
 A local macOS, single-player Seer remake focused on PvE battles and monster raising. The interface is Chinese. The original Claude battle and raising engines are retained, with the complete recovered classic catalog and original portraits.
 
+Revision 43 scales the interface consistently for 4K and HiDPI displays, including window dragging, type menus and tooltips. Battle canvases track device pixel ratio and layout zoom while retaining their animation player. Missions, inventory and creature navigation now use their existing true vector artwork. Original low-resolution scene bitmaps and raster portraits retain their source detail limits. See `design/notes/display-density-v43.md` for measured browser checks and scope.
+
 Revision 42 aligns the bottom map control to the original rail's circular seat, balances the other seven controls around it, and centers shared window titles and close buttons. Short windows use compact encyclopedia and SPT identity blocks, while classic team details scroll as one complete panel. All eight navigation entries were checked at normal and 640-pixel widths. See `design/notes/ui-calibration-v42.md`.
 
 Revision 41 centers Puni's actual foot point on the recovered platform's top face. The name label sits outside the portrait layout, keeping the placement stable when the window changes size.

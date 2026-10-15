@@ -1,6 +1,7 @@
 import {useEffect,useId,useRef,useState,type KeyboardEvent} from 'react';
 import {createPortal} from 'react-dom';
 import {elementChoices,elementParts} from '../presentation/element-types';
+import {getLayoutZoom} from '../presentation/game-display';
 import TypeIcon from './TypeIcon';
 import './TypeFilter.css';
 
@@ -18,13 +19,13 @@ function IconTypeFilter({label,value,groups,onChange}:Props){
  const {singles,duals}=elementChoices(groups);
  const choices=[...['全部属性','仅单属性','仅双属性'].map(name=>({value:name,label:name,icon:false})),...singles.map(type=>({value:type,label:type,icon:true})),...duals.map(type=>({value:type,label:elementParts(type).join('·'),icon:true}))];
  const selected=choices.find(choice=>choice.value===value)??choices[0];
- const [open,setOpen]=useState(false),[position,setPosition]=useState({left:0,top:0,width:180,maxHeight:320});
+ const [open,setOpen]=useState(false),[position,setPosition]=useState({left:0,top:0,width:180,maxHeight:320,zoom:1});
  const trigger=useRef<HTMLButtonElement>(null),menu=useRef<HTMLDivElement>(null),listId=useId();
  function place(){
-  const r=trigger.current!.getBoundingClientRect(),width=Math.min(Math.max(r.width,190),window.innerWidth-16);
-  const below=Math.max(0,window.innerHeight-r.bottom-12),above=Math.max(0,r.top-12),down=below>=320||below>=above;
-  const maxHeight=Math.min(320,down?below:above);
-  setPosition({left:Math.max(8,Math.min(r.left,window.innerWidth-width-8)),top:down?r.bottom+4:Math.max(8,r.top-4-maxHeight),width,maxHeight});
+  const r=trigger.current!.getBoundingClientRect(),zoom=getLayoutZoom(trigger.current!),margin=8*zoom,width=Math.min(Math.max(r.width,190*zoom),window.innerWidth-2*margin);
+  const below=Math.max(0,window.innerHeight-r.bottom-12*zoom),above=Math.max(0,r.top-12*zoom),down=below>=320*zoom||below>=above;
+  const maxHeight=Math.min(320*zoom,down?below:above);
+  setPosition({left:Math.max(margin,Math.min(r.left,window.innerWidth-width-margin))/zoom,top:(down?r.bottom+4*zoom:Math.max(margin,r.top-4*zoom-maxHeight))/zoom,width:width/zoom,maxHeight:maxHeight/zoom,zoom});
  }
  function show(){place();setOpen(true)}
  function choose(next:string){onChange(next);setOpen(false);trigger.current?.focus()}
