@@ -1,0 +1,92 @@
+{
+  "id": "trainer_offense",
+  "name": {
+    "zh": "强攻训练师 · 赤锋"
+  },
+  "category": "trainer",
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 9,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10030,
+        10031,
+        10033,
+        20014
+      ],
+      "tactical_role": "Physical setup and priority attacker"
+    },
+    {
+      "species": 70,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10176,
+        10170,
+        10166,
+        20085
+      ],
+      "tactical_role": "Electric pressure, paralysis, and priority finisher"
+    },
+    {
+      "species": 6,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10027,
+        10024,
+        10023,
+        20012
+      ],
+      "tactical_role": "Bulky water attacker and fire or ground matchup pivot"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "offense"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "火、电、水三系相互补位。烈焰猩猩寻找强化机会，雷伊用先制技能收尾，巴鲁斯应对火系与地面系。 对方全员 Lv.80、个体值 31、学习力合计 510、实干性格；仅使用本形态在 80 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
+  },
+  "source_note": "Original remake trainer composition using retained catalog species and naturally learned level-80-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
+  "design_notes": [
+    "This encounter is loaded separately from acquisition and boss definitions.",
+    "Switching is explicitly opt-in and does not change historical scripted encounter order.",
+    "All individual values, effort values, natures, moves, and levels are legal for ordinary owned creatures."
+  ]
+}

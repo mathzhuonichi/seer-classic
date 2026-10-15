@@ -321,10 +321,24 @@ field against it. This is the input of raising's `applyBattleRewards`.
 ### 10.4 AI
 
 `sequence`, `weighted`, `random` (wild default: uniformly among usable
-skills), `smart` (boss and trainer default: take a KO if one exists, highest
-priority then most damage; otherwise use each unused status skill once;
-otherwise the highest raw damage), `script`. A forced skill from
+skills), `smart` (boss and trainer default), `script`. A forced skill from
 `counter_skill` overrides all of them.
+
+The smart profile uses pure local scoring for estimated useful damage, accuracy,
+priority, recovery, statuses, relevant stat stages and known conditions. It knows
+its own team; the active opponent uses a neutral IV15/zero-EV species-and-level
+stat estimate, visible HP ratio/stages/statuses, announced conditions and resolved
+move history. It does not read pending actions, hidden builds or reserve teams.
+Unknown script effects are not executed during scoring. Scores use stable ties
+and do not consume RNG or modify live battle state.
+
+Only `smart` with explicit `allow_switch: true` considers voluntary switching
+and tactical faint replacements. A voluntary switch needs two completed active
+turns, a substantial matchup improvement, entry-hit survival and a chance to act
+before a second lethal hit; free faint replacements pay no entry-hit cost and
+bypass trapping. Existing historical encounters do not opt in. Optional styles
+`offense`, `control`, and `attrition` adjust supported effect preferences; they
+do not alter stats or damage rules. See `design/notes/offline-battle-ai-v36.md`.
 
 ## 11. Determinism
 

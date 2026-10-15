@@ -120,7 +120,13 @@ export type EffectOp = { op: string; chance?: number; when?: When; [k: string]: 
 export interface BossRule { rule: string; [k: string]: any }
 export interface Objective { kind: string; [k: string]: any }
 export interface Phase { when: When; do: EffectOp[]; once?: boolean; target?: number }
-export interface AiSpec { kind: 'sequence' | 'weighted' | 'random' | 'smart' | 'script'; skills?: number[]; weights?: Record<string, number>; id?: string; params?: unknown }
+export interface AiSpec {
+  kind: 'sequence' | 'weighted' | 'random' | 'smart' | 'script';
+  skills?: number[]; weights?: Record<string, number>; id?: string; params?: unknown;
+  /** Only authored trainer teams opt in; historical boss ordering stays intact. */
+  allow_switch?: boolean;
+  style?: 'balanced' | 'offense' | 'control' | 'attrition';
+}
 
 export interface BossTeamMember extends MonsterInput {
   hp_override?: number;

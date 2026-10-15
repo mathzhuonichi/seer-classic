@@ -1,0 +1,92 @@
+{
+  "id": "trainer_control",
+  "name": {
+    "zh": "控场训练师 · 澄岚"
+  },
+  "category": "trainer",
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 42,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        20048,
+        20049,
+        10102,
+        20050
+      ],
+      "tactical_role": "Burn and offensive debuffs with direct fire damage"
+    },
+    {
+      "species": 67,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "spa": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10151,
+        10156,
+        10155,
+        20080
+      ],
+      "tactical_role": "Anti-setup ice attacker with defensive preparation"
+    },
+    {
+      "species": 24,
+      "level": 80,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        20026,
+        20016,
+        20027,
+        10056
+      ],
+      "tactical_role": "Attack and speed control, recovery, and ground immunity pivot"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "control"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "里奥斯用烧伤和封印削弱攻势；布林克斯消除强化；巴洛卡降低攻击与速度，并用栖息恢复。保留直接攻击，抓住对手受限的回合进攻。 对方全员 Lv.80、个体值 31、学习力合计 510、实干性格；仅使用本形态在 80 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
+  },
+  "source_note": "Original remake trainer composition using retained catalog species and naturally learned level-80-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
+  "design_notes": [
+    "This encounter is loaded separately from acquisition and boss definitions.",
+    "Switching is explicitly opt-in and does not change historical scripted encounter order.",
+    "All individual values, effort values, natures, moves, and levels are legal for ordinary owned creatures."
+  ]
+}

@@ -11,6 +11,7 @@ import { Rng } from './rng.ts';
 import { computeStats } from './stats.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from './typechart.ts';
 import { chooseAiAction } from './ai.ts';
+import { tacticalReplacement } from './tactics.ts';
 import { meetsWildCapturePrerequisite, rollReconstructedCapture } from './capture.ts';
 
 export const STRUGGLE_SKILL: Skill = {
@@ -144,7 +145,7 @@ export class Battle {
     this.encounter = opts.encounter;
     const enc = opts.encounter;
     const s1: SideInput | undefined = enc
-      ? { ...stripTeam(opts.sides[1]), kind: 'boss', name: enc.name?.zh, team: enc.team, rules: enc.rules ?? [], ai: enc.ai ?? { kind: 'smart' } }
+      ? { ...stripTeam(opts.sides[1]), kind: enc.category === 'trainer' ? 'trainer' : 'boss', name: enc.name?.zh, team: enc.team, rules: enc.rules ?? [], ai: enc.ai ?? { kind: 'smart' } }
       : opts.sides[1];
     if (!s1) throw new Error('side 1 or an encounter is required');
     if (enc && opts.variant) {
@@ -366,7 +367,7 @@ export class Battle {
   private actionFor(side: Side): Action {
     if (side.pending) return side.pending;
     if (!this.isAuto(side)) throw new Error(`side ${side.index} has not submitted an action`);
-    if (this.phase === 'replace') return this.legalActions(side.index)[0];
+    if (this.phase === 'replace') return tacticalReplacement(this, side) ?? this.legalActions(side.index)[0];
     for (const action of this.fire(this.active(side.index), 'choose_action', {side})) {
       if (action && this.isLegal(side.index, action as Action)) return action as Action;
     }
@@ -466,7 +467,8 @@ export class Battle {
       if (!side.team.some((m) => !m.fainted)) continue;
       side.needsReplacement = true;
       if (this.isAuto(side)) {
-        const slot = side.team.find((m) => !m.fainted)!.slot;
+        const replacement = tacticalReplacement(this, side);
+        const slot = replacement?.kind === 'switch' ? replacement.slot : side.team.find((m) => !m.fainted)!.slot;
         this.switchIn(side, slot);
         side.needsReplacement = false;
       } else playerWaits = true;

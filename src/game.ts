@@ -130,6 +130,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const collectionAncestry=buildCollectionAncestry(catalog.species as unknown as CollectionSpecies[]);
   const skinOptions=buildSkinOptions(catalog.species as unknown as Species[]);
   const bosses = catalog.bosses as unknown as BossEncounter[];
+  const trainers = structuredClone(catalog.trainers ?? []) as unknown as BossEncounter[];
+  const encounters = [...bosses, ...trainers];
   const availableTraits=traits.filter(t=>t.implemented);
   const campaignForBoss=(id:string)=>CHALLENGE_CAMPAIGNS.find(c=>c.stages.some(stage=>stage.bossIds.includes(id)));
   for(const boss of bosses) {
@@ -157,7 +159,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const ordinarySPTs=new Set(getEligibleRecruitmentSPTs(catalog as unknown as RecruitmentCatalog).map(boss=>boss.id));
   const catalogViews=createCatalogViews(
     catalog.species.map(s=>({id:Number(s.id),name:(s.name as {zh:string}).zh,types:(s.types as string[]).map(t=>typesZh[t]??t),baseStats:{...dex.species(Number(s.id)).base},portrait:portrait(Number(s.id)),wildCapture:(s.obtain as string[]|undefined)?.includes('wild')&&!bosses.some(boss=>!boss.id.includes('tower')&&!boss.id.includes('dark_door')&&boss.team.some(mon=>mon.species===Number(s.id)))})),
-    bosses.map(b=>({id:b.id,category:b.name!.zh.includes('暗黑')?'暗黑武斗场':(b as any).category==='tower'?'勇者之塔':(b as any).category==='legendary'?'传说挑战':['story','event'].includes((b as any).category)?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species)})),
+    encounters.map(b=>({id:b.id,category:b.category==='trainer'?'训练师对战':b.name!.zh.includes('暗黑')?'暗黑武斗场':b.category==='tower'?'勇者之塔':b.category==='legendary'?'传说挑战':['story','event'].includes(String(b.category))?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species),...(b.category==='trainer'?{opponents:b.team.map(mon=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level}))}:{})})),
   );
   const natureViews=catalog.natures.map(n=>({id:String(n.id),name:(n.name as {zh:string}).zh}));
   const traitViews=availableTraits.map(t=>({id:t.id,name:t.name,description:t.description}));
@@ -437,7 +439,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       const outside=!['move','switch','battleItem','capture','flee','closeBattle','dismissNotice'].includes(action.type);
       if(outside&&battle&&!battle.result)throw new Error('战斗结束后才能进行培养或编辑。');
       switch(action.type) {
-      case 'startBattle': {const boss=bosses.find(b=>b.id===action.bossId);if(!boss)throw new Error('挑战不存在。');const campaign=campaignForBoss(boss.id);if(campaign)throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);start(boss);break;}
+      case 'startBattle': {const boss=encounters.find(b=>b.id===action.bossId);if(!boss)throw new Error('挑战不存在。');const campaign=campaignForBoss(boss.id);if(campaign)throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);start(boss);break;}
       case 'startCampaignStage': {
         const campaign=CHALLENGE_CAMPAIGNS.find(entry=>entry.id===action.campaignId);
         const index=campaign?.stages.findIndex(entry=>entry.id===action.stageId)??-1;

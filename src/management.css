@@ -263,3 +263,11 @@
 .raising-skins>p{margin:6px 0 0;font-size:10px;line-height:1.5}
 .official-petbag .raising-skins{background:#074f95;border-color:#1386bd;color:#e1f5ff}
 .official-petbag .raising-skin-picker>select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
+
+/* Trainer previews disclose ordinary roster members before battle. */
+.trainer-roster{margin:12px 0;padding:10px;border:1px solid #a7c7d6;border-radius:6px;background:#e6f3f8}
+.trainer-roster>strong{font-size:11px;color:#28546c}
+.trainer-roster>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.trainer-roster article{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;text-align:center;font-size:11px}
+.trainer-roster-art{width:64px;height:64px;max-width:100%}
+.trainer-roster article>small{color:#587b8d;font-size:10px}

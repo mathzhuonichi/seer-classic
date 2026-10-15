@@ -2,19 +2,20 @@
 // turns replay deterministically.
 
 import type { Action } from './types.ts';
-import type { Battle, Mon, Side } from './battle.ts';
+import type { Battle, Side } from './battle.ts';
 import { STRUGGLE_SKILL } from './battle.ts';
+import { tacticalAction } from './tactics.ts';
 
 export function chooseAiAction(battle: Battle, side: Side): Action {
   const mon = battle.active(side.index);
   const usable = mon.skills.filter((id) => mon.pp[id] > 0);
-  if (!usable.length) return { kind: 'move', skill: STRUGGLE_SKILL.id };
+  const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
+  if (!usable.length) return ai.kind === 'smart' ? tacticalAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
   if (mon.vol.forcedSkill !== undefined && usable.includes(mon.vol.forcedSkill)) {
     const id = mon.vol.forcedSkill;
     delete mon.vol.forcedSkill;
     return { kind: 'move', skill: id };
   }
-  const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
   const move = (skill: number): Action => ({ kind: 'move', skill });
 
   switch (ai.kind) {
@@ -48,28 +49,6 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     }
     case 'smart':
     default:
-      return move(smartPick(battle, mon, usable));
+      return tacticalAction(battle, side, ai);
   }
-}
-
-/**
- * Boss default ("裸伤" logic): take a KO if one exists, otherwise use each
- * status skill once (setup), otherwise the highest raw damage skill.
- */
-function smartPick(battle: Battle, mon: Mon, usable: number[]): number {
-  const foe = battle.foeOf(mon);
-  const scored = usable.map((id) => {
-    const s = battle.skill(id);
-    return { id, s, d: battle.estimateDamage(mon, foe, s), pri: battle.priority(mon, s) };
-  });
-  const kos = scored.filter((x) => x.d >= foe.hp && x.d > 0);
-  if (kos.length) {
-    kos.sort((a, b) => b.pri - a.pri || b.d - a.d);
-    return kos[0].id;
-  }
-  const setup = scored.find((x) => x.s.category === 'status' && !mon.usedSkills.has(x.id));
-  if (setup) return setup.id;
-  const attacks = scored.filter((x) => x.d > 0).sort((a, b) => b.d - a.d);
-  if (attacks.length) return attacks[0].id;
-  return battle.rng.pick(usable);
 }
