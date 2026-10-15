@@ -1,0 +1,163 @@
+{
+  "id": "trainer_fusion_specialists",
+  "name": {
+    "zh": "融合专精"
+  },
+  "category": "trainer",
+  "roster_group": "specialist",
+  "roster_order": 1,
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 315,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11033,
+        11032,
+        20512,
+        20049
+      ],
+      "role": {
+        "zh": "神秘特攻·封印蓄势"
+      },
+      "tactical_role": "Mystic special setup and offensive suppression"
+    },
+    {
+      "species": 321,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11048,
+        11043,
+        20027,
+        20020
+      ],
+      "role": {
+        "zh": "飞行续航·中毒牵制"
+      },
+      "tactical_role": "Flying special pressure, recovery, poison, and emergency priority"
+    },
+    {
+      "species": 324,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "spa": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11054,
+        11053,
+        20150,
+        20519
+      ],
+      "role": {
+        "zh": "冰系先制·冻结提速"
+      },
+      "tactical_role": "Ice special offense, freezing, speed setup, and special priority"
+    },
+    {
+      "species": 340,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10140,
+        10828,
+        20073,
+        20366
+      ],
+      "role": {
+        "zh": "机械特攻·双防支点"
+      },
+      "tactical_role": "Mechanical special setup, electric coverage, and defensive reinforcement"
+    },
+    {
+      "species": 343,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "spa": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10836,
+        10223,
+        20170,
+        20368
+      ],
+      "role": {
+        "zh": "暗影强化·物伤减半"
+      },
+      "tactical_role": "Shadow special setup, physical mitigation, and emergency priority"
+    },
+    {
+      "species": 429,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "spa": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11160,
+        11159,
+        20577,
+        11157
+      ],
+      "role": {
+        "zh": "双系特攻·消强突破"
+      },
+      "tactical_role": "Fast dual-type special offense and opposing boost removal"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "control"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "六只融合精灵分担消强、冻结、中毒与双防强化，以多属性特攻轮换施压。整体偏向特攻，面对高特防和状态免疫时需要找到属性突破口。"
+  },
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "design_notes": [
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Every member is a retained fusion result; this is a theme composition, not the six largest base-stat totals."
+  ]
+}

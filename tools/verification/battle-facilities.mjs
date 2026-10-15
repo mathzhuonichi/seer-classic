@@ -25,20 +25,21 @@ try {
     '/src/progression/battle-facilities.ts','/src/presentation/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),data=buildDataSet(catalog),byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
+  const trainedRewards=new Set(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`]:[]));
   const eligible=catalog.species.filter(row=>!npc.has(row.id)),high=eligible.filter(row=>sumBase(row)>=600);
   report.catalog={all:catalog.species.length,eligible:eligible.length,high:high.length,exactly600:high.filter(row=>sumBase(row)===600).length};
-  function ordinary(mon,label='member'){
+  function ordinary(mon,label='member',allowTraining=false){
     const species=byId.get(mon.species);assert(species,`${label}: known species`);assert(!npc.has(mon.species),`${label}: collectible species`);
     assert.equal(mon.level,100,`${label}: level`);assert.equal(mon.iv,31,`${label}: IV`);assert(catalog.natures.some(row=>row.id===mon.nature),`${label}: standard nature`);
     assert.equal(statKeys.reduce((sum,key)=>sum+(mon.evs[key]??0),0),510,`${label}: EV total`);
     assert(statKeys.every(key=>Number.isInteger(mon.evs[key]??0)&&(mon.evs[key]??0)>=0&&(mon.evs[key]??0)<=255),`${label}: EV bounds`);
     assert.equal(mon.skills.length,4,`${label}: four skills`);assert.equal(new Set(mon.skills).size,4,`${label}: distinct skills`);
-    for(const id of mon.skills)assert(skills.has(id)&&species.learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100),`${label}: ${id} is naturally learned by Lv100`);
+    for(const id of mon.skills)assert(skills.has(id)&&(species.learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100)||allowTraining&&trainedRewards.has(`${mon.species}/${id}`)),`${label}: ${id} is naturally learned by Lv100 or an explicit matching-species training reward`);
     for(const key of ['hp','hp_override','stats','stat_multipliers','pp','member_rules','member_phases','beads','types'])assert(!(key in mon),`${label}: no boss override ${key}`);
   }
   function encounterChecks(encounter,label){
     assert.equal(encounter.category,'trainer');assert.equal(encounter.team.length,6);assert.equal(new Set(encounter.team.map(mon=>mon.species)).size,6);
-    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`));
+    encounter.team.forEach((mon,index)=>ordinary(mon,`${label}/${index}`,encounter.facility==='classic'));
     assert.deepEqual(encounter.rules,[{rule:'no_capture'}]);assert.deepEqual(encounter.reward,{items:{}});assert.deepEqual(encounter.phases,[]);
     assert.equal(encounter.ai.kind,'smart');assert.equal(encounter.ai.allow_switch,true);
     const battle=createBattle({data,seed:97,sides:[{kind:'player',team:[{species:1,level:100,skills:[10001]}]}],encounter});
@@ -63,7 +64,7 @@ try {
     assert.deepEqual(views.map(row=>row.id).sort(),['classic','elite','random']);
     for(const view of views){assert.equal(view.level,100);assert.equal(view.opponentCount,6);assert(view.name&&view.description);}
     assert.equal(views.find(row=>row.id==='random').poolSize,1479);assert.equal(views.find(row=>row.id==='elite').poolSize,103);
-    assert.equal(classic.teams.length,3);assert.deepEqual(classic.teams.map(row=>row.id).sort(),['trainer_attrition','trainer_control','trainer_offense']);
+    assert.equal(classic.teams.length,catalog.trainers.length);assert(classic.teams.length>0);assert.deepEqual(classic.teams.map(row=>row.id).sort(),catalog.trainers.map(row=>row.id).sort());
     for(const team of classic.teams){assert.equal(team.opponents.length,6);assert(team.name&&team.description);for(const mon of team.opponents){assert.equal(mon.level,100);assert.equal(mon.baseTotal,sumBase(byId.get(mon.species)));}}
   });
   check('Every facility has a directly reachable space-station room with the matching public action ID',()=>{

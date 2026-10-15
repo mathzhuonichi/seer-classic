@@ -223,6 +223,16 @@ export function getSceneExits(planet: WorldPlanet, region: WorldRegion): SceneEx
   // dark arena, or mystery realm. These local facility links are authored.
   if (planet.id === 'space-station') {
     const hub = regions.find(candidate => candidate.id === 'resources');
+    const tower = regions.find(candidate => candidate.id === 'brave-tower');
+    const mystery = regions.find(candidate => candidate.id === 'mystery');
+    // The retained source route is Tower 500 <-> Mystery 10032. Register it
+    // before the connectivity fallback can attach Mystery to the dark arena.
+    // Mark these UI gates authored: their complete original hit areas were not
+    // recovered. The return marker follows Map10032's visible lower-right door.
+    if (tower && mystery) {
+      add(tower,mystery,point(86,30),'right','authored');
+      add(mystery,tower,point(84.0572916667,85.7142857143),'right','authored');
+    }
     const rooms = [
       ['random-arena',18,49,'left'],
       ['elite-arena',86,30,'right'],

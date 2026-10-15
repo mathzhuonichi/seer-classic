@@ -16,13 +16,14 @@ try{
  ].map(file=>server.ssrLoadModule(file)));
  const catalog=await loadCatalog(),trainers=catalog.trainers??[],without={...catalog,trainers:[]};
  const species=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
+ const trainedRewards=new Set(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`]:[]));
  const inputBytes=JSON.stringify(catalog),data=buildDataSet(catalog);
- check('Three trainer rosters contain eighteen ordinary legal Lv100 builds',()=>{
-  assert.equal(trainers.length,3);assert.deepEqual(trainers.map(row=>row.ai.style).sort(),['attrition','control','offense']);
+ check('Every authored trainer roster contains six ordinary legal Lv100 builds',()=>{
+  assert(trainers.length>=3);for(const style of ['attrition','control','offense'])assert(trainers.some(row=>row.ai.style===style));
   for(const trainer of trainers){assert.equal(trainer.category,'trainer');assert.equal(trainer.team.length,6);assert.equal(new Set(trainer.team.map(mon=>mon.species)).size,6);assert.deepEqual(trainer.reward,{items:{}});assert.deepEqual(trainer.phases,[]);assert.deepEqual(trainer.rules,[{rule:'no_capture'}]);assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
    for(const mon of trainer.team){assert.equal(mon.level,100);assert.equal(mon.iv,31);assert.equal(mon.nature,'hardy');assert.equal(Object.values(mon.evs).reduce((a,b)=>a+b,0),510);assert(Object.values(mon.evs).every(value=>Number.isInteger(value)&&value>=0&&value<=255));assert.equal(mon.skills.length,4);assert.equal(new Set(mon.skills).size,4);
     for(const key of ['hp','hp_override','stats','stat_multipliers','pp','member_rules','member_phases','beads','types'])assert(!(key in mon),key);
-    for(const id of mon.skills)assert(skills.has(id)&&species.get(mon.species).learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100),`${mon.species}/${id}`);
+    for(const id of mon.skills)assert(skills.has(id)&&(species.get(mon.species).learnset.some(row=>row.skill===id&&Number.isInteger(row.level)&&row.level>=1&&row.level<=100)||trainedRewards.has(`${mon.species}/${id}`)),`${mon.species}/${id}`);
    }
   }
  });
@@ -36,7 +37,7 @@ try{
   const before=baseline.snapshot(),after=game.snapshot();
   for(const key of ['species','quests','shopItems','items','campaigns'])assert.deepEqual(after[key],before[key],key);
   assert.deepEqual(after.bosses.filter(row=>row.category!=='训练师对战'),before.bosses);
-  assert.equal(after.bosses.filter(row=>row.category==='训练师对战').length,3);
+  assert.equal(after.bosses.filter(row=>row.category==='训练师对战').length,trainers.length);
   assert(!after.shopItems.some(row=>row.id.includes('trainer_')));
  });
  check('Trainer tab renders a disclosed six-member team and meaningful reward copy',()=>{
@@ -85,15 +86,15 @@ try{
   simulations.push(result);assert(battle.result,`${trainer.id} seed ${seed}: exceeded 400 resolutions`);
  }
  check('A real trainer voluntarily pivots after two natural turns and survives the entry hit',()=>{
-  const trainer=trainers.find(row=>row.id==='trainer_offense');
-  const player={species:6,level:100,iv:31,evs:{hp:255,def:255},nature:'hardy',skills:[10024,10027,20011,20012]};
+  const trainer=trainers.find(row=>row.id==='trainer_attrition');
+  const player={species:6,level:100,iv:31,evs:{hp:255,def:255},nature:'hardy',skills:[10018,10027,20011,20012]};
   assert(player.skills.every(id=>species.get(player.species).learnset.some(row=>row.skill===id&&row.level>=1&&row.level<=player.level)));
   const battle=createBattle({data,scripts:SEER_SCRIPTS,seed:7,sides:[{kind:'player',team:[player]},{kind:'trainer',team:structuredClone(trainer.team),ai:trainer.ai}],encounter:structuredClone(trainer)});
   const trace=[];
-  // Defense setup followed by the naturally learned Water Jet keeps both leads
+  // Defense setup followed by the naturally learned Flying Strike keeps both leads
   // alive until the opt-in cooldown expires. Never submit an NPC action or edit
   // HP, counters, move announcements, PP, stats, or any decision outcome.
-  for(const skill of [20011,10024,10024]){
+  for(const skill of [20011,10018,10018]){
    const before=JSON.stringify(battle.state),active=battle.active(1),action=chooseAiAction(battle,battle.sides[1]);
    assert.equal(JSON.stringify(battle.state),before,'Reading the decision must preserve combat state and RNG');
    trace.push({turn:battle.turn+1,npcSpecies:active.species.id,npcHp:active.hp,npcTurnsActive:active.turnsActive,playerSkill:skill,decision:action});
@@ -103,12 +104,12 @@ try{
   }
   assert.deepEqual(trace.map(row=>row.npcTurnsActive),[0,1,2]);
   assert(trace.slice(0,2).every(row=>row.decision.kind==='move'));
-  assert.deepEqual(trace[2].decision,{kind:'switch',slot:1});
-  assert.equal(battle.sides[1].active,1);assert.equal(battle.active(1).species.id,70);
+  assert.deepEqual(trace[2].decision,{kind:'switch',slot:5});
+  assert.equal(battle.sides[1].active,5);assert.equal(battle.active(1).species.id,61);
   const switched=trace[2].events.filter(event=>event.type==='switch_out'||event.type==='switch_in');
-  assert.deepEqual(switched.map(event=>[event.type,event.side,event.slot]),[['switch_out',1,0],['switch_in',1,1]]);
+  assert.deepEqual(switched.map(event=>[event.type,event.side,event.slot]),[['switch_out',1,0],['switch_in',1,5]]);
   assert(battle.sides[1].team[0].hp>0&&!battle.sides[1].team[0].fainted,'The outgoing lead must be alive, not a forced faint replacement');
-  assert(trace[2].events.some(event=>event.type==='damage'&&event.side===1&&event.slot===1&&event.skill===10024),'The reserve must actually absorb the revealed water attack');
+  assert(trace[2].events.some(event=>event.type==='damage'&&event.side===1&&event.slot===5&&event.skill===10018),'The reserve must actually absorb the revealed flying attack');
   assert(battle.active(1).hp>0&&!battle.active(1).fainted,'The reserve must survive entry');
   assert.equal(battle.active(1).turnsActive,0);assert.equal(chooseAiAction(battle,battle.sides[1]).kind,'move','The new active member must not immediately reverse the switch');
   report.voluntarySwitch={trainer:trainer.id,seed:7,player,trace,outgoingHp:battle.sides[1].team[0].hp,incomingHp:battle.active(1).hp};

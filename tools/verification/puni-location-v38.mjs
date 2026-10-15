@@ -1,0 +1,76 @@
+/** Puni contact, shared arena location, and fresh/legacy campaign progression. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {createServer} from 'vite';
+
+const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map();
+Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
+const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
+const checks=[],failures=[],progressCases=[];
+const report={checks,failures,progressCases};
+function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,5000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
+const parse=game=>JSON.parse(game.exportSave());
+const reject=(game,action)=>{const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);game.dispatch(action);assert.equal(game.exportSave(),before,'Rejected entry preserves save and RNG');assert.equal(JSON.stringify(game.snapshot().battle),battle,'Rejected entry preserves the current battle');};
+try {
+  const [{loadCatalog},{createGame},{CHALLENGE_CAMPAIGNS},{WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation},{getSceneLayout},{getSceneExits},{default:CampaignScene},{WorldMap}]=await Promise.all([
+    '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/challenge-campaigns.ts','/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/scene-exits.ts','/src/components/ChallengeCampaignScene.tsx','/src/components/WorldMap.tsx',
+  ].map(path=>server.ssrLoadModule(path)));
+  const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),definition=CHALLENGE_CAMPAIGNS.find(row=>row.id==='puni'),stageIds=['seal1','seal2','seal3','seal4','seal5','seal6','seal7','body'];
+  const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(createGame(catalog,''));
+  const make=save=>createGame(catalog,JSON.stringify(save??base)),view=game=>game.snapshot().campaigns.find(row=>row.id==='puni');
+  const {planet,region}=resolveWorldLocation('space-station','mystery');
+  const expectedLocation={planetId:'space-station',regionId:'mystery',staging:false};
+  function stageMarkup(game){return renderToStaticMarkup(React.createElement(CampaignScene,{campaign:view(game),c:game,onLeave:()=>{},onManage:()=>{},background:region.background}));}
+  function mapMarkup(game){memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:'space-station',regionId:'mystery',x:42,y:80,visited:['space-station/mystery']}));return renderToStaticMarkup(React.createElement(WorldMap,{s:game.snapshot(),c:game,onNavigate:()=>{}}));}
+  check('All seven seals and the final body resolve to the same retained Puni arena',()=>{
+    assert.deepEqual(definition.stages.map(row=>row.id),stageIds);assert.equal(region.originalMapId,10032);assert.equal(region.campaignId,'puni');assert.deepEqual([...region.bossIds].sort(),[...bossIds].sort());
+    assert(region.background.startsWith('/maps/original/10032.svg?v='));assert.equal(region.backgroundKind,'official');
+    const game=make();for(const id of bossIds)assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id===id)),expectedLocation,id);
+    assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_seal1')),findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_zhenshen')),'Campaign entry and final-body travel cannot choose different battle backdrops');
+    assert(getSceneExits(planet,region).length>0,'The arena keeps a return route');assert.deepEqual(getSceneLayout(planet,region).boss,{x:45.828125,y:55},'The neutral contact uses the central platform anchor, with the official horizontal registration point');
+    report.location={...expectedLocation,originalMapId:region.originalMapId,background:region.background,boss:getSceneLayout(planet,region).boss};
+  });
+  check('The physical Puni route joins Brave Tower and preserves the three independent facility doors',()=>{
+    const tower=planet.regions.find(row=>row.id==='brave-tower'),dark=planet.regions.find(row=>row.id==='dark-arena'),hub=planet.regions.find(row=>row.id==='resources');
+    assert.deepEqual(getSceneExits(planet,region).map(exit=>exit.targetRegionId),['brave-tower']);assert(getSceneExits(planet,tower).some(exit=>exit.targetRegionId==='mystery'));assert(!getSceneExits(planet,dark).some(exit=>exit.targetRegionId==='mystery'));
+    for(const room of planet.regions.filter(row=>row.battleFacility)){assert(getSceneExits(planet,hub).some(exit=>exit.targetRegionId===room.id));assert(getSceneExits(planet,room).some(exit=>exit.targetRegionId==='resources'));}
+  });
+  check('The arena exposes one neutral Puni contact rather than seven seal actors or a true-body shortcut',()=>{
+    const game=make(),before=game.exportSave(),html=mapMarkup(game);assert.equal((html.match(/aria-label="与谱尼互动，查看挑战进度"/g)??[]).length,1);assert(html.includes('data-campaign="puni"'));assert(!html.includes('aria-label="与谱尼真身互动"'));assert(!/aria-label="与谱尼·第[^\"]+互动"/.test(html));assert(html.includes('/maps/original/10032.svg'));assert.equal(game.exportSave(),before,'Rendering the neutral contact cannot alter campaign progress');
+    for(const target of [undefined,...bossIds])assert.deepEqual(findSceneChallenges(planet.id,region.id,game.snapshot().bosses,target),[],'Even a targeted old boss link cannot inject a true-body actor into the campaign arena');
+  });
+  check('A fresh save selects seal one while every later seal and the six-life body remain locked',()=>{
+    const game=make(),campaign=view(game);assert.equal(campaign.completed,0);assert.equal(campaign.nextStageId,'seal1');assert.equal(campaign.finished,false);assert.deepEqual(campaign.stages.filter(row=>row.available).map(row=>row.id),['seal1']);
+    const html=stageMarkup(game);assert(html.includes('<h3>第1封印 · 虚无</h3>'));assert(/class="available selected"/.test(html));assert(!html.includes('<h3>谱尼真身</h3>'));
+    for(const id of stageIds.slice(1))reject(game,{type:'startCampaignStage',campaignId:'puni',stageId:id});for(const bossId of bossIds)reject(game,{type:'startBattle',bossId});
+    game.dispatch({type:'startCampaignStage',campaignId:'puni',stageId:'seal1'});assert.equal(game.snapshot().battle.name,catalog.bosses.find(row=>row.id===bossIds[0]).name.zh);assert.equal(game.snapshot().battle.enemyParty.length,1);game.dispatch({type:'flee'});assert.equal(view(game).nextStageId,'seal1');
+  });
+  for(const kind of ['explicit','legacy'])for(let completed=0;completed<=stageIds.length;completed++)check(`${kind} progress ${completed}/8 survives load with exactly the correct next stage`,()=>{
+    const saved=structuredClone(base);saved.progress.bosses_cleared=[...bossIds.slice(0,completed)];
+    if(kind==='explicit')saved.game.campaigns.puni=stageIds.slice(0,completed);else delete saved.game.campaigns.puni;
+    const game=make(saved),campaign=view(game),initial=parse(game),expectedNext=stageIds[completed]??null;
+    assert.equal(campaign.completed,completed);assert.equal(campaign.nextStageId,expectedNext);assert.equal(campaign.finished,completed===8);
+    assert.deepEqual(campaign.stages.filter(row=>row.cleared).map(row=>row.id),stageIds.slice(0,completed));assert.deepEqual(campaign.stages.filter(row=>row.available).map(row=>row.id),stageIds.slice(0,Math.min(8,completed+1)));
+    assert.deepEqual(parse(game).game.campaigns.puni,stageIds.slice(0,completed));assert.deepEqual(initial.progress.bosses_cleared,saved.progress.bosses_cleared);
+    const selectedId=expectedNext??'body',selected=campaign.stages.find(row=>row.id===selectedId),html=stageMarkup(game);assert(html.includes(`<h3>${selected.name}</h3>`));
+    const mapHtml=mapMarkup(game);assert.equal((mapHtml.match(/aria-label="与谱尼互动，查看挑战进度"/g)??[]).length,1);assert(!mapHtml.includes('aria-label="与谱尼真身互动"'));
+    for(const id of stageIds.slice(completed+1))reject(game,{type:'startCampaignStage',campaignId:'puni',stageId:id});
+    const reloaded=make(parse(game));assert.deepEqual(view(reloaded),view(game));assert.equal(reloaded.exportSave(),game.exportSave());
+    game.dispatch({type:'startCampaignStage',campaignId:'puni',stageId:selectedId});assert(game.snapshot().battle);assert.equal(game.snapshot().battle.name,catalog.bosses.find(row=>row.id===selected.bossIds[0]).name.zh);assert.equal(game.snapshot().battle.enemyParty.length,selectedId==='body'?6:1);game.dispatch({type:'flee'});
+    assert.equal(view(game).completed,completed,'Retreat keeps every completed seal');assert.deepEqual(parse(game).dex,initial.dex);assert.deepEqual(parse(game).items,initial.items);assert.deepEqual(parse(game).game.shopUnlocked,initial.game.shopUnlocked);
+    progressCases.push({kind,completed,nextStageId:expectedNext,selectedId,bodyAvailable:campaign.stages.at(-1).available});
+  });
+  check('Gaps in old boss history cannot unlock later seals, and an explicit reset stays reset',()=>{
+    const saved=structuredClone(base);delete saved.game.campaigns.puni;saved.progress.bosses_cleared=[bossIds[0],bossIds[2],bossIds[7]];
+    const game=make(saved);assert.equal(view(game).completed,1);assert.equal(view(game).nextStageId,'seal2');reject(game,{type:'startCampaignStage',campaignId:'puni',stageId:'body'});
+    const complete=structuredClone(base);complete.game.campaigns.puni=[...stageIds];complete.progress.bosses_cleared=[...bossIds];const reset=make(complete);reset.dispatch({type:'resetCampaign',campaignId:'puni'});
+    const reloaded=make(parse(reset));assert.equal(view(reloaded).completed,0);assert.equal(view(reloaded).nextStageId,'seal1');assert.deepEqual(parse(reloaded).progress.bosses_cleared,bossIds);reject(reloaded,{type:'startCampaignStage',campaignId:'puni',stageId:'body'});
+  });
+  assert.equal(JSON.stringify(catalog),catalogBytes,'Verification does not mutate shared source definitions');
+}catch(error){failures.push({name:'harness',error:String(error.stack).slice(0,7000)});}
+finally{
+  fs.mkdirSync('artifacts/puni-location-v38',{recursive:true});fs.writeFileSync('artifacts/puni-location-v38/regression.json',JSON.stringify(report,null,2)+'\n');
+  console.log(JSON.stringify({passed:checks.length,progressCases:progressCases.length,location:report.location,failures},null,2));await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;if(failures.length)process.exitCode=1;
+}

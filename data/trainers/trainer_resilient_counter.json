@@ -1,0 +1,163 @@
+{
+  "id": "trainer_resilient_counter",
+  "name": {
+    "zh": "韧性反击"
+  },
+  "category": "trainer",
+  "roster_group": "trained",
+  "roster_order": 3,
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 216,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10618,
+        20269,
+        10617,
+        10622
+      ],
+      "role": {
+        "zh": "全能强化·龙系攻坚"
+      },
+      "tactical_role": "Original-form all-stat setup and reliable dragon pressure"
+    },
+    {
+      "species": 303,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "def": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        20007,
+        20009,
+        11071,
+        11006
+      ],
+      "role": {
+        "zh": "寄生续航·消除强化"
+      },
+      "tactical_role": "Leech, direct healing, draining damage, and opposing boost removal"
+    },
+    {
+      "species": 306,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11014,
+        20011,
+        11013,
+        11008
+      ],
+      "role": {
+        "zh": "物防反击·先制补刀"
+      },
+      "tactical_role": "Physical water attacker with defense setup and priority"
+    },
+    {
+      "species": 318,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11038,
+        20514,
+        20513,
+        20066
+      ],
+      "role": {
+        "zh": "破攻降速·地系反击"
+      },
+      "tactical_role": "Ground physical counter with attack and speed reduction"
+    },
+    {
+      "species": 429,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11160,
+        11159,
+        20092,
+        20144
+      ],
+      "role": {
+        "zh": "物伤减半·削弱消强"
+      },
+      "tactical_role": "Physical mitigation, offensive debuffs, and opposing boost removal"
+    },
+    {
+      "species": 393,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10984,
+        10982,
+        10981,
+        20455
+      ],
+      "role": {
+        "zh": "热血强化·火系补盲"
+      },
+      "tactical_role": "Bulky fire physical setup, fighting coverage, and priority"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "attrition"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "丽莎布布负责恢复消强，艾克里桑削弱物攻，卡鲁克斯降速，为哈莫雷特、鲁斯王和上古炎兽创造反击窗口。多名成员缺少直接恢复，持续特攻和属性针对能拆开防线。"
+  },
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "design_notes": [
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Bulk comes from legal HP investment and selected mitigation moves, with no HP overrides."
+  ]
+}

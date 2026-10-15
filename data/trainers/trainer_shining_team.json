@@ -1,0 +1,163 @@
+{
+  "id": "trainer_shining_team",
+  "name": {
+    "zh": "闪光协作"
+  },
+  "category": "trainer",
+  "roster_group": "specialist",
+  "roster_order": 3,
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 166,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10486,
+        10033,
+        10008,
+        20210
+      ],
+      "role": {
+        "zh": "闪光飞攻·攻防强化"
+      },
+      "tactical_role": "Flying physical pressure, defensive setup, and priority"
+    },
+    {
+      "species": 286,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10795,
+        20348,
+        20024,
+        20018
+      ],
+      "role": {
+        "zh": "电系特攻·降速光壁"
+      },
+      "tactical_role": "Electric special setup, speed control, and special mitigation"
+    },
+    {
+      "species": 312,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "spa": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11026,
+        10193,
+        20101,
+        20510
+      ],
+      "role": {
+        "zh": "超能强化·物伤减半"
+      },
+      "tactical_role": "Psychic special setup, physical mitigation, and emergency priority"
+    },
+    {
+      "species": 411,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11110,
+        20078,
+        20550,
+        20068
+      ],
+      "role": {
+        "zh": "地系恢复·特攻压制"
+      },
+      "tactical_role": "Ground special setup, recovery, and special attack suppression"
+    },
+    {
+      "species": 444,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11181,
+        20020,
+        20110,
+        10236
+      ],
+      "role": {
+        "zh": "中毒续航·草系先制"
+      },
+      "tactical_role": "Grass physical poison and recovery pivot with priority"
+    },
+    {
+      "species": 1250,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        12919,
+        10185,
+        20094,
+        21522
+      ],
+      "role": {
+        "zh": "水系强攻·提速冻结"
+      },
+      "tactical_role": "Water physical pressure, speed setup, priority, and freeze-based debuffs"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "control"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "闪光波克尔与水晶鸭负责物攻收尾，电击兔、艾菲亚和格鲁高提供特攻，依莱恩中毒续航。强化与防护需要回合，抢先爆发能破坏协作。"
+  },
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "design_notes": [
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Each member is a retained shiny species with its own actual identity, not an appearance-only skin."
+  ]
+}

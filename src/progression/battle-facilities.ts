@@ -1,8 +1,16 @@
 import {type BossEncounter,type BossTeamMember,type Skill,type Species,type TypeData,Rng} from '../../battle/core/src/index';
 import {attackTypes} from '../../battle/core/src/typechart';
 import type {CatalogData} from '../mechanics/catalog';
-import type {BattleFacilityView} from '../game-types';
+import type {BattleFacilityView,BattleFacilityGroupView} from '../game-types';
 import {NPC_ONLY_SPECIES} from './acquisition';
+import {trainerSkillOrigin} from './trainer-skills';
+
+export const CLASSIC_TEAM_GROUPS:BattleFacilityGroupView[]=[
+  {id:'trained',name:'特训主力',description:'完成技能特训的原形态与融合主力，按强化、控场和收尾职责配合。'},
+  {id:'foundation',name:'初代基础',description:'初代普通精灵独立编队，练习属性配合、控场与续航。'},
+  {id:'specialist',name:'主题专精',description:'融合、龙族与闪光精灵分别组队；各有明确主题与属性弱点。'},
+  {id:'legendary',name:'传说阵容',description:'传说精灵按普通培养与技能规则对战。'},
+];
 
 const stats=['hp','atk','def','spa','spd','spe'] as const;
 const baseTotal=(species:Species)=>stats.reduce((total,key)=>total+species.base[key],0);
@@ -14,12 +22,20 @@ export function facilityPool(catalog:CatalogData,minimumBaseTotal=0):Species[] {
 
 export function buildFacilityViews(catalog:CatalogData):BattleFacilityView[] {
   const species=new Map((catalog.species as unknown as Species[]).map(mon=>[mon.id,mon]));
+  const skills=new Map((catalog.skills as unknown as Skill[]).map(skill=>[skill.id,skill]));
+  const trainers=[...(catalog.trainers??[])].sort((a,b)=>
+    CLASSIC_TEAM_GROUPS.findIndex(group=>group.id===a.roster_group)-CLASSIC_TEAM_GROUPS.findIndex(group=>group.id===b.roster_group)||
+    Number(a.roster_order??0)-Number(b.roster_order??0)||String(a.id).localeCompare(String(b.id)));
   return [
     {id:'random',name:'随机竞技场',description:'从全部可收集形态中等概率抽取六只不同精灵，全员 Lv.100。每次挑战重新组队，未进化形态也可能登场。',opponentCount:6,level:100,poolSize:facilityPool(catalog).length},
     {id:'elite',name:'巅峰竞技场',description:'从种族值总和至少 600 的可收集精灵中等概率抽取六只，全员 Lv.100。每次挑战重新组队。',opponentCount:6,level:100,poolSize:facilityPool(catalog,600).length},
-    {id:'classic',name:'战术研究室',description:'以经典精灵组成的固定六人队，分别练习强攻、控制和持久战，全员 Lv.100。阵容为本作设计，可反复挑战。',opponentCount:6,level:100,teams:(catalog.trainers??[]).map(raw=>{
+    {id:'classic',name:'战术研究室',description:'按培养阶段与战术主题选择固定六人队，全员 Lv.100。点击队员查看职责与四个实战技能。',opponentCount:6,level:100,groups:CLASSIC_TEAM_GROUPS.filter(group=>trainers.some(team=>team.roster_group===group.id)),teams:trainers.map(raw=>{
       const encounter=raw as unknown as BossEncounter;
-      return {id:encounter.id,name:encounter.name?.zh??encounter.id,description:(encounter.strategy_notes as {zh?:string})?.zh??'',opponents:encounter.team.map(mon=>({species:mon.species,name:species.get(mon.species)!.name.zh,level:mon.level,baseTotal:baseTotal(species.get(mon.species)!)}))};
+      return {id:encounter.id,name:encounter.name?.zh??encounter.id,description:(encounter.strategy_notes as {zh?:string})?.zh??'',groupId:String(raw.roster_group??'foundation'),opponents:encounter.team.map((mon,index)=>({
+        species:mon.species,name:species.get(mon.species)!.name.zh,level:mon.level,baseTotal:baseTotal(species.get(mon.species)!),
+        role:((raw.team as {role?:{zh:string}}[])[index].role)?.zh,
+        skills:mon.skills.map(id=>{const origin=trainerSkillOrigin(catalog,mon.species,id);return {id,name:skills.get(id)?.name.zh??String(id),...(origin?.kind==='training'?{training:origin.source}:{} )};}),
+      }))};
     })},
   ];
 }

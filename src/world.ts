@@ -8,6 +8,8 @@ import generatedHabitats from '../data/habitats.json';
 export interface WorldRegion {
   id: string; name: string; description: string; x: number; y: number;
   creatures: number[]; levels: [number, number]; bossIds?: string[];
+  /** One neutral contact opens the saved campaign instead of a specific stage. */
+  campaignId?: string;
   /** Per-species encounter levels; species without an entry use `levels`. */
   creatureLevels?: Record<number, [number, number]>;
   /** Species shown once per scene, such as special map spawns. */
@@ -241,6 +243,9 @@ export function findChallengeLocation(boss: BossView): ChallengeLocation {
 /** A selected encounter appears in its resolved habitat or facility. */
 export function findSceneChallenges(planetId: string, regionId: string, bosses: BossView[], targetBossId?: string): BossView[] {
   const { region } = resolveWorldLocation(planetId, regionId);
+  // Stage IDs still define their canonical destination, but the map displays
+  // one campaign contact and lets saved progression select the next stage.
+  if (region.campaignId) return [];
   const ids = [...(region.bossIds ?? [])];
   const target = bosses.find(boss => boss.id === targetBossId);
   if (target) {

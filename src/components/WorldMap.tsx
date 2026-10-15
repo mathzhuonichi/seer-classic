@@ -15,7 +15,7 @@ export interface WorldMapProps {
   onInteract?: (event: { kind: 'species'; species: number } | {kind:'quest';questId:string}) => void;
   onSceneChange?: (scene: {src:string;name:string}) => void;
 }
-type Selection = { kind: 'creature'; id: number; instanceId?: string; level?: number } | { kind: 'boss'; id: string } | { kind: 'facility' };
+type Selection = { kind: 'creature'; id: number; instanceId?: string; level?: number } | { kind: 'boss'; id: string } | { kind: 'campaign'; id: string } | { kind: 'facility' };
 
 type WorldPoint = { x:number; y:number };
 type RobotDirection = 'front'|'back'|'left'|'right'|'front-left'|'front-right'|'back-left'|'back-right';
@@ -163,6 +163,11 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const habitatSpecies=region.creatures.map(id=>s.species.find(sp=>sp.id===id)).filter(sp=>!!sp);
   const localCreatures=buildWorldPopulation(`${planet.id}/${region.id}`,habitatSpecies,6,region.levels,region.creatureLevels,region.scarceCreatures);
   const localBosses=findSceneChallenges(planet.id,region.id,s.bosses,travelTo?.bossId);
+  const campaignContact=s.campaigns.find(campaign=>campaign.id===region.campaignId);
+  const campaignContactName=s.species.find(species=>species.id===campaignContact?.species)?.name??'挑战精灵';
+  const nextCampaignStage=campaignContact?.stages.find(stage=>stage.id===campaignContact.nextStageId);
+  const campaignProgress=campaignContact?.finished?'全部挑战已完成':nextCampaignStage?`当前挑战：${nextCampaignStage.name}`:'查看挑战进度';
+  const selectedCampaign=selection?.kind==='campaign'&&selection.id===campaignContact?.id?campaignContact:undefined;
   const creature=selection?.kind==='creature'?s.species.find(sp=>sp.id===selection.id):undefined;
   const creatureRecruitment=creature&&region.recruitmentSpecies?.includes(creature.id)?s.quests.find(quest=>quest.group==='spt-recruitment'&&quest.rewardSpecies===creature.id):undefined;
   const creatureLevel=selection?.kind==='creature'?(selection.level??region.levels[0]):region.levels[0];
@@ -204,18 +209,21 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     const targetBoss=travelTo.bossId?s.bosses.find(b=>b.id===travelTo.bossId):undefined;
     const landing=targetBoss?findChallengeLocation(targetBoss):travelTo;
     const target=resolveWorldLocation(landing.planetId,landing.regionId??'');visit(target.planet,target.region);
-    if(targetBoss)setSelection({kind:'boss',id:targetBoss.id});
+    if(targetBoss)setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   useEffect(()=>{
     if(!focusSpecies)return;
     const habitat=findSpeciesLocation(focusSpecies);
+    const contactCampaign=s.campaigns.find(campaign=>campaign.species===focusSpecies);
+    const contactPlanet=contactCampaign?WORLD_PLANETS.find(p=>p.regions.some(r=>r.campaignId===contactCampaign.id)):undefined;
+    const contactRegion=contactPlanet?.regions.find(r=>r.campaignId===contactCampaign!.id);
     const linkedBoss=s.bosses.find(b=>b.species===focusSpecies);
     const bossPlanet=linkedBoss?WORLD_PLANETS.find(p=>p.regions.some(r=>r.bossIds?.includes(linkedBoss.id))):undefined;
     const bossRegion=bossPlanet?.regions.find(r=>r.bossIds?.includes(linkedBoss!.id));
-    const target=habitat??(bossPlanet&&bossRegion?{planet:bossPlanet,region:bossRegion}:undefined);
+    const target=habitat??(contactPlanet&&contactRegion?{planet:contactPlanet,region:contactRegion}:undefined)??(bossPlanet&&bossRegion?{planet:bossPlanet,region:bossRegion}:undefined);
     if(!target)return;
     visit(target.planet,target.region);
-    setSelection(!habitat&&bossPlanet&&bossRegion?{kind:'boss',id:linkedBoss!.id}:{kind:'creature',id:focusSpecies,instanceId:`${target.planet.id}/${target.region.id}:${focusSpecies}:0`});
+    setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:!habitat&&bossPlanet&&bossRegion?{kind:'boss',id:linkedBoss!.id}:{kind:'creature',id:focusSpecies,instanceId:`${target.planet.id}/${target.region.id}:${focusSpecies}:0`});
   },[focusSpecies]);
   function walk(x:number,y:number,after?:()=>void) {
     cancelWalk();setSelection(null);setShowDetails(false);
@@ -251,7 +259,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   }
   function gate(event:MouseEvent<HTMLButtonElement>,exit:SceneExit){event.stopPropagation();const next=planet.regions.find(candidate=>candidate.id===exit.targetRegionId)!;walk(exit.anchor.x,exit.anchor.y,()=>visit(planet,next,exit.entry))}
   function details(){if(creature&&onInteract)onInteract({kind:'species',species:creature.id});else if(boss&&onInteract)onInteract({kind:'species',species:boss.species});else setShowDetails(v=>!v)}
-  function challenge(){if(creatureRecruitment)onInteract?.({kind:'quest',questId:creatureRecruitment.id});else if(creature)c.dispatch({type:'startTraining',species:creature.id,level:creatureLevel,planetId:planet.id,regionId:region.id});else if(boss)c.dispatch({type:'startBattle',bossId:boss.id});}
+  function challenge(){if(selectedCampaign){setSelection(null);onNavigate?.(`campaign:${selectedCampaign.id}`);}else if(creatureRecruitment)onInteract?.({kind:'quest',questId:creatureRecruitment.id});else if(creature)c.dispatch({type:'startTraining',species:creature.id,level:creatureLevel,planetId:planet.id,regionId:region.id});else if(boss)c.dispatch({type:'startBattle',bossId:boss.id});}
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${duration}ms`} as CSSProperties;
   const at=(point:WorldPoint):CSSProperties=>({left:`${point.x}%`,top:`${point.y}%`});
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
@@ -264,6 +272,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
         frozen={approachingInstance===instanceId||(selection?.kind==='creature'&&selection.instanceId===instanceId)} battle={!!s.battle}
         onApproach={(event,x,y)=>approach(event,{kind:'creature',id:species.id,instanceId,level},x,y)}/>)}
       {localBosses.map((b,index)=>{const home=constrainScenePoint(layout,{x:layout.boss.x+(index-(localBosses.length-1)/2)*15,y:layout.boss.y});return <button key={b.id} className="world-creature world-boss" style={at(home)} aria-label={`与${b.name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={b.name}/></div><span className="world-character-name"><b>{b.category==='SPT首领'?'SPT':'挑战'}</b> {b.name}<small>Lv.{b.level}</small></span></button>})}
+      {campaignContact&&<button className="world-creature world-boss world-campaign-contact" data-campaign={campaignContact.id} style={at(layout.boss)} aria-label={`与${campaignContactName}互动，查看挑战进度`} onClick={event=>approach(event,{kind:'campaign',id:campaignContact.id},layout.boss.x,layout.boss.y)}><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={campaignContact.species} name={campaignContactName}/></div><span className="world-character-name">{campaignContactName}<small>{campaignProgress}</small></span></button>}
       {region.facility&&<button className="world-npc" style={at(layout.npc)} aria-label={`与${facilityName}互动`} onClick={event=>approach(event,{kind:'facility'},layout.npc.x,layout.npc.y)}><Facility kind={region.facility}/>{!laboratory&&<span className="npc-interaction-mark">{region.facility==='missions'?'!':'✦'}</span>}<span className="world-character-name">{facilityName}</span></button>}
       {laboratory&&laboratoryFacilities.map(facility=><button key={facility.page}
         className={`world-lab-facility world-lab-${facility.page}`}
@@ -277,15 +286,15 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       {moving&&<div className="world-walk-marker" style={at(playerPosition)} aria-hidden="true"/>}
       <div className="world-ground-hint" aria-live="polite">{moving?'正在前往…':'点击地图任意位置移动 · 点击精灵互动'}</div>
     </div>
-    {selection&&<section className="world-dialogue" role="dialog" aria-label={creature?`与${creature.name}交谈`:boss?`与${boss.name}交谈`:'设施互动'}>
+    {selection&&<section className="world-dialogue" role="dialog" aria-label={selectedCampaign?`与${campaignContactName}交谈`:creature?`与${creature.name}交谈`:boss?`与${boss.name}交谈`:'设施互动'}>
       <button className="world-dialogue-close" aria-label="离开对话" onClick={()=>setSelection(null)}>×</button>
-      <div className="world-dialogue-body">{(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={(creature??boss)!.name}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
-        <div className="world-dialogue-copy"><small>{creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`:'飞船联络'}</small><h3>{creature?.name??boss?.name??facilityName}</h3>
-          <p>{creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`:activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
-          {showDetails&&<p className="world-dialogue-detail">{boss?.description??(creature?`精灵编号 #${creature.id}，等级 Lv.${creatureLevel}。${creature.wildCapture===false?'击败后通过精元孵化获得，不能使用胶囊。':'先削弱野生精灵的体力，再从战斗道具使用精灵胶囊。'}`:region.description)}</p>}
+      <div className="world-dialogue-body">{selectedCampaign?<div className="world-dialogue-portrait"><CreatureArt species={selectedCampaign.species} name={campaignContactName}/></div>:(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={(creature??boss)!.name}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
+        <div className="world-dialogue-copy"><small>{selectedCampaign?'封印挑战':creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`:'飞船联络'}</small><h3>{selectedCampaign?campaignContactName:creature?.name??boss?.name??facilityName}</h3>
+          <p>{selectedCampaign?`${region.description} ${campaignProgress}。已完成 ${selectedCampaign.completed} / ${selectedCampaign.stages.length} 关。`:creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`:activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
+          {showDetails&&<p className="world-dialogue-detail">{selectedCampaign?.description??boss?.description??(creature?`精灵编号 #${creature.id}，等级 Lv.${creatureLevel}。${creature.wildCapture===false?'击败后通过精元孵化获得，不能使用胶囊。':'先削弱野生精灵的体力，再从战斗道具使用精灵胶囊。'}`:region.description)}</p>}
         </div>
       </div>
-      <div className="world-dialogue-actions">{(creature||boss)?<><button className="primary" onClick={challenge}>{creatureRecruitment?'查看招募任务':'挑战'}</button><button onClick={details}>详情</button></>:<>
+      <div className="world-dialogue-actions">{(creature||boss||selectedCampaign)?<><button className="primary" onClick={challenge}>{selectedCampaign?'查看封印进度':creatureRecruitment?'查看招募任务':'挑战'}</button><button onClick={details}>详情</button></>:<>
         {activeFacility==='recovery'&&<button className="primary" onClick={()=>c.dispatch({type:'heal'})}>恢复全队</button>}
         {laboratory&&<button onClick={()=>{setSelection(null);onNavigate?.('fusion')}}>精灵融合</button>}
         {laboratory&&<button onClick={()=>{setSelection(null);onNavigate?.('breeding')}}>精灵繁殖</button>}

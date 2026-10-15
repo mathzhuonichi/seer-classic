@@ -197,6 +197,11 @@ function floorLayout([left,top,right,bottom]:readonly [number,number,number,numb
  * These are remake placements, not a reconstruction of the complete road mask.
  */
 const originalOverrides:Record<number,Partial<SceneLayout>>={
+  // Official map 10032 places top_mc.puli_mc at (439.95,160.45) on a
+  // 960x560 stage. Its first frame is empty: this is an animation origin,
+  // not a foot point. Keep that x and fit our bottom-anchored contact to the
+  // central portal. See design/notes/puni-location-v38.md for the distinction.
+  10032:{boss:point(45.828125,55),entry:point(74,78)},
   4:{entry:point(58,87),npc:point(70,76)},
   5:{entry:point(33,86),npc:point(67,81)},
   25:{walk:[point(10,44),point(37,35),point(50,43),point(50,64),point(59,83),point(55,91),point(10,91)],

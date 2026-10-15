@@ -1,0 +1,163 @@
+{
+  "id": "trainer_fast_pressure",
+  "name": {
+    "zh": "高速压制"
+  },
+  "category": "trainer",
+  "roster_group": "trained",
+  "roster_order": 2,
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 70,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10825,
+        20364,
+        10823,
+        10166
+      ],
+      "role": {
+        "zh": "特训强化·高速收割"
+      },
+      "tactical_role": "Reward-trained original-form electric setup, boost removal, and priority finishing"
+    },
+    {
+      "species": 261,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10715,
+        10710,
+        20312,
+        20309
+      ],
+      "role": {
+        "zh": "消强攻坚·自我恢复"
+      },
+      "tactical_role": "Physical setup, opposing boost removal, and recovery"
+    },
+    {
+      "species": 798,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11925,
+        11926,
+        20982,
+        10223
+      ],
+      "role": {
+        "zh": "提速强化·双系压制"
+      },
+      "tactical_role": "Ground-shadow physical offense, speed setup, boost removal, and priority"
+    },
+    {
+      "species": 875,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        12112,
+        11919,
+        12110,
+        21090
+      ],
+      "role": {
+        "zh": "暗夜强化·先制消强"
+      },
+      "tactical_role": "Shadow physical pressure, all-stat setup, priority, and boost removal"
+    },
+    {
+      "species": 865,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        12079,
+        10060,
+        12080,
+        21070
+      ],
+      "role": {
+        "zh": "高速飞攻·先制截击"
+      },
+      "tactical_role": "Fast flying physical offense, priority, boost removal, and defensive setup"
+    },
+    {
+      "species": 309,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11021,
+        11017,
+        20509,
+        10033
+      ],
+      "role": {
+        "zh": "觉醒强攻·火系先制"
+      },
+      "tactical_role": "Physical setup, fire priority, and neutral coverage without one-hit KO moves"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "offense"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "雷伊、卡修斯、布莱克与托鲁克争抢先手，盖亚和魔焰猩猩补上消强与先制火力。物攻占比高且恢复点少，烧伤和高物防尤其有效。"
+  },
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "design_notes": [
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Fast original forms use priority and coverage; the deliberately physical bias offers visible counterplay."
+  ]
+}

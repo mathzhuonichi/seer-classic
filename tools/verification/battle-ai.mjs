@@ -209,11 +209,12 @@ try {
     const run=()=>{const battle=fixture({seed:812,skills:[S.attack,S.heal,S.poison,S.boost]});for(let i=0;i<8&&!battle.result;i++){battle.submit(0,move(i%2?S.attack:S.wait));battle.resolveTurn();}return state(battle);};assert.equal(run(),run());
   });
   check('Every authored NPC team and member produces legal, read-only decisions using its actual moves',()=>{
-    const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),data=buildDataSet(catalog),files=fs.readdirSync('data/trainers').filter(name=>name.endsWith('.json')).sort();assert.equal(files.length,3);
+    const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),data=buildDataSet(catalog),files=fs.readdirSync('data/trainers').filter(name=>name.endsWith('.json')).sort();assert(files.length>0);let expectedTrainerCases=0;
     for(const file of files){const trainer=JSON.parse(fs.readFileSync(`data/trainers/${file}`,'utf8'));assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
+      expectedTrainerCases+=trainer.team.length*2;
       for(let lead=0;lead<trainer.team.length;lead++)for(const hp of [1,.3]){const team=[trainer.team[lead],...trainer.team.filter((_row,index)=>index!==lead)];const battle=createBattle({data,seed:2026,scripts:SEER_SCRIPTS,sides:[{kind:'player',team:[{species:6,level:80,skills:[10001]}]},{kind:'trainer',team,ai:trainer.ai}]});battle.active(1).hp=Math.max(1,Math.floor(battle.active(1).maxHp*hp));battle.active(1).turnsActive=2;const before=state(battle),action=decide(battle);legal(battle,action);assert.equal(state(battle),before);trainerCases.push({trainer:trainer.id,species:team[0].species,hpRatio:hp,action});}
     }
-    assert.equal(trainerCases.length,18);
+    assert.equal(trainerCases.length,expectedTrainerCases);
   });
   fs.mkdirSync('artifacts/battle-ai',{recursive:true});fs.writeFileSync('artifacts/battle-ai/regression.json',JSON.stringify({checks,trainerCases,failures},null,2)+'\n');
   console.log(JSON.stringify({passed:checks.length,trainerCases:trainerCases.length,failures},null,2));assert.equal(failures.length,0,`${failures.length} AI regression failures`);

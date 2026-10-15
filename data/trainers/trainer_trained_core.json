@@ -1,0 +1,163 @@
+{
+  "id": "trainer_trained_core",
+  "name": {
+    "zh": "特训三核"
+  },
+  "category": "trainer",
+  "roster_group": "trained",
+  "roster_order": 1,
+  "location": {
+    "zh": "精灵太空站 · 太空站资源区"
+  },
+  "team": [
+    {
+      "species": 70,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10825,
+        20364,
+        10823,
+        10166
+      ],
+      "role": {
+        "zh": "特训强化·高速收割"
+      },
+      "tactical_role": "Reward-trained original-form electric setup, boost removal, and priority finishing"
+    },
+    {
+      "species": 261,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10715,
+        10710,
+        20312,
+        20309
+      ],
+      "role": {
+        "zh": "消强攻坚·自我恢复"
+      },
+      "tactical_role": "Physical setup, opposing boost removal, and recovery"
+    },
+    {
+      "species": 216,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10618,
+        20269,
+        10617,
+        10622
+      ],
+      "role": {
+        "zh": "全能强化·龙系攻坚"
+      },
+      "tactical_role": "Original-form all-stat setup and reliable dragon pressure"
+    },
+    {
+      "species": 303,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spa": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        20007,
+        20009,
+        11071,
+        11006
+      ],
+      "role": {
+        "zh": "寄生续航·消除强化"
+      },
+      "tactical_role": "Leech, direct healing, draining damage, and opposing boost removal"
+    },
+    {
+      "species": 306,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11014,
+        20010,
+        11013,
+        11008
+      ],
+      "role": {
+        "zh": "剑舞破阵·龙系补盲"
+      },
+      "tactical_role": "Physical water setup, dragon coverage, and priority"
+    },
+    {
+      "species": 309,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "atk": 255,
+        "spe": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        11021,
+        11017,
+        20509,
+        10033
+      ],
+      "role": {
+        "zh": "觉醒强攻·火系先制"
+      },
+      "tactical_role": "Physical setup, fire priority, and neutral coverage without one-hit KO moves"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "no_capture"
+    }
+  ],
+  "win": [
+    {
+      "kind": "ko_all"
+    }
+  ],
+  "lose": [],
+  "phases": [],
+  "ai": {
+    "kind": "smart",
+    "allow_switch": true,
+    "style": "offense"
+  },
+  "reward": {
+    "items": {}
+  },
+  "strategy_notes": {
+    "zh": "完成技能特训的原形态雷伊，与强化招式齐备的盖亚、哈莫雷特组成三核；融合三主宠补足水草火。及时消强、压制恢复点可阻止接力攻坚。"
+  },
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
+  "design_notes": [
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Rei uses recovered training rewards. Gaia and Hamo use natural signature setup moves; no invented training-stat bonus or super-evolved form is applied."
+  ]
+}

@@ -12,7 +12,7 @@ Owner: the "Monster and boss catalog" thread. Shapes follow `design/foundation.m
 | `conditions.json` | timed conditions referenced by skill `add_condition` ops |
 | `types.json` | 18 base types and 29 composite mappings; all 324 single-type coefficients match the official Unity configuration (see `_note`) |
 | `bosses/*.json` | PvE boss encounters (section 7 shape + `capture`, `strategy_notes`, `engine_notes`, `confidence`, `sources`) |
-| `trainers/*.json` | Three authored six-member Lv.100 remake teams, loaded separately from boss acquisition routes; legal ordinary builds and currency/experience rewards only |
+| `trainers/*.json` | Ten authored six-member Lv.100 teams in four tactical groups; ordinary builds with level-learned or explicitly task-rewarded skills, loaded separately from boss acquisition routes |
 | `bosses/_modes_tower.md` | rules of the repeatable challenge modes |
 | `scripts_needed.md` | skill effects that need an engine script, with original template text |
 | `items.json` | 51 pre-2013 items: capsules, HP/PP potions, 能量珠, 学习力/性格/level items, EXP/EV boosters (`_build/build_items.py`) |

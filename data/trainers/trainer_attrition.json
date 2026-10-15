@@ -1,9 +1,11 @@
 {
   "id": "trainer_attrition",
   "name": {
-    "zh": "耐久训练师 · 岩青"
+    "zh": "初代续航"
   },
   "category": "trainer",
+  "roster_group": "foundation",
+  "roster_order": 3,
   "location": {
     "zh": "精灵太空站 · 太空站资源区"
   },
@@ -14,16 +16,39 @@
       "iv": 31,
       "evs": {
         "hp": 255,
-        "spd": 255
+        "def": 255
       },
       "nature": "hardy",
       "skills": [
         20007,
         20009,
-        10016,
+        10003,
         10014
       ],
-      "tactical_role": "Leech, recovery, drain, and ground coverage"
+      "role": {
+        "zh": "寄生恢复·物防支点"
+      },
+      "tactical_role": "Physical defensive pivot with leech, recovery, and ground coverage"
+    },
+    {
+      "species": 32,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "spd": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10027,
+        20036,
+        20037,
+        10069
+      ],
+      "role": {
+        "zh": "保护祈雨·水系反击"
+      },
+      "tactical_role": "Protection, special setup, and self-debuff clearing"
     },
     {
       "species": 88,
@@ -40,41 +65,10 @@
         10247,
         10224
       ],
-      "tactical_role": "Recovering ground defender and electric immunity pivot"
-    },
-    {
-      "species": 32,
-      "level": 100,
-      "iv": 31,
-      "evs": {
-        "hp": 255,
-        "spd": 255
+      "role": {
+        "zh": "双防强化·地系承伤"
       },
-      "nature": "hardy",
-      "skills": [
-        20036,
-        20037,
-        10027,
-        10069
-      ],
-      "tactical_role": "Water resistance pivot with protection, setup, and self-debuff removal"
-    },
-    {
-      "species": 303,
-      "level": 100,
-      "iv": 31,
-      "evs": {
-        "hp": 255,
-        "spa": 255
-      },
-      "nature": "hardy",
-      "skills": [
-        20007,
-        20009,
-        11071,
-        11006
-      ],
-      "tactical_role": "Leech, recovery, draining attacks, and opposing boost removal"
+      "tactical_role": "Defensive ground pivot with recovery and speed pressure"
     },
     {
       "species": 177,
@@ -82,19 +76,42 @@
       "iv": 31,
       "evs": {
         "hp": 255,
-        "spa": 255
+        "atk": 255
       },
       "nature": "hardy",
       "skills": [
         20027,
         20026,
-        10056,
-        10502
+        10502,
+        10008
       ],
-      "tactical_role": "Flying recovery, physical-attack suppression, and fixed-damage pressure"
+      "role": {
+        "zh": "栖息续航·物攻削弱"
+      },
+      "tactical_role": "Flying physical recovery pivot with attack suppression and priority"
     },
     {
-      "species": 50,
+      "species": 52,
+      "level": 100,
+      "iv": 31,
+      "evs": {
+        "hp": 255,
+        "atk": 255
+      },
+      "nature": "hardy",
+      "skills": [
+        10215,
+        10046,
+        20063,
+        20064
+      ],
+      "role": {
+        "zh": "冰系物攻·特攻压制"
+      },
+      "tactical_role": "Ice physical counter with opposing special attack reduction"
+    },
+    {
+      "species": 61,
       "level": 100,
       "iv": 31,
       "evs": {
@@ -103,12 +120,15 @@
       },
       "nature": "hardy",
       "skills": [
-        10209,
-        10207,
-        20058,
-        20060
+        10140,
+        10105,
+        20074,
+        20072
       ],
-      "tactical_role": "Ice coverage with speed and defensive-stat control"
+      "role": {
+        "zh": "机械特攻·控速蓄势"
+      },
+      "tactical_role": "Mechanical special setup, electric coverage, and speed control"
     }
   ],
   "rules": [
@@ -132,12 +152,12 @@
     "items": {}
   },
   "strategy_notes": {
-    "zh": "布布花与丽莎布布以寄生和回复持续作战，纳多雷与巴拉龟承担不同属性的压力，巴弗洛和阿克希亚负责压制攻击、速度与防御。根据对位保留体力，寻找安全换场机会。 对方全员 Lv.100、个体值 31、学习力合计 510、实干性格；仅使用本形态在 100 级前学会的四个技能，体力和能力按普通精灵公式计算。可自由使用道具，胜利获得赛尔豆与经验。"
+    "zh": "寄生、栖息与地之守护维持轮换，巴拉龟和雷吉欧斯积累强化后反击。整体速度偏慢，连续消强或集中爆发能阻止它们站稳。"
   },
-  "source_note": "Original remake six-member trainer composition using retained catalog species and naturally learned level-100-or-earlier skills. This is not a recovered historical boss encounter. No HP overrides, stat multipliers, additional rules, or unlimited PP are used.",
+  "source_note": "Original remake composition from retained catalog species; not a recovered historical player team or boss encounter. The retained catalog uses Nattsu39/seer_data H5 commit a00bcdd and may include later base-stat revisions. All members use ordinary level-100 formulas, IV 31, total EV 510, neutral nature, finite natural PP, and no HP or stat overrides. Only original-form species 70 uses explicitly recovered training-reward moves; every other equipped move is learned naturally by level 100.",
   "design_notes": [
-    "This encounter is loaded separately from acquisition and boss definitions.",
-    "Switching is explicitly opt-in and does not change historical scripted encounter order.",
-    "All individual values, effort values, natures, moves, and levels are legal for ordinary owned creatures."
+    "Roster groups describe origin and tactical identity, not a guaranteed linear difficulty ranking.",
+    "No scripted boss phases, collection rewards, hidden stat bonuses, or unlimited PP are added.",
+    "Recovery members retain finite PP and ordinary HP; the team has no boss endurance multipliers."
   ]
 }
