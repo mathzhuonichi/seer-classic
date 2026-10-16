@@ -2,11 +2,23 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   BRAVE_TOWER_FLOORS,BRAVE_TOWER_CHECKPOINTS,braveTowerFloor,braveTowerBossId,
-  normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,
+  normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,braveTowerRewards,
 } from './brave-tower.ts';
 
 const fresh=()=>normalizeBraveTowerProgress(undefined,[]);
 const unlocked=progress=>braveTowerCheckpoints(progress).filter(row=>row.unlocked).map(row=>row.floor);
+
+test('explicit rewards separate repeatable supplies from first-clear milestones',()=>{
+  assert.deepEqual(braveTowerRewards(undefined),[]);
+  assert.deepEqual(braveTowerRewards({items:{}}),[]);
+  const source=Object.freeze({items:Object.freeze({item_seer_beans:300,item_suit_flash:1,essence_ken:1,item_potion_hp_100:2})});
+  assert.deepEqual(braveTowerRewards(source),[
+    {id:'item_seer_beans',count:300,firstClear:false},{id:'item_suit_flash',count:1,firstClear:true},
+    {id:'essence_ken',count:1,firstClear:true},{id:'item_potion_hp_100',count:2,firstClear:false},
+  ]);
+  assert.deepEqual(braveTowerRewards({first_clear:true,items:{item_seer_beans:10}}),[{id:'item_seer_beans',count:10,firstClear:true}]);
+  assert.deepEqual(braveTowerRewards({items:{zero:0,negative:-1,fraction:0.5,infinite:Infinity}}),[]);
+});
 
 test('a fresh tower opens only floor 1, with fixed ten-floor checkpoints',()=>{
   const progress=fresh();

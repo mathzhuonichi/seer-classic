@@ -1,6 +1,7 @@
 import bundle from '../../data/gamedata.json';
 import {buildInitialFormAcquisitionIndex} from './initial-acquisition';
 import {getEligibleRecruitmentSPTs} from './spt-recruitment';
+import {braveTowerFloor} from './brave-tower';
 import {buildRecruitmentRewards,MAX_RECRUITMENT_PREREQUISITES,type RecruitmentPrerequisite} from './recruitment';
 import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture';
 import { WORLD_PLANETS, type WorldPlanet } from '../world';
@@ -137,7 +138,7 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: Worl
     const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));
     const intermediate = !!campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
     const explicit = Object.keys(boss.reward?.items ?? {}).filter(id => id.startsWith('essence_'));
-    const itemIds = explicit.length ? explicit : !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' ? [`essence_${boss.id}`] : [];
+    const itemIds = explicit.length ? explicit : !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' && braveTowerFloor(boss.id)===undefined ? [`essence_${boss.id}`] : [];
     for (const itemId of itemIds) {
       if (!bindings.has(itemId)) bindings.set(itemId, resolveEncounterEssenceSpecies(boss));
       const id = bindings.get(itemId)!;

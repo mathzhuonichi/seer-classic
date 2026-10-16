@@ -91,14 +91,32 @@ try{
     assert.equal(mystery.campaignId,'puni');assert.equal(mystery.originalMapId,10032);
     for(const id of stages)assert.deepEqual(findChallengeLocation(s.bosses.find(boss=>boss.id===id)),{planetId:'space-station',regionId:'mystery',staging:false});
   });
-  check('Three actual scene terminals expose the integrated battle, Tower and Dark routes',()=>{
-    for(const [region,route]of [['resources','facilities:random'],['brave-tower','tower'],['dark-arena','challenge:dark']]){
+  check('Two equipment terminals retain battle and Dark routes beside the playable Tower',()=>{
+    for(const [region,route]of [['resources','facilities:random'],['dark-arena','challenge:dark']]){
       const html=markup('space-station',region);assert.equal((html.match(/data-station-action=/g)??[]).length,1);assert(html.includes(`data-station-action="${route}"`));
-      if(region==='brave-tower')assert(!html.includes('data-boss='),'Tower uses its progression panel instead of separate floor actors');
       if(region==='dark-arena')for(const species of [1180,1183,1186])assert(html.includes(`data-species="${species}"`));
     }
     for(const region of ['random-arena','elite-arena','classic-arena'])assert(markup('space-station',region).includes('data-station-action="facilities:random"'));
     assert.equal((markup('space-station','mystery').match(/data-campaign="puni"/g)??[]).length,1);
+  });
+  check('Each Tower floor has one fixed current opponent on map 500 and a separate start selector',()=>{
+    for(let floor=1;floor<=70;floor++){
+      const id=`boss_tower_brave_f${String(floor).padStart(3,'0')}`,boss=s.bosses.find(row=>row.id===id);
+      assert(boss);
+      const html=markup('space-station','brave-tower',{s:{...s,braveTower:{...s.braveTower,highestCleared:floor-1,resumeFloor:floor}}});
+      assert(html.includes('data-map-id="500"'));
+      assert(html.includes(`data-tower-floor="${floor}"`));assert(html.includes('data-tower-complete="false"'));
+      assert.equal((html.match(/data-boss=/g)??[]).length,1);assert(html.includes(`data-boss="${id}" data-species="${boss.species}" style="left:50%;top:58%"`));
+      assert(html.includes(`勇者之塔 · 第 ${floor} 层`));assert(html.includes(`aria-label="与${boss.opponents[0].name}互动"`));
+      assert(html.includes('data-tower-action="choose"'));assert(!html.includes('data-station-action='));assert(!html.includes('world-roamer'));
+      if(boss.opponents.length>1)assert(html.includes(`队伍 ${boss.opponents.length} 只`));
+    }
+    const complete=markup('space-station','brave-tower',{s:{...s,braveTower:{...s.braveTower,highestCleared:70,resumeFloor:null}}});
+    assert(complete.includes('data-tower-floor="70"'));assert(complete.includes('data-tower-complete="true"'));
+    assert(complete.includes('已通过全部 70 层'));assert(complete.includes('data-boss="boss_tower_brave_f070"'));
+    const legacy=markup('space-station','brave-tower',{s:{...s,braveTower:undefined,bosses:s.bosses.map(boss=>({...boss,cleared:boss.id==='boss_tower_brave_f010'}))}});
+    assert(legacy.includes('data-tower-floor="11"'));assert(legacy.includes('data-boss="boss_tower_brave_f011"'));
+    report.observations.towerSceneStates=72;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);

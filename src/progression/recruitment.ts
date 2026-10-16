@@ -4,6 +4,7 @@ import {FUSION_RECIPES} from './fusion';
 import {BREEDING_RECIPES} from './breeding';
 import {CHALLENGE_CAMPAIGNS} from './challenge-campaigns';
 import {buildPaidSPTRecruitments,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs} from './spt-recruitment';
+import {braveTowerFloor} from './brave-tower';
 
 export const MAX_RECRUITMENT_PREREQUISITES=6;
 export interface AcquisitionPolicy {
@@ -54,7 +55,7 @@ function nativeInitialRoutes(catalog:RecruitmentCatalog,planets:readonly WorldPl
     const campaign=CHALLENGE_CAMPAIGNS.find(row=>row.stages.some(stage=>stage.bossIds.includes(boss.id)));
     const intermediate=campaign&&!campaign.stages.at(-1)!.bossIds.includes(boss.id);
     const explicit=Object.keys(boss.reward?.items??{}).filter(id=>id.startsWith('essence_'));
-    if(!explicit.length&&(intermediate||boss.reward?.learn_skill||boss.id==='boss_tower_brave_mystery'))continue;
+    if(!explicit.length&&(intermediate||boss.reward?.learn_skill||boss.id==='boss_tower_brave_mystery'||braveTowerFloor(boss.id)!==undefined))continue;
     const fallback=boss.reward_hatches??boss.reward?.monster?.species??boss.team.at(-1)?.species;
     for(const id of explicit.length?explicit:[`essence_${boss.id}`]){
       const target=items.get(id)??fallback;if(target!==undefined){seeds.add(target);items.set(id,target);}

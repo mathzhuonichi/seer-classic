@@ -13,7 +13,7 @@ export interface EngravingView {
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<Stats> }
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings?: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
-export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: {species:number;name:string;level:number}[] }
+export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: {species:number;name:string;level:number}[]; rewardText?:string }
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
 export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<Stats>}
 export interface BattleFacilityOpponentView {species:number;name:string;level:number;baseTotal:number;role?:string;training?:NpcTrainingView;skills?:{id:number;name:string;training?:string}[]}
@@ -30,11 +30,12 @@ export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bo
 export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: {species: number; name: string; level: number}[]; rewardText: string; blockedReason?: string }
 export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
-export interface BraveTowerView { highestCleared: number; resumeFloor: number | null; totalFloors: number; checkpoints: {floor:number;unlocked:boolean}[] }
+export interface BraveTowerView { highestCleared: number; resumeFloor: number | null; totalFloors: number; checkpoints: {floor:number;unlocked:boolean}[]; milestones?:{floor:number;species?:number;name:string;description:string;cleared:boolean}[]; honors?:string[] }
 export interface GameSnapshot { monsters: MonsterView[]; party: string[]; bosses: BossView[]; campaigns: CampaignView[]; facilities?: BattleFacilityView[]; braveTower?:BraveTowerView; species: SpeciesView[]; quests: QuestView[]; battle: BattleView | null; expPool: number; coins: number; notices: string[]; natures: {id: string; name: string}[]; traits: {id: string; name: string; description: string}[]; items: ItemView[]; shopItems:ShopItemView[]; modules: {fifthSkills: number; soulMarks: number; engravings: number} }
 export type GameAction =
  | {type: 'startBattle'; bossId: string}
  | {type: 'startTower'; floor: number}
+ | {type: 'enterTower'; floor: number}
  | {type: 'startFacility'; facilityId: string; teamId?: string}
  | {type: 'startCampaignStage'; campaignId: string; stageId: string}
  | {type: 'resetCampaign'; campaignId: string}

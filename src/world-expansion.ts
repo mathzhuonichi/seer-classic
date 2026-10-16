@@ -183,7 +183,7 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
   ]),
   destination("space-station","ship","精灵太空站",102,"station","#75b8dc",[
     {"id":"resources","name":"太空站大厅","originalMapId":102,"description":"对战终端提供随机对战、巅峰对决和经典阵容。左侧通道通往勇者之塔，下方通道通往暗黑武斗场。","x":50,"y":65,"creatures":[],"levels":[1,100]},
-    {"id":"brave-tower","name":"勇者之塔","originalMapId":500,"description":"使用右上方控制台查看楼层与挑战进度。神秘领域的通道仍在塔内。","x":50,"y":65,"creatures":[],"levels":[1,100]},
+    {"id":"brave-tower","name":"勇者之塔","originalMapId":500,"description":"与中央的本层对手互动，全部战胜后进入下一层。退出或失败保留当前层，也可选择已解锁的十层起点。塔内通道通往神秘领域。","x":50,"y":65,"creatures":[],"levels":[1,100]},
     {"id":"dark-arena","name":"暗黑武斗场","originalMapId":110,"description":"使用场边终端选择暗黑挑战，也可以与场内精灵互动。左侧通道返回太空站大厅。","x":50,"y":65,"creatures":[],"levels":[1,100]},
     {"id":"mystery","name":"神秘领域","originalMapId":10032,"description":"谱尼守候在中央平台。与它交谈，按顺序破解七道封印，再挑战真身。","x":50,"y":65,"creatures":[],"levels":[100,100],"campaignId":"puni","bossIds":["boss_puni_seal1","boss_puni_seal2","boss_puni_seal3","boss_puni_seal4","boss_puni_seal5","boss_puni_seal6","boss_puni_seal7","boss_puni_zhenshen"]}
   ]),

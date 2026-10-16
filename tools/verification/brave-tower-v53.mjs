@@ -63,7 +63,9 @@ try{
 
   check('Fresh controller exposes seven checkpoints and permits only the first floor',()=>{
     const game=make();assert.deepEqual(progress(game),{highestCleared:0,resumeFloor:1});
-    assert.deepEqual(game.snapshot().braveTower,{highestCleared:0,resumeFloor:1,totalFloors:70,checkpoints:[1,11,21,31,41,51,61].map(floor=>({floor,unlocked:floor===1}))});
+    const {milestones,honors,...view}=game.snapshot().braveTower;
+    assert.deepEqual(view,{highestCleared:0,resumeFloor:1,totalFloors:70,checkpoints:[1,11,21,31,41,51,61].map(floor=>({floor,unlocked:floor===1}))});
+    assert.deepEqual(milestones.map(row=>row.floor),[30,60,70]);assert.deepEqual(honors,[]);
     assert.equal(game.snapshot().battle,null);
   });
   check('Both public entry actions reject locked and malformed floors atomically',()=>{

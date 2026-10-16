@@ -7,6 +7,14 @@ export interface BraveTowerProgress {
 export const BRAVE_TOWER_FLOORS=70;
 export const BRAVE_TOWER_CHECKPOINTS=Object.freeze([1,11,21,31,41,51,61] as const);
 
+export interface BraveTowerRewardSource {items?:Record<string,number>;first_clear?:boolean}
+/** Explicit floor rewards only; unique milestones are not granted on repeat clears. */
+export function braveTowerRewards(reward:BraveTowerRewardSource|undefined):{id:string;count:number;firstClear:boolean}[] {
+  return Object.entries(reward?.items??{}).filter(([,count])=>Number.isSafeInteger(count)&&count>0).map(([id,count])=>({
+    id,count,firstClear:reward?.first_clear===true||id.startsWith('essence_')||id==='item_suit_flash',
+  }));
+}
+
 function isFloor(value:unknown):value is number {
   return typeof value==='number'&&Number.isInteger(value)&&value>=1&&value<=BRAVE_TOWER_FLOORS;
 }

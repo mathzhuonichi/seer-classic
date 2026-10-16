@@ -6,6 +6,7 @@ import { buildWorldPopulation } from '../presentation/world-population';
 import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation';
 import {getSceneExits,type SceneExit} from '../presentation/scene-exits';
 import {contactApproachPoint} from '../presentation/world-interaction';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId,normalizeBraveTowerProgress} from '../progression/brave-tower';
 import ClassicRobot from './ClassicRobot';
 import '../world.css';
 
@@ -24,7 +25,6 @@ type SceneTerminal = WorldPoint & {page:string;name:string;hint:string;width:num
 // visual adaptations of the original backgrounds, not additional map rooms.
 const stationTerminals:Record<string,SceneTerminal>={
   resources:{page:'facilities:random',name:'对战终端',hint:'随机 · 巅峰 · 经典',x:74,y:18,width:17,height:36,approach:{x:69,y:44}},
-  'brave-tower':{page:'tower',name:'勇者之塔控制台',hint:'查看楼层与进度',x:80.5,y:9.5,width:12,height:19,approach:{x:72,y:39}},
   'dark-arena':{page:'challenge:dark',name:'暗黑挑战终端',hint:'选择挑战之门',x:49,y:93,width:16,height:12,approach:{x:49,y:78},captionAbove:true},
 };
 type RobotDirection = 'front'|'back'|'left'|'right'|'front-left'|'front-right'|'back-left'|'back-right';
@@ -178,6 +178,14 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const movementTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
   const {planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
   const layout=useMemo(()=>getSceneLayout(planet,region),[planet,region]);
+  const inTower=planet.id==='space-station'&&region.id==='brave-tower';
+  const towerProgress=s.braveTower??normalizeBraveTowerProgress(undefined,s.bosses.filter(boss=>boss.cleared).map(boss=>boss.id));
+  const towerFloor=towerProgress.resumeFloor??BRAVE_TOWER_FLOORS;
+  const towerComplete=inTower&&towerProgress.resumeFloor===null;
+  const towerBoss=inTower?s.bosses.find(boss=>boss.id===braveTowerBossId(towerFloor)):undefined;
+  const towerOpponents=towerBoss?.opponents?.length?towerBoss.opponents:towerBoss?[{species:towerBoss.species,name:s.species.find(species=>species.id===towerBoss.species)?.name??towerBoss.name,level:towerBoss.level}]:[];
+  const sceneName=inTower?`勇者之塔 · 第 ${towerFloor} 层`:region.name;
+  const sceneKey=`${planet.id}/${region.id}${inTower?`/${towerFloor}/${towerComplete?'complete':'ready'}`:''}`;
   const background=region.background??planet.background;
   const official=region.backgroundKind==='official'||region.backgroundKind==='remastered'||background.includes('/maps/original/');
   const aspect=imageSize.source===background?imageSize.width/imageSize.height:1000/580;
@@ -192,7 +200,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   };
   const habitatSpecies=region.creatures.map(id=>s.species.find(sp=>sp.id===id)).filter(sp=>!!sp);
   const localCreatures=buildWorldPopulation(`${planet.id}/${region.id}`,habitatSpecies,6,region.levels,region.creatureLevels,region.scarceCreatures);
-  const localBosses=findSceneChallenges(planet.id,region.id,s.bosses,travelTo?.bossId);
+  const localBosses=inTower?(towerBoss?[towerBoss]:[]):findSceneChallenges(planet.id,region.id,s.bosses,travelTo?.bossId);
   const campaignContact=s.campaigns.find(campaign=>campaign.id===region.campaignId);
   const campaignContactName=s.species.find(species=>species.id===campaignContact?.species)?.name??'挑战精灵';
   const nextCampaignStage=campaignContact?.stages.find(stage=>stage.id===campaignContact.nextStageId);
@@ -201,7 +209,8 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const creature=selection?.kind==='creature'?s.species.find(sp=>sp.id===selection.id):undefined;
   const creatureRecruitment=creature&&region.recruitmentSpecies?.includes(creature.id)?s.quests.find(quest=>quest.group==='spt-recruitment'&&quest.rewardSpecies===creature.id):undefined;
   const creatureLevel=selection?.kind==='creature'?(selection.level??region.levels[0]):region.levels[0];
-  const boss=selection?.kind==='boss'?s.bosses.find(b=>b.id===selection.id):undefined;
+  const boss=selection?.kind==='boss'?(inTower?localBosses:s.bosses).find(b=>b.id===selection.id):undefined;
+  const bossName=inTower&&boss?towerOpponents[0]?.name??boss.name:boss?.name;
   const activeFacility=region.facility;
   const facilityName=region.facility==='missions'?'罗杰船长':region.facility==='recovery'?'派特博士':region.facility==='battle'?'对战管理员':'传送管理员';
   const laboratory=planet.id==='station'&&region.id==='lab';
@@ -213,7 +222,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     {page:'shop',name:'道具商城',x:48,y:28,width:22,height:23,approach:{x:48,y:58}},
   ];
   useEffect(()=>writeWorldPreference(preference),[preference]);
-  useEffect(()=>onSceneChange?.({src:background,name:region.name}),[background,region.name,onSceneChange]);
+  useEffect(()=>onSceneChange?.({src:background,name:sceneName}),[background,sceneName,onSceneChange]);
   useEffect(()=>{
     const element=viewport.current;if(!element)return;
     const fit=()=>{
@@ -230,6 +239,10 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   useEffect(()=>{
     if(s.battle){cancelWalk();setSelection(null);setShowDetails(false)}
   },[!!s.battle]);
+  useEffect(()=>{
+    if(!inTower)return;
+    cancelWalk();setDuration(0);setSelection(null);setShowDetails(false);setArrival(true);
+  },[inTower,towerFloor,towerComplete]);
   function visit(p:WorldPlanet,r:WorldRegion,entry?:WorldPoint) {
     cancelWalk();setDuration(0);setPlayerDirection('front');setSelection(null);setShowDetails(false);setArrival(true);
     const destinationLayout=getSceneLayout(p,r),landing=constrainScenePoint(destinationLayout,entry??destinationLayout.entry);
@@ -240,10 +253,8 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     const targetBoss=travelTo.bossId?s.bosses.find(b=>b.id===travelTo.bossId):undefined;
     const landing=targetBoss?findChallengeLocation(targetBoss):travelTo;
     const target=resolveWorldLocation(landing.planetId,landing.regionId??'');visit(target.planet,target.region);
-    if(targetBoss){
-      if(target.planet.id==='space-station'&&target.region.id==='brave-tower')onNavigate?.('tower');
-      else setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
-    }
+    if(targetBoss&&!(target.planet.id==='space-station'&&target.region.id==='brave-tower'))
+      setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   useEffect(()=>{
     if(!focusSpecies)return;
@@ -310,25 +321,29 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   }
   function gate(event:MouseEvent<HTMLButtonElement>,exit:SceneExit){event.stopPropagation();const next=planet.regions.find(candidate=>candidate.id===exit.targetRegionId)!;walk(exit.anchor.x,exit.anchor.y,()=>visit(planet,next,exit.entry))}
   function details(){if(creature&&onInteract)onInteract({kind:'species',species:creature.id});else if(boss&&onInteract)onInteract({kind:'species',species:boss.species});else setShowDetails(v=>!v)}
-  function challenge(){if(selectedCampaign){setSelection(null);onNavigate?.(`campaign:${selectedCampaign.id}`);}else if(creatureRecruitment)onInteract?.({kind:'quest',questId:creatureRecruitment.id});else if(creature)c.dispatch({type:'startTraining',species:creature.id,level:creatureLevel,planetId:planet.id,regionId:region.id});else if(boss)c.dispatch({type:'startBattle',bossId:boss.id});}
+  function chooseTowerStart(){cancelWalk();setSelection(null);onNavigate?.('tower:choose')}
+  function challenge(){if(selectedCampaign){setSelection(null);onNavigate?.(`campaign:${selectedCampaign.id}`);}else if(creatureRecruitment)onInteract?.({kind:'quest',questId:creatureRecruitment.id});else if(creature)c.dispatch({type:'startTraining',species:creature.id,level:creatureLevel,planetId:planet.id,regionId:region.id});else if(boss){if(inTower){if(!towerComplete&&boss.id===towerBoss?.id)c.dispatch({type:'startTower',floor:towerFloor});}else c.dispatch({type:'startBattle',bossId:boss.id});}}
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${duration}ms`} as CSSProperties;
   const at=(point:WorldPoint):CSSProperties=>({left:`${point.x}%`,top:`${point.y}%`});
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
-    <div key={`${planet.id}/${region.id}`} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}${planet.id==='space-station'?' world-station-scene':''}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={region.backgroundKind??(official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId} tabIndex={0} aria-label={`${region.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
+    <div key={sceneKey} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}${planet.id==='space-station'?' world-station-scene':''}${inTower?' world-tower-scene':''}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={region.backgroundKind??(official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId} data-tower-floor={inTower?towerFloor:undefined} data-tower-complete={inTower?towerComplete:undefined} tabIndex={0} aria-label={`${sceneName}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
       <img className="world-background" src={background} alt="" draggable={false} onLoad={event=>{const image=event.currentTarget;setImageSize({source:background,width:image.naturalWidth,height:image.naturalHeight})}}/>
       {!official&&<div className="world-authored-light" aria-hidden="true"/>}
-      <div className="world-location-hud" title={`${planet.subtitle} · ${region.facility?'飞船设施':`Lv.${region.levels[0]}–${region.levels[1]}`}`}><strong>{region.name}</strong></div>
+      <div className="world-location-hud" title={inTower?`最高通过 ${towerProgress.highestCleared} / ${BRAVE_TOWER_FLOORS} 层`:`${planet.subtitle} · ${region.facility?'飞船设施':`Lv.${region.levels[0]}–${region.levels[1]}`}`}><strong>{sceneName}</strong></div>
+      {inTower&&<button className="world-tower-choose" data-tower-action="choose" onClick={event=>{event.stopPropagation();chooseTowerStart()}}>选择起点</button>}
+      {towerComplete&&<div className="world-tower-complete" role="status">已通过全部 70 层 · 选择起点再次挑战</div>}
       {exits.map(exit=><button key={exit.id} className={`world-gate world-gate-${exit.facing}${exit.anchor.y>78?' world-gate-caption-above':''}`} style={at(exit.anchor)} aria-label={exit.ariaLabel} onClick={event=>gate(event,exit)}><span className="world-gate-arrow" aria-hidden="true">{{left:'←',right:'→',up:'↑',down:'↓'}[exit.facing]}</span><span className="world-gate-caption"><small>前往</small><strong>{exit.caption}</strong></span></button>)}
       {localCreatures.map(({species,instanceId,level},index)=><RoamingCreature key={instanceId} species={species} instanceId={instanceId} level={level} index={index} count={localCreatures.length} layout={layout}
         frozen={approachingInstance===instanceId||(selection?.kind==='creature'&&selection.instanceId===instanceId)} battle={!!s.battle}
         onApproach={(event,x,y)=>approach(event,{kind:'creature',id:species.id,instanceId,level},x,y)}/>)}
       {localBosses.map((b,index)=>{
-        const actor=getSceneBossActor(layout,b.id),home=getSceneBossHome(layout,b.id,index,localBosses.length);
+        const actor=inTower?undefined:getSceneBossActor(layout,b.id),home=inTower?{x:50,y:58}:getSceneBossHome(layout,b.id,index,localBosses.length);
+        const name=inTower?towerOpponents[0]?.name??b.name:b.name;
         return <button key={b.id} className={`world-creature world-boss${actor?' world-native-actor':''}`} data-boss={b.id} data-species={b.species}
           style={{...at(home),...(actor?{width:`${actor.width}%`,height:`${actor.height}%`}:{})}}
-          aria-label={`与${b.name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}>
-          {actor?<img className="world-native-actor-art" src={actor.src} alt="" draggable={false}/>:<><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={b.name}/></div></>}
-          <span className="world-character-name"><b>{b.category==='SPT首领'?'SPT':'挑战'}</b> {b.name}<small>Lv.{b.level}</small></span>
+          aria-label={`与${name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}>
+          {actor?<img className="world-native-actor-art" src={actor.src} alt="" draggable={false}/>:<><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={name}/></div></>}
+          <span className="world-character-name"><b>{inTower?(towerComplete?'已通关':`第 ${towerFloor} 层`):b.category==='SPT首领'?'SPT':'挑战'}</b> {name}<small>Lv.{b.level}{inTower&&towerOpponents.length>1?` · 队伍 ${towerOpponents.length} 只`:''}</small></span>
         </button>;
       })}
       {campaignContact&&(()=>{
@@ -358,17 +373,19 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       </button>}
       <div ref={player} className="world-player" style={at(visiblePlayerPosition)}><ClassicRobot direction={playerDirection} walking={moving} role="player"/><span>赛尔</span></div>
       {moving&&<div className="world-walk-marker" style={at(playerPosition)} aria-hidden="true"/>}
-      <div className="world-ground-hint" aria-live="polite">{moving?'正在前往…':'点击地图任意位置移动 · 点击精灵互动'}</div>
+      <div className="world-ground-hint" aria-live="polite">{moving?'正在前往…':inTower?(towerComplete?'本轮挑战已完成 · 可选择起点重新登塔':'点击中央对手挑战本层 · 胜利后前往下一层'):'点击地图任意位置移动 · 点击精灵互动'}</div>
     </div>
-    {selection&&<section className="world-dialogue" role="dialog" aria-label={selectedCampaign?`与${campaignContactName}交谈`:creature?`与${creature.name}交谈`:boss?`与${boss.name}交谈`:'设施互动'}>
+    {selection&&(!inTower||boss)&&<section className="world-dialogue" role="dialog" aria-label={selectedCampaign?`与${campaignContactName}交谈`:creature?`与${creature.name}交谈`:boss?`与${bossName}交谈`:'设施互动'}>
       <button className="world-dialogue-close" aria-label="离开对话" onClick={()=>setSelection(null)}>×</button>
-      <div className="world-dialogue-body">{selectedCampaign?<div className="world-dialogue-portrait"><CreatureArt species={selectedCampaign.species} name={campaignContactName}/></div>:(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={(creature??boss)!.name}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
-        <div className="world-dialogue-copy"><small>{selectedCampaign?'封印挑战':creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`:'飞船联络'}</small><h3>{selectedCampaign?campaignContactName:creature?.name??boss?.name??facilityName}</h3>
-          <p>{selectedCampaign?`${region.description} ${campaignProgress}。已完成 ${selectedCampaign.completed} / ${selectedCampaign.stages.length} 关。`:creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`:activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
+      <div className="world-dialogue-body">{selectedCampaign?<div className="world-dialogue-portrait"><CreatureArt species={selectedCampaign.species} name={campaignContactName}/></div>:(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={creature?.name??bossName!}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
+        <div className="world-dialogue-copy"><small>{selectedCampaign?'封印挑战':creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?(inTower?sceneName:`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`):'飞船联络'}</small><h3>{selectedCampaign?campaignContactName:creature?.name??bossName??facilityName}</h3>
+          <p>{selectedCampaign?`${region.description} ${campaignProgress}。已完成 ${selectedCampaign.completed} / ${selectedCampaign.stages.length} 关。`:creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?(inTower?(towerComplete?'本轮已通过全部 70 层。选择起点后可重新登塔。':`本层共有 ${towerOpponents.length} 只精灵。${towerFloor<BRAVE_TOWER_FLOORS?`全部战胜后进入第 ${towerFloor+1} 层。`:'全部战胜后完成本轮登塔。'}退出或失败后保留当前层。`):`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`):activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
+          {inTower&&boss&&<ul className="world-tower-opponents" aria-label={`第 ${towerFloor} 层对手队伍`}>{towerOpponents.map((opponent,index)=><li key={`${index}-${opponent.species}`}><span>{index+1}. {opponent.name}</span><small>Lv.{opponent.level}</small></li>)}</ul>}
+          {inTower&&boss?.rewardText&&<p className="world-dialogue-detail">通关奖励：{boss.rewardText}</p>}
           {showDetails&&<p className="world-dialogue-detail">{selectedCampaign?.description??boss?.description??(creature?`精灵编号 #${creature.id}，等级 Lv.${creatureLevel}。${creature.wildCapture===false?'击败后通过精元孵化获得，不能使用胶囊。':'先削弱野生精灵的体力，再从战斗道具使用精灵胶囊。'}`:region.description)}</p>}
         </div>
       </div>
-      <div className="world-dialogue-actions">{(creature||boss||selectedCampaign)?<><button className="primary" onClick={challenge}>{selectedCampaign?'查看封印进度':creatureRecruitment?'查看招募任务':'挑战'}</button><button onClick={details}>详情</button></>:<>
+      <div className="world-dialogue-actions">{(creature||boss||selectedCampaign)?<><button className="primary" disabled={towerComplete} onClick={challenge}>{selectedCampaign?'查看封印进度':creatureRecruitment?'查看招募任务':towerComplete?'本轮已通关':inTower?`挑战第 ${towerFloor} 层`:'挑战'}</button>{towerComplete&&<button onClick={chooseTowerStart}>选择起点</button>}<button onClick={details}>详情</button></>:<>
         {activeFacility==='recovery'&&<button className="primary" onClick={()=>c.dispatch({type:'heal'})}>恢复全队</button>}
         {laboratory&&<button onClick={()=>{setSelection(null);onNavigate?.('fusion')}}>精灵融合</button>}
         {laboratory&&<button onClick={()=>{setSelection(null);onNavigate?.('breeding')}}>精灵繁殖</button>}

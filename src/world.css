@@ -133,3 +133,16 @@
 .world-station-scene .world-gate-caption{visibility:visible;opacity:1;border:0;background:none;box-shadow:none;padding:2px 0;white-space:nowrap}
 .world-station-scene .world-gate-caption small{display:none}
 .world-station-scene .world-gate-caption strong{font-size:clamp(10px,1.3cqw,13px);font-weight:400;text-shadow:-1px 0 #10304d,1px 0 #10304d,0 -1px #10304d,0 1px #10304d}
+
+/* A keyed floor keeps one opponent on the existing central tower platform. */
+.world-tower-scene{animation:world-arrive .25s ease-out}
+.world-tower-scene .world-location-hud{width:224px}
+.world-tower-choose{position:absolute;top:9px;right:12px;z-index:12;min-height:28px;padding:4px 12px;border:1px solid #8ac9e8;border-radius:4px;background:#103b60e8;color:#effaff;font-size:12px;line-height:18px;box-shadow:0 1px 3px #05234266}
+.world-tower-choose:hover{background:#1c5278;border-color:#c0efff;transform:none}
+.world-tower-choose:focus-visible{outline:2px solid #ffe47b;outline-offset:2px}
+.world-tower-complete{position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:12;max-width:calc(100% - 24px);color:#fff39c;font-size:12px;line-height:1.5;text-align:center;text-shadow:-1px 0 #10304d,1px 0 #10304d,0 -1px #10304d,0 1px #10304d;pointer-events:none}
+.world-tower-opponents{display:grid;gap:3px;list-style:none;margin:8px 0 0;padding:0;font-size:12px;line-height:1.5;color:#effaff}
+.world-tower-opponents li{display:flex;align-items:baseline;gap:12px}
+.world-tower-opponents small{font-size:10px;color:#bdd3de}
+@container(max-width:480px){.world-tower-scene .world-location-hud{left:8px;transform:none;width:calc(100% - 108px)}.world-tower-choose{right:8px;padding:3px 9px}}
+@media(prefers-reduced-motion:reduce){.world-tower-scene{animation:none}}
