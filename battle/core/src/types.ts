@@ -128,6 +128,12 @@ export interface AiSpec {
   /** Only authored trainer teams opt in; historical boss ordering stays intact. */
   allow_switch?: boolean;
   style?: 'balanced' | 'offense' | 'control' | 'attrition';
+  /**
+   * Trainer `smart` planner (V58 design, section 12.4). `'search'` (the default once
+   * dispatch lands) runs the engine-simulated search planner; `'v57'` keeps the V57
+   * tactical planner. Tournaments set it per side to compare the two.
+   */
+  planner?: 'search' | 'v57';
 }
 
 export interface BossTeamMember extends MonsterInput {
