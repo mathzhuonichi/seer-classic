@@ -5,11 +5,13 @@ export interface BattleLogContext {
   data: Pick<DataSet, 'species' | 'skills' | 'items'>;
   initialPlayer: BattleLogCreature;
   initialEnemy: BattleLogCreature;
+  /** Trainer battles: lines about the opponent omit its remaining HP; amounts stay. */
+  hideEnemyHp?: boolean;
 }
 const statNames: Record<string, string> = { atk: '攻击', def: '防御', spa: '特攻', spd: '特防', spe: '速度', acc: '命中', eva: '闪避' };
 const statusNames: Record<string, string> = { poison: '中毒', burn: '烧伤', freeze: '冻伤', paralysis: '麻痹', sleep: '睡眠', fear: '害怕', flinch: '害怕', confusion: '混乱', leech: '寄生', fatigue: '疲惫', petrify: '石化', weaken: '衰弱', flammable: '易燃', frozen_solid: '冰封', protect: '保护' };
 const conditionName = (id: string) => statusNames[id] || (id && !/^(seer_|boss_|trait-|\d)/.test(id) && /[\u4e00-\u9fff]/.test(id) ? id : '技能效果');
-const remaining = (event: BattleEvent, mon: BattleLogCreature) => `剩余体力 ${event.hp ?? mon.hp}/${event.maxHp ?? mon.maxHp}`;
+const remaining = (event: BattleEvent, mon: BattleLogCreature, context: BattleLogContext, lead: string) => event.side === 1 && context.hideEnemyHp ? '' : `${lead}剩余体力 ${event.hp ?? mon.hp}/${event.maxHp ?? mon.maxHp}`;
 
 /** Display the complete hit; HP loss, drain and rewards retain the core's amount. */
 export const displayedDamage = (event: BattleEvent): number => Math.max(0, Number(event.amount ?? event.damage ?? 0)) + Math.max(0, Number(event.overkill ?? 0));
@@ -22,9 +24,9 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
     case 'move': case 'move_used': return `${name}使用了${skill}。`;
-    case 'damage': return `${name}${event.status ? `因${conditionName(event.status)}` : ''}受到 ${displayedDamage(event)} 点伤害${event.crit ? '，致命一击！' : '。'}${remaining(event, mon)}。`;
-    case 'heal': return `${name}恢复 ${event.amount ?? 0} 点体力，${remaining(event, mon)}。`;
-    case 'revive': return `${name}恢复了战斗能力，${remaining(event, mon)}。`;
+    case 'damage': return `${name}${event.status ? `因${conditionName(event.status)}` : ''}受到 ${displayedDamage(event)} 点伤害${event.crit ? '，致命一击！' : '。'}${remaining(event, mon, context, '')}${event.side === 1 && context.hideEnemyHp ? '' : '。'}`;
+    case 'heal': return `${name}恢复 ${event.amount ?? 0} 点体力${remaining(event, mon, context, '，')}。`;
+    case 'revive': return `${name}恢复了战斗能力${remaining(event, mon, context, '，')}。`;
     case 'miss': return `${name}的${skill}没有命中。`;
     case 'faint': return `${name}失去战斗能力。`;
     case 'switch': case 'switch_in': return `${event.side === 1 ? '对手' : '我方'}派出了${event.name || context.data.species.get(event.species)?.name.zh || name}。`;
