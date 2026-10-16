@@ -42,6 +42,11 @@ const statZh: Record<string,string> = {hp:'体力',atk:'攻击',def:'防御',spa
 const statusZh: Record<string,string> = {paralysis:'麻痹',poison:'中毒',burn:'烧伤',freeze:'冻伤',sleep:'睡眠',fear:'害怕',fatigue:'疲惫',petrify:'石化',confusion:'混乱',weaken:'衰弱',leech:'寄生',flammable:'易燃',frozen_solid:'冰封'};
 const portrait = (species: number) => `/portraits/${species}.png`;
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
+/** Trainer battles show the opposing HP bar but never its HP: keep only a whole-percent ratio that stays above 0 while alive and below 100 once damaged. */
+export function concealHp(mon: BattleMonsterView): BattleMonsterView {
+  const ratio=mon.hp<=0?0:Math.min(mon.hp<mon.maxHp?99:100,Math.max(1,Math.round(mon.hp/mon.maxHp*100)));
+  return {...mon,hp:ratio,maxHp:100,hpHidden:true};
+}
 const presentationEvents=new Set(['damage','heal','revive','faint','switch_in','transform','max_hp_changed','status_applied','condition_removed','stat_stage','stages_cleared','switch_out']);
 
 /** Replay team changes using event data, never the already-resolved team HP. */
@@ -385,7 +390,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     const unlimitedItems=battle&&!battleSettled?battle.sides[0].unlimitedItems:unlimitedItemIds;
     const legalItems=battle?.legalActions(0).filter(action=>action.kind==='item');
     const captureBlockedReason=!battle?undefined:currentBoss?(currentBoss.category==='trainer'?'训练师的精灵不可捕捉。':'首领与招募挑战不可捕捉，胜利后通过精元或任务获取。'):!meetsWildCapturePrerequisite(battle.active(1).species.id,battle.active(0).species.id)?'捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':save.party.length>=PARTY_MAX&&save.storage.length-save.party.length>=BOX_MAX?'仓库已满':capacityReason(battle.active(1).species.id);
-    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),braveTower:towerView(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
+    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),braveTower:towerView(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:foeView(battleMon(battle.active(1))),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(mon=>foeView(battleMon(mon))),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
   }
   function emit() {persist();refresh();listeners.forEach(l=>l());}
   function notice(text:string) {notices=[text,...notices].slice(0,5);}
@@ -411,12 +416,14 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     if(generation!==undefined)findMon(save,mon.uid).generation=generation;
     return mon;
   }
+  function foeHpHidden() {return currentBoss?.category==='trainer';}
+  function foeView(mon:BattleMonsterView) {return foeHpHidden()?concealHp(mon):mon;}
   function eventText(e:BattleEvent, shown?:[BattleMonsterView,BattleMonsterView]):string {
-    return battleEventText(e,{data,initialPlayer:shown?.[0]??battleMon(battle!.active(0)),initialEnemy:shown?.[1]??battleMon(battle!.active(1))});
+    return battleEventText(e,{data,initialPlayer:shown?.[0]??battleMon(battle!.active(0)),initialEnemy:shown?.[1]??battleMon(battle!.active(1)),hideEnemyHp:foeHpHidden()});
   }
   function eventsText(events:BattleEvent[], before?:[BattleMonsterView,BattleMonsterView]) {
     const initial=before??[battleMon(battle!.active(0)),battleMon(battle!.active(1))];
-    logs.push(...groupedBattleLog(events,{data,initialPlayer:initial[0],initialEnemy:initial[1]}));
+    logs.push(...groupedBattleLog(events,{data,initialPlayer:initial[0],initialEnemy:initial[1],hideEnemyHp:foeHpHidden()}));
     logs=logs.slice(-160);
   }
   // Presentation follows the engine's event order; it does not resolve combat a second time.
@@ -450,11 +457,11 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
         if(e.slot===undefined||e.slot===activeBefore.slot)kind='heal';
       }
       if(!text&&kind==='message')continue;
-      const {player,enemy,party,enemyParty}=shown;
-      animationFrames.push({id:++frameId,side,kind,text,amount:e.type==='damage'?displayedDamage(e):e.amount,critical:!!e.crit,captureSuccess:e.type==='capture_attempt'?!!e.success:undefined,capsuleName:e.type==='capture_attempt'?data.items.get(e.item)?.name?.zh:undefined,skillType,skillId,targetSide,playerHp:player.hp,enemyHp:enemy.hp,player,enemy,party,enemyParty});
+      const {player,party}=shown,enemy=foeView(shown.enemy);
+      animationFrames.push({id:++frameId,side,kind,text,amount:e.type==='damage'?displayedDamage(e):e.amount,critical:!!e.crit,captureSuccess:e.type==='capture_attempt'?!!e.success:undefined,capsuleName:e.type==='capture_attempt'?data.items.get(e.item)?.name?.zh:undefined,skillType,skillId,targetSide,playerHp:player.hp,enemyHp:enemy.hp,player,enemy,party,enemyParty:shown.enemyParty.map(foeView)});
     }
-    const player=battleMon(battle!.active(0)),enemy=battleMon(battle!.active(1));
-    animationFrames.push({id:++frameId,side:0,kind:'message',text:battle!.result?(battle!.result.reason==='capture'?'捕捉成功！':battle!.result.success?'挑战胜利！':battle!.result.reason==='turn_cap'?'达到回合上限，本场平局。':'战斗结束。'):'请选择下一步行动。',playerHp:player.hp,enemyHp:enemy.hp,player,enemy,party:battle!.sides[0].team.map(battleMon),enemyParty:battle!.sides[1].team.map(battleMon)});
+    const player=battleMon(battle!.active(0)),enemy=foeView(battleMon(battle!.active(1)));
+    animationFrames.push({id:++frameId,side:0,kind:'message',text:battle!.result?(battle!.result.reason==='capture'?'捕捉成功！':battle!.result.success?'挑战胜利！':battle!.result.reason==='turn_cap'?'达到回合上限，本场平局。':'战斗结束。'):'请选择下一步行动。',playerHp:player.hp,enemyHp:enemy.hp,player,enemy,party:battle!.sides[0].team.map(battleMon),enemyParty:battle!.sides[1].team.map(mon=>foeView(battleMon(mon)))});
   }
   function settle() {
     if (!battle?.result || battleSettled) return; battleSettled=true;
