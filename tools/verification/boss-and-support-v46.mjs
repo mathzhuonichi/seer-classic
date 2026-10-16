@@ -82,7 +82,7 @@ try {
     const oldHp=b.active(0).hp;turn(b,a);assert.equal(b.active(0).hp,oldHp-2500);
     const immune=fixture(359,{foeRules:[{rule:'immune_percent_damage'}]});assert.notEqual(action(immune).skill,20143);
     const finish=fixture(359);finish.active(0).hp=1;assert.equal(action(finish).skill,10321);
-    const originalBoss=fixture(359,{kind:'boss'});assert.notEqual(action(originalBoss).skill,20143);
+    const originalBoss=fixture(359,{kind:'boss'});assert.equal(action(originalBoss).skill,20143,'Legacy Boss AI uses its first unused status move; it does not use trainer support scoring.');
     report.supportWitnesses.push({species:359,chosen:a.skill,maximumHpDamage:2500});
   });
   for(const id of [356,755])check(`${id}: injured six-member trainer lead sacrifices, replaces, and grants exactly two shared critical attacks`,()=>{
@@ -136,7 +136,11 @@ try {
   });
   const {createGame}=await server.ssrLoadModule('/src/game.ts');
   check('The actual controller preserves Tower 61 original skills, three-member team and HP',()=>{
-    const game=createGame(catalog,'');game.dispatch({type:'startBattle',bossId:'boss_tower_brave_f061'});
+    const game=createGame(catalog,'');
+    const save=JSON.parse(game.exportSave());
+    save.progress.bosses_cleared=Array.from({length:60},(_,index)=>`boss_tower_brave_f${String(index+1).padStart(3,'0')}`);
+    save.game.braveTower={highestCleared:60,resumeFloor:61};
+    game.importSave(JSON.stringify(save));game.dispatch({type:'startTower',floor:61});
     const state=game.snapshot();assert(state.battle,JSON.stringify(state.notices));assert.equal(state.battle.enemy.species,270);assert.equal(state.battle.enemy.hp,1150);
     assert(state.battle.enemy.skills.some(skill=>skill.id===20330));assert(!state.battle.enemy.skills.some(skill=>skill.id===20328));assert.equal(state.battle.enemyParty.length,3);
     report.controllerWitness={boss:'boss_tower_brave_f061',species:state.battle.enemy.species,hp:state.battle.enemy.hp,skills:state.battle.enemy.skills.map(skill=>skill.id),members:state.battle.enemyParty.length};

@@ -1,7 +1,7 @@
 import type {BossView, SpeciesView} from '../game-types';
 
 /** Reuse catalog rows until their collection or challenge progress actually changes. */
-export function createCatalogViews(species: Omit<SpeciesView,'owned'>[], bosses: Omit<BossView,'cleared'|'attempts'>[]) {
+export function createCatalogViews(species: Omit<SpeciesView,'owned'>[], bosses: Omit<BossView,'cleared'|'attempts'>[],decorateBoss?:(view:BossView,attempts:number)=>BossView) {
   const unowned=species.map(row=>({...row,owned:false}));
   const owned=species.map(row=>({...row,owned:true}));
   let collection:SpeciesView[]=unowned;
@@ -24,7 +24,9 @@ export function createCatalogViews(species: Omit<SpeciesView,'owned'>[], bosses:
       if(challenges.length===bosses.length&&challenges.every(row=>row.cleared===complete.has(row.id)&&row.attempts===(attempts[row.id]??0)))return challenges;
       challenges=bosses.map((row,index)=>{
         const existing=challenges[index],done=complete.has(row.id),count=attempts[row.id]??0;
-        return existing&&existing.cleared===done&&existing.attempts===count?existing:{...row,cleared:done,attempts:count};
+        if(existing&&existing.cleared===done&&existing.attempts===count)return existing;
+        const view={...row,cleared:done,attempts:count};
+        return decorateBoss?decorateBoss(view,count):view;
       });
       return challenges;
     },

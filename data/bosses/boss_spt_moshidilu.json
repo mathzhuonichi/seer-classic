@@ -54,7 +54,7 @@
     },
     {
       "when": {
-        "self_hp_below_pct": 33.4
+        "self_hp_below": 1000000
       },
       "do": [
         {
@@ -115,7 +115,7 @@
     "HP 3,000,000 in ONE battle (not a server-wide pool): every source frames it as a single fight beaten by stacking percentage damage — 寄生/冻伤/烧伤/中毒 each take 1/8 max HP (375,000) per turn, so 3-4 stacked statuses kill it in 2-3 turns. No source describes HP carrying over between battles, so no chain/carry_hp is used (correcting the foundation 7.2 guess).",
     "ignore_type_chart: 不受任何系精灵克制 — every hit on it uses multiplier 1.",
     "ohko_attacks below 50% (体力少于150万: 秒杀任何精灵，无视任何副作用、无视速度、无视等级) — it acts first and every attack KOs. Later summaries (4399 2010-06-01, weste 2010-09, 7k7k 2011) give the threshold as 1/4; 50% is from the detailed 4399/7k7k boss pages.",
-    "block_new_status below 1,000,000 HP (他血低于100万时异常效果无效): new statuses fail; statuses already on it keep ticking.",
+    "block_new_status strictly below 1,000,000 HP (他血低于100万时异常效果无效): use the absolute HP threshold, not a rounded percentage. New statuses fail; statuses already on it keep ticking.",
     "damage_scales_with_hp_lost: 体力越少攻击越强 (no formula given).",
     "Not immune to ohko ops: 极度冰点 and 绝命火焰 were standard answers.",
     "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",

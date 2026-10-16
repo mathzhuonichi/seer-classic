@@ -2,6 +2,7 @@ import { useId } from 'react';
 import type { BattleMonsterView } from '../game-types';
 import { getCreatureArt } from '../presentation/creature-art';
 import './battle-team-strip.css';
+import {encounterLevelText} from '../presentation/encounter-level';
 
 export interface BattleTeamStripProps { team: BattleMonsterView[]; activeUid: string; enemy?: boolean }
 
@@ -17,10 +18,11 @@ export function BattleTeamStrip({ team, activeUid, enemy = false }: BattleTeamSt
       {team.map((creature, index) => {
         const fainted = creature.hp <= 0;
         const active = creature.uid === activeUid;
-        const description = `${creature.name}，Lv.${creature.level}，${active ? '当前出战，' : ''}${fainted ? '已失去战斗能力' : `体力 ${creature.hp} / ${creature.maxHp}`}`;
+        const level=encounterLevelText(creature.level,enemy&&creature.evidence?.hasInferredLevel,enemy&&creature.evidence?.displayLevelUnknown);
+        const description = `${creature.name}，${level}，${enemy&&creature.evidence?.hasInferredStats?'含推定参数，':''}${active ? '当前出战，' : ''}${fainted ? '已失去战斗能力' : `体力 ${creature.hp} / ${creature.maxHp}`}`;
         return <li key={`${creature.uid}-${index}`} className={`battle-team-member${active ? ' is-active' : ''}${fainted ? ' is-fainted' : ''}`} aria-label={description} title={description} data-species={creature.species} data-appearance-species={creature.appearanceSpecies??creature.species} data-active={active} data-fainted={fainted}>
           <span className="battle-team-icon-wrap"><img className="battle-team-icon" src={getCreatureArt(creature.appearanceSpecies??creature.species).src} alt="" draggable={false} decoding="async"/>{fainted && <span className="battle-team-faint-mark" aria-hidden="true">×</span>}</span>
-          <div><strong>{creature.name}<small>Lv.{creature.level}</small></strong><span>{fainted ? '无法战斗' : `HP ${creature.hp}/${creature.maxHp}`}</span>{active && <em>当前出战</em>}</div>
+          <div><strong>{creature.name}<small>{level}</small></strong><span>{fainted ? '无法战斗' : `HP ${creature.hp}/${creature.maxHp}`}</span>{active && <em>当前出战</em>}{enemy&&creature.evidence?.hasInferredStats&&<em>含推定参数</em>}</div>
         </li>;
       })}
     </ol></div>

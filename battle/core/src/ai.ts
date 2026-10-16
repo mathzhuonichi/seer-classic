@@ -4,14 +4,20 @@
 import type { Action } from './types.ts';
 import type { Battle, Side } from './battle.ts';
 import { STRUGGLE_SKILL } from './battle.ts';
-import { tacticalAction } from './tactics.ts';
+import { tacticalAction, tacticalReplacement } from './tactics.ts';
+import { legacySmartPick } from './legacy-ai.ts';
+
+/** Enhanced team planning belongs only to simulated-player trainer encounters. */
+export function chooseAiReplacement(battle: Battle, side: Side): Action | undefined {
+  return side.kind === 'trainer' ? tacticalReplacement(battle, side) : undefined;
+}
 
 export function chooseAiAction(battle: Battle, side: Side): Action {
   const mon = battle.active(side.index);
   const usable = mon.skills.filter((id) => mon.pp[id] > 0);
   const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
   // Smart trainers may restore exhausted PP before resorting to Struggle.
-  if (!usable.length) return ai.kind === 'smart' ? tacticalAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
+  if (!usable.length) return side.kind === 'trainer' && ai.kind === 'smart' ? tacticalAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
   if (mon.vol.forcedSkill !== undefined && usable.includes(mon.vol.forcedSkill)) {
     const id = mon.vol.forcedSkill;
     delete mon.vol.forcedSkill;
@@ -50,6 +56,6 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     }
     case 'smart':
     default:
-      return tacticalAction(battle, side, ai);
+      return side.kind === 'trainer' ? tacticalAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable));
   }
 }

@@ -21,13 +21,13 @@
         11893,
         11895
       ],
-      "hp_override": 1250
+      "hp_override": 2500
     }
   ],
   "rules": [
     {
       "rule": "lives",
-      "count": 2
+      "count": 1
     }
   ],
   "win": [
@@ -63,14 +63,14 @@
     ]
   },
   "capture": {
-    "zh": "暗黑武斗场暗黑第九门：100级阿克诺亚，约1250血。打败获得阿克诺亚精元。"
+    "zh": "暗黑武斗场暗黑第九门：阿克诺亚，每条命2500体力，共两条命；内部100级为推定。打败获得阿克诺亚精元。"
   },
   "strategy_notes": {
     "zh": "前期不宜死太多精灵；用机械、战斗、火系等克制精灵逐步消耗两条命。"
   },
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
-    "lives: '血量2500（两条命）' read as two lives of 1250 HP each (total 2500). If the source meant 2500 per life, set hp_override 2500.",
+    "The 4399 guide explicitly says the first HP bar is 2500 and the boss gains another 2500 after it is depleted: two lives of 2500 HP each. The core's lives.count counts additional revivals, so count 1 represents two total lives. The URL contains 2011-05-30, while the currently displayed page date is 2013-12-03; this is period-guide evidence, not official server data.",
     "Level not given; 100 assumed."
   ],
   "confidence": {
@@ -79,8 +79,7 @@
       "iv",
       "evs",
       "nature",
-      "level",
-      "hp_per_life"
+      "level"
     ]
   },
   "sources": [

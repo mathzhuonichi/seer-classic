@@ -30,6 +30,8 @@ import { engravingAccess } from './mechanics/engraving-access';
 import { readLocalSave, writeLocalSave } from './mechanics/persistence';
 import { battleEventText, displayedDamage, groupedBattleLog } from './presentation/battle-log';
 import { createCatalogViews } from './presentation/catalog-views';
+import {buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence} from './presentation/boss-evidence';
+import {bossEncounterForAttempt} from './mechanics/boss-encounter';
 import type { BraveTowerView, CampaignView, EngravingView, MonsterEngravingsView, GameController, GameSnapshot, GameAction, MonsterView, SkillView, BattleMonsterView, BattlePresentationFrame, QuestView } from './game-types';
 
 export const loadGameData = loadCatalog;
@@ -181,9 +183,15 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   for(const reward of recruitments)if(!catalog.items.some(item=>item.id===reward.itemId))catalog.items.push({id:reward.itemId,name:{zh:`${reward.name}精元`},kind:'essence',hatches:reward.rewardSpecies,desc:{zh:'完成收集与首领条件后领取；孵化获得初始形态，所有精元与现有同种精灵合计最多六份。'}});
   const essenceDefinitions=catalog.items.map(item=>({id:String(item.id),kind:String(item.kind),hatches:typeof item.hatches==='number'?item.hatches:undefined}));
   const ordinarySPTs=new Set(getEligibleRecruitmentSPTs(catalog as unknown as RecruitmentCatalog).map(boss=>boss.id));
+  const encounterById=new Map(encounters.map(boss=>[boss.id,boss]));
+  function encounterView(source:BossEncounter,attempts=0) {
+    const b=bossEncounterForAttempt(source,attempts);
+    return {id:b.id,category:b.category==='trainer'?'训练师对战':b.name!.zh.includes('暗黑')?'暗黑武斗场':b.category==='tower'?'勇者之塔':b.category==='legendary'?'传说挑战':['story','event'].includes(String(b.category))?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species),opponents:b.team.map((mon,slot)=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level,evidence:buildBossEvidence(b,slot)})),evidence:buildBossEncounterEvidence(b),...(braveTowerFloor(b.id)!==undefined?{rewardText:towerRewardText(b)}:{})};
+  }
   const catalogViews=createCatalogViews(
     catalog.species.map(s=>({id:Number(s.id),name:(s.name as {zh:string}).zh,types:(s.types as string[]).map(t=>typesZh[t]??t),baseStats:{...dex.species(Number(s.id)).base},portrait:portrait(Number(s.id)),wildCapture:(s.obtain as string[]|undefined)?.includes('wild')&&!bosses.some(boss=>!boss.id.includes('tower')&&!boss.id.includes('dark_door')&&boss.team.some(mon=>mon.species===Number(s.id)))})),
-    encounters.map(b=>({id:b.id,category:b.category==='trainer'?'训练师对战':b.name!.zh.includes('暗黑')?'暗黑武斗场':b.category==='tower'?'勇者之塔':b.category==='legendary'?'传说挑战':['story','event'].includes(String(b.category))?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species),...(b.category==='trainer'||braveTowerFloor(b.id)!==undefined?{opponents:b.team.map(mon=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level}))}:{}),...(braveTowerFloor(b.id)!==undefined?{rewardText:towerRewardText(b)}:{})})),
+    encounters.map(boss=>encounterView(boss)),
+    (view,attempts)=>({...view,...encounterView(encounterById.get(view.id)!,attempts)}),
   );
   const natureViews=catalog.natures.map(n=>({id:String(n.id),name:(n.name as {zh:string}).zh}));
   const traitViews=availableTraits.map(t=>({id:t.id,name:t.name,description:t.description}));
@@ -308,7 +316,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   function battleMon(mon:Mon):BattleMonsterView {
     const original=mon.side===0?battleAppearances.get(mon.slot):undefined;
     const appearance=original?.species===mon.species.id&&!transformedSlots.has(`${mon.side}:${mon.slot}`)?original.appearanceSpecies:mon.species.id;
-    return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,appearanceSpecies:appearance,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(appearance),skills:mon.skills.map(id=>skillView(id,mon.pp,mon.skillOverrides?.[id])),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages}};}
+    return {uid:mon.uid??`foe-${mon.slot}`,slot:mon.slot,species:mon.species.id,appearanceSpecies:appearance,name:mon.name,level:mon.level,hp:mon.hp,maxHp:mon.maxHp,fainted:mon.fainted,types:mon.types.map(t=>typesZh[t]??t),portrait:portrait(appearance),skills:mon.skills.map(id=>skillView(id,mon.pp,mon.skillOverrides?.[id])),statuses:mon.conditions.filter(c=>c.def.kind==='status').map(c=>statusZh[c.id]??c.def.name?.zh??c.id),stages:{...mon.stages},evidence:mon.side===1&&currentBoss?buildBossEvidence(currentBoss,mon.slot):undefined};}
   const questData = [
     {id:'first-victory',name:'初次胜利',description:'赢得一次野外遭遇或首领挑战，领取皮皮。',species:10,ready:()=>save.game.battlesWon>=1,progress:()=>`${Math.min(1,save.game.battlesWon)}/1`},
     {id:'three-victories',name:'成长之路',description:'赢得三场战斗，领取比比鼠。',species:13,ready:()=>save.game.battlesWon>=3,progress:()=>`${Math.min(3,save.game.battlesWon)}/3`},
@@ -356,7 +364,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
         const blockedReason=index>completed?`请先完成「${campaign.stages[index-1].name}」。`:stageRequirement(stage);
         const reward=encounters[0]?.reward as {learn_skill?:{species:number;skill:number};items?:Record<string,number>}|undefined;
         const rewardText=reward?.learn_skill?`领悟技能：${data.skills.get(reward.learn_skill.skill)?.name.zh}`:index===campaign.stages.length-1&&campaign.id!=='rei-training'?`获得${dex.species(campaign.species).name.zh}精元`:'完成本阶段，开启下一项挑战';
-        return {...stage,requiredSpeciesName:stage.requiredSpecies?dex.species(stage.requiredSpecies).name.zh:undefined,cleared:cleared.includes(stage.id),available:index<=completed&&!blockedReason,blockedReason,rewardText,opponents:encounters.flatMap(encounter=>encounter?.team.map(mon=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level}))??[])};
+        return {...stage,requiredSpeciesName:stage.requiredSpecies?dex.species(stage.requiredSpecies).name.zh:undefined,cleared:cleared.includes(stage.id),available:index<=completed&&!blockedReason,blockedReason,rewardText,evidence:mergeBossEvidence(encounters.map(encounter=>encounter?buildBossEncounterEvidence(encounter):undefined)),opponents:encounters.flatMap(encounter=>encounter?.team.map((mon,slot)=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level,evidence:buildBossEvidence(encounter,slot)}))??[])};
       })};
     });
   }
@@ -519,7 +527,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function start(boss:BossEncounter|null,species=10,level?:number,campaignContext?:{id:string;stageId:string}) {
     if(battle&&!battle.result) throw new Error('请先完成当前战斗。');
-    if(boss)boss=normalizeNpcTrainingEncounter(catalog,boss);
+    if(boss)boss=normalizeNpcTrainingEncounter(catalog,bossEncounterForAttempt(boss,save.progress.boss_attempts[boss.id]??0));
     const stage=campaignContext?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===campaignContext.id)!.stages.find(entry=>entry.id===campaignContext.stageId):undefined;
     let roster=save.party.map(uid=>findMon(save,uid));
     if(stage?.requiredSpecies)roster=roster.filter(mon=>mon.species===stage.requiredSpecies&&mon.level>=(stage.minLevel??1)&&mon.hp>0).slice(0,1);

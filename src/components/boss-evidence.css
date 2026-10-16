@@ -1,0 +1,19 @@
+.boss-evidence{margin:8px 0;border:1px solid #7999ac66;border-radius:3px;color:inherit;font-size:11px;line-height:1.6}
+.boss-evidence>summary{padding:6px 9px;cursor:pointer;color:inherit;list-style-position:inside}
+.boss-evidence>summary>span{margin-left:12px;opacity:.7}
+.boss-evidence[open]>summary{border-bottom:1px solid #7999ac44}
+.boss-evidence-content{padding:8px 10px;font-size:11px;line-height:1.7;min-width:0}
+.boss-evidence-content p{margin:0 0 8px!important;font-size:11px!important;line-height:1.7!important;color:inherit!important}
+.boss-evidence-content table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px;text-align:left}
+.boss-evidence-content th,.boss-evidence-content td{padding:4px 7px;border-bottom:1px solid #7999ac44;font-weight:400}
+.boss-evidence-content thead{opacity:.75}
+.boss-evidence-status{white-space:nowrap;font-size:10px}
+.boss-evidence-status.status-inferred,.boss-evidence-limitation{color:#c99738}
+.world-dialogue:has(.boss-evidence[open]){max-height:calc(100% - 16px);overflow:auto;overscroll-behavior:contain}
+.classic-battle-caption:has(.classic-boss-evidence-button){display:flex;align-items:center;gap:8px}
+.classic-battle-caption>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.classic-boss-evidence-button{flex-shrink:0;padding:1px 5px!important;border:1px solid #70bddb!important;background:#063365!important;color:#fff0af!important;font-size:9px!important;line-height:16px!important;min-height:0!important}
+.classic-boss-evidence-modal{width:min(520px,100%);max-height:100%;overflow:auto;background:#eff7fb;color:#17466b;border:2px solid #52a4d7;border-radius:8px;box-shadow:0 8px 28px #001c4d99}
+.classic-boss-evidence-modal>header{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;background:#156da8;color:#fff;z-index:1}
+.classic-boss-evidence-modal>header>strong{font-size:13px;font-weight:400}
+.classic-boss-evidence-modal>header>button{padding:1px 7px;border:0;background:#0d4e80;color:#fff;font-size:18px}

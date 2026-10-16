@@ -10,8 +10,8 @@ import * as C from './constants.ts';
 import { Rng } from './rng.ts';
 import { computeStats } from './stats.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from './typechart.ts';
-import { chooseAiAction } from './ai.ts';
-import { requiresTrainerSupportFallback, tacticalReplacement } from './tactics.ts';
+import { chooseAiAction, chooseAiReplacement } from './ai.ts';
+import { requiresTrainerSupportFallback } from './tactics.ts';
 import { meetsWildCapturePrerequisite, rollReconstructedCapture } from './capture.ts';
 
 export const STRUGGLE_SKILL: Skill = {
@@ -132,7 +132,8 @@ export class Battle {
   damageBySide: [number, number] = [0, 0];
   lastKo: { by?: Mon; skill?: Skill; crit?: boolean; target: Mon; targetStatuses: string[]; status?: string; turn: number } | null = null;
   defeated: BattleResult['defeated'] = [];
-  variant?: { id: string; win?: Objective[]; lose?: Objective[]; rules?: BossRule[] };
+  variant?: { id: string; win?: Objective[]; lose?: Objective[]; rules?: BossRule[]; phases?: Phase[] };
+  private variantPhasesFired = new Set<number>();
   capturedMon: Mon | null = null;
   usingItem = false;
   private out: BattleEvent[] = [];
@@ -175,15 +176,15 @@ export class Battle {
 
   private buildSide(index: 0 | 1, input: SideInput): Side {
     if (input.team.length === 0 || input.team.length > C.MAX_PARTY) throw new Error(`side ${index}: team size must be 1..${C.MAX_PARTY}`);
-    const rules = input.rules ?? [];
-    const lives = rules.find((r) => r.rule === 'lives')?.count ?? 0;
+    const rules = structuredClone(input.rules ?? []);
     const side: Side = {
       index, kind: input.kind, name: input.name ?? (index === 0 ? 'player' : input.kind),
       team: [], active: 0, items: { ...(input.items ?? {}) }, rules, ai: input.ai,
       unlimitedItems: new Set(input.unlimited_items ?? []),
       pending: null, needsReplacement: false,
     };
-    side.team = input.team.map((m, slot) => this.buildMon(index, slot, m, lives));
+    side.team = input.team.map((m, slot) => this.buildMon(index, slot, m,
+      rules.find((r) => r.rule === 'lives' && ruleMatchesMember(r, slot))?.count ?? 0));
     return side;
   }
 
@@ -235,18 +236,23 @@ export class Battle {
     for (const side of this.sides) {
       const installRules = (rules: BossRule[], members: Mon[]) => {
         for (const r of [...rules]) {
-          if (r.rule !== 'script') continue;
+          if (r.rule !== 'script') {
+            const fields = NATIVE_BOSS_RULE_FIELDS[r.rule];
+            if (!fields) this.warn(`unknown native boss rule ${r.rule}`);
+            else for (const key of Object.keys(r)) if (!['rule','member',...fields].includes(key)) this.warn(`unsupported boss rule field ${r.rule}.${key}`);
+            continue;
+          }
           const alias = RULE_ALIASES[r.id];
-          if (alias) { rules.push({ ...(r.params ?? {}), rule: alias }); continue; }
+          if (alias) { rules.push({ ...(r.params ?? {}), ...(r.member === undefined ? {} : {member:r.member}), rule: alias }); continue; }
           const install = this.script(r.id)?.install;
           if (!install) { this.warn(`unknown rule script ${r.id}`); continue; }
-          for (const mon of members) install({ battle: this, mon, side }, r.params ?? {});
+          for (const mon of members) if (ruleMatchesMember(r, mon.slot)) install({ battle: this, mon, side }, r.params ?? {});
         }
       };
       installRules(side.rules, side.team);
       for (const mon of side.team) {
         installRules(mon.rules, [mon]);
-        const lives = mon.rules.find(r => r.rule === 'lives');
+        const lives = mon.rules.find(r => r.rule === 'lives' && ruleMatchesMember(r, mon.slot));
         if (lives) mon.livesLeft = lives.count;
       }
     }
@@ -375,7 +381,7 @@ export class Battle {
   private actionFor(side: Side): Action {
     if (side.pending) return side.pending;
     if (!this.isAuto(side)) throw new Error(`side ${side.index} has not submitted an action`);
-    if (this.phase === 'replace') return tacticalReplacement(this, side) ?? this.legalActions(side.index)[0];
+    if (this.phase === 'replace') return chooseAiReplacement(this, side) ?? this.legalActions(side.index)[0];
     for (const action of this.fire(this.active(side.index), 'choose_action', {side})) {
       if (action && this.isLegal(side.index, action as Action)) return action as Action;
     }
@@ -404,6 +410,8 @@ export class Battle {
       const m = this.active(s.index);
       m.turnsActive++;
       this.runHookEffects(m, 'turn_start');
+      // Innate first-turn boosts and turn thresholds must apply before moves.
+      this.checkPhases(m);
     }
 
     const order = this.orderActions(actions);
@@ -475,7 +483,7 @@ export class Battle {
       if (!side.team.some((m) => !m.fainted)) continue;
       side.needsReplacement = true;
       if (this.isAuto(side)) {
-        const replacement = tacticalReplacement(this, side);
+        const replacement = chooseAiReplacement(this, side);
         const slot = replacement?.kind === 'switch' ? replacement.slot : side.team.find((m) => !m.fainted)!.slot;
         this.switchIn(side, slot);
         side.needsReplacement = false;
@@ -739,7 +747,7 @@ export class Battle {
     // A dual creature receives one bonus for its own pair or either component.
     // A partially overlapping dual skill is not the creature's own type.
     const stab = attackTypes(this.data.types, skill.type).every(type => user.types.includes(type)) ? C.STAB : 1;
-    const ignoreChart = hasRule(this.sides[target.side], 'ignore_type_chart') || hasRule(this.sides[user.side], 'ignore_type_chart');
+    const ignoreChart = hasRule(this.sides[target.side], 'ignore_type_chart', target);
     const eff = ignoreChart ? 1 : effectiveness(this.data.types, skill.type, target.types);
 
     let crit = false;
@@ -887,7 +895,7 @@ export class Battle {
     const cap = findRule(side, target, (r) => r.rule === 'damage_cap_per_hit');
     const capBreak = target.persist.capBreak as { statuses: string[]; chance: number } | undefined;
     const capBroken = !!capBreak && target.conditions.some((c) => capBreak.statuses.includes(c.id)) && this.rng.chance(capBreak.chance);
-    if (cap && info.kind !== 'true' && !capBroken) dmg = Math.min(dmg, cap.amount);
+    if (cap && info.kind !== 'true' && (!cap.categories || cap.categories.includes(info.skill?.category)) && !capBroken) dmg = Math.min(dmg, cap.amount);
     const floor = findRule(side, target, (r) => r.rule === 'hp_floor_until');
     if (floor && !target.persist.floorBroken && !trueCost) {
       const skills: number[] = floor.skills ?? [floor.skill];
@@ -897,6 +905,8 @@ export class Battle {
     if (info.skill && src && src.side !== target.side && info.kind === 'attack') side.lastHitType = typeIdentity(this.data.types, info.skill.type);
 
     const dealt = Math.min(dmg, target.hp);
+    const rotation = findRule(side, target, r => r.rule === 'type_rotation');
+    if (rotation && dealt > 0 && src && src.side !== target.side && info.skill) target.persist.typeRotationCursor = (target.persist.typeRotationCursor ?? 0) + 1;
     const targetStatuses = target.conditions.filter(c => c.def.kind === 'status').map(c => c.id);
     target.hp -= dealt;
     if (src && src.side !== target.side && dealt > 0) {
@@ -930,10 +940,12 @@ export class Battle {
 
     if (target.hp > 0) {
       const full = findRule(side, target, (r) => r.rule === 'heal_full_below');
-      if (full && target.hp < full.hp && (full.times === undefined || (target.persist.fullHeals ?? 0) < full.times)) {
+      const threshold = full?.hp ?? (full?.pct === undefined ? undefined : target.maxHp * full.pct / 100);
+      if (full && threshold !== undefined && target.hp < threshold && (full.times === undefined || (target.persist.fullHeals ?? 0) < full.times)) {
         target.persist.fullHeals = (target.persist.fullHeals ?? 0) + 1;
+        const healed = target.maxHp - target.hp;
         target.hp = target.maxHp;
-        this.emit({ type: 'heal', side: target.side, slot: target.slot, name: target.name, amount: target.maxHp, hp: target.hp, maxHp: target.maxHp, reason: 'heal_full_below' });
+        this.emit({ type: 'heal', side: target.side, slot: target.slot, name: target.name, amount: healed, hp: target.hp, maxHp: target.maxHp, reason: 'heal_full_below' });
       }
     }
     if (target.hp <= 0) {
@@ -959,7 +971,7 @@ export class Battle {
     if (only && info.source && info.source.side !== side.index) {
       if (info.status && (target.persist.allowedStatusDamage as string[] | undefined)?.includes(info.status)) return null;
       const sk = info.skill;
-      const ok =
+      const ok = (sk && only.allow_categories?.includes(sk.category)) ||
         (!only.types || (sk && only.types.some((type: string) => hasAttackType(this.data.types, sk.type, type)))) &&
         (!only.skills || (sk && only.skills.includes(sk.id))) &&
         (!only.categories || (sk && only.categories.includes(sk.category))) &&
@@ -969,12 +981,27 @@ export class Battle {
         (!only.kinds || only.kinds.includes(info.kind));
       if (!ok) return 'damage_only_from';
     }
+    const rotation = findRule(side, target, r => r.rule === 'type_rotation');
+    if (rotation && fromFoe && info.skill) {
+      const expected = rotation.order[(target.persist.typeRotationCursor ?? 0) % rotation.order.length];
+      if (!hasAttackType(this.data.types, info.skill.type, expected)) return 'type_rotation';
+    }
     return null;
   }
 
   private handleFaint(mon: Mon, info: DamageInfo, targetStatuses: string[]): void {
     // on_faint phases may revive (multi-phase bosses)
     if (this.checkPhases(mon, { onFaint: true }) && mon.hp > 0) return;
+    const revival = mon.persist.reviveUnlessStatusKo as {maxRevives:number; throughTurn?:number} | undefined;
+    if (revival && !['poison', 'burn', 'freeze'].includes(info.status ?? '') &&
+        (revival.throughTurn === undefined || this.turn <= revival.throughTurn) &&
+        (mon.persist.statusKoRevives ?? 0) < revival.maxRevives) {
+      mon.persist.statusKoRevives = (mon.persist.statusKoRevives ?? 0) + 1;
+      mon.hp = mon.maxHp;
+      this.emit({type:'revive',side:mon.side,slot:mon.slot,name:mon.name,hp:mon.hp,maxHp:mon.maxHp,reason:'revive_unless_status_ko'});
+      this.runHookEffects(mon, 'on_revive');
+      return;
+    }
     if (mon.livesLeft > 0) {
       mon.livesLeft--;
       mon.hp = mon.maxHp;
@@ -1003,6 +1030,7 @@ export class Battle {
 
   heal(mon: Mon, amount: number, opts: { item?: boolean } = {}): number {
     if (mon.fainted) return 0;
+    if (!Number.isFinite(amount)) { this.warn('non-finite heal amount rejected'); return 0; }
     const foeSide = this.sides[1 - mon.side];
     if (hasRule(foeSide, 'block_heal') && amount > 0) {
       this.emit({ type: 'heal_blocked', side: mon.side });
@@ -1161,7 +1189,7 @@ export class Battle {
       if (mon.fainted || this.result) continue;
       const side = this.sides[i];
       const regen = findRule(side, mon, (r) => r.rule === 'heal_each_turn');
-      if (regen) this.heal(mon, (mon.maxHp * regen.pct_max_hp) / 100);
+      if (regen) this.heal(mon, regen.amount ?? (mon.maxHp * regen.pct_max_hp) / 100);
       if (hasRule(side, 'clear_debuffs_each_turn')) this.clearStages(mon, 'down');
       if (hasRule(side, 'strip_player_boosts_each_turn')) this.clearStages(this.foeOf(mon), 'up');
     }
@@ -1195,6 +1223,7 @@ export class Battle {
       this.runEffects(ph.do, mon, this.foeOf(mon), emptyCtx());
     });
     run(this.encounter?.phases ?? [], this.phasesFired, false);
+    run(this.variant?.phases ?? [], this.variantPhasesFired, false);
     run(mon.phases, mon.phasesFired, true);
     return fired;
   }
@@ -1499,7 +1528,7 @@ export class Battle {
       return;
     }
     if (delta < 0 && byFoe) {
-      if (hasRule(this.sides[mon.side], 'immune_stage_down') || this.hooks(mon, 'block_stage_down').length) {
+      if (hasRule(this.sides[mon.side], 'immune_stage_down', mon) || this.hooks(mon, 'block_stage_down').length) {
         this.emit({ type: 'stage_blocked', side: mon.side, stat });
         return;
       }
@@ -1540,6 +1569,7 @@ export class Battle {
         case 'self_condition': ok = self.conditions.some((x) => x.id === v); break;
         case 'foe_condition': ok = !!foe?.conditions.some((x) => x.id === v); break;
         case 'self_hp_below_pct': ok = pct(self) < (v as number); break;
+        case 'self_hp_below': ok = self.hp < (v as number); break;
         case 'self_hp_above_pct': ok = pct(self) > (v as number); break;
         case 'foe_hp_below_pct': ok = pct(foe) < (v as number); break;
         case 'foe_hp_above_pct': ok = pct(foe) > (v as number); break;
@@ -1604,6 +1634,21 @@ const RULE_ALIASES: Record<string, string> = {
   reflect_damage: 'reflect_damage',
 };
 
+/** Fields consumed by native rules; the catalog audit checks every occurrence. */
+export const NATIVE_BOSS_RULE_FIELDS:Record<string,readonly string[]> = {
+  lives:['count'], no_switch:[], no_items:[], no_capture:[], no_struggle:[], unlimited_pp:[],
+  ignore_type_chart:[], immune_crit:[], immune_ohko:[], immune_fixed_damage:[], immune_percent_damage:[],
+  immune_status:[], immune_status_list:['statuses'], immune_stage_down:[], immune_force_switch:[],
+  block_heal:[], clear_debuffs_each_turn:[], strip_player_boosts_each_turn:[], no_repeat_type:[],
+  damage_cap_per_hit:['amount','categories'], hp_floor_until:['skill','skills'], reflect_damage:['pct','min_damage'],
+  heal_full_below:['hp','pct','times'], heal_each_turn:['amount','pct_max_hp'],
+  require_statuses:['count'], invulnerable_turns:['turns'],
+  damage_only_from:['types','skills','categories','allow_categories','crit','super_effective','sure_hit','kinds'],
+  type_rotation:['order'],
+  flee_after_skill:['skill','skills','count'], ohko_below_pct:['pct'], always_crit_below_pct:['pct'],
+  player_level_cap:['level'], player_team_size:['min','max','min_level'],
+};
+
 const MODIFIER_OPS = new Set(['multi_hit', 'power_if', 'priority_if', 'crit_if']);
 
 function defaultTarget(op: string): 'self' | 'foe' {
@@ -1621,11 +1666,17 @@ function zeroStages(): Record<StageKey, number> {
 
 /** Member rules take precedence. Scan the live arrays without allocating a merged list. */
 function findRule(side: Side, mon: Mon, predicate: (rule: BossRule) => boolean): BossRule | undefined {
-  return mon.rules.find(predicate) ?? side.rules.find(predicate);
+  const matches = (rule: BossRule) => ruleMatchesMember(rule, mon.slot) && predicate(rule);
+  return mon.rules.find(matches) ?? side.rules.find(matches);
 }
 function hasRule(side: Side, rule: string, mon?: Mon): boolean {
   const member = mon ?? side.team[side.active];
-  return member.rules.some((r) => r.rule === rule) || side.rules.some((r) => r.rule === rule);
+  return !!findRule(side, member, r => r.rule === rule);
+}
+
+function ruleMatchesMember(rule: BossRule, slot: number): boolean {
+  const member = rule.member ?? (rule.rule === 'script' ? rule.params?.member : undefined);
+  return member === undefined || member === slot;
 }
 
 function levelMult(hook: Hook, cond: ActiveCondition): number {
@@ -1665,7 +1716,15 @@ export function validateEncounter(encounter: BossEncounter, player: SideInput): 
     if (r.rule === 'player_level_cap') {
       for (const m of player.team) if (m.level > r.level) errors.push(`level ${m.level} exceeds cap ${r.level}`);
     }
-    if (r.rule === 'player_team_size' && player.team.length > r.max) errors.push(`team size ${player.team.length} exceeds ${r.max}`);
+    if (r.rule === 'player_team_size') {
+      if (r.max !== undefined && player.team.length > r.max) errors.push(`team size ${player.team.length} exceeds ${r.max}`);
+      if (r.min !== undefined && player.team.length < r.min) errors.push(`team size ${player.team.length} is below ${r.min}`);
+      if (r.min_level !== undefined) for (const m of player.team) if (m.level < r.min_level) errors.push(`level ${m.level} is below ${r.min_level}`);
+    }
+    if (r.rule === 'script' && r.id === 'require_player_species') {
+      const allowed = r.params?.species ?? [];
+      for (const m of player.team) if (!allowed.includes(m.species)) errors.push(`species ${m.species} is not allowed; required ${allowed.join(',')}`);
+    }
   }
   return errors;
 }

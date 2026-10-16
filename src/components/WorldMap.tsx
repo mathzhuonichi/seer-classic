@@ -8,6 +8,8 @@ import {getSceneExits,type SceneExit} from '../presentation/scene-exits';
 import {contactApproachPoint} from '../presentation/world-interaction';
 import {BRAVE_TOWER_FLOORS,braveTowerBossId,normalizeBraveTowerProgress} from '../progression/brave-tower';
 import ClassicRobot from './ClassicRobot';
+import BossEvidence from './BossEvidence';
+import {encounterLevelText} from '../presentation/encounter-level';
 import '../world.css';
 
 export interface WorldDestination { planetId: string; regionId: string }
@@ -183,7 +185,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const towerFloor=towerProgress.resumeFloor??BRAVE_TOWER_FLOORS;
   const towerComplete=inTower&&towerProgress.resumeFloor===null;
   const towerBoss=inTower?s.bosses.find(boss=>boss.id===braveTowerBossId(towerFloor)):undefined;
-  const towerOpponents=towerBoss?.opponents?.length?towerBoss.opponents:towerBoss?[{species:towerBoss.species,name:s.species.find(species=>species.id===towerBoss.species)?.name??towerBoss.name,level:towerBoss.level}]:[];
+  const towerOpponents=towerBoss?.opponents?.length?towerBoss.opponents:towerBoss?[{species:towerBoss.species,name:s.species.find(species=>species.id===towerBoss.species)?.name??towerBoss.name,level:towerBoss.level,evidence:towerBoss.evidence}]:[];
   const sceneName=inTower?`勇者之塔 · 第 ${towerFloor} 层`:region.name;
   const sceneKey=`${planet.id}/${region.id}${inTower?`/${towerFloor}/${towerComplete?'complete':'ready'}`:''}`;
   const background=region.background??planet.background;
@@ -343,7 +345,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
           style={{...at(home),...(actor?{width:`${actor.width}%`,height:`${actor.height}%`}:{})}}
           aria-label={`与${name}互动`} onClick={event=>approach(event,{kind:'boss',id:b.id},home.x,home.y)}>
           {actor?<img className="world-native-actor-art" src={actor.src} alt="" draggable={false}/>:<><span className="world-creature-shadow"/><div className="world-sprite-art"><CreatureArt species={b.species} name={name}/></div></>}
-          <span className="world-character-name"><b>{inTower?(towerComplete?'已通关':`第 ${towerFloor} 层`):b.category==='SPT首领'?'SPT':'挑战'}</b> {name}<small>Lv.{b.level}{inTower&&towerOpponents.length>1?` · 队伍 ${towerOpponents.length} 只`:''}</small></span>
+          <span className="world-character-name"><b>{inTower?(towerComplete?'已通关':`第 ${towerFloor} 层`):b.category==='SPT首领'?'SPT':'挑战'}</b> {name}<small>{encounterLevelText(b.level,b.evidence?.hasInferredLevel,b.evidence?.displayLevelUnknown)}{inTower&&towerOpponents.length>1?` · 队伍 ${towerOpponents.length} 只`:''}</small></span>
         </button>;
       })}
       {campaignContact&&(()=>{
@@ -379,8 +381,9 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
       <button className="world-dialogue-close" aria-label="离开对话" onClick={()=>setSelection(null)}>×</button>
       <div className="world-dialogue-body">{selectedCampaign?<div className="world-dialogue-portrait"><CreatureArt species={selectedCampaign.species} name={campaignContactName}/></div>:(creature||boss)?<div className="world-dialogue-portrait"><CreatureArt species={creature?.id??boss!.species} name={creature?.name??bossName!}/></div>:<div className="world-dialogue-portrait"><Facility kind={activeFacility!}/></div>}
         <div className="world-dialogue-copy"><small>{selectedCampaign?'封印挑战':creatureRecruitment?'收集招募':creature?(creature.wildCapture===false?'野外挑战':'野生精灵'):boss?(inTower?sceneName:`${boss.category}${region.challengeStaging?' · 挑战接驳':''}`):'飞船联络'}</small><h3>{selectedCampaign?campaignContactName:creature?.name??bossName??facilityName}</h3>
-          <p>{selectedCampaign?`${region.description} ${campaignProgress}。已完成 ${selectedCampaign.completed} / ${selectedCampaign.stages.length} 关。`:creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?(inTower?(towerComplete?'本轮已通过全部 70 层。选择起点后可重新登塔。':`本层共有 ${towerOpponents.length} 只精灵。${towerFloor<BRAVE_TOWER_FLOORS?`全部战胜后进入第 ${towerFloor+1} 层。`:'全部战胜后完成本轮登塔。'}退出或失败后保留当前层。`):`Lv.${boss.level} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`):activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
-          {inTower&&boss&&<ul className="world-tower-opponents" aria-label={`第 ${towerFloor} 层对手队伍`}>{towerOpponents.map((opponent,index)=><li key={`${index}-${opponent.species}`}><span>{index+1}. {opponent.name}</span><small>Lv.{opponent.level}</small></li>)}</ul>}
+          <p>{selectedCampaign?`${region.description} ${campaignProgress}。已完成 ${selectedCampaign.completed} / ${selectedCampaign.stages.length} 关。`:creature?`Lv.${creatureLevel} · ${creature.types.join(' / ')}系 · ${creature.owned?'已经结识的伙伴':'还未加入收集档案'}。${creatureRecruitment?'完成精灵招募的收集与首领条件后领取精元。':creature.wildCapture===false?'战胜后领取精元，在道具背包孵化。':creature.id===416?'捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':'在战斗道具中使用精灵胶囊捕捉。'}`:boss?(inTower?(towerComplete?'本轮已通过全部 70 层。选择起点后可重新登塔。':`本层共有 ${towerOpponents.length} 只精灵。${towerFloor<BRAVE_TOWER_FLOORS?`全部战胜后进入第 ${towerFloor+1} 层。`:'全部战胜后完成本轮登塔。'}退出或失败后保留当前层。`):`${encounterLevelText(boss.level,boss.evidence?.hasInferredLevel,boss.evidence?.displayLevelUnknown)} · ${boss.cleared?'已经挑战成功，随时可以再次切磋。':'准备好你的战队，点击下方挑战开始战斗。'}${region.challengeStaging?' 接驳平台已就绪，确认后进入战场。':''}`):activeFacility==='missions'?'欢迎回来，赛尔！看看航行日志，继续我们的探索吧。':activeFacility==='recovery'?'把精灵交给恢复舱，体力与技能 PP 会完全恢复。':activeFacility==='battle'?region.description:'选择下一站，或者从挑战档案寻找新的对手。'}</p>
+          {inTower&&boss&&<ul className="world-tower-opponents" aria-label={`第 ${towerFloor} 层对手队伍`}>{towerOpponents.map((opponent,index)=><li key={`${index}-${opponent.species}`}><span>{index+1}. {opponent.name}</span><small>{encounterLevelText(opponent.level,opponent.evidence?.hasInferredLevel,opponent.evidence?.displayLevelUnknown)}</small></li>)}</ul>}
+          <BossEvidence evidence={boss?.evidence}/>
           {inTower&&boss?.rewardText&&<p className="world-dialogue-detail">通关奖励：{boss.rewardText}</p>}
           {showDetails&&<p className="world-dialogue-detail">{selectedCampaign?.description??boss?.description??(creature?`精灵编号 #${creature.id}，等级 Lv.${creatureLevel}。${creature.wildCapture===false?'击败后通过精元孵化获得，不能使用胶囊。':'先削弱野生精灵的体力，再从战斗道具使用精灵胶囊。'}`:region.description)}</p>}
         </div>

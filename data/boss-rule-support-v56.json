@@ -1,0 +1,6085 @@
+{
+  "schemaVersion": 1,
+  "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
+  "summary": {
+    "encounters": 180,
+    "handledEntries": 592,
+    "unsupportedEntries": 5,
+    "encountersWithUnsupported": [
+      "boss_puni_seal7",
+      "boss_puni_zhenshen",
+      "boss_spt_eersaila",
+      "boss_spt_kenpeide",
+      "boss_spt_moshidilu"
+    ],
+    "approximatedEntries": 119,
+    "unexpectedContractGaps": 0
+  },
+  "bosses": [
+    {
+      "id": "boss_ailike",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Level, HP, rules and skills are NOT published in any source found; 100 / 10000 and the top learnset skills are placeholders."
+        }
+      ]
+    },
+    {
+      "id": "boss_aluobisi",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "level_drops_per_attempt",
+          "scope": "root/rules/0",
+          "fields": [
+            "start",
+            "step"
+          ],
+          "implementation": "game adapter before battle construction"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "level_drops_per_attempt: the first attempt is Lv100; each further attempt the boss is 10 levels lower (100 → 90 → 80 …). The remake keeps a per-save attempt counter for this boss; floor not stated (assume 50)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "consolation_reward: every attempt, won or lost, gives 100000 EXP ticket + a B-grade skill stone (item ids are placeholders)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "The 4399 page does not explicitly say the win gives a 精元 — the event was the way to obtain 阿洛比斯; essence of the base form 安普 (#1118) assumed, matching other 2012 essence pets."
+        }
+      ]
+    },
+    {
+      "id": "boss_buleike",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate attack boost (攻击天生强化), magnitude not stated; atk+1 assumed (clearable)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Location not stated in the 2011 guides (the encounter was reached from the 战神联盟 storyline / SPT panel)."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_baihu_avatars",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "priority_add",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_baihu_body",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/1",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_baihu_guardians",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/team/0/member_rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "alternating_immunity",
+          "scope": "root/team/0/member_rules/2",
+          "fields": [
+            "on",
+            "order"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_ohko",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/team/1/member_rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/team/1/member_rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/team/1/member_rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "vs_type_use_only",
+          "scope": "root/team/2/member_rules/0",
+          "fields": [
+            "type",
+            "skill"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "scope": "root/team/3/member_rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "scope": "root/team/4/member_rules/0",
+          "fields": [
+            "foe_loss",
+            "self_heal"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/team/4/member_rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_body",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_low_damage_crit",
+          "scope": "root/team/0/member_rules/1",
+          "fields": [
+            "threshold",
+            "turns"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_counter_type_extra_damage",
+          "scope": "root/team/0/member_rules/2",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/team/1/member_rules/1",
+          "fields": [
+            "mode"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/2/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/team/2/member_rules/1",
+          "fields": [
+            "mode"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/3/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/team/3/member_rules/1",
+          "fields": [
+            "mode",
+            "allowFixed"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "scope": "root/team/3/member_rules/2",
+          "fields": [
+            "foe_loss",
+            "self_heal"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/4/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_hurt_stage_down",
+          "scope": "root/team/4/member_rules/1",
+          "fields": [
+            "threshold",
+            "stats"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/5/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/5/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "damage_dealt_multiplier",
+          "scope": "root/team/5/member_phases/0/do/0",
+          "fields": [
+            "multiplier"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "condition:on_faint",
+          "scope": "root/team/5/member_phases/1/when",
+          "fields": [
+            "on_faint"
+          ]
+        },
+        {
+          "rule": "phase:revive",
+          "scope": "root/team/5/member_phases/1/do/0",
+          "fields": [
+            "pct_max_hp"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/5/member_phases/1/do/1",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel1",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel2",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/rules/4",
+          "fields": [
+            "mode"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel3",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/rules/4",
+          "fields": [
+            "mode"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel4",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "campaign_qilin_damage_filter",
+          "scope": "root/rules/4",
+          "fields": [
+            "mode",
+            "allowFixed"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel5",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qilin_wheel6",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:on_faint",
+          "scope": "root/team/0/member_phases/1/when",
+          "fields": [
+            "on_faint"
+          ]
+        },
+        {
+          "rule": "phase:revive",
+          "scope": "root/team/0/member_phases/1/do/0",
+          "fields": [
+            "pct_max_hp"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/1/do/1",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_qinglong_body",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "scope": "root/rules/2",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "The reported fatigue exception is represented broadly by not blocking fatigue; source-specific exception matching is not recovered. Automatic low-HP speed growth remains unmodeled because its trigger is unquantified."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_qinglong_guardians",
+      "handled": [
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/team/1/member_rules/1",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/team/1/member_rules/2",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "ko_attacker_on_big_hit",
+          "scope": "root/team/3/member_rules/0",
+          "fields": [
+            "threshold",
+            "inclusive"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/team/3/member_rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_xuanwu_body",
+      "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "The reported fatigue exception is represented broadly by not blocking fatigue; source-specific exception matching is not recovered. Automatic low-HP speed growth remains unmodeled because its trigger is unquantified."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_xuanwu_guardians",
+      "handled": [
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/2/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/3/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "always_crit_below_pct",
+          "scope": "root/team/5/member_rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "The five non-Naduolei low-HP critical thresholds follow the quarter-HP report; the author explicitly expressed uncertainty about Naduolei."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_zhuque_avatars",
+      "handled": [
+        {
+          "rule": "reflect_damage",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "lives",
+          "scope": "root/team/2/member_rules/0",
+          "fields": [
+            "count"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "scope": "root/team/2/member_rules/1",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_campaign_zhuque_body",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
+        }
+      ]
+    },
+    {
+      "id": "boss_campaign_zhuque_guardians",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door1_moyasha",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door2_beilujide",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door3_bafuluo",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door3_qilatadun",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door4_kelinkaxiu",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door4_xisalasi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door5_hedeka",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door5_kaku",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door5_yilanluoni",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door6_aieryiluo",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+1/spa+1 assumed, clearable."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door6_bulinkeke",
+      "handled": [
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/1",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "immune_status_list: '免疫多种异常状态' without a list; the listed set is an assumption."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+1/spe+1 assumed. Level not published (等级未知), 100 assumed."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door6_sijiaerka",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door7_moerjiasi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door7_mohuashizhe",
+      "handled": [
+        {
+          "rule": "heal_each_turn",
+          "scope": "root/rules/0",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door7_sanuolasi",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "always_move_first",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "always_move_first: 无视攻击对手速度强制先手 — it acts first every turn regardless of speed (player priority moves assumed to still go first)."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door8_jialuode",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "4399 says '消除强化后直接强攻', implying an innate boost; atk+1 assumed. Level not given; 100 assumed."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door8_paduoni",
+      "handled": [
+        {
+          "rule": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate special-attack boost (自身带有特攻强化), +1 assumed."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "reflect_damage: 4399 says it 反弹伤害 without a figure; 25% is an estimate (it may instead be a skill effect)."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door8_saduolani",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "always_move_first",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/1",
+          "fields": [
+            "stages"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "always_move_first: 强制先手. crit_rate_bonus: '高致命' — its attacks crit far more often than normal; +2 crit stages is an estimate."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Some later lists call this door's third boss 萨拉多尼; 4399 (2011) gives 萨多拉尼 No.661 龙系. Level not given; 100 assumed."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door9_akenuoya",
+      "handled": [
+        {
+          "rule": "lives",
+          "scope": "root/rules/0",
+          "fields": [
+            "count"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_door9_bailuoyasi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Very fast and hard-hitting (攻强，克他的系也被他一招秒), low defence. 4399 spells the skills 裂风破斩刃/魔能风暴 (= 裂风破兵刃 11897 / 魔能暴风 10165). Level not given; 100 assumed."
+        }
+      ]
+    },
+    {
+      "id": "boss_dark_door9_dipulide",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_dark_trial_katesi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_gaia",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/0/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:turn_limit",
+          "scope": "root/variants/0/win/1",
+          "fields": [
+            "turns"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/1/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:finish_with_crit",
+          "scope": "root/variants/1/win/1",
+          "fields": []
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/2/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:ko_after_turn",
+          "scope": "root/variants/2/win/1",
+          "fields": [
+            "turns"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed."
+        }
+      ]
+    },
+    {
+      "id": "boss_kaxiusi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_paluodiya",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "Story: 帕罗狄亚's clan was to be sealed by the old dragon king; 龙王子哈莫雷特 later makes amends. The event was a one-hour server-wide face-off; some sources say every kill gave a 精元 fragment and 'enough' of them made 帕罗 — count unknown, so one essence per win is used."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Level, HP, rules and skills are NOT published in any source found; 80 / 5000 and the top learnset skills are placeholders."
+        }
+      ]
+    },
+    {
+      "id": "boss_puni_seal1",
+      "handled": [
+        {
+          "rule": "damage_only_from",
+          "scope": "root/rules/0",
+          "fields": [
+            "sure_hit"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "only_sure_hit_moves_land",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal2",
+      "handled": [
+        {
+          "rule": "damage_only_from",
+          "scope": "root/rules/0",
+          "fields": [
+            "types"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_damage_allowed",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal3",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "ko_attacker_on_big_hit",
+          "scope": "root/rules/0",
+          "fields": [
+            "threshold",
+            "exclude_categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal4",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "scope": "root/rules/0",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal5",
+      "handled": [
+        {
+          "rule": "lives",
+          "scope": "root/rules/0",
+          "fields": [
+            "count"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "revive_restores_pp",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal6",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_seal7",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [
+        {
+          "rule": "reported_low_accuracy",
+          "scope": "engine_notes/0",
+          "reason": "Catalog notes report low boss accuracy, but no probability or trigger is recovered. No additional accuracy penalty is executed."
+        }
+      ],
+      "approximated": []
+    },
+    {
+      "id": "boss_puni_zhenshen",
+      "handled": [
+        {
+          "rule": "damage_only_from",
+          "scope": "root/team/0/member_rules/0",
+          "fields": [
+            "sure_hit"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "only_sure_hit_moves_land",
+          "scope": "root/team/0/member_rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss",
+          "scope": "root/team/0/member_rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "damage_only_from",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [
+            "types"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_damage_allowed",
+          "scope": "root/team/1/member_rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "ko_attacker_on_big_hit",
+          "scope": "root/team/2/member_rules/0",
+          "fields": [
+            "threshold",
+            "exclude_categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "scope": "root/team/3/member_rules/0",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "damage_only_from",
+          "scope": "root/team/4/member_rules/0",
+          "fields": [
+            "sure_hit"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "only_sure_hit_moves_land",
+          "scope": "root/team/4/member_rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss",
+          "scope": "root/team/4/member_rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/4/member_rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/4/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/4/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/team/5/member_rules/0",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_moves_always_miss",
+          "scope": "root/team/5/member_rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/team/5/member_rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [
+        {
+          "rule": "reported_low_hp_player_accuracy",
+          "scope": "engine_notes/4",
+          "reason": "Catalog notes report player accuracy at 70% below 10000 HP. The applicable life and precise trigger have not been restored; no such encounter hook is currently executed. Ordinary critical defense-stage clearing is implemented separately."
+        }
+      ],
+      "approximated": []
+    },
+    {
+      "id": "boss_rei",
+      "handled": [
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/1",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Innate boost stats not stated; atk+1 spe+1 assumed (it must be cleared with 叶绿光束 / 日月皆伤 style moves)."
+        }
+      ]
+    },
+    {
+      "id": "boss_rei_training1",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "require_player_species",
+          "scope": "root/rules/1",
+          "fields": [
+            "species"
+          ],
+          "implementation": "validateEncounter before battle construction"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:finish_with_skill",
+          "scope": "root/win/1",
+          "fields": [
+            "skill"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_rei_training2",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "require_player_species",
+          "scope": "root/rules/1",
+          "fields": [
+            "species"
+          ],
+          "implementation": "validateEncounter before battle construction"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:use_skill",
+          "scope": "root/win/1",
+          "fields": [
+            "skill"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "Skills = the 提亚斯 SPT boss set (飞空斩/精神干涉/飞空俯冲/飞翔之光, 4399 2010); 精神干涉 (accuracy -2) explains the high miss rate. Whether it also flees after two 精神干涉 here is unknown (not encoded)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_rei_training3",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "require_player_species",
+          "scope": "root/rules/1",
+          "fields": [
+            "species"
+          ],
+          "implementation": "validateEncounter before battle construction"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:finish_with_skill",
+          "scope": "root/win/1",
+          "fields": [
+            "skill"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Below 1/8 HP every hit is a crit — trait of the 雷纳多 SPT boss (7k7k 2011), assumed to carry over."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_rei_training4",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "require_player_species",
+          "scope": "root/rules/1",
+          "fields": [
+            "species"
+          ],
+          "implementation": "validateEncounter before battle construction"
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/2",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:ko_after_turn",
+          "scope": "root/win/1",
+          "fields": [
+            "turns"
+          ]
+        },
+        {
+          "rule": "objective_script",
+          "id": "finish_while_foe_status",
+          "scope": "root/win/2",
+          "fields": [
+            "status"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_rei_training5",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "require_player_species",
+          "scope": "root/rules/1",
+          "fields": [
+            "species"
+          ],
+          "implementation": "validateEncounter before battle construction"
+        },
+        {
+          "rule": "script",
+          "id": "copy_foe_boosts",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:turn_limit",
+          "scope": "root/win/1",
+          "fields": [
+            "turns"
+          ]
+        },
+        {
+          "rule": "objective:turn_limit",
+          "scope": "root/lose/0",
+          "fields": [
+            "turns"
+          ]
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_ajiasha",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "scope": "root/rules/0",
+          "fields": [
+            "foe_loss",
+            "self_heal",
+            "below_pct",
+            "foe_loss_low",
+            "self_heal_low"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_akexiya",
+      "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_anyebinghu",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "stages_unclearable",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate double-defence boost (天生强化双防并且不可消去); +2 each is an estimate."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_basuoer",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "foe_stage_each_turn",
+          "scope": "root/rules/2",
+          "fields": [
+            "stats"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "copy_foe_boosts_on_switch_in",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_bokate",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "reflect_damage 100%: every point of damage the player's pet deals is reflected back to it (反弹我方精灵打出的100%的伤害). Whether percentage damage (海洋之心) is reflected is unclear; strategies imply the 海洋之心 users faint eventually."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate atk+2 def+1 (clearable). 速度极慢 (spe x0.5 estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_delasa",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 5000 is an estimate."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_difute",
+      "handled": [
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "infinite_pp",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_eersaila",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/4",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/0/win/0",
+          "fields": []
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/variants/0/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "hp_multiplier",
+          "scope": "root/variants/0/rules/1",
+          "fields": [
+            "multiplier"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/1/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "evasion_bonus",
+          "scope": "root/variants/1/rules/0",
+          "fields": [
+            "stages"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/2/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "scope": "root/variants/2/rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/3/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "heal_flat_each_turn",
+          "scope": "root/variants/3/rules/0",
+          "fields": [
+            "amount"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/4/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective:finish_with_status_damage",
+          "scope": "root/variants/4/win/1",
+          "fields": [
+            "statuses"
+          ]
+        },
+        {
+          "rule": "script",
+          "id": "revive_unless_status_ko",
+          "scope": "root/variants/4/rules/0",
+          "fields": [
+            "max_revives"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/5/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/variants/5/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/variants/5/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/6/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/variants/6/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/variants/6/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "ohko_attacks",
+          "scope": "root/variants/6/phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [
+        {
+          "rule": "script",
+          "id": "crit_rate_scales_with_hp_lost",
+          "scope": "root/variants/5/rules/0",
+          "fields": [
+            "target"
+          ],
+          "reason": "No numeric probability curve is supplied or recovered; the reported direction is itself ambiguous. No invented curve is executed."
+        }
+      ],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Mon 血很厚 (hp x2 estimate); Tue MISS超高 (evasion +3 estimate); Sat 防御很高 (def/spd +2 estimate) and 血越少越容易打致命 (read as: its crit rate rises as its HP falls; could also mean the player's crits — unclear)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Skills not named by any source; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+        },
+        {
+          "rule": "script",
+          "id": "revive_unless_status_ko",
+          "scope": "variants/fri",
+          "reason": "The retained seven-revival cap is not established by the 2010-08-13 guide. Other period wording mentions an early-turn window; its exact interaction is unresolved. The cap is not presented as official."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_fuxisi",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "mirror_status_to_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Level/HP not published; 80 / 10000 estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_gangyasha",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_guerzhadi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_hamoleite",
+      "handled": [
+        {
+          "rule": "damage_only_from",
+          "scope": "root/rules/0",
+          "fields": [
+            "types"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "no_repeat_type",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "type_rotation",
+          "scope": "root/rules/2",
+          "fields": [
+            "order"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/5",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_kailuoya",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed. Frequently uses 水之结界 (all foe stats -1)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Level/HP not published; 80 / 10000 are estimates."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_kalunni",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "infinite_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "lifesteal",
+          "scope": "root/rules/2",
+          "fields": [
+            "pct_damage_dealt"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "escalate_vs_same_foe",
+          "scope": "root/rules/3",
+          "fields": [
+            "stats",
+            "reset_on_foe_switch"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "escalate_vs_same_foe: while it keeps fighting the same player pet, after each of its attacks its atk and spa rise (攻击和特攻自动强化，下一回合攻击技能造成的伤害大幅提升); assumed +1/+1 per turn, reset when the player switches pets."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "速度极其缓慢 — encoded as spe x0.5 (estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_kawoer",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed from its 冰雷幻阵."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_kelaifen1",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_kelaifen2",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_kelanite1",
+      "handled": [
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Skills: the Lv50 learnset top four (火光四溅/火龙的咆哮/龙族之力/进攻意识); HP not published (1500 estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_kelanite2",
+      "handled": [
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "no_struggle",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_kenpeide",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "ohko_attacks",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [
+        {
+          "rule": "temporary_reflection_window",
+          "scope": "rules",
+          "reason": "The 2011-01-17 guide describes a temporary shield and an ending cue. Current configuration has an always-active reflection rule; activation, duration and termination are not recovered."
+        }
+      ],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Reflect: '有反弹伤害的招式' / '反射盾' — damage reflection; whether always-on or a skill-triggered shield, and the percentage, are not given (always-on 25% assumed)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost (先消强化) — stat not stated; atk+1 assumed."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Skills not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_kuli",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "random_heal",
+          "scope": "root/rules/0",
+          "fields": [
+            "chance",
+            "pct_max_hp"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "random_heal: 'has a chance to heal' (有几率回血) — chance and amount not given (20% / 10% max HP are placeholders). Its 星光奔腾击 already has 15% to heal 1/4 HP; the 'chance to heal' may simply be that effect."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_lansite",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "min_damage"
+          ],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "heal_flat",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "amount"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Once, when at low HP (残血), it heals a flat 500 HP; the exact threshold is not stated (20% assumed)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_laokemengde",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "alternating_immunity",
+          "scope": "root/rules/2",
+          "fields": [
+            "on",
+            "order"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/0/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "field_heal_each_turn",
+          "scope": "root/variants/0/rules/0",
+          "fields": [
+            "pct_max_hp",
+            "sides"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/1/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "field_damage_each_turn",
+          "scope": "root/variants/1/rules/0",
+          "fields": [
+            "amount",
+            "sides"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/variants/2/win/0",
+          "fields": []
+        },
+        {
+          "rule": "script",
+          "id": "field_damage_multiplier",
+          "scope": "root/variants/2/rules/0",
+          "fields": [
+            "multiplier",
+            "sides"
+          ],
+          "implementation": "install"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+1/spe+1 assumed (matches its 规则掌控)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Skills not named by sources; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_leinaduo",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_liaosi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase:set_ai",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "ai"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "AI: 血多时用密集火网，血少时用回击（必定后发, priority -1）. Encoded as weighted AI favouring 密集火网, switched at 50% HP to 回击/报复; the exact threshold is not stated."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Reward was not guaranteed (打败它有可能获得) — reward.chance 50 is an estimate; first_clear_items gives the 蓝武士装 suit part once."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_luolasike",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_minuosi",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_moduosa",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "vs_type_use_only",
+          "scope": "root/rules/0",
+          "fields": [
+            "type",
+            "skill"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Skills besides 决然一击 not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_moguguai",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_moshidilu",
+      "handled": [
+        {
+          "rule": "ignore_type_chart",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "ohko_attacks",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "ignore_speed"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "condition:self_hp_below",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "block_new_status",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "condition:turn_ge",
+          "scope": "root/phases/2/when",
+          "fields": [
+            "turn_ge"
+          ]
+        }
+      ],
+      "unsupported": [
+        {
+          "rule": "phase_script",
+          "id": "damage_scales_with_hp_lost",
+          "scope": "root/phases/2/do/0",
+          "fields": [
+            "target"
+          ],
+          "reason": "A period guide reports increasing damage as HP falls but gives no formula. No invented multiplier is executed."
+        }
+      ],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "damage_scales_with_hp_lost: 体力越少攻击越强 (no formula given)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_naduolei",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "防御极高 (4399: 'extremely high defence', authors guessed 2000-3000 HP from how long it took). HP 1400 per 4399 and 7k7k; def x1.5 encodes the high-defence remark (estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_nainifenduo",
+      "handled": [
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "速度无敌: always_moves_first. 容易致命: crit_rate_up (+1, estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_nate",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "stages_unclearable",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/4",
+          "fields": [
+            "status",
+            "chance",
+            "turns_min",
+            "turns_max"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_palisi",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "ignore_player_damage_reduction",
+          "scope": "root/rules/3",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_status_each_turn",
+          "scope": "root/rules/4",
+          "fields": [
+            "status",
+            "from_turn"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_pitesaluo",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "Innate special-attack boost (天生特攻强化); magnitude not stated, +1 assumed."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Below half HP the player's pets' accuracy drops (血量降至一半时我方精灵命中率下降); encoded as a one-time foe acc -1, magnitude/repeat unknown."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_pulante",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "random_priority",
+          "scope": "root/rules/2",
+          "fields": [
+            "chance"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "skill_effect_override",
+          "scope": "root/rules/3",
+          "fields": [
+            "skill",
+            "status",
+            "chance"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_ruiersi",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "max"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "ignore_player_damage_reduction",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "攻击力超高，基本可秒杀大部分精灵 — encoded as stat_multipliers atk 2.0 (estimate) on top of its ~2000 HP."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_saiweier",
+      "handled": [
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/1",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_sibinsai",
+      "handled": [
+        {
+          "rule": "damage_cap_per_hit",
+          "scope": "root/rules/0",
+          "fields": [
+            "amount",
+            "categories"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "damage_cap_breaks_on_dot",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses",
+            "chance"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/4",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "damage_cap_breaks_on_dot: while the boss is burned/frozen/poisoned the 1-damage shield 'has a high chance to disappear' (4399: 有很大机率会消失); chance 80 is an estimate — model as a per-hit roll while the boss has a DoT status."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost exists (天生有强化，可消掉) but which stat is not stated; spa+1 is a guess. It CAN be cleared."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_sikelu",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_silipu",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "速度极慢 — spe x0.5 estimate."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_sipulinte",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Innate boost implied by '先用盖亚消强化'; spa+1 assumed. HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_situerte",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "infinite_pp",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "script",
+          "id": "foe_stage_each_turn",
+          "scope": "root/rules/4",
+          "fields": [
+            "stats"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_takelin",
+      "handled": [
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/0",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/2/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/phases/2/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "All skills crit 1/4 of the time (crit_rate_up +2 ≈ 25%, estimate); once its HP is below 10000 every attack is a crit (techbang: 体力降到10000以下时每次攻击必定致命一击) → phase at 76.9% of 13000. 4399 instead says it crits often below 1/4 HP."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_taxiya",
+      "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/4",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/5",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/6",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/7",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_spt_tiyasi",
+      "handled": [
+        {
+          "rule": "flee_after_skill",
+          "scope": "root/rules/0",
+          "fields": [
+            "skill",
+            "count"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "objective_script",
+          "id": "boss_fled",
+          "scope": "root/lose/0",
+          "fields": [
+            "kind"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "它却容易致命一击: crit_rate_up +2 stages at battle start (magnitude is an estimate)."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_yalunsi",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "drain_each_turn",
+          "scope": "root/rules/0",
+          "fields": [
+            "foe_loss",
+            "self_heal"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost (先上来消强化) — stat not stated; spa+1 assumed. 速度非常慢 (spe x0.5 estimate), 攻击很弱."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Only 交错冰柱 is named (sina 2011); other slots from the learnset. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_yisuoli",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "stages_unclearable",
+          "scope": "root/rules/0",
+          "fields": [
+            "stats"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "immune_pct_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "native alias"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "foe_cannot_boost",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "damage_dealt_multiplier",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "multiplier"
+          ],
+          "implementation": "apply"
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost."
+        }
+      ]
+    },
+    {
+      "id": "boss_spt_younasi",
+      "handled": [
+        {
+          "rule": "hp_floor_until",
+          "scope": "root/rules/0",
+          "fields": [
+            "skill"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "script",
+          "id": "unlimited_pp_skill",
+          "scope": "root/rules/2",
+          "fields": [
+            "skill"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Status: 4399 (2010-06): 'BOSS不再受冻伤、中毒等异常状态影响' (a patch removed DoT cheese), yet 寄生种子 is still the core strategy in every 2010-2011 guide, so leech is NOT in the immunity list. Burn assumed immune with poison/freeze."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f001",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f002",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f003",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f004",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f005",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f006",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f007",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f008",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f009",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f010",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f011",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f012",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f013",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f014",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f015",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f016",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f017",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f018",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f019",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f020",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f021",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f022",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f023",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f024",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f025",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f026",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f027",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f028",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f029",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f030",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f031",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f032",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f033",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f034",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f035",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f036",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f037",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f038",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f039",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f040",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f041",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f042",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f043",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f044",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f045",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f046",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f047",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f048",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f049",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f050",
+      "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "hp"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "heal_full_below: when 水晶鸭 drops below 100 HP it refills to full (900) — 4399: 当血低于100时会回满900. Whether this repeats or happens once is not stated; repeat assumed (classic answer: one-shot it from >100 with 一击致命)."
+        }
+      ]
+    },
+    {
+      "id": "boss_tower_brave_f051",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f052",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f053",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f054",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f055",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f056",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f057",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f058",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f059",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f060",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "damage_only_from_own_type_normal_or_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f061",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f062",
+      "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f063",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f064",
+      "handled": [
+        {
+          "rule": "script",
+          "id": "always_crit_after_turn",
+          "scope": "root/rules/0",
+          "fields": [
+            "member",
+            "turn"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f065",
+      "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f066",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f067",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f068",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f069",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_f070",
+      "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "heal_each_turn",
+          "scope": "root/rules/1",
+          "fields": [
+            "amount",
+            "member"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": []
+    },
+    {
+      "id": "boss_tower_brave_mystery",
+      "handled": [
+        {
+          "rule": "player_team_size",
+          "scope": "root/rules/0",
+          "fields": [
+            "min",
+            "min_level"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Unlock after 60F is assumed (the source lists it after 60F); the 谱尼 seal line was entered from the same 神秘领域 via the lamps beside the tower."
+        }
+      ]
+    },
+    {
+      "id": "boss_trial_brave_qigesa",
+      "handled": [
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "Current single-player adaptation: a direct ordinary challenge against one Qigesa. No cooperative lobby, other-player requirement, random-floor ladder, or multiplayer formation is implemented. The original 2010 source required a team and placed Qigesa on a random floor; that is historical context only."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "Level/HP not published; the boss went down to one big hit, so Lv60 / 1000 HP are low-confidence estimates."
+        }
+      ]
+    }
+  ]
+}

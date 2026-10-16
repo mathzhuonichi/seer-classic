@@ -3,6 +3,8 @@ import type { CSSProperties } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame, GameAction, GameController, GameSnapshot, ItemView } from '../game-types';
 import { creatureArtStyle, getCreatureArt } from '../presentation/creature-art';
 import BattleTeamStrip from './BattleTeamStrip';
+import {BossEvidenceContent} from './BossEvidence';
+import {encounterLevel} from '../presentation/encounter-level';
 import BattleSkillEffect from './BattleSkillEffect';
 import {getSkillEffectDurationMs} from './battle-skill-effects';
 import TypeIcon from './TypeIcon';
@@ -33,7 +35,7 @@ function Health({ monster, team, enemy }: { monster: BattleMonsterView; team: Ba
   return <section className={`classic-health ${enemy ? 'foe' : 'ally'}`} aria-label={`${enemy ? '对手' : '我方'}${monster.name}体力`}>
     <div className="classic-health-portrait"><img src={getCreatureArt(appearance).src} style={creatureArtStyle(appearance,undefined,{scaleByStage:false,fill:.9,verticalAlign:'center'})} alt="" draggable={false}/></div>
     <div className="classic-health-type"><TypeIcon type={monster.types}/></div>
-    <div className="classic-health-heading"><strong title={monster.name}>{monster.name}</strong></div><span className="classic-health-level" aria-label={`等级 ${monster.level}`}>{monster.level}</span>
+    <div className="classic-health-heading"><strong title={monster.name}>{monster.name}</strong></div><span className="classic-health-level" aria-label={`等级 ${encounterLevel(monster.level,enemy&&monster.evidence?.displayLevelUnknown)}${enemy&&monster.evidence?.hasInferredLevel?'，推定':''}`}>{encounterLevel(monster.level,enemy&&monster.evidence?.displayLevelUnknown)}</span>
     <div className="classic-hp-track" role="progressbar" aria-valuenow={monster.hp} aria-valuemin={0} aria-valuemax={monster.maxHp} aria-label="体力"><i style={{ width: `${percent}%` }} /><span>{monster.hp} / {monster.maxHp}</span></div>
     <div className="classic-health-footer"><div className="classic-conditions" title={conditionDescription} aria-label={conditionDescription}>{monster.statuses.map(status => <span key={status} className="condition">{status}</span>)}{Object.entries(monster.stages).filter(([, value]) => value !== 0).map(([stat, value]) => <span key={stat} className={value > 0 ? 'stage-up' : 'stage-down'}>{stageLabels[stat] || stat}{value > 0 ? '↑' : '↓'}{Math.abs(value)}</span>)}</div><BattleTeamStrip team={team} activeUid={monster.uid} enemy={enemy}/></div>
   </section>;
@@ -84,6 +86,13 @@ export default function Battle({ s, c, commandRequest, background, onSettings }:
   const [captureResolved, setCaptureResolved] = useState(false);
   const [itemTarget, setItemTarget] = useState(b.player.uid);
   const [showDetails, setShowDetails] = useState(false);
+  const [showEvidence,setShowEvidence]=useState(false);
+  useEffect(()=>{
+    if(!showEvidence)return;
+    const close=(event:KeyboardEvent)=>{if(event.key==='Escape')setShowEvidence(false)};
+    window.addEventListener('keydown',close);
+    return()=>window.removeEventListener('keydown',close);
+  },[showEvidence]);
   const [dialogue, setDialogue] = useState(b.log.at(-1) || '请选择指令。');
   const locked = useRef(false);
   const latest = useRef(b);
@@ -206,7 +215,7 @@ export default function Battle({ s, c, commandRequest, background, onSettings }:
   const skillSlots = b.player.skills.some(skill => skill.pp > 0) ? b.player.skills : [{ id: 0, name: '挣扎', type: '普通', category: '物理', power: 50, pp: 0, maxPp: 0, description: '技能 PP 全部耗尽时使用，会受到反作用伤害。' }];
 
   return <section className="classic-battle" aria-label="精灵对战">
-    <div className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}><div className="classic-battle-caption">{b.name} · 第 {b.turn} 回合</div>
+    <div className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}><div className="classic-battle-caption"><span>{b.name} · 第 {b.turn} 回合</span>{enemy.evidence&&<button className="classic-boss-evidence-button" onClick={()=>setShowEvidence(true)}>{enemy.evidence.incompleteRules?'部分机制待还原':enemy.evidence.hasInferredStats?'含推定参数':'资料依据'}</button>}</div>
       {background?<img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/>:<div className="classic-arena-landscape" aria-hidden="true"><div className="classic-moon" /><div className="classic-mountains far" /><div className="classic-mountains near" /><div className="classic-floor" /></div>}
       <div className="classic-health-row"><Health monster={hpPlayer} team={frame?.party ?? b.party}/><div className="classic-versus" aria-hidden="true">VS</div><Health monster={hpEnemy} team={frame?.enemyParty ?? b.enemyParty} enemy /></div>
       <div className="classic-creatures"><Combatant action={sourceAction} effectCue={skillEffect} monster={player} side={0} frame={frame} busy={busy}/><Combatant action={sourceAction} effectCue={skillEffect} monster={enemy} side={1} frame={frame} captured={captureResolved} busy={busy}/></div>
@@ -233,6 +242,7 @@ export default function Battle({ s, c, commandRequest, background, onSettings }:
         {tab === 'escape' && <div className="classic-escape-panel"><div><strong>{b.needsSwitch ? `${b.player.name}已失去战斗能力` : '撤离本场战斗'}</strong><p>{b.needsSwitch ? '可以派出替补精灵，或直接撤离。' : '立即离开当前战斗，不再执行本回合攻击。'}撤离不会获得本场战斗奖励。</p></div><button disabled={disabled} onClick={() => submit({ type: 'flee' })}>撤离战斗 →</button></div>}
       </div>
     </div>}
+    {showEvidence&&enemy.evidence&&<div className="classic-detail-backdrop" onClick={()=>setShowEvidence(false)}><section className="classic-boss-evidence-modal" role="dialog" aria-modal="true" aria-label={`${enemy.name}参数依据`} onClick={event=>event.stopPropagation()}><header><strong>{enemy.name} · 资料依据</strong><button autoFocus aria-label="关闭资料依据" onClick={()=>setShowEvidence(false)}>×</button></header><BossEvidenceContent evidence={enemy.evidence}/></section></div>}
     {showDetails && <div className="classic-detail-backdrop" onClick={() => setShowDetails(false)}><section className="classic-creature-details" role="dialog" aria-modal="true" aria-label={`${selectedParty.name}战斗详情`} onClick={event => event.stopPropagation()}><header><strong>{selectedParty.name} · Lv.{selectedParty.level}</strong><button aria-label="关闭精灵详情" onClick={() => setShowDetails(false)}>×</button></header><p><TypeIcon type={selectedParty.types}/> · 体力 {selectedParty.hp}/{selectedParty.maxHp}</p><p>{selectedParty.statuses.length ? selectedParty.statuses.join(' · ') : '无异常状态'}</p><div>{selectedParty.skills.map(skill => <article key={skill.id}><strong>{skill.name}</strong><span><TypeIcon type={skillIconType(skill)}/> {skill.category} · 威力 {skill.power || '—'} · PP {skill.pp}/{skill.maxPp}</span><p>{skill.description}</p></article>)}</div></section></div>}
   </section>;
 }
