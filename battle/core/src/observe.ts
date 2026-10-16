@@ -185,7 +185,9 @@ function invertHit(b: Battle, entry: JournalHit, foeAttacks: boolean, key: Refin
 
 /** Speed interval from one move order; null if no candidate fits, undefined when the turn is not usable evidence. */
 function invertOrder(b: Battle, entry: JournalOrder, viewer: 0 | 1, foeSide: 0 | 1, pub: PublicRecord): [number, number] | null | undefined {
-  if (entry.speedTie || entry.priorityHooks[viewer]) return undefined;
+  // Whether a tie decided the order is not public. The bounds below are
+  // non-strict, so a tie turn is valid evidence without reading the flag.
+  if (entry.priorityHooks[viewer]) return undefined;
   const ownSnap = entry.mons[viewer], foeSnap = entry.mons[foeSide];
   const ownView = whenView(b, ownSnap, () => true);
   const foeView = whenView(b, foeSnap, (id, def) => def?.kind === 'status' || pub.announced.has(id));

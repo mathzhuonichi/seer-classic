@@ -309,10 +309,11 @@ try{
     report.witnesses.conflict={interval:m.intervals.atk,conflicts:m.conflicts};
   });
 
-  check('Order entries skip speed ties and differing nominal priority',()=>{
+  check('Speed ties use non-strict bounds without the private tie flag; differing nominal priority is skipped',()=>{
     const tie=fixture({foe:{stats:{...publicBaseline,hp:4000,spe:viewerStats.spe}}});
     for(let i=0;i<3;i++)turn(tie,move(S.phys),move(S.phys));
-    assert(tie.journal.filter(e=>e.type==='order').every(e=>e.speedTie));assert.equal(model(tie).intervals.spe,undefined);
+    assert(tie.journal.filter(e=>e.type==='order').every(e=>e.speedTie));
+    const [lo,hi]=model(tie).intervals.spe;assert(lo<=viewerStats.spe&&viewerStats.spe<=hi,`tie interval ${lo}..${hi} contains ${viewerStats.spe}`);
     const pri=fixture({foe:{stats:{...publicBaseline,hp:4000,spe:999}}});
     for(let i=0;i<2;i++)turn(pri,move(S.phys),move(S.quick));
     assert.equal(pri.journal.filter(e=>e.type==='order').length,2);assert.equal(model(pri).intervals.spe,undefined);
