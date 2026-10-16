@@ -1,5 +1,11 @@
 {
   "schemaVersion": 1,
+  "userPolicyAuthority": {
+    "schemaVersion": 1,
+    "authority": "explicit-user-request",
+    "date": "2026-10-16",
+    "scope": "Four declined mechanics and one user-adopted replacement; no other boss behavior is removed."
+  },
   "sourceBoundary": {
     "scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.",
     "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.",
@@ -42,7 +48,9 @@
         "observed": 11
       }
     },
-    "ruleNodes": 324
+    "ruleNodes": 323,
+    "waivedMechanics": 4,
+    "userReplacementPolicies": 1
   },
   "sources": {
     "src-00ed0a8252de": {
@@ -1060,6 +1068,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -1255,6 +1264,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -1488,6 +1498,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -1757,6 +1768,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -1985,6 +1997,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -2600,6 +2613,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -3358,6 +3372,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -3585,6 +3600,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -3846,6 +3862,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -4107,6 +4124,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -4369,6 +4387,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -4544,6 +4563,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -4763,6 +4783,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -5014,6 +5035,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -5473,6 +5495,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -5705,6 +5728,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -6261,6 +6285,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -6615,6 +6640,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -6796,6 +6822,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -7080,6 +7107,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -7257,6 +7285,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -7431,6 +7460,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -7630,6 +7660,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -7804,6 +7835,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -7976,6 +8008,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -8150,6 +8183,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -8324,6 +8358,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -8501,6 +8536,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -8675,6 +8711,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -8873,6 +8910,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -9116,6 +9154,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -9294,6 +9333,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -9468,6 +9508,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -9659,6 +9700,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -9848,6 +9890,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -10044,6 +10087,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -10262,6 +10306,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -10472,6 +10517,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -10672,6 +10718,7 @@
           ]
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -10850,6 +10897,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -11028,6 +11076,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -11215,6 +11264,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -11419,6 +11469,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -11622,6 +11673,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -11803,6 +11855,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -12036,6 +12089,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -12282,6 +12336,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -12508,6 +12563,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -12730,6 +12786,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -12966,6 +13023,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -13163,6 +13221,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -13390,6 +13449,15 @@
           "sources": []
         }
       },
+      "userPolicies": [
+        {
+          "id": "v57-puni-seal7-accuracy",
+          "bossId": "boss_puni_seal7",
+          "disposition": "waived",
+          "mechanic": "reported_low_accuracy",
+          "note": "The user explicitly declined restoration of the reported low boss accuracy. No additional accuracy penalty is applied; existing behavior remains."
+        }
+      ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -14281,6 +14349,15 @@
           "sources": []
         }
       },
+      "userPolicies": [
+        {
+          "id": "v57-puni-body-low-hp-accuracy",
+          "bossId": "boss_puni_zhenshen",
+          "disposition": "waived",
+          "mechanic": "reported_low_hp_player_accuracy",
+          "note": "The user explicitly declined restoration of the reported low-HP player accuracy rule. No extra encounter accuracy hook is applied; existing behavior remains."
+        }
+      ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -14536,6 +14613,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -14786,6 +14864,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -15040,6 +15119,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -15314,6 +15394,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -15599,6 +15680,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -15917,6 +15999,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -16112,6 +16195,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -16304,6 +16388,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -16580,6 +16665,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -16855,6 +16941,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -17133,6 +17220,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -17333,6 +17421,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -17566,6 +17655,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -17897,14 +17987,14 @@
           },
           "condition": null,
           "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "A qualitative low-HP critical increase is reported; beneficiary and numerical formula are unresolved.",
+            "status": "authored",
+            "basis": "user-waived-mechanic",
+            "note": "The historical qualitative probability claim remains unquantified and is explicitly omitted by user request; no numerical curve is executed.",
             "sources": [
               "src-485d7afb2873"
             ],
-            "mechanicStatus": "observed",
-            "parameterStatus": "inferred"
+            "policyId": "v57-eersaila-critical-curve",
+            "scopeStatus": "waived"
           }
         },
         {
@@ -18056,6 +18146,15 @@
           ]
         }
       },
+      "userPolicies": [
+        {
+          "id": "v57-eersaila-critical-curve",
+          "bossId": "boss_spt_eersaila",
+          "disposition": "waived",
+          "mechanic": "crit_rate_scales_with_hp_lost",
+          "note": "The user explicitly declined the unquantified critical-probability curve. The historical declaration is acknowledged without modifying critical probability; all weekday rules remain."
+        }
+      ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -18252,6 +18351,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -18426,6 +18526,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -18596,6 +18697,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -18884,6 +18986,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -19152,6 +19255,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -19409,6 +19513,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -19675,6 +19780,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -19855,6 +19961,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -20036,6 +20143,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -20295,6 +20403,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -20572,6 +20681,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -20838,6 +20948,15 @@
           ]
         }
       },
+      "userPolicies": [
+        {
+          "id": "v57-kenpeide-reflection-window",
+          "bossId": "boss_spt_kenpeide",
+          "disposition": "waived",
+          "mechanic": "temporary_reflection_window",
+          "note": "The user explicitly declined reconstruction of the temporary reflection window. Existing configured reflection remains; no activation/duration/termination window is added."
+        }
+      ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -21052,6 +21171,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -21332,6 +21452,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -21660,6 +21781,7 @@
           ]
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -21858,6 +21980,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -22055,6 +22178,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -22269,6 +22393,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -22440,6 +22565,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -22657,6 +22783,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -22838,6 +22965,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -22849,8 +22977,8 @@
       "id": "boss_spt_moshidilu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_moshidilu.json",
-      "sourceSha256": "7cf5ee43af4ff535ed8af332ea95fa22d5bce5acf0774e53ebaf4cf010c315cb",
-      "sourceNoteSha256": "3da6fcf239bd89b9198ce26e9d74e431c1a382d64b65ad40ca7db43d8d716a84",
+      "sourceSha256": "53b245f12b85539c3c3858648ec633d409b325c8bfbb2baeb5abf5a1b58b0462",
+      "sourceNoteSha256": "aaeb9d2f6951e062cdc261b85aca8f00da3ae31cceec6a9b4e2e39145b50932e",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70398.html",
         "https://news.7k7k.com/content/20100527/7948.html",
@@ -22864,8 +22992,6 @@
           "iv",
           "evs",
           "nature",
-          "ohko_threshold",
-          "damage_scaling",
           "era"
         ]
       },
@@ -22954,33 +23080,27 @@
         },
         {
           "index": 1,
-          "path": "phases[0].do[0]",
-          "rule": "ohko_attacks",
+          "path": "rules[1]",
+          "rule": "forced_execution_below_pct",
           "configuration": {
-            "op": "script",
-            "id": "ohko_attacks",
-            "params": {
-              "target": "self",
-              "ignore_speed": true
-            }
+            "rule": "forced_execution_below_pct",
+            "pct": 25
           },
-          "condition": {
-            "self_hp_below_pct": 50
-          },
+          "condition": null,
           "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "The detailed report supports the half-HP lethal phase and speed override; other period summaries give a conflicting threshold.",
+            "status": "authored",
+            "basis": "user-adopted-policy",
+            "note": "The user explicitly chose strict current HP below 25%, forced-first attacking and direct KO, with ordinary behavior restored at 25% or above. Historical guides conflict between half and quarter HP; this is a remake policy, not server certification.",
             "sources": [
-              "src-a0ecc68c5da6"
+              "src-a0ecc68c5da6",
+              "src-4d890115adad"
             ],
-            "mechanicStatus": "observed",
-            "parameterStatus": "inferred"
+            "policyId": "v57-moshidilu-quarter-execution"
           }
         },
         {
           "index": 2,
-          "path": "phases[1].do[0]",
+          "path": "phases[0].do[0]",
           "rule": "block_new_status",
           "configuration": {
             "op": "script",
@@ -22996,31 +23116,6 @@
             "status": "inferred",
             "basis": "unverified",
             "note": "The report gives an absolute threshold below 1000000 HP. Persistence of existing statuses and event timing require reconstruction.",
-            "sources": [
-              "src-a0ecc68c5da6"
-            ],
-            "mechanicStatus": "observed",
-            "parameterStatus": "inferred"
-          }
-        },
-        {
-          "index": 3,
-          "path": "phases[2].do[0]",
-          "rule": "damage_scales_with_hp_lost",
-          "configuration": {
-            "op": "script",
-            "id": "damage_scales_with_hp_lost",
-            "params": {
-              "target": "self"
-            }
-          },
-          "condition": {
-            "turn_ge": 1
-          },
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "Damage increases as HP falls; no formula is reported.",
             "sources": [
               "src-a0ecc68c5da6"
             ],
@@ -23106,10 +23201,24 @@
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-4d890115adad",
             "src-a0ecc68c5da6"
           ]
         }
       },
+      "userPolicies": [
+        {
+          "id": "v57-moshidilu-quarter-execution",
+          "bossId": "boss_spt_moshidilu",
+          "disposition": "replaced",
+          "mechanic": "forced_execution_below_pct",
+          "replaces": [
+            "ohko_attacks below 50%",
+            "damage_scales_with_hp_lost"
+          ],
+          "note": "The user adopted current HP strictly below 25% as a dynamic forced-first direct-KO attack rule. At 25% or above ordinary behavior resumes, including after healing. This replaces conflicting historical thresholds and an unquantified damage curve; it is not official-server certification."
+        }
+      ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -23285,6 +23394,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -23523,6 +23633,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -23810,6 +23921,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -24090,6 +24202,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -24305,6 +24418,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -24600,6 +24714,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -24806,6 +24921,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -25018,6 +25134,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -25344,6 +25461,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -25572,6 +25690,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -25761,6 +25880,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -25968,6 +26088,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -26259,6 +26380,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -26568,6 +26690,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -26902,6 +27025,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -27129,6 +27253,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -27376,6 +27501,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -27676,6 +27802,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -27906,6 +28033,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28078,6 +28206,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28252,6 +28381,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28426,6 +28556,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28600,6 +28731,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28774,6 +28906,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -28948,6 +29081,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29122,6 +29256,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29296,6 +29431,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29470,6 +29606,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29644,6 +29781,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29818,6 +29956,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -29992,6 +30131,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -30166,6 +30306,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -30340,6 +30481,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -30514,6 +30656,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -30688,6 +30831,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -30862,6 +31006,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31036,6 +31181,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31210,6 +31356,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31384,6 +31531,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31558,6 +31706,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31732,6 +31881,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -31906,6 +32056,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32080,6 +32231,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32254,6 +32406,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32428,6 +32581,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32602,6 +32756,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32776,6 +32931,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -32950,6 +33106,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -33124,6 +33281,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
@@ -33299,6 +33457,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -33474,6 +33633,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -33649,6 +33809,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -33824,6 +33985,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -33999,6 +34161,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -34174,6 +34337,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -34349,6 +34513,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -34524,6 +34689,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -34699,6 +34865,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -34874,6 +35041,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35049,6 +35217,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35224,6 +35393,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35399,6 +35569,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35574,6 +35745,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35749,6 +35921,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -35924,6 +36097,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -36099,6 +36273,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -36274,6 +36449,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -36449,6 +36625,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -36641,6 +36818,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -36890,6 +37068,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -37139,6 +37318,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -37388,6 +37568,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -37637,6 +37818,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -37886,6 +38068,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -38204,6 +38387,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -38521,6 +38705,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -38839,6 +39024,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -39157,6 +39343,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -39498,6 +39685,7 @@
           ]
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -39822,6 +40010,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -40156,6 +40345,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -40471,6 +40661,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -40808,6 +40999,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -41142,6 +41334,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -41460,6 +41653,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -41640,6 +41834,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -41820,6 +42015,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -42190,6 +42386,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -42611,6 +42808,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -42808,6 +43006,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
@@ -42980,6 +43179,7 @@
           "sources": []
         }
       },
+      "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,

@@ -109,6 +109,7 @@ export interface DamageInfo {
   crit?: boolean;
   effectiveness?: number;
   ohko?: boolean;
+  forcedExecution?: boolean; // Explicit user-adopted boss policy; not ordinary OHKO mechanics.
   noReflect?: boolean;
   status?: string;          // DoT damage: which status dealt it
 }
@@ -275,7 +276,8 @@ export class Battle {
 
     const mon = this.active(sideIndex);
     const actions: Action[] = [];
-    const usable = mon.skills.filter((id) => mon.pp[id] > 0);
+    const execution = this.forcedExecution(mon);
+    const usable = mon.skills.filter((id) => mon.pp[id] > 0 && (!execution || this.isAttackSkill(mon, id)));
     if (usable.length) {
       for (const id of usable) actions.push({ kind: 'move', skill: id });
       if (requiresTrainerSupportFallback(this, side)) actions.push({kind:'move',skill:STRUGGLE_SKILL.id});
@@ -382,6 +384,7 @@ export class Battle {
     if (side.pending) return side.pending;
     if (!this.isAuto(side)) throw new Error(`side ${side.index} has not submitted an action`);
     if (this.phase === 'replace') return chooseAiReplacement(this, side) ?? this.legalActions(side.index)[0];
+    if (this.forcedExecution(this.active(side.index))) return this.legalActions(side.index).find(action => action.kind === 'move')!;
     for (const action of this.fire(this.active(side.index), 'choose_action', {side})) {
       if (action && this.isLegal(side.index, action as Action)) return action as Action;
     }
@@ -435,14 +438,15 @@ export class Battle {
   private orderActions(actions: [Action, Action]): (0 | 1)[] {
     const rank = (i: 0 | 1) => {
       const a = actions[i];
-      if (a.kind !== 'move') return { cls: 1, pri: 0, spe: 0 };
+      if (a.kind !== 'move') return { cls: 1, execution: false, pri: 0, spe: 0 };
       const mon = this.active(i);
       const skill = this.skill(a.skill, mon);
-      return { cls: 0, pri: this.priority(mon, skill), spe: this.effStat(mon, 'spe') };
+      return { cls: 0, execution: this.forcedExecution(mon), pri: this.priority(mon, skill), spe: this.effStat(mon, 'spe') };
     };
     const r0 = rank(0), r1 = rank(1);
     if (r0.cls !== r1.cls) return r0.cls > r1.cls ? [0, 1] : [1, 0];
     if (r0.cls === 1) return [0, 1];
+    if (r0.execution !== r1.execution) return r0.execution ? [0, 1] : [1, 0];
     if (r0.pri !== r1.pri) return r0.pri > r1.pri ? [0, 1] : [1, 0];
     if (r0.spe !== r1.spe) return r0.spe > r1.spe ? [0, 1] : [1, 0];
     return this.rng.next() < 0.5 ? [0, 1] : [1, 0];
@@ -565,18 +569,25 @@ export class Battle {
   }
 
   private performMove(user: Mon, target: Mon, skill: Skill, actedFirst: boolean): void {
+    // This explicit encounter policy guarantees the next attack while active.
+    // Re-evaluate current HP so healing above the threshold ends the mode.
+    const execution = this.forcedExecution(user);
+    if (execution && !this.isAttackSkill(user, skill.id)) {
+      const attack = user.skills.find(id => user.pp[id] > 0 && this.isAttackSkill(user, id));
+      skill = attack === undefined ? STRUGGLE_SKILL : this.skill(attack, user);
+    }
     // 1. can act?
-    for (const { cond, hook } of this.hooksWithCond(user, 'before_move')) {
+    for (const { cond, hook } of execution ? [] : this.hooksWithCond(user, 'before_move')) {
       if (hook.prevent) {
         this.emit({ type: 'cant_act', side: user.side, reason: cond.id });
         return;
       }
     }
-    for (const r of this.fire(user, 'before_move', { skill, foe: target })) {
+    for (const r of execution ? [] : this.fire(user, 'before_move', { skill, foe: target })) {
       if (r === 'prevent') { this.emit({ type: 'cant_act', side: user.side, reason: 'script' }); return; }
     }
     const userSide = this.sides[user.side];
-    if (skill.id === STRUGGLE_SKILL.id && hasRule(userSide, 'no_struggle')) {
+    if (!execution && skill.id === STRUGGLE_SKILL.id && hasRule(userSide, 'no_struggle')) {
       this.emit({ type: 'cant_act', side: user.side, reason: 'no_pp' });
       return;
     }
@@ -594,6 +605,11 @@ export class Battle {
       : { skill: skill.id, count: 1, turn: this.turn };
     user.skillUses[skill.id] = (user.skillUses[skill.id] ?? 0) + 1;
     this.emit({ type: 'move_used', side: user.side, skill: skill.id, name: skill.name.zh });
+    if (execution) {
+      this.emit({ type: 'boss_trait', side: user.side, trait: 'forced_execution_below_pct' });
+      this.dealDamage(target, target.hp, { kind: 'true', source: user, skill, ohko: true, forcedExecution: true });
+      return;
+    }
     for (const { cond, hook } of this.hooksWithCond(user, 'before_move')) {
       if (hook.fail_chance && this.rng.chance(hook.fail_chance)) {
         this.emit({ type: 'move_failed', side: user.side, reason: cond.id });
@@ -887,7 +903,7 @@ export class Battle {
     }
 
     // boss rules protecting the target's side
-    const blocked = this.ruleBlocks(side, info, target);
+    const blocked = info.forcedExecution ? null : this.ruleBlocks(side, info, target);
     if (blocked) {
       this.emit({ type: 'damage_blocked', side: target.side, rule: blocked });
       return 0;
@@ -897,7 +913,7 @@ export class Battle {
     const capBroken = !!capBreak && target.conditions.some((c) => capBreak.statuses.includes(c.id)) && this.rng.chance(capBreak.chance);
     if (cap && info.kind !== 'true' && (!cap.categories || cap.categories.includes(info.skill?.category)) && !capBroken) dmg = Math.min(dmg, cap.amount);
     const floor = findRule(side, target, (r) => r.rule === 'hp_floor_until');
-    if (floor && !target.persist.floorBroken && !trueCost) {
+    if (floor && !target.persist.floorBroken && !trueCost && !info.forcedExecution) {
       const skills: number[] = floor.skills ?? [floor.skill];
       if (info.skill && skills.includes(info.skill.id) && src?.side !== target.side) target.persist.floorBroken = true;
       else dmg = Math.min(dmg, Math.max(0, target.hp - 1));
@@ -1258,6 +1274,17 @@ export class Battle {
     if (!r || (user.skillUses[skill.id] ?? 0) < (r.count ?? 1)) return;
     this.emit({ type: 'boss_fled', side: 1, skill: skill.id });
     this.finish(null, 'boss_fled');
+  }
+
+  /** Dynamic execution policy adopted for Moshidilu in V57. */
+  forcedExecution(mon: Mon): boolean {
+    const rule = findRule(this.sides[mon.side], mon, value => value.rule === 'forced_execution_below_pct');
+    return !!rule && !mon.fainted && mon.hp > 0 && mon.hp * 100 < mon.maxHp * rule.pct;
+  }
+
+  private isAttackSkill(mon: Mon, id: number): boolean {
+    const skill = this.skill(id, mon);
+    return skill.category !== 'status' && (skill.power > 0 || this.hasPowerOp(skill));
   }
 
   /** Boss traits that switch on below an HP threshold (rule) or from a phase op. */
@@ -1645,7 +1672,7 @@ export const NATIVE_BOSS_RULE_FIELDS:Record<string,readonly string[]> = {
   require_statuses:['count'], invulnerable_turns:['turns'],
   damage_only_from:['types','skills','categories','allow_categories','crit','super_effective','sure_hit','kinds'],
   type_rotation:['order'],
-  flee_after_skill:['skill','skills','count'], ohko_below_pct:['pct'], always_crit_below_pct:['pct'],
+  flee_after_skill:['skill','skills','count'], ohko_below_pct:['pct'], always_crit_below_pct:['pct'], forced_execution_below_pct:['pct'],
   player_level_cap:['level'], player_team_size:['min','max','min_level'],
 };
 

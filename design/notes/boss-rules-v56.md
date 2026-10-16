@@ -1,5 +1,10 @@
 # Boss rule execution audit, V56
 
+The unresolved-mechanic status below records the V56 audit. The user's V57
+decisions supersede those five entries; see
+[Boss user policies, V57](boss-user-policies-v57.md) for four explicit waivers,
+the strict-quarter Moshidilu replacement, and current execution counts.
+
 All 180 encounter files are classified in `data/boss-rule-support-v56.json`.
 The audit traverses encounter and member rules, all variants, phase operations,
 phase conditions and objectives. Its 592 handled entries describe execution

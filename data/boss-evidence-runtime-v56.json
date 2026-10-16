@@ -78,7 +78,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_aluobisi": {
       "fields": {
@@ -155,7 +156,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_buleike": {
       "fields": {
@@ -233,7 +235,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_baihu_avatars": {
       "fields": {
@@ -342,7 +345,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_baihu_body": {
       "fields": {
@@ -420,7 +424,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_baihu_guardians": {
       "fields": {
@@ -618,7 +623,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_body": {
       "fields": {
@@ -845,7 +851,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel1": {
       "fields": {
@@ -922,7 +929,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel2": {
       "fields": {
@@ -999,7 +1007,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel3": {
       "fields": {
@@ -1076,7 +1085,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel4": {
       "fields": {
@@ -1153,7 +1163,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel5": {
       "fields": {
@@ -1230,7 +1241,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qilin_wheel6": {
       "fields": {
@@ -1307,7 +1319,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qinglong_body": {
       "fields": {
@@ -1385,7 +1398,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_qinglong_guardians": {
       "fields": {
@@ -1553,7 +1567,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_xuanwu_body": {
       "fields": {
@@ -1631,7 +1646,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_xuanwu_guardians": {
       "fields": {
@@ -1859,7 +1875,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_zhuque_avatars": {
       "fields": {
@@ -1997,7 +2014,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_zhuque_body": {
       "fields": {
@@ -2075,7 +2093,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_campaign_zhuque_guardians": {
       "fields": {
@@ -2213,7 +2232,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door1_moyasha": {
       "fields": {
@@ -2292,7 +2312,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door2_beilujide": {
       "fields": {
@@ -2370,7 +2391,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door3_bafuluo": {
       "fields": {
@@ -2449,7 +2471,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door3_qilatadun": {
       "fields": {
@@ -2527,7 +2550,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door4_kelinkaxiu": {
       "fields": {
@@ -2605,7 +2629,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door4_xisalasi": {
       "fields": {
@@ -2683,7 +2708,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door5_hedeka": {
       "fields": {
@@ -2761,7 +2787,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door5_kaku": {
       "fields": {
@@ -2840,7 +2867,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door5_yilanluoni": {
       "fields": {
@@ -2918,7 +2946,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door6_aieryiluo": {
       "fields": {
@@ -2996,7 +3025,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door6_bulinkeke": {
       "fields": {
@@ -3076,7 +3106,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door6_sijiaerka": {
       "fields": {
@@ -3155,7 +3186,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door7_moerjiasi": {
       "fields": {
@@ -3233,7 +3265,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door7_mohuashizhe": {
       "fields": {
@@ -3311,7 +3344,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door7_sanuolasi": {
       "fields": {
@@ -3389,7 +3423,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door8_jialuode": {
       "fields": {
@@ -3466,7 +3501,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door8_paduoni": {
       "fields": {
@@ -3544,7 +3580,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door8_saduolani": {
       "fields": {
@@ -3621,7 +3658,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door9_akenuoya": {
       "fields": {
@@ -3699,7 +3737,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door9_bailuoyasi": {
       "fields": {
@@ -3777,7 +3816,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_door9_dipulide": {
       "fields": {
@@ -3855,7 +3895,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_dark_trial_katesi": {
       "fields": {
@@ -3934,7 +3975,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_gaia": {
       "fields": {
@@ -4014,7 +4056,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_kaxiusi": {
       "fields": {
@@ -4094,7 +4137,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_paluodiya": {
       "fields": {
@@ -4172,7 +4216,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal1": {
       "fields": {
@@ -4251,7 +4296,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal2": {
       "fields": {
@@ -4330,7 +4376,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal3": {
       "fields": {
@@ -4409,7 +4456,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal4": {
       "fields": {
@@ -4488,7 +4536,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal5": {
       "fields": {
@@ -4567,7 +4616,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal6": {
       "fields": {
@@ -4645,7 +4695,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_puni_seal7": {
       "fields": {
@@ -4725,7 +4776,16 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": [
+        {
+          "id": "v57-puni-seal7-accuracy",
+          "bossId": "boss_puni_seal7",
+          "disposition": "waived",
+          "mechanic": "reported_low_accuracy",
+          "note": "The user explicitly declined restoration of the reported low boss accuracy. No additional accuracy penalty is applied; existing behavior remains."
+        }
+      ]
     },
     "boss_puni_zhenshen": {
       "fields": {
@@ -4956,7 +5016,16 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": [
+        {
+          "id": "v57-puni-body-low-hp-accuracy",
+          "bossId": "boss_puni_zhenshen",
+          "disposition": "waived",
+          "mechanic": "reported_low_hp_player_accuracy",
+          "note": "The user explicitly declined restoration of the reported low-HP player accuracy rule. No extra encounter accuracy hook is applied; existing behavior remains."
+        }
+      ]
     },
     "boss_rei": {
       "fields": {
@@ -5037,7 +5106,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_rei_training1": {
       "fields": {
@@ -5118,7 +5188,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_rei_training2": {
       "fields": {
@@ -5199,7 +5270,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_rei_training3": {
       "fields": {
@@ -5280,7 +5352,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_rei_training4": {
       "fields": {
@@ -5361,7 +5434,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_rei_training5": {
       "fields": {
@@ -5442,7 +5516,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_ajiasha": {
       "fields": {
@@ -5519,7 +5594,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_akexiya": {
       "fields": {
@@ -5599,7 +5675,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_anyebinghu": {
       "fields": {
@@ -5676,7 +5753,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_basuoer": {
       "fields": {
@@ -5755,7 +5833,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_bokate": {
       "fields": {
@@ -5833,7 +5912,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_delasa": {
       "fields": {
@@ -5911,7 +5991,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_difute": {
       "fields": {
@@ -5992,7 +6073,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_eersaila": {
       "fields": {
@@ -6073,7 +6155,16 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": [
+        {
+          "id": "v57-eersaila-critical-curve",
+          "bossId": "boss_spt_eersaila",
+          "disposition": "waived",
+          "mechanic": "crit_rate_scales_with_hp_lost",
+          "note": "The user explicitly declined the unquantified critical-probability curve. The historical declaration is acknowledged without modifying critical probability; all weekday rules remain."
+        }
+      ]
     },
     "boss_spt_fuxisi": {
       "fields": {
@@ -6150,7 +6241,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_gangyasha": {
       "fields": {
@@ -6228,7 +6320,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_guerzhadi": {
       "fields": {
@@ -6305,7 +6398,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_hamoleite": {
       "fields": {
@@ -6386,7 +6480,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kailuoya": {
       "fields": {
@@ -6464,7 +6559,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kalunni": {
       "fields": {
@@ -6542,7 +6638,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kawoer": {
       "fields": {
@@ -6620,7 +6717,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kelaifen1": {
       "fields": {
@@ -6698,7 +6796,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kelaifen2": {
       "fields": {
@@ -6776,7 +6875,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kelanite1": {
       "fields": {
@@ -6856,7 +6956,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kelanite2": {
       "fields": {
@@ -6936,7 +7037,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_kenpeide": {
       "fields": {
@@ -7016,7 +7118,16 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": [
+        {
+          "id": "v57-kenpeide-reflection-window",
+          "bossId": "boss_spt_kenpeide",
+          "disposition": "waived",
+          "mechanic": "temporary_reflection_window",
+          "note": "The user explicitly declined reconstruction of the temporary reflection window. Existing configured reflection remains; no activation/duration/termination window is added."
+        }
+      ]
     },
     "boss_spt_kuli": {
       "fields": {
@@ -7093,7 +7204,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_lansite": {
       "fields": {
@@ -7171,7 +7283,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_laokemengde": {
       "fields": {
@@ -7250,7 +7363,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_leinaduo": {
       "fields": {
@@ -7329,7 +7443,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_liaosi": {
       "fields": {
@@ -7407,7 +7522,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_luolasike": {
       "fields": {
@@ -7482,7 +7598,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_minuosi": {
       "fields": {
@@ -7559,7 +7676,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_moduosa": {
       "fields": {
@@ -7637,7 +7755,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_moguguai": {
       "fields": {
@@ -7716,7 +7835,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_moshidilu": {
       "fields": {
@@ -7787,9 +7907,9 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70398.html",
+        "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
         "https://news.7k7k.com/content/20100527/7948.html",
         "https://news.7k7k.com/content/20110316/76862.html",
-        "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
         "https://www.weste.net/2010/9-15/72453.html"
       ],
       "summary": {
@@ -7797,7 +7917,20 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": [
+        {
+          "id": "v57-moshidilu-quarter-execution",
+          "bossId": "boss_spt_moshidilu",
+          "disposition": "replaced",
+          "mechanic": "forced_execution_below_pct",
+          "replaces": [
+            "ohko_attacks below 50%",
+            "damage_scales_with_hp_lost"
+          ],
+          "note": "The user adopted current HP strictly below 25% as a dynamic forced-first direct-KO attack rule. At 25% or above ordinary behavior resumes, including after healing. This replaces conflicting historical thresholds and an unquantified damage curve; it is not official-server certification."
+        }
+      ]
     },
     "boss_spt_naduolei": {
       "fields": {
@@ -7875,7 +8008,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_nainifenduo": {
       "fields": {
@@ -7955,7 +8089,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_nate": {
       "fields": {
@@ -8033,7 +8168,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_palisi": {
       "fields": {
@@ -8110,7 +8246,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_pitesaluo": {
       "fields": {
@@ -8187,7 +8324,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_pulante": {
       "fields": {
@@ -8265,7 +8403,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_ruiersi": {
       "fields": {
@@ -8342,7 +8481,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_saiweier": {
       "fields": {
@@ -8422,7 +8562,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_sibinsai": {
       "fields": {
@@ -8500,7 +8641,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_sikelu": {
       "fields": {
@@ -8577,7 +8719,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_silipu": {
       "fields": {
@@ -8656,7 +8799,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_sipulinte": {
       "fields": {
@@ -8735,7 +8879,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_situerte": {
       "fields": {
@@ -8814,7 +8959,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_takelin": {
       "fields": {
@@ -8894,7 +9040,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_taxiya": {
       "fields": {
@@ -8974,7 +9121,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_tiyasi": {
       "fields": {
@@ -9054,7 +9202,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_yalunsi": {
       "fields": {
@@ -9133,7 +9282,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_yisuoli": {
       "fields": {
@@ -9210,7 +9360,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_spt_younasi": {
       "fields": {
@@ -9290,7 +9441,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f001": {
       "fields": {
@@ -9367,7 +9519,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f002": {
       "fields": {
@@ -9444,7 +9597,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f003": {
       "fields": {
@@ -9521,7 +9675,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f004": {
       "fields": {
@@ -9598,7 +9753,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f005": {
       "fields": {
@@ -9675,7 +9831,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f006": {
       "fields": {
@@ -9752,7 +9909,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f007": {
       "fields": {
@@ -9829,7 +9987,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f008": {
       "fields": {
@@ -9906,7 +10065,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f009": {
       "fields": {
@@ -9983,7 +10143,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f010": {
       "fields": {
@@ -10060,7 +10221,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f011": {
       "fields": {
@@ -10137,7 +10299,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f012": {
       "fields": {
@@ -10214,7 +10377,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f013": {
       "fields": {
@@ -10291,7 +10455,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f014": {
       "fields": {
@@ -10368,7 +10533,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f015": {
       "fields": {
@@ -10445,7 +10611,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f016": {
       "fields": {
@@ -10522,7 +10689,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f017": {
       "fields": {
@@ -10599,7 +10767,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f018": {
       "fields": {
@@ -10676,7 +10845,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f019": {
       "fields": {
@@ -10753,7 +10923,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f020": {
       "fields": {
@@ -10830,7 +11001,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f021": {
       "fields": {
@@ -10907,7 +11079,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f022": {
       "fields": {
@@ -10984,7 +11157,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f023": {
       "fields": {
@@ -11061,7 +11235,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f024": {
       "fields": {
@@ -11138,7 +11313,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f025": {
       "fields": {
@@ -11215,7 +11391,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f026": {
       "fields": {
@@ -11292,7 +11469,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f027": {
       "fields": {
@@ -11369,7 +11547,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f028": {
       "fields": {
@@ -11446,7 +11625,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f029": {
       "fields": {
@@ -11523,7 +11703,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f030": {
       "fields": {
@@ -11600,7 +11781,8 @@
         "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f031": {
       "fields": {
@@ -11678,7 +11860,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f032": {
       "fields": {
@@ -11756,7 +11939,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f033": {
       "fields": {
@@ -11834,7 +12018,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f034": {
       "fields": {
@@ -11912,7 +12097,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f035": {
       "fields": {
@@ -11990,7 +12176,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f036": {
       "fields": {
@@ -12068,7 +12255,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f037": {
       "fields": {
@@ -12146,7 +12334,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f038": {
       "fields": {
@@ -12224,7 +12413,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f039": {
       "fields": {
@@ -12302,7 +12492,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f040": {
       "fields": {
@@ -12380,7 +12571,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f041": {
       "fields": {
@@ -12458,7 +12650,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f042": {
       "fields": {
@@ -12536,7 +12729,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f043": {
       "fields": {
@@ -12614,7 +12808,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f044": {
       "fields": {
@@ -12692,7 +12887,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f045": {
       "fields": {
@@ -12770,7 +12966,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f046": {
       "fields": {
@@ -12848,7 +13045,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f047": {
       "fields": {
@@ -12926,7 +13124,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f048": {
       "fields": {
@@ -13004,7 +13203,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f049": {
       "fields": {
@@ -13082,7 +13282,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f050": {
       "fields": {
@@ -13160,7 +13361,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f051": {
       "fields": {
@@ -13269,7 +13471,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f052": {
       "fields": {
@@ -13378,7 +13581,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f053": {
       "fields": {
@@ -13487,7 +13691,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f054": {
       "fields": {
@@ -13596,7 +13801,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f055": {
       "fields": {
@@ -13705,7 +13911,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f056": {
       "fields": {
@@ -13844,7 +14051,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f057": {
       "fields": {
@@ -13983,7 +14191,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f058": {
       "fields": {
@@ -14122,7 +14331,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f059": {
       "fields": {
@@ -14261,7 +14471,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f060": {
       "fields": {
@@ -14400,7 +14611,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f061": {
       "fields": {
@@ -14540,7 +14752,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f062": {
       "fields": {
@@ -14679,7 +14892,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f063": {
       "fields": {
@@ -14818,7 +15032,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f064": {
       "fields": {
@@ -14957,7 +15172,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f065": {
       "fields": {
@@ -15096,7 +15312,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f066": {
       "fields": {
@@ -15235,7 +15452,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f067": {
       "fields": {
@@ -15314,7 +15532,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f068": {
       "fields": {
@@ -15393,7 +15612,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f069": {
       "fields": {
@@ -15562,7 +15782,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_f070": {
       "fields": {
@@ -15731,7 +15952,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_tower_brave_mystery": {
       "fields": {
@@ -15809,7 +16031,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     },
     "boss_trial_brave_qigesa": {
       "fields": {
@@ -15886,7 +16109,8 @@
         "hasInferredLevel": true,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
-      }
+      },
+      "userPolicies": []
     }
   }
 }

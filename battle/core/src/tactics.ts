@@ -4,7 +4,7 @@ import type { Action, AiSpec, EffectOp, Hook, Skill, StageKey, When } from './ty
 import type { Battle, Mon, Side } from './battle.ts';
 import { STRUGGLE_SKILL } from './battle.ts';
 import { computeStats } from './stats.ts';
-import { accuracyStageMultiplier, stageMultiplier, STAB } from './constants.ts';
+import { accuracyStageMultiplier, stageMultiplier, STAB, RANDOM_MIN, RANDOM_MAX } from './constants.ts';
 import { attackTypes, effectiveness } from './typechart.ts';
 
 type View = Pick<Mon, 'side' | 'slot' | 'species' | 'level' | 'types' | 'stats' | 'maxHp' | 'hp' | 'stages' | 'conditions' | 'turnsActive' | 'rules'> & {observedMoves?:Skill[]};
@@ -162,6 +162,113 @@ function damage(b: Battle, self: View, foe: View, skill: Skill): number {
     amount += Math.max(0, Math.floor(bonus));
   }
   return Math.max(0, amount);
+}
+
+// A finishing opportunity is a decision tier, not another additive utility.
+// This proof remains relative to the public neutral-build opponent model.
+const predictablePredicates = new Set(['self_status','foe_status','self_no_status','foe_no_status','self_condition','foe_condition','self_hp_below_pct','self_hp_above_pct','foe_hp_below_pct','foe_hp_above_pct','self_type','foe_type','self_stage_up','foe_stage_up','self_stage_down','foe_stage_down','speed_faster']);
+function predictableWhen(w: When | undefined): boolean {
+  return !w || Object.entries(w).every(([key,value]) => key === 'all' || key === 'any' ? (value as When[]).every(predictableWhen) : key === 'not' ? predictableWhen(value as When) : predictablePredicates.has(key));
+}
+function priorityBounds(self: View, foe: View, skill: Skill): [number,number] {
+  let lo = skill.priority ?? 0, hi = lo;
+  for (const op of skill.effects ?? []) if (op.op === 'priority_if') {
+    // Engine priority predicates do not receive a skill context. Keep skill-
+    // dependent/unknown branches as bounds instead of inventing extra priority.
+    if (predictableWhen(op.when)) { if (when(op.when,self,foe,skill)) lo = hi = op.priority; }
+    else { lo = Math.min(lo,op.priority); hi = Math.max(hi,op.priority); }
+  }
+  return [lo,hi];
+}
+function uncertainFinishingHooks(self: Mon, foe: View): boolean {
+  for (const [mon,own] of [[self,true],[foe,false]] as const) for (const c of mon.conditions) for (const h of c.def.hooks) {
+    if (h.on === 'turn_start' && (h.script || h.effects?.length)) return true;
+    if (h.on === 'modify_priority' && h.script) return true;
+    if (h.on === 'modify_stat' && (h.script || h.when)) return true;
+    if (h.on === 'modify_accuracy' || h.on === 'modify_accuracy_taken' || h.on === 'modify_damage_dealt' || h.on === 'modify_damage_taken') {
+      if (h.script || h.when) return true;
+    }
+    if (own && h.on === 'before_move' && (h.prevent || (h.fail_chance ?? 0) > 0 || h.script && !(c.id === 'npc_gaia_evil_seal' && h.script === c.id))) return true;
+    if (own && ['modify_power','modify_damage_outgoing'].includes(h.on)) return true;
+    if (!own && ['block_move','on_foe_move','before_hit','modify_damage_final','on_faint'].includes(h.on)) return true;
+    if (!own && h.on === 'on_hurt' && (h.script || h.effects?.length || h.reflect_pct)) return true;
+    if (own && h.on === 'on_hit' && (h.effects?.length || h.script && !(c.id === 'npc_gaia_evil_seal' && h.script === c.id))) return true;
+  }
+  return false;
+}
+/** A narrow lower bound: no critical, lucky power proc, average hit count or live callback. */
+function finishingDamage(b: Battle, self: Mon, foe: View, skill: Skill): number {
+  if (skill.target === 'self' || skill.effects?.some(op => op.op === 'multi_hit' || op.op === 'revive')) return 0;
+  const scripts = skill.effects?.filter(op => op.op === 'script') ?? [];
+  const seaHeart = ordinaryTrainerDuel(b,self) && skill.id === 20143 && scripts.length === 1 && scripts[0].id === 'seer_eff_28' && scripts[0].params?.[0] === 4;
+  if (scripts.some(op => !(seaHeart || skill.id === 11924 && op.id === 'seer_eff_85'))) return 0;
+  if (scripts.some(op => {
+    const entry = b.script(op.id);
+    return !entry || entry.power || entry.priority || entry.accuracy || entry.defense || entry.modifyDamage || entry.finalDamage;
+  })) return 0;
+  if (rules(b,foe).some(r => ['damage_only_from','invulnerable_turns','damage_cap_per_hit','hp_floor_until','require_statuses','no_repeat_type','heal_full_below','type_rotation','forced_execution_below_pct'].includes(r.rule) || r.rule === 'lives' && r.count > 0)) return 0;
+  let power = skill.power;
+  for (const op of skill.effects ?? []) if (op.op === 'power_if') {
+    if (predictableWhen(op.when) && !when(op.when,self,foe,skill)) continue;
+    const certain = predictableWhen(op.when) && (op.chance ?? 100) >= 100;
+    if (op.power) power = certain ? op.power : Math.min(power,op.power);
+    if (op.multiplier) power *= certain ? op.multiplier : Math.min(1,op.multiplier);
+  }
+  power += skill.power_bonus ?? 0;
+  let amount = 0;
+  if (skill.category !== 'status' && power > 0) {
+    const physical = skill.category === 'physical';
+    const base = Math.floor((.4*self.level+2)*power*stat(self,physical?'atk':'spa')/Math.max(1,stat(foe,physical?'def':'spd'))/50)+2;
+    const eff = hasRule(b,foe,'ignore_type_chart') ? 1 : effectiveness(b.data.types,skill.type,foe.types);
+    const stab = attackTypes(b.data.types,skill.type).every(type=>self.types.includes(type)) ? STAB : 1;
+    let hit = base*eff*stab*RANDOM_MIN/RANDOM_MAX;
+    for (const h of hooks(self,'modify_damage_dealt',foe,skill)) if ((h.kinds??['attack']).includes('attack')) hit *= h.multiplier??1;
+    for (const h of hooks(foe,'modify_damage_taken',self,skill)) if ((h.kinds??['attack']).includes('attack')) hit *= h.multiplier??1;
+    amount = Math.max(0,Math.floor(hit));
+    if (eff === 0) return 0;
+  }
+  let simpleFollowups = true;
+  for (const op of skill.effects ?? []) {
+    if (['power_if','priority_if','crit_if'].includes(op.op)) continue;
+    if (!['fixed_damage','pct_damage'].includes(op.op) && !(seaHeart && op.op === 'script') || op.op === 'fixed_damage' && (op.amount??0) < 0) simpleFollowups = false;
+    // Later effects run after damage and earlier effects. Unknown state changes
+    // stay outside this lower bound instead of reusing their pre-move predicates.
+    if (!simpleFollowups || op.when || (op.chance??100) < 100 || effectTarget(op) !== 'foe') continue;
+    let fixed = 0;
+    if (op.op === 'fixed_damage' && !hasRule(b,foe,'immune_fixed_damage')) fixed = op.amount??0;
+    // Current-HP percentages depend on earlier random damage and per-effect
+    // rounding. They remain useful in ordinary scoring, not in the KO proof.
+    if (op.op === 'pct_damage' && op.pct_max_hp && !hasRule(b,foe,'immune_percent_damage')) fixed = Math.max(1,Math.floor(foe.maxHp*op.pct_max_hp/100));
+    if (seaHeart && op.op === 'script' && !hasRule(b,foe,'immune_percent_damage')) fixed = Math.floor(foe.maxHp/4);
+    const kind = op.op === 'fixed_damage' ? 'fixed' : 'percent';
+    for (const h of hooks(self,'modify_damage_dealt',foe,skill)) if ((h.kinds??['attack']).includes(kind)) fixed *= h.multiplier??1;
+    for (const h of hooks(foe,'modify_damage_taken',self,skill)) if ((h.kinds??['attack']).includes(kind)) fixed *= h.multiplier??1;
+    amount += Math.max(0,Math.floor(fixed));
+  }
+  // Preserve the attacker's own active seal boundary; never infer it from species or a teammate.
+  const seal = self.conditions.find(c=>c.id==='npc_gaia_evil_seal'&&c.turns>0);
+  const installedSeal = seal && ['before_move','on_hit'].every(on=>seal.def.hooks.some(h=>h.on===on&&h.script===seal.id)) && !!b.script(seal.id)?.hook;
+  if (simpleFollowups && amount > 0 && ['physical','special'].includes(skill.category) && installedSeal && !hasRule(b,foe,'immune_fixed_damage')) {
+    let bonus = 30;
+    for (const h of hooks(self,'modify_damage_dealt',foe,skill)) if ((h.kinds??['attack']).includes('fixed')) bonus *= h.multiplier??1;
+    for (const h of hooks(foe,'modify_damage_taken',self,skill)) if ((h.kinds??['attack']).includes('fixed')) bonus *= h.multiplier??1;
+    amount += Math.max(0,Math.floor(bonus));
+  }
+  return amount;
+}
+function immediateKoAction(b: Battle, self: Mon, foe: View): Action | undefined {
+  if (!ordinaryTrainerDuel(b,self) || uncertainFinishingHooks(self,foe)) return undefined;
+  const shown = observedMoves(b,foe);
+  if (shown.some(skill=>skill.effects?.some(op=>op.op==='script'&&b.script(op.id)?.priority))) return undefined;
+  const enemyPriority = Math.max(0,...shown.map(skill=>priorityBounds(foe,self,skill)[1]));
+  const candidates = b.legalActions(self.side).flatMap(action=>{
+    if (action.kind !== 'move') return [];
+    const skill = b.skill(action.skill,self), firstPriority = priorityBounds(self,foe,skill)[0];
+    if (firstPriority < enemyPriority || firstPriority === enemyPriority && stat(self,'spe') <= stat(foe,'spe') || hitChance(self,foe,skill) < 1) return [];
+    const minimum = finishingDamage(b,self,foe,skill);
+    return minimum >= foe.hp && minimum > 0 ? [{action,firstPriority,minimum}] : [];
+  });
+  return candidates.sort((a,z)=>z.firstPriority-a.firstPriority||z.minimum-a.minimum||(a.action as {skill:number}).skill-(z.action as {skill:number}).skill)[0]?.action;
 }
 
 /** Move announcements are public; switches/transformations delimit their owner. */
@@ -640,7 +747,10 @@ function battleAction(b: Battle, side: Side, ai: AiSpec, self: Mon, foe: View, b
 }
 
 export function tacticalAction(b: Battle, side: Side, ai: AiSpec): Action {
-  const self = b.active(side.index), foe = publicOpponent(b, self), best = bestMove(b, self, foe, ai);
+  const self = b.active(side.index), foe = publicOpponent(b, self);
+  const knockout = immediateKoAction(b,self,foe);
+  if (knockout) return knockout;
+  const best = bestMove(b, self, foe, ai);
   const fallback = battleAction(b, side, ai, self, foe, best);
   return potionAction(b, side, self, foe, best, fallback, ai) ?? fallback;
 }

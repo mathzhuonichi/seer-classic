@@ -27,6 +27,10 @@
   "rules": [
     {
       "rule": "ignore_type_chart"
+    },
+    {
+      "rule": "forced_execution_below_pct",
+      "pct": 25
     }
   ],
   "win": [
@@ -38,43 +42,12 @@
   "phases": [
     {
       "when": {
-        "self_hp_below_pct": 50
-      },
-      "do": [
-        {
-          "op": "script",
-          "id": "ohko_attacks",
-          "params": {
-            "target": "self",
-            "ignore_speed": true
-          }
-        }
-      ],
-      "once": true
-    },
-    {
-      "when": {
         "self_hp_below": 1000000
       },
       "do": [
         {
           "op": "script",
           "id": "block_new_status",
-          "params": {
-            "target": "self"
-          }
-        }
-      ],
-      "once": true
-    },
-    {
-      "when": {
-        "turn_ge": 1
-      },
-      "do": [
-        {
-          "op": "script",
-          "id": "damage_scales_with_hp_lost",
           "params": {
             "target": "self"
           }
@@ -109,14 +82,14 @@
     "zh": "在斯诺星岩洞挑战魔狮迪露（50级，总体力300万）；打败获得魔狮迪露精元（孵化得露露）。"
   },
   "strategy_notes": {
-    "zh": "靠叠加异常的百分比伤害：先上布布花/依卡莱恩寄生种子，再上冻伤（阿克希亚/依依）、烧伤（里奥斯）、中毒（毒粉），在它跌破一半体力之前叠满；或阿克希亚极度冰点、魔焰猩猩绝命火焰直接秒杀。"
+    "zh": "先叠加寄生、冻伤、烧伤或中毒的持续伤害；体力严格低于100万后无法新增异常，但已有异常继续生效。本作按用户选定规则：体力严格低于25%时，下一次攻击必先且必定击倒对手；恢复到25%及以上则退出该状态。"
   },
   "engine_notes": [
     "HP 3,000,000 in ONE battle (not a server-wide pool): every source frames it as a single fight beaten by stacking percentage damage — 寄生/冻伤/烧伤/中毒 each take 1/8 max HP (375,000) per turn, so 3-4 stacked statuses kill it in 2-3 turns. No source describes HP carrying over between battles, so no chain/carry_hp is used (correcting the foundation 7.2 guess).",
     "ignore_type_chart: 不受任何系精灵克制 — every hit on it uses multiplier 1.",
-    "ohko_attacks below 50% (体力少于150万: 秒杀任何精灵，无视任何副作用、无视速度、无视等级) — it acts first and every attack KOs. Later summaries (4399 2010-06-01, weste 2010-09, 7k7k 2011) give the threshold as 1/4; 50% is from the detailed 4399/7k7k boss pages.",
+    "V57 user-adopted policy: current HP strictly below 25% forces a damaging move before any opposing move priority or speed and directly KOs its target, bypassing accuracy and protection. Exactly 25% and above use ordinary behavior; healing ends this mode. Historical guides conflict between 50% and 25%, so this is an explicit remake decision, not an official-server claim.",
     "block_new_status strictly below 1,000,000 HP (他血低于100万时异常效果无效): use the absolute HP threshold, not a rounded percentage. New statuses fail; statuses already on it keep ticking.",
-    "damage_scales_with_hp_lost: 体力越少攻击越强 (no formula given).",
+    "V57 replaces the unquantified damage_scales_with_hp_lost declaration with the explicit below-25% execution policy. No gradual damage multiplier is inferred. All four unrelated waived mechanics are recorded in data/boss-user-policies-v57.json.",
     "Not immune to ohko ops: 极度冰点 and 绝命火焰 were standard answers.",
     "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
@@ -127,8 +100,6 @@
       "iv",
       "evs",
       "nature",
-      "ohko_threshold",
-      "damage_scaling",
       "era"
     ]
   },
@@ -139,5 +110,5 @@
     "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
     "https://www.weste.net/2010/9-15/72453.html"
   ],
-  "source_note": "4399 & 7k7k (2010-05/06): 50级 总体力300万, 不受任何系克制, 150万以下秒杀, 100万以下异常无效, 不免疫冻伤/烧伤/中毒/寄生."
+  "source_note": "4399 & 7k7k (2010-05/06): 50级 总体力300万, 不受任何系克制, 150万以下秒杀, 100万以下异常无效, 不免疫冻伤/烧伤/中毒/寄生. Runtime V57 threshold is separately user-adopted: strictly below 25%; conflicting historical thresholds are retained as provenance, not executed."
 }

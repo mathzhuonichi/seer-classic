@@ -3,17 +3,13 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 592,
-    "unsupportedEntries": 5,
-    "encountersWithUnsupported": [
-      "boss_puni_seal7",
-      "boss_puni_zhenshen",
-      "boss_spt_eersaila",
-      "boss_spt_kenpeide",
-      "boss_spt_moshidilu"
-    ],
-    "approximatedEntries": 119,
-    "unexpectedContractGaps": 0
+    "handledEntries": 590,
+    "unsupportedEntries": 0,
+    "encountersWithUnsupported": [],
+    "approximatedEntries": 118,
+    "unexpectedContractGaps": 0,
+    "waivedEntries": 4,
+    "replacementPolicies": 1
   },
   "bosses": [
     {
@@ -32,7 +28,9 @@
           "scope": "engine_notes/1",
           "reason": "Level, HP, rules and skills are NOT published in any source found; 100 / 10000 and the top learnset skills are placeholders."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_aluobisi",
@@ -70,7 +68,9 @@
           "scope": "engine_notes/2",
           "reason": "The 4399 page does not explicitly say the win gives a 精元 — the event was the way to obtain 阿洛比斯; essence of the base form 安普 (#1118) assumed, matching other 2012 essence pets."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_buleike",
@@ -123,7 +123,9 @@
           "scope": "engine_notes/3",
           "reason": "Location not stated in the 2011 guides (the encounter was reached from the 战神联盟 storyline / SPT panel)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_baihu_avatars",
@@ -159,7 +161,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_baihu_body",
@@ -208,7 +212,9 @@
           "scope": "engine_notes/1",
           "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_baihu_guardians",
@@ -309,7 +315,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_body",
@@ -462,7 +470,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel1",
@@ -510,7 +520,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel2",
@@ -573,7 +585,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel3",
@@ -636,7 +650,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel4",
@@ -700,7 +716,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel5",
@@ -727,7 +745,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qilin_wheel6",
@@ -776,7 +796,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qinglong_body",
@@ -840,7 +862,9 @@
           "scope": "engine_notes/2",
           "reason": "The reported fatigue exception is represented broadly by not blocking fatigue; source-specific exception matching is not recovered. Automatic low-HP speed growth remains unmodeled because its trigger is unquantified."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_qinglong_guardians",
@@ -905,7 +929,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_xuanwu_body",
@@ -960,7 +986,9 @@
           "scope": "engine_notes/2",
           "reason": "The reported fatigue exception is represented broadly by not blocking fatigue; source-specific exception matching is not recovered. Automatic low-HP speed growth remains unmodeled because its trigger is unquantified."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_xuanwu_guardians",
@@ -1018,7 +1046,9 @@
           "scope": "engine_notes/1",
           "reason": "The five non-Naduolei low-HP critical thresholds follow the quarter-HP report; the author explicitly expressed uncertainty about Naduolei."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_zhuque_avatars",
@@ -1063,7 +1093,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_zhuque_body",
@@ -1090,7 +1122,9 @@
           "scope": "engine_notes/1",
           "reason": "Exact boss speed, defensive scaling and skill policy are not recovered. Named-move prohibitions preserve source-supported trait instant kills."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_campaign_zhuque_guardians",
@@ -1102,7 +1136,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door1_moyasha",
@@ -1114,7 +1150,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door2_beilujide",
@@ -1126,7 +1164,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door3_bafuluo",
@@ -1147,7 +1187,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door3_qilatadun",
@@ -1159,7 +1201,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door4_kelinkaxiu",
@@ -1171,7 +1215,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door4_xisalasi",
@@ -1183,7 +1229,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door5_hedeka",
@@ -1195,7 +1243,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door5_kaku",
@@ -1207,7 +1257,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door5_yilanluoni",
@@ -1219,7 +1271,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door6_aieryiluo",
@@ -1252,7 +1306,9 @@
           "scope": "engine_notes/1",
           "reason": "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+1/spa+1 assumed, clearable."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door6_bulinkeke",
@@ -1306,7 +1362,9 @@
           "scope": "engine_notes/3",
           "reason": "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+1/spe+1 assumed. Level not published (等级未知), 100 assumed."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door6_sijiaerka",
@@ -1318,7 +1376,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door7_moerjiasi",
@@ -1330,7 +1390,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door7_mohuashizhe",
@@ -1350,7 +1412,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door7_sanuolasi",
@@ -1375,7 +1439,9 @@
           "scope": "engine_notes/1",
           "reason": "always_move_first: 无视攻击对手速度强制先手 — it acts first every turn regardless of speed (player priority moves assumed to still go first)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door8_jialuode",
@@ -1408,7 +1474,9 @@
           "scope": "engine_notes/1",
           "reason": "4399 says '消除强化后直接强攻', implying an innate boost; atk+1 assumed. Level not given; 100 assumed."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door8_paduoni",
@@ -1454,7 +1522,9 @@
           "scope": "engine_notes/2",
           "reason": "reflect_damage: 4399 says it 反弹伤害 without a figure; 25% is an estimate (it may instead be a skill effect)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door8_saduolani",
@@ -1493,7 +1563,9 @@
           "scope": "engine_notes/2",
           "reason": "Some later lists call this door's third boss 萨拉多尼; 4399 (2011) gives 萨多拉尼 No.661 龙系. Level not given; 100 assumed."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door9_akenuoya",
@@ -1513,7 +1585,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door9_bailuoyasi",
@@ -1531,7 +1605,9 @@
           "scope": "engine_notes/1",
           "reason": "Very fast and hard-hitting (攻强，克他的系也被他一招秒), low defence. 4399 spells the skills 裂风破斩刃/魔能风暴 (= 裂风破兵刃 11897 / 魔能暴风 10165). Level not given; 100 assumed."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_door9_dipulide",
@@ -1543,7 +1619,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_dark_trial_katesi",
@@ -1555,7 +1633,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_gaia",
@@ -1622,7 +1702,9 @@
           "scope": "engine_notes/3",
           "reason": "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_kaxiusi",
@@ -1649,7 +1731,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_paluodiya",
@@ -1672,7 +1756,9 @@
           "scope": "engine_notes/1",
           "reason": "Level, HP, rules and skills are NOT published in any source found; 80 / 5000 and the top learnset skills are placeholders."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal1",
@@ -1705,7 +1791,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal2",
@@ -1740,7 +1828,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal3",
@@ -1768,7 +1858,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal4",
@@ -1795,7 +1887,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal5",
@@ -1828,7 +1922,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal6",
@@ -1846,7 +1942,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_puni_seal7",
@@ -1870,14 +1968,18 @@
           "fields": []
         }
       ],
-      "unsupported": [
+      "unsupported": [],
+      "approximated": [],
+      "waived": [
         {
-          "rule": "reported_low_accuracy",
-          "scope": "engine_notes/0",
-          "reason": "Catalog notes report low boss accuracy, but no probability or trigger is recovered. No additional accuracy penalty is executed."
+          "id": "v57-puni-seal7-accuracy",
+          "bossId": "boss_puni_seal7",
+          "disposition": "waived",
+          "mechanic": "reported_low_accuracy",
+          "note": "The user explicitly declined restoration of the reported low boss accuracy. No additional accuracy penalty is applied; existing behavior remains."
         }
       ],
-      "approximated": []
+      "replacements": []
     },
     {
       "id": "boss_puni_zhenshen",
@@ -2031,14 +2133,18 @@
           "fields": []
         }
       ],
-      "unsupported": [
+      "unsupported": [],
+      "approximated": [],
+      "waived": [
         {
-          "rule": "reported_low_hp_player_accuracy",
-          "scope": "engine_notes/4",
-          "reason": "Catalog notes report player accuracy at 70% below 10000 HP. The applicable life and precise trigger have not been restored; no such encounter hook is currently executed. Ordinary critical defense-stage clearing is implemented separately."
+          "id": "v57-puni-body-low-hp-accuracy",
+          "bossId": "boss_puni_zhenshen",
+          "disposition": "waived",
+          "mechanic": "reported_low_hp_player_accuracy",
+          "note": "The user explicitly declined restoration of the reported low-HP player accuracy rule. No extra encounter accuracy hook is applied; existing behavior remains."
         }
       ],
-      "approximated": []
+      "replacements": []
     },
     {
       "id": "boss_rei",
@@ -2092,7 +2198,9 @@
           "scope": "engine_notes/5",
           "reason": "Innate boost stats not stated; atk+1 spe+1 assumed (it must be cleared with 叶绿光束 / 日月皆伤 style moves)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_rei_training1",
@@ -2134,7 +2242,9 @@
           "scope": "engine_notes/2",
           "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_rei_training2",
@@ -2181,7 +2291,9 @@
           "scope": "engine_notes/4",
           "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_rei_training3",
@@ -2244,7 +2356,9 @@
           "scope": "engine_notes/4",
           "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_rei_training4",
@@ -2303,7 +2417,9 @@
           "scope": "engine_notes/5",
           "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_rei_training5",
@@ -2382,7 +2498,9 @@
           "scope": "engine_notes/5",
           "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_ajiasha",
@@ -2407,7 +2525,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_akexiya",
@@ -2427,7 +2547,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_anyebinghu",
@@ -2511,7 +2633,9 @@
           "scope": "engine_notes/3",
           "reason": "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_basuoer",
@@ -2567,7 +2691,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_bokate",
@@ -2638,7 +2764,9 @@
           "scope": "engine_notes/1",
           "reason": "Innate atk+2 def+1 (clearable). 速度极慢 (spe x0.5 estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_delasa",
@@ -2671,7 +2799,9 @@
           "scope": "engine_notes/1",
           "reason": "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 5000 is an estimate."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_difute",
@@ -2702,7 +2832,9 @@
           "scope": "engine_notes/2",
           "reason": "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_eersaila",
@@ -2881,17 +3013,7 @@
           "implementation": "apply"
         }
       ],
-      "unsupported": [
-        {
-          "rule": "script",
-          "id": "crit_rate_scales_with_hp_lost",
-          "scope": "root/variants/5/rules/0",
-          "fields": [
-            "target"
-          ],
-          "reason": "No numeric probability curve is supplied or recovered; the reported direction is itself ambiguous. No invented curve is executed."
-        }
-      ],
+      "unsupported": [],
       "approximated": [
         {
           "rule": "catalog_reconstruction",
@@ -2914,7 +3036,17 @@
           "scope": "variants/fri",
           "reason": "The retained seven-revival cap is not established by the 2010-08-13 guide. Other period wording mentions an early-turn window; its exact interaction is unresolved. The cap is not presented as official."
         }
-      ]
+      ],
+      "waived": [
+        {
+          "id": "v57-eersaila-critical-curve",
+          "bossId": "boss_spt_eersaila",
+          "disposition": "waived",
+          "mechanic": "crit_rate_scales_with_hp_lost",
+          "note": "The user explicitly declined the unquantified critical-probability curve. The historical declaration is acknowledged without modifying critical probability; all weekday rules remain."
+        }
+      ],
+      "replacements": []
     },
     {
       "id": "boss_spt_fuxisi",
@@ -2941,7 +3073,9 @@
           "scope": "engine_notes/2",
           "reason": "Level/HP not published; 80 / 10000 estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_gangyasha",
@@ -2953,7 +3087,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_guerzhadi",
@@ -2965,7 +3101,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_hamoleite",
@@ -3020,7 +3158,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kailuoya",
@@ -3082,7 +3222,9 @@
           "scope": "engine_notes/4",
           "reason": "Level/HP not published; 80 / 10000 are estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kalunni",
@@ -3138,7 +3280,9 @@
           "scope": "engine_notes/4",
           "reason": "速度极其缓慢 — encoded as spe x0.5 (estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kawoer",
@@ -3198,7 +3342,9 @@
           "scope": "engine_notes/1",
           "reason": "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed from its 冰雷幻阵."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kelaifen1",
@@ -3210,7 +3356,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kelaifen2",
@@ -3222,7 +3370,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kelanite1",
@@ -3268,7 +3418,9 @@
           "scope": "engine_notes/3",
           "reason": "Skills: the Lv50 learnset top four (火光四溅/火龙的咆哮/龙族之力/进攻意识); HP not published (1500 estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kelanite2",
@@ -3315,7 +3467,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_kenpeide",
@@ -3367,13 +3521,7 @@
           "implementation": "apply"
         }
       ],
-      "unsupported": [
-        {
-          "rule": "temporary_reflection_window",
-          "scope": "rules",
-          "reason": "The 2011-01-17 guide describes a temporary shield and an ending cue. Current configuration has an always-active reflection rule; activation, duration and termination are not recovered."
-        }
-      ],
+      "unsupported": [],
       "approximated": [
         {
           "rule": "catalog_reconstruction",
@@ -3390,7 +3538,17 @@
           "scope": "engine_notes/3",
           "reason": "Skills not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
-      ]
+      ],
+      "waived": [
+        {
+          "id": "v57-kenpeide-reflection-window",
+          "bossId": "boss_spt_kenpeide",
+          "disposition": "waived",
+          "mechanic": "temporary_reflection_window",
+          "note": "The user explicitly declined reconstruction of the temporary reflection window. Existing configured reflection remains; no activation/duration/termination window is added."
+        }
+      ],
+      "replacements": []
     },
     {
       "id": "boss_spt_kuli",
@@ -3433,7 +3591,9 @@
           "scope": "engine_notes/0",
           "reason": "random_heal: 'has a chance to heal' (有几率回血) — chance and amount not given (20% / 10% max HP are placeholders). Its 星光奔腾击 already has 15% to heal 1/4 HP; the 'chance to heal' may simply be that effect."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_lansite",
@@ -3510,7 +3670,9 @@
           "scope": "engine_notes/1",
           "reason": "Once, when at low HP (残血), it heals a flat 500 HP; the exact threshold is not stated (20% assumed)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_laokemengde",
@@ -3616,7 +3778,9 @@
           "scope": "engine_notes/4",
           "reason": "Skills not named by sources; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_leinaduo",
@@ -3644,7 +3808,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_liaosi",
@@ -3681,7 +3847,9 @@
           "scope": "engine_notes/1",
           "reason": "Reward was not guaranteed (打败它有可能获得) — reward.chance 50 is an estimate; first_clear_items gives the 蓝武士装 suit part once."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_luolasike",
@@ -3727,7 +3895,9 @@
           "scope": "engine_notes/0",
           "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_minuosi",
@@ -3739,7 +3909,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_moduosa",
@@ -3783,7 +3955,9 @@
           "scope": "engine_notes/2",
           "reason": "Skills besides 决然一击 not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_moguguai",
@@ -3801,7 +3975,9 @@
           "scope": "engine_notes/3",
           "reason": "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_moshidilu",
@@ -3813,30 +3989,21 @@
           "implementation": "battle/core/src/battle.ts"
         },
         {
+          "rule": "forced_execution_below_pct",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/battle.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
         },
         {
-          "rule": "condition:self_hp_below_pct",
-          "scope": "root/phases/0/when",
-          "fields": [
-            "self_hp_below_pct"
-          ]
-        },
-        {
-          "rule": "phase_script",
-          "id": "ohko_attacks",
-          "scope": "root/phases/0/do/0",
-          "fields": [
-            "target",
-            "ignore_speed"
-          ],
-          "implementation": "apply"
-        },
-        {
           "rule": "condition:self_hp_below",
-          "scope": "root/phases/1/when",
+          "scope": "root/phases/0/when",
           "fields": [
             "self_hp_below"
           ]
@@ -3844,36 +4011,27 @@
         {
           "rule": "phase_script",
           "id": "block_new_status",
-          "scope": "root/phases/1/do/0",
+          "scope": "root/phases/0/do/0",
           "fields": [
             "target"
           ],
           "implementation": "apply"
-        },
-        {
-          "rule": "condition:turn_ge",
-          "scope": "root/phases/2/when",
-          "fields": [
-            "turn_ge"
-          ]
         }
       ],
-      "unsupported": [
+      "unsupported": [],
+      "approximated": [],
+      "waived": [],
+      "replacements": [
         {
-          "rule": "phase_script",
-          "id": "damage_scales_with_hp_lost",
-          "scope": "root/phases/2/do/0",
-          "fields": [
-            "target"
+          "id": "v57-moshidilu-quarter-execution",
+          "bossId": "boss_spt_moshidilu",
+          "disposition": "replaced",
+          "mechanic": "forced_execution_below_pct",
+          "replaces": [
+            "ohko_attacks below 50%",
+            "damage_scales_with_hp_lost"
           ],
-          "reason": "A period guide reports increasing damage as HP falls but gives no formula. No invented multiplier is executed."
-        }
-      ],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/4",
-          "reason": "damage_scales_with_hp_lost: 体力越少攻击越强 (no formula given)."
+          "note": "The user adopted current HP strictly below 25% as a dynamic forced-first direct-KO attack rule. At 25% or above ordinary behavior resumes, including after healing. This replaces conflicting historical thresholds and an unquantified damage curve; it is not official-server certification."
         }
       ]
     },
@@ -3893,7 +4051,9 @@
           "scope": "engine_notes/1",
           "reason": "防御极高 (4399: 'extremely high defence', authors guessed 2000-3000 HP from how long it took). HP 1400 per 4399 and 7k7k; def x1.5 encodes the high-defence remark (estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_nainifenduo",
@@ -3943,7 +4103,9 @@
           "scope": "engine_notes/2",
           "reason": "速度无敌: always_moves_first. 容易致命: crit_rate_up (+1, estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_nate",
@@ -4019,7 +4181,9 @@
           "scope": "engine_notes/2",
           "reason": "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_palisi",
@@ -4084,7 +4248,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_pitesaluo",
@@ -4137,7 +4303,9 @@
           "scope": "engine_notes/1",
           "reason": "Below half HP the player's pets' accuracy drops (血量降至一半时我方精灵命中率下降); encoded as a one-time foe acc -1, magnitude/repeat unknown."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_pulante",
@@ -4220,7 +4388,9 @@
           "scope": "engine_notes/3",
           "reason": "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_ruiersi",
@@ -4253,7 +4423,9 @@
           "scope": "engine_notes/2",
           "reason": "攻击力超高，基本可秒杀大部分精灵 — encoded as stat_multipliers atk 2.0 (estimate) on top of its ~2000 HP."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_saiweier",
@@ -4287,7 +4459,9 @@
           "scope": "engine_notes/3",
           "reason": "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_sibinsai",
@@ -4383,7 +4557,9 @@
           "scope": "engine_notes/2",
           "reason": "Innate boost exists (天生有强化，可消掉) but which stat is not stated; spa+1 is a guess. It CAN be cleared."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_sikelu",
@@ -4429,7 +4605,9 @@
           "scope": "engine_notes/0",
           "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_silipu",
@@ -4447,7 +4625,9 @@
           "scope": "engine_notes/1",
           "reason": "速度极慢 — spe x0.5 estimate."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_sipulinte",
@@ -4480,7 +4660,9 @@
           "scope": "engine_notes/1",
           "reason": "Innate boost implied by '先用盖亚消强化'; spa+1 assumed. HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_situerte",
@@ -4542,7 +4724,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_takelin",
@@ -4631,7 +4815,9 @@
           "scope": "engine_notes/1",
           "reason": "All skills crit 1/4 of the time (crit_rate_up +2 ≈ 25%, estimate); once its HP is below 10000 every attack is a crit (techbang: 体力降到10000以下时每次攻击必定致命一击) → phase at 76.9% of 13000. 4399 instead says it crits often below 1/4 HP."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_taxiya",
@@ -4705,7 +4891,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_tiyasi",
@@ -4758,7 +4946,9 @@
           "scope": "engine_notes/2",
           "reason": "它却容易致命一击: crit_rate_up +2 stages at battle start (magnitude is an estimate)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_yalunsi",
@@ -4814,7 +5004,9 @@
           "scope": "engine_notes/3",
           "reason": "Only 交错冰柱 is named (sina 2011); other slots from the learnset. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_yisuoli",
@@ -4899,7 +5091,9 @@
           "scope": "engine_notes/0",
           "reason": "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_spt_younasi",
@@ -4942,7 +5136,9 @@
           "scope": "engine_notes/1",
           "reason": "Status: 4399 (2010-06): 'BOSS不再受冻伤、中毒等异常状态影响' (a patch removed DoT cheese), yet 寄生种子 is still the core strategy in every 2010-2011 guide, so leech is NOT in the immunity list. Burn assumed immune with poison/freeze."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f001",
@@ -4960,7 +5156,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f002",
@@ -4978,7 +5176,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f003",
@@ -4996,7 +5196,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f004",
@@ -5014,7 +5216,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f005",
@@ -5032,7 +5236,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f006",
@@ -5050,7 +5256,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f007",
@@ -5068,7 +5276,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f008",
@@ -5086,7 +5296,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f009",
@@ -5104,7 +5316,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f010",
@@ -5122,7 +5336,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f011",
@@ -5140,7 +5356,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f012",
@@ -5158,7 +5376,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f013",
@@ -5176,7 +5396,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f014",
@@ -5194,7 +5416,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f015",
@@ -5212,7 +5436,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f016",
@@ -5230,7 +5456,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f017",
@@ -5248,7 +5476,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f018",
@@ -5266,7 +5496,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f019",
@@ -5284,7 +5516,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f020",
@@ -5302,7 +5536,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f021",
@@ -5320,7 +5556,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f022",
@@ -5338,7 +5576,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f023",
@@ -5356,7 +5596,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f024",
@@ -5374,7 +5616,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f025",
@@ -5392,7 +5636,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f026",
@@ -5410,7 +5656,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f027",
@@ -5428,7 +5676,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f028",
@@ -5446,7 +5696,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f029",
@@ -5464,7 +5716,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f030",
@@ -5482,7 +5736,9 @@
           "scope": "engine_notes/1",
           "reason": "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f031",
@@ -5494,7 +5750,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f032",
@@ -5506,7 +5764,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f033",
@@ -5518,7 +5778,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f034",
@@ -5530,7 +5792,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f035",
@@ -5542,7 +5806,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f036",
@@ -5554,7 +5820,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f037",
@@ -5566,7 +5834,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f038",
@@ -5578,7 +5848,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f039",
@@ -5590,7 +5862,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f040",
@@ -5602,7 +5876,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f041",
@@ -5614,7 +5890,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f042",
@@ -5626,7 +5904,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f043",
@@ -5638,7 +5918,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f044",
@@ -5650,7 +5932,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f045",
@@ -5662,7 +5946,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f046",
@@ -5674,7 +5960,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f047",
@@ -5686,7 +5974,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f048",
@@ -5698,7 +5988,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f049",
@@ -5710,7 +6002,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f050",
@@ -5736,7 +6030,9 @@
           "scope": "engine_notes/3",
           "reason": "heal_full_below: when 水晶鸭 drops below 100 HP it refills to full (900) — 4399: 当血低于100时会回满900. Whether this repeats or happens once is not stated; repeat assumed (classic answer: one-shot it from >100 with 一击致命)."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f051",
@@ -5748,7 +6044,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f052",
@@ -5760,7 +6058,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f053",
@@ -5772,7 +6072,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f054",
@@ -5784,7 +6086,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f055",
@@ -5796,7 +6100,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f056",
@@ -5808,7 +6114,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f057",
@@ -5820,7 +6128,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f058",
@@ -5832,7 +6142,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f059",
@@ -5844,7 +6156,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f060",
@@ -5863,7 +6177,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f061",
@@ -5875,7 +6191,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f062",
@@ -5896,7 +6214,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f063",
@@ -5908,7 +6228,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f064",
@@ -5930,7 +6252,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f065",
@@ -5951,7 +6275,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f066",
@@ -5963,7 +6289,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f067",
@@ -5975,7 +6303,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f068",
@@ -5987,7 +6317,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f069",
@@ -5999,7 +6331,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_f070",
@@ -6029,7 +6363,9 @@
         }
       ],
       "unsupported": [],
-      "approximated": []
+      "approximated": [],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_tower_brave_mystery",
@@ -6056,7 +6392,9 @@
           "scope": "engine_notes/3",
           "reason": "Unlock after 60F is assumed (the source lists it after 60F); the 谱尼 seal line was entered from the same 神秘领域 via the lamps beside the tower."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     },
     {
       "id": "boss_trial_brave_qigesa",
@@ -6079,7 +6417,9 @@
           "scope": "engine_notes/1",
           "reason": "Level/HP not published; the boss went down to one big hit, so Lv60 / 1000 HP are low-confidence estimates."
         }
-      ]
+      ],
+      "waived": [],
+      "replacements": []
     }
   ]
 }

@@ -13,6 +13,11 @@ function fieldMembers(battle:Battle,owner:Mon,sides:string):Mon[] {
 }
 
 export const RECOVERED_BOSS_SCRIPTS:ScriptRegistry = {
+  // Explicitly waived by the user in V57. Retain the historical declaration,
+  // but do not invent or silently claim to implement its probability curve.
+  crit_rate_scales_with_hp_lost:{install:c=>{
+    c.battle.emit({type:'mechanic_waived',side:c.mon.side,policy:'v57-eersaila-critical-curve'});
+  }},
   // This script changes the encounter before construction, where the saved
   // attempt counter is available. The battle core must not apply it twice.
   level_drops_per_attempt:{install:()=>{}},

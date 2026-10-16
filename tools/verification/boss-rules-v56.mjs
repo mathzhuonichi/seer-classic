@@ -5,7 +5,8 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {createBattle,buildDataSet,validateEncounter} from '../../battle/core/src/index.ts';
-import {NATIVE_BOSS_RULE_FIELDS} from '../../battle/core/src/battle.ts';
+import {NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL} from '../../battle/core/src/battle.ts';
+import {legacySmartPick} from '../../battle/core/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/mechanics/campaign-rules.ts';
 
@@ -34,10 +35,8 @@ const contracts={
   field_damage_multiplier:['multiplier','sides'],revive_unless_status_ko:['max_revives','through_turn'],ohko_attacks:['ignore_speed'],
   block_new_status:[],boss_fled:[],
 };
-const knownMissing={
-  crit_rate_scales_with_hp_lost:'No numeric probability curve is supplied or recovered; the reported direction is itself ambiguous. No invented curve is executed.',
-  damage_scales_with_hp_lost:'A period guide reports increasing damage as HP falls but gives no formula. No invented multiplier is executed.',
-};
+const policyLedger=read('data/boss-user-policies-v57.json');
+const policyFor=(bossId,mechanic)=>policyLedger.policies.find(policy=>policy.bossId===bossId&&policy.mechanic===mechanic);
 const phaseOps={stat_stage:['target','stats'],revive:['pct_max_hp'],set_ai:['ai']};
 const whenKeys=new Set(['first_turn','on_faint','self_hp_below_pct','self_hp_below','turn_ge']);
 const objectiveKinds=new Set(['ko_all','turn_limit','finish_with_crit','ko_after_turn','finish_with_skill','use_skill','finish_with_status_damage']);
@@ -45,7 +44,7 @@ const support={schemaVersion:1,scope:'Every top-level encounter, team member, va
 const unexpected=[];
 
 for(const boss of bosses){
-  const row={id:boss.id,handled:[],unsupported:[],approximated:[]};
+  const row={id:boss.id,handled:[],unsupported:[],approximated:[],waived:policyLedger.policies.filter(policy=>policy.bossId===boss.id&&policy.disposition==='waived'),replacements:policyLedger.policies.filter(policy=>policy.bossId===boss.id&&policy.disposition==='replaced')};
   function visit(value,scope='root',key=''){
     if(!value||typeof value!=='object')return;
     if(value.rule||value.op==='script'||value.kind==='script'){
@@ -57,7 +56,9 @@ for(const boss of bosses){
         const unknown=Object.keys(value).filter(key=>!['rule','member',...(fields??[])].includes(key));
         if(!fields||unknown.length){entry.reason=`Unsupported native rule or fields: ${unknown.join(',')||value.rule}`;row.unsupported.push(entry);unexpected.push({boss:boss.id,...entry});}
         else row.handled.push({...entry,implementation:'battle/core/src/battle.ts'});
-      }else if(knownMissing[value.id])row.unsupported.push({...entry,reason:knownMissing[value.id]});
+      }else if(policyFor(boss.id,value.id)?.disposition==='waived'){
+        assert.equal(typeof scripts[value.id]?.[mode==='rule'?'install':'apply'],'function','waived script must be acknowledged explicitly');
+      }
       else {
         const script=scripts[value.id],fn=mode==='rule'?'install':'apply';
         const native=aliases[value.id],fields=native?NATIVE_BOSS_RULE_FIELDS[native]:contracts[value.id];
@@ -85,18 +86,15 @@ for(const boss of bosses){
   // These are explicit retained reconstruction choices, not newly inferred values.
   for(const [index,note]of (boss.engine_notes??[]).entries())if(/assum|estimat|unclear|placeholder|not stated|unknown|no formula|not recovered|uncertif|uncertain|no .*source/i.test(note)&&!/^(skills:|reward:|HP |Level )/.test(note))row.approximated.push({rule:'catalog_reconstruction',scope:`engine_notes/${index}`,reason:note});
   if(boss.id==='boss_spt_eersaila')row.approximated.push({rule:'script',id:'revive_unless_status_ko',scope:'variants/fri',reason:'The retained seven-revival cap is not established by the 2010-08-13 guide. Other period wording mentions an early-turn window; its exact interaction is unresolved. The cap is not presented as official.'});
-  if(boss.id==='boss_spt_kenpeide')row.unsupported.push({rule:'temporary_reflection_window',scope:'rules',reason:'The 2011-01-17 guide describes a temporary shield and an ending cue. Current configuration has an always-active reflection rule; activation, duration and termination are not recovered.'});
-  if(boss.id==='boss_puni_seal7')row.unsupported.push({rule:'reported_low_accuracy',scope:'engine_notes/0',reason:'Catalog notes report low boss accuracy, but no probability or trigger is recovered. No additional accuracy penalty is executed.'});
-  if(boss.id==='boss_puni_zhenshen')row.unsupported.push({rule:'reported_low_hp_player_accuracy',scope:'engine_notes/4',reason:'Catalog notes report player accuracy at 70% below 10000 HP. The applicable life and precise trigger have not been restored; no such encounter hook is currently executed. Ordinary critical defense-stage clearing is implemented separately.'});
   support.bosses.push(row);
 }
-support.summary={encounters:bosses.length,handledEntries:support.bosses.reduce((n,row)=>n+row.handled.length,0),unsupportedEntries:support.bosses.reduce((n,row)=>n+row.unsupported.length,0),encountersWithUnsupported:support.bosses.filter(row=>row.unsupported.length).map(row=>row.id),approximatedEntries:support.bosses.reduce((n,row)=>n+row.approximated.length,0),unexpectedContractGaps:unexpected.length};
+support.summary={encounters:bosses.length,handledEntries:support.bosses.reduce((n,row)=>n+row.handled.length,0),unsupportedEntries:support.bosses.reduce((n,row)=>n+row.unsupported.length,0),encountersWithUnsupported:support.bosses.filter(row=>row.unsupported.length).map(row=>row.id),approximatedEntries:support.bosses.reduce((n,row)=>n+row.approximated.length,0),unexpectedContractGaps:unexpected.length,waivedEntries:policyLedger.policies.filter(policy=>policy.disposition==='waived').length,replacementPolicies:policyLedger.policies.filter(policy=>policy.disposition==='replaced').length};
 const supportPath=path.join(root,'data/boss-rule-support-v56.json');
 if(process.argv.includes('--write-support'))fs.writeFileSync(supportPath,JSON.stringify(support,null,2)+'\n');
 
 const report={checks:[],failures:[],smoke:[],summary:support.summary,limits:[
   'No browser, controller, user save, server or network is used. Boss JSON and full battle mechanics remain real; player HP is enlarged for finite-state smoke coverage.',
-  'This is execution compatibility, not historical certification. Two unquantified scaling scripts remain absent and are listed as unsupported.',
+  'This is execution compatibility, not historical certification. Four explicitly declined mechanics are listed as waived; the below-25-percent execution rule is an authored user policy, not official behavior.',
   'Deterministic focused probes exercise public battle operations and selected internal hooks without replacing rule handlers.',
 ]};
 const check=(name,fn)=>{try{fn();report.checks.push(name);console.log(`PASS ${name}`);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
@@ -111,12 +109,12 @@ check('All 180 encounters, variants, member rules, phases and objectives have an
   assert.equal(bosses.length,180);assert.deepEqual(unexpected,[]);assert.equal(support.bosses.length,180);
   if(fs.existsSync(supportPath))assert.deepEqual(read('data/boss-rule-support-v56.json'),support,'committed support manifest matches current sources');
 });
-check('Every actual boss and variant remains finite over bounded real turns; only declared missing scripts warn',()=>{
+check('Every actual boss and variant remains finite over bounded real turns with no unknown-script warnings',()=>{
   for(const boss of bosses)for(const variant of [undefined,...(boss.variants??[]).map(value=>value.id)]){
     const original=JSON.stringify(boss),battle=createBattle({data,scripts,encounter:boss,variant,seed:56,sides:[player([20001],6)]});
     for(let turn=0;turn<4&&!battle.result;turn++)tick(battle);
     for(const side of battle.sides)for(const mon of side.team){assert(Number.isFinite(mon.hp),`${boss.id}/${variant} HP`);assert(Number.isFinite(mon.maxHp));for(const stat of Object.values(mon.stats))assert(Number.isFinite(stat));}
-    for(const warning of battle.warnings)assert(Object.keys(knownMissing).some(id=>warning.endsWith(id)),`${boss.id}/${variant}: ${warning}`);
+    assert.deepEqual(battle.warnings,[],`${boss.id}/${variant}: no unknown scripts`);
     assert.equal(JSON.stringify(boss),original,'constructor and aliases do not mutate input');
     report.smoke.push({id:boss.id,variant:variant??null,turns:battle.turn,warnings:battle.warnings});
   }
@@ -180,12 +178,61 @@ check('Eersaila Friday revival stays live before settlement and poison, burn or 
   for(const status of ['poison','burn','freeze']){const value=make('boss_spt_eersaila','fri'),enemy=value.active(1);value.dealDamage(enemy,enemy.hp,{kind:'percent',status});assert.equal(enemy.fainted,true);assert.equal(value.result.success,true);}
 });
 check('Moshidilu absolute status threshold is exact at one million and retains existing statuses',()=>{
-  const battle=make('boss_spt_moshidilu'),mon=battle.active(1);mon.hp=1000001;assert.equal(battle.applyStatus(mon,'poison',{turns:5}),true);hit(battle,mon,1);assert.equal(mon.hp,1000000);assert.equal(battle.applyStatus(mon,'burn',{turns:5}),true);hit(battle,mon,1);assert.equal(battle.applyStatus(mon,'freeze',{turns:5}),false);assert(mon.conditions.some(condition=>condition.id==='poison'));assert(mon.conditions.some(condition=>condition.id==='burn'));assert.equal(battle.bossTrait(mon,'ohko_below_pct'),true);assert.equal(battle.priority(mon,data.skills.get(mon.skills[0])),Number.MAX_SAFE_INTEGER);
+  const battle=make('boss_spt_moshidilu'),mon=battle.active(1);mon.hp=1000001;assert.equal(battle.applyStatus(mon,'poison',{turns:5}),true);hit(battle,mon,1);assert.equal(mon.hp,1000000);assert.equal(battle.applyStatus(mon,'burn',{turns:5}),true);hit(battle,mon,1);assert.equal(battle.applyStatus(mon,'freeze',{turns:5}),false);assert(mon.conditions.some(condition=>condition.id==='poison'));assert(mon.conditions.some(condition=>condition.id==='burn'));assert.equal(battle.bossTrait(mon,'ohko_below_pct'),false);assert.equal(battle.forcedExecution(mon),false,'one million boundary does not enable quarter-HP execution');
 });
 check('Moshidilu incoming type immunity does not neutralize its outgoing type effectiveness',()=>{
   const battle=make('boss_spt_moshidilu'),mon=battle.active(1),foe=battle.active(0),move=skill('ground');
   const outgoing=battle.calcAttack(mon,foe,move,undefined,{estimate:true}),incoming=battle.calcAttack(foe,mon,move,undefined,{estimate:true});
   assert.equal(outgoing.effectiveness,2);assert.equal(incoming.effectiveness,1);
+});
+const ordinaryMoshi=()=>make('boss_spt_moshidilu',undefined,{sides:[{kind:'player',team:[{species:70,level:100,iv:31,nature:'hardy',evs:{},skills:[20001,10166]}]}]});
+const moveEvents=events=>events.filter(event=>event.type==='move_used');
+check('Moshidilu execution is strictly below 25 percent; exact boundary and above use normal attacks',()=>{
+  for(const hp of [749999,750000,750001]){
+    const battle=ordinaryMoshi(),mon=battle.active(1),foe=battle.active(0);mon.hp=hp;
+    assert(foe.maxHp<1000,'real ordinary player HP, not smoke HP');
+    assert.equal(battle.forcedExecution(mon),hp<750000);
+    if(hp>=750000){battle.submit(1,{kind:'move',skill:10540});battle.submit(0,{kind:'move',skill:20001});const events=battle.resolveTurn();assert(foe.hp>0);assert(!events.some(event=>event.trait==='forced_execution_below_pct'));}
+  }
+});
+check('Below-quarter execution chooses an attack over the unused status move selected by legacy AI',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1);mon.hp=749999;
+  const priorPick=legacySmartPick(battle,mon,mon.skills.filter(id=>mon.pp[id]>0));assert.equal(battle.skill(priorPick).category,'status');
+  battle.submit(0,{kind:'move',skill:10166});const events=battle.resolveTurn(),moves=moveEvents(events);
+  assert.equal(moves[0].side,1);assert.notEqual(battle.skill(moves[0].skill).category,'status');assert.equal(mon.pp[moves[0].skill],mon.maxPp[moves[0].skill]-1);
+  assert.equal(battle.active(0).hp,0);assert.equal(battle.result.winner,1);assert.equal(moves.length,1);
+});
+check('Execution outranks even maximum ordinary priority and higher speed, independent of tie RNG',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1),foe=battle.active(0);mon.hp=749999;foe.stats.spe=1000000;
+  foe.skillOverrides={10166:{...data.skills.get(10166),priority:Number.MAX_SAFE_INTEGER}};
+  battle.submit(0,{kind:'move',skill:10166});const moves=moveEvents(battle.resolveTurn());assert.equal(moves[0].side,1);assert.equal(foe.hp,0);assert.equal(moves.length,1);
+});
+check('Healing to the quarter boundary disables forced order and execution immediately',()=>{
+  for(const heal of [1,2,2250001]){
+    const battle=ordinaryMoshi(),mon=battle.active(1),foe=battle.active(0);mon.hp=749999;assert(battle.forcedExecution(mon));battle.heal(mon,heal);assert(!battle.forcedExecution(mon));
+    foe.skillOverrides={20001:{...data.skills.get(20001),priority:100}};battle.submit(0,{kind:'move',skill:20001});const events=battle.resolveTurn(),moves=moveEvents(events);
+    assert.equal(moves[0].side,0);assert(foe.hp>0);assert(!events.some(event=>event.trait==='forced_execution_below_pct'));
+  }
+});
+check('Execution falls back to Struggle when attack PP is gone even with status PP remaining',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1);mon.hp=749999;mon.pp[10540]=0;mon.pp[10543]=0;
+  assert(mon.pp[20232]>0);assert.deepEqual(battle.legalActions(1).filter(action=>action.kind==='move'),[{kind:'move',skill:STRUGGLE_SKILL.id}]);
+  battle.submit(0,{kind:'move',skill:10166});const moves=moveEvents(battle.resolveTurn());assert.equal(moves[0].side,1);assert.equal(moves[0].skill,STRUGGLE_SKILL.id);assert.equal(battle.active(0).hp,0);
+});
+check('The adopted execution bypasses protection, evasion, incapacitation and ordinary OHKO floors',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1),foe=battle.active(0);
+  battle.applyStatus(mon,'fear',{turns:3});mon.hp=749999;mon.stages.acc=-6;foe.stages.eva=6;
+  battle.addCondition(foe,{id:'v57-protection-probe',name:{zh:'Protection probe'},kind:'other',hooks:[{on:'block_move'},{on:'modify_damage_taken',multiplier:0}]});
+  foe.rules.push({rule:'immune_ohko'},{rule:'hp_floor_until',skill:10001});
+  battle.submit(0,{kind:'move',skill:10166});const events=battle.resolveTurn();assert.equal(moveEvents(events)[0].side,1);assert.equal(foe.hp,0);
+  assert(!events.some(event=>['miss','protected','cant_act','damage_blocked'].includes(event.type)));
+});
+check('Entering execution during the opponent attack converts an already selected status move to an attack',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1);mon.hp=750001;battle.submit(0,{kind:'move',skill:10166});const events=battle.resolveTurn(),moves=moveEvents(events);
+  assert.equal(moves[0].side,0);assert(mon.hp<750000);assert.equal(moves[1].side,1);assert.notEqual(battle.skill(moves[1].skill).category,'status');assert.equal(battle.active(0).hp,0);
+});
+check('Execution adds no immortality against existing poison damage',()=>{
+  const battle=ordinaryMoshi(),mon=battle.active(1);battle.applyStatus(mon,'poison',{turns:3});mon.hp=1;battle.endOfTurn();assert.equal(mon.hp,0);assert.equal(mon.fainted,true);assert.equal(battle.result.winner,0);
 });
 check('All three Laokemengde fields operate on both active sides, including replacements, once per member',()=>{
   const heal=make('boss_spt_laokemengde','healing_field',{sides:[player([20001],2)]});for(const mon of [heal.active(0),heal.active(1)])mon.hp=100;heal.endOfTurn();assert.equal(heal.active(0).hp,100+heal.active(0).maxHp*.1);assert.equal(heal.active(1).hp,100+heal.active(1).maxHp*.1);
@@ -206,8 +253,10 @@ check('Entry validation enforces required species, minimum party size and every 
   for(let n=1;n<=5;n++){const boss=byId.get(`boss_rei_training${n}`);assert.deepEqual(validateEncounter(boss,player()),[]);const wrong=player();wrong.team[0].species=1;assert(validateEncounter(boss,wrong).length);assert(validateEncounter(boss,player([20001],2)).length);}
   const mystery=byId.get('boss_tower_brave_mystery');assert(validateEncounter(mystery,player([20001],5)).length);assert.deepEqual(validateEncounter(mystery,player([20001],6)),[]);const low=player([20001],6);low.team[5].level=99;assert(validateEncounter(mystery,low).length);
 });
-check('Unsupported mechanics are explicit and defensive healing cannot propagate NaN',()=>{
-  for(const [id,scriptId]of [['boss_spt_eersaila','crit_rate_scales_with_hp_lost'],['boss_spt_moshidilu','damage_scales_with_hp_lost']])assert(support.bosses.find(row=>row.id===id).unsupported.some(row=>row.id===scriptId));
+check('Four declined mechanics and one authored replacement are explicit; defensive healing cannot propagate NaN',()=>{
+  assert.equal(support.summary.unsupportedEntries,0);assert.equal(support.summary.waivedEntries,4);assert.equal(support.summary.replacementPolicies,1);
+  const eer=make('boss_spt_eersaila','sat');tick(eer);assert(eer.initialEvents.some(event=>event.type==='mechanic_waived'&&event.policy==='v57-eersaila-critical-curve'));assert.deepEqual(eer.warnings,[]);
+  assert(!byId.get('boss_spt_moshidilu').phases.some(phase=>phase.do.some(op=>['ohko_attacks','damage_scales_with_hp_lost'].includes(op.id))));
   const battle=make('boss_tower_brave_f001'),mon=battle.active(1),hp=mon.hp;assert.equal(battle.heal(mon,NaN),0);assert.equal(mon.hp,hp);assert(battle.warnings.includes('non-finite heal amount rejected'));
 });
 check('Boss catalog inputs remain byte-equivalent in memory',()=>{assert.equal(JSON.stringify(bosses),fullInput);});

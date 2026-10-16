@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 FIELDS = ("level", "iv", "evs", "nature", "hp", "skills")
 RANK = {"official": 0, "observed": 1, "authored": 2, "inferred": 3}
 SOURCES: dict[str, dict] = {}
+USER_POLICY_LEDGER = json.loads((ROOT / "data/boss-user-policies-v57.json").read_text())
 
 
 def source(url: str, scope: str = "Listed by an encounter; no field verified by URL presence.",
@@ -105,6 +106,12 @@ def rule_nodes(value, path: str = "", condition: dict | None = None):
 
 def rule_proof(boss_id: str, path: str, node: dict) -> dict:
     symbol = node.get("id", node.get("rule", node.get("op")))
+    if boss_id == "boss_spt_moshidilu" and symbol == "forced_execution_below_pct":
+        if node != {"rule": "forced_execution_below_pct", "pct": 25}:
+            raise ValueError("Moshidilu no longer matches the user-adopted strict-quarter policy.")
+        return evidence("authored", "user-adopted-policy", "The user explicitly chose strict current HP below 25%, forced-first attacking and direct KO, with ordinary behavior restored at 25% or above. Historical guides conflict between half and quarter HP; this is a remake policy, not server certification.", [MOSHI, CLASSIC], policyId="v57-moshidilu-quarter-execution")
+    if boss_id == "boss_spt_eersaila" and symbol == "crit_rate_scales_with_hp_lost":
+        return evidence("authored", "user-waived-mechanic", "The historical qualitative probability claim remains unquantified and is explicitly omitted by user request; no numerical curve is executed.", [EER], policyId="v57-eersaila-critical-curve", scopeStatus="waived")
     specific = {
         ("boss_spt_moshidilu", "ignore_type_chart"): (MOSHI, "Neutral type interaction is explicitly reported."),
         ("boss_spt_moshidilu", "damage_scales_with_hp_lost"): (MOSHI, "Damage increases as HP falls; no formula is reported."),
@@ -229,12 +236,16 @@ def build() -> tuple[dict, dict]:
         raise ValueError("Encounter scope changed; review the expected 180 encounters / 240 members before regenerating.")
     curate(entries)
     for entry in entries.values():
+        entry["userPolicies"] = [deepcopy(policy) for policy in USER_POLICY_LEDGER["policies"] if policy["bossId"] == entry["id"]]
+    for entry in entries.values():
         for field in FIELDS:
             entry["fields"][field] = aggregate([member["fields"][field] for member in entry["members"]])
         entry["fields"]["rules"] = aggregate([rule["evidence"] for rule in entry["rules"]]) if entry["rules"] else evidence("inferred", "unverified", "No configured rule rows does not prove that the original encounter had no special mechanic.")
         entry["summary"] = {"hasInferredStats": any(member["fields"][key]["status"] == "inferred" for member in entry["members"] for key in FIELDS), "hasInferredLevel": entry["fields"]["level"]["status"] == "inferred", "hasUnverifiedSkills": entry["fields"]["skills"]["status"] == "inferred", "aiIsRemake": True}
     summary = {"encounters": len(entries), "members": sum(len(e["members"]) for e in entries.values()), "categories": dict(sorted(Counter(e["category"] for e in entries.values()).items())), "memberFieldStatuses": {key: dict(sorted(Counter(m["fields"][key]["status"] for e in entries.values() for m in e["members"]).items())) for key in FIELDS}, "ruleNodes": sum(len(e["rules"]) for e in entries.values())}
-    full = {"schemaVersion": 1, "sourceBoundary": {"scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.", "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.", "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.", "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.", "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."}, "summary": summary, "sources": dict(sorted(SOURCES.items())), "encounters": entries}
+    summary["waivedMechanics"] = sum(policy["disposition"] == "waived" for policy in USER_POLICY_LEDGER["policies"])
+    summary["userReplacementPolicies"] = sum(policy["disposition"] == "replaced" for policy in USER_POLICY_LEDGER["policies"])
+    full = {"schemaVersion": 1, "userPolicyAuthority": {key: value for key, value in USER_POLICY_LEDGER.items() if key != "policies"}, "sourceBoundary": {"scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.", "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.", "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.", "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.", "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."}, "summary": summary, "sources": dict(sorted(SOURCES.items())), "encounters": entries}
     compact = lambda field: {"status": field["status"], "basis": field["basis"]}
     def source_urls(entry: dict) -> list[str]:
         refs = [src for member in entry["members"] for field in member["fields"].values() for src in field["sources"]]
@@ -244,7 +255,7 @@ def build() -> tuple[dict, dict]:
         # Listed URLs remain visibly non-certifying in the full ledger; linking
         # to a source is not a claim that every field on its encounter is exact.
         return list(dict.fromkeys(verified + entry["sourceUrls"]))[:5]
-    runtime = {"schemaVersion": 1, "encounters": {boss_id: {"fields": {key: compact(field) for key, field in entry["fields"].items()}, "members": [{"slot": member["slot"], "species": member["species"], "fields": {key: compact(field) for key, field in member["fields"].items()}, **({"displayLevelUnknown": True} if member.get("displayLevelUnknown") else {})} for member in entry["members"]], "sourceUrls": source_urls(entry), "summary": entry["summary"]} for boss_id, entry in entries.items()}}
+    runtime = {"schemaVersion": 1, "encounters": {boss_id: {"fields": {key: compact(field) for key, field in entry["fields"].items()}, "members": [{"slot": member["slot"], "species": member["species"], "fields": {key: compact(field) for key, field in member["fields"].items()}, **({"displayLevelUnknown": True} if member.get("displayLevelUnknown") else {})} for member in entry["members"]], "sourceUrls": source_urls(entry), "summary": entry["summary"], "userPolicies": entry["userPolicies"]} for boss_id, entry in entries.items()}}
     return full, runtime
 
 

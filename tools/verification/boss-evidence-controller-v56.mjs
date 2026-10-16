@@ -92,16 +92,40 @@ try{
     const merged=mergeBossEvidence([row('official','80','https://example.invalid/a',1),undefined,row('inferred','??','https://example.invalid/b',2)]);
     assert.equal(field(merged,'level').status,'inferred');assert.equal(field(merged,'level').value,'各对手配置不同');assert.equal(merged.incompleteRules,3);assert.equal(merged.displayLevelUnknown,true);assert.equal(merged.sourceUrls.length,2);assert.deepEqual(merged.limitations,['One limit','所含挑战合计有 3 项特殊效果未完整还原。']);assert.equal(mergeBossEvidence([undefined]),undefined);
   });
-  check('Puni aggregation reports two unsupported effects in both count and text without multiplying its six-member body',()=>{
+  check('Puni aggregation retains both explicit waivers without unsupported warnings or six-member duplication',()=>{
     const sealBoss=bosses.get('boss_puni_seal7'),bodyBoss=bosses.get('boss_puni_zhenshen');assert.equal(bodyBoss.team.length,6);
     const seal=buildBossEncounterEvidence(sealBoss),body=buildBossEncounterEvidence(bodyBoss),countLines=view=>view.limitations.filter(text=>/\d+ 项特殊效果未完整还原/.test(text));
-    assert.equal(seal.incompleteRules,1);assert.equal(body.incompleteRules,1);
-    assert.deepEqual(countLines(body),['本场尚有 1 项特殊效果未完整还原。']);
-    const combined=mergeBossEvidence([seal,body]);assert.equal(combined.incompleteRules,2);
-    assert.deepEqual(countLines(combined),['所含挑战合计有 2 项特殊效果未完整还原。']);
-    assert(!combined.limitations.some(text=>/1 项特殊效果|6 项特殊效果|7 项特殊效果/.test(text)));
+    assert.equal(seal.incompleteRules,0);assert.equal(body.incompleteRules,0);
+    assert.deepEqual(countLines(body),[]);
+    const combined=mergeBossEvidence([seal,body]);assert.equal(combined.incompleteRules,0);
+    assert.deepEqual(countLines(combined),[]);
+    assert.equal(combined.limitations.filter(text=>text==='当前规则不额外加入圣洁封印的低命中效果。').length,1);
+    assert.equal(combined.limitations.filter(text=>text==='当前规则不额外加入谱尼低体力时降低我方命中的效果。').length,1);
     for(const text of [...seal.limitations,...body.limitations].filter(text=>!/\d+ 项特殊效果未完整还原/.test(text)))assert(combined.limitations.includes(text),'Non-count limitations survive aggregation');
     report.witnesses.push({kind:'unsupported-count-text',bodyMembers:6,bodyCount:body.incompleteRules,mergedCount:combined.incompleteRules,bodyText:countLines(body),mergedText:countLines(combined)});
+  });
+  check('Actual catalog, campaign and battle views disclose four waivers and the strict-quarter user policy',()=>{
+    const expected=new Map([
+      ['boss_puni_seal7','当前规则不额外加入圣洁封印的低命中效果。'],
+      ['boss_puni_zhenshen','当前规则不额外加入谱尼低体力时降低我方命中的效果。'],
+      ['boss_spt_eersaila','当前规则不加入随体力变化的额外致命一击率。'],
+      ['boss_spt_kenpeide','当前规则保留现有反伤，不额外加入临时开关与持续时间。'],
+      ['boss_spt_moshidilu','当前规则：体力低于 25% 时，攻击必先并直接击倒；恢复至 25% 及以上后解除。此规则按约定采用，历史资料存在不同记载。'],
+    ]);
+    const game=make(),snapshot=game.snapshot();
+    for(const [id,note]of expected){
+      const view=snapshot.bosses.find(row=>row.id===id);assert(view);assert.equal(runtime.encounters[id].userPolicies.length,1);
+      assert.deepEqual(runtime.encounters[id].userPolicies,audit.encounters[id].userPolicies);
+      for(const evidence of [view.evidence,...view.opponents.map(member=>member.evidence)]){
+        assert.equal(evidence.incompleteRules,0);assert.equal(field(evidence,'rules').value,'按当前重制规则');assert.notEqual(field(evidence,'rules').status,'official');
+        assert.equal(evidence.limitations.filter(text=>text===note).length,1);assert(!evidence.limitations.some(text=>text.includes('项特殊效果未完整还原')));
+      }
+      for(const campaign of snapshot.campaigns)for(const stage of campaign.stages)if(stage.bossIds.includes(id))assert(stage.evidence.limitations.includes(note));
+    }
+    start(game,{type:'startBattle',bossId:'boss_spt_moshidilu'});
+    assert(game.snapshot().battle.enemy.evidence.limitations.includes(expected.get('boss_spt_moshidilu')));leave(game);
+    const moshi= audit.encounters.boss_spt_moshidilu.rules.find(row=>row.rule==='forced_execution_below_pct');assert.equal(moshi.configuration.pct,25);assert.equal(moshi.evidence.status,'authored');assert.equal(moshi.evidence.basis,'user-adopted-policy');
+    report.witnesses.push({kind:'v57-user-policies',waivers:4,replacements:1,activeUnsupported:0,realBattle:'boss_spt_moshidilu'});
   });
   check('Every catalog Boss view and every opponent receives evidence; all ten trainer views remain separate',()=>{
     const game=make(),snapshot=game.snapshot();assert.equal(snapshot.bosses.length,190);

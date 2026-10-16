@@ -1,5 +1,12 @@
 # V56 Boss audit integration
 
+This note records the V56 integration checkpoint. The later
+[V57 user-policy decision](boss-user-policies-v57.md) supersedes its five
+unrestored-mechanic statuses with four explicit waivers and one strict-quarter
+Moshidilu replacement. Current focused counts are 29 rule groups and 18
+evidence/controller groups; the remaining V56 observations below retain their
+original review scope.
+
 All 180 production Boss encounters and 240 members now have field-specific evidence. The UI distinguishes reviewed period observations, inferred configuration and authored behavior. Exact hidden server stats and server AI were not recovered. Detailed claims, conflicts and source boundaries are in [the evidence audit](boss-evidence-v56.md); execution coverage is in [the rule audit](boss-rules-v56.md).
 
 Enhanced action selection, voluntary switching, medicine planning and replacement selection remain confined to simulated-player trainer encounters, including the existing facilities. Bosses use the historical project policy with their explicit sequence, weighted, forced and script overrides. [The AI isolation note](boss-ai-isolation-v56.md) identifies the historical Git source and oracle boundaries.
@@ -22,4 +29,4 @@ Aluobisi's saved attempt counter now drives the encoded level decrease before ba
 
 Full-shell UI review used only `/preview.html` on an isolated development server with memory-only storage. Floor 60 was checked at 1280 by 720 and 640 by 480: all three opponent levels are masked, the table and enemy roster identify inferred values, and the evidence dialog fits both viewports. Difute's challenge index displays `??` and exposes its period-report link. Floor 70's four-member scene and normal-HP battle were also checked. Screenshots and run reports are under the ignored `artifacts/boss-audit-v56/` directory. Browser console errors were absent in the reviewed flows.
 
-No production build, desktop package, push, real player-save access, or user development-server restart was performed. Five explicitly listed mechanisms remain unrestored, and working handlers can still contain estimated magnitudes; neither execution coverage nor these regressions establish complete official historical parity.
+No production build, desktop package, push, real player-save access, or user development-server restart was performed. Five mechanisms were listed as unrestored at the V56 checkpoint; their current V57 dispositions are identified above. Working handlers can still contain estimated magnitudes; neither execution coverage nor these regressions establish complete official historical parity.

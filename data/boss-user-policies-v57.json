@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "authority": "explicit-user-request",
+  "date": "2026-10-16",
+  "scope": "Four declined mechanics and one user-adopted replacement; no other boss behavior is removed.",
+  "policies": [
+    {
+      "id": "v57-puni-seal7-accuracy",
+      "bossId": "boss_puni_seal7",
+      "disposition": "waived",
+      "mechanic": "reported_low_accuracy",
+      "note": "The user explicitly declined restoration of the reported low boss accuracy. No additional accuracy penalty is applied; existing behavior remains."
+    },
+    {
+      "id": "v57-puni-body-low-hp-accuracy",
+      "bossId": "boss_puni_zhenshen",
+      "disposition": "waived",
+      "mechanic": "reported_low_hp_player_accuracy",
+      "note": "The user explicitly declined restoration of the reported low-HP player accuracy rule. No extra encounter accuracy hook is applied; existing behavior remains."
+    },
+    {
+      "id": "v57-eersaila-critical-curve",
+      "bossId": "boss_spt_eersaila",
+      "disposition": "waived",
+      "mechanic": "crit_rate_scales_with_hp_lost",
+      "note": "The user explicitly declined the unquantified critical-probability curve. The historical declaration is acknowledged without modifying critical probability; all weekday rules remain."
+    },
+    {
+      "id": "v57-kenpeide-reflection-window",
+      "bossId": "boss_spt_kenpeide",
+      "disposition": "waived",
+      "mechanic": "temporary_reflection_window",
+      "note": "The user explicitly declined reconstruction of the temporary reflection window. Existing configured reflection remains; no activation/duration/termination window is added."
+    },
+    {
+      "id": "v57-moshidilu-quarter-execution",
+      "bossId": "boss_spt_moshidilu",
+      "disposition": "replaced",
+      "mechanic": "forced_execution_below_pct",
+      "replaces": [
+        "ohko_attacks below 50%",
+        "damage_scales_with_hp_lost"
+      ],
+      "note": "The user adopted current HP strictly below 25% as a dynamic forced-first direct-KO attack rule. At 25% or above ordinary behavior resumes, including after healing. This replaces conflicting historical thresholds and an unquantified damage curve; it is not official-server certification."
+    }
+  ]
+}
