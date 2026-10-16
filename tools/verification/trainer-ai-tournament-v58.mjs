@@ -114,10 +114,10 @@ const server = await createServer({root, configFile: false, cacheDir: path.join(
   plugins: [replacementTiming]});
 try {
   const [core, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
-    {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}] = await Promise.all([
+    {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
     '/battle/core/src/index.ts', '/battle/core/src/scripts/index.ts', '/src/mechanics/npc-training.ts', '/src/mechanics/traits.ts',
     '/src/mechanics/campaign-rules.ts', '/src/mechanics/catalog.ts', '/src/progression/battle-facilities.ts', '/src/progression/battle-supplies.ts',
-    '/src/progression/npc-training.ts', '/src/mechanics/boss-encounter.ts'].map(id => server.ssrLoadModule(id)));
+    '/src/progression/npc-training.ts', '/src/mechanics/boss-encounter.ts', '/src/progression/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
   const {createBattle, buildDataSet, Rng, chooseAiAction} = core;
 
   // Catalog exactly as createGame prepares it for battle (src/game.ts).
@@ -127,6 +127,7 @@ try {
     desc: {zh: '解除选中精灵的全部异常状态，不清除能力变化。'}, battle_effects: [{op: 'cure_status', target: 'self'}],
     source: 'Authored remake supply; the recovered item catalogue contains no status-cure consumables.'});
   const data = buildDataSet(catalog);
+  const conventionalMoves = conventionalMovesResolver(catalog);
   const classicTeams = [...(catalog.trainers ?? [])].sort((x, y) => String(x.id).localeCompare(String(y.id)));
 
   // NPC training seals guard on `side.index === 1`, so a trainer on side 0 would lose
@@ -176,7 +177,7 @@ try {
     let battle;
     const started = performance.now();
     try {
-      battle = createBattle({data, scripts, seed: battleSeed, maxTurns: opts.maxTurns, sides: [side0, side1], encounter});
+      battle = createBattle({data, scripts, seed: battleSeed, maxTurns: opts.maxTurns, conventionalMoves, sides: [side0, side1], encounter});
       for (const index of [0, 1]) {
         const side = battle.sides[index];
         if (side.kind !== 'trainer' || side.ai?.planner !== planners[index] || side.unlimitedItems.size === 0) throw new Error(`side ${index} was not built as a supplied trainer with planner ${planners[index]}`);
