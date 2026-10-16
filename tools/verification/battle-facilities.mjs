@@ -20,7 +20,7 @@ function protectedSave(save){return {dex:save.dex,party:save.party,identity:save
 const battleState=battle=>{const {animation,...state}=battle;return state};
 
 try {
-  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle,buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
+  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle,buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
     '/src/mechanics/catalog.ts','/src/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/battle/core/src/index.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/src/world.ts',
     '/src/progression/battle-facilities.ts','/src/presentation/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
@@ -75,11 +75,13 @@ try {
     assert.equal(classic.teams.length,catalog.trainers.length);assert(classic.teams.length>0);assert.deepEqual(classic.teams.map(row=>row.id).sort(),catalog.trainers.map(row=>row.id).sort());
     for(const team of classic.teams){assert.equal(team.opponents.length,6);assert(team.name&&team.description);for(const mon of team.opponents){assert.equal(mon.level,100);assert.equal(mon.baseTotal,sumBase(byId.get(mon.species)));}}
   });
-  check('Every facility has a directly reachable space-station room with the matching public action ID',()=>{
+  check('The shared Space Station terminal retains all facility modes without duplicate rooms',()=>{
     const station=WORLD_PLANETS.find(row=>row.id==='space-station');assert(station);
-    const rooms=station.regions.filter(row=>row.battleFacility);assert.equal(rooms.length,3);assert.deepEqual(rooms.map(row=>row.battleFacility).sort(),['classic','elite','random']);
+    assert.deepEqual(station.regions.map(row=>row.id),['resources','brave-tower','dark-arena','mystery']);
+    assert.deepEqual(buildFacilityViews(catalog).map(row=>row.id).sort(),['classic','elite','random']);
     const hub=station.regions.find(row=>row.id==='resources'),exits=getSceneExits(station,hub);
-    for(const room of rooms){assert.equal(room.facility,'battle');assert.equal(room.backgroundMapId,102);assert.deepEqual(room.levels,[100,100]);assert(exits.some(exit=>exit.targetRegionId===room.id));assert(getSceneExits(station,room).some(exit=>exit.targetRegionId===hub.id));}
+    assert.equal(hub.originalMapId,102);assert.deepEqual(exits.map(exit=>exit.targetRegionId).sort(),['brave-tower','dark-arena']);
+    for(const id of ['random-arena','elite-arena','classic-arena'])assert.equal(resolveWorldLocation(station.id,id).region.id,hub.id);
   });
   check('Every one of the 1479 eligible species generates a legal ordinary four-skill build',()=>{
     const covered=new Set();let batches=0;

@@ -14,6 +14,7 @@ import {buildCollectionAncestry,type CollectionSpecies} from './progression/coll
 import {buildSkinOptions,appearanceSpecies,sanitizeSkin} from './progression/skins';
 import {createItemShopViews,isShopItemAvailable} from './progression/item-shop';
 import {buildFacilityViews,createFacilityEncounter} from './progression/battle-facilities';
+import {BRAVE_TOWER_FLOORS,braveTowerFloor,braveTowerBossId,normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,type BraveTowerProgress} from './progression/brave-tower';
 import {meetsWildCapturePrerequisite} from '../battle/core/src/capture';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from './progression/fusion';
 import { SEER_SCRIPTS } from '../battle/core/src/scripts/index.ts';
@@ -32,7 +33,7 @@ import { createCatalogViews } from './presentation/catalog-views';
 import type { CampaignView, EngravingView, MonsterEngravingsView, GameController, GameSnapshot, GameAction, MonsterView, SkillView, BattleMonsterView, BattlePresentationFrame, QuestView } from './game-types';
 
 export const loadGameData = loadCatalog;
-interface GameExtras { coins: number; traits: Record<string,string>; quests: string[]; battlesWon: number; modules: Record<string,MonsterModules>; engravingStock: Record<string,number>; campaigns: Record<string,string[]>; shopUnlocked:string[]; recruitmentClaims:Record<string,number> }
+interface GameExtras { coins: number; traits: Record<string,string>; quests: string[]; battlesWon: number; modules: Record<string,MonsterModules>; engravingStock: Record<string,number>; campaigns: Record<string,string[]>; shopUnlocked:string[]; recruitmentClaims:Record<string,number>; braveTower:BraveTowerProgress }
 type FullSave = Save & {game: GameExtras};
 const typesZh: Record<string,string> = {grass:'草',water:'水',fire:'火',flying:'飞行',electric:'电',mechanical:'机械',ground:'地面',normal:'普通',ice:'冰',psychic:'超能',fighting:'战斗',light:'光',shadow:'暗影',mystic:'神秘',dragon:'龙',holy:'圣灵',dimension:'次元',evil:'邪灵'};
 const statZh: Record<string,string> = {hp:'体力',atk:'攻击',def:'防御',spa:'特攻',spd:'特防',spe:'速度'};
@@ -101,7 +102,7 @@ export function advanceBattlePresentation(state: BattlePresentationState, event:
   if (member.uid === next.enemy.uid && side === 1) next.enemy = member;
   return next;
 }
-const extras = ():GameExtras => ({coins:1000,traits:{},quests:[],battlesWon:0,modules:{},engravingStock:{},campaigns:{},shopUnlocked:[],recruitmentClaims:{}});
+const extras = ():GameExtras => ({coins:1000,traits:{},quests:[],battlesWon:0,modules:{},engravingStock:{},campaigns:{},shopUnlocked:[],recruitmentClaims:{},braveTower:{highestCleared:0,resumeFloor:1}});
 function itemDescription(item:Record<string,unknown>):string {
   const description=(item.desc as {zh?:string})?.zh;
   const beadPolicy='同一精灵同时只能使用一颗能量珠；每结束一场战斗减少一次，耗尽后失效，期间不能替换。';
@@ -166,7 +167,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const ordinarySPTs=new Set(getEligibleRecruitmentSPTs(catalog as unknown as RecruitmentCatalog).map(boss=>boss.id));
   const catalogViews=createCatalogViews(
     catalog.species.map(s=>({id:Number(s.id),name:(s.name as {zh:string}).zh,types:(s.types as string[]).map(t=>typesZh[t]??t),baseStats:{...dex.species(Number(s.id)).base},portrait:portrait(Number(s.id)),wildCapture:(s.obtain as string[]|undefined)?.includes('wild')&&!bosses.some(boss=>!boss.id.includes('tower')&&!boss.id.includes('dark_door')&&boss.team.some(mon=>mon.species===Number(s.id)))})),
-    encounters.map(b=>({id:b.id,category:b.category==='trainer'?'训练师对战':b.name!.zh.includes('暗黑')?'暗黑武斗场':b.category==='tower'?'勇者之塔':b.category==='legendary'?'传说挑战':['story','event'].includes(String(b.category))?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species),...(b.category==='trainer'?{opponents:b.team.map(mon=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level}))}:{})})),
+    encounters.map(b=>({id:b.id,category:b.category==='trainer'?'训练师对战':b.name!.zh.includes('暗黑')?'暗黑武斗场':b.category==='tower'?'勇者之塔':b.category==='legendary'?'传说挑战':['story','event'].includes(String(b.category))?'任务挑战':'SPT首领',name:b.name?.zh??b.id,location:(b as any).location?.zh,description:String((b as any).strategy_notes?.zh??(b as any).strategy_notes??'').replace(/\[object Object\]/g,''),level:b.team[0].level,species:b.team[0].species,portrait:portrait(b.team[0].species),...(b.category==='trainer'||braveTowerFloor(b.id)!==undefined?{opponents:b.team.map(mon=>({species:mon.species,name:dex.species(mon.species).name.zh,level:mon.level}))}:{})})),
   );
   const natureViews=catalog.natures.map(n=>({id:String(n.id),name:(n.name as {zh:string}).zh}));
   const traitViews=availableTraits.map(t=>({id:t.id,name:t.name,description:t.description}));
@@ -194,7 +195,13 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   let ownedSet=new Set<number>(),seenSet=new Set<number>();
   const listeners = new Set<()=>void>();
   let cached: GameSnapshot;
-  const full = (base: Save):FullSave => {const result=Object.assign(base,{game:(base as FullSave).game ?? extras()});result.game.campaigns??={};result.game.modules??={};result.game.engravingStock??={};result.game.shopUnlocked??=[];result.game.recruitmentClaims??={};return result;};
+  const full = (base: Save):FullSave => {
+    const previousGame=(base as FullSave).game;
+    const result=Object.assign(base,{game:previousGame??extras()});
+    result.game.campaigns??={};result.game.modules??={};result.game.engravingStock??={};result.game.shopUnlocked??=[];result.game.recruitmentClaims??={};
+    result.game.braveTower=normalizeBraveTowerProgress(previousGame?.braveTower,result.progress.bosses_cleared);
+    return result;
+  };
   function fresh() {
     save = full(newSave(Date.now() >>> 0)); rng = new Rng(save.seed);
     for (const id of [1,4,7]) {const mon=createMonster(dex,id,5,rng,{how:'gift',at:new Date().toISOString()});save=full(addMonster(save,mon));save.game.traits[mon.uid]=availableTraits[rng.int(0,availableTraits.length-1)].id;}
@@ -342,7 +349,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     const unlimitedItems=battle&&!battleSettled?battle.sides[0].unlimitedItems:unlimitedItemIds;
     const legalItems=battle?.legalActions(0).filter(action=>action.kind==='item');
     const captureBlockedReason=!battle?undefined:currentBoss?(currentBoss.category==='trainer'?'训练师的精灵不可捕捉。':'首领与招募挑战不可捕捉，胜利后通过精元或任务获取。'):!meetsWildCapturePrerequisite(battle.active(1).species.id,battle.active(0).species.id)?'捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':save.party.length>=PARTY_MAX&&save.storage.length-save.party.length>=BOX_MAX?'仓库已满':capacityReason(battle.active(1).species.id);
-    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
+    cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),braveTower:{...save.game.braveTower,totalFloors:BRAVE_TOWER_FLOORS,checkpoints:braveTowerCheckpoints(save.game.braveTower)},facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
   }
   function emit() {persist();refresh();listeners.forEach(l=>l());}
   function notice(text:string) {notices=[text,...notices].slice(0,5);}
@@ -460,6 +467,11 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
           battleResultMessage=`${dex.species(learned.species).name.zh}领悟了「${data.skills.get(learned.skill)!.name.zh}」，可在技能管理中装备。`;
         } else if(essenceGranted)battleResultMessage='首领精元已入库，到道具背包的精元页即可孵化。';
         else if(essenceBlocked)battleResultMessage='挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
+        const towerFloor=braveTowerFloor(currentBoss.id);
+        if(towerFloor!==undefined){
+          save.game.braveTower=clearBraveTowerFloor(save.game.braveTower,towerFloor);
+          battleResultMessage=[towerFloor===BRAVE_TOWER_FLOORS?'勇者之塔 70 层全部通过，可选择已解锁的起点再次挑战。':`第 ${towerFloor} 层通过，可继续第 ${towerFloor+1} 层。`,battleResultMessage].filter(Boolean).join(' ');
+        }
       }
       if(currentCampaign) {
         const campaign=CHALLENGE_CAMPAIGNS.find(entry=>entry.id===currentCampaign!.id)!;
@@ -504,12 +516,21 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     if(boss&&!boss.facility)save.progress.boss_attempts[boss.id]=(save.progress.boss_attempts[boss.id]??0)+1;
   }
   function turn(action:Action) {if(!battle)throw new Error('尚未开始战斗。');const before:BattlePresentationState={player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon)};battle.submit(0,action);const events=battle.resolveTurn();eventsText(events,[before.player,before.enemy]);recordAnimation(events,before);save.items={...battle.sides[0].items};settle();}
+  function startTowerFloor(floor:number) {
+    if(!canStartBraveTowerFloor(save.game.braveTower,floor))throw new Error('此楼层尚未开放，请选择已解锁的十层起点或继续上次挑战。');
+    const boss=encounters.find(entry=>entry.id===braveTowerBossId(floor));
+    if(!boss)throw new Error('此楼层的挑战资料暂不可用。');
+    start(boss);
+    // Save the attempted floor only after the battle has successfully started.
+    save.game.braveTower={...save.game.braveTower,resumeFloor:floor};
+  }
   function dispatch(action:GameAction) {
     try {
       const outside=!['move','switch','battleItem','capture','flee','closeBattle','dismissNotice'].includes(action.type);
       if(outside&&battle&&!battle.result)throw new Error('战斗结束后才能进行培养或编辑。');
       switch(action.type) {
-      case 'startBattle': {const boss=encounters.find(b=>b.id===action.bossId);if(!boss)throw new Error('挑战不存在。');const campaign=campaignForBoss(boss.id);if(campaign)throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);start(boss);break;}
+      case 'startBattle': {const boss=encounters.find(b=>b.id===action.bossId);if(!boss)throw new Error('挑战不存在。');const campaign=campaignForBoss(boss.id);if(campaign)throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);const floor=braveTowerFloor(boss.id);if(floor!==undefined)startTowerFloor(floor);else start(boss);break;}
+      case 'startTower': {startTowerFloor(action.floor);break;}
       case 'startFacility': {
         if(!save.party.some(uid=>findMon(save,uid).hp>0))throw new Error('精灵体力耗尽，请使用恢复舱。');
         // Prepare with a draft RNG so invalid input never advances the saved stream.

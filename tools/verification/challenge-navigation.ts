@@ -47,10 +47,11 @@ for (const boss of bosses) {
   } else {
     mapped++;
     if (region.bossIds?.includes(boss.id)) explicit++;
-    else { metadata++; assert([planet.name,...(planet.aliases??[])].some(name=>boss.location?.includes(name)), 'A catalog planet route must be supported by its retained location text or a source-backed alias.'); }
+    else { metadata++; assert(['勇者之塔','暗黑武斗场'].includes(boss.category)||[planet.name,...(planet.aliases??[])].some(name=>boss.location?.includes(name)), 'A catalog planet route must be supported by its facility category, retained location text or a source-backed alias.'); }
   }
   const sceneBosses = findSceneChallenges(planet.id, region.id, bosses, boss.id);
-  assert(sceneBosses.some(local => local.id === boss.id), `${boss.id} must remain interactable after arrival.`);
+  if(region.campaignId||planet.id==='space-station'&&region.id==='brave-tower')assert.equal(sceneBosses.length,0,`${boss.id} uses its progression entry.`);
+  else assert(sceneBosses.some(local => local.id === boss.id), `${boss.id} must remain interactable after arrival.`);
   assert.equal(new Set(sceneBosses.map(local => local.id)).size, sceneBosses.length);
   const elsewhere = findSceneChallenges('station', 'lab', bosses, boss.id);
   assert(!elsewhere.some(local => local.id === boss.id), 'A travel target must not appear in an unrelated scene.');
@@ -84,16 +85,17 @@ assert.equal(WORLD_PLANETS.find(planet=>planet.id==='rabol')!.originalMapId,441)
 assert.equal(WORLD_PLANETS.find(planet=>planet.id==='twitter')!.name,'推特星');
 assert.equal(WORLD_PLANETS.find(planet=>planet.id==='giant')!.name,'巨石星');
 assert.deepEqual(findChallengeLocation({ ...bosses.find(boss => boss.id === 'boss_rei')!, location: '海洋星海底' }), { planetId: 'helka', regionId: 'temple', staging: false }, 'Explicit IDs remain authoritative when metadata differs.');
-for (const [category, planetId, regionId] of [['勇者之塔', 'space-station', 'brave-tower'], ['暗黑武斗场', 'space-station', 'dark-arena'], ['任务挑战', 'station', 'mission-dock']] as const) {
+for (const [category, planetId, regionId] of [['勇者之塔', 'space-station', 'brave-tower'], ['暗黑武斗场', 'space-station', 'dark-arena'], ['任务挑战', 'station', 'transport']] as const) {
   const boss = bosses.find(boss => boss.category === category)!;
   assert(boss, `Missing category ${category}.`);
   assert.deepEqual(findChallengeLocation(boss), { planetId, regionId, staging: planetId==='station' });
 }
 const unmappedLegend = bosses.find(boss => boss.category === '传说挑战' && !Object.hasOwn(expected, boss.id) && findChallengeLocation(boss).staging)!;
-assert.deepEqual(findChallengeLocation(unmappedLegend), { planetId: 'station', regionId: 'challenge-dock', staging: true });
+assert.deepEqual(findChallengeLocation(unmappedLegend), { planetId: 'station', regionId: 'transport', staging: true });
 const hamo = findSceneChallenges('hamo', 'dragon-temple', bosses, 'boss_spt_hamoleite');
 assert.equal(hamo.length, resolveWorldLocation('hamo', 'dragon-temple').region.bossIds!.length, 'The selected mapped boss must not duplicate its existing scene actor.');
 assert.equal(findSceneChallenges('station', 'challenge-dock', bosses, 'missing-id').length, 0);
 assert.equal(game.snapshot().battle, null, 'Finding travel destinations does not begin combat.');
-assert(WORLD_PLANETS[0].regions.filter(region => region.challengeStaging).length === 4);
+assert.deepEqual(WORLD_PLANETS[0].regions.map(region=>region.id),['transport','lab','captain']);
+assert.equal(WORLD_PLANETS[0].regions.filter(region => region.challengeStaging).length,1);
 console.log(JSON.stringify({ passed: ['all catalog location texts retained', '17 representative explicit locations', `all ${spt.length} SPT encounters use mapped habitats`, '55 primary-index destinations in five galaxies plus small Phantom and bases', 'five Helka training routes', 'actual space-station tower and dark-arena routes', 'all encounters have valid landings and local targets', 'no unrelated or duplicate target actors', 'travel resolution starts no battle'], encounters: bosses.length, spt:spt.length, destinations:WORLD_PLANETS.length, mapped, explicit, metadata, staged }));

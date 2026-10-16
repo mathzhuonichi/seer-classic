@@ -929,66 +929,6 @@
           "height": 67.425,
           "sourceInstance": "scene_4",
           "sourceSymbolId": 205
-        },
-        {
-          "targetKind": "region",
-          "targetId": "brave-tower",
-          "mapId": null,
-          "x": 120,
-          "y": 390,
-          "width": 34,
-          "height": 34,
-          "asset": "/ui/classic/maps/hd/region-go.svg",
-          "drawLabel": true,
-          "label": "勇者之塔接驳区",
-          "labelX": 137,
-          "labelY": 430,
-          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
-        },
-        {
-          "targetKind": "region",
-          "targetId": "dark-arena",
-          "mapId": null,
-          "x": 260,
-          "y": 390,
-          "width": 34,
-          "height": 34,
-          "asset": "/ui/classic/maps/hd/region-go.svg",
-          "drawLabel": true,
-          "label": "暗黑武斗场接驳区",
-          "labelX": 277,
-          "labelY": 430,
-          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
-        },
-        {
-          "targetKind": "region",
-          "targetId": "mission-dock",
-          "mapId": null,
-          "x": 555,
-          "y": 390,
-          "width": 34,
-          "height": 34,
-          "asset": "/ui/classic/maps/hd/region-go.svg",
-          "drawLabel": true,
-          "label": "任务挑战接驳区",
-          "labelX": 572,
-          "labelY": 430,
-          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
-        },
-        {
-          "targetKind": "region",
-          "targetId": "challenge-dock",
-          "mapId": null,
-          "x": 665,
-          "y": 390,
-          "width": 34,
-          "height": 34,
-          "asset": "/ui/classic/maps/hd/region-go.svg",
-          "drawLabel": true,
-          "label": "星际挑战接驳区",
-          "labelX": 682,
-          "labelY": 430,
-          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
         }
       ],
       "sourceUrl": "https://seer.61.com/resource/map/starMap/1.swf",
@@ -999,12 +939,7 @@
         737,
         463
       ],
-      "adaptedRegionIds": [
-        "brave-tower",
-        "dark-arena",
-        "mission-dock",
-        "challenge-dock"
-      ],
+      "adaptedRegionIds": [],
       "sha256": "58c7ae02782b3e355b9827988494d5bddd657aa483a379df2ee37b1609b3b5bd",
       "titlePlate": {
         "x": 332.2,
@@ -1543,92 +1478,91 @@
       }
     },
     "planet-102": {
-      "width": 900,
-      "height": 466,
-      "background": "/ui/classic/maps/hd/planet-102-4x.png",
+      "width": 960,
+      "height": 560,
+      "background": "/ui/classic/maps/hd/planet-102-v53.svg",
       "headingInArtwork": true,
+      "titlePlate": {
+        "x": 340,
+        "y": 16,
+        "width": 280,
+        "height": 23,
+        "fontSize": 21,
+        "color": "#ffffff"
+      },
       "nodes": [
         {
           "targetKind": "back",
-          "x": 859.18,
-          "y": 13.177,
-          "width": 35.419,
-          "height": 35.419,
-          "sourceInstance": "close",
+          "x": 902,
+          "y": 12,
+          "width": 36,
+          "height": 36,
           "asset": "/ui/classic/maps/hd/back-arrow.svg",
-          "adaptation": "Original return-arrow artwork replaces the original close-X glyph at its existing hit area."
+          "adaptation": "Original return-arrow control in an authored navigation position."
         },
         {
           "targetKind": "region",
           "targetId": "brave-tower",
           "mapId": 500,
-          "x": 360.514,
-          "y": 62.459,
-          "width": 41.136,
-          "height": 41.113,
-          "sourceInstance": "special_0",
-          "sourceSymbolId": 186
+          "x": 54,
+          "y": 71,
+          "width": 255,
+          "height": 60,
+          "asset": "/ui/classic/maps/hd/station-v53-brave-tower.svg",
+          "label": "勇者之塔",
+          "adaptation": "Authored navigation placement with explicit region identity; not an original special_N callback."
         },
         {
           "targetKind": "region",
           "targetId": "resources",
           "mapId": 102,
-          "x": 807.464,
-          "y": 375.809,
-          "width": 41.136,
-          "height": 41.113,
-          "sourceInstance": "scene_102",
-          "sourceSymbolId": 186
+          "x": 651,
+          "y": 79,
+          "width": 255,
+          "height": 60,
+          "asset": "/ui/classic/maps/hd/station-v53-resources.svg",
+          "label": "太空站大厅",
+          "adaptation": "Authored navigation placement with explicit region identity; not an original special_N callback."
         },
         {
           "targetKind": "region",
           "targetId": "dark-arena",
           "mapId": 110,
-          "x": 534.364,
-          "y": 398.309,
-          "width": 41.136,
-          "height": 41.113,
-          "sourceInstance": "special_5",
-          "sourceSymbolId": 186
+          "x": 651,
+          "y": 430,
+          "width": 255,
+          "height": 60,
+          "asset": "/ui/classic/maps/hd/station-v53-dark-arena.svg",
+          "label": "暗黑武斗场",
+          "adaptation": "Authored navigation placement with explicit region identity; not an original special_N callback."
         },
         {
           "targetKind": "region",
           "targetId": "mystery",
           "mapId": 10032,
-          "x": 153,
-          "y": 372.8,
-          "width": 34,
-          "height": 34,
-          "asset": "/ui/classic/maps/hd/region-go.svg",
-          "drawLabel": true,
+          "x": 54,
+          "y": 430,
+          "width": 255,
+          "height": 60,
+          "asset": "/ui/classic/maps/hd/station-v53-mystery.svg",
           "label": "神秘领域",
-          "labelX": 170,
-          "labelY": 412.8,
-          "adaptation": "Existing remake region uses original GO chrome; source did not provide its canonical leaf anchor."
+          "adaptation": "Authored navigation placement with explicit region identity; not an original special_N callback."
         }
       ],
       "sourceUrl": "https://seer.61.com/resource/map/starMap/102.swf",
-      "sourceSymbolId": 197,
-      "sourceNativeViewport": [
-        -1,
-        0,
-        899,
-        466
-      ],
+      "sourceSwfSha256": "8bb5e8f25587db885570331625175732b16b58b74af716f596d19cadf21f9aa0",
+      "sourceSymbolId": 164,
+      "sourceFrame": 1,
+      "sourceVectorPath": "/ui/classic/maps/hd/station-v53-structure.svg",
+      "sourceVectorSha256": "bb263dbb589441eafeb4b7c9976e87df9eadc907beec6197910ee45d98352491",
       "adaptedRegionIds": [
+        "brave-tower",
+        "resources",
+        "dark-arena",
         "mystery"
       ],
-      "sha256": "82c610392cf33f68d9a4d3fea5dc5be7a69b4d9a3c744779aa62696dec05a306",
-      "titlePlate": {
-        "x": 396.634,
-        "y": 6.234,
-        "width": 103.126,
-        "height": 18.783,
-        "fontSize": 14,
-        "color": "#ffffff",
-        "sourceInstance": "serverNameTxt",
-        "sourceSymbolId": 19
-      }
+      "adaptation": "Remake layout for four supported regions around the original station structure. Unsupported source labels and controls are omitted.",
+      "sha256": "675924eaf79fab10c17ae38e769cd0790c35685af60efd6b124f551187349e9d"
     },
     "planet-10": {
       "width": 960,

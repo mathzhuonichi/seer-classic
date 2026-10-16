@@ -12,6 +12,94 @@ from PIL import Image
 from export_classic_atlas_v28 import ROOT, CACHE, OUT, ffdec, frames, transform, publish
 
 
+def publish_station_v53():
+    """Compose four supported destinations around the original station drawing.
+
+    The room arrangement is authored navigation, not the original StarMap
+    callback layout. In particular, special_0 is the Starry Arena and special_5
+    is the King's Tower; neither identifies the classic Tower or Dark Arena.
+    """
+    svg_ns = 'http://www.w3.org/2000/svg'
+    ET.register_namespace('', svg_ns)
+    hd = OUT / 'hd'
+    hd.mkdir(parents=True, exist_ok=True)
+    structure = hd / 'station-v53-structure.svg'
+    source = ROOT / '.cache/hd-ui-v44/atlas-icons-StarMap-102-svg/sprites/DefineSprite_164/1.svg'
+    if not structure.exists():
+        structure.write_bytes(source.read_bytes())
+    source_hash = hashlib.sha256(structure.read_bytes()).hexdigest()
+    source_url = 'https://seer.61.com/resource/map/starMap/102.swf'
+    source_swf_hash = '8bb5e8f25587db885570331625175732b16b58b74af716f596d19cadf21f9aa0'
+
+    def inset(parent, path, x, y, width, height):
+        child = ET.parse(path).getroot()
+        if 'viewBox' not in child.attrib:
+            source_width = float(child.get('width').removesuffix('px'))
+            source_height = float(child.get('height').removesuffix('px'))
+            child.set('viewBox', f'0 0 {source_width} {source_height}')
+        for key, value in dict(x=x, y=y, width=width, height=height).items():
+            child.set(key, str(value))
+        parent.append(child)
+
+    background = ET.fromstring(f'''<svg xmlns="{svg_ns}" viewBox="0 0 960 560" width="960" height="560">
+      <metadata>Seer Classic remake navigation layout. Station illustration: official StarMap102 sprite164, frame1. Source geometry and palette preserved; positions, frame and connectors authored.</metadata>
+      <defs><linearGradient id="station-v53-space" x2="0" y2="1"><stop stop-color="#143b75"/><stop offset="1" stop-color="#061a37"/></linearGradient></defs>
+      <rect x="4" y="4" width="952" height="552" rx="17" fill="#07568d" stroke="#b9eeff" stroke-width="3"/>
+      <rect x="11" y="11" width="938" height="538" rx="12" fill="url(#station-v53-space)" stroke="#31bbf1" stroke-width="3"/>
+      <path d="M21 49H939M27 53H933" stroke="#1587c5" stroke-width="2"/>
+      <path d="M327 12H633L623 43H337Z" fill="#07568d" stroke="#59dcff" stroke-width="2"/>
+    </svg>''')
+    for i in range(54):
+        x, y = 27 + (i*149)%904, 65 + (i*89)%457
+        ET.SubElement(background, f'{{{svg_ns}}}circle', {'cx': str(x), 'cy': str(y), 'r': '0.8' if i%3 else '1.3', 'fill': '#b4d7f2', 'opacity': '.48'})
+    inset(background, structure, 115, 108, 730, 389)
+    # These are navigation callouts, not recovered physical map connections.
+    for path, x, y in [('M309 101H370L478 188',478,188), ('M651 109H615V165L699 241',699,241),
+                       ('M778 430V365L813 281',813,281), ('M309 460H343V350L478 260',478,260)]:
+        ET.SubElement(background, f'{{{svg_ns}}}path', {'d':path, 'fill':'none', 'stroke':'#9fefff', 'stroke-width':'2.5', 'stroke-linejoin':'round'})
+        ET.SubElement(background, f'{{{svg_ns}}}circle', {'cx':str(x), 'cy':str(y), 'r':'5', 'fill':'#07568d', 'stroke':'#57e5ff', 'stroke-width':'2.5'})
+    target = hd / 'planet-102-v53.svg'
+    ET.ElementTree(background).write(target, encoding='utf-8', xml_declaration=True)
+    destinations = [
+        ('brave-tower',500,'勇者之塔',54,71),
+        ('resources',102,'太空站大厅',651,79),
+        ('dark-arena',110,'暗黑武斗场',651,430),
+        ('mystery',10032,'神秘领域',54,430),
+    ]
+    nodes = [{'targetKind':'back','x':902,'y':12,'width':36,'height':36,'asset':'/ui/classic/maps/hd/back-arrow.svg',
+              'adaptation':'Original return-arrow control in an authored navigation position.'}]
+    for region_id, map_id, label, x, y in destinations:
+        button = ET.fromstring(f'''<svg xmlns="{svg_ns}" viewBox="0 0 255 60" width="255" height="60">
+          <metadata>Remake destination label with official StarMap102 button186 GO artwork.</metadata>
+          <path d="M13 6H208L226 20V43L210 54H13L3 44V17Z" fill="#086abd" stroke="#bbf2ff" stroke-width="3"/>
+          <path d="M17 10H206L217 21H11Z" fill="#17b2ec"/>
+          <text x="105" y="39" text-anchor="middle" font-family="Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="23" font-weight="700" font-style="italic" fill="white" stroke="#004d91" stroke-width="1.5" paint-order="stroke">{label}</text>
+        </svg>''')
+        inset(button, hd / 'region-go.svg', 197, 1, 58, 58)
+        node_file = hd / f'station-v53-{region_id}.svg'
+        ET.ElementTree(button).write(node_file, encoding='utf-8', xml_declaration=True)
+        nodes.append({'targetKind':'region','targetId':region_id,'mapId':map_id,'x':x,'y':y,'width':255,'height':60,
+                      'asset':f'/ui/classic/maps/hd/{node_file.name}', 'label':label,
+                      'adaptation':'Authored navigation placement with explicit region identity; not an original special_N callback.'})
+    page = {'width':960,'height':560,'background':'/ui/classic/maps/hd/planet-102-v53.svg','headingInArtwork':True,
+            'titlePlate':{'x':340,'y':16,'width':280,'height':23,'fontSize':21,'color':'#ffffff'},'nodes':nodes,
+            'sourceUrl':source_url,'sourceSwfSha256':source_swf_hash,'sourceSymbolId':164,'sourceFrame':1,
+            'sourceVectorPath':'/ui/classic/maps/hd/station-v53-structure.svg','sourceVectorSha256':source_hash,
+            'adaptedRegionIds':[row[0] for row in destinations],
+            'adaptation':'Remake layout for four supported regions around the original station structure. Unsupported source labels and controls are omitted.',
+            'sha256':hashlib.sha256(target.read_bytes()).hexdigest()}
+    # Update only the two owned pages. The legacy generic publisher can replay
+    # unrelated cached pages and would replace their current HD projections.
+    for path in (OUT / 'manifest.json', ROOT / 'src/presentation/atlas-graph-assets.json'):
+        document = json.loads(path.read_text())
+        document['pages']['planet-102'] = page
+        ship = document['pages']['planet-1']
+        ship['nodes'] = [node for node in ship['nodes'] if node['targetKind'] != 'region' or node.get('targetId') in {'transport','lab','captain'}]
+        ship['adaptedRegionIds'] = []
+        path.write_text(json.dumps(document, indent=2, ensure_ascii=path.name=='manifest.json')+'\n')
+    print('Published station V53: four supported regions; removed obsolete ship staging nodes.', flush=True)
+
+
 class Source:
     def __init__(self, mid):
         self.mid = mid
@@ -83,19 +171,25 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', nargs='+', type=int)
     args = parser.parse_args()
+    if args.ids == [102]:
+        publish_station_v53()
+        return
     req = json.loads((CACHE/'runtime-destination-requirements.json').read_text())
     sources = json.loads((CACHE/'planet-source-index.json').read_text())
-    special = {102:{'special_0':'brave-tower','special_5':'dark-arena'}}
     # Explicit remake ports without an original region ID retain the original
     # map drawing and use the game's shared GO navigation control.
     for entry in sources:
         if not entry['ok'] or args.ids and entry['mapId'] not in args.ids:
             continue
         mid=entry['mapId'];world=next(r for r in req if r['mapId']==mid)
+        if mid == 102:
+            publish_station_v53()
+            continue
         src=Source(mid);viewport=src.viewport()
         viewport=[math.floor(viewport[0]),math.floor(viewport[1]),math.ceil(viewport[2]),math.ceil(viewport[3])]
         width,height=viewport[2]-viewport[0],viewport[3]-viewport[1]
-        regions=world['regions'];by_map={str(r.get('mapId')):r for r in regions if r.get('mapId') is not None}
+        regions=[r for r in world['regions'] if mid!=1 or r['id'] in {'transport','lab','captain'}]
+        by_map={str(r.get('mapId')):r for r in regions if r.get('mapId') is not None}
         nodes=[];found=set();kept=[];title_plate=None
         for item in src.items:
             name=item.get('name','');region=None
@@ -107,10 +201,7 @@ def main():
             if current_room:
                 region=next(r for r in regions if r['id']=='transport')
             if name.startswith('special_'):
-                key=special.get(mid,{}).get(name)
-                region=next((r for r in regions if r['id']==key),None)
-                if region is None:
-                    continue
+                continue
             if name=='serverNameTxt':
                 r=src.placed(item)
                 if r is not None and r[1]-viewport[1]<50:

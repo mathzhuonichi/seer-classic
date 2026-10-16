@@ -219,28 +219,25 @@ export function getSceneExits(planet: WorldPlanet, region: WorldRegion): SceneEx
       if (target) add(from, target, point(x, y), facing, 'official');
     }
   }
-  // Activate three unused visible hub approaches without relabeling the tower,
-  // dark arena, or mystery realm. These local facility links are authored.
+  // Keep one hub and the three distinct original challenge scenes. The battle
+  // terminal opens its three modes in place instead of duplicating map 102.
   if (planet.id === 'space-station') {
     const hub = regions.find(candidate => candidate.id === 'resources');
     const tower = regions.find(candidate => candidate.id === 'brave-tower');
+    const dark = regions.find(candidate => candidate.id === 'dark-arena');
     const mystery = regions.find(candidate => candidate.id === 'mystery');
-    // The retained source route is Tower 500 <-> Mystery 10032. Register it
-    // before the connectivity fallback can attach Mystery to the dark arena.
-    // Mark these UI gates authored: their complete original hit areas were not
-    // recovered. The return marker follows Map10032's visible lower-right door.
-    if (tower && mystery) {
-      add(tower,mystery,point(86,30),'right','authored');
-      add(mystery,tower,point(84.0572916667,85.7142857143),'right','authored');
+    // These approach points follow visible bridges and the tower elevator.
+    // Their exact hit areas are adaptations, not recovered Flash controls.
+    if (hub && tower) {
+      add(hub,tower,point(15,49),'left','authored');
+      add(tower,hub,point(50,84),'down','authored');
     }
-    const rooms = [
-      ['random-arena',18,49,'left'],
-      ['elite-arena',86,30,'right'],
-      ['classic-arena',50,86,'down'],
-    ] as const;
-    if (hub) for (const [id,x,y,facing] of rooms) {
-      const target = regions.find(candidate => candidate.id === id);
-      if (target) add(hub,target,point(x,y),facing,'authored');
+    if (hub && dark) add(hub,dark,point(42,84),'down','authored');
+    // Register the retained Tower -> Mystery route before fallback connections.
+    // The Mystery return follows Map10032's visible lower-right doorway.
+    if (tower && mystery) {
+      add(tower,mystery,point(50,24),'up','authored');
+      add(mystery,tower,point(84.0572916667,85.7142857143),'right','authored');
     }
   }
   function authoredAnchor(from: WorldRegion, facing: SceneExitFacing): ScenePoint {

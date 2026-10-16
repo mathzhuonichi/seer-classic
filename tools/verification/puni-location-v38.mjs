@@ -1,6 +1,7 @@
 /** Puni contact, shared arena location, and fresh/legacy campaign progression. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
@@ -21,24 +22,33 @@ try {
   const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(createGame(catalog,''));
   const make=save=>createGame(catalog,JSON.stringify(save??base)),view=game=>game.snapshot().campaigns.find(row=>row.id==='puni');
   const {planet,region}=resolveWorldLocation('space-station','mystery');
+  const originalArt=JSON.parse(fs.readFileSync('src/presentation/map-art-assets.json','utf8'))['10032'];
+  const registeredArt=JSON.parse(fs.readFileSync('src/presentation/map-hd-assets.json','utf8'))['10032'];
+  const publishedArt=JSON.parse(fs.readFileSync('public/maps/hd/manifest.json','utf8')).assets['10032'];
+  const expectedBackground=`${registeredArt.path}?v=${registeredArt.sha256.slice(0,12)}`;
   const expectedLocation={planetId:'space-station',regionId:'mystery',staging:false};
   function stageMarkup(game){return renderToStaticMarkup(React.createElement(CampaignScene,{campaign:view(game),c:game,onLeave:()=>{},onManage:()=>{},background:region.background}));}
   function mapMarkup(game){memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:'space-station',regionId:'mystery',x:42,y:80,visited:['space-station/mystery']}));return renderToStaticMarkup(React.createElement(WorldMap,{s:game.snapshot(),c:game,onNavigate:()=>{}}));}
   check('All seven seals and the final body resolve to the same retained Puni arena',()=>{
     assert.deepEqual(definition.stages.map(row=>row.id),stageIds);assert.equal(region.originalMapId,10032);assert.equal(region.campaignId,'puni');assert.deepEqual([...region.bossIds].sort(),[...bossIds].sort());
-    assert(region.background.startsWith('/maps/original/10032.svg?v='));assert.equal(region.backgroundKind,'official');
+    assert.equal(region.backgroundAssetMapId,10032);assert.equal(region.background,expectedBackground);assert.equal(region.backgroundKind,'remastered');
+    assert.equal(registeredArt.path,publishedArt.path);assert.equal(registeredArt.sha256,publishedArt.sha256);
+    assert.equal(publishedArt.sourcePath,'/maps/original/10032.svg');assert.equal(publishedArt.sourceSha256,originalArt.sha256);
+    assert.equal(createHash('sha256').update(fs.readFileSync(`public${registeredArt.path}`)).digest('hex'),registeredArt.sha256);
+    assert.match(region.sceneAttribution,/Conservative AI restoration.*public\/maps\/hd\/manifest\.json/);
     const game=make();for(const id of bossIds)assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id===id)),expectedLocation,id);
     assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_seal1')),findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_zhenshen')),'Campaign entry and final-body travel cannot choose different battle backdrops');
     assert(getSceneExits(planet,region).length>0,'The arena keeps a return route');const anchor=getSceneLayout(planet,region).boss;assert(Math.abs(anchor.x*960/100-446.5)<.01&&Math.abs(anchor.y*560/100-225.5)<.01,'The neutral contact grounds its visible feet at the recovered platform top-face center');
     report.location={...expectedLocation,originalMapId:region.originalMapId,background:region.background,boss:getSceneLayout(planet,region).boss};
   });
-  check('The physical Puni route joins Brave Tower and preserves the three independent facility doors',()=>{
+  check('The physical Puni route joins Brave Tower and retains the shared facility hub',()=>{
     const tower=planet.regions.find(row=>row.id==='brave-tower'),dark=planet.regions.find(row=>row.id==='dark-arena'),hub=planet.regions.find(row=>row.id==='resources');
     assert.deepEqual(getSceneExits(planet,region).map(exit=>exit.targetRegionId),['brave-tower']);assert(getSceneExits(planet,tower).some(exit=>exit.targetRegionId==='mystery'));assert(!getSceneExits(planet,dark).some(exit=>exit.targetRegionId==='mystery'));
-    for(const room of planet.regions.filter(row=>row.battleFacility)){assert(getSceneExits(planet,hub).some(exit=>exit.targetRegionId===room.id));assert(getSceneExits(planet,room).some(exit=>exit.targetRegionId==='resources'));}
+    assert.deepEqual(getSceneExits(planet,hub).map(exit=>exit.targetRegionId).sort(),['brave-tower','dark-arena']);
+    for(const id of ['random-arena','elite-arena','classic-arena'])assert.equal(resolveWorldLocation(planet.id,id).region.id,hub.id);
   });
   check('The arena exposes one neutral Puni contact rather than seven seal actors or a true-body shortcut',()=>{
-    const game=make(),before=game.exportSave(),html=mapMarkup(game);assert.equal((html.match(/aria-label="与谱尼互动，查看挑战进度"/g)??[]).length,1);assert(html.includes('data-campaign="puni"'));assert(!html.includes('aria-label="与谱尼真身互动"'));assert(!/aria-label="与谱尼·第[^\"]+互动"/.test(html));assert(html.includes('/maps/original/10032.svg'));assert.equal(game.exportSave(),before,'Rendering the neutral contact cannot alter campaign progress');
+    const game=make(),before=game.exportSave(),html=mapMarkup(game);assert.equal((html.match(/aria-label="与谱尼互动，查看挑战进度"/g)??[]).length,1);assert(html.includes('data-campaign="puni"'));assert(!html.includes('aria-label="与谱尼真身互动"'));assert(!/aria-label="与谱尼·第[^\"]+互动"/.test(html));assert(html.includes(`class="world-background" src="${expectedBackground}"`));assert(html.includes('data-map-id="10032"'));assert.equal(game.exportSave(),before,'Rendering the neutral contact cannot alter campaign progress');
     for(const target of [undefined,...bossIds])assert.deepEqual(findSceneChallenges(planet.id,region.id,game.snapshot().bosses,target),[],'Even a targeted old boss link cannot inject a true-body actor into the campaign arena');
   });
   check('A fresh save selects seal one while every later seal and the six-life body remain locked',()=>{

@@ -19,6 +19,14 @@ export interface WorldMapProps {
 type Selection = { kind: 'creature'; id: number; instanceId?: string; level?: number } | { kind: 'boss'; id: string } | { kind: 'campaign'; id: string } | { kind: 'facility' };
 
 type WorldPoint = { x:number; y:number };
+type SceneTerminal = WorldPoint & {page:string;name:string;hint:string;width:number;height:number;approach:WorldPoint;captionAbove?:boolean};
+// One interaction on each retained piece of equipment. These footprints are
+// visual adaptations of the original backgrounds, not additional map rooms.
+const stationTerminals:Record<string,SceneTerminal>={
+  resources:{page:'facilities:random',name:'对战终端',hint:'随机 · 巅峰 · 经典',x:74,y:18,width:17,height:36,approach:{x:69,y:44}},
+  'brave-tower':{page:'tower',name:'勇者之塔控制台',hint:'查看楼层与进度',x:80.5,y:9.5,width:12,height:19,approach:{x:72,y:39}},
+  'dark-arena':{page:'challenge:dark',name:'暗黑挑战终端',hint:'选择挑战之门',x:49,y:93,width:16,height:12,approach:{x:49,y:78},captionAbove:true},
+};
 type RobotDirection = 'front'|'back'|'left'|'right'|'front-left'|'front-right'|'back-left'|'back-right';
 type RoamLeg = { from:WorldPoint; to:WorldPoint; control:WorldPoint|null; elapsed:number; duration:number };
 type RoamState = { position:WorldPoint; rest:number; leg:RoamLeg|null; facing:'left'|'right' };
@@ -197,6 +205,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const activeFacility=region.facility;
   const facilityName=region.facility==='missions'?'罗杰船长':region.facility==='recovery'?'派特博士':region.facility==='battle'?'对战管理员':'传送管理员';
   const laboratory=planet.id==='station'&&region.id==='lab';
+  const stationTerminal=planet.id==='space-station'?stationTerminals[region.id]:undefined;
   // The original map contains the equipment: bind interaction to its actual footprint.
   const laboratoryFacilities=[
     {page:'fusion',name:'精灵融合舱',x:8.5,y:33.5,width:14,height:34,approach:{x:17,y:58}},
@@ -231,7 +240,10 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     const targetBoss=travelTo.bossId?s.bosses.find(b=>b.id===travelTo.bossId):undefined;
     const landing=targetBoss?findChallengeLocation(targetBoss):travelTo;
     const target=resolveWorldLocation(landing.planetId,landing.regionId??'');visit(target.planet,target.region);
-    if(targetBoss)setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
+    if(targetBoss){
+      if(target.planet.id==='space-station'&&target.region.id==='brave-tower')onNavigate?.('tower');
+      else setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
+    }
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   useEffect(()=>{
     if(!focusSpecies)return;
@@ -302,7 +314,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${duration}ms`} as CSSProperties;
   const at=(point:WorldPoint):CSSProperties=>({left:`${point.x}%`,top:`${point.y}%`});
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
-    <div key={`${planet.id}/${region.id}`} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={region.backgroundKind??(official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId} tabIndex={0} aria-label={`${region.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
+    <div key={`${planet.id}/${region.id}`} className={`world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}${planet.id==='space-station'?' world-station-scene':''}`} style={{width:sceneSize.width,height:sceneSize.height}} data-background-kind={region.backgroundKind??(official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId} tabIndex={0} aria-label={`${region.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
       <img className="world-background" src={background} alt="" draggable={false} onLoad={event=>{const image=event.currentTarget;setImageSize({source:background,width:image.naturalWidth,height:image.naturalHeight})}}/>
       {!official&&<div className="world-authored-light" aria-hidden="true"/>}
       <div className="world-location-hud" title={`${planet.subtitle} · ${region.facility?'飞船设施':`Lv.${region.levels[0]}–${region.levels[1]}`}`}><strong>{region.name}</strong></div>
@@ -337,6 +349,13 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
         <span className="world-lab-equipment-outline" aria-hidden="true"/>
         <span className="world-character-name">{facility.name}</span>
       </button>)}
+      {stationTerminal&&<button className={`world-station-terminal${stationTerminal.captionAbove?' world-station-terminal-caption-above':''}`}
+        style={{...at(stationTerminal),width:`${stationTerminal.width}%`,height:`${stationTerminal.height}%`}}
+        aria-label={`使用${stationTerminal.name}`} data-station-action={stationTerminal.page}
+        onClick={event=>{event.stopPropagation();setSelection(null);walk(stationTerminal.approach.x,stationTerminal.approach.y,()=>onNavigate?.(stationTerminal.page))}}>
+        <span className="world-station-terminal-outline" aria-hidden="true"/>
+        <span className="world-station-terminal-caption"><strong>{stationTerminal.name}</strong><small>{stationTerminal.hint}</small></span>
+      </button>}
       <div ref={player} className="world-player" style={at(visiblePlayerPosition)}><ClassicRobot direction={playerDirection} walking={moving} role="player"/><span>赛尔</span></div>
       {moving&&<div className="world-walk-marker" style={at(playerPosition)} aria-hidden="true"/>}
       <div className="world-ground-hint" aria-live="polite">{moving?'正在前往…':'点击地图任意位置移动 · 点击精灵互动'}</div>

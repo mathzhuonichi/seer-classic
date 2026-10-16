@@ -29,5 +29,11 @@ for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,leve
 const seed=JSON.parse(game.exportSave()) as Save;
 seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.party.slice(1)].slice(0,6);
 seed.items={};
+// Optional fixture for reviewing checkpoint states; this remains memory-only.
+const towerFloor=Number(new URLSearchParams(location.search).get('towerFloor'));
+if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=70){
+  seed.progress.bosses_cleared=Array.from({length:towerFloor-1},(_,index)=>`boss_tower_brave_f${String(index+1).padStart(3,'0')}`);
+  (seed as Save&{game:{braveTower:{highestCleared:number;resumeFloor:number}}}).game.braveTower={highestCleared:towerFloor-1,resumeFloor:towerFloor};
+}
 game.importSave(JSON.stringify(seed));
 createRoot(document.getElementById('root')!).render(<Game controller={game}/>);

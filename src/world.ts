@@ -18,7 +18,7 @@ export interface WorldRegion {
   /** Visible map contacts that open a collection quest instead of a field battle. */
   recruitmentSpecies?: number[];
   facility?: 'recovery' | 'missions' | 'challenges' | 'battle';
-  /** Remake battle facilities occupy authored rooms without changing boss maps. */
+  /** Optional direct facility identity for a region-specific interaction. */
   battleFacility?: 'random' | 'elite' | 'classic';
   originalMapId?: number;
   background?: string; backgroundKind?: 'official' | 'remastered' | 'authored';
@@ -61,13 +61,9 @@ export const WORLD_GALAXIES: WorldGalaxy[] = [
  */
 export const WORLD_PLANETS: WorldPlanet[] = [
   {id:'station',originalMapId:1,galaxyId:'ship',name:'赛尔号飞船',subtitle:'启航与补给',theme:'station',color:'#63d8f2',background:'/maps/station.svg',regions:[
-    {id:'transport',originalMapId:1,name:'传送舱',description:'准备好精灵伙伴，选择一颗星球出发。星际挑战也可以从这里直接进入。',x:24,y:62,creatures:[],levels:[1,100],facility:'challenges'},
+    {id:'transport',originalMapId:1,name:'传送舱',description:'准备好精灵伙伴，选择一颗星球出发。传送管理员提供挑战档案；尚未定位的任务对手会在这里接洽。',x:24,y:62,creatures:[],levels:[1,100],facility:'challenges',challengeStaging:true},
     {id:'lab',originalMapId:5,name:'实验室',description:'派特博士负责精灵研究。后方左舱进行精灵融合，右舱进行精灵繁殖；中央补给终端免费提供道具。博士可以恢复全队体力和技能 PP。',x:53,y:47,creatures:[],levels:[1,100],facility:'recovery'},
     {id:'captain',originalMapId:4,name:'船长室',description:'查看航行任务，完成目标后在这里领取精灵奖励。',x:79,y:62,creatures:[],levels:[1,100],facility:'missions'},
-    {id:'brave-tower',name:'勇者之塔接驳区',description:'在接驳平台选择勇者之塔的楼层对手，整备战队后，与场景中的精灵互动开启挑战。',x:31,y:61,creatures:[],levels:[1,100],challengeStaging:true},
-    {id:'dark-arena',name:'暗黑武斗场接驳区',description:'这里连接暗黑武斗场的各道门与试炼，选择对手后在场景内确认挑战。',x:47,y:57,creatures:[],levels:[1,100],challengeStaging:true},
-    {id:'mission-dock',name:'任务挑战接驳区',description:'航行任务与特训对手在这里等待。准备好战队，与场景中的精灵互动开始挑战。',x:63,y:61,creatures:[],levels:[1,100],challengeStaging:true},
-    {id:'challenge-dock',name:'星际挑战接驳区',description:'这里连接星际首领与传说挑战。选择对手后，在接驳平台整备战队，确认进入战场。',x:79,y:57,creatures:[],levels:[1,100],challengeStaging:true},
   ]},
   {id:'klose',originalMapId:10,galaxyId:'pano',name:'克洛斯星',subtitle:'草原 · 沼泽 · 林间',theme:'grass',color:'#8dd756',background:'/maps/klose.svg',regions:[
     {id:'plain',originalMapId:10,name:'克洛斯星草原',description:'皮皮在草地上嬉戏。寻找伙伴，迈出星际探索的第一步。',x:24,y:68,creatures:[10],levels:[3,6]},
@@ -204,9 +200,21 @@ for(const planet of WORLD_PLANETS) {
 export interface WorldPreference { planetId: string; regionId: string; x: number; y: number; visited: string[] }
 const preferenceKey='seer-classic.world-ui.v1';
 export const defaultWorldPreference = ():WorldPreference => ({planetId:'klose',regionId:'plain',x:42,y:80,visited:['klose/plain']});
+// Older UI preferences and links keep their destination without retaining
+// duplicate rooms. These aliases never rewrite the player's gameplay save.
+const locationAliases:Record<string,readonly [string,string]>={
+  'station/brave-tower':['space-station','brave-tower'],
+  'station/dark-arena':['space-station','dark-arena'],
+  'station/mission-dock':['station','transport'],
+  'station/challenge-dock':['station','transport'],
+  'space-station/random-arena':['space-station','resources'],
+  'space-station/elite-arena':['space-station','resources'],
+  'space-station/classic-arena':['space-station','resources'],
+};
 export function resolveWorldLocation(planetId: string, regionId: string) {
-  const planet=WORLD_PLANETS.find(p=>p.id===planetId)??WORLD_PLANETS[1];
-  return {planet,region:planet.regions.find(r=>r.id===regionId)??planet.regions[0]};
+  const [canonicalPlanet,canonicalRegion]=locationAliases[`${planetId}/${regionId}`]??[planetId,regionId];
+  const planet=WORLD_PLANETS.find(p=>p.id===canonicalPlanet)??WORLD_PLANETS[1];
+  return {planet,region:planet.regions.find(r=>r.id===canonicalRegion)??planet.regions[0]};
 }
 export function readWorldPreference():WorldPreference {
   try {
@@ -241,24 +249,20 @@ export function findChallengeLocation(boss: BossView): ChallengeLocation {
     }) ?? planet.regions[0];
     return { planetId: planet.id, regionId: region.id, staging: false };
   }
-  const regionId = boss.category === '暗黑武斗场' || /dark_|暗黑/.test(`${boss.id} ${boss.name}`)
-    ? 'dark-arena'
-    : boss.category === '勇者之塔' || /tower/.test(boss.id) ? 'brave-tower'
-    : boss.category === '任务挑战' ? 'mission-dock' : 'challenge-dock';
-  return { planetId: 'station', regionId, staging: true };
+  return { planetId: 'station', regionId:'transport', staging: true };
 }
 
 /** A selected encounter appears in its resolved habitat or facility. */
 export function findSceneChallenges(planetId: string, regionId: string, bosses: BossView[], targetBossId?: string): BossView[] {
-  const { region } = resolveWorldLocation(planetId, regionId);
-  // Stage IDs still define their canonical destination, but the map displays
-  // one campaign contact and lets saved progression select the next stage.
-  if (region.campaignId) return [];
+  const { planet,region } = resolveWorldLocation(planetId, regionId);
+  // Campaigns expose one neutral contact; the Tower exposes its control panel.
+  // Neither route renders individual stages that could bypass saved progression.
+  if (region.campaignId || planet.id==='space-station'&&region.id==='brave-tower') return [];
   const ids = [...(region.bossIds ?? [])];
   const target = bosses.find(boss => boss.id === targetBossId);
   if (target) {
     const landing = findChallengeLocation(target);
-    if (landing.planetId === planetId && landing.regionId === regionId) ids.push(target.id);
+    if (landing.planetId === planet.id && landing.regionId === region.id) ids.push(target.id);
   }
   return [...new Set(ids)].map(id => bosses.find(boss => boss.id === id)).filter((boss): boss is BossView => !!boss);
 }

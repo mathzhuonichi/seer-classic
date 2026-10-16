@@ -30,9 +30,11 @@ export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bo
 export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: {species: number; name: string; level: number}[]; rewardText: string; blockedReason?: string }
 export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
-export interface GameSnapshot { monsters: MonsterView[]; party: string[]; bosses: BossView[]; campaigns: CampaignView[]; facilities?: BattleFacilityView[]; species: SpeciesView[]; quests: QuestView[]; battle: BattleView | null; expPool: number; coins: number; notices: string[]; natures: {id: string; name: string}[]; traits: {id: string; name: string; description: string}[]; items: ItemView[]; shopItems:ShopItemView[]; modules: {fifthSkills: number; soulMarks: number; engravings: number} }
+export interface BraveTowerView { highestCleared: number; resumeFloor: number | null; totalFloors: number; checkpoints: {floor:number;unlocked:boolean}[] }
+export interface GameSnapshot { monsters: MonsterView[]; party: string[]; bosses: BossView[]; campaigns: CampaignView[]; facilities?: BattleFacilityView[]; braveTower?:BraveTowerView; species: SpeciesView[]; quests: QuestView[]; battle: BattleView | null; expPool: number; coins: number; notices: string[]; natures: {id: string; name: string}[]; traits: {id: string; name: string; description: string}[]; items: ItemView[]; shopItems:ShopItemView[]; modules: {fifthSkills: number; soulMarks: number; engravings: number} }
 export type GameAction =
  | {type: 'startBattle'; bossId: string}
+ | {type: 'startTower'; floor: number}
  | {type: 'startFacility'; facilityId: string; teamId?: string}
  | {type: 'startCampaignStage'; campaignId: string; stageId: string}
  | {type: 'resetCampaign'; campaignId: string}

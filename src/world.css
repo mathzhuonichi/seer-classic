@@ -120,3 +120,16 @@
 .world-lab-facility .world-character-name{top:-12%;max-width:none;font-family:SeerSimHei,SimHei,'黑体','Heiti SC',sans-serif;font-size:clamp(14px,2.1cqw,20px);font-weight:900;line-height:1.15;letter-spacing:0;color:#fff0ad;-webkit-text-stroke:2px #75400a;paint-order:stroke fill;text-shadow:0 1px 0 #5b3006;background:#75400a;border:3px solid #ffe59a;border-radius:6px;box-shadow:0 0 0 2px #3985b0,0 2px 0 2px #144677;padding:3px 6px;white-space:nowrap}
 .world-lab-facility:hover .world-character-name,.world-lab-facility:focus-visible .world-character-name{color:#fff8d3;text-shadow:0 1px 0 #5b3006;border-color:#fff2b8;box-shadow:0 0 0 2px #70d7ff,0 2px 0 2px #144677}
 .world-lab-shop .world-character-name{top:8%}
+
+/* Station actions use the equipment already drawn in the retained scenes. */
+.world-station-terminal,.world-station-terminal:hover{position:absolute;transform:translate(-50%,-50%);padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible;cursor:pointer;z-index:4}
+.world-station-terminal-outline{position:absolute;inset:0;border:2px solid transparent;border-radius:10%;pointer-events:none;transition:border-color .15s,box-shadow .15s}
+.world-station-terminal:hover .world-station-terminal-outline,.world-station-terminal:focus-visible .world-station-terminal-outline{border-color:#b8f7ff;box-shadow:0 0 12px #67e7ff80,inset 0 0 8px #9cf3ff50}
+.world-station-terminal:focus-visible{outline:2px solid #ffe37b;outline-offset:3px}
+.world-station-terminal-caption{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;width:max-content;max-width:190px;pointer-events:none;white-space:nowrap;font-family:SeerSimSun,SimSun,'宋体','Songti SC',STSong,serif;text-shadow:-1px 0 #10304d,1px 0 #10304d,0 -1px #10304d,0 1px #10304d}
+.world-station-terminal-caption strong{font-size:clamp(11px,1.6cqw,16px);font-weight:400;color:#fff18a;line-height:1.2}
+.world-station-terminal-caption small{font-size:clamp(9px,1.2cqw,12px);font-weight:400;color:#e2f7ff;line-height:1.2}
+.world-station-terminal-caption-above .world-station-terminal-caption{top:auto;bottom:calc(100% + 3px)}
+.world-station-scene .world-gate-caption{visibility:visible;opacity:1;border:0;background:none;box-shadow:none;padding:2px 0;white-space:nowrap}
+.world-station-scene .world-gate-caption small{display:none}
+.world-station-scene .world-gate-caption strong{font-size:clamp(10px,1.3cqw,13px);font-weight:400;text-shadow:-1px 0 #10304d,1px 0 #10304d,0 -1px #10304d,0 1px #10304d}

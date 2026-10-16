@@ -13,6 +13,8 @@ import Inventory from './components/Inventory';
 import Dex from './components/Dex';
 import ChallengeCenter from './components/ChallengeCenter';
 import BattleFacilities from './components/BattleFacilities';
+import BraveTower from './components/BraveTower';
+import {braveTowerFloor} from './progression/brave-tower';
 import QuestPanel from './components/QuestPanel';
 import ChallengeCampaignScene from './components/ChallengeCampaignScene';
 import {CHALLENGE_CAMPAIGNS} from './progression/challenge-campaigns';
@@ -31,7 +33,7 @@ import './app.css';
 import './game-shell.css';
 if(import.meta.env.DEV)void import('./presentation/classic-font.css');
 
-type WindowKind='atlas'|'monsters'|'fusion'|'breeding'|'shop'|'bag'|'dex'|'quests'|'challenge'|'facilities'|'recovery'|'settings';
+type WindowKind='atlas'|'monsters'|'fusion'|'breeding'|'shop'|'bag'|'dex'|'quests'|'challenge'|'facilities'|'tower'|'recovery'|'settings';
 const classicTools:{id:WindowKind;asset:string;label:string}[]=[
  {id:'quests',asset:'mission',label:'任务'},
  {id:'challenge',asset:'new-spt',label:'SPT'},
@@ -44,7 +46,7 @@ const classicTools:{id:WindowKind;asset:string;label:string}[]=[
 ];
 const classicIconFiles:Record<string,string>={'new-spt':'new-spt-vector.svg',map:'hd/map-v44.svg',creatures:'hd/creatures-no-circle-v50.svg'};
 const classicIcon=(asset:string)=>`/ui/classic/${classicIconFiles[asset]??`${asset}.svg`}`;
-const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',facilities:'太空站 · 对战设施',recovery:'精灵恢复舱',settings:'航行设置'};
+const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',facilities:'太空站 · 对战设施',tower:'勇者之塔',recovery:'精灵恢复舱',settings:'航行设置'};
 export default function App(){const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');useEffect(()=>{loadGameData().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>}
 function currentBattleScene(){
  const preference=readWorldPreference(),{planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
@@ -69,6 +71,8 @@ export function Game({controller:c}:{controller:GameController}){
  const [bagPocket,setBagPocket]=useState<string>();
  const [questFocusId,setQuestFocusId]=useState<string>();
  const [facilityId,setFacilityId]=useState<string>();
+ const [challengeCategory,setChallengeCategory]=useState<string>();
+ const towerBattle=useRef(false);
  const battleLevels=useRef<Map<string,number>|null>(null),battleLevelUpPending=useRef(false);
  const preparing=useRef(false),preparationId=useRef(0),preparationAbort=useRef<AbortController|null>(null),file=useRef<HTMLInputElement>(null);
  useEffect(()=>()=>{preparationId.current++;preparationAbort.current?.abort();clearIdleBattleAnimations()},[]);
@@ -87,8 +91,13 @@ export function Game({controller:c}:{controller:GameController}){
  const monster=s.monsters.find(m=>m.uid===selected)??s.monsters[0];
  useEffect(()=>{const key=(event:KeyboardEvent)=>{if(event.key==='Escape'){setWindowKind(null);setModifier(false)}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);
  async function beginBattle(action:GameAction){
-  if(preparing.current)return;preparing.current=true;const scene=action.type==='startCampaignStage'&&campaignScene.current?campaignScene.current:explorationScene.current;setBattleScene(scene);const request=++preparationId.current;setWindowKind(null);setMessage('');c.dispatch({type:'dismissNotice'});c.dispatch(action);
-  const battle=c.snapshot().battle;if(!battle||battle.finished){preparing.current=false;return}
+  if(preparing.current)return;preparing.current=true;
+  const enteringTower=action.type==='startTower'||action.type==='startBattle'&&braveTowerFloor(action.bossId)!==undefined;
+  const towerLocation=enteringTower?resolveWorldLocation('space-station','brave-tower'):undefined;
+  const scene=towerLocation?{src:towerLocation.region.background??towerLocation.planet.background,name:towerLocation.region.name}:action.type==='startCampaignStage'&&campaignScene.current?campaignScene.current:explorationScene.current;
+  setBattleScene(scene);const request=++preparationId.current;setWindowKind(null);setMessage('');c.dispatch({type:'dismissNotice'});c.dispatch(action);
+  const battle=c.snapshot().battle;if(!battle||battle.finished){preparing.current=false;if(enteringTower)setWindowKind('tower');return}
+  towerBattle.current=enteringTower;
   preparationAbort.current?.abort();const loading=new AbortController();preparationAbort.current=loading;const {signal}=loading;
   battleLevels.current=new Map(battle.party.map(mon=>[mon.uid,mon.level]));
   const campaign=action.type==='startCampaignStage'?CHALLENGE_CAMPAIGNS.find(entry=>entry.id===action.campaignId):undefined;
@@ -118,13 +127,22 @@ export function Game({controller:c}:{controller:GameController}){
   if(c.snapshot().battle?.finished)c.dispatch({type:'closeBattle'});setCampaignId(id);setFocusSpecies(undefined);setWindowKind(null);setMessage('')
  }
  const uiController=useMemo<GameController>(()=>({...c,dispatch:action=>{
-  if(action.type==='closeBattle'){const before=c.snapshot(),result=before.battle?.result;battleLevelUpPending.current=!!before.battle?.finished&&!!before.battle.won&&!!battleLevels.current&&battleLevelGained(battleLevels.current,before.monsters);c.dispatch(action);setWindowKind(null);if(result)setMessage(result);return}
+  if(action.type==='closeBattle'){const before=c.snapshot(),result=before.battle?.result;battleLevelUpPending.current=!!before.battle?.finished&&!!before.battle.won&&!!battleLevels.current&&battleLevelGained(battleLevels.current,before.monsters);c.dispatch(action);setWindowKind(towerBattle.current?'tower':null);towerBattle.current=false;if(result)setMessage(result);return}
   const campaign=action.type==='startBattle'?CHALLENGE_CAMPAIGNS.find(entry=>entry.stages.some(stage=>stage.bossIds.includes(action.bossId))):action.type==='startTraining'&&action.species!==70?CHALLENGE_CAMPAIGNS.find(entry=>entry.species===action.species):undefined;
   if(campaign){openCampaign(campaign.id);return}
-  if(action.type==='startBattle'||action.type==='startTraining'||action.type==='startCampaignStage'||action.type==='startFacility')void beginBattle(action);else{const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound)};
+  if(action.type==='startBattle'||action.type==='startTraining'||action.type==='startCampaignStage'||action.type==='startFacility'||action.type==='startTower')void beginBattle(action);else{const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound)};
  }}),[c]);
- function open(kind:WindowKind){if(preparation)return;if(s.battle&&!s.battle.finished){if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});setWindowKind(null);return}if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}}if(kind==='quests')setQuestFocusId(undefined);if(kind==='monsters')setFusionRecipeId(undefined);if(kind==='bag')setBagPocket(undefined);setWindowKind(current=>current===kind?null:kind)}
- function navigate(page:string){if(page.startsWith('campaign:')){const id=page.slice('campaign:'.length);if(s.campaigns.some(campaign=>campaign.id===id))openCampaign(id);return}if(page.startsWith('facilities:')){setFacilityId(page.slice('facilities:'.length));setWindowKind('facilities');return}if(page==='breeding')setBreedingRecipeId(undefined);if(page==='quests'||page==='home')setQuestFocusId(undefined);if(page==='fusion')setFusionRecipeId(undefined);const target:Record<string,WindowKind>={atlas:'atlas',map:'atlas',home:'quests',monsters:'monsters',fusion:'fusion',breeding:'breeding',shop:'shop',bag:'bag',dex:'dex',quests:'quests',challenge:'challenge',facilities:'facilities',recovery:'recovery',settings:'settings'};setWindowKind(target[page]??null)}
+ function open(kind:WindowKind){if(preparation)return;if(s.battle&&!s.battle.finished){if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});setWindowKind(null);return}if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}}if(kind==='quests')setQuestFocusId(undefined);if(kind==='monsters')setFusionRecipeId(undefined);if(kind==='bag')setBagPocket(undefined);if(kind==='challenge')setChallengeCategory(undefined);setWindowKind(current=>current===kind?null:kind)}
+ function openTower(){setCampaignId(null);setFocusSpecies(undefined);setTravelTo({planetId:'space-station',regionId:'brave-tower',requestId:Date.now()});setWindowKind('tower')}
+ function navigate(page:string){
+  if(page==='tower'){openTower();return}
+  if(page==='challenge:dark'){setChallengeCategory('暗黑武斗场');setWindowKind('challenge');return}
+  if(page.startsWith('campaign:')){const id=page.slice('campaign:'.length);if(s.campaigns.some(campaign=>campaign.id===id))openCampaign(id);return}
+  if(page.startsWith('facilities:')){setFacilityId(page.slice('facilities:'.length));setWindowKind('facilities');return}
+  if(page==='challenge')setChallengeCategory(undefined);
+  if(page==='breeding')setBreedingRecipeId(undefined);if(page==='quests'||page==='home')setQuestFocusId(undefined);if(page==='fusion')setFusionRecipeId(undefined);
+  const target:Record<string,WindowKind>={atlas:'atlas',map:'atlas',home:'quests',monsters:'monsters',fusion:'fusion',breeding:'breeding',shop:'shop',bag:'bag',dex:'dex',quests:'quests',challenge:'challenge',facilities:'facilities',recovery:'recovery',settings:'settings'};setWindowKind(target[page]??null)
+ }
  function exportSave(){const url=URL.createObjectURL(new Blob([c.exportSave()],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='赛尔号-星际存档.json';link.click();URL.revokeObjectURL(url);setMessage('航行存档已导出。')}
  function locate(_species:number,route:AcquisitionRoute){
   setFocusSpecies(undefined);
@@ -140,8 +158,8 @@ export function Game({controller:c}:{controller:GameController}){
   setWindowKind('monsters');
   if(!owned)setMessage('初始伙伴在新旅程开始时赠送，可在精灵仓库查看。');
  }
- function travelToChallenge(boss:BossView){const {planetId,regionId}=findChallengeLocation(boss);setCampaignId(null);setFocusSpecies(undefined);setWindowKind(null);setTravelTo({planetId,regionId,bossId:boss.id,requestId:Date.now()})}
- function leaveLoading(){preparationId.current++;preparationAbort.current?.abort();preparationAbort.current=null;c.dispatch({type:'flee'});c.dispatch({type:'closeBattle'});setPreparation(null);preparing.current=false;clearIdleBattleAnimations()}
+ function travelToChallenge(boss:BossView){if(braveTowerFloor(boss.id)!==undefined){openTower();return}const {planetId,regionId}=findChallengeLocation(boss);setCampaignId(null);setFocusSpecies(undefined);setWindowKind(null);setTravelTo({planetId,regionId,bossId:boss.id,requestId:Date.now()})}
+ function leaveLoading(){preparationId.current++;preparationAbort.current?.abort();preparationAbort.current=null;c.dispatch({type:'flee'});c.dispatch({type:'closeBattle'});setPreparation(null);preparing.current=false;setWindowKind(towerBattle.current?'tower':null);towerBattle.current=false;clearIdleBattleAnimations()}
  const notices=message||s.notices[0];
  useEffect(()=>{if(!notices)return;const timer=setTimeout(()=>{setMessage('');c.dispatch({type:'dismissNotice'})},3500);return()=>clearTimeout(timer)},[notices,c]);
  function renderTool(tool:typeof classicTools[number]){return <button key={tool.id} className={`toolbar-${tool.id} ${windowKind===tool.id?'active':''}`} aria-label={tool.label} title={tool.label} aria-pressed={windowKind===tool.id} onClick={()=>open(tool.id)}><img src={classicIcon(tool.asset)} alt="" draggable={false}/>{['dex','recovery','settings'].includes(tool.id)&&<span className="toolbar-label">{tool.label}</span>}{tool.id==='quests'&&s.quests.some(q=>q.claimable??(q.complete&&!q.claimed))&&<i className="hud-alert"/>}</button>}
@@ -161,8 +179,9 @@ export function Game({controller:c}:{controller:GameController}){
     {windowKind==='shop'&&<ItemShop s={s} c={uiController} onOpenBag={pocket=>{setBagPocket(pocket);setWindowKind('bag')}}/>}
     {windowKind==='bag'&&<Inventory s={s} c={uiController} onSave={exportSave} onMessage={setMessage} initialPocket={bagPocket}/>}
     {windowKind==='dex'&&<Dex s={s} c={uiController} onLocate={locate} focusSpecies={dexFocus}/>}
-    {windowKind==='challenge'&&<ChallengeCenter s={s} c={uiController} onExplore={()=>setWindowKind('atlas')} onTravel={travelToChallenge} onCampaign={openCampaign}/>}
+    {windowKind==='challenge'&&<ChallengeCenter s={s} c={uiController} initialCategory={challengeCategory} onExplore={()=>setWindowKind('atlas')} onTravel={travelToChallenge} onCampaign={openCampaign} onTower={openTower}/>}
     {windowKind==='facilities'&&<BattleFacilities s={s} c={uiController} facilityId={facilityId} onManage={()=>setWindowKind('monsters')}/>}
+    {windowKind==='tower'&&<BraveTower s={s} c={uiController} onManage={()=>setWindowKind('monsters')} onMystery={()=>{setTravelTo({planetId:'space-station',regionId:'mystery',requestId:Date.now()});setWindowKind(null)}}/>}
     {windowKind==='quests'&&<QuestPanel s={s} c={uiController} focusQuestId={questFocusId} onTravel={travelToChallenge} onLocateSpecies={species=>{setDexFocus(species);setWindowKind('dex')}} onOpenBag={()=>{setBagPocket('essence');setWindowKind('bag')}}/>}
     {windowKind==='recovery'&&<section className="recovery-console"><div className="recovery-symbol">✚</div><h3>恢复体力与技能 PP</h3><div className="recovery-roster">{s.party.map(uid=>{const m=s.monsters.find(m=>m.uid===uid)!;return <div key={uid}><span>{m.name}</span><span>{m.hp} / {m.stats.hp}</span></div>})}</div><button className="primary" onClick={()=>{c.dispatch({type:'heal'});gameAudio.playSfx('heal');setWindowKind(null)}}>恢复全队</button></section>}
     {windowKind==='settings'&&<section className="settings-console"><AudioSettings/><h3>航行存档</h3><p>旅程自动保存。导出文件可保留或转移当前进度。</p><div className="action-row"><button onClick={exportSave}>导出存档</button><button disabled={!!s.battle&&!s.battle.finished} onClick={()=>file.current?.click()}>导入存档</button></div><h3>开发工具</h3><button disabled={!!s.battle&&!s.battle.finished} onClick={()=>{setWindowKind(null);setModifier(true)}}>修改器</button><h3>画面</h3><button onClick={()=>{if(document.fullscreenElement)void document.exitFullscreen();else void document.documentElement.requestFullscreen().catch(()=>setMessage('当前预览窗口不支持全屏，可扩大游戏窗口。'))}}>切换全屏</button><p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 0.3.2 · 本地单人航行</p></section>}
