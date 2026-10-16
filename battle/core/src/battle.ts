@@ -129,6 +129,9 @@ export class Battle {
   encounter?: BossEncounter;
   scripts: ScriptRegistry;
   maxTurns: number;
+  conventionalMoves?: (speciesId: number) => number[];
+  /** Present only on a planner's isolated world; never on a live battle. */
+  planning?: { forcedReplacement?: Partial<Record<0 | 1, number>> };
   phasesFired = new Set<number>();
   damageBySide: [number, number] = [0, 0];
   lastKo: { by?: Mon; skill?: Skill; crit?: boolean; target: Mon; targetStatuses: string[]; status?: string; turn: number } | null = null;
@@ -146,6 +149,7 @@ export class Battle {
     this.rng = new Rng(opts.seed);
     this.scripts = opts.scripts ?? {};
     this.maxTurns = opts.maxTurns ?? C.MAX_TURNS;
+    this.conventionalMoves = opts.conventionalMoves;
     this.encounter = opts.encounter;
     const enc = opts.encounter;
     const s1: SideInput | undefined = enc

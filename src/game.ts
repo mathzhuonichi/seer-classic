@@ -14,6 +14,7 @@ import {buildCollectionAncestry,type CollectionSpecies} from './progression/coll
 import {buildSkinOptions,appearanceSpecies,sanitizeSkin} from './progression/skins';
 import {createItemShopViews,isShopItemAvailable} from './progression/item-shop';
 import {buildFacilityViews,createFacilityEncounter} from './progression/battle-facilities';
+import {conventionalMovesResolver} from './progression/conventional-moves';
 import {BRAVE_TOWER_FLOORS,braveTowerFloor,braveTowerBossId,normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,braveTowerRewards,type BraveTowerProgress} from './progression/brave-tower';
 import {meetsWildCapturePrerequisite} from '../battle/core/src/capture';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from './progression/fusion';
@@ -201,6 +202,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   let save!: FullSave;
   let rng: Rng;
   let battle: Battle | null = null;
+  let conventionalMoves: ((speciesId:number)=>number[]) | undefined;
   let battleAppearances=new Map<number,{species:number;appearanceSpecies:number}>();
   const transformedSlots=new Set<string>();
   let battleName = '';
@@ -544,7 +546,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     encounterMonster=wild;
     battleAppearances=new Map(roster.map((mon,slot)=>[slot,{species:mon.species,appearanceSpecies:appearanceSpecies(mon,skinOptions)}]));
     transformedSlots.clear();
-    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),sides:wild?[player,{kind:'wild',team:[wild]}]:[player,{kind:boss!.category==='trainer'?'trainer':'boss',team:boss!.team,unlimited_items:unlimitedItems}],encounter:boss??undefined});
+    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),...(boss?.category==='trainer'?{conventionalMoves:conventionalMoves??=conventionalMovesResolver(catalog)}:{}),sides:wild?[player,{kind:'wild',team:[wild]}]:[player,{kind:boss!.category==='trainer'?'trainer':'boss',team:boss!.team,unlimited_items:unlimitedItems}],encounter:boss??undefined});
     for(const event of battle.initialEvents)if(event.type==='transform')transformedSlots.add(`${event.side===1?1:0}:${event.slot??battle.sides[event.side===1?1:0].active}`);
     for(const mon of battle.sides[0].team) {
       const trait=traits.find(t=>t.id===save.game.traits[mon.uid!]);

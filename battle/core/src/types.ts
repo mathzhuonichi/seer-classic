@@ -128,6 +128,8 @@ export interface AiSpec {
   /** Only authored trainer teams opt in; historical boss ordering stays intact. */
   allow_switch?: boolean;
   style?: 'balanced' | 'offense' | 'control' | 'attrition';
+  /** Trainer planner: engine-simulated search (default) or the retained V57 heuristics. */
+  planner?: 'search' | 'v57';
 }
 
 export interface BossTeamMember extends MonsterInput {
@@ -204,6 +206,9 @@ export interface BattleOptions {
   variant?: string;              // encounter.variants[].id chosen by the player
   scripts?: ScriptRegistry;
   maxTurns?: number;             // safety stop, default 200
+  /** A trainer mode's conventional moveset per species. Planners use it to
+   * model an opponent; it is never the opponent's actual loadout. */
+  conventionalMoves?: (speciesId: number) => number[];
 }
 
 export interface DataSet {

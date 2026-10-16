@@ -95,7 +95,7 @@ function eliteSkillEligible(skill:Skill):boolean {
   return !fixedMultiHit&&!pureRecovery(skill);
 }
 
-function eliteMember(catalog:CatalogData,species:Species,skills:Map<number,Skill>,types:TypeData):BossTeamMember {
+export function eliteMember(catalog:CatalogData,species:Species,skills:Map<number,Skill>,types:TypeData):BossTeamMember {
   const build=eliteBuilds.get(species.id);
   if(!build)return ordinaryMember(species,skills,types,eliteSkillEligible);
   if(build.skills.length!==4||new Set(build.skills).size!==4||build.skills.some(id=>
