@@ -3,7 +3,7 @@
 
 import type {
   Action, AiSpec, BattleEvent, BattleOptions, BattleResult, BossEncounter, BossRule,
-  ConditionDef, DamageKind, DataSet, EffectOp, Hook, HookPoint, MonsterInput,
+  ConditionDef, DamageKind, DamageProbe, DataSet, EffectOp, Hook, HookPoint, JournalEntry, JournalMon, JournalOrder, MonsterInput,
   Objective, Phase, ScriptEntry, ScriptRegistry, SideInput, Skill, Species, StageKey, Stats, When,
 } from './types.ts';
 import * as C from './constants.ts';
@@ -143,6 +143,15 @@ export class Battle {
   private out: BattleEvent[] = [];
   private turnOrder: (0 | 1)[] = [];
   private damageDepth = 0;
+  /** Observation journal (design/notes/trainer-search-ai-v58.md 12.2). Plain data; never read by game rules. */
+  journal: JournalEntry[] = [];
+  // Journal bookkeeping. Both are null outside the moment they describe.
+  private hitTrace: HitTrace | null = null;
+  private lastOrder: { tie: boolean; spe: [number, number] } | null = null;
+  /** True only inside probeDamage: scripts, warnings and RNG-bearing branches are off. */
+  private probing = false;
+  /** Inside probeDamage: the side whose side-level rules count as unknown (none). */
+  private probeUnknownRules: 0 | 1 | null = null;
 
   constructor(opts: BattleOptions) {
     this.data = opts.data;
@@ -346,6 +355,15 @@ export class Battle {
     return events;
   }
 
+  /**
+   * Events of the turn being resolved that are not yet in `log` (for decisions made
+   * mid-turn, such as a faint replacement). Indexed after `log`: event k is at
+   * `log.length + k`, matching journal `logIndex`. Empty between turns.
+   */
+  get turnEvents(): readonly BattleEvent[] {
+    return this.out === this.initialEvents ? [] : this.out;
+  }
+
   get state() {
     return {
       turn: this.turn,
@@ -424,14 +442,18 @@ export class Battle {
     const order = this.orderActions(actions);
     this.turnOrder = order;
     const actors = order.map((i) => this.active(i));
+    const orderEntry = this.lastOrder ? this.journalOrder(actions, order) : null;
+    const executed = [false, false];
     for (let k = 0; k < order.length; k++) {
       if (this.result) break;
       const i = order[k];
       const action = actions[i];
       const mon = this.active(i);
       if (action.kind === 'move' && (mon !== actors[k] || mon.fainted)) continue;
+      if (action.kind === 'move' && !this.active((1 - i) as 0 | 1).fainted) executed[i] = true;
       this.doAction(i, action, k === 0);
     }
+    if (orderEntry && executed[0] && executed[1]) this.journal.push(orderEntry);
 
     if (!this.result) this.endOfTurn();
     if (!this.result) this.checkEnd();
@@ -440,6 +462,7 @@ export class Battle {
   }
 
   private orderActions(actions: [Action, Action]): (0 | 1)[] {
+    this.lastOrder = null;
     const rank = (i: 0 | 1) => {
       const a = actions[i];
       if (a.kind !== 'move') return { cls: 1, execution: false, pri: 0, spe: 0 };
@@ -451,9 +474,27 @@ export class Battle {
     if (r0.cls !== r1.cls) return r0.cls > r1.cls ? [0, 1] : [1, 0];
     if (r0.cls === 1) return [0, 1];
     if (r0.execution !== r1.execution) return r0.execution ? [0, 1] : [1, 0];
+    // Journal only ordinary priority/speed orderings; forced execution is not speed evidence.
+    const note = r0.execution ? null : { tie: false, spe: [r0.spe, r1.spe] as [number, number] };
+    this.lastOrder = note;
     if (r0.pri !== r1.pri) return r0.pri > r1.pri ? [0, 1] : [1, 0];
     if (r0.spe !== r1.spe) return r0.spe > r1.spe ? [0, 1] : [1, 0];
+    if (note) note.tie = true;
     return this.rng.next() < 0.5 ? [0, 1] : [1, 0];
+  }
+
+  /** Pure reads of the state at ordering time; pushed only if both moves execute. */
+  private journalOrder(actions: [Action, Action], order: (0 | 1)[]): JournalOrder | null {
+    const note = this.lastOrder;
+    if (!note || actions[0].kind !== 'move' || actions[1].kind !== 'move') return null;
+    const m0 = this.active(0), m1 = this.active(1);
+    return {
+      type: 'order', turn: this.turn, logIndex: this.log.length + this.out.length,
+      skills: [actions[0].skill, actions[1].skill], slots: [m0.slot, m1.slot], first: order[0],
+      speedTie: note.tie, speStages: [m0.stages.spe, m1.stages.spe], effSpe: [...note.spe],
+      priorityHooks: [this.hooksWithCond(m0, 'modify_priority').length > 0, this.hooksWithCond(m1, 'modify_priority').length > 0],
+      mons: [journalMon(m0), journalMon(m1)],
+    };
   }
 
   private doAction(i: 0 | 1, action: Action, first: boolean): void {
@@ -689,19 +730,37 @@ export class Battle {
       let landed = 0;
       let criticalDamage = false;
       for (let h = 0; h < hits && !target.fainted && !user.fainted; h++) {
-        const r = this.calcAttack(user, target, skill, ctx);
-        ctx.effectiveness = r.effectiveness;
-        if (r.effectiveness === 0) {
-          this.emit({ type: 'immune', side: target.side, skill: skill.id });
-          break;
+        // Journal: snapshot and static opacity before the hit; the damage pipeline adds the rest.
+        const trace = this.beginHitTrace(user, target, skill);
+        const outer = this.hitTrace;
+        this.hitTrace = trace;
+        let r!: ReturnType<Battle['calcAttack']>;
+        let dealt!: number;
+        try {
+          r = this.calcAttack(user, target, skill, ctx);
+          ctx.effectiveness = r.effectiveness;
+          if (r.effectiveness === 0) {
+            this.emit({ type: 'immune', side: target.side, skill: skill.id });
+            break;
+          }
+          ctx.crit = ctx.crit || r.crit;
+          let dmg = r.damage;
+          for (const { entry, op } of this.skillScripts(skill)) {
+            const m = entry.modifyDamage?.({ battle: this, user, foe: target, skill, ctx }, op.params, dmg);
+            if (typeof m === 'number') dmg = m;
+          }
+          dealt = this.dealDamage(target, dmg, { kind: 'attack', source: user, skill, crit: r.crit, effectiveness: r.effectiveness });
+        } finally {
+          this.hitTrace = outer;
         }
-        ctx.crit = ctx.crit || r.crit;
-        let dmg = r.damage;
-        for (const { entry, op } of this.skillScripts(skill)) {
-          const m = entry.modifyDamage?.({ battle: this, user, foe: target, skill, ctx }, op.params, dmg);
-          if (typeof m === 'number') dmg = m;
+        if (trace.damage !== undefined) {
+          const reasons = [...new Set(trace.reasons)];
+          this.journal.push({
+            type: 'hit', turn: this.turn, logIndex: trace.logIndex, attacker: trace.attacker, defender: trace.defender,
+            skill: skill.id, crit: r.crit, effectiveness: r.effectiveness, damage: trace.damage, hitIndex: h,
+            actedFirst, opaque: reasons.length > 0, opaqueReasons: reasons,
+          });
         }
-        const dealt = this.dealDamage(target, dmg, { kind: 'attack', source: user, skill, crit: r.crit, effectiveness: r.effectiveness });
         ctx.damageDealt += dealt;
         criticalDamage ||= r.crit && dealt > 0;
         landed++;
@@ -732,22 +791,55 @@ export class Battle {
     if (ctx.hit && targetsFoe) this.runHookEffects(user, 'on_hit', target, { skill, ctx });
   }
 
+  /** Pure reads: what a public observer could not reproduce about this hit before it is computed. */
+  private beginHitTrace(user: Mon, target: Mon, skill: Skill): HitTrace {
+    const reasons: string[] = [];
+    for (const { entry } of this.skillScripts(skill)) {
+      for (const key of ['power', 'modifyDamage', 'finalDamage', 'defense'] as const) if (entry[key]) reasons.push(`script_${key}`);
+    }
+    if (user.skillOverrides?.[skill.id]) reasons.push('skill_override');
+    const scan = (mon: Mon, role: string, points: HookPoint[]) => {
+      for (const point of points) for (const { hook } of this.hooksWithCond(mon, point)) {
+        if (hook.script) reasons.push(`${role}_${point}_script`);
+        else if (hook.when) reasons.push(`${role}_${point}_when`);
+      }
+    };
+    scan(user, 'attacker', ['modify_power', 'modify_damage_dealt', 'modify_damage_outgoing', 'modify_stat']);
+    scan(target, 'defender', ['modify_damage_taken', 'modify_damage_final', 'modify_stat', 'before_hit']);
+    return { target, reasons, logIndex: this.log.length + this.out.length, attacker: journalMon(user), defender: journalMon(target) };
+  }
+
+  /** Records an opacity reason for the hit being computed, if `target` is its defender. */
+  private traceHit(target: Mon, reason: string): void {
+    const trace = this.hitTrace;
+    if (trace && trace.target === target && trace.damage === undefined) trace.reasons.push(reason);
+  }
+
   private hasPowerOp(skill: Skill): boolean {
     return (skill.effects ?? []).some((e) => (e.op === 'power_if' && e.power) || (e.op === 'script' && this.script(e.id)?.power));
   }
 
-  /** Damage before taken/dealt condition mods. Draws: crit, roll. */
-  calcAttack(user: Mon, target: Mon, skill: Skill, ctx?: Partial<MoveCtx>, opts: { estimate?: boolean } = {}) {
+  /**
+   * Damage before taken/dealt condition mods. Draws: crit, roll.
+   * With `roll` (and `crit`) given, those are used instead and nothing is drawn;
+   * a chance-gated power condition then counts as not triggered (as in `estimate`).
+   */
+  calcAttack(user: Mon, target: Mon, skill: Skill, ctx?: Partial<MoveCtx>, opts: { estimate?: boolean; roll?: number; crit?: boolean } = {}) {
+    const fixed = opts.roll !== undefined;
     let power = skill.power;
     for (const op of skill.effects ?? []) {
       if (op.op === 'power_if') {
         if (!this.evalWhen(op.when, { self: user, foe: target, actedFirst: ctx?.actedFirst })) continue;
-        if (op.chance !== undefined && op.chance < 100 && (opts.estimate || !this.rng.chance(op.chance))) continue;
+        if (op.chance !== undefined && op.chance < 100) {
+          if (opts.estimate || fixed) continue;
+          this.traceHit(target, 'power_chance');
+          if (!this.rng.chance(op.chance)) continue;
+        }
         if (op.power) power = op.power;
         if (op.multiplier) power *= op.multiplier;
       } else if (op.op === 'script') {
         const fn = this.script(op.id)?.power;
-        if (!fn) continue;
+        if (!fn || this.probing) continue;
         const r = fn({ battle: this, user, foe: target, skill, ctx, estimate: !!opts.estimate }, op.params, power);
         if (typeof r === 'number') power = r;
       }
@@ -757,7 +849,7 @@ export class Battle {
     const physical = skill.category === 'physical';
     const A = this.effStat(user, physical ? 'atk' : 'spa');
     let D = this.effStat(target, physical ? 'def' : 'spd');
-    for (const { entry, op } of this.skillScripts(skill)) {
+    for (const { entry, op } of this.probing ? [] : this.skillScripts(skill)) {
       const r = entry.defense?.({ battle: this, user, foe: target, skill }, op.params, D);
       if (typeof r === 'number') D = r;
     }
@@ -767,12 +859,15 @@ export class Battle {
     // A dual creature receives one bonus for its own pair or either component.
     // A partially overlapping dual skill is not the creature's own type.
     const stab = attackTypes(this.data.types, skill.type).every(type => user.types.includes(type)) ? C.STAB : 1;
-    const ignoreChart = hasRule(this.sides[target.side], 'ignore_type_chart', target);
+    const ignoreChart = hasRule(this.ruleSide(target.side), 'ignore_type_chart', target);
     const eff = ignoreChart ? 1 : effectiveness(this.data.types, skill.type, target.types);
 
     let crit = false;
     let roll = (C.RANDOM_MIN + C.RANDOM_MAX) / 2;
-    if (!opts.estimate) {
+    if (fixed) {
+      crit = !!opts.crit;
+      roll = opts.roll!;
+    } else if (!opts.estimate) {
       let rate = skill.crit_rate ?? (skill.crit_stage !== undefined ? 1 + skill.crit_stage : C.DEFAULT_CRIT_RATE);
       let force = false;
       for (const op of skill.effects ?? []) {
@@ -804,6 +899,44 @@ export class Battle {
     }
     const damage = base * stab * eff * (roll / C.RANDOM_MAX) * (crit ? C.CRIT_MULTIPLIER : 1);
     return { damage, crit, effectiveness: eff, base, power };
+  }
+
+  /**
+   * Displayed damage (`amount + overkill`) of one attack hit with a fixed roll
+   * (RANDOM_MIN..RANDOM_MAX) and crit. Reuses calcAttack and the damage pipeline
+   * of applyDamage. Draws no RNG, emits no events and mutates nothing: scripts
+   * (script power, defense, modifyDamage, finalDamage and script hooks) are not
+   * run, chance-gated power counts as not triggered, charges are not consumed and
+   * a cap-break chance counts as failed. Those cases are journaled as opaque, so
+   * every non-opaque real hit equals the probe at its realized roll and crit.
+   */
+  probeDamage(user: Mon, target: Mon, skill: Skill, opts: DamageProbe): number {
+    const { roll } = opts;
+    if (!Number.isInteger(roll) || roll < C.RANDOM_MIN || roll > C.RANDOM_MAX) throw new Error(`probe roll must be an integer in ${C.RANDOM_MIN}..${C.RANDOM_MAX}`);
+    if (skill.category === 'status') return 0;
+    const wasProbing = this.probing, trace = this.hitTrace, unknownRules = this.probeUnknownRules;
+    this.probing = true;
+    this.hitTrace = null;
+    this.probeUnknownRules = opts.unknownRulesSide ?? null;
+    try {
+      const crit = !!opts.crit;
+      const ctx: Partial<MoveCtx> = { skill, hit: true, crit, damageDealt: 0, effectiveness: 1, actedFirst: opts.actedFirst, user, target };
+      const r = this.calcAttack(user, target, skill, ctx, { roll, crit });
+      if (r.effectiveness === 0) return 0;
+      const { dmg, blocked } = this.computeDamage(target, r.damage, { kind: 'attack', source: user, skill, crit, effectiveness: r.effectiveness }, true);
+      return blocked ? 0 : dmg;
+    } finally {
+      this.probing = wasProbing;
+      this.hitTrace = trace;
+      this.probeUnknownRules = unknownRules;
+    }
+  }
+
+  /** The side consulted for side-level rules; a rule-less view of the side probeDamage treats as unknown. */
+  private ruleSide(index: 0 | 1): Side {
+    const side = this.sides[index];
+    if (!this.probing || this.probeUnknownRules !== index) return side;
+    return Object.create(side, { rules: { value: [] } }) as Side;
   }
 
   /** Raw expected damage, no RNG (AI). */
@@ -854,13 +987,17 @@ export class Battle {
     }
   }
 
-  private applyDamage(target: Mon, raw: number, info: DamageInfo): number {
-    if (target.fainted) return 0;
-    const side = this.sides[target.side];
+  /**
+   * The damage pipeline of applyDamage up to the HP change. With `probe` it has
+   * no side effects: no charge use, scripts, RNG draw or floor-break mark.
+   */
+  private computeDamage(target: Mon, raw: number, info: DamageInfo, probe: boolean): { dmg: number; blocked: string | null } {
+    const side = this.ruleSide(target.side);
     let dmg = raw;
     const src = info.source;
     let zeroedByCondition = false;
     const trueCost = info.kind === 'true' && !info.ohko && (!src || src.side === target.side);
+    const trace = (reason: string) => { if (!probe && info.kind === 'attack') this.traceHit(target, reason); };
 
     if (info.kind !== 'true') {
       if (src) {
@@ -870,7 +1007,7 @@ export class Battle {
           const multiplier = levelMult(hook, cond);
           if (multiplier === 0) zeroedByCondition = true;
           dmg *= multiplier;
-          if (hook.consume_charge) this.useCharge(src, cond);
+          if (hook.consume_charge && !probe) this.useCharge(src, cond);
         }
       }
       const ignore = src?.persist.ignoreReduction;
@@ -878,49 +1015,62 @@ export class Battle {
       for (const { cond, hook } of this.hooksWithCond(target, 'modify_damage_taken')) {
         if (!(hook.kinds ?? ['attack']).includes(info.kind)) continue;
         if (hook.when && !this.evalWhen(hook.when, { self: target, foe: src, skill: info.skill, kind: info.kind })) continue;
-        if (ignoring && levelMult(hook, cond) < 1) continue;
+        if (ignoring && levelMult(hook, cond) < 1) { trace('ignore_reduction'); continue; }
         const multiplier = levelMult(hook, cond);
         if (multiplier === 0) zeroedByCondition = true;
         dmg *= multiplier;
-        if (hook.consume_charge) this.useCharge(target, cond);
+        if (hook.consume_charge && !probe) this.useCharge(target, cond);
       }
     }
     dmg = Math.floor(dmg);
+    if (zeroedByCondition) trace('zeroed');
     if (info.kind === 'attack' && raw > 0 && dmg < 1 && (info.effectiveness ?? 1) > 0) {
       // min 1 unless a condition explicitly zeroed it
       if (!zeroedByCondition) dmg = 1;
     }
 
     // boss executes: every attack KOs
-    if (src && info.kind === 'attack' && this.bossTrait(src, 'ohko_below_pct')) dmg = Math.max(dmg, target.hp);
+    if (src && info.kind === 'attack' && this.bossTrait(src, 'ohko_below_pct')) { dmg = Math.max(dmg, target.hp); trace('ohko_trait'); }
 
     // skill-level and condition-level final adjustments (shields, floors, endure)
-    if (info.kind !== 'true' && info.skill && src) {
+    if (info.kind !== 'true' && info.skill && src && !probe) {
       for (const { entry, op } of this.skillScripts(info.skill)) {
         const m = entry.finalDamage?.({ battle: this, user: src, foe: target, skill: info.skill, info }, op.params, dmg);
         if (typeof m === 'number') dmg = Math.floor(m);
       }
     }
-    if (info.kind !== 'true') {
+    if (info.kind !== 'true' && !probe) {
       if (src) dmg = this.transformDamage(src, 'modify_damage_outgoing', dmg, { info, foe: target, skill: info.skill });
       dmg = this.transformDamage(target, 'modify_damage_final', dmg, { info, source: src, skill: info.skill });
     }
 
     // boss rules protecting the target's side
     const blocked = info.forcedExecution ? null : this.ruleBlocks(side, info, target);
-    if (blocked) {
-      this.emit({ type: 'damage_blocked', side: target.side, rule: blocked });
-      return 0;
-    }
+    if (blocked) return { dmg: 0, blocked };
     const cap = findRule(side, target, (r) => r.rule === 'damage_cap_per_hit');
     const capBreak = target.persist.capBreak as { statuses: string[]; chance: number } | undefined;
-    const capBroken = !!capBreak && target.conditions.some((c) => capBreak.statuses.includes(c.id)) && this.rng.chance(capBreak.chance);
-    if (cap && info.kind !== 'true' && (!cap.categories || cap.categories.includes(info.skill?.category)) && !capBroken) dmg = Math.min(dmg, cap.amount);
+    const capBroken = !probe && !!capBreak && target.conditions.some((c) => capBreak.statuses.includes(c.id)) && this.rng.chance(capBreak.chance);
+    if (cap && info.kind !== 'true' && (!cap.categories || cap.categories.includes(info.skill?.category))) {
+      trace('damage_cap');
+      if (!capBroken) dmg = Math.min(dmg, cap.amount);
+    }
     const floor = findRule(side, target, (r) => r.rule === 'hp_floor_until');
     if (floor && !target.persist.floorBroken && !trueCost && !info.forcedExecution) {
       const skills: number[] = floor.skills ?? [floor.skill];
-      if (info.skill && skills.includes(info.skill.id) && src?.side !== target.side) target.persist.floorBroken = true;
-      else dmg = Math.min(dmg, Math.max(0, target.hp - 1));
+      if (info.skill && skills.includes(info.skill.id) && src?.side !== target.side) { if (!probe) target.persist.floorBroken = true; }
+      else { dmg = Math.min(dmg, Math.max(0, target.hp - 1)); trace('hp_floor'); }
+    }
+    return { dmg, blocked: null };
+  }
+
+  private applyDamage(target: Mon, raw: number, info: DamageInfo): number {
+    if (target.fainted) return 0;
+    const side = this.sides[target.side];
+    const src = info.source;
+    const { dmg, blocked } = this.computeDamage(target, raw, info, false);
+    if (blocked) {
+      this.emit({ type: 'damage_blocked', side: target.side, rule: blocked });
+      return 0;
     }
     if (info.skill && src && src.side !== target.side && info.kind === 'attack') side.lastHitType = typeIdentity(this.data.types, info.skill.type);
 
@@ -934,6 +1084,7 @@ export class Battle {
       target.persist.lastTaken = lt?.turn === this.turn ? { turn: this.turn, amount: lt.amount + dealt } : { turn: this.turn, amount: dealt };
     }
     if (src && src.side !== target.side) this.damageBySide[src.side] += dealt;
+    if (info.kind === 'attack' && this.hitTrace?.target === target && this.hitTrace.damage === undefined) this.hitTrace.damage = dmg;
     this.emit({
       type: 'damage', side: target.side, slot: target.slot, name: target.name, amount: dealt, kind: info.kind, hp: target.hp, maxHp: target.maxHp,
       crit: !!info.crit, status: info.status, sourceSide: src?.side, sourceName: src?.name, effectiveness: info.effectiveness, skill: info.skill?.id, overkill: dmg - dealt,
@@ -1156,6 +1307,7 @@ export class Battle {
   /** Call every `script` hook at this point; returns their non-undefined results. */
   fire(mon: Mon, point: HookPoint, extra: Record<string, unknown> = {}): unknown[] {
     const out: unknown[] = [];
+    if (this.probing) return out;
     for (const { cond, hook } of this.hooksWithCond(mon, point)) {
       if (!hook.script) continue;
       if (hook.when && !this.evalWhen(hook.when, { self: mon, foe: this.foeOf(mon), skill: extra.skill as Skill | undefined })) continue;
@@ -1294,7 +1446,7 @@ export class Battle {
   /** Boss traits that switch on below an HP threshold (rule) or from a phase op. */
   bossTrait(mon: Mon, trait: 'ohko_below_pct' | 'always_crit_below_pct'): boolean {
     if (mon.persist[trait]) return true;
-    const r = findRule(this.sides[mon.side], mon, (x) => x.rule === trait);
+    const r = findRule(this.ruleSide(mon.side), mon, (x) => x.rule === trait);
     return !!r && (mon.hp / mon.maxHp) * 100 < r.pct;
   }
 
@@ -1641,6 +1793,7 @@ export class Battle {
   // ---------- misc ----------
 
   callScript(id: string, ctx: unknown, params: unknown): unknown {
+    if (this.probing) return undefined;
     const entry = this.script(id);
     if (!entry) { this.warn(`unknown script ${id}`); return undefined; }
     return entry.apply?.({ battle: this, ...(ctx as object) }, params);
@@ -1651,6 +1804,7 @@ export class Battle {
   }
 
   warn(msg: string): void {
+    if (this.probing) return;
     if (!this.warnings.includes(msg)) this.warnings.push(msg);
     this.emit({ type: 'warning', message: msg });
   }
@@ -1689,6 +1843,24 @@ function defaultTarget(op: string): 'self' | 'foe' {
 function inferTarget(skill: Skill): 'self' | 'foe' {
   // A status skill targets the foe if any effect hits the foe.
   return (skill.effects ?? []).some((e) => (e.target ?? defaultTarget(e.op)) === 'foe' && !MODIFIER_OPS.has(e.op)) ? 'foe' : 'self';
+}
+
+/** The attack hit being computed: its defender, opacity reasons, pre-hit snapshots and displayed damage. */
+interface HitTrace {
+  target: Mon;
+  reasons: string[];
+  logIndex: number;
+  attacker: JournalMon;
+  defender: JournalMon;
+  damage?: number;
+}
+
+function journalMon(m: Mon): JournalMon {
+  return {
+    side: m.side, slot: m.slot, species: m.species.id, level: m.level, types: [...m.types], hp: m.hp, maxHp: m.maxHp,
+    stages: { ...m.stages }, conditions: m.conditions.map((c) => (c.level === undefined ? { id: c.id } : { id: c.id, level: c.level })),
+    turnsActive: m.turnsActive,
+  };
 }
 
 function zeroStages(): Record<StageKey, number> {

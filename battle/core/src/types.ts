@@ -242,6 +242,76 @@ export interface BattleResult {
   turns: number;
 }
 
+// ---------- engine journal ----------
+
+// Plain data appended by the engine as things happen (design/notes/trainer-search-ai-v58.md 12.2).
+// The journal is engine-internal and records exact state, including state hidden
+// from the opposing side; `observe.ts` filters it before any planner sees it.
+
+/** One monster at the moment of a journaled event. */
+export interface JournalMon {
+  side: 0 | 1;
+  slot: number;
+  species: number;
+  level: number;
+  types: TypeId[];
+  hp: number;
+  maxHp: number;
+  stages: Record<StageKey, number>;
+  /** Every condition the monster carried, visible or not. */
+  conditions: { id: string; level?: number }[];
+  turnsActive: number;
+}
+
+/** One `kind: 'attack'` damage hit that emitted a damage event. */
+export interface JournalHit {
+  type: 'hit';
+  turn: number;
+  /** Index in `battle.log` of the next event at the time of the hit. */
+  logIndex: number;
+  attacker: JournalMon;
+  defender: JournalMon;
+  skill: number;
+  crit: boolean;
+  effectiveness: number;
+  /** Displayed damage, `amount + overkill`. */
+  damage: number;
+  hitIndex: number;
+  actedFirst: boolean;
+  /** True when something a public observer cannot reproduce may have changed the damage. */
+  opaque: boolean;
+  opaqueReasons: string[];
+}
+
+/** A turn in which both sides executed a move. Indexed by side. */
+export interface JournalOrder {
+  type: 'order';
+  turn: number;
+  logIndex: number;
+  skills: [number, number];
+  slots: [number, number];
+  first: 0 | 1;
+  speedTie: boolean;
+  speStages: [number, number];
+  /** Engine effective speeds used for ordering. Exact for both sides: read only your own. */
+  effSpe: [number, number];
+  /** Whether each active carried a `modify_priority` hook when the order was decided. */
+  priorityHooks: [boolean, boolean];
+  mons: [JournalMon, JournalMon];
+}
+
+export type JournalEntry = JournalHit | JournalOrder;
+
+/** `battle.probeDamage` options: a fixed roll in RANDOM_MIN..RANDOM_MAX and a fixed crit. */
+export interface DamageProbe {
+  roll: number;
+  crit: boolean;
+  /** For `acted_first` power conditions; defaults to the current turn order. */
+  actedFirst?: boolean;
+  /** Treat this side's side-level rules as unknown (none), for a public observer's model of it. */
+  unknownRulesSide?: 0 | 1;
+}
+
 // ---------- scripts ----------
 
 // A script is either a plain function (run as an effect op / hook) or an
