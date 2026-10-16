@@ -1,0 +1,33 @@
+import {createRoot} from 'react-dom/client';
+import type {Save} from '../../raising/core/types';
+
+function memoryStorage(): Storage {
+  const values=new Map<string,string>();
+  return {
+    get length(){return values.size;},
+    clear(){values.clear();},
+    getItem(key){return values.get(String(key))??null;},
+    key(index){return [...values.keys()][index]??null;},
+    removeItem(key){values.delete(String(key));},
+    setItem(key,value){values.set(String(key),String(value));},
+  };
+}
+
+// Isolate this page before application modules read or write storage. Reloading
+// resets the preview; the browser's player saves and preferences stay untouched.
+for(const name of ['localStorage','sessionStorage'] as const) {
+  Object.defineProperty(window,name,{value:memoryStorage(),configurable:true});
+}
+document.title='Seer Classic Preview';
+
+const [{Game},{createGame,loadGameData}]=await Promise.all([
+  import('../App'),
+  import('../game'),
+]);
+const game=createGame(await loadGameData(),'');
+for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});
+const seed=JSON.parse(game.exportSave()) as Save;
+seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.party.slice(1)].slice(0,6);
+seed.items={};
+game.importSave(JSON.stringify(seed));
+createRoot(document.getElementById('root')!).render(<Game controller={game}/>);
