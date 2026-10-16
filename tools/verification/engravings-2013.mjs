@@ -5,7 +5,7 @@ import {createServer} from 'vite';
 
 const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
+const server=await createServer({configFile:false,cacheDir:'artifacts/.validation-cache/engravings-2013',server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 const checks=[],failures=[];
 const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
@@ -91,22 +91,21 @@ try {
     assert.equal(engravingEffectGroup(def(20002)),'power');assert.equal(engravingEffectGroup(def(20001)),'priority');assert.equal(engravingEffectGroup(def(20179)),'status');
     assert.deepEqual(engravingStatKeys(def(10133)).length,6);
   });
-  check('Shop: one copy per purchase; stock plus equipped copies capped by the original Max',()=>{
+  check('Shop: generic ability stock plus equipped copies obey the V50 per-mark cap',()=>{
     const game=createGame(catalog,''),parse=()=>JSON.parse(game.exportSave());
-    game.dispatch({type:'cheatAcquire',species:15,level:50});
+    game.dispatch({type:'cheatAcquire',species:15,level:100});
     const mouse=parse().storage.find(m=>m.species===15);assert(mouse);
-    const stock=id=>parse().game.engravingStock[id]??0,view=()=>game.engravingOptions(mouse.uid).find(o=>o.id==='10039');
+    const stock=id=>parse().game.engravingStock[id]??0,view=()=>game.engravingOptions(mouse.uid).find(o=>o.id==='10031');
     const reject=(action,label)=>{const before=game.exportSave();game.dispatch(action);assert.equal(game.exportSave(),before,label);};
-    reject({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10039'},'cannot equip without stock');
-    game.dispatch({type:'buyEngraving',engravingId:'10039'});assert.equal(stock('10039'),1,'one copy per purchase');
-    for(let i=1;i<def(10039).maxOwned;i++)game.dispatch({type:'buyEngraving',engravingId:'10039'});
-    assert.equal(stock('10039'),9);reject({type:'buyEngraving',engravingId:'10039'},'Max 9');
-    game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10039'});
-    assert.equal(stock('10039'),8);assert.deepEqual([view().stock,view().equipped,view().equippedHere],[8,1,true]);
-    reject({type:'buyEngraving',engravingId:'10039'},'equipped copies count toward Max');
-    game.dispatch({type:'buyEngraving',engravingId:'10040'});game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10040'});
-    assert.deepEqual([stock('10039'),stock('10040')],[9,0],'replacing returns the old copy');
-    game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:null});assert.equal(stock('10040'),1,'unequip returns the copy');
+    reject({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10031'},'cannot equip without stock or another holder');
+    game.dispatch({type:'buyEngraving',engravingId:'10031'});assert.equal(stock('10031'),1,'one copy per purchase');
+    game.dispatch({type:'buyEngraving',engravingId:'10031'});assert.equal(stock('10031'),2);reject({type:'buyEngraving',engravingId:'10031'},'Speed +15 cap is 2');
+    game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10031'});
+    assert.equal(stock('10031'),1);assert.deepEqual([view().stock,view().equipped,view().equippedHere],[1,1,true]);
+    reject({type:'buyEngraving',engravingId:'10031'},'equipped copies count toward cap');
+    game.dispatch({type:'buyEngraving',engravingId:'10037'});game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10037'});
+    assert.deepEqual([stock('10031'),stock('10037')],[2,0],'replacing returns the finite old copy');
+    game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:null});assert.equal(stock('10037'),1,'unequip returns the finite copy');
     reject({type:'buyEngraving',engravingId:'40001'},'no universal engravings in the shop');
   });
   check('Controller: slot rules, species/level/move gates, stat bonus and HP round trip',()=>{

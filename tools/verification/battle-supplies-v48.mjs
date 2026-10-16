@@ -1,4 +1,4 @@
-/** Battle-only trainer supplies: inventory isolation, real turn effects, and public entry points. */
+/** Trainer supply rules and V50 player access: inventory isolation, real turns, and public entries. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -39,6 +39,7 @@ try {
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog);
   const cure={id:CURE,name:{zh:'Supply audit status cure'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]};
   const normalizedItems=normalizeBattleSupplyItems([...catalog.items,cure]);
+  const playerExpected=normalizedItems.filter(item=>['raising','battle','capsule'].includes(item.kind)).map(item=>item.id);
   const data=buildDataSet({...catalog,items:normalizedItems,skills:[...catalog.skills,
     {id:WAIT,name:{zh:'Supply audit wait'},type:'normal',category:'status',target:'self',power:0,accuracy:null,pp:99,effects:[]},
     {id:HIT,name:{zh:'Supply audit fixed hit'},type:'normal',category:'physical',power:0,accuracy:null,pp:99,effects:[{op:'fixed_damage',amount:25,target:'foe'}]},
@@ -129,8 +130,9 @@ try {
   });
 
   const fresh=createGame(catalog,''),base=parse(fresh),dex=makeDex(catalog);base.rng_state=[101,202,303,404];base.game.traits={};
-  check('A fresh save receives no borrowed HP250 or retired tiers, and none is sold',()=>{
-    const excluded=[HP,...retired];assert(excluded.every(id=>!Object.hasOwn(base.items,id)));assert(!fresh.snapshot().items.some(item=>excluded.includes(item.id)));assert(!fresh.snapshot().shopItems.some(item=>excluded.includes(item.id)));
+  check('A fresh save exposes unlimited HP250 without stock while retired tiers stay hidden',()=>{
+    const excluded=[HP,...retired];assert(excluded.every(id=>!Object.hasOwn(base.items,id)));assert(!fresh.snapshot().items.some(item=>retired.includes(item.id)));assert(!fresh.snapshot().shopItems.some(item=>retired.includes(item.id)));
+    assert.equal(fresh.snapshot().items.find(item=>item.id===HP)?.unlimited,true);assert.equal(fresh.snapshot().shopItems.find(item=>item.id===HP)?.unlimited,true);
     for(const itemId of excluded){const before=fresh.exportSave();fresh.dispatch({type:'buyItem',itemId,quantity:1});assert.equal(fresh.exportSave(),before);}
   });
   for(const id of expected)base.items[id]=0;
@@ -138,11 +140,11 @@ try {
   const make=(save=base,input=catalog)=>createGame(input,JSON.stringify(structuredClone(save)));
   function startGame(action,save=base,input=catalog){const game=make(save,input),before=globalThis[captureKey].length;game.dispatch(action);assert(game.snapshot().battle,JSON.stringify(game.snapshot().notices));assert.equal(globalThis[captureKey].length,before+1);return {game,battle:globalThis[captureKey].at(-1)};}
   const entries=[...catalog.trainers.map(trainer=>({type:'startBattle',bossId:trainer.id})),{type:'startFacility',facilityId:'random'},{type:'startFacility',facilityId:'elite'},...catalog.trainers.map(trainer=>({type:'startFacility',facilityId:'classic',teamId:trainer.id}))];
-  check('Every trainer and every facility public entry grants both sides exactly three battle-only supplies',()=>{
-    for(const action of entries){const {game,battle}=startGame(action);assert.deepEqual(sorted(snapshotItems(game)),sorted(expected));for(const side of battle.sides)assert.deepEqual(sorted(side.unlimitedItems),sorted(expected));assert.equal(battle.sides[1].kind,'trainer');
-      assert.deepEqual(parse(game).items,base.items);assert(game.snapshot().items.filter(item=>item.unlimited).every(item=>item.count===0));assert(!game.snapshot().shopItems.some(item=>item.unlimited));
-      assert.equal(game.snapshot().battle.canCapture,false);game.dispatch({type:'flee'});assert.deepEqual(snapshotItems(game),[]);assert.deepEqual(parse(game).items,base.items);game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);assert.deepEqual(snapshotItems(game),[]);
-      report.publicEntries.push({action,opponents:battle.sides[1].team.length,suppliesBothSides:expected,finiteInventoryUnchanged:true});
+  check('Every trainer entry retains exactly three NPC supplies while player ordinary items are unlimited',()=>{
+    for(const action of entries){const {game,battle}=startGame(action);assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));assert.deepEqual(sorted(battle.sides[0].unlimitedItems),sorted(playerExpected));assert.deepEqual(sorted(battle.sides[1].unlimitedItems),sorted(expected));assert.equal(battle.sides[1].kind,'trainer');
+      assert.deepEqual(parse(game).items,base.items);assert(game.snapshot().items.filter(item=>item.unlimited).every(item=>item.count===(base.items[item.id]??0)));assert(game.snapshot().shopItems.filter(item=>playerExpected.includes(item.id)).every(item=>item.unlimited));
+      assert.equal(game.snapshot().battle.canCapture,false);game.dispatch({type:'flee'});assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));assert.deepEqual(parse(game).items,base.items);game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));
+      report.publicEntries.push({action,opponents:battle.sides[1].team.length,playerSupplies:playerExpected,npcSupplies:expected,finiteInventoryUnchanged:true});
     }
   });
   check('Controller uses zero-stock supplies, preserves owned quantities, and never serializes the grant',()=>{
@@ -153,8 +155,8 @@ try {
       assert.equal(game.snapshot().battle.turn,beforeTurn+1);assert.equal(battle.sides[0].team[1].hp,battle.sides[0].team[1].maxHp);assert.deepEqual(parse(game).items,save.items);
       const afterHp=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId:PP,targetUid:target.uid});assert.equal(game.snapshot().battle.turn,afterHp+1);assert(battle.sides[0].team[1].skills.every(id=>battle.sides[0].team[1].pp[id]===battle.sides[0].team[1].maxPp[id]));assert.deepEqual(parse(game).items,save.items);
       const serialized=game.exportSave();assert(!serialized.includes('unlimited'));assert(!serialized.includes('Infinity'));assert(finiteInventory(parse(game).items));
-      const reloaded=make(parse(game));assert.equal(reloaded.snapshot().battle,null);assert.deepEqual(snapshotItems(reloaded),[]);assert.deepEqual(parse(reloaded).items,save.items);
-      game.dispatch({type:'flee'});assert.deepEqual(snapshotItems(game),[]);assert.deepEqual(parse(game).items,save.items);
+      const reloaded=make(parse(game));assert.equal(reloaded.snapshot().battle,null);assert.deepEqual(sorted(snapshotItems(reloaded)),sorted(playerExpected));assert.deepEqual(parse(reloaded).items,save.items);
+      game.dispatch({type:'flee'});assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));assert.deepEqual(parse(game).items,save.items);
     }
   });
   check('The controller-provided status cure works at zero stock and preserves the reserve stages',()=>{
@@ -165,17 +167,17 @@ try {
     assert.equal(game.snapshot().battle.turn,beforeTurn+1);assert(!target.conditions.some(condition=>condition.def.kind==='status'));assert.equal(target.stages.atk,3);assert.equal(target.stages.def,-2);
     assert.deepEqual(parse(game).items,base.items);assert.equal(game.snapshot().items.find(item=>item.id===CURE).count,0);assert.equal(game.snapshot().items.find(item=>item.id===CURE).unlimited,true);
   });
-  check('Boss and wild controller entries after trainer retreat have no leaked supplies and consume owned stock normally',()=>{
+  check('Boss and wild NPCs receive no trainer grant while player items remain unlimited after retreat',()=>{
     const save=structuredClone(base);save.items[FINITE_HP]=2;save.items[PP]=2;const game=make(save);game.dispatch({type:'startFacility',facilityId:'random'});game.dispatch({type:'flee'});game.dispatch({type:'closeBattle'});
     const boss=catalog.bosses.find(row=>row.id==='boss_spt_rioss')??catalog.bosses.find(row=>!row.rules?.some(rule=>rule.rule==='no_items')&&!row.requirements?.length);
-    assert(boss);game.dispatch({type:'startBattle',bossId:boss.id});assert(game.snapshot().battle,JSON.stringify(game.snapshot().notices));assert.deepEqual(snapshotItems(game),[]);assert(globalThis[captureKey].at(-1).sides.every(side=>side.unlimitedItems.size===0));game.dispatch({type:'flee'});game.dispatch({type:'closeBattle'});
-    game.dispatch({type:'startTraining',species:22,level:3});assert(game.snapshot().battle);assert.deepEqual(snapshotItems(game),[]);assert(globalThis[captureKey].at(-1).sides.every(side=>side.unlimitedItems.size===0));
-    const target=game.snapshot().battle.party.find(member=>member.hp>0&&member.hp<member.maxHp);assert(target);const count=parse(game).items[FINITE_HP],beforeTurn=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId:FINITE_HP,targetUid:target.uid});assert.equal(game.snapshot().battle.turn,beforeTurn+1);assert.equal(parse(game).items[FINITE_HP],count-1);
-    const ppCount=parse(game).items[PP],beforePpTurn=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId:PP,targetUid:target.uid});assert.equal(game.snapshot().battle.turn,beforePpTurn+1);assert.equal(parse(game).items[PP],ppCount-1);
+    assert(boss);game.dispatch({type:'startBattle',bossId:boss.id});assert(game.snapshot().battle,JSON.stringify(game.snapshot().notices));assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));assert.equal(globalThis[captureKey].at(-1).sides[1].unlimitedItems.size,0);game.dispatch({type:'flee'});game.dispatch({type:'closeBattle'});
+    game.dispatch({type:'startTraining',species:22,level:3});assert(game.snapshot().battle);assert.deepEqual(sorted(snapshotItems(game)),sorted(playerExpected));assert.equal(globalThis[captureKey].at(-1).sides[1].unlimitedItems.size,0);
+    const target=game.snapshot().battle.party.find(member=>member.hp>0&&member.hp<member.maxHp);assert(target);const count=parse(game).items[FINITE_HP],beforeTurn=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId:FINITE_HP,targetUid:target.uid});assert.equal(game.snapshot().battle.turn,beforeTurn+1);assert.equal(parse(game).items[FINITE_HP],count);
+    const ppCount=parse(game).items[PP],beforePpTurn=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId:PP,targetUid:target.uid});assert.equal(game.snapshot().battle.turn,beforePpTurn+1);assert.equal(parse(game).items[PP],ppCount);
   });
   check('Legacy HP3000 and PP40 stock survives unchanged but is invisible, unusable, and unavailable to buy',()=>{
     const save=structuredClone(base);for(const [index,id]of retired.entries()){save.items[id]=17+index;save.game.shopUnlocked.push(id);}const game=make(save);
-    const hidden=()=>{for(const id of retired){assert.equal(parse(game).items[id],save.items[id]);assert(!game.snapshot().items.some(item=>item.id===id));}assert(!game.snapshot().shopItems.some(item=>[HP,...retired].includes(item.id)));};
+    const hidden=()=>{for(const id of retired){assert.equal(parse(game).items[id],save.items[id]);assert(!game.snapshot().items.some(item=>item.id===id));}assert(!game.snapshot().shopItems.some(item=>retired.includes(item.id)));};
     hidden();for(const itemId of [HP,...retired]){const before=game.exportSave();game.dispatch({type:'buyItem',itemId,quantity:1});assert.equal(game.exportSave(),before);}
     game.dispatch({type:'startFacility',facilityId:'random'});const battle=globalThis[captureKey].at(-1);assert(game.snapshot().battle);hidden();assert(battle.sides.every(side=>!battle.legalActions(side.index).some(action=>action.kind==='item'&&retired.includes(action.item))));
     for(const itemId of retired){const before=game.exportSave(),turnBefore=game.snapshot().battle.turn;game.dispatch({type:'battleItem',itemId,targetUid:game.snapshot().battle.player.uid});assert.equal(game.exportSave(),before);assert.equal(game.snapshot().battle.turn,turnBefore);}

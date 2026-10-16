@@ -8,8 +8,8 @@ export interface EngravingView {
   id: string; name: string; slot: 'ability' | 'skill'; effect: string; levelMin: number; bound: boolean; moveName?: string; moveIds?: number[];
   /** Skill engravings: classifier group (ENGRAVING_EFFECT_GROUPS). Ability engravings: raised stats. */
   group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
-  /** Owned = stock + equipped copies, at most maxOwned (original Max). */
-  maxOwned: number; stock: number; equipped: number; equippedHere: boolean;
+  /** Effective remake cap, preserved legacy stock, and holders available for direct transfer. */
+  maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<Stats> }
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: Stats; stats: Stats; evs: Stats; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings?: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
@@ -25,7 +25,7 @@ export interface BattlePresentationFrame { id: number; side: 0 | 1; kind: 'physi
 export interface BattleView { name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[]; finished: boolean; won: boolean; result: string; resultReason?: string; canCapture: boolean; captureBlockedReason?: string; captured?: boolean; needsSwitch: boolean; animation: {revision: number; frames: BattlePresentationFrame[]} }
 export interface ItemView { id: string; name: string; kind: string; count: number; unlimited?: boolean; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted'; usableTargetUids?: string[] }
 export interface AcquisitionAllowance {owned:number;reserved:number;remaining:number;limit:number}
-export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;price:0;hatches?:number;maxQuantity?:number;blockedReason?:string;allowance?:AcquisitionAllowance}
+export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;unlimited?:boolean;price:0;hatches?:number;maxQuantity?:number;blockedReason?:string;allowance?:AcquisitionAllowance}
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: {species: number; name: string; level: number}[]; rewardText: string; blockedReason?: string }
@@ -45,7 +45,7 @@ export type GameAction =
  | {type: 'party'; uid: string; add: boolean}
  | {type: 'rename'; uid: string; name: string}
  | {type: 'equip'; uid: string; skills: number[]}
- | {type: 'setEngraving'; uid: string; slot: 'ability' | 'skill'; engravingId: string | null}
+ | {type: 'setEngraving'; uid: string; slot: 'ability' | 'skill'; engravingId: string | null; fromUid?:string}
  | {type: 'buyEngraving'; engravingId: string}
  | {type: 'train'; uid: string; stat: StatKey; amount: number}
  | {type: 'setEvs'; uid: string; evs: Stats}

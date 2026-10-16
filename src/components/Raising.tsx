@@ -3,6 +3,8 @@ import type {GameController,GameSnapshot,MonsterView,StatKey,Stats} from '../gam
 import {CreatureArt} from './CreatureArt';
 import TypeIcon from './TypeIcon';
 import EngravingSlots from './EngravingSlots';
+import ItemIcon from './ItemIcon';
+import ItemTile from './ItemTile';
 import {elementName,skillIconType} from '../presentation/element-types';
 import '../management.css';
 const statKeys:StatKey[]=['hp','atk','def','spa','spd','spe'];
@@ -33,7 +35,7 @@ export default function Raising({m,s,c,presentation,requestedTab}:{m:MonsterView
   const dirty=statKeys.some(key=>evs[key]!==String(m.evs[key]));
   const skill=m.learned.find(sk=>sk.id===skillId);
   const activeBattle=!!s.battle&&!s.battle.finished;
-  const raisingItems=s.items.filter(item=>item.kind==='raising'&&item.count>0);
+  const raisingItems=s.items.filter(item=>item.kind==='raising'&&(item.unlimited||item.count>0));
   const item=raisingItems.find(item=>item.id===itemId);
   function saveEvs() {
     if(!valid||total>510){setFeedback(total>510?'学习力总和超过 510，请调整后保存。':'各项学习力须为 0–255 的整数。');return}
@@ -92,7 +94,7 @@ export default function Raising({m,s,c,presentation,requestedTab}:{m:MonsterView
         </section>
         <p className="management-feedback" role="status">{feedback}</p>
       </div>}
-      {tab==='道具'&&<><p className="management-hint">为当前精灵选择培养道具，再确认使用。</p><div className="raising-item-list">{raisingItems.map(i=><button key={i.id} aria-pressed={itemId===i.id} className={itemId===i.id?'active':''} onClick={()=>setItemId(i.id)}><strong>{i.name}</strong><span>×{i.count}</span><small>{i.description}</small></button>)}</div>{!raisingItems.length&&<div className="management-empty">没有可用的培养道具。</div>}<div className="management-confirm-row"><span className="management-feedback" role="status">{feedback||(item?`${item.name} → ${m.name}`:'选择一个培养道具。')}</span><button className="primary" disabled={!item} onClick={()=>{if(item){c.dispatch({type:'useItem',uid:m.uid,itemId:item.id});setFeedback((c.snapshot().items.find(i=>i.id===item.id)?.count??0)<item.count?`已对${m.name}使用${item.name}。`:c.snapshot().notices[0]??'道具未使用。')}}}>确认使用</button></div></>}
+      {tab==='道具'&&<><p className="management-hint">为当前精灵选择培养道具，再确认使用。</p><div className="raising-item-grid item-icon-grid">{raisingItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name} size={36}/>} name={i.name} description={i.description} quantity={i.unlimited?'∞':i.count} selected={itemId===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}</div>{!raisingItems.length&&<div className="management-empty">没有可用的培养道具。</div>}<div className="management-confirm-row"><span className="management-feedback" role="status">{feedback||(item?`${item.name} → ${m.name}`:'选择一个培养道具。')}</span><button className="primary" disabled={!item} onClick={()=>{if(item){c.dispatch({type:'useItem',uid:m.uid,itemId:item.id});const next=c.snapshot();setFeedback((next.items.find(i=>i.id===item.id)?.count??0)<item.count||item.unlimited&&JSON.stringify(next.monsters.find(mon=>mon.uid===m.uid))!==JSON.stringify(m)?`已对${m.name}使用${item.name}。`:next.notices[0]??'道具未使用。')}}}>确认使用</button></div></>}
     </fieldset>
   </section>;
 }

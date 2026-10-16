@@ -1,0 +1,3 @@
+.item-icon{display:inline-flex;align-items:center;justify-content:center;width:var(--item-icon-size,32px);height:var(--item-icon-size,32px);flex:0 0 auto;vertical-align:middle;line-height:1}
+.item-icon>img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;filter:none}
+.item-icon--fallback{opacity:.9}

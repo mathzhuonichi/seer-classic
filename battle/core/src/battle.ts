@@ -297,9 +297,9 @@ export class Battle {
     }
     if (foeSide.kind === 'wild' && !hasRule(foeSide, 'no_capture') &&
       meetsWildCapturePrerequisite(this.active(foeSide.index).species.id, mon.species.id)) {
-      for (const [id, n] of Object.entries(side.items)) {
+      for (const id of new Set([...Object.keys(side.items), ...side.unlimitedItems])) {
         const item = this.data.items.get(id);
-        if (n > 0 && item && 'capture_multiplier' in item) actions.push({ kind: 'capture', item: id });
+        if (((side.items[id] ?? 0) > 0 || side.unlimitedItems.has(id)) && item && 'capture_multiplier' in item) actions.push({ kind: 'capture', item: id });
       }
     }
     actions.push({ kind: 'flee' });
@@ -1296,7 +1296,7 @@ export class Battle {
 
   private tryCapture(side: Side, foe: Side, itemId: string): void {
     const item = this.data.items.get(itemId)!;
-    side.items[itemId]--;
+    if (!side.unlimitedItems.has(itemId)) side.items[itemId]--;
     const target = this.active(foe.index);
     const statuses = target.conditions.filter((c) => c.def.kind === 'status');
     const ok = rollReconstructedCapture({ maxHp: target.maxHp, hp: target.hp,

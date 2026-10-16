@@ -6,7 +6,7 @@ import {createServer} from 'vite';
 
 const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
+const server=await createServer({configFile:false,cacheDir:'artifacts/.validation-cache/engraving-integration-v49',server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 const checks=[],failures=[],observations=[];
 const check=(name,run)=>{try{const witness=run();checks.push({name,...(witness===undefined?{}:{witness})});}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
@@ -124,12 +124,12 @@ try {
     f.game.dispatch({type:'closeBattle'});f.game.dispatch({type:'startBattle',bossId:'engraving-integration-fixture'});
     assert.equal(f.game.snapshot().battle,null);assert.equal(target(f.game,f.uid).hp,0);
   });
-  check('Both slots conserve stock on replacement, removal and level-gate changes',()=>{
+  check('Unlimited exclusive and skill marks do not materialize stock on replacement or removal',()=>{
     const f=makeFixture({species:12,marks:['10049','20027'],move:10033});
     let saved=parse(f.game);assert.deepEqual(new Set(saved.game.modules[f.uid].engravings),new Set(['10049','20027']));
     f.game.dispatch({type:'buyEngraving',engravingId:'10050'});f.game.dispatch({type:'setEngraving',uid:f.uid,slot:'ability',engravingId:'10050'});
-    saved=parse(f.game);assert.equal(saved.game.engravingStock['10049'],1);assert.equal(saved.game.engravingStock['10050']??0,0);assert(saved.game.modules[f.uid].engravings.includes('20027'));
-    f.game.dispatch({type:'setEngraving',uid:f.uid,slot:'skill',engravingId:null});saved=parse(f.game);assert.equal(saved.game.engravingStock['20027'],1);
+    saved=parse(f.game);assert.equal(saved.game.engravingStock['10049']??0,0);assert.equal(saved.game.engravingStock['10050']??0,0);assert(saved.game.modules[f.uid].engravings.includes('20027'));
+    f.game.dispatch({type:'setEngraving',uid:f.uid,slot:'skill',engravingId:null});saved=parse(f.game);assert.equal(saved.game.engravingStock['20027']??0,0);
     const holder={species:12,level:49,skills:[10033],learned:[10033]};
     assert.deepEqual(activeEngravings(['10049','20027'],holder),[]);assert.equal(activeEngravings(['10049','20027'],{...holder,level:100}).length,2);
     assert.deepEqual(activeEngravings(['10049'],{...holder,level:100,species:15}),[]);
@@ -143,15 +143,15 @@ try {
     assert.equal(b.active(0).slot,0);assert.equal(b.skill(move,b.active(0)).power_bonus,15);
     assert.notEqual(b.active(0).skillOverrides[move],override,'constructor clones owner override');
   });
-  check('V48 trainer supplies respect engraved maxima and preserve finite owned counts',()=>{
+  check('Unlimited player supplies respect engraved maxima and preserve finite owned counts',()=>{
     const f=makeFixture({species:12,marks:['10049','20027'],move:10033,hp:10,pp:0,trainer:true});f.start();
-    assert.deepEqual(f.game.snapshot().items.filter(i=>i.unlimited).map(i=>i.id).sort(),['item_potion_hp_250','item_potion_pp_20','item_status_cure'].sort());
+    assert(['item_potion_hp_250','item_potion_pp_20','item_status_cure'].every(id=>f.game.snapshot().items.some(i=>i.id===id&&i.unlimited)));assert(f.game.snapshot().items.filter(i=>i.unlimited).every(i=>['raising','battle','capsule'].includes(i.kind)));
     f.game.dispatch({type:'battleItem',itemId:'item_potion_pp_20',targetUid:f.uid});let b=f.game.snapshot().battle;
     assert.equal(b.player.skills[0].pp,b.player.skills[0].maxPp);assert.equal(b.player.skills[0].maxPp,skill(f.move).pp+5);
     f.game.dispatch({type:'battleItem',itemId:'item_potion_hp_250',targetUid:f.uid});b=f.game.snapshot().battle;assert.equal(b.player.hp,Math.min(70+250,b.player.maxHp));
     f.game.dispatch({type:'flee'});const saved=parse(f.game);assert.equal(saved.storage.find(m=>m.uid===f.uid).pp[f.move],skill(f.move).pp);
     for(const id of ['item_potion_hp_250','item_potion_pp_20','item_status_cure'])assert.equal(saved.items[id],0);
-    assert(!f.game.snapshot().items.some(i=>i.unlimited));
+    assert(['item_potion_hp_250','item_potion_pp_20','item_status_cure'].every(id=>f.game.snapshot().items.some(i=>i.id===id&&i.unlimited)));
   });
   check('Original catalog remains immutable after controller and core engraving use',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
 

@@ -25,6 +25,7 @@ import { loadCatalog, type CatalogData } from './mechanics/catalog';
 import {WORLD_PLANETS} from './world';
 import { traits, fifthSkills, soulMarks, engravings, type MonsterModules } from './mechanics/modules';
 import { activeEngravings, engravingBlockedReason, engravingById, engravingEffectGroup, engravingSkillOverrides, engravingStatBonus, engravingStatKeys, ENGRAVING_SLOTS, type EngravingDefinition } from './mechanics/engravings';
+import { engravingAccess } from './mechanics/engraving-access';
 import { readLocalSave, writeLocalSave } from './mechanics/persistence';
 import { battleEventText, displayedDamage, groupedBattleLog } from './presentation/battle-log';
 import { createCatalogViews } from './presentation/catalog-views';
@@ -170,7 +171,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   const natureViews=catalog.natures.map(n=>({id:String(n.id),name:(n.name as {zh:string}).zh}));
   const traitViews=availableTraits.map(t=>({id:t.id,name:t.name,description:t.description}));
   const moduleCounts={fifthSkills:fifthSkills.length,soulMarks:soulMarks.length,engravings:engravings.length};
-  const shopViews=createItemShopViews(catalog.items.filter(item=>!item.trainer_supply_only).map(item=>({id:String(item.id),name:(item.name as {zh?:string})?.zh??String(item.id),kind:String(item.kind),description:itemDescription(item),price:0 as const,...(typeof item.hatches==='number'?{hatches:item.hatches}:{})})));
+  const unlimitedItemIds=new Set(catalog.items.filter(item=>['raising','battle','capsule'].includes(String(item.kind))).map(item=>String(item.id)));
+  const shopViews=createItemShopViews(catalog.items.filter(item=>!item.trainer_supply_only||unlimitedItemIds.has(String(item.id))).map(item=>({id:String(item.id),name:(item.name as {zh?:string})?.zh??String(item.id),kind:String(item.kind),description:itemDescription(item),price:0 as const,unlimited:unlimitedItemIds.has(String(item.id)),...(typeof item.hatches==='number'?{hatches:item.hatches}:{})})));
   let save!: FullSave;
   let rng: Rng;
   let battle: Battle | null = null;
@@ -258,7 +260,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     const moveName=def.moveIds?.map(id=>data.skills.get(id)?.name.zh).filter(Boolean).join('、');
     return {id:def.id,name:def.name.zh,slot:def.slot,effect:def.effect.desc,levelMin:def.levelMin,bound:def.species.length>0,moveName:moveName||undefined,moveIds:def.moveIds,
       group:engravingEffectGroup(def),statKeys:engravingStatKeys(def),era:def.era,ready:!reason,reason,note:def.notes?.join(' '),
-      maxOwned:def.maxOwned,stock:save.game.engravingStock[def.id]??0,equipped:equipped[def.id]??0,equippedHere:equippedEngravings(mon.uid).includes(def.id)};
+      ...engravingAccess(def),stock:save.game.engravingStock[def.id]??0,equipped:equipped[def.id]??0,equippedHere:equippedEngravings(mon.uid).includes(def.id),equippedHolders:save.storage.filter(holder=>equippedEngravings(holder.uid).includes(def.id)).map(holder=>({uid:holder.uid,name:holder.nickname||dex.species(holder.species).name.zh}))};
   }
   function monsterEngravings(mon:Monster):MonsterEngravingsView {
     const ids=equippedEngravings(mon.uid);
@@ -337,7 +339,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
   }
   function refresh() {
     const inventory=battle&&!battleSettled?battle.sides[0].items:save.items;
-    const unlimitedItems=battle&&!battleSettled?battle.sides[0].unlimitedItems:new Set<string>();
+    const unlimitedItems=battle&&!battleSettled?battle.sides[0].unlimitedItems:unlimitedItemIds;
     const legalItems=battle?.legalActions(0).filter(action=>action.kind==='item');
     const captureBlockedReason=!battle?undefined:currentBoss?(currentBoss.category==='trainer'?'训练师的精灵不可捕捉。':'首领与招募挑战不可捕捉，胜利后通过精元或任务获取。'):!meetsWildCapturePrerequisite(battle.active(1).species.id,battle.active(0).species.id)?'捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。':save.party.length>=PARTY_MAX&&save.storage.length-save.party.length>=BOX_MAX?'仓库已满':capacityReason(battle.active(1).species.id);
     cached={monsters:save.storage.map(monsterView),party:[...save.party],campaigns:campaignViews(),facilities:facilityViews,bosses:catalogViews.bosses(save.progress.bosses_cleared,save.progress.boss_attempts),species:catalogViews.species(save.dex.owned),quests:questViews(),battle:battle?{name:battleName,turn:battle.turn,player:battleMon(battle.active(0)),enemy:battleMon(battle.active(1)),party:battle.sides[0].team.map(battleMon),enemyParty:battle.sides[1].team.map(battleMon),log:[...logs],finished:!!battle.result,won:!!battle.result?.success,resultReason:battle.result?.reason,result:battle.result?(battle.result.reason==='capture'?`捕捉成功！${battle.active(1).name}已加入${save.party.includes(encounterMonster?.uid??'')?'背包':'仓库'}。`:battleResultMessage?battleResultMessage:battle.result.success?'挑战成功，奖励已入账。':battle.result.reason==='flee'?'已离开战斗。':battle.result.reason==='turn_cap'?'已达到 200 回合上限，本场平局。可恢复后再次挑战。':'挑战失败，可恢复后再试。'):'',canCapture:!captureBlockedReason,captureBlockedReason,captured:battle.result?.reason==='capture',needsSwitch:battle.sides[0].needsReplacement,animation:{revision:animationRevision,frames:animationFrames}}:null,expPool:save.exp_pool,coins:save.game.coins,notices:[...notices],natures:natureViews,traits:traitViews,items:catalog.items.filter(i=>(inventory[String(i.id)]??0)>0||unlimitedItems.has(String(i.id))).map(i=>({id:String(i.id),name:(i.name as any)?.zh??String(i.id),kind:String(i.kind),count:inventory[String(i.id)]??0,unlimited:unlimitedItems.has(String(i.id)),description:itemDescription(i),battleUsable:i.kind==='capsule'||Array.isArray(i.battle_effects)&&i.battle_effects.length>0,battleCategory:i.kind==='capsule'?'capsule':(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='cure_status')?'status':Array.isArray(i.battle_effects)&&i.battle_effects.length>0?'recovery':undefined,usableTargetUids:legalItems?.filter(action=>action.item===String(i.id)).map(action=>battle!.sides[0].team[action.target??battle!.sides[0].active].uid!).filter(Boolean),targetMode:(i.battle_effects as {op:string}[]|undefined)?.some(fx=>fx.op==='revive')?'fainted':'living'})),shopItems:itemShopViews(inventory),modules:moduleCounts};
@@ -485,7 +487,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       for(const [key,value] of Object.entries(engraving.bonus))stats[key as keyof typeof stats]+=value;
       for(const [id,extra] of Object.entries(engraving.ppBonus))if(m.skills.includes(Number(id)))pp[id]=(pp[id]??data.skills.get(Number(id))!.pp)+Math.max(0,extra-(engraving.deficit.pp[id]??0));
       return {...m,stats,hp:m.hp>0?m.hp+Math.max(0,engraving.hpBonus-engraving.deficit.hp):0,pp,skill_overrides:engraving.overrides,beads:activeBeads(save,m.uid)};
-    }),items:save.items,unlimited_items:unlimitedItems};
+    }),items:save.items,unlimited_items:[...unlimitedItemIds]};
     if(!player.team.some(m=>m.hp>0)) throw new Error('精灵体力耗尽，请使用恢复舱。');
     if(boss) {const errors=validateEncounter(boss,player);if(errors.length)throw new Error(errors.join('；'));}
     const wild=boss?null:createMonster(dex,species,level??Math.max(3,Math.round(player.team[0].level*0.85)),rng);
@@ -570,8 +572,10 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
         if(battle&&!battle.result)throw new Error('请先结束战斗，再前往商城。');
         const def=engravingById(action.engravingId);
         if(!def)throw new Error('刻印不存在。');
+        const access=engravingAccess(def);
+        if(access.unlimited){notice('此刻印可无限装备，请选择适用精灵。');break;}
         const stock=save.game.engravingStock,owned=(stock[def.id]??0)+(equippedEngravingCounts()[def.id]??0);
-        if(owned>=def.maxOwned)throw new Error(`${def.name.zh}最多持有 ${def.maxOwned} 个（含已装备）。`);
+        if(owned>=access.maxOwned)throw new Error(`${def.name.zh}最多持有 ${access.maxOwned} 个（含已装备）。`);
         stock[def.id]=(stock[def.id]??0)+1;
         notice(`${def.name.zh} ×1 已放入刻印库存。`);
         break;
@@ -582,17 +586,27 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
         const equipped=equippedEngravings(mon.uid),previous=equipped.find(id=>engravingById(id)?.slot===action.slot);
         if((previous??null)===action.engravingId)break;
         const def=action.engravingId===null?undefined:engravingById(action.engravingId),stock=save.game.engravingStock;
+        let sourceUid:string|undefined;
         if(action.engravingId!==null){
           if(!def||def.slot!==action.slot)throw new Error('刻印不存在。');
           const reason=engravingBlockedReason(def,engravingHolder(mon));
           if(reason)throw new Error(`${def.name.zh}：${reason}。`);
-          if(!stock[def.id])throw new Error(`${def.name.zh}库存不足，请先在商城购买。`);
+          const access=engravingAccess(def);
+          if(!access.unlimited){
+            const holders=save.storage.filter(holder=>holder.uid!==mon.uid&&equippedEngravings(holder.uid).includes(def.id));
+            const atLimit=(equippedEngravingCounts()[def.id]??0)>=access.maxOwned;
+            sourceUid=action.fromUid??(!stock[def.id]||atLimit?holders[0]?.uid:undefined);
+            if(sourceUid&&!holders.some(holder=>holder.uid===sourceUid))throw new Error('来源精灵未装备此刻印。');
+            if(!sourceUid&&atLimit)throw new Error(`${def.name.zh}最多同时装备 ${access.maxOwned} 个。`);
+            if(!sourceUid&&!stock[def.id])throw new Error(`${def.name.zh}库存不足，请先在商城补充。`);
+          }
         }
-        // Equipping takes one copy from the stock; the replaced or removed copy returns to it.
-        if(previous)stock[previous]=(stock[previous]??0)+1;
-        if(def&&!--stock[def.id])delete stock[def.id];
+        // Finite generic marks move between holders or stock without changing ownership.
+        if(previous&&!engravingAccess(engravingById(previous)!).unlimited)stock[previous]=(stock[previous]??0)+1;
+        if(sourceUid)save.game.modules[sourceUid]={...save.game.modules[sourceUid],engravings:equippedEngravings(sourceUid).filter(id=>id!==def!.id)};
+        else if(def&&!engravingAccess(def).unlimited&&!--stock[def.id])delete stock[def.id];
         save.game.modules[mon.uid]={...save.game.modules[mon.uid],engravings:[...equipped.filter(id=>id!==previous),...(def?[def.id]:[])]};
-        notice(def?`${mon.nickname??dex.species(mon.species).name.zh}装备了${def.name.zh}。`:'已卸下刻印，放回刻印库存。');
+        notice(def?`${mon.nickname??dex.species(mon.species).name.zh}${sourceUid?'移装':'装备'}了${def.name.zh}。`:'已卸下刻印。');
         break;
       }
       case 'train': {const amount=Math.max(1,Math.floor(action.amount));if(save.game.coins<amount*10)throw new Error('赛尔豆不足。');const old=findMon(save,action.uid);const next=addEvs(old,{[action.stat]:amount}).mon;const gain=next.evs[action.stat]-old.evs[action.stat];if(!gain)throw new Error('学习力已达到上限。');replace(next);save.game.coins-=gain*10;notice(`${statZh[action.stat]}学习力增加 ${gain}。`);break;}
@@ -642,7 +656,8 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       case 'buyItem': {
         if(battle&&!battle.result)throw new Error('请先结束战斗，再前往商城。');
         const item=catalog.items.find(entry=>String(entry.id)===action.itemId);
-        if(!item||item.trainer_supply_only||!isShopItemAvailable({id:action.itemId,kind:String(item.kind)},new Set(save.game.shopUnlocked)))throw new Error('这件道具尚未进入商城。');
+        if(!item||item.trainer_supply_only&&!unlimitedItemIds.has(action.itemId)||!isShopItemAvailable({id:action.itemId,kind:String(item.kind)},new Set(save.game.shopUnlocked)))throw new Error('这件道具尚未进入商城。');
+        if(unlimitedItemIds.has(action.itemId)){notice('此道具可无限使用，已在道具背包中。');break;}
         if(!Number.isSafeInteger(action.quantity)||action.quantity<1||action.quantity>999)throw new Error('购买数量须为1至999的整数。');
         if(item.kind==='essence'&&typeof item.hatches==='number'){
           if(!isSpeciesRepeatable(item.hatches))throw new Error('此精灵的来源只允许领取一次。');
@@ -669,10 +684,11 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
             const name=(catalog.items.find(entry=>entry.id===bead.item)?.name as {zh?:string}|undefined)?.zh??'能量珠';
             throw new Error(`${dex.species(findMon(save,action.uid).species).name.zh}已使用${name}，剩余 ${bead.battles_left} 场战斗；失效前不能替换，未消耗新道具。`);
           }
-          save=full(useRaisingItem(save,action.uid,item as unknown as RaisingItem,dex,rng).save);
+          save=full(useRaisingItem(save,action.uid,item as unknown as RaisingItem,dex,rng,{unlimited:unlimitedItemIds.has(action.itemId)}).save);
           const effect=(item as unknown as RaisingItem).raising_effect;
           if(effect.op==='restore'&&save.game.modules[action.uid])delete save.game.modules[action.uid].engravingDeficit;
           if(effect.op==='exp'||effect.op==='levels'&&effect.amount>0)replace(boundedAutoEvolve(findMon(save,action.uid)));
+          notice(`已对${dex.species(findMon(save,action.uid).species).name.zh}使用${(item.name as {zh:string}).zh}。`);
         } else throw new Error('该道具请在战斗中使用。');
         break;
       }
