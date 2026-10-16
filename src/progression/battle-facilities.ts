@@ -75,18 +75,31 @@ function sourceMultiHitMatches(skill:Skill,min:number,max:number):boolean {
     effect.eff===31&&effect.args[0]===min&&effect.args[1]===max)===true;
 }
 
+/** Chosen elite roster policy, not a claim that every heal loses to a 250-HP item.
+ * Keep drain attacks, regeneration and healing with an additional positive effect.
+ */
+function pureRecovery(skill:Skill):boolean {
+  if(skill.category!=='status'||skill.power>0||!skill.effects?.length)return false;
+  let heals=false;
+  return skill.effects.every(effect=>{
+    if(effect.op==='heal'&&(effect.target??'self')==='self'&&!effect.pct_damage_dealt&&(effect.amount>0||effect.pct_max_hp>0)){heals=true;return true;}
+    if(effect.op==='script'&&effect.id==='seer_eff_201'&&effect.params?.[0]===0&&effect.params[1]>0){heals=true;return true;}
+    return effect.op==='status'&&effect.target==='self'&&effect.status==='fatigue';
+  })&&heals;
+}
+
 function eliteSkillEligible(skill:Skill):boolean {
   const fixedMultiHit=skill.effects?.some(effect=>effect.op==='multi_hit'&&
     (effect.min??2)===(effect.max??effect.min??2)&&
     !sourceMultiHitMatches(skill,effect.min??2,effect.max??effect.min??2));
-  return !fixedMultiHit;
+  return !fixedMultiHit&&!pureRecovery(skill);
 }
 
 function eliteMember(catalog:CatalogData,species:Species,skills:Map<number,Skill>,types:TypeData):BossTeamMember {
   const build=eliteBuilds.get(species.id);
   if(!build)return ordinaryMember(species,skills,types,eliteSkillEligible);
   if(build.skills.length!==4||new Set(build.skills).size!==4||build.skills.some(id=>
-    !trainerSkillOrigin(catalog,species.id,id)||skills.get(id)?.effects?.some(effect=>effect.op==='multi_hit'&&
+    !trainerSkillOrigin(catalog,species.id,id)||!skills.has(id)||pureRecovery(skills.get(id)!)||skills.get(id)?.effects?.some(effect=>effect.op==='multi_hit'&&
       !sourceMultiHitMatches(skills.get(id)!,effect.min??2,effect.max??effect.min??2))))
     throw new Error(`${species.name.zh}的巅峰配招与当前技能资料不一致。`);
   return {species:species.id,...structuredClone(build)};

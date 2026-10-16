@@ -40,3 +40,55 @@
 .window-body .shop-product-heading h3{overflow-wrap:anywhere}
 .item-shop-management .management-confirm-row>span{min-width:0;font-size:11px;line-height:1.7}
 @media(max-width:480px){.item-shop-inner{grid-template-columns:145px minmax(0,1fr)}.shop-detail-scroll{padding:10px}.management-panel .shop-product-scroll>button{flex-wrap:wrap;gap:3px;padding:8px}.management-panel .shop-product-scroll>button.active{padding:7px}.shop-product-scroll button>b{font-size:9px;margin-left:auto}.shop-allowance{padding:9px 7px}.shop-allowance dl{gap:6px}.shop-allowance dd{font-size:16px}.item-shop-management .management-confirm-row{flex-wrap:wrap}.item-shop-management .management-confirm-row>button{margin-left:auto}.shop-quantity-presets{flex-wrap:wrap}}
+
+/* The recovered 2013 mark icon and empty-slot frame identify both original slot types. */
+.item-shop-management{container-name:item-shop;container-type:inline-size}
+.engraving-category-icon{display:inline-block;width:19px;height:19px;vertical-align:middle;margin-top:-3px}
+.engraving-shop{grid-template-columns:minmax(180px,35%) minmax(0,1fr)}
+.engraving-shop .shop-product-index{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2c93cd #d6edf9}
+.engraving-shop-filters{display:grid;flex-shrink:0;gap:5px;padding:8px}
+.engraving-shop-filters>label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#103d69}
+.engraving-shop-filters select,.engraving-shop-filters input{min-width:0;width:100%;font-size:11px;padding:4px 6px;box-sizing:border-box}
+.engraving-shop-filters>label>select{flex:1}
+.engraving-chip-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.engraving-chip-row>button{padding:4px 0;font-size:11px}
+.engraving-chip-row>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);font-weight:700}
+.engraving-result-count{margin:1px 0 0;font-size:10px;line-height:1.5;color:#3e6b88}
+.engraving-shop .shop-product-scroll{min-height:100px;padding:0 6px 8px;gap:4px}
+.management-panel .engraving-shop .shop-product-scroll>button{display:grid;grid-template-columns:27px minmax(0,1fr);gap:2px 6px;padding:6px;align-items:center}
+.management-panel .engraving-shop .shop-product-scroll>button.active{padding:5px}
+.engraving-shop .shop-product-symbol{display:block;grid-row:1 / 3;width:27px;line-height:0}
+.engraving-shop .shop-product-symbol img{width:27px;height:27px}
+.engraving-shop .shop-product-scroll strong{font-size:11px;line-height:1.5}
+.engraving-shop .shop-product-scroll small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:10px;line-height:1.4}
+.engraving-shop .shop-product-scroll button>b{grid-column:2;margin:0;font-size:10px;text-align:right}
+.engraving-shop .shop-detail-scroll{padding:12px}
+.engraving-shop .shop-product-heading{flex-direction:row;align-items:center;gap:10px}
+.engraving-shop .engraving-product-art{width:50px;height:56px;flex-shrink:0;border:0;border-radius:0;background:transparent url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat;box-shadow:none}
+.engraving-product-art>img{width:34px;height:34px}
+.window-body .engraving-shop .shop-product-heading h3{font-size:16px;line-height:1.4;margin:4px 0}
+.engraving-shop .shop-product-heading>div>span{line-height:1.6}
+.engraving-shop-facts{display:grid;gap:4px;margin:12px 0 7px}
+.engraving-shop-facts>div{display:flex;gap:9px;font-size:11px;line-height:1.6}
+.engraving-shop-facts dt{width:58px;flex-shrink:0;color:#5f8597}
+.engraving-shop-facts dd{margin:0;color:#103d69}
+.engraving-shop-rule{margin:7px 0;font-size:10px;line-height:1.6;color:#53798c}
+.engraving-shop .shop-allowance{margin:9px 0;padding:8px}
+.engraving-shop .shop-allowance dd{margin-top:2px;font-size:17px}
+.engraving-shop .shop-allowance p{margin-top:5px}
+.engraving-shop .management-confirm-row{margin-top:7px;padding:8px 0;gap:7px}
+.engraving-shop .management-confirm-row>button{flex-shrink:0;white-space:nowrap;padding:6px 10px;font-size:11px}
+.engraving-shop .shop-feedback{font-size:11px;line-height:1.6;margin:6px 0}
+@container item-shop (max-width:550px){
+  .engraving-shop{grid-template-columns:minmax(150px,38%) minmax(0,1fr)}
+  .engraving-shop-filters{padding:6px;gap:4px}
+  .engraving-shop-filters>label{display:grid;gap:3px}
+  .engraving-shop-filters select,.engraving-shop-filters input,.engraving-chip-row>button{font-size:10px}
+  .engraving-shop .shop-detail-scroll{padding:9px}
+  .engraving-shop .shop-product-heading{gap:7px}
+  .engraving-shop .engraving-product-art{width:38px;height:43px}
+  .engraving-product-art>img{width:28px;height:28px}
+  .window-body .engraving-shop .shop-product-heading h3{font-size:13px}
+  .engraving-shop .management-confirm-row{flex-wrap:wrap}
+  .engraving-shop .management-confirm-row>button{margin-left:auto}
+}

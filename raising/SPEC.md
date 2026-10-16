@@ -10,7 +10,7 @@ of the game, **[chosen]** a remake decision where the original is unknown or
 doesn't fit a single-player PvE game. Every number is a named constant, so a
 wrong rule is a one-line change.
 
-Scope is pre-2013 Seer: no 刻印, 魂印, 特性, 套装 or 年费 bonuses.
+Scope is pre-2013 Seer: no 魂印, 特性, 套装 or 年费 bonuses. 刻印 bonuses are applied by the game adapter at battle time (`design/notes/engravings-2013.md`), not by these raising rules.
 
 ## 1. Stats (能力值)
 

@@ -44,6 +44,7 @@ export interface Mon {
   maxHp: number;
   hp: number;
   skills: number[];
+  skillOverrides?: Record<number, Skill>;
   pp: Record<number, number>;
   maxPp: Record<number, number>;
   stages: Record<StageKey, number>;
@@ -197,10 +198,11 @@ export class Battle {
       (stats as any)[k] = Math.floor((stats as any)[k] * (mult as number));
     }
     if (m.hp_override) stats.hp = m.hp_override;
+    const overrides = m.skill_overrides ? structuredClone(m.skill_overrides) : undefined;
     const maxPp: Record<number, number> = {};
     const pp: Record<number, number> = {};
     for (const id of m.skills) {
-      maxPp[id] = this.data.skills.get(id)!.pp;
+      maxPp[id] = (overrides?.[id] ?? this.data.skills.get(id)!).pp;
       pp[id] = Math.min(maxPp[id], m.pp?.[id] ?? maxPp[id]);
     }
     const beadHooks: Hook[] = [];
@@ -216,7 +218,7 @@ export class Battle {
     const hp = Math.min(stats.hp, m.hp ?? stats.hp);
     const mon: Mon = {
       side, slot, uid: m.uid, species, name: m.nickname || species.name.zh, level: m.level,
-      types: [...(m.types ?? species.types)], stats, maxHp: stats.hp, hp, skills: [...m.skills], pp, maxPp,
+      types: [...(m.types ?? species.types)], stats, maxHp: stats.hp, hp, skills: [...m.skills], skillOverrides: overrides, pp, maxPp,
       stages: zeroStages(), conditions: [], fainted: hp <= 0, livesLeft: lives, turnsActive: 0, lastActedTurn: -1,
       usedSkills: new Set(), skillUses: {}, streak: { skill: -1, count: 0, turn: -1 }, vol: {}, persist: {},
       facedBy: new Set(), aiCursor: 0, rules: structuredClone(m.member_rules ?? []), phases: structuredClone(m.member_phases ?? []), phasesFired: new Set(),
@@ -427,7 +429,7 @@ export class Battle {
       const a = actions[i];
       if (a.kind !== 'move') return { cls: 1, pri: 0, spe: 0 };
       const mon = this.active(i);
-      const skill = this.skill(a.skill);
+      const skill = this.skill(a.skill, mon);
       return { cls: 0, pri: this.priority(mon, skill), spe: this.effStat(mon, 'spe') };
     };
     const r0 = rank(0), r1 = rank(1);
@@ -461,8 +463,8 @@ export class Battle {
           this.emit({ type: 'no_target', side: i });
           return;
         }
-        this.useMove(this.active(i), this.active(foe.index), this.skill(action.skill), first);
-        if (!this.result) this.checkBossFlee(this.active(i), this.skill(action.skill));
+        this.useMove(this.active(i), this.active(foe.index), this.skill(action.skill, this.active(i)), first);
+        if (!this.result) this.checkBossFlee(this.active(i), this.skill(action.skill, this.active(i)));
     }
   }
 
@@ -512,9 +514,10 @@ export class Battle {
 
   // ---------- moves ----------
 
-  skill(id: number): Skill {
+  /** Catalog skill, or the owner's override (skill engravings) when `mon` is given. */
+  skill(id: number, mon?: Mon): Skill {
     if (id === STRUGGLE_SKILL.id) return STRUGGLE_SKILL;
-    const s = this.data.skills.get(id);
+    const s = mon?.skillOverrides?.[id] ?? this.data.skills.get(id);
     if (!s) throw new Error(`unknown skill ${id}`);
     return s;
   }
@@ -570,7 +573,7 @@ export class Battle {
       return;
     }
     // 2. PP
-    let ppCost = hasRule(userSide, 'unlimited_pp') ? 0 : 1;
+    let ppCost = hasRule(userSide, 'unlimited_pp') ? 0 : (skill.pp_cost ?? 1);
     for (const r of this.fire(user, 'pp_cost', { skill })) if (typeof r === 'number') ppCost = r;
     for (const { entry, op } of this.skillScripts(skill)) {
       const r = entry.ppCost?.({ battle: this, user, foe: target, skill }, op.params);
@@ -721,6 +724,7 @@ export class Battle {
         if (typeof r === 'number') power = r;
       }
     }
+    power += skill.power_bonus ?? 0;
     for (const r of this.fire(user, 'modify_power', { skill, power, foe: target })) if (typeof r === 'number') power = r;
     const physical = skill.category === 'physical';
     const A = this.effStat(user, physical ? 'atk' : 'spa');
@@ -1476,7 +1480,7 @@ export class Battle {
   private setSkills(mon: Mon, skills: number[]): void {
     mon.skills = [...skills];
     for (const id of skills) {
-      const s = this.skill(id);
+      const s = this.skill(id, mon);
       mon.maxPp[id] = s.pp;
       mon.pp[id] = mon.pp[id] ?? s.pp;
     }

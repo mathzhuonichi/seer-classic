@@ -111,7 +111,7 @@ function actsBeforeThreat(b: Battle, self: View, foe: View, skill: Skill): boole
   return own > enemy || own === enemy && stat(self, 'spe') >= stat(foe, 'spe');
 }
 function typeBlocked(b: Battle, self: View, foe: View, skill: Skill): boolean {
-  return skill.category !== 'status' && (skill.power > 0 || !!skill.effects?.some(e => e.op === 'power_if' && e.power)) &&
+  return skill.category !== 'status' && (skill.power + (skill.power_bonus ?? 0) > 0 || !!skill.effects?.some(e => e.op === 'power_if' && e.power)) &&
     !hasRule(b, foe, 'ignore_type_chart') && !hasRule(b, self, 'ignore_type_chart') && effectiveness(b.data.types, skill.type, foe.types) === 0;
 }
 
@@ -125,6 +125,7 @@ function damage(b: Battle, self: View, foe: View, skill: Skill): number {
     if (e.power) power += (e.power - power) * q;
     if (e.multiplier) power *= 1 + (e.multiplier - 1) * q;
   }
+  power += skill.power_bonus ?? 0;
   const eff = hasRule(b, foe, 'ignore_type_chart') || hasRule(b, self, 'ignore_type_chart') ? 1 : effectiveness(b.data.types, skill.type, foe.types);
   let amount = 0;
   if (skill.category !== 'status' && power > 0) {
@@ -213,7 +214,7 @@ function pendingGift(mon: Mon): boolean {
   return mon.conditions.some(c => c.turns > 0 && (c.id === 'seer_eff_59' || c.id === 'seer_eff_71' && (c.data?.pool?.left ?? 1) > 0));
 }
 function poweredMoves(b: Battle, mon: Mon): Skill[] {
-  return mon.skills.filter(id => mon.pp[id] > 0).map(id => b.skill(id)).filter(skill => skill.category !== 'status' && skill.power > 0);
+  return mon.skills.filter(id => mon.pp[id] > 0).map(id => b.skill(id, mon)).filter(skill => skill.category !== 'status' && skill.power + (skill.power_bonus ?? 0) > 0);
 }
 function projectedInheritance(mon: Mon): Mon {
   // Transfer adds only speed and accuracy +1. It never copies the donor's stages.
@@ -230,7 +231,7 @@ function giftBenefit(b: Battle, recipient: Mon, foe: View, gift: TeamGift): numb
     return Math.min(110, bestDamage / foe.maxHp * 200);
   }
   const projected = projectedInheritance(recipient);
-  const control = recipient.skills.filter(id => recipient.pp[id] > 0).map(id => b.skill(id)).filter(skill =>
+  const control = recipient.skills.filter(id => recipient.pp[id] > 0).map(id => b.skill(id, recipient)).filter(skill =>
     skill.effects?.some(e => e.op === 'status' && effectTarget(e) === 'foe' && ['sleep', 'paralysis', 'fear', 'petrify', 'fatigue'].includes(e.status) && canStatus(b, foe, recipient, e.status)));
   const accuracyGain = Math.max(0, ...[...attacks, ...control].map(skill => hitChance(projected, foe, skill) - hitChance(recipient, foe, skill)));
   const speedGain = projected.stages.spe > recipient.stages.spe;
@@ -250,10 +251,10 @@ function canGiveTeamGift(b: Battle, self: Mon, foe: View, skill: Skill): boolean
 export function requiresTrainerSupportFallback(b: Battle, side: Side): boolean {
   if (side.kind !== 'trainer' || (b.active(side.index).ai ?? side.ai ?? {kind:'smart'}).kind !== 'smart') return false;
   const self = b.active(side.index), ids = self.skills.filter(id => self.pp[id] > 0);
-  if (!ids.length || !ids.every(id => teamGift(b.skill(id)))) return false;
+  if (!ids.length || !ids.every(id => teamGift(b.skill(id, self)))) return false;
   const foe = publicOpponent(b, self);
   const incoming = threat(b, self, foe);
-  return ids.every(id => !canGiveTeamGift(b, self, foe, b.skill(id)) || teamGiftUtility(b, self, foe, b.skill(id), incoming) <= 0);
+  return ids.every(id => !canGiveTeamGift(b, self, foe, b.skill(id, self)) || teamGiftUtility(b, self, foe, b.skill(id, self), incoming) <= 0);
 }
 
 function teamGiftUtility(b: Battle, self: Mon, foe: View, skill: Skill, incoming: number): number {
@@ -307,7 +308,7 @@ function utility(b: Battle, self: Mon, foe: View, skill: Skill, op: EffectOp, in
         let weight = 15;
         if (key === 'atk' || key === 'spa') {
           const physical = key === 'atk';
-          const relevant = toSelf ? self.skills.some(id => b.skill(id).category === (physical ? 'physical' : 'special') && b.skill(id).power > 0 && self.pp[id] > 0) : foe.species.base[key] >= foe.species.base[physical ? 'spa' : 'atk'] * .8;
+          const relevant = toSelf ? self.skills.some(id => b.skill(id, self).category === (physical ? 'physical' : 'special') && b.skill(id, self).power + (b.skill(id, self).power_bonus ?? 0) > 0 && self.pp[id] > 0) : foe.species.base[key] >= foe.species.base[physical ? 'spa' : 'atk'] * .8;
           weight = relevant ? 23 : 0;
         }
         if (key === 'spe' && stat(self, 'spe') > stat(foe, 'spe') && delta * sign > 0) weight = 4;
@@ -321,7 +322,7 @@ function utility(b: Battle, self: Mon, foe: View, skill: Skill, op: EffectOp, in
       value = Object.values(target.stages).filter(s => op.which === 'up' ? s > 0 : op.which === 'down' ? s < 0 : true).reduce((sum, s) => sum - s * sign * 15, 0);
       break;
     case 'cure_status': value = sign * target.conditions.filter(c => c.def.kind === 'status' && (!op.statuses || op.statuses.includes(c.id))).reduce((sum, c) => sum + (c.def.control ? 65 : 35), 0); break;
-    case 'restore_pp': value = toSelf ? (op.skill ? [op.skill] : self.skills).reduce((sum: number, id: number) => sum + (self.pp[id] === 0 ? 20 : self.pp[id] <= 2 ? 7 : 0), 0) : 0; break;
+    case 'restore_pp': value = toSelf ? (op.skill ? [op.skill] : self.skills).reduce((sum: number, id: number) => sum + (self.pp[id] === 0 ? 20 : self.pp[id] <= 2 * Math.max(1, b.skill(id, self).pp_cost ?? 1) ? 7 : 0), 0) : 0; break;
     case 'recoil': value = -(op.pct_max_hp ? self.maxHp * op.pct_max_hp / 100 : dealt * (op.pct_damage_dealt ?? 0) / 100) / self.maxHp * 65; break;
     case 'protect': {
       const residual = foe.conditions.some(c => c.def.hooks.some(h => h.on === 'turn_end' && h.damage_pct_max_hp));
@@ -367,13 +368,41 @@ function score(b: Battle, self: Mon, foe: View, skill: Skill, ai: AiSpec): {scor
   // Stable ties preserve deterministic replays and use no extra random draws.
   return {score: score + hit * .01, ko};
 }
+/** Prefer an equally effective unlimited medicine only in an actual trainer turn.
+ * This is deliberately narrower than the elite roster's no-direct-recovery policy:
+ * larger heals, engraved priority, combined effects and item interception survive.
+ */
+function medicineCoversRecovery(b: Battle, self: Mon, foe: View, skill: Skill): boolean {
+  const side = b.sides[self.side];
+  if (side.kind !== 'trainer' || side.active !== self.slot || skill.category !== 'status' || skill.power > 0 || priority(self, foe, skill) > 0 || !skill.effects?.length || hasRule(b, foe, 'block_heal')) return false;
+  if (self.conditions.some(c => c.turns > 0 && c.def.hooks.some(h => h.on === 'on_heal_incoming' && h.script))) return false;
+  let recovery = 0;
+  for (const op of skill.effects) {
+    if (op.when || (op.chance ?? 100) !== 100) return false;
+    if (op.op === 'heal' && effectTarget(op) === 'self' && !op.pct_damage_dealt) recovery += Math.floor(op.pct_max_hp ? self.maxHp * op.pct_max_hp / 100 : op.amount ?? 0);
+    else if (op.op === 'script' && op.id === 'seer_eff_201' && op.params?.[0] === 0 && op.params[1] > 0) recovery += Math.floor(self.maxHp / op.params[1]);
+    else if (!(op.op === 'status' && op.target === 'self' && op.status === 'fatigue')) return false;
+  }
+  const useful = Math.min(self.maxHp - self.hp, recovery);
+  if (useful <= 0) return false;
+  return b.legalActions(self.side).some(action => {
+    if (action.kind !== 'item' || !side.unlimitedItems.has(action.item) || (action.target ?? side.active) !== side.active) return false;
+    const ops = b.data.items.get(action.item)?.battle_effects ?? [];
+    if (!ops.length || ops.some(op => op.op !== 'heal' || effectTarget(op) !== 'self' || op.pct_damage_dealt || (op.chance ?? 100) !== 100 || !when(op.when, self, foe))) return false;
+    return ops.reduce((sum, op) => sum + Math.floor(op.pct_max_hp ? self.maxHp * op.pct_max_hp / 100 : op.amount ?? 0), 0) >= useful;
+  });
+}
+
 function bestMove(b: Battle, self: Mon, foe: View, ai: AiSpec) {
-  const ids = self.skills.filter(id => self.pp[id] > 0 &&
-    (b.sides[self.side].kind !== 'trainer' || !teamGift(b.skill(id)) || canGiveTeamGift(b, self, foe, b.skill(id)) && teamGiftUtility(b, self, foe, b.skill(id), threat(b, self, foe)) > 0));
-  return (ids.length ? ids : [STRUGGLE_SKILL.id]).map(id => ({id, ...score(b, self, foe, b.skill(id), ai)})).sort((a, z) => z.score - a.score || a.id - z.id)[0];
+  const available = self.skills.filter(id => self.pp[id] > 0 &&
+    (b.sides[self.side].kind !== 'trainer' || !teamGift(b.skill(id, self)) || canGiveTeamGift(b, self, foe, b.skill(id, self)) && teamGiftUtility(b, self, foe, b.skill(id, self), threat(b, self, foe)) > 0));
+  const alternatives = available.filter(id => !medicineCoversRecovery(b, self, foe, b.skill(id, self)));
+  // A recovery-only loadout still needs a legal fallback if medicine is refused.
+  const ids = alternatives.length ? alternatives : available;
+  return (ids.length ? ids : [STRUGGLE_SKILL.id]).map(id => ({id, ...score(b, self, foe, b.skill(id, self), ai)})).sort((a, z) => z.score - a.score || a.id - z.id)[0];
 }
 function matchup(b: Battle, self: Mon, foe: View): number {
-  const attacks = self.skills.filter(id => self.pp[id] > 0).map(id => damage(b, self, foe, b.skill(id)) * hitChance(self, foe, b.skill(id)));
+  const attacks = self.skills.filter(id => self.pp[id] > 0).map(id => damage(b, self, foe, b.skill(id, self)) * hitChance(self, foe, b.skill(id, self)));
   return Math.max(0, ...attacks) / foe.maxHp * 100 - threat(b, self, foe) / Math.max(1, self.hp) * 65 + hpRatio(self) * 15;
 }
 
@@ -399,7 +428,7 @@ function nextExchange(b: Battle, mon: Mon, foe: View, controlRisk = 0, suppresse
   if (mon.hp <= 0 || foe.hp <= 0) return {value: 0, hp: Math.max(0, mon.hp)};
   const incoming = threat(b, mon, foe) * (1 - suppressedReply);
   const options = mon.skills.filter(id => mon.pp[id] > 0).map(id => {
-    const skill = b.skill(id), raw = damage(b, mon, foe, skill), hit = hitChance(mon, foe, skill);
+    const skill = b.skill(id, mon), raw = damage(b, mon, foe, skill), hit = hitChance(mon, foe, skill);
     const available = controlled(mon) ? 0 : 1 - Math.max(controlRisk, controlBeforeMoveRisk(b, mon, foe, skill) * (1 - suppressedReply));
     const before = actsBeforeThreat(b, mon, foe, skill);
     const canAct = before || mon.hp > incoming;
@@ -426,7 +455,7 @@ function lostSwitchInvestment(b: Battle, mon: Mon, foe: View, incoming: number):
 
 /** A voluntary switch must repay its lost action and paid entry over two decisions. */
 function switchingNetGain(b: Battle, self: Mon, member: Mon, foe: View, best: ReturnType<typeof bestMove>) {
-  const incoming = threat(b, self, foe), skill = b.skill(best.id), before = actsBeforeThreat(b, self, foe, skill);
+  const incoming = threat(b, self, foe), skill = b.skill(best.id, self), before = actsBeforeThreat(b, self, foe, skill);
   const acts = !controlled(self) && (before || self.hp > incoming);
   const actionChance = acts ? 1 - controlBeforeMoveRisk(b, self, foe, skill) : 0;
   const dealt = Math.min(foe.hp, damage(b, self, foe, skill) * hitChance(self, foe, skill)) * actionChance;
@@ -532,7 +561,7 @@ function potionAction(b: Battle, side: Side, self: Mon, foe: View, best: ReturnT
   if (side.kind !== 'trainer') return undefined;
   const actions = b.legalActions(side.index).filter((action): action is Extract<Action, {kind:'item'}> => action.kind === 'item' && (action.target ?? side.active) === side.active);
   if (!actions.length) return undefined;
-  const incoming = threat(b, self, foe), move = b.skill(best.id);
+  const incoming = threat(b, self, foe), move = b.skill(best.id, self);
   if (best.ko && !controlled(self) && (actsBeforeThreat(b, self, foe, move) || self.hp > incoming) && controlBeforeMoveRisk(b, self, foe, move) === 0) return undefined;
   const reserve = fallback.kind === 'switch' ? side.team[fallback.slot] : side.team.filter(mon => !mon.fainted && mon.slot !== self.slot).sort((a, z) => matchup(b, z, foe) - matchup(b, a, foe))[0] ?? {...self, hp: 0};
   const existing = switchingNetGain(b, self, reserve, foe, best);
@@ -557,9 +586,9 @@ function potionAction(b: Battle, side: Side, self: Mon, foe: View, best: ReturnT
         for (const id of op.skill ? [op.skill] : self.skills) {
           if (!(id in projected.pp) || !Number.isFinite(self.maxPp[id])) continue;
           projected.pp[id] = Math.min(self.maxPp[id], projected.pp[id] + (Number.isFinite(op.amount) ? Math.max(0, op.amount) : self.maxPp[id]));
-          if (self.pp[id] === 0 && projected.pp[id] > 0 && !teamGift(b.skill(id))) {
-            const value = Math.min(100, Math.max(0, score(b, projected, foe, b.skill(id), ai).score - .01));
-            restoredValue = Math.max(restoredValue, value * Math.min(2, projected.pp[id]));
+          if (self.pp[id] === 0 && projected.pp[id] > 0 && !teamGift(b.skill(id, self))) {
+            const value = Math.min(100, Math.max(0, score(b, projected, foe, b.skill(id, projected), ai).score - .01));
+            restoredValue = Math.max(restoredValue, value * Math.min(2, Math.ceil(projected.pp[id] / Math.max(1, b.skill(id, projected).pp_cost ?? 1))));
           }
         }
         resource += restoredValue; helped ||= restoredValue > 0; kind = 'restore_pp';
@@ -577,7 +606,7 @@ function potionAction(b: Battle, side: Side, self: Mon, foe: View, best: ReturnT
     if (afterHp <= 0) return [];
     if (side.unlimitedItems.has(action.item) && !potionProgress(b, self, foe, kind, afterHp > self.hp)) return [];
     let next = afterDecisionTurn(projected, afterHp), additionalHeals = 0;
-    const nextBest = bestMove(b, next, foe, ai), nextMove = b.skill(nextBest.id), nextIncoming = threat(b, next, foe);
+    const nextBest = bestMove(b, next, foe, ai), nextMove = b.skill(nextBest.id, next), nextIncoming = threat(b, next, foe);
     const requiredHp = actsBeforeThreat(b, next, foe, nextMove) ? 1 : nextIncoming + 1;
     if (next.hp < requiredHp && recovered > hit && projected.maxHp - hit >= requiredHp) {
       additionalHeals = Math.ceil((requiredHp - next.hp) / (recovered - hit));
@@ -601,7 +630,7 @@ function battleAction(b: Battle, side: Side, ai: AiSpec, self: Mon, foe: View, b
       const member = side.team[action.slot], incoming = threat(b, member, foe);
       const afterEntry = {...member, hp: member.hp - incoming};
       const next = bestMove(b, afterEntry, foe, ai);
-      const canAct = actsBeforeThreat(b, afterEntry, foe, b.skill(next.id));
+      const canAct = actsBeforeThreat(b, afterEntry, foe, b.skill(next.id, afterEntry));
       return {action, score: matchup(b, afterEntry, foe), safe: member.hp > incoming * 1.25 && (canAct || afterEntry.hp > incoming * 1.1) && switchingNetGain(b, self, member, foe, best).net > 0};
     }).filter(row => row.safe).sort((a, z) => z.score - a.score);
     // A switch pays a full turn; require a substantial and survivable improvement.

@@ -261,8 +261,33 @@
 .raising-skin-picker>label{font-size:11px;font-weight:700;white-space:nowrap}
 .raising-skin-picker>select{flex:1;min-width:0;font-size:11px;padding:5px 7px}
 .raising-skins>p{margin:6px 0 0;font-size:10px;line-height:1.5}
+.raising-engravings{margin:0 0 6px;padding:4px;border:1px solid #78aed0;border-radius:4px;background:#eaf5f8;color:#18394d}
+.raising-scroll .raising-engravings .stat-table-heading{margin:0 0 3px;gap:6px;font-size:11px;line-height:15px}
+.raising-engravings .stat-table-heading>span{font-size:10px}
+.engraving-slot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.engraving-slot{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:3px 4px;min-width:0;padding:4px;border:1px solid #a5c7db;border-radius:3px;background:#f5fbff}
+.engraving-slot-heading{display:flex;align-items:center;gap:3px;min-width:0}
+.engraving-slot-emblem{display:grid;place-items:center;width:18px;height:20px;flex-shrink:0;background:url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat}
+.engraving-slot-emblem>img{width:14px;height:14px}
+.engraving-slot-heading strong{display:block;font-size:10px;line-height:1.4;white-space:nowrap}
+.engraving-slot select{width:100%;min-width:0;height:23px;font-size:10px;padding:2px;box-sizing:border-box}
+.engraving-slot-effect{grid-column:1 / -1;display:flex;align-items:center;gap:3px;min-width:0;min-height:19px}
+.engraving-slot-effect>small{flex:1;min-width:0;font-size:9px;line-height:1.5;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.engraving-slot .engraving-unload{flex-shrink:0;padding:1px 4px;font-size:9px;line-height:15px}
+.engraving-slot-effect>small.engraving-inactive{color:#b0352c}
+.engraving-stat-note{margin:5px 0;font-size:10px;line-height:1.5;color:#53798c}
+.management-stat-table .engraving-stat-value>small{display:block;font-size:9px;line-height:1.4;font-weight:400}
+.management-stat-table .engraving-bonus{color:#a16c00;font-size:9px;font-weight:700}
 .official-petbag .raising-skins{background:#074f95;border-color:#1386bd;color:#e1f5ff}
 .official-petbag .raising-skin-picker>select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
+.official-petbag .raising-engravings{background:#074f95;border-color:#1386bd;color:#e1f5ff}
+.official-petbag .engraving-slot{background:#0a3a66;border-color:#2085b9}
+.official-petbag .raising-scroll .raising-engravings .stat-table-heading,.official-petbag .raising-scroll .raising-engravings .stat-table-heading>span{color:#e1f5ff}
+.official-petbag .raising-scroll .engraving-slot select{height:23px;padding:2px;font-size:10px;line-height:16px;background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
+.official-petbag .engraving-slot-effect>small.engraving-inactive{color:#ffb4a8}
+.official-petbag .raising-scroll .ev-save-row{position:static;padding:6px 0;box-shadow:none}
+.official-petbag .engraving-stat-note{color:#b8e4ff}
+.official-petbag .management-stat-table .engraving-bonus{color:#ffde79}
 
 /* Trainer previews disclose ordinary roster members before battle. */
 .trainer-roster{margin:12px 0;padding:10px;border:1px solid #a7c7d6;border-radius:6px;background:#e6f3f8}

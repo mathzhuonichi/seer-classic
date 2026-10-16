@@ -35,6 +35,8 @@ export interface Skill {
   priority?: number;
   crit_rate?: number;   // numerator over 16
   crit_stage?: number;  // foundation v0.1 field; crit_rate = 1 + crit_stage
+  power_bonus?: number; // added after power ops and scripts (skill engravings)
+  pp_cost?: number;     // PP spent per use; default 1
   target?: Target;
   effects?: EffectOp[];
   [key: string]: unknown;
@@ -165,6 +167,8 @@ export interface MonsterInput {
   stat_multipliers?: Partial<Record<StatKey, number>>;
   /** 能量珠 bonuses active for this battle (raising/core activeBeads). */
   beads?: BeadBonus[];
+  /** Per-monster replacements for catalog skills (skill engravings), keyed by skill id. */
+  skill_overrides?: Record<number, Skill>;
   /** Encounter traits and phases belonging only to this ordered opponent. */
   member_rules?: BossRule[];
   member_phases?: Phase[];

@@ -8,9 +8,9 @@ const checks=[],failures=[],builds=[],changedOriginalEliteBuilds=[];
 const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 const keys=['hp','atk','def','spa','spd','spe'],sum=sp=>keys.reduce((n,key)=>n+sp.base[key],0),sorted=xs=>[...xs].sort((a,b)=>a-b);
 const APPROVED={
-  70:[10825,20364,10823,10166],261:[10715,20312,10710,20309],421:[11140,20564,10632,11135],468:[11224,20486,20488,11017],
+  70:[10825,20364,10823,10166],261:[10715,20312,10710,10714],421:[11140,20564,10632,11135],468:[11224,20486,20488,11017],
   774:[11884,20486,20957,10981],798:[11925,20982,11924,10223],865:[12079,21070,12080,10060],875:[12112,21090,11919,12110],
-  927:[12217,20114,12216,20116],1260:[12937,20486,21533,12934],1447:[12079,21070,12080,10060],1477:[13423,21817,13422,13421],
+  927:[12217,20114,12216,10254],1260:[12937,20486,21533,12934],1447:[12079,21070,12080,10060],1477:[13423,21817,13422,13421],
   359:[20143,10882,20397,10321],356:[20398,10876,10874,10289],755:[20932,11841,20931,11837],599:[20749,11508,20750,20488],
   587:[20731,20730,20732,11470],990:[12355,11293,21224,12358],826:[11994,21020,20538,11996],691:[11690,10321,20185,11691],432:[11165,11078,20535,11081],
 };
@@ -22,6 +22,7 @@ try {
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   const raw=facilityPool(catalog,600),pool=eliteFacilityPool(catalog),approvedIds=Object.keys(APPROVED).map(Number),ids=new Set(pool.map(s=>s.id));
   const suspicious=skill=>(skill.effects??[]).some(fx=>fx.op==='multi_hit'&&(fx.min??2)===(fx.max??fx.min??2))&&!(skill.seer_effects??[]).some(fx=>fx.eff===31);
+  const excludedRecovery=new Set([20309,20607,20009,20590,20027,20116,21373,20034]);
   const profileFor=id=>id===70?'rei-classic-full':id===261?'gaia-evil-seal':undefined;
   const expectedStats=mon=>{const out=computeStats(species.get(mon.species).base,100,31,mon.evs,data.natures.get(mon.nature));if(mon.species===70)for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))out[key]+=value;return out;};
   function sixContaining(member,candidates=pool){return [member,...candidates.filter(s=>s.id!==member.id).slice(0,5)];}
@@ -60,11 +61,11 @@ try {
     }
     assert.deepEqual(sorted(covered),sorted(ids));
   });
-  check('The original 103 elite candidates keep their ordinary formulas; changed skill choices are only the elite multi-hit filter',()=>{
+  check('The original 103 elite candidates keep their ordinary formulas; changed skill choices are only the elite multi-hit and direct-recovery policies',()=>{
     for(const mon of raw){const ordinary=generatedFor(mon,'random'),elite=generatedFor(mon);
       const {skills:ordinaryMoves,...ordinaryRest}=ordinary,{skills:eliteMoves,...eliteRest}=elite;assert.deepEqual(eliteRest,ordinaryRest);
       assert(eliteMoves.every(id=>!suspicious(skills.get(id))));
-      if(JSON.stringify(ordinaryMoves)!==JSON.stringify(eliteMoves)){assert(ordinaryMoves.some(id=>suspicious(skills.get(id))));changedOriginalEliteBuilds.push({species:mon.id,name:mon.name.zh,ordinaryMoves,eliteMoves,excluded:ordinaryMoves.filter(id=>suspicious(skills.get(id)))});}
+      if(JSON.stringify(ordinaryMoves)!==JSON.stringify(eliteMoves)){assert(ordinaryMoves.some(id=>suspicious(skills.get(id))||excludedRecovery.has(id)));changedOriginalEliteBuilds.push({species:mon.id,name:mon.name.zh,ordinaryMoves,eliteMoves,excluded:ordinaryMoves.filter(id=>suspicious(skills.get(id))||excludedRecovery.has(id))});}
     }
   });
   check('Ordinary random encounters still use natural skills and no authored training or support loadouts',()=>{

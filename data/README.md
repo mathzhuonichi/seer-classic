@@ -70,8 +70,9 @@ bonus for N PvE battles) and a negative `levels` for 降级秘药. Items marked 
 The initial recovered item table omitted fusion spirit beads, traits, engravings,
 automation and event items. The current application supplies spirit beads at
 runtime through `src/progression/fusion.ts`, reusing essence hatching with the
-user-approved material-free rules. Traits and engraving interfaces are provided
-by the application mechanics modules rather than this original item table.
+user-approved material-free rules. Traits are provided by the application mechanics
+modules rather than this original item table. `engravings.json` holds the 2013 engravings
+(`tools/assets/build_engravings.py`, `design/notes/engravings-2013.md`).
 The initial recovered bundle omitted conditional evolution tables. The official retained
 `EvolveXMLInfo` table does contain item-triggered evolutions, including branch choices.
 Revisions 33 through 35 apply the approved mechanical, branch and special-evolution simplification through

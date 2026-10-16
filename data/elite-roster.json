@@ -49,11 +49,11 @@
           10715,
           20312,
           10710,
-          20309
+          10714
         ],
         "training_profile": "gaia-evil-seal"
       },
-      "selectionReason": "Attack 119, speed 105; attack/accuracy +2, 150-power boost removal, priority, healing; optional single seal is separate."
+      "selectionReason": "Attack 119, speed 105; attack/accuracy +2, 150-power boost removal, priority, Normal-type boost-removal coverage; optional single seal is separate."
     },
     {
       "species": 421,
@@ -190,7 +190,7 @@
     {
       "species": 927,
       "name": "迪诺恩",
-      "role": "攻速强化·恢复续航",
+      "role": "攻速强化·多段补盲",
       "reviewedBaseTotal": 595,
       "build": {
         "level": 100,
@@ -204,10 +204,10 @@
           12217,
           20114,
           12216,
-          20116
+          10254
         ]
       },
-      "selectionReason": "Attack/speed +2, priority, full heal with self-fatigue cost; slower initial speed 91."
+      "selectionReason": "Attack/speed +2, priority and source-confirmed Normal-type 2-3 hit coverage; slower initial speed 91."
     },
     {
       "species": 1260,

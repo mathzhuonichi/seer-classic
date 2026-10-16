@@ -161,10 +161,14 @@ try{
       for(const key of ['estimateDamage','effStat','priority'])b[key]=()=>{throw Error(`Live ${key}`);};assert.deepEqual(decide(b),expected);
     }
   });
-  check('Forced replacement and V46 gift/damage estimators retain their exact source text',()=>{
+  check('Forced replacement and public opponent projection stay exact; gift semantics only gain own engraving lookups',()=>{
     const tail=source=>source.slice(source.indexOf('export function tacticalReplacement'));
-    const beforeSwitch=source=>source.slice(0,source.indexOf('const hpCost ='));
-    assert.equal(tail(currentSource),tail(baselineSource));assert.equal(beforeSwitch(currentSource),baselineSource.slice(0,baselineSource.indexOf('export function tacticalAction')));
+    const section=(source,start,end)=>source.slice(source.indexOf(start),source.indexOf(end));
+    const gift=source=>section(source,'function pendingGift','function utility')
+      .replace(/b\.skill\(id, (?:mon|recipient|self)\)/g,'b.skill(id)')
+      .replace('skill.power + (skill.power_bonus ?? 0) > 0','skill.power > 0');
+    assert.equal(tail(currentSource),tail(baselineSource));assert.equal(gift(currentSource),gift(baselineSource));
+    assert.equal(section(currentSource,'function publicOpponent','/** Pure subset'),section(baselineSource,'function publicOpponent','/** Pure subset'));
   });
   check('The fixed comparison classifies voluntary, faint, forced-effect and return switches separately',()=>{
     assert.equal(report.baseline.totals.battles,12);assert.equal(report.current.totals.battles,12);
