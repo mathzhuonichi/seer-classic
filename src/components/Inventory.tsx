@@ -3,19 +3,23 @@ import type {GameController,GameSnapshot,ItemView} from '../game-types';
 import {CreatureArt} from './CreatureArt';
 import ItemIcon from './ItemIcon';
 import ItemTile from './ItemTile';
+import ItemCategoryTabs from './ItemCategoryTabs';
+import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories';
 import '../management.css';
-const pockets=[['raising','培养道具','◇'],['battle','战斗补给','✚'],['capsule','精灵胶囊','◈'],['essence','精元 / 元神珠','◉'],['other','其他','▣']] as const;
-const supplyGroups=[['all','全部补给'],['recovery','体力 / PP'],['status','异常解除']] as const;
+import './Inventory.css';
+const pockets=[['raising','培养'],['battle','补给'],['capsule','胶囊'],['essence','精元'],['other','其他']] as const;
 const supplyCategory=(item:ItemView)=>item.battleCategory??(item.kind==='capsule'?'capsule':'recovery');
 const categoryLabel=(item:ItemView)=>supplyCategory(item)==='status'?'异常解除':'体力 / PP 恢复';
 export default function Inventory({s,c,onSave,onMessage,initialPocket}:{s:GameSnapshot;c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}) {
-  const [pocket,setPocket]=useState(initialPocket&&pockets.some(p=>p[0]===initialPocket)?initialPocket:s.battle&&!s.battle.finished?'battle':'raising'),[supply,setSupply]=useState('all');
+  const [pocket,setPocket]=useState(initialPocket&&pockets.some(p=>p[0]===initialPocket)?initialPocket:s.battle&&!s.battle.finished?'battle':'raising'),[content,setContent]=useState('all');
   const [search,setSearch]=useState(''),[itemId,setItemId]=useState(''),[page,setPage]=useState(0);
   const [target,setTarget]=useState(s.battle&&!s.battle.finished?s.battle.player.uid:s.party[0]??''),[feedback,setFeedback]=useState(''),[saveOpen,setSaveOpen]=useState(false);
   const file=useRef<HTMLInputElement>(null);
   const activeBattle=!!s.battle&&!s.battle.finished;
   const belongs=(kind:string)=>pocket==='other'?!pockets.some(p=>p[0]===kind):kind===pocket;
-  const items=s.items.filter(i=>belongs(i.kind)&&i.name.includes(search)&&(pocket!=='battle'||supply==='all'||supplyCategory(i)===supply)).sort((a,b)=>pocket==='battle'&&supplyCategory(a)!==supplyCategory(b)?(supplyCategory(a)==='recovery'?-1:1):a.name.localeCompare(b.name,'zh'));
+  const pocketItems=s.items.filter(i=>belongs(i.kind)),contentOptions=itemCategoryOptions(pocket,pocketItems);
+  const effectiveContent=contentOptions.some(([id])=>id===content)?content:'all';
+  const items=pocketItems.filter(i=>i.name.includes(search)&&(effectiveContent==='all'||itemContentCategory(i)===effectiveContent)).sort((a,b)=>pocket==='battle'&&supplyCategory(a)!==supplyCategory(b)?(supplyCategory(a)==='recovery'?-1:1):a.name.localeCompare(b.name,'zh'));
   const pages=Math.max(1,Math.ceil(items.length/48));
   const pageItems=items.slice(page*48,(page+1)*48);
   const item=items.find(i=>i.id===itemId)??pageItems[0]??items[0];
@@ -24,8 +28,9 @@ export default function Inventory({s,c,onSave,onMessage,initialPocket}:{s:GameSn
   const captures=!!item&&item.kind==='capsule';
   const isFusionBead=!!item?.id.startsWith('fusion_bead_');
   const canUse=!!item&&(item.unlimited||item.count>0)&&(captures?activeBattle&&!!s.battle?.canCapture:!!monster&&(!activeBattle||item.kind==='battle'&&item.battleUsable&&!!item.usableTargetUids?.includes(monster.uid)));
+  useEffect(()=>{if(content!==effectiveContent){setContent(effectiveContent);setPage(0);setItemId('')}},[content,effectiveContent]);
   useEffect(()=>{if(page>=pages)setPage(pages-1)},[page,pages]);
-  useEffect(()=>{if(initialPocket&&pockets.some(p=>p[0]===initialPocket)){setPocket(initialPocket);setSupply('all');setSearch('');setPage(0);setItemId('');setFeedback('')}},[initialPocket]);
+  useEffect(()=>{if(initialPocket&&pockets.some(p=>p[0]===initialPocket)){setPocket(initialPocket);setContent('all');setSearch('');setPage(0);setItemId('');setFeedback('')}},[initialPocket]);
   function useItem() {
     if(!item||!canUse)return;
     const count=item.count,known=new Set(s.monsters.map(m=>m.uid));
@@ -42,11 +47,12 @@ export default function Inventory({s,c,onSave,onMessage,initialPocket}:{s:GameSn
   }
   return <section className="management-panel inventory-management" aria-label="道具背包面板">
     <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{s.coins.toLocaleString()}</b></span><span>积累经验 <b>{s.expPool.toLocaleString()}</b></span></div>
-    <nav className="management-tabs inventory-pockets" aria-label="道具口袋">{pockets.map(([kind,name,icon])=><button key={kind} className={pocket===kind?'active':''} aria-pressed={pocket===kind} onClick={()=>{setPocket(kind);setSupply('all');setSearch('');setPage(0);setItemId('');setFeedback('')}}><span>{icon}</span> {name}<small>{s.items.filter(i=>kind==='other'?!pockets.some(p=>p[0]===i.kind):i.kind===kind).length}</small></button>)}</nav>
+    <ItemCategoryTabs label="道具口袋" value={pocket} options={pockets} className="inventory-primary-categories" onChange={kind=>{setPocket(kind);setContent('all');setSearch('');setPage(0);setItemId('');setFeedback('')}}/>
     {activeBattle&&<p className="inventory-battle-hint">{pocket==='capsule'?'选择胶囊，确认捕捉对方野生精灵。':'战斗期间为出战精灵选择补给，再确认使用。'}</p>}
-    <div className="inventory-inner"><aside className="inventory-item-list"><div className="management-filter"><input aria-label="搜索当前口袋道具" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);setItemId('')}} placeholder="搜索道具名称…"/></div>
-      {pocket==='battle'&&<nav className="inventory-supply-groups" aria-label="战斗补给用途">{supplyGroups.map(([id,label])=><button key={id} className={supply===id?'active':''} aria-pressed={supply===id} onClick={()=>{setSupply(id);setItemId('');setPage(0);setFeedback('')}}>{label}<small>{s.items.filter(i=>i.kind==='battle'&&(id==='all'||supplyCategory(i)===id)).length}</small></button>)}</nav>}
-      <div className="inventory-icon-scroll item-icon-grid">{pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description} quantity={i.unlimited?'∞':i.count} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}{!items.length&&<div className="management-empty">{pocket==='battle'&&supply==='status'?'暂无匹配的异常解除道具。':'这个口袋中没有匹配的道具。'}</div>}</div><div className="management-pagination"><button aria-label="上一页道具" disabled={!page} onClick={()=>{setPage(p=>p-1);setItemId('')}}>‹</button><span>{page+1} / {pages}</span><button aria-label="下一页道具" disabled={page+1>=pages} onClick={()=>{setPage(p=>p+1);setItemId('')}}>›</button></div></aside>
+    <div className="inventory-inner"><aside className="inventory-item-list">
+      {contentOptions.length>2&&<ItemCategoryTabs label="道具用途" value={effectiveContent} options={contentOptions} onChange={id=>{setContent(id);setItemId('');setPage(0);setFeedback('')}}/>}
+      <div className="management-filter"><input aria-label="搜索当前口袋道具" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);setItemId('')}} placeholder="搜索道具…"/></div>
+      <div className="inventory-icon-scroll item-icon-grid">{pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description} quantity={i.unlimited?'∞':i.count} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}{!items.length&&<div className="management-empty">{pocket==='battle'&&effectiveContent==='status'?'暂无匹配的异常解除道具。':'这个口袋中没有匹配的道具。'}</div>}</div>{pages>1&&<div className="management-pagination"><button aria-label="上一页道具" disabled={!page} onClick={()=>{setPage(p=>p-1);setItemId('')}}>‹</button><span>{page+1} / {pages}</span><button aria-label="下一页道具" disabled={page+1>=pages} onClick={()=>{setPage(p=>p+1);setItemId('')}}>›</button></div>}</aside>
       <div className="inventory-detail-scroll">{item?<><div className="inventory-detail-heading"><span className="management-item-symbol inventory-item-art"><ItemIcon id={item.id} kind={item.kind} label={item.name} size={48}/></span><div><small>{item.kind==='battle'?categoryLabel(item):pockets.find(p=>p[0]===item.kind)?.[1]??'其他道具'} · 库存 {item.unlimited?'∞':item.count}</small><h3>{item.name}</h3></div></div><p className="inventory-description">{item.description}{item.unlimited?(activeBattle?' 无限供应，使用占一回合。':' 无限供应，可直接取用。'):''}</p>
       {usesPartyTarget&&<><div className="stat-table-heading"><strong>选择使用对象</strong><span>出战背包</span></div><div className="inventory-target-grid">{s.party.map(uid=>s.monsters.find(m=>m.uid===uid)).filter(m=>!!m).map(m=><button key={m.uid} className={monster?.uid===m.uid?'active':''} aria-pressed={monster?.uid===m.uid} onClick={()=>{setTarget(m.uid);setFeedback('')}}><div className="target-creature-art"><CreatureArt species={m.appearanceSpecies??m.species} name={m.name}/></div><strong>{m.name}</strong><small>Lv.{m.level}</small></button>)}</div><label className="inventory-storage-target">{activeBattle?'出战精灵':'仓库精灵'}<select aria-label="道具使用对象" value={monster?.uid??''} onChange={e=>{setTarget(e.target.value);setFeedback('')}}>{s.monsters.filter(m=>!activeBattle||s.battle!.party.some(bm=>bm.uid===m.uid)).map(m=><option key={m.uid} value={m.uid}>{m.inParty?'出战':'仓库'} · {m.name} · Lv.{m.level}</option>)}</select></label><div className="inventory-use-preview"><strong>{item.name}</strong><span>→</span><strong>{monster?.name??'请选择精灵'}</strong></div></>}
       {item.kind==='essence'&&<div className="essence-hatch-info"><strong>分子转化器</strong><p>消耗 1 个{isFusionBead?'元神珠':'精元'}，立即孵化；背包有空位时入队，否则进入仓库。</p><span>剩余{isFusionBead?'元神珠':'精元'}：{item.count}</span></div>}

@@ -20,11 +20,11 @@ export default function ItemIcon({id,kind,engraving=false,label,size=32,classNam
   useEffect(()=>setFailed(false),[original.src]);
   const asset=failed?getItemIconFallback(id,kind,engraving):original;
   const style={'--item-icon-size':`${size}px`} as CSSProperties;
-  return <span className={`item-icon${asset.original?'':' item-icon--fallback'}${className?` ${className}`:''}`}
+  return <span className={`seer-item-icon${asset.original?'':' seer-item-icon--fallback'}${className?` ${className}`:''}`}
     style={style} role={decorative?undefined:'img'} aria-hidden={decorative||undefined}
     aria-label={decorative?undefined:[label,asset.original?undefined:asset.fallbackLabel].filter(Boolean).join(' · ')}
     data-original-art={asset.original?'true':'false'}>
-    <img src={`${asset.src}${asset.sha256?`?v=${asset.sha256.slice(0,12)}`:''}`} alt="" draggable={false}
+    <img className="seer-item-icon__image" src={`${asset.src}${asset.sha256?`?v=${asset.sha256.slice(0,12)}`:''}`} alt="" draggable={false}
       loading="lazy" decoding="async" onError={()=>{if(!failed)setFailed(true);}}/>
   </span>;
 }

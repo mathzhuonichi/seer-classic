@@ -1,103 +1,60 @@
-.item-shop-management{height:100%;min-height:0;display:flex;flex-direction:column;padding:0!important}
-.item-shop-management>.management-panel-heading,.shop-categories{flex-shrink:0}
-.shop-categories{overflow-x:auto}.shop-categories>button{white-space:nowrap}.shop-categories small{margin-left:6px;font-size:9px}
-.item-shop-inner{flex:1;min-height:0;display:grid;grid-template-columns:260px minmax(0,1fr)}
-.shop-product-index{display:flex;flex-direction:column;min-height:0;background:#cce2eb;border-right:2px solid #9bbdcb;overflow:hidden}
-.shop-product-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 9px 12px;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
-.management-panel .shop-product-scroll>button{flex-shrink:0;display:flex;gap:9px;align-items:center;padding:10px;text-align:left;color:#23485e;background:#ecf6f9;border-color:#a4c4d2}
-.management-panel .shop-product-scroll>button.active{border:2px solid #4d8fa5;padding:9px;background:#e2f2f5}
-.shop-product-symbol{font-size:24px;color:#5a8c9a;width:27px;text-align:center}
-.shop-product-scroll button>span:nth-child(2){flex:1;min-width:0}.shop-product-scroll strong{display:block;font-size:11px;line-height:1.6}.shop-product-scroll small{display:block;font-size:9px;color:#688698;margin-top:5px}.shop-product-scroll b{font-size:10px;font-weight:400;color:#367b68}
-.shop-detail-scroll{min-height:0;min-width:0;overflow:auto;padding:22px;background:#f0f8fa}
-.shop-product-heading{display:flex;align-items:center;gap:17px}.shop-product-art{width:100px;height:100px;flex-shrink:0;display:grid;place-items:center;background:#d7ebf0;border:1px solid #a5c9d3;border-radius:16px}.shop-product-art>span{font-size:48px;color:#5e92a2}.shop-product-heading small{font-size:10px;color:#5f8597}.window-body .shop-product-heading h3{font-size:21px;margin:7px 0;color:#244f65}.shop-product-heading>div>span{font-size:11px;color:#5e8295}
-.shop-product-description{line-height:1.9;font-size:12px;color:#53798c;margin:20px 0}.shop-order{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 0;border-top:1px solid #b8d0da}.shop-order>span{font-size:11px}.shop-order strong{color:#377b6b;font-size:14px;margin-left:8px}.shop-order label{display:flex;align-items:center;gap:9px;font-size:11px}.shop-order input{width:78px}.shop-quantity-presets{display:flex;justify-content:flex-end;gap:7px;margin-bottom:20px}.shop-quantity-presets button{padding:5px 11px;font-size:11px}.shop-feedback{font-size:12px;line-height:1.8;color:#347967}.shop-bag-link{font-size:11px;margin-top:15px}
-@media(max-width:700px){.item-shop-inner{grid-template-columns:185px minmax(0,1fr)}.shop-detail-scroll{padding:14px}.shop-product-heading{flex-direction:column;align-items:flex-start;gap:10px}.shop-order{flex-wrap:wrap}.shop-product-art{width:80px;height:80px}.shop-product-symbol{display:none}}
-
-/* Shared official-client white product wells and cyan beveled controls. */
-.shop-product-index{background:#b9dff3;border-right:3px solid #0b659e;box-shadow:inset -1px 0 #c3f6ff}
-.management-panel .shop-product-scroll>button{color:#103d69;border-color:#397bad;border-radius:4px;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff}
-.management-panel .shop-product-scroll>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);box-shadow:inset 0 0 0 1px #67dcff}
-.shop-product-scroll{scrollbar-color:#2c93cd #d6edf9}
-.shop-detail-scroll{background:#f5fbff;scrollbar-color:#2c93cd #d6edf9;scrollbar-width:thin}
-.shop-product-art{background:linear-gradient(#effcff,#bee6f8);border:2px solid #1775b4;border-radius:6px;box-shadow:inset 0 0 0 2px #fff,inset 0 -4px #a0d3ef}
-.shop-product-art>span,.shop-product-symbol{color:#0c6aaa}
-.window-body .shop-product-heading h3{color:#07549b}
-.shop-order{border-color:#75a8c9}
-.shop-categories{scrollbar-width:thin}
-.item-shop-management{padding:7px 9px 9px!important}
-@media(max-width:620px){.item-shop-management{padding:4px 5px 5px!important}}
-
-/* Essence reservations share the species allowance across all item names. */
-.shop-allowance{margin:14px 0;padding:11px 13px;background:#e3f2fa;border:1px solid #8dbdd8;border-radius:5px}
-.shop-allowance dl{display:flex;justify-content:space-between;gap:12px;margin:0}
-.shop-allowance dl>div{text-align:center;flex:1}
-.shop-allowance dt{font-size:10px;color:#4c748b}
-.shop-allowance dd{margin:4px 0 0;color:#07549b;font-size:18px;font-variant-numeric:tabular-nums}
-.shop-allowance p{margin:9px 0 0;color:#53798c;font-size:10px;line-height:1.6;text-align:center}
-.shop-product-scroll b.unavailable{color:#8c6850;white-space:nowrap}
-.shop-order-blocked{color:#8a6030;line-height:1.7}
+/* Blue-and-white content wells adapted from the recovered official UI. */
+.item-shop-management{height:100%;min-height:0;display:flex;flex-direction:column;padding:4px 5px 5px!important;container-name:item-shop;container-type:inline-size}
+.item-shop-management>.shop-primary-categories{background:#b8ddf2;border-bottom-color:#367fae;padding-left:5px}
+.item-shop-inner{flex:1;min-height:0;display:grid;grid-template-columns:minmax(225px,1.1fr) minmax(225px,1fr);grid-template-rows:minmax(0,1fr)}
+.shop-product-index{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:#eaf5fc;border-right:1px solid #76a9c8}
+.item-shop-management .management-filter{padding:5px 7px}
+.item-shop-management .management-filter input{height:27px;padding:4px 7px;font-size:11px;border:1px solid #85afc9;border-radius:2px;background:#fff}
+.shop-icon-scroll{flex:1;min-height:0;padding:6px 7px;gap:6px;background:#f8fcff;border-top:1px solid #bbd5e6;align-content:start}
+.shop-detail-scroll{min-width:0;min-height:0;overflow:auto;padding:10px 12px;background:#fff;scrollbar-width:thin;scrollbar-color:#2c93cd #d6edf9}
+.shop-product-heading{display:flex;align-items:center;gap:9px;padding-bottom:7px;border-bottom:1px solid #c3dbe9}
 .shop-product-heading>div:last-child{min-width:0}
-.window-body .shop-product-heading h3{overflow-wrap:anywhere}
-.shop-icon-scroll{flex:1;min-height:80px;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));padding:8px}
-.item-shop-inner:not(.engraving-shop){grid-template-columns:minmax(190px,40%) minmax(0,1fr)}
-.shop-product-art{width:64px;height:64px}
-.shop-product-heading{gap:11px}
-.window-body .shop-product-heading h3{font-size:16px;line-height:1.4}
-.shop-product-description{font-size:11px;line-height:1.7;margin:12px 0}
-.engraving-transfer-source{display:flex;gap:7px;align-items:center;font-size:11px;line-height:1.6}
-.engraving-transfer-source>select{flex:1;min-width:0;font-size:11px;padding:4px 6px}
-.item-shop-management .management-confirm-row>span{min-width:0;font-size:11px;line-height:1.7}
-@media(max-width:480px){.item-shop-inner{grid-template-columns:145px minmax(0,1fr)}.shop-detail-scroll{padding:10px}.management-panel .shop-product-scroll>button{flex-wrap:wrap;gap:3px;padding:8px}.management-panel .shop-product-scroll>button.active{padding:7px}.shop-product-scroll button>b{font-size:9px;margin-left:auto}.shop-allowance{padding:9px 7px}.shop-allowance dl{gap:6px}.shop-allowance dd{font-size:16px}.item-shop-management .management-confirm-row{flex-wrap:wrap}.item-shop-management .management-confirm-row>button{margin-left:auto}.shop-quantity-presets{flex-wrap:wrap}}
+.shop-product-art{width:54px;height:54px;flex-shrink:0;display:grid;place-items:center;border:1px solid #8db6d0;border-radius:3px;background:#edf7ff}
+.shop-product-heading small{font-size:10px;color:#5a8097}
+.window-body .shop-product-heading h3{margin:3px 0;font-size:16px;line-height:1.4;color:#155c8c;overflow-wrap:anywhere}
+.shop-product-heading>div>span{font-size:11px;color:#52788f;line-height:1.6}
+.shop-product-description{font-size:11px;line-height:1.7;color:#486e86;margin:9px 0}
+.shop-stock-line{margin:8px 0;padding:6px 0;border-top:1px solid #c3dbe9;border-bottom:1px solid #c3dbe9;color:#55798e;font-size:11px;line-height:1.7}
+.shop-stock-line b{color:#07549b;font-variant-numeric:tabular-nums}
+.shop-order{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid #b8d3e4;font-size:11px}
+.shop-order strong{color:#377b6b;margin-left:4px}
+.shop-order label{display:flex;align-items:center;gap:6px;font-size:11px}
+.shop-order input{width:66px;padding:4px 6px;font-size:11px}
+.shop-quantity-presets{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.shop-quantity-presets button{padding:3px 8px;font-size:11px}
+.shop-feedback{font-size:11px;line-height:1.6;color:#347967;margin:7px 0}
+.shop-bag-link{font-size:11px;margin-top:9px}
+.shop-order-blocked{color:#8a6030}
+.item-shop-management .management-confirm-row{margin-top:7px;padding:7px 0;gap:6px;flex-wrap:wrap}
+.item-shop-management .management-confirm-row>span{min-width:0;font-size:11px;line-height:1.6}
+.item-shop-management .management-confirm-row>button{flex-shrink:0;margin-left:auto;white-space:nowrap;padding:5px 9px;font-size:11px}
 
-/* The recovered 2013 mark icon and empty-slot frame identify both original slot types. */
-.item-shop-management{container-name:item-shop;container-type:inline-size}
-.engraving-category-icon{display:inline-block;width:19px;height:19px;vertical-align:middle;margin-top:-3px}
-.engraving-shop{grid-template-columns:minmax(180px,35%) minmax(0,1fr)}
-.engraving-shop .shop-product-index{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2c93cd #d6edf9}
-.engraving-shop .shop-icon-scroll{min-height:100px}
-.engraving-shop-filters{display:grid;flex-shrink:0;gap:5px;padding:8px}
-.engraving-shop-filters>label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#103d69}
-.engraving-shop-filters select,.engraving-shop-filters input{min-width:0;width:100%;font-size:11px;padding:4px 6px;box-sizing:border-box}
-.engraving-shop-filters>label>select{flex:1}
-.engraving-chip-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
-.engraving-chip-row>button{padding:4px 0;font-size:11px}
-.engraving-chip-row>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);font-weight:700}
-.engraving-result-count{margin:1px 0 0;font-size:10px;line-height:1.5;color:#3e6b88}
-.engraving-shop .shop-product-scroll{min-height:100px;padding:0 6px 8px;gap:4px}
-.management-panel .engraving-shop .shop-product-scroll>button{display:grid;grid-template-columns:27px minmax(0,1fr);gap:2px 6px;padding:6px;align-items:center}
-.management-panel .engraving-shop .shop-product-scroll>button.active{padding:5px}
-.engraving-shop .shop-product-symbol{display:block;grid-row:1 / 3;width:27px;line-height:0}
-.engraving-shop .shop-product-symbol img{width:27px;height:27px}
-.engraving-shop .shop-product-scroll strong{font-size:11px;line-height:1.5}
-.engraving-shop .shop-product-scroll small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:10px;line-height:1.4}
-.engraving-shop .shop-product-scroll button>b{grid-column:2;margin:0;font-size:10px;text-align:right}
-.engraving-shop .shop-detail-scroll{padding:12px}
-.engraving-shop .shop-product-heading{flex-direction:row;align-items:center;gap:10px}
-.engraving-shop .engraving-product-art{width:50px;height:56px;flex-shrink:0;border:0;border-radius:0;background:transparent url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat;box-shadow:none}
-.engraving-product-art>img{width:34px;height:34px}
-.window-body .engraving-shop .shop-product-heading h3{font-size:16px;line-height:1.4;margin:4px 0}
-.engraving-shop .shop-product-heading>div>span{line-height:1.6}
-.engraving-shop-facts{display:grid;gap:4px;margin:12px 0 7px}
-.engraving-shop-facts>div{display:flex;gap:9px;font-size:11px;line-height:1.6}
-.engraving-shop-facts dt{width:58px;flex-shrink:0;color:#5f8597}
+/* Two full-width filter rows leave both content columns free for real items. */
+.engraving-shop{grid-template-rows:auto minmax(0,1fr)}
+.engraving-shop-filters{grid-column:1/-1;min-width:0;display:grid;gap:4px;padding:5px 7px;background:#e2f0fa;border-bottom:1px solid #7aafce}
+.engraving-filter-row{min-width:0;display:flex;align-items:center;gap:6px}
+.engraving-filter-row>select,.engraving-filter-row>input{box-sizing:border-box;min-width:0;height:26px;padding:3px 6px;border:1px solid #89afc8;border-radius:2px;background:#fff;color:#245b80;font:11px/18px SimSun,serif}
+.engraving-filter-row>select{flex:0 1 145px;width:145px}
+.engraving-filter-row>.engraving-holder-select{flex:1 1 160px;width:auto}
+.engraving-filter-row>input{flex:1 1 150px;width:auto}
+.engraving-filter-row>.item-category-tabs{padding:0 3px;border:0;border-left:1px solid #a6c9df;background:none}
+.engraving-shop .engraving-product-art{width:48px;height:52px;border:0;border-radius:0;background:transparent url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat;box-shadow:none}
+.engraving-shop-facts{display:grid;gap:3px;margin:8px 0}
+.engraving-shop-facts>div{display:flex;gap:7px;font-size:11px;line-height:1.6}
+.engraving-shop-facts dt{width:30px;flex-shrink:0;color:#5f8597}
 .engraving-shop-facts dd{margin:0;color:#103d69}
-.engraving-shop-rule{margin:7px 0;font-size:10px;line-height:1.6;color:#53798c}
-.engraving-shop .shop-allowance{margin:9px 0;padding:8px}
-.engraving-shop .shop-allowance dd{margin-top:2px;font-size:17px}
-.engraving-shop .shop-allowance p{margin-top:5px}
-.engraving-shop .management-confirm-row{margin-top:7px;padding:8px 0;gap:7px}
-.engraving-shop .management-confirm-row>button{flex-shrink:0;white-space:nowrap;padding:6px 10px;font-size:11px}
-.engraving-shop .shop-feedback{font-size:11px;line-height:1.6;margin:6px 0}
-@container item-shop (max-width:550px){
-  .engraving-shop{grid-template-columns:minmax(150px,38%) minmax(0,1fr)}
-  .engraving-shop-filters{padding:6px;gap:4px}
-  .engraving-shop-filters>label{display:grid;gap:3px}
-  .engraving-shop-filters select,.engraving-shop-filters input,.engraving-chip-row>button{font-size:10px}
-  .engraving-shop .shop-detail-scroll{padding:9px}
-  .engraving-shop .shop-product-heading{gap:7px}
-  .engraving-shop .engraving-product-art{width:38px;height:43px}
-  .engraving-product-art>img{width:28px;height:28px}
-  .window-body .engraving-shop .shop-product-heading h3{font-size:13px}
-  .engraving-shop .management-confirm-row{flex-wrap:wrap}
-  .engraving-shop .management-confirm-row>button{margin-left:auto}
+.engraving-equipped-line{margin:6px 0;color:#53798c;font-size:10px;line-height:1.6}
+.engraving-transfer-source{display:flex;gap:6px;align-items:center;font-size:11px;line-height:1.6}
+.engraving-transfer-source>select{flex:1;min-width:0;font-size:11px;padding:4px 6px}
+@container item-shop (max-width:520px){
+ .item-shop-inner{grid-template-columns:minmax(165px,1fr) minmax(180px,1fr)}
+ .shop-detail-scroll{padding:8px}
+ .shop-product-heading{gap:6px}
+ .window-body .shop-product-heading h3{font-size:14px}
+ .shop-order{flex-wrap:wrap}
+ .engraving-filter-row{gap:3px}
+ .engraving-filter-row>.engraving-holder-select{flex-basis:110px}
+ .engraving-filter-row>select{flex-basis:108px;width:108px}
+ .engraving-filter-row>.item-category-tabs{padding:0 2px}
+ .engraving-filter-row .item-category-tab{padding-right:6px;padding-left:6px}
 }

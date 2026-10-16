@@ -1,0 +1,5 @@
+.item-category-tabs{display:flex;align-items:center;flex:0 0 auto;gap:0;min-width:0;padding:2px 4px;background:#dcedf7;border-bottom:1px solid #7aafce;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#80b8d6 transparent}
+nav.item-category-tabs>button.item-category-tab{flex:0 0 auto;min-height:24px;margin:0;padding:3px 9px;border:0;border-radius:2px;background:transparent;box-shadow:none;color:#245b80;font:12px/18px SimSun,serif;white-space:nowrap;text-shadow:none}
+nav.item-category-tabs>button.item-category-tab:hover{color:#064b85;background:#edf9ff;transform:none}
+nav.item-category-tabs>button.item-category-tab.active{color:#064a7f;background:#fff;box-shadow:inset 0 -2px #168bc4;font-weight:700}
+nav.item-category-tabs>button.item-category-tab:focus-visible{outline:2px solid #138dbf;outline-offset:-2px}
