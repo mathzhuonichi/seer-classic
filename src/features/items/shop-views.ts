@@ -20,6 +20,13 @@ export interface ShopOrder {
   hint:string;
 }
 
+/** The typed quantity for a product's `maximum`: 0 while nothing can be ordered, 1 once ordering opens again, else capped at the maximum. */
+export function fitQuantity(quantity:string,maximum:number):string {
+  if(maximum===0)return '0';
+  if(quantity==='0')return '1';
+  return Number(quantity)>maximum?String(maximum):quantity;
+}
+
 /** The order form for `item` with the typed `quantity`, up to its `maxQuantity`; the controller re-checks the order. */
 export function shopOrder(item:ShopItemView|undefined,quantity:string,inBattle:boolean):ShopOrder {
   const maximum=item?.maxQuantity??0,count=Number(quantity);

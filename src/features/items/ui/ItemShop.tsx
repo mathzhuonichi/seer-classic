@@ -9,7 +9,7 @@ import {EngravingShop} from '../../engravings/ui.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';
-import {shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
+import {fitQuantity,shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import '../../../shared/ui/management.css';
 import './ItemShop.css';
@@ -26,9 +26,9 @@ export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pock
  const products=inTab.filter(item=>(content.content==='all'||itemContentCategory(item)===content.content)&&matches(item));
  const item=products.find(entry=>entry.id===selected)??products[0];
  const order=shopOrder(item,quantity,inBattle);
- useEffect(()=>{setQuantity('1');setFeedback('')},[item?.id]);
- // A successful claim or hatch can change the shared allowance while this panel is open.
- useEffect(()=>{if(order.maximum>0)setQuantity(previous=>Number(previous)>order.maximum?String(order.maximum):previous)},[order.maximum]);
+ useEffect(()=>{setQuantity(fitQuantity('1',order.maximum));setFeedback('')},[item?.id]);
+ // An order or a claim can use up the shared allowance while this panel is open, so the typed quantity follows it.
+ useEffect(()=>setQuantity(previous=>fitQuantity(previous,order.maximum)),[order.maximum]);
  function buy(){
   if(item&&order.canBuy)setFeedback(c.dispatch({type:'buyItem',itemId:item.id,quantity:order.count}).notice??'');
  }
