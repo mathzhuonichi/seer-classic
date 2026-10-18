@@ -2,14 +2,14 @@
 import type { CatalogData } from './catalog.ts';
 import { normalizeBattleSupplyItems } from '../battle-supplies.ts';
 import { braveTowerFloor } from '../challenges/brave-tower.ts';
-import { CHALLENGE_CAMPAIGNS } from '../challenges/challenge-campaigns.ts';
-import { resolveEncounterEssenceSpecies } from '../acquisition/acquisition.ts';
+import type { AcquisitionCatalog } from '../acquisition/acquisition-model.ts';
+import { bossEssenceRewards } from '../acquisition/native-acquisition.ts';
 import { FUSION_RECIPES, fusionBeadItemId } from '../recipes/fusion.ts';
 import { buildRecruitmentRewards, type RecruitmentCatalog, type RecruitmentReward } from '../acquisition/recruitment.ts';
 import { CURE_ITEM_ID } from '../economy.ts';
 
 type CatalogItem = Record<string, unknown>;
-type CatalogBoss = { id: string; team: { species: number }[]; reward?: { items?: Record<string, number>; learn_skill?: unknown } };
+type CatalogReward = { items?: Record<string, number> };
 
 /** A simple remake supply fills the recovered catalogue's missing cure-item category. */
 const CURE_ITEM: CatalogItem = {
@@ -20,7 +20,6 @@ const CURE_ITEM: CatalogItem = {
 /** Brave Tower floor rewards the recovered item catalogue does not define. */
 const TOWER_COLLECTIBLES: readonly (readonly [string, string])[] = [['item_gacha_coin', '扭蛋币'], ['item_suit_flash', '闪光套装']];
 export const TOWER_COLLECTIBLE_IDS: ReadonlySet<string> = new Set(TOWER_COLLECTIBLES.map(([id]) => id));
-const BRAVE_TOWER_MYSTERY_ID = 'boss_tower_brave_mystery';
 
 export interface EnrichedCatalog {
   /** Supplies plus every reward item the controller grants; Boss copies carry their default essence reward. */
@@ -41,9 +40,9 @@ export function enrichCatalog(source: CatalogData): EnrichedCatalog {
     return value;
   };
   const items = itemRegistry(catalog.items);
-  addBossEssences(catalog.bosses as unknown as CatalogBoss[], items, name);
+  addBossEssences(catalog, items, name);
   for (const [id, zh] of TOWER_COLLECTIBLES) {
-    const rewarded = catalog.bosses.some(boss => braveTowerFloor(String(boss.id)) !== undefined && (boss.reward as CatalogBoss['reward'])?.items?.[id]);
+    const rewarded = catalog.bosses.some(boss => braveTowerFloor(String(boss.id)) !== undefined && (boss.reward as CatalogReward | undefined)?.items?.[id]);
     if (rewarded) items.add({ id, name: { zh }, kind: 'collectible', desc: { zh: '勇者之塔通关奖励。' } });
   }
   for (const species of catalog.species) if (!(species.obtain as string[] | undefined)?.includes('wild')) {
@@ -64,22 +63,15 @@ export function enrichCatalog(source: CatalogData): EnrichedCatalog {
   return { catalog, battleItems, recruitments };
 }
 
-/** Final Bosses without an explicit essence or skill reward grant the essence of their reward species. */
-function addBossEssences(bosses: CatalogBoss[], items: ItemRegistry, name: (species: number) => string) {
-  for (const boss of bosses) {
-    const species = resolveEncounterEssenceSpecies(boss);
-    const reward = boss.reward ?? {};
-    const rewardItems = reward.items ?? {};
-    const campaign = CHALLENGE_CAMPAIGNS.find(entry => entry.stages.some(stage => stage.bossIds.includes(boss.id)));
-    const intermediate = campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
-    const explicit = Object.keys(rewardItems).some(id => id.startsWith('essence_'));
-    if (!intermediate && !reward.learn_skill && boss.id !== BRAVE_TOWER_MYSTERY_ID && braveTowerFloor(boss.id) === undefined && !explicit) {
-      rewardItems[`essence_${boss.id}`] = 1;
-    }
-    boss.reward = { ...reward, items: rewardItems };
-    for (const id of Object.keys(rewardItems)) {
-      if (id.startsWith('essence_') && !items.has(id)) items.add({ id, name: { zh: `${name(species)}精元` }, kind: 'essence', hatches: species });
-    }
+/** Boss copies list their default essence (`bossEssenceRewards`), and every reward essence becomes an item once. */
+function addBossEssences(catalog: CatalogData, items: ItemRegistry, name: (species: number) => string) {
+  for (const boss of catalog.bosses) {
+    const reward = boss.reward as CatalogReward | undefined;
+    boss.reward = { ...reward, items: { ...reward?.items } };
+  }
+  for (const { boss, itemId, species, authored } of bossEssenceRewards(catalog as unknown as AcquisitionCatalog)) {
+    if (authored) boss.reward!.items![itemId] = 1;
+    if (!items.has(itemId)) items.add({ id: itemId, name: { zh: `${name(species)}精元` }, kind: 'essence', hatches: species });
   }
 }
 

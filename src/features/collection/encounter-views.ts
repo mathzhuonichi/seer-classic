@@ -1,6 +1,7 @@
 // Catalogue views: encounters, their opponents and rewards, and the species collection.
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
-import { bossEncounterForAttempt, isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
+import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
+import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisition.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import {buildBossEncounterEvidence, buildBossEvidence} from '../challenges/index.ts';
 import { createCatalogViews } from './catalog-views.ts';
@@ -53,7 +54,7 @@ export function encounterView(ctx: CatalogContext, source: BossEncounter, attemp
 
 /** Collection and challenge rows, reused until progress changes. */
 export function catalogViews(ctx: GameContext) {
-  const bossSpecies = new Set(ctx.bosses.filter(isRegularEncounter).flatMap(boss => boss.team.map(mon => mon.species)));
+  const bossSpecies = interceptedFieldSpecies(ctx.bosses);
   const species = ctx.catalog.species.map(row => {
     const id = Number(row.id);
     return {

@@ -52,8 +52,8 @@ export interface BossEssenceReward {
 /**
  * Essence items won from encounters: the encounter's explicit `essence_*` rewards, otherwise one authored essence
  * unless the encounter is an intermediate campaign stage, teaches a skill, or is a brave-tower floor. A shared item
- * ID keeps its catalog or first binding; an encounter with nothing to hatch grants nothing. createGame still applies
- * the same rule inline when it registers essence items.
+ * ID keeps its catalog or first binding; an encounter with nothing to hatch grants nothing. The catalog enrichment
+ * registers these items for the controller.
  */
 export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceReward[] {
   const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches!]));

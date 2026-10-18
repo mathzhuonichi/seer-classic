@@ -2,8 +2,6 @@
 
 /** The user's collection scope excludes both complete NPC-partner families. */
 export const NPC_ONLY_SPECIES: ReadonlySet<number> = new Set([122, 123, 124, 125]);
-/** Lv.5 partners given when a new journey starts. */
-export const STARTER_SPECIES: readonly number[] = [1, 4, 7];
 /** The captain's journey quests and the species each one grants. */
 export const JOURNEY_QUEST_SPECIES = { 'first-victory': 10, 'three-victories': 13, 'first-spt': 6 } as const;
 

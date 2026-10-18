@@ -2,11 +2,12 @@ import { NIAO_CAPTURE_PARTNERS } from '../../../battle/core/src/capture.ts';
 import { MAX_LEVEL } from '../../../raising/core/growth.ts';
 import { WORLD_PLANETS, type WorldPlanet } from '../world/world.ts';
 import {
-  JOURNEY_QUEST_SPECIES, NPC_ONLY_SPECIES, STARTER_SPECIES,
+  JOURNEY_QUEST_SPECIES, NPC_ONLY_SPECIES,
   type AcquisitionCatalog, type AcquisitionFamily, type AcquisitionRoute, type AcquisitionSeed, type AcquisitionSpecies,
   type SpeciesAcquisition,
 } from './acquisition-model.ts';
 import { BREEDING_RECIPES, getBreedingGender, type BreedingRecipe } from '../recipes/breeding.ts';
+import { STARTER_SPECIES } from '../economy.ts';
 import { FUSION_RECIPES, type FusionRecipe } from '../recipes/fusion.ts';
 import { buildInitialFormAcquisitionIndex, type InitialFormAcquisition } from './initial-acquisition.ts';
 import { bossEssenceRewards, habitatEntries } from './native-acquisition.ts';

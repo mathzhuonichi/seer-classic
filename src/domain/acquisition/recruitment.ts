@@ -1,8 +1,9 @@
 import policyData from '../../../data/acquisition-policy.json';
 import {WORLD_PLANETS,type WorldPlanet} from '../world/world.ts';
 import {
-  JOURNEY_QUEST_SPECIES,NPC_ONLY_SPECIES,STARTER_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite,
+  JOURNEY_QUEST_SPECIES,NPC_ONLY_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite,
 } from './acquisition-model.ts';
+import {STARTER_SPECIES} from '../economy.ts';
 import {FUSION_RECIPES} from '../recipes/fusion.ts';
 import {BREEDING_RECIPES} from '../recipes/breeding.ts';
 import {bossEssenceRewards,habitatEntries} from './native-acquisition.ts';
@@ -39,7 +40,7 @@ export function initialSpecies(catalog:Pick<AcquisitionCatalog,'species'>):Acqui
 
 /** Direct habitats/rewards and native fusion/breeding retain their own acquisition flows. */
 function nativeInitialRoutes(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]):Set<number> {
-  const seeds=new Set([...STARTER_SPECIES,...Object.values(JOURNEY_QUEST_SPECIES)]);
+  const seeds=new Set<number>([...STARTER_SPECIES,...Object.values(JOURNEY_QUEST_SPECIES)]);
   for(const entry of habitatEntries(catalog,planets))seeds.add(entry.species.id);
   for(const reward of bossEssenceRewards(catalog))seeds.add(reward.species);
   for(const recipe of [...FUSION_RECIPES,...BREEDING_RECIPES])for(const outcome of recipe.outcomes)if(outcome.weight>0)seeds.add(outcome.species);
