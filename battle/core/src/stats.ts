@@ -2,9 +2,9 @@
 // battle core uses the same function so raised and in-battle stats agree.
 
 import { computeStatsFrom } from '../../../raising/core/stats.ts';
-import type { Nature, Stats, StatKey } from './types.ts';
+import type { Nature, Stats } from './types.ts';
 
-export const STAT_KEYS: StatKey[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+export { STAT_KEYS } from '../../../raising/core/types.ts';
 const NEUTRAL: Nature = { id: 'neutral', plus: 'atk', minus: 'atk' };
 
 export function computeStats(
