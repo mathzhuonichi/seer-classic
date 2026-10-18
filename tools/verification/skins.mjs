@@ -10,7 +10,8 @@ const checks=[],failures=[];
 const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,selectionActions:0,resetActions:0,batches:0,npcModifierSpecies:[],species:[]};
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,4000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
-  const {createGame,loadCatalog,advanceBattlePresentation}=await server.ssrLoadModule('/src/kernel/game.ts');
+  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
+  const {advanceBattlePresentation}=await server.ssrLoadModule('/src/features/battle/index.ts');
   const {makeDex,createMonster,SeededRng,computeStats}=await server.ssrLoadModule('/raising/core/index.ts');
   const {buildSkinOptions}=await server.ssrLoadModule('/src/domain/acquisition/skins.ts');
   const {BREEDING_RECIPES,canBreedParents}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');

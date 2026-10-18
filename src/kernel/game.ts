@@ -10,17 +10,21 @@ import { loadJourney, openJourney, startJourney, writeJourney, type Journey } fr
 import { createSnapshotBuilder } from './snapshot.ts';
 
 export { loadCatalog };
-export {advanceBattlePresentation, type BattlePresentationState} from '../features/battle/index.ts';
 
 export interface GameDependencies {
   /** Constructs each battle from options that carry the AI policy; verification passes a wrapper to observe the controller's battles. */
   createBattle?: BattleFactory;
+  /** Schedules idle work: requestIdleCallback, else a macrotask; verification runs the tasks when it chooses. */
+  idle?: (task: () => void) => void;
 }
+
+const whenIdle = (task: () => void) => { if (typeof requestIdleCallback === 'function') requestIdleCallback(() => task()); else setTimeout(task); };
 
 export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
   const ctx = createGameContext(catalog, dependencies.createBattle);
   const opened = openJourney(ctx, initialSave);
-  const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 } };
+  const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 },
+    idle: dependencies.idle ?? whenIdle };
   const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>();
   // An explicit import or new journey is the player's choice to replace the stored save.
   let durable = opened.durable;

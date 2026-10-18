@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createGame, advanceBattlePresentation, type BattlePresentationState } from '../../src/kernel/game.ts';
+import { createGame } from '../../src/kernel/game.ts';
+import { advanceBattlePresentation, type BattlePresentationState } from '../../src/features/battle/index.ts';
 import { displayedDamage, battleEventText } from '../../src/features/battle/battle-log.ts';
 import type { CatalogData } from '../../src/domain/catalog/catalog.ts';
 

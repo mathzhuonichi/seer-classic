@@ -1,5 +1,5 @@
 // The battle lifecycle: start a session, play turns, and keep the log and animation frames.
-import type { Action, BattleEvent, BattleResult } from '../../../battle/core/src/index.ts';
+import type { Action, Battle, BattleEvent, BattleResult } from '../../../battle/core/src/index.ts';
 import { findMon, type Monster } from '../../../raising/core/index.ts';
 import { groupedBattleLog } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
@@ -27,6 +27,7 @@ export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: Sess
   logEvents(rt.ctx, session, setup.battle.initialEvents);
   const fought = setup.encounter;
   if (fought && !hooks.unrecorded) save.progress.boss_attempts[fought.id] = (save.progress.boss_attempts[fought.id] ?? 0) + 1;
+  prepareTurn(rt, setup.battle);
 }
 
 /** Submits the player's action, resolves the turn, then settles a finished battle. */
@@ -39,6 +40,21 @@ export function playTurn(rt: Runtime, action: Action) {
   recordAnimation(rt, session, events, before);
   rt.save.items = { ...battle.sides[0].items };
   settle(rt);
+  prepareTurn(rt, battle);
+}
+
+/**
+ * Turn preparation (architecture-v2 §5): once a turn opens, the policy decides for the automatic sides in an idle slot, so the
+ * decision is ready when the player acts. It runs only while the same battle waits at the same turn and phase; a player action
+ * that comes first resolves the turn without it, and a prepared turn replays an unprepared one (battle/RULES.md section 11).
+ */
+function prepareTurn(rt: Runtime, battle: Battle) {
+  const { turn, phase } = battle;
+  if (!battle.result) rt.idle(() => {
+    if (rt.session?.battle !== battle || battle.turn !== turn || battle.phase !== phase) return;
+    battle.prepare(0);
+    battle.prepare(1);
+  });
 }
 
 type Shown = Pick<BattlePresentationState, 'player' | 'enemy'>;
