@@ -5,9 +5,7 @@
     "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
     "src/features/battle/ui/BattleDialogs.tsx -> src/features/challenges/ui.ts: features/battle may not depend on features/challenges",
     "src/features/challenges/progress-views.ts -> src/features/collection/index.ts: features/challenges may not depend on features/collection",
-    "src/features/collection/encounter-views.ts -> src/features/challenges/index.ts: features/collection may not depend on features/challenges",
-    "src/shared/audio/action-sounds.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
-    "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel"
+    "src/features/collection/encounter-views.ts -> src/features/challenges/index.ts: features/collection may not depend on features/challenges"
   ],
   "size": {
     "src/app/AudioSettings.tsx": {
@@ -173,10 +171,6 @@
     "src/features/world/world-scene.ts": {
       "lines": 0,
       "long": 3
-    },
-    "src/shared/audio/action-sounds.ts": {
-      "lines": 0,
-      "long": 2
     },
     "src/shared/audio/game-audio.ts": {
       "lines": 0,

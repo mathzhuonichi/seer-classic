@@ -5,7 +5,7 @@ import {BREEDING_RECIPES,type BreedingRecipe} from '../../../domain/recipes/bree
 import {
   breedingOutcomeLabel,breedingPairValid,breedingParentChoices,breedingRecipeRows,breedingRoutesMissing,isBredOffspring,type BreedingRecipeRow,
 } from '../breeding-view.ts';
-import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
+import {speciesNamer,type SpeciesName} from '../../../shared/monster-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import {useGame} from '../../../shared/ui/use-game.ts';

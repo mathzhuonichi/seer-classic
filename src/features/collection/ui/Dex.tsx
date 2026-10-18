@@ -4,7 +4,7 @@ import type { SpeciesView } from '../../../shared/views.ts';
 import type { StatBlock as Stats } from '../../../../raising/core/types.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
 import type {AcquisitionRoute} from '../../../domain/acquisition/acquisition.ts';
-import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
+import {speciesNamer,type SpeciesName} from '../../../shared/monster-views.ts';
 import {
   BASE_STAT_BAR_MAX,DEX_OWNED_FILTERS,DEX_PAGE_SIZE,dexAcquisitionView,dexCollectionSummary,dexFilter,filterDex,routeActionLabel,
   type DexAcquisitionView,type DexFilter,

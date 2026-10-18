@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { battleLevelGained } from '../shared/audio/action-sounds.ts';
+import { battleLevelGained } from './action-sounds.ts';
 import { gameAudio } from '../shared/audio/game-audio.ts';
 import type { GameSnapshot } from '../kernel/contract.ts';
 import { useGame, type GameStore } from '../shared/ui/use-game.ts';

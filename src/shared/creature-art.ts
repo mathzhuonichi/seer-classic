@@ -1,4 +1,4 @@
-// The one source of creature portrait paths, art layout and species display names.
+// The one source of creature portrait paths and art layout.
 import type { CSSProperties } from 'react';
 import data from './creature-art-data.json';
 
@@ -65,22 +65,4 @@ export function creatureArtStyle(
 /** Idle-breathing phase and period, staggered by species so neighbouring cards never move in step. */
 export function creatureIdleTiming(speciesId: number): CSSProperties {
   return { animationDelay: `-${speciesId % 11 * .27 / 1.5}s`, animationDuration: `${(3.6 + speciesId % 4 * .2) / 1.5}s` };
-}
-
-interface NamedSpecies { readonly id: number; readonly name: string }
-export type SpeciesName = (id: number) => string;
-const namers = new WeakMap<readonly NamedSpecies[], SpeciesName>();
-
-/**
- * Display-name lookup over a species list, normally `snapshot.species`; an id the list lacks reads `精灵 <id>`.
- * The lookup is cached per list, so it keeps its identity until the list changes.
- */
-export function speciesNamer(species: readonly NamedSpecies[]): SpeciesName {
-  let namer = namers.get(species);
-  if (!namer) {
-    const names = new Map(species.map(row => [row.id, row.name]));
-    namer = id => names.get(id) ?? `精灵 ${id}`;
-    namers.set(species, namer);
-  }
-  return namer;
 }

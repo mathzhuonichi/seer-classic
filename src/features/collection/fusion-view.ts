@@ -3,7 +3,7 @@
 import type { ItemView, MonsterView } from '../../shared/views.ts';
 import {getSpeciesAcquisition} from '../../domain/acquisition/acquisition.ts';
 import {FUSION_PARENT_POLICY,FUSION_RECIPES,canFuseParents,fusionBeadItemId,type FusionOutcome,type FusionRecipe} from '../../domain/recipes/fusion.ts';
-import type {SpeciesName} from '../../shared/creature-art.ts';
+import type {SpeciesName} from '../../shared/monster-views.ts';
 
 export interface FusionRecipeRow {
   recipe:FusionRecipe;

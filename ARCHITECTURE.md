@@ -36,7 +36,7 @@ The gate suite `tools/verification/architecture.mjs` checks every relative impor
 - Features use the kernel only through `contract.ts` (UI-facing), `api.ts` and `acquire.ts`, and feature UI only through `contract.ts`. Another feature is reached through its `index.ts` (headless) or `ui.ts` (screens, for UI code), along `FEATURE_DEPS`: `battle`, `raising`, `items` → `engravings`; `challenges` → `battle`; `world` → `battle`, `challenges`.
 - The kernel never imports feature UI or `shared/ui`. Files stay at or under 400 lines, and lines at or under 160 characters.
 
-`architecture-baseline.json` lists the existing offenders and may only shrink: remove fixed entries (`--write-baseline`), never add one. Its import violations (battle → challenges, collection and raising; challenges ↔ collection; items → challenges; `shared` → `kernel/contract.ts`) are wave-2 work.
+`architecture-baseline.json` lists the existing offenders and may only shrink: remove fixed entries (`--write-baseline`), never add one. Its import violations (battle → challenges, collection and raising; challenges ↔ collection; items → challenges) are wave-2 work.
 
 The engine never imports an AI policy: `createBattle` in `battle/core/src/battle.ts` injects `AI_POLICY` unless the caller passes one. Moving the policies to `battle/ai` is wave-2 work.
 
@@ -44,7 +44,7 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 
 | Directory | Contents |
 | --- | --- |
-| `src/app/` | The shell: `App.tsx`, navigation, routes and panels, audio settings, and `preview.tsx`, the fixture the root `preview.html` mounts. `src/main.tsx` is the entry point. |
+| `src/app/` | The shell: `App.tsx`, navigation, routes and panels, audio settings and action sounds, and `preview.tsx`, the fixture the root `preview.html` mounts. `src/main.tsx` is the entry point. |
 | `src/kernel/` | `game.ts` (`createGame`), `context.ts` (`createGameContext`, the read-only `GameContext`), `contract.ts` (UI-facing types), `api.ts` (`Runtime`, the `GameContext` type and the action helpers), `acquire.ts` (storing new monsters), `features.ts` (the feature registry), dispatch, snapshot and structural sharing, and the saves (`save.ts`, `save-state.ts`, `persistence.ts`). |
 | `src/features/<name>/` | `battle`, `raising`, `collection`, `items`, `engravings`, `challenges`, `world`: `feature.ts` (the registration: action union, slice type, handlers and slice builder; `world` registers nothing yet), `index.ts` (headless surface), `ui.ts` (screens), `ui/` (components and stylesheets), and the feature's actions, view builders and own rules. |
 | `src/domain/` | `catalog/`, `acquisition/` (routes, six-copy limits, recruitment, skins), `recipes/` (fusion, breeding), `challenges/` (campaigns, Brave Tower, facilities, NPC training), `engravings/`, `world/` (galaxies, planets, habitats), `traits.ts`, `economy.ts`, `battle-supplies.ts`, `item-shop.ts`. |

@@ -2,7 +2,7 @@ import {useMemo,useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {FUSION_RECIPES,type FusionRecipe} from '../../../domain/recipes/fusion.ts';
-import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
+import {speciesNamer,type SpeciesName} from '../../../shared/monster-views.ts';
 import {
   FUSION_PARENT_POLICY_TEXT,fusedBead,fusionChance,itemCounts,fusionParentChoices,fusionPairValid,fusionRecipeRows,matchesFusionSearch,type FusionRecipeRow,
 } from '../fusion-view.ts';

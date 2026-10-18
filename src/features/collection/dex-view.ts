@@ -3,7 +3,7 @@
 import type { SpeciesView } from '../../shared/views.ts';
 import {getAcquisitionFamilies,getAcquisitionFamily,getInitialFormAcquisition,getSpeciesAcquisition,type AcquisitionRoute} from '../../domain/acquisition/acquisition.ts';
 import type {InitialEvolutionStep} from '../../domain/acquisition/initial-acquisition.ts';
-import type {SpeciesName} from '../../shared/creature-art.ts';
+import type {SpeciesName} from '../../shared/monster-views.ts';
 import {ALL_ELEMENTS,matchesElement} from '../../shared/element-types.ts';
 
 export const DEX_PAGE_SIZE=16;
