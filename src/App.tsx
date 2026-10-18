@@ -1,7 +1,7 @@
 import {useCallback,useEffect,useMemo,useRef,useState,useSyncExternalStore} from 'react';
 import {createGame,loadGameData} from './game';
 import {preloadBattleImages,waitForBattleLoad} from './presentation/battle-loading';
-import type {BossView,GameAction,GameController,GameSnapshot} from './game-types';
+import type {BossView,GameAction,GameController} from './game-types';
 import Battle from './components/Battle';
 import WorldMap from './components/WorldMap';
 import WorldAtlas from './components/WorldAtlas';

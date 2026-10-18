@@ -1,5 +1,5 @@
 // After-battle rewards: EXP split, 学习力, 积累经验 overflow and automatic evolution.
-import type { Dex, Monster, RaisingEvent, Save } from "./types.ts";
+import type { Dex, RaisingEvent, Save } from "./types.ts";
 import { addEvs, autoEvolve, gainExp } from "./monster.ts";
 import { MAX_LEVEL } from "./growth.ts";
 import { boostMultiplier } from "./items.ts";

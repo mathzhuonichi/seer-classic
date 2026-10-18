@@ -1,17 +1,11 @@
 // Enemy decision making. Every random choice goes through battle.rng so AI
 // turns replay deterministically.
 
-import type { Action, AiSpec } from './types.ts';
+import type { Action } from './types.ts';
 import type { Battle, Side } from './battle.ts';
 import { STRUGGLE_SKILL } from './battle.ts';
-import { tacticalAction, tacticalReplacement } from './tactics.ts';
 import { legacySmartPick } from './legacy-ai.ts';
 import { rolloutReplacement, searchAction, searchReplacement } from './search-ai.ts';
-
-const v57 = (battle: Battle, side: Side) => (battle.active(side.index).ai ?? side.ai)?.planner === 'v57';
-function trainerAction(battle: Battle, side: Side, ai: AiSpec): Action {
-  return ai.planner === 'v57' ? tacticalAction(battle, side, ai) : searchAction(battle, side, ai);
-}
 
 /** Enhanced team planning belongs only to simulated-player trainer encounters. */
 export function chooseAiReplacement(battle: Battle, side: Side): Action | undefined {
@@ -20,7 +14,7 @@ export function chooseAiReplacement(battle: Battle, side: Side): Action | undefi
   if (side.kind !== 'trainer') return undefined;
   const ai = battle.active(side.index).ai ?? side.ai;
   if (ai?.kind !== 'smart' || !ai.allow_switch) return undefined;
-  return v57(battle, side) ? tacticalReplacement(battle, side) : searchReplacement(battle, side);
+  return searchReplacement(battle, side);
 }
 
 export function chooseAiAction(battle: Battle, side: Side): Action {
@@ -28,7 +22,7 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
   const usable = mon.skills.filter((id) => mon.pp[id] > 0);
   const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
   // Smart trainers may restore exhausted PP before resorting to Struggle.
-  if (!usable.length) return side.kind === 'trainer' && ai.kind === 'smart' ? trainerAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
+  if (!usable.length) return side.kind === 'trainer' && ai.kind === 'smart' ? searchAction(battle, side, ai) : { kind: 'move', skill: STRUGGLE_SKILL.id };
   if (mon.vol.forcedSkill !== undefined && usable.includes(mon.vol.forcedSkill)) {
     const id = mon.vol.forcedSkill;
     delete mon.vol.forcedSkill;
@@ -67,6 +61,6 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     }
     case 'smart':
     default:
-      return side.kind === 'trainer' ? trainerAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable));
+      return side.kind === 'trainer' ? searchAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable));
   }
 }

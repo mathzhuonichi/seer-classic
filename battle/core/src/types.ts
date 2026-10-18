@@ -128,8 +128,6 @@ export interface AiSpec {
   /** Only authored trainer teams opt in; historical boss ordering stays intact. */
   allow_switch?: boolean;
   style?: 'balanced' | 'offense' | 'control' | 'attrition';
-  /** Trainer planner: engine-simulated search (default) or the retained V57 heuristics. */
-  planner?: 'search' | 'v57';
 }
 
 export interface BossTeamMember extends MonsterInput {

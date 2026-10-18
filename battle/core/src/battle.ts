@@ -11,7 +11,6 @@ import { Rng } from './rng.ts';
 import { computeStats } from './stats.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from './typechart.ts';
 import { chooseAiAction, chooseAiReplacement } from './ai.ts';
-import { requiresTrainerSupportFallback } from './tactics.ts';
 import { meetsWildCapturePrerequisite, rollReconstructedCapture } from './capture.ts';
 
 export const STRUGGLE_SKILL: Skill = {
@@ -204,7 +203,7 @@ export class Battle {
     return side;
   }
 
-  private buildMon(side: 0 | 1, slot: number, m: MonsterInput, lives: number): Mon {
+  buildMon(side: 0 | 1, slot: number, m: MonsterInput, lives: number): Mon {
     const species = this.data.species.get(m.species);
     if (!species) throw new Error(`unknown species ${m.species}`);
     if (m.skills.length === 0 || m.skills.length > C.MAX_SKILLS) throw new Error(`species ${m.species}: 1..${C.MAX_SKILLS} skills required`);
@@ -295,7 +294,9 @@ export class Battle {
     const usable = mon.skills.filter((id) => mon.pp[id] > 0 && (!execution || this.isAttackSkill(mon, id)));
     if (usable.length) {
       for (const id of usable) actions.push({ kind: 'move', skill: id });
-      if (requiresTrainerSupportFallback(this, side)) actions.push({kind:'move',skill:STRUGGLE_SKILL.id});
+      // A smart trainer left with only self-KO moves may Struggle instead; its planner weighs both.
+      if (side.kind === 'trainer' && ((mon.ai ?? side.ai)?.kind ?? 'smart') === 'smart' && usable.every((id) => this.skill(id, mon).effects?.some((op) => op.op === 'script' && C.SELF_KO_SCRIPTS.has(op.id))))
+        actions.push({ kind: 'move', skill: STRUGGLE_SKILL.id });
     }
     else actions.push({ kind: 'move', skill: STRUGGLE_SKILL.id });
 

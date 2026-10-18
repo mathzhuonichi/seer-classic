@@ -18,6 +18,8 @@ export const CAPTURE_CONTROL_BONUS = 2;
 export const CAPTURE_DOT_BONUS = 1.5;
 export const MAX_PARTY = 6;
 export const MAX_SKILLS = 4;
+/** Skill scripts whose user knocks itself out: inheritance, shared critical, self-destruct. */
+export const SELF_KO_SCRIPTS: ReadonlySet<string> = new Set(['seer_eff_59', 'seer_eff_71', 'seer_eff_112']);
 
 export function stageMultiplier(stage: number): number {
   return stage >= 0 ? (2 + stage) / 2 : 2 / (2 - stage);
