@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createServer} from 'vite';
+import {loadCatalogNode} from '../catalog.mjs';
 
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 const checks=[],failures=[],trainerCases=[];
@@ -105,7 +106,7 @@ try {
     const useful=fixture({playerSpecies:6,skills:[S.ground,S.weak]});useful.data.skills.get(S.ground).effects=[{op:'stat_stage',stats:{atk:2},target:'self'}];assert.deepEqual(decide(useful),move(S.ground));useful.submit(0,move(S.wait));useful.submit(1,decide(useful));useful.resolveTurn();assert.equal(useful.active(1).stages.atk,2);assert.equal(useful.active(0).hp,useful.active(0).maxHp);
   });
   check('Real Electric Spark 10040 cannot claim its attached fixed damage against a ground target',()=>{
-    const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),data=buildDataSet(catalog),weak=990900,wait=990901;data.skills.set(weak,attack(weak,5));data.skills.set(wait,support(wait,[],{target:'self'}));assert(data.skills.get(10040).effects.some(effect=>effect.op==='fixed_damage'));
+    const data=buildDataSet(loadCatalogNode()),weak=990900,wait=990901;data.skills.set(weak,attack(weak,5));data.skills.set(wait,support(wait,[],{target:'self'}));assert(data.skills.get(10040).effects.some(effect=>effect.op==='fixed_damage'));
     const battle=createBattle({data,seed:123,sides:[{kind:'player',team:[member(53,[wait],{hp:40})]},{kind:'trainer',team:[member(13,[10040,weak])],ai:{kind:'smart'}}]});assert.deepEqual(decide(battle),move(weak));const hp=battle.active(0).hp;battle.submit(0,move(wait));battle.submit(1,move(10040));const events=battle.resolveTurn();assert(events.some(event=>event.type==='immune'&&event.side===0));assert.equal(battle.active(0).hp,hp);
   });
   check('Announced accuracy-taken percentage reduces hit chance and favors a guaranteed hit',()=>{
@@ -196,7 +197,7 @@ try {
     const run=()=>{const battle=fixture({seed:812,skills:[S.attack,S.heal,S.poison,S.boost]});for(let i=0;i<8&&!battle.result;i++){battle.submit(0,move(i%2?S.attack:S.wait));battle.resolveTurn();}return state(battle);};assert.equal(run(),run());
   });
   check('Every authored NPC team and member produces legal, read-only decisions using its actual moves',()=>{
-    const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),data=buildDataSet(catalog),files=fs.readdirSync('data/trainers').filter(name=>name.endsWith('.json')).sort();assert(files.length>0);let expectedTrainerCases=0;
+    const data=buildDataSet(loadCatalogNode()),files=fs.readdirSync('data/trainers').filter(name=>name.endsWith('.json')).sort();assert(files.length>0);let expectedTrainerCases=0;
     for(const file of files){const trainer=JSON.parse(fs.readFileSync(`data/trainers/${file}`,'utf8'));assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
       expectedTrainerCases+=trainer.team.length*2;
       for(let lead=0;lead<trainer.team.length;lead++)for(const hp of [1,.3]){const team=[trainer.team[lead],...trainer.team.filter((_row,index)=>index!==lead)];const battle=createBattle({data,seed:2026,scripts:SEER_SCRIPTS,sides:[{kind:'player',team:[{species:6,level:80,skills:[10001]}]},{kind:'trainer',team,ai:trainer.ai}]});battle.active(1).hp=Math.max(1,Math.floor(battle.active(1).maxHp*hp));battle.active(1).turnsActive=2;const before=stateWithoutRng(battle),action=decide(battle);legal(battle,action);assert.equal(stateWithoutRng(battle),before);trainerCases.push({trainer:trainer.id,species:team[0].species,hpRatio:hp,action});}

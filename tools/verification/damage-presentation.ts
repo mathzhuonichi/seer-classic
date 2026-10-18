@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import { createGame, advanceBattlePresentation, type BattlePresentationState } from '../../src/kernel/game.ts';
 import { displayedDamage, battleEventText } from '../../src/features/battle/battle-log.ts';
 import type { CatalogData } from '../../src/domain/catalog/catalog.ts';
+import { loadCatalogNode } from '../catalog.mjs';
 
 // Isolated catalog and save fixtures; this runner never accesses browser storage.
-const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));
+const catalog = loadCatalogNode();
 const attackId = 990001, waitId = 990002, reviveId = 'audit_bench_revive';
 catalog.skills.push(
   { id: attackId, name: { zh: '伤害演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10, effects: [{ op: 'heal', target: 'self', pct_damage_dealt: 100 }] },

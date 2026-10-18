@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {performance} from 'node:perf_hooks';
 import {createServer} from 'vite';
+import {loadCatalogNode} from '../catalog.mjs';
 
 const report={checks:[],failures:[],adversarial:[],catalog:[],performance:[]};
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
@@ -18,7 +19,7 @@ try {
   const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
   const {chooseAiAction}=await server.ssrLoadModule('/battle/core/src/ai.ts');
   const {SEER_SCRIPTS}=await server.ssrLoadModule('/battle/core/src/scripts/index.ts');
-  const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),catalogBefore=JSON.stringify(catalog);
+  const catalog=loadCatalogNode(),catalogBefore=JSON.stringify(catalog);
   const data=buildDataSet(catalog),skills=data.skills;
   const eligible=catalog.species.filter(s=>![122,123,124,125].includes(s.id)&&s.learnset?.some(row=>row.level>=1&&row.level<=100&&skills.has(row.skill)));
   const elite=eligible.filter(s=>Object.values(s.base).reduce((sum,n)=>sum+n,0)>=600);

@@ -8,7 +8,7 @@ const output='artifacts/elite-sub600-audit';
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const bst=mon=>statKeys.reduce((sum,key)=>sum+mon.base[key],0);
 const hash=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
-const files=['data/gamedata.json','data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
+const files=['data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
 const sourceHashes=Object.fromEntries(files.map(path=>[path,hash(path)]));
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {

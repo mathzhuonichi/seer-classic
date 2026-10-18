@@ -1,11 +1,10 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import { createBattle } from '../../battle/core/src/battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { rollReconstructedCapture } from '../../battle/core/src/capture.ts';
+import { loadCatalogNode } from '../catalog.mjs';
 
-const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));
-const data = buildDataSet(catalog);
+const data = buildDataSet(loadCatalogNode());
 const capsule = 'item_capsule_master';
 const make = (active: number, target: number, kind: 'wild' | 'boss' = 'wild', noCapture = false) => createBattle({
   data, seed: 25, sides: [

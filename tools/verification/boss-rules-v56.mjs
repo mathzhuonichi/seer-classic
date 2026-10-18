@@ -9,10 +9,11 @@ import {NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL} from '../../battle/core/src/batt
 import {legacySmartPick} from '../../battle/core/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
+import {loadCatalogNode} from '../catalog.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const read=relative=>JSON.parse(fs.readFileSync(path.join(root,relative),'utf8'));
-const catalog=read('data/gamedata.json'),data=buildDataSet(catalog),scripts={...SEER_SCRIPTS,...campaignScripts};
+const data=buildDataSet(loadCatalogNode()),scripts={...SEER_SCRIPTS,...campaignScripts};
 const bosses=fs.readdirSync(path.join(root,'data/bosses')).filter(file=>file.endsWith('.json')).sort().map(file=>read(`data/bosses/${file}`));
 const byId=new Map(bosses.map(boss=>[boss.id,boss]));
 const aliases={immune_pct_damage:'immune_percent_damage',infinite_pp:'unlimited_pp',reflect_damage:'reflect_damage'};

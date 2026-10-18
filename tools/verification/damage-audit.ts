@@ -1,17 +1,18 @@
 import assert from 'node:assert/strict';
-import { suite, readGameData } from './_harness.mjs';
+import { suite } from './_harness.mjs';
 import { createBattle, type Battle } from '../../battle/core/src/battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';
 import type { BossRule, ConditionDef, ScriptRegistry, Skill, Stats } from '../../battle/core/src/types.ts';
 import { traits, traitScripts } from '../../src/domain/traits.ts';
+import { loadCatalogNode } from '../catalog.mjs';
 
 type Check = (name: string, expected: unknown, run: () => unknown) => void;
 
 /** Two plain normal-type monsters at level 50 with stats 100, and helpers around one battle of them. */
 function fixture() {
-  const catalog = readGameData();
+  const catalog = loadCatalogNode();
   const stats: Stats = { hp: 1000, atk: 100, def: 100, spa: 100, spd: 100, spe: 100 };
   const skills: Skill[] = [
     { id: 1, name: { zh: '普通物攻' }, type: 'normal', category: 'physical', power: 100, accuracy: null, pp: 10 },

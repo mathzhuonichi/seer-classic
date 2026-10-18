@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
-import {readFileSync, readdirSync} from 'node:fs';
 import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {attackTypes, effectiveness, hasAttackType, typeIdentity} from '../../battle/core/src/typechart.ts';
 import type {BossRule, Objective, Skill, TypeData} from '../../battle/core/src/types.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import {loadCatalogNode} from '../catalog.mjs';
 
 const chart: TypeData = {chart: {fire: {grass: 2, flying: 1, ice: 2, normal: 1}, ground: {grass: .5, flying: 0, ice: 1, normal: 1}, electric: {ground: 0, flying: 2}, grass: {water: 2, ground: 2}}, composites: {fire_ground: ['fire', 'ground'], ground_fire: ['ground', 'fire']}};
 assert.deepEqual(attackTypes(chart, 'fire_ground'), ['fire', 'ground']);
@@ -54,20 +54,16 @@ const burnt = fixture(['fire', 'ground']);
 burnt.battle.addCondition(burnt.battle.active(1), {id: 'type_reaction', hooks: [{on: 'on_hurt', inflict_on_type: {type: 'ground', status: 'burn'}}]});
 assert(burnt.run().some(event => event.type === 'status_applied' && event.status === 'burn'));
 
-const catalog = JSON.parse(readFileSync('data/gamedata.json', 'utf8'));
-const separateSkills = JSON.parse(readFileSync('data/skills.json', 'utf8'));
-const separateTypes = JSON.parse(readFileSync('data/types.json', 'utf8'));
-assert.deepEqual(catalog.skills, separateSkills);
-assert.deepEqual(catalog.types.composites, separateTypes.composites);
-const dualSkills = separateSkills.filter((skill: Skill) => catalog.types.composites[skill.type]);
+const catalog = loadCatalogNode();
+const dualSkills = catalog.skills.filter((skill: Skill) => catalog.types.composites[skill.type]);
 assert.equal(dualSkills.length, 294);
 assert.equal(Object.keys(catalog.types.composites).length, 29);
-assert.equal(separateSkills.find((skill: Skill) => skill.id === 11146).type, 'mechanical_ground');
-assert.equal(separateSkills.find((skill: Skill) => skill.id === 11166).type, 'fighting_fire');
+assert.equal(catalog.skills.find((skill: Skill) => skill.id === 11146).type, 'mechanical_ground');
+assert.equal(catalog.skills.find((skill: Skill) => skill.id === 11166).type, 'fighting_fire');
 for (const skill of dualSkills) assert(catalog.types.composites[skill.type].every((type: string) => catalog.types.types.some((entry: {id: string}) => entry.id === type)));
 let partialLearnsets = 0, retainedDualLearnsets = 0;
 for (const species of catalog.species) for (const learned of species.learnset ?? []) {
-  const skill = separateSkills.find((entry: Skill) => entry.id === learned.skill), components = catalog.types.composites[skill.type];
+  const skill = catalog.skills.find((entry: Skill) => entry.id === learned.skill), components = catalog.types.composites[skill.type];
   if (!components) continue;
   retainedDualLearnsets++;
   if (components.some((type: string) => species.types.includes(type)) && !components.every((type: string) => species.types.includes(type))) partialLearnsets++;
@@ -83,7 +79,6 @@ const flattenedAttack = realBattle.calcAttack(realBattle.active(0), realBattle.a
 assert.equal(restoredAttack.effectiveness, 1.25);
 assert.equal(flattenedAttack.effectiveness, 1.5);
 assert(restoredAttack.damage < flattenedAttack.damage);
-catalog.bosses = readdirSync('data/bosses').filter(name => name.endsWith('.json')).map(name => JSON.parse(readFileSync(`data/bosses/${name}`, 'utf8')));
 const game = createGame(catalog as CatalogData);
 game.dispatch({type: 'cheatAcquire', species: 501, level: 100});
 const uid = game.snapshot().monsters.find(mon => mon.species === 501)!.uid;

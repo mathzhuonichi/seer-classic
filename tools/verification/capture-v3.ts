@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import {createGame} from '../../src/kernel/game.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
-const source=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));
-source.bosses=fs.readdirSync('data/bosses').filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(`data/bosses/${n}`,'utf8')));
+import {loadCatalogNode} from '../catalog.mjs';
+const source=loadCatalogNode();
 const fresh=()=>createGame(structuredClone(source) as CatalogData);
 const game=fresh(), initial=game.snapshot(), capsule='item_capsule_master';
 assert.equal(initial.items.filter(i=>i.battleCategory==='recovery').length,12);

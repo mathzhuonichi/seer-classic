@@ -5,6 +5,7 @@ import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import type {BossEncounter, BossRule, MonsterInput, Objective, Phase, Skill} from '../../battle/core/src/types.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
+import {loadCatalogNode} from '../catalog.mjs';
 
 const stats = {hp: 2000, atk: 100, def: 100, spa: 100, spd: 100, spe: 200};
 const skills: Skill[] = [
@@ -181,7 +182,7 @@ downAlive.battle.dealDamage(downAlive.battle.active(1), 1001, {kind: 'fixed', so
 assert.equal(downAlive.battle.active(0).stages.atk, -1); assert.equal(downAlive.battle.active(0).stages.spe, -1);
 passed.push('calibrated low-damage critical window expires; high-damage stage penalty uses strict threshold');
 
-const catalog = buildDataSet(JSON.parse(readFileSync(new URL('../../data/gamedata.json', import.meta.url), 'utf8')));
+const catalog = buildDataSet(loadCatalogNode());
 const bossDirectory = new URL('../../data/bosses/', import.meta.url);
 const newEncounters = readdirSync(bossDirectory).filter(name => name.startsWith('boss_campaign_') && name.endsWith('.json'));
 for (const filename of newEncounters) {
