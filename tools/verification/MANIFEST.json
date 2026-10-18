@@ -38,10 +38,6 @@
       "status": "needs-cache",
       "note": "Needs .cache/unity-swf-audit/, which was not transferred."
     },
-    "battle-capsule-click.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07: asserts the old PetBag source text."
-    },
     "battle-clone-fidelity-v58.mjs": {
       "status": "gate",
       "shards": 8
