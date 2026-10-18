@@ -20,8 +20,8 @@ function protectedSave(save){return {dex:save.dex,party:save.party,identity:save
 const battleState=battle=>{const {animation,...state}=battle;return state};
 
 try {
-  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle,buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/battle/core/src/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/world/world.ts',
+  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle},{buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/world/world.ts',
     '/src/domain/challenges/battle-facilities.ts','/src/features/world/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
   const {npcTrainingScripts}=await server.ssrLoadModule('/src/domain/challenges/npc-training-scripts.ts');

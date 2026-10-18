@@ -4,14 +4,15 @@
 // The class holds the state and the public API. The rules live in the modules
 // beside it; its methods delegate to them, and the modules call each other
 // through these methods, so a script or test that wraps a method sees every
-// internal call. Every field is a plain own property (cloneBattle copies them).
+// internal call. Every field is a plain own property (battle/ai's cloneBattle copies them).
 // Decisions for automatic sides come from the injected `policy`; the engine
-// never imports the AI (battle/core/src/battle.ts wires it in).
+// never imports the AI (battle/ai implements it; the game's kernel injects it).
 
 import type {
-  Action, BattleEvent, BattleOptions, BattlePolicy, BattleResult, BossEncounter, ConditionDef, DamageProbe, DataSet, EffectOp,
+  Action, BattleOptions, BattlePolicy, BattleResult, BossEncounter, ConditionDef, DamageProbe, DataSet, EffectOp,
   EncounterVariant, Hook, HookPoint, JournalEntry, MonsterInput, Objective, ScriptEntry, ScriptRegistry, SideInput, Skill, StageKey, Stats, When,
 } from '../types.ts';
+import type { BattleEvent } from '../events.ts';
 import * as C from '../constants.ts';
 import { STRUGGLE_SKILL } from '../constants.ts';
 import { Rng } from '../rng.ts';
@@ -70,6 +71,8 @@ export class Battle {
   hitTrace: HitTrace | null = null;
   /** The ordinary priority/speed ordering of this turn, for the journal; null when there was none. */
   lastOrder: { tie: boolean; spe: [number, number] } | null = null;
+  /** From the first `prepare` until its turn resolves: the RNG before the prepared decisions and where their events start. */
+  prepared: { s: Rng['s']; draws: number; mark: number } | null = null;
   /** True only inside probeDamage: scripts, warnings and RNG-bearing branches are off. */
   probing = false;
   /** Inside probeDamage: the side whose side-level rules count as unknown (none). */
@@ -94,7 +97,7 @@ export class Battle {
       if (this.variant.rules) s1.rules = [...(s1.rules ?? []), ...this.variant.rules];
     }
     this.sides = [this.buildSide(0, opts.sides[0]), this.buildSide(1, s1)];
-    if (!this.policy && this.sides.some(turn.isAuto)) throw new Error('a battle with an automatic side needs a policy (battle.ts createBattle injects the AI)');
+    if (!this.policy && this.sides.some(turn.isAuto)) throw new Error('a battle with an automatic side needs a policy');
 
     this.out = [];
     this.emit({ type: 'battle_start', sides: this.sides.map((s) => ({ kind: s.kind, name: s.name })) });
@@ -196,20 +199,10 @@ export class Battle {
     return !turn.isAuto(side);
   }
 
-  resolveTurn(): BattleEvent[] {
-    if (this.phase === 'ended') return [];
-    this.out = [];
-    rules.checkEnd(this);
-    const retreat = this.sides.find((side) => side.pending?.kind === 'flee');
-    if (!this.result && retreat) this.doAction(retreat.index, { kind: 'flee' }, true);
-    else if (!this.result && this.phase === 'replace') turn.resolveReplacements(this);
-    else if (!this.result) turn.resolveFullTurn(this);
-    for (const s of this.sides) s.pending = null;
-    const events = this.out;
-    this.log.push(...events);
-    this.out = [];
-    return events;
-  }
+  /** Turn preparation: decides for an automatic side when its turn opens, exactly as resolveTurn would (turn.ts). */
+  prepare(sideIndex: 0 | 1): Action | null { return turn.prepare(this, sideIndex); }
+
+  resolveTurn(): BattleEvent[] { return turn.resolveTurn(this); }
 
   /**
    * Events of the turn being resolved that are not yet in `log` (for decisions made

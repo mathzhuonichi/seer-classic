@@ -17,7 +17,7 @@ const tracked = git('ls-files').trim().split('\n').filter(f => !f.startsWith('de
 const codeExt = /\.(ts|tsx|mjs|js|css|html)$/;
 const exts = ['', '.ts', '.tsx', '.mjs', '.js', '/index.ts'];
 const relSpec = /((?:from|import)\s*\(?\s*|import\.meta\.glob\(\s*|new URL\(\s*|@import\s+)(['"])(\.{1,2}\/[^'"]*)\2/g;
-const rootStr = /(['"`])(\/?)((?:src|raising\/game|tools)\/[A-Za-z0-9_./-]+)(\?[^'"`\s]*)?\1/g;
+const rootStr = /(['"`])(\/?)((?:src|battle|raising\/game|tools)\/[A-Za-z0-9_./-]+)(\?[^'"`\s]*)?\1/g;
 let rewritten = 0;
 const relTo = (fromFile, target) => {
   let rel = path.posix.relative(path.posix.dirname(fromFile), target);

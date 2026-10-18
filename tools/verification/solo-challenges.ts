@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {loadCatalogNode} from '../catalog.mjs';
-import {createBattle} from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import {buildAcquisitionIndex} from '../../src/domain/acquisition/acquisition.ts';

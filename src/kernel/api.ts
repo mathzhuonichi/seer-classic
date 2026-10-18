@@ -1,18 +1,32 @@
 // The controller's mutable state and the small operations every action uses.
-import type { Battle, BossEncounter, Rng } from '../../battle/core/src/index.ts';
+import type { Battle, BattleResult, BossEncounter, Rng } from '../../battle/core/src/index.ts';
 import { putMon, type Monster, type Save } from '../../raising/core/index.ts';
 import type { GameSave } from './save.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import type { Created, GameAction } from './contract.ts';
-import type { BattlePresentationFrame } from '../shared/views.ts';
+import type { BattlePresentationFrame, BossEvidenceView } from '../shared/views.ts';
 import type { GameContext } from './context.ts';
 
 // Kernel types that feature code may use; features import nothing else from the kernel.
 export type { CatalogContext, GameContext } from './context.ts';
 export type { GameSave } from './save.ts';
 
-export interface CampaignContext { id: string; stageId: string }
 export interface Appearance { species: number; appearanceSpecies: number }
+
+/** What a victory pays besides experience: coins and reward items, and the result shown when the six-copy allowance blocks an essence. */
+interface VictoryRewards { coins: number; items: readonly (readonly [string, number])[]; blocked: string }
+
+/** A challenge's part in one battle session: features/challenges passes them when it starts the session. */
+export interface SessionHooks {
+  /** A generated team (battle facilities): no attempt count, first-clear record or encounter reward items. */
+  readonly unrecorded?: boolean;
+  /** The evidence shown for an opposing member of the encounter as fought. */
+  evidence?(encounter: BossEncounter, slot: number): BossEvidenceView | undefined;
+  /** A victory's coins and reward items in place of the victory coins and the encounter's items (Brave Tower floors). */
+  rewards?(encounter: BossEncounter, firstClear: boolean): VictoryRewards;
+  /** After a victory's rewards or after a defeat: the challenge's progress and result message. */
+  settled?(rt: Runtime, session: BattleSession, result: BattleResult): void;
+}
 
 /** One battle from its start until the player closes it. */
 export interface BattleSession {
@@ -20,7 +34,7 @@ export interface BattleSession {
   readonly name: string;
   /** The prepared Boss, trainer or recruit encounter; null for a wild battle. */
   readonly encounter: BossEncounter | null;
-  readonly campaign: CampaignContext | null;
+  readonly hooks: SessionHooks;
   /** The wild monster, kept so a capture stores its raising record. */
   readonly wild: Monster | null;
   /** Skin appearance per player slot, valid until that slot changes species. */

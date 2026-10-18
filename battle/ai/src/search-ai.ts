@@ -2,9 +2,9 @@
 // Every candidate is scored by resolving real turns on isolated clones of a world
 // in which the opponent is its public model (search/world.ts). The live battle is
 // never changed, except for one RNG draw when the chosen strategy is mixed.
-import type { Action, AiSpec } from './types.ts';
-import type { Battle } from './engine/battle.ts';
-import type { Side } from './engine/state.ts';
+import type { Action, AiSpec } from '../../core/src/types.ts';
+import type { Battle } from '../../core/src/engine/battle.ts';
+import type { Side } from '../../core/src/engine/state.ts';
 import type { ModeledFoe } from './observe.ts';
 import { buildWorld } from './search/world.ts';
 import { styleWeights, worth } from './search/evaluate.ts';
@@ -88,7 +88,8 @@ export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
     simulated += responses.length * turns;
     if (first.some(c => c.sacrifice) && reserves.length) {
       // A self-KO hands its successor a free entry and any gift: expand once per reserve.
-      const ks = Math.max(MIN_SACRIFICE_SAMPLES, Math.min(k, Math.floor(BUDGET / (reserves.length * responses.length * (turns + SACRIFICE_EXTRA) * actions.length))));
+      const work = reserves.length * responses.length * (turns + SACRIFICE_EXTRA) * actions.length;
+      const ks = Math.max(MIN_SACRIFICE_SAMPLES, Math.min(k, Math.floor(BUDGET / work)));
       const successors: number[] = [];
       const cells = responses.map(r => {
         let top = -Infinity, pick = reserves[0];
@@ -117,7 +118,11 @@ export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
   const planned = sacrifices.find(p => p.action === index);
   // A chosen sacrifice keeps the successor its expansion found best against each response.
   if (planned) b.sacrificePlans = { ...b.sacrificePlans, [me]: { turn: b.turn + 1, slot: side.active, responses, successors: planned.successors } };
-  decisions.set(b, { ...decisions.get(b), [me]: { turn: b.turn + 1, side: me, opponent: w.opponent, modeledMoves: w.modeledMoves, actions, responses, matrix, strategy: mix, value, chosen, samples: k, simulatedTurns: simulated, sacrifices } });
+  const decision: SearchDecision = {
+    turn: b.turn + 1, side: me, opponent: w.opponent, modeledMoves: w.modeledMoves, actions, responses, matrix,
+    strategy: mix, value, chosen, samples: k, simulatedTurns: simulated, sacrifices,
+  };
+  decisions.set(b, { ...decisions.get(b), [me]: decision });
   return chosen;
 }
 
@@ -152,7 +157,7 @@ export function searchReplacement(b: Battle, side: Side): Action | undefined {
   const rows = bench.map(member => {
     const values = (responses.length ? responses : [-1]).map(r => {
       let total = 0;
-      for (let n = 0; n < SAMPLES; n++) total += playout(w, { response: r, rng: seed(b, `replace:${member.slot}`, r, n), turns: HORIZON, weights, prepare: c => {
+      for (let n = 0; n < SAMPLES; n++) total += playout(w, { response: r, rng: seed(b, `replace:${member.slot}`, r, n), turns: HORIZON, weights, setup: c => {
         c.switchIn(c.sides[me], member.slot);
         c.sides[me].needsReplacement = false;
         c.phase = 'choose';

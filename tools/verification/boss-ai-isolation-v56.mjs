@@ -12,13 +12,13 @@ const oracleRevision=execFileSync('git',['rev-parse','d7e87e9'],{cwd:root,encodi
 const oracleSource=execFileSync('git',['show',`${oracleRevision}:battle/core/src/ai.ts`],{cwd:root,encoding:'utf8'});
 const oracleId='/__verification_legacy_boss_ai_v56.ts';
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/boss-ai-isolation-v56'),
-  plugins:[{name:'git-legacy-ai-oracle',resolveId:id=>id===oracleId?id:undefined,load:id=>id===oracleId?oracleSource.replaceAll("'./battle.ts'","'/battle/core/src/battle.ts'").replaceAll("'./types.ts'","'/battle/core/src/types.ts'"):undefined}],
+  plugins:[{name:'git-legacy-ai-oracle',resolveId:id=>id===oracleId?id:undefined,load:id=>id===oracleId?oracleSource.replaceAll("'./battle.ts'","'/battle/core/src/index.ts'").replaceAll("'./types.ts'","'/battle/core/src/types.ts'"):undefined}],
   server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha256:crypto.createHash('sha256').update(oracleSource).digest('hex')},checks:[],failures:[],bossCases:[],facilityCases:[],scope:'The oracle is the complete historical policy loaded directly from Git, running on current battle mechanics and encounter data. This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
-  const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
-    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
+  const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
+    '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',oracleId,'/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -162,7 +162,7 @@ try {
       report.facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
     }
   });
-  report.sourceHashes=Object.fromEntries(['battle/core/src/ai.ts','battle/core/src/legacy-ai.ts','battle/core/src/battle.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
+  report.sourceHashes=Object.fromEntries(['battle/ai/src/ai.ts','battle/ai/src/legacy-ai.ts','battle/core/src/engine/battle.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
 }catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally{
   const dir=path.join(root,'artifacts/boss-ai-isolation-v56');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'regression.json'),JSON.stringify(report,null,2)+'\n');

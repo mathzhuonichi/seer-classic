@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { createBattle } from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import type { Category } from '../../battle/core/src/types.ts';
 import { battleEventText } from '../../src/features/battle/battle-log.ts';

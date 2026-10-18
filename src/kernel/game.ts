@@ -1,9 +1,8 @@
 // The game controller: one catalog, one save, and the snapshot the components render.
-import { createBattle } from '../../battle/core/src/index.ts';
 import { serialize } from './save.ts';
 import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
-import { createGameContext, type BattleFactory } from './context.ts';
+import { createGameContext, type GameDependencies } from './context.ts';
 import { runAction } from './dispatch.ts';
 import {engravingOptions} from '../features/engravings/index.ts';
 import { notice, type Runtime } from './api.ts';
@@ -11,15 +10,9 @@ import { loadJourney, openJourney, startJourney, writeJourney, type Journey } fr
 import { createSnapshotBuilder } from './snapshot.ts';
 
 export { loadCatalog };
-export {advanceBattlePresentation, type BattlePresentationState} from '../features/battle/index.ts';
-
-export interface GameDependencies {
-  /** Creates each battle; verification passes a wrapper to observe the controller's battles. */
-  createBattle?: BattleFactory;
-}
 
 export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
-  const ctx = createGameContext(catalog, dependencies.createBattle ?? createBattle);
+  const ctx = createGameContext(catalog, dependencies);
   const opened = openJourney(ctx, initialSave);
   const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 } };
   const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>();

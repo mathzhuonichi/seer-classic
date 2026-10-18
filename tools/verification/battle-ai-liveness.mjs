@@ -15,9 +15,9 @@ const percentile=(values,p)=>[...values].sort((a,b)=>a-b)[Math.min(values.length
 const serialize=b=>JSON.stringify(b,(key,value)=>['data','scripts'].includes(key)?undefined:value instanceof Map?[...value]:value instanceof Set?[...value]:value);
 
 try {
-  const {createBattle}=await server.ssrLoadModule('/battle/core/src/battle.ts');
+  const {createBattle}=await server.ssrLoadModule('/tools/verification/_battle.ts');
   const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
-  const {chooseAiAction}=await server.ssrLoadModule('/battle/core/src/ai.ts');
+  const {chooseAiAction}=await server.ssrLoadModule('/battle/ai/src/ai.ts');
   const {SEER_SCRIPTS}=await server.ssrLoadModule('/battle/core/src/scripts/index.ts');
   const catalog=loadCatalogNode(),catalogBefore=JSON.stringify(catalog);
   const data=buildDataSet(catalog),skills=data.skills;

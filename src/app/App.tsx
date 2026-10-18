@@ -120,7 +120,8 @@ export function Game({controller:c}:{controller:GameController}){
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}
     onLeave={leaveCampaign} onManage={()=>show('monsters')}/>}
    {battleOpen&&!preparation&&<div className="battle-layer">
-    <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src} onSettings={()=>openTool('settings')}/>
+    <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src}
+     onSettings={()=>openTool('settings')}/>
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
    {toast&&!preparation&&!battleOpen&&<button className="game-toast" aria-label="关闭提示" onClick={dismiss}>{toast}<span>×</span></button>}

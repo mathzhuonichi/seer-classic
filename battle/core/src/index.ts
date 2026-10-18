@@ -1,10 +1,11 @@
 export * from './types.ts';
+export type { BattleEvent } from './events.ts';
 export * from './constants.ts';
 export { Rng } from './rng.ts';
 export { computeStats } from './stats.ts';
 export { effectiveness } from './typechart.ts';
 export { BUILTIN_CONDITIONS, CONTROL_STATUSES, DOT_STATUSES } from './builtin-conditions.ts';
 export { buildDataSet, type RawData } from './data.ts';
-export { Battle, createBattle, validateEncounter, type Mon, type Side } from './battle.ts';
-export { chooseAiAction } from './ai.ts';
-export { observeOpponent, revealedOpponentSlots, BASELINE_IV, BASELINE_EVS, type ModeledFoe, type RefinedStat } from './observe.ts';
+export { Battle } from './engine/battle.ts';
+export type { Mon, Side } from './engine/state.ts';
+export { NATIVE_BOSS_RULE_FIELDS, validateEncounter } from './engine/rules.ts';

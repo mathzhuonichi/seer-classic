@@ -1,27 +1,33 @@
 // The battle lifecycle: start a session, play turns, and keep the log and animation frames.
-import type { Action, BattleEvent, BattleResult, BossEncounter } from '../../../battle/core/src/index.ts';
+import type { Action, Battle, BattleEvent, BattleResult } from '../../../battle/core/src/index.ts';
+import { findMon, type Monster } from '../../../raising/core/index.ts';
 import { groupedBattleLog } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
-import { setupBattle, type BattleRequest } from './battle-setup.ts';
+import { setupBattle, type Foe } from './battle-setup.ts';
 import { foeView, hidesFoeHp, presentationState } from './battle-view.ts';
-import type { GameContext } from '../../kernel/api.ts';
-import { battleInProgress, requireSession, type BattleSession, type Runtime } from '../../kernel/api.ts';
+import { battleInProgress, requireSession, type BattleSession, type GameContext, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
 
 /** The battle log keeps this many most recent lines. */
 const LOG_LIMIT = 160;
 
-export function startBattle(rt: Runtime, encounter: BossEncounter | null, request: Omit<BattleRequest, 'encounter'> = {}) {
+interface SessionOptions {
+  /** The party members who fight, in order; the whole party by default. */
+  roster?: Monster[];
+  hooks?: SessionHooks;
+}
+
+/** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record. */
+export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
-  const setup = setupBattle(rt.ctx, rt.save, rt.rng, { ...request, encounter });
-  const session: BattleSession = {
-    ...setup, campaign: request.campaign ?? null, resultMessage: '', settled: false, logs: [`挑战${setup.name}。`], frames: [],
-  };
+  const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));
+  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [`挑战${setup.name}。`], frames: [] };
   rt.session = session;
   rt.animation.revision++;
   logEvents(rt.ctx, session, setup.battle.initialEvents);
   const fought = setup.encounter;
-  if (fought && !fought.facility) rt.save.progress.boss_attempts[fought.id] = (rt.save.progress.boss_attempts[fought.id] ?? 0) + 1;
+  if (fought && !hooks.unrecorded) save.progress.boss_attempts[fought.id] = (save.progress.boss_attempts[fought.id] ?? 0) + 1;
+  prepareTurn(rt, setup.battle);
 }
 
 /** Submits the player's action, resolves the turn, then settles a finished battle. */
@@ -34,6 +40,21 @@ export function playTurn(rt: Runtime, action: Action) {
   recordAnimation(rt, session, events, before);
   rt.save.items = { ...battle.sides[0].items };
   settle(rt);
+  prepareTurn(rt, battle);
+}
+
+/**
+ * Turn preparation (architecture-v2 §5): once a turn opens, the policy decides for the automatic sides in an idle slot, so the
+ * decision is ready when the player acts. It runs only while the same battle waits at the same turn and phase; a player action
+ * that comes first resolves the turn without it, and a prepared turn replays an unprepared one (battle/RULES.md section 11).
+ */
+function prepareTurn(rt: Runtime, battle: Battle) {
+  const { turn, phase } = battle;
+  if (!battle.result) rt.ctx.idle(() => {
+    if (rt.session?.battle !== battle || battle.turn !== turn || battle.phase !== phase) return;
+    battle.prepare(0);
+    battle.prepare(1);
+  });
 }
 
 type Shown = Pick<BattlePresentationState, 'player' | 'enemy'>;

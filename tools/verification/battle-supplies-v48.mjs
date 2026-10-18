@@ -15,8 +15,8 @@ const finiteInventory=items=>Object.values(items).every(value=>typeof value==='n
 const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('battle-supplies-v48',async load=>{
   const t=suite('battle-supplies-v48'),{check}=t,publicEntries=[];
-  const [{loadCatalog},{createGame:createProductionGame},{createBattle,buildDataSet},{SEER_SCRIPTS},{makeDex,computeStats},{trainerBattleSupplies,TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/domain/battle-supplies.ts',
+  const [{loadCatalog},{createGame:createProductionGame},{createBattle},{buildDataSet},{SEER_SCRIPTS},{makeDex,computeStats},{trainerBattleSupplies,TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/domain/battle-supplies.ts',
   ].map(load));
   // Observe the controller's real battles through its battle-factory seam; every assertion uses production behavior.
   const created=[];
@@ -171,7 +171,7 @@ await withSsr('battle-supplies-v48',async load=>{
   check('Validation preserves shared catalog bytes and observes every controller battle through the seam',()=>{assert.equal(JSON.stringify(catalog),catalogBefore);assert(created.length>=entries.length);});
   t.finish({
     publicEntries,
-    sourceHashes:Object.fromEntries(['battle/core/src/types.ts','battle/core/src/battle.ts','src/domain/battle-supplies.ts','src/kernel/game.ts','src/kernel/contract.ts',...controllerFiles].map(file=>[file,sha256File(file)])),
+    sourceHashes:Object.fromEntries(['battle/core/src/types.ts','battle/core/src/engine/battle.ts','src/domain/battle-supplies.ts','src/kernel/game.ts','src/kernel/contract.ts',...controllerFiles].map(file=>[file,sha256File(file)])),
     boundary:'Production core/controller behavior. The optional turn-cap test does not prove arbitrary unlimited-supply games must reach a knockout. AI policy is independently verified by potion-ai-v48.',
   });
 });

@@ -8,9 +8,10 @@ const server=await createServer({server:{middlewareMode:true,watch:null,hmr:fals
 const checks=[],failures=[],trainerCases=[];
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,3500)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
-  const {createBattle,STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/battle.ts');
+  const {createBattle}=await server.ssrLoadModule('/tools/verification/_battle.ts');
+  const {STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/constants.ts');
   const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
-  const {chooseAiAction}=await server.ssrLoadModule('/battle/core/src/ai.ts');
+  const {chooseAiAction}=await server.ssrLoadModule('/battle/ai/src/ai.ts');
   const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
   const {SEER_SCRIPTS}=await server.ssrLoadModule('/battle/core/src/scripts/index.ts');
   const S={attack:1,wait:2,heal:3,control:4,poison:5,boost:6,debuff:7,cure:8,clear:9,leech:10,quick:11,strong:12,fire:13,water:14,grass:15,weak:16,script:17,selfClear:18,pp:19,shield:20,fixed:21,conditionalHeal:22,ground:23};

@@ -1,6 +1,6 @@
 # Architecture
 
-Seer Classic is a TypeScript and React browser game, packaged for the desktop with Tauri. Game content is plain JSON under `data/`. Two pure rule libraries sit on top of it: the battle engine (`battle/core`) and the raising rules (`raising/core`). The application in `src/` is a controller kernel with feature modules, rendered with React. The rules themselves are in [battle/RULES.md](battle/RULES.md) and [raising/SPEC.md](raising/SPEC.md); the rules for changing code are in [AGENTS.md](AGENTS.md). This document describes the code as it is; [architecture-v2](design/notes/architecture-v2.md) is the wave-2 target.
+Seer Classic is a TypeScript and React browser game, packaged for the desktop with Tauri. Game content is plain JSON under `data/`. Pure rule libraries sit on top of it: the battle engine (`battle/core`), its AI policies (`battle/ai`) and the raising rules (`raising/core`). The application in `src/` is a controller kernel with feature modules, rendered with React. The rules themselves are in [battle/RULES.md](battle/RULES.md) and [raising/SPEC.md](raising/SPEC.md); the rules for changing code are in [AGENTS.md](AGENTS.md). This document describes the code as it is; [architecture-v2](design/notes/architecture-v2.md) is the wave-2 target.
 
 ## Principles
 
@@ -25,6 +25,8 @@ src/domain       pure content and rules that several features use
      ↓
 src/shared       view types, labels, display helpers; src/shared/ui is the UI kit
      ↓
+battle/ai
+     ↓
 battle/core   raising/core
      ↓
 data/
@@ -32,13 +34,14 @@ data/
 
 The gate suite `tools/verification/architecture.mjs` checks every relative import under `src/`, `battle/` and `raising/` (full rules: architecture-v2 §4):
 
-- `battle/core` imports only itself, `raising/core/stats.ts` and `data/`; `raising/core` only itself, `battle/core/src/rng.ts` and `data/`.
+- `battle/core` imports only itself, `raising/core/stats.ts` and `data/`; `battle/ai` only itself, `battle/core` and `data/`; `raising/core` only itself,
+  `battle/core/src/rng.ts` and `data/`.
 - Features use the kernel only through `contract.ts` (UI-facing), `api.ts` and `acquire.ts`, and feature UI only through `contract.ts`. Another feature is reached through its `index.ts` (headless) or `ui.ts` (screens, for UI code), along `FEATURE_DEPS`: `battle`, `raising`, `items` → `engravings`; `challenges` → `battle`; `world` → `battle`, `challenges`.
 - The kernel never imports feature UI or `shared/ui`. Files stay at or under 400 lines, and lines at or under 160 characters.
 
-`architecture-baseline.json` lists the existing offenders and may only shrink: remove fixed entries (`--write-baseline`), never add one. Its two import violations, battle → challenges in `battle-actions.ts` and `settlement.ts`, are wave-2 work.
+`architecture-baseline.json` lists the existing offenders and may only shrink: remove fixed entries (`--write-baseline`), never add one. It lists no import violations since wave 2; the remaining entries are oversized files.
 
-The engine never imports an AI policy: `createBattle` in `battle/core/src/battle.ts` injects `AI_POLICY` unless the caller passes one. Moving the policies to `battle/ai` is wave-2 work.
+The engine never imports an AI policy: `createGameContext` (`src/kernel/context.ts`) injects `battle/ai`'s `AI_POLICY` into every game battle, and the kernel is the only part of `src/` that imports `battle/ai`.
 
 ## Top-level directories
 
@@ -46,10 +49,11 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 | --- | --- |
 | `src/app/` | The shell: `App.tsx`, navigation, routes and panels, audio settings and action sounds, and `preview.tsx`, the fixture the root `preview.html` mounts. `src/main.tsx` is the entry point. |
 | `src/kernel/` | `game.ts` (`createGame`), `context.ts` (`createGameContext`, the read-only `GameContext`), `contract.ts` (UI-facing types), `api.ts` (`Runtime`, the `GameContext` type and the action helpers), `acquire.ts` (storing new monsters), `features.ts` (the feature registry), dispatch, snapshot and structural sharing, and the saves (`save.ts`, `save-state.ts`, `persistence.ts`). |
-| `src/features/<name>/` | `battle`, `raising`, `collection`, `items`, `engravings`, `challenges`, `world`: `feature.ts` (the registration: action union, slice type, handlers and slice builder; `world` registers nothing yet), `index.ts` (headless surface), `ui.ts` (screens), `ui/` (components and stylesheets), and the feature's actions, view builders and own rules. The collection slice carries the dex (`dex.entries` with each species' acquisition view, owned forms and family counts) and the fusion and breeding recipe rows, each with the owned parent `pairs` the recipe accepts. The engravings slice is `engravingStock`; `engravingOptions(uid)` reads only what the `monsters` and `engravingStock` slices carry, so a screen recomputes it when either changes. |
+| `src/features/<name>/` | `battle`, `raising`, `collection`, `items`, `engravings`, `challenges`, `world`: `feature.ts` (the registration: action union, slice type, handlers and slice builder), `index.ts` (headless surface), `ui.ts` (screens), `ui/` (components and stylesheets), and the feature's actions, view builders and own rules. The collection slice carries the dex (`dex.entries` with each species' acquisition view, owned forms and family counts) and the fusion and breeding recipe rows, each with the owned parent `pairs` the recipe accepts. The engravings slice is `engravingStock`; `engravingOptions(uid)` reads only what the `monsters` and `engravingStock` slices carry, so a screen recomputes it when either changes. |
 | `src/domain/` | `catalog/`, `acquisition/` (routes, six-copy limits, recruitment, skins), `recipes/` (fusion, breeding), `challenges/` (campaigns, Brave Tower, facilities, NPC training, the attempt-based Boss level rule, Boss evidence, and `encounter-rows.ts`: the opponent rows, Brave Tower reward labels and categories that the challenge views and the encounter catalogue share), `engravings/`, `world/` (galaxies, planets, habitats), `traits.ts`, `economy.ts`, `battle-supplies.ts`, `item-shop.ts`. |
 | `src/shared/` | View types (`views.ts`), labels (`labels.ts`), view helpers, monster display helpers (`monster-views.ts`, `party-order.ts`), creature art, icons, display scaling, `audio/`; `ui/` is the UI kit (`GameWindow`, `MonsterCard`, `TypeIcon`, item tiles, `BossEvidence.tsx`, `use-game.ts`, `use-pager.ts`, `reduced-motion.ts`). |
-| `battle/core/` | The engine (`src/engine/`, wired to its AI in `src/battle.ts`), constants, data-set builder, RNG, type chart, capture, built-in conditions, scripts (`src/scripts/`, guide in `SCRIPTS.md`), and the AI: `ai.ts`, `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
+| `battle/core/` | The engine (`src/engine/`), constants, data-set builder, RNG, type chart, capture, built-in conditions and scripts (`src/scripts/`, guide in `SCRIPTS.md`). It defines `BattlePolicy` and never imports an AI. |
+| `battle/ai/` | The `BattlePolicy` the game injects (`src/ai.ts`, `AI_POLICY`): `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
 | `raising/core/` | Pure raising rules: stats, growth curves, monsters, storage, items, rewards, the dex and the shared RNG. `types.ts` defines the save shapes. |
 | `data/` | The catalog and remake data; see [data/README.md](data/README.md). |
 | `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `refactor/move-files.mjs` (file moves with import rewriting, kept until wave 2 ends); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, the architecture gate). |
@@ -65,13 +69,13 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 4. **Snapshot.** `snapshot.ts` merges the registered features' slices into one view of everything the UI shows (two features building the same field is an error). `reuseUnchanged` (`structural-sharing.ts`) keeps every unchanged slice and row identical to the previous snapshot's; the snapshot object itself is new on every emit, because a screen may also read controller state that no slice carries (`engravingOptions`).
 5. **Screens.** Screens subscribe with `useGame(c, select)` (`src/shared/ui/use-game.ts`) and re-render only when their selection changes identity.
 
-`setupBattle` (`features/battle/battle-setup.ts`) creates each battle through `ctx.createBattle` with the game's script registry ([SCRIPTS.md](battle/core/SCRIPTS.md#game-registries)). `playTurn` submits the player's action and calls `resolveTurn()`, in which the engine asks the policy for each automatic side. The events become the battle log and presentation frames, and when the battle ends `settlement.ts` writes HP, PP, experience, captures and rewards back to the save.
+`startSession` (`features/battle/battle-session.ts`) opens every battle. Challenges start their encounters through it (`features/challenges/battle-starts.ts`: Bosses and trainers, Brave Tower floors, campaign stages, facilities) and the world its map contacts (`features/world/training.ts`), each with the `SessionHooks` (`kernel/api.ts`) that settle the challenge: Boss evidence, the facilities' missing attempt and clear records, the tower's floor rewards and climb, and campaign progress. `setupBattle` (`battle-setup.ts`) creates each battle through `ctx.createBattle` with the game's script registry ([SCRIPTS.md](battle/core/SCRIPTS.md#game-registries)). `playTurn` submits the player's action and calls `resolveTurn()`, in which the engine asks the policy for each automatic side. The events become the battle log and presentation frames, and when the battle ends `settlement.ts` writes HP, PP, experience, captures and rewards back to the save and runs the session's hooks. The battle screen's evidence dialog shows challenges' Boss evidence table, which the app passes to `Battle` (`evidenceTable`).
 
 ## Battle engine
 
 - **Structure.** `engine/battle.ts` is the `Battle` class (state and public API); its methods delegate to the rule modules beside it (`turn`, `move`, `damage`, `effects`, `conditions`, `rules`, …). Automatic sides are decided by the injected `BattlePolicy` (`{ chooseAction, chooseReplacement }`).
 - **Rules and numbers.** Turn order, damage, statuses, capture and Boss rules follow [battle/RULES.md](battle/RULES.md). Battle numbers are named in `battle/core/src/constants.ts`, and damage comes from the one engine pipeline (AGENTS.md rule 2); the AI's estimate is its read-only probe (RULES.md section 5.1).
-- **Data shapes.** `battle/core/src/types.ts` is the source of truth for species, skills, natures, type data, items, conditions, encounters, battle input, actions and events (`BattleEvent` is not yet a union).
+- **Data shapes.** `battle/core/src/types.ts` is the source of truth for species, skills, natures, type data, items, conditions, encounters, battle input and actions, and encounter `variants` carry their `label`. Events are in `events.ts`: `BattleEvent` is a union discriminated by `type`, one member per event the engine emits.
 - **Ids and text.** Species ids are the original 精灵 numbers and skill ids the original skill ids; encounters, items, conditions and natures use lowercase slugs (`boss_rei`). Display text is `{ zh, en? }`. Stat keys are `hp atk def spa spd spe`; `acc` and `eva` exist only as battle stages.
 - **Types.** The chart is asymmetric: always read `chart[attacker][defender]`. Dual types are stored as arrays, and composite skill types map to their base types.
 - **Effects.** Skill effects are ordered ops `{ op, chance?, when?, ... }`, applied after damage unless the op says otherwise. `target` is `self` or `foe`, and `when` takes conditions such as `foe_status`, `self_hp_below_pct`, `first_turn`, `foe_type` or `acted_first`. A `script` op `{ id, params }` names an implementation in `battle/core/src/scripts/`, where `seer_eff_<n>` is original effect template `<n>`. The declarative skill ops:
@@ -91,10 +95,11 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 - **Conditions.** Timed modifiers are hooks on fixed engine extension points (`turn_end`, `modify_damage_taken`, `on_hit`, …). Statuses are conditions with `kind: "status"`, so there is one mechanism.
 - **Encounters.** An encounter has a `team`, `rules`, `win`/`lose` objectives, `phases` and an `ai` spec; side kinds are `player`, `wild`, `boss` and `trainer`.
 - **Determinism.** One seeded `sfc32` RNG per battle, consumed in a fixed order. The search planner simulates on clones and draws from the live RNG only once, when its chosen strategy is mixed.
+- **Turn preparation.** `battle.prepare(side)` decides for an automatic side when its turn opens, exactly as `resolveTurn` would, and stores the decision as its pending action (RULES.md section 11). The battle feature schedules it in an idle slot (`GameDependencies.idle`; by default `requestIdleCallback`, or in WebKit a timer set in the next animation frame) after a battle starts and after each turn, and it runs only while that turn still waits. The gate `battle-prepare-replay` checks that prepared and unprepared turns replay identically, in the engine and through a controller whose idle tasks run at once, late or never; `battle-ai-latency` checks the search decision budget, and `battle-turn-latency` that a prepared move gives its snapshot within 50 ms.
 
 ### AI policies
 
-`ai.ts` dispatches on the `ai` spec (`sequence`, `weighted`, `random`, `script` or `smart`).
+`battle/ai/src/ai.ts` dispatches on the `ai` spec (`sequence`, `weighted`, `random`, `script` or `smart`).
 
 | Side | Policy |
 | --- | --- |

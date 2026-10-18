@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
+import { BossEvidenceContent } from '../../../shared/ui/BossEvidence.tsx';
 import { useGame } from '../../../shared/ui/use-game.ts';
 import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
@@ -75,7 +76,9 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
-    {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} evidence={enemy.evidence} onClose={closeEvidence}/>}
+    {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} onClose={closeEvidence}>
+      <BossEvidenceContent evidence={enemy.evidence}/>
+    </BattleEvidenceDialog>}
     {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={() => setShowDetails(false)}/>}
   </section>;
 }

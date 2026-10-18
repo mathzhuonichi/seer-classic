@@ -19,6 +19,9 @@
     "base-form-acquisition.ts": {
       "status": "gate"
     },
+    "battle-ai-latency.mjs": {
+      "status": "gate"
+    },
     "battle-ai-liveness.mjs": {
       "status": "gate"
     },
@@ -65,10 +68,16 @@
     "battle-offline-clip.mjs": {
       "status": "needs-assets"
     },
+    "battle-prepare-replay.mjs": {
+      "status": "gate"
+    },
     "battle-runtime-lifecycle.mjs": {
       "status": "gate"
     },
     "battle-supplies-v48.mjs": {
+      "status": "gate"
+    },
+    "battle-turn-latency.mjs": {
       "status": "gate"
     },
     "battle-v3.ts": {

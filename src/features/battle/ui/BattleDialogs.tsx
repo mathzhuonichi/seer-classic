@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
-import type { BattleMonsterView, BossEvidenceView } from '../../../shared/views.ts';
+import type { BattleMonsterView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
-import {BossEvidenceContent} from '../../../shared/ui/BossEvidence.tsx';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
 /** A modal over the battle; a click on the backdrop closes it. */
@@ -17,14 +16,14 @@ function BattleModal({ className, label, title, closeLabel, autoFocus = false, o
 }
 
 /** Sources and inferred parameters of a Boss opponent; Escape closes it. */
-export function BattleEvidenceDialog({ name, evidence, onClose }: { name: string; evidence: BossEvidenceView; onClose: () => void }) {
+export function BattleEvidenceDialog({ name, onClose, children }: { name: string; onClose: () => void; children: ReactNode }) {
   useEffect(() => {
     const close = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
   }, [onClose]);
   return <BattleModal className="classic-boss-evidence-modal" label={`${name}参数依据`} title={`${name} · 资料依据`} closeLabel="关闭资料依据" autoFocus onClose={onClose}>
-    <BossEvidenceContent evidence={evidence}/>
+    {children}
   </BattleModal>;
 }
 

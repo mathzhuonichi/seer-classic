@@ -1,5 +1,5 @@
 // The simultaneous-move matrix game (design note 5.4).
-import type { Rng } from '../rng.ts';
+import type { Rng } from '../../../core/src/rng.ts';
 
 const SOLVER_ITERATIONS = 4000;
 /** Equilibrium weights below this are sampling noise and are dropped. */

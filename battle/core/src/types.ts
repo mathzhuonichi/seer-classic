@@ -37,7 +37,6 @@ export interface Skill {
   pp: number;
   priority?: number;
   crit_rate?: number;   // numerator over 16
-  crit_stage?: number;  // legacy field (RULES.md section 14); crit_rate = 1 + crit_stage
   power_bonus?: number; // added after power ops and scripts (skill engravings)
   pp_cost?: number;     // PP spent per use; default 1
   target?: Target;
@@ -141,6 +140,7 @@ export interface BossTeamMember extends MonsterInput {
 /** An encounter variant chosen by the player: extra rules, extra phases, and its own objectives. */
 export interface EncounterVariant {
   id: string;
+  label: Text;
   win?: Objective[];
   lose?: Objective[];
   rules?: BossRule[];
@@ -216,7 +216,7 @@ export interface BattleOptions {
   encounter?: BossEncounter;     // when present, side 1 is built from it
   variant?: string;              // encounter.variants[].id chosen by the player
   scripts?: ScriptRegistry;
-  /** Decisions for automatic sides. `createBattle` in battle.ts injects the AI; the engine never imports it. */
+  /** Decisions for automatic sides. The game injects battle/ai's policy; the engine never imports it. */
   policy?: BattlePolicy;
   maxTurns?: number;             // safety stop, default 200
   /** A trainer mode's conventional moveset per species. Planners use it to
@@ -241,7 +241,7 @@ export interface DataSet {
   items: Map<string, Item>;
 }
 
-// ---------- actions & events ----------
+// ---------- actions and results (events: events.ts) ----------
 
 export type Action =
   | { kind: 'move'; skill: number }
@@ -249,8 +249,6 @@ export type Action =
   | { kind: 'item'; item: string; target?: number }
   | { kind: 'capture'; item: string }
   | { kind: 'flee' };
-
-export type BattleEvent = { type: string; [k: string]: any };
 
 export interface BattleResult {
   winner: 0 | 1 | null;

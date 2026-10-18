@@ -73,7 +73,7 @@ function attackPower(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Parti
 
 /** The crit draw (with every rate modifier) and then the damage roll draw. */
 function rollCritAndDamage(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Partial<MoveCtx> | undefined): { crit: boolean; roll: number } {
-  let rate = skill.crit_rate ?? (skill.crit_stage !== undefined ? 1 + skill.crit_stage : C.DEFAULT_CRIT_RATE);
+  let rate = skill.crit_rate ?? C.DEFAULT_CRIT_RATE;
   let force = false;
   for (const op of skill.effects ?? []) {
     if (op.op === 'crit_if' && b.evalWhen(op.when, { self: user, foe: target })) {

@@ -131,7 +131,7 @@ function pairSeed(seed, facilityIndex, pairing) {
 
 // The challenger's planner modules, loaded a second time under `?variant` with constant overrides.
 const VARIANT = '?variant=challenger';
-const AI_DIR = path.join(root, 'battle/core/src');
+const AI_DIR = path.join(root, 'battle/ai/src');
 const isPlannerFile = file => [path.join(AI_DIR, 'ai.ts'), path.join(AI_DIR, 'search-ai.ts')].includes(file) || file.startsWith(path.join(AI_DIR, 'search') + path.sep);
 const appliedConstants = new Set();
 const variantPlanner = {
@@ -154,14 +154,14 @@ const server = await createServer({root, configFile: false, cacheDir: path.join(
   server: {middlewareMode: true, watch: null, hmr: false, ws: false}, optimizeDeps: {noDiscovery: true, include: []}, appType: 'custom', logLevel: 'error',
   plugins: [variantPlanner]});
 try {
-  const [core, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
+  const [core, {createBattle}, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
     {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
-    '/battle/core/src/index.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts',
+    '/battle/core/src/index.ts', '/tools/verification/_battle.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts',
     '/src/domain/challenges/campaign-rules.ts', '/src/domain/catalog/catalog.ts', '/src/domain/challenges/battle-facilities.ts', '/src/domain/battle-supplies.ts',
     '/src/domain/challenges/npc-training.ts', '/src/domain/challenges/boss-encounter.ts', '/src/domain/acquisition/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
-  const {createBattle, buildDataSet, Rng} = core;
-  const {chooseAiAction, chooseAiReplacement} = await server.ssrLoadModule('/battle/core/src/ai.ts');
-  const variant = Object.keys(opts.consts).length ? await server.ssrLoadModule(`/battle/core/src/ai.ts${VARIANT}`) : null;
+  const {buildDataSet, Rng} = core;
+  const {chooseAiAction, chooseAiReplacement} = await server.ssrLoadModule('/battle/ai/src/ai.ts');
+  const variant = Object.keys(opts.consts).length ? await server.ssrLoadModule(`/battle/ai/src/ai.ts${VARIANT}`) : null;
   for (const name of Object.keys(opts.consts)) if (!appliedConstants.has(name)) throw new Error(`no planner module declares a numeric constant ${name}`);
   const challenger = variant ?? {chooseAiAction, chooseAiReplacement};
 

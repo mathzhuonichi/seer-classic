@@ -81,7 +81,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -223,7 +223,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/0/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -246,7 +246,7 @@
           "rule": "immune_ohko",
           "scope": "root/team/1/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -268,7 +268,7 @@
           "rule": "no_struggle",
           "scope": "root/team/1/member_rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -306,7 +306,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -326,7 +326,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/0/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -351,7 +351,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/1/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -366,7 +366,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/2/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -381,7 +381,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/3/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -407,7 +407,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/4/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -423,7 +423,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/5/member_rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "condition:first_turn",
@@ -496,13 +496,13 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_percent_damage",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -546,13 +546,13 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_percent_damage",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -567,7 +567,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -611,13 +611,13 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_percent_damage",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -632,7 +632,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -676,13 +676,13 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_percent_damage",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -697,7 +697,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -824,7 +824,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -875,7 +875,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "always_crit_below_pct",
@@ -883,7 +883,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -957,7 +957,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -999,7 +999,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "always_crit_below_pct",
@@ -1007,7 +1007,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "always_crit_below_pct",
@@ -1015,7 +1015,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "always_crit_below_pct",
@@ -1023,7 +1023,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "always_crit_below_pct",
@@ -1031,7 +1031,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1060,7 +1060,7 @@
             "pct",
             "min_damage"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1075,7 +1075,7 @@
           "fields": [
             "count"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1319,7 +1319,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "heal_full_below",
@@ -1327,7 +1327,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1403,7 +1403,7 @@
           "fields": [
             "amount"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1487,7 +1487,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1576,7 +1576,7 @@
           "fields": [
             "count"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1769,7 +1769,7 @@
           "fields": [
             "sure_hit"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1782,7 +1782,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1804,7 +1804,7 @@
           "fields": [
             "types"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1819,7 +1819,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1849,7 +1849,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1878,7 +1878,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1900,7 +1900,7 @@
           "fields": [
             "count"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1913,7 +1913,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1933,7 +1933,7 @@
           "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -1953,7 +1953,7 @@
           "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -1990,7 +1990,7 @@
           "fields": [
             "sure_hit"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2027,7 +2027,7 @@
           "fields": [
             "types"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2063,7 +2063,7 @@
           "fields": [
             "sure_hit"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2083,7 +2083,7 @@
           "rule": "unlimited_pp",
           "scope": "root/team/4/member_rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "condition:first_turn",
@@ -2106,7 +2106,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2119,13 +2119,13 @@
           "rule": "unlimited_pp",
           "scope": "root/team/5/member_rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "no_struggle",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -2153,7 +2153,7 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "heal_full_below",
@@ -2161,7 +2161,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2211,7 +2211,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2255,7 +2255,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2304,7 +2304,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2369,7 +2369,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2386,7 +2386,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -2430,7 +2430,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2454,7 +2454,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -2538,7 +2538,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -2567,7 +2567,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2651,7 +2651,7 @@
           "rule": "immune_status",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2712,7 +2712,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status_list",
@@ -2720,7 +2720,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2810,7 +2810,7 @@
           "rule": "immune_status",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2843,7 +2843,7 @@
           "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2856,7 +2856,7 @@
           "rule": "immune_ohko",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status_list",
@@ -2864,7 +2864,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -2889,7 +2889,7 @@
           "rule": "immune_status",
           "scope": "root/variants/0/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3114,13 +3114,13 @@
           "fields": [
             "types"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "no_repeat_type",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3137,19 +3137,19 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_percent_damage",
           "scope": "root/rules/4",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "no_struggle",
           "scope": "root/rules/5",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3178,7 +3178,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3303,7 +3303,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3381,7 +3381,7 @@
           "rule": "immune_ohko",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3403,7 +3403,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3429,7 +3429,7 @@
           "rule": "immune_ohko",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3451,7 +3451,7 @@
           "rule": "no_struggle",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3623,7 +3623,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3681,7 +3681,7 @@
           "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -3865,7 +3865,7 @@
           "rule": "immune_status",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3986,7 +3986,7 @@
           "rule": "ignore_type_chart",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "forced_execution_below_pct",
@@ -3994,7 +3994,7 @@
           "fields": [
             "pct"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4064,7 +4064,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4121,13 +4121,13 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4199,13 +4199,13 @@
           "rule": "immune_status",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_stage_down",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4321,7 +4321,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4401,7 +4401,7 @@
           "fields": [
             "max"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4436,7 +4436,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "heal_full_below",
@@ -4444,7 +4444,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4473,7 +4473,7 @@
             "amount",
             "categories"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4489,7 +4489,7 @@
           "rule": "immune_stage_down",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status_list",
@@ -4497,7 +4497,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4575,7 +4575,7 @@
           "rule": "immune_status",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4678,13 +4678,13 @@
           "rule": "immune_status",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_stage_down",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4737,13 +4737,13 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_ohko",
           "scope": "root/rules/1",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4826,7 +4826,7 @@
           "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status_list",
@@ -4834,19 +4834,19 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_stage_down",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_ohko",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -4905,7 +4905,7 @@
             "skill",
             "count"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4969,7 +4969,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -5031,13 +5031,13 @@
           "rule": "immune_status",
           "scope": "root/rules/2",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_stage_down",
           "scope": "root/rules/3",
           "fields": [],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -5104,7 +5104,7 @@
           "fields": [
             "skill"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "immune_status_list",
@@ -5112,7 +5112,7 @@
           "fields": [
             "statuses"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -6015,7 +6015,7 @@
           "fields": [
             "hp"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -6205,7 +6205,7 @@
             "pct",
             "member"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -6266,7 +6266,7 @@
             "pct",
             "member"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -6345,7 +6345,7 @@
             "pct",
             "member"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "heal_each_turn",
@@ -6354,7 +6354,7 @@
             "amount",
             "member"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -6377,7 +6377,7 @@
             "min",
             "min_level"
           ],
-          "implementation": "battle/core/src/battle.ts"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",

@@ -12,8 +12,8 @@ const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/trainer-search-behavior-v58'),
   server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [core,{lastSearchDecision},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/search-ai.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(id=>server.ssrLoadModule(id)));
-  const {createBattle,buildDataSet,computeStats,chooseAiAction,BASELINE_IV,BASELINE_EVS}=core;
+  const [core,ai,{createBattle},{lastSearchDecision},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/ai/src/index.ts','/tools/verification/_battle.ts','/battle/ai/src/search-ai.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(id=>server.ssrLoadModule(id)));
+  const {buildDataSet,computeStats}=core,{chooseAiAction,BASELINE_IV,BASELINE_EVS}=ai;
   const S={slowKo:58101,clear:58102,foeHit:58103,chip:58104,inherit:58105,heavy:58106,quick:58107,wait:58109};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100};
   const attack=(id,power,extra={})=>({id,name:{zh:`Behaviour ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});

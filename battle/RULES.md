@@ -330,8 +330,11 @@ field against it. This is the input of raising's `applyBattleRewards`.
 
 ### 10.4 AI
 
-`ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random` (wild
-default: uniformly among usable skills), `script`, and `smart` (boss and
+The engine asks an injected `BattlePolicy` (`chooseAction`, `chooseReplacement`)
+for every automatic side and never imports an AI. The game injects `AI_POLICY`
+from `ai/src/` (`src/kernel/context.ts`); module paths below are relative to
+`ai/src/`. `ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random`
+(wild default: uniformly among usable skills), `script`, and `smart` (boss and
 trainer default). A forced skill from `counter_skill` overrides all of them.
 A side with no usable skill uses Struggle, except that a smart trainer plans
 first and may restore PP with an item instead.
@@ -380,9 +383,24 @@ essences or collection unlocks. See `design/notes/station-battle-facilities-v37.
 
 ## 11. Determinism
 
-One seeded PRNG per battle (`sfc32`, seed from `createBattle`). The order of
+One seeded PRNG per battle (`sfc32`, `seed` in the battle options). The order of
 draws is fixed by the code path above, so the same seed and actions replay the
 same battle. Every random draw is a call to `rng.next()`; no `Math.random`.
+
+**Turn preparation.** `battle.prepare(side)` decides for an automatic side when
+its turn opens, so the planner can run while the player chooses, and stores the
+action as the side's pending action. It runs `resolveTurn`'s own decision at the
+same point of the RNG stream, so a prepared turn replays an unprepared one: same
+action, draws, events, state and result. Submitting draws nothing, no decision
+reads the opponent's pending action (the planner's world clears it), and
+preparation runs before anything else draws in the turn, side 0 first; the
+planner's one mixed-strategy draw therefore stays on the battle RNG. It declines,
+leaving the decision to `resolveTurn`, outside the choose phase (automatic sides
+replace at once), for side 1 before an automatic side 0, when the battle is
+already decided, and for scripted decisions (a `script` AI, `choose_action`
+hooks). A flee ends the battle before any decision is used: `resolveTurn` then
+rewinds the RNG, which settlement copies into the save, and drops the prepared
+events.
 
 ## 12. Scripted skill effects
 
@@ -407,12 +425,13 @@ The suites that exercise this spec most directly:
 | `battle-v3.ts` | replacement after a faint, retreat, battle items and critical hits |
 | `battle-clone-fidelity-v58.mjs` | determinism: a cloned battle resolves the same actions to the same events and state |
 | `battle-ai-liveness.mjs` | AI battles over the full catalog end within the hard turn limit |
+| `battle-prepare-replay.mjs` | turn preparation: game battles of each kind replay identically with and without `prepare` |
+| `battle-ai-latency.mjs` | trainer search decisions stay within the p95 budget of architecture-v2 §2, in thread CPU time |
 
 ## 14. Data model additions
 
-1. Skill `crit_stage` → `crit_rate` (numerator over 16, default 1). Seer skill
-   text states rates as "x/16" directly. The engine reads `crit_rate` and
-   falls back to `1 + crit_stage`.
+1. Skill `crit_rate` (numerator over 16, default 1): Seer skill text states
+   rates as "x/16" directly.
 2. `types.json.dual_rule` = `"seer_average"` (section 6).
 3. Items used in battle carry `battle_effects` (effect ops, e.g. `heal
    {amount}`, `restore_pp {amount}`, `cure_status`) and capsules carry

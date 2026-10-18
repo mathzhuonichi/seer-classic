@@ -1,10 +1,10 @@
 // Simulated continuations on world clones: seeds, the cheap rollout policy and
 // the playout itself (design note 5.2-5.3).
-import type { Action, Skill } from '../types.ts';
-import type { Battle } from '../engine/battle.ts';
-import type { Mon, Side } from '../engine/state.ts';
-import { Rng } from '../rng.ts';
-import { RANDOM_MIN } from '../constants.ts';
+import type { Action, Skill } from '../../../core/src/types.ts';
+import type { Battle } from '../../../core/src/engine/battle.ts';
+import type { Mon, Side } from '../../../core/src/engine/state.ts';
+import { Rng } from '../../../core/src/rng.ts';
+import { RANDOM_MIN } from '../../../core/src/constants.ts';
 import { cloneBattle } from '../clone.ts';
 import type { World } from './world.ts';
 import { evaluate, hitChance, race, type Weights } from './evaluate.ts';
@@ -80,7 +80,7 @@ export interface Playout {
   /** Forced replacement for the AI's next faint (a sacrifice's successor). */
   successor?: number;
   /** Changes to the fresh clone before the opening turn. */
-  prepare?: (c: Battle) => void;
+  setup?: (c: Battle) => void;
 }
 
 /**
@@ -92,7 +92,7 @@ export function playout(w: World, p: Playout): { value: number; sacrifice: boole
   const c = cloneBattle(w.world);
   c.rng = p.rng;
   if (p.successor !== undefined) c.planning = { forcedReplacement: { [w.me]: p.successor } };
-  p.prepare?.(c);
+  p.setup?.(c);
   const slot = c.sides[w.me].active, foeSlot = c.sides[w.foe].active;
   c.submit(w.me, p.action ?? rolloutAction(c, w.me));
   c.submit(w.foe, moveActions(c, w.foe).some(a => a.skill === p.response) ? { kind: 'move', skill: p.response } : rolloutAction(c, w.foe));

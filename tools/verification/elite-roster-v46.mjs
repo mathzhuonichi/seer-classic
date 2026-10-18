@@ -15,8 +15,8 @@ const APPROVED={
   587:[20731,20730,20732,11470],990:[12355,11293,21224,12358],826:[11994,21020,20538,11996],691:[11690,10321,20185,11691],432:[11165,11078,20535,11081],
 };
 try {
-  const [{loadCatalog},{facilityPool,eliteFacilityPool,createFacilityEncounter,buildFacilityViews},{trainerSkillOrigin},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
+  const [{loadCatalog},{facilityPool,eliteFacilityPool,createFacilityEncounter,buildFacilityViews},{trainerSkillOrigin},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog),defs=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));

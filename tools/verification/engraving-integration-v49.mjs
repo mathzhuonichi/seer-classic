@@ -10,8 +10,8 @@ const server=await createServer({configFile:false,cacheDir:'artifacts/.validatio
 const checks=[],failures=[],observations=[];
 const check=(name,run)=>{try{const witness=run();checks.push({name,...(witness===undefined?{}:{witness})});}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
-  const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,activeEngravings},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
+  const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,activeEngravings},{createBattle},{buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
+    '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog),catalogBefore=JSON.stringify(catalog);
   const def=id=>engravingById(String(id)),skill=id=>data.skills.get(id);
@@ -166,7 +166,7 @@ try {
   observations.push({name:'Generic transform extension retains an opaque skill override',catalogTransformOps:transformOps,beforeSpecies:475,afterSpecies:transformed.active(0).species.id,baseDuration:skill(move).effects[0].params[0],transformedDuration:transformed.skill(move,transformed.active(0)).effects[0].params[0],scope:'Synthetic engine extension; no current catalog transform entry found. Species eligibility metadata is not present in MonsterInput.skill_overrides.'});
 }catch(error){failures.push({name:'harness',error:String(error.stack)});}
 finally {
-  const files=['src/kernel/game.ts','src/domain/engravings/engravings.ts','battle/core/src/battle.ts','battle/core/src/types.ts','src/domain/battle-supplies.ts'];
+  const files=['src/kernel/game.ts','src/domain/engravings/engravings.ts','battle/core/src/engine/battle.ts','battle/core/src/types.ts','src/domain/battle-supplies.ts'];
   const sourceHashes=Object.fromEntries(files.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
   fs.mkdirSync('artifacts/engraving-integration-v49',{recursive:true});fs.writeFileSync('artifacts/engraving-integration-v49/regression.json',JSON.stringify({checks,failures,observations,sourceHashes},null,2)+'\n');
   console.log(JSON.stringify({passed:checks.length,failures,observations},null,2));await server.close();if(failures.length)process.exitCode=1;

@@ -4,9 +4,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
-import {createBattle,buildDataSet,validateEncounter} from '../../battle/core/src/index.ts';
-import {NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL} from '../../battle/core/src/battle.ts';
-import {legacySmartPick} from '../../battle/core/src/legacy-ai.ts';
+import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
+import {createBattle} from './_battle.ts';
+import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 import {loadCatalogNode} from '../catalog.mjs';
@@ -56,7 +56,7 @@ for(const boss of bosses){
         const fields=NATIVE_BOSS_RULE_FIELDS[value.rule];
         const unknown=Object.keys(value).filter(key=>!['rule','member',...(fields??[])].includes(key));
         if(!fields||unknown.length){entry.reason=`Unsupported native rule or fields: ${unknown.join(',')||value.rule}`;row.unsupported.push(entry);unexpected.push({boss:boss.id,...entry});}
-        else row.handled.push({...entry,implementation:'battle/core/src/battle.ts'});
+        else row.handled.push({...entry,implementation:'battle/core/src/engine/rules.ts'});
       }else if(policyFor(boss.id,value.id)?.disposition==='waived'){
         assert.equal(typeof scripts[value.id]?.[mode==='rule'?'install':'apply'],'function','waived script must be acknowledged explicitly');
       }

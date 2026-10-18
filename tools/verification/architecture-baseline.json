@@ -1,8 +1,5 @@
 {
-  "imports": [
-    "src/features/battle/battle-actions.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges"
-  ],
+  "imports": [],
   "size": {
     "src/app/ShellWindowContent.tsx": {
       "lines": 0,
@@ -56,10 +53,6 @@
       "lines": 0,
       "long": 1
     },
-    "src/features/battle/battle-log.ts": {
-      "lines": 0,
-      "long": 2
-    },
     "src/features/battle/battle-offline-clip.ts": {
       "lines": 0,
       "long": 11
@@ -67,10 +60,6 @@
     "src/features/battle/battle-runtime-clock.ts": {
       "lines": 0,
       "long": 2
-    },
-    "src/features/battle/settlement.ts": {
-      "lines": 0,
-      "long": 1
     },
     "src/features/battle/ui/BattleCommandDeck.tsx": {
       "lines": 0,
@@ -164,17 +153,9 @@
       "lines": 0,
       "long": 11
     },
-    "battle/core/src/observe.ts": {
-      "lines": 0,
-      "long": 4
-    },
     "battle/core/src/scripts/seer-tail.ts": {
       "lines": 588,
       "long": 0
-    },
-    "battle/core/src/search-ai.ts": {
-      "lines": 0,
-      "long": 3
     }
   }
 }

@@ -8,15 +8,15 @@ const output='artifacts/elite-sub600-audit';
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const bst=mon=>statKeys.reduce((sum,key)=>sum+mon.base[key],0);
 const hash=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
-const files=['data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
+const files=['data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/engine/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
 const sourceHashes=Object.fromEntries(files.map(path=>[path,hash(path)]));
 // The catalog tables behind the scan and buildDataSet; the species are witnessed as parsed records once the catalog loads.
 const tables=['data/skills.json','data/natures.json','data/types.json','data/conditions.json','data/items.json'];
 for(const path of tables){files.push(path);sourceHashes[path]=hash(path);}
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
-  const [{loadCatalog},{facilityPool,createFacilityEncounter},{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{normalizeNpcTrainingEncounter},{npcTrainingScripts}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts',
+  const [{loadCatalog},{facilityPool,createFacilityEncounter},{trainerSkillOrigin},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{normalizeNpcTrainingEncounter},{npcTrainingScripts}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog);
   sourceHashes['data/monsters/*.json (sorted parsed records)']=crypto.createHash('sha256').update(JSON.stringify(catalog.species)).digest('hex');

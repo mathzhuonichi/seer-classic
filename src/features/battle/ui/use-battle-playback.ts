@@ -141,12 +141,11 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     gameAudio.playSfx('click');
     locked.current = true;
     setBusy(true);
-    const before = battle.animation.revision;
-    c.dispatch(action);
-    if (c.snapshot().battle?.animation.revision !== before) return;
+    const result = c.dispatch(action);
+    if (result.ok) return;
     locked.current = false;
     setBusy(false);
-    setDialogue(c.snapshot().notices[0] || '该指令当前无法使用，请重新选择。');
+    setDialogue(result.notice || '该指令当前无法使用，请重新选择。');
   };
   return { frame, sourceAction, skillEffect, busy, dialogue, captureResolved, canAct, submit };
 }

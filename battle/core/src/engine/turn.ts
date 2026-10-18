@@ -2,6 +2,7 @@
 // executing them, switching, faint replacements and the end of the turn.
 
 import type { Action } from '../types.ts';
+import type { BattleEvent } from '../events.ts';
 import type { Battle } from './battle.ts';
 import { emptyCtx, zeroStages, type Mon, type Side } from './state.ts';
 import { tryCapture, useItem } from './actions.ts';
@@ -25,7 +26,52 @@ function actionFor(b: Battle, side: Side): Action {
   return b.policy!.chooseAction(b, side);
 }
 
-export function resolveReplacements(b: Battle): void {
+/**
+ * Turn preparation (architecture-v2 §5): when a turn opens, decide for automatic side `i` and store the
+ * decision as its pending action, so it is ready when the player acts. It runs resolveTurn's own `actionFor`
+ * at the same point of the RNG stream, so the action, the draws and the replay are the same:
+ * - submitting an action consumes no random numbers, and the player's pending action is the only state that
+ *   changes before resolveTurn. No decision reads it: the search planner plays a simultaneous-move
+ *   equilibrium, and its planning world clears the opponent's pending (battle/ai search/world.ts);
+ * - it must run before anything else consumes `b.rng` in that turn, and in resolveTurn's order, side 0 first.
+ * It declines, returning null so that resolveTurn decides as it always has: outside the choose phase (in the
+ * replacement phase an automatic side has nothing to decide, it replaced at once); for a side that is not
+ * automatic or already has an action; for side 1 before an automatic side 0; when resolveTurn would end the
+ * battle first; and for scripted decisions (a `script` AI or `choose_action` hooks), whose game code may change
+ * state. A flee resolves before any decision is used, so resolveTurn then withdraws the prepared decisions.
+ */
+export function prepare(b: Battle, i: 0 | 1): Action | null {
+  const side = b.sides[i], mon = b.active(i);
+  if (b.phase !== 'choose' || !isAuto(side) || side.pending) return null;
+  if (i === 1 && isAuto(b.sides[0]) && !b.sides[0].pending) return null;
+  if (b.sides.some((s) => s.team.every((m) => m.fainted))) return null;
+  if ((mon.ai ?? side.ai)?.kind === 'script' || b.hooks(mon, 'choose_action').length) return null;
+  b.prepared ??= { s: [...b.rng.s], draws: b.rng.draws, mark: b.out.length };
+  return side.pending = actionFor(b, side);
+}
+
+export function resolveTurn(b: Battle): BattleEvent[] {
+  if (b.phase === 'ended') return [];
+  const prepared = b.prepared;
+  b.prepared = null;
+  // Prepared decisions' events (warnings at most) open the turn, where the decisions would have emitted them.
+  b.out = prepared ? b.out.slice(prepared.mark) : [];
+  checkEnd(b);
+  const retreat = b.sides.find((side) => side.pending?.kind === 'flee');
+  if (!b.result && retreat) {
+    // A flee ends the battle before any decision is used: withdraw the prepared ones with their draws and events.
+    if (prepared) { b.rng.s = prepared.s; b.rng.draws = prepared.draws; b.out = []; }
+    b.doAction(retreat.index, { kind: 'flee' }, true);
+  } else if (!b.result && b.phase === 'replace') resolveReplacements(b);
+  else if (!b.result) resolveFullTurn(b);
+  for (const s of b.sides) s.pending = null;
+  const events = b.out;
+  b.log.push(...events);
+  b.out = [];
+  return events;
+}
+
+function resolveReplacements(b: Battle): void {
   for (const side of b.sides) {
     if (!side.needsReplacement) continue;
     const a = actionFor(b, side);
@@ -38,7 +84,7 @@ export function resolveReplacements(b: Battle): void {
   if (!b.result) { b.phase = 'choose'; queueReplacements(b); }
 }
 
-export function resolveFullTurn(b: Battle): void {
+function resolveFullTurn(b: Battle): void {
   const actions: [Action, Action] = [actionFor(b, b.sides[0]), actionFor(b, b.sides[1])];
   b.turn++;
   b.emit({ type: 'turn_start', turn: b.turn });

@@ -3,11 +3,12 @@
 // Guide: SCRIPTS.md.
 
 import type { ScriptRegistry } from '../types.ts';
-import type { Battle, Mon } from '../battle.ts';
-import { BURN_DAMAGE_MULTIPLIER, stageMultiplier } from '../constants.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { Mon } from '../engine/state.ts';
 import {
-  PUNISH_MAX_POWER, PUNISH_POWER_PER_STAGE, REVERSAL_MIN_POWER, REVERSAL_POWER, REVERSAL_SCALE, STRANGE_STAGE_DEFAULT, STRANGE_STAGE_LIMIT,
-} from './constants.ts';
+  BURN_DAMAGE_MULTIPLIER, PUNISH_MAX_POWER, PUNISH_POWER_PER_STAGE, REVERSAL_MIN_POWER, REVERSAL_POWER, REVERSAL_SCALE, STRANGE_STAGE_DEFAULT,
+  STRANGE_STAGE_LIMIT, stageMultiplier,
+} from '../constants.ts';
 import { bonusDamageIf, drain, evade, hurtStatus, randomPower, selfStageIf, timedScripts, type Timed } from './builders.ts';
 import { armBench, attach, disarm, hasStatus, hitFoe, landed, moveStages, scriptHooks, stat, status } from './util.ts';
 

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync} from 'node:fs';
-import {createBattle} from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import type {BossEncounter, BossRule, MonsterInput, Objective, Phase, Skill} from '../../battle/core/src/types.ts';

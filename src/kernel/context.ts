@@ -1,5 +1,6 @@
-// Everything a controller derives once from its catalog. Read-only after creation.
-import { buildDataSet, type Battle, type BattleOptions, type BossEncounter, type DataSet, type RawData } from '../../battle/core/src/index.ts';
+// Everything a controller derives once from its catalog and dependencies. Read-only after creation.
+import { Battle, buildDataSet, type BattleOptions, type BossEncounter, type DataSet, type RawData } from '../../battle/core/src/index.ts';
+import { AI_POLICY } from '../../battle/ai/src/index.ts';
 import { makeDex, type Dex, type Nature, type Skill, type Species } from '../../raising/core/index.ts';
 import type { CatalogData } from '../domain/catalog/catalog.ts';
 import { traits, type TraitDefinition } from '../domain/traits.ts';
@@ -20,6 +21,23 @@ import { enrichCatalog } from '../domain/catalog/enrichment.ts';
 
 export type BattleFactory = (options: BattleOptions) => Battle;
 
+export interface GameDependencies {
+  /** Constructs each battle from options that carry the AI policy; verification passes a wrapper to observe the controller's battles. */
+  createBattle?: BattleFactory;
+  /** Schedules idle work (turn preparation); verification runs the tasks when it chooses. */
+  idle?: (task: () => void) => void;
+}
+
+/**
+ * Runs `task` in an idle slot after the frame. WebKit, the macOS app's web view, has no requestIdleCallback: there a timer set in
+ * the next animation frame runs after that frame is painted. Node has neither and uses a timer.
+ */
+function whenIdle(task: () => void) {
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(() => task());
+  else if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => setTimeout(task));
+  else setTimeout(task);
+}
+
 /** Catalog lookups that view builders need. */
 export interface CatalogContext {
   readonly catalog: CatalogData;
@@ -30,6 +48,8 @@ export interface CatalogContext {
 
 export interface GameContext extends CatalogContext {
   readonly createBattle: BattleFactory;
+  /** Runs `task` in an idle slot after the current frame (turn preparation). */
+  idle(task: () => void): void;
   /** Trainer battles model their opponent with conventional movesets; built on first use. */
   conventionalMoves(): (speciesId: number) => number[];
   readonly bosses: BossEncounter[];
@@ -58,7 +78,8 @@ export interface GameContext extends CatalogContext {
 
 const UNLIMITED_ITEM_KINDS = ['raising', 'battle', 'capsule'];
 
-export function createGameContext(source: CatalogData, createBattle: BattleFactory): GameContext {
+export function createGameContext(source: CatalogData, dependencies: GameDependencies): GameContext {
+  const { createBattle: construct = options => new Battle(options), idle = whenIdle } = dependencies;
   const { catalog, battleItems, recruitments } = enrichCatalog(source);
   const dex = makeDex(catalog as unknown as { species: Species[]; skills: Skill[]; natures: Nature[] });
   const data = buildDataSet({ ...catalog, items: battleItems } as unknown as RawData);
@@ -70,7 +91,8 @@ export function createGameContext(source: CatalogData, createBattle: BattleFacto
   }));
   let conventionalMoves: ((speciesId: number) => number[]) | undefined;
   return {
-    catalog, dex, data, createBattle, bosses, encounters, recruitments,
+    catalog, dex, data, bosses, encounters, recruitments, idle,
+    createBattle: options => construct({ ...options, policy: AI_POLICY }),
     speciesName: id => dex.species(id).name.zh,
     conventionalMoves: () => conventionalMoves ??= conventionalMovesResolver(catalog),
     encounterById: new Map(encounters.map(boss => [boss.id, boss])),
