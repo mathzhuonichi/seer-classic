@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {battleEndSound, battleItemPane, battleSkills, conditionSummary, recentBattleLog, settledDialogue, stageChips} from './battle-hud.ts';
+import {battleEndSound, battleItemPane, battleSkills, conditionSummary, itemCardAction, recentBattleLog, settledDialogue, stageChips} from './battle-hud.ts';
 
 const mon = (uid, hp, extra = {}) => ({uid, name: uid, hp, maxHp: 100, statuses: [], stages: {}, skills: [], ...extra});
 const battle = (extra = {}) => ({player: mon('a', 50), party: [mon('a', 50), mon('b', 0), mon('c', 80)], canCapture: true, finished: false, needsSwitch: false,
@@ -47,4 +47,14 @@ test('settled dialogue, end sounds and the latest turn log', () => {
     assert.equal(battleEndSound(battle({finished: true, ...quiet})), null);
   assert.deepEqual(recentBattleLog(['第 1 回合', 'x', '第 2 回合', 'a', 'b', 'c']), ['b', 'c']);
   assert.deepEqual(recentBattleLog(['a']), ['a']);
+});
+
+test('an item card throws a capsule at once, selects other items, and ignores empty or blocked cards', () => {
+  const capsule = {id: 'cap', battleCategory: 'capsule', count: 1}, potion = {id: 'pot', battleCategory: 'recovery', count: 1};
+  assert.deepEqual(itemCardAction(battle(), capsule), {type: 'capture', itemId: 'cap'});
+  assert.deepEqual(itemCardAction(battle(), potion), {type: 'select', itemId: 'pot'});
+  assert.deepEqual(itemCardAction(battle(), {...potion, count: 0, unlimited: true}), {type: 'select', itemId: 'pot'});
+  assert.equal(itemCardAction(battle({canCapture: false}), capsule), null);
+  assert.equal(itemCardAction(battle({needsSwitch: true}), potion), null);
+  assert.equal(itemCardAction(battle(), {...capsule, count: 0}), null);
 });

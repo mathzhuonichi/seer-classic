@@ -10,7 +10,7 @@ function scenario(options = {}) {
   const h = {...options, players: [], renderers: [], canvases: [], resizeObservers: [], mutationObservers: [], queries: [], raf: new Map(), nextFrame: 0,
     windowListeners: new Set(), leases: 0, releases: 0, uploads: 0, initCalls: 0, mountCalls: 0, plays: 0, alphaReads: 0, draws: 0, resizeCalls: 0,
     clockAttaches: 0, clockDestroys: 0, clockRecoveries: 0, playerDestroys: 0, rendererDestroys: 0, stageDestroys: 0, lostContexts: 0,
-    ready: [], recoverRequests: 0};
+    ready: [], recoverRequests: 0, remounts: 0};
   h.root = {parentElement: null, zoom: '1.5'};
   h.host = {parentElement: h.root, clientWidth: 170, clientHeight: 170, dataset: {}, appendChild(canvas) { canvas.parent = this; }};
   h.window = {devicePixelRatio: 2,
@@ -98,14 +98,14 @@ async function waitFor(predicate) {
 
 try {
   await withSsr('battle-display-lifecycle', async load => {
-    const {mountCreatureAnimation} = await load('/src/components/battle/creature-animation-mount.ts');
+    const {mountCreatureAnimation, RecoveryBudget} = await load('/src/components/battle/creature-animation-mount.ts');
     const t = suite('battle-display-lifecycle');
     /** Mount species 6 mid-attack and return its dispose function. */
     const start = h => {
       install(h);
       const animation = mountCreatureAnimation(h.host, {
         species: 6, extent: .9, motion: () => ({kind: 'physical', resting: true}), onReady: ready => h.ready.push(ready),
-        recover: () => { h.recoverRequests++; return !!h.grantRecovery; },
+        allowRecovery: () => { h.recoverRequests++; return !!h.grantRecovery; }, remount: () => { h.remounts++; },
       }, h.deps);
       return () => animation.dispose();
     };
@@ -153,7 +153,7 @@ try {
       assert.equal(h.prevented, true); assert.equal(h.ready.at(-1), false); assert.equal(h.running, false);
       h.resizeObservers[0].callback(); assert.equal(h.resizeCalls, resizes, 'no layout on a lost context');
       canvas.listeners.get('webglcontextrestored')(); canvas.listeners.get('webglcontextrestored')();
-      assert.equal(h.recoverRequests, 1); assert.equal(h.clockRecoveries, 1);
+      assert.equal(h.recoverRequests, 1); assert.equal(h.clockRecoveries, 1); assert.equal(h.remounts, 1);
       cleanup(); assertReleased(h); assert.equal(h.warm, true, 'a recovering mount keeps its clip warm for the remount');
       assert.equal(canvas.listeners.size, 0);
     });
@@ -161,10 +161,20 @@ try {
       const h = scenario(), cleanup = start(h);
       await waitFor(() => h.plays === 1);
       h.canvases[0].listeners.get('webglcontextrestored')();
-      assert.equal(h.recoverRequests, 1); assert.equal(h.clockRecoveries, 0);
+      assert.equal(h.recoverRequests, 1); assert.equal(h.clockRecoveries, 0); assert.equal(h.remounts, 0);
       cleanup(); assertReleased(h); assert.equal(h.warm, false);
     });
-    const destroyFailures = [['failStageDestroy', 'stage destroy failed'], ['failRendererDestroy', 'renderer destroy failed'], ['failPlayerDestroy', 'player destroy failed']];
+    t.check('The recovery budget allows two remounts per species and restarts for a new one', () => {
+      const budget = new RecoveryBudget();
+      budget.track(6);
+      assert.deepEqual([budget.take(6), budget.take(6), budget.take(6)], [true, true, false]);
+      budget.track(6); assert.equal(budget.take(6), false, 'the same species keeps its spent budget');
+      budget.track(7); assert.equal(budget.take(6), false, 'a mount of the previous species gets nothing');
+      assert.deepEqual([budget.take(7), budget.take(7), budget.take(7)], [true, true, false]);
+    });
+    const destroyFailures = [
+      ['failStageDestroy', 'stage destroy failed'], ['failRendererDestroy', 'renderer destroy failed'], ['failPlayerDestroy', 'player destroy failed'],
+    ];
     for (const [flag, message] of destroyFailures) {
       await t.checkAsync(`${message}: subsequent cleanup still runs and the error remains visible`, async () => {
         const h = scenario(), stop = start(h);

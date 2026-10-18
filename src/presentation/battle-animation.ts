@@ -35,8 +35,8 @@ const transientBitmaps=new Set<ImageBitmap>();
 const diagnostics={decodes:0,decodeMs:0,rehydrations:0,atlasCopies:0,hdLoads:0,hdFallbacks:0};
 const bitmapBytes=(bitmap:ImageBitmap)=>bitmap.width*bitmap.height*4;
 const isLarge=(clip:SwfClipData)=>clipAtlasBytes(clip)>=LARGE_ATLAS_BYTES;
+// Idle clips use the pool's limits: two clips, 32 MiB, 15 seconds.
 const pool=createBattleClipPool<Asset>({
-  maxIdleEntries:2,maxIdleBytes:32*1024*1024,idleMs:15000,
   async load(id,signal){
     const started=performance.now();
     const {clip,atlasBlob,usedHd,fellBack}=await loadBattleAnimation(id,entries[id],hdEntries[id],signal);

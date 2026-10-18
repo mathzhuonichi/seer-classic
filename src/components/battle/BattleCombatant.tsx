@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../game-types.ts';
 import { getCreatureArt } from '../../presentation/creature-art.ts';
+import { STATUS_LABELS } from '../../presentation/labels.ts';
 import { appearanceOf } from '../../presentation/monster-views.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import BattleSkillEffect from './BattleSkillEffect.tsx';
@@ -9,7 +10,7 @@ import type { SkillEffectCue } from './use-battle-playback.ts';
 /** Frame kinds with their own CSS motion on the combatant. */
 const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture']);
 /** Statuses that hold a creature still instead of its idle sway. */
-const STILL_STATUSES = ['睡眠', '石化', '冰封'];
+const STILL_STATUSES = [STATUS_LABELS.sleep, STATUS_LABELS.petrify, STATUS_LABELS.frozen_solid];
 const IMPACT_PATH = 'm60 5 10 33 29-18-18 29 34 11-34 10 18 29-29-18-10 34-11-34-29 18 18-29L5 60l33-11-18-29 29 18Z';
 
 function CaptureEffect({ animating, success }: { animating: boolean; success: boolean }) {

@@ -7,7 +7,7 @@ type FrameKind = BattlePresentationFrame['kind'];
 /** Default on-screen time per frame kind. */
 export const FRAME_MS: Record<FrameKind, number> = { physical: 680, special: 700, status: 620, hit: 490, heal: 530, switch: 620, capture: 2200, message: 480 };
 export const CRITICAL_HIT_MS = 800;
-/** Every frame, and every skill effect, collapses to this length under reduced motion. */
+/** Under reduced motion every frame except a capture, and every skill effect, takes this long. */
 export const REDUCED_MOTION_MS = 160;
 /** The capture dialogue reveals the outcome this long into the capsule animation. */
 export const CAPTURE_OUTCOME_MS = 1700;
@@ -15,8 +15,8 @@ export const CAPTURE_OUTCOME_MS = 1700;
 export interface FramePlan {
   /** Minimum time before the next frame. */
   delayMs: number;
-  /** Skill effect overlay for a move frame (`null` clears it); undefined keeps the current one. */
-  effect?: { delayMs: number; durationMs: number } | null;
+  /** The skill effect overlay: start a new one, clear it (a move without one) or keep the current one. */
+  effect: { delayMs: number; durationMs: number } | 'clear' | 'keep';
   /** How long the actor's original clip plays; null when no clip plays for this frame. */
   actionMs: number | null;
   /** Also wait for the running clip and effect to end before advancing. */
@@ -36,8 +36,8 @@ export function planBattleFrame(frame: BattlePresentationFrame, following: Battl
     : frame.kind === 'hit' && frame.critical ? CRITICAL_HIT_MS
     : FRAME_MS[frame.kind];
   const move = isMoveFrame(frame);
-  if (!move) return { delayMs, actionMs: null, awaitRunning: frame.kind === 'hit' };
-  const effect = effectMs ? { delayMs: reducedMotion ? 0 : timing?.hitMs ?? 0, durationMs: reducedMotion ? REDUCED_MOTION_MS : effectMs } : null;
+  if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: frame.kind === 'hit' };
+  const effect = effectMs ? { delayMs: reducedMotion ? 0 : timing?.hitMs ?? 0, durationMs: reducedMotion ? REDUCED_MOTION_MS : effectMs } : 'clear';
   const clip = reducedMotion ? null : timing ?? null;
   // A move followed by its hit hands over at the hit marker; otherwise the whole clip plays.
   if (clip) delayMs = clip.hitMs !== null && following?.kind === 'hit' ? clip.hitMs : clip.durationMs;

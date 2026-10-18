@@ -10,12 +10,12 @@ test('frames without a clip or effect keep their kind default', () => {
   for (const kind of ['physical', 'special', 'status', 'heal', 'switch', 'message'])
     assert.equal(plan(kind).delayMs, FRAME_MS[kind]);
   assert.equal(planBattleFrame(frame('hit', {critical: true}), undefined, {reducedMotion: false}).delayMs, CRITICAL_HIT_MS);
-  assert.deepEqual(plan('heal'), {delayMs: FRAME_MS.heal, actionMs: null, awaitRunning: false}, 'no effect field: the current overlay stays');
+  assert.deepEqual(plan('heal'), {delayMs: FRAME_MS.heal, effect: 'keep', actionMs: null, awaitRunning: false});
 });
 
 test('a move hands over to its hit at the clip hit marker, otherwise plays the whole clip', () => {
-  assert.deepEqual(plan('physical', 'hit', {timing: clip}), {delayMs: 600, effect: null, actionMs: 1500, awaitRunning: false});
-  assert.deepEqual(plan('physical', 'message', {timing: clip}), {delayMs: 1500, effect: null, actionMs: 1500, awaitRunning: true});
+  assert.deepEqual(plan('physical', 'hit', {timing: clip}), {delayMs: 600, effect: 'clear', actionMs: 1500, awaitRunning: false});
+  assert.deepEqual(plan('physical', 'message', {timing: clip}), {delayMs: 1500, effect: 'clear', actionMs: 1500, awaitRunning: true});
   assert.equal(plan('special', 'hit', {timing: {durationMs: 900, hitMs: null}}).delayMs, 900);
   assert.equal(plan('hit').awaitRunning, true, 'a hit waits for the running clip and effect');
 });

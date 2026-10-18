@@ -1,5 +1,5 @@
 import type { BattleView, GameAction, ItemView } from '../../game-types.ts';
-import { battleItemPane, hasStock, type BattleItemChoice } from '../../presentation/battle-hud.ts';
+import { battleItemPane, itemCardAction, type BattleItemChoice } from '../../presentation/battle-hud.ts';
 import ItemIcon from '../ItemIcon.tsx';
 import ItemTile from '../ItemTile.tsx';
 
@@ -11,9 +11,9 @@ export default function BattleItemPane({ battle, inventory, choice, onChoice, di
   const pane = battleItemPane(battle, inventory, choice), { selected, target } = pane;
   const capsules = pane.category === 'capsule', blocked = disabled || battle.needsSwitch;
   function chooseItem(item: ItemView) {
-    if (!canAct() || battle.needsSwitch || !hasStock(item)) return;
-    if (item.battleCategory !== 'capsule') return onChoice({ selection: item.id });
-    if (battle.canCapture) submit({ type: 'capture', itemId: item.id });
+    const action = canAct() ? itemCardAction(battle, item) : null;
+    if (action?.type === 'select') onChoice({ selection: action.itemId });
+    else if (action) submit(action);
   }
   return <>
     <nav className="classic-item-category-tabs" aria-label="战斗道具分类">{pane.categories.map(([id, label]) =>

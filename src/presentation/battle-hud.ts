@@ -58,6 +58,13 @@ export interface BattleItemChoice { category: BattleSupplyCategory; selection: s
 
 export const hasStock = (item: ItemView) => item.unlimited || item.count > 0;
 
+/** What a click on an item card does: throw the capsule at once, select the item, or nothing. */
+export function itemCardAction(battle: BattleView, item: ItemView): { type: 'capture'; itemId: string } | { type: 'select'; itemId: string } | null {
+  if (battle.needsSwitch || !hasStock(item)) return null;
+  if (item.battleCategory !== 'capsule') return { type: 'select', itemId: item.id };
+  return battle.canCapture ? { type: 'capture', itemId: item.id } : null;
+}
+
 /** Visible categories, the effective category, its items and the resolved selection and target. */
 export function battleItemPane(battle: BattleView, inventory: ItemView[], choice: BattleItemChoice) {
   const categories = BATTLE_SUPPLY_CATEGORIES.filter(([id]) => id !== 'capsule' || battle.canCapture);
@@ -66,5 +73,6 @@ export function battleItemPane(battle: BattleView, inventory: ItemView[], choice
   const selected = items.find(item => item.id === choice.selection) || items[0];
   const targets = battle.party.filter(mon => selected?.targetMode === 'fainted' ? mon.hp <= 0 : mon.hp > 0);
   const target = targets.find(mon => mon.uid === choice.target) || targets.find(mon => mon.uid === battle.player.uid) || targets[0];
-  return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget: !!target && !!selected?.usableTargetUids?.includes(target.uid) };
+  const helpsTarget = !!target && !!selected?.usableTargetUids?.includes(target.uid);
+  return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget };
 }

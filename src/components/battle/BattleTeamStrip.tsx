@@ -21,8 +21,13 @@ export default function BattleTeamStrip({ team, activeUid, enemy = false }: Batt
         const active = creature.uid === activeUid;
         const level=encounterLevelText(creature.level,enemy&&creature.evidence?.hasInferredLevel,enemy&&creature.evidence?.displayLevelUnknown);
         const description = `${creature.name}，${level}，${enemy&&creature.evidence?.hasInferredStats?'含推定参数，':''}${active ? '当前出战，' : ''}${fainted ? '已失去战斗能力' : creature.hpHidden ? `体力 ${creature.hp}%` : `体力 ${creature.hp} / ${creature.maxHp}`}`;
-        return <li key={`${creature.uid}-${index}`} className={`battle-team-member${active ? ' is-active' : ''}${fainted ? ' is-fainted' : ''}`} aria-label={description} title={description} data-species={creature.species} data-appearance-species={appearanceOf(creature)} data-active={active} data-fainted={fainted}>
-          <span className="battle-team-icon-wrap"><img className="battle-team-icon" src={getCreatureArt(appearanceOf(creature)).src} alt="" draggable={false} decoding="async"/>{fainted && <span className="battle-team-faint-mark" aria-hidden="true">×</span>}</span>
+        const appearance = appearanceOf(creature);
+        return <li key={`${creature.uid}-${index}`} className={`battle-team-member${active ? ' is-active' : ''}${fainted ? ' is-fainted' : ''}`}
+          aria-label={description} title={description} data-species={creature.species} data-appearance-species={appearance} data-active={active} data-fainted={fainted}>
+          <span className="battle-team-icon-wrap">
+            <img className="battle-team-icon" src={getCreatureArt(appearance).src} alt="" draggable={false} decoding="async"/>
+            {fainted && <span className="battle-team-faint-mark" aria-hidden="true">×</span>}
+          </span>
           <div><strong>{creature.name}<small>{level}</small></strong><span>{fainted ? '无法战斗' : creature.hpHidden ? `HP ${creature.hp}%` : `HP ${creature.hp}/${creature.maxHp}`}</span>{active && <em>当前出战</em>}{enemy&&creature.evidence?.hasInferredStats&&<em>含推定参数</em>}</div>
         </li>;
       })}

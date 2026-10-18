@@ -33,9 +33,61 @@ export interface PlaybackEvents {
   onNeedsSwitch(battle: BattleView): void;
 }
 
+/** Where frame playback writes; React state setters in the hook. */
+interface FrameSink {
+  setFrame(frame: BattlePresentationFrame | null): void;
+  setSourceAction(frame: BattlePresentationFrame | null): void;
+  setSkillEffect(cue: SkillEffectCue | null): void;
+  setCaptureResolved(caught: boolean): void;
+  setDialogue(text: string): void;
+  /** Every frame has played. */
+  settle(): void;
+}
+
 /** A finished battle returns to its scene after its last action and capsule settle. */
 const CLOSE_DELAY_MS = 700;
 type TimerName = 'advance' | 'outcome' | 'action' | 'effect';
+
+/** Show `batch` frame by frame on timers; the returned function cancels whatever is still pending. */
+function playFrames(batch: BattlePresentationFrame[], sink: FrameSink): () => void {
+  const timers: Partial<Record<TimerName, ReturnType<typeof setTimeout>>> = {};
+  const schedule = (name: TimerName, run: () => void, ms: number) => { clearTimeout(timers[name]); timers[name] = setTimeout(run, ms); };
+  let cursor = 0, actionEndsAt = 0, effectEndsAt = 0;
+  const show = (next: BattlePresentationFrame) => {
+    sink.setFrame(next);
+    if (next.kind === 'capture') sink.setCaptureResolved(!!next.captureSuccess);
+    if (next.kind === 'heal') gameAudio.playSfx('heal');
+    if (next.kind !== 'capture') { sink.setDialogue(next.text); return; }
+    sink.setDialogue(captureDialogue(next));
+    schedule('outcome', () => { sink.setDialogue(next.text); if (next.captureSuccess) gameAudio.playSfx('capture'); }, CAPTURE_OUTCOME_MS);
+  };
+  const advance = () => {
+    if (cursor >= batch.length) { sink.settle(); return; }
+    const next = batch[cursor++], move = isMoveFrame(next), actor = next.side === 0 ? next.player : next.enemy;
+    show(next);
+    const plan = planBattleFrame(next, batch[cursor], {
+      reducedMotion: prefersReducedMotion(),
+      timing: move ? battleAnimationTiming(appearanceOf(actor), next.kind) : null,
+      effectMs: move ? getSkillEffectDurationMs(next.skillId) : undefined,
+    });
+    if (plan.effect === 'clear') { sink.setSkillEffect(null); effectEndsAt = 0; }
+    else if (plan.effect !== 'keep') {
+      const { delayMs, durationMs } = plan.effect;
+      sink.setSkillEffect({ move: next, delay: delayMs, duration: durationMs });
+      effectEndsAt = performance.now() + delayMs + durationMs;
+      schedule('effect', () => sink.setSkillEffect(null), delayMs + durationMs);
+    }
+    if (plan.actionMs !== null) {
+      sink.setSourceAction(next);
+      actionEndsAt = performance.now() + plan.actionMs;
+      schedule('action', () => sink.setSourceAction(null), plan.actionMs);
+    }
+    const now = performance.now();
+    schedule('advance', advance, plan.awaitRunning ? Math.max(plan.delayMs, actionEndsAt - now, effectEndsAt - now) : plan.delayMs);
+  };
+  advance();
+  return () => { for (const timer of Object.values(timers)) clearTimeout(timer); };
+}
 
 /** Play each new turn's presentation frames in order, and own the command lock while they run. */
 export function useBattlePlayback(battle: BattleView, c: GameController, events: PlaybackEvents): BattlePlayback {
@@ -56,9 +108,6 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     locked.current = true;
     setBusy(true);
     handlers.current.onStart();
-    const timers: Partial<Record<TimerName, ReturnType<typeof setTimeout>>> = {};
-    const schedule = (name: TimerName, run: () => void, ms: number) => { clearTimeout(timers[name]); timers[name] = setTimeout(run, ms); };
-    let cursor = 0, actionEndsAt = 0, effectEndsAt = 0;
     const settle = () => {
       const settled = latest.current, sound = battleEndSound(settled);
       setFrame(null);
@@ -70,43 +119,9 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
       if (settled.needsSwitch) handlers.current.onNeedsSwitch(settled);
       setDialogue(settledDialogue(settled, batch.at(-1)));
     };
-    const show = (next: BattlePresentationFrame) => {
-      setFrame(next);
-      if (next.kind === 'capture') setCaptureResolved(!!next.captureSuccess);
-      if (next.kind === 'heal') gameAudio.playSfx('heal');
-      if (next.kind !== 'capture') return setDialogue(next.text);
-      setDialogue(captureDialogue(next));
-      schedule('outcome', () => { setDialogue(next.text); if (next.captureSuccess) gameAudio.playSfx('capture'); }, CAPTURE_OUTCOME_MS);
-    };
-    const advance = () => {
-      if (cursor >= batch.length) return settle();
-      const next = batch[cursor++], move = isMoveFrame(next), actor = next.side === 0 ? next.player : next.enemy;
-      show(next);
-      const plan = planBattleFrame(next, batch[cursor], {
-        reducedMotion: prefersReducedMotion(),
-        timing: move ? battleAnimationTiming(appearanceOf(actor), next.kind) : null,
-        effectMs: move ? getSkillEffectDurationMs(next.skillId) : undefined,
-      });
-      if (plan.effect) {
-        const { delayMs, durationMs } = plan.effect;
-        setSkillEffect({ move: next, delay: delayMs, duration: durationMs });
-        effectEndsAt = performance.now() + delayMs + durationMs;
-        schedule('effect', () => setSkillEffect(null), delayMs + durationMs);
-      } else if (plan.effect === null) {
-        setSkillEffect(null);
-        effectEndsAt = 0;
-      }
-      if (plan.actionMs !== null) {
-        setSourceAction(next);
-        actionEndsAt = performance.now() + plan.actionMs;
-        schedule('action', () => setSourceAction(null), plan.actionMs);
-      }
-      const now = performance.now();
-      schedule('advance', advance, plan.awaitRunning ? Math.max(plan.delayMs, actionEndsAt - now, effectEndsAt - now) : plan.delayMs);
-    };
-    advance();
+    const cancel = playFrames(batch, { setFrame, setSourceAction, setSkillEffect, setCaptureResolved, setDialogue, settle });
     return () => {
-      for (const timer of Object.values(timers)) clearTimeout(timer);
+      cancel();
       setSourceAction(null);
       setSkillEffect(null);
       locked.current = false;
