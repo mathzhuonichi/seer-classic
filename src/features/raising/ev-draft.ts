@@ -1,4 +1,4 @@
-// The 学习力 editor's draft (one text field per stat), checked against the raising caps.
+// The 学习力 editor's draft (one text field per stat), checked against the raising caps, and the check for any typed whole number.
 import {STAT_KEYS,type StatBlock,type StatKey} from '../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../raising/core/stats.ts';
 
@@ -17,12 +17,15 @@ export const presetDraft=(name:string)=>draftOf(key=>EV_PRESETS[name].includes(k
 export const draftEvs=(draft:EvDraft)=>Object.fromEntries(STAT_KEYS.map(key=>[key,Number(draft[key])])) as StatBlock;
 export const sameEvs=(draft:EvDraft,evs:StatBlock)=>STAT_KEYS.every(key=>draft[key]===String(evs[key]));
 
-/** One stat's 学习力: a whole number from 0 to the per-stat cap. */
-export const isEvValue=(value:number)=>Number.isInteger(value)&&value>=0&&value<=EV_STAT_CAP;
+/** A typed whole number from `min` to `max`, or undefined for a blank or invalid field. */
+export function wholeNumber(text:string,min:number,max:number):number|undefined {
+  const value=Number(text);
+  return text.trim()!==''&&Number.isInteger(value)&&value>=min&&value<=max?value:undefined;
+}
 
-/** `valid`: every field is filled and in range; `fits`: valid and within the total cap. */
+/** `valid`: every field is a whole number from 0 to the per-stat cap; `fits`: valid and within the total cap. */
 export function checkEvDraft(draft:EvDraft) {
-  const valid=STAT_KEYS.every(key=>draft[key].trim()!==''&&isEvValue(Number(draft[key])));
+  const valid=STAT_KEYS.every(key=>wholeNumber(draft[key],0,EV_STAT_CAP)!==undefined);
   const total=STAT_KEYS.reduce((sum,key)=>sum+Number(draft[key]),0);
   return {valid,total,over:total>EV_TOTAL_CAP,fits:valid&&total<=EV_TOTAL_CAP};
 }

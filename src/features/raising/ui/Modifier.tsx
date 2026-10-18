@@ -6,7 +6,8 @@ import {EV_STAT_CAP,EV_TOTAL_CAP,IV_MAX,IV_MIN} from '../../../../raising/core/s
 import {MAX_LEVEL} from '../../../../raising/core/growth.ts';
 import {getCreatureArt} from '../../../shared/creature-art.ts';
 import {STAT_LABELS} from '../../../shared/labels.ts';
-import {monsterDraft,monsterEdit,wholeNumber,type MonsterDraft} from '../modifier-draft.ts';
+import {monsterDraft,monsterEdit,type MonsterDraft} from '../modifier-draft.ts';
+import {wholeNumber} from '../ev-draft.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
 import {appearanceOf,speciesNamer} from '../../../shared/monster-views.ts';
 import {feedbackFor} from './raising/dispatch-feedback.ts';
@@ -26,7 +27,7 @@ function MonsterEditor({m,c}:{m:MonsterView;c:GameController}){
   if(edit)setFeedback(c.dispatch({type:'cheatMonster',uid:m.uid,...edit}).notice??'');
  }
  const hint=!edit?`等级须为 1–${MAX_LEVEL}，个体值为 ${IV_MIN}–${IV_MAX}，单项学习力为 0–${EV_STAT_CAP}。`
-  :total>EV_TOTAL_CAP?'保存时按学习力总上限计算。':`修改将应用到 ${m.name}。`;
+  :total!==undefined&&total>EV_TOTAL_CAP?'保存时按学习力总上限计算。':`修改将应用到 ${m.name}。`;
  return <form className="modifier-editor" onSubmit={event=>{event.preventDefault();apply()}}>
   <div className="modifier-fields">
    <label>等级
@@ -44,7 +45,7 @@ function MonsterEditor({m,c}:{m:MonsterView;c:GameController}){
     <option value="">无特性</option>{traits.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
    </select></label>
   </div>
-  <div className="modifier-ev-heading"><h3>学习力</h3><output>{total} / {EV_TOTAL_CAP}</output></div>
+  <div className="modifier-ev-heading"><h3>学习力</h3><output>{total??'—'} / {EV_TOTAL_CAP}</output></div>
   <div className="modifier-ev-grid">{STAT_KEYS.map(key=><label key={key}>{STAT_LABELS[key]}
    <input aria-label={`修改目标${STAT_LABELS[key]}学习力`} type="number" required min="0" max={EV_STAT_CAP} step="1" value={draft.evs[key]}
     onChange={event=>set({evs:{...draft.evs,[key]:event.target.value}})}/>
