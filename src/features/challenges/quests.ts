@@ -25,6 +25,10 @@ const JOURNEY_QUESTS: readonly JourneyQuest[] = [
 
 const ready = (ctx: GameContext, save: GameSave, quest: JourneyQuest) => quest.count(ctx, save) >= quest.goal;
 
+/** The owned species and cleared Bosses that recruitment progress reads, built once per pass over the rewards. */
+interface Records { owned: ReadonlySet<number>; cleared: ReadonlySet<string> }
+const records = (save: GameSave): Records => ({ owned: new Set(save.dex.owned), cleared: new Set(save.progress.bosses_cleared) });
+
 function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): QuestView {
   const claimed = save.game.quests.includes(quest.id), blockedReason = capacityReason(ctx, save, quest.species), complete = ready(ctx, save, quest);
   return {
@@ -34,8 +38,8 @@ function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): Que
   };
 }
 
-function recruitmentView(ctx: GameContext, save: GameSave, reward: RecruitmentReward): QuestView {
-  const progress = recruitmentProgress(reward, save.dex.owned, save.progress.bosses_cleared), claimCount = save.game.recruitmentClaims[reward.questId] ?? 0;
+function recruitmentView(ctx: GameContext, save: GameSave, reward: RecruitmentReward, { owned, cleared }: Records): QuestView {
+  const progress = recruitmentProgress(reward, owned, cleared), claimCount = save.game.recruitmentClaims[reward.questId] ?? 0;
   const claimed = !reward.repeatable && claimCount > 0, blockedReason = claimed ? '此奖励已领取。' : capacityReason(ctx, save, reward.rewardSpecies);
   return {
     id: reward.questId, name: `${reward.name} · 精灵招募`,
@@ -64,7 +68,8 @@ export function questViews(ctx: GameContext): (save: GameSave) => QuestView[] {
     const next = JSON.stringify([dex.owned, progress.bosses_cleared, game.quests, game.recruitmentClaims, game.battlesWon, save.items, species]);
     if (next === inputs) return rows;
     inputs = next;
-    return rows = [...JOURNEY_QUESTS.map(quest => journeyView(ctx, save, quest)), ...ctx.recruitments.map(reward => recruitmentView(ctx, save, reward))];
+    const done = records(save);
+    return rows = [...JOURNEY_QUESTS.map(quest => journeyView(ctx, save, quest)), ...ctx.recruitments.map(reward => recruitmentView(ctx, save, reward, done))];
   };
 }
 
@@ -72,7 +77,7 @@ export function claimQuest(rt: Runtime, questId: string) {
   const { ctx, save } = rt;
   const reward = ctx.recruitments.find(entry => entry.questId === questId);
   if (reward) {
-    const view = recruitmentView(ctx, save, reward);
+    const view = recruitmentView(ctx, save, reward, records(save));
     if (!view.claimable) throw new Error(view.blockedReason ?? '任务奖励尚不可领取。');
     save.items[reward.itemId] = (save.items[reward.itemId] ?? 0) + 1;
     save.game.recruitmentClaims[reward.questId] = (save.game.recruitmentClaims[reward.questId] ?? 0) + 1;
