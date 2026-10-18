@@ -18,13 +18,13 @@
 // copy is a Battle with its own Rng.
 //
 // Shared objects must never be mutated during a battle. V58 audit of the engine
-// and every script registry (seer-main, seer-tail, boss, boss-recovered,
-// npc-training, traits, campaign-rules; engravings only build skills before
-// battle):
-// - Condition defs, including inline ones from scriptCondition/sc/plain, boss,
-//   campaign and NPC installs, energy beads and game.ts traits, are never
-//   changed after addCondition. Per-instance state lives in the copied
-//   ActiveCondition (`turns`, `charges`, `data`).
+// and every script registry (seer-main, seer-tail, boss, npc-training, traits,
+// campaign-rules; engravings only build skills before battle):
+// - Condition defs, including inline ones from scripts/util.ts attach and
+//   ruleCondition, boss, campaign and NPC installs, energy beads and game.ts
+//   traits, are never changed after addCondition. Per-instance state lives in
+//   the copied ActiveCondition (`turns`, `charges`, `data`).
+// - The closures that scripts/builders.ts creates capture only static tables.
 // - No script or engine path writes to a species, catalog skill, item, hook
 //   params or `data`; `transform` replaces `mon.species` instead of editing it.
 //   `skillOverrides` are per-battle copies and are copied here as well.
@@ -32,8 +32,8 @@
 //   sub-objects (seer_eff_71's team charge pool) keep their aliasing.
 // - Module-level state: only seer-tail's `reflecting` guard, set and reset
 //   synchronously inside one seer_eff_191 hook; the AI never runs inside it.
-// - Functions are shared, so a function stored on Battle (such as a future
-//   `conventionalMoves`) must not capture one battle's mutable state.
+// - Functions are shared, so a function stored on Battle (`conventionalMoves`,
+//   the `policy`) must not capture one battle's mutable state.
 // Fields must stay ordinary own properties: `#private` fields would be skipped.
 // tools/verification/battle-clone-fidelity-v58.mjs checks all of this.
 
