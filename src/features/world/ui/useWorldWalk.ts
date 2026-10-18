@@ -42,6 +42,8 @@ export function useWorldWalk() {
   const { planet, region } = resolveWorldLocation(preference.planetId, preference.regionId);
   const layout: SceneLayout = useMemo(() => getSceneLayout(planet, region), [planet, region]);
   const [motion, dispatch] = useReducer(walkMotion, IDLE_WALK);
+  /** Counts landings, so that each arrival redraws the scene and its wildlife makes room for the explorer. */
+  const [landings, setLandings] = useState(0);
   const player = useRef<HTMLDivElement>(null), timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const position = constrainScenePoint(layout, point(preference.x, preference.y));
   useEffect(() => writeWorldPreference(preference), [preference]);
@@ -82,11 +84,12 @@ export function useWorldWalk() {
     setPreference(old => ({ ...old, x: from.x, y: from.y }));
     arrive();
   }
-  /** Land in another scene at `entry`, or at its default entry. */
+  /** Land in a scene, the current one included, at `entry` or at its default entry. */
   function visit(planet: WorldPlanet, region: WorldRegion, entry?: ScenePoint) {
     stop({ duration: 0, direction: 'front' });
     const destination = getSceneLayout(planet, region), landing = constrainScenePoint(destination, entry ?? destination.entry);
     setPreference(old => ({ ...old, planetId: planet.id, regionId: region.id, ...landing, visited: [...new Set([...old.visited, `${planet.id}/${region.id}`])] }));
+    setLandings(count => count + 1);
   }
-  return { planet, region, layout, position, motion, player, stop, walkTo, approach, visit };
+  return { planet, region, layout, position, motion, player, landings, stop, walkTo, approach, visit };
 }

@@ -18,6 +18,8 @@ export interface RoamContext {
 /** The longest frame step, so a stalled tab does not jump a creature across the scene. */
 export const MAX_ROAM_FRAME_MS = 80;
 const LABEL_GAP = 4;
+/** Scene percent kept between an arriving creature and the explorer (the scene may still settle its size), and the step past it. */
+const KEEP_OUT_MARGIN = 1, CLEAR_STEP = .5;
 
 const between = (random: RoamRandom, low: number, high: number) => low + random() * (high - low);
 const offset = (random: RoamRandom, origin: ScenePoint, radius: ScenePoint) =>
@@ -52,10 +54,31 @@ function constrainer({ layout, territory, bounds }: RoamContext) {
     clamp(layout.homeRoam ? clamp(position.y, territory.top, territory.bottom) : position.y, bounds.top, bounds.bottom)));
 }
 
-export function startRoam(context: RoamContext): RoamState {
+/** The foot positions at which a creature's host and name (`body`, around its `foot`) would come within KEEP_OUT_MARGIN of the explorer's box. */
+export function explorerKeepOut(explorer: SceneBounds, body: SceneBounds, foot: ScenePoint): SceneBounds {
+  return {
+    left: explorer.left - (body.right - foot.x) - KEEP_OUT_MARGIN, right: explorer.right + (foot.x - body.left) + KEEP_OUT_MARGIN,
+    top: explorer.top - (body.bottom - foot.y) - KEEP_OUT_MARGIN, bottom: explorer.bottom + (foot.y - body.top) + KEEP_OUT_MARGIN,
+  };
+}
+const within = (bounds: SceneBounds, position: ScenePoint) =>
+  position.x > bounds.left && position.x < bounds.right && position.y > bounds.top && position.y < bounds.bottom;
+
+/** The nearest terrain position straight out of one side of `keepOut`, or `position` when it is already clear or no side is open. */
+function clearOf(position: ScenePoint, keepOut: SceneBounds, { scene }: RoamContext, constrain: (position: ScenePoint) => ScenePoint): ScenePoint {
+  if (!within(keepOut, position)) return position;
+  const distance = (candidate: ScenePoint) => Math.hypot((candidate.x - position.x) * scene.width, (candidate.y - position.y) * scene.height);
+  const steps = [point(keepOut.left - CLEAR_STEP, position.y), point(keepOut.right + CLEAR_STEP, position.y),
+    point(position.x, keepOut.top - CLEAR_STEP), point(position.x, keepOut.bottom + CLEAR_STEP)];
+  return steps.map(constrain).filter(candidate => !within(keepOut, candidate)).sort((a, b) => distance(a) - distance(b))[0] ?? position;
+}
+
+/** A resting start near home; with `keepOut` (see explorerKeepOut), out of the explorer's way where it has just arrived. */
+export function startRoam(context: RoamContext, keepOut?: SceneBounds): RoamState {
   const constrain = constrainer(context);
   const { home, random } = context;
-  return { position: constrain(point(home.x + between(random, -7, 7), home.y + between(random, -5, 5))), rest: between(random, 150, 1400), leg: null, facing: 'right' };
+  const near = constrain(point(home.x + between(random, -7, 7), home.y + between(random, -5, 5)));
+  return { position: keepOut ? clearOf(near, keepOut, context, constrain) : near, rest: between(random, 150, 1400), leg: null, facing: 'right' };
 }
 
 /** A uniformly sampled habitat point inside both the territory and the visible bounds. */

@@ -104,7 +104,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   const frozen=(instanceId:string)=>motion.approaching===instanceId||(selection?.kind==='creature'&&selection.instanceId===instanceId);
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${motion.duration}ms`} as CSSProperties;
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
-    <div key={scene.key} className={sceneClass(scene)} style={{width:size.width,height:size.height}}
+    <div key={`${scene.key}#${walker.landings}`} className={sceneClass(scene)} style={{width:size.width,height:size.height}}
       data-background-kind={region.backgroundKind??(scene.official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId}
       data-tower-floor={tower?.floor} data-tower-complete={tower?.complete} tabIndex={0}
       aria-label={`${scene.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>

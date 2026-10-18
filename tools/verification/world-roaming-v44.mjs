@@ -70,6 +70,33 @@ await withSsr('world-roaming-v44',async load=>{
       assert(resumed,'Closing interaction must resume the selected creature');
     }
   });
+  // Arrival: the explorer stands where a resident would start; the resident starts out of its way, on its own terrain.
+  const inside=(box,p)=>p.x>box.left&&p.x<box.right&&p.y>box.top&&p.y<box.bottom;
+  const arrival=(row,index,value)=>{
+    const home=creatureSceneHome(row.layout,index,6),{bounds}=roaming.roamFit(frame);
+    const context={layout:row.layout,home,territory:roaming.roamTerritory(row.layout,home),bounds,scene:frame.scene,random:()=>value};
+    const natural=roaming.startRoam(context),foot=natural.position;
+    // A 6%-wide explorer box over the foot, and a 13%-wide host with its name around the foot.
+    const explorer={left:foot.x-3,right:foot.x+3,top:foot.y-14,bottom:foot.y+1},body={left:foot.x-6.5,right:foot.x+6.5,top:foot.y-20,bottom:foot.y+3};
+    const keepOut=roaming.explorerKeepOut(explorer,body,foot);
+    return {natural,keepOut,start:roaming.startRoam(context,keepOut),context};
+  };
+  let cleared=0;
+  check('A resident arriving under the explorer starts clear of it, on its terrain and inside its visible bounds',()=>{
+    const open=regions.find(r=>r.planet.id==='klose'&&r.region.id==='plain');assert(open&&!open.layout.homeRoam);
+    for(let i=0;i<6;i++)for(const value of [0,.5,.999999]){
+      const {natural,keepOut,start,context}=arrival(open,i,value),p=start.position;
+      assert(!inside(keepOut,p),`resident ${i} at ${JSON.stringify(p)} is inside ${JSON.stringify(keepOut)}`);
+      assert.deepEqual(constrainHabitatPoint(open.layout,p),p);
+      assert(p.x>=context.bounds.left&&p.x<=context.bounds.right&&p.y>=context.bounds.top&&p.y<=context.bounds.bottom);
+      assert.equal(start.rest,natural.rest,'The keep-out draws no extra randomness');cleared++;
+    }
+    const far={left:-20,right:-10,top:-20,bottom:-10},{natural,context}=arrival(open,0,.5);
+    assert.deepEqual(roaming.startRoam(context,far),natural,'A start already clear of the explorer is unchanged');
+  });
+  check('A resident never leaves its local territory to make room',()=>{
+    for(let i=0;i<6;i++){const {start}=arrival(row,i,.5);within(start.position,homes[i]);}
+  });
   const [{createGame,loadCatalog},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered},{ChallengeCampaignScene}]=await Promise.all(['/src/kernel/game.ts',
     '/src/features/raising/ui.ts','/src/shared/ui/GameWindow.tsx','/src/features/world/ui.ts','/src/features/world/ui/scene-cover.ts',
     '/src/features/challenges/ui.ts'].map(load));
@@ -88,6 +115,6 @@ await withSsr('world-roaming-v44',async load=>{
     assert(!covered(React.createElement(WorldMap,{c:game})),'The bare scene is not covered');
   });
   delete globalThis.document;
-  t.finish({mapId:726,homes,homeRoam:layout.homeRoam,simulatedPositions:positions,
+  t.finish({mapId:726,homes,homeRoam:layout.homeRoam,simulatedPositions:positions,clearedArrivals:cleared,
     limitations:['Desktop geometry fixture; browser artwork, actual font metrics, and responsive presentation are verified separately.']});
 });
