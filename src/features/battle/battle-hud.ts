@@ -73,6 +73,6 @@ export function battleItemPane(battle: BattleView, inventory: ItemView[], choice
   const selected = items.find(item => item.id === choice.selection) || items[0];
   const targets = battle.party.filter(mon => selected?.targetMode === 'fainted' ? mon.hp <= 0 : mon.hp > 0);
   const target = targets.find(mon => mon.uid === choice.target) || targets.find(mon => mon.uid === battle.player.uid) || targets[0];
-  const helpsTarget = !!target && !!selected?.usableTargetUids?.includes(target.uid);
+  const helpsTarget = !!target && !!selected?.useTargets?.includes(target.uid);
   return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget };
 }

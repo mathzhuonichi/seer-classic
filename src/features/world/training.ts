@@ -1,7 +1,7 @@
 // A world-map contact: the species' Boss, a wild battle, or a recruit-only field challenge for its essence.
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { createMonster, findMon } from '../../../raising/core/index.ts';
-import { NPC_ONLY_SPECIES } from '../../domain/acquisition/acquisition.ts';
+import { NPC_ONLY_SPECIES } from '../../domain/acquisition/acquisition-model.ts';
 import { isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
 import { WORLD_PLANETS } from '../../domain/world/world.ts';
 import type { Runtime } from '../../kernel/api.ts';

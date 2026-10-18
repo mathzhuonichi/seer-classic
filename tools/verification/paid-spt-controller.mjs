@@ -48,11 +48,11 @@ await withSsr('paid-spt-controller',async load=>{
    assert(owned.length>0,`${reward.questId}: collection gate`);
    assert.equal(new Set(reward.prerequisites.map(p=>p.kind==='species'?`s${p.species}`:`b${p.bossId}`)).size,reward.prerequisites.length);
    assert(owned.every(id=>id<reward.rewardSpecies),`${reward.questId}: directed earlier-family dependency`);
-   assert.equal(recruitmentProgress(reward,owned,cleared).complete,true);
+   assert.equal(recruitmentProgress(reward,new Set(owned),new Set(cleared)).complete,true);
    for(let missing=0;missing<reward.prerequisites.length;missing++){
     const p=reward.prerequisites[missing];
     const os=p.kind==='species'?owned.filter(id=>id!==p.species):owned,cs=p.kind==='boss'?cleared.filter(id=>id!==p.bossId):cleared;
-    assert.equal(recruitmentProgress(reward,[...os,...os],[...cs,...cs,'boss_puni']).complete,false,`${reward.questId}: distinct condition ${missing}`);
+    assert.equal(recruitmentProgress(reward,new Set(os),new Set([...cs,'boss_puni'])).complete,false,`${reward.questId}: distinct condition ${missing}`);
    }
    // One controller rejection for each kind of gate; duplicate unrelated records cannot fill it.
    for(const kind of ['species','boss']){

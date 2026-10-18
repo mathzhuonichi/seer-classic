@@ -77,13 +77,12 @@ export function createInventoryViews(ctx: GameContext) {
     if (storage.length !== everyone.length || storage.some((mon, index) => mon.uid !== everyone[index])) everyone = storage.map(mon => mon.uid);
     const itemActions = legal?.filter((action): action is Extract<Action, { kind: 'item' }> => action.kind === 'item');
     return rows.filter(row => (inventory[row.id] ?? 0) > 0 || unlimited.has(row.id)).map(row => {
-      const usableTargetUids = itemActions?.filter(action => action.item === row.id)
-        .map(action => side!.team[action.target ?? side!.active].uid!).filter(Boolean);
       const useAction = bagAction(row, legal);
+      const useTargets = useAction !== 'use' ? undefined : itemActions?.filter(action => action.item === row.id)
+        .map(action => side!.team[action.target ?? side!.active].uid!).filter(Boolean) ?? everyone;
       return {
         id: row.id, name: row.name, kind: row.kind, count: inventory[row.id] ?? 0, unlimited: unlimited.has(row.id), description: row.description,
-        battleUsable: row.battleUsable, battleCategory: row.battleCategory, usableTargetUids, targetMode: row.targetMode,
-        useAction, ...(useAction === 'use' ? { useTargets: usableTargetUids ?? everyone } : {}),
+        battleUsable: row.battleUsable, battleCategory: row.battleCategory, targetMode: row.targetMode, useAction, ...(useTargets ? { useTargets } : {}),
       };
     });
   };

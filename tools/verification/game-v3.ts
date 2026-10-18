@@ -46,7 +46,7 @@ t.check('live battle inventory count',()=>{
   const injured=createGame(structuredClone(catalog),JSON.stringify(injuredSave));
   injured.dispatch({type:'startTraining',species:10,level:3});
   const offered=injured.snapshot().items.find(i=>i.id===potion)!,turnLog=injured.snapshot().battle!.log;
-  assert(offered.unlimited,'Battle supplies are unlimited for the player.');assert(offered.usableTargetUids.includes(uid));
+  assert(offered.unlimited,'Battle supplies are unlimited for the player.');assert(offered.useTargets!.includes(uid));
   injured.dispatch({type:'battleItem',itemId:potion,targetUid:uid});
   assert.equal(injured.snapshot().items.find(i=>i.id===potion)!.count,beforeItems,'An unlimited potion keeps the saved count.');
   assert(injured.snapshot().battle!.log.length>turnLog.length,'A potion used on an injured target takes the turn.');

@@ -18,8 +18,6 @@ export interface AcquisitionPolicy {
   categories:readonly string[];
   repeatability:'repeatable'|'once'|'unknown';
 }
-/** The controller's name for the catalog slice that recruitment reads. */
-export type RecruitmentCatalog=AcquisitionCatalog;
 export interface RecruitmentReward {
   questId:string;rewardSpecies:number;name:string;itemId:string;
   prerequisites:readonly RecruitmentPrerequisite[];repeatable:boolean;
@@ -70,8 +68,8 @@ export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:reado
   });
 }
 
-export function recruitmentProgress(reward:Pick<RecruitmentReward,'prerequisites'>,ownedSpecies:readonly number[]|ReadonlySet<number>,clearedBosses:readonly string[]|ReadonlySet<string>){
-  const owned=new Set(ownedSpecies),cleared=new Set(clearedBosses);
+/** Which prerequisites the owned species and cleared Bosses meet; a pass over many rewards builds the two sets once. */
+export function recruitmentProgress(reward:Pick<RecruitmentReward,'prerequisites'>,owned:ReadonlySet<number>,cleared:ReadonlySet<string>){
   const complete=reward.prerequisites.map(condition=>condition.kind==='species'?owned.has(condition.species):cleared.has(condition.bossId));
   return {complete:complete.length>0&&complete.every(Boolean),completed:complete.filter(Boolean).length,total:complete.length,conditions:complete};
 }
