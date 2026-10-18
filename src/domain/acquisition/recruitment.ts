@@ -18,8 +18,6 @@ export interface AcquisitionPolicy {
   categories:readonly string[];
   repeatability:'repeatable'|'once'|'unknown';
 }
-/** The controller's name for the catalog slice that recruitment reads. */
-export type RecruitmentCatalog=AcquisitionCatalog;
 export interface RecruitmentReward {
   questId:string;rewardSpecies:number;name:string;itemId:string;
   prerequisites:readonly RecruitmentPrerequisite[];repeatable:boolean;

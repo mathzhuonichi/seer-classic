@@ -5,7 +5,7 @@ import { braveTowerFloor } from '../challenges/brave-tower.ts';
 import type { AcquisitionCatalog } from '../acquisition/acquisition-model.ts';
 import { bossEssenceRewards } from '../acquisition/native-acquisition.ts';
 import { FUSION_RECIPES, fusionBeadItemId } from '../recipes/fusion.ts';
-import { buildRecruitmentRewards, type RecruitmentCatalog, type RecruitmentReward } from '../acquisition/recruitment.ts';
+import { buildRecruitmentRewards, type RecruitmentReward } from '../acquisition/recruitment.ts';
 import { CURE_ITEM_ID } from '../economy.ts';
 
 type CatalogItem = Record<string, unknown>;
@@ -55,7 +55,7 @@ export function enrichCatalog(source: CatalogData): EnrichedCatalog {
       desc: { zh: `孵化获得 Lv.1 ${zh}，背包已满时进入仓库。融合时已确定结果，孵化不会再次随机。` },
     });
   }
-  const recruitments = buildRecruitmentRewards(catalog as unknown as RecruitmentCatalog);
+  const recruitments = buildRecruitmentRewards(catalog as unknown as AcquisitionCatalog);
   for (const reward of recruitments) items.add({
     id: reward.itemId, name: { zh: `${reward.name}精元` }, kind: 'essence', hatches: reward.rewardSpecies,
     desc: { zh: '完成收集与首领条件后领取；孵化获得初始形态，所有精元与现有同种精灵合计最多六份。' },
