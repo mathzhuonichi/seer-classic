@@ -12,7 +12,7 @@ export function createGame(catalog: CatalogData, initialSave?: string, dependenc
   const ctx = createGameContext(catalog, dependencies);
   const opened = openJourney(ctx, initialSave);
   const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 } };
-  const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>(), writer = createJourneyWriter(ctx, rt, opened.durable, dependencies);
+  const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>(), writer = createJourneyWriter(ctx, rt, opened.durable);
   // An explicit import or new journey is the player's choice to replace the stored save.
   const adopt = (journey: Journey) => { rt.save = journey.save; rt.rng = journey.rng; rt.session = null; writer.replaced(); };
   const emit = () => { cached = build(rt); listeners.forEach(listener => listener()); };
@@ -20,7 +20,7 @@ export function createGame(catalog: CatalogData, initialSave?: string, dependenc
   return {
     snapshot: () => cached,
     subscribe: listener => { listeners.add(listener); return () => listeners.delete(listener); },
-    dispatch: action => { const result = writer.update(() => runAction(rt, action)); emit(); return result; },
+    dispatch: action => { const result = runAction(rt, action); writer.changed(); emit(); return result; },
     engravingOptions: uid => engravingOptions(ctx, rt.save, uid),
     exportSave: () => writer.flush(),
     importSave: text => { adopt(loadJourney(ctx, text)); notice(rt, '存档已导入。'); emit(); },

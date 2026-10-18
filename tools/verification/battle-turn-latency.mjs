@@ -31,6 +31,7 @@ await withSsr('battle-turn-latency', async load => {
       if (battle.sides[1].pending) prepared++;
       const skill = view.player.skills.find(entry => entry.pp > 0), before = process.threadCpuUsage();
       const result = game.dispatch({type: 'move', skillId: skill.id}), frames = game.snapshot().battle.animation.frames;
+      await Promise.resolve(); // The save write ends the move's task, in a microtask.
       const used = process.threadCpuUsage(before);
       assert(result.ok && frames.length, `trainer_${id}: ${result.notice}`);
       samples.push((used.user + used.system) / 1000);

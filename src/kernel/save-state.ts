@@ -2,12 +2,12 @@
 import { Rng } from '../../battle/core/src/index.ts';
 import { addMonster, createMonster, type Save } from '../../raising/core/index.ts';
 import { deserialize, newSave, serialize, type GameExtras, type GameSave, type MigrationContext } from './save.ts';
-import { afterNextFrame, backupUnreadableSave, onPageExit, readLocalSave, writeLocalSave } from './persistence.ts';
+import { backupUnreadableSave, readLocalSave, writeLocalSave } from './persistence.ts';
 import { normalizeBraveTowerProgress } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS } from '../domain/challenges/challenge-campaigns.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import { rollTrait } from './acquire.ts';
-import type { GameContext, GameDependencies } from './context.ts';
+import type { GameContext } from './context.ts';
 import { CURE_ITEM_ID, CURE_ITEM_STOCK, STARTER_LEVEL, STARTER_SPECIES, STARTING_COINS, STARTING_ITEM_STOCK } from '../domain/economy.ts';
 import {campaignProgress} from '../features/challenges/index.ts';
 
@@ -104,12 +104,8 @@ function settle(ctx: GameContext, { save, rng }: Journey) {
 
 /** Keeps the stored save in step with the live journey. */
 export interface JourneyWriter {
-  /**
-   * Runs an action and settles the journey after it. The write slot is reserved before the action runs, so the write comes ahead
-   * of any work the action schedules (turn preparation); all the actions before the slot share its write. Where no slot can be
-   * reserved, the journey is written at once after the action.
-   */
-  update<T>(action: () => T): T;
+  /** After an action: settles the journey and queues its write, which all the actions dispatched in the same task share. */
+  changed(): void;
   /** After an import or a new journey, the player's choice to replace the stored save: settles and writes it at once. */
   replaced(): void;
   /** Writes a pending change now and returns the save's text (an export). */
@@ -118,28 +114,24 @@ export interface JourneyWriter {
 
 /**
  * Writes `journey`, the live runtime whose save actions replace, to local storage: at once when it is opened or replaced, and
- * after actions at most once per `scheduleSave` slot, with a pending write flushed when the page may close (`onPageExit`) and
- * before an export. A text equal to the last one written is not written again. While `durable` is false (an unreadable stored
- * save that could not be backed up) nothing is written until the journey is replaced.
+ * after actions in a microtask, which runs before control returns to the event loop: the actions of one task share a write, and
+ * each is stored before the page can paint, run another task or be closed. An export writes a pending change at once. A text
+ * equal to the last one written is not written again. While `durable` is false (an unreadable stored save that could not
+ * be backed up) nothing is written until the journey is replaced.
  */
-export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean, dependencies: GameDependencies): JourneyWriter {
-  const { scheduleSave = afterNextFrame, onPageExit: exit = onPageExit } = dependencies;
+export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean): JourneyWriter {
   let pending = false, written: string | null = null;
   const write = (text: string) => {
     pending = false;
     if (durable && text !== written) { writeLocalSave(text); written = text; }
   };
   const writePending = () => { if (pending) write(serialize(journey.save)); };
-  exit(writePending);
   settle(ctx, journey);
   write(serialize(journey.save));
   return {
-    update: action => {
-      if (durable && !pending) pending = scheduleSave(writePending);
-      const result = action();
+    changed: () => {
       settle(ctx, journey);
-      if (durable && !pending) write(serialize(journey.save));
-      return result;
+      if (durable && !pending) { pending = true; queueMicrotask(writePending); }
     },
     replaced: () => { durable = true; settle(ctx, journey); write(serialize(journey.save)); },
     flush: () => {
