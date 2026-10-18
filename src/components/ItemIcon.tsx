@@ -1,5 +1,5 @@
 import {useEffect,useState,type CSSProperties} from 'react';
-import {getItemIcon,getItemIconFallback} from '../presentation/item-icons';
+import {getItemIcon,getItemIconFallback} from '../presentation/item-icons.ts';
 import './ItemIcon.css';
 
 export interface ItemIconProps {

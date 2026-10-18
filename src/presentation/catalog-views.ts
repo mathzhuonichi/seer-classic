@@ -1,4 +1,4 @@
-import type {BossView, SpeciesView} from '../game-types';
+import type {BossView, SpeciesView} from '../game-types.ts';
 
 /** Reuse catalog rows until their collection or challenge progress actually changes. */
 export function createCatalogViews(species: Omit<SpeciesView,'owned'>[], bosses: Omit<BossView,'cleared'|'attempts'>[],decorateBoss?:(view:BossView,attempts:number)=>BossView) {

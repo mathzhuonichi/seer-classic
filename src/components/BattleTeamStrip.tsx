@@ -1,8 +1,8 @@
 import { useId } from 'react';
-import type { BattleMonsterView } from '../game-types';
-import { getCreatureArt } from '../presentation/creature-art';
+import type { BattleMonsterView } from '../game-types.ts';
+import { getCreatureArt } from '../presentation/creature-art.ts';
 import './battle-team-strip.css';
-import {encounterLevelText} from '../presentation/encounter-level';
+import {encounterLevelText} from '../presentation/encounter-level.ts';
 
 export interface BattleTeamStripProps { team: BattleMonsterView[]; activeUid: string; enemy?: boolean }
 

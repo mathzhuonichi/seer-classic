@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildAcquisitionIndex,type AcquisitionCatalog,type AcquisitionSeed} from '../../src/progression/acquisition';
-import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition';
-import {buildRecruitmentRewards,initialSpecies,type RecruitmentPrerequisite} from '../../src/progression/recruitment';
-import {getEligibleRecruitmentSPTs} from '../../src/progression/spt-recruitment';
-import {FUSION_RECIPES,type FusionRecipe} from '../../src/progression/fusion';
-import {BREEDING_RECIPES,getBreedingGender} from '../../src/progression/breeding';
-import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture';
-import {WORLD_PLANETS,type WorldPlanet} from '../../src/world';
+import {buildAcquisitionIndex,type AcquisitionCatalog,type AcquisitionSeed} from '../../src/progression/acquisition.ts';
+import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition.ts';
+import {buildRecruitmentRewards,initialSpecies,type RecruitmentPrerequisite} from '../../src/progression/recruitment.ts';
+import {getEligibleRecruitmentSPTs} from '../../src/progression/spt-recruitment.ts';
+import {FUSION_RECIPES,type FusionRecipe} from '../../src/progression/fusion.ts';
+import {BREEDING_RECIPES,getBreedingGender} from '../../src/progression/breeding.ts';
+import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture.ts';
+import {WORLD_PLANETS,type WorldPlanet} from '../../src/world.ts';
 
 export function verifyRecruitmentAcquisition(){
  const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));

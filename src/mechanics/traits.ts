@@ -1,6 +1,6 @@
 import originalTraits from '../../data/traits.json';
-import type { Hook, ScriptEntry, ScriptRegistry } from '../../battle/core/src/types';
-import { STAT_BY_INDEX, STATUS_BY_INDEX } from '../../battle/core/src/scripts/util';
+import type { Hook, ScriptEntry, ScriptRegistry } from '../../battle/core/src/types.ts';
+import { STAT_BY_INDEX, STATUS_BY_INDEX } from '../../battle/core/src/scripts/util.ts';
 
 export interface TraitDefinition {
   id: string;

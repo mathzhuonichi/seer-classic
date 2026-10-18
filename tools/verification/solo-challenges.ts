@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {createBattle} from '../../battle/core/src/battle';
-import {buildDataSet} from '../../battle/core/src/data';
-import {createGame} from '../../src/game';
-import {buildAcquisitionIndex,type AcquisitionCatalog} from '../../src/progression/acquisition';
+import {createBattle} from '../../battle/core/src/battle.ts';
+import {buildDataSet} from '../../battle/core/src/data.ts';
+import {createGame} from '../../src/game.ts';
+import {buildAcquisitionIndex,type AcquisitionCatalog} from '../../src/progression/acquisition.ts';
 
 /** Real controller fixtures isolate ordinary entry and reward settlement from boss difficulty. */
 export function runSoloChallengeAudit(){

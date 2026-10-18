@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import { createBattle } from '../../battle/core/src/battle';
-import { buildDataSet } from '../../battle/core/src/data';
-import type { MonsterInput } from '../../battle/core/src/types';
-import { traits, traitScripts } from '../../src/mechanics/traits';
-import { groupedBattleLog } from '../../src/presentation/battle-log';
+import { createBattle } from '../../battle/core/src/battle.ts';
+import { buildDataSet } from '../../battle/core/src/data.ts';
+import type { MonsterInput } from '../../battle/core/src/types.ts';
+import { traits, traitScripts } from '../../src/mechanics/traits.ts';
+import { groupedBattleLog } from '../../src/presentation/battle-log.ts';
 
 const stats = { hp: 200, atk: 100, def: 100, spa: 100, spd: 100, spe: 100 };
 const data = buildDataSet({

@@ -1,4 +1,4 @@
-import {getLayoutZoom} from './game-display';
+import {getLayoutZoom} from './game-display.ts';
 
 const deviceRatio=()=>Number.isFinite(window.devicePixelRatio)&&window.devicePixelRatio>0?window.devicePixelRatio:1;
 

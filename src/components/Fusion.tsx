@@ -1,8 +1,8 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../game-types';
-import {FUSION_PARENT_POLICY,FUSION_RECIPES,canFuseParents,fusionBeadItemId} from '../progression/fusion';
-import {getSpeciesAcquisition} from '../progression/acquisition';
-import {CreatureArt} from './CreatureArt';
+import type {GameController,GameSnapshot,MonsterView} from '../game-types.ts';
+import {FUSION_PARENT_POLICY,FUSION_RECIPES,canFuseParents,fusionBeadItemId} from '../progression/fusion.ts';
+import {getSpeciesAcquisition} from '../progression/acquisition.ts';
+import {CreatureArt} from './CreatureArt.tsx';
 import '../fusion.css';
 
 const parentPolicyText={retain:'主、副精灵均保留。','consume-secondary':'保留主精灵，消耗副精灵。','consume-both':'消耗主精灵和副精灵。'};

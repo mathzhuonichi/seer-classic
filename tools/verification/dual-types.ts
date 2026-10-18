@@ -4,8 +4,8 @@ import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {attackTypes, effectiveness, hasAttackType, typeIdentity} from '../../battle/core/src/typechart.ts';
 import type {BossRule, Objective, Skill, TypeData} from '../../battle/core/src/types.ts';
-import {createGame} from '../../src/game';
-import type {CatalogData} from '../../src/mechanics/catalog';
+import {createGame} from '../../src/game.ts';
+import type {CatalogData} from '../../src/mechanics/catalog.ts';
 
 const chart: TypeData = {chart: {fire: {grass: 2, flying: 1, ice: 2, normal: 1}, ground: {grass: .5, flying: 0, ice: 1, normal: 1}, electric: {ground: 0, flying: 2}, grass: {water: 2, ground: 2}}, composites: {fire_ground: ['fire', 'ground'], ground_fire: ['ground', 'fire']}};
 assert.deepEqual(attackTypes(chart, 'fire_ground'), ['fire', 'ground']);

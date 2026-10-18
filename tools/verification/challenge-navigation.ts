@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createGame } from '../../src/game';
-import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/world';
+import { createGame } from '../../src/game.ts';
+import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/world.ts';
 
 // Exercise the live encounter view catalog without reading or changing a browser save.
 const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));

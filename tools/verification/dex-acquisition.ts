@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { createGame } from '../../src/game';
-import { WORLD_PLANETS } from '../../src/world';
-import { CHALLENGE_CAMPAIGNS } from '../../src/progression/challenge-campaigns';
-import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/progression/acquisition';
-import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index';
+import { createGame } from '../../src/game.ts';
+import { WORLD_PLANETS } from '../../src/world.ts';
+import { CHALLENGE_CAMPAIGNS } from '../../src/progression/challenge-campaigns.ts';
+import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/progression/acquisition.ts';
+import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index.ts';
 
 /** Audit catalog-wide route coverage without granting generic remote recruitment. */
 export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisition-v14') {

@@ -1,5 +1,5 @@
-import type {Battle, Mon} from '../../battle/core/src/battle';
-import type {Hook, ScriptEntry, ScriptRegistry, Skill, StageKey} from '../../battle/core/src/types';
+import type {Battle, Mon} from '../../battle/core/src/battle.ts';
+import type {Hook, ScriptEntry, ScriptRegistry, Skill, StageKey} from '../../battle/core/src/types.ts';
 import {effectiveness} from '../../battle/core/src/typechart.ts';
 
 /** Encounter-only conditions are attached to their member, never the whole side. */

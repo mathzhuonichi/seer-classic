@@ -1,4 +1,4 @@
-import type { BossEncounter } from '../../battle/core/src/types';
+import type { BossEncounter } from '../../battle/core/src/types.ts';
 
 /** Documented classic recovery tiers plus the existing authored remake cure. */
 export const TRAINER_UNLIMITED_ITEMS = ['item_potion_hp_250', 'item_potion_pp_20', 'item_status_cure'] as const;

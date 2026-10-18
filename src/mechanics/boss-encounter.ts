@@ -1,4 +1,4 @@
-import type {BossEncounter} from '../../battle/core/src/types';
+import type {BossEncounter} from '../../battle/core/src/types.ts';
 
 /** Keep the source encounter immutable while applying its attempt-based level rule. */
 export function bossEncounterForAttempt(boss:BossEncounter,attempts:number):BossEncounter {

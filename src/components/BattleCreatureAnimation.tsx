@@ -1,10 +1,10 @@
 import {useEffect,useRef,useState} from 'react';
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
-import {retainBattleAnimation,originalAction} from '../presentation/battle-animation';
-import {battleRuntimeClock} from '../presentation/battle-runtime-clock';
-import {getCreatureArt,creatureArtStyle} from '../presentation/creature-art';
-import {fixedAnimationTransform,visibleStandbyBounds} from '../presentation/battle-animation-registration';
-import {getDisplayResolution,observeDisplayResolution} from '../presentation/display-resolution';
+import {retainBattleAnimation,originalAction} from '../presentation/battle-animation.ts';
+import {battleRuntimeClock} from '../presentation/battle-runtime-clock.ts';
+import {getCreatureArt,creatureArtStyle} from '../presentation/creature-art.ts';
+import {fixedAnimationTransform,visibleStandbyBounds} from '../presentation/battle-animation-registration.ts';
+import {getDisplayResolution,observeDisplayResolution} from '../presentation/display-resolution.ts';
 import './BattleCreatureAnimation.css';
 type Driver=ReturnType<typeof battleRuntimeClock.attach>;
 export default function BattleCreatureAnimation({species,name,kind,eventKey,resting}:{species:number;name:string;kind:string;eventKey:number|string;resting:boolean}){

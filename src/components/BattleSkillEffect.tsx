@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
-import { getSkillEffect, type OriginalSkillEffect } from './battle-skill-effects';
-import { SkillFrameBuffer, loadSkillFrame } from './skill-frame-buffer';
+import { getSkillEffect, type OriginalSkillEffect } from './battle-skill-effects.ts';
+import { SkillFrameBuffer, loadSkillFrame } from './skill-frame-buffer.ts';
 import './battle-skill-effect.css';
 
 export interface BattleSkillEffectProps {

@@ -1,13 +1,13 @@
 import bundle from '../../data/gamedata.json';
-import {buildInitialFormAcquisitionIndex} from './initial-acquisition';
-import {getEligibleRecruitmentSPTs} from './spt-recruitment';
-import {braveTowerFloor} from './brave-tower';
-import {buildRecruitmentRewards,MAX_RECRUITMENT_PREREQUISITES,type RecruitmentPrerequisite} from './recruitment';
-import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture';
-import { WORLD_PLANETS, type WorldPlanet } from '../world';
-import { CHALLENGE_CAMPAIGNS } from './challenge-campaigns';
-import { FUSION_RECIPES, type FusionRecipe } from './fusion';
-import { BREEDING_RECIPES, getBreedingGender, type BreedingRecipe } from './breeding';
+import {buildInitialFormAcquisitionIndex} from './initial-acquisition.ts';
+import {getEligibleRecruitmentSPTs} from './spt-recruitment.ts';
+import {braveTowerFloor} from './brave-tower.ts';
+import {buildRecruitmentRewards,MAX_RECRUITMENT_PREREQUISITES,type RecruitmentPrerequisite} from './recruitment.ts';
+import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture.ts';
+import { WORLD_PLANETS, type WorldPlanet } from '../world.ts';
+import { CHALLENGE_CAMPAIGNS } from './challenge-campaigns.ts';
+import { FUSION_RECIPES, type FusionRecipe } from './fusion.ts';
+import { BREEDING_RECIPES, getBreedingGender, type BreedingRecipe } from './breeding.ts';
 
 /** The user's collection scope excludes both complete NPC-partner families. */
 export const NPC_ONLY_SPECIES = new Set([122, 123, 124, 125]);

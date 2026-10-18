@@ -1,6 +1,6 @@
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
-import {decodeBattleAnimationResponse} from './battle-animation-response';
-import {decodeOfflineBattleClip} from './battle-offline-clip';
+import {decodeBattleAnimationResponse} from './battle-animation-response.ts';
+import {decodeOfflineBattleClip} from './battle-offline-clip.ts';
 
 export interface BattleAnimationAssetEntry {
   meta:string;

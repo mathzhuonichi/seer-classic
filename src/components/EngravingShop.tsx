@@ -1,9 +1,9 @@
 import {useEffect,useState} from 'react';
-import type {EngravingView,GameController,GameSnapshot,StatKey} from '../game-types';
-import {ENGRAVING_EFFECT_GROUPS} from '../mechanics/engravings';
-import ItemIcon from './ItemIcon';
-import ItemTile from './ItemTile';
-import ItemCategoryTabs from './ItemCategoryTabs';
+import type {EngravingView,GameController,GameSnapshot,StatKey} from '../game-types.ts';
+import {ENGRAVING_EFFECT_GROUPS} from '../mechanics/engravings.ts';
+import ItemIcon from './ItemIcon.tsx';
+import ItemTile from './ItemTile.tsx';
+import ItemCategoryTabs from './ItemCategoryTabs.tsx';
 
 const slotNames={ability:'能力刻印',skill:'技能刻印'} as const;
 const statOptions:[StatKey|'all6',string][]=[['hp','体力'],['atk','攻击'],['def','防御'],['spa','特攻'],['spd','特防'],['spe','速度'],['all6','全属性']];

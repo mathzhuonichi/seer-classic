@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {BossView,GameController,GameSnapshot,QuestView} from '../game-types';
-import {CreatureArt} from './CreatureArt';
+import type {BossView,GameController,GameSnapshot,QuestView} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
 import './QuestPanel.css';
 
 const PAGE_SIZE=2;

@@ -1,5 +1,5 @@
 import {useId,useRef,useState,type ReactNode} from 'react';
-import ItemTooltip from './ItemTooltip';
+import ItemTooltip from './ItemTooltip.tsx';
 import './ItemTile.css';
 
 export interface ItemTileProps {

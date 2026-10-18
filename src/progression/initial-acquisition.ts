@@ -1,4 +1,4 @@
-import type {AcquisitionCatalog, AcquisitionRoute, SpeciesAcquisition} from './acquisition';
+import type {AcquisitionCatalog, AcquisitionRoute, SpeciesAcquisition} from './acquisition.ts';
 
 export interface InitialEvolutionStep {
   from:number;

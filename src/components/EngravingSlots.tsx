@@ -1,9 +1,9 @@
 import {useEffect,useRef,useState} from 'react';
-import type {GameController,MonsterView,StatKey} from '../game-types';
-import {ENGRAVING_EFFECT_GROUPS} from '../mechanics/engravings';
-import ItemIcon from './ItemIcon';
-import ItemTile from './ItemTile';
-import ItemCategoryTabs from './ItemCategoryTabs';
+import type {GameController,MonsterView,StatKey} from '../game-types.ts';
+import {ENGRAVING_EFFECT_GROUPS} from '../mechanics/engravings.ts';
+import ItemIcon from './ItemIcon.tsx';
+import ItemTile from './ItemTile.tsx';
+import ItemCategoryTabs from './ItemCategoryTabs.tsx';
 const slotNames={ability:'能力刻印',skill:'技能刻印'} as const;
 type Slot=keyof typeof slotNames;
 const abilityFilters:readonly (readonly [string,string])[]=[['all','全部'],['bound','专属'],['generic','通用'],['hp','体力'],['atk','攻击'],['def','防御'],['spa','特攻'],['spd','特防'],['spe','速度']];

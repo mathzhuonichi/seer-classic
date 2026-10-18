@@ -1,4 +1,4 @@
-import type { BattleEvent, DataSet } from '../../battle/core/src/types';
+import type { BattleEvent, DataSet } from '../../battle/core/src/types.ts';
 
 export interface BattleLogCreature { name: string; hp: number; maxHp: number }
 export interface BattleLogContext {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { createGame, loadCatalog } from '../../src/game';
-import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/progression/fusion';
-import { Rng } from '../../battle/core/src/rng';
+import { createGame, loadCatalog } from '../../src/game.ts';
+import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/progression/fusion.ts';
+import { Rng } from '../../battle/core/src/rng.ts';
 
 /** Vite SSR fixtures use no browser storage and cannot alter a player's save. */
 export async function runFusionAudit() {

@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
-import type {GameSnapshot} from '../game-types';
-import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower';
-import {CreatureArt} from './CreatureArt';
+import type {GameSnapshot} from '../game-types.ts';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower.ts';
+import {CreatureArt} from './CreatureArt.tsx';
 import '../management.css';
 import './BraveTower.css';
 

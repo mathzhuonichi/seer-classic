@@ -1,6 +1,6 @@
 import {useLayoutEffect,useRef,useState,type ReactNode} from 'react';
 import {createPortal} from 'react-dom';
-import {getLayoutZoom} from '../presentation/game-display';
+import {getLayoutZoom} from '../presentation/game-display.ts';
 
 export interface ItemTooltipProps {
   id:string; open:boolean; anchor:HTMLElement|null; name:string; description?:string; children?:ReactNode;

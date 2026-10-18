@@ -1,4 +1,4 @@
-import type {Hook,ScriptEntry,ScriptRegistry} from '../../battle/core/src/types';
+import type {Hook,ScriptEntry,ScriptRegistry} from '../../battle/core/src/types.ts';
 
 function passive(id:string,label:string,points:Hook['on'][],hook:ScriptEntry['hook']):ScriptEntry {
   return {install:c=>{

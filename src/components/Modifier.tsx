@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
-import type {GameSnapshot,GameController,MonsterView,StatKey} from '../game-types';
-import {getCreatureArt} from '../presentation/creature-art';
+import type {GameSnapshot,GameController,MonsterView,StatKey} from '../game-types.ts';
+import {getCreatureArt} from '../presentation/creature-art.ts';
 import './Modifier.css';
 
 const statNames:Record<StatKey,string>={hp:'体力',atk:'攻击',def:'防御',spa:'特攻',spd:'特防',spe:'速度'};

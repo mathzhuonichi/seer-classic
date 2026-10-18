@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createGame} from '../../src/game';
-import type {CatalogData} from '../../src/mechanics/catalog';
+import {createGame} from '../../src/game.ts';
+import type {CatalogData} from '../../src/mechanics/catalog.ts';
 const root=process.cwd();
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'data/gamedata.json'),'utf8'));
 catalog.bosses=fs.readdirSync(path.join(root,'data/bosses')).filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(path.join(root,'data/bosses',n),'utf8')));

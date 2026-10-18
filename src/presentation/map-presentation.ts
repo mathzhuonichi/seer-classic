@@ -1,4 +1,4 @@
-import type { WorldPlanet, WorldRegion } from '../world';
+import type { WorldPlanet, WorldRegion } from '../world.ts';
 
 export interface ScenePoint { x: number; y: number }
 export interface SceneBossActor {

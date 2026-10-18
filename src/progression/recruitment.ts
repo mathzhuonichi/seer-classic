@@ -1,10 +1,10 @@
 import policyData from '../../data/acquisition-policy.json';
-import {WORLD_PLANETS,type WorldPlanet} from '../world';
-import {FUSION_RECIPES} from './fusion';
-import {BREEDING_RECIPES} from './breeding';
-import {CHALLENGE_CAMPAIGNS} from './challenge-campaigns';
-import {buildPaidSPTRecruitments,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs} from './spt-recruitment';
-import {braveTowerFloor} from './brave-tower';
+import {WORLD_PLANETS,type WorldPlanet} from '../world.ts';
+import {FUSION_RECIPES} from './fusion.ts';
+import {BREEDING_RECIPES} from './breeding.ts';
+import {CHALLENGE_CAMPAIGNS} from './challenge-campaigns.ts';
+import {buildPaidSPTRecruitments,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs} from './spt-recruitment.ts';
+import {braveTowerFloor} from './brave-tower.ts';
 
 export const MAX_RECRUITMENT_PREREQUISITES=6;
 export interface AcquisitionPolicy {

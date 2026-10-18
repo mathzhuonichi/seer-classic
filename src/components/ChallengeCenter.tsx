@@ -1,11 +1,11 @@
 import {useEffect,useState} from 'react';
-import type {BossView,CampaignView,GameController,GameSnapshot} from '../game-types';
-import {findChallengeLocation,resolveWorldLocation} from '../world';
-import {CreatureArt} from './CreatureArt';
-import BossEvidence from './BossEvidence';
-import {encounterLevelText} from '../presentation/encounter-level';
-import {mergeBossEvidence} from '../presentation/boss-evidence';
-import {braveTowerFloor} from '../progression/brave-tower';
+import type {BossView,CampaignView,GameController,GameSnapshot} from '../game-types.ts';
+import {findChallengeLocation,resolveWorldLocation} from '../world.ts';
+import {CreatureArt} from './CreatureArt.tsx';
+import BossEvidence from './BossEvidence.tsx';
+import {encounterLevelText} from '../presentation/encounter-level.ts';
+import {mergeBossEvidence} from '../presentation/boss-evidence.ts';
+import {braveTowerFloor} from '../progression/brave-tower.ts';
 import '../management.css';
 import './ChallengeCenter.css';
 const categories=['全部挑战','SPT首领','传说挑战','勇者之塔','暗黑武斗场','任务挑战','训练师对战'];

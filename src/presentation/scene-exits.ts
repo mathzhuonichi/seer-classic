@@ -1,5 +1,5 @@
-import type { WorldPlanet, WorldRegion } from '../world';
-import type { ScenePoint } from './map-presentation';
+import type { WorldPlanet, WorldRegion } from '../world.ts';
+import type { ScenePoint } from './map-presentation.ts';
 
 export type SceneExitFacing = 'left' | 'right' | 'up' | 'down';
 export interface SceneExit {

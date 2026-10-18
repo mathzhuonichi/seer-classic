@@ -1,11 +1,11 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot} from '../game-types';
-import {ITEM_SHOP_CATEGORIES,itemShopCategory,type ShopCategory} from '../progression/item-shop';
-import ItemIcon from './ItemIcon';
-import ItemTile from './ItemTile';
-import ItemCategoryTabs from './ItemCategoryTabs';
-import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories';
-import EngravingShop from './EngravingShop';
+import type {GameController,GameSnapshot} from '../game-types.ts';
+import {ITEM_SHOP_CATEGORIES,itemShopCategory,type ShopCategory} from '../progression/item-shop.ts';
+import ItemIcon from './ItemIcon.tsx';
+import ItemTile from './ItemTile.tsx';
+import ItemCategoryTabs from './ItemCategoryTabs.tsx';
+import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories.ts';
+import EngravingShop from './EngravingShop.tsx';
 import '../management.css';
 import './ItemShop.css';
 

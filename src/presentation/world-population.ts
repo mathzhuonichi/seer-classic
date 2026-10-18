@@ -1,4 +1,4 @@
-import type { SpeciesView } from '../game-types';
+import type { SpeciesView } from '../game-types.ts';
 
 export interface WorldCreatureInstance {
   /** Stable within a scene: use this for React keys and individual selection. */

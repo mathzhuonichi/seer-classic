@@ -1,5 +1,5 @@
-import type {GameAction,GameSnapshot} from '../game-types';
-import type {GameSound} from './game-audio';
+import type {GameAction,GameSnapshot} from '../game-types.ts';
+import type {GameSound} from './game-audio.ts';
 type OutcomeSnapshot=Pick<GameSnapshot,'monsters'|'items'|'quests'|'expPool'>;
 /** Positive state transitions are authoritative; notices also describe rejected actions. */
 export function actionSound(action:GameAction,before:OutcomeSnapshot,after:OutcomeSnapshot):GameSound|null{

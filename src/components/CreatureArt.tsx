@@ -1,4 +1,4 @@
-import {creatureArtStyle, getCreatureArt} from '../presentation/creature-art';
+import {creatureArtStyle, getCreatureArt} from '../presentation/creature-art.ts';
 import './creature-art.css';
 
 export function CreatureArt({species,name,size,className='',fill=.9,scaleByStage,verticalAlign}: {species:number;name:string;size?:number;className?:string;fill?:number;scaleByStage?:boolean;verticalAlign?:'ground'|'center'}) {

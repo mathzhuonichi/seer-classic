@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState,type ReactNode,type PointerEvent} from 'react';
-import {getLayoutZoom} from '../presentation/game-display';
+import {getLayoutZoom} from '../presentation/game-display.ts';
 
 export default function GameWindow({title,children,onClose,compact=false}:{title:string;children:ReactNode;onClose:()=>void;compact?:boolean}) {
   const ref=useRef<HTMLElement>(null);

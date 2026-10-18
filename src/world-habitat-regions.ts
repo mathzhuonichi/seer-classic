@@ -1,5 +1,5 @@
 import definitions from '../data/habitat-regions.json';
-import type { WorldPlanet } from './world';
+import type { WorldPlanet } from './world.ts';
 
 /** Source-backed subregions with an explicit parent-artwork adaptation. */
 export function addHabitatRegions(planets: WorldPlanet[]): void {

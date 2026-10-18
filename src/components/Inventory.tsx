@@ -1,11 +1,11 @@
 import {useEffect,useRef,useState} from 'react';
-import type {GameController,GameSnapshot,ItemView} from '../game-types';
-import {CreatureArt} from './CreatureArt';
-import ItemIcon from './ItemIcon';
-import {encounterLevelText} from '../presentation/encounter-level';
-import ItemTile from './ItemTile';
-import ItemCategoryTabs from './ItemCategoryTabs';
-import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories';
+import type {GameController,GameSnapshot,ItemView} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
+import ItemIcon from './ItemIcon.tsx';
+import {encounterLevelText} from '../presentation/encounter-level.ts';
+import ItemTile from './ItemTile.tsx';
+import ItemCategoryTabs from './ItemCategoryTabs.tsx';
+import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories.ts';
 import '../management.css';
 import './Inventory.css';
 const pockets=[['raising','培养'],['battle','补给'],['capsule','胶囊'],['essence','精元'],['other','其他']] as const;

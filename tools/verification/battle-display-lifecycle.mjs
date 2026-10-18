@@ -16,7 +16,7 @@ const modules={
   clock:`export const battleRuntimeClock={attach(player){const h=globalThis.${stateKey};h.clockAttaches++;return{running(){},draw(){player.draw();},destroy(){h.clockDestroys++;}};},recovered(){}};`,
   art:`export const getCreatureArt=()=>({src:'/fixture.svg',physicalScale:1});export const creatureArtStyle=()=>({});`,
 };
-const substitutions={'react':'react','@seer-pet-anim/swf-renderer':'player','pixi.js':'pixi','../presentation/battle-animation':'pool','../presentation/battle-runtime-clock':'clock','../presentation/creature-art':'art'};
+const substitutions={'react':'react','@seer-pet-anim/swf-renderer':'player','pixi.js':'pixi','../presentation/battle-animation.ts':'pool','../presentation/battle-runtime-clock.ts':'clock','../presentation/creature-art.ts':'art'};
 const cacheRoot=fileURLToPath(new URL('../../artifacts/.validation-cache/',import.meta.url));
 mkdirSync(cacheRoot,{recursive:true});
 const cacheDir=mkdtempSync(join(cacheRoot,'battle-display-lifecycle-'));

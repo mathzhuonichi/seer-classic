@@ -1,10 +1,10 @@
-import {type BossEncounter,type BossTeamMember,type Skill,type Species,type TypeData,Rng} from '../../battle/core/src/index';
-import {attackTypes} from '../../battle/core/src/typechart';
-import type {CatalogData} from '../mechanics/catalog';
-import type {BattleFacilityView,BattleFacilityGroupView} from '../game-types';
-import {NPC_ONLY_SPECIES} from './acquisition';
-import {trainerSkillOrigin} from './trainer-skills';
-import {normalizeNpcTrainingEncounter,npcTrainingProfileView} from './npc-training';
+import {type BossEncounter,type BossTeamMember,type Skill,type Species,type TypeData,Rng} from '../../battle/core/src/index.ts';
+import {attackTypes} from '../../battle/core/src/typechart.ts';
+import type {CatalogData} from '../mechanics/catalog.ts';
+import type {BattleFacilityView,BattleFacilityGroupView} from '../game-types.ts';
+import {NPC_ONLY_SPECIES} from './acquisition.ts';
+import {trainerSkillOrigin} from './trainer-skills.ts';
+import {normalizeNpcTrainingEncounter,npcTrainingProfileView} from './npc-training.ts';
 import eliteRoster from '../../data/elite-roster.json';
 
 export const CLASSIC_TEAM_GROUPS:BattleFacilityGroupView[]=[

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildAcquisitionIndex, type AcquisitionCatalog} from '../../src/progression/acquisition';
-import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition';
-import {buildRecruitmentRewards} from '../../src/progression/recruitment';
+import {buildAcquisitionIndex, type AcquisitionCatalog} from '../../src/progression/acquisition.ts';
+import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition.ts';
+import {buildRecruitmentRewards} from '../../src/progression/recruitment.ts';
 
 export function verifyBaseFormAcquisition() {
   const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));

@@ -1,4 +1,4 @@
-import type {ShopItemView} from '../game-types';
+import type {ShopItemView} from '../game-types.ts';
 export const ITEM_SHOP_CATEGORIES=[['raising','培养道具','◇'],['battle','战斗补给','✚'],['capsule','精灵胶囊','◈'],['essence','精元 / 元神珠','◉'],['other','其他','▣']] as const;
 export type ShopCategory=typeof ITEM_SHOP_CATEGORIES[number][0];
 export function itemShopCategory(kind:string):ShopCategory{return ITEM_SHOP_CATEGORIES.some(row=>row[0]===kind)?kind as ShopCategory:'other'}

@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import type {CampaignView, GameController} from '../game-types';
-import {CreatureArt} from './CreatureArt';
-import BossEvidence from './BossEvidence';
-import {encounterLevelText} from '../presentation/encounter-level';
+import type {CampaignView, GameController} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
+import BossEvidence from './BossEvidence.tsx';
+import {encounterLevelText} from '../presentation/encounter-level.ts';
 import './challenge-campaign-scene.css';
 
 export interface ChallengeCampaignSceneProps {

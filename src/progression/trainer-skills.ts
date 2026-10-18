@@ -1,4 +1,4 @@
-import type {CatalogData} from '../mechanics/catalog';
+import type {CatalogData} from '../mechanics/catalog.ts';
 
 export interface TrainerSkillOrigin {kind:'level'|'training';source?:string}
 

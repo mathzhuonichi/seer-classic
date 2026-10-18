@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent } from 'react';
-import type { GameController, GameSnapshot, SpeciesView } from '../game-types';
-import { WORLD_PLANETS, findChallengeLocation, findSceneChallenges, findSpeciesLocation, readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../world';
-import { CreatureArt } from './CreatureArt';
-import { buildWorldPopulation } from '../presentation/world-population';
-import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation';
-import {getSceneExits,type SceneExit} from '../presentation/scene-exits';
-import {contactApproachPoint} from '../presentation/world-interaction';
-import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower';
-import ClassicRobot from './ClassicRobot';
-import BossEvidence from './BossEvidence';
-import {encounterLevelText} from '../presentation/encounter-level';
+import type { GameController, GameSnapshot, SpeciesView } from '../game-types.ts';
+import { WORLD_PLANETS, findChallengeLocation, findSceneChallenges, findSpeciesLocation, readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../world.ts';
+import { CreatureArt } from './CreatureArt.tsx';
+import { buildWorldPopulation } from '../presentation/world-population.ts';
+import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation.ts';
+import {getSceneExits,type SceneExit} from '../presentation/scene-exits.ts';
+import {contactApproachPoint} from '../presentation/world-interaction.ts';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower.ts';
+import ClassicRobot from './ClassicRobot.tsx';
+import BossEvidence from './BossEvidence.tsx';
+import {encounterLevelText} from '../presentation/encounter-level.ts';
 import '../world.css';
 
 export interface WorldDestination { planetId: string; regionId: string }

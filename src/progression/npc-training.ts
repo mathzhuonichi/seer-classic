@@ -1,7 +1,7 @@
 import definitions from '../../data/npc-training-profiles.json';
-import {computeStats} from '../../battle/core/src/stats';
-import type {BossEncounter,Nature,Species,Stats} from '../../battle/core/src/types';
-import type {CatalogData} from '../mechanics/catalog';
+import {computeStats} from '../../battle/core/src/stats.ts';
+import type {BossEncounter,Nature,Species,Stats} from '../../battle/core/src/types.ts';
+import type {CatalogData} from '../mechanics/catalog.ts';
 
 const keys=['hp','atk','def','spa','spd','spe'] as const;
 interface NpcTrainingProfile {

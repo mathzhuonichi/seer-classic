@@ -5,7 +5,7 @@ export interface MonsterModules {
   engravingDeficit?: { hp: number; pp: Record<string,number> };
 }
 
-export { engravings } from './engravings';
-export type { EngravingDefinition } from './engravings';
-export { traits } from './traits';
-export type { TraitDefinition } from './traits';
+export { engravings } from './engravings.ts';
+export type { EngravingDefinition } from './engravings.ts';
+export { traits } from './traits.ts';
+export type { TraitDefinition } from './traits.ts';

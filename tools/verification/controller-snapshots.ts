@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame,loadCatalog} from '../../src/game';
-import type {CatalogData} from '../../src/mechanics/catalog';
+import {createGame,loadCatalog} from '../../src/game.ts';
+import type {CatalogData} from '../../src/mechanics/catalog.ts';
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
 export async function verifyControllerSnapshots(){

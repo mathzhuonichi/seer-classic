@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame} from '../../src/game';
-import {CHALLENGE_CAMPAIGNS} from '../../src/progression/challenge-campaigns';
-import {newSave} from '../../raising/game/save';
+import {createGame} from '../../src/game.ts';
+import {CHALLENGE_CAMPAIGNS} from '../../src/progression/challenge-campaigns.ts';
+import {newSave} from '../../raising/game/save.ts';
 
 const source=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));
 source.bosses=fs.readdirSync('data/bosses').filter(file=>file.endsWith('.json')).map(file=>JSON.parse(fs.readFileSync(`data/bosses/${file}`,'utf8')));

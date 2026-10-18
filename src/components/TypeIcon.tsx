@@ -1,7 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import {elementName,elementParts,typeAssets,type ElementTypes} from '../presentation/element-types';
-import {getLayoutZoom} from '../presentation/game-display';
+import {elementName,elementParts,typeAssets,type ElementTypes} from '../presentation/element-types.ts';
+import {getLayoutZoom} from '../presentation/game-display.ts';
 import './type-icon.css';
 
 /** Original official button artwork, with a tooltip outside clipping card panels. */

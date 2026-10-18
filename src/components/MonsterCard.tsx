@@ -1,6 +1,6 @@
-import type {MonsterView,SpeciesView} from '../game-types';
-import {CreatureArt} from './CreatureArt';
-import TypeIcon from './TypeIcon';
+import type {MonsterView,SpeciesView} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
+import TypeIcon from './TypeIcon.tsx';
 import '../management.css';
 import './petbag-party-card.css';
 export default function MonsterCard({monster,onClick,selected=false,compact=false,slot,presentation}:{monster:MonsterView|SpeciesView;onClick:()=>void;selected?:boolean;compact?:boolean;slot?:number;presentation?:'petbag-party'}) {

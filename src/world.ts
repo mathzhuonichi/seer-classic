@@ -1,6 +1,6 @@
-import type { BossView } from './game-types';
-import { ADDITIONAL_WORLD_PLANETS } from './world-expansion';
-import { addHabitatRegions } from './world-habitat-regions';
+import type { BossView } from './game-types.ts';
+import { ADDITIONAL_WORLD_PLANETS } from './world-expansion.ts';
+import { addHabitatRegions } from './world-habitat-regions.ts';
 import mapArtwork from './presentation/map-art-assets.json';
 import mapHdArtwork from './presentation/map-hd-assets.json';
 import generatedHabitats from '../data/habitats.json';

@@ -1,5 +1,5 @@
 import {useSyncExternalStore} from 'react';
-import {gameAudio} from '../audio/game-audio';
+import {gameAudio} from '../audio/game-audio.ts';
 import './AudioSettings.css';
 export default function AudioSettings(){
  const settings=useSyncExternalStore(gameAudio.subscribe,gameAudio.snapshot);

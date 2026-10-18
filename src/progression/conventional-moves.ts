@@ -1,6 +1,6 @@
-import type {Skill,Species,TypeData} from '../../battle/core/src/index';
-import type {CatalogData} from '../mechanics/catalog';
-import {eliteMember} from './battle-facilities';
+import type {Skill,Species,TypeData} from '../../battle/core/src/index.ts';
+import type {CatalogData} from '../mechanics/catalog.ts';
+import {eliteMember} from './battle-facilities.ts';
 
 /** The elite build models every opposing species in all trainer facilities.
  * It is knowledge of the mode's convention, never of the player's real loadout.

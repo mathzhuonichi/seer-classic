@@ -1,8 +1,8 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../game-types';
-import {BREEDING_RECIPES,canBreedParents,type BreedingRecipe} from '../progression/breeding';
-import {getSpeciesAcquisition} from '../progression/acquisition';
-import {CreatureArt} from './CreatureArt';
+import type {GameController,GameSnapshot,MonsterView} from '../game-types.ts';
+import {BREEDING_RECIPES,canBreedParents,type BreedingRecipe} from '../progression/breeding.ts';
+import {getSpeciesAcquisition} from '../progression/acquisition.ts';
+import {CreatureArt} from './CreatureArt.tsx';
 import '../fusion.css';
 import './Breeding.css';
 

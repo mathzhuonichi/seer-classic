@@ -1,4 +1,4 @@
-import type {EngravingDefinition} from './engravings';
+import type {EngravingDefinition} from './engravings.ts';
 
 /** Remake balance limits apply per generic ability engraving, including equipped copies.
  * HP gains are larger numerically; Speed receives extra weight for turn order.

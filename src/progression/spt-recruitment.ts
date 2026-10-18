@@ -1,6 +1,6 @@
 import bundle from '../../data/gamedata.json';
 import paidSource from '../../data/paid-spt-recruitment.json';
-import { CHALLENGE_CAMPAIGNS } from './challenge-campaigns';
+import { CHALLENGE_CAMPAIGNS } from './challenge-campaigns.ts';
 
 export interface RecruitmentEvidence {
   kind: string;

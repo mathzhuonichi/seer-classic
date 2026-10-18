@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client';
-import type {Save} from '../../raising/core/types';
+import type {Save} from '../../raising/core/types.ts';
 
 function memoryStorage(): Storage {
   const values=new Map<string,string>();
@@ -21,8 +21,8 @@ for(const name of ['localStorage','sessionStorage'] as const) {
 document.title='Seer Classic Preview';
 
 const [{Game},{createGame,loadCatalog}]=await Promise.all([
-  import('../App'),
-  import('../game'),
+  import('../App.tsx'),
+  import('../game.ts'),
 ]);
 const game=createGame(await loadCatalog(),'');
 for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});

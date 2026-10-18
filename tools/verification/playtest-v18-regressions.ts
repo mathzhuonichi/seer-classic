@@ -4,9 +4,9 @@ import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/mechanics/campaign-rules.ts';
-import {createGame} from '../../src/game';
+import {createGame} from '../../src/game.ts';
 import type {BossEncounter,MonsterInput} from '../../battle/core/src/types.ts';
-import type {CatalogData} from '../../src/mechanics/catalog';
+import type {CatalogData} from '../../src/mechanics/catalog.ts';
 
 const raw=JSON.parse(readFileSync('data/gamedata.json','utf8'));
 const data=buildDataSet(raw);

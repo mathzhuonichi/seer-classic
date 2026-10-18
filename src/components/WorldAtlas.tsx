@@ -1,5 +1,5 @@
 import {useMemo,useState,type CSSProperties} from 'react';
-import {WORLD_GALAXIES,WORLD_PLANETS,readWorldPreference,resolveWorldLocation,type WorldPlanet,type WorldRegion} from '../world';
+import {WORLD_GALAXIES,WORLD_PLANETS,readWorldPreference,resolveWorldLocation,type WorldPlanet,type WorldRegion} from '../world.ts';
 import graphAssets from '../presentation/atlas-graph-assets.json';
 import '../atlas.css';
 

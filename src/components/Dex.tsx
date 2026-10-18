@@ -1,11 +1,11 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,StatKey} from '../game-types';
-import {CreatureArt} from './CreatureArt';
-import MonsterCard from './MonsterCard';
-import TypeIcon from './TypeIcon';
-import TypeFilter from './TypeFilter';
-import {matchesElement} from '../presentation/element-types';
-import {getAcquisitionFamilies,getAcquisitionFamily,getSpeciesAcquisition,getInitialFormAcquisition,type AcquisitionRoute} from '../progression/acquisition';
+import type {GameController,GameSnapshot,StatKey} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
+import MonsterCard from './MonsterCard.tsx';
+import TypeIcon from './TypeIcon.tsx';
+import TypeFilter from './TypeFilter.tsx';
+import {matchesElement} from '../presentation/element-types.ts';
+import {getAcquisitionFamilies,getAcquisitionFamily,getSpeciesAcquisition,getInitialFormAcquisition,type AcquisitionRoute} from '../progression/acquisition.ts';
 import '../management.css';
 import './Dex.css';
 const stats:[StatKey,string][]=[['hp','体力'],['atk','攻击'],['def','防御'],['spa','特攻'],['spd','特防'],['spe','速度']];

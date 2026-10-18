@@ -1,11 +1,11 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../game-types';
-import MonsterCard from './MonsterCard';
-import Raising from './Raising';
-import TypeFilter from './TypeFilter';
-import {CreatureArt} from './CreatureArt';
-import TypeIcon from './TypeIcon';
-import {matchesElement} from '../presentation/element-types';
+import type {GameController,GameSnapshot,MonsterView} from '../game-types.ts';
+import MonsterCard from './MonsterCard.tsx';
+import Raising from './Raising.tsx';
+import TypeFilter from './TypeFilter.tsx';
+import {CreatureArt} from './CreatureArt.tsx';
+import TypeIcon from './TypeIcon.tsx';
+import {matchesElement} from '../presentation/element-types.ts';
 import '../management.css';
 export default function MonsterManager({s,c,selected,onSelect}:{s:GameSnapshot;c:GameController;selected:string;onSelect:(uid:string)=>void}) {
   const [search,setSearch]=useState(''),[type,setType]=useState('全部属性'),[page,setPage]=useState(0);

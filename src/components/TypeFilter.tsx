@@ -1,8 +1,8 @@
 import {useEffect,useId,useRef,useState,type KeyboardEvent} from 'react';
 import {createPortal} from 'react-dom';
-import {elementChoices,elementParts} from '../presentation/element-types';
-import {getLayoutZoom} from '../presentation/game-display';
-import TypeIcon from './TypeIcon';
+import {elementChoices,elementParts} from '../presentation/element-types.ts';
+import {getLayoutZoom} from '../presentation/game-display.ts';
+import TypeIcon from './TypeIcon.tsx';
 import './TypeFilter.css';
 
 type Props={label:string;value:string;groups:readonly (readonly string[])[];onChange:(value:string)=>void;withIcons?:boolean};

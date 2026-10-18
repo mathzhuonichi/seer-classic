@@ -1,4 +1,4 @@
-import type {AcquisitionAllowance} from '../game-types';
+import type {AcquisitionAllowance} from '../game-types.ts';
 
 export const SPECIES_COPY_LIMIT = 6;
 export interface AcquisitionStock {

@@ -1,8 +1,8 @@
-import {disposeOfflineBattleClip} from './battle-offline-clip';
+import {disposeOfflineBattleClip} from './battle-offline-clip.ts';
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
-import {loadBattleAnimation,type BattleAnimationHdIndex} from './battle-animation-loader';
-import {createBattleClipPool,waitForClipLease} from './battle-clip-pool';
-import {battleRuntimeClock} from './battle-runtime-clock';
+import {loadBattleAnimation,type BattleAnimationHdIndex} from './battle-animation-loader.ts';
+import {createBattleClipPool,waitForClipLease} from './battle-clip-pool.ts';
+import {battleRuntimeClock} from './battle-runtime-clock.ts';
 import index from '../../public/battle-animations/runtime-index.json';
 export type OriginalAction='standby'|'attack'|'sa'|'cp'|'hited';
 type Entry={meta:string;atlas:string;frameRate:number;atlasWidth:number;atlasHeight:number;sequences:{name:string;frames:number;hitFrame:number}[]};

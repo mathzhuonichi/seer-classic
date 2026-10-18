@@ -1,8 +1,8 @@
 import evidenceIndex from '../../data/boss-evidence-runtime-v56.json';
 import ruleIndex from '../../data/boss-rule-support-v56.json';
-import type {BossEncounter} from '../../battle/core/src/types';
-import type {BossEvidenceStatus,BossEvidenceView} from '../game-types';
-import {encounterLevel} from './encounter-level';
+import type {BossEncounter} from '../../battle/core/src/types.ts';
+import type {BossEvidenceStatus,BossEvidenceView} from '../game-types.ts';
+import {encounterLevel} from './encounter-level.ts';
 
 type FieldKey='level'|'iv'|'evs'|'nature'|'hp'|'skills'|'ai'|'rules';
 type Field={status:BossEvidenceStatus;basis?:string};

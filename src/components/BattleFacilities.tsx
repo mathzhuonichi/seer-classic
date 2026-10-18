@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot} from '../game-types';
-import {CreatureArt} from './CreatureArt';
+import type {GameController,GameSnapshot} from '../game-types.ts';
+import {CreatureArt} from './CreatureArt.tsx';
 import '../management.css';
 import './BattleFacilities.css';
 

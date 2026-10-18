@@ -5,7 +5,7 @@ import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';
 import type { BossRule, ConditionDef, ScriptRegistry, Skill, Stats } from '../../battle/core/src/types.ts';
-import { traits, traitScripts } from '../../src/mechanics/traits';
+import { traits, traitScripts } from '../../src/mechanics/traits.ts';
 
 /** Focused damage audit. Run through Vite SSR; fixtures never load or modify a save. */
 export function runDamageAudit(factory: typeof createBattle = createBattle, label = 'current') {
