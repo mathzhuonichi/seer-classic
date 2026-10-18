@@ -132,6 +132,8 @@ export class Battle {
   conventionalMoves?: (speciesId: number) => number[];
   /** Present only on a planner's isolated world; never on a live battle. */
   planning?: { forcedReplacement?: Partial<Record<0 | 1, number>> };
+  /** Search planner: the successor a chosen sacrifice was planned with, per side and foe response. */
+  sacrificePlans?: Partial<Record<0 | 1, { turn: number; slot: number; responses: number[]; successors: number[] }>>;
   phasesFired = new Set<number>();
   damageBySide: [number, number] = [0, 0];
   lastKo: { by?: Mon; skill?: Skill; crit?: boolean; target: Mon; targetStatuses: string[]; status?: string; turn: number } | null = null;

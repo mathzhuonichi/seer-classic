@@ -83,6 +83,7 @@ function buildWorld(b: Battle, me: 0 | 1): World {
   const foe = (1 - me) as 0 | 1, real = b.sides[foe];
   const w = cloneBattle(b);
   w.planning = {};
+  delete w.sacrificePlans;
   const slots = new Set([real.active, ...revealedOpponentSlots(b, me)].filter(slot => !real.team[slot].fainted));
   const opponent = [...slots].sort((a, z) => a - z).map(slot => observeOpponent(b, me, slot));
   const models = new Map(opponent.map(model => [model.slot, modelMon(b, w, model)]));
@@ -285,7 +286,6 @@ function candidates(b: Battle, me: 0 | 1): Action[] {
   const self = b.active(me), healBlocked = healStreak(b, me) >= HEAL_STREAK_LIMIT, gift = pendingGift(b, me);
   const out = b.legalActions(me).filter(a => {
     if (!['move', 'switch', 'item'].includes(a.kind)) return false;
-    if ((globalThis as any).process?.env?.SEARCH_NO_SWITCH && a.kind === 'switch') return false;
     if (healBlocked && healsHp(b, a)) return false;
     if (a.kind === 'move' && gift && b.skill(a.skill, self).effects?.some(op => op.op === 'script' && GIFTS.has(op.id))) return false;
     return true;
@@ -294,8 +294,6 @@ function candidates(b: Battle, me: 0 | 1): Action[] {
 }
 
 // ---------- decisions ----------
-
-const actionKey = (a: Action) => JSON.stringify(a);
 
 export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
   const me = side.index, w = buildWorld(b, me), weights = STYLE[ai.style ?? 'balanced'];
@@ -308,10 +306,10 @@ export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
   let simulated = 0;
   const sacrifices: SearchDecision['sacrifices'] = [];
   const matrix = actions.map((action, row) => {
-    const tag = actionKey(action);
-    const probe = simulate(w, action, responses[0], seed(b, 'cell', responses[0], 0), HORIZON, weights);
-    simulated += turns;
-    if (probe.sacrifice && reserves.length) {
+    // The first sample of every response also detects whether this action is a sacrifice.
+    const first = responses.map(r => simulate(w, action, r, seed(b, 'cell', r, 0), HORIZON, weights));
+    simulated += responses.length * turns;
+    if (first.some(cell => cell.sacrifice) && reserves.length) {
       // A self-KO hands its successor a free entry and any gift: expand once per reserve.
       const ks = Math.max(MIN_SACRIFICE_SAMPLES, Math.min(k, Math.floor(BUDGET / (reserves.length * responses.length * (turns + SACRIFICE_EXTRA) * actions.length))));
       const best: number[] = [];
@@ -330,9 +328,9 @@ export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
       return cells;
     }
     return responses.map((r, j) => {
-      let total = j === 0 ? probe.value : 0;
-      for (let n = j === 0 ? 1 : 0; n < k; n++) total += simulate(w, action, r, seed(b, 'cell', r, n), HORIZON, weights).value;
-      simulated += (j === 0 ? k - 1 : k) * turns;
+      let total = first[j].value;
+      for (let n = 1; n < k; n++) total += simulate(w, action, r, seed(b, 'cell', r, n), HORIZON, weights).value;
+      simulated += (k - 1) * turns;
       return total / k;
     });
   });
@@ -347,6 +345,9 @@ export function searchAction(b: Battle, side: Side, ai: AiSpec): Action {
     for (let i = 0; i < mix.length; i++) { r -= mix[i]; if (r < 0) { index = i; break; } }
   }
   const chosen = actions[index];
+  const planned = sacrifices.find(p => p.action === index);
+  // A chosen sacrifice keeps the successor its expansion found best against each response.
+  if (planned) b.sacrificePlans = { ...b.sacrificePlans, [me]: { turn: b.turn + 1, slot: side.active, responses, successors: planned.successors } };
   decisions.set(b, { ...decisions.get(b), [me]: { turn: b.turn + 1, side: me, opponent: w.opponent, modeledMoves: w.modeledMoves, actions, responses, matrix, strategy: mix, value, chosen, samples: k, simulatedTurns: simulated, sacrifices } });
   return chosen;
 }
@@ -356,6 +357,24 @@ export function searchReplacement(b: Battle, side: Side): Action | undefined {
   const me = side.index, bench = side.team.filter(m => !m.fainted && m.slot !== side.active);
   if (!bench.length) return undefined;
   if (bench.length === 1) return { kind: 'switch', slot: bench[0].slot };
+  const plan = b.sacrificePlans?.[me];
+  if (plan) {
+    delete b.sacrificePlans![me];
+    if (plan.turn === b.turn && plan.slot === side.active) {
+      // The foe's move this turn is public; follow the successor planned against it.
+      let turn = 0, used: number | undefined;
+      for (const e of b.log) {
+        if (e.type === 'turn_start') turn = e.turn;
+        if (turn === b.turn && e.type === 'move_used' && e.side !== me) used = e.skill;
+      }
+      const j = used === undefined ? -1 : plan.responses.indexOf(used);
+      const counts = new Map<number, number>();
+      for (const s of plan.successors) counts.set(s, (counts.get(s) ?? 0) + 1);
+      const ranked = j >= 0 ? [plan.successors[j]] : [...counts].sort((a, z) => z[1] - a[1] || a[0] - z[0]).map(([s]) => s);
+      const slot = ranked.find(s => bench.some(m => m.slot === s));
+      if (slot !== undefined) return { kind: 'switch', slot };
+    }
+  }
   const ai = b.active(me).ai ?? side.ai, weights = STYLE[ai?.style ?? 'balanced'];
   const foeSide = b.sides[1 - me];
   if (b.active(foeSide.index).fainted) return { kind: 'switch', slot: bench.map(m => m).sort((a, z) => worth(z) - worth(a) || a.slot - z.slot)[0].slot };

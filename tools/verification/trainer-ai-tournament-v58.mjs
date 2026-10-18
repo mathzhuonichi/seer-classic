@@ -10,14 +10,18 @@
  * Usage:
  *   node tools/verification/trainer-ai-tournament-v58.mjs \
  *     [--facility random|elite|classic|all] [--games N] [--a search|v57] [--b search|v57] \
- *     [--seed S] [--max-turns T] [--out report.json] [--quiet]
+ *     [--seed S] [--max-turns T] [--out report.json] [--quiet] [--jobs N]
  *
+ * --jobs N splits the pairings over N worker processes (pairing index modulo N)
+ * and merges their games and timings into one report; results are unchanged.
  * --games is the number of team pairings per facility; each pairing is two battles.
  * Results are deterministic for a given seed (decision times are not).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {spawn} from 'node:child_process';
+import os from 'node:os';
 import {createServer} from 'vite';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -25,7 +29,7 @@ const FACILITIES = ['random', 'elite', 'classic'];
 const PLANNERS = ['search', 'v57'];
 
 function parseArgs(argv) {
-  const opts = {facility: 'all', games: 30, a: 'search', b: 'v57', seed: 1, maxTurns: 200, out: undefined, quiet: false};
+  const opts = {facility: 'all', games: 30, a: 'search', b: 'v57', seed: 1, maxTurns: 200, out: undefined, quiet: false, jobs: 1, shard: [0, 1]};
   for (let k = 0; k < argv.length; k++) {
     const flag = argv[k], value = () => {
       if (k + 1 >= argv.length) throw new Error(`${flag} needs a value`);
@@ -40,6 +44,8 @@ function parseArgs(argv) {
       case '--max-turns': opts.maxTurns = Number(value()); break;
       case '--out': opts.out = value(); break;
       case '--quiet': opts.quiet = true; break;
+      case '--jobs': opts.jobs = Number(value()); break;
+      case '--shard': opts.shard = value().split('/').map(Number); break;
       case '--help': case '-h':
         console.log('Usage: trainer-ai-tournament-v58.mjs [--facility random|elite|classic|all] [--games N] [--a search|v57] [--b search|v57] [--seed S] [--max-turns T] [--out report.json] [--quiet]');
         process.exit(0);
@@ -50,6 +56,9 @@ function parseArgs(argv) {
   for (const key of ['a', 'b']) if (!PLANNERS.includes(opts[key])) throw new Error(`--${key} must be one of ${PLANNERS.join('|')}`);
   if (!Number.isSafeInteger(opts.games) || opts.games < 1) throw new Error('--games must be a positive integer');
   if (!Number.isSafeInteger(opts.seed) || opts.seed < 0) throw new Error('--seed must be a non-negative integer');
+  if (!Number.isSafeInteger(opts.jobs) || opts.jobs < 1 || opts.jobs > os.availableParallelism() * 2) throw new Error('--jobs must be a positive integer');
+  const [k, n] = opts.shard;
+  if (!Number.isSafeInteger(n) || n < 1 || !Number.isSafeInteger(k) || k < 0 || k >= n) throw new Error('--shard must be k/n with 0 <= k < n');
   if (!Number.isSafeInteger(opts.maxTurns) || opts.maxTurns < 1) throw new Error('--max-turns must be a positive integer');
   opts.out = path.resolve(opts.out ?? path.join(root, 'artifacts/trainer-ai-tournament-v58', `${opts.a}-vs-${opts.b}-${opts.facility}-g${opts.games}-s${opts.seed}.json`));
   return opts;
@@ -57,6 +66,26 @@ function parseArgs(argv) {
 
 const opts = parseArgs(process.argv.slice(2));
 const log = (...xs) => { if (!opts.quiet) console.log(...xs); };
+const sharded = opts.shard[1] > 1;
+
+/** Runs the shards as child processes and returns their partial reports. */
+async function runShards() {
+  const argv = process.argv.slice(2), keep = [];
+  for (let k = 0; k < argv.length; k++) {
+    if (['--jobs', '--out', '--shard'].includes(argv[k])) { k++; continue; }
+    if (argv[k] !== '--quiet') keep.push(argv[k]);
+  }
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trainer-ai-tournament-'));
+  const script = fileURLToPath(import.meta.url);
+  const parts = await Promise.all(Array.from({length: opts.jobs}, (_, k) => new Promise((resolve, reject) => {
+    const out = path.join(dir, `shard-${k}.json`);
+    const child = spawn(process.execPath, [script, ...keep, '--shard', `${k}/${opts.jobs}`, '--out', out, '--quiet'], {stdio: ['ignore', 'ignore', 'inherit']});
+    child.on('error', reject);
+    child.on('exit', code => code === 0 ? resolve(JSON.parse(fs.readFileSync(out, 'utf8'))) : reject(new Error(`shard ${k}/${opts.jobs} exited with ${code}`)));
+  })));
+  fs.rmSync(dir, {recursive: true, force: true});
+  return parts;
+}
 
 // ---------- statistics ----------
 
@@ -219,11 +248,19 @@ try {
   }
 
   const facilities = opts.facility === 'all' ? FACILITIES : [opts.facility];
-  const games = [];
+  let games = [];
   const timingByFacility = {};
-  for (const facility of facilities) {
-    const timing = timingByFacility[facility] = {A: {action: [], replacement: []}, B: {action: [], replacement: []}};
+  for (const facility of facilities) timingByFacility[facility] = {A: {action: [], replacement: []}, B: {action: [], replacement: []}};
+  if (opts.jobs > 1) {
+    const parts = await runShards();
+    replacementTimingInstalled = parts.every(part => part.replacementTimingInstalled);
+    games = parts.flatMap(part => part.games).sort((x, y) => facilities.indexOf(x.facility) - facilities.indexOf(y.facility) || x.pairing - y.pairing || x.mirror - y.mirror);
+    for (const part of parts) for (const facility of facilities) for (const role of ['A', 'B']) for (const kind of ['action', 'replacement'])
+      timingByFacility[facility][role][kind].push(...part.rawTiming[facility][role][kind]);
+  } else for (const facility of facilities) {
+    const timing = timingByFacility[facility];
     for (let pairing = 0; pairing < opts.games; pairing++) {
+      if (pairing % opts.shard[1] !== opts.shard[0]) continue;
       let setup;
       try { setup = buildPairing(facility, pairing); } catch (error) {
         games.push({facility, pairing, mirror: 0, outcome: 'error', error: {seed: pairSeed(opts.seed, FACILITIES.indexOf(facility), pairing), turn: null, phase: 'team construction', message: String(error?.message ?? error)}});
@@ -277,16 +314,17 @@ try {
   const wallSeconds = round((performance.now() - wallStart) / 1000, 1);
   const report = {
     tool: 'trainer-ai-tournament-v58', generatedAt: new Date().toISOString(),
-    config: {facility: opts.facility, pairingsPerFacility: opts.games, a: opts.a, b: opts.b, seed: opts.seed, maxTurns: opts.maxTurns},
+    config: {facility: opts.facility, pairingsPerFacility: opts.games, a: opts.a, b: opts.b, seed: opts.seed, maxTurns: opts.maxTurns, jobs: opts.jobs},
     protocol: 'Each pairing: two facility-built teams and one battle seed; game 0 has A on side 0 and B on side 1, game 1 exchanges the planners. Teams keep their sides. Draws (turn cap, both sides out) score one half for A.',
     notes: [
-      'planner is passed through AiSpec.planner; until ai.ts dispatches on it, both values run the V57 tactical planner.',
+      'planner is passed through AiSpec.planner; ai.ts sends trainer decisions to search-ai.ts, or to tactics.ts for v57.',
       'Action decisions are timed around chooseAiAction in the harness turn loop; replacement decisions are timed by an in-memory wrapper of the engine import of chooseAiReplacement.',
       ...(replacementTimingInstalled ? [] : ['Replacement timing was unavailable: the battle.ts import of chooseAiReplacement did not match the transform.']),
       'NPC training seal scripts install only on side index 1; the harness presents side 0 as index 1 to that guard so both sides carry their seal.',
       'The Wilson interval treats the games as independent; the two games of a pairing are correlated by design.',
     ],
     wallSeconds, overall, perFacility, games,
+    ...(sharded ? {shard: opts.shard.join('/'), replacementTimingInstalled, rawTiming: timingByFacility} : {}),
   };
   fs.mkdirSync(path.dirname(opts.out), {recursive: true});
   fs.writeFileSync(opts.out, JSON.stringify(report, null, 2) + '\n');

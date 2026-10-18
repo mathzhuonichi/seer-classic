@@ -35,7 +35,7 @@ try{
   // ---------- real-data corpus ----------
   const facilityOptions=(seed,facility='random',BattleClass)=>{
     const foe=createFacilityEncounter(catalog,facility,new Rng(seed)),own=createFacilityEncounter(catalog,facility,new Rng(seed+7919));
-    const opts={data:realData,scripts:realScripts,seed,sides:[{kind:'trainer',name:'mirror',team:structuredClone(own.team),rules:structuredClone(own.rules??[]),ai:{kind:'smart',allow_switch:true}}],encounter:structuredClone(foe)};
+    const opts={data:realData,scripts:realScripts,seed,sides:[{kind:'trainer',name:'mirror',team:structuredClone(own.team),rules:structuredClone(own.rules??[]),ai:{kind:'smart',allow_switch:true,planner:'v57'}}],encounter:{...structuredClone(foe),ai:{...foe.ai,planner:'v57'}}};
     return BattleClass?new BattleClass(opts):createBattle(opts);
   };
   const runToEnd=(b,onTurn)=>{const turns=[];while(!b.result&&turns.length<220){const events=b.resolveTurn();turns.push(events);onTurn?.(b,events);}return turns;};
@@ -161,7 +161,7 @@ try{
     const foeMon={species:1,level:50,skills:[S.phys,S.spec,S.wait,S.boost],stats:{...publicBaseline,hp:4000},...foe};
     return createBattle({data:buildDataSet(structuredClone(raw)),scripts,seed,sides:[
       {kind:'player',team:foeTeam?foeTeam(foeMon):[foeMon],items:foeItems,rules:foeRules},
-      {kind:'trainer',team:[{species:2,level:50,skills:[S.phys,S.spec,S.wait,S.quick,].slice(0,4),stats:{...viewerStats},...viewer}],ai:{kind:'smart'},rules:viewerRules},
+      {kind:'trainer',team:[{species:2,level:50,skills:[S.phys,S.spec,S.wait,S.quick,].slice(0,4),stats:{...viewerStats},...viewer}],ai:{kind:'smart',planner:'v57'},rules:viewerRules},
     ]});
   }
   const turn=(b,a0,a1)=>{b.submit(0,a0);b.submit(1,a1);return b.resolveTurn();};

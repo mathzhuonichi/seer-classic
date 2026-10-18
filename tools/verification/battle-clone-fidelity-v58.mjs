@@ -15,7 +15,12 @@
  * and every Boss encounter. Side 0 is either a player with explicit actions or
  * an AI trainer; explicit moves, switches and items are mixed in on both sides.
  *
- * Usage: node tools/verification/battle-clone-fidelity-v58.mjs [--quick] [--json <file>]
+ * AI-driven sides use the V57 planner except in the nested-planner category, which
+ * runs the search planner so that its own clones are exercised inside real turns.
+ *
+ * Usage: node tools/verification/battle-clone-fidelity-v58.mjs [--quick] [--json <file>] [--shard k/n]
+ * --shard runs only corpus items whose index is k modulo n; the parallel launcher
+ * tools/verification/parallel-shards.mjs runs all shards at once.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -25,6 +30,7 @@ import {createServer} from 'vite';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const quick = process.argv.includes('--quick');
 const jsonOut = process.argv.includes('--json') ? process.argv[process.argv.indexOf('--json') + 1] : undefined;
+const [shardIndex, shardCount] = process.argv.includes('--shard') ? process.argv[process.argv.indexOf('--shard') + 1].split('/').map(Number) : [0, 1];
 const previousFetch = globalThis.fetch;
 globalThis.fetch = () => { throw new Error('Clone fidelity verification must remain offline.'); };
 
@@ -291,7 +297,8 @@ try {
   const TURN_LIMIT = 120;
   const started = performance.now();
 
-  for (const item of corpus) {
+  for (const [index, item] of corpus.entries()) {
+    if (index % shardCount !== shardIndex) continue;
     const rng = new Rng(item.seed), drv = new Rng(item.seed ^ 0x5eed);
     let battle;
     try {
@@ -299,6 +306,7 @@ try {
       const {traits: withTraits, ...first} = spec.sides[0];
       battle = createBattle({data, scripts, seed: item.seed, sides: [first, spec.sides[1]], encounter: spec.encounter, variant: spec.variant});
       if (withTraits) attachTraits(battle, rng);
+      if (item.category !== 'nested-planner') for (const side of battle.sides) for (const holder of [side, ...side.team]) if (holder.ai?.kind === 'smart') holder.ai = {...holder.ai, planner: 'v57'};
       if (item.probe) for (const side of battle.sides) for (const mon of side.team) {
         mon.conditions.push({id: 'clone_fidelity_probe', def: {id: 'clone_fidelity_probe', kind: 'other', removed_on_switch: false, hooks: [{on: 'choose_action', script: 'clone_fidelity_probe'}]}, turns: Infinity, appliedTurn: 0});
       }
