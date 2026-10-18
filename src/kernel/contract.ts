@@ -17,7 +17,7 @@ export type GameSnapshot = KernelSlice & BattleSlice & ChallengesSlice & Collect
 
 export interface GameController {
   snapshot(): GameSnapshot; subscribe(listener: () => void): () => void; dispatch(action: GameAction): DispatchResult;
-  engravingOptions?(uid: string): EngravingView[]; exportSave(): string; importSave(json: string): void; reset(): void;
+  engravingOptions(uid: string): EngravingView[]; exportSave(): string; importSave(json: string): void; reset(): void;
 }
 
 /** What an action created, so a screen can show it without diffing snapshots. */

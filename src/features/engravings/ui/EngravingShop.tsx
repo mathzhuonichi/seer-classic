@@ -26,14 +26,14 @@ export default function EngravingShop({s,c}:{s:GameSnapshot;c:GameController}) {
   const [selected,setSelected]=useState(''),[feedback,setFeedback]=useState(''),[sourceUid,setSourceUid]=useState('');
   const monster=monsters.find(m=>m.uid===uid)??monsters[0];
   useEffect(()=>{setFilter(f=>f.move?{...f,move:''}:f);setSelected('');setFeedback('');setSourceUid('')},[monster?.uid]);
-  if(!monster||!c.engravingOptions)return <p className="management-empty">获得精灵后即可挑选刻印。</p>;
+  if(!monster)return <p className="management-empty">获得精灵后即可挑选刻印。</p>;
   const equippable=c.engravingOptions(monster.uid).filter(option=>option.ready),products=engravingShopProducts(equippable,filter);
   const moves=engravingMoveChoices(equippable);
   const groups=ENGRAVING_EFFECT_GROUPS.filter(([id])=>equippable.some(option=>option.slot==='skill'&&option.group===id));
   const item=products.find(option=>option.id===selected)??products[0],access=item&&engravingAccessView(item,monster.uid,sourceUid);
   const inBattle=battleActive(s);
   const refine=(patch:Partial<EngravingShopFilter>)=>{setFilter(f=>({...f,...patch}));setSelected('');setFeedback('');setSourceUid('')};
-  const after=(id:string)=>c.engravingOptions?.(monster.uid).find(option=>option.id===id);
+  const after=(id:string)=>c.engravingOptions(monster.uid).find(option=>option.id===id);
   function buy(){
     if(!item||!access||item.unlimited||access.full||inBattle)return;
     c.dispatch({type:'buyEngraving',engravingId:item.id});

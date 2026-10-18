@@ -1,4 +1,4 @@
-// features/engravings's registration: buying, equipping and moving engravings. Monster rows and engravingOptions (raising) show them.
+// features/engravings's registration: buying, equipping and moving engravings. Monster rows and engravingOptions show them.
 import type { Feature } from '../../kernel/api.ts';
 import { engravingActions } from './actions.ts';
 

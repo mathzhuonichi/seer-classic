@@ -24,7 +24,6 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const pickerRef=useRef<HTMLDivElement>(null);
   useEffect(()=>{setFeedback('');setOpenSlot(null);setSelected('');setSourceUid('');setFilter('all')},[m.uid]);
   useEffect(()=>{if(openSlot)pickerRef.current?.scrollIntoView({block:'nearest',inline:'nearest'})},[openSlot,selected,filter]);
-  if(!c.engravingOptions)return null;
   const candidates=openSlot?engravingSlotCandidates(c.engravingOptions(m.uid),openSlot):[];
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];

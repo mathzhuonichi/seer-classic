@@ -1,35 +1,15 @@
 // Snapshot views of owned monsters, their skills and their engravings.
-import { computeStats, evolutionOptions, expToNext, findMon, type Monster } from '../../../raising/core/index.ts';
+import { computeStats, evolutionOptions, expToNext, type Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
-import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
-import {
-  activeEngravings, engravingBlockedReason, engravingById, engravingEffectGroup, engravingStatBonus, engravingStatKeys, type EngravingDefinition,
-} from '../../domain/engravings/engravings.ts';
-import { engravings } from '../../domain/engravings/engravings.ts';
+import { activeEngravings, engravingById, engravingStatBonus, type EngravingDefinition } from '../../domain/engravings/engravings.ts';
 import { traits } from '../../domain/traits.ts';
 import { getBreedingGender } from '../../domain/recipes/breeding.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
-import type { EngravingView, EvolutionChoiceView, MonsterEngravingsView, MonsterView } from '../../shared/views.ts';
+import type { EvolutionChoiceView, MonsterEngravingsView, MonsterView } from '../../shared/views.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import {engravingHolder, equippedEngravingCounts, equippedEngravings} from '../engravings/index.ts';
+import {engravingHolder, engravingView, equippedEngravings} from '../engravings/index.ts';
 import { portrait, skillView, typeLabel } from '../../shared/view-common.ts';
-
-export function engravingView(
-  ctx: GameContext, save: GameSave, def: EngravingDefinition, mon: Monster, equipped = equippedEngravingCounts(save),
-): EngravingView {
-  const reason = engravingBlockedReason(def, engravingHolder(mon));
-  const moveName = def.moveIds?.map(id => ctx.data.skills.get(id)?.name.zh).filter(Boolean).join('、');
-  const holders = save.storage.filter(holder => equippedEngravings(save, holder.uid).includes(def.id));
-  return {
-    id: def.id, name: def.name.zh, slot: def.slot, effect: def.effect.desc, levelMin: def.levelMin, bound: def.species.length > 0,
-    moveName: moveName || undefined, moveIds: def.moveIds,
-    group: engravingEffectGroup(def), statKeys: engravingStatKeys(def), era: def.era, ready: !reason, reason, note: def.notes?.join(' '),
-    ...engravingAccess(def), stock: save.game.engravingStock[def.id] ?? 0, equipped: equipped[def.id] ?? 0,
-    equippedHere: equippedEngravings(save, mon.uid).includes(def.id),
-    equippedHolders: holders.map(holder => ({ uid: holder.uid, name: holder.nickname || ctx.speciesName(holder.species) })),
-  };
-}
 
 function monsterEngravings(ctx: GameContext, save: GameSave, mon: Monster): MonsterEngravingsView {
   const ids = equippedEngravings(save, mon.uid);
@@ -38,14 +18,6 @@ function monsterEngravings(ctx: GameContext, save: GameSave, mon: Monster): Mons
     return def ? engravingView(ctx, save, def, mon) : null;
   };
   return { ability: pick('ability'), skill: pick('skill'), bonus: engravingStatBonus(activeEngravings(ids, engravingHolder(mon))) };
-}
-
-/** Engravings this monster's species and known skills qualify for. */
-export function engravingOptions(ctx: GameContext, save: GameSave, uid: string): EngravingView[] {
-  const mon = findMon(save, uid), known = new Set([...mon.skills, ...mon.learned]), equipped = equippedEngravingCounts(save);
-  return engravings
-    .filter(def => (!def.species.length || def.species.includes(mon.species)) && (def.slot === 'ability' || def.moveIds!.some(id => known.has(id))))
-    .map(def => engravingView(ctx, save, def, mon, equipped));
 }
 
 function evolutionChoices(ctx: GameContext, save: GameSave, mon: Monster): EvolutionChoiceView[] {
