@@ -76,7 +76,7 @@ assert(actualCrit.some(event => event.type === 'damage' && event.crit === true))
 const logContext = { data, initialPlayer: { name: '伙伴', hp: 200, maxHp: 200 }, initialEnemy: { name: '对手', hp: 200, maxHp: 200 } };
 assert(groupedBattleLog(actualCrit, logContext).some(line => line.includes('测试攻击') && line.includes('致命一击') && line.includes('剩余体力')));
 assert(groupedBattleLog(actualCrit, logContext).some(line => line.startsWith('伙伴使用了测试攻击。')), 'Move-event skill names must not replace the acting creature name.');
-assert(groupedBattleLog([{ type: 'condition_tick', side: 0, condition: 'poison' }, { type: 'damage', side: 0, amount: 25, hp: 175, maxHp: 200, status: 'poison' }], logContext)[0].includes('回合结束'));
+assert(groupedBattleLog([{ type: 'condition_tick', side: 0, condition: 'poison' }, { type: 'damage', side: 0, amount: 25, overkill: 0, hp: 175, maxHp: 200, status: 'poison' }], logContext)[0].includes('回合结束'));
 
 const precision = traits.find(trait => trait.id === '1023')!;
 const resistance = traits.find(trait => trait.id === '1063')!;

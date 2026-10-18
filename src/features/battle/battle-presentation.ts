@@ -1,14 +1,10 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
-import type { BattleEvent as EngineEvent, DataSet, RawData } from '../../../battle/core/src/index.ts';
-import { battleEventText, displayedDamage } from './battle-log.ts';
+import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
+import { battleEventText, displayedDamage, type EventOf } from './battle-log.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
-/** Any field of any event type, as this module still reads them; narrowing per `type` is the battle feature's next step. */
-type BattleEvent = EngineEvent & Record<string, any>;
-
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
-type SpeciesSource = RawData['species'] | ReadonlyMap<number, NonNullable<RawData['species']>[number]>;
 
 /** Trainer battles show the opposing HP bar but never its HP: keep only a whole-percent ratio that stays above 0 while alive and below 100 once damaged. */
 export function concealHp(mon: BattleMonsterView): BattleMonsterView {
@@ -16,22 +12,25 @@ export function concealHp(mon: BattleMonsterView): BattleMonsterView {
   return { ...mon, hp: ratio, maxHp: 100, hpHidden: true };
 }
 
-const presentationEvents = new Set([
+/** The events that change a combatant on screen. */
+const PRESENTATION_EVENTS = [
   'damage', 'heal', 'revive', 'faint', 'switch_in', 'transform', 'max_hp_changed',
   'status_applied', 'condition_removed', 'stat_stage', 'stages_cleared', 'switch_out',
-]);
+] as const;
+type PresentationEvent = EventOf<(typeof PRESENTATION_EVENTS)[number]>;
+const presents = (event: BattleEvent): event is PresentationEvent => (PRESENTATION_EVENTS as readonly string[]).includes(event.type);
 const zeroStages = (stages: Record<string, number>) => Object.fromEntries(Object.keys(stages).map(stat => [stat, 0]));
 const conditionLabel = (id: string) => statusLabel(id) ?? id;
 
 /** Replay team changes using event data, never the already-resolved team HP. */
-export function advanceBattlePresentation(state: BattlePresentationState, event: BattleEvent, species: SpeciesSource = []): BattlePresentationState {
-  if (!presentationEvents.has(event.type)) return state;
+export function advanceBattlePresentation(state: BattlePresentationState, event: BattleEvent): BattlePresentationState {
+  if (!presents(event)) return state;
   const side = event.side === 1 ? 1 : 0;
   const previousTeam = side === 1 ? state.enemyParty : state.party;
   const active = side === 1 ? state.enemy : state.player;
-  const index = typeof event.slot === 'number'
+  const index = 'slot' in event
     ? previousTeam.findIndex(mon => mon.slot === event.slot)
-    : event.type !== 'transform' && event.name && event.name !== active.name
+    : event.type !== 'transform' && 'name' in event && event.name && event.name !== active.name
       ? previousTeam.findIndex(mon => mon.name === event.name)
       : previousTeam.findIndex(mon => mon.uid === active.uid);
   if (index < 0) return state;
@@ -39,7 +38,7 @@ export function advanceBattlePresentation(state: BattlePresentationState, event:
   const member = { ...previousTeam[index] }, team = [...previousTeam];
   team[index] = member;
   const next = { ...state, ...(side === 1 ? { enemyParty: team } : { party: team }) };
-  applyEvent(member, event, species);
+  applyEvent(member, event);
   if (event.type === 'switch_in' || event.type === 'transform') {
     if (side === 1) next.enemy = member; else next.player = member;
   }
@@ -49,33 +48,29 @@ export function advanceBattlePresentation(state: BattlePresentationState, event:
   return next;
 }
 
-function applyEvent(member: BattleMonsterView, event: BattleEvent, species: SpeciesSource) {
-  const updateHp = () => {
-    if (typeof event.hp === 'number') member.hp = event.hp;
-    if (typeof event.maxHp === 'number') member.maxHp = event.maxHp;
-  };
+const setHp = (member: BattleMonsterView, event: { hp: number; maxHp: number }) => { member.hp = event.hp; member.maxHp = event.maxHp; };
+
+function applyEvent(member: BattleMonsterView, event: PresentationEvent) {
   switch (event.type) {
-    case 'damage': case 'heal': updateHp(); break;
+    case 'damage': case 'heal': setHp(member, event); break;
     case 'revive':
-      updateHp(); member.fainted = false; member.statuses = [];
+      setHp(member, event); member.fainted = false; member.statuses = [];
       if (event.reason === 'lives') member.stages = zeroStages(member.stages);
       break;
     case 'faint': member.hp = 0; member.fainted = true; break;
     case 'switch_in': case 'transform': {
-      updateHp();
+      setHp(member, event);
       const previousSpecies = member.species;
-      if (event.species !== undefined) member.species = event.species;
+      member.species = event.species;
       if (event.type === 'transform' || member.species !== previousSpecies) member.appearanceSpecies = member.species;
-      if (event.name) member.name = event.name;
-      if (event.level !== undefined) member.level = event.level;
+      member.name = event.name || member.name;
+      if (event.type === 'switch_in') member.level = event.level;
       member.portrait = portrait(member.appearanceSpecies ?? member.species);
-      const definition = Array.isArray(species) ? species.find(mon => mon.id === member.species) : species?.get(member.species);
-      if (event.types) member.types = event.types.map((type: string) => typeLabel(type));
-      else if (definition) member.types = definition.types.map(type => typeLabel(type));
+      member.types = event.types.map(typeLabel);
       member.fainted = member.hp <= 0;
       break;
     }
-    case 'max_hp_changed': updateHp(); member.hp = Math.min(member.hp, member.maxHp); break;
+    case 'max_hp_changed': setHp(member, event); member.hp = Math.min(member.hp, member.maxHp); break;
     case 'status_applied': member.statuses = [...new Set([...member.statuses, conditionLabel(event.status)])]; break;
     case 'condition_removed': member.statuses = member.statuses.filter(name => name !== conditionLabel(event.condition)); break;
     case 'stat_stage': member.stages = { ...member.stages, [event.stat]: event.stage }; break;
@@ -106,21 +101,18 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
   const frames: BattlePresentationFrame[] = [];
   let shown = before;
   for (const e of events) {
-    const side: 0 | 1 = e.type === 'capture_attempt' || e.side === 1 ? 1 : 0;
+    const side: 0 | 1 = e.type === 'capture_attempt' || 'side' in e && e.side === 1 ? 1 : 0;
     const activeBefore = side === 1 ? shown.enemy : shown.player;
-    if (e.type === 'transform') {
-      const slot = e.slot ?? (e.side === 1 ? shown.enemy.slot : shown.player.slot) ?? 0;
-      options.transformedSlots.add(`${e.side === 1 ? 1 : 0}:${slot}`);
-    }
-    shown = advanceBattlePresentation(shown, e, data.species);
+    if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
+    shown = advanceBattlePresentation(shown, e);
     const text = battleEventText(e, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp });
     const motion = frameMotion(e, side, activeBefore, data);
     if (!text && motion.kind === 'message') continue;
-    const { player, party } = shown, enemy = foe(shown.enemy);
+    const { player, party } = shown, enemy = foe(shown.enemy), capture = e.type === 'capture_attempt' ? e : undefined;
     frames.push({
-      id: options.nextFrameId(), side, kind: motion.kind, text, amount: e.type === 'damage' ? displayedDamage(e) : e.amount, critical: !!e.crit,
-      captureSuccess: e.type === 'capture_attempt' ? !!e.success : undefined,
-      capsuleName: e.type === 'capture_attempt' ? data.items.get(e.item)?.name?.zh : undefined,
+      id: options.nextFrameId(), side, kind: motion.kind, text,
+      amount: e.type === 'damage' ? displayedDamage(e) : e.type === 'heal' ? e.amount : undefined, critical: e.type === 'damage' && e.crit,
+      captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh,
       skillType: motion.skillType, skillId: motion.skillId, targetSide: motion.targetSide,
       playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe),
     });
@@ -131,7 +123,6 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
 interface FrameMotion { kind: BattlePresentationFrame['kind']; skillType?: string; skillId?: number; targetSide?: 0 | 1 }
 
 function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterView, data: DataSet): FrameMotion {
-  const onActive = e.slot === undefined || e.slot === activeBefore.slot;
   switch (e.type) {
     case 'switch_in': case 'transform': return { kind: 'switch' };
     case 'capture_attempt': return { kind: 'capture' };
@@ -140,8 +131,8 @@ function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterVie
       const kind = skill.category === 'physical' ? 'physical' : skill.category === 'special' ? 'special' : 'status';
       return { kind, skillType: skill.type, skillId: Number(skill.id), targetSide: skill.target === 'self' ? side : side === 0 ? 1 : 0 };
     }
-    case 'damage': return { kind: onActive ? 'hit' : 'message' };
-    case 'heal': case 'revive': return { kind: onActive ? 'heal' : 'message' };
+    case 'damage': return { kind: e.slot === activeBefore.slot ? 'hit' : 'message' };
+    case 'heal': case 'revive': return { kind: e.slot === activeBefore.slot ? 'heal' : 'message' };
     default: return { kind: 'message' };
   }
 }

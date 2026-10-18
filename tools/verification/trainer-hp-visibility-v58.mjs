@@ -109,14 +109,14 @@ try{
   check('Log formatter: hidden opposing HP drops only the remaining-HP clause',()=>{
     const context=hide=>({data:{species:new Map(),skills:new Map(),items:new Map()},initialPlayer:{name:'我',hp:50,maxHp:80},initialEnemy:{name:'敌',hp:300,maxHp:400},hideEnemyHp:hide});
     const text=(event,hide)=>battleEventText(event,context(hide));
-    assert.equal(text({type:'damage',side:1,amount:30,hp:270,maxHp:400},true),'敌受到 30 点伤害。');
-    assert.equal(text({type:'damage',side:1,amount:30,hp:270,maxHp:400,crit:true},true),'敌受到 30 点伤害，致命一击！');
+    assert.equal(text({type:'damage',side:1,amount:30,overkill:0,hp:270,maxHp:400},true),'敌受到 30 点伤害。');
+    assert.equal(text({type:'damage',side:1,amount:30,overkill:0,hp:270,maxHp:400,crit:true},true),'敌受到 30 点伤害，致命一击！');
     assert.equal(text({type:'heal',side:1,amount:25,hp:295,maxHp:400},true),'敌恢复 25 点体力。');
     assert.equal(text({type:'revive',side:1,hp:200,maxHp:400},true),'敌恢复了战斗能力。');
-    assert.equal(text({type:'damage',side:0,amount:9,hp:41,maxHp:80},true),'我受到 9 点伤害。剩余体力 41/80。');
+    assert.equal(text({type:'damage',side:0,amount:9,overkill:0,hp:41,maxHp:80},true),'我受到 9 点伤害。剩余体力 41/80。');
     assert.equal(text({type:'heal',side:0,amount:4,hp:45,maxHp:80},true),'我恢复 4 点体力，剩余体力 45/80。');
-    assert.equal(text({type:'damage',side:1,amount:30,hp:270,maxHp:400},false),'敌受到 30 点伤害。剩余体力 270/400。');
-    assert.equal(text({type:'damage',side:1,amount:30,hp:270,maxHp:400,crit:true},false),'敌受到 30 点伤害，致命一击！剩余体力 270/400。');
+    assert.equal(text({type:'damage',side:1,amount:30,overkill:0,hp:270,maxHp:400},false),'敌受到 30 点伤害。剩余体力 270/400。');
+    assert.equal(text({type:'damage',side:1,amount:30,overkill:0,hp:270,maxHp:400,crit:true},false),'敌受到 30 点伤害，致命一击！剩余体力 270/400。');
     assert.equal(text({type:'heal',side:1,amount:25,hp:295,maxHp:400},false),'敌恢复 25 点体力，剩余体力 295/400。');
     assert.equal(text({type:'revive',side:1,hp:200,maxHp:400},false),'敌恢复了战斗能力，剩余体力 200/400。');
   });

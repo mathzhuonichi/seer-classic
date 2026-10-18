@@ -85,17 +85,17 @@ assert.equal(lifeFrames[revivedEnemyIndex].enemyParty[0].fainted, false);
 // A detached bench event exercises slot routing even when the active has the same species.
 const state: BattlePresentationState = structuredClone({ player: result.player, enemy: result.enemy, party: result.party, enemyParty: result.enemyParty });
 state.party[2].hp = 5;
-const benchHit = advanceBattlePresentation(state, { type: 'damage', side: 0, slot: 2, hp: 0, amount: 5, overkill: 20 });
-const benchFaint = advanceBattlePresentation(benchHit, { type: 'faint', side: 0, slot: 2 });
+const benchHit = advanceBattlePresentation(state, { type: 'damage', side: 0, slot: 2, name: state.party[2].name, amount: 5, kind: 'attack', crit: false, hp: 0, maxHp: state.party[2].maxHp, overkill: 20 });
+const benchFaint = advanceBattlePresentation(benchHit, { type: 'faint', side: 0, slot: 2, species: state.party[2].species, by: null });
 assert.equal(benchFaint.party[2].fainted, true);
 assert.equal(benchFaint.player.hp, state.player.hp);
 assert.equal(state.party[2].hp, 5);
-const transformed = advanceBattlePresentation(state, { type: 'transform', side: 1, species: 13, name: '新形态', hp: 20, maxHp: 20 });
+const transformed = advanceBattlePresentation(state, { type: 'transform', side: 1, species: 13, types: ['water'], name: '新形态', hp: 20, maxHp: 20 });
 assert.equal(transformed.enemy.name, '新形态');
 assert.equal(transformed.enemyParty.find(mon => mon.uid === state.enemy.uid)!.hp, 20);
 assert.equal(state.enemy.name, result.enemy.name);
-assert.equal(displayedDamage({ type: 'damage', amount: 7, overkill: 93 }), 100);
-const text = battleEventText({ type: 'damage', side: 1, amount: 7, overkill: 93, hp: 0, maxHp: 7 }, {
+assert.equal(displayedDamage({ type: 'damage', side: 1, slot: 0, name: '目标', amount: 7, kind: 'attack', crit: false, hp: 0, maxHp: 7, overkill: 93 }), 100);
+const text = battleEventText({ type: 'damage', side: 1, slot: 0, name: '目标', amount: 7, kind: 'attack', crit: false, hp: 0, maxHp: 7, overkill: 93 }, {
   data: { species: new Map(), skills: new Map(), items: new Map() }, initialPlayer: state.player, initialEnemy: { name: '目标', hp: 7, maxHp: 7 },
 });
 assert(text.includes('受到 100 点伤害') && text.includes('剩余体力 0/7'));
