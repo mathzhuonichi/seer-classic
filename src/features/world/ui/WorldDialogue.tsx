@@ -1,6 +1,6 @@
 import type { GameController } from '../../../kernel/contract.ts';
 import type { FacilityAction, WorldDialogueView } from '../world-scene.ts';
-import {BossEvidence} from '../../challenges/ui.ts';
+import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import { CreatureArt } from '../../../shared/ui/CreatureArt.tsx';
 import { FacilityNpc } from './SceneContacts.tsx';
 

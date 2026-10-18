@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {CHALLENGE_CAMPAIGNS} from '../../src/domain/challenges/challenge-campaigns.ts';
+import {challengeDetail,challengeEntries} from '../../src/features/challenges/challenge-center.ts';
 import {newSave} from '../../src/kernel/save.ts';
 import {suite} from './_harness.mjs';
 
@@ -26,6 +27,22 @@ const fixture=structuredClone(source);
 const first=fixture.bosses.find((boss:any)=>boss.id==='boss_rei_training1');
 first.team[0].hp_override=1;first.team[0].skills=[20006];first.phases=[];
 const game=createGame(fixture,JSON.stringify(newSave(0x71cafe)));
+t.check('reward kind and species name drive the stage and archive reward texts',()=>{
+  const s=game.snapshot(),entries=challengeEntries(s);
+  for(const campaign of s.campaigns) {
+    const skills=campaign.id==='rei-training',entry=entries.find(row=>row.campaign?.id===campaign.id)!;
+    assert.equal(campaign.reward,skills?'skills':'essence',campaign.id);
+    assert.equal(campaign.speciesName,source.species.find((species:any)=>species.id===campaign.species).name.zh);
+    assert.equal(entry.category,skills?'quest':'legendary');
+    if(skills) {
+      assert(campaign.stages.every(stage=>stage.rewardText.startsWith('领悟技能：')));
+      assert.equal(challengeDetail(entry,s,false).reward,`通过每项特训，领悟对应的${campaign.speciesName}技能`);
+    } else {
+      assert.equal(campaign.stages.at(-1)!.rewardText,`获得${campaign.speciesName}精元`,campaign.id);
+      assert.match(challengeDetail(entry,s,false).reward,/^完成全部阶段后获得精元/);
+    }
+  }
+});
 t.check('entry and sequence requirements',()=>{
   assert.equal(game.snapshot().campaigns.length,7);
   game.dispatch({type:'startCampaignStage',campaignId:'puni',stageId:'body'});

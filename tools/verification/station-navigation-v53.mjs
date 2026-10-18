@@ -15,8 +15,9 @@ const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage')
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/station-navigation-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog}]=await Promise.all([
+  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog},{braveTowerPosition}]=await Promise.all([
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
+    '/src/domain/challenges/brave-tower.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
@@ -100,10 +101,13 @@ try{
     assert.equal((markup('space-station','mystery').match(/data-campaign="puni"/g)??[]).length,1);
   });
   check('Each Tower floor has one fixed current opponent on map 500 and a separate start selector',()=>{
-    for(let floor=1;floor<=70;floor++){
+    const {totalFloors}=s.braveTower,climb=(highestCleared,resumeFloor)=>{
+      const progress={highestCleared,resumeFloor};return {...s,braveTower:{...s.braveTower,...progress,position:braveTowerPosition(progress)}};
+    };
+    for(let floor=1;floor<=totalFloors;floor++){
       const id=`boss_tower_brave_f${String(floor).padStart(3,'0')}`,boss=s.bosses.find(row=>row.id===id);
       assert(boss);
-      const html=markup('space-station','brave-tower',{...s,braveTower:{...s.braveTower,highestCleared:floor-1,resumeFloor:floor}});
+      const html=markup('space-station','brave-tower',climb(floor-1,floor));
       assert(html.includes('data-map-id="500"'));
       assert(html.includes(`data-tower-floor="${floor}"`));assert(html.includes('data-tower-complete="false"'));
       assert.equal((html.match(/data-boss=/g)??[]).length,1);assert(html.includes(`data-boss="${id}" data-species="${boss.species}" style="left:50%;top:58%"`));
@@ -111,10 +115,10 @@ try{
       assert(html.includes('data-tower-action="choose"'));assert(!html.includes('data-station-action='));assert(!html.includes('world-roamer'));
       if(boss.opponents.length>1)assert(html.includes(`队伍 ${boss.opponents.length} 只`));
     }
-    const complete=markup('space-station','brave-tower',{...s,braveTower:{...s.braveTower,highestCleared:70,resumeFloor:null}});
-    assert(complete.includes('data-tower-floor="70"'));assert(complete.includes('data-tower-complete="true"'));
-    assert(complete.includes('已通过全部 70 层'));assert(complete.includes('data-boss="boss_tower_brave_f070"'));
-    report.observations.towerSceneStates=71;
+    const complete=markup('space-station','brave-tower',climb(totalFloors,null));
+    assert(complete.includes(`data-tower-floor="${totalFloors}"`));assert(complete.includes('data-tower-complete="true"'));
+    assert(complete.includes(`已通过全部 ${totalFloors} 层`));assert(complete.includes(`data-boss="boss_tower_brave_f${String(totalFloors).padStart(3,'0')}"`));
+    report.observations.towerSceneStates=totalFloors+1;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);

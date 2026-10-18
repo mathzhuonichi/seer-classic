@@ -2,8 +2,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {root,suite,withSsr} from './_harness.mjs';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {memoryStorage,root,suite,withSsr} from './_harness.mjs';
 
+memoryStorage();
 await withSsr('paid-spt-recruitment',async load=>{
   const t=suite('paid-spt-recruitment');
   const {getSPTRecruitmentProgress:progress,buildPaidSPTRecruitments:build,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs:eligible}=await load('/src/domain/acquisition/spt-recruitment.ts');
@@ -45,6 +48,18 @@ await withSsr('paid-spt-recruitment',async load=>{
     const inherited=eligible(catalog);const fake={id:'boss_spt_fake_divine',category:'spt',team:[{species:503}]};
     assert.deepEqual(eligible({...catalog,bosses:[...catalog.bosses,fake]}),inherited);
     const adult=catalog.species.find(s=>s.evolves_from);assert.deepEqual(build(catalog,[{...quests[0],rewardSpecies:adult.id}]),[]);
+  });
+  const [{createGame},{newSave},{default:QuestPanel}]=await Promise.all(['/src/kernel/game.ts','/src/kernel/save.ts','/src/features/challenges/ui/QuestPanel.tsx'].map(load));
+  t.check('a claimed essence is held and its quest card links to the bag',()=>{
+    const save=newSave(0x5e7),pending=createGame(catalog,JSON.stringify(save)).snapshot().quests.find(q=>q.id===quests[0].questId);
+    for(const condition of pending.prerequisites)if(condition.kind==='species')save.dex.owned.push(condition.species);else save.progress.bosses_cleared.push(condition.bossId);
+    const game=createGame(catalog,JSON.stringify(save)),view=()=>game.snapshot().quests.find(q=>q.id===pending.id);
+    const card=()=>renderToStaticMarkup(React.createElement(QuestPanel,{c:game,focusQuestId:pending.id,onTravel:()=>{},onOpenBag:()=>{}}));
+    assert.equal(view().rewardName,definitions.get(pending.rewardSpecies).name.zh);assert(card().includes(`领取${view().rewardName}精元。`));
+    assert.equal(view().claimable,true);assert.equal(view().rewardHeld,false);assert(!card().includes('quest-hatch-link'));
+    const result=game.dispatch({type:'claimQuest',questId:pending.id});
+    assert.equal(result.ok,true);assert.match(result.notice,/^已领取.+精元，可到道具背包孵化。$/,'QuestPanel shows the claim notice');
+    assert.equal(view().rewardHeld,true);assert(card().includes('quest-hatch-link'));
   });
   const unsupported=[];
   t.check('source ancestry',()=>{

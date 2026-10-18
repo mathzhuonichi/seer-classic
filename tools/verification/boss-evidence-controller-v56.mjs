@@ -12,7 +12,7 @@ const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>
 await withSsr('boss-evidence-controller-v56',async load=>{
   const t=suite('boss-evidence-controller-v56'),{check}=t;
   const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
-    '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/features/challenges/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
+    '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/domain/challenges/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
   ].map(load));
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
@@ -212,5 +212,5 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     const unknown={...structuredClone(source),id:'unverified-v56'};const evidence=buildBossEvidence(unknown);assert(evidence.fields.every(row=>row.status==='inferred'));assert(evidence.limitations.some(text=>text.includes('尚未完成核对')));
     assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert(created.length>0);
   });
-  t.finish({scope,sourceHashes:Object.fromEntries(['src/domain/challenges/boss-encounter.ts','src/kernel/game.ts','src/features/challenges/boss-evidence.ts','src/shared/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json',...controllerFiles].map(file=>[file,sha256File(file)]))});
+  t.finish({scope,sourceHashes:Object.fromEntries(['src/domain/challenges/boss-encounter.ts','src/kernel/game.ts','src/domain/challenges/boss-evidence.ts','src/shared/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json',...controllerFiles].map(file=>[file,sha256File(file)]))});
 });

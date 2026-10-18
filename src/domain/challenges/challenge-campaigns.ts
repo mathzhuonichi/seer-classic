@@ -1,8 +1,9 @@
-/** Challenge archive categories. Each value is both a `BossView.category` and the label of its archive tab. */
-export const CHALLENGE_CATEGORY = {
+import type { ChallengeCategoryId } from '../../shared/views.ts';
+
+/** The label of each challenge archive category: the archive tab and the encounter's category text. */
+export const CHALLENGE_CATEGORY: Readonly<Record<ChallengeCategoryId, string>> = {
   spt: 'SPT首领', legendary: '传说挑战', tower: '勇者之塔', dark: '暗黑武斗场', quest: '任务挑战', trainer: '训练师对战',
-} as const;
-export type ChallengeCategory = typeof CHALLENGE_CATEGORY[keyof typeof CHALLENGE_CATEGORY];
+};
 
 /** Campaign order is distinct from the encounter's uninterrupted enemy team. */
 export interface CampaignStage {

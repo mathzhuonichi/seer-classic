@@ -32,20 +32,22 @@ const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene
   +`${planet.id==='space-station'?' world-station-scene':''}${tower?' world-tower-scene':''}`;
 
 export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldMapProps) {
-  const s=useGame(c,snapshot=>snapshot);
+  const bosses=useGame(c,s=>s.bosses),species=useGame(c,s=>s.species),campaigns=useGame(c,s=>s.campaigns),quests=useGame(c,s=>s.quests);
+  const braveTower=useGame(c,s=>s.braveTower),battle=useGame(c,s=>!!s.battle);
+  const world=useMemo(()=>({bosses,species,campaigns,braveTower,quests}),[bosses,species,campaigns,braveTower,quests]);
   const viewport=useRef<HTMLElement>(null);
   const walker=useWorldWalk(),{planet,region,layout,position,motion}=walker;
   const [dialogue,setDialogue]=useState<{selection:WorldSelection;details:boolean}|null>(null);
   const [arrival,setArrival]=useState(false);
-  const scene=buildWorldScene(s,planet,region,travelTo?.bossId),{tower}=scene;
+  const scene=buildWorldScene(world,planet,region,travelTo?.bossId),{tower}=scene;
   const {size,onLoad}=useSceneFit(viewport,scene.background);
   const visiblePosition=visiblePlayerPoint(position,size);
   const exits=useMemo(()=>getSceneExits(planet,region),[planet,region]);
   const creatures=useMemo(()=>{
-    const habitat=region.creatures.map(id=>s.species.find(species=>species.id===id)).filter(species=>!!species);
+    const habitat=region.creatures.map(id=>species.find(row=>row.id===id)).filter(row=>!!row);
     return buildWorldPopulation(`${planet.id}/${region.id}`,habitat,SCENE_POPULATION,region.levels,region.creatureLevels,region.scarceCreatures);
-  },[planet,region,s.species]);
-  const view=dialogue?buildWorldDialogue(s,scene,dialogue.selection):undefined;
+  },[planet,region,species]);
+  const view=dialogue?buildWorldDialogue(world,scene,dialogue.selection):undefined;
   const open=(selection:WorldSelection)=>setDialogue({selection,details:false});
   const close=()=>setDialogue(null);
 
@@ -53,11 +55,11 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   function visit(p:WorldPlanet,r:WorldRegion,entry?:ScenePoint){walker.visit(p,r,entry);close();setArrival(true)}
   useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
-  useEffect(()=>{if(s.battle){walker.stop();close()}},[!!s.battle]);
+  useEffect(()=>{if(battle){walker.stop();close()}},[battle]);
   useEffect(()=>{if(!tower)return;walker.stop({duration:0});close();setArrival(true)},[!!tower,tower?.floor,tower?.complete]);
   useEffect(()=>{
     if(!travelTo)return;
-    const targetBoss=travelTo.bossId?s.bosses.find(boss=>boss.id===travelTo.bossId):undefined;
+    const targetBoss=travelTo.bossId?bosses.find(boss=>boss.id===travelTo.bossId):undefined;
     const landing=targetBoss?findChallengeLocation(targetBoss):travelTo;
     const target=resolveWorldLocation(landing.planetId,landing.regionId??'');visit(target.planet,target.region);
     if(targetBoss&&!isWorldLocation(target.planet,target.region,BRAVE_TOWER_LOCATION))
@@ -65,9 +67,9 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   const step=(key:string)=>{const delta=ARROW_STEPS[key];walkTo(position.x+delta[0],position.y+delta[1])};
   useEffect(()=>{
-    const key=(event:globalThis.KeyboardEvent)=>{if(!s.battle&&ARROW_STEPS[event.key]&&!ignoresArrowKeys(event)){event.preventDefault();step(event.key)}};
+    const key=(event:globalThis.KeyboardEvent)=>{if(!battle&&ARROW_STEPS[event.key]&&!ignoresArrowKeys(event)){event.preventDefault();step(event.key)}};
     window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
-  },[position.x,position.y,s.battle,layout]);
+  },[position.x,position.y,battle,layout]);
 
   function walkClick(event:MouseEvent<HTMLDivElement>){
     const target=percentIn(event.currentTarget.getBoundingClientRect(),event.clientX,event.clientY);
@@ -105,7 +107,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
       {!scene.official&&<div className="world-authored-light" aria-hidden="true"/>}
       <div className="world-location-hud" title={sceneTitle(scene)}><strong>{scene.name}</strong></div>
       {tower&&<TowerHud tower={tower} onChooseStart={chooseTowerStart}/>}
-      <SceneContacts scene={scene} layout={layout} exits={exits} creatures={creatures} battle={!!s.battle} frozen={frozen}
+      <SceneContacts scene={scene} layout={layout} exits={exits} creatures={creatures} battle={battle} frozen={frozen}
         onGate={gate} onApproach={approach} onOperate={operate}/>
       <div ref={walker.player} className="world-player" style={at(visiblePosition)}>
         <ClassicRobot direction={motion.direction} walking={motion.moving} role="player"/><span>赛尔</span>

@@ -1,9 +1,8 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
-import { BRAVE_TOWER_FLOORS, braveTowerPosition } from '../../domain/challenges/brave-tower.ts';
+import { CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
-import { speciesName } from '../../shared/monster-views.ts';
 import type { ScenePoint } from './scene-geometry.ts';
 
 /** What the player is talking to in the current scene. */
@@ -43,7 +42,11 @@ const FACILITY_GREETINGS: Partial<Record<FacilityKind, string>> = {
   recovery: '把精灵交给恢复舱，体力与技能 PP 会完全恢复。',
 };
 
-export interface TowerScene { floor: number; complete: boolean; highestCleared: number; boss?: BossView; opponents: EncounterOpponentView[] }
+/** The slices the world scene and its dialogues read: a battle or a raising change does not rebuild the scene. */
+export type WorldSlices = Pick<GameSnapshot, 'bosses' | 'species' | 'campaigns' | 'braveTower' | 'quests'>;
+export interface TowerScene {
+  floor: number; complete: boolean; highestCleared: number; totalFloors: number; boss?: BossView; opponents: EncounterOpponentView[];
+}
 export interface CampaignContact { campaign: CampaignView; name: string; progress: string }
 export interface WorldSceneView {
   planet: WorldPlanet; region: WorldRegion;
@@ -64,20 +67,18 @@ export interface WorldSceneView {
   hint: string;
 }
 
-function towerScene(s: GameSnapshot): TowerScene {
-  const { floor, bossId, climbComplete } = braveTowerPosition(s.braveTower);
+function towerScene(s: WorldSlices): TowerScene {
+  const { highestCleared, totalFloors, position: { floor, bossId, climbComplete } } = s.braveTower;
   const boss = s.bosses.find(entry => entry.id === bossId);
-  const opponents = boss?.opponents?.length ? boss.opponents
-    : boss ? [{ species: boss.species, name: speciesName(s, boss.species, boss.name), level: boss.level, evidence: boss.evidence }] : [];
-  return { floor, complete: climbComplete, highestCleared: s.braveTower.highestCleared, boss, opponents };
+  return { floor, complete: climbComplete, highestCleared, totalFloors, boss, opponents: boss?.opponents ?? [] };
 }
 
-function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact | undefined {
+function campaignContact(s: WorldSlices, region: WorldRegion): CampaignContact | undefined {
   const campaign = s.campaigns.find(entry => entry.id === region.campaignId);
   if (!campaign) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
   const progress = campaign.finished ? '全部挑战已完成' : next ? `当前挑战：${next.name}` : '查看挑战进度';
-  return { campaign, name: speciesName(s, campaign.species, '挑战精灵'), progress };
+  return { campaign, name: campaign.speciesName, progress };
 }
 
 function groundHint(tower: TowerScene | undefined) {
@@ -85,7 +86,7 @@ function groundHint(tower: TowerScene | undefined) {
   return tower.complete ? '本轮挑战已完成 · 可选择起点重新登塔' : '点击中央对手挑战本层 · 胜利后前往下一层';
 }
 
-export function buildWorldScene(s: GameSnapshot, planet: WorldPlanet, region: WorldRegion, targetBossId?: string): WorldSceneView {
+export function buildWorldScene(s: WorldSlices, planet: WorldPlanet, region: WorldRegion, targetBossId?: string): WorldSceneView {
   const tower = isWorldLocation(planet, region, BRAVE_TOWER_LOCATION) ? towerScene(s) : undefined;
   const background = region.background ?? planet.background;
   return {
@@ -103,7 +104,7 @@ export function buildWorldScene(s: GameSnapshot, planet: WorldPlanet, region: Wo
 
 /** The location HUD tooltip: Tower progress, or the planet subtitle with the level range. */
 export function sceneTitle({ planet, region, tower }: WorldSceneView) {
-  return tower ? `最高通过 ${tower.highestCleared} / ${BRAVE_TOWER_FLOORS} 层`
+  return tower ? `最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`
     : `${planet.subtitle} · ${region.facility ? '飞船设施' : `Lv.${region.levels[0]}–${region.levels[1]}`}`;
 }
 /** A Tower contact shows its first opponent's name. */
@@ -161,7 +162,7 @@ function creatureNote(creature: SpeciesView, recruitment: QuestView | undefined)
   return '在战斗道具中使用精灵胶囊捕捉。';
 }
 
-function creatureDialogue(s: GameSnapshot, scene: WorldSceneView, creature: SpeciesView, level: number): WorldDialogueView {
+function creatureDialogue(s: WorldSlices, scene: WorldSceneView, creature: SpeciesView, level: number): WorldDialogueView {
   const { planet, region } = scene;
   const recruitment = region.recruitmentSpecies?.includes(creature.id)
     ? s.quests.find(quest => quest.group === 'spt-recruitment' && quest.rewardSpecies === creature.id) : undefined;
@@ -178,8 +179,8 @@ function creatureDialogue(s: GameSnapshot, scene: WorldSceneView, creature: Spec
 }
 
 function towerText(tower: TowerScene) {
-  if (tower.complete) return `本轮已通过全部 ${BRAVE_TOWER_FLOORS} 层。选择起点后可重新登塔。`;
-  const next = tower.floor < BRAVE_TOWER_FLOORS ? `全部战胜后进入第 ${tower.floor + 1} 层。` : '全部战胜后完成本轮登塔。';
+  if (tower.complete) return `本轮已通过全部 ${tower.totalFloors} 层。选择起点后可重新登塔。`;
+  const next = tower.floor < tower.totalFloors ? `全部战胜后进入第 ${tower.floor + 1} 层。` : '全部战胜后完成本轮登塔。';
   return `本层共有 ${tower.opponents.length} 只精灵。${next}退出或失败后保留当前层。`;
 }
 
@@ -192,7 +193,7 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
     : !tower.complete && boss.id === tower.boss?.id ? { kind: 'battle', action: { type: 'startTower', floor: tower.floor } } : { kind: 'none' };
   return {
     label: `与${name}交谈`, portrait: { species: boss.species, name }, title: name, text,
-    kicker: tower ? scene.name : `${boss.category}${staging ? ' · 挑战接驳' : ''}`,
+    kicker: tower ? scene.name : `${CHALLENGE_CATEGORY[boss.category]}${staging ? ' · 挑战接驳' : ''}`,
     detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
     towerTeam: tower && { floor: tower.floor,
       opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
@@ -211,7 +212,7 @@ function facilityDialogue(scene: WorldSceneView): WorldDialogueView {
 }
 
 /** The dialogue for a selection, or undefined when it is not shown (an unknown Tower contact). */
-export function buildWorldDialogue(s: GameSnapshot, scene: WorldSceneView, selection: WorldSelection): WorldDialogueView | undefined {
+export function buildWorldDialogue(s: WorldSlices, scene: WorldSceneView, selection: WorldSelection): WorldDialogueView | undefined {
   const { campaign, region, tower } = scene;
   const boss = selection.kind === 'boss' ? (tower ? scene.bosses : s.bosses).find(entry => entry.id === selection.id) : undefined;
   if (tower && !boss) return undefined;

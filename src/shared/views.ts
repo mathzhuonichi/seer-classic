@@ -17,7 +17,9 @@ export interface MonsterView { uid: string; species: number; appearanceSpecies?:
 export type BossEvidenceStatus='official'|'observed'|'inferred'|'authored';
 export interface BossEvidenceView {displayLevelUnknown?:boolean;sourceUrls?:string[];hasInferredStats:boolean;hasInferredLevel:boolean;incompleteRules?:number;fields:{key:string;label:string;value:string;status:BossEvidenceStatus}[];limitations:string[]}
 export interface EncounterOpponentView {species:number;name:string;level:number;evidence?:BossEvidenceView}
-export interface BossView { category: string; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView }
+/** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */
+export type ChallengeCategoryId = 'spt' | 'legendary' | 'tower' | 'dark' | 'quest' | 'trainer';
+export interface BossView { category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView }
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
 export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<StatBlock>}
 export interface BattleFacilityOpponentView {species:number;name:string;level:number;baseTotal:number;role?:string;training?:NpcTrainingView;skills?:{id:number;name:string;training?:string}[]}
@@ -31,7 +33,31 @@ export interface ItemView { id: string; name: string; kind: string; count: numbe
 export interface AcquisitionAllowance {owned:number;reserved:number;remaining:number;limit:number}
 export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;unlimited?:boolean;price:0;hatches?:number;maxQuantity?:number;blockedReason?:string;allowance?:AcquisitionAllowance}
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
-export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
+export interface QuestView {
+  id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
+  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), and within the six-copy allowance. */
+  complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
+  /** Recruitment quests only; `rewardHeld`: the player holds the reward essence. */
+  prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
+  repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;
+}
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
-export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
-export interface BraveTowerView { highestCleared: number; resumeFloor: number | null; totalFloors: number; checkpoints: {floor:number;unlocked:boolean}[]; milestones?:{floor:number;species?:number;name:string;description:string;cleared:boolean}[]; honors?:string[] }
+export interface CampaignView {
+  id: string; name: string; species: number; speciesName: string; location: string; description: string; stages: CampaignStageView[];
+  completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean;
+  /** `skills`: each stage teaches a skill instead of the last stage granting the essence. */
+  reward: 'essence' | 'skills';
+}
+/** Where the player stands in the Brave Tower: one rule for the tower scene, the entrance picker and the archive. */
+export interface BraveTowerPosition {
+  /** The tower scene's floor: the climb's next floor, or the top floor after a completed climb; `bossId` is its guardian. */
+  floor:number;bossId:string;
+  /** This climb reached the top, so a new one starts from a checkpoint; `conquered`: every floor was cleared at least once. */
+  climbComplete:boolean;conquered:boolean;
+  /** The checkpoint offered first: the segment of the saved floor, or floor 1 after a completed climb. */
+  entrance:number;
+}
+export interface BraveTowerView {
+  highestCleared: number; resumeFloor: number | null; totalFloors: number; position: BraveTowerPosition; checkpoints: {floor:number;unlocked:boolean}[];
+  milestones:{floor:number;species?:number;name:string;description:string;cleared:boolean}[]; honors:string[];
+}

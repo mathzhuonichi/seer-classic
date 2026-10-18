@@ -119,7 +119,7 @@ These are enforced by a new gate suite, `tools/verification/architecture.mjs`. I
      - `items` → `engravings`
 7. **`features/X/ui`** imports React, `shared`, `shared/ui`, `domain` types, its own feature, and `kernel/contract.ts`. Feature rules never import their own `ui/`.
 8. **`src/kernel`** imports `features/*/index.ts` (the registry), `domain`, `shared`, the cores and `battle/ai` (to inject the policy).
-9. **`src/app`** imports `kernel`, `features/*/index.ts` (screens), `domain` and `shared`.
+9. **`src/app`** imports `kernel`, `features/*/index.ts` (screens), `domain` and `shared`, plus the root `package.json` for the version shown in the settings panel.
 10. **Size limits:**
     - Files stay at or under 400 lines, and lines at or under 160 characters.
     - Existing offenders are listed in the baseline and may only shrink.

@@ -32,12 +32,12 @@ await withSsr('trainer-teams',async load=>{
  check('Controller preserves every existing encounter, supply, collection flag, and quest',()=>{
   const before=baseline.snapshot(),after=game.snapshot();
   for(const key of ['species','quests','shopItems','items','campaigns'])assert.deepEqual(after[key],before[key],key);
-  assert.deepEqual(after.bosses.filter(row=>row.category!=='训练师对战'),before.bosses);
-  assert.equal(after.bosses.filter(row=>row.category==='训练师对战').length,trainers.length);
+  assert.deepEqual(after.bosses.filter(row=>row.category!=='trainer'),before.bosses);
+  assert.equal(after.bosses.filter(row=>row.category==='trainer').length,trainers.length);
   assert(!after.shopItems.some(row=>row.id.includes('trainer_')));
  });
  check('Trainer tab renders a disclosed six-member team and meaningful reward copy',()=>{
-  const html=renderToStaticMarkup(React.createElement(ChallengeCenter,{c:game,initialCategory:'训练师对战',onTravel:()=>{}}));
+  const html=renderToStaticMarkup(React.createElement(ChallengeCenter,{c:game,initialCategory:'trainer',onTravel:()=>{}}));
   assert(html.includes('训练师对战'));assert(html.includes('aria-label="训练师队伍"'));assert(html.includes('对方阵容 · 6'));assert(html.includes('与训练师互动'));assert(html.includes('赛尔豆与经验。'));
   assert(!html.includes('获得首领精元'));assert(!html.includes('不解锁新的精灵获取路线'));
   for(const trainer of trainers){const view=game.snapshot().bosses.find(row=>row.id===trainer.id);assert.equal(view.opponents.length,6);assert(view.opponents.every(mon=>mon.level===100));assert.deepEqual(findChallengeLocation(view),{planetId:'space-station',regionId:'resources',staging:false});}

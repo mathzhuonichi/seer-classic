@@ -1,3 +1,5 @@
+import type {BraveTowerPosition} from '../../shared/views.ts';
+
 export interface BraveTowerProgress {
   highestCleared:number;
   /** The next floor in this climb; null means this climb reached the top. */
@@ -60,20 +62,6 @@ export function clearBraveTowerFloor(progress:BraveTowerProgress,floor:number):B
   return {highestCleared:Math.max(progress.highestCleared,floor),resumeFloor:nextFloor(floor)};
 }
 
-export interface BraveTowerPosition {
-  /** The floor the tower scene stands on: the climb's next floor, or the top floor after a completed climb. */
-  floor:number;
-  /** The guardian encounter of that floor. */
-  bossId:string;
-  /** This climb reached the top; a new climb starts from a checkpoint. */
-  climbComplete:boolean;
-  /** Every floor has been cleared at least once. */
-  conquered:boolean;
-  /** The checkpoint offered first: the segment of the saved floor, or floor 1 after a completed climb. */
-  entrance:number;
-}
-
-/** Where the player stands in the tower: one rule for the tower scene, the entrance picker and the archive. */
 export function braveTowerPosition(progress:BraveTowerProgress):BraveTowerPosition {
   const floor=progress.resumeFloor??BRAVE_TOWER_FLOORS,entranceFloor=progress.resumeFloor??1;
   return {

@@ -1,25 +1,24 @@
 // Rows and texts of the challenge archive (星际挑战档案), built from the snapshot.
 import type { GameSnapshot } from '../../kernel/contract.ts';
-import type { BossView, BraveTowerView, CampaignView } from '../../shared/views.ts';
+import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import {braveTowerFloor,braveTowerPosition} from '../../domain/challenges/brave-tower.ts';
-import {CHALLENGE_CAMPAIGNS,CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
-import {mergeBossEvidence} from './boss-evidence.ts';
+import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
+import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
+import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
 
-/** The tab that lists every category. */
-export const ALL_CHALLENGES='全部挑战';
-export const CHALLENGE_TABS:readonly string[]=[ALL_CHALLENGES,...Object.values(CHALLENGE_CATEGORY)];
+/** An archive tab: one category, or `all`. */
+export type ChallengeTab=ChallengeCategoryId|'all';
+export const CHALLENGE_TABS=Object.entries({all:'全部挑战',...CHALLENGE_CATEGORY}) as [ChallengeTab,string][];
 export const CHALLENGE_PAGE_SIZE=10;
 
 /** An archive row: a standalone encounter, a whole campaign, or the whole Brave Tower. */
 export type ChallengeEntry=BossView&{campaign?:CampaignView;tower?:boolean};
 export type ChallengeKind='tower'|'campaign'|'trainer'|'boss';
-type ArchiveSnapshot=Pick<GameSnapshot,'bosses'|'campaigns'|'braveTower'|'species'>;
+type ArchiveSnapshot=Pick<GameSnapshot,'bosses'|'campaigns'|'braveTower'>;
 
-const SKILL_CAMPAIGNS=new Set(CHALLENGE_CAMPAIGNS.filter(campaign=>campaign.reward==='skills').map(campaign=>campaign.id));
 /** Tabs whose rows are ordered by the floor or door number in the encounter id. */
-const NUMBERED_TABS=new Set<string>([CHALLENGE_CATEGORY.tower,CHALLENGE_CATEGORY.dark]);
+const NUMBERED_TABS=new Set<ChallengeTab>(['tower','dark']);
 const encounterNumber=(entry:ChallengeEntry)=>Number(entry.id.match(/(?:_f|_door)(\d+)/)?.[1]??Number.MAX_SAFE_INTEGER);
 const dexNumber=(species:number)=>`#${String(species).padStart(4,'0')}`;
 const isTowerFloor=(boss:BossView)=>braveTowerFloor(boss.id)!==undefined;
@@ -27,7 +26,7 @@ const isTowerFloor=(boss:BossView)=>braveTowerFloor(boss.id)!==undefined;
 function campaignEntry(s:ArchiveSnapshot,campaign:CampaignView):ChallengeEntry {
   return {
     id:`campaign-${campaign.id}`,name:campaign.name,species:campaign.species,
-    category:SKILL_CAMPAIGNS.has(campaign.id)?CHALLENGE_CATEGORY.quest:CHALLENGE_CATEGORY.legendary,
+    category:campaign.reward==='skills'?'quest':'legendary',
     description:campaign.stages.map(stage=>`${stage.name} ${stage.description}`).join(' '),location:campaign.location,
     level:s.bosses.find(boss=>boss.id===campaign.stages.at(-1)!.bossIds[0])?.level??MAX_LEVEL,portrait:`/portraits/${campaign.species}.png`,
     cleared:campaign.finished,attempts:0,evidence:mergeBossEvidence(campaign.stages.map(stage=>stage.evidence)),campaign,
@@ -39,7 +38,7 @@ function towerEntry(s:ArchiveSnapshot,floors:BossView[]):ChallengeEntry|undefine
   if(!floors.length)return undefined;
   return {
     ...floors[0],id:'brave-tower',name:CHALLENGE_CATEGORY.tower,description:'每通过十层解锁新的起点；保存当前挑战楼层，可继续上次进度。',
-    cleared:braveTowerPosition(s.braveTower).conquered,attempts:floors.reduce((sum,boss)=>sum+boss.attempts,0),tower:true,
+    cleared:s.braveTower.position.conquered,attempts:floors.reduce((sum,boss)=>sum+boss.attempts,0),tower:true,
   };
 }
 
@@ -55,14 +54,14 @@ export function challengeEntries(s:ArchiveSnapshot):ChallengeEntry[] {
 }
 
 /** The rows of one tab whose name or hint contains `search`. */
-export function challengeRows(entries:readonly ChallengeEntry[],tab:string,search:string):ChallengeEntry[] {
+export function challengeRows(entries:readonly ChallengeEntry[],tab:ChallengeTab,search:string):ChallengeEntry[] {
   const numbered=NUMBERED_TABS.has(tab);
-  return entries.filter(entry=>(tab===ALL_CHALLENGES||tab===entry.category)&&`${entry.name} ${entry.description}`.includes(search))
+  return entries.filter(entry=>(tab==='all'||tab===entry.category)&&`${entry.name} ${entry.description}`.includes(search))
     .sort((a,b)=>(numbered?encounterNumber(a)-encounterNumber(b):0)||a.species-b.species||a.name.localeCompare(b.name,'zh'));
 }
 
 export const challengeKind=(entry:ChallengeEntry):ChallengeKind=>
-  entry.tower?'tower':entry.campaign?'campaign':entry.category===CHALLENGE_CATEGORY.trainer?'trainer':'boss';
+  entry.tower?'tower':entry.campaign?'campaign':entry.category==='trainer'?'trainer':'boss';
 
 const towerRecord=(tower:BraveTowerView)=>`最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`;
 
@@ -96,15 +95,15 @@ function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):s
   if(kind==='trainer')return '赛尔豆与经验。';
   if(kind==='boss')return '获得首领精元 → 道具背包 → 确认孵化';
   const campaign=entry.campaign!;
-  if(!SKILL_CAMPAIGNS.has(campaign.id))return '完成全部阶段后获得精元，途中阶段不会重复发放精灵';
-  return `通过每项特训，领悟对应的${s.species.find(species=>species.id===campaign.species)?.name??campaign.name}技能`;
+  if(campaign.reward==='essence')return '完成全部阶段后获得精元，途中阶段不会重复发放精灵';
+  return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
 }
 
 /** The detail pane texts; `staging` means the challenge is reached through the ship's transfer dock. */
 export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:boolean):ChallengeDetail {
   const kind=challengeKind(entry),campaign=entry.campaign;
   return {
-    subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${entry.category}${campaign?'':` · ${opponentLevelText(entry)}`}`,
+    subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
     instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
     reward:rewardNote(entry,kind,s),action:ACTIONS[kind],

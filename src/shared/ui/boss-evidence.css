@@ -9,7 +9,6 @@
 .boss-evidence-content thead{opacity:.75}
 .boss-evidence-status{white-space:nowrap;font-size:10px}
 .boss-evidence-status.status-inferred,.boss-evidence-limitation{color:#c99738}
-.world-dialogue:has(.boss-evidence[open]){max-height:calc(100% - 16px);overflow:auto;overscroll-behavior:contain}
 .classic-battle-caption:has(.classic-boss-evidence-button){display:flex;align-items:center;gap:8px}
 .classic-battle-caption>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .classic-boss-evidence-button{flex-shrink:0;padding:1px 5px!important;border:1px solid #70bddb!important;background:#063365!important;color:#fff0af!important;font-size:9px!important;line-height:16px!important;min-height:0!important}

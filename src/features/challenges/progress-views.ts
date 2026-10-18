@@ -2,16 +2,13 @@
 import { findMon } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import {
-  BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource,
+  BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerPosition, braveTowerRewards, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
-import { buildBossEncounterEvidence, mergeBossEvidence } from './boss-evidence.ts';
+import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import {opponentViews, towerRewardLabel} from '../collection/index.ts';
-
-/** The rei training campaign's last stage teaches a skill instead of granting an essence. */
-const NO_ESSENCE_CAMPAIGN_ID = 'rei-training';
+import { opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 
 /** Cleared stage ids; a campaign without a record starts from its stages already cleared as Bosses. */
 export function campaignProgress(save: GameSave, campaign: Campaign): string[] {
@@ -43,7 +40,7 @@ function stageView(ctx: GameContext, save: GameSave, campaign: Campaign, index: 
   const blockedReason = index > completed ? `请先完成「${campaign.stages[index - 1].name}」。` : stageRequirement(ctx, save, stage);
   const reward = encounters[0]?.reward as { learn_skill?: { species: number; skill: number } } | undefined;
   const rewardText = reward?.learn_skill ? `领悟技能：${ctx.data.skills.get(reward.learn_skill.skill)?.name.zh}`
-    : index === campaign.stages.length - 1 && campaign.id !== NO_ESSENCE_CAMPAIGN_ID ? `获得${ctx.speciesName(campaign.species)}精元`
+    : index === campaign.stages.length - 1 && campaign.reward === 'essence' ? `获得${ctx.speciesName(campaign.species)}精元`
       : '完成本阶段，开启下一项挑战';
   return {
     ...stage, requiredSpeciesName: stage.requiredSpecies ? ctx.speciesName(stage.requiredSpecies) : undefined,
@@ -57,8 +54,9 @@ export function campaignViews(ctx: GameContext, save: GameSave): CampaignView[] 
   return CHALLENGE_CAMPAIGNS.map(campaign => {
     const cleared = campaignProgress(save, campaign), completed = cleared.length;
     return {
-      id: campaign.id, name: campaign.name, species: campaign.species, location: campaign.location, description: campaign.stages[0].description,
-      completed, nextStageId: campaign.stages[completed]?.id ?? null, finished: completed === campaign.stages.length, resetOnLoss: !!campaign.resetOnLoss,
+      id: campaign.id, name: campaign.name, species: campaign.species, speciesName: ctx.speciesName(campaign.species), location: campaign.location,
+      description: campaign.stages[0].description, reward: campaign.reward, completed, nextStageId: campaign.stages[completed]?.id ?? null,
+      finished: completed === campaign.stages.length, resetOnLoss: !!campaign.resetOnLoss,
       stages: campaign.stages.map((_, index) => stageView(ctx, save, campaign, index, cleared)),
     };
   });
@@ -81,5 +79,7 @@ export function towerView(ctx: GameContext, save: GameSave): BraveTowerView {
     return [reward?.achievement?.zh, reward?.title?.zh ? `称号：${reward.title.zh}` : undefined].filter((value): value is string => !!value);
   }))];
   const progress = save.game.braveTower;
-  return { ...progress, totalFloors: BRAVE_TOWER_FLOORS, checkpoints: braveTowerCheckpoints(progress), milestones, honors };
+  return {
+    ...progress, totalFloors: BRAVE_TOWER_FLOORS, position: braveTowerPosition(progress), checkpoints: braveTowerCheckpoints(progress), milestones, honors,
+  };
 }

@@ -9,30 +9,27 @@ import './QuestPanel.css';
 
 const PAGE_SIZE=2;
 type QuestFilter='all'|'ready'|'pending';
-const isClaimed=(quest:QuestView)=>quest.claimed&&!quest.repeatable;
-const canClaim=(quest:QuestView)=>quest.claimable??(quest.complete&&!isClaimed(quest));
 
 export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:{c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;onOpenBag?:()=>void}){
- const quests=useGame(c,s=>s.quests),species=useGame(c,s=>s.species),bosses=useGame(c,s=>s.bosses),items=useGame(c,s=>s.items);
- const activeBattle=useGame(c,battleActive);
+ const quests=useGame(c,s=>s.quests),bosses=useGame(c,s=>s.bosses),activeBattle=useGame(c,battleActive);
  const focused=quests.find(quest=>quest.id===focusQuestId);
- const [group,setGroup]=useState<'journey'|'spt-recruitment'>(focused?.group??'journey');
+ const [group,setGroup]=useState<QuestView['group']>(focused?.group??'journey');
  const [showFocus,setShowFocus]=useState(!!focused);
  const [search,setSearch]=useState(''),[filter,setFilter]=useState<QuestFilter>('all');
  const [feedback,setFeedback]=useState<{questId:string;message:string}>();
  const query=search.trim().replace(/^#/,'').toLowerCase();
- const matching=quests.filter(quest=>(quest.group??'journey')===group
+ const matching=quests.filter(quest=>quest.group===group
   &&(!query||quest.name.toLowerCase().includes(query)||String(quest.rewardSpecies)===query)
-  &&(filter==='all'||filter==='ready'&&canClaim(quest)||filter==='pending'&&!isClaimed(quest)&&!quest.complete));
+  &&(filter==='all'||filter==='ready'&&quest.claimable||filter==='pending'&&!quest.claimed&&!quest.complete));
  const shown=showFocus&&focused?[focused]:matching;
  const {page,setPage,pages,start,end}=usePager(shown.length,PAGE_SIZE);
- useEffect(()=>{setShowFocus(!!focusQuestId);setPage(0);setFeedback(undefined);if(focused)setGroup(focused.group??'journey')},[focusQuestId,focused?.group]);
+ useEffect(()=>{setShowFocus(!!focusQuestId);setPage(0);setFeedback(undefined);if(focused)setGroup(focused.group)},[focusQuestId,focused?.group]);
  const rows=shown.slice(start,end);
  const selectGroup=(next:typeof group)=>{setGroup(next);setShowFocus(false);setPage(0);setSearch('');setFilter('all');setFeedback(undefined)};
  function claim(quest:QuestView){
-  if(!canClaim(quest)||activeBattle)return;
-  c.dispatch({type:'claimQuest',questId:quest.id});
-  setFeedback({questId:quest.id,message:c.snapshot().notices[0]??'领取指令已提交。'});
+  if(!quest.claimable||activeBattle)return;
+  const result=c.dispatch({type:'claimQuest',questId:quest.id});
+  setFeedback({questId:quest.id,message:result.notice??'领取指令已提交。'});
  }
  return <section className="quest-panel" aria-label="航行任务列表">
   <nav className="quest-tabs" aria-label="任务分类">
@@ -45,13 +42,11 @@ export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOp
    <select aria-label="任务状态" value={filter} onChange={event=>{setFilter(event.target.value as QuestFilter);setPage(0)}}><option value="all">全部任务</option><option value="ready">可领取</option><option value="pending">未完成</option></select>
   </div>}
   <div className="quest-console" key={`${group}-${page}-${showFocus}-${search}-${filter}`} tabIndex={0}>{rows.map(quest=>{
-   const reward=species.find(row=>row.id===quest.rewardSpecies),claimed=isClaimed(quest),claimable=canClaim(quest);
-   const conditions=quest.prerequisites??quest.requiredBossIds?.map(bossId=>{const boss=bosses.find(entry=>entry.id===bossId);return {kind:'boss' as const,bossId,species:undefined,name:boss?.name??'挑战暂不可用',complete:!!boss?.cleared}})??[];
-   const allowance=quest.allowance,hasEssence=!!quest.rewardItemId&&items.some(item=>item.id===quest.rewardItemId&&item.count>0);
+   const {claimed,claimable,allowance}=quest,conditions=quest.prerequisites??[];
    const status=claimed?'✓ 已领取':claimable?'奖励已就绪':quest.complete?'条件已完成':'进行中';
    return <article key={quest.id} aria-label={quest.name}>
-    <header className="quest-card-heading"><CreatureArt species={quest.rewardSpecies} name={reward?.name??quest.name} size={42}/><div><h3>{quest.name}</h3><span className={`quest-status ${claimable?'ready':''}`}>{status}</span>{quest.rewardItemId&&<span className="quest-repeat">{quest.repeatable?`可重复 · 已领取 ${quest.claimCount??0} 次`:'限领一次'}</span>}</div></header>
-    <p className="quest-description">{quest.rewardItemId?`完成下列条件，领取${reward?.name??'初始形态'}精元。`:quest.description}</p>
+    <header className="quest-card-heading"><CreatureArt species={quest.rewardSpecies} name={quest.rewardName} size={42}/><div><h3>{quest.name}</h3><span className={`quest-status ${claimable?'ready':''}`}>{status}</span>{quest.rewardItemId&&<span className="quest-repeat">{quest.repeatable?`可重复 · 已领取 ${quest.claimCount??0} 次`:'限领一次'}</span>}</div></header>
+    <p className="quest-description">{quest.rewardItemId?`完成下列条件，领取${quest.rewardName}精元。`:quest.description}</p>
     {!!conditions.length&&<ul className="quest-prerequisites" aria-label="招募前置条件">{conditions.map(condition=>{
      const boss=condition.bossId?bosses.find(entry=>entry.id===condition.bossId):undefined;
      const available=condition.kind==='species'?condition.species!==undefined&&!!onLocateSpecies:!!boss;
@@ -61,7 +56,7 @@ export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOp
     {!claimed&&quest.blockedReason&&<p className="quest-blocked">{quest.blockedReason}</p>}
     <footer className="quest-card-footer"><span>{conditions.length?'条件':'任务进度'} {quest.progress}</span><button className="primary" disabled={!claimable||activeBattle} onClick={()=>claim(quest)}>{claimed?'已领取':quest.rewardItemId?'领取精元':'领取精灵'}</button></footer>
     {feedback?.questId===quest.id&&<p className="quest-feedback" role="status">{feedback.message}</p>}
-    {hasEssence&&onOpenBag&&<button className="quest-hatch-link" onClick={onOpenBag}>前往道具背包孵化 →</button>}
+    {quest.rewardHeld&&onOpenBag&&<button className="quest-hatch-link" onClick={onOpenBag}>前往道具背包孵化 →</button>}
    </article>;
   })}{!rows.length&&<p className="quest-empty">{query||filter!=='all'?'没有符合筛选条件的任务。':'这一分类暂时没有任务。'}</p>}</div>
   {activeBattle&&<p className="quest-battle-hint">请先结束当前战斗，再领取奖励。</p>}

@@ -37,7 +37,8 @@ try {
   const make=(save=base,data=catalog)=>createGame(data,JSON.stringify(structuredClone(save)));
   function reject(game,action){
     const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);
-    game.dispatch(action);assert.equal(game.exportSave(),before,'rejection preserves the save');assert.equal(JSON.stringify(game.snapshot().battle),battle,'rejection preserves battle');
+    assert.equal(game.dispatch(action).ok,false,'rejection reports failure; the shell opens the tower only on success');
+    assert.equal(game.exportSave(),before,'rejection preserves the save');assert.equal(JSON.stringify(game.snapshot().battle),battle,'rejection preserves battle');
   }
   function win(game,floor){
     game.dispatch(typeof floor==='number'?{type:'startTower',floor}:{type:'startBattle',bossId:floor});
@@ -58,7 +59,7 @@ try {
 
   check('Entering an unlocked floor changes only the saved location, without healing or starting combat',()=>{
     const save=fixture(16,17);save.storage[0].hp=1;save.storage[0].pp[FAST]=2;
-    const game=make(save),before=parse(game);game.dispatch({type:'enterTower',floor:11});
+    const game=make(save),before=parse(game);assert.equal(game.dispatch({type:'enterTower',floor:11}).ok,true);
     const expected=structuredClone(before);expected.game.braveTower.resumeFloor=11;
     assert.deepEqual(parse(game),expected);assert.equal(game.snapshot().battle,null);
     assert.deepEqual(parse(make(parse(game))),expected,'entry survives reconstruction');
