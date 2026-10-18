@@ -3,19 +3,20 @@
  * Downloads cached official resources, exports offline PNG + JSON, records failures explicitly.
  */
 import {registerHooks} from 'node:module';
-import {readFileSync,writeFileSync,mkdirSync,existsSync,readdirSync,renameSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,existsSync,renameSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {deflateSync,gzipSync} from 'node:zlib';
 import {parseNewseerManifest} from './yoo-pet-manifest.mjs';
+import {loadCatalogNode} from '../catalog.mjs';
 const sha=x=>createHash('sha256').update(x).digest('hex');
 const output='public/battle-animations',cache='.cache/battle-animation';mkdirSync(output,{recursive:true});mkdirSync(cache,{recursive:true});
 const source=JSON.parse(readFileSync('.cache/unity-swf-audit/pet-manifest-source.json'));
 const bytes=readFileSync('.cache/unity-swf-audit/PetAnimPackage.bytes');
 if(sha(bytes)!==source.sha256)throw Error('Cached manifest hash mismatch');
 const manifest=parseNewseerManifest(bytes), index=new Map(manifest.bundles.map(x=>[x.bundleName,x]));
-const catalog=JSON.parse(readFileSync('data/gamedata.json')).species.map(x=>x.id);
-const bossIds=readdirSync('data/bosses').filter(x=>x.endsWith('.json')).flatMap(file=>JSON.parse(readFileSync('data/bosses/'+file)).team.map(x=>x.species));
+const loaded=loadCatalogNode(),catalog=loaded.species.map(x=>x.id);
+const bossIds=loaded.bosses.flatMap(boss=>boss.team.map(x=>x.species));
 const argumentsIds=process.argv.slice(2);const requested=argumentsIds[0]==='--all'?catalog:argumentsIds[0]==='--playable'?JSON.parse(readFileSync('.cache/gamefeel-resources/playable-animation-targets.json')).target:argumentsIds.length?argumentsIds.map(Number):[...new Set([...Array.from({length:30},(_,i)=>i+1),70,...bossIds])];
 const record=existsSync(output+'/manifest.json')?JSON.parse(readFileSync(output+'/manifest.json')):{format:1,source,parser:'@seer-pet-anim/swf-bundle@0.3.1',species:{}};
 const save=()=>{record.coverage=catalog.map(id=>({species:id,status:record.species[id]?'ready':record.failures?.[id]?'failed':'not-exported',reason:record.failures?.[id]}));writeFileSync(output+'/manifest.json.tmp',JSON.stringify(record,null,2)+'\n');renameSync(output+'/manifest.json.tmp',output+'/manifest.json');const species=Object.fromEntries(Object.entries(record.species).map(([id,s])=>[id,{meta:s.meta,atlas:s.atlas,frameRate:s.frameRate,atlasWidth:s.atlasWidth,atlasHeight:s.atlasHeight,sequences:s.sequences}]));writeFileSync(output+'/runtime-index.json.tmp',JSON.stringify({species})+'\n');renameSync(output+'/runtime-index.json.tmp',output+'/runtime-index.json');};
