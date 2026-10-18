@@ -1,6 +1,6 @@
 import type { GameController } from '../kernel/contract.ts';
 import type { BossView } from '../shared/views.ts';
-import {campaignBackdrop} from '../features/battle/index.ts';
+import {campaignBackdrop} from '../features/challenges/index.ts';
 import { locateTarget, parseRoute } from './shell-navigation.ts';
 import type { AcquisitionRoute } from '../domain/acquisition/acquisition-model.ts';
 import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
