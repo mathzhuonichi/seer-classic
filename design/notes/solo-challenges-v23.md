@@ -28,7 +28,7 @@ Ordinary sequential enemy teams and campaign guardians remain part of single-pla
 - Source and bundled encounter records match.
 - Actual core damage checks verify the absolute 200-HP healing boundary, full recovery below it, and no revival after lethal damage.
 - Real controller victory settles one essence, survives export/reload, and hatches the correct infant.
-- Repeating a cleared challenge does not regrant its first-clear essence.
+- Repeating a cleared challenge grants the essence again, as both species are repeatable within the six-copy limit. The V23 suite asserted that a repeat clear grants nothing; that rule was superseded by the bounded-repeat recruitment rule.
 - Sevi has the new direct boss acquisition route and the executable level-32 evolution route to Seville.
 - The Azure Dragon guardians, Puni true body and Black Tortoise body remain in the catalog.
 
