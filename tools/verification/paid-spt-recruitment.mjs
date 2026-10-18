@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createServer} from 'vite';
-const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try {
   const registry=await server.ssrLoadModule('/src/progression/spt-recruitment.ts');
   const {PAID_SPT_RECRUITMENTS:quests,getSPTRecruitmentProgress:progress,buildPaidSPTRecruitments:build,getEligibleRecruitmentSPTs:eligible,EXCLUDED_RECRUITMENT_SPECIES:excluded}=registry;

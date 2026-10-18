@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {createServer} from 'vite';
 
 const root=process.cwd();
-const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try {
   const {WORLD_GALAXIES,WORLD_PLANETS}=await server.ssrLoadModule('/src/world.ts');
   const manifest=JSON.parse(fs.readFileSync('src/presentation/atlas-graph-assets.json','utf8'));

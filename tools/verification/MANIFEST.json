@@ -1,0 +1,275 @@
+{
+  "statuses": {
+    "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
+    "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
+    "needs-cache": "Needs the ignored research inputs under .cache/.",
+    "historical": "Compares against a fixed Git revision; needs full history.",
+    "known-failure": "Fails on purpose until the linked open item is fixed.",
+    "stale": "Already failing at V30; asserts superseded behaviour. Fix or delete, do not gate.",
+    "tool": "A measurement or export script, not a pass/fail check."
+  },
+  "suites": {
+    "acquisition-limits-controller.mjs": {
+      "status": "known-failure",
+      "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
+    },
+    "base-form-acquisition.ts": {
+      "status": "gate"
+    },
+    "battle-ai-liveness.mjs": {
+      "status": "gate"
+    },
+    "battle-ai.mjs": {
+      "status": "gate"
+    },
+    "battle-animation-hd-loader.mjs": {
+      "status": "needs-assets"
+    },
+    "battle-animation-registration.mjs": {
+      "status": "needs-assets"
+    },
+    "battle-animation-transport.mjs": {
+      "status": "needs-assets"
+    },
+    "battle-animation.mjs": {
+      "status": "needs-cache",
+      "note": "Needs .cache/unity-swf-audit/, which was not transferred."
+    },
+    "battle-capsule-click.mjs": {
+      "status": "known-failure",
+      "note": "Fails since ccbbf07: asserts the old PetBag source text."
+    },
+    "battle-clone-fidelity-v58.mjs": {
+      "status": "gate",
+      "shards": 8
+    },
+    "battle-display-lifecycle.mjs": {
+      "status": "gate"
+    },
+    "battle-facilities.mjs": {
+      "status": "gate"
+    },
+    "battle-hd-atlas.mjs": {
+      "status": "tool",
+      "note": "Takes source, remapped and layout paths as arguments."
+    },
+    "battle-hd-memory.mjs": {
+      "status": "needs-assets"
+    },
+    "battle-observe-v58.mjs": {
+      "status": "known-failure",
+      "note": "Its pre-journal baseline imports the retired battle/core/src/tactics.ts; handoff-2026-10-18.md open item 1."
+    },
+    "battle-offline-clip.mjs": {
+      "status": "needs-assets"
+    },
+    "battle-runtime-lifecycle.mjs": {
+      "status": "gate"
+    },
+    "battle-supplies-v48.mjs": {
+      "status": "gate"
+    },
+    "battle-v3.ts": {
+      "status": "gate"
+    },
+    "boss-ai-isolation-v56.mjs": {
+      "status": "historical"
+    },
+    "boss-and-support-v46.mjs": {
+      "status": "gate"
+    },
+    "boss-essence-targets.mjs": {
+      "status": "gate"
+    },
+    "boss-evidence-controller-v56.mjs": {
+      "status": "gate"
+    },
+    "boss-rules-v56.mjs": {
+      "status": "gate"
+    },
+    "brave-tower-v53.mjs": {
+      "status": "gate"
+    },
+    "brave-tower-v54.mjs": {
+      "status": "gate"
+    },
+    "breeding-controller.mjs": {
+      "status": "gate"
+    },
+    "breeding.mjs": {
+      "status": "needs-cache",
+      "note": "Needs .cache/breeding-v24/, which was not transferred."
+    },
+    "calculator-parity.ts": {
+      "status": "needs-cache",
+      "note": "Needs .cache/calculator-parity/ inputs, which were not transferred."
+    },
+    "campaign-mechanics.ts": {
+      "status": "gate"
+    },
+    "campaign-progression.ts": {
+      "status": "gate"
+    },
+    "capture-official-v25.ts": {
+      "status": "gate"
+    },
+    "capture-v3.ts": {
+      "status": "known-failure",
+      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+    },
+    "challenge-navigation.ts": {
+      "status": "gate"
+    },
+    "classic-damage.ts": {
+      "status": "gate"
+    },
+    "classic-teams-v38.mjs": {
+      "status": "gate"
+    },
+    "collection-shop-v25.mjs": {
+      "status": "known-failure",
+      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+    },
+    "controller-snapshots.ts": {
+      "status": "gate"
+    },
+    "damage-audit.ts": {
+      "status": "gate"
+    },
+    "damage-official-v25.ts": {
+      "status": "needs-cache",
+      "note": "Needs .cache/ calculator inputs, which were not transferred."
+    },
+    "damage-presentation.ts": {
+      "status": "gate"
+    },
+    "dex-acquisition.ts": {
+      "status": "known-failure",
+      "note": "Fails since 8eb220d: brave-tower boss essences have no usable binding."
+    },
+    "display-resolution.mjs": {
+      "status": "gate"
+    },
+    "dual-types.ts": {
+      "status": "gate"
+    },
+    "elite-battles-v46.mjs": {
+      "status": "gate"
+    },
+    "elite-recovery-v49.mjs": {
+      "status": "known-failure",
+      "note": "Search weakness kept failing by the test triage; handoff-2026-10-18.md open item 2. Also loads fixed Git revisions."
+    },
+    "elite-roster-v46.mjs": {
+      "status": "gate"
+    },
+    "elite-sub600-audit.mjs": {
+      "status": "gate"
+    },
+    "elite-tactics-v46.mjs": {
+      "status": "gate"
+    },
+    "engraving-integration-v49.mjs": {
+      "status": "gate"
+    },
+    "engravings-2013.mjs": {
+      "status": "gate"
+    },
+    "evolution-branches.mjs": {
+      "status": "gate"
+    },
+    "evolution-specials.mjs": {
+      "status": "known-failure",
+      "note": "Fails since ccbbf07 (33 checks); one check already failed on claude/engravings. Also loads fixed Git revisions."
+    },
+    "export-acquisition-status.mjs": {
+      "status": "gate"
+    },
+    "fusion-audit.ts": {
+      "status": "gate"
+    },
+    "game-display-v43.mjs": {
+      "status": "gate"
+    },
+    "game-v3.ts": {
+      "status": "known-failure",
+      "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
+    },
+    "graphical-atlas.mjs": {
+      "status": "gate"
+    },
+    "habitat-regions.mjs": {
+      "status": "stale",
+      "note": "Already failing at V30."
+    },
+    "holder-ownership-v47.mjs": {
+      "status": "known-failure",
+      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+    },
+    "maps-placement-v44.mjs": {
+      "status": "gate"
+    },
+    "npc-training-v45.mjs": {
+      "status": "known-failure",
+      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+    },
+    "paid-spt-controller.mjs": {
+      "status": "known-failure",
+      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+    },
+    "paid-spt-recruitment.mjs": {
+      "status": "gate"
+    },
+    "playtest-v18-regressions.ts": {
+      "status": "gate"
+    },
+    "potion-ai-v48.mjs": {
+      "status": "known-failure",
+      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+    },
+    "puni-location-v38.mjs": {
+      "status": "gate"
+    },
+    "recruitment-acquisition.ts": {
+      "status": "gate"
+    },
+    "skill-effects-hd-v44.mjs": {
+      "status": "needs-assets"
+    },
+    "skins.mjs": {
+      "status": "gate"
+    },
+    "solo-challenges.ts": {
+      "status": "stale",
+      "note": "Already failing at V30."
+    },
+    "station-navigation-v53.mjs": {
+      "status": "gate"
+    },
+    "switch-policy-v47.mjs": {
+      "status": "historical"
+    },
+    "trainer-ai-tournament-v58.mjs": {
+      "status": "tool"
+    },
+    "trainer-hp-visibility-v58.mjs": {
+      "status": "gate"
+    },
+    "trainer-ko-priority-v57.mjs": {
+      "status": "gate"
+    },
+    "trainer-search-behavior-v58.mjs": {
+      "status": "gate"
+    },
+    "trainer-teams.mjs": {
+      "status": "stale",
+      "note": "Already failing at V30: expects the old trainer roster markup."
+    },
+    "unlimited-access-v50.mjs": {
+      "status": "gate"
+    },
+    "world-roaming-v44.mjs": {
+      "status": "gate"
+    }
+  }
+}

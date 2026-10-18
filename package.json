@@ -7,6 +7,9 @@
     "dev": "vite --host 127.0.0.1 --port 1420",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 1420",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"src/**/*.test.mjs\" \"battle/**/*.test.mjs\" \"raising/**/*.test.mjs\"",
+    "verify": "node tools/verification/run.mjs",
     "desktop": "tauri dev",
     "package": "tauri build --bundles app",
     "dev:preview": "vite --host 127.0.0.1 --port 1421"

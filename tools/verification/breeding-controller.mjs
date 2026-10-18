@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {createServer} from 'vite';
 const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try {
   const {createGame,loadGameData}=await server.ssrLoadModule('/src/game.ts');
   const {BREEDING_RECIPES:recipes,getBreedingGender}=await server.ssrLoadModule('/src/progression/breeding.ts');

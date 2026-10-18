@@ -4,14 +4,6 @@
   "description": "Deterministic, engine-agnostic battle core for Seer Classic (pre-2013 赛尔号 remake).",
   "type": "module",
   "main": "src/index.ts",
-  "scripts": {
-    "test": "node --test test/*.test.ts",
-    "typecheck": "tsc -p .",
-    "sim": "node tools/sim.ts",
-    "bundle": "node tools/load-data.ts",
-    "smoke": "node tools/smoke.ts",
-    "fuzz": "node tools/fuzz.ts"
-  },
   "engines": {
     "node": ">=22.18"
   }

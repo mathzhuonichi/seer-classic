@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createServer } from 'vite';
-const server = await createServer({server:{middlewareMode:true},appType:'custom'});
+const server = await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try {
   const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await server.ssrLoadModule('/src/progression/breeding.ts');
   const source = JSON.parse(fs.readFileSync('data/breeding.json'));

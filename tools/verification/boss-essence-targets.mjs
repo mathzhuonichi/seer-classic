@@ -8,7 +8,7 @@ const memory = new Map();
 Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
   getItem: key => memory.get(key) ?? null, setItem: (key, value) => memory.set(key, value), removeItem: key => memory.delete(key),
 } });
-const server = await createServer({ server: { middlewareMode: true, watch: null }, appType: 'custom', logLevel: 'error' });
+const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
   const { createGame, loadGameData } = await server.ssrLoadModule('/src/game.ts');
   const { buildAcquisitionIndex, resolveEncounterEssenceSpecies } = await server.ssrLoadModule('/src/progression/acquisition.ts');
