@@ -13,8 +13,8 @@ const P95_BUDGET_MS = 250;
 const TURNS = 6;
 /** Every authored trainer team (the classic facility's teams) and a team of the generated facilities. */
 const STARTS = [
-  ...['attrition', 'control', 'dragon_sanctuary', 'fast_pressure', 'fusion_specialists', 'legendary', 'offense', 'resilient_counter', 'shining_team', 'trained_core']
-    .map(id => ({type: 'startBattle', bossId: `trainer_${id}`})),
+  ...['attrition', 'control', 'dragon_sanctuary', 'fast_pressure', 'fusion_specialists', 'legendary', 'offense', 'resilient_counter',
+    'shining_team', 'trained_core'].map(id => ({type: 'startBattle', bossId: `trainer_${id}`})),
   ...['random', 'elite'].map(facilityId => ({type: 'startFacility', facilityId})),
 ];
 
