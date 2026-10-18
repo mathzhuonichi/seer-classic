@@ -33,15 +33,17 @@ try {
   const { WORLD_PLANETS, GENERATED_HABITATS } = await server.ssrLoadModule('/src/world.ts');
   const { buildAcquisitionIndex, NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/progression/acquisition.ts');
   const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
+  const { interceptedFieldSpecies } = await server.ssrLoadModule('/src/progression/native-acquisition.ts');
+  const { CONVERTED_POLICY_CATEGORIES } = await server.ssrLoadModule('/src/progression/recruitment.ts');
+  const { loadCatalog } = await server.ssrLoadModule('/src/mechanics/catalog.ts');
   const maps = await source(SOURCES.maps), petbook = await source(SOURCES.petbook), mapConfig = await source(SOURCES.mapConfig);
   const read = relative => JSON.parse(fs.readFileSync(path.join(root, relative), 'utf8'));
-  const catalog = read('data/gamedata.json');
-  catalog.bosses = fs.readdirSync(path.join(root, 'data/bosses')).filter(file => file.endsWith('.json')).sort().map(file => read(`data/bosses/${file}`));
+  const catalog = await loadCatalog();
   const byId = new Map(catalog.species.map(species => [species.id, species]));
   const expansions = read('data/habitat-regions.json');
   const policyBytes = fs.readFileSync(path.join(root, 'data/acquisition-policy.json'));
   const converted = new Set(JSON.parse(policyBytes.toString('utf8')).species
-    .filter(row => row.categories.some(category => ['paid', 'vip', 'lottery'].includes(category)))
+    .filter(row => row.categories.some(category => CONVERTED_POLICY_CATEGORIES.includes(category)))
     .map(row => row.species));
   const sourceRegions = new Map(list(mapConfig.json.Maps.map).map(map => [Number(map.id), map]));
   for (const expansion of expansions.regions) {
@@ -65,8 +67,7 @@ try {
   const initial = buildInitialFormAcquisitionIndex(catalog, index);
   const placed = new Set(regions.flatMap(({ region }) => region.creatures));
   // The controller redirects these species to their named encounter instead of the field.
-  const intercepted = new Set(catalog.bosses.filter(boss => !boss.id.includes('tower') && !boss.id.includes('dark_door'))
-    .flatMap(boss => boss.team.map(member => member.species)));
+  const intercepted = interceptedFieldSpecies(catalog.bosses);
   // Keep proven habitats even after an additional collection-reward route is
   // introduced. Alternate routes must not silently erase original map access.
   const retained = new Set([...GENERATED_HABITATS.map(entry => entry.species),

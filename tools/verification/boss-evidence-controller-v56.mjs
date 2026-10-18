@@ -2,30 +2,21 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {root,sha256File,suite,withSsr} from './_harness.mjs';
 
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const report={checks:[],failures:[],witnesses:[],scope:'Production controller and core objects, observed with an in-memory transform only. No browser, user save, development server, build, or package operation is used. Evidence classification is checked against the authored audit index; historical source correctness belongs to the source audit.'};
-function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),previousFetch=globalThis.fetch;
-const captureKey='__bossEvidenceV56Created',previousCapture=Object.getOwnPropertyDescriptor(globalThis,captureKey);
-let storageReads=0,storageWrites=0,networkRequests=0,instrumented=0;
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}}});
-Object.defineProperty(globalThis,captureKey,{configurable:true,value:[]});
+const scope='Production controller and core objects, observed through the controller battle-factory seam. No browser, user save, development server, build, or package operation is used. Evidence classification is checked against the authored audit index; historical source correctness belongs to the source audit.';
+let storageReads=0,storageWrites=0,networkRequests=0;
+globalThis.localStorage={getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}};
 globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification must remain offline.');};
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/boss-evidence-controller-v56'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error',plugins:[{
-  name:'observe-v56-controller-battle',enforce:'pre',transform(code,id){
-    if(id.split('?')[0]!==path.join(root,'src/game.ts'))return;
-    const anchor='for(const event of battle.initialEvents)';assert.equal(code.split(anchor).length,2,'Unique read-only observation anchor');instrumented++;
-    return code.replace(anchor,`globalThis.${captureKey}.push(battle);\n    ${anchor}`);
-  },
-}]});
-try{
-  const [{createGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
+const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
+await withSsr('boss-evidence-controller-v56',async load=>{
+  const t=suite('boss-evidence-controller-v56'),{check}=t;
+  const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
     '/src/game.ts','/src/mechanics/boss-encounter.ts','/src/presentation/encounter-level.ts','/src/presentation/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/traits.ts','/src/mechanics/npc-training.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
-  ].map(id=>server.ssrLoadModule(id)));
+  ].map(load));
+  // The controller's real battles, observed through its battle-factory seam.
+  const created=[];
+  const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
   const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
   const runtime=readJson('data/boss-evidence-runtime-v56.json'),audit=readJson('data/boss-evidence-v56.json'),ruleAudit=readJson('data/boss-rule-support-v56.json');
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new SeededRng(56);
@@ -39,10 +30,10 @@ try{
   base.storage=Array.from({length:6},(_,i)=>createMonster(dex,70,100,rng,{uid:`evidence-v56-${i}`,iv:31,nature:'hardy'}));
   base.party=base.storage.map(mon=>mon.uid);base.game.traits={};base.game.modules={};base.game.engravingStock={};base.rng_state=[56,112,168,224];
   const make=(save=base)=>createGame(catalog,JSON.stringify(structuredClone(save)));
-  const captured=()=>globalThis[captureKey].at(-1);
-  function start(game,action){const count=globalThis[captureKey].length;game.dispatch(action);assert(game.snapshot().battle&&!game.snapshot().battle.finished,JSON.stringify(game.snapshot().notices));assert.equal(globalThis[captureKey].length,count+1);return captured();}
+  const captured=()=>created.at(-1);
+  function start(game,action){const count=created.length;game.dispatch(action);assert(game.snapshot().battle&&!game.snapshot().battle.finished,JSON.stringify(game.snapshot().notices));assert.equal(created.length,count+1);return captured();}
   function leave(game){game.dispatch({type:'flee'});assert.equal(game.snapshot().battle.resultReason,'flee');game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);}
-  function reject(game,action,label){const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle),rngBefore=parse(game).rng_state,count=globalThis[captureKey].length;game.dispatch(action);assert.equal(game.exportSave(),before,`${label}: save`);assert.deepEqual(parse(game).rng_state,rngBefore,`${label}: RNG`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle`);assert.equal(globalThis[captureKey].length,count,`${label}: no battle constructed`);}
+  function reject(game,action,label){const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle),rngBefore=parse(game).rng_state,count=created.length;game.dispatch(action);assert.equal(game.exportSave(),before,`${label}: save`);assert.deepEqual(parse(game).rng_state,rngBefore,`${label}: RNG`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle`);assert.equal(created.length,count,`${label}: no battle constructed`);}
   function assertMemberEvidence(view,boss,slot){
     assert(view,`${boss.id}/${slot}: evidence exists`);assert.deepEqual(view.fields.map(row=>row.key).sort(),[...fieldKeys].sort());
     const entry=runtime.encounters[boss.id],member=entry.members.find(row=>row.slot===slot),source=boss.team[slot];
@@ -72,7 +63,7 @@ try{
       }
       for(const key of fieldKeys){assert(statuses.has(runtimeEntry.fields[key]?.status));assert.equal(runtimeEntry.fields[key].status,detail.fields[key].status);}
     }
-    assert.equal(members,240);report.witnesses.push({kind:'evidence-index',encounters:bosses.size,members});
+    assert.equal(members,240);t.witness('evidence-index',{encounters:bosses.size,members});
   });
   check('Per-member presentation preserves independent evidence status, current values and unsupported counts',()=>{
     let count=0;for(const boss of bosses.values())for(let slot=0;slot<boss.team.length;slot++){assertMemberEvidence(buildBossEvidence(boss,slot),boss,slot);count++;}
@@ -102,7 +93,7 @@ try{
     assert.equal(combined.limitations.filter(text=>text==='当前规则不额外加入圣洁封印的低命中效果。').length,1);
     assert.equal(combined.limitations.filter(text=>text==='当前规则不额外加入谱尼低体力时降低我方命中的效果。').length,1);
     for(const text of [...seal.limitations,...body.limitations].filter(text=>!/\d+ 项特殊效果未完整还原/.test(text)))assert(combined.limitations.includes(text),'Non-count limitations survive aggregation');
-    report.witnesses.push({kind:'unsupported-count-text',bodyMembers:6,bodyCount:body.incompleteRules,mergedCount:combined.incompleteRules,bodyText:countLines(body),mergedText:countLines(combined)});
+    t.witness('unsupported-count-text',{bodyMembers:6,bodyCount:body.incompleteRules,mergedCount:combined.incompleteRules,bodyText:countLines(body),mergedText:countLines(combined)});
   });
   check('Actual catalog, campaign and battle views disclose four waivers and the strict-quarter user policy',()=>{
     const expected=new Map([
@@ -125,7 +116,7 @@ try{
     start(game,{type:'startBattle',bossId:'boss_spt_moshidilu'});
     assert(game.snapshot().battle.enemy.evidence.limitations.includes(expected.get('boss_spt_moshidilu')));leave(game);
     const moshi= audit.encounters.boss_spt_moshidilu.rules.find(row=>row.rule==='forced_execution_below_pct');assert.equal(moshi.configuration.pct,25);assert.equal(moshi.evidence.status,'authored');assert.equal(moshi.evidence.basis,'user-adopted-policy');
-    report.witnesses.push({kind:'v57-user-policies',waivers:4,replacements:1,activeUnsupported:0,realBattle:'boss_spt_moshidilu'});
+    t.witness('v57-user-policies',{waivers:4,replacements:1,activeUnsupported:0,realBattle:'boss_spt_moshidilu'});
   });
   check('Every catalog Boss view and every opponent receives evidence; all ten trainer views remain separate',()=>{
     const game=make(),snapshot=game.snapshot();assert.equal(snapshot.bosses.length,190);
@@ -142,7 +133,7 @@ try{
       for(const key of fieldKeys)assert.equal(field(stage.evidence,key).status,worst(expected.map(({boss,slot})=>field(buildBossEvidence(boss,slot),key).status)),`${campaign.id}/${stage.id}/${key}`);
       assert.equal(stage.evidence.incompleteRules,stage.bossIds.reduce((sum,id)=>sum+unsupported.get(id),0));
     }
-    report.witnesses.push({kind:'campaigns',campaigns:snapshot.campaigns.length,stages,opponents});
+    t.witness('campaigns',{campaigns:snapshot.campaigns.length,stages,opponents});
   });
   check('All over-100 display values are masked while core levels and encounter source numbers remain intact',()=>{
     const scripts={...SEER_SCRIPTS,...campaignScripts,...traitScripts,...npcTrainingScripts};let members=0;
@@ -152,7 +143,7 @@ try{
       boss.team.forEach((mon,slot)=>{assert.equal(core.sides[1].team[slot].level,mon.level);if(mon.level<=100)return;members++;assert.equal(encounterLevel(mon.level),'??');assert.equal(encounterLevelText(mon.level),'Lv.??');assert.equal(encounterLevelText(mon.level,true),'Lv.?? · 推定');assert.equal(field(buildBossEvidence(boss,slot),'level').value,'??');});
     }
     assert(members>0);for(const level of [1,80,100])assert.equal(encounterLevel(level),String(level));for(const level of [0,-1,NaN,Infinity])assert.equal(encounterLevel(level),'??');
-    report.witnesses.push({kind:'masked-high-levels',members});
+    t.witness('masked-high-levels',{members});
   });
   check('Difuert masks its documented unknown display level without replacing its internal estimate of 80',()=>{
     const boss=bosses.get('boss_spt_difute');assert.equal(boss.team[0].level,80);const evidence=buildBossEvidence(boss);
@@ -179,7 +170,7 @@ try{
       for(let i=0;i<3;i++)game.snapshot();assert.equal(parse(game).progress.boss_attempts[attemptId],count);
       leave(game);assert.equal(parse(game).progress.boss_attempts[attemptId],count);
       const next=game.snapshot().bosses.find(row=>row.id===attemptId);assert.equal(next.level,level-10);assert.equal(next.opponents[0].level,level-10);assert.equal(next.attempts,count);
-      report.witnesses.push({kind:'attempt-start',count,coreLevel:level,nextPreview:next.level,hp:core.active(1).maxHp});
+      t.witness(`attempt-start-${count}`,{count,coreLevel:level,nextPreview:next.level,hp:core.active(1).maxHp});
     }
   });
   check('An existing count of three starts at 70 after reload and larger counts stop at the inferred floor',()=>{
@@ -208,7 +199,7 @@ try{
       battle.enemyParty.forEach((mon,slot)=>{assertMemberEvidence(mon.evidence,source,slot);assert.equal(mon.level,core.sides[1].team[slot].level);opponents++;});
       assert.equal(parse(game).progress.boss_attempts[source.id],1);leave(game);
     }
-    report.witnesses.push({kind:'real-campaign-starts',campaigns:campaigns.length,opponents});
+    t.witness('real-campaign-starts',{campaigns:campaigns.length,opponents});
   });
   check('Real classic, random and elite trainer starts retain the search-planner trainer AI without Boss evidence or attempt counts',()=>{
     for(const facilityId of ['classic','random','elite']){
@@ -219,14 +210,7 @@ try{
   });
   check('Unknown evidence remains explicitly inferred and the entire verification preserves catalog and user state',()=>{
     const unknown={...structuredClone(source),id:'unverified-v56'};const evidence=buildBossEvidence(unknown);assert(evidence.fields.every(row=>row.status==='inferred'));assert(evidence.limitations.some(text=>text.includes('尚未完成核对')));
-    assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert.equal(instrumented,1);
+    assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert(created.length>0);
   });
-  report.sourceHashes=Object.fromEntries(['src/mechanics/boss-encounter.ts','src/game.ts','src/presentation/boss-evidence.ts','src/presentation/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  await server.close();globalThis.fetch=previousFetch;
-  if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;
-  if(previousCapture)Object.defineProperty(globalThis,captureKey,previousCapture);else delete globalThis[captureKey];
-  const dir=path.join(root,'artifacts/boss-evidence-controller-v56');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,witnesses:report.witnesses},null,2));if(report.failures.length)process.exitCode=1;
-}
+  t.finish({scope,sourceHashes:Object.fromEntries(['src/mechanics/boss-encounter.ts','src/game.ts','src/presentation/boss-evidence.ts','src/presentation/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json',...controllerFiles].map(file=>[file,sha256File(file)]))});
+});

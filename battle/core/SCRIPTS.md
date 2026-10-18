@@ -1,10 +1,24 @@
 # Writing scripted skill effects
 
 Skills whose effect has no declarative op carry `{ "op": "script", "id": "seer_eff_<n>", "params": [...] }`.
-`<n>` is the original Seer side-effect template; `data/scripts_needed.md` lists every
-template with its Chinese text and example skills (`params` = `{0}`, `{1}`, ... in order).
-Implementations live in `src/scripts/` and are merged into `SEER_SCRIPTS`
-(`src/scripts/index.ts`). Pass `scripts: SEER_SCRIPTS` to `createBattle`.
+`<n>` is the original Seer side-effect template; its Chinese text is quoted above each entry
+(`params` = `{0}`, `{1}`, ... in order). Boss rules `{ "rule": "script", "id", "params" }` and phase ops
+`{ "op": "script", "id", "params" }` use the same registry. Pass `scripts: SEER_SCRIPTS` to `createBattle`;
+the game adds its own registries from `src/mechanics` (classic traits, campaign rules, NPC training).
+
+## Modules (`src/scripts/`)
+
+| module | holds |
+|---|---|
+| `index.ts` | `SEER_SCRIPTS`, the merged registry |
+| `seer-main.ts` | the 42 most used templates (3+ skills each) |
+| `seer-tail.ts` | the other templates, with the interpretations and engine gaps they rely on |
+| `boss.ts` | boss rules (`install`) and phase ops (`apply`); exports `statusOnAttacker` for campaign rules |
+| `builders.ts` | entry factories: `timedScripts`, `ruleScripts` and the template families |
+| `util.ts` | argument encodings, predicates, damage, stage and condition helpers |
+| `constants.ts` | numbers the template text does not state: formulas, AI estimates, interpretations |
+
+A number quoted in a template's text stays next to that quote; any other number goes in `constants.ts`.
 
 ## Entry shape
 
@@ -22,20 +36,40 @@ An entry is a function (treated as `apply`) or an object with any of:
 | `finalDamage(c, p, dmg)` | per hit, after all multipliers | `battle, user, foe, skill, info` | damage |
 | `ppCost(c, p)` | PP deduction | `battle, user, foe, skill` | PP spent |
 | `onMiss(c, p)` | the skill missed | `battle, user, foe, skill, ctx` | ignored |
+| `install(c, p)` | boss rule, once per matching team member at battle start | `battle, mon, side` | ignored |
 | `hook(c, p)` | a condition hook `{ on, script: id, params }` fired | see below | see below |
 
 `ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst, user, target`.
 
+## Tables and builders
+
+Most templates are one of two table shapes, so an entry only states its data:
+
+- **Timed templates** ("{0}回合内…") go in a `TIMED` table and become entries through `timedScripts`.
+  Each is `{ name, on, hook }`: the skill attaches condition `<id>` (the script id) to the user for `p[0]` turns,
+  and `hook(c, p)` runs at the `on` points with the skill's params. Options: `foe` (attach to the foe, kind
+  `debuff`), `kind`, `turns(p)`, `when(c, p)` (attach only if), `data(c, p)` (initial `cond.data`), `cover`
+  (this turn counts as the first one). Families such as `evade`, `hurtStatus`, `drain`, `boostEachTurn`,
+  `dropEachTurn`, `hurtDropsFoe` and `foeDamageEachTurn` return ready-made specs.
+- **Rule conditions** (boss, campaign and NPC rules) are `{ on, hook }` tables turned into `install` + `hook`
+  entries by `ruleScripts(table, install)`; each registry passes its own install policy (condition id,
+  name, guards). Their `params` become `cond.data`.
+
+One-shot families (`randomPower`, `bonusDamageIf`, `selfStageIf`) build plain entries. Anything else is
+written out in the registry's `ENTRIES` table with the helpers below.
+
 ## Condition hooks with scripts
 
-Timed effects ("N回合内…") are conditions. Create them inline:
+Timed effects are conditions. Outside a table, attach one with `attach` from `util.ts`:
 
 ```ts
-battle.addCondition(user, {
-  id: 'seer_eff_78', name: { zh: '物理闪避' }, kind: 'buff', stack: 'refresh',
-  hooks: [{ on: 'before_hit', script: 'seer_eff_78', params: p }],
-}, p[0]);   // turns
+attach(battle, user, 'seer_eff_142', '血之狂躁', scriptHooks(['modify_priority'], 'seer_eff_142', p), 1);
 ```
+
+`attach(battle, mon, id, name, hooks, turns?, { kind, persist, data, cover })` adds the condition or refreshes
+its turns (a refresh keeps the first definition and merges `data`), and returns the active condition.
+`ruleCondition` is the permanent, switch-proof form used by encounter rules; `armBench`/`disarm` arm the
+next monster to switch in.
 
 The hook's `c` has `battle, point, holder` (the monster carrying the condition),
 `cond` (the ActiveCondition: `turns`, `charges`, `data` for your own state), `hook`,
@@ -64,16 +98,27 @@ The hook's `c` has `battle, point, holder` (the monster carrying the condition),
 
 `info` (DamageInfo): `kind` (`attack`/`fixed`/`percent`/`true`), `source, skill, crit, effectiveness, status`.
 
+Timing helpers for hooks: `counts(c)` (the condition ticks this turn), `expiring(c)` (it ends this turn),
+`once(c)` (first reaction this turn).
+
 ## Battle helpers
 
 `battle.rng` (`chance(pct)`, `int(a,b)`, `pick(xs)`, `next()`) is the only randomness.
 `applyStatus(mon, id, { turns, level, source })`, `changeStage(mon, stat, delta, byFoe)`,
 `clearStages(mon, 'up'|'down'|'all')`, `dealDamage(mon, n, { kind: 'fixed'|'percent', source, skill })`,
 `heal(mon, n)`, `addCondition(mon, def, turns?, level?, charges?)`, `removeCondition(mon, id)`,
-`foeOf(mon)`, `effStat(mon, stat)`, `emit({ type, ... })`, `turn`, `sides`.
+`foeOf(mon)`, `active(side)`, `effStat(mon, stat)`, `emit({ type, ... })`, `turn`, `sides`, `lastKo`, `result`.
 Monster: `hp, maxHp, level, types, stats, stages, conditions, skills, pp, maxPp,
 species, fainted, vol` (cleared on switch-out), `persist` (whole battle; `persist.lastTaken = { turn, amount }` is damage taken from the foe), `streak`
 (`{ skill, count }` consecutive uses), `skillUses`, `lastActedTurn`, `side`, `slot`.
+
+`util.ts` wraps the common forms: `hitFoe(c, n, kind?)` (extra damage only when the move landed),
+`selfLoss`, `changeStages`, `raiseStagesTo`, `moveStages`, and the predicates `landed`, `fromFoeAttack`,
+`hasStatus`, `hasAnyStatus`, `hasStageUp`, `hasStageDown`, `sameType`.
+
+Scripts import `Battle` and `Mon` as types only and keep no state outside the battle (`cond.data`,
+`vol`, `persist`), so `clone.ts` can copy a battle; seer-tail's synchronous `reflecting` guard is the one
+exception.
 
 ## Original arg encodings
 
@@ -82,4 +127,4 @@ species, fainted, vol` (cleared on switch-out), `persist` (whole battle; `persis
   10 混乱 `confusion`, 11 衰弱 `weaken`, 13 易燃 `flammable`, 15 冰封 `frozen_solid`.
 - Stat index: 0 `atk`, 1 `def`, 2 `spa`, 3 `spd`, 4 `spe`, 5 `acc`.
 
-Helpers for both are exported from `src/scripts/util.ts`.
+`status(i)` and `stat(i)` in `util.ts` decode both.

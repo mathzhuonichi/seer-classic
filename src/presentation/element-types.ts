@@ -1,9 +1,16 @@
 import iconAssets from './type-icon-assets.json';
 import {TYPE_LABELS} from './labels.ts';
 
+/** Official element button art keyed by Chinese name; dual entries also list their parts and source type id. */
 interface TypeAsset {path:string;sha256:string;name?:string;types?:string[];typeId?:number}
-export const typeAssets=iconAssets as Record<string,TypeAsset>;
+const typeAssets=iconAssets as Record<string,TypeAsset>;
+
 export type ElementTypes=string|readonly string[];
+export interface ElementFilterOption {value:string;label:string;kind:'count'|'single'|'dual'}
+
+/** Filter values that select by element count; every other filter value names an element or a dual pair. */
+export const ALL_ELEMENTS='全部属性',SINGLE_ELEMENTS='仅单属性',DUAL_ELEMENTS='仅双属性';
+
 function normalize(input:ElementTypes):string[] {
   const parts=typeof input==='string'?input.trim().split(/[\s_/·]+/):input;
   return parts.map(type=>TYPE_LABELS[type]??(type.replace(/属性技能$|属性$|系$/,'')||'属性'));
@@ -16,19 +23,29 @@ export function elementParts(input:ElementTypes):string[] {
   const parts=normalize(input);
   return typeAssets[parts.join('')]?.types??parts;
 }
+/** The accessible label and, when official art exists, the cache-busted icon source. */
+export function elementIcon(input:ElementTypes):{name:string;label:string;src?:string} {
+  const name=elementName(input),parts=elementParts(input),asset=typeAssets[name];
+  const label=name==='属性'?'属性技能':parts.length>1?`${parts.join('·')}属性（双属性）`:`${name}属性`;
+  return {name,label,src:asset&&`${asset.path}?v=${asset.sha256.slice(0,12)}`};
+}
 /** Keep explicitly typed status moves intact; ordinary status moves use the original property symbol. */
 export function skillIconType(skill:{type:ElementTypes;category:string}):ElementTypes {
   return ['属性','status'].includes(skill.category)&&elementName(skill.type)==='普通'?'属性':skill.type;
 }
 export function matchesElement(types:readonly string[],filter:string):boolean {
-  if(filter==='全部属性')return true;
-  if(filter==='仅单属性')return types.length===1;
-  if(filter==='仅双属性')return types.length===2;
+  if(filter===ALL_ELEMENTS)return true;
+  if(filter===SINGLE_ELEMENTS)return types.length===1;
+  if(filter===DUAL_ELEMENTS)return types.length===2;
   return types.includes(filter)||elementName(types)===filter;
 }
-export function elementChoices(groups:readonly (readonly string[])[]) {
-  const singles=[...new Set(groups.flat())];
+/** Filter choices for some type lists: the count filters, each element present, then dual pairs in source order. */
+export function elementFilterOptions(groups:readonly (readonly string[])[]):ElementFilterOption[] {
   const duals=[...new Set(groups.filter(types=>types.length===2).map(elementName))]
     .sort((a,b)=>(typeAssets[a]?.typeId??0)-(typeAssets[b]?.typeId??0));
-  return {singles,duals};
+  return [
+    ...[ALL_ELEMENTS,SINGLE_ELEMENTS,DUAL_ELEMENTS].map(value=>({value,label:value,kind:'count' as const})),
+    ...[...new Set(groups.flat())].map(value=>({value,label:value,kind:'single' as const})),
+    ...duals.map(value=>({value,label:elementParts(value).join('·'),kind:'dual' as const})),
+  ];
 }

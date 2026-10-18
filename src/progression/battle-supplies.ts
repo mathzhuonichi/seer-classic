@@ -3,9 +3,12 @@ import type { BossEncounter } from '../../battle/core/src/types.ts';
 /** Documented classic recovery tiers plus the existing authored remake cure. */
 export const TRAINER_UNLIMITED_ITEMS = ['item_potion_hp_250', 'item_potion_pp_20', 'item_status_cure'] as const;
 
+/** Recovery tiers without evidence of classic use. */
+const UNSOURCED_TIERS = new Set(['item_potion_hp_3000', 'item_potion_pp_40']);
+
 /** Keep source bytes and legacy stock; exclude tiers lacking classic-use evidence. */
 export function normalizeBattleSupplyItems(items: Record<string, unknown>[]): Record<string, unknown>[] {
-  const result = items.filter(item => item.id !== 'item_potion_hp_3000' && item.id !== 'item_potion_pp_40');
+  const result = items.filter(item => !UNSOURCED_TIERS.has(String(item.id)));
   if (!result.some(item => item.id === 'item_potion_hp_250')) result.push({
     id: 'item_potion_hp_250', seer_id: 300072, name: {zh: '极限体力药剂'}, kind: 'battle', era: 'pre-2013',
     desc: {zh: '恢复选中精灵 250 点体力，每次使用占用一回合。'},

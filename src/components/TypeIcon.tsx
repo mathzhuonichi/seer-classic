@@ -1,14 +1,12 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import {elementName,elementParts,typeAssets,type ElementTypes} from '../presentation/element-types.ts';
+import {elementIcon,type ElementTypes} from '../presentation/element-types.ts';
 import {getLayoutZoom} from '../presentation/game-display.ts';
 import './type-icon.css';
 
 /** Original official button artwork, with a tooltip outside clipping card panels. */
 export default function TypeIcon({ type, focusable = true }: { type: ElementTypes; focusable?: boolean }) {
-  const name=elementName(type),parts=elementParts(type);
-  const asset=typeAssets[name];
-  const label=name==='属性'?'属性技能':parts.length>1?`${parts.join('·')}属性（双属性）`:`${name}属性`;
+  const {name,label,src}=elementIcon(type);
   const icon = useRef<HTMLSpanElement>(null);
   const tooltip = useRef<HTMLSpanElement>(null);
   const hovered = useRef(false), focused = useRef(false);
@@ -28,15 +26,17 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
     setPosition({ left: Math.max(half + margin, Math.min(window.innerWidth - half - margin, anchor.left + anchor.width / 2))/zoom,
       top: (below ? anchor.bottom + 7*zoom : anchor.top - 7*zoom)/zoom, below,zoom });
   }
-  function show() { placeTooltip(); setVisible(true); }
-  function synchronize() { if (hovered.current || focused.current) show(); else setVisible(false); }
+  /** The tooltip shows while the icon, or the button around it, is hovered or focused. */
+  function track(flag: { current: boolean }, on: boolean) {
+    flag.current = on;
+    if (hovered.current || focused.current) { placeTooltip(); setVisible(true); } else setVisible(false);
+  }
 
   useLayoutEffect(() => {
     const parent = icon.current?.closest('button');
     setInsideButton(!!parent);
     if (!parent) return;
-    const focus = () => { focused.current = true; show(); };
-    const blur = () => { focused.current = false; synchronize(); };
+    const focus = () => track(focused, true), blur = () => track(focused, false);
     parent.addEventListener('focus', focus);
     parent.addEventListener('blur', blur);
     if (document.activeElement === parent) focus();
@@ -61,13 +61,11 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
   }, [visible, label]);
 
   return <>
-    <span ref={icon} className={`battle-type-icon${asset ? '' : ' is-unavailable'}`} role="img" aria-label={label}
+    <span ref={icon} className={`battle-type-icon${src ? '' : ' is-unavailable'}`} role="img" aria-label={label}
       aria-describedby={visible ? tooltipId : undefined} tabIndex={focusable && !insideButton ? 0 : undefined}
-      onMouseEnter={() => { hovered.current = true; show(); }}
-      onMouseLeave={() => { hovered.current = false; synchronize(); }}
-      onFocus={() => { focused.current = true; show(); }}
-      onBlur={() => { focused.current = false; synchronize(); }}>
-      {asset ? <img src={`${asset.path}?v=${asset.sha256.slice(0, 12)}`} alt="" draggable={false}/> : <span>{name}</span>}
+      onMouseEnter={() => track(hovered, true)} onMouseLeave={() => track(hovered, false)}
+      onFocus={() => track(focused, true)} onBlur={() => track(focused, false)}>
+      {src ? <img src={src} alt="" draggable={false}/> : <span>{name}</span>}
     </span>
     {visible && position && createPortal(<span ref={tooltip} id={tooltipId} role="tooltip"
       className={`battle-type-tooltip${position.below ? ' is-below' : ''}`}
