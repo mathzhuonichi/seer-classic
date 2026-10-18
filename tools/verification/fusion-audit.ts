@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { createGame, loadCatalog } from '../../src/kernel/game.ts';
+import { createGame } from '../../src/kernel/game.ts';
+import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { FUSION_RARE_PROBABILITIES, FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/domain/recipes/fusion.ts';
 import { Rng } from '../../battle/core/src/rng.ts';
 

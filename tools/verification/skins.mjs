@@ -6,7 +6,8 @@ const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,s
 memoryStorage();
 await withSsr('skins', async load => {
   const t=suite('skins'),{check}=t;
-  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+  const {createGame}=await load('/src/kernel/game.ts');
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const {advanceBattlePresentation}=await load('/src/features/battle/index.ts');
   const {makeDex,createMonster,computeStats}=await load('/raising/core/index.ts');
   const {Rng}=await load('/battle/core/src/rng.ts');

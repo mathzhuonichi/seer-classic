@@ -10,9 +10,10 @@ const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',CAP
 const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('unlimited-access-v50',async load=>{
   const t=suite('unlimited-access-v50'),{check}=t;
-  const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,useRaisingItem},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
+  const [{createGame:createProductionGame},{engravings},{engravingAccess},{makeDex,createMonster,useRaisingItem},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/src/domain/engravings/engraving-access.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/battle-supplies.ts',
   ].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
   const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});

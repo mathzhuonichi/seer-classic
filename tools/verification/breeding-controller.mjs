@@ -5,7 +5,8 @@ import {memoryStorage,withSsr} from './_harness.mjs';
 
 memoryStorage();
 await withSsr('breeding-controller',async load=>{
-  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+  const {createGame}=await load('/src/kernel/game.ts');
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const {BREEDING_RECIPES:recipes,getBreedingGender}=await load('/src/domain/recipes/breeding.ts');
   const {deserialize}=await load('/src/kernel/save.ts');
   const {makeDex,gainLevels,autoEvolve}=await load('/raising/core/index.ts');

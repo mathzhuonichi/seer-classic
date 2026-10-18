@@ -1,5 +1,6 @@
 import {useCallback,useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
-import {createGame,loadCatalog} from '../kernel/game.ts';
+import {createGame} from '../kernel/game.ts';
+import {loadCatalog} from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from '../kernel/contract.ts';
 import {Battle,BattleLoading} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';

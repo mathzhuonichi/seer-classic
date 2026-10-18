@@ -9,9 +9,10 @@ memoryStorage();
 const read=name=>JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
 await withSsr('habitat-regions',async load=>{
   const t=suite('habitat-regions'),{check}=t;
-  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},{buildAcquisitionIndex},{buildRecruitmentRewards}]
+  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame},{buildAcquisitionIndex},{buildRecruitmentRewards}]
     =await Promise.all(['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts','/src/kernel/game.ts',
       '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts'].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const definitions=read('data/habitat-regions.json'),artwork={...read('src/domain/world/map-art-assets.json'),...read('src/domain/world/map-hd-assets.json')};
   const locate=({planetId,regionId})=>{const planet=WORLD_PLANETS.find(entry=>entry.id===planetId);return {planet,region:planet?.regions.find(entry=>entry.id===regionId)}};
   const catalog=await loadCatalog(),original=JSON.stringify(catalog),species=new Map(catalog.species.map(entry=>[entry.id,entry]));

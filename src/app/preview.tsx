@@ -20,9 +20,10 @@ for(const name of ['localStorage','sessionStorage'] as const) {
 }
 document.title='Seer Classic Preview';
 
-const [{Game},{createGame,loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
+const [{Game},{createGame},{loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
   import('./App.tsx'),
   import('../kernel/game.ts'),
+  import('../domain/catalog/catalog.ts'),
   import('../domain/challenges/brave-tower.ts'),
 ]);
 const game=createGame(await loadCatalog(),'');

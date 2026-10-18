@@ -20,8 +20,8 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must not make HTTP requests.');};
 await withSsr('brave-tower-v53',async load=>{
   const t=suite('brave-tower-v53'),{check}=t;
-  const [{createGame,loadCatalog},{makeDex,createMonster},{Rng}]=await Promise.all([
-    load('/src/kernel/game.ts'),load('/raising/core/index.ts'),load('/battle/core/src/rng.ts'),
+  const [{createGame},{loadCatalog},{makeDex,createMonster},{Rng}]=await Promise.all([
+    load('/src/kernel/game.ts'),load('/src/domain/catalog/catalog.ts'),load('/raising/core/index.ts'),load('/battle/core/src/rng.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   let alteredMembers=0;

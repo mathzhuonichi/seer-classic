@@ -5,7 +5,8 @@ import { memoryStorage, withSsr } from './_harness.mjs';
 
 memoryStorage();
 await withSsr('boss-essence-targets', async load => {
-  const { createGame, loadCatalog } = await load('/src/kernel/game.ts');
+  const { createGame } = await load('/src/kernel/game.ts');
+  const { loadCatalog } = await load('/src/domain/catalog/catalog.ts');
   const { buildAcquisitionIndex } = await load('/src/domain/acquisition/acquisition.ts');
   const { bossEssenceRewards } = await load('/src/domain/acquisition/native-acquisition.ts');
   const { buildInitialFormAcquisitionIndex } = await load('/src/domain/acquisition/initial-acquisition.ts');

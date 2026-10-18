@@ -16,8 +16,9 @@ function contains(poly,p){let inside=false;for(let i=0,j=poly.length-1;i<poly.le
 const memory=memoryStorage();
 await withSsr('maps-placement-v44',async load=>{
   const t=suite('maps-placement-v44'),{check}=t,report={};
-  const [{WORLD_PLANETS},presentation,{buildWorldDialogue,buildWorldScene},{WorldMap},{createGame,loadCatalog}]=await Promise.all(
+  const [{WORLD_PLANETS},presentation,{buildWorldDialogue,buildWorldScene},{WorldMap},{createGame}]=await Promise.all(
     ['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-scene.ts','/src/features/world/ui/WorldMap.tsx','/src/kernel/game.ts'].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const {getSceneLayout,creatureSceneHome,constrainHabitatPoint,constrainScenePoint,getSceneBossHome,getSceneBossActor}=presentation;
   const regions=WORLD_PLANETS.flatMap(planet=>planet.regions.map(region=>({planet,region,layout:getSceneLayout(planet,region),mapId:region.backgroundAssetMapId??Number((region.background??planet.background).match(/\/maps\/original\/(\d+)\./)?.[1])})));
   const bossAreas=regions.filter(row=>row.region.bossIds?.length);let homeSamples=0,projectionSamples=0;

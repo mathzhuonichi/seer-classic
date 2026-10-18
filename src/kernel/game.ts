@@ -1,6 +1,6 @@
 // The game controller: one catalog, one save, and the snapshot the components render.
 import { serialize } from './save.ts';
-import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
+import type { CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
 import { createGameContext, type GameDependencies } from './context.ts';
 import { runAction } from './dispatch.ts';
@@ -8,8 +8,6 @@ import {engravingOptions} from '../features/engravings/index.ts';
 import { notice, type Runtime } from './api.ts';
 import { loadJourney, openJourney, startJourney, writeJourney, type Journey } from './save-state.ts';
 import { createSnapshotBuilder } from './snapshot.ts';
-
-export { loadCatalog };
 
 export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
   const ctx = createGameContext(catalog, dependencies);

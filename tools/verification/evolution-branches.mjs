@@ -6,7 +6,8 @@ import { memoryStorage, suite, withSsr } from './_harness.mjs';
 memoryStorage();
 await withSsr('evolution-branches', async load => {
   const t = suite('evolution-branches'), { check } = t, selected = [], repeated = [], mechanical = [];
-  const { createGame, loadCatalog } = await load('/src/kernel/game.ts');
+  const { createGame } = await load('/src/kernel/game.ts');
+  const { loadCatalog } = await load('/src/domain/catalog/catalog.ts');
   const { makeDex, createMonster, computeStats, autoEvolve, expToNext } = await load('/raising/core/index.ts');
   const { Rng } = await load('/battle/core/src/rng.ts');
   const { buildRecruitmentRewards } = await load('/src/domain/acquisition/recruitment.ts');
