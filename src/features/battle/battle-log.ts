@@ -54,9 +54,11 @@ function battleEndText(event: EventOf<'battle_end'>): string {
 
 /** Format one event for the centered dialogue; pass current displayed creature names. */
 export function battleEventText(event: BattleEvent, context: BattleLogContext): string {
-  const mon = onFoe(event) ? context.initialEnemy : context.initialPlayer;
+  const foe = onFoe(event), mon = foe ? context.initialEnemy : context.initialPlayer, other = foe ? context.initialPlayer : context.initialEnemy;
   // A move's own `name` is its skill's.
-  const name = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
+  const bare = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
+  // Both sides can field the same species: then the side tells them apart.
+  const name = 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
   const skill = (id: number) => context.data.skills.get(id)?.name.zh || '技能';
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
@@ -69,7 +71,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'revive': return `${name}恢复了战斗能力${remaining(event, context, '，')}。`;
     case 'miss': return `${name}的${skill(event.skill)}没有命中。`;
     case 'faint': return `${name}失去战斗能力。`;
-    case 'switch_in': return `${sideLabel(event)}派出了${speciesName(event, context) || name}。`;
+    case 'switch_in': return `${sideLabel(event)}派出了${speciesName(event, context) || bare}。`;
     case 'switch_out': return `${name}返回精灵胶囊。`;
     case 'transform': return `${name}变为${speciesName(event, context) || '新的形态'}。`;
     case 'status_applied': return `${name}陷入${conditionName(event.status)}${lasting(event)}。`;
@@ -97,9 +99,11 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   }
 }
 
-/** Events that open a new log entry. */
+/** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
 const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
-  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
+  event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 
 /** Each entry is one action and its consequences, or one residual/end-of-turn group. */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
@@ -107,8 +111,10 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
   const groups: string[] = [];
   let current: string[] = [];
   const flush = () => { if (current.length) groups.push(current.join('　')); current = []; };
+  let previous: BattleEvent | undefined;
   for (const event of events) {
-    if (GROUP_STARTS.has(event.type)) flush();
+    if (GROUP_STARTS.has(event.type) && !continuesSwitch(event, previous)) flush();
+    previous = event;
     const mon = onFoe(event) ? shown.initialEnemy : shown.initialPlayer;
     if (event.type === 'switch_in' || event.type === 'transform') {
       mon.name = speciesName(event, context) || mon.name;
