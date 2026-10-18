@@ -27,7 +27,7 @@ export function runAction(rt: Runtime, action: GameAction): DispatchResult {
   let outcome: HandlerResult;
   try {
     const handler = handlers.get(action.type);
-    if (!handler) throw new Error(`unknown action ${action.type}`);
+    if (!handler) throw new Error(`未知指令：${action.type}`);
     if (!IN_BATTLE.has(action.type) && battleInProgress(rt)) throw new Error('战斗结束后才能进行培养或编辑。');
     outcome = handler(rt, action);
   } catch (error) {

@@ -31,7 +31,8 @@ try {
     for(const outcome of recipe.outcomes){
       const pair=fixture(recipe,(weight+outcome.weight/2)/100),game=pair.game,before=parse(game);
       assert.ok(game.snapshot().monsters.filter(mon=>[pair.maleUid,pair.femaleUid].includes(mon.uid)).every(mon=>mon.generation===0));
-      game.dispatch(action(recipe,pair));const after=parse(game),newborns=added(before,after);assert.equal(newborns.length,1);
+      const result=game.dispatch(action(recipe,pair));const after=parse(game),newborns=added(before,after);assert.equal(newborns.length,1);
+      assert.equal(result.created?.uid,newborns[0].uid,'The dispatch result names the newborn.');
       const child=newborns[0];assert.equal(child.species,outcome.species);assert.equal(child.level,1);assert.equal(child.generation,1);assert.equal(child.obtained.how,'breeding');
       assert.deepEqual(after.storage.filter(mon=>mon.uid!==child.uid),before.storage);
       assert.equal(after.game.coins,before.game.coins);assert.deepEqual(after.items,before.items);assert.equal(after.exp_pool,before.exp_pool);

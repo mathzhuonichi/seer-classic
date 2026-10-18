@@ -147,7 +147,7 @@ The contracts are written as real types in `src/kernel/contract.ts` before any f
 
 ```
 type DispatchResult =
-  | { ok: true; notice?: string; created?: { uid?: string; itemId?: string; species?: number } }
+  | { ok: true; notice?: string; created?: { uid?: string; itemId?: string } }
   | { ok: false; notice: string }
 ```
 

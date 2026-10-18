@@ -6,6 +6,7 @@ import { acquire, allowance, capacityReason, ensureAcquisitionCapacity } from '.
 import { notice, type ActionHandler, type Feature } from '../../kernel/api.ts';
 import type { CollectionAction } from './feature.ts';
 
+/** Fusion keeps both parents and stores the outcome as a bead to hatch later. */
 const fuse: ActionHandler<'fuse'> = (rt, action) => {
   const { ctx, save } = rt, recipe = FUSION_RECIPES.find(entry => entry.id === action.recipeId);
   if (!recipe) throw new Error('融合配方不存在。');

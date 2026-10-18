@@ -71,12 +71,12 @@ export function requireSession(rt: Runtime): BattleSession {
 export type HandlerResult = void | { created: Created };
 export type ActionHandler<T extends GameAction['type']> = (rt: Runtime, action: Extract<GameAction, { type: T }>) => HandlerResult;
 
-/** One feature's registration (architecture-v2 §5); `kernel/features.ts` lists them, and dispatch and the snapshot fold over them. */
-export interface Feature<A extends { type: string }, S extends object = Record<never, never>> {
-  /** One handler per action type the feature owns. */
+/**
+ * One feature's registration (architecture-v2 §5); `kernel/features.ts` lists them, and dispatch and the snapshot fold over them.
+ * `actions` has one handler per action type the feature owns; `inBattle` lists the ones that stay available while a battle is
+ * unresolved; `slice`, required when the feature has a slice, creates its builder once per game, so it may keep catalogue caches.
+ */
+export type Feature<A extends { type: string }, S extends object = Record<never, never>> = {
   readonly actions: { readonly [T in A['type']]: (rt: Runtime, action: Extract<A, { type: T }>) => HandlerResult };
-  /** Action types that stay available while a battle is unresolved. */
   readonly inBattle?: readonly A['type'][];
-  /** Creates the feature's slice builder once per game, so it may keep catalogue caches. */
-  readonly slice?: (ctx: GameContext) => (rt: Runtime) => S;
-}
+} & ([keyof S] extends [never] ? { readonly slice?: never } : { readonly slice: (ctx: GameContext) => (rt: Runtime) => S });

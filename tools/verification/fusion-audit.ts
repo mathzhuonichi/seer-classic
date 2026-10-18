@@ -28,7 +28,8 @@ export async function runFusionAudit() {
     const before = JSON.parse(game.exportSave());
     const expected = chooseFusionOutcome(recipe, new Rng(before.rng_state).next());
     const itemId = fusionBeadItemId(expected.species);
-    game.dispatch({ type: 'fuse', recipeId: recipe.id, primaryUid: primary.uid, secondaryUid: secondary.uid });
+    const result = game.dispatch({ type: 'fuse', recipeId: recipe.id, primaryUid: primary.uid, secondaryUid: secondary.uid });
+    assert.equal(result.ok && result.created?.itemId, itemId, 'The dispatch result names the fusion bead.');
     const after = JSON.parse(game.exportSave());
     assert.deepEqual(after.storage, before.storage, 'Fusion retains both parents and their training.');
     assert.deepEqual(after.party, before.party);

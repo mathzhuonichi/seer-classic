@@ -51,26 +51,29 @@ export async function verifySnapshotIdentity(){
   assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
   for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits'] as const)
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
-  return {checks:['no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
+  const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
+  assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
+  return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
 }
 
 /**
  * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2).
- * The best of three rounds counts, so other suites running in parallel do not fail it.
+ * It counts this thread's CPU time, so other suites running in parallel do not fail it; the best of three rounds counts.
  */
 export async function verifyDispatchBudget(){
   const game=createGame(await loadCatalog(),''),uid=game.snapshot().monsters[0].uid,rounds:number[]=[];
   for(let round=0;round<3;round++){
     const times:number[]=[];
     for(let i=0;i<240;i++){
-      const started=performance.now();
+      const started=process.threadCpuUsage();
       game.dispatch(i%2?{type:'rename',uid,name:`Budget${i%7}`}:{type:'dismissNotice'});
-      if(i>=40)times.push(performance.now()-started);
+      const used=process.threadCpuUsage(started);
+      if(i>=40)times.push((used.user+used.system)/1000);
     }
     rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
   }
   const p95=Math.min(...rounds);
-  assert(p95<=4,`Dispatch p95 ${p95.toFixed(2)} ms exceeds the 4 ms budget.`);
+  assert(p95<=4,`Dispatch p95 ${p95.toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
   return {p95};
 }
 

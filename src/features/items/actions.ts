@@ -74,5 +74,4 @@ const useItem: ActionHandler<'useItem'> = (rt, action) => {
   else throw new Error('该道具请在战斗中使用。');
 };
 
-/** Fusion keeps both parents and stores the outcome as a bead to hatch later. */
 export const itemActions = { buyItem, useItem } satisfies Feature<ItemsAction>['actions'];
