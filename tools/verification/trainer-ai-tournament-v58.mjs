@@ -129,26 +129,6 @@ function pairSeed(seed, facilityIndex, pairing) {
 
 // ---------- engine ----------
 
-const BATTLE_FILE = path.join(root, 'battle/core/src/battle.ts');
-let replacementHookInstalled = false;
-// Replacements are chosen inside resolveTurn. This in-memory transform routes the
-// engine's imported chooseAiReplacement through a harness hook (timing, and the
-// challenger's variant planner); no source file changes.
-const replacementHook = {
-  name: 'tournament-replacement-hook', enforce: 'pre',
-  transform(code, id) {
-    if (id.split('?')[0] !== BATTLE_FILE) return;
-    const re = /import\s*\{([^}]*)\}\s*from\s*(['"])\.\/ai(\.ts)?\2\s*;?/;
-    const match = code.match(re);
-    if (!match || !/\bchooseAiReplacement\b/.test(match[1])) return;
-    replacementHookInstalled = true;
-    const names = match[1].replace(/\bchooseAiReplacement\b/, 'chooseAiReplacement as __tournamentRawReplacement');
-    return code.replace(re, `import {${names}} from ${match[2]}./ai${match[3] ?? ''}${match[2]};\n` +
-      'const chooseAiReplacement = (battle: any, side: any) => { const hook = (globalThis as any).__seerTournamentReplacement; ' +
-      'return hook ? hook(battle, side, __tournamentRawReplacement) : __tournamentRawReplacement(battle, side); };\n');
-  },
-};
-
 // The challenger's planner modules, loaded a second time under `?variant` with constant overrides.
 const VARIANT = '?variant=challenger';
 const AI_DIR = path.join(root, 'battle/core/src');
@@ -172,7 +152,7 @@ const variantPlanner = {
 const wallStart = performance.now();
 const server = await createServer({root, configFile: false, cacheDir: path.join(root, 'artifacts/.validation-cache/trainer-ai-tournament-v58'),
   server: {middlewareMode: true, watch: null, hmr: false, ws: false}, optimizeDeps: {noDiscovery: true, include: []}, appType: 'custom', logLevel: 'error',
-  plugins: [replacementHook, variantPlanner]});
+  plugins: [variantPlanner]});
 try {
   const [core, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
     {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
@@ -181,7 +161,6 @@ try {
     '/src/progression/npc-training.ts', '/src/mechanics/boss-encounter.ts', '/src/progression/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
   const {createBattle, buildDataSet, Rng} = core;
   const {chooseAiAction, chooseAiReplacement} = await server.ssrLoadModule('/battle/core/src/ai.ts');
-  if (!replacementHookInstalled) throw new Error('the battle.ts import of chooseAiReplacement did not match the replacement hook');
   const variant = Object.keys(opts.consts).length ? await server.ssrLoadModule(`/battle/core/src/ai.ts${VARIANT}`) : null;
   for (const name of Object.keys(opts.consts)) if (!appliedConstants.has(name)) throw new Error(`no planner module declares a numeric constant ${name}`);
   const challenger = variant ?? {chooseAiAction, chooseAiReplacement};
@@ -243,13 +222,39 @@ try {
     return {teams, battleSeed: rng.nextU32()};
   }
 
-  let current = null;  // {battle, roles, timing}
-  globalThis.__seerTournamentReplacement = (battle, side, raw) => {
-    // Planning worlds are other Battle objects; their rollout replacements stay with the engine.
-    if (!current || battle !== current.battle) return raw(battle, side);
-    const role = current.roles[side.index], start = performance.now();
-    try { return policies[role].replacement(battle, side); } finally { current.timing[role].replacement.push(performance.now() - start); }
+  let current = null;  // {battle, roles, timing, choices, lastSwitch, notes}
+  /**
+   * The battle policy of every tournament game: the live battle's decisions go to
+   * the role driving each side, timed. Planning worlds are clones that share this
+   * policy; their decisions stay with the default AI (rollout replacements).
+   */
+  const policy = {
+    chooseAction(battle, side) {
+      if (!current || battle !== current.battle) return chooseAiAction(battle, side);
+      const role = current.roles[side.index], start = performance.now();
+      const action = policies[role].action(battle, side);
+      current.timing[role].action.push(performance.now() - start);
+      noteChoice(current, side.index, role, action);
+      return action;
+    },
+    chooseReplacement(battle, side) {
+      if (!current || battle !== current.battle) return chooseAiReplacement(battle, side);
+      const role = current.roles[side.index], start = performance.now();
+      try { return policies[role].replacement(battle, side); } finally { current.timing[role].replacement.push(performance.now() - start); }
+    },
   };
+  function noteChoice(game, index, role, action) {
+    const choice = game.choices[role], battle = game.battle;
+    choice.decisions++;
+    if (action.kind === 'switch') {
+      choice.switches++;
+      // A switch within two turns of the previous one by the same side (the V47 two-active-turn gate).
+      if (battle.turn + 1 - game.lastSwitch[index] < 3) choice.quickSwitches++;
+      game.lastSwitch[index] = battle.turn + 1;
+    }
+    // The engine does not validate the policy's action either; keep its behavior.
+    if (!battle.isLegal(index, action) && game.notes.length < 20) game.notes.push({turn: battle.turn, side: index, illegalAction: action});
+  }
 
   /** One battle. roles[i] ('A' or 'B') drives side i. */
   function playGame(facility, pairing, mirror, {teams, battleSeed}, roles, timing) {
@@ -265,39 +270,17 @@ try {
     let battle;
     const started = performance.now();
     try {
-      battle = createBattle({data, scripts, seed: battleSeed, maxTurns: opts.maxTurns, conventionalMoves, sides: [side0, side1], encounter});
+      battle = createBattle({data, scripts, seed: battleSeed, maxTurns: opts.maxTurns, conventionalMoves, sides: [side0, side1], encounter, policy});
       for (const index of [0, 1]) {
         const side = battle.sides[index];
         if (side.kind !== 'trainer' || side.ai?.kind !== 'smart' || side.unlimitedItems.size === 0) throw new Error(`side ${index} was not built as a supplied smart trainer`);
         for (const mon of side.team) for (const rule of mon.rules) if (rule.rule === 'script' && rule.id in npcScripts && !mon.conditions.some(c => c.id === rule.id))
           throw new Error(`side ${index} slot ${mon.slot}: NPC training script ${rule.id} did not install`);
       }
-      current = {battle, roles, timing};
+      current = {battle, roles, timing, choices, lastSwitch, notes};
       let stalled = 0;
       while (!battle.result) {
         const turn = battle.turn;
-        if (battle.phase === 'choose') for (const index of [0, 1]) {
-          const side = battle.sides[index], mon = battle.active(index);
-          // Mirror Battle.actionFor: forced execution and choose_action hooks precede the AI.
-          if (battle.forcedExecution(mon)) continue;
-          let hooked;
-          for (const action of battle.fire(mon, 'choose_action', {side})) if (action && battle.isLegal(index, action)) { hooked = action; break; }
-          if (hooked) { side.pending = hooked; continue; }
-          const start = performance.now();
-          const action = policies[roles[index]].action(battle, side);
-          timing[roles[index]].action.push(performance.now() - start);
-          const choice = choices[roles[index]];
-          choice.decisions++;
-          if (action.kind === 'switch') {
-            choice.switches++;
-            // A switch within two turns of the previous one by the same side (the V47 two-active-turn gate).
-            if (battle.turn + 1 - lastSwitch[index] < 3) choice.quickSwitches++;
-            lastSwitch[index] = battle.turn + 1;
-          }
-          if (!battle.isLegal(index, action) && notes.length < 20) notes.push({turn: battle.turn, side: index, illegalAction: action});
-          // The engine's own AI path does not validate legality either; keep its behavior.
-          side.pending = action;
-        }
         battle.resolveTurn();
         stalled = battle.turn === turn && !battle.result ? stalled + 1 : 0;
         if (stalled > 4) throw new Error(`battle stalled at turn ${turn} in phase ${battle.phase}`);
@@ -320,7 +303,6 @@ try {
   for (const facility of facilities) timingByFacility[facility] = {A: {action: [], replacement: []}, B: {action: [], replacement: []}};
   if (opts.jobs > 1) {
     const parts = await runShards();
-    replacementHookInstalled = parts.every(part => part.replacementHookInstalled);
     games = parts.flatMap(part => part.games).sort((x, y) => facilities.indexOf(x.facility) - facilities.indexOf(y.facility) || x.pairing - y.pairing || x.mirror - y.mirror);
     for (const part of parts) for (const facility of facilities) for (const role of ['A', 'B']) for (const kind of ['action', 'replacement'])
       timingByFacility[facility][role][kind].push(...part.rawTiming[facility][role][kind]);
@@ -390,12 +372,12 @@ try {
     protocol: 'Each pairing: two facility-built teams and one battle seed; game 0 has A on side 0 and B on side 1, game 1 exchanges the planners. Teams keep their sides. Draws (turn cap, both sides out) score one half for A.',
     notes: [
       'A is the search planner, with the --const overrides in a separate module instance when given. B is the default search planner or the greedy floor.',
-      'Action decisions are timed around each policy in the harness turn loop; replacement decisions are routed and timed by an in-memory wrapper of the engine import of chooseAiReplacement.',
+      'Every decision of the live battle is routed to the policy of its side and timed by the battle policy the harness injects.',
       'NPC training seal scripts install only on side index 1; the harness presents side 0 as index 1 to that guard so both sides carry their seal.',
       'The Wilson interval treats the games as independent; the two games of a pairing are correlated by design.',
     ],
     wallSeconds, overall, perFacility, games,
-    ...(sharded ? {shard: opts.shard.join('/'), replacementHookInstalled, rawTiming: timingByFacility} : {}),
+    ...(sharded ? {shard: opts.shard.join('/'), rawTiming: timingByFacility} : {}),
   };
   fs.mkdirSync(path.dirname(opts.out), {recursive: true});
   fs.writeFileSync(opts.out, JSON.stringify(report, null, 2) + '\n');
@@ -414,6 +396,5 @@ try {
   for (const error of overall.engineErrors.slice(0, 10)) console.log(`ERROR ${error.facility} #${error.pairing}/${error.mirror} seed ${error.seed} turn ${error.turn}: ${error.message}`);
   console.log(`Report: ${opts.out}  (${wallSeconds}s wall)`);
 } finally {
-  delete globalThis.__seerTournamentReplacement;
   await server.close();
 }

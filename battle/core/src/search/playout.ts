@@ -1,7 +1,8 @@
 // Simulated continuations on world clones: seeds, the cheap rollout policy and
 // the playout itself (design note 5.2-5.3).
 import type { Action, Skill } from '../types.ts';
-import type { Battle, Mon, Side } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { Mon, Side } from '../engine/state.ts';
 import { Rng } from '../rng.ts';
 import { RANDOM_MAX, RANDOM_MIN } from '../constants.ts';
 import { cloneBattle } from '../clone.ts';

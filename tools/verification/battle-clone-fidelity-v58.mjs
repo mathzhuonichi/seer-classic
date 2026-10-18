@@ -78,7 +78,7 @@ try {
 
   // ---------- serialization ----------
 
-  const SHARED_BATTLE = new Set(['data', 'scripts', 'encounter', 'variant']);
+  const SHARED_BATTLE = new Set(['data', 'scripts', 'encounter', 'variant', 'policy']);
   const EVENT_LISTS = new Set(['log', 'initialEvents']);
   const SHARED_KEYS = new Set(['def', 'species']);
   const staticIds = new Map([[STRUGGLE_SKILL, 'skill:struggle']]);

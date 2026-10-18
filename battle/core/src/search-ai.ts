@@ -3,7 +3,8 @@
 // in which the opponent is its public model (search/world.ts). The live battle is
 // never changed, except for one RNG draw when the chosen strategy is mixed.
 import type { Action, AiSpec } from './types.ts';
-import type { Battle, Side } from './battle.ts';
+import type { Battle } from './engine/battle.ts';
+import type { Side } from './engine/state.ts';
 import type { ModeledFoe } from './observe.ts';
 import { buildWorld } from './search/world.ts';
 import { styleWeights, worth } from './search/evaluate.ts';

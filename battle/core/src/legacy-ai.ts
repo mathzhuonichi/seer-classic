@@ -1,6 +1,7 @@
 // Preserve the local Boss policy from d7e87e9, immediately before tactical AI.
 // This is recovered project behavior, not recovered official Seer server code.
-import type { Battle, Mon } from './battle.ts';
+import type { Battle } from './engine/battle.ts';
+import type { Mon } from './engine/state.ts';
 
 /** KO first, unused status moves next, highest raw damage otherwise. */
 export function legacySmartPick(battle: Battle, mon: Mon, usable: number[]): number {

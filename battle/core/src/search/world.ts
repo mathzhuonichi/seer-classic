@@ -2,7 +2,8 @@
 // module is the information boundary: the opponent's side is rebuilt from the
 // public model only, so nothing hidden reaches a simulation.
 import type { MonsterInput, Skill } from '../types.ts';
-import type { Battle, Mon } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { Mon } from '../engine/state.ts';
 import { cloneBattle } from '../clone.ts';
 import { observeOpponent, revealedOpponentSlots, type ModeledFoe } from '../observe.ts';
 

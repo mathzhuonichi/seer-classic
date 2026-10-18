@@ -1,6 +1,9 @@
 // Data shapes shared by the battle core. Static data mirrors
 // design/foundation.md v0.1; battle-only shapes are defined here.
 
+import type { Battle } from './engine/battle.ts';
+import type { Side } from './engine/state.ts';
+
 export type StatKey = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 export type StageKey = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'acc' | 'eva';
 export type Stats = Record<StatKey, number>;
@@ -135,6 +138,15 @@ export interface BossTeamMember extends MonsterInput {
   stat_multipliers?: Partial<Record<StatKey, number>>;
 }
 
+/** An encounter variant chosen by the player: extra rules, extra phases, and its own objectives. */
+export interface EncounterVariant {
+  id: string;
+  win?: Objective[];
+  lose?: Objective[];
+  rules?: BossRule[];
+  phases?: Phase[];
+}
+
 export interface BossEncounter {
   id: string;
   name?: Text;
@@ -144,6 +156,7 @@ export interface BossEncounter {
   lose?: Objective[];
   phases?: Phase[];
   ai?: AiSpec;
+  variants?: EncounterVariant[];
   [key: string]: unknown;
 }
 
@@ -203,10 +216,20 @@ export interface BattleOptions {
   encounter?: BossEncounter;     // when present, side 1 is built from it
   variant?: string;              // encounter.variants[].id chosen by the player
   scripts?: ScriptRegistry;
+  /** Decisions for automatic sides. `createBattle` in battle.ts injects the AI; the engine never imports it. */
+  policy?: BattlePolicy;
   maxTurns?: number;             // safety stop, default 200
   /** A trainer mode's conventional moveset per species. Planners use it to
    * model an opponent; it is never the opponent's actual loadout. */
   conventionalMoves?: (speciesId: number) => number[];
+}
+
+/** Chooses for a side that does not wait for input (wild, boss, trainer, or a player side with `ai`). */
+export interface BattlePolicy {
+  /** A turn action; consulted after a pending action, forced execution and `choose_action` hooks. */
+  chooseAction(battle: Battle, side: Side): Action;
+  /** A faint replacement; `undefined` lets the engine bring in the first member able to battle. */
+  chooseReplacement(battle: Battle, side: Side): Action | undefined;
 }
 
 export interface DataSet {

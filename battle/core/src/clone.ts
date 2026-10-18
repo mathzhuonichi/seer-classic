@@ -5,7 +5,7 @@
 // example `journal`) are copied without changes here. Functions are shared.
 //
 // Shared by reference:
-// - Battle fields `data`, `scripts`, `encounter`, `variant`;
+// - Battle fields `data`, `scripts`, `encounter`, `variant`, `policy`;
 // - any field named `def` (condition definitions) or `species`;
 // - catalog entries reachable through `data` (species, skills, condition defs,
 //   items, natures, the type chart) and STRUGGLE_SKILL, wherever they appear,
@@ -37,11 +37,11 @@
 // Fields must stay ordinary own properties: `#private` fields would be skipped.
 // tools/verification/battle-clone-fidelity-v58.mjs checks all of this.
 
-import type { Battle } from './battle.ts';
-import { STRUGGLE_SKILL } from './battle.ts';
+import type { Battle } from './engine/battle.ts';
+import { STRUGGLE_SKILL } from './constants.ts';
 import type { DataSet } from './types.ts';
 
-const SHARED_BATTLE_FIELDS = new Set(['data', 'scripts', 'encounter', 'variant']);
+const SHARED_BATTLE_FIELDS = new Set(['data', 'scripts', 'encounter', 'variant', 'policy']);
 const EVENT_LIST_FIELDS = new Set(['log', 'initialEvents']);
 const SHARED_FIELDS = new Set(['def', 'species']);
 
