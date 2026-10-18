@@ -48,7 +48,7 @@ export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
       <div className="inventory-icon-scroll item-icon-grid">
         {pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description}
           quantity={itemStock(i)} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}
-        {!items.length&&<div className="management-empty">{pocket==='battle'&&content.content==='status'?'暂无匹配的异常解除道具。':'这个口袋中没有匹配的道具。'}</div>}
+        {!items.length&&<div className="management-empty">这个口袋中没有匹配的道具。</div>}
       </div>
       {pager.pages>1&&<div className="management-pagination">
         <button aria-label="上一页道具" disabled={!pager.page} onClick={()=>{pager.setPage(p=>p-1);setItemId('')}}>‹</button>
