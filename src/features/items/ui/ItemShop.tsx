@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
-import type { ShopItemView } from '../../../shared/views.ts';
+import type { GameController } from '../../../kernel/contract.ts';
+import type { ShopItemView, SpeciesView } from '../../../shared/views.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
@@ -18,22 +18,19 @@ const SHOP_TABS=[...ITEM_POCKETS,['engraving','刻印']] as const;
 type ShopTab=typeof SHOP_TABS[number][0];
 
 export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pocket:string)=>void}){
- const s=useGame(c,snapshot=>snapshot);
+ const shopItems=useGame(c,s=>s.shopItems),species=useGame(c,s=>s.species),inBattle=useGame(c,battleActive);
  const [tab,setTab]=useState<ShopTab>('battle'),[search,setSearch]=useState(''),[selected,setSelected]=useState('');
  const [quantity,setQuantity]=useState('1'),[feedback,setFeedback]=useState('');
- const inTab=s.shopItems.filter(item=>itemPocket(item.kind)===tab),content=useItemContent(tab,inTab,()=>setSelected(''));
+ const inTab=shopItems.filter(item=>itemPocket(item.kind)===tab),content=useItemContent(tab,inTab,()=>setSelected(''));
  const {query,matches}=shopSearch(search);
  const products=inTab.filter(item=>(content.content==='all'||itemContentCategory(item)===content.content)&&matches(item));
  const item=products.find(entry=>entry.id===selected)??products[0];
- const order=shopOrder(item,quantity,battleActive(s));
+ const order=shopOrder(item,quantity,inBattle);
  useEffect(()=>{setQuantity('1');setFeedback('')},[item?.id]);
  // A successful claim or hatch can change the shared allowance while this panel is open.
  useEffect(()=>{if(order.maximum>0)setQuantity(previous=>Number(previous)>order.maximum?String(order.maximum):previous)},[order.maximum]);
  function buy(){
-  if(!item||!order.canBuy)return;
-  const stock=()=>c.snapshot().shopItems.find(entry=>entry.id===item.id)?.count??0,before=stock();
-  c.dispatch({type:'buyItem',itemId:item.id,quantity:order.count});
-  setFeedback(stock()===before+order.count?`${item.name} ×${order.count} 已加入背包。`:c.snapshot().notices[0]??'购买未完成。');
+  if(item&&order.canBuy)setFeedback(c.dispatch({type:'buyItem',itemId:item.id,quantity:order.count}).notice??'');
  }
  return <section className="management-panel item-shop-management" aria-label="实验室道具商城">
   <ItemCategoryTabs label="商城道具分类" value={tab} options={SHOP_TABS} className="shop-primary-categories"
@@ -50,25 +47,25 @@ export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pock
     {!products.length&&<p className="management-empty">
      {query?'没有匹配的道具。':tab==='essence'?'获得精元或元神珠后，可在这里查看可补充的品种。':'这个分类中没有道具。'}</p>}
    </div>
-  </aside><div className="shop-detail-scroll">{item?<ProductDetail s={s} item={item} order={order} quantity={quantity} feedback={feedback}
+  </aside><div className="shop-detail-scroll">{item?<ProductDetail species={species} item={item} order={order} quantity={quantity} feedback={feedback}
    onQuantity={value=>{setQuantity(value);setFeedback('')}} onBuy={buy} onOpenBag={onOpenBag}/>:<p className="management-empty">选择道具查看用途与库存。</p>}</div></div>}
  </section>;
 }
 
 interface DetailProps {
- s:GameSnapshot; item:ShopItemView; order:ShopOrder; quantity:string; feedback:string;
+ species:SpeciesView[]; item:ShopItemView; order:ShopOrder; quantity:string; feedback:string;
  onQuantity:(value:string)=>void; onBuy:()=>void; onOpenBag:(pocket:string)=>void;
 }
 
 /** One product: what it is, the free order form for finite stock, and the way to the bag. */
-function ProductDetail({s,item,order,quantity,feedback,onQuantity,onBuy,onOpenBag}:DetailProps) {
+function ProductDetail({species,item,order,quantity,feedback,onQuantity,onBuy,onOpenBag}:DetailProps) {
  const {maximum,presets,locked,canBuy,hint}=order;
  return <>
   <div className="shop-product-heading">
    <div className="shop-product-art"><ItemIcon id={item.id} kind={item.kind} label={item.name} size={48}/></div>
    <div><small>{ITEM_POCKET_TITLES[itemPocket(item.kind)]}</small><h3>{item.name}</h3><span>背包库存：{itemStock(item)}</span></div></div>
   <p className="shop-product-description">{item.description}</p>
-  {item.hatches&&<p className="shop-product-description">孵化对象：{s.species.find(species=>species.id===item.hatches)?.name??`#${item.hatches}`}
+  {item.hatches&&<p className="shop-product-description">孵化对象：{species.find(entry=>entry.id===item.hatches)?.name??`#${item.hatches}`}
    。补充后前往道具背包孵化。</p>}
   {item.allowance&&<p className="shop-stock-line" aria-label="同种精灵持有情况">已持有 <b>{item.allowance.owned}</b> · 待孵化 <b>{item.allowance.reserved}</b>
    {' · 同种上限 '}<b>{item.allowance.limit}</b></p>}

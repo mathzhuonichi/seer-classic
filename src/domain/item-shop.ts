@@ -1,7 +1,4 @@
-// The free item shop: which products exist, the order cap, and memoised product rows.
-
-/** Largest quantity of one shop order. */
-export const SHOP_ORDER_MAX=999;
+// The free item shop: which products exist, and memoised product rows.
 
 /** Essences become products only once the player has unlocked them. */
 export function isShopItemAvailable(item:{id:string;kind:string},unlocked:ReadonlySet<string>):boolean{return item.kind!=='essence'||unlocked.has(item.id)}
