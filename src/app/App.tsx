@@ -113,7 +113,8 @@ export function Game({controller:c}:{controller:GameController}){
  }
  return <div ref={shell} style={display} className={`game-shell${battleOpen||preparation?' is-in-battle':''}`} onClickCapture={clickSound}>
   <div className="game-stage">
-   <div className="exploration-layer" hidden={battleOpen||!!activeCampaign}>
+   {/* Inert under a window, the modifier or the loading screen, so focus and keys cannot reach exits and creatures behind them. */}
+   <div className="exploration-layer" hidden={battleOpen||!!activeCampaign} inert={!!windowKind||modifier||!!preparation}>
     <WorldMap c={uiController} onNavigate={routes.navigate} travelTo={nav.travelTo} onSceneChange={rememberScene}
      onInteract={event=>{if(event.kind==='species')show('dex',{dexSpecies:event.species});else show('quests',{questId:event.questId})}}/>
    </div>

@@ -70,8 +70,9 @@ await withSsr('world-roaming-v44',async load=>{
       assert(resumed,'Closing interaction must resume the selected creature');
     }
   });
-  const [{createGame,loadCatalog},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered}]=await Promise.all(['/src/kernel/game.ts',
-    '/src/features/raising/ui.ts','/src/shared/ui/GameWindow.tsx','/src/features/world/ui.ts','/src/features/world/ui/scene-cover.ts'].map(load));
+  const [{createGame,loadCatalog},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered},{ChallengeCampaignScene}]=await Promise.all(['/src/kernel/game.ts',
+    '/src/features/raising/ui.ts','/src/shared/ui/GameWindow.tsx','/src/features/world/ui.ts','/src/features/world/ui/scene-cover.ts',
+    '/src/features/challenges/ui.ts'].map(load));
   const game=createGame(await loadCatalog(),'');
   const covered=element=>{
     delete globalThis.document;
@@ -79,10 +80,11 @@ await withSsr('world-roaming-v44',async load=>{
     globalThis.document=markupDocument(html);
     return sceneCovered();
   };
-  check('The modifier and scene windows cover the scene, so wildlife pauses and the arrow keys do not walk',()=>{
-    const m=game.snapshot().monsters[0];
+  check('The modifier, scene windows and campaign stage scenes cover the scene, so wildlife pauses and the keys do not walk',()=>{
+    const m=game.snapshot().monsters[0],campaign=game.snapshot().campaigns[0];
     assert(covered(React.createElement(Modifier,{c:game,m,onSelect(){},close(){}})),'The modifier dialog covers the scene');
     assert(covered(React.createElement(GameWindow,{title:'设置',onClose(){}},'')),'A scene window covers the scene');
+    assert(covered(React.createElement(ChallengeCampaignScene,{campaign,c:game,onLeave(){},onManage(){}})),'A campaign stage scene covers the scene');
     assert(!covered(React.createElement(WorldMap,{c:game})),'The bare scene is not covered');
   });
   delete globalThis.document;

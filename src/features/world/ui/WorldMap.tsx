@@ -71,14 +71,18 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
     const key=(event:globalThis.KeyboardEvent)=>{if(!battle&&ARROW_STEPS[event.key]&&!ignoresArrowKeys(event)){event.preventDefault();step(event.key)}};
     window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
   },[position.x,position.y,battle,layout]);
+  useEffect(()=>{
+    // Escape closes the dialogue wherever focus is. It is captured before the shell closes a window, so one press closes one layer.
+    const key=(event:globalThis.KeyboardEvent)=>{if(event.key==='Escape'&&!battle&&!sceneCovered()){walker.stop();close()}};
+    window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);
+  },[battle]);
 
   function walkClick(event:MouseEvent<HTMLDivElement>){
     const target=percentIn(event.currentTarget.getBoundingClientRect(),event.clientX,event.clientY);
     walkTo(target.x,target.y);
   }
   function walkKey(event:KeyboardEvent<HTMLDivElement>){
-    if(event.key==='Escape'){walker.stop();close();return;}
-    if(event.target===event.currentTarget&&ARROW_STEPS[event.key]){event.preventDefault();step(event.key)}
+    if(event.target===event.currentTarget&&ARROW_STEPS[event.key]&&!sceneCovered()){event.preventDefault();step(event.key)}
   }
   function approach(event:MouseEvent<HTMLButtonElement>,selection:WorldSelection,contact:ScenePoint){
     event.stopPropagation();close();
