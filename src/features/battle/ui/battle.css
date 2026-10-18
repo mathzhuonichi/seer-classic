@@ -108,10 +108,11 @@
 .classic-status-ring{top:var(--ground-y);bottom:auto;transform:translate(-50%,-50%)}
 .classic-capture-effect{top:calc(var(--ground-y) - 70px);bottom:auto}
 
-/* Compact battle HUD reserves a separate portrait region below both health panels. */
+/* Compact battle HUD reserves a separate portrait region below both health panels.
+ * The full-width row lets clicks through to the caption beneath it; only the panels take them. */
 .classic-arena{container-type:size}
-.classic-health-row{position:absolute;top:0;left:0;right:0;z-index:10}
-.classic-health{max-width:290px;padding:6px 10px 5px}
+.classic-health-row{position:absolute;top:0;left:0;right:0;z-index:10;pointer-events:none}
+.classic-health{max-width:290px;padding:6px 10px 5px;pointer-events:auto}
 .classic-health.foe{border-radius:15px 6px 6px 6px}
 .classic-hp-track i{transition:width .38s ease-out}
 .classic-hp-track>span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.2px;font-variant-numeric:tabular-nums}
