@@ -1,5 +1,4 @@
 import {useMemo,useState} from 'react';
-import type { GameSnapshot } from '../../../../kernel/contract.ts';
 import type { MonsterView } from '../../../../shared/views.ts';
 import {matchesElement} from '../../../../shared/element-types.ts';
 import {usePager} from '../../../../shared/ui/use-pager.ts';
@@ -19,16 +18,16 @@ export function useStorageBox(monsters:MonsterView[]) {
   return {search,type,stored,pager,setSearch:filter(setSearch),setType:filter(setType)};
 }
 
-type Props={s:GameSnapshot;box:ReturnType<typeof useStorageBox>;count:number;selected?:string;onPick:(m:MonsterView)=>void;onClose:()=>void};
+type Props={monsters:MonsterView[];box:ReturnType<typeof useStorageBox>;count:number;selected?:string;onPick:(m:MonsterView)=>void;onClose:()=>void};
 
 /** 精灵仓库: every owned monster outside the party. Picking one selects it and closes the box. */
-export default function StorageBox({s,box,count,selected,onPick,onClose}:Props) {
+export default function StorageBox({monsters,box,count,selected,onPick,onClose}:Props) {
   const {search,type,stored,pager:{page,setPage,pages,start,end}}=box;
   return <section className="petbag-storage" aria-label="精灵仓库">
     <header><strong>精灵仓库</strong><span>{count} 只</span><button aria-label="关闭精灵仓库" onClick={onClose}>返回背包</button></header>
     <div className="management-filter">
       <input aria-label="搜索仓库精灵" placeholder="名称 / 昵称 / 编号" value={search} onChange={event=>box.setSearch(event.target.value)}/>
-      <TypeFilter label="仓库属性分类" value={type} groups={s.monsters.map(mon=>mon.types)} onChange={box.setType}/>
+      <TypeFilter label="仓库属性分类" value={type} groups={monsters.map(mon=>mon.types)} onChange={box.setType}/>
     </div>
     <div className="storage-slot-grid">{stored.slice(start,end).map(mon=>
       <MonsterCard key={mon.uid} compact monster={mon} selected={selected===mon.uid} onClick={()=>onPick(mon)}/>)}</div>

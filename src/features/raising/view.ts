@@ -52,7 +52,7 @@ function evolutionChoices(ctx: GameContext, save: GameSave, mon: Monster): Evolu
   return ctx.dex.species(mon.species).evolution.filter(edge => edge.method === 'level' && edge.level !== undefined).map(edge => {
     const level = edge.level!;
     const blockedReason = mon.level < level ? `达到 Lv.${level} 后可进化。` : capacityReason(ctx, save, edge.to, mon.uid);
-    return { species: edge.to, name: ctx.speciesName(edge.to), level, ready: !blockedReason, blockedReason };
+    return { species: edge.to, name: ctx.speciesName(edge.to), level, blockedReason };
   });
 }
 

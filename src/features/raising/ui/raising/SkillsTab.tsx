@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {MAX_EQUIPPED} from '../../../../../raising/core/monster.ts';
 import {elementName,skillIconType} from '../../../../shared/element-types.ts';
 import TypeIcon from '../../../../shared/ui/TypeIcon.tsx';
-import type {TabProps} from './dispatch-feedback.ts';
+import {feedbackFor,type TabProps} from './dispatch-feedback.ts';
 
 /** 技能: pick an equipped slot, then a learned skill to put in it. */
 export default function SkillsTab({m,c,feedback,say}:TabProps) {
@@ -13,8 +13,7 @@ export default function SkillsTab({m,c,feedback,say}:TabProps) {
     if(!skill)return;
     const ids=m.skills.map(sk=>sk.id);
     if(slot<ids.length)ids[slot]=skill.id;else ids.push(skill.id);
-    c.dispatch({type:'equip',uid:m.uid,skills:ids});
-    say(`已将${skill.name}放入第 ${slot+1} 技能位。`);
+    say(feedbackFor(c.dispatch({type:'equip',uid:m.uid,skills:ids}),`已将${skill.name}放入第 ${slot+1} 技能位。`));
     setSkillId(undefined);
   }
   const hint=skill?`第 ${slot+1} 位：${m.skills[slot]?.name??'空位'} → ${skill.name}`:'选择一个技能查看替换目标。';
