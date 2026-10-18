@@ -19,10 +19,17 @@ ROOT = Path(__file__).resolve().parents[2]
 PUBLIC = ROOT / 'public'
 SVG = 'http://www.w3.org/2000/svg'
 PUBLIC_ROOT_NAMES = {path.name for path in PUBLIC.iterdir()}
+MAP_MANIFEST = 'public/maps/original-manifest.json'
+# The map manifest only gains rows after V44; maps() checks that every baseline row is unchanged.
 AUTHORIZED_BASELINE_MANIFEST_CHANGES = {
     'public/battle-effects/manifest.json',
     'public/portraits/vectors/manifest.json',
+    MAP_MANIFEST,
 }
+# The scene backgrounds that V44 restored: 112 AI restorations and 22 source SVGs.
+V44_SCENE_MAPS = 134
+# The downloader's provenance for unaltered official H5 bytes, which are not generated output.
+OFFICIAL_H5_SOURCE = 'Official Seer H5 standalone bg_mc background; original file bytes preserved.'
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--baseline', default='00a93ec')
 parser.add_argument('--skip-atlas', action='store_true')
@@ -215,12 +222,21 @@ def portraits():
 
 
 def maps():
-    original = load('public/maps/original-manifest.json')['maps']
+    manifest = load(MAP_MANIFEST)
+    original, baseline = manifest['maps'], baseline_json(MAP_MANIFEST)
+    require(all(original.get(sid) == row for sid, row in baseline['maps'].items())
+            and all(manifest.get(key) == value for key, value in baseline.items() if key not in ('maps', 'failures')),
+            'Map manifest changed beyond added maps and failures')
+    # Maps added after V44 are the habitat regions' own H5 backgrounds. They have no HD restoration yet, so
+    # they ship as native rasters; data/habitat-regions.json says which regions show them.
+    added = set(original) - set(baseline['maps'])
+    habitat = {str(row['originalMapId']) for row in load('data/habitat-regions.json')['regions']}
+    require(len(baseline['maps']) == V44_SCENE_MAPS and added <= habitat, f'Maps added after V44 are not habitat maps: {sorted(added - habitat)}')
     source_hd = load('public/maps/original-hd-manifest.json')['maps']
     generated = load('public/maps/hd/manifest.json')['assets']
     native_runtime = load('src/domain/world/map-art-assets.json')
     hd_runtime = load('src/domain/world/map-hd-assets.json')
-    require(len(native_runtime) == 151 and set(native_runtime) == set(original), 'Base map identity inventory changed')
+    require(set(native_runtime) == set(original), 'Base map identity inventory changed')
     require(set(generated) == set(hd_runtime), 'AI map manifest and runtime IDs differ')
     for sid, row in source_hd.items():
         manifest_row(row)
@@ -257,7 +273,9 @@ def maps():
     if args.allow_pending_map and composition['ai'] != 112:
         report['pending'].append('Map 1 conservative AI replacement is still pending; actual native dimensions are reported.')
     else:
-        require(composition['ai'] == 112 and composition['nativeRaster'] == 0, f'Expected final 112 AI and 22 source SVG maps: {dict(composition)}')
+        native_ids = {row['mapId'] for row in native_rasters}
+        require(composition['ai'] == 112 and native_ids == added,
+                f'Expected final 112 AI and 22 source SVG maps, and native rasters only for the habitat regions\' own maps: {dict(composition)}')
     require(combined['10032']['path'].endswith('.svg'), 'Map 10032 must retain its original-vector composite wrapper')
     return {'maps': len(combined), 'composition': dict(composition), 'nativeRasters': native_rasters,
             'newSourceSvgMaps': len(source_hd), 'aiWrappers': [sid for sid, row in generated.items() if row.get('bitmapPath')]}
@@ -505,10 +523,12 @@ def git_policy():
     protected.add('tools/verification/hd-assets-v44.py')
     require(not ignored(protected), f'Source/tools/metadata unexpectedly ignored: {sorted(ignored(protected))}')
     blobs = []
+    # Official H5 bytes are tracked like the baseline's original maps; the ignore rule is for generated bitmaps.
+    official = {relative(local(row['path'])) for row in load(MAP_MANIFEST)['maps'].values() if row['source'] == OFFICIAL_H5_SOURCE}
     for name in runtime_assets:
         path = local(name)
         rel = relative(path)
-        if not path.is_file() or rel in baseline_tree or path.stat().st_size <= 500000:
+        if not path.is_file() or rel in baseline_tree or rel in official or path.stat().st_size <= 500000:
             continue
         if path.suffix in ('.png', '.jpg', '.jpeg', '.webp') or (path.suffix == '.svg' and re.search(r'<(?:\w+:)?image\b', path.read_text())):
             blobs.append(rel)
