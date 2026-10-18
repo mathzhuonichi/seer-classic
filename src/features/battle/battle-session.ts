@@ -11,7 +11,7 @@ import { settle } from './settlement.ts';
 /** The battle log keeps this many most recent lines. */
 const LOG_LIMIT = 160;
 
-export interface SessionOptions {
+interface SessionOptions {
   /** The party members who fight, in order; the whole party by default. */
   roster?: Monster[];
   hooks?: SessionHooks;

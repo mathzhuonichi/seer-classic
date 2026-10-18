@@ -14,7 +14,7 @@ export type { GameSave } from './save.ts';
 export interface Appearance { species: number; appearanceSpecies: number }
 
 /** What a victory pays besides experience: coins and reward items, and the result shown when the six-copy allowance blocks an essence. */
-export interface VictoryRewards { coins: number; items: readonly (readonly [string, number])[]; blocked: string }
+interface VictoryRewards { coins: number; items: readonly (readonly [string, number])[]; blocked: string }
 
 /** A challenge's part in one battle session: features/challenges passes them when it starts the session. */
 export interface SessionHooks {
