@@ -1,19 +1,16 @@
 /** Transaction boundaries for the six-copy rule across every acquisition entry point. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {createServer} from 'vite';
-const memory=new Map();
-globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[];
-const check=(name,fn)=>{try{fn();checks.push(name)}catch(error){failures.push({name,error:String(error.message).slice(0,2000)});console.error(`FAIL ${name}: ${String(error.message).slice(0,500)}`)}};
-try{
- const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
- const {buildRecruitmentRewards}=await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
- const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await server.ssrLoadModule('/src/domain/recipes/fusion.ts');
- const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
- const {BREEDING_RECIPES}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');
- const {PARTY_MAX,BOX_MAX}=await server.ssrLoadModule('/raising/core/storage.ts');
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
+
+memoryStorage();
+await withSsr('acquisition-limits-controller',async load=>{
+ const t=suite('acquisition-limits-controller'),{check}=t;
+ const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {buildRecruitmentRewards}=await load('/src/domain/acquisition/recruitment.ts');
+ const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');
+ const {Rng}=await load('/battle/core/src/rng.ts');
+ const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
+ const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
@@ -124,6 +121,5 @@ try{
   }
  });
  check('Shared input catalog remains immutable',()=>{assert.equal(JSON.stringify(source),sourceBytes);assert.equal(JSON.stringify(catalog),catalogBytes)});
- const report={checks,failures,limit:6,storageCapacity:PARTY_MAX+BOX_MAX};fs.mkdirSync('artifacts/acquisition-v32',{recursive:true});fs.writeFileSync('artifacts/acquisition-v32/limits-controller.json',JSON.stringify(report,null,2)+'\n');
- console.log(JSON.stringify(report,null,2));assert.equal(failures.length,0,`${failures.length} acquisition-limit controller checks failed`);
-}finally{await server.close();delete globalThis.localStorage;}
+ t.finish({limit:6,storageCapacity:PARTY_MAX+BOX_MAX});
+});
