@@ -33,7 +33,14 @@ export interface ItemView { id: string; name: string; kind: string; count: numbe
 export interface AcquisitionAllowance {owned:number;reserved:number;remaining:number;limit:number}
 export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;unlimited?:boolean;price:0;hatches?:number;maxQuantity?:number;blockedReason?:string;allowance?:AcquisitionAllowance}
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
-export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
+export interface QuestView {
+  id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
+  /** The one claim rule: complete, not yet claimed (or repeatable), and the reward fits the six-copy allowance. */
+  complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
+  /** Recruitment quests: the essence reward, whether the player holds one to hatch, and its claim ledger. */
+  prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
+  repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;
+}
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
 export interface CampaignView {
   id: string; name: string; species: number; speciesName: string; location: string; description: string; stages: CampaignStageView[];

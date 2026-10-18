@@ -121,7 +121,7 @@
     },
     "src/features/challenges/ui/QuestPanel.tsx": {
       "lines": 0,
-      "long": 8
+      "long": 7
     },
     "src/features/collection/dex-view.ts": {
       "lines": 0,
@@ -197,7 +197,7 @@
     },
     "src/shared/views.ts": {
       "lines": 0,
-      "long": 12
+      "long": 11
     },
     "battle/core/src/observe.ts": {
       "lines": 0,

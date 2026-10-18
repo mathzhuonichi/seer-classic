@@ -1,6 +1,7 @@
 import {useCallback,useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
 import {createGame,loadCatalog} from '../kernel/game.ts';
 import type { GameController } from '../kernel/contract.ts';
+import type { QuestView } from '../shared/views.ts';
 import {Battle} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';
 import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
@@ -35,7 +36,7 @@ function downloadSave(json:string){
  const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));const link=document.createElement('a');
  link.href=url;link.download='赛尔号-星际存档.json';link.click();URL.revokeObjectURL(url);
 }
-const questAlert=(s:{quests:{claimable?:boolean;complete:boolean;claimed:boolean}[]})=>s.quests.some(q=>q.claimable??(q.complete&&!q.claimed));
+const questAlert=(s:{quests:QuestView[]})=>s.quests.some(quest=>quest.claimable);
 
 export default function App(){
  const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');
