@@ -7,7 +7,7 @@ import { FUSION_RECIPES, canFuseParents, type FusionRecipe } from '../../domain/
 import type { SpeciesView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
 
-export interface DexInitialFormView { species: number; name: string; routes: AcquisitionRoute[]; evolution?: string }
+interface DexInitialFormView { species: number; name: string; routes: AcquisitionRoute[]; evolution?: string }
 /** How to collect one species: its family, then each initial form's routes and the evolutions that follow. */
 export interface DexEntryView {
   /** Family progress and members; absent for a species outside every family. */
