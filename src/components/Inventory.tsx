@@ -1,68 +1,78 @@
 import {useEffect,useRef,useState} from 'react';
-import type {GameController,GameSnapshot,ItemView} from '../game-types.ts';
-import {CreatureArt} from './CreatureArt.tsx';
+import type {GameController,GameSnapshot} from '../game-types.ts';
 import ItemIcon from './ItemIcon.tsx';
-import {encounterLevelText} from '../presentation/encounter-level.ts';
 import ItemTile from './ItemTile.tsx';
 import ItemCategoryTabs from './ItemCategoryTabs.tsx';
-import {itemCategoryOptions,itemContentCategory} from '../presentation/item-categories.ts';
+import InventoryDetail from './InventoryDetail.tsx';
+import {usePager} from './use-pager.ts';
+import {useItemContent} from './use-item-content.ts';
+import {ITEM_POCKETS,isItemPocket,type ItemPocket} from '../presentation/item-categories.ts';
+import {bagItems,itemStock,itemUseAction,itemUseFeedback,pocketItems} from '../presentation/inventory-views.ts';
+import {battleActive} from '../presentation/view-helpers.ts';
 import '../management.css';
 import './Inventory.css';
-const pockets=[['raising','培养'],['battle','补给'],['capsule','胶囊'],['essence','精元'],['other','其他']] as const;
-const supplyCategory=(item:ItemView)=>item.battleCategory??(item.kind==='capsule'?'capsule':'recovery');
-const categoryLabel=(item:ItemView)=>supplyCategory(item)==='status'?'异常解除':'体力 / PP 恢复';
-export default function Inventory({s,c,onSave,onMessage,initialPocket}:{s:GameSnapshot;c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}) {
-  const [pocket,setPocket]=useState(initialPocket&&pockets.some(p=>p[0]===initialPocket)?initialPocket:s.battle&&!s.battle.finished?'battle':'raising'),[content,setContent]=useState('all');
-  const [search,setSearch]=useState(''),[itemId,setItemId]=useState(''),[page,setPage]=useState(0);
-  const [target,setTarget]=useState(s.battle&&!s.battle.finished?s.battle.player.uid:s.party[0]??''),[feedback,setFeedback]=useState(''),[saveOpen,setSaveOpen]=useState(false);
-  const file=useRef<HTMLInputElement>(null);
-  const activeBattle=!!s.battle&&!s.battle.finished;
-  const belongs=(kind:string)=>pocket==='other'?!pockets.some(p=>p[0]===kind):kind===pocket;
-  const pocketItems=s.items.filter(i=>belongs(i.kind)),contentOptions=itemCategoryOptions(pocket,pocketItems);
-  const effectiveContent=contentOptions.some(([id])=>id===content)?content:'all';
-  const items=pocketItems.filter(i=>i.name.includes(search)&&(effectiveContent==='all'||itemContentCategory(i)===effectiveContent)).sort((a,b)=>pocket==='battle'&&supplyCategory(a)!==supplyCategory(b)?(supplyCategory(a)==='recovery'?-1:1):a.name.localeCompare(b.name,'zh'));
-  const pages=Math.max(1,Math.ceil(items.length/48));
-  const pageItems=items.slice(page*48,(page+1)*48);
+
+const PAGE_SIZE=48;
+interface Props {s:GameSnapshot;c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}
+
+export default function Inventory({s,c,onSave,onMessage,initialPocket}:Props) {
+  const inBattle=battleActive(s);
+  const [pocket,setPocket]=useState<ItemPocket>(initialPocket&&isItemPocket(initialPocket)?initialPocket:inBattle?'battle':'raising');
+  const [search,setSearch]=useState(''),[itemId,setItemId]=useState('');
+  const [target,setTarget]=useState(inBattle?s.battle!.player.uid:s.party[0]??''),[feedback,setFeedback]=useState('');
+  const inPocket=pocketItems(s.items,pocket),content=useItemContent(pocket,inPocket,clearList);
+  const items=bagItems(inPocket,pocket,content.content,search);
+  const pager=usePager(items.length,PAGE_SIZE),pageItems=items.slice(pager.start,pager.end);
   const item=items.find(i=>i.id===itemId)??pageItems[0]??items[0];
   const monster=s.monsters.find(m=>m.uid===target)??s.monsters.find(m=>m.uid===s.party[0])??s.monsters[0];
-  const usesPartyTarget=!!item&&(item.kind==='raising'||activeBattle&&item.kind==='battle'&&item.battleUsable);
-  const captures=!!item&&item.kind==='capsule';
-  const isFusionBead=!!item?.id.startsWith('fusion_bead_');
-  const canUse=!!item&&(item.unlimited||item.count>0)&&(captures?activeBattle&&!!s.battle?.canCapture:!!monster&&(!activeBattle||item.kind==='battle'&&item.battleUsable&&!!item.usableTargetUids?.includes(monster.uid)));
-  useEffect(()=>{if(content!==effectiveContent){setContent(effectiveContent);setPage(0);setItemId('')}},[content,effectiveContent]);
-  useEffect(()=>{if(page>=pages)setPage(pages-1)},[page,pages]);
-  useEffect(()=>{if(initialPocket&&pockets.some(p=>p[0]===initialPocket)){setPocket(initialPocket);setContent('all');setSearch('');setPage(0);setItemId('');setFeedback('')}},[initialPocket]);
-  function useItem() {
-    if(!item||!canUse)return;
-    const count=item.count,known=new Set(s.monsters.map(m=>m.uid));
-    if(activeBattle&&item.kind==='capsule')c.dispatch({type:'capture',itemId:item.id});
-    else if(activeBattle){if(!monster||item.kind!=='battle'||!item.battleUsable||!s.battle!.party.some(m=>m.uid===monster.uid))return;c.dispatch({type:'battleItem',itemId:item.id,targetUid:monster.uid})}
-    else {if(!monster)return;c.dispatch({type:'useItem',uid:monster.uid,itemId:item.id})}
-    const next=c.snapshot();
-    if((next.items.find(i=>i.id===item.id)?.count??0)<count||item.unlimited&&(activeBattle?(next.battle?.turn??0)>(s.battle?.turn??0):JSON.stringify(next.monsters.find(m=>m.uid===monster?.uid))!==JSON.stringify(monster))){
-      const acquired=next.monsters.find(m=>!known.has(m.uid));
-      if(item.kind==='capsule')setFeedback(acquired?`捕捉成功：${acquired.name}已加入${acquired.inParty?'背包':'仓库'}。`:`已使用${item.name}，本次捕捉未成功。`);
-      else if(item.kind==='essence')setFeedback(`孵化成功：${acquired?.name??'新精灵'}已加入${acquired?.inParty?'背包':'仓库'}。`);
-      else setFeedback(`已对${monster?.name??'选中的精灵'}使用${item.name}。`);
-    }else setFeedback(next.notices[0]??'道具未使用，请查看提示。');
+  function clearList(){pager.setPage(0);setItemId('')}
+  function openPocket(next:ItemPocket){setPocket(next);content.setContent('all');setSearch('');setFeedback('');clearList()}
+  useEffect(()=>{if(initialPocket&&isItemPocket(initialPocket))openPocket(initialPocket)},[initialPocket]);
+  function confirmUse() {
+    const action=item&&itemUseAction(s,item,monster);
+    if(!item||!action)return;
+    c.dispatch(action);
+    setFeedback(itemUseFeedback(s,c.snapshot(),item,monster));
   }
   return <section className="management-panel inventory-management" aria-label="道具背包面板">
-    <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{s.coins.toLocaleString()}</b></span><span>积累经验 <b>{s.expPool.toLocaleString()}</b></span></div>
-    <ItemCategoryTabs label="道具口袋" value={pocket} options={pockets} className="inventory-primary-categories" onChange={kind=>{setPocket(kind);setContent('all');setSearch('');setPage(0);setItemId('');setFeedback('')}}/>
-    {activeBattle&&<p className="inventory-battle-hint">{pocket==='capsule'?'选择胶囊，确认捕捉对方野生精灵。':'战斗期间为出战精灵选择补给，再确认使用。'}</p>}
+    <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{s.coins.toLocaleString()}</b></span>
+      <span>积累经验 <b>{s.expPool.toLocaleString()}</b></span></div>
+    <ItemCategoryTabs label="道具口袋" value={pocket} options={ITEM_POCKETS} className="inventory-primary-categories" onChange={openPocket}/>
+    {inBattle&&<p className="inventory-battle-hint">{pocket==='capsule'?'选择胶囊，确认捕捉对方野生精灵。':'战斗期间为出战精灵选择补给，再确认使用。'}</p>}
     <div className="inventory-inner"><aside className="inventory-item-list">
-      {contentOptions.length>2&&<ItemCategoryTabs label="道具用途" value={effectiveContent} options={contentOptions} onChange={id=>{setContent(id);setItemId('');setPage(0);setFeedback('')}}/>}
-      <div className="management-filter"><input aria-label="搜索当前口袋道具" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);setItemId('')}} placeholder="搜索道具…"/></div>
-      <div className="inventory-icon-scroll item-icon-grid">{pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description} quantity={i.unlimited?'∞':i.count} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}{!items.length&&<div className="management-empty">{pocket==='battle'&&effectiveContent==='status'?'暂无匹配的异常解除道具。':'这个口袋中没有匹配的道具。'}</div>}</div>{pages>1&&<div className="management-pagination"><button aria-label="上一页道具" disabled={!page} onClick={()=>{setPage(p=>p-1);setItemId('')}}>‹</button><span>{page+1} / {pages}</span><button aria-label="下一页道具" disabled={page+1>=pages} onClick={()=>{setPage(p=>p+1);setItemId('')}}>›</button></div>}</aside>
-      <div className="inventory-detail-scroll">{item?<><div className="inventory-detail-heading"><span className="management-item-symbol inventory-item-art"><ItemIcon id={item.id} kind={item.kind} label={item.name} size={48}/></span><div><small>{item.kind==='battle'?categoryLabel(item):pockets.find(p=>p[0]===item.kind)?.[1]??'其他道具'} · 库存 {item.unlimited?'∞':item.count}</small><h3>{item.name}</h3></div></div><p className="inventory-description">{item.description}{item.unlimited?(activeBattle?' 无限供应，使用占一回合。':' 无限供应，可直接取用。'):''}</p>
-      {usesPartyTarget&&<><div className="stat-table-heading"><strong>选择使用对象</strong><span>出战背包</span></div><div className="inventory-target-grid">{s.party.map(uid=>s.monsters.find(m=>m.uid===uid)).filter(m=>!!m).map(m=><button key={m.uid} className={monster?.uid===m.uid?'active':''} aria-pressed={monster?.uid===m.uid} onClick={()=>{setTarget(m.uid);setFeedback('')}}><div className="target-creature-art"><CreatureArt species={m.appearanceSpecies??m.species} name={m.name}/></div><strong>{m.name}</strong><small>Lv.{m.level}</small></button>)}</div><label className="inventory-storage-target">{activeBattle?'出战精灵':'仓库精灵'}<select aria-label="道具使用对象" value={monster?.uid??''} onChange={e=>{setTarget(e.target.value);setFeedback('')}}>{s.monsters.filter(m=>!activeBattle||s.battle!.party.some(bm=>bm.uid===m.uid)).map(m=><option key={m.uid} value={m.uid}>{m.inParty?'出战':'仓库'} · {m.name} · Lv.{m.level}</option>)}</select></label><div className="inventory-use-preview"><strong>{item.name}</strong><span>→</span><strong>{monster?.name??'请选择精灵'}</strong></div></>}
-      {item.kind==='essence'&&<div className="essence-hatch-info"><strong>分子转化器</strong><p>消耗 1 个{isFusionBead?'元神珠':'精元'}，立即孵化；背包有空位时入队，否则进入仓库。</p><span>剩余{isFusionBead?'元神珠':'精元'}：{item.count}</span></div>}
-      {captures&&<><div className="inventory-capture-note"><strong>野生精灵捕捉</strong><p>进入普通野外对战，在对方仍有体力时使用胶囊。降低体力、附加异常状态可以提高捕捉机会。</p><p>捕捉成功后，精灵会加入背包；背包已满时进入仓库。</p></div>{activeBattle&&s.battle&&<div className="inventory-capture-preview"><div className="capture-target-art"><CreatureArt species={s.battle.enemy.species} name={s.battle.enemy.name}/></div><div><small>捕捉对象</small><strong>{s.battle.enemy.name} · {encounterLevelText(s.battle.enemy.level,s.battle.enemy.evidence?.hasInferredLevel,s.battle.enemy.evidence?.displayLevelUnknown)}</strong><span>体力 {s.battle.enemy.hp} / {s.battle.enemy.maxHp}</span><p>{s.battle.canCapture?`${item.name} → ${s.battle.enemy.name}`:s.battle.captureBlockedReason||'当前对手无法捕捉。'}</p></div></div>}</>}
-      {!['raising','essence','capsule'].includes(item.kind)&&!usesPartyTarget&&<div className="inventory-use-preview"><p>{item.battleUsable?'在战斗的道具包中，为出战精灵使用。':'查看道具说明，按对应用途使用。'}</p></div>}
-      <div className="management-confirm-row"><span className="management-feedback" role="status">{feedback||(captures&&!activeBattle?'在野外战斗中使用胶囊。':'')}</span>{(['raising','essence'].includes(item.kind)||activeBattle&&(item.kind==='capsule'||item.kind==='battle'&&item.battleUsable))&&<button className="primary" disabled={!canUse} onClick={useItem}>{item.kind==='essence'?'确认孵化':item.kind==='capsule'?'确认捕捉':'确认使用'}</button>}</div></>:<div className="management-empty">选择左侧道具查看详情。首领精元和融合元神珠均放入精元 / 元神珠口袋。</div>}</div>
+      {content.options.length>2&&<ItemCategoryTabs label="道具用途" value={content.content} options={content.options}
+        onChange={id=>{content.setContent(id);setFeedback('');clearList()}}/>}
+      <div className="management-filter">
+        <input aria-label="搜索当前口袋道具" value={search} onChange={e=>{setSearch(e.target.value);clearList()}} placeholder="搜索道具…"/></div>
+      <div className="inventory-icon-scroll item-icon-grid">
+        {pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description}
+          quantity={itemStock(i)} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}
+        {!items.length&&<div className="management-empty">{pocket==='battle'&&content.content==='status'?'暂无匹配的异常解除道具。':'这个口袋中没有匹配的道具。'}</div>}
+      </div>
+      {pager.pages>1&&<div className="management-pagination">
+        <button aria-label="上一页道具" disabled={!pager.page} onClick={()=>{pager.setPage(p=>p-1);setItemId('')}}>‹</button>
+        <span>{pager.page+1} / {pager.pages}</span>
+        <button aria-label="下一页道具" disabled={pager.page+1>=pager.pages} onClick={()=>{pager.setPage(p=>p+1);setItemId('')}}>›</button>
+      </div>}
+    </aside>
+      <InventoryDetail s={s} item={item} monster={monster} feedback={feedback} onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
     </div>
-    <div className="inventory-save-strip"><button onClick={()=>setSaveOpen(open=>!open)}>存档管理 {saveOpen?'▴':'▾'}</button></div>
-    {saveOpen&&<div className="management-save-controls"><p>旅程自动保存。可导出当前存档，或导入已有存档继续游戏。</p><button onClick={onSave}>导出存档</button><button disabled={activeBattle} onClick={()=>file.current?.click()}>导入存档</button></div>}
-    <input ref={file} type="file" accept=".json" hidden onChange={async event=>{const f=event.target.files?.[0];if(f)try{c.importSave(await f.text());onMessage('已载入航行存档。');setTarget('');setItemId('');setFeedback('')}catch(error){onMessage(`存档无法读取：${String(error)}`)}event.target.value=''}}/>
+    <SaveControls inBattle={inBattle} onSave={onSave} onLoad={text=>{c.importSave(text);onMessage('已载入航行存档。');setTarget('');setItemId('');setFeedback('')}}
+      onError={error=>onMessage(`存档无法读取：${String(error)}`)}/>
   </section>;
+}
+
+/** Export and import of the journey save, folded away below the bag. */
+function SaveControls({inBattle,onSave,onLoad,onError}:{inBattle:boolean;onSave:()=>void;onLoad:(text:string)=>void;onError:(error:unknown)=>void}) {
+  const [open,setOpen]=useState(false),file=useRef<HTMLInputElement>(null);
+  return <>
+    <div className="inventory-save-strip"><button onClick={()=>setOpen(value=>!value)}>存档管理 {open?'▴':'▾'}</button></div>
+    {open&&<div className="management-save-controls"><p>旅程自动保存。可导出当前存档，或导入已有存档继续游戏。</p><button onClick={onSave}>导出存档</button>
+      <button disabled={inBattle} onClick={()=>file.current?.click()}>导入存档</button></div>}
+    <input ref={file} type="file" accept=".json" hidden onChange={async event=>{
+      const f=event.target.files?.[0];
+      if(f)try{onLoad(await f.text())}catch(error){onError(error)}
+      event.target.value='';
+    }}/>
+  </>;
 }
