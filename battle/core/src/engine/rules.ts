@@ -240,7 +240,7 @@ export function checkEnd(b: Battle): void {
 
 export function finish(b: Battle, winner: 0 | 1 | null, reason: BattleResult['reason']): void {
   if (b.result) return;
-  const objectives = b.winList.map((o) => ({ kind: o.kind, met: winner === 0 && objectiveMet(b, o) }));
+  const objectives = b.winList.map((o) => ({ kind: o.kind, met: winner === 0 && b.objectiveMet(o) }));
   const success = reason !== 'flee' && winner === 0 && objectives.every((o) => o.met);
   b.result = { winner, reason, success, objectives: b.encounter ? objectives : undefined, defeated: reason === 'flee' ? [] : b.defeated, turns: b.turn };
   if (b.capturedMon) b.result.captured = { species: b.capturedMon.species.id, level: b.capturedMon.level, hp: b.capturedMon.hp };

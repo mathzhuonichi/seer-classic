@@ -12,15 +12,22 @@ const baseFiles=new Map();
 let baseRevision=null;
 try{
   baseRevision=git(['rev-parse',BASE_REVISION]).trim();
-  for(const file of git(['ls-tree','--name-only',baseRevision,'battle/core/src/']).split('\n').filter(name=>name.endsWith('.ts')))baseFiles.set(file.split('/').pop(),git(['show',`${baseRevision}:${file}`]));
+  const files=git(['ls-tree','--name-only',baseRevision,'battle/core/src/']).split('\n').filter(name=>name.endsWith('.ts'));
+  for(const file of files)baseFiles.set(file.split('/').pop(),git(['show',`${baseRevision}:${file}`]));
   if(baseFiles.get('battle.ts').includes('journal'))throw new Error('base revision already has the journal');
 }catch(error){baseFiles.clear();console.error(`Base engine unavailable (${error.message}); neutrality falls back to repeat runs.`);}
-const baseModules={name:'git-base-engine',resolveId:id=>id.startsWith(BASE)?id:undefined,
-  load:id=>id.startsWith(BASE)?baseFiles.get(id.slice(BASE.length)).replaceAll("from './",`from '${BASE}`).replaceAll("from '../../../raising/","from '/raising/"):undefined};
+// The base engine is flat battle/core/src/*.ts with single-quoted relative imports; anything else is an error.
+const baseModule=id=>{
+  const source=baseFiles.get(id.slice(BASE.length));
+  if(source===undefined)throw new Error(`${id} is not a battle/core/src/*.ts module at ${BASE_REVISION}`);
+  return source.replaceAll("from './",`from '${BASE}`).replaceAll("from '../../../raising/","from '/raising/");
+};
+const baseModules={name:'git-base-engine',resolveId:id=>id.startsWith(BASE)?id:undefined,load:id=>id.startsWith(BASE)?baseModule(id):undefined};
 
 await withSsr('battle-observe-v58',async load=>{
   const t=suite('battle-observe-v58'),{check,witnesses}=t;
-  const ids=['/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/catalog.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
+  const ids=['/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/catalog.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts',
+    '/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
   const [core,{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},base]=await Promise.all(ids.map(load));
   const {createBattle,buildDataSet,computeStats,observeOpponent,revealedOpponentSlots,Rng,stageMultiplier}=core;
   const catalog=await loadCatalog(),realData=buildDataSet(catalog);

@@ -11,7 +11,7 @@ import { observeOpponent, revealedOpponentSlots, type ModeledFoe } from '../obse
 export interface World { world: Battle; me: 0 | 1; foe: 0 | 1; opponent: ModeledFoe[]; modeledMoves: number[] }
 
 /** The uncertain typed attack of a species with no modeled move; ids below FALLBACK_ID never collide with the catalog. */
-const FALLBACK_ID = -9000, FALLBACK_POWER = 80, FALLBACK_PP = 99;
+const FALLBACK_ID = -9000, FALLBACK_POWER = 80, FALLBACK_ACCURACY = 100, FALLBACK_PP = 99;
 
 /** Observed moves are certain; the mode's conventional set fills the rest. */
 function modeledMoves(b: Battle, model: ModeledFoe): number[] {
@@ -27,7 +27,9 @@ function fallbackSkills(w: Battle, model: ModeledFoe): number[] {
   const skills = new Map(w.data.skills);
   const ids = model.types.map((type, k) => {
     const id = FALLBACK_ID - k;
-    const skill: Skill = { id, name: { zh: '推测攻击' }, type, category, power: FALLBACK_POWER, accuracy: 100, pp: FALLBACK_PP, priority: 0, effects: [] };
+    const skill: Skill = {
+      id, name: { zh: '推测攻击' }, type, category, power: FALLBACK_POWER, accuracy: FALLBACK_ACCURACY, pp: FALLBACK_PP, priority: 0, effects: [],
+    };
     skills.set(id, skill);
     return id;
   });

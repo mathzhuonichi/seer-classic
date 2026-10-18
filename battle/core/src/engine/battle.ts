@@ -94,6 +94,7 @@ export class Battle {
       if (this.variant.rules) s1.rules = [...(s1.rules ?? []), ...this.variant.rules];
     }
     this.sides = [this.buildSide(0, opts.sides[0]), this.buildSide(1, s1)];
+    if (!this.policy && this.sides.some(turn.isAuto)) throw new Error('a battle with an automatic side needs a policy (battle.ts createBattle injects the AI)');
 
     this.out = [];
     this.emit({ type: 'battle_start', sides: this.sides.map((s) => ({ kind: s.kind, name: s.name })) });

@@ -11,17 +11,24 @@ import {cloneBattle} from '../clone.ts';
 import {buildDataSet} from '../data.ts';
 import {MEAN_ROLL} from '../constants.ts';
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-const AI_MODULES = ['ai.ts', 'legacy-ai.ts', 'search-ai.ts', 'observe.ts', 'clone.ts', 'search'].map(file => path.join(here, '..', file));
+const here = path.dirname(fileURLToPath(import.meta.url)), src = path.join(here, '..');
+const AI_MODULES = ['ai.ts', 'legacy-ai.ts', 'search-ai.ts', 'observe.ts', 'clone.ts', 'search'].map(file => path.join(src, file));
+/** Relative specifiers of static imports and re-exports, side-effect imports and dynamic import(), in either quote style. */
+const specifiers = source => [...source.matchAll(/(?:\bfrom|\bimport)\s*\(?\s*['"](\.{1,2}\/[^'"]+)['"]/g)].map(match => match[1]);
 
-test('no engine module imports the AI, the planner or its helpers', () => {
-  for (const file of fs.readdirSync(here).filter(name => name.endsWith('.ts'))) {
-    const source = fs.readFileSync(path.join(here, file), 'utf8');
-    for (const [, spec] of source.matchAll(/^\s*(?:import|export)\b[^'"]*from\s*'([^']+)'/gm)) {
-      const target = path.resolve(here, spec);
-      assert(!AI_MODULES.some(ai => target === ai || target.startsWith(ai + path.sep)), `${file} imports ${spec}`);
+test('no module the engine reaches imports the AI, the planner or its helpers', () => {
+  const seen = new Set(), queue = fs.readdirSync(here).filter(name => name.endsWith('.ts')).map(name => path.join(here, name));
+  while (queue.length) {
+    const file = queue.pop();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    for (const spec of specifiers(fs.readFileSync(file, 'utf8'))) {
+      const target = path.resolve(path.dirname(file), spec);
+      assert(!AI_MODULES.some(ai => target === ai || target.startsWith(ai + path.sep)), `${path.relative(src, file)} imports ${spec}`);
+      if (target.startsWith(src + path.sep) && target.endsWith('.ts')) queue.push(target);
     }
   }
+  assert(seen.has(path.join(src, 'constants.ts')) && seen.has(path.join(src, 'types.ts')), 'the walk follows imports out of engine/');
 });
 
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
@@ -49,14 +56,12 @@ test('automatic sides are decided by the injected policy', () => {
   assert.equal(battle.sides[1].active, 1);
 });
 
-test('a battle without a policy runs player decisions and refuses an automatic one', () => {
+test('a battle without a policy runs player decisions and refuses an automatic side at construction', () => {
   const battle = new Battle(options({sides: [{kind: 'player', team: [member()]}, {kind: 'player', team: [member()]}]}));
   battle.submit(0, {kind: 'move', skill: 1});
   battle.submit(1, {kind: 'move', skill: 2});
   assert.equal(battle.resolveTurn().filter(e => e.type === 'move_used').length, 2);
-  const automatic = new Battle(options());
-  automatic.submit(0, {kind: 'move', skill: 1});
-  assert.throws(() => automatic.resolveTurn(), /no policy/);
+  assert.throws(() => new Battle(options()), /needs a policy/);
 });
 
 test('the AI estimate is the damage probe at the mean roll, and both are read-only', () => {

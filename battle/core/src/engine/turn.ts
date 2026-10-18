@@ -14,20 +14,15 @@ export function isAuto(side: Side): boolean {
   return side.kind !== 'player' || !!side.ai;
 }
 
-function policy(b: Battle) {
-  if (!b.policy) throw new Error('an automatic side needs a decision, but the battle has no policy');
-  return b.policy;
-}
-
 function actionFor(b: Battle, side: Side): Action {
   if (side.pending) return side.pending;
   if (!isAuto(side)) throw new Error(`side ${side.index} has not submitted an action`);
-  if (b.phase === 'replace') return policy(b).chooseReplacement(b, side) ?? b.legalActions(side.index)[0];
+  if (b.phase === 'replace') return b.policy!.chooseReplacement(b, side) ?? b.legalActions(side.index)[0];
   if (b.forcedExecution(b.active(side.index))) return b.legalActions(side.index).find(action => action.kind === 'move')!;
   for (const action of b.fire(b.active(side.index), 'choose_action', {side})) {
     if (action && b.isLegal(side.index, action as Action)) return action as Action;
   }
-  return policy(b).chooseAction(b, side);
+  return b.policy!.chooseAction(b, side);
 }
 
 export function resolveReplacements(b: Battle): void {
@@ -136,7 +131,7 @@ function queueReplacements(b: Battle): void {
     if (!side.team.some((m) => !m.fainted)) continue;
     side.needsReplacement = true;
     if (isAuto(side)) {
-      const replacement = policy(b).chooseReplacement(b, side);
+      const replacement = b.policy!.chooseReplacement(b, side);
       const slot = replacement?.kind === 'switch' ? replacement.slot : side.team.find((m) => !m.fainted)!.slot;
       b.switchIn(side, slot);
       side.needsReplacement = false;

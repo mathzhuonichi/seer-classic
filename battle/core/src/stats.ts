@@ -3,8 +3,6 @@
 
 import { computeStatsFrom } from '../../../raising/core/stats.ts';
 import type { Nature, Stats } from './types.ts';
-
-export { STAT_KEYS } from '../../../raising/core/types.ts';
 const NEUTRAL: Nature = { id: 'neutral', plus: 'atk', minus: 'atk' };
 
 export function computeStats(
