@@ -22,12 +22,25 @@ export interface FusionRecipe {
   beadName: string;
   outcomes: FusionOutcome[];
   sources: string[];
-  probabilityBasis: 'remake';
+  /** 'remake': explicit playable settings, not recovered original server rates. */
+  probabilityBasis: string;
 }
 export interface FusionParent { species: number; level: number }
 
+/** User-facing remake calibration, independently adjustable from source-backed pairs. */
+export const FUSION_RARE_PROBABILITIES = source.rareProbabilities;
+const rareRates: Readonly<Record<string, number>> = FUSION_RARE_PROBABILITIES;
+
+/** As stored, a rare outcome names its rate and the ordinary outcome beside it states no weight. */
+type StoredOutcome = Omit<FusionOutcome, 'weight' | 'rare'> & { weight?: number; rare?: string };
+const stored: readonly (Omit<FusionRecipe, 'outcomes'> & { outcomes: StoredOutcome[] })[] = source.recipes;
+
 /** No failure outcome, material cost, timer, or parent mutation is implemented here. */
-export const FUSION_RECIPES: readonly FusionRecipe[] = source.recipes as FusionRecipe[];
+export const FUSION_RECIPES: readonly FusionRecipe[] = stored.map(recipe => {
+  const key = recipe.outcomes.find(outcome => outcome.rare)?.rare, rate = key ? rareRates[key] : 0;
+  return { ...recipe, outcomes: recipe.outcomes.map(({ weight, rare, ...outcome }) =>
+    rare ? { ...outcome, weight: rate, rare: true } : { ...outcome, weight: weight ?? 100 - rate }) };
+});
 
 export function canFuseParents(recipe: FusionRecipe, primary: FusionParent, secondary: FusionParent): boolean {
   return recipe.primary.includes(primary.species) && recipe.secondary.includes(secondary.species)

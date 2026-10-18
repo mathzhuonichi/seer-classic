@@ -1,5 +1,9 @@
 {
-  "note": "Source-calibrated fusion parent pairs (design/notes/fusion-source-v17.md), loaded by src/domain/recipes/fusion.ts. Outcome weights are remake percentages that sum to 100 in each recipe: the rare Karu and Hige infants take the 5% the user chose, and the ordinary pairings share one bead and three equally likely infants. No failure outcome, material cost, timer or parent mutation exists.",
+  "note": "Source-calibrated fusion parent pairs (design/notes/fusion-source-v17.md), loaded by src/domain/recipes/fusion.ts. Outcome weights are remake percentages that sum to 100 in each recipe. rareProbabilities is the single adjustment point for the rare Karu and Hige infants (the user chose 5% each): a rare outcome names its rate there and the ordinary infant beside it takes the rest. The ordinary pairings share one bead and three equally likely infants. No failure outcome, material cost, timer or parent mutation exists.",
+  "rareProbabilities": {
+    "karu": 5,
+    "hige": 5
+  },
   "recipes": [
     {
       "id": "fusion-301",
@@ -97,13 +101,11 @@
       "outcomes": [
         {
           "species": 310,
-          "weight": 95,
           "beadName": "紫色元神珠"
         },
         {
           "species": 313,
-          "weight": 5,
-          "rare": true,
+          "rare": "karu",
           "beadName": "粉色元神珠"
         }
       ],
@@ -361,13 +363,11 @@
       "outcomes": [
         {
           "species": 571,
-          "weight": 95,
           "beadName": "绿紫色元神珠"
         },
         {
           "species": 639,
-          "weight": 5,
-          "rare": true,
+          "rare": "hige",
           "beadName": "粉色元神珠"
         }
       ],
@@ -393,13 +393,11 @@
       "outcomes": [
         {
           "species": 578,
-          "weight": 95,
           "beadName": "紫棕色元神珠"
         },
         {
           "species": 639,
-          "weight": 5,
-          "rare": true,
+          "rare": "hige",
           "beadName": "粉色元神珠"
         }
       ],
@@ -425,13 +423,11 @@
       "outcomes": [
         {
           "species": 623,
-          "weight": 95,
           "beadName": "棕黑色元神珠"
         },
         {
           "species": 639,
-          "weight": 5,
-          "rare": true,
+          "rare": "hige",
           "beadName": "粉色元神珠"
         }
       ],
@@ -457,13 +453,11 @@
       "outcomes": [
         {
           "species": 625,
-          "weight": 95,
           "beadName": "橙黑色元神珠"
         },
         {
           "species": 639,
-          "weight": 5,
-          "rare": true,
+          "rare": "hige",
           "beadName": "粉色元神珠"
         }
       ],

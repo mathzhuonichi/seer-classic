@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createGame, loadCatalog } from '../../src/kernel/game.ts';
-import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/domain/recipes/fusion.ts';
+import { FUSION_RARE_PROBABILITIES, FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/domain/recipes/fusion.ts';
 import { Rng } from '../../battle/core/src/rng.ts';
 
 /** Vite SSR fixtures use no browser storage and cannot alter a player's save. */
@@ -14,6 +14,7 @@ export async function runFusionAudit() {
   const rows: string[] = [];
   for (const recipe of FUSION_RECIPES) {
     assert(Math.abs(recipe.outcomes.reduce((sum, outcome) => sum + outcome.weight, 0) - 100) < 1e-10);
+    assert.equal(recipe.probabilityBasis, 'remake', recipe.id);
     let threshold = 0;
     for (const outcome of recipe.outcomes) {
       assert(definitions.has(outcome.species));
@@ -103,6 +104,17 @@ export async function runFusionAudit() {
     }
   }
 
+  // One configured rate per rare infant: Karu in its pair, Hige in the four glutton-family pairs, the ordinary infant taking the rest.
+  assert.deepEqual(FUSION_RARE_PROBABILITIES, { karu: 5, hige: 5 }, 'The user chose 5% for each rare infant.');
+  const rareRate = new Map([[313, FUSION_RARE_PROBABILITIES.karu], [639, FUSION_RARE_PROBABILITIES.hige]]);
+  const rareRecipes = FUSION_RECIPES.filter(recipe => recipe.outcomes.some(outcome => outcome.rare));
+  assert.deepEqual(rareRecipes.map(recipe => recipe.id), ['fusion-310', 'fusion-571', 'fusion-578', 'fusion-623', 'fusion-625']);
+  for (const recipe of rareRecipes) {
+    const [ordinary, rare] = recipe.outcomes;
+    assert(recipe.outcomes.length === 2 && !ordinary.rare && rare.rare && rareRate.has(rare.species), recipe.id);
+    assert.equal(rare.weight, rareRate.get(rare.species), `${recipe.id} gives its rare infant the configured rate.`);
+    assert.equal(ordinary.weight, 100 - rare.weight, `${recipe.id} gives the ordinary infant the rest.`);
+  }
   const rareRates: Record<string, number> = {};
   for (const id of ['fusion-310', 'fusion-571']) {
     const recipe = FUSION_RECIPES.find(entry => entry.id === id)!;
