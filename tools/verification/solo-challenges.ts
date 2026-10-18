@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {loadCatalogNode} from '../catalog.mjs';
 import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {createGame} from '../../src/kernel/game.ts';
@@ -8,11 +8,10 @@ import type {AcquisitionCatalog} from '../../src/domain/acquisition/acquisition-
 
 /** Real controller fixtures isolate ordinary entry and reward settlement from boss difficulty. */
 export function runSoloChallengeAudit(){
-  const bundle=JSON.parse(readFileSync('data/gamedata.json','utf8'));
-  const source={...bundle,bosses:readdirSync('data/bosses').filter(file=>file.endsWith('.json')).map(file=>JSON.parse(readFileSync(`data/bosses/${file}`,'utf8')))};
+  const source=loadCatalogNode();
   const targets=[['boss_spt_saiweier',413,412],['boss_trial_brave_qigesa',532,531]]as const;
   for(const[id,species,infant]of targets){const boss=source.bosses.find((b:any)=>b.id===id)!;
-    assert.deepEqual(bundle.bosses.find((b:any)=>b.id===id),boss,'Source and bundle record agree');assert.deepEqual(boss.team.map((m:any)=>m.species),[species]);assert.equal(boss.reward_hatches,infant);
+    assert.deepEqual(boss.team.map((m:any)=>m.species),[species]);assert.equal(boss.reward_hatches,infant);
     assert.ok(!boss.rules.some((rule:any)=>/co.?op|multi.?player|teammate/.test(rule.rule)));assert.ok(!boss.unlock.requires.length);
     for(let size=1;size<=6;size++){
       const game=createGame(structuredClone(source));

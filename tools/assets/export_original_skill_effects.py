@@ -123,7 +123,7 @@ def main():
     manifest = json.loads(path.read_text()) if path.exists() else dict(
         schema=1, source='Official seer.61.com skill SWFs; original BefLoad skill-ID route',
         actionScriptExecuted=False, effects={}, unsupported={})
-    skills = {s['id']: s for s in json.loads((ROOT / 'data/gamedata.json').read_text())['skills']}
+    skills = {s['id']: s for s in json.loads((ROOT / 'data/skills.json').read_text())}
     manifest['catalogSkills'] = len(skills)
     manifest['unexportedPolicy'] = 'No borrowed or generated effect. Retain creature action and normal battle feedback for unexported IDs.'
     def timed_export(skill_id):

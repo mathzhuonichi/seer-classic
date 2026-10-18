@@ -64,9 +64,10 @@ function localSource(id, file, upstream) {
   sources.push({ id, file, sha256: hash(fs.readFileSync(path.join(root, file))), representation: 'audited-project-extraction', upstream });
 }
 const catalog = loadCatalogNode();
-// The recorded provenance is still the aggregate bundle; it must hold exactly the per-file species read here.
-assert.equal(JSON.stringify(read('data/gamedata.json').species), JSON.stringify(catalog.species), 'data/gamedata.json species differ from data/monsters');
-localSource('classic-catalog', 'data/gamedata.json');
+// The species are one file each, so their provenance is the digest of the assembled list classified here.
+// The label matches the same digest's witness key in dex-acquisition and export-acquisition-status.
+sources.push({ id: 'classic-catalog', file: 'data/monsters/*.json (sorted parsed records)', sha256: hash(JSON.stringify(catalog.species)),
+  representation: 'audited-project-extraction' });
 const byId = new Map(catalog.species.map(s => [s.id, s]));
 const byName = new Map(catalog.species.map(s => [s.name.zh, s.id]));
 const parents = buildPredecessors(catalog.species);

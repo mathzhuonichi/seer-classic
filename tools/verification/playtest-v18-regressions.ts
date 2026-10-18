@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync} from 'node:fs';
 import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
@@ -7,8 +7,9 @@ import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {BossEncounter,MonsterInput} from '../../battle/core/src/types.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import {loadCatalogNode} from '../catalog.mjs';
 
-const raw=JSON.parse(readFileSync('data/gamedata.json','utf8'));
+const raw=loadCatalogNode();
 const data=buildDataSet(raw);
 const scripts={...SEER_SCRIPTS,...campaignScripts};
 const stats={hp:400,atk:100,def:100,spa:100,spd:100,spe:200};
@@ -73,7 +74,6 @@ for(const id of ['boss_puni_seal1','boss_puni_seal7','boss_puni_zhenshen']) {
 passed.push('OBS-007: actual Puni seals 1/7 and body permit self boost/heal/protection while enemy-targeting restrictions remain');
 
 const catalog=structuredClone(raw) as CatalogData;
-catalog.bosses=readdirSync('data/bosses').filter(file=>file.endsWith('.json')).map(file=>JSON.parse(readFileSync(`data/bosses/${file}`,'utf8')));
 const game=createGame(catalog),uid=game.snapshot().party[0];
 const beads=catalog.items.filter(item=>(item.raising_effect as {op?:string}|undefined)?.op==='energy_bead');assert(beads.length>1);
 game.dispatch({type:'useItem',uid,itemId:String(beads[0].id)});
@@ -86,7 +86,6 @@ const lisa=raw.species.find((species:{id:number})=>species.id===303);
 const shield=raw.skills.find((skill:{name:{zh:string}})=>skill.name.zh==='花草护体');
 assert(lisa.learnset.some((entry:{skill:number})=>entry.skill===shield.id));
 assert(!game.snapshot().bosses.find(boss=>boss.id==='boss_spt_hamoleite')!.description.includes('暗影屏障'));
-assert.deepEqual(raw.skills,JSON.parse(readFileSync('data/skills.json','utf8')));
 assert.equal(data.skills.get(20266)?.target,'self');assert.equal(data.skills.get(10618)?.effects?.[0].turns,1);
-passed.push('CONTENT-004: replacement strategy uses an actual Lisa learnset skill; skill catalogs remain identical');
+passed.push('CONTENT-004: replacement strategy uses an actual Lisa learnset skill');
 console.log(JSON.stringify({passed,limits:['Synthetic deterministic battle fixtures do not certify a complete six-life player run.','OBS-005 retains the current official double-healing record pending mode/historical confirmation.','Normal shop/restocking remains a content gap.']},null,2));

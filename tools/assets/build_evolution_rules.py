@@ -59,9 +59,7 @@ def read_json(relative: str):
 
 
 def encode(value, indent=2, newline=True) -> bytes:
-    return (json.dumps(value, ensure_ascii=False, indent=indent,
-                       separators=(",", ":") if indent is None else None)
-            + ("\n" if newline else "")).encode()
+    return (json.dumps(value, ensure_ascii=False, indent=indent) + ("\n" if newline else "")).encode()
 
 
 def main() -> None:
@@ -89,8 +87,8 @@ def main() -> None:
          "inputItems": [dict(item.attrib) for item in row.findall("./In/Item")]}
         for row in xml["160-SuperEvolves.xml"].iter("SuperEvolve")
     ]
-    catalog = read_json("data/gamedata.json")
-    by_id = {row["id"]: row for row in catalog["species"]}
+    species_files = sorted((ROOT / "data/monsters").glob("*.json"))
+    by_id = {row["id"]: row for row in (json.loads(path.read_text()) for path in species_files)}
     index = read_json("data/catalog_index.json")
     index_by_id = {row["id"]: row for row in index["monsters"]}
 
@@ -280,8 +278,6 @@ def main() -> None:
             prior_note = species["source_note"].split(PREVIOUS_SPECIAL_NOTE_PREFIX)[0].split(SPECIAL_NOTE_PREFIX)[0]
             species["source_note"] = prior_note + SPECIAL_NOTE_PREFIX + note + "See data/evolution-rules.json for original fields and the exact source/remake distinction."
         outputs[relative] = encode(species)
-        by_id[species_id]["evolution"] = species["evolution"]
-        by_id[species_id]["source_note"] = species["source_note"]
         index_by_id[species_id]["evolves_to"] = [edge["to"] for edge in species["evolution"]]
 
     for target, predecessor in CANONICAL_PARENT_OVERRIDES.items():
@@ -293,12 +289,9 @@ def main() -> None:
                 "the pinned SuperEvolves Origin list explicitly supports the selected mature form. This preserves the normal automatic family chain.")
         species["source_note"] = species["source_note"].split(ANCESTRY_NOTE_PREFIX)[0] + ANCESTRY_NOTE_PREFIX + note
         outputs[relative] = encode(species)
-        by_id[target]["evolves_from"] = predecessor
-        by_id[target]["source_note"] = species["source_note"]
         if "evolves_from" in index_by_id[target]:
             index_by_id[target]["evolves_from"] = predecessor
 
-    outputs["data/gamedata.json"] = encode(catalog, indent=None)
     outputs["data/catalog_index.json"] = encode(index, indent=0, newline=False)
     changed = [relative for relative, data in outputs.items()
                if not (ROOT / relative).is_file() or (ROOT / relative).read_bytes() != data]

@@ -121,8 +121,8 @@
   },
   {
    "id": "classic-catalog",
-   "file": "data/gamedata.json",
-   "sha256": "9bfeeaeab685a30d6f6c337f2d691942bec698e6018cf563541985301ec40865",
+   "file": "data/monsters/*.json (sorted parsed records)",
+   "sha256": "cc690f9bdd3e8dedb4020adbc1588d307d259066a158a756bcb4fdb3bff892bf",
    "representation": "audited-project-extraction"
   },
   {
