@@ -57,6 +57,46 @@ export async function verifySnapshotIdentity(){
   return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
 }
 
+/**
+ * Slice builders rebuild rows only when their inputs change (monster rows). After each step the snapshot equals
+ * the one a new controller builds from the exported save, and exactly the monster rows listed as changed are new; `maybe` rows
+ * may change either way.
+ */
+export async function verifySnapshotInputs(){
+  const catalog=await loadCatalog(),game=createGame(catalog,''),checks:string[]=[];
+  const act=(...actions:GameAction[])=>()=>actions.forEach(action=>{const result=game.dispatch(action);assert(result.ok,`${action.type}: ${result.notice}`);});
+  const uids=(species:number)=>game.snapshot().monsters.filter(mon=>mon.species===species).map(mon=>mon.uid);
+  const row=(uid:string)=>game.snapshot().monsters.find(mon=>mon.uid===uid)!;
+  const step=(label:string,run:()=>void,changed:string[],maybe:string[]=[])=>{
+    const before=new Map(game.snapshot().monsters.map(mon=>[mon.uid,mon]));
+    run();
+    const {notices,...current}=game.snapshot(),{notices:fresh,...rebuilt}=createGame(catalog,game.exportSave()).snapshot();
+    assert.deepEqual(current,rebuilt,`${label}: every slice is current.`);
+    for(const mon of current.monsters)if(before.has(mon.uid)&&!maybe.includes(mon.uid))
+      assert.equal(mon!==before.get(mon.uid),changed.includes(mon.uid),`${label}: ${mon.name} ${changed.includes(mon.uid)?'is new':'keeps its row'}.`);
+    checks.push(label);
+  };
+  act({type:'cheatResources',coins:100000},...[15,15,19,20,20,20,20,20].map((species):GameAction=>({type:'cheatAcquire',species,level:100})))();
+  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).traitId)!.id;
+  step('notice dismissed',act({type:'dismissNotice'}),[]);
+  step('rename',act({type:'rename',uid:m,name:'Identity'}),[m]);
+  step('party',act({type:'party',uid:m,add:false}),[m]);
+  step('trait',act({type:'cheatMonster',uid:a,traitId}),[a]);
+  step('engraving stock',act({type:'buyEngraving',engravingId:'10031'},{type:'buyEngraving',engravingId:'10031'}),[]);
+  step('equip',act({type:'setEngraving',uid:a,slot:'ability',engravingId:'10031'}),[a]);
+  step('second holder',act({type:'setEngraving',uid:b,slot:'ability',engravingId:'10031'}),[a,b]);
+  step('holder renamed',act({type:'rename',uid:b,name:'Holder'}),[a,b]);
+  step('unequip',act({type:'setEngraving',uid:a,slot:'ability',engravingId:null}),[a,b]);
+  step('engraving moved',act({type:'setEngraving',uid:a,slot:'ability',engravingId:'10031',fromUid:b}),[a,b]);
+  step('bead used on a cloned save',act({type:'useItem',uid:c,itemId:'item_bead_reduce_damage'}),[c]);
+  step('bead ended',act({type:'startTraining',species:10,level:3},{type:'flee'},{type:'closeBattle'}),[c],game.snapshot().party);
+  assert.deepEqual(row(c).boosts,[],'The one-battle bead has ended.');
+  step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);
+  assert(row(m).evolutionChoices[0].blockedReason,'Six copies block the evolution.');
+  step('evolution frees capacity',act({type:'evolve',uid:c}),[c,m]);
+  return {checks};
+}
+
 /** Each monster lists the player-wide boosts and only its own energy bead; a settled battle counts every boost down. */
 export async function verifyMonsterBoosts(){
   const game=createGame(await loadCatalog(),''),[a,b]=game.snapshot().monsters;
