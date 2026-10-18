@@ -9,14 +9,14 @@ memoryStorage();
 const read=name=>JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
 await withSsr('habitat-regions',async load=>{
   const t=suite('habitat-regions'),{check}=t;
-  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},{buildAcquisitionIndex},{buildRecruitmentRewards}]
-    =await Promise.all(['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts','/src/kernel/game.ts',
-      '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts'].map(load));
+  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},
+    {buildAcquisitionIndex},{buildRecruitmentRewards},{ORIGINAL_FLOORS}]=await Promise.all(['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts',
+      '/src/kernel/game.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/features/world/map-sources.ts'].map(load));
   const definitions=read('data/habitat-regions.json'),artwork={...read('src/domain/world/map-art-assets.json'),...read('src/domain/world/map-hd-assets.json')};
   const locate=({planetId,regionId})=>{const planet=WORLD_PLANETS.find(entry=>entry.id===planetId);return {planet,region:planet?.regions.find(entry=>entry.id===regionId)}};
   const catalog=await loadCatalog(),original=JSON.stringify(catalog),species=new Map(catalog.species.map(entry=>[entry.id,entry]));
 
-  check('Every source-backed subregion is a landing on its parent planet with the parent artwork',()=>{
+  check('Every source-backed subregion is a landing on its parent planet with its own or its parent map\'s artwork',()=>{
     for(const definition of definitions.regions){
       const {planet,region}=locate({planetId:definition.planetId,regionId:definition.id});
       assert(region,definition.id);
@@ -29,6 +29,19 @@ await withSsr('habitat-regions',async load=>{
       assert.equal(region.backgroundAssetMapId,mapId,definition.id);
       if(mapId===undefined)assert.equal(region.sceneAttribution,definition.sceneAttribution);
       assert(fs.existsSync(path.join(root,'public',region.background.split('?')[0])),`${definition.id}: available scene art`);
+    }
+  });
+  const {failures}=read('public/maps/original-manifest.json');
+  check('A subregion shows its own art only on a source floor; otherwise its data records why',()=>{
+    for(const definition of definitions.regions){
+      const {id,originalMapId:mapId,sourceParentMapId,backgroundMapId,ownArtwork}=definition,{region}=locate({planetId:definition.planetId,regionId:id});
+      assert(ORIGINAL_FLOORS[region.backgroundAssetMapId],`${id}: its scene layout comes from a floor, not a theme fallback`);
+      if(backgroundMapId===mapId){assert(artwork[mapId]&&!ownArtwork,id);continue;}
+      assert.equal(backgroundMapId,sourceParentMapId,id);
+      if(ownArtwork.status==='flash-only'){
+        assert(failures[mapId]&&!artwork[mapId],`${id}: no H5 background was delivered`);
+        assert.equal(ownArtwork.url,`https://seer.61.com/resource/map/${mapId}.swf`);
+      }else{assert.equal(ownArtwork.status,'unused',id);assert(artwork[mapId]&&ownArtwork.reason.length>20,id);}
     }
   });
   check('Every generated habitat is placed with its levels, scarcity and route',()=>{
