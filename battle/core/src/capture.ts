@@ -20,5 +20,5 @@ export function rollReconstructedCapture(
   if (input.multiplier === null) return true;
   const bonus = input.controlStatus ? C.CAPTURE_CONTROL_BONUS : input.anyStatus ? C.CAPTURE_DOT_BONUS : 1;
   const a = ((3 * input.maxHp - 2 * input.hp) * input.catchRate * input.multiplier / (3 * input.maxHp)) * bonus;
-  return a >= 255 || next() * 255 < a;
+  return a >= C.CAPTURE_CERTAIN || next() * C.CAPTURE_CERTAIN < a;
 }

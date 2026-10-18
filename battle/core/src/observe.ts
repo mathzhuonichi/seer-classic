@@ -10,11 +10,11 @@
 // mid-turn decision (a faint replacement) sees the current turn; the journal is
 // appended directly and is always current.
 
-import type { ActiveCondition, Battle, Mon } from './battle.ts';
-import { STRUGGLE_SKILL } from './battle.ts';
+import type { Battle } from './engine/battle.ts';
+import type { ActiveCondition, Mon } from './engine/state.ts';
 import type { BattleEvent, ConditionDef, JournalHit, JournalMon, JournalOrder, Skill, StageKey, Stats, When } from './types.ts';
 import { computeStats } from './stats.ts';
-import { RANDOM_MAX, RANDOM_MIN, stageMultiplier } from './constants.ts';
+import { RANDOM_MAX, RANDOM_MIN, STRUGGLE_SKILL, stageMultiplier } from './constants.ts';
 import { effectiveness } from './typechart.ts';
 
 export type RefinedStat = 'atk' | 'def' | 'spa' | 'spd' | 'spe';

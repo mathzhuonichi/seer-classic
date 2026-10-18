@@ -2,16 +2,21 @@
 // module is the information boundary: the opponent's side is rebuilt from the
 // public model only, so nothing hidden reaches a simulation.
 import type { MonsterInput, Skill } from '../types.ts';
-import type { Battle, Mon } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { Mon } from '../engine/state.ts';
+import { MAX_SKILLS } from '../constants.ts';
 import { cloneBattle } from '../clone.ts';
 import { observeOpponent, revealedOpponentSlots, type ModeledFoe } from '../observe.ts';
 
 export interface World { world: Battle; me: 0 | 1; foe: 0 | 1; opponent: ModeledFoe[]; modeledMoves: number[] }
 
+/** The uncertain typed attack of a species with no modeled move; ids below FALLBACK_ID never collide with the catalog. */
+const FALLBACK_ID = -9000, FALLBACK_POWER = 80, FALLBACK_ACCURACY = 100, FALLBACK_PP = 99;
+
 /** Observed moves are certain; the mode's conventional set fills the rest. */
 function modeledMoves(b: Battle, model: ModeledFoe): number[] {
-  const out = model.observedMoves.filter(id => b.data.skills.has(id)).slice(0, 4);
-  for (const id of b.conventionalMoves?.(model.speciesId) ?? []) if (out.length < 4 && !out.includes(id) && b.data.skills.has(id)) out.push(id);
+  const out = model.observedMoves.filter(id => b.data.skills.has(id)).slice(0, MAX_SKILLS);
+  for (const id of b.conventionalMoves?.(model.speciesId) ?? []) if (out.length < MAX_SKILLS && !out.includes(id) && b.data.skills.has(id)) out.push(id);
   return out;
 }
 
@@ -21,8 +26,11 @@ function fallbackSkills(w: Battle, model: ModeledFoe): number[] {
   const category = species.base.atk >= species.base.spa ? 'physical' : 'special';
   const skills = new Map(w.data.skills);
   const ids = model.types.map((type, k) => {
-    const id = -9000 - k;
-    skills.set(id, { id, name: { zh: '推测攻击' }, type, category, power: 80, accuracy: 100, pp: 99, priority: 0, effects: [] } as unknown as Skill);
+    const id = FALLBACK_ID - k;
+    const skill: Skill = {
+      id, name: { zh: '推测攻击' }, type, category, power: FALLBACK_POWER, accuracy: FALLBACK_ACCURACY, pp: FALLBACK_PP, priority: 0, effects: [],
+    };
+    skills.set(id, skill);
     return id;
   });
   w.data = { ...w.data, skills };

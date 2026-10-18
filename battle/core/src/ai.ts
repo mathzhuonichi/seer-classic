@@ -1,9 +1,10 @@
 // Enemy decision making. Every random choice goes through battle.rng so AI
 // turns replay deterministically.
 
-import type { Action } from './types.ts';
-import type { Battle, Side } from './battle.ts';
-import { STRUGGLE_SKILL } from './battle.ts';
+import type { Action, BattlePolicy } from './types.ts';
+import type { Battle } from './engine/battle.ts';
+import type { Side } from './engine/state.ts';
+import { STRUGGLE_SKILL } from './constants.ts';
 import { legacySmartPick } from './legacy-ai.ts';
 import { rolloutReplacement, searchAction, searchReplacement } from './search-ai.ts';
 
@@ -64,3 +65,6 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
       return side.kind === 'trainer' ? searchAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable));
   }
 }
+
+/** The game's policy for automatic sides; battle.ts injects it into every battle. */
+export const AI_POLICY: BattlePolicy = { chooseAction: chooseAiAction, chooseReplacement: chooseAiReplacement };
