@@ -23,8 +23,8 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
   },
 }]});
 try{
-  const [{createGame,loadGameData},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{tacticalAction}]=await Promise.all([
-    '/src/game.ts','/src/mechanics/boss-encounter.ts','/src/presentation/encounter-level.ts','/src/presentation/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/traits.ts','/src/mechanics/npc-training.ts','/battle/core/src/ai.ts','/battle/core/src/tactics.ts',
+  const [{createGame,loadGameData},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
+    '/src/game.ts','/src/mechanics/boss-encounter.ts','/src/presentation/encounter-level.ts','/src/presentation/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/traits.ts','/src/mechanics/npc-training.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
   const runtime=readJson('data/boss-evidence-runtime-v56.json'),audit=readJson('data/boss-evidence-v56.json'),ruleAudit=readJson('data/boss-rule-support-v56.json');
@@ -210,11 +210,11 @@ try{
     }
     report.witnesses.push({kind:'real-campaign-starts',campaigns:campaigns.length,opponents});
   });
-  check('Real classic, random and elite trainer starts retain tactical AI without Boss evidence or attempt counts',()=>{
+  check('Real classic, random and elite trainer starts retain the search-planner trainer AI without Boss evidence or attempt counts',()=>{
     for(const facilityId of ['classic','random','elite']){
       const game=make(),before=parse(game).progress.boss_attempts,core=start(game,{type:'startFacility',facilityId,...(facilityId==='classic'?{teamId:catalog.trainers[0].id}:{})});assert.equal(core.sides[1].kind,'trainer');assert.equal(core.sides[1].ai.kind,'smart');assert.equal(core.sides[1].ai.allow_switch,true);
       assert.equal(game.snapshot().battle.enemy.evidence,undefined);assert(game.snapshot().battle.enemyParty.every(mon=>mon.evidence===undefined));
-      assert.deepEqual(chooseAiAction(core,core.sides[1]),tacticalAction(core,core.sides[1],core.active(1).ai??core.sides[1].ai));assert.deepEqual(parse(game).progress.boss_attempts,before);leave(game);
+      const action=chooseAiAction(core,core.sides[1]);assert.deepEqual(lastSearchDecision(core,core.sides[1])?.chosen,action);assert.deepEqual(parse(game).progress.boss_attempts,before);leave(game);
     }
   });
   check('Unknown evidence remains explicitly inferred and the entire verification preserves catalog and user state',()=>{

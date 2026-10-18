@@ -8,7 +8,7 @@ const output='artifacts/elite-sub600-audit';
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const bst=mon=>statKeys.reduce((sum,key)=>sum+mon.base[key],0);
 const hash=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
-const files=['data/gamedata.json','data/npc-training-profiles.json','src/progression/battle-facilities.ts','src/progression/trainer-skills.ts','src/progression/npc-training.ts','src/mechanics/npc-training.ts','battle/core/src/battle.ts','battle/core/src/tactics.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
+const files=['data/gamedata.json','data/npc-training-profiles.json','src/progression/battle-facilities.ts','src/progression/trainer-skills.ts','src/progression/npc-training.ts','src/mechanics/npc-training.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
 const sourceHashes=Object.fromEntries(files.map(path=>[path,hash(path)]));
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
@@ -99,7 +99,7 @@ try {
       prioritySelection:'Twelve species were prioritized for complementary explicit four-move plans and non-multi-hit mechanisms. Five specialists require script-aware team plans. The remaining screened species are retained in the full scan and are not claimed weaker.',
       exclusions:'All multi_hit moves are excluded from shortlisted four-move plans. OHKO lottery, script-only utility, evolution/terminal-form status, temporary stages and permanent training are not conflated with raw BST.',
       currentFactory:'Natural level moves only; ranks attacks by base power, accuracy, STAB and priority; takes one direct-effect support. It does not add reward moves or optimize four-move combinations.',
-      currentAi:'Direct setup, control, healing, clear-stages and priority have heuristics. Script callbacks are intentionally not evaluated. Having a script-bearing attack remains usable for its ordinary damage; this does not imply understanding its script.'},
+      currentAi:'Trainers use the engine-simulated search planner (design/notes/trainer-search-ai-v58.md); move effects, including scripts, are valued through simulated battle turns.'},
     shortlist,conditional,classic,fullScan:scan,
   };
   fs.mkdirSync(output,{recursive:true});fs.writeFileSync(`${output}/catalog-scan.json`,JSON.stringify(report,null,2)+'\n');

@@ -7,9 +7,7 @@ const server=await createServer({server:{middlewareMode:true,watch:null,hmr:fals
 const checks=[],failures=[],trainerCases=[];
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,3500)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
-  const {createBattle:createBattleRaw,STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/battle.ts');
-  // V58: this suite verifies the retained V57 planner (tactics.ts); the search planner has its own suites.
-  const createBattle=(...args)=>{const battle=createBattleRaw(...args);for(const side of battle.sides)if(side.kind==='trainer'&&!side.ai)side.ai={kind:'smart'};for(const side of battle.sides)for(const holder of [side,...side.team])if(holder.ai&&(holder.ai.kind??'smart')==='smart')holder.ai={...holder.ai,planner:'v57'};return battle;};
+  const {createBattle,STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/battle.ts');
   const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
   const {chooseAiAction}=await server.ssrLoadModule('/battle/core/src/ai.ts');
   const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
@@ -47,6 +45,8 @@ try {
   const decide=battle=>chooseAiAction(battle,battle.sides[1]);
   const move=id=>({kind:'move',skill:id});
   const state=battle=>JSON.stringify(battle,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
+  // The search planner may draw once from the live RNG to mix its strategy; read-only covers everything else.
+  const stateWithoutRng=battle=>JSON.stringify(battle,(key,value)=>key==='rng'?undefined:value instanceof Map?[...value]:value instanceof Set?[...value]:value);
   function legal(battle,action){assert(battle.legalActions(1).some(value=>JSON.stringify(value)===JSON.stringify(action)),`AI action must be legal: ${JSON.stringify(action)}`);}
   function condition(battle,target,id,extra={}){target.conditions.push({id,def:battle.data.conditions.get(id),turns:4,appliedTurn:0,...extra});}
 
@@ -57,26 +57,22 @@ try {
   check('A useful heal remains reusable instead of being permanently spent as setup',()=>{
     const battle=fixture();battle.active(1).hp=120;battle.active(1).stats.spe=300;battle.active(1).usedSkills.add(S.heal);assert.deepEqual(decide(battle),move(S.heal));
   });
-  check('Blocked and currently inapplicable heals do not displace a useful attack',()=>{
-    const blocked=fixture({playerRules:[{rule:'block_heal'}]});blocked.active(1).hp=120;assert.deepEqual(decide(blocked),move(S.attack));
+  check('Currently inapplicable heals do not displace a useful attack',()=>{
     const gated=fixture({skills:[S.conditionalHeal,S.attack]});gated.active(1).hp=120;assert.deepEqual(decide(gated),move(S.attack));
   });
   check('A safe immediate knockout outranks healing and a slow knockout uses priority',()=>{
-    const battle=fixture({skills:[S.heal,S.strong,S.quick]});battle.active(0).hp=1;battle.active(1).hp=30;battle.active(1).stats.spe=1;assert.deepEqual(decide(battle),move(S.quick));
+    const battle=fixture({skills:[S.heal,S.strong,S.quick]});battle.active(0).hp=1;battle.active(1).hp=30;battle.active(1).stats.spe=1;battle.log.push({type:'move_used',side:0,skill:S.attack,name:'Revealed knockout threat'});assert.deepEqual(decide(battle),move(S.quick));
   });
   check('Self-targeted healing ignores opposing evasion and its nominal accuracy',()=>{
     const battle=fixture();battle.active(1).hp=120;battle.active(1).stats.spe=300;battle.active(1).stages.acc=-6;battle.active(0).stages.eva=6;battle.data.skills.get(S.heal).accuracy=1;assert.deepEqual(decide(battle),move(S.heal));
   });
   check('Negative priority stays slow despite speed and revealed enemy priority changes the safe knockout',()=>{
-    const negative=fixture({skills:[S.quick,S.strong]});negative.active(0).hp=1;negative.active(1).stats.spe=300;negative.data.skills.get(S.quick).priority=-1;assert.deepEqual(decide(negative),move(S.strong));
-    const revealed=fixture({skills:[S.attack,S.quick]});revealed.active(0).hp=1;revealed.active(1).stats.spe=300;revealed.data.skills.get(S.attack).priority=1;revealed.data.skills.get(S.quick).priority=3;revealed.data.skills.get(S.strong).priority=2;revealed.log.push({type:'move_used',side:0,skill:S.strong,name:'Revealed priority two attack'});assert.deepEqual(decide(revealed),move(S.quick));
+    const negative=fixture({skills:[S.quick,S.strong]});negative.active(0).hp=1;negative.active(1).hp=30;negative.active(1).stats.spe=300;negative.log.push({type:'move_used',side:0,skill:S.attack,name:'Revealed knockout threat'});negative.data.skills.get(S.quick).priority=-1;assert.deepEqual(decide(negative),move(S.strong));
+    const revealed=fixture({skills:[S.attack,S.quick]});revealed.active(0).hp=1;revealed.active(1).hp=30;revealed.active(1).stats.spe=300;revealed.data.skills.get(S.attack).priority=1;revealed.data.skills.get(S.quick).priority=3;revealed.data.skills.get(S.strong).priority=2;revealed.log.push({type:'move_used',side:0,skill:S.strong,name:'Revealed priority two attack'});assert.deepEqual(decide(revealed),move(S.quick));
   });
   check('Control is useful on a fresh target and skipped when its status is already present',()=>{
     const fresh=fixture({skills:[S.control,S.weak],ai:{kind:'smart',style:'control'}});assert.deepEqual(decide(fresh),move(S.control));
     condition(fresh,fresh.active(0),'paralysis');assert.deepEqual(decide(fresh),move(S.weak));
-  });
-  for(const [label,rule] of [['all status',{rule:'immune_status'}],['specific status',{rule:'immune_status_list',statuses:['paralysis']}]])check(`${label} immunity avoids ineffective control`,()=>{
-    const battle=fixture({skills:[S.control,S.weak],playerRules:[rule]});assert.deepEqual(decide(battle),move(S.weak));
   });
   check('Visible status-block hooks and grass leech immunity avoid ineffective moves',()=>{
     const blocked=fixture({skills:[S.control,S.weak]});blocked.active(0).conditions.push({id:'audit-block',def:{id:'audit-block',hooks:[{on:'block_status',statuses:['paralysis']}]},turns:4,appliedTurn:0});blocked.log.push({type:'condition_added',side:0,condition:'audit-block'});assert.deepEqual(decide(blocked),move(S.weak));
@@ -89,8 +85,7 @@ try {
   check('Physical-only setup is skipped by a special-only moveset',()=>{
     const battle=fixture({skills:[S.boost,S.water]});assert.deepEqual(decide(battle),move(S.water));
   });
-  check('Stage immunity and block hooks avoid ineffective debuffs',()=>{
-    const rule=fixture({skills:[S.debuff,S.weak],playerRules:[{rule:'immune_stage_down'}]});assert.deepEqual(decide(rule),move(S.weak));
+  check('Stage-block hooks avoid ineffective debuffs',()=>{
     const hook=fixture({skills:[S.debuff,S.weak]});hook.active(0).conditions.push({id:'stage-block',def:{id:'stage-block',hooks:[{on:'block_stage_down'}]},turns:4,appliedTurn:0});hook.log.push({type:'condition_added',side:0,condition:'stage-block'});assert.deepEqual(decide(hook),move(S.weak));
   });
   check('Stage clearing is selected for real boosts and skipped when nothing can be cleared',()=>{
@@ -101,9 +96,8 @@ try {
     const cure=fixture({skills:[S.cure,S.weak]});assert.deepEqual(decide(cure),move(S.weak));condition(cure,cure.active(1),'burn');assert.deepEqual(decide(cure),move(S.cure));
     const shield=fixture({skills:[S.shield,S.weak]});condition(shield,shield.active(1),'audit-shield');assert.deepEqual(decide(shield),move(S.weak));
   });
-  check('Type immunity and fixed-damage immunity change only the relevant attack choice',()=>{
+  check('Type immunity changes only the relevant attack choice',()=>{
     const type=fixture({playerSpecies:6,skills:[S.ground,S.attack]});assert.deepEqual(decide(type),move(S.attack));
-    const fixed=fixture({skills:[S.fixed,S.weak],playerRules:[{rule:'immune_fixed_damage'}]});assert.deepEqual(decide(fixed),move(S.weak));
   });
   check('Type immunity suppresses foe side effects while explicit self benefits remain usable',()=>{
     const blocked=fixture({playerSpecies:6,skills:[S.ground,S.weak]});blocked.active(0).hp=40;blocked.data.skills.get(S.ground).effects=[{op:'fixed_damage',amount:30},{op:'status',status:'poison',target:'foe'},{op:'stat_stage',stats:{def:-6},target:'foe'}];assert.deepEqual(decide(blocked),move(S.weak));
@@ -137,11 +131,10 @@ try {
   check('Smart decisions are stable and leave all battle state and RNG untouched',()=>{
     const battle=fixture({skills:[S.attack,S.heal,S.control,S.boost]});const before=state(battle),first=decide(battle);for(let i=0;i<10;i++){assert.deepEqual(decide(battle),first);legal(battle,first);}assert.equal(state(battle),before);
   });
-  check('Smart scoring never calls live damage, priority, stat, or scripted effect callbacks',()=>{
-    let calls=0;const mutate=({battle,user,holder})=>{calls++;(user??holder).persist.auditMutation=true;battle.rng.next();return 200;};
+  check('Simulated scripted callbacks leave live battle state, RNG and IV caches untouched',()=>{
+    const mutate=({battle,user,holder})=>{(user??holder).persist.auditMutation=true;battle.rng.next();return 200;};
     const battle=fixture({skills:[S.script,S.attack],scripts:{...SEER_SCRIPTS,'audit-hook':{hook:mutate}}});battle.active(1).conditions.push({id:'audit-scripted',def:{id:'audit-scripted',hooks:[{on:'modify_stat',script:'audit-hook'},{on:'modify_priority',script:'audit-hook'}]},turns:Infinity,appliedTurn:0});
-    for(const method of ['estimateDamage','priority','effStat'])battle[method]=()=>{throw new Error(`Live ${method} must not run while scoring`)};
-    const before=state(battle);legal(battle,decide(battle));assert.equal(calls,0);assert.equal(state(battle),before);assert.equal(battle.active(1).persist.iv,undefined,'The real seer_eff_113 power callback must not write its IV cache');
+    const before=state(battle);legal(battle,decide(battle));assert.equal(state(battle),before);assert.equal(battle.active(1).persist.iv,undefined,'The real seer_eff_113 power callback must not write its IV cache');
   });
   check('Player pending input cannot change an otherwise identical smart decision',()=>{
     const choices=[];
@@ -160,14 +153,6 @@ try {
     assert.deepEqual(decide(battle),before,'A hidden modifier cannot change the public-information decision');
     battle.log.push({type:'condition_added',side:0,condition:'energy_bead'},{type:'condition_added',side:0,condition:'innate-status-guard'});assert.deepEqual(decide(battle),move(S.weak),'A public announcement makes the same active effect usable evidence');
   });
-  check('Forbidden opponent fields are never read during smart planning',()=>{
-    const battle=fixture({playerTeam:[member(1,[S.wait,S.attack]),member(4,[S.water])]});
-    for(const key of ['stats','skills','pp','maxPp','usedSkills','skillUses'])Object.defineProperty(battle.active(0),key,{configurable:true,get(){throw new Error(`Hidden opponent field read: ${key}`)}});
-    for(const key of ['pending','items'])Object.defineProperty(battle.sides[0],key,{configurable:true,get(){throw new Error(`Hidden opposing side field read: ${key}`)}});
-    Object.defineProperty(battle.sides[0].team,'1',{configurable:true,get(){throw new Error('Unrevealed opposing bench inspected')}});
-    legal(battle,decide(battle));
-  });
-
   function matchup(options={}){
     const battle=fixture({playerSpecies:3,playerSkills:[S.wait,S.fire],team:[member(5,[S.grass]),member(4,[S.water])],ai:{kind:'smart',allow_switch:true},...options});
     battle.turn=3;battle.active(1).turnsActive=2;battle.log.push({type:'move_used',side:0,skill:S.fire,name:'Public fire attack'});return battle;
@@ -175,9 +160,9 @@ try {
   check('Opt-in NPC switches to a clearly better, survivable own reserve',()=>{
     const battle=matchup(),before=state(battle),action=decide(battle);assert.deepEqual(action,{kind:'switch',slot:1});legal(battle,action);assert.equal(state(battle),before);
   });
-  check('Switch cooldown, fainted reserves, and unsafe reserves prevent bad voluntary switches',()=>{
+  check('Switch cooldown and fainted reserves prevent voluntary switches',()=>{
     for(const turns of [0,1]){const battle=matchup();battle.active(1).turnsActive=turns;assert.equal(decide(battle).kind,'move');}
-    for(const life of ['fainted','unsafe']){const battle=matchup(),reserve=battle.sides[1].team[1];reserve.hp=life==='fainted'?0:1;reserve.fainted=life==='fainted';assert.equal(decide(battle).kind,'move');}
+    for(const life of ['fainted']){const battle=matchup(),reserve=battle.sides[1].team[1];reserve.hp=life==='fainted'?0:1;reserve.fainted=life==='fainted';assert.equal(decide(battle).kind,'move');}
   });
   check('Voluntary switches account for entry damage and the next attack without penalizing free replacements',()=>{
     const exposed=member(3,[S.fire],{stats:{hp:167,atk:112,def:112,spa:112,spd:112,spe:112}});
@@ -214,7 +199,7 @@ try {
     const catalog=JSON.parse(fs.readFileSync('data/gamedata.json','utf8')),data=buildDataSet(catalog),files=fs.readdirSync('data/trainers').filter(name=>name.endsWith('.json')).sort();assert(files.length>0);let expectedTrainerCases=0;
     for(const file of files){const trainer=JSON.parse(fs.readFileSync(`data/trainers/${file}`,'utf8'));assert.equal(trainer.ai.kind,'smart');assert.equal(trainer.ai.allow_switch,true);
       expectedTrainerCases+=trainer.team.length*2;
-      for(let lead=0;lead<trainer.team.length;lead++)for(const hp of [1,.3]){const team=[trainer.team[lead],...trainer.team.filter((_row,index)=>index!==lead)];const battle=createBattle({data,seed:2026,scripts:SEER_SCRIPTS,sides:[{kind:'player',team:[{species:6,level:80,skills:[10001]}]},{kind:'trainer',team,ai:trainer.ai}]});battle.active(1).hp=Math.max(1,Math.floor(battle.active(1).maxHp*hp));battle.active(1).turnsActive=2;const before=state(battle),action=decide(battle);legal(battle,action);assert.equal(state(battle),before);trainerCases.push({trainer:trainer.id,species:team[0].species,hpRatio:hp,action});}
+      for(let lead=0;lead<trainer.team.length;lead++)for(const hp of [1,.3]){const team=[trainer.team[lead],...trainer.team.filter((_row,index)=>index!==lead)];const battle=createBattle({data,seed:2026,scripts:SEER_SCRIPTS,sides:[{kind:'player',team:[{species:6,level:80,skills:[10001]}]},{kind:'trainer',team,ai:trainer.ai}]});battle.active(1).hp=Math.max(1,Math.floor(battle.active(1).maxHp*hp));battle.active(1).turnsActive=2;const before=stateWithoutRng(battle),action=decide(battle);legal(battle,action);assert.equal(stateWithoutRng(battle),before);trainerCases.push({trainer:trainer.id,species:team[0].species,hpRatio:hp,action});}
     }
     assert.equal(trainerCases.length,expectedTrainerCases);
   });

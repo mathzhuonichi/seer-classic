@@ -17,8 +17,8 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
 const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha256:crypto.createHash('sha256').update(oracleSource).digest('hex')},checks:[],failures:[],bossCases:[],facilityCases:[],scope:'The oracle is the complete historical policy loaded directly from Git, running on current battle mechanics and encounter data. This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
-  const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{tacticalAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
-    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/battle/core/src/tactics.ts','/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
+  const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
+    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -132,13 +132,11 @@ try {
     const b=fixture({skills:[S.strong,S.attack]});b.data.skills.get(S.strong).power=b.data.skills.get(S.attack).power;
     assert.deepEqual(decide(b),move(S.strong));
   });
-  check('Historical live-hook evaluation remains part of Boss policy while V57 trainer scoring stays pure',()=>{
+  check('Historical live-hook evaluation remains part of Boss policy',()=>{
     const b=fixture(),calls={damage:0,priority:0};
     b.estimateDamage=(_user,_foe,skill)=>{calls.damage++;return skill.id===S.attack?1000:0;};
     b.priority=()=>{calls.priority++;return 0;};
     assert.deepEqual(decide(b),move(S.attack));assert.deepEqual(calls,{damage:2,priority:2});
-    const trainer=fixture({kind:'trainer',ai:{kind:'smart',planner:'v57'}});trainer.estimateDamage=trainer.priority=()=>{throw new Error('Trainer used a live callback');};
-    assert.deepEqual(decide(trainer),move(S.attack));
   });
   check('Existing encounter choose_action scripts retain authority over generic Boss selection',()=>{
     const encounter=catalog.bosses.find(row=>row.id==='boss_spt_moduosa');assert(encounter);
@@ -164,7 +162,7 @@ try {
       report.facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
     }
   });
-  report.sourceHashes=Object.fromEntries(['battle/core/src/ai.ts','battle/core/src/legacy-ai.ts','battle/core/src/battle.ts','battle/core/src/tactics.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
+  report.sourceHashes=Object.fromEntries(['battle/core/src/ai.ts','battle/core/src/legacy-ai.ts','battle/core/src/battle.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
 }catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally{
   const dir=path.join(root,'artifacts/boss-ai-isolation-v56');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'regression.json'),JSON.stringify(report,null,2)+'\n');

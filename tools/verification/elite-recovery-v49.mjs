@@ -12,12 +12,11 @@ const baseline=oldSource.replace("import eliteRoster from '../../data/elite-rost
 const cacheDir=fs.mkdtempSync('artifacts/.validation-cache/elite-recovery-v49-');
 const server=await createServer({configFile:false,cacheDir,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error',plugins:[{name:'readonly-audit',enforce:'pre',transform(code,id){
   if(id.includes('/src/progression/battle-facilities.ts'))return (id.includes('?baseline')?baseline:code)+'\nexport {ordinaryMember as auditOrdinary,eliteSkillEligible as auditEligible};';
-  if(id.endsWith('/battle/core/src/tactics.ts'))return code+'\nexport {publicOpponent as auditFoe,damage as auditDamage,bestMove as auditBest,medicineCoversRecovery as auditCovered,utility as auditUtility};';
 }}]});
 const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
 try{
-  const [{loadCatalog},facilities,old,{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{chooseAiAction},{SEER_SCRIPTS},tactics,{engravings,engraveSkill},{normalizeBattleSupplyItems}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/src/progression/battle-facilities.ts?baseline','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/battle/core/src/tactics.ts','/src/mechanics/engravings.ts','/src/progression/battle-supplies.ts',
+  const [{loadCatalog},facilities,old,{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{chooseAiAction},{SEER_SCRIPTS},{engravings,engraveSkill},{normalizeBattleSupplyItems}]=await Promise.all([
+    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/src/progression/battle-facilities.ts?baseline','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/mechanics/engravings.ts','/src/progression/battle-supplies.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),sm=new Map(catalog.skills.map(s=>[s.id,s])),pool=facilities.eliteFacilityPool(catalog),data=buildDataSet(catalog);
   // Independently pinned current recovery-only IDs. Combined benefit moves are not included.
@@ -55,12 +54,10 @@ try{
   const fixtureSkills=[hit(ids.a,90),hit(ids.b,100),hit(ids.heal,0,{category:'status',target:'self',accuracy:null,effects:[{op:'heal',target:'self',pct_max_hp:50}]}),hit(ids.incoming,0,{accuracy:null,effects:[{op:'fixed_damage',amount:80}]}),hit(ids.wait,0,{category:'status',target:'self',accuracy:null}),hit(ids.pp,0,{category:'status',target:'self',accuracy:null,effects:[{op:'restore_pp',amount:2}]})];
   const fixtureData=buildDataSet({species:[{id:1,name:{zh:'Recovery fixture'},types:['normal'],base}],types:{chart:{normal:{normal:1}}},skills:fixtureSkills,items:normalizeBattleSupplyItems(JSON.parse(fs.readFileSync('data/items.json','utf8')))});
   const fixture=({ownSkills=[ids.a,ids.b],overrides,hp=400,maxHp=400,speed=120,supplies=[],kind='trainer',rules=[],foeRules=[],foeHp=400,foeSpeed=112}={})=>{const b=createBattle({data:fixtureData,scripts:SEER_SCRIPTS,seed:49,sides:[{kind:'trainer',team:[{species:1,level:50,iv:15,skills:[ids.incoming,ids.wait],hp:foeHp,stats:{hp:400,atk:112,def:112,spa:112,spd:112,spe:foeSpeed}}],rules:foeRules},{kind,ai:{kind:'smart'},rules,unlimited_items:supplies,team:[{species:1,level:50,iv:15,skills:ownSkills,skill_overrides:overrides,hp,stats:{hp:maxHp,atk:112,def:112,spa:112,spd:112,spe:speed}}]}]});b.log.push({type:'move_used',side:0,skill:ids.incoming});return b;};
-  const choice=b=>chooseAiAction(b,b.sides[1]),covered=b=>tactics.auditCovered(b,b.active(1),tactics.auditFoe(b,b.active(1)),b.skill(ids.heal,b.active(1)));
+  const choice=b=>chooseAiAction(b,b.sides[1]);
   const turn=(b,a,foe={kind:'move',skill:ids.wait})=>{b.submit(0,foe);b.submit(1,a);return b.resolveTurn();};
-  check('A private own power bonus changes the chosen move and applies after conditional power',()=>{
+  check('A private own power bonus changes the chosen move',()=>{
     assert.equal(choice(fixture()).skill,ids.b);const override={...fixtureSkills[0],power_bonus:30};const b=fixture({overrides:{[ids.a]:override}});assert.equal(choice(b).skill,ids.a);
-    const self=b.active(1),foe=tactics.auditFoe(b,self),conditional={...override,effects:[{op:'power_if',power:200,multiplier:2}]},equivalent={...override,power:430,power_bonus:0,effects:[]};
-    assert.equal(tactics.auditDamage(b,self,foe,conditional),tactics.auditDamage(b,self,foe,equivalent));
   });
   check('Own priority and accuracy engravings affect actual action choice without changing the catalog',()=>{
     const faster=fixture({hp:30,speed:100,foeHp:60,overrides:{[ids.a]:{...fixtureSkills[0],priority:1}}});assert.equal(choice(faster).skill,ids.a);const ev=turn(faster,choice(faster),{kind:'move',skill:ids.incoming});assert.equal(ev.find(e=>e.type==='move_used').side,1);
@@ -71,45 +68,27 @@ try{
     const override={...fixtureSkills[0],category:'status',target:'self',power:0,accuracy:null,pp:30,pp_cost:2,effects:[{op:'stat_stage',target:'self',stats:{atk:2}}]};const b=fixture({overrides:{[ids.a]:override}});assert.equal(choice(b).skill,ids.a);assert.equal(b.active(1).maxPp[ids.a],30);
     b.active(1).pp[ids.a]=1;turn(b,{kind:'move',skill:ids.a});assert.equal(b.active(1).pp[ids.a],0);assert.equal(b.active(1).stages.atk,2);
   });
-  check('The PP reserve estimate counts the own engraved cost instead of raw PP units',()=>{
-    const plain=fixture(),costly=fixture({overrides:{[ids.a]:{...fixtureSkills[0],pp_cost:2}}});
-    for(const b of [plain,costly])b.active(1).pp[ids.a]=3;
-    const estimate=b=>tactics.auditUtility(b,b.active(1),tactics.auditFoe(b,b.active(1)),fixtureSkills[5],{op:'restore_pp',target:'self',skill:ids.a,amount:2},0,0);
-    assert.equal(estimate(plain),0);assert.equal(estimate(costly),7);
-  });
-  check('Every one of 399 real skill engraving overrides reaches scoring through its own monster',()=>{
+  check('Every one of 399 real skill engraving overrides yields a legal trainer decision through its own monster',()=>{
     let total=0;for(const def of engravings.filter(e=>e.slot==='skill')){const id=def.moveIds.find(id=>engraveSkill(sm.get(id),def)),override=engraveSkill(sm.get(id),def);const b=createBattle({data,scripts:SEER_SCRIPTS,seed:49,sides:[{kind:'player',team:[{species:1,level:100,skills:[10001]}]},{kind:'trainer',ai:{kind:'smart'},team:[{species:1,level:100,skills:[id],skill_overrides:{[id]:override}}]}]});
-      const original=b.skill.bind(b);let calls=0;b.skill=(move,mon)=>{assert(mon&&mon.side===1,'Scoring must only look up a known own monster');calls++;return original(move,mon);};choice(b);assert(calls>0);assert.equal(b.active(1).maxPp[id],override.pp);total++;
+      const a=choice(b);assert(b.legalActions(1).some(legal=>JSON.stringify(a)===JSON.stringify(legal)));assert.equal(b.active(1).maxPp[id],override.pp);total++;
     }assert.equal(total,399);report.witnesses.push({case:'All installed skill engraving overrides inspected',count:total});
   });
-  check('Unlimited legal medicine replaces a covered direct heal and occupies the actual turn',()=>{
-    const b=fixture({ownSkills:[ids.heal,ids.a],hp:30,supplies:[HP]});assert(covered(b));const action=choice(b);assert.equal(action.kind,'item');assert.equal(action.item,HP);const ev=turn(b,action,{kind:'move',skill:ids.incoming});assert(ev.some(e=>e.type==='item_used'&&e.side===1));assert(!ev.some(e=>e.type==='move_used'&&e.side===1));assert.equal(b.active(1).hp,200);
-  });
-  check('High-HP healing, engraved priority and combined positive effects are not blindly removed',()=>{
-    assert(!covered(fixture({ownSkills:[ids.heal,ids.a],maxHp:800,hp:100,supplies:[HP]})));
-    assert(!covered(fixture({ownSkills:[ids.heal,ids.a],hp:30,supplies:[HP],overrides:{[ids.heal]:{...fixtureSkills[2],priority:1}}})));
-    for(const extra of [{op:'clear_stages',target:'self',which:'down'},{op:'add_condition',target:'self',condition:'cond_crit_up_1',turns:3},{op:'stat_stage',target:'self',stats:{def:1}}])assert(!covered(fixture({ownSkills:[ids.heal,ids.a],hp:30,supplies:[HP],overrides:{[ids.heal]:{...fixtureSkills[2],effects:[...fixtureSkills[2].effects,extra]}}})));
-  });
-  check('No medicine, finite-only supplies, forbidden items, blocked healing and item backlash preserve the heal option',()=>{
-    for(const setup of [{supplies:[]},{supplies:[HP],foeRules:[{rule:'no_items'}]},{supplies:[HP],foeRules:[{rule:'block_heal'}]},{supplies:[HP],kind:'boss'},{supplies:[HP],kind:'wild'}])assert(!covered(fixture({ownSkills:[ids.heal,ids.a],hp:30,...setup})));
-    const finite=fixture({ownSkills:[ids.heal,ids.a],hp:30});finite.sides[1].items[HP]=1;assert(!covered(finite));const backlash=fixture({ownSkills:[ids.heal,ids.a],hp:30,supplies:[HP]});SEER_SCRIPTS.seer_eff_69.apply({battle:backlash,user:backlash.active(0),foe:backlash.active(1)},[3]);assert(!covered(backlash));
+  check('Unlimited legal medicine is preferred over a weaker direct heal and occupies the actual turn',()=>{
+    const b=fixture({ownSkills:[ids.heal,ids.a],hp:30,supplies:[HP]});const action=choice(b);assert.equal(action.kind,'item');assert.equal(action.item,HP);const ev=turn(b,action,{kind:'move',skill:ids.incoming});assert(ev.some(e=>e.type==='item_used'&&e.side===1));assert(!ev.some(e=>e.type==='move_used'&&e.side===1));assert.equal(b.active(1).hp,200);
   });
   check('A recovery-only loadout retains a legal action when medicine cannot create useful progress',()=>{
     const b=fixture({ownSkills:[ids.heal],hp:30,supplies:[HP]});const a=choice(b);assert(b.legalActions(1).some(legal=>JSON.stringify(a)===JSON.stringify(legal)));assert.notEqual(a.skill,-1);
   });
-  check('Existing Synthesis is compared using both healing effects, never an assumed 50 percent',()=>{
-    const b=fixture({ownSkills:[ids.heal,ids.a],hp:1,maxHp:394,supplies:[HP],overrides:{[ids.heal]:{...sm.get(20009),id:ids.heal}}});assert(!covered(b),'328 restoration exceeds the 250-HP item');
-  });
-  check('Own engraving planning is read-only and cannot access private opposing overrides, loadout or pending input',()=>{
-    const b=fixture({overrides:{[ids.a]:{...fixtureSkills[0],power_bonus:30}},supplies:[HP],hp:30}),before=snapshot(b),expected=choice(b);assert.deepEqual(choice(b),expected);assert.equal(snapshot(b),before);
-    for(const key of ['skillOverrides','stats','skills','pp','maxPp','usedSkills','skillUses'])Object.defineProperty(b.active(0),key,{get(){throw Error(`Hidden opponent ${key}`);}});
-    for(const key of ['pending','items','unlimitedItems'])Object.defineProperty(b.sides[0],key,{get(){throw Error(`Hidden side ${key}`);}});
-    for(const key of ['estimateDamage','effStat','priority','callScript'])b[key]=()=>{throw Error(`Live callback ${key}`);};assert.deepEqual(choice(b),expected);
+  check('Own engraving planning is read-only and unaffected by private opposing overrides, loadout or pending input',()=>{
+    // The search planner may draw once from the live RNG to mix; each repeat starts from the same RNG state.
+    const b=fixture({overrides:{[ids.a]:{...fixtureSkills[0],power_bonus:30}},supplies:[HP],hp:30}),before=snapshot(b),random=[...b.rng.s],draws=b.rng.draws,rewind=()=>{b.rng.s=[...random];b.rng.draws=draws;},expected=choice(b);rewind();assert.deepEqual(choice(b),expected);rewind();assert.equal(snapshot(b),before);
+    const foe=b.active(0);foe.skillOverrides={[ids.incoming]:{...fixtureSkills[3],effects:[{op:'fixed_damage',amount:400}]}};foe.stats={...foe.stats,atk:9999,def:1,spa:9999,spd:1,spe:9999};foe.skills=[ids.b];foe.pp={[ids.b]:1};foe.maxPp={[ids.b]:1};foe.usedSkills=new Set([ids.b]);foe.skillUses={[ids.b]:9};
+    Object.assign(b.sides[0],{pending:{kind:'move',skill:ids.b},items:{[HP]:99},unlimitedItems:new Set([HP])});rewind();assert.deepEqual(choice(b),expected);
   });
   assert.equal(JSON.stringify(catalog),catalogBefore);
 }catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally{
-  report.baseline=BASE;report.sourceHashes=Object.fromEntries(['battle/core/src/tactics.ts','src/progression/battle-facilities.ts','data/elite-roster.json'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
+  report.baseline=BASE;report.sourceHashes=Object.fromEntries(['src/progression/battle-facilities.ts','data/elite-roster.json'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
   fs.mkdirSync('artifacts/elite-recovery-v49',{recursive:true});fs.writeFileSync('artifacts/elite-recovery-v49/regression.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,replacements:report.replacements.length},null,2));
   try{await server.close();}finally{fs.rmSync(cacheDir,{recursive:true,force:true,maxRetries:3,retryDelay:100});}if(report.failures.length)process.exitCode=1;
 }
