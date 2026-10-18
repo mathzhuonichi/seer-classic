@@ -227,7 +227,9 @@ core/*.test.mjs        node:test unit tests on a fixture Dex (npm test)
 ```
 
 Every rule function is pure: it returns a new object plus an ordered list of
-`RaisingEvent`s for the UI to animate.
+`RaisingEvent`s for the UI to animate. It never changes its input, even when it
+throws. A new Save copies only the parts the operation changes and shares the
+rest with the input, every unchanged monster record included.
 
 ## 12. Open questions
 

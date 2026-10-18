@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {addMonster, allocatePoolExp, applyBattleRewards, createMonster, expToNext, expYield, findMon, MAX_LEVEL} from './index.ts';
-import {dex, emptySave, rng} from './test-fixture.mjs';
+import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
 const team = (...members) => members.reduce(
   (s, [uid, species, level]) => addMonster(s, createMonster(dex, species, level, rng(level), {uid, nature: 'hardy'})), emptySave());
@@ -43,4 +43,21 @@ test('the 经验分配器 takes from the pool only what the monster can absorb',
   assert.equal(r.save.exp_pool, 10 ** 6 - expToNext('medium', 99));
   assert.throws(() => allocatePoolExp(s, 'a', 0, dex), /pool has/);
   assert.throws(() => allocatePoolExp(s, 'a', 10 ** 6 + 1, dex), /pool has/);
+});
+
+test('rewards and the 经验分配器 never change the save they are given and keep the records they do not change', () => {
+  const s = {...team(['top', 3, MAX_LEVEL], ['kid', 1, 15], ['out', 3, 30]), exp_pool: 500};
+  s.storage[2] = {...s.storage[2], hp: 0};
+  s.boosts = [{kind: 'exp', item: 'x', multiplier: 2, battles_left: 1}];
+  const unchanged = guard(s), boss = {species: 40, level: 100};
+  const r = applyBattleRewards(s, [{foe: boss, participants: ['top', 'kid', 'out']}], dex);
+  assert.deepEqual([findMon(r.save, 'kid').species, r.save.exp_pool > s.exp_pool], [2, true]);
+  assert.equal(findMon(r.save, 'out'), findMon(s, 'out'), 'a fainted participant keeps its record');
+  assert.equal(findMon(allocatePoolExp(s, 'kid', 100, dex).save, 'top'), findMon(s, 'top'));
+  const unknownSecond = [{foe: boss, participants: ['kid']}, {foe: {species: 999, level: 5}, participants: ['kid']}];
+  assert.throws(() => applyBattleRewards(s, unknownSecond, dex), /unknown species 999/, 'a failure after the first foe changes nothing');
+  assert.throws(() => applyBattleRewards(s, [{foe: boss, participants: ['nope']}], dex), /no monster nope/);
+  assert.throws(() => allocatePoolExp(s, 'kid', 501, dex), /pool has/);
+  assert.throws(() => allocatePoolExp(s, 'nope', 1, dex), /no monster nope/);
+  unchanged();
 });

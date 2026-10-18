@@ -3,7 +3,7 @@ import test from 'node:test';
 import {
   addMonster, BOX_MAX, boxOf, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, release, rename, setPartyOrder, withdraw,
 } from './index.ts';
-import {dex, emptySave, rng} from './test-fixture.mjs';
+import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
 const mon = (uid, species = 3) => ({...createMonster(dex, species, 10, rng(uid.length), {uid, nature: 'hardy'})});
 const saveWith = (count) => Array.from({length: count}, (_, i) => mon(`m${i}`)).reduce((s, m) => addMonster(s, m), emptySave());
@@ -64,4 +64,29 @@ test('hatchEssence spends one 精元 and hatches a level-1 monster into the part
   assert.equal(boxOf(r.save).at(-1).uid, r.mon.uid);
   assert.equal('essence_x' in r.save.items, false, 'an emptied stack leaves the bag');
   assert.throws(() => hatchEssence(r.save, essence, dex, rng(3)), /no essence_x left/);
+});
+
+test('storage operations never change the save they are given and keep every record they do not change', () => {
+  const s = {...saveWith(PARTY_MAX + 1), items: {essence_x: 1}}, essence = {id: 'essence_x', kind: 'essence', hatches: 40};
+  // m1 lacks only HP, m3 only PP (same skills, so the same PP keys) and m4 only a cleared status.
+  s.storage[1] = {...s.storage[1], hp: 0};
+  s.storage[3] = {...s.storage[3], pp: {1: 0}};
+  s.storage[4] = {...s.storage[4], status: 'burn'};
+  const unchanged = guard(s), fewer = {...s, party: s.party.slice(1)}, fewerUnchanged = guard(fewer);
+  const changed = (next) => next.storage.filter((m) => !s.storage.includes(m)).map((m) => m.uid);
+  const hatched = hatchEssence(s, essence, dex, rng(3)), healedSave = healAll(s, dex);
+  assert.deepEqual(
+    [addMonster(s, mon('new')), deposit(s, 'm0'), withdraw(fewer, 'm0'), setPartyOrder(s, [...s.party].reverse()), release(s, 'm6')].map(changed),
+    [['new'], [], [], [], []]);
+  assert.deepEqual([rename(s, 'm2', 'x'), healedSave, hatched.save].map(changed), [['m2'], ['m1', 'm3', 'm4'], [hatched.mon.uid]],
+    'only m1, m3 and m4 need healing');
+  for (const m of healedSave.storage) assert.deepEqual([m.hp, m.status, m.pp], [computeStats(m, dex).hp, null, {1: 11}], `${m.uid} is healed`);
+  const refusals = [
+    [() => addMonster(s, mon('m0')), /duplicate uid/], [() => withdraw(s, 'm6'), /背包已满/], [() => deposit(s, 'm6'), /not in the party/],
+    [() => setPartyOrder(s, ['m0']), /permutation/], [() => release(s, 'nope'), /no monster nope/],
+    [() => rename(s, 'm0', '一二三四五六七八九十一二三'), /at most 12/], [() => hatchEssence(s, {...essence, id: 'none'}, dex, rng()), /no none left/],
+  ];
+  for (const [refused, error] of refusals) assert.throws(refused, error);
+  unchanged();
+  fewerUnchanged();
 });

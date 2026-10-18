@@ -27,14 +27,14 @@ These are measured on the 10-core development Mac. The ones marked *gate* become
 
 | Path | Budget | Today |
 | --- | --- | --- |
-| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p95 0.8–0.9 ms on a new journey, 2.3–2.6 ms with 200 monsters (7 ms before the row memos); 5.5–6 ms with 600, where the whole-save copies in `raising/core` and the per-record comparison cost about 3 ms |
+| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p95 0.8–0.9 ms on a new journey, 2.3–2.6 ms with 200 monsters (7 ms before the row memos); 5.5–6 ms with 600 before wave 3 removed the whole-save copies in `raising/core`, which with the per-record comparison cost about 3 ms; unchanged records now keep their identity, and an A/B run on a busy machine halved the 600-monster p95 (7.3 → 3.4 ms) |
 | Player clicks a move → first battle frame | ≤ 50 ms (*gate*) | +91 ms p50 / +176 ms p95: the search AI decides synchronously inside `resolveTurn` |
 | Search AI decision, run while the player is choosing | p95 ≤ 250 ms (*gate*) | 91 / 176 ms |
 | Cold start: catalog load + `createGame` | ≤ 100 ms (*gate*) | 7 + 29 ms |
 | Screen re-render | Only screens whose snapshot slice changed | Screens re-render only when their selected slice or row changes identity; a no-op action keeps the snapshot |
 | Saves | Never lost: versioned migrations, and a backup of an unreadable save | Done in wave 1 |
 
-Apart from dispatch with 600 monsters, the battle row is the only budget the game misses today, and it is the one the player feels on every turn.
+Apart from dispatch with 600 monsters, which needs a new measurement on a quiet machine, the battle row is the only budget the game misses today, and it is the one the player feels on every turn.
 
 ## 3. Module map
 

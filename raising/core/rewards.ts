@@ -3,7 +3,7 @@ import type { Dex, RaisingEvent, Save } from "./types.ts";
 import { addEvs, autoEvolve, gainExp } from "./monster.ts";
 import { MAX_LEVEL } from "./growth.ts";
 import { boostMultiplier } from "./items.ts";
-import { findMon, putMon } from "./storage.ts";
+import { findMon, putMon, withMon } from "./storage.ts";
 
 export const BOSS_EXP_MULTIPLIER = 1.5;
 
@@ -33,7 +33,8 @@ export function applyBattleRewards(
   dex: Dex,
   opts: RewardOptions = {},
 ): RewardResult {
-  const s = structuredClone(save);
+  // The copy owns its storage array only: each rewarded monster gets a new record, and the other records are shared.
+  const s: Save = { ...save, storage: [...save.storage] };
   const events: RaisingEvent[] = [];
   // Active 经验加速器 / 学习力双倍仪 multiply on top of any event multiplier.
   const mult = (opts.expMultiplier ?? 1) * boostMultiplier(s, "exp");
@@ -83,9 +84,8 @@ export function applyBattleRewards(
 export function allocatePoolExp(save: Save, uid: string, amount: number, dex: Dex): RewardResult {
   const want = Math.floor(amount);
   if (want <= 0 || want > save.exp_pool) throw new Error(`pool has ${save.exp_pool}, asked ${amount}`);
-  const s = structuredClone(save);
-  const r = gainExp(findMon(s, uid), want, dex);
+  const r = gainExp(findMon(save, uid), want, dex);
+  const s = withMon(save, r.mon);
   s.exp_pool -= want - r.overflow;
-  putMon(s, r.mon);
   return { save: s, events: r.events };
 }

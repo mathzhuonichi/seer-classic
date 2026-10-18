@@ -5,7 +5,7 @@ import {
   addEvs, changeNature, gainExp, gainLevels, rerollIv, rerollNature, resetEvs, restoreMonster, setIv,
   type Result,
 } from "./monster.ts";
-import { findMon, putMon, requireItem, spendItem } from "./storage.ts";
+import { findMon, requireItem, spendItem, withMon } from "./storage.ts";
 import { MAX_LEVEL } from "./growth.ts";
 
 export type RaisingEffect =
@@ -38,9 +38,8 @@ export function useRaisingItem(save: Save, uid: string, item: RaisingItem, dex: 
   const fx = item.raising_effect;
   if (fx.op === "boost" || fx.op === "energy_bead") return startBoost(save, uid, item.id, fx, unlimited);
   const r = applyEffect(mon, fx, dex, rng);
-  const s = structuredClone(save);
-  putMon(s, r.mon);
-  if (!unlimited) spendItem(s, item.id);
+  const s = withMon(save, r.mon);
+  if (!unlimited) s.items = spendItem(save, item.id);
   // EXP past level 100 from a big EXP item goes to 积累经验 instead of being lost.
   if (r.overflow) s.exp_pool += r.overflow;
   return { save: s, events: r.events, overflow: r.overflow };
@@ -76,10 +75,7 @@ function startBoost(save: Save, uid: string, id: string, fx: BoostEffect, unlimi
       };
   const clash = active.some((b) => b.kind === boost.kind && (b.kind !== "energy_bead" || b.uid === uid));
   if (clash) throw new Error(`a ${boost.kind} effect is already active`);
-  const s = structuredClone(save);
-  s.boosts = [...active, boost];
-  if (!unlimited) spendItem(s, id);
-  return { save: s, events: [] };
+  return { save: { ...save, boosts: [...active, boost], items: unlimited ? save.items : spendItem(save, id) }, events: [] };
 }
 
 // Product of the active player-wide boosts of one kind (1 when none).
@@ -95,7 +91,5 @@ export function activeBeads(save: Save, uid: string): Extract<Boost, { kind: "en
 // Call once after every battle (won, lost or fled): counts every boost down by one.
 export function tickBoosts(save: Save): Save {
   if (!save.boosts?.length) return save;
-  const s = structuredClone(save);
-  s.boosts = s.boosts!.map((b) => ({ ...b, battles_left: b.battles_left - 1 })).filter((b) => b.battles_left > 0);
-  return s;
+  return { ...save, boosts: save.boosts.map((b) => ({ ...b, battles_left: b.battles_left - 1 })).filter((b) => b.battles_left > 0) };
 }

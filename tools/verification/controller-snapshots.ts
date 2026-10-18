@@ -88,7 +88,7 @@ export async function verifySnapshotInputs(){
   step('holder renamed',act({type:'rename',uid:b,name:'Holder'}),[a,b]);
   step('unequip',act({type:'setEngraving',uid:a,slot:'ability',engravingId:null}),[a,b]);
   step('engraving moved',act({type:'setEngraving',uid:a,slot:'ability',engravingId:'10031',fromUid:b}),[a,b]);
-  step('bead used on a cloned save',act({type:'useItem',uid:c,itemId:'item_bead_reduce_damage'}),[c]);
+  step('bead used',act({type:'useItem',uid:c,itemId:'item_bead_reduce_damage'}),[c]);
   step('bead ended',act({type:'startTraining',species:10,level:3},{type:'flee'},{type:'closeBattle'}),[c],game.snapshot().party);
   assert.deepEqual(row(c).boosts,[],'The one-battle bead has ended.');
   step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);

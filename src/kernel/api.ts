@@ -63,7 +63,10 @@ export function notice(rt: Runtime, text: string) {
   rt.notices = [text, ...rt.notices].slice(0, NOTICE_LIMIT);
 }
 
-/** Raising operations clone the whole save, so the game extras travel with the result. */
+/**
+ * Raising operations return a new save that shares every part they do not change with the old one, the game extras included.
+ * The runtime then changes the new save in place, so the old one is never used again.
+ */
 export function commit(rt: Runtime, next: Save) {
   rt.save = next as GameSave;
 }

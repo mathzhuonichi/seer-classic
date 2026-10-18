@@ -1,4 +1,5 @@
 // A tiny hand-made Dex for the raising unit tests, so they never depend on the shipped catalog.
+import assert from 'node:assert/strict';
 import {Rng} from '../../battle/core/src/rng.ts';
 import {makeDex} from './index.ts';
 
@@ -37,4 +38,18 @@ export function emptySave(extra = {}) {
     version: 1, seed: 1, rng_state: null, party: [], storage: [], exp_pool: 0, boosts: [], items: {},
     progress: {bosses_cleared: [], boss_attempts: {}}, dex: {seen: [], owned: []}, ...extra,
   };
+}
+
+const freeze = (value) => {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) Object.values(Object.freeze(value)).forEach(freeze);
+};
+
+/**
+ * Freezes `save` deeply and returns a check that it still equals a copy taken first. An operation that writes to the save it is
+ * given then throws a TypeError, even when it writes an equal value, so a refused one fails its expected error instead.
+ */
+export function guard(save) {
+  const before = structuredClone(save);
+  freeze(save);
+  return () => assert.deepEqual(save, before, 'the input save is unchanged');
 }

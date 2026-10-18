@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {activeBeads, addMonster, boostMultiplier, createMonster, expToNext, findMon, MAX_LEVEL, tickBoosts, useRaisingItem} from './index.ts';
-import {dex, emptySave, rng} from './test-fixture.mjs';
+import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
 const item = (id, raising_effect) => ({id, kind: 'raising', raising_effect});
 const saveWith = (level, items = {}) => ({...addMonster(emptySave(), createMonster(dex, 3, level, rng(level), {uid: 'a', nature: 'hardy'})), items});
@@ -44,4 +44,21 @@ test('boosts: one of each kind at a time, multiplied, counted down per battle (S
   s = tickBoosts(s);
   assert.deepEqual(s.boosts, []);
   assert.equal(tickBoosts(s), s, 'nothing to count down returns the same save');
+});
+
+test('raising items never change the save they are given, whether used or refused', () => {
+  const effects = [
+    {op: 'exp', amount: 10 ** 6}, {op: 'levels', amount: 1}, {op: 'levels', amount: -1}, {op: 'ev_add', evs: {atk: 10}}, {op: 'ev_reset'},
+    {op: 'iv_reroll'}, {op: 'iv_set', iv: 31}, {op: 'nature_reroll'}, {op: 'nature_set', nature: 'modest'}, {op: 'restore'},
+    {op: 'boost', what: 'exp', multiplier: 2, battles: 2}, {op: 'energy_bead', battles: 1, stats: {atk: 5}},
+  ];
+  const s = {...saveWith(99, {x: 1}), boosts: [{kind: 'ev', item: 'ev2', multiplier: 2, battles_left: 1}]};
+  const unchanged = guard(s);
+  for (const fx of effects) for (const unlimited of [false, true]) useRaisingItem(s, 'a', item('x', fx), dex, rng(), {unlimited});
+  assert.deepEqual(tickBoosts(s).boosts, []);
+  assert.throws(() => useRaisingItem(s, 'a', item('none', {op: 'iv_reroll'}), dex, rng()), /no none left/);
+  assert.throws(() => useRaisingItem(s, 'nope', item('x', {op: 'iv_reroll'}), dex, rng()), /no monster nope/);
+  assert.throws(() => useRaisingItem(s, 'a', item('x', {op: 'nature_set', nature: 'nope'}), dex, rng()), /unknown nature nope/);
+  assert.throws(() => useRaisingItem(s, 'a', item('x', {op: 'boost', what: 'ev', multiplier: 2, battles: 1}), dex, rng()), /already active/);
+  unchanged();
 });
