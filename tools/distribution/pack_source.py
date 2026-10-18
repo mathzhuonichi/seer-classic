@@ -10,8 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_DIRECTORIES = ("src", "battle", "raising", "data", "design", "tools", "distribution", "src-tauri")
-SOURCE_FILES = (".gitignore", "README.md", "approved-plan.json", "index.html",
-                "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts")
+SOURCE_FILES = (".gitignore", "AGENTS.md", "ARCHITECTURE.md", "CHANGELOG.md", "CLAUDE.md", "README.md", "approved-plan.json",
+                "index.html", "preview.html", "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts")
 EXCLUDED_PARTS = {".git", "node_modules", "dist", "artifacts", "releases", ".cache", "__pycache__", ".DS_Store"}
 MAX_ARCHIVE_BYTES = 500_000_000
 
