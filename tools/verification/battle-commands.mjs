@@ -1,6 +1,7 @@
 /**
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
- * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard and the capture frames.
+ * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames and the
+ * forced replacement.
  */
 import assert from 'node:assert/strict';
 import {memoryStorage, suite, withSsr} from './_harness.mjs';
@@ -63,6 +64,7 @@ await withSsr('battle-commands', async load => {
       clock,
       onStart: () => events.push('start'),
       onNeedsSwitch: battle => events.push(battle.needsSwitch ? 'needsSwitch' : 'needsSwitch without a faint'),
+      onReplaced: () => events.push('replaced'),
     });
     player.subscribe(() => {
       const line = player.state().dialogue;
@@ -128,6 +130,30 @@ await withSsr('battle-commands', async load => {
     const state = ui.player.state();
     assert.deepEqual([state.busy, state.dialogue], [false, game.snapshot().battle.captureBlockedReason]);
     assert.ok(ui.player.canAct());
+  });
+
+  t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {
+    const save = structuredClone(base), lead = save.storage.find(mon => mon.uid === save.party[0]);
+    lead.hp = 1;
+    const game = started({type: 'startTraining', species: 22, level: 3}, catalog, save), ui = screen(game);
+    for (let turn = 0; turn < 10 && !game.snapshot().battle.needsSwitch; turn++) {
+      ui.player.submit({type: 'move', skillId: game.snapshot().battle.player.skills.find(skill => skill.pp > 0).id});
+      ui.rerender();
+      ui.clock.runAll();
+    }
+    const fainted = game.snapshot().battle, bench = fainted.party.filter(mon => mon.hp > 0);
+    assert.ok(fainted.needsSwitch && !fainted.finished, 'the lead faints');
+    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch']);
+    ui.player.submit({type: 'switch', uid: bench[0].uid});
+    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch', 'replaced']);
+    ui.rerender();
+    ui.clock.runAll();
+    assert.equal(game.snapshot().battle.needsSwitch, false);
+    ui.player.submit({type: 'switch', uid: bench[1].uid});
+    ui.rerender();
+    ui.clock.runAll();
+    assert.equal(game.snapshot().battle.player.uid, bench[1].uid);
+    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch', 'replaced']);
   });
 
   t.finish();

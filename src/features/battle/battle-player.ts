@@ -27,6 +27,8 @@ export interface PlaybackEvents {
   onStart(): void;
   /** Playback settled on a fainted combatant that must be replaced. */
   onNeedsSwitch(battle: BattleView): void;
+  /** The controller accepted the replacement for a fainted combatant. */
+  onReplaced(): void;
 }
 
 /** The timers playback runs on; the screen passes the browser's. */
@@ -101,10 +103,12 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
     canAct,
     submit(action) {
       if (!canAct()) return;
+      const replacing = action.type === 'switch' && host.battle().needsSwitch;
       host.sound('click');
       set({ busy: true });
       const result = host.dispatch(action);
       if (!result.ok) set({ busy: false, dialogue: result.notice || REJECTED_DIALOGUE });
+      else if (replacing) host.onReplaced();
     },
   };
 }

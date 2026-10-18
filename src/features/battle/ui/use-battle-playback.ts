@@ -42,6 +42,7 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     dispatch: action => latest.current.c.dispatch(action),
     onStart: () => latest.current.events.onStart(),
     onNeedsSwitch: settled => latest.current.events.onNeedsSwitch(settled),
+    onReplaced: () => latest.current.events.onReplaced(),
     sound: cue => gameAudio.playSfx(cue),
     motion: frameMotion,
     clock: BROWSER_CLOCK,

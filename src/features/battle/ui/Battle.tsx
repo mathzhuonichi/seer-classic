@@ -36,6 +36,7 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
   const playback = useBattlePlayback(b, c, {
     onStart: () => setShowLog(false),
     onNeedsSwitch: battle => { setTab('party'); setPartySelection(battle.party.find(mon => mon.hp > 0)?.uid || ''); },
+    onReplaced: () => setTab('battle'),
   });
   const { frame, busy } = playback;
 
