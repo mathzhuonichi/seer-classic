@@ -1,6 +1,7 @@
 import type { CSSProperties, MouseEvent } from 'react';
 import type { BossView } from '../../game-types.ts';
-import { encounterLevelText } from '../../presentation/encounter-level.ts';
+import { CHALLENGE_CATEGORY } from '../../progression/challenge-campaigns.ts';
+import { opponentLevelText } from '../../presentation/encounter-level.ts';
 import { getSceneBossActor, getSceneBossHome, type SceneBossActor, type SceneLayout } from '../../presentation/map-presentation.ts';
 import type { ScenePoint } from '../../presentation/scene-geometry.ts';
 import type { SceneExit } from '../../presentation/scene-exits.ts';
@@ -44,13 +45,12 @@ export function BossContact({ scene, layout, boss, index, onApproach }: {
   scene: WorldSceneView; layout: SceneLayout; boss: BossView; index: number; onApproach: Approach;
 }) {
   const { tower } = scene, actor = tower ? undefined : getSceneBossActor(layout, boss.id), home = bossHome(scene, layout, boss, index), name = contactName(scene, boss);
-  const badge = tower ? (tower.complete ? '已通关' : `第 ${tower.floor} 层`) : boss.category === 'SPT首领' ? 'SPT' : '挑战';
+  const badge = tower ? (tower.complete ? '已通关' : `第 ${tower.floor} 层`) : boss.category === CHALLENGE_CATEGORY.spt ? 'SPT' : '挑战';
   const team = tower && tower.opponents.length > 1 ? ` · 队伍 ${tower.opponents.length} 只` : '';
-  const level = encounterLevelText(boss.level, boss.evidence?.hasInferredLevel, boss.evidence?.displayLevelUnknown);
   return <button className={`world-creature world-boss${actor ? ' world-native-actor' : ''}`} data-boss={boss.id} data-species={boss.species}
     style={actor ? box(home, actor) : at(home)} aria-label={`与${name}互动`} onClick={event => onApproach(event, home)}>
     <ContactArt actor={actor} species={boss.species} name={name}/>
-    <span className="world-character-name"><b>{badge}</b> {name}<small>{level}{team}</small></span>
+    <span className="world-character-name"><b>{badge}</b> {name}<small>{opponentLevelText(boss)}{team}</small></span>
   </button>;
 }
 

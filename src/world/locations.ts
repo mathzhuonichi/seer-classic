@@ -1,3 +1,4 @@
+import { CHALLENGE_CATEGORY } from '../progression/challenge-campaigns.ts';
 import { WORLD_PLANETS } from './planets.ts';
 import type { WorldLocationId, WorldPlanet, WorldRegion } from './types.ts';
 
@@ -53,8 +54,8 @@ export function findChallengeLocation(boss: ChallengeTarget): ChallengeLocation 
   for (const planet of WORLD_PLANETS) for (const region of planet.regions) {
     if (region.bossIds?.includes(boss.id)) return { planetId: planet.id, regionId: region.id, staging: false };
   }
-  if (boss.category === '勇者之塔') return { ...BRAVE_TOWER_LOCATION, staging: false };
-  if (boss.category === '暗黑武斗场') return { ...DARK_ARENA_LOCATION, staging: false };
+  if (boss.category === CHALLENGE_CATEGORY.tower) return { ...BRAVE_TOWER_LOCATION, staging: false };
+  if (boss.category === CHALLENGE_CATEGORY.dark) return { ...DARK_ARENA_LOCATION, staging: false };
   return namedPlanetLocation(boss.location?.replace(/[\s()（）]/g, '') ?? '') ?? { ...STAGING_LOCATION, staging: true };
 }
 

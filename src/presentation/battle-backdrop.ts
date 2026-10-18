@@ -2,6 +2,7 @@ import type { BattleView, GameAction, GameSnapshot } from '../game-types.ts';
 import { braveTowerFloor } from '../progression/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation, readWorldPreference, resolveWorldLocation, type WorldLocationId } from '../world.ts';
 import { getCreatureArt } from './creature-art.ts';
+import { appearanceOf } from './monster-views.ts';
 
 /** The background and location name a battle is fought in front of. */
 export interface BattleBackdrop { src: string; name: string }
@@ -28,5 +29,5 @@ export const towerBackdrop = () => locationBackdrop(BRAVE_TOWER_LOCATION);
 /** Every image the battle scene shows first: the backdrop, each creature's art and portrait. */
 export function battleImageSources(backdrop: BattleBackdrop, battle: Pick<BattleView, 'party' | 'enemyParty'>): string[] {
   const creatures = [...battle.party, ...battle.enemyParty];
-  return [...new Set([backdrop.src, ...creatures.flatMap(mon => [getCreatureArt(mon.appearanceSpecies ?? mon.species).src, mon.portrait])])];
+  return [...new Set([backdrop.src, ...creatures.flatMap(mon => [getCreatureArt(appearanceOf(mon)).src, mon.portrait])])];
 }

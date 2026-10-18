@@ -3,6 +3,7 @@ import type { BattleView, GameAction, GameController } from '../../game-types.ts
 import { clearIdleBattleAnimations, preloadBattleAnimations } from '../../presentation/battle-animation.ts';
 import { battleImageSources, entersTower, towerBackdrop, type BattleBackdrop } from '../../presentation/battle-backdrop.ts';
 import { preloadBattleImages, waitForBattleLoad } from '../../presentation/battle-loading.ts';
+import { appearanceOf } from '../../presentation/monster-views.ts';
 import { CHALLENGE_CAMPAIGNS } from '../../progression/challenge-campaigns.ts';
 import type { BattlePreparation } from '../BattleLoading.tsx';
 
@@ -54,7 +55,7 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
       await preloadBattleImages(battleImageSources(scene, battle), signal, (loaded, total) => { if (current()) report(Math.round(loaded / total * 75), '准备精灵立绘与场景…'); });
       if (!current()) return;
       report(80, '准备精灵动作…');
-      await preloadBattleAnimations([battle.player.appearanceSpecies ?? battle.player.species, battle.enemy.appearanceSpecies ?? battle.enemy.species], { signal });
+      await preloadBattleAnimations([appearanceOf(battle.player), appearanceOf(battle.enemy)], { signal });
       if (!current()) return;
       report(90, '部署出战精灵…');
       await waitForBattleLoad(DEPLOY_MS, signal);

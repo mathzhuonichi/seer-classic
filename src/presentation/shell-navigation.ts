@@ -1,6 +1,6 @@
 import type { GameAction } from '../game-types.ts';
 import type { AcquisitionRoute } from '../progression/acquisition.ts';
-import { CHALLENGE_CAMPAIGNS, type Campaign } from '../progression/challenge-campaigns.ts';
+import { CHALLENGE_CAMPAIGNS, CHALLENGE_CATEGORY, type Campaign } from '../progression/challenge-campaigns.ts';
 import { LABORATORY_LOCATION, type WorldLocationId } from '../world.ts';
 
 /** The game shell's scene windows, toolbar and navigation routes. */
@@ -29,7 +29,6 @@ export interface WindowFocus {
 export const TOOLBAR_RESETS: Partial<Record<WindowKind, keyof WindowFocus>> = {
   quests: 'questId', monsters: 'fusionRecipeId', bag: 'bagPocket', challenge: 'challengeCategory',
 };
-const DARK_ARENA_CATEGORY = '暗黑武斗场';
 
 /** A navigation request from a scene, as a page string: a window, `campaign:<id>`, `facilities:<id>` or a Tower action. */
 export type ShellRoute =
@@ -48,7 +47,7 @@ const ROUTE_RESETS: Record<string, keyof WindowFocus> = {
 export function parseRoute(page: string): ShellRoute {
   if (page === 'tower') return { kind: 'tower' };
   if (page === 'tower:choose') return { kind: 'window', windowKind: 'tower', focus: {} };
-  if (page === 'challenge:dark') return { kind: 'window', windowKind: 'challenge', focus: { challengeCategory: DARK_ARENA_CATEGORY } };
+  if (page === 'challenge:dark') return { kind: 'window', windowKind: 'challenge', focus: { challengeCategory: CHALLENGE_CATEGORY.dark } };
   if (page.startsWith('campaign:')) return { kind: 'campaign', campaignId: page.slice('campaign:'.length) };
   if (page.startsWith('facilities:')) return { kind: 'window', windowKind: 'facilities', focus: { facilityId: page.slice('facilities:'.length) } };
   const reset = ROUTE_RESETS[page];
@@ -73,12 +72,11 @@ export function locateTarget(route: AcquisitionRoute): LocateTarget {
   return { kind: 'starter', species: route.entrySpecies };
 }
 
-/** Rei's campaign trains the player's own Rei; a wild Rei is not its entry. */
-const OWN_SPECIES_TRAINING = 'rei-training';
-/** The campaign whose stage scene opens instead of a direct battle: a campaign boss, or a wild form of a campaign's species. */
+/** The campaign whose stage scene opens instead of a direct battle: a campaign boss, or a wild form of a campaign's species.
+ * A skill-training campaign trains the player's own creature, so meeting that species is not its entry. */
 export function campaignForAction(action: GameAction): Campaign | undefined {
   if (action.type === 'startBattle') return CHALLENGE_CAMPAIGNS.find(entry => entry.stages.some(stage => stage.bossIds.includes(action.bossId)));
-  if (action.type === 'startTraining') return CHALLENGE_CAMPAIGNS.find(entry => entry.species === action.species && entry.id !== OWN_SPECIES_TRAINING);
+  if (action.type === 'startTraining') return CHALLENGE_CAMPAIGNS.find(entry => entry.species === action.species && entry.reward !== 'skills');
   return undefined;
 }
 const BATTLE_STARTS: ReadonlySet<GameAction['type']> = new Set(['startBattle', 'startTraining', 'startCampaignStage', 'startFacility', 'startTower']);

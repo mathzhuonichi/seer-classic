@@ -1,7 +1,8 @@
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, GameAction, GameSnapshot, QuestView, SpeciesView } from '../game-types.ts';
-import { BRAVE_TOWER_FLOORS, braveTowerBossId } from '../progression/brave-tower.ts';
+import { BRAVE_TOWER_FLOORS, braveTowerPosition } from '../progression/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../world.ts';
-import { encounterLevelText } from './encounter-level.ts';
+import { opponentLevelText } from './encounter-level.ts';
+import { speciesName } from './monster-views.ts';
 import type { ScenePoint } from './scene-geometry.ts';
 
 /** What the player is talking to in the current scene. */
@@ -62,14 +63,12 @@ export interface WorldSceneView {
   hint: string;
 }
 
-const speciesName = (s: GameSnapshot, species: number | undefined) => s.species.find(entry => entry.id === species)?.name;
-
 function towerScene(s: GameSnapshot): TowerScene {
-  const floor = s.braveTower.resumeFloor ?? BRAVE_TOWER_FLOORS;
-  const boss = s.bosses.find(entry => entry.id === braveTowerBossId(floor));
+  const { floor, bossId, climbComplete } = braveTowerPosition(s.braveTower);
+  const boss = s.bosses.find(entry => entry.id === bossId);
   const opponents = boss?.opponents?.length ? boss.opponents
-    : boss ? [{ species: boss.species, name: speciesName(s, boss.species) ?? boss.name, level: boss.level, evidence: boss.evidence }] : [];
-  return { floor, complete: s.braveTower.resumeFloor === null, highestCleared: s.braveTower.highestCleared, boss, opponents };
+    : boss ? [{ species: boss.species, name: speciesName(s, boss.species, boss.name), level: boss.level, evidence: boss.evidence }] : [];
+  return { floor, complete: climbComplete, highestCleared: s.braveTower.highestCleared, boss, opponents };
 }
 
 function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact | undefined {
@@ -77,7 +76,7 @@ function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact 
   if (!campaign) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
   const progress = campaign.finished ? '全部挑战已完成' : next ? `当前挑战：${next.name}` : '查看挑战进度';
-  return { campaign, name: speciesName(s, campaign.species) ?? '挑战精灵', progress };
+  return { campaign, name: speciesName(s, campaign.species, '挑战精灵'), progress };
 }
 
 function groundHint(tower: TowerScene | undefined) {
@@ -132,8 +131,6 @@ export interface WorldDialogueView {
   facilityActions: FacilityAction[];
 }
 
-const levelText = (entry: { level: number; evidence?: BossEvidenceView }) =>
-  encounterLevelText(entry.level, entry.evidence?.hasInferredLevel, entry.evidence?.displayLevelUnknown);
 
 function facilityActions(scene: WorldSceneView): FacilityAction[] {
   const { region, laboratory } = scene, actions: FacilityAction[] = [];
@@ -189,14 +186,14 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
   const { region, tower } = scene, name = contactName(scene, boss);
   const staging = region.challengeStaging;
   const text = tower ? towerText(tower)
-    : `${levelText(boss)} · ${boss.cleared ? '已经挑战成功，随时可以再次切磋。' : '准备好你的战队，点击下方挑战开始战斗。'}${staging ? ' 接驳平台已就绪，确认后进入战场。' : ''}`;
+    : `${opponentLevelText(boss)} · ${boss.cleared ? '已经挑战成功，随时可以再次切磋。' : '准备好你的战队，点击下方挑战开始战斗。'}${staging ? ' 接驳平台已就绪，确认后进入战场。' : ''}`;
   const run: DialogueChallenge = !tower ? { kind: 'battle', action: { type: 'startBattle', bossId: boss.id } }
     : !tower.complete && boss.id === tower.boss?.id ? { kind: 'battle', action: { type: 'startTower', floor: tower.floor } } : { kind: 'none' };
   return {
     label: `与${name}交谈`, portrait: { species: boss.species, name }, title: name, text,
     kicker: tower ? scene.name : `${boss.category}${staging ? ' · 挑战接驳' : ''}`,
     detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
-    towerTeam: tower && { floor: tower.floor, opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: levelText(opponent) })) },
+    towerTeam: tower && { floor: tower.floor, opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
     reward: tower ? boss.rewardText : undefined,
     challenge: { label: tower?.complete ? '本轮已通关' : tower ? `挑战第 ${tower.floor} 层` : '挑战', disabled: !!tower?.complete, chooseStart: !!tower?.complete, run },
   };
