@@ -12,7 +12,7 @@ npm run verify      # every `gate` suite in tools/verification/MANIFEST.json
 npm run dev -- --port 1426
 ```
 
-Run `typecheck`, `test` and `verify` before committing. `node tools/verification/run.mjs --status all` runs every registered suite; logs go to `artifacts/verification/`.
+Run `typecheck`, `test` and `verify` before committing. `node tools/verification/run.mjs --status all` runs every registered suite except `tool` scripts; logs go to `artifacts/verification/`.
 
 ## Workspace layout
 
