@@ -1,19 +1,15 @@
 /** Independent integration boundaries, beyond the structural 399-row engraving check. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import crypto from 'node:crypto';
-import {createServer} from 'vite';
+import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
-const memory=new Map();
-globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({configFile:false,cacheDir:'artifacts/.validation-cache/engraving-integration-v49',server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-const checks=[],failures=[],observations=[];
-const check=(name,run)=>{try{const witness=run();checks.push({name,...(witness===undefined?{}:{witness})});}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-try {
+memoryStorage();
+const observations=[];
+await withSsr('engraving-integration-v49',async load=>{
+  const t=suite('engraving-integration-v49'),{check}=t;
   const [{createGame},{engravings,engraveSkill,engravingById,activeEngravings},{createBattle},{buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
-  ].map(path=>server.ssrLoadModule(path)));
-  const {loadCatalog}=await server.ssrLoadModule('/src/domain/catalog/catalog.ts');
+  ].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const catalog=await loadCatalog(),data=buildDataSet(catalog),catalogBefore=JSON.stringify(catalog);
   const def=id=>engravingById(String(id)),skill=id=>data.skills.get(id);
   const parse=game=>JSON.parse(game.exportSave());
@@ -56,7 +52,7 @@ try {
     f.game.dispatch({type:'move',skillId:f.move});
     assert.equal(target(f.game,f.uid).hp,before.hp);assert.deepEqual(target(f.game,f.uid).pp,before.pp);
     f.game.dispatch({type:'flee'});assert.equal(target(f.game,f.uid).pp[10033],2);
-    return {outsideHp:before.hp,battleHp:battle.player.hp,outsidePp:3,battlePp:battle.player.skills[0].pp,settledPp:2};
+    t.witness('HP and PP bonus during battle',{outsideHp:before.hp,battleHp:battle.player.hp,outsidePp:3,battlePp:battle.player.skills[0].pp,settledPp:2});
   });
   check('Surviving HP below the engraving bonus persists across consecutive battles without free recovery',()=>{
     const f=makeFixture({hp:1,enemyDamage:30});f.start();const before=f.game.snapshot().battle.player.hp;
@@ -165,10 +161,6 @@ try {
   const transformed=createBattle({data,scripts:SEER_SCRIPTS,seed:3,sides:[{kind:'player',team:[{species:475,level:100,skills:[move],skill_overrides:{[move]:override}}]},{kind:'wild',team:[{species:10,level:1,skills:[10001]}]}]});
   transformed.runEffects([{op:'transform',species:15,skills:[move]}],transformed.active(0),transformed.active(1),{});
   observations.push({name:'Generic transform extension retains an opaque skill override',catalogTransformOps:transformOps,beforeSpecies:475,afterSpecies:transformed.active(0).species.id,baseDuration:skill(move).effects[0].params[0],transformedDuration:transformed.skill(move,transformed.active(0)).effects[0].params[0],scope:'Synthetic engine extension; no current catalog transform entry found. Species eligibility metadata is not present in MonsterInput.skill_overrides.'});
-}catch(error){failures.push({name:'harness',error:String(error.stack)});}
-finally {
   const files=['src/kernel/game.ts','src/domain/engravings/engravings.ts','battle/core/src/engine/battle.ts','battle/core/src/types.ts','src/domain/battle-supplies.ts'];
-  const sourceHashes=Object.fromEntries(files.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
-  fs.mkdirSync('artifacts/engraving-integration-v49',{recursive:true});fs.writeFileSync('artifacts/engraving-integration-v49/regression.json',JSON.stringify({checks,failures,observations,sourceHashes},null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,failures,observations},null,2));await server.close();if(failures.length)process.exitCode=1;
-}
+  t.finish({observations,sourceHashes:Object.fromEntries(files.map(path=>[path,sha256File(path)]))});
+});
