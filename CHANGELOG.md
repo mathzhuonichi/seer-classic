@@ -2,6 +2,29 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Refactor wave 2 (2026-10-18)
+
+The code is grouped by feature behind fixed contracts ([design/notes/architecture-v2.md](design/notes/architecture-v2.md)):
+
+- **Features.** Each feature registers its actions and its snapshot slice in its `feature.ts`. The kernel composes them and checks at compile time that every action and field is registered.
+- **Snapshot and screens.** Screens subscribe to their slice with `useGame`, and unchanged slices and rows keep their identity. Actions report what they created through the `DispatchResult`.
+- **Battle.**
+  - The engine (`battle/core`) no longer imports the AI (`battle/ai`), and the battle events are one typed union.
+  - Automatic sides decide when the turn opens, in an idle slot. Gates check that this replays identically and keeps decisions and turns within their latency budgets.
+  - Tower, campaign, facility and training battles start and settle through per-session hooks owned by challenges and world.
+- **Rule outcomes in the slices.** Brave Tower position, campaign rewards, quest claims, engraving equip modes, item use targets, dex, fusion and breeding rows, and monster boosts are computed in the slices instead of the components.
+- **Data.**
+  - `data/gamedata.json` is deleted; suites and generators load the per-file data.
+  - Fusion recipes live in `data/fusion.json`.
+  - `DELIVERY.md` is folded into this file.
+- **Speed.** A non-battle action on a 200-monster save takes under 2 ms at the 95th percentile. Before, it took 7.5 ms.
+- **Checks.**
+  - The architecture gate lists no import violations. Before Step 0 it listed 11.
+  - `npm run verify` gates 64 suites; before Step 0 it gated 57.
+  - Five suites that were `known-failure` are fixed or deleted.
+
+Production code is 1,958,568 bytes, 19 KB less than at the wave-2 base, and data and tools are 3.7 MB smaller. See [design/notes/handoff-2026-10-18-wave3.md](design/notes/handoff-2026-10-18-wave3.md) for the units, the checks and the open work.
+
 ## Repository refactor (2026-10-18)
 
 The workspace moved to a new machine and the repository refactor began on `claude/refactor`. It added the `AGENTS.md` rules, the `npm run typecheck`, `npm test` and `npm run verify` scripts, the in-repository suite runner with `tools/verification/MANIFEST.json`, repository-relative paths, shared labels, view helpers and a verification harness, explicit `.ts`/`.tsx` import extensions, and removed dead code. See [design/notes/refactor-survey-2026-10-18.md](design/notes/refactor-survey-2026-10-18.md) for the plan and [design/notes/handoff-2026-10-18.md](design/notes/handoff-2026-10-18.md) for its progress.

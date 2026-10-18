@@ -2,7 +2,7 @@
 
 Design notes are history. The current rules are in [`battle/RULES.md`](../../battle/RULES.md) and [`raising/SPEC.md`](../../raising/SPEC.md), and the code layout is in [`ARCHITECTURE.md`](../../ARCHITECTURE.md). When a note and the code disagree, the code wins. Revision numbers (`-vNN`) match [`CHANGELOG.md`](../../CHANGELOG.md).
 
-**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the current handoff, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
+**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-18-wave3.md`](handoff-2026-10-18-wave3.md) is the current handoff (wave 2 merged; wave 3 open work), [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the wave-2 plan and its run, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
 
 Statuses:
 
@@ -20,7 +20,8 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 
 | Note | Summary | Status |
 | --- | --- | --- |
-| [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure (moves, indexes, contracts, gate), wave-2 units, follow-ups, load budget. | current handoff |
+| [handoff-2026-10-18-wave3](handoff-2026-10-18-wave3.md) | Wave 2 and unit E merged: state, contracts, worker rules, open work for wave 3 (playtest first, code and test follow-ups, performance, product decisions). | current handoff |
+| [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure, the wave-2 units and their run, follow-ups, load budget. | done (superseded by handoff-2026-10-18-wave3) |
 | [architecture-v2](architecture-v2.md) | Target feature-module architecture: experience budgets, dependency rules, kernel/feature contracts, AI turn preparation. | plan (active) |
 | [refactor-survey-2026-10-18](refactor-survey-2026-10-18.md) | Repository refactor survey (items A–E and a ranked plan); the source of the AGENTS.md rules. | plan (active) |
 | [handoff-2026-10-18](handoff-2026-10-18.md) | Branch state, search-AI measurements, open items, and refactor progress after the move to the new machine. | historical (previous handoff; item 1 resolved, open items continue in [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md)) |
