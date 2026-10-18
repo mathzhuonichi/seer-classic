@@ -15,7 +15,7 @@ export interface WorldRegion {
   battleFacility?: 'random' | 'elite' | 'classic';
   originalMapId?: number;
   background?: string; backgroundKind?: 'official' | 'remastered' | 'authored';
-  /** Recovered artwork reused when this original subregion has no local art. */
+  /** The recovered map whose artwork this subregion shows: its own, or its parent's while its own lacks art or a floor. */
   backgroundMapId?: number; sceneAttribution?: string;
   /** Resolved source map identity, independent of its original or HD asset URL. */
   backgroundAssetMapId?: number;

@@ -24,8 +24,8 @@ await withSsr('habitat-regions',async load=>{
       assert(planet.originalMapId===definition.sourceParentMapId||planet.regions.some(entry=>entry.originalMapId===definition.sourceParentMapId));
       const levels=definition.species.flatMap(entry=>entry.levels);assert.deepEqual(region.levels,[Math.min(...levels),Math.max(...levels)]);
       for(const expected of definition.species)assert.deepEqual(region.creatureLevels[expected.id],expected.levels,`${definition.id}: ${expected.id}`);
-      // A subregion without its own recovered art shows its parent map's background.
-      const mapId=[region.originalMapId,region.backgroundMapId,planet.originalMapId].find(id=>artwork[id]);
+      // A subregion shows the background its data names, even when its own map's art is also delivered.
+      const mapId=[region.backgroundMapId,region.originalMapId,planet.originalMapId].find(id=>artwork[id]);
       assert.equal(region.backgroundAssetMapId,mapId,definition.id);
       if(mapId===undefined)assert.equal(region.sceneAttribution,definition.sceneAttribution);
       assert(fs.existsSync(path.join(root,'public',region.background.split('?')[0])),`${definition.id}: available scene art`);

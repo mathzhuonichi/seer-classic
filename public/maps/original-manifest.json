@@ -274,6 +274,32 @@
         "offx": 0
       }
     },
+    "13": {
+      "mapId": 13,
+      "path": "/maps/original/13.png",
+      "width": 960,
+      "height": 560,
+      "sha256": "ee0976b46cc2b865d8bb0949bade0be9743f168ee36d95eaa2d6b3fe764f3118",
+      "bytes": 932018,
+      "url": "https://seerh5.61.com/resource/assets/map/13/map_13_bg_mc.png",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/13/map_13_fb969934.json",
+      "resourceManifestSha256": "3cd982876e861827fe5d3b6c4882a1e7058797ca2eb800b19ed795cb25b7767f",
+      "sourceResourceName": "map_13_bg_mc_png",
+      "format": "PNG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/13/13.json",
+      "originalLayoutSha256": "b3bcbc337dabd921841a5142c423b14235cba99ce72bff797b5ae0d99d28f939",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "offx": 0,
+        "h": 560,
+        "offy": 0,
+        "scaleX": 1,
+        "w": 960,
+        "x": 0
+      }
+    },
     "15": {
       "mapId": 15,
       "path": "/maps/original/15.png",
@@ -638,6 +664,58 @@
         "x": 0
       }
     },
+    "34": {
+      "mapId": 34,
+      "path": "/maps/original/34.png",
+      "width": 962,
+      "height": 565,
+      "sha256": "6794a41de5ca67145978d640b905bdd0ea46af3b8788aef4185732a26ae8a642",
+      "bytes": 448849,
+      "url": "https://seerh5.61.com/resource/assets/map/34/map_34_bg_mc_9df59739.png",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/34/map_34_693a7f18.json",
+      "resourceManifestSha256": "c6ff816c020d43ea2cdfb207936d5b7a0b4162eb854c04eb6bf71ccccf9b2af3",
+      "sourceResourceName": "map_34_bg_mc_png",
+      "format": "PNG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/34/34_32e4ea3f.json",
+      "originalLayoutSha256": "45bba374b91a16de8c2db063e186a58034276dbc3446e263ddfa59232eb059fe",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offx": 0,
+        "h": 565,
+        "offy": 0,
+        "y": 0,
+        "scaleX": 1,
+        "w": 962,
+        "x": 0
+      }
+    },
+    "38": {
+      "mapId": 38,
+      "path": "/maps/original/38.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "728ac123724c8b087a88c2fbdc1a65aa4d5432869659c2af127817d31a6f2960",
+      "bytes": 113150,
+      "url": "https://seerh5.61.com/resource/assets/map/38/map_38_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/38/map_38.json",
+      "resourceManifestSha256": "7944da8e48c8500ab57e6832c86428dad315bad22c4f42340dfd69a7ffcc66d9",
+      "sourceResourceName": "map_38_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/38/38.json",
+      "originalLayoutSha256": "75e6d3286971fb2118ecd00c744da8a7c006ea37f53f2778f7c8adada6bb63bd",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "w": 960,
+        "h": 560,
+        "scaleX": 1,
+        "offy": 0,
+        "offx": 0,
+        "x": 0
+      }
+    },
     "40": {
       "mapId": 40,
       "path": "/maps/original/40.png",
@@ -788,6 +866,32 @@
         "y": 0,
         "h": 560,
         "scaleY": 1,
+        "scaleX": 1,
+        "w": 960,
+        "offy": 0,
+        "x": 0
+      }
+    },
+    "48": {
+      "mapId": 48,
+      "path": "/maps/original/48.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "6c972173fd409ae17ff8566218fe55e1a6de2cd54b9f5070e9a24b3ca07e7cb4",
+      "bytes": 128923,
+      "url": "https://seerh5.61.com/resource/assets/map/48/map_48_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/48/map_48_78f9f8ad.json",
+      "resourceManifestSha256": "a28dafb14e1bddf973eefc3b86db0ca5cd04452ff5bae4292fb929b226b3a9aa",
+      "sourceResourceName": "map_48_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/48/48_8648b5ec.json",
+      "originalLayoutSha256": "303e2f4cf95ba93077bb3486a9152a9a27c004935148c28a69201057d4200556",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offx": 0,
+        "y": 0,
+        "h": 560,
         "scaleX": 1,
         "w": 960,
         "offy": 0,
@@ -1447,6 +1551,44 @@
         "x": 0
       }
     },
+    "330": {
+      "mapId": 330,
+      "path": "/maps/original/330.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "7dc6654336588a3cfc97396c9a6c5009d797e40967935c7d3ab0c8d5c6dff77f",
+      "bytes": 101975,
+      "url": "https://seerh5.61.com/resource/assets/map/330/map_330_bg_mc_5db4c1e6.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/330/map_330_66ffce5a.json",
+      "resourceManifestSha256": "0fbab44d8f86ab581475f3368c31a6516fcbcd38e96737ccb11fcc49ff7c5cdf",
+      "sourceResourceName": "map_330_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/330/330_278dadad.json",
+      "originalLayoutSha256": "260408cba8f73ca80c95ff189e13a3bf9805845f79f771917c09b667bdbac943",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "w": 960,
+        "offy": 0,
+        "h": 560,
+        "scaleX": 1,
+        "offx": 0,
+        "child": {
+          "yinying": {
+            "scaleY": 1,
+            "y": 389.85,
+            "w": 231,
+            "offy": 0,
+            "h": 99,
+            "scaleX": 1,
+            "offx": 0,
+            "x": 676.8
+          }
+        },
+        "x": 0
+      }
+    },
     "333": {
       "mapId": 333,
       "path": "/maps/original/333.png",
@@ -1574,6 +1716,32 @@
         "h": 560,
         "scaleX": 1,
         "w": 960,
+        "x": 0
+      }
+    },
+    "352": {
+      "mapId": 352,
+      "path": "/maps/original/352.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "39f27e73f9cd778dc211801aed2e64e10895985cc60761bfe1a26313d0f27982",
+      "bytes": 122646,
+      "url": "https://seerh5.61.com/resource/assets/map/352/map_352_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/352/map_352_696a22a2.json",
+      "resourceManifestSha256": "6e41ade2a0f87a24aabd6fbef7754b87d52e569d03699a38c3450db4ba2e9381",
+      "sourceResourceName": "map_352_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/352/352_c864d2e8.json",
+      "originalLayoutSha256": "d982a9baefcb359ac766c1b33e0be27551d55cd72fee5a39358845499fd1c089",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "offy": 0,
+        "h": 560,
+        "scaleX": 1,
+        "w": 960,
+        "offx": 0,
         "x": 0
       }
     },
@@ -1846,6 +2014,32 @@
         "x": 0
       }
     },
+    "425": {
+      "mapId": 425,
+      "path": "/maps/original/425.png",
+      "width": 1274,
+      "height": 1019,
+      "sha256": "77bc2af6c076466588c2e77cfcc38813696df6b1f5276af8ab822f0f5fbbe8db",
+      "bytes": 521662,
+      "url": "https://seerh5.61.com/resource/assets/map/425/map_425_bg_mc.png",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/425/map_425_1febab16.json",
+      "resourceManifestSha256": "497b6147130eb22d35a31dfa083dcc509a76b8ca811896c779b839ed729b4eb5",
+      "sourceResourceName": "map_425_bg_mc_png",
+      "format": "PNG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/425/425.json",
+      "originalLayoutSha256": "db761d13e01b31f4689c89116eaf10c591b3650c799ab6169beda33b97bd46af",
+      "backgroundRegistration": {
+        "offx": -115,
+        "y": 0,
+        "offy": -100,
+        "h": 1019.7,
+        "scaleY": 1,
+        "scaleX": 1,
+        "w": 1274.3,
+        "x": 0
+      }
+    },
     "429": {
       "mapId": 429,
       "path": "/maps/original/429.jpg",
@@ -2054,6 +2248,32 @@
         "x": 0
       }
     },
+    "442": {
+      "mapId": 442,
+      "path": "/maps/original/442.jpg",
+      "width": 961,
+      "height": 561,
+      "sha256": "9e85b450d72f5143cfe0a07000539ce9ec39ccda88f186dc2f52d34a926bd5d0",
+      "bytes": 85837,
+      "url": "https://seerh5.61.com/resource/assets/map/442/map_442_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/442/map_442_bfc25e78.json",
+      "resourceManifestSha256": "cb868fa3b2fcaa435a1c1581381f438b9648a64e607c85e3b5c30d2bb912cf2f",
+      "sourceResourceName": "map_442_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/442/442_138f670a.json",
+      "originalLayoutSha256": "39e634f8ddbe3065a864d749aefa12d35cf36949f5f33b91fd0afd923741dd02",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offy": 0,
+        "y": 0,
+        "offx": -1,
+        "h": 561,
+        "scaleX": 1,
+        "w": 961,
+        "x": 0
+      }
+    },
     "443": {
       "mapId": 443,
       "path": "/maps/original/443.svg",
@@ -2197,6 +2417,32 @@
         "x": 0
       }
     },
+    "461": {
+      "mapId": 461,
+      "path": "/maps/original/461.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "f3ae634962fe9884ef1020efd4a228f6281feb077ed824311e5581e47f6e6b79",
+      "bytes": 136533,
+      "url": "https://seerh5.61.com/resource/assets/map/461/map_461_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/461/map_461_e42eb1c1.json",
+      "resourceManifestSha256": "81e538173182161e32a91ff55c5736e30bec867a8aeb666c6e71616d4c19400d",
+      "sourceResourceName": "map_461_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/461/461_c232437b.json",
+      "originalLayoutSha256": "bfd59e4db14954d20c268153e69b781d974bf6927913c8a92341e5936e679305",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "w": 960,
+        "h": 560,
+        "offx": 0,
+        "scaleX": 1,
+        "offy": 0,
+        "x": 0
+      }
+    },
     "463": {
       "mapId": 463,
       "path": "/maps/original/463.png",
@@ -2246,6 +2492,58 @@
         "scaleX": 1,
         "w": 960,
         "offy": 0,
+        "x": 0
+      }
+    },
+    "476": {
+      "mapId": 476,
+      "path": "/maps/original/476.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "1ab640bd1f6aa4acd38c3fb84910153f6f84657381fe77d2fe011e4048b8a3da",
+      "bytes": 104375,
+      "url": "https://seerh5.61.com/resource/assets/map/476/map_476_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/476/map_476_a37d77f8.json",
+      "resourceManifestSha256": "e5f57bc2c18c72e3a42adbb9e3592fc390549b6751adf1ea82dad7fa95e18432",
+      "sourceResourceName": "map_476_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/476/476_cdc69acc.json",
+      "originalLayoutSha256": "107832ac291e6417a0851eec590e2ae763d985021c398c28688c93fb13fcb1e7",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offx": 0,
+        "y": 0,
+        "h": 560,
+        "scaleX": 1,
+        "offy": 0,
+        "w": 960,
+        "x": 0
+      }
+    },
+    "478": {
+      "mapId": 478,
+      "path": "/maps/original/478.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "cba867a9074bd5ebe988ea1a9a2e126dbb4d8228bcea807c908fcc49c78ce50c",
+      "bytes": 73438,
+      "url": "https://seerh5.61.com/resource/assets/map/478/map_478_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/478/map_478_3d538e6a.json",
+      "resourceManifestSha256": "9f8afba9d196af020af72c61fb35818c2f552176f611252fec042eeb9a9c4ea1",
+      "sourceResourceName": "map_478_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/478/478_5c6e8959.json",
+      "originalLayoutSha256": "93a803749a0f0213a3bcb0e95c41eb5935b78581e5444795b3d2be45abee6b28",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offx": 0,
+        "offy": 0,
+        "h": 560,
+        "y": 0,
+        "scaleX": 1,
+        "w": 960,
         "x": 0
       }
     },
@@ -2614,6 +2912,32 @@
         "x": 0
       }
     },
+    "669": {
+      "mapId": 669,
+      "path": "/maps/original/669.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "2fdd639f3077111efe5c3eda44c3e2ebf9431c2ef22dbdc2e78f4e1aa6848bcd",
+      "bytes": 121870,
+      "url": "https://seerh5.61.com/resource/assets/map/669/map_669_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/669/map_669_869c7268.json",
+      "resourceManifestSha256": "a47460a08ed3884f4fcf964c79c60e0189b375133bbfa1f2124d1bd181d6ec39",
+      "sourceResourceName": "map_669_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/669/669_64528f74.json",
+      "originalLayoutSha256": "08f8c2584a0652dc3bcf7c73309137bb2f8dc03764d82563aaa2bd46d54da332",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "h": 560,
+        "offy": 0,
+        "offx": 0,
+        "scaleX": 1,
+        "w": 960,
+        "x": 0
+      }
+    },
     "676": {
       "mapId": 676,
       "path": "/maps/original/676.jpg",
@@ -2794,6 +3118,110 @@
         "scaleX": 1,
         "w": 960,
         "x": 0.45
+      }
+    },
+    "691": {
+      "mapId": 691,
+      "path": "/maps/original/691.png",
+      "width": 960,
+      "height": 560,
+      "sha256": "19e709b79218dcef979478b08fccd5297440a0a7018c9b1b21a66d11ecbbe115",
+      "bytes": 648512,
+      "url": "https://seerh5.61.com/resource/assets/map/691/map_691_bg_mc_ada76c67.png",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/691/map_691_1e041297.json",
+      "resourceManifestSha256": "4223d7ede24280eb59f553251ca05e2797ec81a7025ce1a21773313ac6003bc1",
+      "sourceResourceName": "map_691_bg_mc_png",
+      "format": "PNG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/691/691_7e9a53a.json",
+      "originalLayoutSha256": "acbc5fa79cb0702831973e28389b9a25d6d1f642d4b42c06d9a8a7be26a909c3",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "offx": 0,
+        "h": 560,
+        "y": 0,
+        "scaleX": 1,
+        "w": 960,
+        "offy": 0,
+        "x": 0
+      }
+    },
+    "693": {
+      "mapId": 693,
+      "path": "/maps/original/693.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "ca60b7c7648e24f7ca0f51f39d5d393117bf16cf50cc25db709be51a92045e89",
+      "bytes": 88876,
+      "url": "https://seerh5.61.com/resource/assets/map/693/map_693_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/693/map_693_42a44a32.json",
+      "resourceManifestSha256": "5f966a4178dff77ff56383982ba3d9f6fae82f6cc2a47278ee28d2b021f5f53a",
+      "sourceResourceName": "map_693_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/693/693_a046be61.json",
+      "originalLayoutSha256": "f88aaee5aea03b345625e62110a6f15635d263a2328f6d5e2f3fcd624a08c5f1",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "offx": 0,
+        "offy": 0,
+        "h": 560,
+        "scaleX": 1,
+        "w": 960,
+        "x": 0
+      }
+    },
+    "694": {
+      "mapId": 694,
+      "path": "/maps/original/694.jpg",
+      "width": 960,
+      "height": 559,
+      "sha256": "77e8fc398c82e5551d0a0fe23adafca3ceac7006de5b50a813dccccc5649c0af",
+      "bytes": 85539,
+      "url": "https://seerh5.61.com/resource/assets/map/694/map_694_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/694/map_694_f4ceb941.json",
+      "resourceManifestSha256": "1e7246da4d03ad053527090d31438e1d35d97a32dfb4e84f19f5b3ddecf6f337",
+      "sourceResourceName": "map_694_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/694/694_b08df408.json",
+      "originalLayoutSha256": "22d1491c83feeac460d5071ce5824a6a598bc6c547a2f18b3548d7370052e61b",
+      "backgroundRegistration": {
+        "offx": 0,
+        "y": 0,
+        "h": 559,
+        "scaleY": 1,
+        "scaleX": 1,
+        "w": 960,
+        "offy": 0.05,
+        "x": 0
+      }
+    },
+    "697": {
+      "mapId": 697,
+      "path": "/maps/original/697.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "abf9250d67d327bf97d56636931dce35974b979c09e2ca505d60506ef3078b8a",
+      "bytes": 70753,
+      "url": "https://seerh5.61.com/resource/assets/map/697/map_697_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/697/map_697.json",
+      "resourceManifestSha256": "7eca33fddead5afa3d62cff990bee85922b9e198172f5b6e56673755367f2e40",
+      "sourceResourceName": "map_697_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/697/697.json",
+      "originalLayoutSha256": "2c2a2b4018dc2d2c2e6484a33a78e3f11c9084caf43bd3807fc8247d8f30c1e5",
+      "backgroundRegistration": {
+        "offx": 0,
+        "y": 0,
+        "scaleY": 1,
+        "h": 560,
+        "offy": 0,
+        "scaleX": 1,
+        "w": 960,
+        "x": 0
       }
     },
     "699": {
@@ -3004,6 +3432,32 @@
         "x": 0
       }
     },
+    "727": {
+      "mapId": 727,
+      "path": "/maps/original/727.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "2f1ea0077843b183bbc4accf936799bd64fe9c5bda5a17e04ca97a37dfa91d37",
+      "bytes": 102690,
+      "url": "https://seerh5.61.com/resource/assets/map/727/map_727_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/727/map_727_7cd54d1d.json",
+      "resourceManifestSha256": "14a34b2f968ea7dff9b165965a566cc5f33a34d0643f37e28cbe60a0e12e7b46",
+      "sourceResourceName": "map_727_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/727/727_bf61ef41.json",
+      "originalLayoutSha256": "b568fae82b37029c59feee4b42381c7676d905615b51f8f3a372b077655d13f7",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "offx": 0,
+        "h": 560,
+        "scaleX": 1,
+        "offy": 0,
+        "w": 960,
+        "x": 0
+      }
+    },
     "731": {
       "mapId": 731,
       "path": "/maps/original/731.jpg",
@@ -3178,6 +3632,32 @@
       "format": "JPEG",
       "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/748/748_4cad296c.json",
       "originalLayoutSha256": "020c62216177df4c6a89501faac27e1bebaf5f71ff318b98ed29904847631c15",
+      "backgroundRegistration": {
+        "scaleY": 1,
+        "y": 0,
+        "w": 960,
+        "offx": 0,
+        "h": 560,
+        "scaleX": 1,
+        "offy": 0,
+        "x": 0
+      }
+    },
+    "750": {
+      "mapId": 750,
+      "path": "/maps/original/750.jpg",
+      "width": 960,
+      "height": 560,
+      "sha256": "3b728bec31b1f1725b3f35259ce15bd15e95d64e18804b28756b1fc75e17b016",
+      "bytes": 109655,
+      "url": "https://seerh5.61.com/resource/assets/map/750/map_750_bg_mc.jpg",
+      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
+      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/750/map_750_10aa534f.json",
+      "resourceManifestSha256": "2a9dbbf5c00dd98d47e90d72c17bc07aa32c10acb1100c4516d718d4f33e3851",
+      "sourceResourceName": "map_750_bg_mc_jpg",
+      "format": "JPEG",
+      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/750/750_d011e9a3.json",
+      "originalLayoutSha256": "232b17cd0d36778843bf13f9bc108e912583c60ba78b67ec450d00b7840069c3",
       "backgroundRegistration": {
         "scaleY": 1,
         "y": 0,
@@ -3768,7 +4248,17 @@
       }
     }
   },
-  "failures": {},
+  "failures": {
+    "64": "https://seerh5.61.com/resource/assets/map/64/map_64.json returned HTTP 404",
+    "689": "https://seerh5.61.com/resource/assets/map/689/map_689.json returned HTTP 404",
+    "665": "https://seerh5.61.com/resource/assets/map/665/map_665.json returned HTTP 404",
+    "505": "https://seerh5.61.com/resource/assets/map/505/map_505.json returned HTTP 404",
+    "329": "https://seerh5.61.com/resource/assets/map/329/map_329.json returned HTTP 404",
+    "675": "https://seerh5.61.com/resource/assets/map/675/map_675.json returned HTTP 404",
+    "707": "https://seerh5.61.com/resource/assets/map/707/map_707.json returned HTTP 404",
+    "1063": "https://seerh5.61.com/resource/assets/map/1063/map_1063.json returned HTTP 404",
+    "1303": "https://seerh5.61.com/resource/assets/map/1303/map_1303.json returned HTTP 404"
+  },
   "attribution": "Original official Seer artwork. No replacement art was generated or claimed as locally authored.",
   "assetScope": "Static background layers only; current official resource versions, including later official redesigns. Dynamic foregrounds, scripted events and historical 2009 fidelity are not established by these files.",
   "movementSource": {

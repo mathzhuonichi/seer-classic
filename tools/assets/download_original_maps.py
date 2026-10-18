@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 import re
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -14,17 +15,30 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / '.cache/map-assets'
 DEST = ROOT / 'public/maps/original'
+RUNTIME_INDEX = ROOT / 'src/domain/world/map-art-assets.json'
 HOST = 'https://seerh5.61.com/'
 WORLD_SOURCES = ('classic-planets.ts', 'expansion.ts')
+HABITAT_REGIONS = ROOT / 'data/habitat-regions.json'
 
 
 def download(url, target):
     if target.exists():
         return target.read_bytes()
-    data = urllib.request.urlopen(url, timeout=25).read()
+    try:
+        data = urllib.request.urlopen(url, timeout=25).read()
+    except urllib.error.HTTPError as error:
+        raise ValueError(f'{url} returned HTTP {error.code}') from error
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(data)
     return data
+
+
+def write_new(path, data):
+    """Writes a delivered file once; an existing file or link is never replaced or written through."""
+    if path.is_symlink() or (path.exists() and path.read_bytes() != data):
+        raise FileExistsError(f'{path.relative_to(ROOT)} already exists with other content')
+    if not path.exists():
+        path.write_bytes(data)
 
 
 def recover(map_id, versions):
@@ -44,7 +58,7 @@ def recover(map_id, versions):
     im = Image.open(io.BytesIO(data))
     im.load()
     path = DEST / f'{map_id}{Path(name).suffix}'
-    path.write_bytes(data)
+    write_new(path, data)
     record = dict(mapId=map_id, path=f'/maps/original/{path.name}', width=im.width, height=im.height,
                   sha256=hashlib.sha256(data).hexdigest(), bytes=len(data), url=url,
                   source='Official Seer H5 standalone bg_mc background; original file bytes preserved.',
@@ -62,13 +76,21 @@ def recover(map_id, versions):
 
 
 def world_map_ids():
-    """Map ids named by the world module's planets, regions and expansion destinations."""
-    ids = set()
+    """Map ids named by the world module's planets, regions and expansion destinations, and by the habitat regions."""
+    ids = {region['originalMapId'] for region in json.loads(HABITAT_REGIONS.read_text())['regions']}
     for name in WORLD_SOURCES:
         text = (ROOT / 'src/domain/world' / name).read_text()
         ids.update(map(int, re.findall(r'originalMapId[\"\x27]?\s*:\s*(\d+)', text)))
         ids.update(map(int, re.findall(r'destination\([^\n]+?,\s*(\d+)\s*,\s*"[^\"]+"\s*,', text)))
     return ids
+
+
+def project_runtime(maps, delivered):
+    """Adds the offline path and cache identity of each newly delivered background to the game's projection."""
+    index = json.loads(RUNTIME_INDEX.read_text())
+    for key in delivered:
+        index[key] = dict(path=maps[key]['path'], sha256=maps[key]['sha256'])
+    RUNTIME_INDEX.write_text(json.dumps(dict(sorted(index.items(), key=lambda pair: int(pair[0]))), ensure_ascii=False, indent=2) + '\n')
 
 
 def main():
@@ -79,26 +101,31 @@ def main():
     DEST.mkdir(parents=True, exist_ok=True)
     version_url = HOST + 'version/version.json'
     version_bytes = download(version_url, CACHE / 'version.json')
+    version_sha256 = hashlib.sha256(version_bytes).hexdigest()
     versions = json.loads(version_bytes)['files']['resource']['assets']['map']
     manifest_path = ROOT / 'public/maps/original-manifest.json'
     previous = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     maps, failures = previous.get('maps', {}), previous.get('failures', {})
+    # The top-level table is the first delivery's; a record resolved from a later table names its own.
+    manifest = dict(sourceVersionUrl=version_url, sourceVersionSha256=version_sha256) | previous
+    later_table = dict(sourceVersionSha256=version_sha256) if manifest['sourceVersionSha256'] != version_sha256 else {}
     ids = {n for n in ids if str(n) not in maps}
+    delivered = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
         futures = {pool.submit(recover, n, versions): n for n in sorted(ids)}
         for future in concurrent.futures.as_completed(futures):
             n = futures[future]
             try:
-                maps[str(n)] = future.result()
+                maps[str(n)] = future.result() | later_table
                 failures.pop(str(n), None)
+                delivered.append(str(n))
                 print(f'{n}: {maps[str(n)]["width"]} x {maps[str(n)]["height"]}', flush=True)
             except Exception as error:
                 failures[str(n)] = str(error)
                 print(f'{n}: {error}', flush=True)
-    manifest = previous
-    manifest.update(sourceVersionUrl=version_url, sourceVersionSha256=hashlib.sha256(version_bytes).hexdigest(),
-                    maps=dict(sorted(maps.items(), key=lambda pair: int(pair[0]))), failures=failures)
+    manifest.update(maps=dict(sorted(maps.items(), key=lambda pair: int(pair[0]))), failures=failures)
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    project_runtime(maps, delivered)
     print(f'Delivered {len(maps)} official backgrounds; {len(failures)} unresolved IDs.')
 
 
