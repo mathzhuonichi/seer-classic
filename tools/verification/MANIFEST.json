@@ -117,6 +117,9 @@
       "status": "known-failure",
       "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
     },
+    "catalog-loaders.mjs": {
+      "status": "gate"
+    },
     "challenge-navigation.ts": {
       "status": "gate"
     },
@@ -144,8 +147,7 @@
       "status": "gate"
     },
     "dex-acquisition.ts": {
-      "status": "known-failure",
-      "note": "Fails since 8eb220d: brave-tower boss essences have no usable binding."
+      "status": "gate"
     },
     "display-resolution.mjs": {
       "status": "gate"
