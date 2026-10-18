@@ -14,7 +14,6 @@ import { useSceneFit, useWorldWalk } from './world/useWorldWalk.ts';
 import { WorldDialogue } from './world/WorldDialogue.tsx';
 import '../world.css';
 
-export interface WorldDestination { planetId: string; regionId: string }
 export interface WorldMapProps {
   s: GameSnapshot; c: GameController; onNavigate?: (page: string) => void;
   travelTo?: { planetId: string; regionId?: string; bossId?: string; requestId?: number };
