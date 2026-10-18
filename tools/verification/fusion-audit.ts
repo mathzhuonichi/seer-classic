@@ -47,14 +47,16 @@ export async function runFusionAudit() {
     assert.equal(infant.species, expectedHatchSpecies, 'Reload and hatch never reroll the fusion outcome.');
     assert.equal(infant.level, 1);
     assert.equal(reloaded.snapshot().items.some(item => item.id === itemId), false);
-    reloaded.dispatch({ type: 'cheatMonster', uid: infant.uid, level: 100 });
+    const edited = reloaded.dispatch({ type: 'cheatMonster', uid: infant.uid, level: 100 });
     const form = (id: number) => definitions.get(id)!.evolution as { to: number; method: string; level?: number }[];
     let expectedFinal = infant.species;
     while (form(expectedFinal).some(evolution => evolution.method === 'level' && (evolution.level ?? 101) <= 100)) {
       expectedFinal = form(expectedFinal).find(evolution => evolution.method === 'level' && (evolution.level ?? 101) <= 100)!.to;
     }
     // Level edits use the same automatic evolution policy as pooled experience.
-    assert.equal(reloaded.snapshot().monsters.find(monster => monster.uid === infant.uid)!.species, expectedFinal);
+    const saved = reloaded.snapshot().monsters.find(monster => monster.uid === infant.uid)!;
+    assert.equal(saved.species, expectedFinal);
+    assert.equal(edited.notice, `已修改 ${saved.name} · Lv.${saved.level} · 个体值 ${saved.iv}。`, 'The edit reports the saved, evolved monster.');
     rows.push(recipe.id);
   }
   game.importSave(baseline);

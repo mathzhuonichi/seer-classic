@@ -82,7 +82,7 @@ const cheatMonster: ActionHandler<'cheatMonster'> = (rt, action) => {
   if (deficit) deficit.hp = 0;
   if (action.traitId) rt.save.game.traits[mon.uid] = action.traitId;
   else if (action.traitId !== undefined) delete rt.save.game.traits[mon.uid];
-  notice(rt, '精灵数值已修改。');
+  notice(rt, `已修改 ${mon.nickname || rt.ctx.speciesName(mon.species)} · Lv.${mon.level} · 个体值 ${mon.iv}。`);
 };
 
 export const raisingActions = {
