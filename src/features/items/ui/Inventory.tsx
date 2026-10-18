@@ -27,8 +27,7 @@ export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
   const pager=usePager(items.length,PAGE_SIZE),pageItems=items.slice(pager.start,pager.end);
   const item=items.find(i=>i.id===itemId)??pageItems[0]??items[0];
   const monster=monsters.find(m=>m.uid===target)??monsters.find(m=>m.uid===party[0])??monsters[0];
-  // A capsule needs a battle that allows a capture now.
-  const action=item&&(item.useAction!=='capture'||battle?.canCapture)?itemUseAction(item,monster?.uid):undefined;
+  const action=item&&itemUseAction(item,monster?.uid,!!battle?.canCapture);
   function clearList(){pager.setPage(0);setItemId('')}
   function openPocket(next:ItemPocket){setPocket(next);content.setContent('all');setSearch('');setFeedback('');clearList()}
   useEffect(()=>{if(initialPocket&&isItemPocket(initialPocket))openPocket(initialPocket)},[initialPocket]);

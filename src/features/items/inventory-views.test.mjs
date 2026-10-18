@@ -27,14 +27,16 @@ test('the bag lists a pocket by name, with recovery supplies before status cures
 
 test('the confirm action follows the controller\'s use action and targets',()=>{
   const raising=item({useAction:'use',useTargets:['a']});
-  assert.deepEqual(itemUseAction(raising,'a'),{type:'useItem',uid:'a',itemId:'item_level_up_1'});
-  assert.equal(itemUseAction(raising,'b'),undefined,'only targets the controller lists');
-  assert.equal(itemUseAction(raising),undefined);
+  assert.deepEqual(itemUseAction(raising,'a',false),{type:'useItem',uid:'a',itemId:'item_level_up_1'});
+  assert.equal(itemUseAction(raising,'b',false),undefined,'only targets the controller lists');
+  assert.equal(itemUseAction(raising,undefined,false),undefined);
   const supply=item({id:'pot',kind:'battle',useAction:'use',useTargets:['a']});
-  assert.deepEqual(itemUseAction(supply,'a'),{type:'battleItem',itemId:'pot',targetUid:'a'});
-  assert.deepEqual(itemUseAction(item({id:'cap',kind:'capsule',useAction:'capture'})),{type:'capture',itemId:'cap'});
-  assert.deepEqual(itemUseAction(item({id:'e',kind:'essence',useAction:'hatch'}),'a'),{type:'useItem',uid:'a',itemId:'e'});
-  assert.equal(itemUseAction(item({kind:'battle',useAction:null}),'a'),undefined);
+  assert.deepEqual(itemUseAction(supply,'a',false),{type:'battleItem',itemId:'pot',targetUid:'a'});
+  const capsule=item({id:'cap',kind:'capsule',useAction:'capture'});
+  assert.deepEqual(itemUseAction(capsule,undefined,true),{type:'capture',itemId:'cap'});
+  assert.equal(itemUseAction(capsule,undefined,false),undefined,'the battle blocks a capture the engine still lists');
+  assert.deepEqual(itemUseAction(item({id:'e',kind:'essence',useAction:'hatch'}),'a',false),{type:'useItem',uid:'a',itemId:'e'});
+  assert.equal(itemUseAction(item({kind:'battle',useAction:null}),'a',true),undefined);
 });
 
 test('party order puts the party first',()=>{

@@ -14,9 +14,9 @@ export function bagItems(inPocket:readonly ItemView[],pocket:ItemPocket,content:
     .sort((a,b)=>pocket==='battle'&&battleSupplyOrder(a)-battleSupplyOrder(b)||a.name.localeCompare(b.name,'zh'));
 }
 
-/** The action the confirm button dispatches for `item` on monster `target`, or undefined when the bag cannot use it so. */
-export function itemUseAction(item:ItemView,target?:string):GameAction|undefined {
-  if(item.useAction==='capture')return {type:'capture',itemId:item.id};
+/** The action the confirm button dispatches for `item` on monster `target`, or undefined when the bag cannot use it so; a capsule needs `canCapture`. */
+export function itemUseAction(item:ItemView,target:string|undefined,canCapture:boolean):GameAction|undefined {
+  if(item.useAction==='capture')return canCapture?{type:'capture',itemId:item.id}:undefined;
   if(item.useAction==='hatch')return {type:'useItem',uid:target??'',itemId:item.id};
   if(item.useAction!=='use'||!target||!item.useTargets?.includes(target))return undefined;
   return item.kind==='battle'?{type:'battleItem',itemId:item.id,targetUid:target}:{type:'useItem',uid:target,itemId:item.id};
