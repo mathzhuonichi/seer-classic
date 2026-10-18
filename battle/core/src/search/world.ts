@@ -43,7 +43,8 @@ function modelMon(b: Battle, w: Battle, model: ModeledFoe): Mon {
   const visible = new Set(model.conditions.map(c => c.id));
   const real = w.sides[model.side].team[model.slot];
   Object.assign(mon, {
-    types: [...model.types], hp: Math.max(0, Math.min(mon.maxHp, Math.round(model.hp))), stages: { ...model.stages },
+    // A living monster keeps at least 1 HP; a sliver of bar must not round to a faint.
+    types: [...model.types], hp: Math.min(mon.maxHp, model.hp > 0 ? Math.max(1, Math.round(model.hp)) : 0), stages: { ...model.stages },
     conditions: real.conditions.filter(c => visible.has(c.id)),
     turnsActive: real.turnsActive, lastActedTurn: real.lastActedTurn, facedBy: real.facedBy,
     usedSkills: new Set(model.observedMoves), skillUses: { ...model.moveUses },
