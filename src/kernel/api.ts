@@ -6,6 +6,10 @@ import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import type { BattlePresentationFrame, GameAction } from './contract.ts';
 import type { GameContext } from './context.ts';
 
+// Kernel types that feature code may use; features import nothing else from the kernel.
+export type { CatalogContext, GameContext } from './context.ts';
+export type { GameSave } from './save.ts';
+
 export interface CampaignContext { id: string; stageId: string }
 export interface Appearance { species: number; appearanceSpecies: number }
 

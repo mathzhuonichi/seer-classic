@@ -7,7 +7,7 @@ import type { ScenePoint } from '../scene-geometry.ts';
 import type { SceneExit } from '../scene-exits.ts';
 import { contactName, type FacilityKind, type SceneEquipment, type WorldSceneView, type WorldSelection } from '../world-scene.ts';
 import type { WorldCreatureInstance } from '../world-population.ts';
-import ClassicRobot from '../../../app/ClassicRobot.tsx';
+import ClassicRobot from './ClassicRobot.tsx';
 import { CreatureArt } from '../../../shared/ui/CreatureArt.tsx';
 import { RoamingCreature } from './RoamingCreature.tsx';
 

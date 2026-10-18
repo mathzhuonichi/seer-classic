@@ -1,13 +1,13 @@
 // Inventory and shop views of catalogue items.
 import type { Action, Battle } from '../../../battle/core/src/index.ts';
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import { createItemShopViews } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
 import type { ItemView, ShopItemView } from '../../kernel/contract.ts';
 import { allowance, capacityReason } from '../../kernel/acquire.ts';
 import { TOWER_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
 
 type CatalogItem = Record<string, unknown>;

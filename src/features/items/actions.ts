@@ -8,7 +8,7 @@ import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import type { GameAction } from '../../kernel/contract.ts';
 import { acquire, allowance, boundedAutoEvolve, capacityReason, ensureAcquisitionCapacity, rollTrait } from '../../kernel/acquire.ts';
 import { TOWER_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
 import {clearEngravingDeficit} from '../engravings/index.ts';
 import {claimQuest} from '../challenges/index.ts';

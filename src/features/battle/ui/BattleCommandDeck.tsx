@@ -1,5 +1,5 @@
 import type { BattleMonsterView, BattleView, ItemView } from '../../../kernel/contract.ts';
-import { gameAudio } from '../../../app/audio/game-audio.ts';
+import { gameAudio } from '../../../shared/audio/game-audio.ts';
 import type { BattleItemChoice } from '../battle-hud.ts';
 import BattleItemPane from './BattleItemPane.tsx';
 import BattlePartyPane from './BattlePartyPane.tsx';

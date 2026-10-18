@@ -15,7 +15,7 @@ const MAX_LINES = 400, MAX_LINE = 160;
 
 /** Features and the features each may import (through their index.ts). Must stay acyclic. */
 const FEATURE_DEPS = {
-  battle: [],
+  battle: ['engravings'],
   collection: [],
   engravings: [],
   raising: ['engravings'],
@@ -57,7 +57,7 @@ function violation(from, to, toRel) {
   if (from.zone === 'battle/core' && to.zone === 'raising/core' && toRel !== 'raising/core/stats.ts') return 'battle/core may only use raising stats';
   if (LOWER[from.zone]) return LOWER[from.zone].includes(to.zone) ? null : `${from.zone} must not import ${to.zone}`;
   if (from.zone === 'feature') {
-    if (to.zone === 'feature' && to.feature === from.feature) return from.ui || !to.ui ? null : 'feature rules must not import their ui';
+    if (to.zone === 'feature' && to.feature === from.feature) return from.ui || from.entry || !to.ui ? null : 'feature rules must not import their ui';
     if (from.ui && to.zone === 'src/kernel' && toRel !== 'src/kernel/contract.ts') return 'feature ui imports only the kernel contract';
     if (to.zone === 'feature') {
       if (!to.entry) return `import features/${to.feature} through its index.ts`;

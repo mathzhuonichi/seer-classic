@@ -2,7 +2,7 @@
 import { STRUGGLE_SKILL, type DataSet, type Skill as BattleSkill } from '../../../battle/core/src/index.ts';
 import { attackTypes } from '../../../battle/core/src/typechart.ts';
 import { computeStats, evolutionOptions, expToNext, findMon, type Monster } from '../../../raising/core/index.ts';
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
 import {
   activeEngravings, engravingBlockedReason, engravingById, engravingEffectGroup, engravingStatBonus, engravingStatKeys, type EngravingDefinition,
@@ -14,7 +14,7 @@ import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
 import { SKILL_CATEGORY_LABELS } from '../../shared/labels.ts';
 import type { EngravingView, EvolutionChoiceView, MonsterEngravingsView, MonsterView, SkillView } from '../../kernel/contract.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import {engravingHolder, equippedEngravingCounts, equippedEngravings} from '../engravings/index.ts';
 import { portrait, typeLabel } from '../../shared/view-common.ts';
 

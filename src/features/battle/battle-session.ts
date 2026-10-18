@@ -4,7 +4,7 @@ import { groupedBattleLog } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
 import { setupBattle, type BattleRequest } from './battle-setup.ts';
 import { foeView, hidesFoeHp, presentationState } from './battle-view.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import { battleInProgress, requireSession, type BattleSession, type Runtime } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
 

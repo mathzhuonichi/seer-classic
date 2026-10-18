@@ -5,7 +5,7 @@ import {buildBossEvidence} from '../challenges/index.ts';
 import type { BattleMonsterView, BattleView } from '../../kernel/contract.ts';
 import { capacityReason, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import {skillView} from '../raising/index.ts';
 import type { BattleSession, Runtime } from '../../kernel/api.ts';
 import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';

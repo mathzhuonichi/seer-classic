@@ -1,7 +1,7 @@
 // Engraving state per monster, and the battle-only HP/PP bonus it grants.
 import type { DataSet } from '../../../battle/core/src/index.ts';
 import type { Monster } from '../../../raising/core/index.ts';
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import { activeEngravings, engravingSkillOverrides, engravingStatBonus, type EngravingHolder } from '../../domain/engravings/engravings.ts';
 
 export const engravingHolder = (mon: Monster): EngravingHolder => ({ species: mon.species, level: mon.level, skills: mon.skills, learned: mon.learned });

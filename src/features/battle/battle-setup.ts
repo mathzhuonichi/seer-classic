@@ -4,7 +4,7 @@ import {
 } from '../../../battle/core/src/index.ts';
 import { SEER_SCRIPTS } from '../../../battle/core/src/scripts/index.ts';
 import { activeBeads, computeStats, createMonster, findMon, type Monster } from '../../../raising/core/index.ts';
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
 import { campaignScripts } from '../../domain/challenges/campaign-rules.ts';
 import { traits } from '../../domain/traits.ts';
@@ -15,7 +15,7 @@ import { braveTowerBossId, canStartBraveTowerFloor } from '../../domain/challeng
 import { CHALLENGE_CAMPAIGNS, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
 import { normalizeNpcTrainingEncounter } from '../../domain/challenges/npc-training.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import {engravingLoadout} from '../engravings/index.ts';
 import type { Appearance, CampaignContext } from '../../kernel/api.ts';
 

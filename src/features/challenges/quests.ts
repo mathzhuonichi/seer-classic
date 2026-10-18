@@ -1,9 +1,9 @@
 // Journey quests and SPT recruitment quests: views and claims.
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import { recruitmentProgress, type RecruitmentReward } from '../../domain/acquisition/recruitment.ts';
 import type { QuestView } from '../../kernel/contract.ts';
 import { acquire, allowance, capacityReason } from '../../kernel/acquire.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import { notice, type Runtime } from '../../kernel/api.ts';
 
 interface JourneyQuest {

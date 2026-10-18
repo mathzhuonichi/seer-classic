@@ -8,7 +8,7 @@ import {
 } from '../world-scene.ts';
 import { ARROW_STEPS, visiblePlayerPoint } from '../world-walk.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation, isWorldLocation, resolveWorldLocation, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
-import ClassicRobot from '../../../app/ClassicRobot.tsx';
+import ClassicRobot from './ClassicRobot.tsx';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
 import { useSceneFit, useWorldWalk } from './useWorldWalk.ts';

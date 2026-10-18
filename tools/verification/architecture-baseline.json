@@ -1,0 +1,232 @@
+{
+  "imports": [
+    "src/domain/challenges/battle-facilities.ts -> src/kernel/contract.ts: src/domain must not import src/kernel",
+    "src/features/battle/battle-actions.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
+    "src/features/battle/battle-actions.ts -> src/features/collection/index.ts: features/battle may not depend on features/collection",
+    "src/features/battle/battle-view.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
+    "src/features/battle/battle-view.ts -> src/features/raising/index.ts: features/battle may not depend on features/raising",
+    "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
+    "src/features/battle/ui/BattleDialogs.tsx -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
+    "src/features/challenges/progress-views.ts -> src/features/collection/index.ts: features/challenges may not depend on features/collection",
+    "src/features/collection/encounter-views.ts -> src/features/challenges/index.ts: features/collection may not depend on features/challenges",
+    "src/features/items/actions.ts -> src/features/challenges/index.ts: features/items may not depend on features/challenges",
+    "src/shared/audio/action-sounds.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
+    "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
+    "src/shared/ui/ClassicRobot.tsx -> src/features/world/index.ts: shared-ui must not import feature",
+    "src/shared/ui/MonsterCard.tsx -> src/kernel/contract.ts: shared-ui must not import src/kernel"
+  ],
+  "size": {
+    "src/app/App.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/app/AudioSettings.tsx": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/app/ShellWindowContent.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/app/shell-navigation.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/app/useBattlePreparation.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/app/useShellNavigation.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/domain/acquisition/acquisition.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/domain/acquisition/recruitment.ts": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/domain/acquisition/spt-recruitment.ts": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/domain/battle-supplies.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/domain/recipes/fusion.ts": {
+      "lines": 0,
+      "long": 28
+    },
+    "src/domain/world/classic-planets.ts": {
+      "lines": 0,
+      "long": 14
+    },
+    "src/domain/world/expansion.ts": {
+      "lines": 0,
+      "long": 41
+    },
+    "src/features/battle/battle-animation-registration.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/features/battle/battle-animation.ts": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/features/battle/battle-clip-pool.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/battle/battle-hud.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/battle/battle-log.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/features/battle/battle-offline-clip.ts": {
+      "lines": 0,
+      "long": 11
+    },
+    "src/features/battle/battle-runtime-clock.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/features/battle/settlement.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/battle/ui/BattleCommandDeck.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/battle/ui/BattleLoading.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/battle/ui/BattleTeamStrip.tsx": {
+      "lines": 0,
+      "long": 5
+    },
+    "src/features/challenges/boss-evidence.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/challenges/ui/BattleFacilities.tsx": {
+      "lines": 0,
+      "long": 11
+    },
+    "src/features/challenges/ui/BossEvidence.tsx": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/features/challenges/ui/BraveTower.tsx": {
+      "lines": 0,
+      "long": 5
+    },
+    "src/features/challenges/ui/ChallengeCampaignScene.tsx": {
+      "lines": 0,
+      "long": 8
+    },
+    "src/features/challenges/ui/ChallengeCenter.tsx": {
+      "lines": 0,
+      "long": 9
+    },
+    "src/features/challenges/ui/QuestPanel.tsx": {
+      "lines": 0,
+      "long": 8
+    },
+    "src/features/collection/dex-view.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/collection/ui/Fusion.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/raising/ui/Raising.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/atlas.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/map-sources.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/ui/SceneContacts.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/ui/WorldMap.tsx": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/features/world/ui/useWorldWalk.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/world-roaming.ts": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/features/world/world-scene.ts": {
+      "lines": 0,
+      "long": 4
+    },
+    "src/kernel/contract.ts": {
+      "lines": 0,
+      "long": 16
+    },
+    "src/shared/audio/action-sounds.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/shared/audio/game-audio.ts": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/shared/display-resolution.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/shared/game-display.ts": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/shared/ui/ClassicRobot.tsx": {
+      "lines": 0,
+      "long": 2
+    },
+    "src/shared/ui/ItemCategoryTabs.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "src/shared/ui/ItemTile.tsx": {
+      "lines": 0,
+      "long": 3
+    },
+    "src/shared/ui/ItemTooltip.tsx": {
+      "lines": 0,
+      "long": 1
+    },
+    "battle/core/src/observe.ts": {
+      "lines": 0,
+      "long": 4
+    },
+    "battle/core/src/scripts/seer-tail.ts": {
+      "lines": 588,
+      "long": 0
+    },
+    "battle/core/src/search-ai.ts": {
+      "lines": 0,
+      "long": 3
+    }
+  }
+}

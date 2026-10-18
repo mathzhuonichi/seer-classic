@@ -1,13 +1,13 @@
 // Challenge campaigns and the Brave Tower: progress records and their snapshot views.
 import { findMon } from '../../../raising/core/index.ts';
-import type { GameSave } from '../../kernel/save.ts';
+import type { GameSave } from '../../kernel/api.ts';
 import {
   BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
 import { buildBossEncounterEvidence, mergeBossEvidence } from './boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../kernel/contract.ts';
-import type { GameContext } from '../../kernel/context.ts';
+import type { GameContext } from '../../kernel/api.ts';
 import {opponentViews, towerRewardLabel} from '../collection/index.ts';
 
 /** The rei training campaign's last stage teaches a skill instead of granting an essence. */
