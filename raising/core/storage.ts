@@ -5,6 +5,7 @@ import { createMonster } from "./monster.ts";
 
 export const PARTY_MAX = 6;
 export const BOX_MAX = 1000; // the remake's box size; Seer's 仓库 grew over time
+export const NICKNAME_MAX = 12; // characters (code points)
 
 const copy = (s: Save): Save => structuredClone(s);
 
@@ -87,7 +88,7 @@ export function rename(save: Save, uid: string, nickname: string | null): Save {
   const s = copy(save);
   const m = findMon(s, uid);
   const name = nickname?.trim() ?? "";
-  if ([...name].length > 12) throw new Error("nickname is at most 12 characters");
+  if ([...name].length > NICKNAME_MAX) throw new Error(`nickname is at most ${NICKNAME_MAX} characters`);
   m.nickname = name === "" ? null : name;
   return s;
 }
