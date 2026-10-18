@@ -5,7 +5,7 @@ import {
 } from '../battle-skill-effects.ts';
 import { SkillFrameBuffer, loadSkillFrame } from '../skill-frame-buffer.ts';
 import { REDUCED_MOTION_MS } from '../battle-playback.ts';
-import { prefersReducedMotion } from './reduced-motion.ts';
+import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 import './battle-skill-effect.css';
 
 export interface BattleSkillEffectProps {

@@ -6,7 +6,7 @@ import {battleRuntimeClock} from '../battle-runtime-clock.ts';
 import {fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds} from '../battle-animation-registration.ts';
 import {clipAtlasBytes} from '../battle-offline-clip.ts';
 import {getDisplayResolution, observeDisplayResolution} from '../../../shared/display-resolution.ts';
-import {prefersReducedMotion} from './reduced-motion.ts';
+import {prefersReducedMotion} from '../../../shared/ui/reduced-motion.ts';
 
 type Clock = Pick<typeof battleRuntimeClock, 'attach' | 'recovered'>;
 type ClockDriver = ReturnType<Clock['attach']>;

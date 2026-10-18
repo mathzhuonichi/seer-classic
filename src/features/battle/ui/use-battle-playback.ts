@@ -7,7 +7,7 @@ import { battleEndSound, settledDialogue } from '../battle-hud.ts';
 import { CAPTURE_OUTCOME_MS, captureDialogue, isMoveFrame, planBattleFrame } from '../battle-playback.ts';
 import { getSkillEffectDurationMs } from '../battle-skill-effects.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
-import { prefersReducedMotion } from './reduced-motion.ts';
+import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 
 export interface SkillEffectCue { move: BattlePresentationFrame; delay: number; duration: number }
 

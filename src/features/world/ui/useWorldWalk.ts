@@ -3,6 +3,7 @@ import { constrainScenePoint, getSceneLayout, type SceneLayout } from '../map-pr
 import { point, type ScenePoint } from '../scene-geometry.ts';
 import { IDLE_WALK, approachStop, robotFoot, walkMotion, walkTiming, type RobotDirection } from '../world-walk.ts';
 import { readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
+import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 
 const DEFAULT_SCENE = { width: 1000, height: 580 };
 
@@ -59,7 +60,7 @@ export function useWorldWalk() {
     const element = player.current, scene = element?.closest('.world-scene')?.getBoundingClientRect();
     const current = element?.getBoundingClientRect();
     const from = current && scene && scene.width && scene.height ? robotFoot(current, scene) : point(preference.x, preference.y);
-    const { direction, duration } = walkTiming(from, target, scene, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const { direction, duration } = walkTiming(from, target, scene, prefersReducedMotion());
     dispatch({ type: 'start', duration, direction, approaching });
     setPreference(old => ({ ...old, x: target.x, y: target.y }));
     if (duration === 0) { after?.(); return; }
