@@ -44,7 +44,7 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
   const openCapture = () => { gameAudio.playSfx('tab'); chooseItems({ category: 'capsule', selection: '' }); setTab('items'); };
   const openCommand = (command: BattleCommand) => {
     gameAudio.playSfx('tab');
-    if (command === 'items') chooseItems({ category: 'recovery' });
+    if (command === 'items') chooseItems({ category: 'recovery', selection: '' });
     setTab(command);
   };
   return <div className="classic-command-deck" aria-busy={busy}>

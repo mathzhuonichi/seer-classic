@@ -3,6 +3,7 @@ import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEviden
 import { STRUGGLE } from '../../../battle/core/src/constants.ts';
 import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from '../../shared/item-categories.ts';
 import { SKILL_CATEGORY_LABELS, STAGE_LABELS, TYPE_LABELS, type StageKey } from '../../shared/labels.ts';
+import { pinnedSelection } from '../../shared/view-helpers.ts';
 
 export interface StageChip { stat: string; label: string; value: number }
 
@@ -54,7 +55,10 @@ const EMPTY_SUPPLIES: Record<BattleSupplyCategory, string> = {
   recovery: '暂无体力或 PP 恢复道具。', capsule: '暂无精灵胶囊，请到道具管理补充。', status: '暂无异常解除道具。',
 };
 
-/** The item pane's own choices; the pane resolves them against the current battle. */
+/**
+ * The item pane's own choices; the pane resolves them against the current battle. `selection` is the picked item ('' until a
+ * card is picked or an item used; opening the pane or a category clears it), so a used item that runs out selects nothing.
+ */
 export interface BattleItemChoice { category: BattleSupplyCategory; selection: string; target: string }
 
 export const hasStock = (item: ItemView) => item.unlimited || item.count > 0;
@@ -71,9 +75,15 @@ export function battleItemPane(battle: BattleView, inventory: ItemView[], choice
   const categories = BATTLE_SUPPLY_CATEGORIES.filter(([id]) => id !== 'capsule' || battle.canCapture);
   const category = choice.category === 'capsule' && !battle.canCapture ? 'recovery' : choice.category;
   const items = inventory.filter(item => hasStock(item) && item.battleCategory === category);
-  const selected = items.find(item => item.id === choice.selection) || items[0];
+  const selected = pinnedSelection(items, choice.selection);
   const targets = battle.party.filter(mon => selected?.targetMode === 'fainted' ? mon.hp <= 0 : mon.hp > 0);
   const target = targets.find(mon => mon.uid === choice.target) || targets.find(mon => mon.uid === battle.player.uid) || targets[0];
   const helpsTarget = !!target && !!selected?.useTargets?.includes(target.uid);
   return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget };
+}
+
+/** What the 使用 button does, or null while it is disabled: the item action, and the pick it leaves (using an item pins it). */
+export function itemUse({ selected, target, helpsTarget }: { selected?: ItemView; target?: BattleMonsterView; helpsTarget: boolean }) {
+  if (!selected || !target || !helpsTarget) return null;
+  return { action: { type: 'battleItem' as const, itemId: selected.id, targetUid: target.uid }, selection: selected.id };
 }

@@ -1,6 +1,6 @@
 import type { GameAction } from '../../../kernel/contract.ts';
 import type { BattleView, ItemView } from '../../../shared/views.ts';
-import { battleItemPane, itemCardAction, type BattleItemChoice } from '../battle-hud.ts';
+import { battleItemPane, itemCardAction, itemUse, type BattleItemChoice } from '../battle-hud.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 
@@ -15,6 +15,12 @@ export default function BattleItemPane({ battle, inventory, choice, onChoice, di
     const action = canAct() ? itemCardAction(battle, item) : null;
     if (action?.type === 'select') onChoice({ selection: action.itemId });
     else if (action) submit(action);
+  }
+  const use = itemUse(pane);
+  function useSelected() {
+    if (!use) return;
+    onChoice({ selection: use.selection });
+    submit(use.action);
   }
   return <>
     <nav className="classic-item-category-tabs" aria-label="战斗道具分类">{pane.categories.map(([id, label]) =>
@@ -43,8 +49,7 @@ export default function BattleItemPane({ battle, inventory, choice, onChoice, di
             {mon.name} · HP {mon.hp}/{mon.maxHp}{pane.category === 'status' && mon.statuses.length ? ` · ${mon.statuses.join(' / ')}` : ''}
           </option>)}
         </select></label>
-        <button className="classic-confirm" disabled={blocked || !selected || !target || !pane.helpsTarget}
-          onClick={() => selected && target && submit({ type: 'battleItem', itemId: selected.id, targetUid: target.uid })}>使用</button>
+        <button className="classic-confirm" disabled={blocked || !use} onClick={useSelected}>使用</button>
       </div>}
     </div>
   </>;

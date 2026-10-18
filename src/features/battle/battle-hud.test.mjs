@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {battleEndSound, battleItemPane, battleSkills, conditionSummary, itemCardAction, recentBattleLog, settledDialogue, stageChips} from './battle-hud.ts';
+import {
+  battleEndSound, battleItemPane, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, stageChips,
+} from './battle-hud.ts';
 
 const mon = (uid, hp, extra = {}) => ({uid, name: uid, hp, maxHp: 100, statuses: [], stages: {}, skills: [], ...extra});
 const battle = (extra = {}) => ({player: mon('a', 50), party: [mon('a', 50), mon('b', 0), mon('c', 80)], canCapture: true, finished: false, needsSwitch: false,
@@ -34,6 +36,21 @@ test('the item pane falls back to recovery without capture and resolves its targ
   const blocked = battleItemPane(battle({canCapture: false}), inventory, {category: 'capsule', selection: '', target: 'a'});
   assert.deepEqual([blocked.category, blocked.categories.map(([id]) => id)], ['recovery', ['recovery', 'status']]);
   assert.equal(battleItemPane(battle(), [], {category: 'status', selection: '', target: 'a'}).empty, '暂无异常解除道具。');
+});
+
+test('using an item pins it, and once its last copy is gone nothing is selected and 使用 is disabled', () => {
+  const potion = {id: 'pot', battleCategory: 'recovery', count: 1, useAction: 'use', useTargets: ['a']};
+  const ether = {id: 'pp', battleCategory: 'recovery', count: 3, useAction: 'use', useTargets: ['a']};
+  const choice = {category: 'recovery', selection: '', target: 'a'};
+  const open = battleItemPane(battle(), [potion, ether], choice);
+  assert.equal(open.selected.id, 'pot', 'nothing picked yet: the first item');
+  const used = itemUse(open);
+  assert.deepEqual(used, {action: {type: 'battleItem', itemId: 'pot', targetUid: 'a'}, selection: 'pot'});
+  const gone = battleItemPane(battle(), [{...potion, count: 0}, ether], {...choice, selection: used.selection});
+  assert.deepEqual([gone.items.map(item => item.id), gone.selected, itemUse(gone)], [['pp'], undefined, null]);
+  const left = battleItemPane(battle(), [{...potion, count: 0}, ether], {...choice, selection: 'pp'});
+  assert.equal(itemUse(left).action.itemId, 'pp', 'a picked item with stock left stays selected');
+  assert.equal(itemUse({...open, helpsTarget: false}), null, 'the target does not need it');
 });
 
 test('settled dialogue, end sounds and the latest turn log', () => {
