@@ -16,7 +16,7 @@ const PASSIVES:Record<string,RuleSpec&{name:string}>={
     if(c.point==='before_move') {
       // The engine's damageDealt accumulator covers powered hits. A small
       // per-move HP snapshot also observes pure fixed-damage attack skills.
-      c.cond.data={turn:c.battle.turn,skill:c.skill.id,side:c.foe.side,slot:c.foe.slot,hp:c.foe.hp};
+      c.cond.data={turn:c.battle.turn,skill:c.skill?.id,side:c.foe.side,slot:c.foe.slot,hp:c.foe.hp};
       return;
     }
     const target=c.ctx?.target;
@@ -26,7 +26,7 @@ const PASSIVES:Record<string,RuleSpec&{name:string}>={
       before.side===target.side&&before.slot===target.slot&&target.hp<before.hp;
     if(c.holder.fainted||c.holder.hp<=0||!target||target.fainted||target.hp<=0||
        c.ctx.user!==c.holder||!c.ctx.hit||!(c.ctx.damageDealt>0||lostHp)||
-       !['physical','special'].includes(c.skill?.category))return;
+       !['physical','special'].includes(c.skill?.category ?? ''))return;
     c.battle.dealDamage(target,EVIL_SEAL_DAMAGE,{kind:'fixed',source:c.holder,skill:c.skill});
   }},
 };

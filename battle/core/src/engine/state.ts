@@ -71,6 +71,8 @@ export interface MoveCtx {
   actedFirst: boolean;
   user?: Mon;
   target?: Mon;
+  /** Per-move state that a skill's scripts share between their members (seer_eff_185, 188, 421). */
+  data?: Record<string, any>;
 }
 
 export interface WhenCtx {

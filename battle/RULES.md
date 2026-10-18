@@ -314,7 +314,7 @@ a list of effect ops plus `transform {species, keep_hp?, full_heal?}`,
 | `survive_turns {turns}` | **ends** the battle as a win once reached |
 | `deal_damage {amount}` | cumulative; **ends** the battle once reached |
 | `exhaust_pp` | **ends** the battle once every boss skill is at 0 PP |
-| `script {id}` | script returns true |
+| `script {id}` | the script's `objective` returns true |
 
 Lose: `turn_limit {turns}` (the player loses at the end of turn N), `script`.
 

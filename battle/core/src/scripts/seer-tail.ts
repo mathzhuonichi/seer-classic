@@ -20,6 +20,7 @@ import { IV_MAX, IV_MIN } from '../../../../raising/core/stats.ts';
 import type { ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { ActiveCondition, Mon } from '../engine/state.ts';
+import type { ApplyCtx } from './context.ts';
 import { GAMBLE_POWER, GAMBLE_POWER_ESTIMATE, IV_POWER_BASE, IV_POWER_PER_POINT, stageMultiplier } from '../constants.ts';
 import { computeStats } from '../stats.ts';
 import {
@@ -30,13 +31,12 @@ import {
   once, sameType, scriptHooks, selfLoss, stat, status,
 } from './util.ts';
 
-
 const RANDOM_STATUSES = ['burn', 'freeze', 'poison', 'paralysis', 'fear', 'sleep'];
 const CLEAR_SCRIPTS = new Set(['seer_eff_85', 'seer_eff_143']);
 let reflecting = false; // seer_eff_191 re-entrancy guard
 
 const NOOP: ScriptEntry = { apply() {} };
-const koByMove = (c: any) => c.foe.fainted && c.battle.lastKo?.target === c.foe && c.battle.lastKo?.by === c.user;
+const koByMove = (c: ApplyCtx) => c.foe.fainted && c.battle.lastKo?.target === c.foe && c.battle.lastKo?.by === c.user;
 /** The defense stat a move's category hits (`m` is any context with `skill`). */
 const guardStat = (m: { skill: { category: string } }): StageKey => (m.skill.category === 'physical' ? 'def' : 'spd');
 const ignoreBoost = (foe: Mon, s: StageKey, D: number) =>
@@ -73,7 +73,7 @@ const TIMED: Record<string, Timed> = {
   // {0}回合内每回合额外附加{1}%概率令对手{2}
   seer_eff_169: {
     name: '附加异常', on: ['on_hit'],
-    hook(c, p) { if (c.skill.category !== 'status' && c.battle.rng.chance(p[1])) c.battle.applyStatus(c.foe, status(p[2]), { source: c.holder }); },
+    hook(c, p) { if (c.skill?.category !== 'status' && c.battle.rng.chance(p[1])) c.battle.applyStatus(c.foe, status(p[2]), { source: c.holder }); },
   },
   // {0}回合后若对方没有将自己击败，则对方死亡
   seer_eff_62: {
@@ -92,7 +92,7 @@ const TIMED: Record<string, Timed> = {
   // {0}回合内每次直接攻击都有{1}%概率附带衰弱效果
   seer_eff_104: {
     name: '浩劫之力', on: ['on_hit'],
-    hook(c, p) { if (c.skill.category !== 'status' && c.battle.rng.chance(p[1])) c.battle.applyStatus(c.foe, 'weaken', { source: c.holder }); },
+    hook(c, p) { if (c.skill?.category !== 'status' && c.battle.rng.chance(p[1])) c.battle.applyStatus(c.foe, 'weaken', { source: c.holder }); },
   },
   // {0}回合内每次躲避攻击都有{1}%概率使自身{2}提升1个等级
   seer_eff_110: {
@@ -159,23 +159,23 @@ const TIMED: Record<string, Timed> = {
   // {0}回合内若对手使用属性技能则对手随机进入烧伤、冻伤、中毒、麻痹、害怕、睡眠中的一种异常状态
   seer_eff_163: {
     name: '奇幻孢子', on: ['on_foe_move'],
-    hook(c) { if (c.skill.category === 'status') c.battle.applyStatus(c.foe, c.battle.rng.pick(RANDOM_STATUSES), { source: c.holder }); },
+    hook(c) { if (c.skill?.category === 'status') c.battle.applyStatus(c.foe, c.battle.rng.pick(RANDOM_STATUSES), { source: c.holder }); },
   },
   // {0}回合内每回合防御和特防等级+{1}
   seer_eff_165: boostEachTurn('藤蔓生长', ['def', 'spd']),
   // {0}回合内若对手使用属性攻击则{2}%对手{1}等级{3}
   seer_eff_166: {
     name: '眩光屏障', on: ['on_foe_move'],
-    hook(c, p) { if (c.skill.category === 'status' && c.battle.rng.chance(p[2])) c.battle.changeStage(c.foe, stat(p[1]), p[3], true); },
+    hook(c, p) { if (c.skill?.category === 'status' && c.battle.rng.chance(p[2])) c.battle.changeStage(c.foe, stat(p[1]), p[3], true); },
   },
   // {0}回合内自身使用属性技能时能较快出手
-  seer_eff_171: { name: '圣光觉醒', on: ['modify_priority'], hook(c) { if (c.skill.category === 'status') return c.priority + 1; } },
+  seer_eff_171: { name: '圣光觉醒', on: ['modify_priority'], hook(c) { if (c.skill?.category === 'status') return c.priority + 1; } },
   // {0}回合内若对手MISS则自身恢复1/{1}的最大体力值
   seer_eff_177: { name: '光佑守护', on: ['on_foe_miss'], hook(c, p) { c.battle.heal(c.holder, c.holder.maxHp / p[1]); } },
   // {0}回合内若对手使用属性技能，则自身恢复1/{1}最大体力值
   seer_eff_187: {
     name: '地魂护体', on: ['on_foe_move'],
-    hook(c, p) { if (c.skill.category === 'status') c.battle.heal(c.holder, c.holder.maxHp / p[1]); },
+    hook(c, p) { if (c.skill?.category === 'status') c.battle.heal(c.holder, c.holder.maxHp / p[1]); },
   },
   // {0}回合内若受到攻击，对手攻击等级-1、特攻等级-1
   seer_eff_189: hurtDropsFoe('倔强', ['atk', 'spa']),
@@ -233,7 +233,7 @@ const TIMED: Record<string, Timed> = {
   // {0}回合内自身攻击技能造成伤害的{1}%会恢复自身体力
   seer_eff_417: {
     name: '落叶飞天', on: ['on_hit'],
-    hook(c, p) { if (c.skill.category !== 'status' && c.ctx.damageDealt > 0) c.battle.heal(c.holder, (c.ctx.damageDealt * p[1]) / 100); },
+    hook(c, p) { if (c.skill?.category !== 'status' && c.ctx.damageDealt > 0) c.battle.heal(c.holder, (c.ctx.damageDealt * p[1]) / 100); },
   },
   // {0}回合内若对手处于能力提升状态，则每回合都会受到{1}点固定伤害
   seer_eff_419: foeDamageEachTurn('黑水吸附', (c) => hasStageUp(c.foe)),
@@ -241,13 +241,13 @@ const TIMED: Record<string, Timed> = {
   seer_eff_420: {
     name: '岩石之躯', on: ['on_foe_move'], turns: () => undefined,
     hook(c, p) {
-      const clears = (c.skill.effects ?? []).some((op: any) =>
+      const clears = (c.skill?.effects ?? []).some((op) =>
         (op.op === 'clear_stages' && (op.target ?? 'foe') === 'foe' && op.which !== 'down') || (op.op === 'script' && CLEAR_SCRIPTS.has(op.id)));
       if (clears && c.targetsHolder) changeStages(c.battle, c.foe, ['atk', 'spa'], p[0], true);
     },
   },
   // {0}回合内令对手使用的属性技能无效
-  seer_eff_478: { name: '退魔封灵', on: ['on_foe_move'], hook(c) { if (c.skill.category === 'status') return 'negate'; } },
+  seer_eff_478: { name: '退魔封灵', on: ['on_foe_move'], hook(c) { if (c.skill?.category === 'status') return 'negate'; } },
   // 减少{0}点下回合所受的伤害   (a budget of {0} for the whole next turn)
   seer_eff_508: {
     name: '魂之再生', on: ['modify_damage_final'], turns: () => 1, data: (c, p) => ({ from: c.battle.turn, left: p[0] }),
@@ -435,21 +435,21 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // 若击败{0}的对手，则下一个出场的对手也进入{0}状态
   seer_eff_185: {
     // a fainted monster loses its statuses, so remember them when the hit lands
-    modifyDamage(c, p, d) { c.ctx.seer185 ||= hasStatus(c.foe, status(p[0])); return d; },
-    apply(c, p) { if (koByMove(c) && (c.ctx.seer185 || hasStatus(c.foe, status(p[0])))) armBench(c.battle, c.foe.side, 'seer_eff_185', '永恒圣焰', p); },
+    modifyDamage(c, p, d) { (c.ctx.data ??= {}).seer185 ||= hasStatus(c.foe, status(p[0])); return d; },
+    apply(c, p) { if (koByMove(c) && (c.ctx.data?.seer185 || hasStatus(c.foe, status(p[0])))) armBench(c.battle, c.foe.side, 'seer_eff_185', '永恒圣焰', p); },
     hook(c, p) { disarm(c.battle, c.holder.side, 'seer_eff_185'); c.battle.applyStatus(c.holder, status(p[0]), {}); },
   },
   // 若对手处于异常状态，则威力翻倍并消除对手相应的防御能力提升效果
   seer_eff_188: {
     power(c, _p, pw) {
       const on = hasAnyStatus(c.foe);
-      if (!c.estimate) c.ctx.seer188 = on;
+      if (!c.estimate && c.ctx) (c.ctx.data ??= {}).seer188 = on;
       return on ? pw * 2 : pw;
     },
     defense(c, _p, D) { return hasAnyStatus(c.foe) ? ignoreBoost(c.foe, guardStat(c), D) : D; },
     apply(c) {
       const k = guardStat(c.ctx), v = c.foe.stages[k];
-      if (!c.ctx.seer188 || v <= 0) return;
+      if (!c.ctx.data?.seer188 || v <= 0) return;
       c.foe.stages[k] = 0;
       c.battle.emit({ type: 'stat_stage', side: c.foe.side, stat: k, delta: -v, stage: 0, capped: false });
     },
@@ -479,10 +479,10 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // 当次攻击击败对方出战精灵时，则对手的能力提升效果转化到自己身上
   seer_eff_421: {
     // a fainted monster loses its stages, so remember them when the hit lands
-    modifyDamage(c, _p, d) { c.ctx.seer421 ??= { ...c.foe.stages }; return d; },
+    modifyDamage(c, _p, d) { (c.ctx.data ??= {}).seer421 ??= { ...c.foe.stages }; return d; },
     apply(c) {
       if (!koByMove(c)) return;
-      for (const [k, v] of Object.entries(c.ctx.seer421 ?? c.foe.stages) as [StageKey, number][]) {
+      for (const [k, v] of Object.entries(c.ctx.data?.seer421 ?? c.foe.stages) as [StageKey, number][]) {
         if (v <= 0) continue;
         c.foe.stages[k] = 0;
         c.battle.changeStage(c.user, k, v, false);

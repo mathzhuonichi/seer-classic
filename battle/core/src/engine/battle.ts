@@ -14,7 +14,7 @@ import type {
 } from '../types.ts';
 import type { BattleEvent } from '../events.ts';
 import * as C from '../constants.ts';
-import { STRUGGLE_SKILL } from '../constants.ts';
+import type { ApplyCtx, HookExtras } from '../scripts/context.ts';
 import { Rng } from '../rng.ts';
 import { computeStats } from '../stats.ts';
 import {
@@ -259,7 +259,7 @@ export class Battle {
 
   /** Catalog skill, or the owner's override (skill engravings) when `mon` is given. */
   skill(id: number, mon?: Mon): Skill {
-    if (id === STRUGGLE_SKILL.id) return STRUGGLE_SKILL;
+    if (id === C.STRUGGLE_SKILL.id) return C.STRUGGLE_SKILL;
     const s = mon?.skillOverrides?.[id] ?? this.data.skills.get(id);
     if (!s) throw new Error(`unknown skill ${id}`);
     return s;
@@ -302,13 +302,13 @@ export class Battle {
   script(id: string): ScriptEntry | undefined { return conditions.script(this, id); }
 
   /** Call every `script` hook at this point; returns their non-undefined results. */
-  fire(mon: Mon, point: HookPoint, extra: Record<string, unknown> = {}): unknown[] { return conditions.fire(this, mon, point, extra); }
+  fire(mon: Mon, point: HookPoint, extra: HookExtras = {}): unknown[] { return conditions.fire(this, mon, point, extra); }
 
   hooks(mon: Mon, on: HookPoint): Hook[] { return this.hooksWithCond(mon, on).map((x) => x.hook); }
 
   hooksWithCond(mon: Mon, on: HookPoint): { cond: ActiveCondition; hook: Hook }[] { return conditions.hooksWithCond(mon, on); }
 
-  callScript(id: string, ctx: unknown, params: unknown): unknown { return conditions.callScript(this, id, ctx, params); }
+  callScript(id: string, ctx: Omit<ApplyCtx, 'battle'>, params: unknown): unknown { return conditions.callScript(this, id, ctx, params); }
 
   // ---------- effects (effects.ts) ----------
 

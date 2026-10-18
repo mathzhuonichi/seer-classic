@@ -197,8 +197,16 @@ export function checkObjectivesAtTurnEnd(b: Battle): void {
   }
   for (const o of b.loseList) {
     if (o.kind === 'turn_limit' && b.turn >= o.turns) return finish(b, 1, 'lose_condition');
-    if (o.kind === 'script' && b.callScript(o.id, {}, o.params)) return finish(b, 1, 'lose_condition');
+    if (o.kind === 'script' && scriptObjective(b, o)) return finish(b, 1, 'lose_condition');
   }
+}
+
+/** A `script` objective: its script's `objective`; never met while probing. */
+function scriptObjective(b: Battle, o: Objective): boolean {
+  if (b.probing) return false;
+  const entry = b.script(o.id);
+  if (!entry) { b.warn(`unknown script ${o.id}`); return false; }
+  return !!entry.objective?.({ battle: b }, o.params);
 }
 
 function ppExhausted(b: Battle): boolean {
@@ -223,7 +231,7 @@ export function objectiveMet(b: Battle, o: Objective): boolean {
     case 'ko_after_turn': return allFainted() && !!ko && ko.turn > o.turns;
     case 'exhaust_pp': return ppExhausted(b);
     case 'finish_with_status_damage': return !!ko?.status && ((o.statuses ?? DOT_STATUSES) as string[]).includes(ko.status);
-    case 'script': return !!b.callScript(o.id, {}, o.params);
+    case 'script': return scriptObjective(b, o);
     default:
       b.warn(`unknown objective ${o.kind}`);
       return false;

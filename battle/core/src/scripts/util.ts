@@ -5,6 +5,7 @@
 import type { ConditionDef, Hook, HookPoint, StageKey } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { ActiveCondition, Mon } from '../engine/state.ts';
+import type { ApplyCtx, HookCtx } from './context.ts';
 
 export type StageMap = Partial<Record<StageKey, number>>;
 
@@ -29,14 +30,14 @@ export const hasStageDown = (m: Mon) => Object.values(m.stages).some((v) => v < 
 export const sameType = (a: Mon, b: Mon) => a.types.some((t) => b.types.includes(t));
 
 /** Effect phase: the move connected and the foe is still standing. */
-export const landed = (c: any) => c.ctx?.hit !== false && !c.foe.fainted;
+export const landed = (c: ApplyCtx) => c.ctx?.hit !== false && !c.foe.fainted;
 /** Hook: a foe's attack damaged the holder. */
-export const fromFoeAttack = (c: any) => c.info?.kind === 'attack' && !!c.source && c.source.side !== c.holder.side;
+export const fromFoeAttack = (c: HookCtx): c is HookCtx & { source: Mon } => c.info?.kind === 'attack' && !!c.source && c.source.side !== c.holder.side;
 
 // ---------- damage and stages ----------
 
 /** Extra damage from the move to the foe: only when it landed, rounded down, at least 1. */
-export function hitFoe(c: any, n: number, kind: 'fixed' | 'percent' = 'fixed'): void {
+export function hitFoe(c: ApplyCtx, n: number, kind: 'fixed' | 'percent' = 'fixed'): void {
   if (!landed(c) || n < 1) return;
   c.battle.dealDamage(c.foe, Math.floor(n), { kind, source: c.user, skill: c.ctx?.skill });
 }
@@ -112,11 +113,11 @@ export function disarm(b: Battle, side: 0 | 1, id: string, quiet = false): void 
 // ---------- condition timing (hook context) ----------
 
 /** The condition ticks this turn (it was not applied this turn). */
-export const counts = (c: any) => c.cond.appliedTurn !== c.battle.turn;
+export const counts = (c: HookCtx) => c.cond.appliedTurn !== c.battle.turn;
 /** The condition ends at this turn's end. */
-export const expiring = (c: any) => counts(c) && c.cond.turns <= 1;
+export const expiring = (c: HookCtx) => counts(c) && c.cond.turns <= 1;
 /** First time this condition reacts this turn. */
-export function once(c: any): boolean {
+export function once(c: HookCtx): boolean {
   const d = (c.cond.data ??= {});
   if (d.turn === c.battle.turn) return false;
   d.turn = c.battle.turn;

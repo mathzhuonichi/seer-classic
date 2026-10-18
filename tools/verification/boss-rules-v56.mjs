@@ -49,7 +49,7 @@ for(const boss of bosses){
   function visit(value,scope='root',key=''){
     if(!value||typeof value!=='object')return;
     if(value.rule||value.op==='script'||value.kind==='script'){
-      const mode=value.rule?'rule':value.op?'phase':'objective';
+      const mode=value.rule?'rule':value.op?'phase':'objective',fn={rule:'install',phase:'apply',objective:'objective'}[mode];
       const rule=value.rule??(mode==='phase'?'phase_script':'objective_script');
       const entry={rule,...(value.id?{id:value.id}:{}),scope,fields:Object.keys(value.params??value).filter(key=>!['rule','id'].includes(key))};
       if(value.rule&&value.rule!=='script'){
@@ -58,13 +58,13 @@ for(const boss of bosses){
         if(!fields||unknown.length){entry.reason=`Unsupported native rule or fields: ${unknown.join(',')||value.rule}`;row.unsupported.push(entry);unexpected.push({boss:boss.id,...entry});}
         else row.handled.push({...entry,implementation:'battle/core/src/engine/rules.ts'});
       }else if(policyFor(boss.id,value.id)?.disposition==='waived'){
-        assert.equal(typeof scripts[value.id]?.[mode==='rule'?'install':'apply'],'function','waived script must be acknowledged explicitly');
+        assert.equal(typeof scripts[value.id]?.[fn],'function','waived script must be acknowledged explicitly');
       }
       else {
-        const script=scripts[value.id],fn=mode==='rule'?'install':'apply';
+        const script=scripts[value.id];
         const native=aliases[value.id],fields=native?NATIVE_BOSS_RULE_FIELDS[native]:contracts[value.id];
         const unknown=Object.keys(value.params??{}).filter(key=>!['member','target',...(fields??[])].includes(key));
-        const valid=native||(script&&(typeof script==='function'?mode!=='rule':typeof script[fn]==='function'));
+        const valid=native||(script&&(typeof script==='function'?mode==='phase':typeof script[fn]==='function'));
         if(!valid||!fields||unknown.length){entry.reason=`Missing ${fn} path or unaudited parameter(s): ${unknown.join(',')||value.id}`;row.unsupported.push(entry);unexpected.push({boss:boss.id,...entry});}
         else row.handled.push({...entry,implementation:value.id==='level_drops_per_attempt'?'game adapter before battle construction':value.id==='require_player_species'?'validateEncounter before battle construction':native?'native alias':fn});
       }

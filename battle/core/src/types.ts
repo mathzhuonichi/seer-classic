@@ -4,6 +4,9 @@
 import type { Battle } from './engine/battle.ts';
 import type { Side } from './engine/state.ts';
 import type { StatKey } from '../../../raising/core/stats.ts';
+import type {
+  ApplyCtx, AttackScriptCtx, BattleScriptCtx, FinalDamageCtx, HookCtx, InstallCtx, MoveScriptCtx, SkillCtx,
+} from './scripts/context.ts';
 
 export type StageKey = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'acc' | 'eva';
 export type Stats = Record<StatKey, number>;
@@ -333,8 +336,9 @@ export interface DamageProbe {
 
 // ---------- scripts ----------
 
-// A script is either a plain function (run as an effect op / hook) or an
-// object whose members are called at specific points of a move:
+// A script is either a plain function (run as an effect op) or an object whose
+// members are called at specific points of a move; each gets its context
+// (scripts/context.ts) and the params of the op, rule or hook that names it:
 //   apply        effect phase (after damage), like any effect op
 //   power        variable power, before damage: (c, params, power) => power
 //   priority     (c, params) => priority
@@ -346,20 +350,23 @@ export interface DamageProbe {
 //   ppCost       (c, params) => PP spent
 //   onMiss       (c, params) => void
 //   hook         condition hooks with `script` (c includes `point`)
-export type ScriptFn = (ctx: any, params: any) => unknown;
+//   install      boss rule scripts
+//   objective    `script` win and lose objectives: (c, params) => met
+export type ScriptFn = (c: ApplyCtx, params: any) => unknown;
 export interface ScriptEntry {
   apply?: ScriptFn;
-  power?: (ctx: any, params: any, power: number) => number | void;
-  priority?: (ctx: any, params: any) => number | void;
-  crit?: (ctx: any, params: any) => { force?: boolean; add?: number } | void;
-  accuracy?: (ctx: any, params: any) => boolean | void;
-  defense?: (ctx: any, params: any, def: number) => number | void;
-  modifyDamage?: (ctx: any, params: any, damage: number) => number | void;
-  finalDamage?: (ctx: any, params: any, damage: number) => number | void;
-  ppCost?: (ctx: any, params: any) => number | void;
-  onMiss?: ScriptFn;
-  hook?: ScriptFn;
+  power?: (c: AttackScriptCtx, params: any, power: number) => number | void;
+  priority?: (c: SkillCtx, params: any) => number | void;
+  crit?: (c: AttackScriptCtx, params: any) => { force?: boolean; add?: number } | void;
+  accuracy?: (c: MoveScriptCtx, params: any) => boolean | void;
+  defense?: (c: SkillCtx, params: any, def: number) => number | void;
+  modifyDamage?: (c: MoveScriptCtx, params: any, damage: number) => number | void;
+  finalDamage?: (c: FinalDamageCtx, params: any, damage: number) => number | void;
+  ppCost?: (c: SkillCtx, params: any) => number | void;
+  onMiss?: (c: MoveScriptCtx, params: any) => void;
+  hook?: (c: HookCtx, params: any) => unknown;
   /** Boss rule scripts (`{ rule: 'script', id }`): called once per team member at battle start. */
-  install?: (ctx: any, params: any) => void;
+  install?: (c: InstallCtx, params: any) => void;
+  objective?: (c: BattleScriptCtx, params: any) => boolean;
 }
 export type ScriptRegistry = Record<string, ScriptFn | ScriptEntry>;

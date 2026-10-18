@@ -54,7 +54,6 @@ const TESTS: Record<string, Test> = {
   all: (b, c, v) => (v as When[]).every((w) => b.evalWhen(w, c)),
   any: (b, c, v) => (v as When[]).some((w) => b.evalWhen(w, c)),
   not: (b, c, v) => !b.evalWhen(v as When, c),
-  script: (b, c, v) => !!b.callScript(v.id, c, v.params),
 };
 
 /** True when every key of `when` holds; an unknown key is a warning and fails. */
