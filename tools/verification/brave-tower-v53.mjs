@@ -7,7 +7,7 @@ const limits=[
   'All wins and the loss use actual controller moves and engine settlement; no battle result or progression field is patched during combat.',
   'Loading cancellation is checked as the controller lifecycle start, flee, close; browser preloading and navigation are outside this script.',
 ];
-const battles=[];
+const witnesses=[];
 let fixture;
 const parse=game=>JSON.parse(game.exportSave());
 const floorId=floor=>`boss_tower_brave_f${String(floor).padStart(3,'0')}`;
@@ -51,7 +51,7 @@ await withSsr('brave-tower-v53',async load=>{
     }
     const battle=game.snapshot().battle;assert.equal(battle.finished,true,`${floor}: bounded real battle`);assert.equal(battle.won,true,`${floor}: ${battle.result}`);assert.equal(battle.resultReason,'ko');
     assert(parse(game).progress.bosses_cleared.includes(floorId(floor)));
-    battles.push({kind:'victory',floor,opponents:battle.enemyParty.length,turns:battle.turn,progress:progress(game)});
+    witnesses.push({kind:'victory',floor,opponents:battle.enemyParty.length,turns:battle.turn,progress:progress(game)});
     game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);
   }
 
@@ -94,7 +94,7 @@ await withSsr('brave-tower-v53',async load=>{
     leave(game);assert.deepEqual(progress(game),{highestCleared:16,resumeFloor:17});
     const restored=make(parse(game));assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});assert(!parse(restored).progress.bosses_cleared.includes(floorId(17)));
     start(restored,{type:'startTower',floor:17});leave(restored);assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});
-    battles.push({kind:'retreat-and-cancel',floor:17,attempts:parse(restored).progress.boss_attempts[floorId(17)],progress:progress(restored)});
+    witnesses.push({kind:'retreat-and-cancel',floor:17,attempts:parse(restored).progress.boss_attempts[floorId(17)],progress:progress(restored)});
   });
   check('An actual knockout loss retains floor 17 rather than resetting or advancing',()=>{
     const save=withProgress(16,17),mon=createMonster(dex,1,100,rng,{uid:'tower-v53-loss',iv:31,nature:'hardy'});
@@ -104,7 +104,7 @@ await withSsr('brave-tower-v53',async load=>{
     const battle=game.snapshot().battle;assert.equal(battle.finished,true);assert.equal(battle.won,false);assert.equal(battle.resultReason,'ko');assert.equal(parse(game).storage[0].hp,0);
     assert.deepEqual(progress(game),{highestCleared:16,resumeFloor:17});assert.deepEqual(parse(game).progress.bosses_cleared,[]);
     game.dispatch({type:'closeBattle'});const restored=make(parse(game));assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});
-    battles.push({kind:'knockout-loss',floor:17,turns:battle.turn,progress:progress(restored)});
+    witnesses.push({kind:'knockout-loss',floor:17,turns:battle.turn,progress:progress(restored)});
   });
   check('Selecting an older checkpoint preserves the highest clear and saves the new attempt',()=>{
     const game=make(withProgress(45,46));start(game,{type:'startBattle',bossId:floorId(11)});
@@ -128,7 +128,7 @@ await withSsr('brave-tower-v53',async load=>{
       const expected={highestCleared:floor,resumeFloor:floor===70?null:61},game=make(save);
       assert.deepEqual(progress(game),expected);assert.deepEqual(parse(game).progress,save.progress);assert(game.snapshot().braveTower.checkpoints.every(row=>row.unlocked));
       const imported=make();imported.importSave(JSON.stringify(save));assert.deepEqual(progress(imported),expected);assert.deepEqual(parse(imported).progress,save.progress);
-      battles.push({kind:'legacy-migration',floor,withoutGame,progress:progress(game),clears:parse(game).progress.bosses_cleared});
+      witnesses.push({kind:'legacy-migration',floor,withoutGame,progress:progress(game),clears:parse(game).progress.bosses_cleared});
     }
   });
   check('Failed start validation leaves checkpoint choice, attempts and RNG unchanged',()=>{
@@ -149,5 +149,5 @@ await withSsr('brave-tower-v53',async load=>{
     assert.deepEqual(hashes(),sourceHashes,'controller sources stayed stable during this run');
     fixture={alteredTowerEnemyMembers:alteredMembers,playerSpecies:70,prioritySkill:FAST,storageReads,discardedStorageWrites:storageWrites,networkRequests};
   });
-  t.finish({limits,sourceHashes,fixture,battles});
+  t.finish({limits,sourceHashes,fixture,witnesses});
 });

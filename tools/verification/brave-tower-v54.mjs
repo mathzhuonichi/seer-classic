@@ -7,7 +7,7 @@ const limits=[
   'First-clear essence and suit limits are the V54 remake contract. Historical repeatability of the two pet rewards remains unverified.',
   'No browser storage or network is read. Persistence writes are discarded; no game build or package is produced.',
 ];
-const battles=[];
+const witnesses=[];
 let isolation;
 const parse=game=>JSON.parse(game.exportSave());
 const floorId=floor=>`boss_tower_brave_f${String(floor).padStart(3,'0')}`;
@@ -48,7 +48,7 @@ await withSsr('brave-tower-v54',async load=>{
       }else game.dispatch({type:'move',skillId:FAST});
     }
     const battle=game.snapshot().battle;assert.equal(battle.finished,true,'bounded actual battle');assert.equal(battle.won,true,battle.result);
-    battles.push({floor,turns:battle.turn,opponents:battle.enemyParty.length,result:battle.result});
+    witnesses.push({floor,turns:battle.turn,opponents:battle.enemyParty.length,result:battle.result});
     game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);
     return battle.result;
   }
@@ -155,5 +155,5 @@ await withSsr('brave-tower-v54',async load=>{
     assert.equal(storageReads,0);assert.equal(networkRequests,0);assert.equal(JSON.stringify(original),originalBytes);assert.equal(JSON.stringify(catalog),catalogBytes);
     isolation={storageReads,discardedStorageWrites:storageWrites,networkRequests};
   });
-  t.finish({limits,isolation,battles});
+  t.finish({limits,isolation,witnesses});
 });
