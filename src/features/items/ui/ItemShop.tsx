@@ -9,7 +9,7 @@ import {EngravingShop} from '../../engravings/ui.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';
-import {fitQuantity,shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
+import {fitQuantity,shopBagLink,shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import '../../../shared/ui/management.css';
 import './ItemShop.css';
@@ -59,7 +59,7 @@ interface DetailProps {
 
 /** One product: what it is, the free order form for finite stock, and the way to the bag. */
 function ProductDetail({species,item,order,quantity,feedback,onQuantity,onBuy,onOpenBag}:DetailProps) {
- const {maximum,presets,locked,canBuy,hint}=order;
+ const {maximum,presets,locked,canBuy,hint}=order,bagLink=shopBagLink(item);
  return <>
   <div className="shop-product-heading">
    <div className="shop-product-art"><ItemIcon id={item.id} kind={item.kind} label={item.name} size={48}/></div>
@@ -77,7 +77,7 @@ function ProductDetail({species,item,order,quantity,feedback,onQuantity,onBuy,on
    <div className="management-confirm-row"><span className={maximum===0||item.blockedReason?'shop-order-blocked':''}>{hint}</span>
     <button className="primary" disabled={!canBuy} onClick={onBuy}>{item.hatches?'免费补充':'免费购买'}</button></div></>}
   {feedback&&<p className="shop-feedback" role="status">{feedback}</p>}
-  <button className={item.unlimited?'primary shop-bag-link':'shop-bag-link'} onClick={()=>onOpenBag(itemPocket(item.kind),item.id)}>
-   {item.hatches?'前往道具背包孵化':item.unlimited?'前往背包取用':'查看道具背包'} →</button>
+  {bagLink&&<button className={item.unlimited?'primary shop-bag-link':'shop-bag-link'} onClick={()=>onOpenBag(itemPocket(item.kind),item.id)}>
+   {bagLink} →</button>}
  </>;
 }

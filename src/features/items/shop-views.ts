@@ -1,5 +1,14 @@
-// Pure rules of the item shop page: product search and the order form.
+// Pure rules of the item shop page: product search, the order form and the way to the bag.
 import type { ShopItemView } from '../../shared/views.ts';
+
+/**
+ * The label of the product's link to the bag, which opens on the product; none while the bag holds no copy of a finite
+ * product (an essence before it is replenished or after its last copy hatched), as the bag would have nothing to select.
+ */
+export function shopBagLink(item:ShopItemView):string|undefined {
+  if(!item.unlimited&&item.count<1)return undefined;
+  return item.hatches?'前往道具背包孵化':item.unlimited?'前往背包取用':'查看道具背包';
+}
 
 /** A product search by name, or by the species number an essence hatches (`#12` or `12`). */
 export function shopSearch(search:string):{query:string;matches:(item:ShopItemView)=>boolean} {
