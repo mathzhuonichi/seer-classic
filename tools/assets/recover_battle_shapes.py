@@ -10,6 +10,7 @@ import argparse
 import concurrent.futures
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -88,7 +89,7 @@ def export_species(sid, args):
         contents = path.read_bytes()
         row.update({'svgPath': str(path.relative_to(work)), 'svgSha256': hashlib.sha256(contents).hexdigest(),
                     'hasBitmap': any(e.tag.rsplit('}', 1)[-1] in ('image', 'feImage') for e in tree.iter())})
-    data.update({'revision': REVISION, 'species': int(sid), 'sourcePath': str(source),
+    data.update({'revision': REVISION, 'species': int(sid), 'sourcePath': os.path.relpath(source, ROOT),
                  'sourceSha256': digest, 'sourceBytes': len(raw),
                  'exporter': 'JPEXS FFDec 26.3.0, static shape SVG export, no Flash execution',
                  'elapsedSeconds': round(time.monotonic()-started, 3)})

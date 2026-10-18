@@ -45,8 +45,8 @@ def read_cells(report):
 def main():
     trial_path = ROOT/'.cache/battle-ai-910/composition/report.json'
     trial = load(trial_path)
-    frozen = load(Path(trial['sourceOnlyReportPath']))
-    if sha(Path(trial['sourceOnlyReportPath'])) != trial['sourceOnlyReportSha256']:
+    frozen = load(ROOT / trial['sourceOnlyReportPath'])
+    if sha(ROOT / trial['sourceOnlyReportPath']) != trial['sourceOnlyReportSha256']:
         raise ValueError('Frozen source report changed')
     for report in (frozen, trial):
         if sha(ROOT/'public'/report['atlas'].lstrip('/')) != report['atlasSha256']:

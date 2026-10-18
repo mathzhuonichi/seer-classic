@@ -22,8 +22,8 @@ if (!args.includes('--reuse-exports')) {
     path.join(root, '.cache/classic-robots/UI.swf')], { stdio: 'inherit' });
   if (result.status !== 0) throw new Error('FFDec icon export failed');
 }
-const { chromium } = await import(value('--playwright', '/Users/chizhuoni/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs'));
-const browser = await chromium.launch({ headless: true, executablePath: value('--browser', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome') });
+const { chromium } = await import(value('--playwright', 'playwright'));
+const browser = await chromium.launch({ headless: true, executablePath: value('--browser', undefined) });
 const page = await browser.newPage();
 await page.setContent('<canvas></canvas>');
 const manifestPath = path.join(root, 'public/ui/classic/manifest.json');

@@ -71,7 +71,7 @@ def main():
             item.update(state='source-recovered-no-candidate', sourceSha256=source['sourceSha256'],
                         sourceShapeCount=len(source['shapes']), sourceMorphCount=len(source['morphCharacters']),
                         sourceBitmapCount=len(source['bitmapCharacters']))
-            if args.verify_hashes and sha(Path(source['sourcePath']).read_bytes()) != source['sourceSha256']:
+            if args.verify_hashes and sha((ROOT / source['sourcePath']).read_bytes()) != source['sourceSha256']:
                 raise ValueError(f'{sid}: official source digest changed')
         report_path = work/'report.json'
         prototype = sid == '346' and not report_path.exists()

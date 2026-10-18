@@ -16,15 +16,15 @@ At diagnosis, no process listened on port 1421 and requests for an original port
 
 The live development server now runs independently under launchd label `local.chizhuoni.seer-classic-dev`, bound to `127.0.0.1:1421`, with project logs in the ignored `.cache/` directory. This keeps it available when a Codex turn ends; it is a local development process rather than a packaged application or a scheduled task. To stop it, run `launchctl remove local.chizhuoni.seer-classic-dev`. A foreground replacement can then be started with `npm run dev:preview`.
 
-The actual workstation command used to start the independent process was:
+The workstation command used to start the independent process, run from the repository root, was:
 
 ```sh
 launchctl submit -l local.chizhuoni.seer-classic-dev \
-  -o /Users/chizhuoni/Codex/seer-classic/.cache/dev-preview.log \
-  -e /Users/chizhuoni/Codex/seer-classic/.cache/dev-preview-error.log \
-  -- /opt/homebrew/bin/node \
-  /Users/chizhuoni/Codex/seer-classic/node_modules/vite/bin/vite.js \
-  /Users/chizhuoni/Codex/seer-classic --host 127.0.0.1 --port 1421 --strictPort
+  -o "$PWD/.cache/dev-preview.log" \
+  -e "$PWD/.cache/dev-preview-error.log" \
+  -- "$(command -v node)" \
+  "$PWD/node_modules/vite/bin/vite.js" \
+  "$PWD" --host 127.0.0.1 --port 1421 --strictPort
 ```
 
 ## Verification

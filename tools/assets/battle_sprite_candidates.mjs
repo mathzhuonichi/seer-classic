@@ -77,7 +77,7 @@ const union=items=>{const x=Math.min(...items.map(b=>b[0])),y=Math.min(...items.
 const body=xml=>xml.replace(/^[\s\S]*?<svg\b[^>]*>/,'').replace(/<\/svg>\s*$/,'');
 const svg=content=>`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ffdec="https://www.free-decompiler.com/flash" width="1" height="1">${content}</svg>`;
 const shapes=new Map(source.shapes.map(shape=>{
- const xml=fs.readFileSync(path.join(source.shapeDirectory,shape.svgPath),'utf8');
+ const xml=fs.readFileSync(path.resolve(root,source.shapeDirectory,shape.svgPath),'utf8');
  if(sha(xml)!==shape.svgSha256)throw Error(`Changed official shape ${shape.character}`);
  const plain=!/<(?:image|use|clipPath|mask|filter|foreignObject|script)\b/.test(xml)&&!/[\s:]href="(?!#)/.test(xml);
  if(!plain)skipped.push({character:shape.character,reason:'Bitmap, filter, clipping, external reference, or active content is excluded.'});
@@ -87,7 +87,7 @@ function save(key,xml,bounds,metadata){
  if(!bounds||!bounds.every(Number.isFinite)||Math.min(...bounds.slice(2))<=0)return;
  const candidate=resize(xml,64,64,bounds),svgPath=path.join(output,key+'.svg'),pngPath=path.join(output,key+'.png');
  fs.writeFileSync(svgPath,candidate);fs.writeFileSync(pngPath,new Resvg(candidate,options).render().asPng());
- rows.push({key,svgPath,pngPath,bounds,nativeSize:bounds.slice(2),hasBitmap:false,
+ rows.push({key,svgPath:path.relative(root,svgPath),pngPath:path.relative(root,pngPath),bounds,nativeSize:bounds.slice(2),hasBitmap:false,
   sourceSha256:source.sourceSha256,candidateSvgSha256:sha(candidate),...metadata});
 }
 

@@ -83,7 +83,7 @@ See [the integration report](../../design/notes/hd-integration-v44.md) for all s
 The mixed battle HUDs use three shared restored bitmap strips inside the untouched original vector layout. After the three accepted PNGs and original source SVG wrappers are present, rebuild only their composite wrappers with:
 
 ```sh
-~/.venvs/base/bin/python tools/assets/register_hd_hud_v44.py public/ui/classic/hd/hud-ai-manifest.json --destination public/ui/classic/hd
+python3 tools/assets/register_hd_hud_v44.py public/ui/classic/hd/hud-ai-manifest.json --destination public/ui/classic/hd
 ```
 
 This checks the pinned input hashes, retains generated PNG bytes and registers their visible bounds through SVG. It does not resample the PNGs. `tools/verification/hd-assets-v44.py` checks these composites alongside the other static asset manifests and their runtime references.

@@ -21,8 +21,8 @@ def main():
     args = parser.parse_args()
     data = json.loads(args.metadata.read_text())
     source = ROOT / 'public' / data['sourcePath'].lstrip('/')
-    reference = Path(data.get('inputPath', source))
-    generated = Path(data['generatedPath'])
+    reference = ROOT / data.get('inputPath', source)
+    generated = ROOT / data['generatedPath']
     with Image.open(reference) as image:
         source_size = image.size
     with Image.open(generated) as image:
@@ -68,7 +68,7 @@ def main():
     elif previous and 'previousRestoration' in previous:
         entry['previousRestoration'] = previous['previousRestoration']
     if data.get('editReferencePath'):
-        edit_reference = Path(data['editReferencePath'])
+        edit_reference = ROOT / data['editReferencePath']
         entry['editReferenceSha256'] = digest(edit_reference)
         entry['editReferenceFile'] = edit_reference.name
     manifest['assets'][str(data['mapId'])] = entry

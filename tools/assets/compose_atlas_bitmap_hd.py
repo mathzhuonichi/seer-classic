@@ -222,7 +222,7 @@ def main():
         if rgba_sha(original) != row['rgbaSha256']:
             raise ValueError(f'{row["key"]}: original bitmap changed')
         ai = None if args.replay else enhanced[row['rgbaSha256']]
-        replacement = original if args.replay else Path(ai['outputPath'])
+        replacement = original if args.replay else ROOT / ai['outputPath']
         if not args.replay and sha(replacement) != ai['outputSha256']:
             raise ValueError(f'{row["key"]}: reviewed output changed')
         selected[row['key']] = dict(original=original, replacement=replacement, metadata=ai)

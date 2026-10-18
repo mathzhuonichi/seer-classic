@@ -23,8 +23,8 @@ def main():
     atlas = {}
     for job in jobs:
         key = job['key']
-        source = Path(job['input'])
-        generated = Path(job['resultPath'])
+        source = ROOT / job['input']
+        generated = ROOT / job['resultPath']
         size = Image.open(generated).size
         original_size = Image.open(source).size
         if min(size[0] / original_size[0], size[1] / original_size[1]) <= 1:

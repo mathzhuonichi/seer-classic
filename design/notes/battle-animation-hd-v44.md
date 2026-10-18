@@ -69,21 +69,21 @@ The separate composition report and verification are under `.cache/battle-ai-910
 
 ## Reproduction and transfer
 
-Use the project's Python environment when present, otherwise `~/.venvs/base/bin/python`, with Pillow and NumPy managed through `uv`. Native resvg and the pinned Java/FFDec runtime are recorded in the existing portrait toolchain cache.
+Use `python3` with Pillow and NumPy installed (for example through `uv`). Native resvg and the pinned Java/FFDec runtime are recorded in the existing portrait toolchain cache.
 
 The following commands document the candidate-production order used before publication in a prepared workspace. They require the recovered source SWFs, toolchain and resvg caches, and `.cache/battle-vector-prototype-346/all-source-inventory.json`; they are not a clean-checkout bootstrap script. The delivered HD index freezes published species: the normal generator skips them, and the seven-species exception helper refuses to overwrite them. Independent regeneration therefore needs an isolated worktree with its own candidate-only empty HD index and the recovered inputs. Do not clear the delivered index in the active checkout.
 
 ```sh
-~/.venvs/base/bin/python tools/assets/recover_battle_shapes.py \
+python3 tools/assets/recover_battle_shapes.py \
   --java /path/to/pinned/java --ffdec /path/to/pinned/ffdec.jar --jobs 2
-~/.venvs/base/bin/python tools/assets/battle_morph_candidates.py --ids all-morph
-~/.venvs/base/bin/python tools/assets/battle_morph_candidates.py --ids all-morph --verify-payloads
+python3 tools/assets/battle_morph_candidates.py --ids all-morph
+python3 tools/assets/battle_morph_candidates.py --ids all-morph --verify-payloads
 node tools/assets/battle_morph_candidates.mjs all-morph
-~/.venvs/base/bin/python tools/assets/build_battle_hd_atlases.py --resume --jobs 2 --skip-ids 910
-~/.venvs/base/bin/python tools/assets/recover_original_budget_battles.py
-~/.venvs/base/bin/python tools/assets/publish_battle_hd_atlases.py --ids <reviewed-comma-separated-ids> --check-only
-~/.venvs/base/bin/python tools/assets/publish_battle_hd_atlases.py --ids <reviewed-comma-separated-ids>
-~/.venvs/base/bin/python tools/assets/summarize_battle_hd_coverage.py --verify-hashes
+python3 tools/assets/build_battle_hd_atlases.py --resume --jobs 2 --skip-ids 910
+python3 tools/assets/recover_original_budget_battles.py
+python3 tools/assets/publish_battle_hd_atlases.py --ids <reviewed-comma-separated-ids> --check-only
+python3 tools/assets/publish_battle_hd_atlases.py --ids <reviewed-comma-separated-ids>
+python3 tools/assets/summarize_battle_hd_coverage.py --verify-hashes
 ```
 
 The generator prepares static sprite candidates for each species before matching and merges the pinned morph candidates. Its resume check includes source and original-input hashes, merged and additional candidate manifests, the actual generator/helper source hashes, generation policy, budget, and actual output digests. Published entries are frozen and skipped by generation. Source hashes must match the recorded versions before a regenerated result can be treated as the same recovery. Publication validation is bound to the exact report, atlas, and metadata hashes; a changed candidate cannot inherit an earlier check-only validation.
@@ -91,7 +91,7 @@ The generator prepares static sprite candidates for each species before matching
 The separate species 910 composition can be rebuilt from the accepted public bitmap and provenance together with its frozen source-only cache, original source PNG, parts manifest, and browser evidence. The finalizer prefers the accepted public PNG, so the original image-generation home directory is not required. The following command recomposes and seals that already reviewed one-part choice; it neither generates another AI image nor publishes the runtime index:
 
 ```sh
-~/.venvs/base/bin/python tools/assets/build_battle_ai_910.py \
+python3 tools/assets/build_battle_ai_910.py \
   --parts .cache/battle-ai-910/first-three.json --bitmap-ids 19 --scale 2 --finalize
 ```
 

@@ -70,13 +70,13 @@ For Albi0 0.6.0, patterns match local_basename, which appends .bundle to the log
 
 ```sh
 .cache/unity-swf-audit/venv/bin/albi0 update -n newseer.pet \
-  -w /Users/chizhuoni/Codex/seer-classic/.cache/unity-swf-audit/downloads \
+  -w .cache/unity-swf-audit/downloads \
   --max-size 10M ppets_70.bundle \
   petanimpackage_share_assets_flashtools_resources_materials_generated.bundle.bundle \
   punityshaders.bundle
 
 .cache/unity-swf-audit/venv/bin/albi0 update -n newseer.config \
-  -w /Users/chizhuoni/Codex/seer-classic/.cache/unity-swf-audit/downloads \
+  -w .cache/unity-swf-audit/downloads \
   --max-size 10M pgame_configs_bytes.bundle
 
 node .cache/unity-swf-audit/parse-sample.mjs

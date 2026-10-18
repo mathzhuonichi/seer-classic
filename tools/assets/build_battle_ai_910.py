@@ -15,6 +15,7 @@ import gzip
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as ET
@@ -64,9 +65,9 @@ def rgba(path):
 def resolve_ai_input(part, bitmap):
     """Use the transferred accepted PNG without requiring a user's image folder."""
     public_png = ROOT/'public/battle-animations/hd'/f'910-bitmap-{bitmap}-v44.png'
-    candidate_path = public_png if public_png.exists() else Path(part['candidatePath'])
+    candidate_path = public_png if public_png.exists() else ROOT / part['candidatePath']
     ai_bytes = read_checked(candidate_path, part['candidateSha256'])
-    generated_path = Path(part['generatedPath'])
+    generated_path = ROOT / part['generatedPath']
     if generated_path.exists():
         generated_sha = digest(generated_path.read_bytes())
     else:
@@ -175,7 +176,7 @@ def finalize(report_path, verification_path, reviewed_outputs):
         'reviewedMetaSha256': report['metaSha256'], 'reviewedAtlasSha256': report['atlasSha256'],
         'scope': 'Representative first/middle/last WebGL pose pairs across all five actions; not a claim that every animation frame was visually inspected.'}
     part = report['aiSourceBitmaps'][0]
-    accepted_png = read_checked(Path(part['candidatePath']), part['candidatePngSha256'])
+    accepted_png = read_checked(ROOT / part['candidatePath'], part['candidatePngSha256'])
     public_png = ROOT/'public/battle-animations/hd/910-bitmap-19-v44.png'
     if public_png.exists() and digest(public_png.read_bytes()) != part['candidatePngSha256']:
         raise ValueError('A different accepted source PNG already occupies the final public path')
@@ -273,7 +274,7 @@ def main():
     if json.loads(gzip.decompress(source_meta_bytes)) != remap_clip(original, frozen['layout']):
         raise ValueError('Frozen source-only metadata differs beyond its UV remapping')
     source = load(source_work/'source.json')
-    read_checked(Path(source['sourcePath']), frozen['sourceSha256'])
+    read_checked(ROOT / source['sourcePath'], frozen['sourceSha256'])
     parts_bytes = args.parts.read_bytes()
     parts = {int(part['bitmapId']): part for part in json.loads(parts_bytes)['parts']}
     mapping = load(ROOT/'artifacts/battle-hd-v44/910-bitmap-mapping.json')
@@ -300,7 +301,7 @@ def main():
             raise ValueError('An exact reviewed source bitmap mapping is missing')
         if cell['mode'] != 'retained-original-cell':
             raise ValueError('AI replacement must not overwrite an accepted source-vector cell')
-        source_png = read_checked(Path(part['sourcePath']), mapped['sourcePngSha256'])
+        source_png = read_checked(ROOT / part['sourcePath'], mapped['sourcePngSha256'])
         if digest(source_png) != part['sourceSha256']:
             raise ValueError('AI manifest source differs from the reviewed bitmap')
         candidate_path, ai_bytes, generated_sha = resolve_ai_input(part, bitmap)
@@ -311,7 +312,7 @@ def main():
         svg_path = work/f'bitmap-{bitmap}-replacement.svg'
         svg_path.write_text(xml)
         size = [value*args.scale for value in cell['nativeSize']]
-        ai_image, source_image = rgba(candidate_path), rgba(part['sourcePath'])
+        ai_image, source_image = rgba(candidate_path), rgba(ROOT / part['sourcePath'])
         if any(output > intrinsic for output, intrinsic in zip(size, ai_image.size)):
             raise ValueError('Trial output would exceed the supplied AI image resolution')
         output = work/f'cell-{cid}-{args.scale}x.png'
@@ -319,14 +320,14 @@ def main():
         tasks.append({'svg': str(svg_path), 'output': str(output), 'width': size[0], 'height': size[1], 'bounds': bounds})
         provenance = {'bitmapCharacter': bitmap, 'shapeCharacter': shape, 'cell': cid,
             'sourcePngPath': part['sourcePath'], 'sourcePngSha256': digest(source_png),
-            'sourcePngSize': list(source_image.size), 'sourceSvgPath': str(source_svg_path),
+            'sourcePngSize': list(source_image.size), 'sourceSvgPath': os.path.relpath(source_svg_path, ROOT),
             'sourceSvgSha256': digest(source_svg), 'generatedPath': part['generatedPath'],
-            'generatedPngSha256': generated_sha, 'candidatePath': str(candidate_path.resolve()),
+            'generatedPngSha256': generated_sha, 'candidatePath': os.path.relpath(candidate_path, ROOT),
             'candidatePngSha256': digest(ai_bytes), 'candidateSize': list(ai_image.size),
             'prompt': part['prompt'], 'sourcePatternTransforms': mapped['patternTransforms'],
             'sourceShapeNativeSize': shape_info['nativeSize'], 'sourceImageLogicalSize': mapped['sourcePngSize'],
             'sourceImageViewBox': f'0 0 {source_image.width} {source_image.height}',
-            'candidateSvgPath': str(svg_path), 'candidateSvgSha256': digest(xml.encode()),
+            'candidateSvgPath': os.path.relpath(svg_path, ROOT), 'candidateSvgSha256': digest(xml.encode()),
             'normalization': 'Entire unchanged candidate PNG mapped to original logical image width/height with preserveAspectRatio=none; no alpha-bound crop, translation, recoloring or pixel editing.',
             'registrationDiagnostics': alpha_comparison(source_image, ai_image),
             'acceptance': 'Provisional composition only; independent visual and actual-browser approval required.'}
@@ -371,9 +372,9 @@ def main():
     read_checked(source_meta_path, frozen['metaSha256'])
     read_checked(source_atlas_path, frozen['atlasSha256'])
     for part in [parts[bitmap] for bitmap in requested]:
-        read_checked(Path(part['sourcePath']), part['sourceSha256'])
+        read_checked(ROOT / part['sourcePath'], part['sourceSha256'])
     for provenance in ai:
-        read_checked(Path(provenance['candidatePath']), provenance['candidatePngSha256'])
+        read_checked(ROOT / provenance['candidatePath'], provenance['candidatePngSha256'])
     unchanged_ids = [c['id'] for c in cells if c['mode'] != 'ai-source-bitmap']
     retained_ids = [c['id'] for c in cells if c['mode'] == 'retained-original-cell']
     verified.update(decodedAtlasContentAndRgbaPaddingEveryPixelExact=True,
@@ -383,12 +384,12 @@ def main():
                     browserAndVisualAcceptance=False)
     report = copy.deepcopy(frozen)
     report.update(revision=1, kind='independent-ai-source-bitmap-override', sourceOnlyRevision=6,
-        sourceOnlyReportPath=str(frozen_path.resolve()), sourceOnlyReportSha256=digest(frozen_bytes),
+        sourceOnlyReportPath=os.path.relpath(frozen_path, ROOT), sourceOnlyReportSha256=digest(frozen_bytes),
         sourceOnlyAtlasSha256=frozen['atlasSha256'], sourceOnlyMetadataSha256=frozen['metaSha256'],
-        aiPartsManifestPath=str(args.parts.resolve()), aiPartsManifestSha256=digest(parts_bytes),
+        aiPartsManifestPath=os.path.relpath(args.parts, ROOT), aiPartsManifestSha256=digest(parts_bytes),
         sourceOnlyGeneratorInputs=report.pop('generatorInputs', []),
-        postprocessInputs=[{'path': str(Path(__file__).resolve()), 'sha256': digest(Path(__file__).read_bytes())},
-                           {'path': str(ROOT/'tools/assets/battle_hd_atlas_layout.py'), 'sha256': digest((ROOT/'tools/assets/battle_hd_atlas_layout.py').read_bytes())}],
+        postprocessInputs=[{'path': os.path.relpath(__file__, ROOT), 'sha256': digest(Path(__file__).read_bytes())},
+                           {'path': 'tools/assets/battle_hd_atlas_layout.py', 'sha256': digest((ROOT/'tools/assets/battle_hd_atlas_layout.py').read_bytes())}],
         publicationState='provisional-awaiting-independent-visual-and-browser-review',
         counts=dict(collections.Counter(c['mode'] for c in cells)),
         resolutionCounts=dict(collections.Counter(f'{c["mode"]}:{c["scale"]}x' for c in cells)),
@@ -402,7 +403,7 @@ def main():
     report_path = work/'report.json'
     save(report_path, report)
     verification_path = work/'verification.json'
-    save(verification_path, {'species': 910, 'reportPath': str(report_path),
+    save(verification_path, {'species': 910, 'reportPath': os.path.relpath(report_path, ROOT),
         'reportSha256': digest(report_path.read_bytes()), 'metaSha256': report['metaSha256'],
         'atlasSha256': report['atlasSha256'], 'checks': verified,
         'limits': ['Pixel and metadata invariants only; no visual fidelity approval.',

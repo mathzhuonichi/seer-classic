@@ -3,9 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 
 const require = createRequire(import.meta.url);
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const {Resvg} = require(path.join(root, '.cache/portrait-v44/runtime/node_modules/@resvg/resvg-js'));
 const options = {font: {loadSystemFonts: false}};
 let ids = (process.argv[2] ?? '1249').split(',');
@@ -41,7 +42,7 @@ for (const id of ids) {
     candidates.push({key, character: source.character, ratio: source.ratio, kind, bounds,
       nativeSize: bounds.slice(2), hasBitmap: /<(?:image|feImage)\b/.test(svg),
       sourceSha256: manifest.sourceSha256, sourceSvgSha256: source.svgSha256,
-      candidateSvgSha256: digest(svg), svgPath, pngPath});
+      candidateSvgSha256: digest(svg), svgPath: path.relative(root, svgPath), pngPath: path.relative(root, pngPath)});
   };
   for (const candidate of manifest.candidates) {
     const original = fs.readFileSync(path.join(directory, candidate.svgPath), 'utf8');

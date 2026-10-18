@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -181,7 +182,7 @@ def inventory_bitmaps(args):
                 path = destination / f'{sid}-{character}.png'
                 image.save(path)
                 unique[digest] = {'payloadSha256': digest, 'hashExcludesCharacterId': True, 'tag': kind,
-                                  'size': list(image.size), 'path': str(path.resolve()),
+                                  'size': list(image.size), 'path': os.path.relpath(path, ROOT),
                                   'pngSha256': sha(path.read_bytes()), 'references': []}
             unique[digest]['references'].append(reference)
             rows.append({'character': character, 'tag': kind, 'sourcePayloadBytes': len(payload),
@@ -196,7 +197,7 @@ def verify_payloads(args):
     results = []
     for path in sorted(args.cache.glob('*/manifest.json'), key=lambda p: int(p.parent.name)):
         report = json.loads(path.read_text())
-        raw = Path(report['sourcePath']).read_bytes()
+        raw = (ROOT / report['sourcePath']).read_bytes()
         if sha(raw) != report['sourceSha256']:
             raise ValueError('Source changed after morph recovery')
         source_records, _ = records(raw)
@@ -273,7 +274,7 @@ def study(sid, args):
             candidates.append({'key': f'morph-{character}-ratio-{ratio}', 'character': character,
                                'ratio': ratio, 'sourceUnionBoundsTwips': bounds,
                                'svgPath': str(path.relative_to(work)), 'svgSha256': sha(path.read_bytes())})
-    report = {'species': int(sid), 'sourcePath': str(source), 'sourceSha256': sha(raw),
+    report = {'species': int(sid), 'sourcePath': os.path.relpath(source, ROOT), 'sourceSha256': sha(raw),
               'sourceBytes': len(raw), 'morphCharacters': sorted(morph_ids),
               'bitmapCharacters': [struct.unpack_from('<H', p)[0] for t, p in source_records
                                    if t in BITMAPS and t != 8],

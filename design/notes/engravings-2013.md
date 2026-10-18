@@ -4,7 +4,7 @@ The user decided on 2026-10-15 to install every 2013 engraving whose bound speci
 
 ## Source
 
-`~/.venvs/base/bin/python -I tools/assets/build_engravings.py` regenerates the file from the research dataset `../analysis/engravings-2013/engravings-2013.json`. That folder's README records the method and keeps the evidence files.
+`python3 -I tools/assets/build_engravings.py` regenerates the file from the research dataset `../analysis/engravings-2013/engravings-2013.json`. That folder's README records the method and keeps the evidence files.
 
 - 534 rows come from `CountermarkXMLInfo` in the official `RobotCoreDLL.swf` archived on 2013-07-06. This is the only archived core DLL. The 2013 `DLLLoader` decodes it by skipping 7 bytes and zlib-uncompressing the rest.
 - 12 rows were added between July and December 2013. They are dated by ID order against 4399 species dates, and their values come from the current H5 table because no 2013 copy is archived.

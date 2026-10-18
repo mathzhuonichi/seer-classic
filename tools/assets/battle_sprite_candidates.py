@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -22,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def inspect(species: int, cache: Path):
     work = cache / 'species' / str(species)
     source = json.loads((work / 'source.json').read_text())
-    raw = Path(source['sourcePath']).read_bytes()
+    raw = (ROOT / source['sourcePath']).read_bytes()
     digest = hashlib.sha256(raw).hexdigest()
     if digest != source['sourceSha256']:
         raise ValueError('Official SWF source digest changed')
@@ -34,7 +35,7 @@ def inspect(species: int, cache: Path):
         previous = json.loads(manifest_path.read_text())
         if (previous.get('sourceSha256') == digest
                 and previous.get('generatorSha256') == signature
-                and all(Path(row[key]).is_file() for row in previous['candidates'] for key in ('svgPath', 'pngPath'))):
+                and all((ROOT / row[key]).is_file() for row in previous['candidates'] for key in ('svgPath', 'pngPath'))):
             print(json.dumps({'species': species, 'candidates': len(previous['candidates']), 'reused': True}), flush=True)
             return
     data = zlib.decompress(raw[8:]) if raw[:3] == b'CWS' else raw[8:]
@@ -86,7 +87,7 @@ def inspect(species: int, cache: Path):
                             'placements': sorted(placed, key=lambda row: row['depth'])})
     destination.mkdir(parents=True, exist_ok=True)
     manifest = {'revision': 1, 'species': species, 'sourceSha256': digest, 'generatorSha256': signature,
-                'sourcePath': source['sourcePath'], 'shapeDirectory': str(work),
+                'sourcePath': source['sourcePath'], 'shapeDirectory': os.path.relpath(work, ROOT),
                 'shapes': source['shapes'], 'sprites': sprites, 'skipped': skipped}
     path = destination / 'display-list.json'
     path.write_text(json.dumps(manifest, indent=2) + '\n')

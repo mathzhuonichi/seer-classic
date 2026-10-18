@@ -7,7 +7,7 @@ The user wants to establish the AI's information model first, then design its ba
 ## 1. Workspace and starting point
 
 - Project: Seer Classic, a local TypeScript/React game with separate battle and raising engines.
-- Working checkout: `/Users/zhuonismacbookair/code/scratch/codex/2026-10-14-seer-classic/seer-classic-codex-takeover`.
+- Working checkout: the `seer-classic-codex-takeover` worktree of this repository.
 - Branch: `codex/seer-takeover`.
 - Code baseline: `d8d4db9` — `Prioritize reliable trainer knockouts and adopt Boss execution policy`.
 - The preceding audit commit is `271d526`.

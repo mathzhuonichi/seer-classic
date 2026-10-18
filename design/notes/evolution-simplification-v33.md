@@ -30,8 +30,8 @@ The XML files were extracted from `https://seer.61.com/dll/RobotCoreDLL.swf` on 
 `PetXMLInfo.EvolvFlag` selects an `EvolveXMLInfo.Evolve` record. Its `Branch.MonTo` supplies the target; the source parent's `EvolvingLv` supplies the level. The policy JSON retains these original fields and all original branch item IDs/counts. The live upstream URL may change, so the generator rejects XML bytes that do not match the pinned hashes.
 
 ```sh
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
 ```
 
 The directory must contain `23-PetXMLInfo_xmlClass.xml` and `44-EvolveXMLInfo_xmlcls.xml`. The default cache directory is `.cache/evolution-v33`. The generator does not infer missing levels or download a changing upstream file silently.

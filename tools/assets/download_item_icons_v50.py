@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pin official per-ID item/engraving artwork, with explicit authored fallbacks.
 
-Run with the repository uv environment, or ~/.venvs/base/bin/python.
+Run with python3 (Pillow is required).
 The existing read-only Nattsu39/seer_data@a00bcdd item table resolves essence
 and soul-bead IDs; it is not evidence that the current PNG bytes are from 2013.
 """

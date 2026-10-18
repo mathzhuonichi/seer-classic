@@ -42,7 +42,7 @@ def validate_species(sid, cache, runtime):
         raise ValueError(f'{sid}: candidate manifest provenance changed or is missing')
     if report.get('candidateDependencies') != additional_candidates(work):
         raise ValueError(f'{sid}: additional candidate provenance changed or is missing')
-    if report['sourceSha256'] != sha(Path(source['sourcePath']).read_bytes()):
+    if report['sourceSha256'] != sha((ROOT / source['sourcePath']).read_bytes()):
         raise ValueError(f'{sid}: changed official source')
     if report['sourceSha256'] != candidates['sourceSha256']:
         raise ValueError(f'{sid}: candidate source differs')

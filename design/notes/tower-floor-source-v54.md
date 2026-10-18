@@ -66,7 +66,7 @@ must not be used to move the battle opponent to the left edge of the platform.
 
 ## Replay and checks
 
-Run `~/.venvs/base/bin/python tools/assets/export_tower_floor_v54.py` from this
+Run `python3 tools/assets/export_tower_floor_v54.py` from this
 checkout. The exporter requires the pinned cached SWF and the existing local
 JPEXS FFDec 26.3.0/Java toolchain; it performs no download. Optional `--source`,
 `--java`, `--ffdec`, `--cache`, and `--output` arguments support relocated tools.

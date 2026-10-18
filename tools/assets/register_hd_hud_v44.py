@@ -37,7 +37,7 @@ def main():
     args.destination.mkdir(parents=True, exist_ok=True)
     supplied = json.loads(args.input.read_text())
     if isinstance(supplied, dict):
-        jobs = [{'n': row['part'], 'path': str(ROOT / 'public' / row['path'].lstrip('/')),
+        jobs = [{'n': row['part'], 'path': 'public/' + row['path'].lstrip('/'),
                  'prompt': row['generation']['prompt']} for row in supplied['parts']]
         for row in supplied['parts']:
             assert sha((ROOT / 'public' / row['path'].lstrip('/')).read_bytes()) == row['sha256']
@@ -58,7 +58,7 @@ def main():
                 'parts': [], 'assets': {}}
     images = []
     for job in jobs:
-        path = Path(job['path'])
+        path = ROOT / job['path']
         image = Image.open(path).convert('RGBA')
         name = f"battle-hud-part-{job['n']}-v44.png"
         output = args.destination / name

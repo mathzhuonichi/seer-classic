@@ -39,8 +39,8 @@ Complete historical activity-script and server restrictions remain unverified. T
 Generation and an immediate `--check` run pass with zero remaining changes:
 
 ```sh
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
 ```
 
 A field-level comparison against v34 commit `619c510` confirms:

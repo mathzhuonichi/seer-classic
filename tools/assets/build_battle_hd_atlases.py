@@ -17,6 +17,7 @@ import hashlib
 import json
 import math
 import multiprocessing
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -47,7 +48,7 @@ def additional_candidates(work):
     for name in ('morph-study', 'sprite-study'):
         path = work.parent.parent/name/work.name/'candidates.json'
         if path.exists():
-            result.append({'path': str(path), 'sha256': sha(path.read_bytes())})
+            result.append({'path': os.path.relpath(path, ROOT), 'sha256': sha(path.read_bytes())})
     return result
 
 
@@ -440,7 +441,7 @@ def build(sid, entry, args):
     started = time.monotonic()
     work = args.cache/'species'/sid
     source = json.loads((work/'source.json').read_text())
-    source_raw = Path(source['sourcePath']).read_bytes()
+    source_raw = (ROOT / source['sourcePath']).read_bytes()
     if sha(source_raw) != source['sourceSha256']:
         raise ValueError('Pinned official source digest has changed')
     prepare_sprite_candidates(int(sid), args.cache)

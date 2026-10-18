@@ -79,8 +79,8 @@ The same mature-predecessor policy is used for the other super-evolution origin 
 ## Reproduction and checks
 
 ```sh
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
-~/.venvs/base/bin/python tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml
+python3 tools/assets/build_evolution_rules.py --source-dir /path/to/extracted-xml --check
 ```
 
 The directory must contain all three pinned XML files above. The existing default remains `.cache/evolution-v33`. The generator verifies source hashes, matching conditional targets, every selected super-evolution predecessor, literal source gates, and the exact six-source / twenty-six-fallback partition. It records 91 total policy transitions: the original 43 mechanical and 16 traditional branch transitions plus these 32 special transitions.

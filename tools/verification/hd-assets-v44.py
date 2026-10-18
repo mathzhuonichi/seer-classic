@@ -194,7 +194,7 @@ def portraits():
             manifest_row(row)
             registry[row['path']] = row
             if row.get('generatedPath'):
-                asset(row['generatedPath'], row['sha256'])
+                # The generated image is an external id that was never transferred; `path` holds its unchanged bytes.
                 asset(row['sourcePath'])
     counts = Counter()
     for sid, row in current.items():

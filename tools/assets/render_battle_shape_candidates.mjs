@@ -21,7 +21,7 @@ const resizeRoot=(xml,width,height,bounds)=>xml.replace(/<svg\b[^>]*>/,m=>m.repl
 if(phase==='prepare'){
  const source=read(path.join(work,'source.json')),destination=path.join(work,'candidates');
  const additionalFiles=['morph-study','sprite-study'].map(name=>path.resolve(work,'../..',name,String(source.species),'candidates.json')).filter(file=>fs.existsSync(file));
- const additional=additionalFiles.map(file=>({file,manifest:read(file),sha256:digest(fs.readFileSync(file))}));
+ const additional=additionalFiles.map(file=>({file:path.relative(root,file),manifest:read(file),sha256:digest(fs.readFileSync(file))}));
  const additionalSignature=digest(JSON.stringify(additional.map(item=>({file:item.file,sha256:item.sha256}))));
  fs.mkdirSync(destination,{recursive:true});
  const manifestPath=path.join(work,'candidates.json');
@@ -56,10 +56,10 @@ if(phase==='prepare'){
   if(extra.manifest.sourceSha256!==source.sourceSha256)throw Error('Additional candidates refer to a different official source');
   for(const item of extra.manifest.candidates){
    if(rows.some(row=>row.key===item.key))throw Error(`Duplicate candidate key ${item.key}`);
-   const xml=fs.readFileSync(item.svgPath,'utf8');
+   const xml=fs.readFileSync(path.resolve(root,item.svgPath),'utf8');
    if(digest(xml)!==item.candidateSvgSha256)throw Error(`Changed additional vector ${item.key}`);
    fs.writeFileSync(path.join(destination,item.key+'.svg'),xml);
-   fs.copyFileSync(item.pngPath,path.join(destination,item.key+'.png'));
+   fs.copyFileSync(path.resolve(root,item.pngPath),path.join(destination,item.key+'.png'));
    rows.push({...item,additionalManifestSha256:extra.sha256});
   }
  }

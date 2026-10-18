@@ -1,6 +1,6 @@
 # Seer Classic catalog recovery
 
-The existing Claude project catalog was recovered through its authenticated Chrome Library file viewer. The original downloaded bundle remains at `/Users/chizhuoni/Downloads/gamedata.json`; it contains 1,483 species, 5,325 skills, 25 natures, 41 conditions, 51 items, the type configuration, and 26 cached SPT encounters. Its `built_at` value is `2026-10-03T02:05:24.220Z`. This is an exact artifact migration, not a recreation from public sources.
+The existing Claude project catalog was recovered through its authenticated Chrome Library file viewer. The original downloaded bundle (`gamedata.json`) was kept in the user's Downloads folder; it contains 1,483 species, 5,325 skills, 25 natures, 41 conditions, 51 items, the type configuration, and 26 cached SPT encounters. Its `built_at` value is `2026-10-03T02:05:24.220Z`. This is an exact artifact migration, not a recreation from public sources.
 
 Project: https://claude.ai/epitaxy/project/chan_01EWaG79X4d5ikbYkWQgJeGV
 
