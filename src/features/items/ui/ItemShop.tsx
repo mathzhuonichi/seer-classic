@@ -38,7 +38,7 @@ export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pock
  return <section className="management-panel item-shop-management" aria-label="实验室道具商城">
   <ItemCategoryTabs label="商城道具分类" value={tab} options={SHOP_TABS} className="shop-primary-categories"
    onChange={id=>{setTab(id);content.setContent('all');setSearch('');setSelected('');setFeedback('')}}/>
-  {tab==='engraving'?<EngravingShop s={s} c={c}/>:<div className="item-shop-inner"><aside className="shop-product-index">
+  {tab==='engraving'?<EngravingShop c={c}/>:<div className="item-shop-inner"><aside className="shop-product-index">
    {content.options.length>2&&<ItemCategoryTabs label="商城道具用途" value={content.content} options={content.options}
     onChange={id=>{content.setContent(id);setSelected('');setFeedback('')}}/>}
    <div className="management-filter"><input aria-label="搜索商城道具或孵化精灵编号" placeholder={tab==='essence'?'名称 / 精灵编号':'搜索道具…'} value={search}

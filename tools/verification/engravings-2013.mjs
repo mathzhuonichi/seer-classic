@@ -97,6 +97,7 @@ await withSsr('engravings-2013',async load=>{
     assert.deepEqual(access(mouse.uid,'10031'),['blocked',undefined,0,true]);
     reject({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10031'},'cannot equip without stock or another holder');
     game.dispatch({type:'buyEngraving',engravingId:'10031'});assert.equal(stock('10031'),1,'one copy per purchase');
+    assert.deepEqual(game.snapshot().engravingStock,{'10031':1},'the stock slice follows the save');
     game.dispatch({type:'buyEngraving',engravingId:'10031'});assert.equal(stock('10031'),2);reject({type:'buyEngraving',engravingId:'10031'},'Speed +15 cap is 2');
     assert.deepEqual(access(mouse.uid,'10031'),['stock',undefined,2,false]);
     game.dispatch({type:'setEngraving',uid:mouse.uid,slot:'ability',engravingId:'10031'});

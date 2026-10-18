@@ -49,7 +49,7 @@ export async function verifySnapshotIdentity(){
   assert.equal(renamed.monsters.find(mon=>mon.uid===first.uid)!.name,'Identity');
   assert.notEqual(renamed.monsters,settled.monsters,'The changed slice is new.');
   assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
-  for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits'] as const)
+  for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits','engravingStock'] as const)
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');

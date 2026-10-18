@@ -4,7 +4,7 @@ import type { EngravingView } from '../shared/views.ts';
 import type { BattleAction, BattleSlice } from '../features/battle/index.ts';
 import type { ChallengesAction, ChallengesSlice } from '../features/challenges/index.ts';
 import type { CollectionAction, CollectionSlice } from '../features/collection/index.ts';
-import type { EngravingsAction } from '../features/engravings/index.ts';
+import type { EngravingsAction, EngravingsSlice } from '../features/engravings/index.ts';
 import type { ItemsAction, ItemsSlice } from '../features/items/index.ts';
 import type { RaisingAction, RaisingSlice } from '../features/raising/index.ts';
 
@@ -13,7 +13,7 @@ export type KernelAction = { type: 'dismissNotice' };
 export interface KernelSlice { notices: string[] }
 
 export type GameAction = KernelAction | BattleAction | ChallengesAction | CollectionAction | EngravingsAction | ItemsAction | RaisingAction;
-export type GameSnapshot = KernelSlice & BattleSlice & ChallengesSlice & CollectionSlice & ItemsSlice & RaisingSlice;
+export type GameSnapshot = KernelSlice & BattleSlice & ChallengesSlice & CollectionSlice & EngravingsSlice & ItemsSlice & RaisingSlice;
 
 export interface GameController {
   snapshot(): GameSnapshot; subscribe(listener: () => void): () => void; dispatch(action: GameAction): DispatchResult;

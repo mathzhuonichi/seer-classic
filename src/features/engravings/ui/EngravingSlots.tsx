@@ -1,10 +1,11 @@
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {ENGRAVING_EFFECT_GROUPS,ENGRAVING_SLOTS} from '../../../domain/engravings/engravings.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
@@ -21,10 +22,12 @@ const TABS:Record<EngravingSlot,readonly (readonly [string,string])[]>={
 export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const [feedback,setFeedback]=useState(''),[openSlot,setOpenSlot]=useState<EngravingSlot|null>(null),[selected,setSelected]=useState('');
   const [sourceUid,setSourceUid]=useState(''),[filter,setFilter]=useState('all');
-  const pickerRef=useRef<HTMLDivElement>(null);
+  const pickerRef=useRef<HTMLDivElement>(null),monsters=useGame(c,s=>s.monsters),stock=useGame(c,s=>s.engravingStock);
+  // The options follow the monster rows and the stock, so they are read again when either changes.
+  const options=useMemo(()=>openSlot?c.engravingOptions(m.uid):[],[c,m.uid,openSlot,monsters,stock]);
   useEffect(()=>{setFeedback('');setOpenSlot(null);setSelected('');setSourceUid('');setFilter('all')},[m.uid]);
   useEffect(()=>{if(openSlot)pickerRef.current?.scrollIntoView({block:'nearest',inline:'nearest'})},[openSlot,selected,filter]);
-  const candidates=openSlot?engravingSlotCandidates(c.engravingOptions(m.uid),openSlot):[];
+  const candidates=openSlot?engravingSlotCandidates(options,openSlot):[];
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];
   const chosen=list.find(option=>option.id===selected),source=chosen&&transferHolder(chosen,sourceUid);

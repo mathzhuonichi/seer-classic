@@ -1,10 +1,11 @@
-import {useEffect,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import {useEffect,useMemo,useState} from 'react';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { EngravingView, MonsterView } from '../../../shared/views.ts';
 import {ENGRAVING_EFFECT_GROUPS} from '../../../domain/engravings/engravings.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
@@ -20,18 +21,20 @@ const kindFilters=[['all','不限'],['bound','专属'],['generic','通用']] as 
 const NO_FILTER:EngravingShopFilter={slot:'all',kind:'all',stat:'',move:'',group:'',search:''};
 
 /** Shop page for 2013 engravings: pick a monster, then browse only what it can equip now. */
-export default function EngravingShop({s,c}:{s:GameSnapshot;c:GameController}) {
-  const monsters=partyFirstMonsters(s);
+export default function EngravingShop({c}:{c:GameController}) {
+  const party=useGame(c,s=>s.party),roster=useGame(c,s=>s.monsters),stock=useGame(c,s=>s.engravingStock),inBattle=useGame(c,battleActive);
+  const monsters=useMemo(()=>partyFirstMonsters({party,monsters:roster}),[party,roster]);
   const [uid,setUid]=useState(monsters[0]?.uid??''),[filter,setFilter]=useState(NO_FILTER);
   const [selected,setSelected]=useState(''),[feedback,setFeedback]=useState(''),[sourceUid,setSourceUid]=useState('');
   const monster=monsters.find(m=>m.uid===uid)??monsters[0];
+  // The options follow the monster rows and the stock, so they are read again when either changes.
+  const options=useMemo(()=>monster?c.engravingOptions(monster.uid):[],[c,monster?.uid,roster,stock]);
   useEffect(()=>{setFilter(f=>f.move?{...f,move:''}:f);setSelected('');setFeedback('');setSourceUid('')},[monster?.uid]);
   if(!monster)return <p className="management-empty">获得精灵后即可挑选刻印。</p>;
-  const equippable=c.engravingOptions(monster.uid).filter(option=>option.ready),products=engravingShopProducts(equippable,filter);
+  const equippable=options.filter(option=>option.ready),products=engravingShopProducts(equippable,filter);
   const moves=engravingMoveChoices(equippable);
   const groups=ENGRAVING_EFFECT_GROUPS.filter(([id])=>equippable.some(option=>option.slot==='skill'&&option.group===id));
   const item=products.find(option=>option.id===selected)??products[0],source=item&&transferHolder(item,sourceUid);
-  const inBattle=battleActive(s);
   const refine=(patch:Partial<EngravingShopFilter>)=>{setFilter(f=>({...f,...patch}));setSelected('');setFeedback('');setSourceUid('')};
   function buy(){
     if(item?.canBuy&&!inBattle)setFeedback(c.dispatch({type:'buyEngraving',engravingId:item.id}).notice??'');
