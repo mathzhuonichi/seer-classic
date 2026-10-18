@@ -1,6 +1,6 @@
 // Snapshot views of the collection: how to collect each species, and the fusion and breeding recipes.
 import type { Monster } from '../../../raising/core/index.ts';
-import type { AcquisitionRoute } from '../../domain/acquisition/acquisition.ts';
+import type { AcquisitionRoute } from '../../domain/acquisition/acquisition-model.ts';
 import type { InitialEvolutionStep } from '../../domain/acquisition/initial-acquisition.ts';
 import { BREEDING_RECIPES, canBreedParents, type BreedingRecipe } from '../../domain/recipes/breeding.ts';
 import { FUSION_RECIPES, canFuseParents, type FusionRecipe } from '../../domain/recipes/fusion.ts';

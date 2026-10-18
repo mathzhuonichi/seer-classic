@@ -2,7 +2,7 @@ import {useEffect,useMemo,useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { SpeciesView } from '../../../shared/views.ts';
 import {STAT_KEYS,type StatBlock} from '../../../../raising/core/types.ts';
-import type {AcquisitionRoute} from '../../../domain/acquisition/acquisition.ts';
+import type {AcquisitionRoute} from '../../../domain/acquisition/acquisition-model.ts';
 import type {DexEntryView} from '../view.ts';
 import {ALL_ELEMENTS,matchesElement} from '../../../shared/element-types.ts';
 import {STAT_LABELS} from '../../../shared/labels.ts';

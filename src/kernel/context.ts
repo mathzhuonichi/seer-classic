@@ -7,7 +7,8 @@ import type { EssenceDefinition } from '../domain/acquisition/acquisition-limits
 import { buildFacilityViews } from '../domain/challenges/battle-facilities.ts';
 import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
-import { buildAcquisitionViews, type AcquisitionCatalog, type AcquisitionViews } from '../domain/acquisition/acquisition.ts';
+import { buildAcquisitionViews, type AcquisitionViews } from '../domain/acquisition/acquisition.ts';
+import type { AcquisitionCatalog } from '../domain/acquisition/acquisition-model.ts';
 import { buildCollectionAncestry, type CollectionSpecies } from '../domain/acquisition/collection-ancestry.ts';
 import { conventionalMovesResolver } from '../domain/acquisition/conventional-moves.ts';
 import type { RecruitmentCatalog, RecruitmentReward } from '../domain/acquisition/recruitment.ts';
