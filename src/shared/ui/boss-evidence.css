@@ -4,6 +4,8 @@
 .boss-evidence[open]>summary{border-bottom:1px solid #7999ac44}
 .boss-evidence-content{padding:8px 10px;font-size:11px;line-height:1.7;min-width:0}
 .boss-evidence-content p{margin:0 0 8px!important;font-size:11px!important;line-height:1.7!important;color:inherit!important}
+/* Source links take the panel's text colour, light on the world dialogue and dark in the battle dialog. */
+.boss-evidence-content a{color:inherit}
 .boss-evidence-content table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px;text-align:left}
 .boss-evidence-content th,.boss-evidence-content td{padding:4px 7px;border-bottom:1px solid #7999ac44;font-weight:400}
 .boss-evidence-content thead{opacity:.75}
