@@ -32,8 +32,8 @@ function clickSound(event:MouseEvent<HTMLDivElement>){
 function downloadSave(json:string){
  const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));const link=document.createElement('a');
  link.href=url;link.download='赛尔号-星际存档.json';link.click();
- // The browser starts the download after this click is handled, so the URL must outlive it.
- setTimeout(()=>URL.revokeObjectURL(url));
+ // Some browsers fetch the blob well after the click is handled, so the URL outlives it by a generous margin.
+ setTimeout(()=>URL.revokeObjectURL(url),40_000);
 }
 
 const NOTICE_MS=3500;
