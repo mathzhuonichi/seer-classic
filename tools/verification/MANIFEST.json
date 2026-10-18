@@ -120,8 +120,7 @@
       "status": "gate"
     },
     "capture-v3.ts": {
-      "status": "known-failure",
-      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+      "status": "gate"
     },
     "catalog-loaders.mjs": {
       "status": "gate"
