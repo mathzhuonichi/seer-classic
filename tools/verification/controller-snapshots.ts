@@ -34,6 +34,38 @@ export async function verifyControllerSnapshots(){
   return output;
 }
 
+/** Unchanged slices and rows keep their identity, so screens that select them skip rendering (architecture-v2 §5). */
+export async function verifySnapshotIdentity(){
+  const game=createGame(await loadCatalog(),'');
+  game.dispatch({type:'dismissNotice'});
+  const settled=game.snapshot();
+  game.dispatch({type:'dismissNotice'});
+  assert.equal(game.snapshot(),settled,'An action that changes nothing returns the same snapshot.');
+  const [first,second]=settled.monsters;
+  game.dispatch({type:'rename',uid:first.uid,name:'Identity'});
+  const renamed=game.snapshot();
+  assert.equal(renamed.monsters.find(mon=>mon.uid===first.uid)!.name,'Identity');
+  assert.notEqual(renamed.monsters,settled.monsters,'The changed slice is new.');
+  assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
+  for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits'] as const)
+    assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
+  return {checks:['no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity']};
+}
+
+/** Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2). */
+export async function verifyDispatchBudget(){
+  const game=createGame(await loadCatalog(),''),uid=game.snapshot().monsters[0].uid,times:number[]=[];
+  for(let i=0;i<240;i++){
+    const started=performance.now();
+    game.dispatch(i%2?{type:'rename',uid,name:`Budget${i%7}`}:{type:'dismissNotice'});
+    if(i>=40)times.push(performance.now()-started);
+  }
+  times.sort((a,b)=>a-b);
+  const p95=times[Math.floor(times.length*0.95)];
+  assert(p95<=4,`Dispatch p95 ${p95.toFixed(2)} ms exceeds the 4 ms budget.`);
+  return {p50:times[times.length>>1],p95};
+}
+
 /** An unreadable stored save is backed up before a new journey replaces it; version-1 repairs run once, on load. */
 export async function verifyControllerSaveRecovery(){
   const catalog=await loadCatalog(),memory=new Map<string,string>();
