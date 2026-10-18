@@ -248,7 +248,7 @@
       "status": "gate"
     },
     "switch-policy-v47.mjs": {
-      "status": "historical"
+      "status": "gate"
     },
     "trainer-ai-tournament-v58.mjs": {
       "status": "tool"

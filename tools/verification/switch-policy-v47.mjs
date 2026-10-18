@@ -8,7 +8,8 @@ const check=(name,fn)=>{try{fn();report.checks.push(name);}catch(error){report.f
 // The search planner may draw once from the live RNG to mix its strategy; read-only means everything else.
 const state=b=>JSON.stringify(b,(k,v)=>k==='rng'?undefined:v instanceof Map?[...v]:v instanceof Set?[...v]:v);
 async function runtime(){
-  const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
+  const server=await createServer({configFile:false,cacheDir:'artifacts/.validation-cache/switch-policy-v47',server:{middlewareMode:true,watch:null,hmr:false},
+    appType:'custom',logLevel:'error'});
   try {
     const [core,ai,catalog,seer,training,passives,battle]=await Promise.all(['/battle/core/src/index.ts','/battle/ai/src/ai.ts','/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/tools/verification/_battle.ts'].map(p=>server.ssrLoadModule(p)));
     return {server,...core,...ai,...catalog,...seer,...training,...passives,...battle};
