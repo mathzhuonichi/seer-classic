@@ -27,13 +27,20 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const options=useMemo(()=>openSlot?c.engravingOptions(m.uid):[],[c,m.uid,openSlot,monsters,stock]);
   useEffect(()=>{setFeedback('');setOpenSlot(null);setSelected('');setSourceUid('');setFilter('all')},[m.uid]);
   useEffect(()=>{if(openSlot)pickerRef.current?.scrollIntoView({block:'nearest',inline:'nearest'})},[openSlot,selected,filter]);
+  // Escape closes an open picker, not its window, wherever the focus is (a click leaves none in WebKit): the document hears
+  // it after the controls inside, such as a tile's tooltip, and before the shell's window listener.
+  useEffect(()=>{
+    if(!openSlot)return;
+    const close=(event:KeyboardEvent)=>{if(event.key==='Escape'){event.stopPropagation();setOpenSlot(null)}};
+    document.addEventListener('keydown',close);return()=>document.removeEventListener('keydown',close);
+  },[openSlot]);
   const candidates=openSlot?engravingSlotCandidates(options,openSlot):[];
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];
   const chosen=list.find(option=>option.id===selected),source=chosen&&transferHolder(chosen,sourceUid);
   const equip=(slot:EngravingSlot,id:string,fromUid?:string)=>
     setFeedback(c.dispatch({type:'setEngraving',uid:m.uid,slot,engravingId:id||null,fromUid}).notice??'');
-  return <section className="raising-engravings" aria-label="刻印" onKeyDown={event=>{if(event.key==='Escape')setOpenSlot(null)}}>
+  return <section className="raising-engravings" aria-label="刻印">
     <div className="engraving-equipped-grid">{ENGRAVING_SLOTS.map(slot=>{
       const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot];
       return <div key={slot} className="engraving-equipped-slot">
