@@ -3,7 +3,8 @@
 // and NPC training in src/domain/challenges/). Entry factories built on them live
 // in builders.ts. Guide: SCRIPTS.md.
 import type { ConditionDef, Hook, HookPoint, StageKey } from '../types.ts';
-import type { ActiveCondition, Battle, Mon } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { ActiveCondition, Mon } from '../engine/state.ts';
 
 export type StageMap = Partial<Record<StageKey, number>>;
 

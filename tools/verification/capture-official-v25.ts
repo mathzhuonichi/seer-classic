@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createBattle } from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { rollReconstructedCapture } from '../../battle/core/src/capture.ts';
 

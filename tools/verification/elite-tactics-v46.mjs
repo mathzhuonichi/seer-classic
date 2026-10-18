@@ -8,8 +8,8 @@ const server=await createServer({configFile:false,server:{middlewareMode:true,wa
 const report={checks:[],failures:[],witnesses:[]};
 const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
-  const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle,buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
+  const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle},{buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),roster=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const WAIT=990470,HIT=990471,FOE=990472,BULK=990473;

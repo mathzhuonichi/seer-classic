@@ -1,10 +1,10 @@
 // The planning world (design/notes/trainer-search-ai-v58.md sections 2-4). This
 // module is the information boundary: the opponent's side is rebuilt from the
 // public model only, so nothing hidden reaches a simulation.
-import type { MonsterInput, Skill } from '../types.ts';
-import type { Battle } from '../engine/battle.ts';
-import type { Mon } from '../engine/state.ts';
-import { MAX_SKILLS } from '../constants.ts';
+import type { MonsterInput, Skill } from '../../../core/src/types.ts';
+import type { Battle } from '../../../core/src/engine/battle.ts';
+import type { Mon } from '../../../core/src/engine/state.ts';
+import { MAX_SKILLS } from '../../../core/src/constants.ts';
 import { cloneBattle } from '../clone.ts';
 import { observeOpponent, revealedOpponentSlots, type ModeledFoe } from '../observe.ts';
 

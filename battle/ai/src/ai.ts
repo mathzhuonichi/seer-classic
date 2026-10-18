@@ -1,10 +1,10 @@
 // Enemy decision making. Every random choice goes through battle.rng so AI
 // turns replay deterministically.
 
-import type { Action, BattlePolicy } from './types.ts';
-import type { Battle } from './engine/battle.ts';
-import type { Side } from './engine/state.ts';
-import { STRUGGLE_SKILL } from './constants.ts';
+import type { Action, BattlePolicy } from '../../core/src/types.ts';
+import type { Battle } from '../../core/src/engine/battle.ts';
+import type { Side } from '../../core/src/engine/state.ts';
+import { STRUGGLE_SKILL } from '../../core/src/constants.ts';
 import { legacySmartPick } from './legacy-ai.ts';
 import { rolloutReplacement, searchAction, searchReplacement } from './search-ai.ts';
 

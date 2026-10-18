@@ -330,8 +330,11 @@ field against it. This is the input of raising's `applyBattleRewards`.
 
 ### 10.4 AI
 
-`ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random` (wild
-default: uniformly among usable skills), `script`, and `smart` (boss and
+The engine asks an injected `BattlePolicy` (`chooseAction`, `chooseReplacement`)
+for every automatic side and never imports an AI. The game injects `AI_POLICY`
+from `ai/src/` (`src/kernel/context.ts`); module paths below are relative to
+`ai/src/`. `ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random`
+(wild default: uniformly among usable skills), `script`, and `smart` (boss and
 trainer default). A forced skill from `counter_skill` overrides all of them.
 A side with no usable skill uses Struggle, except that a smart trainer plans
 first and may restore PP with an item instead.
@@ -380,7 +383,7 @@ essences or collection unlocks. See `design/notes/station-battle-facilities-v37.
 
 ## 11. Determinism
 
-One seeded PRNG per battle (`sfc32`, seed from `createBattle`). The order of
+One seeded PRNG per battle (`sfc32`, `seed` in the battle options). The order of
 draws is fixed by the code path above, so the same seed and actions replay the
 same battle. Every random draw is a call to `rng.next()`; no `Math.random`.
 

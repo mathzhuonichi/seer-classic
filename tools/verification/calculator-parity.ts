@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {createBattle} from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {effectiveness} from '../../battle/core/src/typechart.ts';
 import type {TypeData} from '../../battle/core/src/types.ts';

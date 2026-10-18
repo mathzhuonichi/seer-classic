@@ -20,8 +20,8 @@ const approved={
 };
 await withSsr('classic-teams-v38',async load=>{
   const t=suite('classic-teams-v38'),{check}=t,teams=[],previews=[],strengthening=[];
-  const [{loadCatalog},{createGame},{buildFacilityViews,createFacilityEncounter},{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{makeDex,computeStats},{buildAcquisitionIndex},{buildRecruitmentRewards},{FUSION_RECIPES},{default:BattleFacilities}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/recipes/fusion.ts','/src/features/challenges/ui/BattleFacilities.tsx',
+  const [{loadCatalog},{createGame},{buildFacilityViews,createFacilityEncounter},{trainerSkillOrigin},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{makeDex,computeStats},{buildAcquisitionIndex},{buildRecruitmentRewards},{FUSION_RECIPES},{default:BattleFacilities}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/recipes/fusion.ts','/src/features/challenges/ui/BattleFacilities.tsx',
   ].map(load));
   const {npcTrainingScripts}=await load('/src/domain/challenges/npc-training-scripts.ts');
   const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;

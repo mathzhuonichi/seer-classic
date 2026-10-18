@@ -206,17 +206,9 @@
       "lines": 0,
       "long": 14
     },
-    "battle/core/src/observe.ts": {
-      "lines": 0,
-      "long": 4
-    },
     "battle/core/src/scripts/seer-tail.ts": {
       "lines": 588,
       "long": 0
-    },
-    "battle/core/src/search-ai.ts": {
-      "lines": 0,
-      "long": 3
     }
   }
 }

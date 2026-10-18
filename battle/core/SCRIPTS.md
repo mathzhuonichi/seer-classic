@@ -3,7 +3,7 @@
 Skills whose effect has no declarative op carry `{ "op": "script", "id": "seer_eff_<n>", "params": [...] }`.
 `<n>` is the original Seer side-effect template; its Chinese text is quoted above each entry
 (`params` = `{0}`, `{1}`, ... in order). Boss rules `{ "rule": "script", "id", "params" }` and phase ops
-`{ "op": "script", "id", "params" }` use the same registry. Pass `scripts: SEER_SCRIPTS` to `createBattle`;
+`{ "op": "script", "id", "params" }` use the same registry. Pass `scripts: SEER_SCRIPTS` in the battle options;
 the game adds its own registries (see [Game registries](#game-registries)).
 
 ## Modules (`src/scripts/`)

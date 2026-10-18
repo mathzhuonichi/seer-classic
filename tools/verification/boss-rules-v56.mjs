@@ -4,9 +4,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
-import {createBattle,buildDataSet,validateEncounter} from '../../battle/core/src/index.ts';
-import {NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL} from '../../battle/core/src/battle.ts';
-import {legacySmartPick} from '../../battle/core/src/legacy-ai.ts';
+import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
+import {createBattle} from './_battle.ts';
+import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 

@@ -1,5 +1,6 @@
 // Everything a controller derives once from its catalog. Read-only after creation.
-import { buildDataSet, type Battle, type BattleOptions, type BossEncounter, type DataSet, type RawData } from '../../battle/core/src/index.ts';
+import { Battle, buildDataSet, type BattleOptions, type BossEncounter, type DataSet, type RawData } from '../../battle/core/src/index.ts';
+import { AI_POLICY } from '../../battle/ai/src/index.ts';
 import { makeDex, type Dex, type Nature, type Skill, type Species } from '../../raising/core/index.ts';
 import type { CatalogData } from '../domain/catalog/catalog.ts';
 import { traits, type TraitDefinition } from '../domain/traits.ts';
@@ -53,7 +54,8 @@ export interface GameContext extends CatalogContext {
 
 const UNLIMITED_ITEM_KINDS = ['raising', 'battle', 'capsule'];
 
-export function createGameContext(source: CatalogData, createBattle: BattleFactory): GameContext {
+/** `construct` builds each battle from options that carry the AI policy; verification passes one to observe the battles. */
+export function createGameContext(source: CatalogData, construct: BattleFactory = options => new Battle(options)): GameContext {
   const { catalog, battleItems, recruitments } = enrichCatalog(source);
   const dex = makeDex(catalog as unknown as { species: Species[]; skills: Skill[]; natures: Nature[] });
   const data = buildDataSet({ ...catalog, items: battleItems } as unknown as RawData);
@@ -65,7 +67,8 @@ export function createGameContext(source: CatalogData, createBattle: BattleFacto
   }));
   let conventionalMoves: ((speciesId: number) => number[]) | undefined;
   return {
-    catalog, dex, data, createBattle, bosses, encounters, recruitments,
+    catalog, dex, data, bosses, encounters, recruitments,
+    createBattle: options => construct({ ...options, policy: AI_POLICY }),
     speciesName: id => dex.species(id).name.zh,
     conventionalMoves: () => conventionalMoves ??= conventionalMovesResolver(catalog),
     encounterById: new Map(encounters.map(boss => [boss.id, boss])),

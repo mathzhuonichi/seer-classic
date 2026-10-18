@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync} from 'node:fs';
-import {createBattle} from '../../battle/core/src/battle.ts';
+import {createBattle} from './_battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {attackTypes, effectiveness, hasAttackType, typeIdentity} from '../../battle/core/src/typechart.ts';
 import type {BossRule, Objective, Skill, TypeData} from '../../battle/core/src/types.ts';

@@ -10,12 +10,12 @@
 // mid-turn decision (a faint replacement) sees the current turn; the journal is
 // appended directly and is always current.
 
-import type { Battle } from './engine/battle.ts';
-import type { ActiveCondition, Mon } from './engine/state.ts';
-import type { BattleEvent, ConditionDef, JournalHit, JournalMon, JournalOrder, Skill, StageKey, Stats, When } from './types.ts';
-import { computeStats } from './stats.ts';
-import { RANDOM_MAX, RANDOM_MIN, STRUGGLE_SKILL, stageMultiplier } from './constants.ts';
-import { effectiveness } from './typechart.ts';
+import type { Battle } from '../../core/src/engine/battle.ts';
+import type { ActiveCondition, Mon } from '../../core/src/engine/state.ts';
+import type { BattleEvent, ConditionDef, JournalHit, JournalMon, JournalOrder, Skill, StageKey, Stats, When } from '../../core/src/types.ts';
+import { computeStats } from '../../core/src/stats.ts';
+import { RANDOM_MAX, RANDOM_MIN, STRUGGLE_SKILL, stageMultiplier } from '../../core/src/constants.ts';
+import { effectiveness } from '../../core/src/typechart.ts';
 
 export type RefinedStat = 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 
@@ -154,7 +154,9 @@ function gatherEvidence(b: Battle, viewer: 0 | 1, foeSide: 0 | 1, slot: number, 
 }
 
 /** Interval of the opponent's stage-0 stat, null if no candidate fits, undefined if the hit is unusable. */
-function invertHit(b: Battle, entry: JournalHit, foeAttacks: boolean, key: RefinedStat, skill: Skill, pub: PublicRecord, baseline: Stats): [number, number] | null | undefined {
+function invertHit(
+  b: Battle, entry: JournalHit, foeAttacks: boolean, key: RefinedStat, skill: Skill, pub: PublicRecord, baseline: Stats,
+): [number, number] | null | undefined {
   const foeSnap = foeAttacks ? entry.attacker : entry.defender;
   const ownSnap = foeAttacks ? entry.defender : entry.attacker;
   const model = modelMon(b, foeSnap, { ...baseline }, pub);
@@ -235,7 +237,8 @@ function combine(obs: Observation[], key: RefinedStat, conflicts: string[]): [nu
   for (let i = obs.length - 2; i >= 0; i--) {
     const nlo = Math.max(lo, obs[i].lo), nhi = Math.min(hi, obs[i].hi);
     if (nlo > nhi) {
-      conflicts.push(`${key}: ${i + 1} earlier observation(s) through turn ${obs[i].turn} (${obs[i].what}: [${obs[i].lo}, ${obs[i].hi}]) conflict with the ${obs.length - 1 - i} most recent ([${lo}, ${hi}]); kept the most recent`);
+      conflicts.push(`${key}: ${i + 1} earlier observation(s) through turn ${obs[i].turn} (${obs[i].what}: [${obs[i].lo}, ${obs[i].hi}]) `
+        + `conflict with the ${obs.length - 1 - i} most recent ([${lo}, ${hi}]); kept the most recent`);
       break;
     }
     lo = nlo; hi = nhi;
@@ -280,7 +283,10 @@ function ownAt(b: Battle, snap: JournalMon): Mon {
 
 // ---------- nominal priority ----------
 
-interface WhenView { types: string[]; ratio: number; stages: Record<StageKey, number>; ids: Set<string>; statuses: Set<string>; turnsActive: number; defs: (ConditionDef | undefined)[] }
+interface WhenView {
+  types: string[]; ratio: number; stages: Record<StageKey, number>; ids: Set<string>; statuses: Set<string>; turnsActive: number;
+  defs: (ConditionDef | undefined)[];
+}
 
 function whenView(b: Battle, snap: JournalMon, visible: (id: string, def: ConditionDef | undefined) => boolean): WhenView {
   const ids = new Set<string>(), statuses = new Set<string>(), defs: (ConditionDef | undefined)[] = [];
@@ -291,7 +297,8 @@ function whenView(b: Battle, snap: JournalMon, visible: (id: string, def: Condit
     defs.push(def);
     if (def?.kind === 'status') statuses.add(c.id);
   }
-  return { types: snap.types, ratio: snap.maxHp > 0 ? (snap.hp / snap.maxHp) * 100 : 0, stages: snap.stages, ids, statuses, turnsActive: snap.turnsActive, defs };
+  const ratio = snap.maxHp > 0 ? (snap.hp / snap.maxHp) * 100 : 0;
+  return { types: snap.types, ratio, stages: snap.stages, ids, statuses, turnsActive: snap.turnsActive, defs };
 }
 
 /** Catalog priority plus visible `priority_if`; undefined when a script or unknown predicate decides it. */

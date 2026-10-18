@@ -26,10 +26,10 @@ const baseModules={name:'git-base-engine',resolveId:id=>id.startsWith(BASE)?id:u
 
 await withSsr('battle-observe-v58',async load=>{
   const t=suite('battle-observe-v58'),{check,witnesses}=t;
-  const ids=['/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
+  const ids=['/battle/core/src/index.ts','/battle/ai/src/index.ts','/tools/verification/_battle.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
     '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
-  const [core,{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},base]=await Promise.all(ids.map(load));
-  const {createBattle,buildDataSet,computeStats,observeOpponent,revealedOpponentSlots,Rng,stageMultiplier}=core;
+  const [core,{observeOpponent,revealedOpponentSlots},{createBattle},{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},base]=await Promise.all(ids.map(load));
+  const {buildDataSet,computeStats,Rng,stageMultiplier}=core;
   const catalog=await loadCatalog(),realData=buildDataSet(catalog);
   const realScripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
   const serial=value=>JSON.stringify(value,(_key,v)=>v instanceof Map?[...v]:v instanceof Set?[...v]:v===Infinity?'Infinity':v);

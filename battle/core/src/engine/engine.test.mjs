@@ -1,35 +1,9 @@
-// Engine seams: the layering rule (the engine never imports the AI) and the injected policy.
+// Engine seams: the injected policy and the read-only damage probe.
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
 import test from 'node:test';
-import {fileURLToPath} from 'node:url';
 import {Battle} from './battle.ts';
-import {createBattle} from '../battle.ts';
-import {AI_POLICY} from '../ai.ts';
-import {cloneBattle} from '../clone.ts';
 import {buildDataSet} from '../data.ts';
 import {MEAN_ROLL} from '../constants.ts';
-
-const here = path.dirname(fileURLToPath(import.meta.url)), src = path.join(here, '..');
-const AI_MODULES = ['ai.ts', 'legacy-ai.ts', 'search-ai.ts', 'observe.ts', 'clone.ts', 'search'].map(file => path.join(src, file));
-/** Relative specifiers of static imports and re-exports, side-effect imports and dynamic import(), in either quote style. */
-const specifiers = source => [...source.matchAll(/(?:\bfrom|\bimport)\s*\(?\s*['"](\.{1,2}\/[^'"]+)['"]/g)].map(match => match[1]);
-
-test('no module the engine reaches imports the AI, the planner or its helpers', () => {
-  const seen = new Set(), queue = fs.readdirSync(here).filter(name => name.endsWith('.ts')).map(name => path.join(here, name));
-  while (queue.length) {
-    const file = queue.pop();
-    if (seen.has(file)) continue;
-    seen.add(file);
-    for (const spec of specifiers(fs.readFileSync(file, 'utf8'))) {
-      const target = path.resolve(path.dirname(file), spec);
-      assert(!AI_MODULES.some(ai => target === ai || target.startsWith(ai + path.sep)), `${path.relative(src, file)} imports ${spec}`);
-      if (target.startsWith(src + path.sep) && target.endsWith('.ts')) queue.push(target);
-    }
-  }
-  assert(seen.has(path.join(src, 'constants.ts')) && seen.has(path.join(src, 'types.ts')), 'the walk follows imports out of engine/');
-});
 
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const attack = id => ({id, name: {zh: `skill ${id}`}, type: 'normal', category: 'physical', power: 40, accuracy: null, pp: 20, priority: 0});
@@ -64,20 +38,15 @@ test('a battle without a policy runs player decisions and refuses an automatic s
   assert.throws(() => new Battle(options()), /needs a policy/);
 });
 
+/** Decides every automatic side with the second skill and never picks a replacement. */
+const fixed = {chooseAction: () => ({kind: 'move', skill: 2}), chooseReplacement: () => undefined};
+
 test('the AI estimate is the damage probe at the mean roll, and both are read-only', () => {
-  const battle = createBattle(options());
+  const battle = new Battle(options({policy: fixed}));
   battle.addCondition(battle.active(1), {id: 'guard', hooks: [{on: 'modify_damage_taken', multiplier: 0.5, consume_charge: true}]}, undefined, undefined, 1);
   const before = JSON.stringify({rng: battle.rng.s, draws: battle.rng.draws, conditions: battle.active(1).conditions, out: battle.turnEvents});
   const skill = battle.skill(1), probe = battle.probeDamage(battle.active(0), battle.active(1), skill, {roll: MEAN_ROLL, crit: false});
   assert.equal(battle.estimateDamage(battle.active(0), battle.active(1), skill), probe);
   assert.equal(probe, Math.floor(battle.calcAttack(battle.active(0), battle.active(1), skill, {}, {estimate: true}).damage * 0.5));
   assert.equal(JSON.stringify({rng: battle.rng.s, draws: battle.rng.draws, conditions: battle.active(1).conditions, out: battle.turnEvents}), before);
-});
-
-test('createBattle injects the AI unless a policy is given, and clones share the policy', () => {
-  assert.equal(createBattle(options()).policy, AI_POLICY);
-  const own = {chooseAction: () => ({kind: 'move', skill: 1}), chooseReplacement: () => undefined};
-  const battle = createBattle(options({policy: own}));
-  assert.equal(battle.policy, own);
-  assert.equal(cloneBattle(battle).policy, own);
 });

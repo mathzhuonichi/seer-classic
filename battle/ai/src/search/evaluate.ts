@@ -1,8 +1,8 @@
 // Position evaluation, in "monsters" from one side's view (design note section 6).
-import type { AiSpec, Skill } from '../types.ts';
-import type { Battle } from '../engine/battle.ts';
-import type { Mon } from '../engine/state.ts';
-import { accuracyStageMultiplier } from '../constants.ts';
+import type { AiSpec, Skill } from '../../../core/src/types.ts';
+import type { Battle } from '../../../core/src/engine/battle.ts';
+import type { Mon } from '../../../core/src/engine/state.ts';
+import { accuracyStageMultiplier } from '../../../core/src/constants.ts';
 
 /** Value of a living monster beyond its HP share: a knockout is worth more than its HP. */
 const ALIVE = 0.35;

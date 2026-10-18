@@ -7,8 +7,8 @@ import {root,sha256File,suite,withSsr} from './_harness.mjs';
 const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
 await withSsr('elite-recovery-v49',async load=>{
   const t=suite('elite-recovery-v49'),{check}=t,replacements=[],witnesses=[];
-  const [{loadCatalog},facilities,{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{chooseAiAction},{SEER_SCRIPTS},{engravings,engraveSkill},{normalizeBattleSupplyItems}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/domain/engravings/engravings.ts','/src/domain/battle-supplies.ts',
+  const [{loadCatalog},facilities,{trainerSkillOrigin},{createBattle},{buildDataSet,Rng},{chooseAiAction},{SEER_SCRIPTS},{engravings,engraveSkill},{normalizeBattleSupplyItems}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts','/src/domain/engravings/engravings.ts','/src/domain/battle-supplies.ts',
   ].map(load));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),sm=new Map(catalog.skills.map(s=>[s.id,s])),pool=facilities.eliteFacilityPool(catalog),data=buildDataSet(catalog);
   // Independently pinned current recovery-only IDs. Combined benefit moves are not included.

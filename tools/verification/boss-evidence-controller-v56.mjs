@@ -11,8 +11,8 @@ globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification m
 const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('boss-evidence-controller-v56',async load=>{
   const t=suite('boss-evidence-controller-v56'),{check}=t;
-  const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
-    '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/features/challenges/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
+  const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle},{buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
+    '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/features/challenges/boss-evidence.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/ai/src/ai.ts','/battle/ai/src/search-ai.ts',
   ].map(load));
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];

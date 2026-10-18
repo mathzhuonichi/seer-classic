@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { suite, readGameData } from './_harness.mjs';
-import { createBattle, type Battle } from '../../battle/core/src/battle.ts';
+import type { Battle } from '../../battle/core/src/index.ts';
+import { createBattle } from './_battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';

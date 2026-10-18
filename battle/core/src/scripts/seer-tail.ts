@@ -18,7 +18,8 @@
 
 import { IV_MAX, IV_MIN } from '../../../../raising/core/stats.ts';
 import type { ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
-import type { ActiveCondition, Battle, Mon } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { ActiveCondition, Mon } from '../engine/state.ts';
 import { GAMBLE_POWER, GAMBLE_POWER_ESTIMATE, IV_POWER_BASE, IV_POWER_PER_POINT, stageMultiplier } from '../constants.ts';
 import { computeStats } from '../stats.ts';
 import {

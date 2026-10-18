@@ -37,9 +37,9 @@
 // Fields must stay ordinary own properties: `#private` fields would be skipped.
 // tools/verification/battle-clone-fidelity-v58.mjs checks all of this.
 
-import type { Battle } from './engine/battle.ts';
-import { STRUGGLE_SKILL } from './constants.ts';
-import type { DataSet } from './types.ts';
+import type { Battle } from '../../core/src/engine/battle.ts';
+import { STRUGGLE_SKILL } from '../../core/src/constants.ts';
+import type { DataSet } from '../../core/src/types.ts';
 
 const SHARED_BATTLE_FIELDS = new Set(['data', 'scripts', 'encounter', 'variant', 'policy']);
 const EVENT_LIST_FIELDS = new Set(['log', 'initialEvents']);

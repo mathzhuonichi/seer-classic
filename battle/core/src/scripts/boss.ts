@@ -5,7 +5,8 @@
 // recorded in data/boss-rule-support-v56.json and the V56 audit note.
 
 import type { Hook, HookPoint, ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
-import type { Battle, Mon } from '../battle.ts';
+import type { Battle } from '../engine/battle.ts';
+import type { Mon } from '../engine/state.ts';
 import { ALWAYS_FIRST_PRIORITY, RANDOM_PRIORITY_FLOOR } from '../constants.ts';
 import { ruleScripts, type HookFn, type RuleSpec } from './builders.ts';
 import { attach, fromFoeAttack, raiseStagesTo, ruleCondition, scriptHooks } from './util.ts';

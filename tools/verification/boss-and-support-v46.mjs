@@ -10,8 +10,8 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 const report={checks:[],failures:[],bossChanges:[],supportWitnesses:[]};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
-  const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle,buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/battle.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
+  const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle},{buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/constants.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   // This is an audit classification, not a rule for rewriting original Bosses.
@@ -150,7 +150,7 @@ try {
     assert(b.sides[1].team.every(mon=>!mon.conditions.some(c=>c.id.startsWith('npc_gaia_')||c.id==='seer_eff_59')));
   });
   check('Catalog and all production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  const watched=['src/kernel/game.ts','src/domain/challenges/npc-training.ts','battle/core/src/battle.ts'];
+  const watched=['src/kernel/game.ts','src/domain/challenges/npc-training.ts','battle/core/src/engine/battle.ts'];
   report.sourceHashes=Object.fromEntries(watched.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 } catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally {

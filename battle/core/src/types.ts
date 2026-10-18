@@ -216,7 +216,7 @@ export interface BattleOptions {
   encounter?: BossEncounter;     // when present, side 1 is built from it
   variant?: string;              // encounter.variants[].id chosen by the player
   scripts?: ScriptRegistry;
-  /** Decisions for automatic sides. `createBattle` in battle.ts injects the AI; the engine never imports it. */
+  /** Decisions for automatic sides. The game injects battle/ai's policy; the engine never imports it. */
   policy?: BattlePolicy;
   maxTurns?: number;             // safety stop, default 200
   /** A trainer mode's conventional moveset per species. Planners use it to

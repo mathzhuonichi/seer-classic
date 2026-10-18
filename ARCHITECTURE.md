@@ -1,6 +1,6 @@
 # Architecture
 
-Seer Classic is a TypeScript and React browser game, packaged for the desktop with Tauri. Game content is plain JSON under `data/`. Two pure rule libraries sit on top of it: the battle engine (`battle/core`) and the raising rules (`raising/core`). The application in `src/` is a controller kernel with feature modules, rendered with React. The rules themselves are in [battle/RULES.md](battle/RULES.md) and [raising/SPEC.md](raising/SPEC.md); the rules for changing code are in [AGENTS.md](AGENTS.md). This document describes the code as it is; [architecture-v2](design/notes/architecture-v2.md) is the wave-2 target.
+Seer Classic is a TypeScript and React browser game, packaged for the desktop with Tauri. Game content is plain JSON under `data/`. Pure rule libraries sit on top of it: the battle engine (`battle/core`), its AI policies (`battle/ai`) and the raising rules (`raising/core`). The application in `src/` is a controller kernel with feature modules, rendered with React. The rules themselves are in [battle/RULES.md](battle/RULES.md) and [raising/SPEC.md](raising/SPEC.md); the rules for changing code are in [AGENTS.md](AGENTS.md). This document describes the code as it is; [architecture-v2](design/notes/architecture-v2.md) is the wave-2 target.
 
 ## Principles
 
@@ -25,6 +25,8 @@ src/domain       pure content and rules that several features use
      ↓
 src/shared       view types, labels, display helpers; src/shared/ui is the UI kit
      ↓
+battle/ai
+     ↓
 battle/core   raising/core
      ↓
 data/
@@ -32,13 +34,14 @@ data/
 
 The gate suite `tools/verification/architecture.mjs` checks every relative import under `src/`, `battle/` and `raising/` (full rules: architecture-v2 §4):
 
-- `battle/core` imports only itself, `raising/core/stats.ts` and `data/`; `raising/core` only itself, `battle/core/src/rng.ts` and `data/`.
+- `battle/core` imports only itself, `raising/core/stats.ts` and `data/`; `battle/ai` only itself, `battle/core` and `data/`; `raising/core` only itself,
+  `battle/core/src/rng.ts` and `data/`.
 - Features use the kernel only through `contract.ts` (UI-facing), `api.ts` and `acquire.ts`, and feature UI only through `contract.ts`. Another feature is reached through its `index.ts` (headless) or `ui.ts` (screens, for UI code), along `FEATURE_DEPS`: `battle`, `raising`, `items` → `engravings`; `challenges` → `battle`; `world` → `battle`, `challenges`.
 - The kernel never imports feature UI or `shared/ui`. Files stay at or under 400 lines, and lines at or under 160 characters.
 
 `architecture-baseline.json` lists the existing offenders and may only shrink: remove fixed entries (`--write-baseline`), never add one. Its import violations (battle → challenges, collection and raising; challenges ↔ collection; items → challenges; `shared` → `kernel/contract.ts`) are wave-2 work.
 
-The engine never imports an AI policy: `createBattle` in `battle/core/src/battle.ts` injects `AI_POLICY` unless the caller passes one. Moving the policies to `battle/ai` is wave-2 work.
+The engine never imports an AI policy: `createGameContext` (`src/kernel/context.ts`) injects `battle/ai`'s `AI_POLICY` into every game battle, and the kernel is the only part of `src/` that imports `battle/ai`.
 
 ## Top-level directories
 
@@ -49,7 +52,8 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 | `src/features/<name>/` | `battle`, `raising`, `collection`, `items`, `engravings`, `challenges`, `world`: `feature.ts` (the registration: action union, slice type, handlers and slice builder; `world` registers nothing yet), `index.ts` (headless surface), `ui.ts` (screens), `ui/` (components and stylesheets), and the feature's actions, view builders and own rules. |
 | `src/domain/` | `catalog/`, `acquisition/` (routes, six-copy limits, recruitment, skins), `recipes/` (fusion, breeding), `challenges/` (campaigns, Brave Tower, facilities, NPC training), `engravings/`, `world/` (galaxies, planets, habitats), `traits.ts`, `economy.ts`, `battle-supplies.ts`, `item-shop.ts`. |
 | `src/shared/` | View types (`views.ts`), labels (`labels.ts`), view helpers, creature art, icons, display scaling, `audio/`; `ui/` is the UI kit (`GameWindow`, `MonsterCard`, `TypeIcon`, item tiles, `use-game.ts`, `use-pager.ts`). |
-| `battle/core/` | The engine (`src/engine/`, wired to its AI in `src/battle.ts`), constants, data-set builder, RNG, type chart, capture, built-in conditions, scripts (`src/scripts/`, guide in `SCRIPTS.md`), and the AI: `ai.ts`, `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
+| `battle/core/` | The engine (`src/engine/`), constants, data-set builder, RNG, type chart, capture, built-in conditions and scripts (`src/scripts/`, guide in `SCRIPTS.md`). It defines `BattlePolicy` and never imports an AI. |
+| `battle/ai/` | The `BattlePolicy` the game injects (`src/ai.ts`, `AI_POLICY`): `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
 | `raising/core/` | Pure raising rules: stats, growth curves, monsters, storage, items, rewards, the dex and the shared RNG. `types.ts` defines the save shapes. |
 | `data/` | The catalog and remake data; see [data/README.md](data/README.md). |
 | `tools/` | `catalog.mjs` (`loadCatalogNode()`); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `refactor/move-files.mjs` (file moves with import rewriting, kept until wave 2 ends); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, the architecture gate). |
@@ -94,7 +98,7 @@ The engine never imports an AI policy: `createBattle` in `battle/core/src/battle
 
 ### AI policies
 
-`ai.ts` dispatches on the `ai` spec (`sequence`, `weighted`, `random`, `script` or `smart`).
+`battle/ai/src/ai.ts` dispatches on the `ai` spec (`sequence`, `weighted`, `random`, `script` or `smart`).
 
 | Side | Policy |
 | --- | --- |

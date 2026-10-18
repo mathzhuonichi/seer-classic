@@ -1,5 +1,4 @@
 // The game controller: one catalog, one save, and the snapshot the components render.
-import { createBattle } from '../../battle/core/src/index.ts';
 import { serialize } from './save.ts';
 import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
@@ -14,12 +13,12 @@ export { loadCatalog };
 export {advanceBattlePresentation, type BattlePresentationState} from '../features/battle/index.ts';
 
 export interface GameDependencies {
-  /** Creates each battle; verification passes a wrapper to observe the controller's battles. */
+  /** Constructs each battle from options that carry the AI policy; verification passes a wrapper to observe the controller's battles. */
   createBattle?: BattleFactory;
 }
 
 export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
-  const ctx = createGameContext(catalog, dependencies.createBattle ?? createBattle);
+  const ctx = createGameContext(catalog, dependencies.createBattle);
   const opened = openJourney(ctx, initialSave);
   const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 } };
   const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>();
