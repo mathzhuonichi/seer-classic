@@ -1,7 +1,7 @@
 /**
  * Node loader for the game catalog: reads `data/` from disk and assembles it exactly like the bundled
- * loader (`src/domain/catalog/catalog.ts`). For plain Node scripts; code that already runs inside Vite
- * (SSR suites, `ssrLoadModule`) calls `loadCatalog()` from that module instead.
+ * loader (`src/domain/catalog/catalog.ts`). For Node scripts, generators and suites, including the `.ts` suites that
+ * run under Vite SSR; there the bundled module's globs load the data as well, so `loadCatalog()` is the cheaper call.
  */
 import fs from 'node:fs';
 import path from 'node:path';
