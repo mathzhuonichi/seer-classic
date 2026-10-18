@@ -14,8 +14,8 @@ export const CRIT_DENOMINATOR = 16;      // crit rate = crit_rate / 16
 export const DEFAULT_CRIT_RATE = 1;
 export const RANDOM_MIN = 217;           // damage roll 217..255 / 255
 export const RANDOM_MAX = 255;
-/** The mean damage roll, at which the AI estimates damage. */
-export const MEAN_ROLL = (RANDOM_MIN + RANDOM_MAX) / 2;
+/** The integer damage roll nearest the mean, at which the AI estimates damage. */
+export const MEAN_ROLL = Math.round((RANDOM_MIN + RANDOM_MAX) / 2);
 /** Hits of a `multi_hit` op without `min`. */
 export const MULTI_HIT_DEFAULT = 2;
 export const BURN_DAMAGE_MULTIPLIER = 0.5;

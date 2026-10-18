@@ -9,6 +9,7 @@ import { attackTypes, effectiveness, hasAttackType, typeIdentity } from '../type
 import { levelMult, runHookEffects, skillScripts } from './conditions.ts';
 import { checkEnd, findRule, hasRule, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
 import { traceHit } from './journal.ts';
+import { dealsDamage } from './move.ts';
 
 export interface AttackOptions { estimate?: boolean; roll?: number; crit?: boolean }
 export interface Attack { damage: number; crit: boolean; effectiveness: number; base: number; power: number }
@@ -113,7 +114,8 @@ export function effStat(b: Battle, mon: Mon, stat: StageKey & keyof Stats): numb
 
 /**
  * Displayed damage (`amount + overkill`) of one attack hit with a fixed roll
- * (RANDOM_MIN..RANDOM_MAX) and crit. Reuses calcAttack and the damage pipeline
+ * (RANDOM_MIN..RANDOM_MAX) and crit; 0 for a skill that never strikes (status or
+ * unpowered: its damage comes from effect ops). Reuses calcAttack and the damage pipeline
  * of applyDamage. Draws no RNG, emits no events and mutates nothing beyond the
  * caches of estimate-mode power scripts: the skill's own power and defense
  * scripts run in estimate mode, other scripts (modifyDamage, finalDamage and
@@ -127,7 +129,7 @@ export function probeDamage(b: Battle, user: Mon, target: Mon, skill: Skill, opt
   if (!Number.isInteger(roll) || roll < C.RANDOM_MIN || roll > C.RANDOM_MAX) {
     throw new Error(`probe roll must be an integer in ${C.RANDOM_MIN}..${C.RANDOM_MAX}`);
   }
-  if (skill.category === 'status') return 0;
+  if (!dealsDamage(b, skill)) return 0;
   const wasProbing = b.probing, trace = b.hitTrace, unknownRules = b.probeUnknownRules;
   b.probing = true;
   b.hitTrace = null;

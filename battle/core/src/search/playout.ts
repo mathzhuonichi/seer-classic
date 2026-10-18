@@ -4,7 +4,7 @@ import type { Action, Skill } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { Mon, Side } from '../engine/state.ts';
 import { Rng } from '../rng.ts';
-import { MEAN_ROLL, RANDOM_MIN } from '../constants.ts';
+import { RANDOM_MIN } from '../constants.ts';
 import { cloneBattle } from '../clone.ts';
 import type { World } from './world.ts';
 import { evaluate, hitChance, race, type Weights } from './evaluate.ts';
@@ -37,8 +37,10 @@ function rolloutAction(b: Battle, i: 0 | 1): Action {
   let best = moves[0], score = -1;
   for (const action of moves) {
     const skill = b.skill(action.skill, user);
-    const mean = skill.category === 'status' ? 0 : b.estimateDamage(user, target, skill);
-    if (mean * RANDOM_MIN / MEAN_ROLL >= target.hp && hitChance(user, target, skill) >= 1 && actsFirst(b, user, target, skill)) return action;
+    const mean = b.estimateDamage(user, target, skill);
+    // Damage never falls as the roll rises, so only a mean-roll knockout can be one at the minimum roll.
+    const sure = mean >= target.hp && hitChance(user, target, skill) >= 1 && b.probeDamage(user, target, skill, { roll: RANDOM_MIN, crit: false }) >= target.hp;
+    if (sure && actsFirst(b, user, target, skill)) return action;
     const value = Math.min(target.hp, mean * hitChance(user, target, skill));
     if (value > score) { best = action; score = value; }
   }
