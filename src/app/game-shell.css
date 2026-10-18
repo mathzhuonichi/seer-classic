@@ -37,7 +37,10 @@ html,body,#root{height:100%;overflow:hidden}
 .game-toolbar .toolbar-atlas{position:absolute;top:0;left:calc(var(--map-center) - var(--map-width)/2);width:var(--map-width);height:100%}
 /* The circular body is at 48.166% of the map art; its ribbon is asymmetric. */
 .game-toolbar .toolbar-atlas>img{transform:translate(1.834%,-.171%)}
-.game-toolbar .toolbar-dex,.game-toolbar .toolbar-recovery,.game-toolbar .toolbar-settings{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:2px;padding:0 4px}
+/* The explicit column keeps WebKit from shrinking the labelled icons into an auto-sized implicit column. */
+.game-toolbar .toolbar-dex,.game-toolbar .toolbar-recovery,.game-toolbar .toolbar-settings{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:2px;padding:0 4px;
+}
 .game-toolbar button:hover:not(:disabled){transform:none;filter:brightness(1.18) drop-shadow(0 0 3px #fff)}
 .game-toolbar button.active{filter:brightness(1.2) drop-shadow(0 0 4px #fff887)}
 .game-toolbar button:focus-visible{outline:2px solid #ffe26a;outline-offset:1px}
