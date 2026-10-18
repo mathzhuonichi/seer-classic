@@ -21,6 +21,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | Note | Summary | Status |
 | --- | --- | --- |
 | [handoff-2026-10-18-wave3](handoff-2026-10-18-wave3.md) | Wave 2 and unit E merged: state, contracts, worker rules, open work for wave 3 (playtest first, code and test follow-ups, performance, product decisions). | current handoff |
+| [playtest-2026-10-18-wave3](playtest-2026-10-18-wave3.md) | First browser playtest since the refactor (HEAD `1ff8fac` vs base `88cad12`): no regression; 30 pre-existing findings and the wave-3 unit that took each. | historical |
 | [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure, the wave-2 units and their run, follow-ups, load budget. | done (superseded by handoff-2026-10-18-wave3) |
 | [architecture-v2](architecture-v2.md) | Target feature-module architecture: experience budgets, dependency rules, kernel/feature contracts, AI turn preparation. | plan (active) |
 | [refactor-survey-2026-10-18](refactor-survey-2026-10-18.md) | Repository refactor survey (items A–E and a ranked plan); the source of the AGENTS.md rules. | plan (active) |
