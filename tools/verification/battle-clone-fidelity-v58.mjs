@@ -15,8 +15,10 @@
  * and every Boss encounter. Side 0 is either a player with explicit actions or
  * an AI trainer; explicit moves, switches and items are mixed in on both sides.
  *
- * AI-driven sides use the V57 planner except in the nested-planner category, which
- * runs the search planner so that its own clones are exercised inside real turns.
+ * Trainer sides play explicit actions, because the search planner is slow, except in
+ * the nested-planner category, which runs the search planner so that its own clones
+ * are exercised inside real turns. Other automatic sides (bosses) are left to the AI
+ * at random, and every faint replacement of an automatic side is the AI's.
  *
  * Usage: node tools/verification/battle-clone-fidelity-v58.mjs [--quick] [--json <file>] [--shard k/n]
  * --shard runs only corpus items whose index is k modulo n; the parallel launcher
@@ -273,15 +275,15 @@ try {
     return drv.pick(moves.length ? moves : legal);
   }
   /** Actions submitted this turn; sides left out are decided by the engine's AI. */
-  function chooseSubmissions(b, drv, {explicitAll = false, preferUnused = false} = {}) {
+  function chooseSubmissions(b, drv, {explicitAll = false, explicitTrainers = false, preferUnused = false} = {}) {
     const subs = [];
     if (b.phase === 'replace') {
       for (const s of [0, 1]) if (b.sides[s].needsReplacement && b.needsInput(s)) subs.push([s, pickAction(b, s, drv, {replace: true})]);
       return subs;
     }
     for (const s of [0, 1]) {
-      const auto = !b.needsInput(s);
-      if (!auto || explicitAll || drv.chance(s === 0 ? 30 : 15)) subs.push([s, pickAction(b, s, drv, {replace: false, preferUnused: preferUnused && s === 0})]);
+      const auto = !b.needsInput(s), explicit = explicitAll || (explicitTrainers && b.sides[s].kind === 'trainer');
+      if (!auto || explicit || drv.chance(s === 0 ? 30 : 15)) subs.push([s, pickAction(b, s, drv, {replace: false, preferUnused: preferUnused && s === 0})]);
     }
     return subs;
   }
@@ -306,7 +308,6 @@ try {
       const {traits: withTraits, ...first} = spec.sides[0];
       battle = createBattle({data, scripts, seed: item.seed, sides: [first, spec.sides[1]], encounter: spec.encounter, variant: spec.variant});
       if (withTraits) attachTraits(battle, rng);
-      if (item.category !== 'nested-planner') for (const side of battle.sides) for (const holder of [side, ...side.team]) if (holder.ai?.kind === 'smart') holder.ai = {...holder.ai, planner: 'v57'};
       if (item.probe) for (const side of battle.sides) for (const mon of side.team) {
         mon.conditions.push({id: 'clone_fidelity_probe', def: {id: 'clone_fidelity_probe', kind: 'other', removed_on_switch: false, hooks: [{on: 'choose_action', script: 'clone_fidelity_probe'}]}, turns: Infinity, appliedTurn: 0});
       }
@@ -319,7 +320,7 @@ try {
     const where = (extra) => ({category: item.category, seed: item.seed, turn: battle.turn, phase: battle.phase, ...extra});
 
     for (let step = 0; !battle.result && step < TURN_LIMIT; step++) {
-      const subs = chooseSubmissions(battle, drv, {preferUnused: item.category === 'script-coverage'});
+      const subs = chooseSubmissions(battle, drv, {explicitTrainers: !item.probe, preferUnused: item.category === 'script-coverage'});
       for (const [, a] of subs) report.actionKinds[a.kind] = (report.actionKinds[a.kind] ?? 0) + 1;
       const beforeFp = fingerprint(battle), beforeState = stateJson(battle), beforeLog = eventsJson(battle.log), beforeLogLength = battle.log.length;
 
@@ -335,7 +336,7 @@ try {
       // 2. Extra turns on another clone leave the original untouched.
       const scratch = cloneBattle(battle), extra = 1 + drv.int(0, 2);
       try {
-        for (let k = 0; k < extra && !scratch.result; k++) { apply(scratch, chooseSubmissions(scratch, drv)); report.extraCloneTurns++; }
+        for (let k = 0; k < extra && !scratch.result; k++) { apply(scratch, chooseSubmissions(scratch, drv, {explicitTrainers: !item.probe})); report.extraCloneTurns++; }
       } catch (error) {
         report.errors.push(where({check: 'extra-clone-turn', error: String(error.stack).split('\n').slice(0, 3).join(' | ')}));
       }
