@@ -1,10 +1,13 @@
 /** V50 access policy through the real controller, raising core, and battle core. */
 import assert from 'node:assert/strict';
-import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import {root,memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
 memoryStorage();
 const sort=values=>[...values].sort(),parse=game=>JSON.parse(game.exportSave());
 const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',CAP='item_capsule_master',WAIT=990500;
+const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
 await withSsr('unlimited-access-v50',async load=>{
   const t=suite('unlimited-access-v50'),{check}=t;
   const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
@@ -148,6 +151,6 @@ await withSsr('unlimited-access-v50',async load=>{
   const files=['src/game.ts','src/mechanics/engraving-access.ts','raising/core/items.ts','battle/core/src/battle.ts','src/progression/battle-supplies.ts'];
   t.finish({
     genericAbilityCaps,genericAbilityCapsSource:'Runtime engravingAccess(def); sourceMaxOwned records the unchanged 2013 catalog value.',
-    sourceHashes:Object.fromEntries([...files].map(file=>[file,sha256File(file)])),
+    sourceHashes:Object.fromEntries([...files,...controllerFiles].map(file=>[file,sha256File(file)])),
   });
 });

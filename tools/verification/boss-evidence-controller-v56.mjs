@@ -8,6 +8,7 @@ const scope='Production controller and core objects, observed through the contro
 let storageReads=0,storageWrites=0,networkRequests=0;
 globalThis.localStorage={getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}};
 globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification must remain offline.');};
+const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
 await withSsr('boss-evidence-controller-v56',async load=>{
   const t=suite('boss-evidence-controller-v56'),{check}=t;
   const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
@@ -211,5 +212,5 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     const unknown={...structuredClone(source),id:'unverified-v56'};const evidence=buildBossEvidence(unknown);assert(evidence.fields.every(row=>row.status==='inferred'));assert(evidence.limitations.some(text=>text.includes('尚未完成核对')));
     assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert(created.length>0);
   });
-  t.finish({scope,sourceHashes:Object.fromEntries(['src/mechanics/boss-encounter.ts','src/game.ts','src/presentation/boss-evidence.ts','src/presentation/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json'].map(file=>[file,sha256File(file)]))});
+  t.finish({scope,sourceHashes:Object.fromEntries(['src/mechanics/boss-encounter.ts','src/game.ts','src/presentation/boss-evidence.ts','src/presentation/encounter-level.ts','data/boss-evidence-runtime-v56.json','data/boss-rule-support-v56.json',...controllerFiles].map(file=>[file,sha256File(file)]))});
 });

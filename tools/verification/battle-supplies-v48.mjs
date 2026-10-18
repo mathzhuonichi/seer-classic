@@ -1,6 +1,8 @@
 /** Trainer supply rules and V50 player access: inventory isolation, real turns, and public entries. */
 import assert from 'node:assert/strict';
-import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import {root,memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
 memoryStorage();
 const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',RETIRED_HP='item_potion_hp_3000',RETIRED_PP='item_potion_pp_40',FINITE_HP='item_potion_hp_200';
@@ -10,6 +12,7 @@ const sorted=values=>[...values].sort();
 const parse=game=>JSON.parse(game.exportSave());
 const snapshotItems=game=>game.snapshot().items.filter(item=>item.unlimited).map(item=>item.id);
 const finiteInventory=items=>Object.values(items).every(value=>typeof value==='number'&&Number.isFinite(value));
+const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
 await withSsr('battle-supplies-v48',async load=>{
   const t=suite('battle-supplies-v48'),{check}=t,publicEntries=[];
   const [{loadCatalog},{createGame:createProductionGame},{createBattle,buildDataSet},{SEER_SCRIPTS},{makeDex,computeStats},{trainerBattleSupplies,TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([
@@ -168,7 +171,7 @@ await withSsr('battle-supplies-v48',async load=>{
   check('Validation preserves shared catalog bytes and observes every controller battle through the seam',()=>{assert.equal(JSON.stringify(catalog),catalogBefore);assert(created.length>=entries.length);});
   t.finish({
     publicEntries,
-    sourceHashes:Object.fromEntries(['battle/core/src/types.ts','battle/core/src/battle.ts','src/progression/battle-supplies.ts','src/game.ts','src/game-types.ts'].map(file=>[file,sha256File(file)])),
+    sourceHashes:Object.fromEntries(['battle/core/src/types.ts','battle/core/src/battle.ts','src/progression/battle-supplies.ts','src/game.ts','src/game-types.ts',...controllerFiles].map(file=>[file,sha256File(file)])),
     boundary:'Production core/controller behavior. The optional turn-cap test does not prove arbitrary unlimited-supply games must reach a knockout. AI policy is independently verified by potion-ai-v48.',
   });
 });

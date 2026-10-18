@@ -8,7 +8,34 @@ import { expToNext, MAX_LEVEL } from "../core/growth.ts";
 import { MAX_EQUIPPED } from "../core/monster.ts";
 import { PARTY_MAX } from "../core/storage.ts";
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
+
+/** Per-monster later-era mechanics state (see src/mechanics/modules.ts). */
+export interface SavedModules {
+  engravings: string[];
+  /** Spent bonus resources that cannot fit in the nonnegative base HP/PP save fields. */
+  engravingDeficit?: { hp: number; pp: Record<string, number> };
+}
+
+/** The game controller's per-player state, saved beside the raising core's fields. */
+export interface GameExtras {
+  coins: number;
+  /** Trait id per monster uid. */
+  traits: Record<string, string>;
+  /** Claimed quest ids. */
+  quests: string[];
+  battlesWon: number;
+  modules: Record<string, SavedModules>;
+  engravingStock: Record<string, number>;
+  /** Cleared stage ids per challenge campaign. */
+  campaigns: Record<string, string[]>;
+  /** Items listed in the shop because the player has earned them. */
+  shopUnlocked: string[];
+  recruitmentClaims: Record<string, number>;
+  braveTower: { highestCleared: number; resumeFloor: number | null };
+}
+
+export type GameSave = Save & { game: GameExtras };
 
 export function newSave(seed: number): Save {
   return {
@@ -24,17 +51,46 @@ export function newSave(seed: number): Save {
   };
 }
 
-// Each entry upgrades a save from version k to k + 1. Empty until the format changes.
-const MIGRATIONS: Record<number, (s: any) => any> = {};
+/** Catalog facts that a migration needs but a save does not record; the game controller supplies them. */
+export interface MigrationContext {
+  /** Recruitment quests whose version-1 claims were recorded only in `game.quests`. */
+  recruitments: readonly { questId: string; itemId: string }[];
+  /** Items introduced during version 1, granted once without replacing existing stock. */
+  introducedItems: Readonly<Record<string, number>>;
+}
 
-export function migrate(raw: any): Save {
+const isRecord = (x: unknown): x is Record<string, any> => typeof x === "object" && x !== null && !Array.isArray(x);
+
+// Version 1 repaired these on every load or write; version 2 records them once.
+// Malformed fields are left for validateSave to report.
+function fromVersion1(s: any, context: MigrationContext | undefined): any {
+  if (!context) throw new Error("version 1 saves need the game's migration context");
+  if (isRecord(s.items)) for (const [id, count] of Object.entries(context.introducedItems)) if (!(id in s.items)) s.items[id] = count;
+  const game = s.game;
+  if (!isRecord(game) || !Array.isArray(game.quests)) return s;
+  // Old direct-creature quest rewards keep their repeat-claim entitlement and shop listing.
+  game.recruitmentClaims ??= {};
+  game.shopUnlocked ??= [];
+  if (!isRecord(game.recruitmentClaims) || !Array.isArray(game.shopUnlocked)) return s;
+  for (const { questId, itemId } of context.recruitments) {
+    if (!game.quests.includes(questId)) continue;
+    game.recruitmentClaims[questId] = Math.max(1, game.recruitmentClaims[questId] ?? 0);
+    if (!game.shopUnlocked.includes(itemId)) game.shopUnlocked.push(itemId);
+  }
+  return s;
+}
+
+// Each entry upgrades a save from version k to k + 1.
+const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1 };
+
+export function migrate(raw: any, context?: MigrationContext): Save {
   let s = raw;
   if (typeof s?.version !== "number") throw new Error("not a Seer Classic save");
   if (s.version > SAVE_VERSION) throw new Error(`save version ${s.version} is newer than this game`);
   while (s.version < SAVE_VERSION) {
     const step = MIGRATIONS[s.version];
     if (!step) throw new Error(`no migration from save version ${s.version}`);
-    s = { ...step(s), version: s.version + 1 };
+    s = { ...step(s, context), version: s.version + 1 };
   }
   return s as Save;
 }
@@ -91,8 +147,8 @@ export function serialize(save: Save): string {
 }
 
 // Parses, migrates and validates. Throws with every problem listed if the save is bad.
-export function deserialize(text: string, dex: Dex | null = null): Save {
-  const save = migrate(JSON.parse(text));
+export function deserialize(text: string, dex: Dex | null = null, context?: MigrationContext): Save {
+  const save = migrate(JSON.parse(text), context);
   const errors = validateSave(save, dex);
   if (errors.length) throw new Error(`invalid save:\n- ${errors.join("\n- ")}`);
   return save;
