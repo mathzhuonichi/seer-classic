@@ -1,6 +1,6 @@
 import generatedHabitats from '../../../data/habitats.json';
-import mapArtwork from '../../features/world/map-art-assets.json';
-import mapHdArtwork from '../../features/world/map-hd-assets.json';
+import mapArtwork from './map-art-assets.json';
+import mapHdArtwork from './map-hd-assets.json';
 import { ADDITIONAL_WORLD_PLANETS } from './expansion.ts';
 import { assembleWorld } from './assemble.ts';
 import { CLASSIC_PLANETS, EXTRA_REGIONS, FUSION_HABITATS } from './classic-planets.ts';

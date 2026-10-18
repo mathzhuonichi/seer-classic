@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {bagItems,itemTargets,itemUse,itemUseAction,itemUseFeedback,pocketItems} from './inventory-views.ts';
-import {BATTLE_SUPPLY_CATEGORIES,battleSupplyLabel,itemCategoryOptions,itemKindLabel,itemPocket} from './item-categories.ts';
+import {BATTLE_SUPPLY_CATEGORIES,battleSupplyLabel,itemCategoryOptions,itemKindLabel,itemPocket} from '../../shared/item-categories.ts';
 import {partyFirstMonsters,partyMonsters} from '../../shared/party-order.ts';
 
 const item=fields=>({id:'item_level_up_1',name:'等级药',kind:'raising',count:1,description:'',battleUsable:false,...fields});

@@ -2,7 +2,7 @@ import type {GameSnapshot,ItemView,MonsterView} from '../../../kernel/contract.t
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import {encounterLevelText} from '../../../shared/encounter-level.ts';
-import {battleSupplyLabel,itemContentCategory,itemKindLabel} from '../item-categories.ts';
+import {battleSupplyLabel,itemContentCategory,itemKindLabel} from '../../../shared/item-categories.ts';
 import {itemStock,itemTargets,itemUse} from '../inventory-views.ts';
 import {partyMonsters} from '../../../shared/party-order.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';

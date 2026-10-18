@@ -1,7 +1,7 @@
 // Pure rules of the item bag: which items a pocket lists, and how the selected item is used.
 // The controller re-checks every rule when the action is dispatched.
 import type {GameAction,GameSnapshot,ItemView,MonsterView} from '../../kernel/contract.ts';
-import {battleSupplyOrder,itemContentCategory,itemPocket,type ItemPocket} from './item-categories.ts';
+import {battleSupplyOrder,itemContentCategory,itemPocket,type ItemPocket} from '../../shared/item-categories.ts';
 import {battleActive} from '../../shared/view-helpers.ts';
 
 type Battle=Pick<GameSnapshot,'battle'>;

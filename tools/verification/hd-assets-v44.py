@@ -218,8 +218,8 @@ def maps():
     original = load('public/maps/original-manifest.json')['maps']
     source_hd = load('public/maps/original-hd-manifest.json')['maps']
     generated = load('public/maps/hd/manifest.json')['assets']
-    native_runtime = load('src/features/world/map-art-assets.json')
-    hd_runtime = load('src/features/world/map-hd-assets.json')
+    native_runtime = load('src/domain/world/map-art-assets.json')
+    hd_runtime = load('src/domain/world/map-hd-assets.json')
     require(len(native_runtime) == 134 and set(native_runtime) == set(original), 'Base map identity inventory changed')
     require(set(generated) == set(hd_runtime), 'AI map manifest and runtime IDs differ')
     for sid, row in source_hd.items():

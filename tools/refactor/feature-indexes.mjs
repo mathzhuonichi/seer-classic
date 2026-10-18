@@ -23,6 +23,7 @@ for (const file of walk(path.join(repo, 'src'))) {
     const target = path.posix.normalize(path.posix.join(path.posix.dirname(from), spec));
     const feature = featureOf(target);
     if (!feature || featureOf(from) === feature || target === `src/features/${feature}/index.ts`) continue;
+    if (/\.(json|css)$/.test(target)) throw new Error(`${from} imports feature data ${target}; move the data to domain/ or shared/`);
     const local = path.posix.relative(`src/features/${feature}`, target);
     const exports = surface.get(feature) ?? new Map();
     surface.set(feature, exports);

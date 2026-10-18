@@ -6,7 +6,7 @@ import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
 import InventoryDetail from './InventoryDetail.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
 import {useItemContent} from './use-item-content.ts';
-import {ITEM_POCKETS,isItemPocket,type ItemPocket} from '../item-categories.ts';
+import {ITEM_POCKETS,isItemPocket,type ItemPocket} from '../../../shared/item-categories.ts';
 import {bagItems,itemStock,itemUseAction,itemUseFeedback,pocketItems} from '../inventory-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import '../../../shared/ui/management.css';

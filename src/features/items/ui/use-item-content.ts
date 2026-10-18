@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import {itemCategoryOptions} from '../item-categories.ts';
+import {itemCategoryOptions} from '../../../shared/item-categories.ts';
 
 /** The content-category filter of one pocket's `items`. When the chosen category empties, the
  * filter falls back to 'all' and `onFallback` clears whatever depended on it. */

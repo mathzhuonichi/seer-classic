@@ -5,7 +5,7 @@ import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
 import EngravingShop from '../../engravings/ui/EngravingShop.tsx';
 import {useItemContent} from './use-item-content.ts';
-import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../item-categories.ts';
+import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';
 import {shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
