@@ -64,7 +64,8 @@ try{
   check('Fresh controller exposes seven checkpoints and permits only the first floor',()=>{
     const game=make();assert.deepEqual(progress(game),{highestCleared:0,resumeFloor:1});
     const {milestones,honors,...view}=game.snapshot().braveTower;
-    assert.deepEqual(view,{highestCleared:0,resumeFloor:1,totalFloors:70,checkpoints:[1,11,21,31,41,51,61].map(floor=>({floor,unlocked:floor===1}))});
+    assert.deepEqual(view,{highestCleared:0,resumeFloor:1,totalFloors:70,position:{floor:1,bossId:floorId(1),climbComplete:false,conquered:false,entrance:1},
+      checkpoints:[1,11,21,31,41,51,61].map(floor=>({floor,unlocked:floor===1}))});
     assert.deepEqual(milestones.map(row=>row.floor),[30,60,70]);assert.deepEqual(honors,[]);
     assert.equal(game.snapshot().battle,null);
   });
@@ -121,6 +122,7 @@ try{
   check('Actual multi-opponent victories at 69 and 70 complete the climb without floor 71',()=>{
     const game=make(withProgress(68,69));win(game,69);assert.deepEqual(progress(game),{highestCleared:69,resumeFloor:70});win(game,70);
     assert.deepEqual(progress(game),{highestCleared:70,resumeFloor:null});assert(game.snapshot().braveTower.checkpoints.every(row=>row.unlocked));
+    assert.deepEqual(game.snapshot().braveTower.position,{floor:70,bossId:floorId(70),climbComplete:true,conquered:true,entrance:1});
     const restored=make(parse(game));assert.deepEqual(progress(restored),{highestCleared:70,resumeFloor:null});
     reject(restored,{type:'startTower',floor:71},'completed tower 71');reject(restored,{type:'startBattle',bossId:floorId(71)},'legacy completed tower 71');
     start(restored,{type:'startTower',floor:61});assert.deepEqual(progress(restored),{highestCleared:70,resumeFloor:61});leave(restored);

@@ -1,6 +1,5 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
-import { BRAVE_TOWER_FLOORS, braveTowerPosition } from '../../domain/challenges/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
 import { speciesName } from '../../shared/monster-views.ts';
@@ -43,7 +42,9 @@ const FACILITY_GREETINGS: Partial<Record<FacilityKind, string>> = {
   recovery: '把精灵交给恢复舱，体力与技能 PP 会完全恢复。',
 };
 
-export interface TowerScene { floor: number; complete: boolean; highestCleared: number; boss?: BossView; opponents: EncounterOpponentView[] }
+export interface TowerScene {
+  floor: number; complete: boolean; highestCleared: number; totalFloors: number; boss?: BossView; opponents: EncounterOpponentView[];
+}
 export interface CampaignContact { campaign: CampaignView; name: string; progress: string }
 export interface WorldSceneView {
   planet: WorldPlanet; region: WorldRegion;
@@ -65,11 +66,11 @@ export interface WorldSceneView {
 }
 
 function towerScene(s: GameSnapshot): TowerScene {
-  const { floor, bossId, climbComplete } = braveTowerPosition(s.braveTower);
+  const { highestCleared, totalFloors, position: { floor, bossId, climbComplete } } = s.braveTower;
   const boss = s.bosses.find(entry => entry.id === bossId);
   const opponents = boss?.opponents?.length ? boss.opponents
     : boss ? [{ species: boss.species, name: speciesName(s, boss.species, boss.name), level: boss.level, evidence: boss.evidence }] : [];
-  return { floor, complete: climbComplete, highestCleared: s.braveTower.highestCleared, boss, opponents };
+  return { floor, complete: climbComplete, highestCleared, totalFloors, boss, opponents };
 }
 
 function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact | undefined {
@@ -103,7 +104,7 @@ export function buildWorldScene(s: GameSnapshot, planet: WorldPlanet, region: Wo
 
 /** The location HUD tooltip: Tower progress, or the planet subtitle with the level range. */
 export function sceneTitle({ planet, region, tower }: WorldSceneView) {
-  return tower ? `最高通过 ${tower.highestCleared} / ${BRAVE_TOWER_FLOORS} 层`
+  return tower ? `最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`
     : `${planet.subtitle} · ${region.facility ? '飞船设施' : `Lv.${region.levels[0]}–${region.levels[1]}`}`;
 }
 /** A Tower contact shows its first opponent's name. */
@@ -178,8 +179,8 @@ function creatureDialogue(s: GameSnapshot, scene: WorldSceneView, creature: Spec
 }
 
 function towerText(tower: TowerScene) {
-  if (tower.complete) return `本轮已通过全部 ${BRAVE_TOWER_FLOORS} 层。选择起点后可重新登塔。`;
-  const next = tower.floor < BRAVE_TOWER_FLOORS ? `全部战胜后进入第 ${tower.floor + 1} 层。` : '全部战胜后完成本轮登塔。';
+  if (tower.complete) return `本轮已通过全部 ${tower.totalFloors} 层。选择起点后可重新登塔。`;
+  const next = tower.floor < tower.totalFloors ? `全部战胜后进入第 ${tower.floor + 1} 层。` : '全部战胜后完成本轮登塔。';
   return `本层共有 ${tower.opponents.length} 只精灵。${next}退出或失败后保留当前层。`;
 }
 

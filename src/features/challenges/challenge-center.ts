@@ -2,7 +2,7 @@
 import type { GameSnapshot } from '../../kernel/contract.ts';
 import type { BossView, BraveTowerView, CampaignView } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import {braveTowerFloor,braveTowerPosition} from '../../domain/challenges/brave-tower.ts';
+import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CAMPAIGNS,CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
 import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
@@ -39,7 +39,7 @@ function towerEntry(s:ArchiveSnapshot,floors:BossView[]):ChallengeEntry|undefine
   if(!floors.length)return undefined;
   return {
     ...floors[0],id:'brave-tower',name:CHALLENGE_CATEGORY.tower,description:'每通过十层解锁新的起点；保存当前挑战楼层，可继续上次进度。',
-    cleared:braveTowerPosition(s.braveTower).conquered,attempts:floors.reduce((sum,boss)=>sum+boss.attempts,0),tower:true,
+    cleared:s.braveTower.position.conquered,attempts:floors.reduce((sum,boss)=>sum+boss.attempts,0),tower:true,
   };
 }
 

@@ -2,7 +2,7 @@
 import { findMon } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import {
-  BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource,
+  BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerPosition, braveTowerRewards, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
 import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
@@ -81,5 +81,7 @@ export function towerView(ctx: GameContext, save: GameSave): BraveTowerView {
     return [reward?.achievement?.zh, reward?.title?.zh ? `称号：${reward.title.zh}` : undefined].filter((value): value is string => !!value);
   }))];
   const progress = save.game.braveTower;
-  return { ...progress, totalFloors: BRAVE_TOWER_FLOORS, checkpoints: braveTowerCheckpoints(progress), milestones, honors };
+  return {
+    ...progress, totalFloors: BRAVE_TOWER_FLOORS, position: braveTowerPosition(progress), checkpoints: braveTowerCheckpoints(progress), milestones, honors,
+  };
 }

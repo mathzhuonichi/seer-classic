@@ -34,4 +34,20 @@ export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bo
 export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
 export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
-export interface BraveTowerView { highestCleared: number; resumeFloor: number | null; totalFloors: number; checkpoints: {floor:number;unlocked:boolean}[]; milestones?:{floor:number;species?:number;name:string;description:string;cleared:boolean}[]; honors?:string[] }
+/** Where the player stands in the Brave Tower: one rule for the tower scene, the entrance picker and the archive. */
+export interface BraveTowerPosition {
+  /** The floor the tower scene stands on: the climb's next floor, or the top floor after a completed climb. */
+  floor:number;
+  /** The guardian encounter of that floor. */
+  bossId:string;
+  /** This climb reached the top; a new climb starts from a checkpoint. */
+  climbComplete:boolean;
+  /** Every floor has been cleared at least once. */
+  conquered:boolean;
+  /** The checkpoint offered first: the segment of the saved floor, or floor 1 after a completed climb. */
+  entrance:number;
+}
+export interface BraveTowerView {
+  highestCleared: number; resumeFloor: number | null; totalFloors: number; position: BraveTowerPosition; checkpoints: {floor:number;unlocked:boolean}[];
+  milestones:{floor:number;species?:number;name:string;description:string;cleared:boolean}[]; honors:string[];
+}
