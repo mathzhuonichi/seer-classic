@@ -2,6 +2,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 
 const memory=new Map();
@@ -152,6 +154,22 @@ try {
     f.game.dispatch({type:'flee'});const saved=parse(f.game);assert.equal(saved.storage.find(m=>m.uid===f.uid).pp[f.move],skill(f.move).pp);
     for(const id of ['item_potion_hp_250','item_potion_pp_20','item_status_cure'])assert.equal(saved.items[id],0);
     assert(['item_potion_hp_250','item_potion_pp_20','item_status_cure'].every(id=>f.game.snapshot().items.some(i=>i.id===id&&i.unlimited)));
+  });
+  const {EngravingSlots}=await server.ssrLoadModule('/src/features/engravings/ui.ts');
+  check('An equipped level-gated engraving marks its PetBag slot as not applying until the holder reaches its level',()=>{
+    const game=createGame(catalog,''),{uid}=game.snapshot().monsters.find(mon=>mon.inParty);
+    const act=action=>{const result=game.dispatch(action);assert(result.ok,result.notice);};
+    const slots=()=>{
+      const m=game.snapshot().monsters.find(mon=>mon.uid===uid);
+      return {ability:m.engravings.ability,html:renderToStaticMarkup(React.createElement(EngravingSlots,{m,c:game}))};
+    };
+    act({type:'cheatResources',coins:999999});act({type:'cheatMonster',uid,level:100});
+    act({type:'buyEngraving',engravingId:'10001'});act({type:'setEngraving',uid,slot:'ability',engravingId:'10001'});
+    const ready=slots();assert(ready.ability.ready);assert(!ready.html.includes('engraving-inactive'));assert(!ready.html.includes('未生效'));
+    act({type:'cheatMonster',uid,level:99});
+    const gated=slots();assert.equal(gated.ability.reason,'需要 Lv.100');
+    assert.match(gated.html,/<button [^>]*class="item-tile item-tile--small[^"]* engraving-inactive"/,'the slot tile is dimmed');
+    assert(gated.html.includes('<small class="engraving-inactive-mark" title="需要 Lv.100">未生效</small>'),'the caption says it does not apply');
   });
   check('Original catalog remains immutable after controller and core engraving use',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
 
