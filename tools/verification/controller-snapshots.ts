@@ -4,6 +4,7 @@ import {createGame,loadCatalog} from '../../src/kernel/game.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
 import type {GameAction} from '../../src/kernel/contract.ts';
 import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/kernel/persistence.ts';
+import {memoryStorage} from './_harness.mjs';
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
 export async function verifyControllerSnapshots(){
@@ -118,10 +119,8 @@ export async function verifyDispatchBudget(){
 
 /** An unreadable stored save is backed up before a new journey replaces it; version-1 repairs run once, on load. */
 export async function verifyControllerSaveRecovery(){
-  const catalog=await loadCatalog(),memory=new Map<string,string>();
-  const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-  const storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,String(value));},removeItem:(key:string)=>{memory.delete(key);}};
-  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:storage});
+  const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
+  const memory=memoryStorage(),storage=globalThis.localStorage,setItem=storage.setItem;
   try{
     writeLocalSave('{"version":99}');
     const game=createGame(catalog);
@@ -131,12 +130,12 @@ export async function verifyControllerSaveRecovery(){
     assert.equal(readLocalSave(),game.exportSave(),'The new journey is written under the save key.');
     // Without room for a backup, progress stays in memory until the player replaces the save explicitly.
     memory.clear();writeLocalSave('{"version":99}');
-    storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');memory.set(key,String(value));};
+    storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');setItem(key,value);};
     const unsaved=createGame(catalog);
     assert.equal(unsaved.snapshot().notices.length,1);assert.notEqual(unsaved.snapshot().notices[0],'旧存档无法读取，已创建新存档。');
     unsaved.dispatch({type:'heal'});assert.equal(readLocalSave(),'{"version":99}','The unreadable save is never overwritten.');
     unsaved.reset();assert.equal(readLocalSave(),unsaved.exportSave(),'A new journey chosen by the player replaces it.');
-    storage.setItem=(key:string,value:string)=>{memory.set(key,String(value));};
+    storage.setItem=setItem;
     const quest=game.snapshot().quests.find(row=>row.group==='spt-recruitment')!;
     const legacy=JSON.parse(game.exportSave());
     delete legacy.items.item_status_cure;legacy.game.quests=[quest.id];legacy.game.recruitmentClaims={};legacy.game.shopUnlocked=[];
