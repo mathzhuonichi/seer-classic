@@ -19,8 +19,9 @@ export const evidenceButtonLabel = (evidence: BossEvidenceView) => evidence.inco
 export const roundStatus = (battle: BattleView, busy: boolean) =>
   busy ? '精灵行动中' : battle.finished ? '战斗结束' : battle.needsSwitch ? '选择出战精灵' : '等待你的指令';
 
+/** The result panel's heading; the dialogue beside it shows the battle's result text. */
 export const battleResultTitle = (battle: BattleView) =>
-  battle.captured ? '捕捉成功！' : battle.won ? '挑战胜利！' : battle.resultReason === 'turn_cap' ? '本场平局' : '战斗结束';
+  battle.captured ? '捕捉成功！' : battle.won ? '战斗胜利！' : battle.resultReason === 'turn_cap' ? '本场平局' : '战斗结束';
 
 /** Win or lose jingle once playback settles; captures, retreats and draws stay silent. */
 export function battleEndSound(battle: BattleView): 'win' | 'lose' | null {

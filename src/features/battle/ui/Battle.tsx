@@ -73,7 +73,7 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
     <BattleDialogue battle={b} dialogue={playback.dialogue} busy={busy} showLog={showLog} onToggleLog={() => setShowLog(value => !value)}/>
     {b.finished && !busy
       ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status">
-        <div><strong>{battleResultTitle(b)}</strong><p>{b.result}</p></div>
+        <div><strong>{battleResultTitle(b)}</strong></div>
         {onSettings && <button onClick={onSettings}>设置</button>}
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}

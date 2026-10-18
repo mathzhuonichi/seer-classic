@@ -1,5 +1,5 @@
 // The battle lifecycle: start a session, play turns, and keep the log and animation frames.
-import type { Action, Battle, BattleEvent, BattleResult } from '../../../battle/core/src/index.ts';
+import type { Action, Battle, BattleEvent } from '../../../battle/core/src/index.ts';
 import { findMon, type Monster } from '../../../raising/core/index.ts';
 import { groupedBattleLog } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
@@ -65,12 +65,8 @@ function logEvents(ctx: GameContext, session: BattleSession, events: BattleEvent
   session.logs = session.logs.slice(-LOG_LIMIT);
 }
 
-function closingText(result: BattleResult | null): string {
-  if (!result) return '请选择下一步行动。';
-  if (result.reason === 'capture') return '捕捉成功！';
-  if (result.success) return '挑战胜利！';
-  return result.reason === 'turn_cap' ? '达到回合上限，本场平局。' : '战斗结束。';
-}
+/** The line of a turn's closing frame while the battle goes on; a finished battle's closing frame adds none to its `battle_end`. */
+const NEXT_TURN_TEXT = '请选择下一步行动。';
 
 function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEvent[], before: BattlePresentationState) {
   const { ctx, animation } = rt;
@@ -80,7 +76,7 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
   });
   const now = presentationState(ctx, session), enemy = foeView(session, now.enemy);
   frames.push({
-    id: ++animation.frameId, side: 0, kind: 'message', text: closingText(session.battle.result), playerHp: now.player.hp, enemyHp: enemy.hp,
+    id: ++animation.frameId, side: 0, kind: 'message', text: session.battle.result ? '' : NEXT_TURN_TEXT, playerHp: now.player.hp, enemyHp: enemy.hp,
     player: now.player, enemy, party: now.party, enemyParty: now.enemyParty.map(mon => foeView(session, mon)),
   });
   session.frames = frames;

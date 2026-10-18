@@ -121,7 +121,8 @@ function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Pat
   const show = (next: BattlePresentationFrame) => {
     if (next.kind !== 'capture') {
       if (next.kind === 'heal') host.sound('heal');
-      set({ frame: next, dialogue: next.text });
+      // A frame without a line keeps the one on screen.
+      set(next.text ? { frame: next, dialogue: next.text } : { frame: next });
       return;
     }
     set({ frame: next, captureResolved: !!next.captureSuccess, dialogue: captureDialogue(next) });

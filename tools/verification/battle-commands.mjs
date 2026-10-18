@@ -1,7 +1,7 @@
 /**
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
- * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames and the
- * forced replacement.
+ * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
+ * forced replacement, and the lines a capture and a wild victory say, each once.
  */
 import assert from 'node:assert/strict';
 import {memoryStorage, suite, withSsr} from './_harness.mjs';
@@ -27,8 +27,9 @@ function manualClock() {
   };
 }
 await withSsr('battle-commands', async load => {
-  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}] = await Promise.all(['/src/kernel/game.ts',
-    '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts'].map(load));
+  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}] = await Promise.all([
+    '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts',
+    '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts'].map(load));
   const catalog = await loadCatalog(), t = suite('battle-commands');
   const base = JSON.parse(createGame(catalog, '', {idle: () => {}}).exportSave());
   base.rng_state = [101, 202, 303, 404];
@@ -99,6 +100,11 @@ await withSsr('battle-commands', async load => {
     assert.deepEqual(ui.sounds, ['click', 'capture']);
     const thrown = ui.saidAt.get(`正在使用无敌精灵胶囊捕捉${foe}…`), caught = ui.saidAt.get(`我方使用了无敌精灵胶囊，成功捕捉${foe}！`);
     assert.equal(caught - thrown, CAPTURE_OUTCOME_MS, 'the outcome shows once the capsule has flown');
+    assert.deepEqual(ui.dialogue, [`对手派出了${foe}。`, '第 1 回合', `正在使用无敌精灵胶囊捕捉${foe}…`, `我方使用了无敌精灵胶囊，成功捕捉${foe}！`,
+      `${foe}已加入背包。`], 'each line once: the capsule, its outcome, where the catch went');
+    assert.equal(view.result, ui.dialogue.at(-1));
+    assert.equal(battleResultTitle(view), '捕捉成功！');
+    assert.equal(view.log.at(-1), `我方使用了无敌精灵胶囊，成功捕捉${foe}！`, 'the log ends on the capsule line');
     assert.ok(!ui.player.canAct(), 'a finished battle takes no command');
     ui.player.submit({type: 'flee'});
     assert.equal(ui.dispatched.length, 1);
@@ -130,6 +136,25 @@ await withSsr('battle-commands', async load => {
     const state = ui.player.state();
     assert.deepEqual([state.busy, state.dialogue], [false, game.snapshot().battle.captureBlockedReason]);
     assert.ok(ui.player.canAct());
+  });
+
+  t.check('A wild victory says it once and names what it paid', () => {
+    const game = createGame(catalog, JSON.stringify(base), {idle: () => {}}), lead = game.snapshot().party[0];
+    game.dispatch({type: 'cheatMonster', uid: lead, level: 100});
+    game.dispatch({type: 'startTraining', species: 22, level: 3});
+    const ui = screen(game), foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
+    for (let turn = 0; turn < 5 && !game.snapshot().battle.finished; turn++) {
+      const skill = game.snapshot().battle.player.skills.filter(entry => entry.pp > 0).sort((a, b) => (b.power || 0) - (a.power || 0))[0];
+      ui.player.submit({type: 'move', skillId: skill.id});
+      ui.rerender();
+      ui.clock.runAll();
+    }
+    const view = game.snapshot().battle, reward = `获得 ${coins} 赛尔豆及 ${exp} 积累经验。`;
+    assert.ok(view.won, 'the levelled lead wins');
+    assert.deepEqual(ui.dialogue.slice(-3), [`${foe}失去战斗能力。`, '战斗胜利！', reward]);
+    assert.equal(view.result, reward);
+    assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, 'no line twice');
+    t.witness('wild victory dialogue', ui.dialogue);
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {

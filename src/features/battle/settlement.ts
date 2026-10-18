@@ -9,6 +9,9 @@ import { commit, notice, replaceMonster, type BattleSession, type Runtime } from
 
 type EncounterReward = { items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
 
+/** What a victory paid in coins and pooled experience. */
+export const victoryText = (reward: { coins: number; exp: number }) => `获得 ${reward.coins} 赛尔豆及 ${reward.exp} 积累经验。`;
+
 export function settle(rt: Runtime) {
   const session = rt.session;
   if (!session?.battle.result || session.settled) return;
@@ -53,7 +56,8 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
     obtained: { how: 'capture', at: new Date().toISOString() },
   };
   storeMonster(rt, captured);
-  notice(rt, `捕捉成功：${rt.ctx.speciesName(captured.species)}已加入${rt.save.party.includes(captured.uid) ? '背包' : '仓库'}！`);
+  session.resultMessage = `${rt.ctx.speciesName(captured.species)}已加入${rt.save.party.includes(captured.uid) ? '背包' : '仓库'}。`;
+  notice(rt, `捕捉成功：${session.resultMessage}`);
 }
 
 /** A victory's rewards and the challenge's progress, then a victory's notice. */
@@ -61,7 +65,7 @@ function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult
   const reward = victoryReward(session.encounter);
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (result.success) notice(rt, session.resultMessage || `获得 ${reward.coins} 赛尔豆及 ${reward.exp} 积累经验。`);
+  if (result.success) notice(rt, session.resultMessage || victoryText(reward));
 }
 
 function grantVictory(rt: Runtime, session: BattleSession) {
