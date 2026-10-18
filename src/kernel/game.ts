@@ -22,7 +22,7 @@ export function createGame(catalog: CatalogData, initialSave?: string, dependenc
   return {
     snapshot: () => cached,
     subscribe: listener => { listeners.add(listener); return () => listeners.delete(listener); },
-    dispatch: action => { const result = runAction(rt, action); writer.changed(); emit(); return result; },
+    dispatch: action => { const result = writer.update(() => runAction(rt, action)); emit(); return result; },
     engravingOptions: uid => engravingOptions(ctx, rt.save, uid),
     exportSave: () => writer.flush(),
     importSave: text => { adopt(loadJourney(ctx, text)); notice(rt, '存档已导入。'); emit(); },

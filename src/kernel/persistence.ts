@@ -20,12 +20,13 @@ export function backupUnreadableSave(value: string): string | null {
 const pageHidden = () => typeof document !== 'undefined' && document.visibilityState === 'hidden';
 
 /**
- * Runs a save write once the next frame is painted, so it stays off the path from input to screen. A hidden page may get no
- * frame before it closes, and Node has no frames: there it writes at once.
+ * Schedules a save write for once the next frame is painted, so it stays off the path from input to screen, and returns true.
+ * A hidden page may get no frame before it closes, and Node has no frames: there it schedules nothing and returns false.
  */
-export function afterNextFrame(write: () => void): void {
-  if (typeof requestAnimationFrame === 'function' && !pageHidden()) requestAnimationFrame(() => setTimeout(write));
-  else write();
+export function afterNextFrame(write: () => void): boolean {
+  if (typeof requestAnimationFrame !== 'function' || pageHidden()) return false;
+  requestAnimationFrame(() => setTimeout(write));
+  return true;
 }
 
 /** Calls `flush` when the page is hidden or unloaded: after either it may be closed or frozen without running again. */

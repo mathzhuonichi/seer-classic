@@ -46,21 +46,21 @@ function fakePage() {
   return page;
 }
 
-test('a save write waits for the painted frame, but not on a hidden page or without frames', async () => {
+test('a save write waits for the painted frame, but is not scheduled on a hidden page or without frames', async () => {
   const page = fakePage(), writes = [];
   try {
-    afterNextFrame(() => writes.push('visible'));
+    assert.equal(afterNextFrame(() => writes.push('visible')), true);
     assert.deepEqual(writes, []);
     page.frames.shift()();
     assert.deepEqual(writes, [], 'the write follows the frame in a task of its own');
     await new Promise(resolve => setTimeout(resolve));
     assert.deepEqual(writes, ['visible']);
     page.visibilityState = 'hidden';
-    afterNextFrame(() => writes.push('hidden'));
-    assert.deepEqual(writes, ['visible', 'hidden']);
+    assert.equal(afterNextFrame(() => writes.push('hidden')), false, 'a hidden page leaves the write to its caller');
   } finally { page.remove(); }
-  afterNextFrame(() => writes.push('node'));
-  assert.deepEqual(writes, ['visible', 'hidden', 'node']);
+  assert.equal(afterNextFrame(() => writes.push('node')), false, 'Node has no frames');
+  assert.deepEqual(writes, ['visible']);
+  assert.deepEqual(page.frames, []);
 });
 
 test('a page exit flushes on pagehide, beforeunload and hiding, but not on showing the page', () => {

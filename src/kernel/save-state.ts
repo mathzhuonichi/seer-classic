@@ -104,8 +104,12 @@ function settle(ctx: GameContext, { save, rng }: Journey) {
 
 /** Keeps the stored save in step with the live journey. */
 export interface JourneyWriter {
-  /** After an action: settles the journey now, and writes it in the next scheduled slot, once for all the changes before it. */
-  changed(): void;
+  /**
+   * Runs an action and settles the journey after it. The write slot is reserved before the action runs, so the write comes ahead
+   * of any work the action schedules (turn preparation); all the actions before the slot share its write. Where no slot can be
+   * reserved, the journey is written at once after the action.
+   */
+  update<T>(action: () => T): T;
   /** After an import or a new journey, the player's choice to replace the stored save: settles and writes it at once. */
   replaced(): void;
   /** Writes a pending change now and returns the save's text (an export). */
@@ -130,11 +134,12 @@ export function createJourneyWriter(ctx: GameContext, journey: Journey, durable:
   settle(ctx, journey);
   write(serialize(journey.save));
   return {
-    changed: () => {
+    update: action => {
+      if (durable && !pending) pending = scheduleSave(writePending);
+      const result = action();
       settle(ctx, journey);
-      if (!durable || pending) return;
-      pending = true;
-      scheduleSave(writePending);
+      if (durable && !pending) write(serialize(journey.save));
+      return result;
     },
     replaced: () => { durable = true; settle(ctx, journey); write(serialize(journey.save)); },
     flush: () => {
