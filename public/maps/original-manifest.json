@@ -2014,32 +2014,6 @@
         "x": 0
       }
     },
-    "425": {
-      "mapId": 425,
-      "path": "/maps/original/425.png",
-      "width": 1274,
-      "height": 1019,
-      "sha256": "77bc2af6c076466588c2e77cfcc38813696df6b1f5276af8ab822f0f5fbbe8db",
-      "bytes": 521662,
-      "url": "https://seerh5.61.com/resource/assets/map/425/map_425_bg_mc.png",
-      "source": "Official Seer H5 standalone bg_mc background; original file bytes preserved.",
-      "resourceManifestUrl": "https://seerh5.61.com/resource/assets/map/425/map_425_1febab16.json",
-      "resourceManifestSha256": "497b6147130eb22d35a31dfa083dcc509a76b8ca811896c779b839ed729b4eb5",
-      "sourceResourceName": "map_425_bg_mc_png",
-      "format": "PNG",
-      "originalLayoutUrl": "https://seerh5.61.com/resource/assets/map/425/425.json",
-      "originalLayoutSha256": "db761d13e01b31f4689c89116eaf10c591b3650c799ab6169beda33b97bd46af",
-      "backgroundRegistration": {
-        "offx": -115,
-        "y": 0,
-        "offy": -100,
-        "h": 1019.7,
-        "scaleY": 1,
-        "scaleX": 1,
-        "w": 1274.3,
-        "x": 0
-      }
-    },
     "429": {
       "mapId": 429,
       "path": "/maps/original/429.jpg",
@@ -4250,11 +4224,11 @@
   },
   "failures": {
     "64": "https://seerh5.61.com/resource/assets/map/64/map_64.json returned HTTP 404",
-    "689": "https://seerh5.61.com/resource/assets/map/689/map_689.json returned HTTP 404",
-    "665": "https://seerh5.61.com/resource/assets/map/665/map_665.json returned HTTP 404",
-    "505": "https://seerh5.61.com/resource/assets/map/505/map_505.json returned HTTP 404",
     "329": "https://seerh5.61.com/resource/assets/map/329/map_329.json returned HTTP 404",
+    "505": "https://seerh5.61.com/resource/assets/map/505/map_505.json returned HTTP 404",
+    "665": "https://seerh5.61.com/resource/assets/map/665/map_665.json returned HTTP 404",
     "675": "https://seerh5.61.com/resource/assets/map/675/map_675.json returned HTTP 404",
+    "689": "https://seerh5.61.com/resource/assets/map/689/map_689.json returned HTTP 404",
     "707": "https://seerh5.61.com/resource/assets/map/707/map_707.json returned HTTP 404",
     "1063": "https://seerh5.61.com/resource/assets/map/1063/map_1063.json returned HTTP 404",
     "1303": "https://seerh5.61.com/resource/assets/map/1303/map_1303.json returned HTTP 404"

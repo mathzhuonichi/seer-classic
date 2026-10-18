@@ -33,6 +33,11 @@ def download(url, target):
     return data
 
 
+def by_map_id(table):
+    """The table ordered by integer map ID, so a rerun writes the same bytes."""
+    return dict(sorted(table.items(), key=lambda pair: int(pair[0])))
+
+
 def write_new(path, data):
     """Writes a delivered file once; an existing file or link is never replaced or written through."""
     if path.is_symlink() or (path.exists() and path.read_bytes() != data):
@@ -76,8 +81,10 @@ def recover(map_id, versions):
 
 
 def world_map_ids():
-    """Map ids named by the world module's planets, regions and expansion destinations, and by the habitat regions."""
-    ids = {region['originalMapId'] for region in json.loads(HABITAT_REGIONS.read_text())['regions']}
+    """Map ids named by the world module's planets, regions and expansion destinations, and by the habitat regions
+    except those whose own art data/habitat-regions.json records as unused."""
+    regions = json.loads(HABITAT_REGIONS.read_text())['regions']
+    ids = {region['originalMapId'] for region in regions if region.get('ownArtwork', {}).get('status') != 'unused'}
     for name in WORLD_SOURCES:
         text = (ROOT / 'src/domain/world' / name).read_text()
         ids.update(map(int, re.findall(r'originalMapId[\"\x27]?\s*:\s*(\d+)', text)))
@@ -90,7 +97,7 @@ def project_runtime(maps, delivered):
     index = json.loads(RUNTIME_INDEX.read_text())
     for key in delivered:
         index[key] = dict(path=maps[key]['path'], sha256=maps[key]['sha256'])
-    RUNTIME_INDEX.write_text(json.dumps(dict(sorted(index.items(), key=lambda pair: int(pair[0]))), ensure_ascii=False, indent=2) + '\n')
+    RUNTIME_INDEX.write_text(json.dumps(by_map_id(index), ensure_ascii=False, indent=2) + '\n')
 
 
 def main():
@@ -123,7 +130,7 @@ def main():
             except Exception as error:
                 failures[str(n)] = str(error)
                 print(f'{n}: {error}', flush=True)
-    manifest.update(maps=dict(sorted(maps.items(), key=lambda pair: int(pair[0]))), failures=failures)
+    manifest.update(maps=by_map_id(maps), failures=by_map_id(failures))
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     project_runtime(maps, delivered)
     print(f'Delivered {len(maps)} official backgrounds; {len(failures)} unresolved IDs.')

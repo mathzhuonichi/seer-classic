@@ -1,5 +1,5 @@
 {
- "note": "Source-supported habitat regions added to existing planets. Original membership and encounters are preserved. A region shows its own recovered background (backgroundMapId equals originalMapId) where the official H5 art and road mask exist; otherwise it reuses its parent map's, and ownArtwork says why: flash-only maps have no H5 resource table, only the named Flash map.",
+ "note": "Source-supported habitat regions added to existing planets. Original membership and encounters are preserved. A region shows its own recovered background (backgroundMapId equals originalMapId) where the official H5 art and road mask exist and the art fits the stage; otherwise it reuses its parent map's, and ownArtwork says why: flash-only maps have no H5 resource table, only the named Flash map, and unused art is not delivered.",
  "source": {
   "repository": "https://github.com/Nattsu39/seer_data",
   "commit": "a00bcdd",
@@ -250,7 +250,8 @@
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
    "ownArtwork": {
     "status": "unused",
-    "reason": "The H5 background is 1274 by 1019 at registration (-115, -100), larger than the 960 by 560 stage, so showing it needs a stage viewport and a checked floor."
+    "url": "https://seerh5.61.com/resource/assets/map/425/map_425_bg_mc.png",
+    "reason": "The H5 background is 1274 by 1019 at registration (-115, -100), larger than the 960 by 560 stage, so showing it needs a stage viewport crop and a checked floor. Until then it is not delivered."
    },
    "species": [
     {
