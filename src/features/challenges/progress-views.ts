@@ -34,30 +34,35 @@ export function stageRequirement(ctx: GameContext, save: GameSave, stage: Campai
   return undefined;
 }
 
-function stageView(ctx: GameContext, save: GameSave, campaign: Campaign, index: number, cleared: string[]): CampaignStageView {
-  const stage = campaign.stages[index], completed = cleared.length;
-  const encounters = stage.bossIds.map(id => ctx.bosses.find(boss => boss.id === id));
-  const blockedReason = index > completed ? `请先完成「${campaign.stages[index - 1].name}」。` : stageRequirement(ctx, save, stage);
+type StageParts = Omit<CampaignStageView, 'cleared' | 'available' | 'blockedReason'>;
+
+/** The parts of a stage view that only the catalogue decides: its opponents, their evidence and the reward. */
+function stageParts(ctx: GameContext, campaign: Campaign, index: number): StageParts {
+  const stage = campaign.stages[index], encounters = stage.bossIds.map(id => ctx.bosses.find(boss => boss.id === id));
   const reward = encounters[0]?.reward as { learn_skill?: { species: number; skill: number } } | undefined;
   const rewardText = reward?.learn_skill ? `领悟技能：${ctx.data.skills.get(reward.learn_skill.skill)?.name.zh}`
     : index === campaign.stages.length - 1 && campaign.reward === 'essence' ? `获得${ctx.speciesName(campaign.species)}精元`
       : '完成本阶段，开启下一项挑战';
   return {
-    ...stage, requiredSpeciesName: stage.requiredSpecies ? ctx.speciesName(stage.requiredSpecies) : undefined,
-    cleared: cleared.includes(stage.id), available: index <= completed && !blockedReason, blockedReason, rewardText,
+    ...stage, requiredSpeciesName: stage.requiredSpecies ? ctx.speciesName(stage.requiredSpecies) : undefined, rewardText,
     evidence: mergeBossEvidence(encounters.map(encounter => encounter ? buildBossEncounterEvidence(encounter) : undefined)),
     opponents: encounters.flatMap(encounter => encounter ? opponentViews(ctx, encounter) : []),
   };
 }
 
-export function campaignViews(ctx: GameContext, save: GameSave): CampaignView[] {
-  return CHALLENGE_CAMPAIGNS.map(campaign => {
+/** The campaign rows, built once per game: each stage's catalogue parts are built once and keep their identity. */
+export function campaignViews(ctx: GameContext): (save: GameSave) => CampaignView[] {
+  const parts = CHALLENGE_CAMPAIGNS.map(campaign => campaign.stages.map((_, index) => stageParts(ctx, campaign, index)));
+  return save => CHALLENGE_CAMPAIGNS.map((campaign, row) => {
     const cleared = campaignProgress(save, campaign), completed = cleared.length;
     return {
       id: campaign.id, name: campaign.name, species: campaign.species, speciesName: ctx.speciesName(campaign.species), location: campaign.location,
       description: campaign.stages[0].description, reward: campaign.reward, completed, nextStageId: campaign.stages[completed]?.id ?? null,
       finished: completed === campaign.stages.length, resetOnLoss: !!campaign.resetOnLoss,
-      stages: campaign.stages.map((_, index) => stageView(ctx, save, campaign, index, cleared)),
+      stages: campaign.stages.map((stage, index): CampaignStageView => {
+        const blockedReason = index > completed ? `请先完成「${campaign.stages[index - 1].name}」。` : stageRequirement(ctx, save, stage);
+        return { ...parts[row][index], cleared: cleared.includes(stage.id), available: index <= completed && !blockedReason, blockedReason };
+      }),
     };
   });
 }
