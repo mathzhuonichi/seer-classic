@@ -1,13 +1,13 @@
 import { useId } from 'react';
-import type { BattleMonsterView } from '../game-types.ts';
-import { getCreatureArt } from '../presentation/creature-art.ts';
+import type { BattleMonsterView } from '../../game-types.ts';
+import { getCreatureArt } from '../../presentation/creature-art.ts';
 import './battle-team-strip.css';
-import {encounterLevelText} from '../presentation/encounter-level.ts';
+import {encounterLevelText} from '../../presentation/encounter-level.ts';
 
 export interface BattleTeamStripProps { team: BattleMonsterView[]; activeUid: string; enemy?: boolean }
 
 /** Hover/focus details preserve every creature from the supplied event-frame roster. */
-export function BattleTeamStrip({ team, activeUid, enemy = false }: BattleTeamStripProps) {
+export default function BattleTeamStrip({ team, activeUid, enemy = false }: BattleTeamStripProps) {
   const remaining = team.reduce((total, creature) => total + Number(creature.hp > 0), 0);
   const side = enemy ? '对手' : '我方';
   const label = `${side}剩余精灵 ${remaining} / ${team.length}`;
@@ -28,4 +28,3 @@ export function BattleTeamStrip({ team, activeUid, enemy = false }: BattleTeamSt
     </ol></div>
   </section>;
 }
-export default BattleTeamStrip;

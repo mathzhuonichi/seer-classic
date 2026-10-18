@@ -1,5 +1,5 @@
-import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
-import {decodeBattleAnimationResponse} from './battle-animation-response.ts';
+// Fetch and decode one species' original clip, preferring an accepted HD repack.
+import type {SwfClipData,SwfClipJson} from '@seer-pet-anim/swf-bundle';
 import {decodeOfflineBattleClip} from './battle-offline-clip.ts';
 
 export interface BattleAnimationAssetEntry {
@@ -13,6 +13,18 @@ export interface BattleAnimationAssetEntry {
 }
 export interface BattleAnimationHdIndex {species:Record<string,BattleAnimationAssetEntry>}
 type Loaded={clip:SwfClipData;atlasBlob:Blob;usedHd:boolean;fellBack:boolean};
+
+/** Fetch already decodes Content-Encoding; static portable servers may send raw gzip.
+ * Inspect the actual response bytes so either transport decodes exactly once.
+ */
+export async function decodeBattleAnimationResponse(response:Response):Promise<SwfClipJson>{
+  if(!response.ok)throw Error('Unavailable timeline');
+  const bytes=new Uint8Array(await response.arrayBuffer());
+  const compressed=bytes[0]===0x1f&&bytes[1]===0x8b;
+  return compressed
+    ? await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json() as SwfClipJson
+    : JSON.parse(new TextDecoder().decode(bytes)) as SwfClipJson;
+}
 
 function validHdEntry(entry:unknown):entry is BattleAnimationAssetEntry {
   if(!entry||typeof entry!=='object')return false;

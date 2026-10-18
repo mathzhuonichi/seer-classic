@@ -1,3 +1,6 @@
+/** Decoded frames held per buffer, and decodes alive across all buffers. */
+const FRAME_WINDOW = 3;
+
 export interface DecodedSkillFrame {
   image: ImageBitmap;
   close: () => void;
@@ -22,7 +25,7 @@ export class SkillFrameBuffer {
   seek(frame: number) {
     if (this.disposed) return;
     this.frame = Math.max(0, Math.min(this.options.frames - 1, frame));
-    this.wanted = new Set(Array.from({ length: 3 }, (_, offset) => this.frame + offset)
+    this.wanted = new Set(Array.from({ length: FRAME_WINDOW }, (_, offset) => this.frame + offset)
       .filter(index => index < this.options.frames));
     for (const [index, bitmap] of this.ready) {
       if (!this.wanted.has(index)) {
@@ -54,7 +57,7 @@ export class SkillFrameBuffer {
   private pump() {
     if (this.disposed) return;
     for (const frame of this.wanted) {
-      if (this.ready.size + this.pending.size >= 3) break;
+      if (this.ready.size + this.pending.size >= FRAME_WINDOW) break;
       if (this.ready.has(frame) || this.pending.has(frame)) continue;
       const controller = new AbortController();
       this.pending.set(frame, controller);
@@ -108,11 +111,11 @@ function acquireDecodeSlot(signal: AbortSignal): Promise<() => void> {
         if (released) return;
         released = true;
         decodedSlots--;
-        while (decodedSlots < 3 && decodeQueue.length) decodeQueue.shift()?.();
+        while (decodedSlots < FRAME_WINDOW && decodeQueue.length) decodeQueue.shift()?.();
       });
     };
     if (signal.aborted) cancel();
-    else if (decodedSlots < 3) start();
+    else if (decodedSlots < FRAME_WINDOW) start();
     else {
       decodeQueue.push(start);
       signal.addEventListener('abort', cancel, { once: true });

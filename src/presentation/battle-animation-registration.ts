@@ -1,5 +1,15 @@
+import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 export type AnimationBounds={minX:number;maxX:number;minY:number;maxY:number};
+/** Vertex extent of every standby frame (or the first sequence when a clip has no standby). */
+export function standbyMeshBounds(clip:Pick<SwfClipData,'sequences'>):AnimationBounds{
+  const standby=clip.sequences.find(s=>s.name==='standby')||clip.sequences[0];
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const {mesh:{positions}} of standby.frames)for(let i=0;i<positions.length;i+=2){
+    minX=Math.min(minX,positions[i]);maxX=Math.max(maxX,positions[i]);minY=Math.min(minY,positions[i+1]);maxY=Math.max(maxY,positions[i+1]);
+  }
+  return {minX,maxX,minY,maxY};
+}
 /** Layout dimensions deliberately exclude ancestor CSS transforms, including switch-in scale. */
 export function fixedAnimationTransform(bounds:AnimationBounds,width:number,height:number,extent:number){
   const scale=Math.min(width,height)/1.7*extent/Math.max(bounds.maxX-bounds.minX,bounds.maxY-bounds.minY);

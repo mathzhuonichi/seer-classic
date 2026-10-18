@@ -35,3 +35,7 @@ export function decodeOfflineBattleClip(meta:SwfClipJson,atlas:ImageBitmap,expec
   return{petId:meta.petId,name:meta.name,frameRate,pixelsPerUnit,atlasWidth:meta.atlasWidth,atlasHeight:meta.atlasHeight,atlas,sequences,materialWarnings:Array.isArray(meta.materialWarnings)?meta.materialWarnings.filter(warning=>typeof warning==='string'):[]};
 }
 export function disposeOfflineBattleClip(clip:SwfClipData){if(clip.atlas.width||clip.atlas.height)clip.atlas.close();clip.sequences=[];clip.materialWarnings=[];}
+/** Decoded RGBA bytes of the clip's atlas at its timeline dimensions. */
+export const clipAtlasBytes=(clip:Pick<SwfClipData,'atlasWidth'|'atlasHeight'>)=>clip.atlasWidth*clip.atlasHeight*4;
+/** Bytes held by the decoded typed mesh arrays. */
+export const clipGeometryBytes=(clip:SwfClipData)=>clip.sequences.reduce((total,s)=>total+s.frames.reduce((sum,f)=>sum+f.mesh.positions.byteLength+f.mesh.uvs.byteLength+f.mesh.addColors.byteLength+f.mesh.mulColors.byteLength+f.mesh.indices.byteLength,0),0);
