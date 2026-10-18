@@ -1,5 +1,5 @@
 import type { GameController } from '../kernel/contract.ts';
-import { partyMonsters } from '../shared/monster-views.ts';
+import { partyMonsters } from '../shared/party-order.ts';
 import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';

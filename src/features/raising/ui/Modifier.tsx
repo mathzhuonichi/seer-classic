@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
-import type { GameSnapshot, GameController } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP,IV_MAX,IV_MIN} from '../../../../raising/core/stats.ts';
@@ -8,24 +8,27 @@ import {getCreatureArt} from '../../../shared/creature-art.ts';
 import {STAT_LABELS} from '../../../shared/labels.ts';
 import {isEvValue} from '../ev-draft.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
-import {appearanceOf,speciesName,statTotal} from '../../../shared/monster-views.ts';
+import {appearanceOf,speciesNamer,statTotal} from '../../../shared/monster-views.ts';
+import {feedbackFor} from './raising/dispatch-feedback.ts';
 import './Modifier.css';
 
-const location=(m:MonsterView,s:GameSnapshot)=>m.inParty?`背包第 ${s.party.indexOf(m.uid)+1} 位`:'精灵仓库';
+const location=(m:MonsterView,party:readonly string[])=>m.inParty?`背包第 ${party.indexOf(m.uid)+1} 位`:'精灵仓库';
 const draftFor=(m:MonsterView)=>({level:m.level,iv:m.iv,nature:m.natureId,trait:m.traitId??'',evs:{...m.evs}});
 const whole=(value:number,min:number,max:number)=>Number.isInteger(value)&&value>=min&&value<=max;
 
 /** Sets one monster's level, 个体值, 性格, 特性 and 学习力 directly. */
-function MonsterEditor({m,s,c}:{m:MonsterView;s:GameSnapshot;c:GameController}){
+function MonsterEditor({m,c}:{m:MonsterView;c:GameController}){
+ const natures=useGame(c,s=>s.natures),traits=useGame(c,s=>s.traits);
  const [draft,setDraft]=useState(()=>draftFor(m)),[feedback,setFeedback]=useState('');
+ // The saved values replace the draft: an edit may clamp 学习力 or evolve the monster.
+ useEffect(()=>setDraft(draftFor(m)),[m]);
  const set=(patch:Partial<ReturnType<typeof draftFor>>)=>setDraft({...draft,...patch});
  const valid=whole(draft.level,1,MAX_LEVEL)&&whole(draft.iv,IV_MIN,IV_MAX)&&STAT_KEYS.every(key=>isEvValue(draft.evs[key]));
  const total=statTotal(draft.evs);
  function apply(){
   if(!valid)return;
-  c.dispatch({type:'cheatMonster',uid:m.uid,level:draft.level,iv:draft.iv,nature:draft.nature,evs:draft.evs,traitId:draft.trait||null});
-  const updated=c.snapshot().monsters.find(mon=>mon.uid===m.uid);
-  if(updated){setDraft(draftFor(updated));setFeedback(`已修改 ${updated.name} · Lv.${updated.level} · 个体值 ${updated.iv}。`)}
+  const result=c.dispatch({type:'cheatMonster',uid:m.uid,level:draft.level,iv:draft.iv,nature:draft.nature,evs:draft.evs,traitId:draft.trait||null});
+  setFeedback(result.notice??'');
  }
  const hint=!valid?`等级须为 1–${MAX_LEVEL}，个体值为 ${IV_MIN}–${IV_MAX}，单项学习力为 0–${EV_STAT_CAP}。`
   :total>EV_TOTAL_CAP?'保存时按学习力总上限计算。':`修改将应用到 ${m.name}。`;
@@ -40,10 +43,10 @@ function MonsterEditor({m,s,c}:{m:MonsterView;s:GameSnapshot;c:GameController}){
      onChange={event=>set({iv:Number(event.target.value)})}/>
    </label>
    <label>性格<select aria-label="修改目标性格" value={draft.nature} onChange={event=>set({nature:event.target.value})}>
-    {s.natures.map(n=><option key={n.id} value={n.id}>{n.name}</option>)}
+    {natures.map(n=><option key={n.id} value={n.id}>{n.name}</option>)}
    </select></label>
    <label>特性<select aria-label="修改目标特性" value={draft.trait} onChange={event=>set({trait:event.target.value})}>
-    <option value="">无特性</option>{s.traits.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
+    <option value="">无特性</option>{traits.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
    </select></label>
   </div>
   <div className="modifier-ev-heading"><h3>学习力</h3><output>{total} / {EV_TOTAL_CAP}</output></div>
@@ -70,7 +73,7 @@ type Props={c:GameController;m:MonsterView|undefined;onSelect:(uid:string)=>void
 
 /** 航行修改器: a test dialog that edits monsters, adds species and sets resources. */
 export default function Modifier({c,m,onSelect,close}:Props){
- const s=useGame(c,snapshot=>snapshot);
+ const monsters=useGame(c,s=>s.monsters),party=useGame(c,s=>s.party),catalog=useGame(c,s=>s.species);
  const [species,setSpecies]=useState(1),[exp,setExp]=useState(100000),[feedback,setFeedback]=useState('');
  const dialog=useRef<HTMLElement>(null),picker=useRef<HTMLSelectElement>(null);
  useEffect(()=>{
@@ -79,10 +82,9 @@ export default function Modifier({c,m,onSelect,close}:Props){
   return()=>{if(previous?.isConnected)previous.focus()};
  },[]);
  function acquire(){
-  c.dispatch({type:'cheatAcquire',species});
-  setFeedback(`${speciesName(s,species,'精灵')}已加入持有精灵，可在上方选择后修改。`);
+  setFeedback(feedbackFor(c.dispatch({type:'cheatAcquire',species}),`${speciesNamer(catalog)(species)}已加入持有精灵，可在上方选择后修改。`));
  }
- const setResources=()=>{c.dispatch({type:'cheatResources',expPool:exp,coins:exp});setFeedback(`经验池和赛尔豆已设置为 ${exp}。`)};
+ const setResources=()=>setFeedback(feedbackFor(c.dispatch({type:'cheatResources',expPool:exp,coins:exp}),`经验池和赛尔豆已设置为 ${exp}。`));
  return <div className="modifier-backdrop" onClick={event=>{if(event.target===event.currentTarget)close()}}>
   <section ref={dialog} className="modifier-dialog" role="dialog" aria-modal="true" aria-labelledby="modifier-title" tabIndex={-1} onKeyDown={trapTab}>
    <header className="modifier-titlebar"><h2 id="modifier-title">航行修改器</h2>
@@ -90,21 +92,21 @@ export default function Modifier({c,m,onSelect,close}:Props){
    </header>
    <div className="modifier-target">
     <label className="modifier-picker" htmlFor="modifier-monster">选择要修改的精灵
-     <select ref={picker} id="modifier-monster" value={m?.uid??''} disabled={!s.monsters.length} onChange={event=>onSelect(event.target.value)}>
-      {!s.monsters.length&&<option value="">尚未持有精灵</option>}
-      {s.monsters.map((mon,index)=><option key={mon.uid} value={mon.uid}>{mon.name} · Lv.{mon.level} · {location(mon,s)} · 持有第 {index+1} 只</option>)}
+     <select ref={picker} id="modifier-monster" value={m?.uid??''} disabled={!monsters.length} onChange={event=>onSelect(event.target.value)}>
+      {!monsters.length&&<option value="">尚未持有精灵</option>}
+      {monsters.map((mon,index)=><option key={mon.uid} value={mon.uid}>{mon.name} · Lv.{mon.level} · {location(mon,party)} · 持有第 {index+1} 只</option>)}
      </select>
     </label>
     {m?<div className="modifier-current" role="status" aria-label="当前修改目标">
      <div className="modifier-portrait"><img src={getCreatureArt(appearanceOf(m)).src} alt={m.speciesName} draggable={false}/></div>
-     <div><strong>正在修改：{m.name}</strong><span>#{m.species} {m.speciesName} · Lv.{m.level} · {location(m,s)}</span></div>
+     <div><strong>正在修改：{m.name}</strong><span>#{m.species} {m.speciesName} · Lv.{m.level} · {location(m,party)}</span></div>
     </div>:<p>先添加精灵，再选择修改目标。</p>}
    </div>
    <div className="modifier-scroll">
-    {m&&<MonsterEditor key={m.uid} m={m} s={s} c={c}/>}
+    {m&&<MonsterEditor key={m.uid} m={m} c={c}/>}
     <section className="modifier-section"><h3>添加精灵</h3><div className="modifier-resource-row">
      <select aria-label="选择要添加的精灵" value={species} onChange={event=>setSpecies(Number(event.target.value))}>
-      {s.species.map(row=><option key={row.id} value={row.id}>#{row.id} {row.name}</option>)}
+      {catalog.map(row=><option key={row.id} value={row.id}>#{row.id} {row.name}</option>)}
      </select>
      <button onClick={acquire}>添加精灵</button>
     </div></section>

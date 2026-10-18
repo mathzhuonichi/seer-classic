@@ -1,9 +1,7 @@
 {
   "imports": [
     "src/features/battle/battle-actions.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/shared/audio/action-sounds.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
-    "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel"
+    "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges"
   ],
   "size": {
     "src/app/ShellWindowContent.tsx": {
@@ -19,10 +17,6 @@
       "long": 2
     },
     "src/app/useShellNavigation.ts": {
-      "lines": 0,
-      "long": 1
-    },
-    "src/domain/acquisition/acquisition.ts": {
       "lines": 0,
       "long": 1
     },
@@ -114,18 +108,6 @@
       "lines": 0,
       "long": 7
     },
-    "src/features/collection/dex-view.ts": {
-      "lines": 0,
-      "long": 1
-    },
-    "src/features/collection/ui/Fusion.tsx": {
-      "lines": 0,
-      "long": 1
-    },
-    "src/features/raising/ui/Raising.tsx": {
-      "lines": 0,
-      "long": 1
-    },
     "src/features/world/atlas.ts": {
       "lines": 0,
       "long": 1
@@ -157,10 +139,6 @@
     "src/features/world/world-scene.ts": {
       "lines": 0,
       "long": 3
-    },
-    "src/shared/audio/action-sounds.ts": {
-      "lines": 0,
-      "long": 2
     },
     "src/shared/audio/game-audio.ts": {
       "lines": 0,

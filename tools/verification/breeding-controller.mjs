@@ -25,12 +25,14 @@ try {
   const action=(recipe,pair)=>({type:'breed',recipeId:recipe.id,firstUid:pair.maleUid,secondUid:pair.femaleUid});
   const reject=(game,request,label)=>{const before=game.exportSave();game.dispatch(request);assert.equal(game.exportSave(),before,label);};
   const added=(before,after)=>after.storage.filter(mon=>!before.storage.some(old=>old.uid===mon.uid));
+  const offers=(game,recipe,pair)=>game.snapshot().breeding.recipes.find(row=>row.recipe.id===recipe.id).pairs.some(([m,f])=>m===pair.maleUid&&f===pair.femaleUid);
   const rows=[];
   for(const recipe of recipes){
     let weight=0;
     for(const outcome of recipe.outcomes){
       const pair=fixture(recipe,(weight+outcome.weight/2)/100),game=pair.game,before=parse(game);
       assert.ok(game.snapshot().monsters.filter(mon=>[pair.maleUid,pair.femaleUid].includes(mon.uid)).every(mon=>mon.generation===0));
+      assert.ok(offers(game,recipe,pair),'The snapshot offers the valid pair.');
       const result=game.dispatch(action(recipe,pair));const after=parse(game),newborns=added(before,after);assert.equal(newborns.length,1);
       assert.equal(result.created?.uid,newborns[0].uid,'The dispatch result names the newborn.');
       const child=newborns[0];assert.equal(child.species,outcome.species);assert.equal(child.level,1);assert.equal(child.generation,1);assert.equal(child.obtained.how,'breeding');
@@ -52,15 +54,17 @@ try {
     for(const which of ['maleUid','femaleUid']){
       const low=parse(game);low.storage.find(mon=>mon.uid===pair[which]).level=49;
       const lowGame=createGame(catalog,JSON.stringify(low));reject(lowGame,action(recipe,pair),'Level49 preserves full save/RNG');
+      assert.ok(!offers(lowGame,recipe,pair),'The snapshot offers no Level49 pair.');
     }
     for(const [which,species] of [['maleUid',recipe.maleInitialSpecies],['femaleUid',recipe.femaleInitialSpecies]]){
       const immature=parse(game);immature.storage.find(mon=>mon.uid===pair[which]).species=species;
       const wrong=createGame(catalog,JSON.stringify(immature));reject(wrong,action(recipe,pair),'Immature form preserves full save/RNG');
     }
     const gen=parse(game);gen.storage.find(mon=>mon.uid===pair.maleUid).generation=1;
-    reject(createGame(catalog,JSON.stringify(gen)),action(recipe,pair),'Second generation male preserves full save/RNG');
+    const genGame=createGame(catalog,JSON.stringify(gen));reject(genGame,action(recipe,pair),'Second generation male preserves full save/RNG');
+    assert.ok(!offers(genGame,recipe,pair),'The snapshot offers no second generation male.');
     const femaleGen=parse(game);femaleGen.storage.find(mon=>mon.uid===pair.femaleUid).generation=1;
-    const femaleGame=createGame(catalog,JSON.stringify(femaleGen));femaleGame.dispatch(action(recipe,pair));assert.equal(parse(femaleGame).storage.length,femaleGen.storage.length+1);
+    const femaleGame=createGame(catalog,JSON.stringify(femaleGen));assert.ok(offers(femaleGame,recipe,pair));femaleGame.dispatch(action(recipe,pair));assert.equal(parse(femaleGame).storage.length,femaleGen.storage.length+1);
   }
   const recipe=recipes.find(r=>r.originalEggId===7),pair=fixture(recipe,0.15);
   const before=parse(pair.game);pair.game.dispatch(action(recipe,pair));const descendant=added(before,parse(pair.game))[0];assert.equal(descendant.species,65);

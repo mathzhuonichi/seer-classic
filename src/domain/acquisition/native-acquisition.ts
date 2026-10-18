@@ -6,11 +6,6 @@ import type { AcquisitionCatalog, AcquisitionEncounter, AcquisitionSpecies } fro
 type EssenceSource = Pick<AcquisitionEncounter, 'reward_hatches' | 'reward' | 'team'>;
 /** Original infant reward bindings take precedence over the defeated final form; undefined only for an empty team. */
 const encounterEssenceSpecies = (boss: EssenceSource) => boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)?.species;
-export function resolveEncounterEssenceSpecies(boss: EssenceSource): number {
-  const species = encounterEssenceSpecies(boss);
-  if (species === undefined) throw new TypeError('An encounter with an empty team has no essence species.');
-  return species;
-}
 
 /** The controller redirects a field species that appears in a named (non-tower, non-dark-door) boss team. */
 export function interceptedFieldSpecies(bosses: readonly Pick<AcquisitionEncounter, 'id' | 'team'>[]): Set<number> {
@@ -52,8 +47,8 @@ export interface BossEssenceReward {
 /**
  * Essence items won from encounters: the encounter's explicit `essence_*` rewards, otherwise one authored essence
  * unless the encounter is an intermediate campaign stage, teaches a skill, or is a brave-tower floor. A shared item
- * ID keeps its catalog or first binding; an encounter with nothing to hatch grants nothing. createGame still applies
- * the same rule inline when it registers essence items.
+ * ID keeps its catalog or first binding; an encounter with nothing to hatch grants nothing. The catalog enrichment
+ * registers these items for the controller.
  */
 export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceReward[] {
   const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches!]));

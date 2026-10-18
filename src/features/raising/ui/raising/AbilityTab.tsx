@@ -1,13 +1,12 @@
 import {useEffect,useState} from 'react';
 import type { MonsterView } from '../../../../shared/views.ts';
-import type { StatKey } from '../../../../../raising/core/types.ts';
-import {STAT_KEYS} from '../../../../../raising/core/types.ts';
+import {STAT_KEYS,type StatKey} from '../../../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {statTotal} from '../../../../shared/monster-views.ts';
 import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,presetDraft,sameEvs} from '../../ev-draft.ts';
 import {EngravingSlots} from '../../../engravings/ui.ts';
-import {dispatchNext,monsterIn,type TabProps} from './dispatch-feedback.ts';
+import {feedbackFor,type TabProps} from './dispatch-feedback.ts';
 
 type Props=TabProps&{editing:boolean;setEditing:(editing:boolean)=>void};
 
@@ -23,10 +22,9 @@ export default function AbilityTab({m,c,feedback,say,editing,setEditing}:Props) 
     setEditing(!editing);
   }
   function save() {
-    const target=draftEvs(evs),result=monsterIn(dispatchNext(c,{type:'setEvs',uid:m.uid,evs:target}),m.uid);
-    const saved=!!result&&STAT_KEYS.every(key=>result.evs[key]===target[key]);
-    say(saved?'学习力已保存。':'学习力未保存，请查看提示。');
-    if(saved)setEditing(false);
+    const result=c.dispatch({type:'setEvs',uid:m.uid,evs:draftEvs(evs)});
+    say(feedbackFor(result,'学习力已保存。'));
+    if(result.ok)setEditing(false);
   }
   const status=!editing?'含刻印加成；体力为上限':!check.valid?`每项 0–${EV_STAT_CAP} 整数`:check.over?'超过总上限':dirty?'尚未保存':'已保存';
   return <section className={`raising-ability-panel${editing?' is-editing':''}`} aria-label="能力与学习力">
@@ -64,7 +62,7 @@ export default function AbilityTab({m,c,feedback,say,editing,setEditing}:Props) 
 
 /** One stat: base, 学习力 (an input while editing), and the entry value with its engraving bonus. */
 function StatRow({m,stat,draft,onEdit}:{m:MonsterView;stat:StatKey;draft?:string;onEdit:(stat:StatKey,value:string)=>void}) {
-  const label=STAT_LABELS[stat],bonus=m.engravings?.bonus[stat];
+  const label=STAT_LABELS[stat],bonus=m.engravings.bonus[stat];
   return <tr><th scope="row">{label}</th><td>{m.baseStats[stat]}</td>
     <td>{draft===undefined?m.evs[stat]:<div className="ev-cell">
       <input aria-label={`${label}学习力`} type="number" min="0" max={EV_STAT_CAP} step="1" value={draft} onChange={event=>onEdit(stat,event.target.value)}/>

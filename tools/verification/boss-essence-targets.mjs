@@ -11,7 +11,8 @@ Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
 const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
   const { createGame, loadCatalog } = await server.ssrLoadModule('/src/kernel/game.ts');
-  const { buildAcquisitionIndex, resolveEncounterEssenceSpecies } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { bossEssenceRewards } = await server.ssrLoadModule('/src/domain/acquisition/native-acquisition.ts');
   const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/initial-acquisition.ts');
   const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/domain/challenges/challenge-campaigns.ts');
   const catalog = await loadCatalog(), originalCatalog = JSON.stringify(catalog);
@@ -89,7 +90,8 @@ try {
     && boss.id !== 'boss_tower_brave_mystery' && !CHALLENGE_CAMPAIGNS.some(campaign => campaign.stages.some(stage => stage.bossIds.includes(boss.id))));
   assert.ok(fallback);
   hatchLegacyEssence(fallback, `essence_${fallback.id}`, fallback.team.at(-1).species);
-  assert.equal(resolveEncounterEssenceSpecies({ team: [{ species: 9 }], reward_hatches: 1, reward: { monster: { species: 4 } } }), 1, 'Explicit hatch binding remains authoritative.');
+  const bound = { id: 'boss_fixture', team: [{ species: 9 }], reward_hatches: 1, reward: { monster: { species: 4 } } };
+  assert.deepEqual(bossEssenceRewards({ bosses: [bound], items: [] }).map(reward => reward.species), [1], 'Explicit hatch binding remains authoritative.');
 
   // Campaign stages must still withhold synthetic essences until their final stage.
   for (const campaign of CHALLENGE_CAMPAIGNS) {

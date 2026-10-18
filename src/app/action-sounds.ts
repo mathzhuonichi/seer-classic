@@ -1,10 +1,16 @@
-import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
-import type {GameSound} from './game-audio.ts';
+import type { GameAction, GameSnapshot } from '../kernel/contract.ts';
+import type {GameSound} from '../shared/audio/game-audio.ts';
 type OutcomeSnapshot=Pick<GameSnapshot,'monsters'|'items'|'quests'|'expPool'>;
 /** Positive state transitions are authoritative; notices also describe rejected actions. */
 export function actionSound(action:GameAction,before:OutcomeSnapshot,after:OutcomeSnapshot):GameSound|null{
- if(action.type==='claimQuest')return !before.quests.find(q=>q.id===action.questId)?.claimed&&after.quests.find(q=>q.id===action.questId)?.claimed?'reward':null;
- if(action.type==='fuse')return after.items.some(item=>item.id.startsWith('fusion_bead_')&&item.count>(before.items.find(old=>old.id===item.id)?.count??0))?'reward':null;
+ if(action.type==='claimQuest'){
+  const claimed=(s:OutcomeSnapshot)=>s.quests.find(q=>q.id===action.questId)?.claimed;
+  return !claimed(before)&&claimed(after)?'reward':null;
+ }
+ if(action.type==='fuse'){
+  const gained=after.items.some(item=>item.id.startsWith('fusion_bead_')&&item.count>(before.items.find(old=>old.id===item.id)?.count??0));
+  return gained?'reward':null;
+ }
  if(action.type==='breed')return after.monsters.some(mon=>!before.monsters.some(old=>old.uid===mon.uid))?'reward':null;
  if(action.type!=='useItem'&&action.type!=='allocateExp'&&action.type!=='evolve')return null;
  const old=before.monsters.find(mon=>mon.uid===action.uid),next=after.monsters.find(mon=>mon.uid===action.uid);

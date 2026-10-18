@@ -5,7 +5,7 @@ import {STAT_KEYS} from '../../../../../raising/core/types.ts';
 import {IV_MAX} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {appearanceOf,speciesNumber} from '../../../../shared/monster-views.ts';
-import {dispatchNext,feedbackFor,monsterIn} from './dispatch-feedback.ts';
+import {feedbackFor} from './dispatch-feedback.ts';
 
 /** 信息: the skin picker, identity, base stats, EXP bar and equipped skills. */
 export default function OverviewTab({m,c}:{m:MonsterView;c:GameController}) {
@@ -30,11 +30,9 @@ export default function OverviewTab({m,c}:{m:MonsterView;c:GameController}) {
 function SkinPicker({m,c}:{m:MonsterView;c:GameController}) {
   const [feedback,setFeedback]=useState('');
   useEffect(()=>setFeedback(''),[m.species]);
-  const options=m.skinOptions??[{species:m.species,name:m.speciesName}];
-  const appearance=appearanceOf(m);
+  const options=m.skinOptions,appearance=appearanceOf(m);
   function choose(species:number) {
-    const next=dispatchNext(c,{type:'setSkin',uid:m.uid,species:species===m.species?null:species}),result=monsterIn(next,m.uid);
-    setFeedback(feedbackFor(next,!!result&&appearanceOf(result)===species,'此精灵的皮肤已保存。','皮肤未更换，请重新选择。'));
+    setFeedback(feedbackFor(c.dispatch({type:'setSkin',uid:m.uid,species:species===m.species?null:species}),'此精灵的皮肤已保存。'));
   }
   return <section className="raising-skins" aria-label="精灵皮肤">
     <div className="raising-skin-picker"><label htmlFor={`skin-${m.uid}`}>皮肤外观</label>

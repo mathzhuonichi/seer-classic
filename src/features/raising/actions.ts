@@ -1,6 +1,6 @@
 // Action handlers that raise and organise owned monsters, including the editor's cheats.
 import {
-  addEvs, allocatePoolExp, changeNature, computeStats, deposit, equipSkills, EV_STAT_CAP, EV_TOTAL_CAP, evolutionOptions, evolve, findMon, gainLevels,
+  addEvs, allocatePoolExp, changeNature, computeStats, deposit, equipSkills, EV_STAT_CAP, EV_TOTAL_CAP, evolutionOptions, evolve, evTotal, findMon, gainLevels,
   healAll, IV_MAX, IV_MIN, MAX_LEVEL, rename, requiresEvolutionChoice, setIv, setPartyOrder, STAT_KEYS, withdraw, type Monster,
 } from '../../../raising/core/index.ts';
 import { traits } from '../../domain/traits.ts';
@@ -19,7 +19,7 @@ const setEvs: ActionHandler<'setEvs'> = (rt, action) => {
   if (STAT_KEYS.some(key => !Number.isInteger(action.evs[key]) || action.evs[key] < 0 || action.evs[key] > EV_STAT_CAP)) {
     throw new Error(`学习力每项须为 0–${EV_STAT_CAP} 的整数。`);
   }
-  const total = STAT_KEYS.reduce((sum, key) => sum + action.evs[key], 0);
+  const total = evTotal(action.evs);
   if (total > EV_TOTAL_CAP) throw new Error(`学习力总和 ${total} 超过 ${EV_TOTAL_CAP}，请调整后再应用。`);
   const mon = { ...findMon(rt.save, action.uid), evs: { ...action.evs } };
   mon.hp = Math.min(mon.hp, computeStats(mon, rt.ctx.dex).hp);
@@ -82,7 +82,7 @@ const cheatMonster: ActionHandler<'cheatMonster'> = (rt, action) => {
   if (deficit) deficit.hp = 0;
   if (action.traitId) rt.save.game.traits[mon.uid] = action.traitId;
   else if (action.traitId !== undefined) delete rt.save.game.traits[mon.uid];
-  notice(rt, '精灵数值已修改。');
+  notice(rt, `已修改 ${mon.nickname || rt.ctx.speciesName(mon.species)} · Lv.${mon.level} · 个体值 ${mon.iv}。`);
 };
 
 export const raisingActions = {

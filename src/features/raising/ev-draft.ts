@@ -1,6 +1,5 @@
 // The 学习力 editor's draft (one text field per stat), checked against the raising caps.
-import type { StatKey, StatBlock as Stats } from '../../../raising/core/types.ts';
-import {STAT_KEYS} from '../../../raising/core/types.ts';
+import {STAT_KEYS,type StatBlock,type StatKey} from '../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../raising/core/stats.ts';
 
 export type EvDraft=Record<StatKey,string>;
@@ -12,11 +11,11 @@ export const EV_PRESETS:Readonly<Record<string,readonly [StatKey,StatKey]>>={
 
 const draftOf=(value:(key:StatKey)=>string)=>Object.fromEntries(STAT_KEYS.map(key=>[key,value(key)])) as EvDraft;
 
-export const evDraft=(evs:Stats)=>draftOf(key=>String(evs[key]));
+export const evDraft=(evs:StatBlock)=>draftOf(key=>String(evs[key]));
 export const clearedDraft=()=>draftOf(()=>'0');
 export const presetDraft=(name:string)=>draftOf(key=>EV_PRESETS[name].includes(key)?String(EV_STAT_CAP):'0');
-export const draftEvs=(draft:EvDraft)=>Object.fromEntries(STAT_KEYS.map(key=>[key,Number(draft[key])])) as Stats;
-export const sameEvs=(draft:EvDraft,evs:Stats)=>STAT_KEYS.every(key=>draft[key]===String(evs[key]));
+export const draftEvs=(draft:EvDraft)=>Object.fromEntries(STAT_KEYS.map(key=>[key,Number(draft[key])])) as StatBlock;
+export const sameEvs=(draft:EvDraft,evs:StatBlock)=>STAT_KEYS.every(key=>draft[key]===String(evs[key]));
 
 /** One stat's 学习力: a whole number from 0 to the per-stat cap. */
 export const isEvValue=(value:number)=>Number.isInteger(value)&&value>=0&&value<=EV_STAT_CAP;

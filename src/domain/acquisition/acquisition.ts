@@ -1,23 +1,22 @@
 import { NIAO_CAPTURE_PARTNERS } from '../../../battle/core/src/capture.ts';
 import { MAX_LEVEL } from '../../../raising/core/growth.ts';
-import { bundledCatalog } from '../catalog/catalog.ts';
 import { WORLD_PLANETS, type WorldPlanet } from '../world/world.ts';
 import {
-  JOURNEY_QUEST_SPECIES, NPC_ONLY_SPECIES, STARTER_SPECIES,
-  type AcquisitionCatalog, type AcquisitionEncounter, type AcquisitionFamily, type AcquisitionRoute, type AcquisitionSeed, type AcquisitionSpecies,
+  JOURNEY_QUEST_SPECIES, NPC_ONLY_SPECIES,
+  type AcquisitionCatalog, type AcquisitionFamily, type AcquisitionRoute, type AcquisitionSeed, type AcquisitionSpecies,
   type SpeciesAcquisition,
 } from './acquisition-model.ts';
 import { BREEDING_RECIPES, getBreedingGender, type BreedingRecipe } from '../recipes/breeding.ts';
+import { STARTER_SPECIES } from '../economy.ts';
 import { FUSION_RECIPES, type FusionRecipe } from '../recipes/fusion.ts';
 import { buildInitialFormAcquisitionIndex, type InitialFormAcquisition } from './initial-acquisition.ts';
 import { bossEssenceRewards, habitatEntries } from './native-acquisition.ts';
-import { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES } from './recruitment.ts';
+import { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES, type RecruitmentReward } from './recruitment.ts';
 import { buildPredecessors } from './species-graph.ts';
 import { getEligibleRecruitmentSPTs } from './spt-recruitment.ts';
 
 export { NPC_ONLY_SPECIES } from './acquisition-model.ts';
-export { resolveEncounterEssenceSpecies } from './native-acquisition.ts';
-export type { AcquisitionCatalog, AcquisitionRoute } from './acquisition-model.ts';
+export type { AcquisitionRoute } from './acquisition-model.ts';
 
 /** Niao (尼奥) can only be captured while one of NIAO_CAPTURE_PARTNERS is active. */
 const NIAO_SPECIES = 416;
@@ -101,12 +100,11 @@ function bossEssenceSeeds(catalog: AcquisitionCatalog, definitions: Definitions)
 }
 
 /** Collection-recruitment quests, granted once all of their prerequisites are reachable. */
-function recruitmentSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions,
-  eligibleBosses: ReadonlyMap<string, AcquisitionEncounter>): AcquisitionSeed[] {
-  return buildRecruitmentRewards(catalog, planets).map((reward): AcquisitionSeed => {
+function recruitmentSeeds(catalog: AcquisitionCatalog, rewards: readonly RecruitmentReward[]): AcquisitionSeed[] {
+  const species = new Map(catalog.species.map(row => [row.id, row.name.zh])), bosses = new Map(catalog.bosses.map(boss => [boss.id, boss.name?.zh]));
+  return rewards.map((reward): AcquisitionSeed => {
     const requirements = reward.prerequisites.map(condition => condition.kind === 'species'
-      ? `收集${definitions.get(condition.species)?.name.zh ?? condition.species}`
-      : `击败${eligibleBosses.get(condition.bossId)?.name?.zh ?? condition.bossId}`);
+      ? `收集${species.get(condition.species) ?? condition.species}` : `击败${bosses.get(condition.bossId) ?? condition.bossId}`);
     return { species: reward.rewardSpecies, prerequisites: reward.prerequisites,
       route: { kind: 'quest', entrySpecies: reward.rewardSpecies, questId: reward.questId,
         label: `精灵招募：${requirements.join('、')} → 领取${reward.name}精元并孵化` } };
@@ -193,8 +191,10 @@ function addEvolutionRoutes(routes: RouteIndex, catalog: AcquisitionCatalog, nam
 }
 
 /** Omitting additionalSeeds enables gated recruitment; an explicit array replaces it. */
-export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[] = WORLD_PLANETS, recipes: readonly FusionRecipe[] = FUSION_RECIPES,
-  additionalSeeds?: readonly AcquisitionSeed[], breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
+export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[] = WORLD_PLANETS,
+  recipes: readonly FusionRecipe[] = FUSION_RECIPES,
+  additionalSeeds: readonly AcquisitionSeed[] = recruitmentSeeds(catalog, buildRecruitmentRewards(catalog, planets)),
+  breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
   const definitions = new Map(catalog.species.map(species => [species.id, species]));
   const name: SpeciesName = id => definitions.get(id)!.name.zh;
   const eligibleBosses = new Map(getEligibleRecruitmentSPTs(catalog)
@@ -202,10 +202,9 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: read
     .map(boss => [boss.id, boss]));
   const routes = createRouteIndex(catalog), habitat = habitatSeeds(catalog, planets, definitions);
   const direct = [...journeySeeds(), ...habitat.direct, ...bossEssenceSeeds(catalog, definitions),
-    ...(additionalSeeds ?? []).filter(seed => seed.prerequisites === undefined)];
+    ...additionalSeeds.filter(seed => seed.prerequisites === undefined)];
   for (const seed of direct) routes.add(seed.species, seed.route);
-  const gated = additionalSeeds === undefined
-    ? recruitmentSeeds(catalog, planets, definitions, eligibleBosses) : additionalSeeds.filter(seed => seed.prerequisites !== undefined);
+  const gated = additionalSeeds.filter(seed => seed.prerequisites !== undefined);
   // Recruitment, conditional capture, fusion, breeding and evolution share a
   // fixed point. An unavailable prerequisite never grants its dependent reward.
   // Labels depend on the recipe/output, not every combination of parent routes.
@@ -254,21 +253,10 @@ export interface AcquisitionViews {
   initialForms: Map<number, InitialFormAcquisition>;
 }
 
-/** Every acquisition view the Dex, fusion and breeding screens read, as a pure function of the catalog. */
-export function buildAcquisitionViews(catalog: AcquisitionCatalog): AcquisitionViews {
-  const index = buildAcquisitionIndex(catalog), families = buildAcquisitionFamilies(catalog, index);
+/** Every acquisition view the Dex, fusion and breeding screens read, as a pure function of the catalog and its recruitment rewards. */
+export function buildAcquisitionViews(catalog: AcquisitionCatalog, recruitments: readonly RecruitmentReward[]): AcquisitionViews {
+  const index = buildAcquisitionIndex(catalog, WORLD_PLANETS, FUSION_RECIPES, recruitmentSeeds(catalog, recruitments));
+  const families = buildAcquisitionFamilies(catalog, index);
   return { index, families, initialForms: buildInitialFormAcquisitionIndex(catalog, index),
     familyBySpecies: new Map(families.flatMap(family => family.memberIds.map(id => [id, family] as const))) };
 }
-
-// Module-level views of the bundled catalog, built on first use. They predate
-// passing the controller's catalog to the screens that read them.
-let bundledViews: AcquisitionViews | undefined;
-const views = () => bundledViews ??= buildAcquisitionViews(bundledCatalog() as unknown as AcquisitionCatalog);
-export function getSpeciesAcquisition(id: number): SpeciesAcquisition {
-  return views().index.get(id) ?? { status: 'unimplemented', description: '当前版本没有这只精灵的获取记录。', routes: [] };
-}
-export function getAcquisitionFamily(id: number): AcquisitionFamily | undefined { return views().familyBySpecies.get(id); }
-export function getAcquisitionFamilies(): readonly AcquisitionFamily[] { return views().families; }
-
-export function getInitialFormAcquisition(id: number) { return views().initialForms.get(id); }

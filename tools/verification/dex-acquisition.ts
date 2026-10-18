@@ -5,7 +5,9 @@ import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_PLANETS } from '../../src/domain/world/world.ts';
 import { CHALLENGE_CAMPAIGNS } from '../../src/domain/challenges/challenge-campaigns.ts';
-import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/domain/acquisition/acquisition.ts';
+import { buildAcquisitionFamilies, buildAcquisitionIndex } from '../../src/domain/acquisition/acquisition.ts';
+import { NPC_ONLY_SPECIES, type AcquisitionCatalog } from '../../src/domain/acquisition/acquisition-model.ts';
+import { bossEssenceRewards } from '../../src/domain/acquisition/native-acquisition.ts';
 import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
 import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index.ts';
 import { suite } from './_harness.mjs';
@@ -24,6 +26,20 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
   });
   const runtime = structuredClone(source);
   const fresh = createGame(runtime);
+  t.check('dex, fusion and breeding slices follow the acquisition index', () => {
+    const { dex, fusion, breeding, species } = fresh.snapshot(), available = (id: number) => index.get(id)?.status === 'available';
+    assert.equal(Object.keys(dex.entries).length, index.size);
+    assert.deepEqual([dex.ownedForms, dex.collectibleFamilies], [species.filter(row => row.owned).length, families.filter(family => family.status !== 'npc').length]);
+    for (const [id, entry] of index) {
+      const view = dex.entries[id];
+      assert.equal(view.npc, entry.status === 'npc');
+      for (const form of view.initialForms) {
+        assert.deepEqual(form.routes, index.get(form.species)!.routes.filter(route => route.kind !== 'evolution' && route.entrySpecies === form.species));
+      }
+    }
+    for (const row of fusion.recipes) assert.equal(row.collectible, row.recipe.primary.some(available) && row.recipe.secondary.some(available));
+    for (const row of breeding.recipes) assert.equal(row.routesMissing, ![...row.recipe.maleSpecies, ...row.recipe.femaleSpecies].every(available));
+  });
   const byId = new Map<number, any>(source.species.map((species: any) => [species.id, species]));
   const available = [...index].filter(([, entry]) => entry.status === 'available').map(([id]) => id);
   const direct = [...index].filter(([, entry]) => entry.routes.some(route => route.kind !== 'evolution')).map(([id]) => id);
@@ -215,7 +231,7 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
   const baseline = buildAcquisitionIndex(oldCatalog, oldWorld, undefined, []);
   const newlyAvailable = available.filter(id => baseline.get(id)?.status !== 'available');
   const noLongerAvailable = [...baseline].filter(([id, entry]) => entry.status === 'available' && index.get(id)?.status !== 'available').map(([id]) => id);
-  const explicitRewardSpecies = new Set(original.bosses.flatMap((boss: any) => Object.keys(boss.reward?.items ?? {}).some(id => id.startsWith('essence_')) ? [resolveEncounterEssenceSpecies(boss)] : []));
+  const explicitRewardSpecies = new Set(bossEssenceRewards(original).filter(reward => !reward.authored).map(reward => reward.species));
   const missingSet = new Set(missing);
   const hasPredecessor = (id: number) => byId.get(id).evolves_from !== null || source.species.some((species: any) => species.evolution.some((evolution: any) => evolution.to === id));
   const hasAvailablePredecessor = (id: number) => available.includes(byId.get(id).evolves_from) || source.species.some((species: any) => available.includes(species.id) && species.evolution.some((evolution: any) => evolution.to === id));

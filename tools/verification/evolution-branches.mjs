@@ -92,10 +92,10 @@ try {
       if (edge.level > 1) reject(low.game, { type: 'evolve', uid: low.uid, toSpecies: edge.to }, 'Under-level target');
       const { game, uid } = fixture(row.id), view = game.snapshot().monsters.find(mon => mon.uid === uid);
       assert.deepEqual(view.evolutionChoices.map(choice => choice.species).sort((a,b)=>a-b), row.evolution.map(edge=>edge.to).sort((a,b)=>a-b));
-      assert(view.evolutionChoices.every(choice => choice.ready && !choice.blockedReason));
+      assert(view.evolutionChoices.every(choice => !choice.blockedReason));
       select(game,uid,edge.to); selected.push({ from: row.id, to: edge.to, level: edge.level });
     }
-    assert(low.game.snapshot().monsters.find(mon=>mon.uid===low.uid).evolutionChoices.every(choice=>!choice.ready || choice.level<=1), 'Locked branches remain visible');
+    assert(low.game.snapshot().monsters.find(mon=>mon.uid===low.uid).evolutionChoices.every(choice=>choice.blockedReason || choice.level<=1), 'Locked branches remain visible');
   });
 
   for (const row of branches) for (const edge of row.evolution) check(`${row.id}->${edge.to}: cap includes owned plus every essence alias`, () => {
@@ -121,7 +121,7 @@ try {
   check('An early eligible branch never silently wins over a later branch', () => {
     assert.equal(autoEvolve(atTen,forkDex).mon.species,91);
     const {game,uid}=fixture(91,10,fork), view=game.snapshot().monsters.find(mon=>mon.uid===uid);
-    assert.deepEqual(view.evolutionChoices.map(choice=>[choice.species,choice.ready]),[[92,true],[93,false]]);
+    assert.deepEqual(view.evolutionChoices.map(choice=>[choice.species,!choice.blockedReason]),[[92,true],[93,false]]);
     reject(game,{type:'evolve',uid},'One currently eligible option still requires selection');
     reject(game,{type:'evolve',uid,toSpecies:93},'Later locked target');
     game.dispatch({type:'evolve',uid,toSpecies:92}); assert.equal(parse(game).storage.find(mon=>mon.uid===uid).species,92);
