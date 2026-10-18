@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  battleEndSound, battleItemPane, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, stageChips,
+  battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, stageChips,
 } from './battle-hud.ts';
 
 const mon = (uid, hp, extra = {}) => ({uid, name: uid, hp, maxHp: 100, statuses: [], stages: {}, skills: [], ...extra});
@@ -51,6 +51,13 @@ test('using an item pins it, and once its last copy is gone nothing is selected 
   const left = battleItemPane(battle(), [{...potion, count: 0}, ether], {...choice, selection: 'pp'});
   assert.equal(itemUse(left).action.itemId, 'pp', 'a picked item with stock left stays selected');
   assert.equal(itemUse({...open, helpsTarget: false}), null, 'the target does not need it');
+});
+
+test('the result title names the outcome once, and a challenge\'s loss as a challenge\'s', () => {
+  const title = extra => battleResultTitle(battle({finished: true, won: false, challenge: false, ...extra}));
+  const outcomes = [{captured: true}, {won: true}, {resultReason: 'turn_cap'}, {resultReason: 'flee'}, {resultReason: 'ko'},
+    {resultReason: 'ko', challenge: true}, {resultReason: 'lose_condition', challenge: true}];
+  assert.deepEqual(outcomes.map(title), ['捕捉成功！', '战斗胜利！', '本场平局', '已撤离战斗', '战斗失败', '挑战失败', '挑战失败']);
 });
 
 test('settled dialogue, end sounds and the latest turn log', () => {

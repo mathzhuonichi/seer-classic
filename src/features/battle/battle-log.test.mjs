@@ -36,6 +36,13 @@ test('the opening log leaves out the rule conditions installed before the first 
     ['布布花陷入中毒，持续 3 回合。', '我方派出了巴鲁斯。', '对手派出了布布花。　巴鲁斯获得护盾效果，持续 5 回合。']);
 });
 
+test('a retreat is said once, by the flee line; a turn cap\'s end names the draw', () => {
+  const end = fields => ({type: 'battle_end', winner: 1, success: false, defeated: [], turns: 3, ...fields});
+  assert.deepEqual(groupedBattleLog([{type: 'flee', side: 0}, end({reason: 'flee'})], context), ['我方撤离了战斗。']);
+  assert.equal(text(end({reason: 'turn_cap', winner: null})), '达到回合上限，本场平局。');
+  assert.equal(text(end({reason: 'ko'})), '战斗结束。');
+});
+
 test('the side is named when both sides field a monster of the same name', () => {
   const mirror = {...context, initialEnemy: {name: '巴鲁斯', hp: 100, maxHp: 100}};
   const lines = groupedBattleLog([

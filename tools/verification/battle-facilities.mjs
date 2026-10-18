@@ -167,7 +167,9 @@ await withSsr('battle-facilities',async load=>{
     const stalledCatalog={...winCatalog,skills:winCatalog.skills.map(skill=>({...skill,category:'status',target:'self',power:0,accuracy:null,priority:0,effects:[{op:'restore_pp',target:'self',amount:'all'}]}))};
     const game=make(winSave,stalledCatalog),before=parse(game);game.dispatch({type:'startFacility',facilityId:'random'});assert(game.snapshot().battle);
     for(let turn=0;turn<200&&!game.snapshot().battle.finished;turn++)game.dispatch({type:'move',skillId:testSkill});
-    const battle=game.snapshot().battle,after=parse(game);assert(battle.finished);assert.equal(battle.turn,200);assert.equal(battle.resultReason,'turn_cap');assert.equal(battle.won,false);assert.match(battle.result,/平局/);assert(battle.log.some(line=>line.includes('平局')));
+    const battle=game.snapshot().battle,after=parse(game);assert(battle.finished);assert.equal(battle.turn,200);assert.equal(battle.resultReason,'turn_cap');
+    assert.equal(battle.won,false);assert.equal(battle.result,'可恢复后再次挑战。','the result text gives the next step; the log names the draw');
+    assert(battle.log.some(line=>line.includes('平局')));
     assert.deepEqual(protectedSave(after),protectedSave(before));assert.deepEqual(after.progress,before.progress);assert.equal(after.game.coins,before.game.coins);assert.equal(after.exp_pool,before.exp_pool);assert.equal(after.game.battlesWon,before.game.battlesWon);
     reject(game,{type:'move',skillId:testSkill},'Ended draw rejects further moves');game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);
     report.draw={turns:battle.turn,resultReason:battle.resultReason,result:battle.result,lastLog:battle.log.slice(-3)};

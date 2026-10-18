@@ -21,7 +21,8 @@ interface SessionOptions {
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
   const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));
-  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [`挑战${setup.name}。`], frames: [] };
+  const opening = setup.wild ? `遭遇野生的${rt.ctx.speciesName(setup.wild.species)}。` : `挑战${setup.name}。`;
+  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [opening], frames: [] };
   rt.session = session;
   rt.animation.revision++;
   logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));

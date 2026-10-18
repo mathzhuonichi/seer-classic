@@ -1,5 +1,5 @@
 // Snapshot views of the open battle.
-import { MAX_TURNS, type Mon } from '../../../battle/core/src/index.ts';
+import type { Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
 import { victoryReward } from '../../domain/economy.ts';
@@ -41,15 +41,18 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
 }
 
-/** The settled outcome's consequence: where a capture went, what a victory paid, or what to do next. The result panel's title names the outcome. */
+/**
+ * The settled outcome's consequence: where a capture went, what a victory paid, or what to do next. The result panel's title
+ * names the outcome and the log's last line says how the battle ended, so this text restates neither; a challenge's next step
+ * is another attempt, a wild battle's is going on exploring.
+ */
 function resultText(session: BattleSession): string {
   const result = session.battle.result;
   if (!result) return '';
   if (session.resultMessage) return session.resultMessage;
-  if (result.success) return session.encounter ? '挑战成功，奖励已入账。' : victoryText(victoryReward(null));
-  if (result.reason === 'flee') return '已离开战斗。';
-  if (result.reason === 'turn_cap') return `已达到 ${MAX_TURNS} 回合上限，本场平局。可恢复后再次挑战。`;
-  return '挑战失败，可恢复后再试。';
+  if (result.success) return session.encounter ? '奖励已入账。' : victoryText(victoryReward(null));
+  if (result.reason === 'flee') return '本次不发放战斗奖励。';
+  return session.encounter ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
 }
 
 export function battleView(rt: Runtime, session: BattleSession): BattleView {
@@ -57,7 +60,7 @@ export function battleView(rt: Runtime, session: BattleSession): BattleView {
   return {
     name: session.name, turn: battle.turn, player: state.player, enemy: foeView(session, state.enemy), party: state.party,
     enemyParty: state.enemyParty.map(mon => foeView(session, mon)), log: [...session.logs], finished: !!battle.result, won: !!battle.result?.success,
-    resultReason: battle.result?.reason, result: resultText(session), canCapture: !blocked, captureBlockedReason: blocked,
+    resultReason: battle.result?.reason, result: resultText(session), challenge: !!session.encounter, canCapture: !blocked, captureBlockedReason: blocked,
     captured: battle.result?.reason === 'capture', needsSwitch: battle.sides[0].needsReplacement,
     animation: { revision: rt.animation.revision, frames: session.frames },
   };

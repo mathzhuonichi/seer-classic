@@ -1,7 +1,8 @@
 /**
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
- * forced replacement, the lines a capture and a wild victory say, each once, and the hold on turn preparation while a turn plays.
+ * forced replacement, the lines a capture, a wild victory, a retreat and a loss say, each once, and the hold on turn preparation while
+ * a turn plays.
  */
 import assert from 'node:assert/strict';
 import {levelledGames} from './_game-battle.mjs';
@@ -168,6 +169,45 @@ await withSsr('battle-commands', async load => {
     assert.equal(view.result, reward);
     assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, 'no line twice');
     t.witness('wild victory dialogue', ui.dialogue);
+  });
+
+  /** Plays `game` to its end on `ui` with the first skill that has PP; returns the finished view. */
+  const playOut = (game, ui) => {
+    for (let turn = 0; turn < 10 && !game.snapshot().battle.finished; turn++) {
+      ui.player.submit({type: 'move', skillId: game.snapshot().battle.player.skills.find(skill => skill.pp > 0).id});
+      ui.rerender();
+      ui.clock.runAll();
+    }
+    return game.snapshot().battle;
+  };
+  /** The seeded journey with a party of one lead on 1 HP. */
+  const lastStand = () => {
+    const save = structuredClone(base);
+    save.party = save.party.slice(0, 1);
+    save.storage.find(mon => mon.uid === save.party[0]).hp = 1;
+    return save;
+  };
+
+  t.check('A retreat and a loss say how they ended once each, a wild battle in wild wording and a challenge in challenge wording', () => {
+    const fled = wild(), fleeing = screen(fled), foe = fled.snapshot().battle.enemy.name;
+    fleeing.player.submit({type: 'flee'});
+    fleeing.rerender();
+    fleeing.clock.runAll();
+    const retreat = fled.snapshot().battle;
+    assert.deepEqual([retreat.resultReason, battleResultTitle(retreat), retreat.result], ['flee', '已撤离战斗', '本次不发放战斗奖励。']);
+    assert.deepEqual(fleeing.dialogue.slice(-2), ['我方撤离了战斗。', '本次不发放战斗奖励。']);
+    assert.deepEqual([retreat.log[0], retreat.log.at(-1)], [`遭遇野生的${foe}。`, '我方撤离了战斗。'], 'a wild battle opens as an encounter');
+    const outcomes = {wild: {type: 'startTraining', species: 22, level: 100}, challenge: {type: 'startBattle', bossId: catalog.bosses[0].id}};
+    const said = {};
+    for (const [kind, start] of Object.entries(outcomes)) {
+      const game = started(start, catalog, lastStand()), ui = screen(game), lost = playOut(game, ui);
+      assert.deepEqual([lost.finished, lost.won, lost.challenge], [true, false, kind === 'challenge'], kind);
+      assert.deepEqual(ui.dialogue.slice(-2), ['战斗结束。', lost.result], `${kind}: the end, then the next step`);
+      assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, `${kind}: no line twice`);
+      said[kind] = [battleResultTitle(lost), lost.result];
+    }
+    assert.deepEqual(said, {wild: ['战斗失败', '可恢复精灵后继续探索。'], challenge: ['挑战失败', '可恢复后再次挑战。']});
+    t.witness('retreat dialogue', fleeing.dialogue);
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {
