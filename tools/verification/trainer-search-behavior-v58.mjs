@@ -1,18 +1,11 @@
 /** V58 search planner behaviour fixtures and decision-level hidden-information invariance (design/notes/trainer-search-ai-v58.md 9.2, 9.6). */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {suite,withSsr} from './_harness.mjs';
 
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const explore=process.argv.includes('--explore');
-const report={checks:[],failures:[],witnesses:{}};
-const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack).slice(0,4000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`);}};
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/trainer-search-behavior-v58'),
-  server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-try{
-  const [core,ai,{createBattle},{lastSearchDecision},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/ai/src/index.ts','/tools/verification/_battle.ts','/battle/ai/src/search-ai.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(id=>server.ssrLoadModule(id)));
+await withSsr('trainer-search-behavior-v58',async load=>{
+  const t=suite('trainer-search-behavior-v58'),{check}=t;
+  const [core,ai,{createBattle},{lastSearchDecision},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/ai/src/index.ts','/tools/verification/_battle.ts','/battle/ai/src/search-ai.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(load));
   const {buildDataSet,computeStats}=core,{chooseAiAction,BASELINE_IV,BASELINE_EVS}=ai;
   const S={slowKo:58101,clear:58102,foeHit:58103,chip:58104,inherit:58105,heavy:58106,quick:58107,wait:58109};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100};
@@ -58,7 +51,7 @@ try{
     const seeds=Array.from({length:8},(_,i)=>5800+i);
     const always=(scene,expected,name)=>check(name,()=>{
       const chosen=seeds.map(seed=>decide(scene(seed)));
-      report.witnesses[name]=chosen;for(const a of chosen)assert.deepEqual(a,expected);
+      t.witness(name,chosen);for(const a of chosen)assert.deepEqual(a,expected);
     });
     always(scenes.removal,move(S.clear),'A faster boosted foe: priority boost removal is chosen when it changes survival');
     always(scenes.plusSix,move(S.quick),'V57 +6 defenses case: the reliable priority knockout is still chosen');
@@ -72,7 +65,7 @@ try{
       const plan=lastSearchDecision(b,b.sides[1]).sacrifices[0];
       assert(b.sides[1].team[0].fainted,'the sacrificer fainted');assert.deepEqual(plan.successors,[2]);assert.equal(b.sides[1].active,2);
       assert.equal(b.active(1).stages.atk,1);assert.equal(b.active(1).stages.spe,1);
-      report.witnesses.successor={plan,active:b.sides[1].active};
+      t.witness('successor',{plan,active:b.sides[1].active});
     });
 
     check('Medicine: HP-restoring items are never used on six consecutive turns',()=>{
@@ -80,7 +73,7 @@ try{
       const heals=[];
       for(let t=0;t<18&&!b.result;t++){b.submit(0,move(S.foeHit));const a=decide(b);b.submit(1,a);b.resolveTurn();heals.push(a.kind==='item');}
       let run=0,longest=0;for(const h of heals){run=h?run+1:0;longest=Math.max(longest,run);}
-      report.witnesses.medicine={heals:heals.map(Number).join(''),longest};
+      t.witness('medicine',{heals:heals.map(Number).join(''),longest});
       assert(longest>=5,'the fixture makes repeated healing attractive');assert(longest<=5,'no sixth consecutive HP medicine');
     });
 
@@ -105,12 +98,8 @@ try{
         return {record:JSON.stringify(lastSearchDecision(b,b.sides[1])),drew:JSON.stringify(b.rng.s)!==before};
       });
       for(const r of records.slice(1))assert.equal(r.record,records[0].record);
-      report.witnesses.invariance={variants:hiddenVariants.length,recordBytes:records[0].record.length};
+      t.witness('invariance',{variants:hiddenVariants.length,recordBytes:records[0].record.length});
     });
   }
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  await server.close();
-  if(!explore){const dir=path.join(root,'artifacts/trainer-search-behavior-v58');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'report.json'),JSON.stringify(report,null,2)+'\n');}
-  console.log(JSON.stringify({checks:report.checks,failures:report.failures.map(f=>f.name),witnesses:report.witnesses},null,1));if(report.failures.length)process.exitCode=1;
-}
+  if(!explore)t.finish();
+});

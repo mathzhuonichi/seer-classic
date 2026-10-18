@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
  * `dependencies`) on a seeded save whose party is the three starter lines at Lv 100 with IV 31.
  */
 export async function levelledGames(load) {
-  const [{createGame, loadCatalog}, {newSave}] = await Promise.all(['/src/kernel/game.ts', '/src/kernel/save.ts'].map(load));
+  const [{createGame}, {loadCatalog}, {newSave}] = await Promise.all(
+    ['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts'].map(load));
   const catalog = await loadCatalog();
   return dependencies => {
     const game = createGame(catalog, JSON.stringify(newSave(58)), dependencies);

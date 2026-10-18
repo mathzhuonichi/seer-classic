@@ -1,5 +1,6 @@
 // A tiny hand-made Dex for the raising unit tests, so they never depend on the shipped catalog.
-import {makeDex, SeededRng} from './index.ts';
+import {Rng} from '../../battle/core/src/rng.ts';
+import {makeDex} from './index.ts';
 
 const base = (n) => ({hp: n, atk: n, def: n, spa: n, spd: n, spe: n});
 const sp = (id, extra = {}) => ({
@@ -28,7 +29,7 @@ export const natures = [
 ];
 
 export const dex = makeDex({species, skills, natures});
-export const rng = (seed = 1) => new SeededRng(seed);
+export const rng = (seed = 1) => new Rng(seed);
 
 /** An empty version-1 save. */
 export function emptySave(extra = {}) {

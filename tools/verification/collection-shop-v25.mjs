@@ -8,7 +8,8 @@ const JOURNEY_SEED=0xc0115;
 memoryStorage();
 await withSsr('collection-shop-v25',async load=>{
  const t=suite('collection-shop-v25'),{check}=t;
- const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {createGame}=await load('/src/kernel/game.ts');
+ const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
  const {newSave}=await load('/src/kernel/save.ts');
  const {STARTER_LEVEL}=await load('/src/domain/economy.ts');
  const {buildCollectionAncestry}=await load('/src/domain/acquisition/collection-ancestry.ts');

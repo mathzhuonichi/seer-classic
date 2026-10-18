@@ -5,9 +5,10 @@ import {memoryStorage,suite,withSsr} from './_harness.mjs';
 memoryStorage();
 await withSsr('engravings-2013',async load=>{
   const t=suite('engravings-2013'),{check}=t;
-  const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,engravingBlockedReason,engravingEffectGroup,engravingStatKeys,ENGRAVING_EFFECT_GROUPS},{createBattle},{buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
+  const [{createGame},{engravings,engraveSkill,engravingById,engravingBlockedReason,engravingEffectGroup,engravingStatKeys,ENGRAVING_EFFECT_GROUPS},{createBattle},{buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
   ].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   const learns=(sid,move)=>species.get(sid)?.learnset.some(l=>l.skill===move);

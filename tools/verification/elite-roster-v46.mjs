@@ -1,11 +1,9 @@
 /** Explicit elite admission, reviewed loadouts, sampling and ordinary-mode isolation. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createServer} from 'vite';
+import {suite,withSsr} from './_harness.mjs';
 
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[],builds=[],changedOriginalEliteBuilds=[];
-const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
+const builds=[],changedOriginalEliteBuilds=[];
 const keys=['hp','atk','def','spa','spd','spe'],sum=sp=>keys.reduce((n,key)=>n+sp.base[key],0),sorted=xs=>[...xs].sort((a,b)=>a-b);
 const APPROVED={
   70:[10825,20364,10823,10166],261:[10715,20312,10710,10714],421:[11140,20564,10632,11135],468:[11224,20486,20488,11017],
@@ -14,10 +12,11 @@ const APPROVED={
   359:[20143,10882,20397,10321],356:[20398,10876,10874,10289],755:[20932,11841,20931,11837],599:[20749,11508,20750,20488],
   587:[20731,20730,20732,11470],990:[12355,11293,21224,12358],826:[11994,21020,20538,11996],691:[11690,10321,20185,11691],432:[11165,11078,20535,11081],
 };
-try {
+await withSsr('elite-roster-v46',async load=>{
+  const t=suite('elite-roster-v46'),{check}=t;
   const [{loadCatalog},{facilityPool,eliteFacilityPool,createFacilityEncounter,buildFacilityViews},{trainerSkillOrigin},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog),defs=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   const raw=facilityPool(catalog,600),pool=eliteFacilityPool(catalog),approvedIds=Object.keys(APPROVED).map(Number),ids=new Set(pool.map(s=>s.id));
@@ -94,9 +93,5 @@ try {
     assert.deepEqual(skills.get(20749).effects,[{op:'script',id:'seer_eff_59',params:[4,5]}]);assert(defs.additions.find(r=>r.species===599).selectionReason.includes('does not copy current stages'));
   });
   assert.equal(JSON.stringify(catalog),snapshot);
-}catch(error){failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  const report={checks,failures,approvedAdditionalIds:sorted(Object.keys(APPROVED).map(Number)),builds,changedOriginalEliteBuilds};
-  fs.mkdirSync('artifacts/elite-roster-v46',{recursive:true});fs.writeFileSync('artifacts/elite-roster-v46/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,failures,additionalSpecies:Object.keys(APPROVED).length,changedOriginalEliteBuilds:changedOriginalEliteBuilds.length},null,2));await server.close();if(failures.length)process.exitCode=1;
-}
+  t.finish({approvedAdditionalIds:sorted(Object.keys(APPROVED).map(Number)),builds,changedOriginalEliteBuilds});
+});

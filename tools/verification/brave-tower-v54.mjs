@@ -16,13 +16,13 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must not make HTTP requests.');};
 await withSsr('brave-tower-v54',async load=>{
   const t=suite('brave-tower-v54'),{check}=t;
-  const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng},{buildAcquisitionIndex},{buildRecruitmentRewards}]=await Promise.all([
-    load('/src/kernel/game.ts'),load('/raising/core/index.ts'),
-    load('/src/domain/acquisition/acquisition.ts'),load('/src/domain/acquisition/recruitment.ts'),
+  const [{createGame},{loadCatalog},{makeDex,createMonster},{buildAcquisitionIndex},{buildRecruitmentRewards},{Rng}]=await Promise.all([
+    load('/src/kernel/game.ts'),load('/src/domain/catalog/catalog.ts'),load('/raising/core/index.ts'),
+    load('/src/domain/acquisition/acquisition.ts'),load('/src/domain/acquisition/recruitment.ts'),load('/battle/core/src/rng.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id)||boss.id==='boss_spt_liaosi')for(const mon of boss.team)mon.hp_override=1;
-  const catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),rng=new SeededRng(54),FAST=10166;
+  const catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),rng=new Rng(54),FAST=10166;
   const base=parse(createGame(catalog,''));
   base.storage=Array.from({length:6},(_,index)=>{
     const mon=createMonster(dex,70,100,rng,{uid:`tower-v54-${index}`,iv:31,nature:'hardy'});

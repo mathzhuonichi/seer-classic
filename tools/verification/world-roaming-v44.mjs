@@ -70,7 +70,8 @@ await withSsr('world-roaming-v44',async load=>{
       assert(resumed,'Closing interaction must resume the selected creature');
     }
   });
-  const [{createGame,loadCatalog},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered}]=await Promise.all(['/src/kernel/game.ts',
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
+  const [{createGame},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered}]=await Promise.all(['/src/kernel/game.ts',
     '/src/features/raising/ui.ts','/src/shared/ui/GameWindow.tsx','/src/features/world/ui.ts','/src/features/world/ui/scene-cover.ts'].map(load));
   const game=createGame(await loadCatalog(),'');
   const covered=element=>{

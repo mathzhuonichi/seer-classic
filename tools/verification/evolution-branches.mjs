@@ -6,8 +6,10 @@ import { memoryStorage, suite, withSsr } from './_harness.mjs';
 memoryStorage();
 await withSsr('evolution-branches', async load => {
   const t = suite('evolution-branches'), { check } = t, selected = [], repeated = [], mechanical = [];
-  const { createGame, loadCatalog } = await load('/src/kernel/game.ts');
-  const { makeDex, createMonster, SeededRng, computeStats, autoEvolve, expToNext } = await load('/raising/core/index.ts');
+  const { createGame } = await load('/src/kernel/game.ts');
+  const { loadCatalog } = await load('/src/domain/catalog/catalog.ts');
+  const { makeDex, createMonster, computeStats, autoEvolve, expToNext } = await load('/raising/core/index.ts');
+  const { Rng } = await load('/battle/core/src/rng.ts');
   const { buildRecruitmentRewards } = await load('/src/domain/acquisition/recruitment.ts');
   const { buildAcquisitionIndex } = await load('/src/domain/acquisition/acquisition.ts');
   const catalog = await loadCatalog(), sourceBytes = JSON.stringify(catalog), dex = makeDex(catalog);
@@ -25,7 +27,7 @@ await withSsr('evolution-branches', async load => {
   fresh.exp_pool = 1e9;
   const make = (save, input = catalog) => createGame(input, JSON.stringify(save));
   function monster(species, level = 100, uid = `fixture-${species}`) {
-    const mon = createMonster(dex, species, level, new SeededRng(species), { how: 'gift', at: '2026-10-14T00:00:00.000Z' });
+    const mon = createMonster(dex, species, level, new Rng(species), { how: 'gift', at: '2026-10-14T00:00:00.000Z' });
     Object.assign(mon, { uid, nickname: 'Branch fixture', iv: 27, generation: 1, evs: { hp: 23, atk: 31, def: 17, spa: 11, spd: 7, spe: 19 } });
     mon.hp = computeStats(mon, dex).hp;
     return mon;

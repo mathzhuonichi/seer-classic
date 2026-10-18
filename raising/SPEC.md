@@ -221,7 +221,7 @@ core/rewards.ts        after-battle EXP/学习力 split, exp pool, 经验分配�
 core/storage.ts        party/box, release, rename, heal, item counts, 精元 hatching
 core/items.ts          raising items, boosters, 能量珠, tickBoosts
 core/dex.ts            Dex from parsed data files
-core/index.ts          the barrel, plus battle core's sfc32 Rng as SeededRng
+core/index.ts          the barrel
 core/*.test.mjs        node:test unit tests on a fixture Dex (npm test)
 ../src/kernel/save.ts  save create/validate/migrate/serialise
 ```

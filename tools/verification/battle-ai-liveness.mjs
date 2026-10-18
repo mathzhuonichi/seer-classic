@@ -2,11 +2,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {performance} from 'node:perf_hooks';
-import {createServer} from 'vite';
 import {loadCatalogNode} from '../catalog.mjs';
+import {withSsr} from './_harness.mjs';
 
 const report={checks:[],failures:[],adversarial:[],catalog:[],performance:[]};
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 const directory='artifacts/battle-ai-liveness';
 fs.mkdirSync(directory,{recursive:true});
 const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack).slice(0,2500)});console.error(`FAIL ${name}: ${error.message}`);}};
@@ -14,11 +13,11 @@ const median=values=>[...values].sort((a,b)=>a-b)[Math.floor(values.length/2)];
 const percentile=(values,p)=>[...values].sort((a,b)=>a-b)[Math.min(values.length-1,Math.floor(values.length*p))];
 const serialize=b=>JSON.stringify(b,(key,value)=>['data','scripts'].includes(key)?undefined:value instanceof Map?[...value]:value instanceof Set?[...value]:value);
 
-try {
-  const {createBattle}=await server.ssrLoadModule('/tools/verification/_battle.ts');
-  const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
-  const {chooseAiAction}=await server.ssrLoadModule('/battle/ai/src/ai.ts');
-  const {SEER_SCRIPTS}=await server.ssrLoadModule('/battle/core/src/scripts/index.ts');
+await withSsr('battle-ai-liveness',async load=>{
+  const {createBattle}=await load('/tools/verification/_battle.ts');
+  const {buildDataSet}=await load('/battle/core/src/data.ts');
+  const {chooseAiAction}=await load('/battle/ai/src/ai.ts');
+  const {SEER_SCRIPTS}=await load('/battle/core/src/scripts/index.ts');
   const catalog=loadCatalogNode(),catalogBefore=JSON.stringify(catalog);
   const data=buildDataSet(catalog),skills=data.skills;
   const eligible=catalog.species.filter(s=>![122,123,124,125].includes(s.id)&&s.learnset?.some(row=>row.level>=1&&row.level<=100&&skills.has(row.skill)));
@@ -136,5 +135,5 @@ try {
   report.passed=report.failures.length===0;
   console.log(JSON.stringify({passed:report.passed,checks:report.checks.length,coverage:report.coverage,summary:report.summary,performance:report.performance,failures:report.failures},null,2));
   if(!report.passed)process.exitCode=1;
-}catch(error){report.passed=false;report.failures.push({name:'Verification harness',error:String(error.stack)});console.error(error);process.exitCode=1;}
-finally{await server.close();fs.writeFileSync(`${directory}/report.json`,JSON.stringify(report,null,2)+'\n');}
+}).catch(error=>{report.passed=false;report.failures.push({name:'Verification harness',error:String(error.stack)});console.error(error);process.exitCode=1;});
+fs.writeFileSync(`${directory}/report.json`,JSON.stringify(report,null,2)+'\n');

@@ -1,16 +1,14 @@
 /** Authored elite builds: boost theft, observed control immunity, and Gaia's installed seal. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import crypto from 'node:crypto';
-import {createServer} from 'vite';
+import {sha256File,suite,withSsr} from './_harness.mjs';
 
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const report={checks:[],failures:[],witnesses:[]};
-const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-try {
+const report={witnesses:[]};
+await withSsr('elite-tactics-v46',async load=>{
+  const t=suite('elite-tactics-v46'),{check}=t;
   const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle},{buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),roster=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const WAIT=990470,HIT=990471,FOE=990472,BULK=990473;
   const fixtureSkills=[
@@ -100,9 +98,6 @@ try {
     }
   });
   check('Catalog and production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  report.sourceHashes=Object.fromEntries(['data/elite-roster.json','src/domain/challenges/npc-training-scripts.ts'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
-} catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally {
-  fs.mkdirSync('artifacts/elite-tactics-v46',{recursive:true});fs.writeFileSync('artifacts/elite-tactics-v46/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,witnesses:report.witnesses,failures:report.failures},null,2));await server.close();if(report.failures.length)process.exitCode=1;
-}
+  report.sourceHashes=Object.fromEntries(['data/elite-roster.json','src/domain/challenges/npc-training-scripts.ts'].map(path=>[path,sha256File(path)]));
+  t.finish(report);
+});

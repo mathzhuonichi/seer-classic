@@ -8,7 +8,8 @@ const JOURNEY_SEED=0xac9c1a;
 memoryStorage();
 await withSsr('acquisition-limits-controller',async load=>{
  const t=suite('acquisition-limits-controller'),{check}=t;
- const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {createGame}=await load('/src/kernel/game.ts');
+ const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
  const {newSave}=await load('/src/kernel/save.ts');
  const {buildRecruitmentRewards}=await load('/src/domain/acquisition/recruitment.ts');
  const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');

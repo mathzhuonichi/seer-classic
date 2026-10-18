@@ -10,9 +10,9 @@ const observations={};
 const memory=memoryStorage({'seer-classic-save':'Player save sentinel'});
 await withSsr('station-navigation-v53',async load=>{
   const t=suite('station-navigation-v53'),{check}=t;
-  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog},{braveTowerPosition}]=await Promise.all([
+  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame},{loadCatalog},{braveTowerPosition}]=await Promise.all([
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
-    '/src/domain/challenges/brave-tower.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/brave-tower.ts',
   ].map(load));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();

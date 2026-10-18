@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame,loadCatalog} from '../../src/kernel/game.ts';
-import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import {createGame} from '../../src/kernel/game.ts';
+import {loadCatalog,type CatalogData} from '../../src/domain/catalog/catalog.ts';
 import type {GameAction} from '../../src/kernel/contract.ts';
 import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/kernel/persistence.ts';
 import {memoryStorage} from './_harness.mjs';

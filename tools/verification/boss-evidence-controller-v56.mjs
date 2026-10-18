@@ -11,15 +11,16 @@ globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification m
 const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('boss-evidence-controller-v56',async load=>{
   const t=suite('boss-evidence-controller-v56'),{check}=t;
-  const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle},{buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
+  const [{createGame:createProductionGame},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/domain/challenges/boss-evidence.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/ai/src/ai.ts','/battle/ai/src/search-ai.ts',
   ].map(load));
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
   const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
   const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
   const runtime=readJson('data/boss-evidence-runtime-v56.json'),audit=readJson('data/boss-evidence-v56.json'),ruleAudit=readJson('data/boss-rule-support-v56.json');
-  const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new SeededRng(56);
+  const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new Rng(56);
   const bosses=new Map(catalog.bosses.map(boss=>[boss.id,boss])),unsupported=new Map(ruleAudit.bosses.map(row=>[row.id,row.unsupported.length]));
   const fieldKeys=['level','iv','evs','nature','hp','skills','ai','rules'],statsKeys=fieldKeys.slice(0,6),statuses=new Set(['official','observed','authored','inferred']);
   const rank={official:0,observed:1,authored:2,inferred:3};

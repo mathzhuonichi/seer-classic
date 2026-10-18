@@ -1,16 +1,12 @@
 /** Facility generation, ordinary builds, public entry points, and save isolation. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {createServer} from 'vite';
+import {suite,withSsr} from './_harness.mjs';
 
 // Every controller starts from the supplied save. A previous controller must
 // never silently become the input to another fixture through local storage.
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[],generated=[],controller=[];
-const report={checks,failures,generated,controller};
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,5000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
+const generated=[],controller=[];
+const report={generated,controller};
 const statKeys=['hp','atk','def','spa','spd','spe'],npc=new Set([122,123,124,125]);
 const sumBase=species=>statKeys.reduce((sum,key)=>sum+species.base[key],0);
 const sorted=values=>[...values].sort((a,b)=>a-b);
@@ -19,12 +15,13 @@ function reject(game,action,label){const save=game.exportSave(),battle=JSON.stri
 function protectedSave(save){return {dex:save.dex,party:save.party,identity:save.storage.map(({uid,species,obtained})=>({uid,species,obtained})),items:save.items,quests:save.game.quests,recruitmentClaims:save.game.recruitmentClaims,shopUnlocked:save.game.shopUnlocked,campaigns:save.game.campaigns};}
 const battleState=battle=>{const {animation,...state}=battle;return state};
 
-try {
-  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle},{buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
+await withSsr('battle-facilities',async load=>{
+  const t=suite('battle-facilities'),{check}=t;
+  const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,computeStats},{createBattle},{buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/world/world.ts',
     '/src/domain/challenges/battle-facilities.ts','/src/features/world/scene-exits.ts',
-  ].map(file=>server.ssrLoadModule(file)));
-  const {npcTrainingScripts}=await server.ssrLoadModule('/src/domain/challenges/npc-training-scripts.ts');
+  ].map(load));
+  const {npcTrainingScripts}=await load('/src/domain/challenges/npc-training-scripts.ts');
   const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure','facility_elite'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
   const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),data=buildDataSet(catalog),byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
@@ -153,7 +150,7 @@ try {
   const winCatalog=structuredClone(catalog),testSkill=990001;
   winCatalog.skills.push({id:testSkill,name:{zh:'Facility settlement fixture'},type:'normal',category:'physical',power:1000000,accuracy:null,pp:30,priority:99,effects:[]});
   winCatalog.species.find(row=>row.id===125).learnset.push({level:1,skill:testSkill});
-  const winDex=makeDex(winCatalog),winSave=structuredClone(base),attacker=createMonster(winDex,125,100,new SeededRng(123),{how:'editor',at:'2026-10-14T00:00:00.000Z'});
+  const winDex=makeDex(winCatalog),winSave=structuredClone(base),attacker=createMonster(winDex,125,100,new Rng(123),{how:'editor',at:'2026-10-14T00:00:00.000Z'});
   attacker.uid='facility-settlement-player';attacker.skills=[testSkill];attacker.learned=[...new Set([...attacker.learned,testSkill])];attacker.pp={[testSkill]:30};attacker.iv=31;attacker.evs={hp:255,atk:255,def:0,spa:0,spd:0,spe:0};attacker.hp=computeStats(attacker,winDex).hp;
   winSave.storage=[attacker];winSave.party=[attacker.uid];winSave.game.traits={};
   for(const action of actions)check(`${action.facilityId}/${action.teamId??'generated'}: victory pays ordinary rewards without acquisition, essence, or boss-route pollution`,()=>{
@@ -176,11 +173,5 @@ try {
     report.draw={turns:battle.turn,resultReason:battle.resultReason,result:battle.result,lastLog:battle.log.slice(-3)};
   });
   assert.equal(JSON.stringify(catalog),catalogBytes,'Verification preserves shared source definitions');
-} catch(error) {failures.push({name:'harness',error:String(error.stack).slice(0,7000)});}
-finally {
-  fs.mkdirSync('artifacts/battle-facilities',{recursive:true});
-  fs.writeFileSync('artifacts/battle-facilities/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,catalog:report.catalog,exhaustive:report.exhaustive,generated:generated.length,controller:controller.length,failures},null,2));
-  await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;
-  if(failures.length)process.exitCode=1;
-}
+  t.finish(report);
+});

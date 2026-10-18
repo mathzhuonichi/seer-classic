@@ -28,7 +28,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
 import os from 'node:os';
-import {createServer} from 'vite';
+import {withSsr} from './_harness.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const FACILITIES = ['random', 'elite', 'classic'];
@@ -150,18 +150,15 @@ const variantPlanner = {
 };
 
 const wallStart = performance.now();
-const server = await createServer({root, configFile: false, cacheDir: path.join(root, 'artifacts/.validation-cache/trainer-ai-tournament-v58'),
-  server: {middlewareMode: true, watch: null, hmr: false, ws: false}, optimizeDeps: {noDiscovery: true, include: []}, appType: 'custom', logLevel: 'error',
-  plugins: [variantPlanner]});
-try {
+await withSsr('trainer-ai-tournament-v58', async load => {
   const [core, {createBattle}, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
     {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
     '/battle/core/src/index.ts', '/tools/verification/_battle.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts',
     '/src/domain/challenges/campaign-rules.ts', '/src/domain/catalog/catalog.ts', '/src/domain/challenges/battle-facilities.ts', '/src/domain/battle-supplies.ts',
-    '/src/domain/challenges/npc-training.ts', '/src/domain/challenges/boss-encounter.ts', '/src/domain/acquisition/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
+    '/src/domain/challenges/npc-training.ts', '/src/domain/challenges/boss-encounter.ts', '/src/domain/acquisition/conventional-moves.ts'].map(load));
   const {buildDataSet, Rng} = core;
-  const {chooseAiAction, chooseAiReplacement} = await server.ssrLoadModule('/battle/ai/src/ai.ts');
-  const variant = Object.keys(opts.consts).length ? await server.ssrLoadModule(`/battle/ai/src/ai.ts${VARIANT}`) : null;
+  const {chooseAiAction, chooseAiReplacement} = await load('/battle/ai/src/ai.ts');
+  const variant = Object.keys(opts.consts).length ? await load(`/battle/ai/src/ai.ts${VARIANT}`) : null;
   for (const name of Object.keys(opts.consts)) if (!appliedConstants.has(name)) throw new Error(`no planner module declares a numeric constant ${name}`);
   const challenger = variant ?? {chooseAiAction, chooseAiReplacement};
 
@@ -395,6 +392,4 @@ try {
   if (facilities.length > 1) console.log(line('overall', overall));
   for (const error of overall.engineErrors.slice(0, 10)) console.log(`ERROR ${error.facility} #${error.pairing}/${error.mirror} seed ${error.seed} turn ${error.turn}: ${error.message}`);
   console.log(`Report: ${opts.out}  (${wallSeconds}s wall)`);
-} finally {
-  await server.close();
-}
+}, {plugins: [variantPlanner]});

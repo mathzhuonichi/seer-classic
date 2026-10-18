@@ -2,22 +2,20 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import {createServer} from 'vite';
+import {sha256File,withSsr} from './_harness.mjs';
 
 const output='artifacts/elite-sub600-audit';
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const bst=mon=>statKeys.reduce((sum,key)=>sum+mon.base[key],0);
-const hash=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
 const files=['data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/engine/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
-const sourceHashes=Object.fromEntries(files.map(path=>[path,hash(path)]));
+const sourceHashes=Object.fromEntries(files.map(path=>[path,sha256File(path)]));
 // The catalog tables behind the scan and buildDataSet; the species are witnessed as parsed records once the catalog loads.
 const tables=['data/skills.json','data/natures.json','data/types.json','data/conditions.json','data/items.json'];
-for(const path of tables){files.push(path);sourceHashes[path]=hash(path);}
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-try {
+for(const path of tables){files.push(path);sourceHashes[path]=sha256File(path);}
+await withSsr('elite-sub600-audit',async load=>{
   const [{loadCatalog},{facilityPool,createFacilityEncounter},{trainerSkillOrigin},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{normalizeNpcTrainingEncounter},{npcTrainingScripts}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog);
   sourceHashes['data/monsters/*.json (sorted parsed records)']=crypto.createHash('sha256').update(JSON.stringify(catalog.species)).digest('hex');
   const species=new Map(catalog.species.map(mon=>[mon.id,mon])),skills=new Map(catalog.skills.map(skill=>[skill.id,skill]));
@@ -128,8 +126,8 @@ try {
     results.push({...scenario,build:base,normalizedStats:encounter.team[0].stats??null,wins:matches.filter(row=>row.outcome==='win').length,losses:matches.filter(row=>row.outcome==='loss').length,draws:matches.filter(row=>row.outcome==='draw').length,limits:matches.filter(row=>row.outcome==='limit').length,matches});
   }
   assert.equal(JSON.stringify(catalog),snapshot,'Catalog was not mutated');
-  const changedSources=files.filter(path=>hash(path)!==sourceHashes[path]);
+  const changedSources=files.filter(path=>sha256File(path)!==sourceHashes[path]);
   const benchmark={method:'Frozen 12-opponent seeded panel from current >=600 factory builds with no multi_hit moves; 3 seeds per matchup, 1v1, current smart AI both sides, same ordinary level 100/IV31/neutral nature/HP255+main-offense255 EVs, finite PP, no player items/boss phases. Curated candidate skill combinations differ from default factory. One explicit trained Rei scenario is separately labeled.',sampleSeed:4515,seeds:[7,29,101],cleanElitePopulation:cleanElite.length,fullElitePopulation:elite.length,excludedEliteWithMultiHit:elite.filter(mon=>!cleanElite.some(row=>row.id===mon.id)).map(mon=>mon.id),opponents,results,duels:results.reduce((sum,row)=>sum+row.matches.length,0),catalogImmutable:true,changedSourceFilesDuringAudit:changedSources,limitations:['A small asymmetric matchup panel is a sanity check, not a tier ranking or proof of overall competitiveness.','No full-team switch or sacrifice synergy is measured.','Script utility omitted by the current AI can depress results even when implemented correctly.','No result relies on multi_hit candidate or opponent moves.','Identical Toruk and Golden Toruk builds are simulated once.','Gaia seals are not included in these ordinary-stat comparisons.']};
   fs.writeFileSync(`${output}/benchmark.json`,JSON.stringify(benchmark,null,2)+'\n');
   console.log(JSON.stringify({duels:benchmark.duels,cleanElite:cleanElite.length,opponents:opponents.map(row=>row.species),results:results.map(({matches,...row})=>row),changedSources},null,2));
-} finally {await server.close();}
+});

@@ -8,7 +8,8 @@ const JOURNEY_SEED=0x5e7c0de;
 memoryStorage();
 await withSsr('paid-spt-controller',async load=>{
  const t=suite('paid-spt-controller'),{check}=t;
- const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {createGame}=await load('/src/kernel/game.ts');
+ const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
  const {newSave}=await load('/src/kernel/save.ts');
  const {STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {buildRecruitmentRewards,recruitmentProgress,ACQUISITION_POLICIES}=await load('/src/domain/acquisition/recruitment.ts');
