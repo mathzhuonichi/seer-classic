@@ -3,6 +3,7 @@ import type { StatBlock, StatKey } from '../../raising/core/types.ts';
 
 export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
 export interface SkinChoiceView {species:number;name:string}
+export interface BoostView {name:string;/** Battles until the item effect ends. */battlesLeft:number}
 export interface EvolutionChoiceView {species:number;name:string;level:number;blockedReason?:string}
 /** A 2013 ability or skill engraving as it applies to one monster. */
 export interface EngravingView {
@@ -13,7 +14,7 @@ export interface EngravingView {
   maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }
-export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices:EvolutionChoiceView[]; gender: 0 | 1 | 2; generation: number }
+export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices:EvolutionChoiceView[]; gender: 0 | 1 | 2; generation: number; boosts: BoostView[] }
 export type BossEvidenceStatus='official'|'observed'|'inferred'|'authored';
 export interface BossEvidenceView {displayLevelUnknown?:boolean;sourceUrls?:string[];hasInferredStats:boolean;hasInferredLevel:boolean;incompleteRules?:number;fields:{key:string;label:string;value:string;status:BossEvidenceStatus}[];limitations:string[]}
 export interface EncounterOpponentView {species:number;name:string;level:number;evidence?:BossEvidenceView}

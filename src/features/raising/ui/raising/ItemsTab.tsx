@@ -20,6 +20,7 @@ export default function ItemsTab({m,c,feedback,say}:TabProps) {
     if(item)say(feedbackFor(c.dispatch({type:'useItem',uid:m.uid,itemId:item.id}),`已对${m.name}使用${item.name}。`));
   }
   return <section className="raising-items-panel" aria-label="培养道具">
+    {!!m.boosts.length&&<p className="management-hint">生效中：{m.boosts.map(boost=>`${boost.name}（剩余 ${boost.battlesLeft} 场）`).join('、')}</p>}
     <ItemCategoryTabs label="培养道具用途" value={shown} options={categories} onChange={value=>{setCategory(value);setItemId('');say('')}}/>
     <div className="raising-item-grid item-icon-grid">{visible.map(entry=><ItemTile key={entry.id}
       icon={<ItemIcon id={entry.id} kind={entry.kind} label={entry.name} size={36}/>} name={entry.name} description={entry.description}
