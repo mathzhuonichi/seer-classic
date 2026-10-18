@@ -19,7 +19,8 @@ const NIER_CHAIN = {77:[{to:78,method:'level',level:17}],78:[{to:79,method:'leve
 memoryStorage();
 const t=suite('evolution-specials'),transitions=[],repeatRoutes=[];
 await withSsr('evolution-specials',async load=>{
-  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+  const {createGame}=await load('/src/kernel/game.ts');
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const {makeDex,createMonster,computeStats,evolutionOptions,autoEvolve}=await load('/raising/core/index.ts');
   const {Rng}=await load('/battle/core/src/rng.ts');
   const {buildAcquisitionIndex}=await load('/src/domain/acquisition/acquisition.ts');
