@@ -22,7 +22,9 @@ await withSsr('catalog-loaders', async load => {
   });
   const aggregate = readGameData();
   t.check('gamedata.json mirrors every per-file table while it still has readers', () => {
-    for (const table of TABLES) assert.equal(JSON.stringify(aggregate[table]), JSON.stringify(node[table]), `data/gamedata.json ${table} differs from the per-file data`);
+    for (const table of TABLES) {
+      assert.equal(JSON.stringify(aggregate[table]), JSON.stringify(node[table]), `data/gamedata.json ${table} differs from the per-file data`);
+    }
   });
   t.finish({species: node.species.length, bosses: node.bosses.length, trainers: node.trainers.length, aggregateBosses: aggregate.bosses.length});
 });

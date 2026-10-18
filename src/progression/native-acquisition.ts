@@ -61,7 +61,8 @@ export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceRewa
     const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));
     const intermediate = !!campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
     const explicit = Object.keys(boss.reward?.items ?? {}).filter(id => id.startsWith('essence_'));
-    const authored = !explicit.length && !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' && braveTowerFloor(boss.id) === undefined;
+    const authored = !explicit.length && !intermediate && !boss.reward?.learn_skill
+      && boss.id !== 'boss_tower_brave_mystery' && braveTowerFloor(boss.id) === undefined;
     return (authored ? [`essence_${boss.id}`] : explicit).flatMap(itemId => {
       const species = bindings.get(itemId) ?? encounterEssenceSpecies(boss);
       if (species === undefined) return [];

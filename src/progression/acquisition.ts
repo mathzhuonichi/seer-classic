@@ -66,11 +66,13 @@ function journeySeeds(): AcquisitionSeed[] {
     const id = JOURNEY_QUEST_SPECIES[questId as keyof typeof JOURNEY_QUEST_SPECIES];
     return { species: id, route: { kind: 'quest', entrySpecies: id, questId, label } };
   });
-  return [...STARTER_SPECIES.map((id): AcquisitionSeed => ({ species: id, route: { kind: 'starter', entrySpecies: id, label: '新旅程开始时赠送 Lv.5 初始伙伴' } })), ...quests];
+  const starters = STARTER_SPECIES.map((id): AcquisitionSeed => ({ species: id, route: { kind: 'starter', entrySpecies: id, label: '新旅程开始时赠送 Lv.5 初始伙伴' } }));
+  return [...starters, ...quests];
 }
 
 /** Field captures and challenge-for-essence encounters; Niao's capture waits for a reachable partner. */
-function habitatSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions): { direct: AcquisitionSeed[]; conditional: AcquisitionSeed[] } {
+function habitatSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions)
+  : { direct: AcquisitionSeed[]; conditional: AcquisitionSeed[] } {
   const direct: AcquisitionSeed[] = [], conditional: AcquisitionSeed[] = [];
   for (const { species, planet, region, kind, levels: [low, high] } of habitatEntries(catalog, planets)) {
     const id = species.id, at = { kind: 'wild' as const, entrySpecies: id, planetId: planet.id, regionId: region.id };
@@ -99,7 +101,8 @@ function bossEssenceSeeds(catalog: AcquisitionCatalog, definitions: Definitions)
 }
 
 /** Collection-recruitment quests, granted once all of their prerequisites are reachable. */
-function recruitmentSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions, eligibleBosses: ReadonlyMap<string, AcquisitionEncounter>): AcquisitionSeed[] {
+function recruitmentSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions,
+  eligibleBosses: ReadonlyMap<string, AcquisitionEncounter>): AcquisitionSeed[] {
   return buildRecruitmentRewards(catalog, planets).map((reward): AcquisitionSeed => {
     const requirements = reward.prerequisites.map(condition => condition.kind === 'species'
       ? `收集${definitions.get(condition.species)?.name.zh ?? condition.species}`
@@ -143,7 +146,8 @@ function addBreedingRoutes(routes: RouteIndex, recipes: readonly BreedingRecipe[
     const parents = `${male.map(name).join(' / ')}（第一代雄性） + ${female.map(name).join(' / ')}（雌性），均达到 Lv.${recipe.minLevel}`;
     for (const outcome of recipe.outcomes) {
       const target = routes.index.get(outcome.species);
-      if (outcome.weight <= 0 || !target || target.status === 'npc' || target.routes.some(route => route.kind === 'breeding' && route.breedingRecipeId === recipe.id)) continue;
+      if (outcome.weight <= 0 || !target || target.status === 'npc'
+        || target.routes.some(route => route.kind === 'breeding' && route.breedingRecipeId === recipe.id)) continue;
       added = routes.add(outcome.species, { kind: 'breeding', entrySpecies: outcome.species, breedingRecipeId: recipe.id,
         label: `精灵繁殖「${recipe.name}」：${parents} → 立即随机获得${name(outcome.species)}（${outcome.weight}%）` }) || added;
     }
@@ -189,14 +193,16 @@ function addEvolutionRoutes(routes: RouteIndex, catalog: AcquisitionCatalog, nam
 }
 
 /** Omitting additionalSeeds enables gated recruitment; an explicit array replaces it. */
-export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[] = WORLD_PLANETS, recipes: readonly FusionRecipe[] = FUSION_RECIPES, additionalSeeds?: readonly AcquisitionSeed[], breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
+export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[] = WORLD_PLANETS, recipes: readonly FusionRecipe[] = FUSION_RECIPES,
+  additionalSeeds?: readonly AcquisitionSeed[], breedingRecipes: readonly BreedingRecipe[] = BREEDING_RECIPES): Map<number, SpeciesAcquisition> {
   const definitions = new Map(catalog.species.map(species => [species.id, species]));
   const name: SpeciesName = id => definitions.get(id)!.name.zh;
   const eligibleBosses = new Map(getEligibleRecruitmentSPTs(catalog)
     .filter(boss => boss.team.every(mon => definitions.has(mon.species)))
     .map(boss => [boss.id, boss]));
   const routes = createRouteIndex(catalog), habitat = habitatSeeds(catalog, planets, definitions);
-  const direct = [...journeySeeds(), ...habitat.direct, ...bossEssenceSeeds(catalog, definitions), ...(additionalSeeds ?? []).filter(seed => seed.prerequisites === undefined)];
+  const direct = [...journeySeeds(), ...habitat.direct, ...bossEssenceSeeds(catalog, definitions),
+    ...(additionalSeeds ?? []).filter(seed => seed.prerequisites === undefined)];
   for (const seed of direct) routes.add(seed.species, seed.route);
   const gated = additionalSeeds === undefined
     ? recruitmentSeeds(catalog, planets, definitions, eligibleBosses) : additionalSeeds.filter(seed => seed.prerequisites !== undefined);

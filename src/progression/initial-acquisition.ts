@@ -22,7 +22,8 @@ export interface InitialFormAcquisition {
 }
 
 /** Only directed ancestors can supply an initial entry; siblings and adult rewards cannot. */
-export function buildInitialFormAcquisitionIndex(catalog:AcquisitionCatalog, acquisition:ReadonlyMap<number,Pick<SpeciesAcquisition,'status'|'routes'>>):Map<number,InitialFormAcquisition> {
+export function buildInitialFormAcquisitionIndex(catalog:AcquisitionCatalog,
+  acquisition:ReadonlyMap<number,Pick<SpeciesAcquisition,'status'|'routes'>>):Map<number,InitialFormAcquisition> {
   const definitions=new Map(catalog.species.map(species=>[species.id,species]));
   const predecessors=buildPredecessors(catalog.species);
   return new Map(catalog.species.map(species=>{

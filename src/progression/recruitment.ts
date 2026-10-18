@@ -1,6 +1,8 @@
 import policyData from '../../data/acquisition-policy.json';
 import {WORLD_PLANETS,type WorldPlanet} from '../world.ts';
-import {JOURNEY_QUEST_SPECIES,NPC_ONLY_SPECIES,STARTER_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite} from './acquisition-model.ts';
+import {
+  JOURNEY_QUEST_SPECIES,NPC_ONLY_SPECIES,STARTER_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite,
+} from './acquisition-model.ts';
 import {FUSION_RECIPES} from './fusion.ts';
 import {BREEDING_RECIPES} from './breeding.ts';
 import {bossEssenceRewards,habitatEntries} from './native-acquisition.ts';
@@ -45,7 +47,8 @@ function nativeInitialRoutes(catalog:AcquisitionCatalog,planets:readonly WorldPl
 }
 
 /** Earlier initial forms avoid direct quest cycles; the full native dependency closure is verified separately. */
-export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]=WORLD_PLANETS,sourcePolicies:readonly AcquisitionPolicy[]=ACQUISITION_POLICIES):RecruitmentReward[] {
+export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]=WORLD_PLANETS,
+  sourcePolicies:readonly AcquisitionPolicy[]=ACQUISITION_POLICIES):RecruitmentReward[] {
   const roots=initialSpecies(catalog),native=nativeInitialRoutes(catalog,planets);
   const excluded=buildExcludedRecruitmentSpecies(catalog),byPolicy=new Map(sourcePolicies.map(row=>[row.species,row]));
   const legacy=new Map(buildPaidSPTRecruitments(catalog).map(row=>[row.rewardSpecies,row.questId]));
