@@ -17,6 +17,10 @@ Owner: the "Monster and boss catalog" thread. Shapes are the types in `battle/co
 | `items.json` | 51 pre-2013 items: capsules, HP/PP potions, 能量珠, 学习力/性格/level items, EXP/EV boosters |
 | `catalog_index.json` | one-line index of every species (name, types, stat total, evolutions, tags) |
 
+These files are the only copy of the catalog: there is no aggregate bundle, and generators write them directly.
+The game assembles the catalog with `loadCatalog()` (`src/domain/catalog/catalog.ts`), Node scripts and suites
+with `loadCatalogNode()` (`tools/catalog.mjs`).
+
 ## Source
 
 Monsters, skills and effect templates come from the 赛尔号 client config tables
