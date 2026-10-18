@@ -73,8 +73,8 @@ function recordView(ctx: GameContext, mon: Monster): Omit<MonsterView, keyof Sav
 
 /**
  * The monster rows, built once per game. A row keeps its identity until its record or one of its save fields changes, so an
- * action rebuilds only the rows it affects. Stored records are replaced, never changed in place, but raising operations that
- * clone the save give every record a new identity, so a record that is not identical is compared by value. The save fields
+ * action rebuilds only the rows it affects. Stored records are replaced, never changed in place, and raising operations keep
+ * the records they do not change; a record that is not identical (a loaded save, an equal replacement) is compared by value. The save fields
  * are rebuilt on every snapshot and compared with the row's: they read other monsters too (an engraving's holders) and save-wide
  * counts (the six-copy capacity of an evolution).
  */
