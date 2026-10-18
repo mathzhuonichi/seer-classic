@@ -10,7 +10,13 @@ import './QuestPanel.css';
 const PAGE_SIZE=2;
 type QuestFilter='all'|'ready'|'pending';
 
-export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:{c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;onOpenBag?:(itemId:string)=>void}){
+interface QuestPanelProps {
+ c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;
+ /** Opens the bag on a recruitment reward to hatch it. */
+ onOpenBag?:(itemId:string)=>void;
+}
+
+export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:QuestPanelProps){
  const quests=useGame(c,s=>s.quests),bosses=useGame(c,s=>s.bosses),activeBattle=useGame(c,battleActive);
  const focused=quests.find(quest=>quest.id===focusQuestId);
  const [group,setGroup]=useState<QuestView['group']>(focused?.group??'journey');
