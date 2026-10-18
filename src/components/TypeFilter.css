@@ -2,8 +2,6 @@
 .icon-type-filter>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .icon-type-filter>i{font-style:normal;font-size:10px;margin-left:auto;color:#1c6790}
 .icon-type-filter .battle-type-icon{width:19px;height:19px;flex-basis:19px}
-.dex-index .management-filter>div>.icon-type-filter{flex:1 1 56%;width:56%}
-.dex-index .management-filter>div:has(.icon-type-filter)>select{flex:1 1 40%;width:40%}
 .icon-type-menu{position:fixed;z-index:70;max-height:min(320px,calc(100vh - 130px));overflow-y:auto;background:#eaf8ff;border:2px solid #087ebe;border-radius:5px;box-shadow:0 4px 12px #00274b66;padding:3px;overscroll-behavior:contain;scrollbar-color:#138acf #d5eef8;font:12px SeerSimSun,SimSun,'宋体','Songti SC',serif}
 .icon-type-menu>button{display:flex;align-items:center;width:100%;gap:7px;padding:5px 7px;min-height:30px;border:0;background:transparent;box-shadow:none;color:#174663;border-radius:3px;font:inherit;text-align:left;transform:none}
 .icon-type-menu>button:hover,.icon-type-menu>button:focus-visible{background:#addffc;outline:1px solid #057bbc;outline-offset:-1px;transform:none}
