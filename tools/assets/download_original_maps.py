@@ -75,11 +75,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('ids', nargs='*', type=int)
     args = parser.parse_args()
+    ids = set(args.ids) or world_map_ids()
     DEST.mkdir(parents=True, exist_ok=True)
     version_url = HOST + 'version/version.json'
     version_bytes = download(version_url, CACHE / 'version.json')
     versions = json.loads(version_bytes)['files']['resource']['assets']['map']
-    ids = set(args.ids) or world_map_ids()
     manifest_path = ROOT / 'public/maps/original-manifest.json'
     previous = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     maps, failures = previous.get('maps', {}), previous.get('failures', {})
