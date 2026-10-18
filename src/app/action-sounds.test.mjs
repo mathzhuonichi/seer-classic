@@ -15,6 +15,8 @@ test('rejected actions and editor actions produce no outcome cue',()=>{
 });
 test('claims, created beads and offspring, hatching and evolution receive the reward cue',()=>{
  assert.equal(actionSound({type:'claimQuest',questId:'q'},ok,base(),base()),'reward');
+ const repeatable=claimCount=>({...base(),quests:[{id:'q',repeatable:true,claimed:false,claimCount}]});
+ assert.equal(actionSound({type:'claimQuest',questId:'q'},ok,repeatable(1),repeatable(2)),'reward','a repeated recruitment claim still rewards');
  assert.equal(actionSound(fuse,{ok:true,created:{itemId:'fusion_bead_4'}},base(),base()),'reward');
  assert.equal(actionSound(breed,{ok:true,created:{uid:'b'}},base(),base()),'reward');
  for(const action of [fuse,breed])assert.equal(actionSound(action,{ok:true,notice:'已达到六份上限'},base(),base()),null,`${action.type}: nothing created`);
