@@ -28,10 +28,12 @@ export function clampWindow(position: WindowPosition, parent: LayoutBox, box: { 
 }
 /** A drag in progress: the pointer start and the window's layout offset, from rendered rectangles at one CSS zoom. */
 export interface WindowDrag { x: number; y: number; left: number; top: number; zoom: number }
-export const startWindowDrag = (pointer: { clientX: number; clientY: number }, box: { left: number; top: number }, parent: { left: number; top: number }, zoom: number): WindowDrag =>
+type Pointer = { clientX: number; clientY: number };
+type Corner = { left: number; top: number };
+export const startWindowDrag = (pointer: Pointer, box: Corner, parent: Corner, zoom: number): WindowDrag =>
   ({ x: pointer.clientX, y: pointer.clientY, left: (box.left - parent.left) / zoom, top: (box.top - parent.top) / zoom, zoom });
 /** Pointer movement in rendered pixels becomes layout movement once, at the drag's zoom. */
-export const dragWindow = (drag: WindowDrag, pointer: { clientX: number; clientY: number }, parent: LayoutBox, box: { offsetWidth: number; offsetHeight: number }) =>
+export const dragWindow = (drag: WindowDrag, pointer: Pointer, parent: LayoutBox, box: { offsetWidth: number; offsetHeight: number }) =>
   clampWindow({ x: drag.left + (pointer.clientX - drag.x) / drag.zoom, y: drag.top + (pointer.clientY - drag.y) / drag.zoom }, parent, box);
 
 export function useGameDisplay(shell:RefObject<HTMLDivElement|null>){

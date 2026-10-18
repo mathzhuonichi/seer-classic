@@ -2,18 +2,28 @@ import type { GameSnapshot } from '../../game-types.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from '../../presentation/shell-navigation.ts';
 import AudioSettings from '../AudioSettings.tsx';
 
-export function GameToolbar({ hidden, active, questAlert, onOpen }: { hidden: boolean; active: WindowKind | null; questAlert: boolean; onOpen: (kind: WindowKind) => void }) {
-  const button = (tool: ToolbarTool) => <button key={tool.id} className={`toolbar-${tool.id} ${active === tool.id ? 'active' : ''}`} aria-label={tool.label} title={tool.label} aria-pressed={active === tool.id} onClick={() => onOpen(tool.id)}>
-    <img src={tool.icon} alt="" draggable={false}/>{tool.showLabel && <span className="toolbar-label">{tool.label}</span>}{tool.id === 'quests' && questAlert && <i className="hud-alert"/>}
+export function GameToolbar({ hidden, active, questAlert, onOpen }: {
+  hidden: boolean; active: WindowKind | null; questAlert: boolean; onOpen: (kind: WindowKind) => void;
+}) {
+  const button = (tool: ToolbarTool) => <button key={tool.id} className={`toolbar-${tool.id} ${active === tool.id ? 'active' : ''}`}
+    aria-label={tool.label} title={tool.label} aria-pressed={active === tool.id} onClick={() => onOpen(tool.id)}>
+    <img src={tool.icon} alt="" draggable={false}/>
+    {tool.showLabel && <span className="toolbar-label">{tool.label}</span>}
+    {tool.id === 'quests' && questAlert && <i className="hud-alert"/>}
   </button>;
   return <footer className="game-hud" hidden={hidden}><nav className="game-toolbar" aria-label="主界面功能">
-    <div className="toolbar-side toolbar-side-left">{TOOLBAR.left.map(button)}</div>{button(TOOLBAR.center)}<div className="toolbar-side toolbar-side-right">{TOOLBAR.right.map(button)}</div>
+    <div className="toolbar-side toolbar-side-left">{TOOLBAR.left.map(button)}</div>
+    {button(TOOLBAR.center)}
+    <div className="toolbar-side toolbar-side-right">{TOOLBAR.right.map(button)}</div>
   </nav></footer>;
 }
 
 export function RecoveryConsole({ s, onHeal }: { s: GameSnapshot; onHeal: () => void }) {
   return <section className="recovery-console"><div className="recovery-symbol">✚</div><h3>恢复体力与技能 PP</h3>
-    <div className="recovery-roster">{s.party.map(uid => { const mon = s.monsters.find(entry => entry.uid === uid)!; return <div key={uid}><span>{mon.name}</span><span>{mon.hp} / {mon.stats.hp}</span></div>; })}</div>
+    <div className="recovery-roster">{s.party.map(uid => {
+      const mon = s.monsters.find(entry => entry.uid === uid)!;
+      return <div key={uid}><span>{mon.name}</span><span>{mon.hp} / {mon.stats.hp}</span></div>;
+    })}</div>
     <button className="primary" onClick={onHeal}>恢复全队</button>
   </section>;
 }

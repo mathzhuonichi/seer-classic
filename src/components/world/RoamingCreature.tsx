@@ -57,12 +57,16 @@ export function RoamingCreature({ species, instanceId, level, index, count, layo
   function approach(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation(); freeze.current = true;
     event.currentTarget.dataset.motion = 'paused';
-    onApproach(event, contactFoot(event.currentTarget.getBoundingClientRect(), event.currentTarget.closest('.world-scene')!.getBoundingClientRect()));
+    const scene = event.currentTarget.closest('.world-scene')!.getBoundingClientRect();
+    onApproach(event, contactFoot(event.currentTarget.getBoundingClientRect(), scene));
   }
-  return <button ref={button} className="world-creature world-roamer" style={{left:`${home.x}%`,top:`${home.y}%`,'--scene-creature-size':layout.creatureSize??9} as CSSProperties}
-    data-species={species.id} data-instance={instanceId} data-level={level} data-direction="right" data-motion="idle" aria-label={`与${species.name}互动`} onClick={approach}>
+  const style = { left: `${home.x}%`, top: `${home.y}%`, '--scene-creature-size': layout.creatureSize ?? 9 } as CSSProperties;
+  return <button ref={button} className="world-creature world-roamer" style={style} data-species={species.id} data-instance={instanceId} data-level={level}
+    data-direction="right" data-motion="idle" aria-label={`与${species.name}互动`} onClick={approach}>
     <span className="world-creature-shadow"/><span className="world-roaming-footsteps" aria-hidden="true"><i/><i/></span>
-    <div className="world-sprite-art"><div className="world-roaming-turn"><div className="world-roaming-step"><CreatureArt species={species.id} name={species.name}/></div></div></div>
+    <div className="world-sprite-art"><div className="world-roaming-turn"><div className="world-roaming-step">
+      <CreatureArt species={species.id} name={species.name}/>
+    </div></div></div>
     <span className="world-character-name">{species.name}<small>Lv.{level}</small></span>
   </button>;
 }

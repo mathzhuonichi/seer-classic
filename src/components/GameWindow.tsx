@@ -18,8 +18,12 @@ export default function GameWindow({title,children,onClose,compact=false}:{title
   function move(event:PointerEvent<HTMLElement>) {
     if(drag.current)setPosition(dragWindow(drag.current,event,ref.current!.parentElement!,ref.current!));
   }
-  return <section ref={ref} className={`scene-window ${compact?'compact':''}`} role="dialog" aria-label={title} style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
-    <header className="window-titlebar" onPointerDown={begin} onPointerMove={move} onPointerUp={()=>drag.current=null} onPointerCancel={()=>drag.current=null}><h2>{title}</h2><button aria-label={`关闭${title}`} onClick={onClose}><img src="/ui/classic/close.svg" alt="" draggable={false}/></button></header>
+  const end=()=>{drag.current=null};
+  return <section ref={ref} className={`scene-window ${compact?'compact':''}`} role="dialog" aria-label={title}
+    style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
+    <header className="window-titlebar" onPointerDown={begin} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
+      <h2>{title}</h2><button aria-label={`关闭${title}`} onClick={onClose}><img src="/ui/classic/close.svg" alt="" draggable={false}/></button>
+    </header>
     <div className="window-body">{children}</div>
   </section>;
 }

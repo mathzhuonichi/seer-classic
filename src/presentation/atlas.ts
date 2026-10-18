@@ -51,11 +51,13 @@ export type AtlasTarget = { kind: 'back' } | { kind: 'view'; view: AtlasView } |
 export interface AtlasNodeAction { label: string; current: boolean; target: AtlasTarget }
 
 /** What a hotspot does on the page for `view`, and whether it marks the explorer's current location; undefined when it leads nowhere. */
-export function atlasNodeAction(node: AtlasNode, view: AtlasView, viewPlanet: WorldPlanet | undefined, current: { planet: WorldPlanet; region: WorldRegion }): AtlasNodeAction | undefined {
+export function atlasNodeAction(node: AtlasNode, view: AtlasView, viewPlanet: WorldPlanet | undefined,
+  current: { planet: WorldPlanet; region: WorldRegion }): AtlasNodeAction | undefined {
   if (node.targetKind === 'back') return { label: backLabel(view, viewPlanet), current: false, target: { kind: 'back' } };
   if (node.targetKind === 'galaxy') {
     const galaxy = WORLD_GALAXIES.find(entry => entry.id === node.targetId || entry.originalId === node.mapId);
-    return galaxy && { label: `进入${galaxy.name}`, current: current.planet.galaxyId === galaxy.id, target: { kind: 'view', view: { kind: 'galaxy', galaxyId: galaxy.id } } };
+    return galaxy && { label: `进入${galaxy.name}`, current: current.planet.galaxyId === galaxy.id,
+      target: { kind: 'view', view: { kind: 'galaxy', galaxyId: galaxy.id } } };
   }
   if (node.targetKind === 'planet') {
     const planet = atlasNodePlanet(node);
@@ -70,3 +72,9 @@ export function atlasNodeAction(node: AtlasNode, view: AtlasView, viewPlanet: Wo
   return planet && landing && { label: `前往${landing.name}`, current: current.planet.id === planet.id && current.region.id === landing.id,
     target: { kind: 'travel', destination: { planetId: planet.id, regionId: landing.id } } };
 }
+
+/** A drawn hotspot label: the node's own text, or the action without its verb. */
+export const hotspotLabel = (node: AtlasNode, action: AtlasNodeAction) => node.label ?? action.label.replace(/^(进入|前往|查看)/, '').replace(/登陆地点$/, '');
+/** A label anchor relative to its hotspot, when the page records one. */
+export const hotspotLabelPosition = (node: AtlasNode) => node.labelX !== undefined && node.labelY !== undefined
+  ? { left: `${(node.labelX - node.x) / node.width * 100}%`, top: `${(node.labelY - node.y) / node.height * 100}%` } : undefined;

@@ -58,10 +58,14 @@ const common:ScenePlacement={
 };
 const themeLayouts:Record<string,ScenePlacement>={
   station:{...common,habitat:rectangle(13,59,87,88),entry:point(28,84),npc:point(63,75),gates:[point(10,75),point(90,75)]},
-  grass:{...common,habitat:[point(14,64),point(71,58),point(86,76),point(86,91),point(14,91)],homes:[point(25,74),point(45,72),point(63,72),point(31,87),point(54,85),point(75,86)]},
-  cloud:{...common,habitat:[point(17,67),point(74,61),point(85,75),point(79,88),point(24,88)],homes:[point(28,73),point(45,71),point(63,71),point(34,84),point(53,83),point(71,82)],entry:point(25,86),gates:[point(18,76),point(83,77)],roam:point(4,2)},
-  volcano:{...common,habitat:[point(16,66),point(76,60),point(87,84),point(81,90),point(16,90)],homes:[point(27,74),point(46,72),point(65,73),point(33,86),point(52,85),point(74,85)],entry:point(22,87),roam:point(4,2.5)},
-  ocean:{...common,habitat:rectangle(15,63,86,90),homes:[point(27,72),point(47,71),point(67,72),point(33,86),point(55,85),point(75,86)],entry:point(22,87)},
+  grass:{...common,habitat:[point(14,64),point(71,58),point(86,76),point(86,91),point(14,91)],
+    homes:[point(25,74),point(45,72),point(63,72),point(31,87),point(54,85),point(75,86)]},
+  cloud:{...common,habitat:[point(17,67),point(74,61),point(85,75),point(79,88),point(24,88)],
+    homes:[point(28,73),point(45,71),point(63,71),point(34,84),point(53,83),point(71,82)],entry:point(25,86),gates:[point(18,76),point(83,77)],roam:point(4,2)},
+  volcano:{...common,habitat:[point(16,66),point(76,60),point(87,84),point(81,90),point(16,90)],
+    homes:[point(27,74),point(46,72),point(65,73),point(33,86),point(52,85),point(74,85)],entry:point(22,87),roam:point(4,2.5)},
+  ocean:{...common,habitat:rectangle(15,63,86,90),homes:[point(27,72),point(47,71),point(67,72),point(33,86),point(55,85),point(75,86)],
+    entry:point(22,87)},
 };
 
 /** Six homes on a grid inside an open source floor rectangle. */
