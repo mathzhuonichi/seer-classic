@@ -29,7 +29,9 @@ Run the new regression from the repository root:
 node tools/verification/boss-ai-isolation-v56.mjs
 ```
 
-The test loads the complete historical AI module directly from Git into a separate Vite virtual module. It does not derive its expected decisions by copying the new helper. Both policies run against equivalent current-engine states; actions, RNG state, cursor changes, forced-skill consumption, and other decision state are compared.
+The V56 test loaded the complete historical AI module directly from Git into a separate Vite virtual module. It did not derive its expected decisions by copying the new helper. Both policies ran against equivalent current-engine states; actions, RNG state, cursor changes, forced-skill consumption, and other decision state were compared.
+
+Since wave 3 (2026-10-18) the suite is a self-contained gate and no longer reads Git. The decisions that module made on the synthetic fixtures are recorded in the suite with their RNG draw counts: the random, weighted, sequence, script and default wild policies, the no-damage fallback and the weighted HP phase. Every catalog Boss member is held to `legacySmartPick` on an identical battle, with equal RNG draws, no other decision side effects and no planner decision.
 
 The V56 run passed all 12 check groups:
 
