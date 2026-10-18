@@ -38,6 +38,7 @@ def selected(path):
 
 
 def instructions(revision):
+    version = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"]
     return f"""# Seer Classic revision {revision}: editable source
 
 This delivery contains the current editable application source and the complete
@@ -103,8 +104,8 @@ optional workflows and their source requirements.
 file in this delivery, including modified and untracked source files. It also
 records which ZIP contains each file. Its content identity covers that inventory;
 the manifest and this generated instruction file are not self-hashed. The source
-snapshot is identified as development revision {revision}; the existing package
-metadata remains version 0.3.2.
+snapshot is identified as development revision {revision}; the package metadata
+is version {version}.
 
 The package excludes Git history, installed dependencies, compiled output,
 temporary artifacts, old releases, research caches, Tauri target/generated
