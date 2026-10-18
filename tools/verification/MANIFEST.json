@@ -3,9 +3,7 @@
     "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
     "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
     "needs-cache": "Needs the ignored research inputs under .cache/.",
-    "historical": "Compares against a fixed Git revision; needs full history.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
-    "stale": "Already failing at V30; asserts superseded behaviour. Fix or delete, do not gate.",
     "tool": "A measurement or export script, not a pass/fail check."
   },
   "suites": {
