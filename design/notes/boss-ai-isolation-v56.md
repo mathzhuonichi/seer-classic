@@ -31,7 +31,7 @@ node tools/verification/boss-ai-isolation-v56.mjs
 
 The V56 test loaded the complete historical AI module directly from Git into a separate Vite virtual module. It did not derive its expected decisions by copying the new helper. Both policies ran against equivalent current-engine states; actions, RNG state, cursor changes, forced-skill consumption, and other decision state were compared.
 
-Since wave 3 (2026-10-18) the suite is a self-contained gate and no longer reads Git. The decisions that module made on the synthetic fixtures are recorded in the suite with their RNG draw counts: the random, weighted, sequence, script and default wild policies, the no-damage fallback and the weighted HP phase. Every catalog Boss member is held to `legacySmartPick` on an identical battle, with equal RNG draws, no other decision side effects and no planner decision.
+Since wave 3 (2026-10-18) the suite is a self-contained gate and no longer reads Git. It keeps that module's `chooseAiAction` and `smartPick` as a frozen copy, unchanged apart from the function names, the type annotations and an injected Struggle id. Every catalog Boss member, whatever its policy, is compared with the frozen copy on an identical battle in the same six states: equal action, RNG state and draws, no other decision side effects, and no planner decision. The decisions the Git module made on the synthetic fixtures are recorded in the suite with their RNG draw counts, and both the current policy and the frozen copy must reproduce them: the random, weighted, sequence, script and default wild policies, the no-damage fallback and the weighted HP phase. Two further fixtures pin the first-unused-status and highest-raw-damage branches of the pick.
 
 The V56 run passed all 12 check groups:
 
