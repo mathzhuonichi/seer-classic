@@ -2,24 +2,22 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
-import {createServer} from 'vite';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {memoryStorage,root,suite,withSsr} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
-const cacheRoot=path.join(root,'artifacts/.validation-cache');fs.mkdirSync(cacheRoot,{recursive:true});
-const cacheDir=fs.mkdtempSync(path.join(cacheRoot,'maps-placement-v44-'));
-let server;const checks=[],failures=[],report={checks,failures};
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'public/maps/actors/manifest.json'),'utf8'));
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`)}}
 const close=(a,b,tolerance=1e-7)=>assert(Math.abs(a-b)<tolerance,`${a} != ${b}`);
 const samePoint=(a,b)=>{close(a.x,b.x);close(a.y,b.y)};
 const finite=p=>assert(Number.isFinite(p.x)&&Number.isFinite(p.y));
 const onSegment=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,t=((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy);if(t<0||t>1)return false;return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy)<1e-7};
 function contains(poly,p){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[j],b=poly[i];if(onSegment(p,a,b))return true;if((a.y>p.y)!==(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)inside=!inside}return inside}
-try{
-  server=await createServer({root,configFile:false,cacheDir,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-  const [{WORLD_PLANETS},presentation]=await Promise.all(['/src/world.ts','/src/presentation/map-presentation.ts'].map(id=>server.ssrLoadModule(id)));
+const memory=memoryStorage();
+await withSsr('maps-placement-v44',async load=>{
+  const t=suite('maps-placement-v44'),{check}=t,report={};
+  const [{WORLD_PLANETS},presentation,{buildWorldDialogue,buildWorldScene},{WorldMap},{createGame,loadCatalog}]=await Promise.all(
+    ['/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-scene.ts','/src/components/WorldMap.tsx','/src/game.ts'].map(load));
   const {getSceneLayout,creatureSceneHome,constrainHabitatPoint,constrainScenePoint,getSceneBossHome,getSceneBossActor}=presentation;
   const regions=WORLD_PLANETS.flatMap(planet=>planet.regions.map(region=>({planet,region,layout:getSceneLayout(planet,region),mapId:region.backgroundAssetMapId??Number((region.background??planet.background).match(/\/maps\/original\/(\d+)\./)?.[1])})));
   const bossAreas=regions.filter(row=>row.region.bossIds?.length);let homeSamples=0,projectionSamples=0;
@@ -75,12 +73,33 @@ try{
   check('Named manual terrain remains usable for concave and narrow compositions',()=>{
     for(const mapId of [25,31,40]){const row=regions.find(row=>row.mapId===mapId);assert(row);assert(row.layout.habitat.length>4);const homes=Array.from({length:48},(_,index)=>creatureSceneHome(row.layout,index,48));assert.equal(new Set(homes.map(p=>`${p.x},${p.y}`)).size,48);for(const home of homes)assert(contains(row.layout.habitat,home));}
   });
-  check('WorldMap consumes source contacts, native dimensions and wildlife-only constraints',()=>{
-    const source=fs.readFileSync(path.join(root,'src/components/WorldMap.tsx'),'utf8');assert(source.includes('getSceneBossHome(layout,b.id,index,localBosses.length)'));assert(source.includes('getSceneBossActor(layout,`campaign:${campaignContact.id}`)'));assert(source.includes('width:`${actor.width}%`,height:`${actor.height}%`'));assert(source.includes('constrainHabitatPoint(layout,'));assert(source.includes('data-boss={b.id}'));assert(source.includes("target.kind==='creature'"));assert(source.includes("onNavigate?.(`campaign:${selectedCampaign.id}`)"));
+  const game=createGame(await loadCatalog(),''),s=game.snapshot();
+  const markup=({planet,region})=>{
+    memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:planet.id,regionId:region.id,x:50,y:70,visited:[]}));
+    return renderToStaticMarkup(React.createElement(WorldMap,{s,c:game}));
+  };
+  const placed=(home,actor)=>`style="left:${home.x}%;top:${home.y}%${actor?`;width:${actor.width}%;height:${actor.height}%`:''}"`;
+  check('WorldMap draws every contact at its source position with native actor dimensions',()=>{
+    let contacts=0;
+    for(const row of bossAreas.filter(row=>!(row.planet.id==='space-station'&&row.region.id==='brave-tower'))){
+      const html=markup(row),scene=buildWorldScene(s,row.planet,row.region);
+      if(row.region.campaignId){
+        const actor=getSceneBossActor(row.layout,`campaign:${row.region.campaignId}`);
+        assert(html.includes(`data-campaign="${row.region.campaignId}" ${placed(actor?.anchor??row.layout.boss,actor)}`),`${row.region.id}: campaign contact`);
+        assert(!html.includes('data-boss='),`${row.region.id}: campaign stages are not separate contacts`);contacts++;continue;
+      }
+      for(const [index,boss] of scene.bosses.entries()){
+        const actor=getSceneBossActor(row.layout,boss.id);
+        assert(html.includes(`data-boss="${boss.id}" data-species="${boss.species}" ${placed(getSceneBossHome(row.layout,boss.id,index,scene.bosses.length),actor)}`),boss.id);
+        assert.equal(html.includes(`world-boss world-native-actor" data-boss="${boss.id}"`),!!actor,`${boss.id}: native actor art`);contacts++;
+      }
+    }
+    report.renderedContacts=contacts;
+  });
+  check('A campaign contact opens its saved campaign rather than a stage',()=>{
+    const row=regions.find(row=>row.region.campaignId==='puni'),scene=buildWorldScene(s,row.planet,row.region);
+    assert.deepEqual(buildWorldDialogue(s,scene,{kind:'campaign',id:'puni'}).challenge.run,{kind:'campaign',campaignId:'puni'});
   });
   report.inventory={regions:regions.length,populatedRegions:regions.filter(row=>row.region.creatures.length).length,bossAreas:bossAreas.length,contacts:Object.keys(manifest.contacts).length,nativeActors:Object.keys(manifest.actors).length,homeSamples,projectionSamples};
-}catch(error){failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  const dir=path.join(root,'artifacts/maps-placement-v44');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'regression.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:checks.length,...report.inventory,contactKinds:report.contactKinds,failures},null,2));
-  try{await server?.close()}finally{fs.rmSync(cacheDir,{recursive:true,force:true,maxRetries:3,retryDelay:100})}if(failures.length)process.exitCode=1;
-}
+  t.finish(report);
+});

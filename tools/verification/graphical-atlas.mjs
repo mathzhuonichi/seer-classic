@@ -1,108 +1,65 @@
-/** Verify navigation coverage and source-resource geometry without touching a game save. */
-import fs from 'node:fs';
+/** Atlas navigation coverage and source-resource geometry, following the hotspots exactly as WorldAtlas does. */
 import assert from 'node:assert/strict';
-import {createServer} from 'vite';
+import fs from 'node:fs';
+import path from 'node:path';
+import {root,suite,withSsr} from './_harness.mjs';
 
-const root=process.cwd();
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
-try {
-  const {WORLD_GALAXIES,WORLD_PLANETS}=await server.ssrLoadModule('/src/world.ts');
-  const manifest=JSON.parse(fs.readFileSync('src/presentation/atlas-graph-assets.json','utf8'));
-  const pages=manifest.pages;
-  // Match the component's explicit canonical-ID priority before source map-ID fallback.
-  const planetFor=node=>WORLD_PLANETS.find(p=>node.planetId===p.id)
-    ??WORLD_PLANETS.find(p=>node.targetId===p.id)
-    ??(node.mapId===undefined?undefined:WORLD_PLANETS.find(p=>node.mapId===p.originalMapId));
-  const regionFor=(node,planet)=>planet.regions.find(r=>node.regionId===r.id)
-    ??planet.regions.find(r=>node.targetId===r.id)
-    ??(node.mapId===undefined?undefined:planet.regions.find(r=>node.mapId===r.originalMapId));
-  const adaptedHotspotOverlaps=[];
-  let auditedAdaptedPairs=0;
-  for(const [key,page] of Object.entries(pages)) {
-    for(let i=0;i<page.nodes.length;i++) {
-      for(let j=i+1;j<page.nodes.length;j++) {
-        const a=page.nodes[i],b=page.nodes[j];
-        // Original native/native overlaps may be intentional; introduced controls must be clear.
-        if(!a.adaptation&&!b.adaptation&&!a.positionKind&&!b.positionKind)continue;
-        auditedAdaptedPairs++;
-        const width=Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x);
-        const height=Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y);
-        if(width>0.5&&height>0.5) {
-          adaptedHotspotOverlaps.push({page:key,a:a.targetId??a.targetKind,b:b.targetId??b.targetKind,width,height});
+await withSsr('graphical-atlas',async load=>{
+  const t=suite('graphical-atlas'),{check}=t;
+  const [{WORLD_PLANETS,resolveWorldLocation},atlas]=await Promise.all(['/src/world.ts','/src/presentation/atlas.ts'].map(load));
+  const {pages,backArrow}=atlas.ATLAS_GRAPHICS,report={};
+  check('Introduced hotspots never overlap another hotspot on the same page',()=>{
+    const overlaps=[];let audited=0;
+    for(const [key,page] of Object.entries(pages))for(let i=0;i<page.nodes.length;i++)for(let j=i+1;j<page.nodes.length;j++){
+      const a=page.nodes[i],b=page.nodes[j];
+      // Original native/native overlaps may be intentional; introduced controls must be clear.
+      if(!a.adaptation&&!b.adaptation&&!a.positionKind&&!b.positionKind)continue;
+      audited++;
+      const width=Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x),height=Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y);
+      if(width>0.5&&height>0.5)overlaps.push({page:key,a:a.targetId??a.targetKind,b:b.targetId??b.targetKind,width,height});
+    }
+    assert.deepEqual(overlaps,[]);report.auditedAdaptedPairs=audited;
+  });
+  const visited=new Set(),landings=new Set(),assets=new Set(backArrow?[backArrow]:[]);
+  const inBounds=(rect,page,description)=>assert(rect.x>=0&&rect.y>=0&&rect.width>0&&rect.height>0
+    &&rect.x+rect.width<=page.width+1&&rect.y+rect.height<=page.height+1,`Invalid source viewport bounds: ${description}`);
+  check('Every page reachable from the overview has valid artwork geometry and live hotspots',()=>{
+    const current=resolveWorldLocation('klose','plain'),queue=[{kind:'overview'}];
+    let nodes=0,decorations=0,titles=0;
+    while(queue.length){
+      const view=queue.shift(),planet=view.kind==='planet'?WORLD_PLANETS.find(entry=>entry.id===view.planetId):undefined,key=atlas.atlasPageKey(view,planet);
+      if(visited.has(key))continue;
+      visited.add(key);
+      const page=pages[key];
+      assert(page,`Missing reachable page ${key}`);assert(page.width>0&&page.height>0,`Invalid page dimensions ${key}`);
+      assets.add(page.background??page.bg);
+      for(const art of page.decorations??[]){decorations++;assets.add(art.asset);inBounds(art,page,`${key} decoration`);}
+      const title=page.titleRect??page.titlePlate;
+      if(title){titles++;inBounds(title,page,`${key} title`);}
+      for(const node of page.nodes){
+        nodes++;inBounds(node,page,`${key}/${node.targetId??node.mapId??node.targetKind}`);
+        if(node.asset)assets.add(node.asset);
+        if(node.drawLabel){
+          if(node.labelX!==undefined)assert(node.labelX>=0&&node.labelX<=page.width,`Label anchor outside ${key}`);
+          if(node.labelY!==undefined)assert(node.labelY>=0&&node.labelY<=page.height,`Label anchor outside ${key}`);
         }
+        const action=atlas.atlasNodeAction(node,view,planet,current);
+        assert(action,`Dead hotspot ${key}/${node.targetKind}:${node.targetId??node.mapId}`);
+        if(action.target.kind==='view')queue.push(action.target.view);
+        else if(action.target.kind==='travel'){const {planetId,regionId}=action.target.destination;landings.add(`${planetId}/${regionId}`);}
       }
     }
-  }
-  assert.deepEqual(adaptedHotspotOverlaps,[],`Adapted hotspot overlaps: ${JSON.stringify(adaptedHotspotOverlaps)}`);
-
-  const visited=new Set(),landings=new Set(),queue=[{key:'overview'}],assets=new Set();
-  if(manifest.backArrow)assets.add(manifest.backArrow);
-  let nodeCount=0,decorationCount=0,titleCount=0;
-  function assertBounds(rect,page,description) {
-    assert(rect.x>=0&&rect.y>=0&&rect.width>0&&rect.height>0
-      &&rect.x+rect.width<=page.width+1&&rect.y+rect.height<=page.height+1,
-      `Invalid source viewport bounds: ${description}`);
-  }
-  while(queue.length) {
-    const entry=queue.shift();
-    if(visited.has(entry.key))continue;
-    visited.add(entry.key);
-    const page=pages[entry.key];
-    assert(page,`Missing reachable page ${entry.key}`);
-    assert(page.width>0&&page.height>0,`Invalid page dimensions ${entry.key}`);
-    assets.add(page.background??page.bg);
-    for(const art of page.decorations??[]) {
-      decorationCount++;
-      assets.add(art.asset);
-      assertBounds(art,page,`${entry.key} decoration`);
+    Object.assign(report,{pages:visited.size,nodes,decorations,titles});
+  });
+  check('Every landing region is reachable through the graphical atlas',()=>{
+    const missing=WORLD_PLANETS.flatMap(p=>p.regions.map(r=>`${p.id}/${r.id}`)).filter(id=>!landings.has(id));
+    assert.deepEqual(missing,[],`Unreachable landing regions: ${missing.join(', ')}`);
+  });
+  check('All atlas artwork is shipped under /ui/classic/',()=>{
+    for(const asset of assets){
+      assert(asset?.startsWith('/ui/classic/'),`Unexpected source artwork path ${asset}`);
+      assert(fs.existsSync(path.join(root,'public',asset)),`Missing source artwork ${asset}`);
     }
-    const title=page.titleRect??page.titlePlate;
-    if(title) {
-      titleCount++;
-      assertBounds(title,page,`${entry.key} title`);
-    }
-    for(const node of page.nodes) {
-      nodeCount++;
-      assertBounds(node,page,`${entry.key}/${node.targetId??node.mapId??node.targetKind}`);
-      if(node.asset)assets.add(node.asset);
-      if(node.drawLabel) {
-        if(node.labelX!==undefined)assert(node.labelX>=0&&node.labelX<=page.width,`Label anchor outside ${entry.key}`);
-        if(node.labelY!==undefined)assert(node.labelY>=0&&node.labelY<=page.height,`Label anchor outside ${entry.key}`);
-      }
-      if(node.targetKind==='back')continue;
-      if(node.targetKind==='galaxy') {
-        const galaxy=WORLD_GALAXIES.find(g=>g.id===node.targetId||g.originalId===node.mapId);
-        assert(galaxy,`Unknown galaxy node ${node.targetId??node.mapId}`);
-        queue.push({key:`galaxy-${galaxy.id}`});
-      } else if(node.targetKind==='planet') {
-        const planet=planetFor(node);
-        assert(planet,`Unknown planet node ${node.targetId??node.mapId}`);
-        if(planet.regions.length===1) {
-          landings.add(`${planet.id}/${planet.regions[0].id}`);
-        } else {
-          queue.push({key:pages[`planet-${planet.id}`]?`planet-${planet.id}`:`planet-${planet.originalMapId}`,planet});
-        }
-      } else {
-        const planet=node.planetId?planetFor(node):entry.planet??planetFor(node);
-        assert(planet,`Missing region parent ${entry.key}`);
-        const region=regionFor(node,planet);
-        assert(region,`Unknown region node ${entry.key}/${node.targetId??node.mapId}`);
-        landings.add(`${planet.id}/${region.id}`);
-      }
-    }
-  }
-  const missing=WORLD_PLANETS.flatMap(p=>p.regions.map(r=>`${p.id}/${r.id}`)).filter(id=>!landings.has(id));
-  assert.deepEqual(missing,[],`Unreachable landing regions: ${missing.join(', ')}`);
-  for(const asset of assets) {
-    assert(asset?.startsWith('/ui/classic/'),`Unexpected source artwork path ${asset}`);
-    assert(fs.existsSync(root+'/public'+asset),`Missing source artwork ${asset}`);
-  }
-  const report={pages:visited.size,nodes:nodeCount,destinations:WORLD_PLANETS.length,
-    landingLeaves:landings.size,assets:assets.size,decorations:decorationCount,titles:titleCount,
-    auditedAdaptedPairs,adaptedHotspotOverlaps,missing};
-  fs.mkdirSync('artifacts/ui-v28',{recursive:true});
-  fs.writeFileSync('artifacts/ui-v28/atlas-coverage.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify(report));
-} finally {
-  await server.close();
-}
+  });
+  t.finish({...report,destinations:WORLD_PLANETS.length,landingLeaves:landings.size,assets:assets.size});
+});

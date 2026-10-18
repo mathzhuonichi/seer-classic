@@ -1,4 +1,4 @@
-import type {WorldPlanet,WorldRegion} from './world.ts';
+import type {WorldPlanet,WorldRegion} from './world/types.ts';
 
 // Names and galaxy membership: official RobotCoreDLL SuperMapXMLInfo (symbol157).
 // Regions: embedded MapConfig (symbol155), with original SPT habitat records.

@@ -20,9 +20,10 @@ for(const name of ['localStorage','sessionStorage'] as const) {
 }
 document.title='Seer Classic Preview';
 
-const [{Game},{createGame,loadCatalog}]=await Promise.all([
+const [{Game},{createGame,loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
   import('../App.tsx'),
   import('../game.ts'),
+  import('../progression/brave-tower.ts'),
 ]);
 const game=createGame(await loadCatalog(),'');
 for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});
@@ -31,8 +32,8 @@ seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.par
 seed.items={};
 // Optional fixture for reviewing checkpoint states; this remains memory-only.
 const towerFloor=Number(new URLSearchParams(location.search).get('towerFloor'));
-if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=70){
-  seed.progress.bosses_cleared=Array.from({length:towerFloor-1},(_,index)=>`boss_tower_brave_f${String(index+1).padStart(3,'0')}`);
+if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=BRAVE_TOWER_FLOORS){
+  seed.progress.bosses_cleared=Array.from({length:towerFloor-1},(_,index)=>braveTowerBossId(index+1));
   (seed as Save&{game:{braveTower:{highestCleared:number;resumeFloor:number}}}).game.braveTower={highestCleared:towerFloor-1,resumeFloor:towerFloor};
 }
 game.importSave(JSON.stringify(seed));
