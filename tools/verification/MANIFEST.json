@@ -201,8 +201,7 @@
       "status": "gate"
     },
     "habitat-regions.mjs": {
-      "status": "stale",
-      "note": "Already failing at V30."
+      "status": "gate"
     },
     "holder-ownership-v47.mjs": {
       "status": "known-failure",

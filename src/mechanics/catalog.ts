@@ -40,7 +40,8 @@ export function assembleCatalog(files: CatalogFiles): CatalogData {
  */
 export function bundledCatalog(): CatalogData {
   const tables = import.meta.glob('../../data/{skills,natures,types,conditions,items}.json', { import: 'default', eager: true });
-  const table = (name: string) => tables[`../../data/${name}.json`];
+  // Keys are the glob paths as written; match the file name so the lookup does not depend on this module's depth.
+  const table = (name: string) => Object.entries(tables).find(([key]) => key.endsWith(`/${name}.json`))?.[1];
   return assembleCatalog({
     monsters: import.meta.glob('../../data/monsters/*.json', { import: 'default', eager: true }),
     bosses: import.meta.glob('../../data/bosses/*.json', { import: 'default', eager: true }),
