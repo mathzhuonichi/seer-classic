@@ -123,11 +123,9 @@ export function addEvs(mon: Monster, gain: PartialStats): Result {
   return { mon: m, events };
 }
 
-// 学习力遗忘: clears the listed stats (all when omitted). Current HP keeps its ratio.
+// 学习力遗忘: clears the listed stats (all when omitted). Current HP shifts with max HP.
 export function resetEvs(mon: Monster, dex: Dex, stats: StatKey[] = [...STAT_KEYS]): Result {
-  const m = clone(mon);
-  for (const k of stats) m.evs[k] = 0;
-  rescaleHp(mon, m, dex);
+  const m = restat(mon, dex, (x) => { for (const k of stats) x.evs[k] = 0; });
   return { mon: m, events: [{ kind: "evs_reset", uid: m.uid, stats }] };
 }
 
@@ -135,9 +133,7 @@ export function resetEvs(mon: Monster, dex: Dex, stats: StatKey[] = [...STAT_KEY
 
 export function changeNature(mon: Monster, nature: string, dex: Dex): Result {
   dex.nature(nature); // throws on unknown id
-  const m = clone(mon);
-  m.nature = nature;
-  rescaleHp(mon, m, dex);
+  const m = restat(mon, dex, (x) => { x.nature = nature; });
   return { mon: m, events: [{ kind: "nature_changed", uid: m.uid, from: mon.nature, to: nature }] };
 }
 
@@ -147,9 +143,7 @@ export function rerollNature(mon: Monster, dex: Dex, rng: Rng): Result {
 
 export function setIv(mon: Monster, iv: number, dex: Dex): Result {
   if (!Number.isInteger(iv) || iv < IV_MIN || iv > IV_MAX) throw new Error(`iv ${iv} out of range`);
-  const m = clone(mon);
-  m.iv = iv;
-  rescaleHp(mon, m, dex);
+  const m = restat(mon, dex, (x) => { x.iv = iv; });
   return { mon: m, events: [{ kind: "iv_changed", uid: m.uid, from: mon.iv, to: iv }] };
 }
 
@@ -174,13 +168,18 @@ export function restoreMonster(mon: Monster, dex: Dex, rng: Rng): Result {
   };
 }
 
+// Copies `mon`, applies a change that may move its max HP, and shifts current HP with it.
+function restat(mon: Monster, dex: Dex, change: (m: Monster) => void): Monster {
+  const m = clone(mon);
+  change(m);
+  shiftHp(m, computeStats(mon, dex).hp, computeStats(m, dex).hp);
+  return m;
+}
+
 // Keeps a fainted monster at 0 and otherwise shifts current HP by the change in max HP,
 // clamped to [1, max], so stat changes never heal or faint a monster by themselves.
-function rescaleHp(before: Monster, after: Monster, dex: Dex): void {
-  if (before.hp <= 0) return;
-  const oldMax = computeStats(before, dex).hp;
-  const newMax = computeStats(after, dex).hp;
-  after.hp = Math.max(1, Math.min(newMax, before.hp + (newMax - oldMax)));
+function shiftHp(m: Monster, oldMax: number, newMax: number): void {
+  if (m.hp > 0) m.hp = Math.max(1, Math.min(newMax, m.hp + newMax - oldMax));
 }
 
 // ---------- EXP and levels ----------
@@ -214,24 +213,24 @@ export function gainExp(mon: Monster, amount: number, dex: Dex): ExpResult {
 // down (降级秘药, never below 1). Going down keeps every learned skill and resets the
 // EXP bar; it never un-evolves.
 export function gainLevels(mon: Monster, levels: number, dex: Dex): Result {
+  if (levels < 0) {
+    if (mon.level <= 1) return { mon: clone(mon), events: [] };
+    const m = restat(mon, dex, (x) => { x.level = Math.max(1, x.level + levels); x.exp = 0; });
+    return { mon: m, events: [{ kind: "level_down", uid: m.uid, level: m.level, stats: computeStats(m, dex) }] };
+  }
   const m = clone(mon);
   const events: RaisingEvent[] = [];
   for (let i = 0; i < levels && m.level < MAX_LEVEL; i++) levelUpOnce(m, dex, events);
-  if (levels < 0 && m.level > 1) {
-    m.level = Math.max(1, m.level + levels);
-    m.exp = 0;
-    rescaleHp(mon, m, dex);
-    events.push({ kind: "level_down", uid: m.uid, level: m.level, stats: computeStats(m, dex) });
-  }
   return { mon: m, events };
 }
 
+// Max HP never drops on a level-up, so shiftHp only ever raises current HP here.
 function levelUpOnce(m: Monster, dex: Dex, events: RaisingEvent[]): void {
-  const before = computeStats(m, dex);
+  const before = computeStats(m, dex).hp;
   m.level += 1;
   m.exp = 0;
   const after = computeStats(m, dex);
-  if (m.hp > 0) m.hp = Math.min(after.hp, m.hp + (after.hp - before.hp));
+  shiftHp(m, before, after.hp);
   events.push({ kind: "level_up", uid: m.uid, level: m.level, stats: after });
   const sp = dex.species(m.species);
   for (const e of sp.learnset) if (e.level === m.level) learnSkill(m, e.skill, dex, events);
@@ -275,9 +274,7 @@ export function evolve(mon: Monster, to: number, dex: Dex, ctx: EvolveContext = 
   if (!evolutionOptions(mon, dex, ctx).includes(to)) {
     throw new Error(`species ${mon.species} cannot evolve into ${to} now`);
   }
-  const m = clone(mon);
-  m.species = to;
-  rescaleHp(mon, m, dex);
+  const m = restat(mon, dex, (x) => { x.species = to; });
   const events: RaisingEvent[] = [{ kind: "evolved", uid: m.uid, from: mon.species, to }];
   for (const s of learnsetUpTo(dex.species(to), m.level)) learnSkill(m, s, dex, events);
   return { mon: m, events };

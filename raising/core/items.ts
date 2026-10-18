@@ -1,10 +1,10 @@
 // Raising items (`kind: "raising"` in data/items.json). Each carries one `raising_effect`.
-import type { Boost, Dex, PartialStats, RaisingEvent, Rng, Save, StatKey } from "./types.ts";
+import type { Boost, Dex, Monster, PartialStats, RaisingEvent, Rng, Save, StatKey } from "./types.ts";
 import {
   addEvs, changeNature, gainExp, gainLevels, rerollIv, rerollNature, resetEvs, restoreMonster, setIv,
   type Result,
 } from "./monster.ts";
-import { findMon, putMon } from "./storage.ts";
+import { findMon, putMon, requireItem, spendItem } from "./storage.ts";
 import { MAX_LEVEL } from "./growth.ts";
 
 export type RaisingEffect =
@@ -27,41 +27,43 @@ export interface RaisingItem { id: string; kind: "raising"; raising_effect: Rais
 
 export interface ItemResult { save: Save; events: RaisingEvent[]; overflow?: number }
 
+type BoostEffect = Extract<RaisingEffect, { op: "boost" | "energy_bead" }>;
+
+// `unlimited` (the game's unlimited-access mode) applies the item without consuming it.
 export function useRaisingItem(save: Save, uid: string, item: RaisingItem, dex: Dex, rng: Rng, options: {unlimited?: boolean} = {}): ItemResult {
-  if (!options.unlimited && (save.items[item.id] ?? 0) < 1) throw new Error(`no ${item.id} left`);
+  const unlimited = options.unlimited ?? false;
+  if (!unlimited) requireItem(save, item.id);
   const mon = findMon(save, uid);
   const fx = item.raising_effect;
-  if (fx.op === "boost" || fx.op === "energy_bead") return startBoost(save, uid, item.id, fx, options.unlimited);
-  if ((fx.op === "exp" || (fx.op === "levels" && fx.amount > 0)) && mon.level >= MAX_LEVEL) throw new Error("already level 100");
-  if (fx.op === "levels" && fx.amount < 0 && mon.level <= 1) throw new Error("already level 1");
-  let r: Result & { overflow?: number };
-  switch (fx.op) {
-    case "exp": r = gainExp(mon, fx.amount, dex); break;
-    case "levels": r = gainLevels(mon, fx.amount, dex); break;
-    case "ev_add": r = addEvs(mon, fx.evs); break;
-    case "ev_reset": r = resetEvs(mon, dex, fx.stats); break;
-    case "iv_reroll": r = rerollIv(mon, dex, rng); break;
-    case "iv_set": r = setIv(mon, fx.iv, dex); break;
-    case "nature_reroll": r = rerollNature(mon, dex, rng); break;
-    case "nature_set": r = changeNature(mon, fx.nature, dex); break;
-    case "restore": r = restoreMonster(mon, dex, rng); break;
-  }
+  if (fx.op === "boost" || fx.op === "energy_bead") return startBoost(save, uid, item.id, fx, unlimited);
+  const r = applyEffect(mon, fx, dex, rng);
   const s = structuredClone(save);
   putMon(s, r.mon);
-  if (!options.unlimited) consume(s, item.id);
+  if (!unlimited) spendItem(s, item.id);
   // EXP past level 100 from a big EXP item goes to 积累经验 instead of being lost.
   if (r.overflow) s.exp_pool += r.overflow;
   return { save: s, events: r.events, overflow: r.overflow };
 }
 
-function consume(s: Save, id: string): void {
-  s.items[id] -= 1;
-  if (s.items[id] === 0) delete s.items[id];
+function applyEffect(mon: Monster, fx: Exclude<RaisingEffect, BoostEffect>, dex: Dex, rng: Rng): Result & { overflow?: number } {
+  if ((fx.op === "exp" || (fx.op === "levels" && fx.amount > 0)) && mon.level >= MAX_LEVEL) throw new Error(`already level ${MAX_LEVEL}`);
+  if (fx.op === "levels" && fx.amount < 0 && mon.level <= 1) throw new Error("already level 1");
+  switch (fx.op) {
+    case "exp": return gainExp(mon, fx.amount, dex);
+    case "levels": return gainLevels(mon, fx.amount, dex);
+    case "ev_add": return addEvs(mon, fx.evs);
+    case "ev_reset": return resetEvs(mon, dex, fx.stats);
+    case "iv_reroll": return rerollIv(mon, dex, rng);
+    case "iv_set": return setIv(mon, fx.iv, dex);
+    case "nature_reroll": return rerollNature(mon, dex, rng);
+    case "nature_set": return changeNature(mon, fx.nature, dex);
+    case "restore": return restoreMonster(mon, dex, rng);
+  }
 }
 
 // One exp boost, one ev boost and one bead per monster can be active at a time; using
 // another of the same kind is refused so an item is never wasted.
-function startBoost(save: Save, uid: string, id: string, fx: Extract<RaisingEffect, { op: "boost" | "energy_bead" }>, unlimited = false): ItemResult {
+function startBoost(save: Save, uid: string, id: string, fx: BoostEffect, unlimited: boolean): ItemResult {
   const active = save.boosts ?? [];
   const boost: Boost = fx.op === "boost"
     ? { kind: fx.what, item: id, multiplier: fx.multiplier, battles_left: fx.battles }
@@ -75,7 +77,7 @@ function startBoost(save: Save, uid: string, id: string, fx: Extract<RaisingEffe
   if (clash) throw new Error(`a ${boost.kind} effect is already active`);
   const s = structuredClone(save);
   s.boosts = [...active, boost];
-  if (!unlimited) consume(s, id);
+  if (!unlimited) spendItem(s, id);
   return { save: s, events: [] };
 }
 

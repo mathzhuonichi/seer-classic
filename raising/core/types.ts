@@ -1,5 +1,5 @@
-// Shared types for the raising core. Shapes follow /mnt/project-files/design/foundation.md
-// (sections 3, 4 and 6). Keys are snake_case to match the JSON data files.
+// Shared types for the raising core; the rules they carry are in raising/SPEC.md.
+// Keys are snake_case to match the JSON data files.
 
 export type StatKey = "hp" | "atk" | "def" | "spa" | "spd" | "spe";
 export const STAT_KEYS: readonly StatKey[] = ["hp", "atk", "def", "spa", "spd", "spe"];
