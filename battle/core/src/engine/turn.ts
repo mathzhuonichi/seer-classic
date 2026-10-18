@@ -71,7 +71,7 @@ export function resolveTurn(b: Battle): BattleEvent[] {
   return events;
 }
 
-export function resolveReplacements(b: Battle): void {
+function resolveReplacements(b: Battle): void {
   for (const side of b.sides) {
     if (!side.needsReplacement) continue;
     const a = actionFor(b, side);
@@ -84,7 +84,7 @@ export function resolveReplacements(b: Battle): void {
   if (!b.result) { b.phase = 'choose'; queueReplacements(b); }
 }
 
-export function resolveFullTurn(b: Battle): void {
+function resolveFullTurn(b: Battle): void {
   const actions: [Action, Action] = [actionFor(b, b.sides[0]), actionFor(b, b.sides[1])];
   b.turn++;
   b.emit({ type: 'turn_start', turn: b.turn });

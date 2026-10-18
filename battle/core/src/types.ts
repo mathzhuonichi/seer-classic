@@ -37,7 +37,6 @@ export interface Skill {
   pp: number;
   priority?: number;
   crit_rate?: number;   // numerator over 16
-  crit_stage?: number;  // legacy field (RULES.md section 14); crit_rate = 1 + crit_stage
   power_bonus?: number; // added after power ops and scripts (skill engravings)
   pp_cost?: number;     // PP spent per use; default 1
   target?: Target;

@@ -388,24 +388,19 @@ draws is fixed by the code path above, so the same seed and actions replay the
 same battle. Every random draw is a call to `rng.next()`; no `Math.random`.
 
 **Turn preparation.** `battle.prepare(side)` decides for an automatic side when
-its turn opens, so the search planner can run while the player is still
-choosing, and stores the decision as the side's pending action. It runs the
-same decision as `resolveTurn` (a pending action, forced execution,
-`choose_action` hooks, then the policy) at the same point of the RNG stream,
-so a prepared turn replays an unprepared one exactly: the same action, draws,
-events, state and result. This holds because submitting an action draws
-nothing and no decision reads the opponent's pending action (the planner plays
-a simultaneous-move equilibrium in a world that clears it), and because
-preparation runs before anything else draws in that turn, side 0 first. It
-declines, and `resolveTurn` decides as before, outside the choose phase (an
-automatic side replaces a fainted active at once, so the replacement phase has
-nothing to prepare), for side 1 before an automatic side 0, when the battle is
-already decided, and for scripted decisions (a `script` AI or `choose_action`
-hooks). A flee ends the battle before any decision is used, so `resolveTurn`
-then rewinds the RNG to where preparation found it and drops the prepared
-decisions' events (the RNG state goes back into the save). The planner's one
-mixed-strategy draw stays on the battle RNG: preparation sees the same state,
-so it draws the same value.
+its turn opens, so the planner can run while the player chooses, and stores the
+action as the side's pending action. It runs `resolveTurn`'s own decision at the
+same point of the RNG stream, so a prepared turn replays an unprepared one: same
+action, draws, events, state and result. Submitting draws nothing, no decision
+reads the opponent's pending action (the planner's world clears it), and
+preparation runs before anything else draws in the turn, side 0 first; the
+planner's one mixed-strategy draw therefore stays on the battle RNG. It declines,
+leaving the decision to `resolveTurn`, outside the choose phase (automatic sides
+replace at once), for side 1 before an automatic side 0, when the battle is
+already decided, and for scripted decisions (a `script` AI, `choose_action`
+hooks). A flee ends the battle before any decision is used: `resolveTurn` then
+rewinds the RNG, which settlement copies into the save, and drops the prepared
+events.
 
 ## 12. Scripted skill effects
 
@@ -435,9 +430,8 @@ The suites that exercise this spec most directly:
 
 ## 14. Data model additions
 
-1. Skill `crit_stage` → `crit_rate` (numerator over 16, default 1). Seer skill
-   text states rates as "x/16" directly. The engine reads `crit_rate` and
-   falls back to `1 + crit_stage`.
+1. Skill `crit_rate` (numerator over 16, default 1): Seer skill text states
+   rates as "x/16" directly.
 2. `types.json.dual_rule` = `"seer_average"` (section 6).
 3. Items used in battle carry `battle_effects` (effect ops, e.g. `heal
    {amount}`, `restore_pp {amount}`, `cure_status`) and capsules carry
