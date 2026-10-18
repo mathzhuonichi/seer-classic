@@ -350,11 +350,11 @@
   {
    "id": "habitat-505",
    "originalMapId": 505,
-   "name": "暮色之城",
+   "name": "时空通道场景-暮色之城",
    "planetId": "eddy",
    "sourceParentMapId": 325,
    "backgroundMapId": 325,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation. Its name is the maps.json one: map_config.json calls both map 505 and map 326 暮色之城.",
    "ownArtwork": {
     "status": "flash-only",
     "url": "https://seer.61.com/resource/map/505.swf"

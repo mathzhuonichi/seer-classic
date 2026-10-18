@@ -37,7 +37,7 @@ The habitat generator records the source-policy hash and applies this rule per g
 
 ## Scene and navigation treatment
 
-Each new region retains its original map ID and exact configured name. Where no corresponding recovered map background is present, `backgroundMapId` explicitly reuses the supported parent's recovered artwork. `sceneAttribution` states that the scenery and encounter positions are remake adaptations. The region's source identity must not be read as evidence that its reused backdrop is the original image for that region.
+Each new region retains its original map ID and exact configured name, except that map 505 later took its maps.json name, 时空通道场景-暮色之城, because map_config.json also names Eddy's map 326 暮色之城. Where no corresponding recovered map background is present, `backgroundMapId` explicitly reuses the supported parent's recovered artwork. `sceneAttribution` states that the scenery and encounter positions are remake adaptations. The region's source identity must not be read as evidence that its reused backdrop is the original image for that region.
 
 The atlas keeps all existing native diagrams and controls. Eight formerly single-region planets now receive composed region pages using their existing recovered planet icon, space background, and original GO artwork. The two Helka regions bind the labels already visible in its native diagram; the other supplemental leaves use authored navigation positions with explicit adaptation metadata. There are 37 added controls: 29 new regions and eight previous landing points that now need a region page. All 59 planets and all 159 landing leaves remain reachable from the overview.
 
