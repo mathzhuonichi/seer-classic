@@ -213,7 +213,8 @@
       "status": "gate"
     },
     "paid-spt-controller.mjs": {
-      "status": "gate"
+      "status": "known-failure",
+      "note": "Nondeterministic: its starter save comes from a clock-seeded new journey (newSave(Date.now())). With Date.now pinned, seeds 4*7919 and 8*7919 fail the one-turn boss_spt_delasa win at line 86. Seed the fixture or inject the journey seed before gating."
     },
     "paid-spt-recruitment.mjs": {
       "status": "gate"

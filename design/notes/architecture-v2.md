@@ -38,27 +38,42 @@ The battle row is the only budget the game misses today, and it is the one the p
 
 ## 3. Module map
 
+Layers, from top to bottom; imports point down only:
+
+```
+app → kernel → features → domain → shared → battle/ai, battle/core, raising/core → data
+```
+
 ```
 src/
   main.tsx
   app/              shell: App, window manager, navigation, audio, dev preview
   kernel/           the controller kernel; no feature rules
-    contract.ts     GameAction, GameSnapshot, DispatchResult, GameController, Feature
+    contract.ts     UI-facing: GameSnapshot, GameAction, DispatchResult, GameController
+    api.ts          feature-facing: Runtime, GameContext, Feature, notice/commit/requireSession/ok/fail
+    acquire.ts      feature-facing: put a monster into storage (capacity, trait roll, auto-evolution)
     game.ts         createGame: composes the registered features
-    runtime.ts  dispatch.ts  snapshot.ts  journey.ts (save load/migrate/write)  context.ts
+    dispatch.ts  snapshot.ts  save-state.ts  save.ts (format, migrations)  persistence.ts  context.ts
+  features/         behaviour: actions, slice views, presentation runtime, UI
+    battle/         session, setup, settlement, playback frames, log, HUD, animation runtime, ui/
+    raising/        raising actions and views, EV draft, ui/ (PetBag, Raising tabs, Modifier)
+    collection/     dex, fusion and breeding views and actions, encounter views, ui/
+    items/          inventory, shop, item actions and views, ui/
+    engravings/     loadout, actions, views, ui/
+    challenges/     campaign, tower, facility and quest views and actions, boss evidence, ui/
+    world/          maps and scenes, roaming, atlas, ui/
+  domain/           pure game content and rules used by several features (no runtime, no React)
     catalog/        assembleCatalog, browser loader, enrichment
-  shared/           feature-agnostic and reusable
-    labels.ts  view-helpers.ts  monster-views.ts  creature-art.ts  element-types.ts  item-icons.ts
+    acquisition/    routes, limits, recruitment, skins, lineage
+    recipes/        fusion, breeding
+    challenges/     campaigns, Brave Tower, facility rosters, NPC training, campaign scripts
+    engravings/     definitions and access rules
+    world/          planets and habitats
+    traits.ts  economy.ts  battle-supplies.ts  item-shop.ts
+  shared/           feature-agnostic display helpers and UI kit
+    labels.ts  views.ts  view-helpers.ts  monster-views.ts  creature-art.ts  element-types.ts  item-icons.ts
     ui/             Pager, TypeIcon, TypeFilter, CreatureArt, ItemIcon, ItemTile, ItemTooltip,
                     ItemCategoryTabs, MonsterCard, GameWindow, useGame (snapshot slice hook)
-  features/
-    battle/         setup, session, settlement, playback frames, log, HUD, animation runtime, ui/
-    raising/        raising actions and views, EV draft, ui/ (PetBag, Raising tabs, Modifier)
-    collection/     acquisition, recruitment, fusion, breeding, skins, dex, ui/
-    items/          inventory, shop, battle supplies, item actions and views, ui/
-    engravings/     rules, loadout, actions, views, ui/
-    challenges/     campaigns, facilities, Brave Tower, quests, NPC training, boss evidence, ui/
-    world/          planets, maps and scenes, roaming, atlas, ui/
 battle/core/        the engine: rules, turn, damage, effects, scripts; defines BattlePolicy
 battle/ai/          policies: search planner, legacy boss/wild AI, dispatcher; implements BattlePolicy
 raising/core/       raising rules
@@ -66,15 +81,24 @@ data/               JSON content
 tools/              verification (+ _harness), catalog loader for Node, assets, distribution
 ```
 
+The `domain/` layer exists because some rules belong to no single screen:
+
+- the acquisition index, used by the dex, the shop's six-copy limits, quests and recruitment;
+- the campaign and tower definitions;
+- the world habitats;
+- the engraving and trait definitions.
+
+Filing any of them under one feature created cycles: collection ↔ challenges and battle ↔ challenges.
+
 ### Feature layout
 
 Each feature folder has the same shape:
 
 - `index.ts`: its whole public surface. This is the `feature` registration object, the feature's action and slice types, and its screen components.
-- `rules/` or `rules.ts`: pure domain rules (no React, no kernel).
 - `actions.ts`: handlers `(rt, action) => DispatchResult`.
 - `view.ts`: the snapshot slice builder, pure. It carries every derived rule outcome the screens need.
 - `ui/`: React components that render the slice and dispatch actions.
+- Pure rules that only this feature uses may sit next to them; rules other features need go to `domain/`.
 
 ## 4. Dependency rules
 
@@ -84,31 +108,33 @@ These are enforced by a new gate suite, `tools/verification/architecture.mjs`. I
 2. **`battle/ai`** imports only `battle/core`.
 3. **`raising/core`** imports only itself and `battle/core/src/rng.ts`.
 4. **`src/shared`** imports only `shared`, the cores and `data`.
-5. **`src/features/X`** imports `shared`, `kernel/contract.ts` (types only), the cores and `data`.
+5. **`src/domain`** imports only `domain`, `shared`, the cores and `data`.
+6. **`src/features/X`** imports `domain`, `shared`, the cores and `data`, plus three kernel modules: `kernel/contract.ts`, `kernel/api.ts` and `kernel/acquire.ts`.
    - It may import another feature only through `features/Y/index.ts`, and only along this DAG:
-     - `battle` ← `challenges`, `world`
-     - `collection` ← `items`, `raising`, `challenges`
-     - `engravings` ← `raising`, `items`, `battle`
-   - It must not create cycles.
-6. **`features/X/ui`** imports React, `shared`, `shared/ui` and its own feature's `view.ts` types and `index.ts`. It never imports rules, actions or the kernel runtime.
-7. **`src/kernel`** imports `features/*/index.ts` (the registry), `shared`, the cores and `battle/ai` (to inject the policy).
-8. **`src/app`** imports `kernel`, `features/*/index.ts` (screens) and `shared`.
-9. **Size limits:**
-   - New or changed files stay at or under 400 lines, and lines at or under 160 characters.
-   - Existing offenders are listed in the baseline and may only shrink.
+     - `challenges` → `battle`
+     - `world` → `battle`, `challenges`
+     - `raising` → `engravings`
+     - `items` → `engravings`
+7. **`features/X/ui`** imports React, `shared`, `shared/ui`, `domain` types, its own feature, and `kernel/contract.ts`. Feature rules never import their own `ui/`.
+8. **`src/kernel`** imports `features/*/index.ts` (the registry), `domain`, `shared`, the cores and `battle/ai` (to inject the policy).
+9. **`src/app`** imports `kernel`, `features/*/index.ts` (screens), `domain` and `shared`.
+10. **Size limits:**
+    - Files stay at or under 400 lines, and lines at or under 160 characters.
+    - Existing offenders are listed in the baseline and may only shrink.
 
 ## 5. Contracts
 
 The contracts are written as real types in `src/kernel/contract.ts` before any feature is filled in.
 
-**Kernel boundary.** The kernel exposes exactly two modules:
+**Kernel boundary.** The kernel exposes exactly three modules to the rest of the code:
 
 - `src/kernel/contract.ts` is the UI-facing contract: `GameSnapshot` (the composition of the feature slices), `GameAction` (the union of the feature actions), `DispatchResult` and `GameController`.
   - The app, the feature UIs and the kernel import it.
 - `src/kernel/api.ts` is the feature-facing API, imported by feature code that is not UI:
   - the types `Runtime`, `GameContext` and `Feature`;
   - the helpers `notice`, `commit`, `replaceMonster`, `requireSession`, `battleInProgress`, `ok` and `fail`.
-  - Features never import other kernel modules.
+- `src/kernel/acquire.ts` puts a monster into storage. It is the one storage path for capture, hatching, quest rewards and the editor.
+- Features never import other kernel modules.
 - Display types used by several features live in `src/shared/views.ts`:
   - `SkillView`, `MonsterView`, `ItemView`, `BossEvidenceView`, and the encounter and opponent views.
   - The kernel and the features both import them, so `shared` never imports the kernel.
