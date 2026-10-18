@@ -20,7 +20,7 @@ import {meetsWildCapturePrerequisite} from '../battle/core/src/capture';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from './progression/fusion';
 import { SEER_SCRIPTS } from '../battle/core/src/scripts/index.ts';
 import { attackTypes } from '../battle/core/src/typechart.ts';
-import { makeDex, createMonster, computeStats, expToNext, addMonster, deposit, withdraw, rename, healAll, findMon, putMon, equipSkills, addEvs, gainLevels, setIv, changeNature, levelEvolutions, evolutionOptions, requiresEvolutionChoice, evolve, applyBattleRewards, allocatePoolExp, useRaisingItem, activeBeads, tickBoosts, hatchEssence, type Monster, type Save, type Species, type Nature, type Skill, type RaisingItem } from '../raising/core/index.ts';
+import { EV_STAT_CAP, EV_TOTAL_CAP, IV_MAX, IV_MIN, MAX_LEVEL, setPartyOrder, makeDex, createMonster, computeStats, expToNext, addMonster, deposit, withdraw, rename, healAll, findMon, putMon, equipSkills, addEvs, gainLevels, setIv, changeNature, levelEvolutions, evolutionOptions, requiresEvolutionChoice, evolve, applyBattleRewards, allocatePoolExp, useRaisingItem, activeBeads, tickBoosts, hatchEssence, type Monster, type Save, type Species, type Nature, type Skill, type RaisingItem } from '../raising/core/index.ts';
 import { newSave, deserialize, serialize } from '../raising/game/save.ts';
 import { BOX_MAX, PARTY_MAX } from '../raising/core/storage.ts';
 import { loadCatalog, type CatalogData } from './mechanics/catalog';
@@ -627,14 +627,13 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
       case 'heal':save=full(healAll(save,dex));for(const mods of Object.values(save.game.modules))delete mods.engravingDeficit;notice('恢复舱已恢复全部精灵的体力与技能 PP。');break;
       case 'party':save=full(action.add?withdraw(save,action.uid):deposit(save,action.uid));break;
       case 'reorderParty': {
-        if(action.uids.length!==save.party.length||new Set(action.uids).size!==save.party.length||action.uids.some(uid=>!save.party.includes(uid)))throw new Error('请选择当前出战背包中的精灵调整顺序。');
-        save.party=[...action.uids];notice('出战顺序已调整。');break;
+        save=full(setPartyOrder(save,action.uids));notice('出战顺序已调整。');break;
       }
       case 'setEvs': {
         const keys=['hp','atk','def','spa','spd','spe'] as const;
-        if(keys.some(k=>!Number.isInteger(action.evs[k])||action.evs[k]<0||action.evs[k]>255))throw new Error('学习力每项须为 0–255 的整数。');
+        if(keys.some(k=>!Number.isInteger(action.evs[k])||action.evs[k]<0||action.evs[k]>EV_STAT_CAP))throw new Error(`学习力每项须为 0–${EV_STAT_CAP} 的整数。`);
         const total=keys.reduce((sum,k)=>sum+action.evs[k],0);
-        if(total>510)throw new Error(`学习力总和 ${total} 超过 510，请调整后再应用。`);
+        if(total>EV_TOTAL_CAP)throw new Error(`学习力总和 ${total} 超过 ${EV_TOTAL_CAP}，请调整后再应用。`);
         const mon={...findMon(save,action.uid),evs:{...action.evs}};
         mon.hp=Math.min(mon.hp,computeStats(mon,dex).hp);replace(mon);notice('学习力已保存，能力值已更新。');break;
       }
@@ -779,7 +778,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
         }
         break;
       }
-      case 'cheatMonster': {let mon=findMon(save,action.uid);if(action.level!==undefined)mon=boundedAutoEvolve(gainLevels(mon,Math.max(1,Math.min(100,Math.floor(action.level)))-mon.level,dex).mon);if(action.iv!==undefined)mon=setIv(mon,Math.max(0,Math.min(31,Math.floor(action.iv))),dex).mon;if(action.nature)mon=changeNature(mon,action.nature,dex).mon;if(action.evs) {const next={...mon.evs,...action.evs};let left=510;for(const key of ['hp','atk','def','spa','spd','spe'] as const){next[key]=Math.min(left,Math.max(0,Math.min(255,Math.floor(next[key]))));left-=next[key];}mon={...mon,evs:next};}mon={...mon,hp:computeStats(mon,dex).hp};replace(mon);const deficit=save.game.modules[action.uid]?.engravingDeficit;if(deficit)deficit.hp=0;if(action.traitId!==undefined){if(action.traitId&&!traits.some(t=>t.id===action.traitId))throw new Error('特性不存在。');if(action.traitId)save.game.traits[mon.uid]=action.traitId;else delete save.game.traits[mon.uid];}notice('精灵数值已修改。');break;}
+      case 'cheatMonster': {let mon=findMon(save,action.uid);if(action.level!==undefined)mon=boundedAutoEvolve(gainLevels(mon,Math.max(1,Math.min(MAX_LEVEL,Math.floor(action.level)))-mon.level,dex).mon);if(action.iv!==undefined)mon=setIv(mon,Math.max(IV_MIN,Math.min(IV_MAX,Math.floor(action.iv))),dex).mon;if(action.nature)mon=changeNature(mon,action.nature,dex).mon;if(action.evs) {const next={...mon.evs,...action.evs};let left=EV_TOTAL_CAP;for(const key of ['hp','atk','def','spa','spd','spe'] as const){next[key]=Math.min(left,Math.max(0,Math.min(EV_STAT_CAP,Math.floor(next[key]))));left-=next[key];}mon={...mon,evs:next};}mon={...mon,hp:computeStats(mon,dex).hp};replace(mon);const deficit=save.game.modules[action.uid]?.engravingDeficit;if(deficit)deficit.hp=0;if(action.traitId!==undefined){if(action.traitId&&!traits.some(t=>t.id===action.traitId))throw new Error('特性不存在。');if(action.traitId)save.game.traits[mon.uid]=action.traitId;else delete save.game.traits[mon.uid];}notice('精灵数值已修改。');break;}
       case 'cheatAcquire':acquire(action.species,action.level??5,'editor');break;
       case 'cheatResources':if(action.coins!==undefined)save.game.coins=Math.max(0,Math.floor(action.coins));if(action.expPool!==undefined)save.exp_pool=Math.max(0,Math.floor(action.expPool));break;
       case 'dismissNotice':notices=[];break;
