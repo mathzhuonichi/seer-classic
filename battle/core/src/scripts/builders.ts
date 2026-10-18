@@ -1,15 +1,16 @@
 // Entry factories for script templates that differ only in data. Guide: SCRIPTS.md.
 import type { ConditionDef, HookPoint, ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
+import type { ApplyCtx, HookCtx, InstallCtx } from './context.ts';
 import { attach, changeStages, counts, fromFoeAttack, hitFoe, once, scriptHooks, stat, status } from './util.ts';
 
 type P = number[];
-export type HookFn = (c: any, p: any) => unknown;
+export type HookFn = (c: HookCtx, p: any) => unknown;
 
 /** A scripted condition: the hook points it reacts at and the hook run there. */
 export interface RuleSpec { on: HookPoint[]; hook: HookFn }
 
 /** Entries for a table of encounter-rule conditions; `install` attaches rule `id` to `c.mon` (boss, campaign and NPC policies differ). */
-export function ruleScripts<R extends RuleSpec>(table: Record<string, R>, install: (c: any, p: any, id: string, rule: R) => void): ScriptRegistry {
+export function ruleScripts<R extends RuleSpec>(table: Record<string, R>, install: (c: InstallCtx, p: any, id: string, rule: R) => void): ScriptRegistry {
   const out: ScriptRegistry = {};
   for (const [id, rule] of Object.entries(table)) out[id] = { install: (c, p) => install(c, p, id, rule), hook: rule.hook };
   return out;
@@ -24,8 +25,8 @@ export interface Timed extends RuleSpec {
   /** Duration; default p[0]. Undefined lasts until removed. */
   turns?: (p: P) => number | undefined;
   /** Attach only when this holds. */
-  when?: (c: any, p: P) => boolean;
-  data?: (c: any, p: P) => Record<string, unknown>;
+  when?: (c: ApplyCtx, p: P) => boolean;
+  data?: (c: ApplyCtx, p: P) => Record<string, unknown>;
   /** The current turn counts as the first one. */
   cover?: boolean;
   /** Condition id suffix, for templates a skill can carry twice (condition `<id>_<key>`). */
@@ -37,7 +38,7 @@ export function timedScripts(table: Record<string, Timed>): ScriptRegistry {
   const out: ScriptRegistry = {};
   for (const [id, t] of Object.entries(table)) {
     out[id] = {
-      apply: (c: any, p: P) => {
+      apply: (c: ApplyCtx, p: P) => {
         if (t.when && !t.when(c, p)) return;
         const condId = t.key ? `${id}_${t.key(p)}` : id;
         attach(c.battle, t.foe ? c.foe : c.user, condId, t.name, scriptHooks(t.on, id, p), t.turns ? t.turns(p) : p[0],
@@ -87,7 +88,7 @@ export const hurtDropsFoe = (name: string, stats: StageKey[]): Timed => ({
 });
 
 /** "{0}回合内若…，则对手每回合受到{1}点固定伤害" */
-export const foeDamageEachTurn = (name: string, holds: (c: any) => boolean): Timed => ({
+export const foeDamageEachTurn = (name: string, holds: (c: HookCtx) => boolean): Timed => ({
   name, on: ['turn_end'],
   hook: (c, p: P) => { if (counts(c) && !c.foe.fainted && holds(c)) c.battle.dealDamage(c.foe, p[1], { kind: 'fixed', source: c.holder }); },
 });
@@ -99,10 +100,10 @@ export const randomPower = (min: number, max: number): ScriptEntry =>
   ({ power: (c) => (c.estimate ? (min + max) / 2 : c.battle.rng.int(min, max)) });
 
 /** "若…则附加{0}点伤害" */
-export const bonusDamageIf = (holds: (c: any) => boolean): ScriptEntry =>
+export const bonusDamageIf = (holds: (c: ApplyCtx) => boolean): ScriptEntry =>
   ({ apply: (c, p: P) => { if (holds(c)) hitFoe(c, p[0]); } });
 
 /** "若…，则{1}%自身{0}等级+{2}" */
-export const selfStageIf = (holds: (c: any) => boolean): ScriptEntry => ({
+export const selfStageIf = (holds: (c: ApplyCtx) => boolean): ScriptEntry => ({
   apply: (c, p: P) => { if (holds(c) && c.battle.rng.chance(p[1])) c.battle.changeStage(c.user, stat(p[0]), p[2], false); },
 });

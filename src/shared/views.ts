@@ -1,5 +1,6 @@
 // Display view types shared by the kernel snapshot, the features and their UI.
-import type { StatBlock, StatKey } from '../../raising/core/types.ts';
+import type { StatBlock } from '../../raising/core/types.ts';
+import type { StatKey } from '../../raising/core/stats.ts';
 
 export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
 export interface SkinChoiceView {species:number;name:string}

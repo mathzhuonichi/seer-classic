@@ -1,6 +1,6 @@
 // The one source of Chinese display labels for rule keys. Pure data: imported by the
 // controller, presentation builders and components, and never imports any of them.
-import type { StatKey } from '../../raising/core/types.ts';
+import type { StatKey } from '../../raising/core/stats.ts';
 
 export type StageKey = Exclude<StatKey, 'hp'> | 'acc' | 'eva';
 

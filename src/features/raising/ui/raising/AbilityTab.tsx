@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import type { MonsterView } from '../../../../shared/views.ts';
-import {STAT_KEYS,type StatKey} from '../../../../../raising/core/types.ts';
-import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../../../raising/core/stats.ts';
+import {STAT_KEYS} from '../../../../../raising/core/types.ts';
+import {EV_STAT_CAP,EV_TOTAL_CAP,type StatKey} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {statTotal} from '../../../../shared/monster-views.ts';
 import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,presetDraft,sameEvs} from '../../ev-draft.ts';

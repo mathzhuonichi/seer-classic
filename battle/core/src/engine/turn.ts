@@ -251,7 +251,7 @@ function turnEndHooks(b: Battle, mon: Mon): void {
     if (hook.when && !b.evalWhen(hook.when, { self: mon, foe: b.foeOf(mon) })) continue;
     if (hook.damage_pct_max_hp) {
       const amount = Math.max(1, Math.floor((mon.maxHp * hook.damage_pct_max_hp) / 100));
-      b.emit({ type: 'condition_tick', side: mon.side, condition: cond.id });
+      b.emit({ type: 'condition_tick', side: mon.side, slot: mon.slot, name: mon.name, conditionName: cond.def.name?.zh, condition: cond.id });
       const lost = b.dealDamage(mon, amount, { kind: 'percent', status: cond.id });
       if (hook.drain_to_foe) b.heal(b.foeOf(mon), lost);
     }

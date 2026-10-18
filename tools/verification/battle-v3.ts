@@ -12,7 +12,12 @@ const data = buildDataSet({
     { id: 1, name: { zh: '测试攻击' }, type: 'normal', category: 'physical', power: 300, accuracy: null, pp: 10 },
     { id: 2, name: { zh: '测试防守' }, type: 'normal', category: 'status', target: 'self', power: 0, accuracy: null, pp: 10 },
     { id: 3, name: { zh: '重击' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10 },
+    {
+      id: 4, name: { zh: '测试护盾' }, type: 'normal', category: 'status', target: 'self', power: 0, accuracy: null, pp: 10,
+      effects: [{ op: 'add_condition', target: 'self', condition: 'test_shield', turns: 5 }],
+    },
   ],
+  conditions: [{ id: 'test_shield', name: { zh: '护盾' }, hooks: [] }],
   items: [{ id: 'potion', name: { zh: '测试体力药' }, battle_effects: [{ op: 'heal', target: 'self', amount: 40 }] }],
   types: { chart: { normal: { normal: 1 } } },
 });
@@ -76,7 +81,18 @@ assert(actualCrit.some(event => event.type === 'damage' && event.crit === true))
 const logContext = { data, initialPlayer: { name: '伙伴', hp: 200, maxHp: 200 }, initialEnemy: { name: '对手', hp: 200, maxHp: 200 } };
 assert(groupedBattleLog(actualCrit, logContext).some(line => line.includes('测试攻击') && line.includes('致命一击') && line.includes('剩余体力')));
 assert(groupedBattleLog(actualCrit, logContext).some(line => line.startsWith('伙伴使用了测试攻击。')), 'Move-event skill names must not replace the acting creature name.');
-assert(groupedBattleLog([{ type: 'condition_tick', side: 0, condition: 'poison' }, { type: 'damage', side: 0, amount: 25, overkill: 0, hp: 175, maxHp: 200, status: 'poison' }], logContext)[0].includes('回合结束'));
+// The engine names the condition in its tick and refresh events, so the log can name it (no "技能效果" fallback).
+// Poisoned, the partner uses the shield skill twice: the shield is added, then refreshed.
+const residual = createBattle({ data, seed: 5, sides: [{ kind: 'player', team: [player({ skills: [4] })] }, { kind: 'wild', team: [foe()] }] });
+assert(residual.applyStatus(residual.active(0), 'poison', {}));
+const residualEvents = [1, 2].flatMap(() => { residual.submit(0, { kind: 'move', skill: 4 }); return residual.resolveTurn(); });
+const residualLog = groupedBattleLog(residualEvents, logContext);
+assert.deepEqual(residualEvents.find(event => event.type === 'condition_tick'),
+  { type: 'condition_tick', side: 0, slot: 0, name: '伙伴', conditionName: '中毒', condition: 'poison' });
+assert(residualLog.includes('伙伴的中毒在回合结束时生效。　伙伴因中毒受到 25 点伤害。剩余体力 175/200。'), residualLog.join('\n'));
+assert.deepEqual(residualEvents.find(event => event.type === 'condition_refreshed'),
+  { type: 'condition_refreshed', side: 0, slot: 0, name: '伙伴', conditionName: '护盾', condition: 'test_shield', turns: 5 });
+assert(residualLog.includes('伙伴使用了测试护盾。　伙伴的护盾效果更新为 5 回合。'), residualLog.join('\n'));
 
 const precision = traits.find(trait => trait.id === '1023')!;
 const resistance = traits.find(trait => trait.id === '1063')!;

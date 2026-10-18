@@ -5,6 +5,7 @@
 import type { ScriptRegistry } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { Mon } from '../engine/state.ts';
+import type { ApplyCtx } from './context.ts';
 import {
   BURN_DAMAGE_MULTIPLIER, PUNISH_MAX_POWER, PUNISH_POWER_PER_STAGE, REVERSAL_MIN_POWER, REVERSAL_POWER, REVERSAL_SCALE, STRANGE_STAGE_DEFAULT,
   STRANGE_STAGE_LIMIT, stageMultiplier,
@@ -15,7 +16,7 @@ import { armBench, attach, disarm, hasStatus, hitFoe, landed, moveStages, script
 type P = number[];
 
 /** The move landed and knocked the foe out. */
-const landedKo = (c: any) => c.ctx?.hit !== false && c.foe.fainted && c.ctx?.damageDealt > 0;
+const landedKo = (c: ApplyCtx) => c.ctx?.hit !== false && c.foe.fainted && c.ctx?.damageDealt > 0;
 
 function lowerMaxHp(b: Battle, m: Mon, by: number): void {
   m.maxHp = Math.max(1, m.maxHp - by);
@@ -160,7 +161,7 @@ const ENTRIES: ScriptRegistry = {
 
   // {0}%降低对手所有技能{1}点PP值，然后若对手所选择的技能PP值为0则当回合对手无法行动
   seer_eff_39: {
-    apply: (c: any, p: P) => {
+    apply: (c: ApplyCtx, p: P) => {
       const { battle, foe } = c;
       if (!landed(c) || !battle.rng.chance(p[0])) return;
       for (const id of foe.skills) foe.pp[id] = Math.max(0, foe.pp[id] - p[1]);
@@ -187,7 +188,7 @@ const ENTRIES: ScriptRegistry = {
 
   // 消耗自身全部体力(体力降到0)，使下一只出战精灵的{0}和{1}能力提升1个等级
   seer_eff_59: {
-    apply: (c: any, p: P) => {
+    apply: (c: ApplyCtx, p: P) => {
       const { battle, user } = c;
       armBench(battle, user.side, 'seer_eff_59', '能量传递', [p[0], p[1]]);
       battle.dealDamage(user, user.hp, { kind: 'true' });
@@ -223,7 +224,7 @@ const ENTRIES: ScriptRegistry = {
 
   // 当次攻击击败对方时减少对方下次出战精灵的最大体力1/{0}
   seer_eff_67: {
-    apply: (c: any, p: P) => { if (landedKo(c)) armBench(c.battle, c.foe.side, 'seer_eff_67', '体力削减', p[0]); },
+    apply: (c: ApplyCtx, p: P) => { if (landedKo(c)) armBench(c.battle, c.foe.side, 'seer_eff_67', '体力削减', p[0]); },
     hook: (c, div: number) => {
       lowerMaxHp(c.battle, c.holder, Math.floor(c.holder.maxHp / div));
       disarm(c.battle, c.holder.side, 'seer_eff_67', true);
@@ -262,7 +263,7 @@ const ENTRIES: ScriptRegistry = {
 
   // {0}回合内自身与对方反转战斗时属性 (swap types; restored when it ends)
   seer_eff_55: {
-    apply: (c: any, p: P) => {
+    apply: (c: ApplyCtx, p: P) => {
       const { battle, user, foe } = c;
       const data = { userTypes: [...user.types], foeTypes: [...foe.types], foeSide: foe.side };
       [user.types, foe.types] = [foe.types, user.types];

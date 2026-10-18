@@ -1,5 +1,6 @@
 import originalTraits from '../../data/traits.json';
 import type { Hook, HookPoint, ScriptRegistry } from '../../battle/core/src/index.ts';
+import type { HookCtx } from '../../battle/core/src/scripts/context.ts';
 import { STAT_BY_INDEX, STATUS_BY_INDEX, fromFoeAttack } from '../../battle/core/src/scripts/util.ts';
 
 export interface TraitDefinition {
@@ -16,7 +17,7 @@ export interface TraitDefinition {
 /** How one original effect id (Eid) behaves; `p` is the trait's zero-star Args. No later-star rates are substituted. */
 interface TraitEffect {
   /** A script hook replacing the recovered declarative hooks. */
-  script?: { on: HookPoint; hook: (c: any, p: number[]) => unknown };
+  script?: { on: HookPoint; hook: (c: HookCtx, p: number[]) => unknown };
   /** Declarative hooks replacing the recovered ones. */
   hooks?: (p: number[]) => Hook[];
   /** Appended to the Chinese description. */
@@ -31,8 +32,8 @@ const EID61_CHANCE = 3;
 /** Eid 30/64 remake calibration: one step on the engine's 16-point critical-rate scale. */
 const CRIT_STEP = 1;
 
-const chance = (c: any, percent: number) => c.battle.rng.chance(percent);
-const outgoingAttack = (c: any) => c.info?.kind === 'attack' && c.foe && c.foe.side !== c.holder.side;
+const chance = (c: HookCtx, percent: number) => c.battle.rng.chance(percent);
+const outgoingAttack = (c: HookCtx) => c.info?.kind === 'attack' && c.foe && c.foe.side !== c.holder.side;
 
 /** Eid 62/63: chance of extra damage on the holder's attacks of `category`. */
 const bonusDamage = (category: string): TraitEffect => ({ script: { on: 'modify_damage_outgoing', hook: (c, p) => {
@@ -63,7 +64,7 @@ const EFFECTS: Record<number, TraitEffect> = {
   32: { script: { on: 'modify_damage_outgoing', hook: (c, p) => {
     if (!outgoingAttack(c) || !chance(c, p[0])) return;
     // Respect the encounter's immunity; do not turn a blocked instant KO into a blocked ordinary hit.
-    if (c.battle.sides[c.foe.side].rules.some((r: any) => r.rule === 'immune_ohko')) return;
+    if (c.battle.sides[c.foe.side].rules.some((r) => r.rule === 'immune_ohko')) return;
     c.info.ohko = true;
     return c.foe.hp;
   } } },

@@ -15,6 +15,7 @@ the game adds its own registries (see [Game registries](#game-registries)).
 | `seer-tail.ts` | the other templates, with the interpretations and engine gaps they rely on |
 | `boss.ts` | boss rules (`install`) and phase ops (`apply`); exports `statusOnAttacker` for campaign rules |
 | `builders.ts` | entry factories: `timedScripts`, `ruleScripts` and the template families |
+| `context.ts` | the context type of each entry member (`ApplyCtx`, `HookCtx`, ...) |
 | `util.ts` | argument encodings, predicates, damage, stage and condition helpers |
 
 A number quoted in a template's text stays next to that quote. Any other number (formulas, AI estimates,
@@ -36,11 +37,12 @@ The game registries are built with the builders and helpers below (`builders.ts`
 
 ## Entry shape
 
-An entry is a function (treated as `apply`) or an object with any of:
+An entry is a function (treated as `apply`) or an object with any of the members below. Each member's context is typed
+in `context.ts`, so what a script emits (`battle.emit`) is checked against the `BattleEvent` union.
 
 | member | called | context `c` | return |
 |---|---|---|---|
-| `apply(c, p)` | effect phase, after damage, in effect order | `battle, user, foe, ctx` | ignored |
+| `apply(c, p)` | effect phase, after damage, in effect order; also a `script` AI spec's decision (`user` is the active monster) | `battle, user, foe, ctx` | ignored (the AI's action) |
 | `power(c, p, power)` | before damage; also by the read-only probe behind the AI's damage estimate, with `c.estimate = true`: **no RNG draws then** | `battle, user, foe, skill, ctx, estimate` | new power |
 | `priority(c, p)` | turn ordering | `battle, user, foe, skill` | new priority |
 | `crit(c, p)` | crit roll | `battle, user, foe, skill, ctx` | `{ force?, add? }` (add = x/16) |
@@ -51,9 +53,11 @@ An entry is a function (treated as `apply`) or an object with any of:
 | `ppCost(c, p)` | PP deduction | `battle, user, foe, skill` | PP spent |
 | `onMiss(c, p)` | the skill missed | `battle, user, foe, skill, ctx` | ignored |
 | `install(c, p)` | boss rule, once per matching team member at battle start | `battle, mon, side` | ignored |
+| `objective(c, p)` | a `script` win or lose objective | `battle` | `true` when met |
 | `hook(c, p)` | a condition hook `{ on, script: id, params }` fired | see below | see below |
 
-`ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst, user, target`.
+`ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst, user, target`, and `data`, state
+that a skill's members share during one move (seer_eff_185 remembers in `modifyDamage` what `apply` reads).
 
 ## Tables and builders
 
@@ -87,7 +91,8 @@ next monster to switch in.
 
 The hook's `c` has `battle, point, holder` (the monster carrying the condition),
 `cond` (the ActiveCondition: `turns`, `charges`, `data` for your own state), `hook`,
-`foe`, plus the point's extras:
+`foe`, plus the point's extras. The types cannot tell the points apart, so every extra is typed as set: read only the
+ones your points pass. `source`, `skill`, `turns` and `clear` can be unset even there (status damage has no source or skill).
 
 | point | extras | return |
 |---|---|---|

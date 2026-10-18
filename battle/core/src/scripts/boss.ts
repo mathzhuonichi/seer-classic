@@ -7,6 +7,7 @@
 import type { Hook, HookPoint, ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { Mon } from '../engine/state.ts';
+import type { ApplyCtx } from './context.ts';
 import { ALWAYS_FIRST_PRIORITY, RANDOM_PRIORITY_FLOOR } from '../constants.ts';
 import { ruleScripts, type HookFn, type RuleSpec } from './builders.ts';
 import { attach, fromFoeAttack, raiseStagesTo, ruleCondition, scriptHooks } from './util.ts';
@@ -26,7 +27,7 @@ function fieldMembers(b: Battle, owner: Mon, sides: string): Mon[] {
 export const statusOnAttacker: HookFn = (c) => {
   const p = c.cond.data;
   if (!fromFoeAttack(c) || (p.categories && !p.categories.includes(c.info.skill?.category)) || !c.battle.rng.chance(p.chance ?? 100)) return;
-  const turns = p.turns_min !== undefined ? [p.turns_min, p.turns_max ?? p.turns_min] : undefined;
+  const turns: [number, number] | undefined = p.turns_min !== undefined ? [p.turns_min, p.turns_max ?? p.turns_min] : undefined;
   c.battle.applyStatus(c.source, p.status, { turns, source: c.holder });
 };
 
@@ -129,7 +130,7 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
   // V56
   always_move_first: { on: ['modify_priority'], hook: () => ALWAYS_FIRST_PRIORITY },
   always_crit_after_turn: { on: ['modify_crit_rate'], hook: (c) => (c.battle.turn > c.cond.data.turn ? { force: true } : undefined) },
-  unlimited_pp_skill: { on: ['pp_cost'], hook: (c) => (c.skill.id === c.cond.data.skill ? 0 : undefined) },
+  unlimited_pp_skill: { on: ['pp_cost'], hook: (c) => (c.skill?.id === c.cond.data.skill ? 0 : undefined) },
 };
 
 /** Rules with their own install: one-off changes, plain conditions, and conditions on every field member. */
@@ -190,7 +191,7 @@ const INSTALL_RULES: Record<string, ScriptEntry> = {
   },
 };
 
-/** Phase ops `{ op: 'script', id, params }`. */
+/** Phase ops `{ op: 'script', id, params }`, and the `boss_fled` objective. */
 const PHASE_OPS: ScriptRegistry = {
   crit_rate_up: (c, p) => {
     c.battle.addCondition(c.user, {
@@ -205,7 +206,7 @@ const PHASE_OPS: ScriptRegistry = {
   },
   // V56
   ohko_attacks: {
-    apply: (c: any, p: any) => {
+    apply: (c: ApplyCtx, p?: { ignore_speed?: boolean }) => {
       c.user.persist.ohko_below_pct = true;
       if (p?.ignore_speed) attachRule(c.battle, c.user, 'always_move_first', ['modify_priority']);
       c.battle.emit({ type: 'boss_trait', side: c.user.side, trait: 'ohko_attacks' });
@@ -218,8 +219,8 @@ const PHASE_OPS: ScriptRegistry = {
     },
   },
   // The normal flee_after_skill path resolves this outcome immediately. This
-  // predicate also makes the catalog's explicit loss objective well-defined.
-  boss_fled: { apply: (c) => c.battle.result?.reason === 'boss_fled' },
+  // objective also makes the catalog's explicit loss objective well-defined.
+  boss_fled: { objective: (c) => c.battle.result?.reason === 'boss_fled' },
 };
 
 export const BOSS_SCRIPTS: ScriptRegistry = {

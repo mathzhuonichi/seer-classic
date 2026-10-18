@@ -2,6 +2,7 @@
 // charges, and dispatch of declarative and scripted hooks.
 
 import type { ConditionDef, EffectOp, Hook, HookPoint, ScriptEntry, Skill } from '../types.ts';
+import type { ApplyCtx, HookCtx, HookExtras } from '../scripts/context.ts';
 import type { Battle } from './battle.ts';
 import { emptyCtx, type ActiveCondition, type Mon } from './state.ts';
 import { findRule, hasRule } from './rules.ts';
@@ -47,7 +48,10 @@ export function addCondition(b: Battle, target: Mon, def: ConditionDef, turns?: 
     existing.appliedTurn = appliedTurnFor(b, target);
     if (level) existing.level = level;
     if (charges !== undefined) existing.charges = stack === 'add' ? (existing.charges ?? 0) + charges : charges;
-    b.emit({ type: 'condition_refreshed', side: target.side, slot: target.slot, condition: def.id, turns: existing.turns });
+    b.emit({
+      type: 'condition_refreshed', side: target.side, slot: target.slot, name: target.name, conditionName: existing.def.name?.zh,
+      condition: def.id, turns: existing.turns,
+    });
     return true;
   }
   target.conditions.push({ id: def.id, def, turns: n, level, charges, appliedTurn: appliedTurnFor(b, target) });
@@ -80,7 +84,7 @@ export function removeCondition(b: Battle, mon: Mon, id: string, expired: boolea
     if (h.on !== 'on_expire') continue;
     if (expired && h.effects) b.runEffects(h.effects, mon, b.foeOf(mon), emptyCtx());
     // scripted cleanup runs on any removal (expiry, cure, switch is not a removal)
-    if (h.script) b.script(h.script)?.hook?.({ battle: b, point: 'on_expire', holder: mon, cond: c, hook: h, foe: b.foeOf(mon), expired }, h.params);
+    if (h.script) b.script(h.script)?.hook?.(hookCtx(b, 'on_expire', mon, c, h, { expired }), h.params);
   }
 }
 
@@ -95,7 +99,7 @@ export function rollTurns(b: Battle, t: ConditionDef['default_turns']): number {
 export function script(b: Battle, id: string): ScriptEntry | undefined {
   const s = b.scripts[id];
   if (!s) return undefined;
-  return typeof s === 'function' ? { apply: s, hook: s } : s;
+  return typeof s === 'function' ? { apply: s } : s;
 }
 
 /** The skill's `script` effect ops that have a registered entry. */
@@ -110,18 +114,26 @@ export function skillScripts(b: Battle, skill: Skill): { entry: ScriptEntry; op:
 }
 
 /** Call every `script` hook at this point; returns their non-undefined results. */
-export function fire(b: Battle, mon: Mon, point: HookPoint, extra: Record<string, unknown>): unknown[] {
+export function fire(b: Battle, mon: Mon, point: HookPoint, extra: HookExtras): unknown[] {
   const out: unknown[] = [];
   if (b.probing) return out;
   for (const { cond, hook } of b.hooksWithCond(mon, point)) {
     if (!hook.script) continue;
-    if (hook.when && !b.evalWhen(hook.when, { self: mon, foe: b.foeOf(mon), skill: extra.skill as Skill | undefined })) continue;
+    if (hook.when && !b.evalWhen(hook.when, { self: mon, foe: b.foeOf(mon), skill: extra.skill })) continue;
     const fn = b.script(hook.script)?.hook;
     if (!fn) { b.warn(`unknown script ${hook.script}`); continue; }
-    const r = fn({ battle: b, point, holder: mon, cond, hook, foe: b.foeOf(mon), ...extra }, hook.params);
+    const r = fn(hookCtx(b, point, mon, cond, hook, extra), hook.params);
     if (r !== undefined) out.push(r);
   }
   return out;
+}
+
+/**
+ * A script hook's context: the holder's foe unless the point names another, and the point's extras. Hooks read only
+ * the extras their points pass and the state their condition was attached with (scripts/context.ts), so the cast holds.
+ */
+export function hookCtx(b: Battle, point: HookPoint, holder: Mon, cond: ActiveCondition, hook: Hook, extra: HookExtras): HookCtx {
+  return { battle: b, point, holder, cond, hook, foe: b.foeOf(holder), ...extra } as HookCtx;
 }
 
 export function hooksWithCond(mon: Mon, on: HookPoint): { cond: ActiveCondition; hook: Hook }[] {
@@ -131,7 +143,7 @@ export function hooksWithCond(mon: Mon, on: HookPoint): { cond: ActiveCondition;
 }
 
 /** Runs the declarative effects of the hooks at this point, then its script hooks. */
-export function runHookEffects(b: Battle, mon: Mon, on: HookPoint, foe?: Mon, extra: Record<string, unknown> = {}): void {
+export function runHookEffects(b: Battle, mon: Mon, on: HookPoint, foe?: Mon, extra: HookExtras = {}): void {
   for (const { hook } of b.hooksWithCond(mon, on)) {
     if (hook.script) continue;
     if (hook.when && !b.evalWhen(hook.when, { self: mon, foe: foe ?? b.foeOf(mon) })) continue;
@@ -146,9 +158,10 @@ export function levelMult(hook: Hook, cond: ActiveCondition): number {
   return hook.multiplier ?? 1;
 }
 
-export function callScript(b: Battle, id: string, ctx: unknown, params: unknown): unknown {
+/** Runs script `id`'s `apply` (an effect op, or a `script` AI spec's decision). */
+export function callScript(b: Battle, id: string, ctx: Omit<ApplyCtx, 'battle'>, params: unknown): unknown {
   if (b.probing) return undefined;
   const entry = b.script(id);
   if (!entry) { b.warn(`unknown script ${id}`); return undefined; }
-  return entry.apply?.({ battle: b, ...(ctx as object) }, params);
+  return entry.apply?.({ battle: b, ...ctx }, params);
 }

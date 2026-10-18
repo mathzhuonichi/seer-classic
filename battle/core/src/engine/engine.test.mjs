@@ -85,3 +85,17 @@ test('prepare decides once for an automatic side and declines what resolveTurn m
   hooked.addCondition(hooked.active(1), {id: 'choice', hooks: [{on: 'choose_action', script: 'pick'}]});
   assert.equal(hooked.prepare(1), null, 'choose_action hooks run game code');
 });
+
+test('a script objective is met by its script\'s objective member, and an entry without one warns', () => {
+  const scripts = {met: {objective: () => true}, apply_only: {apply: () => true}};
+  const turnWithLose = id => {
+    const battle = new Battle(options({policy: fixed, scripts, encounter: {id: 'fixture', team: [member()], lose: [{kind: 'script', id}]}}));
+    battle.submit(0, {kind: 'move', skill: 1});
+    battle.resolveTurn();
+    return battle;
+  };
+  assert.equal(turnWithLose('met').result?.reason, 'lose_condition');
+  const missing = turnWithLose('apply_only');
+  assert.equal(missing.result, null);
+  assert.deepEqual(missing.warnings, ['script apply_only has no objective']);
+});

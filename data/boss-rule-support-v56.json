@@ -2407,7 +2407,7 @@
           "fields": [
             "status"
           ],
-          "implementation": "apply"
+          "implementation": "objective"
         }
       ],
       "unsupported": [],
@@ -4919,7 +4919,7 @@
           "fields": [
             "kind"
           ],
-          "implementation": "apply"
+          "implementation": "objective"
         },
         {
           "rule": "condition:first_turn",

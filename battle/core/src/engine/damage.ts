@@ -6,7 +6,7 @@ import type { Battle } from './battle.ts';
 import { emptyCtx, zeroStages, type DamageInfo, type Mon, type MoveCtx } from './state.ts';
 import * as C from '../constants.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from '../typechart.ts';
-import { levelMult, runHookEffects, skillScripts } from './conditions.ts';
+import { hookCtx, levelMult, runHookEffects, skillScripts } from './conditions.ts';
 import { checkEnd, findRule, hasRule, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
 import { traceHit } from './journal.ts';
 import { dealsDamage } from './move.ts';
@@ -176,7 +176,7 @@ function transformDamage(b: Battle, mon: Mon, point: 'modify_damage_outgoing' | 
     if (hook.when && !b.evalWhen(hook.when, { self: mon, foe, skill: extra.skill, kind: extra.info.kind })) continue;
     const fn = b.script(hook.script)?.hook;
     if (!fn) { b.warn(`unknown script ${hook.script}`); continue; }
-    const next = fn({ battle: b, point, holder: mon, cond, hook, foe, ...extra, amount: current }, hook.params);
+    const next = fn(hookCtx(b, point, mon, cond, hook, { ...extra, foe, amount: current }), hook.params);
     if (typeof next === 'number') current = Math.max(0, Math.floor(next));
   }
   return current;

@@ -33,6 +33,9 @@ await withSsr('battle-observe-v58',async load=>{
   const catalog=await loadCatalog(),realData=buildDataSet(catalog);
   const realScripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
   const serial=value=>JSON.stringify(value,(_key,v)=>v instanceof Map?[...v]:v instanceof Set?[...v]:v===Infinity?'Infinity':v);
+  // Fields that events gained after BASE_REVISION: labels for what the base engine already reported.
+  const LABELS={condition_refreshed:['name','conditionName'],condition_tick:['slot','name','conditionName']};
+  const unlabelled=events=>events.map(e=>LABELS[e.type]?Object.fromEntries(Object.entries(e).filter(([k])=>!LABELS[e.type].includes(k))):e);
   const move=skill=>({kind:'move',skill});
 
   // ---------- real-data corpus ----------
@@ -62,10 +65,10 @@ await withSsr('battle-observe-v58',async load=>{
       const now=createBattle(facilityOptions(seed,facility));
       if(base){
         const then=new base.Battle(facilityOptions(seed,facility)),stepNow=driver(seed),stepThen=driver(seed);
-        assert.equal(serial(now.initialEvents),serial(then.initialEvents),`${facility}/${seed}: initial events`);
+        assert.equal(serial(unlabelled(now.initialEvents)),serial(then.initialEvents),`${facility}/${seed}: initial events`);
         for(let n=0;!now.result&&!then.result&&n<400;n++){
           const a=stepNow(now),b=stepThen(then);turns++;
-          assert.equal(serial(a),serial(b),`${facility}/${seed} turn ${now.turn}: events`);
+          assert.equal(serial(unlabelled(a)),serial(b),`${facility}/${seed} turn ${now.turn}: events`);
           assert.equal(serial(now.state),serial(then.state),`${facility}/${seed} turn ${now.turn}: state`);
           assert.equal(now.rng.draws,then.rng.draws,`${facility}/${seed} turn ${now.turn}: RNG draws`);
         }

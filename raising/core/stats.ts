@@ -1,5 +1,8 @@
-import type { Dex, Monster, Nature, StatBlock, StatKey } from "./types.ts";
+import type { Dex, Monster, Nature, StatBlock } from "./types.ts";
 import { STAT_KEYS } from "./types.ts";
+
+/** The six stats, shared by the raising rules and the battle core. */
+export type StatKey = "hp" | "atk" | "def" | "spa" | "spd" | "spe";
 
 export const IV_MIN = 0;
 export const IV_NATURAL_MIN = 1; // new monsters roll 1-31; 0 only comes from a re-roll item

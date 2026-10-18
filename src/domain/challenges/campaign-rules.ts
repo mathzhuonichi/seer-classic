@@ -26,8 +26,8 @@ const positive = (stages: StageMap): StageMap => Object.fromEntries(Object.entri
 
 /** Rules whose condition (named `name`, params as its state) reacts through a script hook. */
 const SCRIPTED: Record<string, RuleSpec & {name: string}> = {
-  only_sure_hit_moves_land: {name: '虚无封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill.accuracy !== null ? 'miss' : undefined},
-  status_moves_always_miss: {name: '圣洁封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill.category === 'status' ? 'miss' : undefined},
+  only_sure_hit_moves_land: {name: '虚无封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill?.accuracy !== null ? 'miss' : undefined},
+  status_moves_always_miss: {name: '圣洁封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill?.category === 'status' ? 'miss' : undefined},
   ko_attacker_on_big_hit: {name: '能量封印', on: ['on_hurt'], hook: c => {
     const {holder, source, info, amount} = c;
     const p = c.cond.data;
@@ -49,7 +49,7 @@ const SCRIPTED: Record<string, RuleSpec & {name: string}> = {
     const turn = c.holder.turnsActive;
     const order: string[] = c.cond.data.order ?? ['special', 'physical', 'status'];
     if (!c.targetsHolder || turn < 2 || turn % 2 !== 0 || !order.length) return;
-    return c.skill.category === order[(turn / 2 - 1) % order.length] ? 'negate' : undefined;
+    return c.skill?.category === order[(turn / 2 - 1) % order.length] ? 'negate' : undefined;
   }},
   vs_type_use_only: {name: '属性应战', on: ['choose_action'], hook: c => {
     if (c.battle.foeOf(c.holder).types.includes(c.cond.data.type)) return {kind: 'move', skill: c.cond.data.skill};
@@ -58,14 +58,14 @@ const SCRIPTED: Record<string, RuleSpec & {name: string}> = {
   // The engine's hook, honoring encounter-specific categories; each repeated rule keeps its own condition.
   status_on_attacker: {name: '受击异常反击', on: ['on_hurt'], hook: statusOnAttacker},
   campaign_qilin_damage_filter: {name: '麒麟轮回屏障', on: ['modify_damage_final'], hook: c => {
-    const {info, source, holder} = c;
+    const {info, source, holder} = c, skill = info.skill;
     if (!source || source.side === holder.side) return;
     const mode = c.cond.data.mode;
     const fixed = info.kind === 'fixed' && !info.ohko && (c.cond.data.allowFixed ?? mode !== 'critical');
-    const attack = info.kind === 'attack' && !!info.skill;
+    const attack = info.kind === 'attack' && !!skill;
     const allowed = fixed || (mode === 'critical' && attack && info.crit) ||
       (['priority_or_ramping', 'ramping'].includes(mode) && attack &&
-        (ramping(info.skill) || (mode === 'priority_or_ramping' && intrinsicPriority(c.battle, source, holder, info.skill))));
+        (ramping(skill) || (mode === 'priority_or_ramping' && intrinsicPriority(c.battle, source, holder, skill))));
     return allowed ? c.amount : 0;
   }},
   campaign_qilin_low_damage_crit: {name: '麒麟怒意', on: ['on_hurt'], hook: c => {
@@ -93,7 +93,7 @@ export const campaignScripts: ScriptRegistry = {
   always_hit: {install: c => attach(c.battle, c.mon, 'always_hit', '必中', [{on: 'modify_accuracy', force_hit: true}])},
   foe_accuracy_penalty: {install: (c, p) =>
     attach(c.battle, c.mon, 'foe_accuracy_penalty', '命中压制', [{on: 'modify_accuracy_taken', multiplier: 1 - (p.pct ?? 0) / 100}])},
-  finish_while_foe_status: {apply: (c: any, p: any) => {
+  finish_while_foe_status: {objective: (c, p) => {
     const ko = c.battle.lastKo;
     return ko?.target.side === 1 && ko.by?.side === 0 && ko.targetStatuses.includes(p.status);
   }},

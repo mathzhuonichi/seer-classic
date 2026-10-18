@@ -12,8 +12,13 @@ export interface BattleLogContext {
   hideEnemyHp?: boolean;
 }
 type Sided = { side: 0 | 1 };
-const conditionName = (id: string) => STATUS_LABELS[id] || (id && !/^(seer_|boss_|trait-|\d)/.test(id) && /[一-鿿]/.test(id) ? id : '技能效果');
-const conditionLabel = (event: { condition: string; conditionName?: string }) => event.conditionName || conditionName(event.condition);
+const CHINESE = /[一-鿿]/;
+const conditionName = (id: string) => STATUS_LABELS[id] || (id && !/^(seer_|boss_|trait-|\d)/.test(id) && CHINESE.test(id) ? id : '技能效果');
+type Named = { condition: string; conditionName?: string };
+/** The condition's Chinese name; Boss rule conditions are named by their rule ids, which are not shown. */
+const conditionLabel = (event: Named) => event.conditionName && CHINESE.test(event.conditionName) ? event.conditionName : conditionName(event.condition);
+/** The condition as "…效果", without doubling the fallback's own 效果. */
+const effectLabel = (event: Named) => { const label = conditionLabel(event); return label.endsWith('效果') ? label : `${label}效果`; };
 const stageLabel = (stat: StageKey) => STAGE_LABELS[stat] || '能力';
 /** The opposing side's events; events without a side belong to the player's line. */
 const onFoe = (event: BattleEvent) => 'side' in event && event.side === 1;
@@ -50,9 +55,11 @@ function battleEndText(event: EventOf<'battle_end'>): string {
 
 /** Format one event for the centered dialogue; pass current displayed creature names. */
 export function battleEventText(event: BattleEvent, context: BattleLogContext): string {
-  const mon = onFoe(event) ? context.initialEnemy : context.initialPlayer;
+  const foe = onFoe(event), mon = foe ? context.initialEnemy : context.initialPlayer, other = foe ? context.initialPlayer : context.initialEnemy;
   // A move's own `name` is its skill's.
-  const name = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
+  const bare = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
+  // Both sides can field the same species: then the side tells them apart.
+  const name = 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
   const skill = (id: number) => context.data.skills.get(id)?.name.zh || '技能';
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
@@ -65,13 +72,13 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'revive': return `${name}恢复了战斗能力${remaining(event, context, '，')}。`;
     case 'miss': return `${name}的${skill(event.skill)}没有命中。`;
     case 'faint': return `${name}失去战斗能力。`;
-    case 'switch_in': return `${sideLabel(event)}派出了${speciesName(event, context) || name}。`;
+    case 'switch_in': return `${sideLabel(event)}派出了${speciesName(event, context) || bare}。`;
     case 'switch_out': return `${name}返回精灵胶囊。`;
     case 'transform': return `${name}变为${speciesName(event, context) || '新的形态'}。`;
     case 'status_applied': return `${name}陷入${conditionName(event.status)}${lasting(event)}。`;
-    case 'condition_added': return `${name}获得${conditionLabel(event)}效果${lasting(event)}。`;
-    case 'condition_refreshed': return `${name}的${conditionLabel(event)}效果更新${Number.isFinite(event.turns) ? `为 ${event.turns} 回合` : ''}。`;
-    case 'condition_removed': return `${name}的${conditionLabel(event)}${event.reason === 'expired' ? '效果结束' : '已解除'}。`;
+    case 'condition_added': return `${name}获得${effectLabel(event)}${lasting(event)}。`;
+    case 'condition_refreshed': return `${name}的${effectLabel(event)}更新${Number.isFinite(event.turns) ? `为 ${event.turns} 回合` : ''}。`;
+    case 'condition_removed': return `${name}的${event.reason === 'expired' ? `${effectLabel(event)}结束` : `${conditionLabel(event)}已解除`}。`;
     case 'condition_tick': return `${name}的${conditionLabel(event)}在回合结束时生效。`;
     case 'stat_stage': return stageText(event, name);
     case 'stages_cleared': return `${name}的能力${event.which === 'up' ? '提升' : event.which === 'down' ? '下降' : '变化'}已清除。`;
@@ -93,9 +100,11 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   }
 }
 
-/** Events that open a new log entry. */
+/** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
 const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
-  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
+  event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 
 /** Each entry is one action and its consequences, or one residual/end-of-turn group. */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
@@ -103,8 +112,10 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
   const groups: string[] = [];
   let current: string[] = [];
   const flush = () => { if (current.length) groups.push(current.join('　')); current = []; };
+  let previous: BattleEvent | undefined;
   for (const event of events) {
-    if (GROUP_STARTS.has(event.type)) flush();
+    if (GROUP_STARTS.has(event.type) && !continuesSwitch(event, previous)) flush();
+    previous = event;
     const mon = onFoe(event) ? shown.initialEnemy : shown.initialPlayer;
     if (event.type === 'switch_in' || event.type === 'transform') {
       mon.name = speciesName(event, context) || mon.name;

@@ -3,7 +3,7 @@
 
 import type { Action, BattlePolicy } from '../../core/src/types.ts';
 import type { Battle } from '../../core/src/engine/battle.ts';
-import type { Side } from '../../core/src/engine/state.ts';
+import { emptyCtx, type Side } from '../../core/src/engine/state.ts';
 import { STRUGGLE_SKILL } from '../../core/src/constants.ts';
 import { legacySmartPick } from './legacy-ai.ts';
 import { rolloutReplacement, searchAction, searchReplacement } from './search-ai.ts';
@@ -57,7 +57,7 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     case 'random':
       return move(battle.rng.pick(usable));
     case 'script': {
-      const a = battle.callScript(ai.id!, { side, mon }, ai.params) as Action | undefined;
+      const a = battle.callScript(ai.id!, { user: mon, foe: battle.foeOf(mon), ctx: emptyCtx() }, ai.params) as Action | undefined;
       return a ?? move(battle.rng.pick(usable));
     }
     case 'smart':
