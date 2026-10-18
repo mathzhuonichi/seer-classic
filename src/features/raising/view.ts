@@ -1,5 +1,5 @@
 // Snapshot views of owned monsters, their skills and their engravings.
-import { computeStats, evolutionOptions, expToNext, findMon, type Monster } from '../../../raising/core/index.ts';
+import { activeBeads, computeStats, evolutionOptions, expToNext, findMon, type Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
 import {
@@ -58,7 +58,7 @@ function evolutionChoices(ctx: GameContext, save: GameSave, mon: Monster): Evolu
 
 /** The player-wide EXP and 学习力 boosts, and this monster's energy bead. */
 function activeBoosts(ctx: GameContext, save: GameSave, mon: Monster): BoostView[] {
-  return (save.boosts ?? []).filter(boost => boost.kind !== 'energy_bead' || boost.uid === mon.uid).map(boost => ({
+  return [...(save.boosts ?? []).filter(boost => boost.kind !== 'energy_bead'), ...activeBeads(save, mon.uid)].map(boost => ({
     name: (ctx.catalog.items.find(item => item.id === boost.item)?.name as { zh?: string } | undefined)?.zh ?? boost.item, battlesLeft: boost.battles_left,
   }));
 }
