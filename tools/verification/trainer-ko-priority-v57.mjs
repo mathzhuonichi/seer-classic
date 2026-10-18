@@ -1,20 +1,15 @@
 /** Independent immediate-KO priority and public-information boundary regression. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import crypto from 'node:crypto';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {sha256File,suite,withSsr} from './_harness.mjs';
 
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const baseline=process.argv.includes('--baseline');
-const report={checks:[],failures:[],witnesses:[],mode:baseline?'pre-fix-reproduction':'regression',scope:'Immediate first-action knockouts against the public opponent model, plus independent actual-engine witnesses. This does not certify unknown opponent builds or unseen moves.'};
-const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-const previousFetch=globalThis.fetch;let networkRequests=0;
+const report={witnesses:[],mode:baseline?'pre-fix-reproduction':'regression',scope:'Immediate first-action knockouts against the public opponent model, plus independent actual-engine witnesses. This does not certify unknown opponent builds or unseen moves.'};
+let networkRequests=0;
 globalThis.fetch=()=>{networkRequests++;throw new Error('KO verification must remain offline.');};
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/trainer-ko-priority-v57'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-try{
-  const [{createBattle},{buildDataSet},{chooseAiAction},{computeStats},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(id=>server.ssrLoadModule(id)));
+await withSsr('trainer-ko-priority-v57',async load=>{
+  // The pre-fix reproduction (--baseline) reports beside the regression, in its own folder.
+  const t=suite(baseline?'trainer-ko-priority-v57/baseline':'trainer-ko-priority-v57'),{check}=t;
+  const [{createBattle},{buildDataSet},{chooseAiAction},{computeStats},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(load));
   const S={quick:57001,clear:57002,wait:57003,foeHit:57004,heal:57005,control:57006,shield:57007,fixed:57008,lottery:57009,multi:57010,probPower:57011,foeStatus:57012,foeUnknown:57013,steal:11924};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100},publicStats=computeStats(base,50,15);
   const attack=(id,power=80,extra={})=>({id,name:{zh:`KO fixture ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});
@@ -150,9 +145,6 @@ try{
     });
   }
   check('The verification makes no network requests',()=>assert.equal(networkRequests,0));
-  report.sourceHashes=Object.fromEntries(['battle/ai/src/ai.ts','battle/ai/src/search-ai.ts','battle/core/src/engine/battle.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  await server.close();globalThis.fetch=previousFetch;const dir=path.join(root,'artifacts/trainer-ko-priority-v57');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,baseline?'baseline.json':'regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify(report,null,2));if(report.failures.length)process.exitCode=1;
-}
+  report.sourceHashes=Object.fromEntries(['battle/ai/src/ai.ts','battle/ai/src/search-ai.ts','battle/core/src/engine/battle.ts'].map(file=>[file,sha256File(file)]));
+  t.finish(report);
+});
