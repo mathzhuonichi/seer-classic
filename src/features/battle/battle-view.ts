@@ -1,12 +1,10 @@
 // Snapshot views of the open battle.
 import { MAX_TURNS, type Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
-import {buildBossEvidence} from '../challenges/index.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
 import { capacityReason, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
-import type { GameContext } from '../../kernel/api.ts';
-import type { BattleSession, Runtime } from '../../kernel/api.ts';
+import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
 import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
 export function battleMonsterView(ctx: GameContext, session: BattleSession, mon: Mon): BattleMonsterView {
@@ -18,7 +16,7 @@ export function battleMonsterView(ctx: GameContext, session: BattleSession, mon:
     hp: mon.hp, maxHp: mon.maxHp, fainted: mon.fainted, types: mon.types.map(typeLabel), portrait: portrait(appearance),
     skills: mon.skills.map(id => skillView(ctx.data, id, mon.pp, mon.skillOverrides?.[id])),
     statuses: mon.conditions.filter(c => c.def.kind === 'status').map(c => statusLabel(c.id) ?? c.def.name?.zh ?? c.id),
-    stages: { ...mon.stages }, evidence: mon.side === 1 && session.encounter ? buildBossEvidence(session.encounter, mon.slot) : undefined,
+    stages: { ...mon.stages }, evidence: mon.side === 1 && session.encounter ? session.hooks.evidence?.(session.encounter, mon.slot) : undefined,
   };
 }
 

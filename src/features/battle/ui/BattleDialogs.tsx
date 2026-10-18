@@ -1,8 +1,12 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, type ComponentType, type ReactNode } from 'react';
 import type { BattleMonsterView, BossEvidenceView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
-import {BossEvidenceContent} from '../../challenges/ui.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
+
+type EvidenceTable = ComponentType<{ evidence: BossEvidenceView }>;
+/** The Boss evidence table: features/challenges owns Boss evidence and provides it, since battle UI may not import challenges. */
+let EvidenceContent: EvidenceTable = () => null;
+export const provideEvidenceContent = (table: EvidenceTable) => { EvidenceContent = table; };
 
 /** A modal over the battle; a click on the backdrop closes it. */
 function BattleModal({ className, label, title, closeLabel, autoFocus = false, onClose, children }: {
@@ -24,7 +28,7 @@ export function BattleEvidenceDialog({ name, evidence, onClose }: { name: string
     return () => window.removeEventListener('keydown', close);
   }, [onClose]);
   return <BattleModal className="classic-boss-evidence-modal" label={`${name}参数依据`} title={`${name} · 资料依据`} closeLabel="关闭资料依据" autoFocus onClose={onClose}>
-    <BossEvidenceContent evidence={evidence}/>
+    <EvidenceContent evidence={evidence}/>
   </BattleModal>;
 }
 

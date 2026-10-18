@@ -1,9 +1,5 @@
 {
   "imports": [
-    "src/features/battle/battle-actions.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/battle-view.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/ui/BattleDialogs.tsx -> src/features/challenges/ui.ts: features/battle may not depend on features/challenges",
     "src/features/challenges/progress-views.ts -> src/features/collection/index.ts: features/challenges may not depend on features/collection",
     "src/features/collection/encounter-views.ts -> src/features/challenges/index.ts: features/collection may not depend on features/challenges",
     "src/shared/audio/action-sounds.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
@@ -81,10 +77,6 @@
     "src/features/battle/battle-runtime-clock.ts": {
       "lines": 0,
       "long": 2
-    },
-    "src/features/battle/settlement.ts": {
-      "lines": 0,
-      "long": 1
     },
     "src/features/battle/ui/BattleCommandDeck.tsx": {
       "lines": 0,

@@ -7,12 +7,13 @@ import type { CollectionAction, CollectionSlice } from '../features/collection/i
 import type { EngravingsAction } from '../features/engravings/index.ts';
 import type { ItemsAction, ItemsSlice } from '../features/items/index.ts';
 import type { RaisingAction, RaisingSlice } from '../features/raising/index.ts';
+import type { WorldAction } from '../features/world/index.ts';
 
 /** The kernel's own action and slice: the notice queue. */
 export type KernelAction = { type: 'dismissNotice' };
 export interface KernelSlice { notices: string[] }
 
-export type GameAction = KernelAction | BattleAction | ChallengesAction | CollectionAction | EngravingsAction | ItemsAction | RaisingAction;
+export type GameAction = KernelAction | BattleAction | ChallengesAction | CollectionAction | EngravingsAction | ItemsAction | RaisingAction | WorldAction;
 export type GameSnapshot = KernelSlice & BattleSlice & ChallengesSlice & CollectionSlice & ItemsSlice & RaisingSlice;
 
 export interface GameController {

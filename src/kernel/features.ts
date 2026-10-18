@@ -5,6 +5,7 @@ import { collectionFeature } from '../features/collection/index.ts';
 import { engravingsFeature } from '../features/engravings/index.ts';
 import { itemsFeature } from '../features/items/index.ts';
 import { raisingFeature } from '../features/raising/index.ts';
+import { worldFeature } from '../features/world/index.ts';
 import type { Feature, GameContext, HandlerResult, Runtime } from './api.ts';
 import type { GameAction, GameSnapshot, KernelAction, KernelSlice } from './contract.ts';
 
@@ -14,7 +15,9 @@ const kernelFeature: Feature<KernelAction, KernelSlice> = {
   slice: () => rt => ({ notices: [...rt.notices] }),
 };
 
-const REGISTRY = [kernelFeature, battleFeature, challengesFeature, collectionFeature, engravingsFeature, itemsFeature, raisingFeature] as const;
+const REGISTRY = [
+  kernelFeature, battleFeature, challengesFeature, collectionFeature, engravingsFeature, itemsFeature, raisingFeature, worldFeature,
+] as const;
 
 // The registry must own exactly the contract's actions and snapshot fields; a mismatch fails to compile here.
 type Registered = (typeof REGISTRY)[number];
