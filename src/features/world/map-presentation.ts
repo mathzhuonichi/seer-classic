@@ -121,6 +121,20 @@ const originalOverrides:Record<number,Partial<ScenePlacement>>={
   726:{habitat:[point(41,70),point(65,66),point(77,72),point(85,84),point(69,97),point(42,97),point(29,89),point(32,80)],
     homes:[point(49,71),point(64,76),point(79,81),point(36,84),point(51,88),point(66,94)],
     roam:point(2.2,1.5),homeRoam:point(2.2,1.5)},
+  // The road mask's open ground left of the ice is a slanted band; its largest
+  // rectangle is too small for six residents. Separate local territories stagger
+  // them along the band, clear of the gun at the lower left.
+  669:{habitat:[point(21.5,52.3),point(40,52.3),point(36.5,55.3),point(33,59),point(30,62.5),point(30.5,65),point(33,68.5),
+    point(30.5,70),point(31,72.5),point(37,73.5),point(40,78.5),point(40,81.5),point(11,81.5),point(4,74.5),point(3.5,72),
+    point(7,69),point(8.8,67.2),point(12.8,64.3),point(16.5,60),point(20,55.5)],
+    homes:[point(33,54.5),point(21,61),point(11.2,68.6),point(27.5,69.5),point(21,79),point(36,79.5)],
+    roam:point(2,1.5),homeRoam:point(2,1.5)},
+  // The road mask's largest rectangle covers only part of the cliff-top ledge. Add the
+  // open lip below it, to the left, and keep the scene's two residents far apart.
+  727:{habitat:[point(43,56.5),point(58.5,56.5),point(58.5,66),point(62.5,66.5),point(64.5,68),point(67,70),point(67,73),
+    point(25,73),point(25,70),point(39.8,69.7),point(41.5,63)],
+    homes:[point(52,61),point(28,71.5),point(45,67),point(36,71.5),point(60,70.5),point(48,58.5)],
+    roam:point(2.5,1.5)},
 };
 
 export function getSceneLayout(planet:WorldPlanet,region:WorldRegion):SceneLayout {

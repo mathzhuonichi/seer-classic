@@ -14,7 +14,7 @@ function habitatRegion(definition: HabitatRegionDefinition, position: number): W
   };
 }
 
-/** Appends the source-backed subregions (explicit parent-artwork adaptations); the input is not modified. */
+/** Appends the source-backed subregions, each on the background its backgroundMapId names (its own map's or its parent's); the input is not modified. */
 export function addHabitatRegions(planets: readonly WorldPlanet[]): WorldPlanet[] {
   const regions = new Map<string, WorldRegion[]>();
   for (const definition of definitions.regions) {

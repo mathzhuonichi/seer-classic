@@ -47,9 +47,14 @@ try {
     .filter(row => row.categories.some(category => CONVERTED_POLICY_CATEGORIES.includes(category)))
     .map(row => row.species));
   const sourceRegions = new Map(list(mapConfig.json.Maps.map).map(map => [Number(map.id), map]));
+  const sourceMapNames = new Map(maps.json.Maps.Map.map(map => [map.ID, map.Name]));
   for (const expansion of expansions.regions) {
     const map = sourceRegions.get(expansion.originalMapId);
-    if (map?.name !== expansion.name || Number(map?.super) !== expansion.sourceParentMapId) {
+    // A region takes its maps.json name only where map_config.json's name is another landing's on the same planet.
+    const landings = WORLD_PLANETS.find(planet => planet.id === expansion.planetId)?.regions ?? [];
+    const taken = landings.some(region => region.id !== expansion.id && region.name === map?.name);
+    const named = expansion.name === map?.name || (taken && expansion.name === sourceMapNames.get(expansion.originalMapId));
+    if (!named || Number(map?.super) !== expansion.sourceParentMapId) {
       throw new Error(`Habitat membership differs from source: ${expansion.id}`);
     }
   }

@@ -61,6 +61,13 @@ await withSsr('graphical-atlas',async load=>{
       ...stray(planet,planet.id,['name','subtitle']),...planet.regions.flatMap(region=>stray(region,`${planet.id}/${region.id}`,['name','description']))])];
     assert.deepEqual(found,[]);
   });
+  check('A planet\'s landings have distinct names, and each drawn habitat label is its landing\'s name',()=>{
+    for(const planet of WORLD_PLANETS){const names=planet.regions.map(region=>region.name);assert.equal(new Set(names).size,names.length,planet.id);}
+    for(const node of Object.values(pages).flatMap(page=>page.nodes).filter(node=>node.habitatExpansion&&node.drawLabel)){
+      const region=WORLD_PLANETS.find(planet=>planet.id===node.planetId)?.regions.find(entry=>entry.id===node.targetId);
+      assert.equal(node.label,region?.name,`${node.planetId}/${node.targetId}`);
+    }
+  });
   check('All atlas artwork is shipped under /ui/classic/',()=>{
     for(const asset of assets){
       assert(asset?.startsWith('/ui/classic/'),`Unexpected source artwork path ${asset}`);

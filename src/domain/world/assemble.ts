@@ -44,7 +44,7 @@ function applyArtwork(planet: WorldPlanet, artwork: WorldSources['artwork']) {
   const base = artwork[String(planet.originalMapId)];
   if (base) { planet.background = artworkUrl(base); planet.sceneAttribution = artworkAttribution(base); }
   for (const region of planet.regions) {
-    const mapId = [region.originalMapId, region.backgroundMapId, planet.originalMapId].find(id => id !== undefined && artwork[String(id)]);
+    const mapId = [region.backgroundMapId, region.originalMapId, planet.originalMapId].find(id => id !== undefined && artwork[String(id)]);
     const image = artwork[String(mapId)];
     if (!image) continue;
     region.background = artworkUrl(image); region.backgroundAssetMapId = mapId;

@@ -72,7 +72,7 @@ await withSsr('maps-placement-v44',async load=>{
     for(const {layout}of regions){const polygon=layout.habitat;for(let x=-20;x<=120;x+=10)for(let y=-20;y<=120;y+=10){const projected=constrainHabitatPoint(layout,{x,y});finite(projected);assert(contains(polygon,projected));samePoint(constrainHabitatPoint(layout,projected),projected);projectionSamples++;}for(const home of layout.homes)for(const dx of [-layout.roam.x,layout.roam.x])for(const dy of [-layout.roam.y,layout.roam.y])assert(contains(polygon,constrainHabitatPoint(layout,{x:home.x+dx,y:home.y+dy})));}
   });
   check('Named manual terrain remains usable for concave and narrow compositions',()=>{
-    for(const mapId of [25,31,40]){const row=regions.find(row=>row.mapId===mapId);assert(row);assert(row.layout.habitat.length>4);const homes=Array.from({length:48},(_,index)=>creatureSceneHome(row.layout,index,48));assert.equal(new Set(homes.map(p=>`${p.x},${p.y}`)).size,48);for(const home of homes)assert(contains(row.layout.habitat,home));}
+    for(const mapId of [25,31,40,669,727]){const row=regions.find(row=>row.mapId===mapId);assert(row);assert(row.layout.habitat.length>4);const homes=Array.from({length:48},(_,index)=>creatureSceneHome(row.layout,index,48));assert.equal(new Set(homes.map(p=>`${p.x},${p.y}`)).size,48);for(const home of homes)assert(contains(row.layout.habitat,home));}
   });
   const game=createGame(await loadCatalog(),''),s=game.snapshot();
   const markup=({planet,region})=>{

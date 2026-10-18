@@ -9,15 +9,17 @@ memoryStorage();
 const read=name=>JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
 await withSsr('habitat-regions',async load=>{
   const t=suite('habitat-regions'),{check}=t;
-  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame},{buildAcquisitionIndex},{buildRecruitmentRewards}]
-    =await Promise.all(['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts','/src/kernel/game.ts',
-      '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts'].map(load));
+  const modules=['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts','/src/kernel/game.ts',
+    '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/features/world/map-sources.ts',
+    '/src/features/world/world-scene.ts'];
+  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame},
+    {buildAcquisitionIndex},{buildRecruitmentRewards},{ORIGINAL_FLOORS},{buildWorldScene,sceneTitle}]=await Promise.all(modules.map(load));
   const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
   const definitions=read('data/habitat-regions.json'),artwork={...read('src/domain/world/map-art-assets.json'),...read('src/domain/world/map-hd-assets.json')};
   const locate=({planetId,regionId})=>{const planet=WORLD_PLANETS.find(entry=>entry.id===planetId);return {planet,region:planet?.regions.find(entry=>entry.id===regionId)}};
   const catalog=await loadCatalog(),original=JSON.stringify(catalog),species=new Map(catalog.species.map(entry=>[entry.id,entry]));
 
-  check('Every source-backed subregion is a landing on its parent planet with the parent artwork',()=>{
+  check('Every source-backed subregion is a landing on its parent planet with its own or its parent map\'s artwork',()=>{
     for(const definition of definitions.regions){
       const {planet,region}=locate({planetId:definition.planetId,regionId:definition.id});
       assert(region,definition.id);
@@ -25,11 +27,35 @@ await withSsr('habitat-regions',async load=>{
       assert(planet.originalMapId===definition.sourceParentMapId||planet.regions.some(entry=>entry.originalMapId===definition.sourceParentMapId));
       const levels=definition.species.flatMap(entry=>entry.levels);assert.deepEqual(region.levels,[Math.min(...levels),Math.max(...levels)]);
       for(const expected of definition.species)assert.deepEqual(region.creatureLevels[expected.id],expected.levels,`${definition.id}: ${expected.id}`);
-      // A subregion without its own recovered art shows its parent map's background.
-      const mapId=[region.originalMapId,region.backgroundMapId,planet.originalMapId].find(id=>artwork[id]);
+      // A subregion shows the background its data names, even when its own map's art is also delivered.
+      const mapId=[region.backgroundMapId,region.originalMapId,planet.originalMapId].find(id=>artwork[id]);
       assert.equal(region.backgroundAssetMapId,mapId,definition.id);
       if(mapId===undefined)assert.equal(region.sceneAttribution,definition.sceneAttribution);
       assert(fs.existsSync(path.join(root,'public',region.background.split('?')[0])),`${definition.id}: available scene art`);
+    }
+  });
+  const {failures}=read('public/maps/original-manifest.json');
+  check('A subregion shows its own art only on a source floor; otherwise its data records why',()=>{
+    for(const definition of definitions.regions){
+      const {id,originalMapId:mapId,sourceParentMapId,backgroundMapId,ownArtwork}=definition,{region}=locate({planetId:definition.planetId,regionId:id});
+      assert(ORIGINAL_FLOORS[region.backgroundAssetMapId],`${id}: its scene layout comes from a floor, not a theme fallback`);
+      if(backgroundMapId===mapId){assert(artwork[mapId]&&!ownArtwork,id);continue;}
+      assert.equal(backgroundMapId,sourceParentMapId,id);
+      if(ownArtwork.status==='flash-only'){
+        assert(failures[mapId]&&!artwork[mapId],`${id}: no H5 background was delivered`);
+        assert.equal(ownArtwork.url,`https://seer.61.com/resource/map/${mapId}.swf`);
+      }else{
+        // Art that the scene cannot show is not delivered; its data keeps the official URL and the reason.
+        assert.equal(ownArtwork.status,'unused',id);assert(!artwork[mapId]&&!failures[mapId],`${id}: unused art is not delivered`);
+        assert(ownArtwork.url.startsWith(`https://seerh5.61.com/resource/assets/map/${mapId}/`)&&ownArtwork.reason.length>20,id);
+      }
+    }
+  });
+  check('The nameplate tooltip gives each subregion\'s full name, which the plate may cut off',()=>{
+    const slices=createGame(catalog,'').snapshot();
+    for(const definition of definitions.regions){
+      const {planet,region}=locate({planetId:definition.planetId,regionId:definition.id});
+      assert(sceneTitle(buildWorldScene(slices,planet,region)).startsWith(`${definition.name} · `),definition.id);
     }
   });
   check('Every generated habitat is placed with its levels, scarcity and route',()=>{

@@ -102,10 +102,11 @@ export function buildWorldScene(s: WorldSlices, planet: WorldPlanet, region: Wor
   };
 }
 
-/** The location HUD tooltip: Tower progress, or the planet subtitle with the level range. */
-export function sceneTitle({ planet, region, tower }: WorldSceneView) {
-  return tower ? `最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`
+/** The location HUD tooltip: the full scene name, which the nameplate may cut off, then Tower progress or the planet subtitle with the level range. */
+export function sceneTitle({ name, planet, region, tower }: WorldSceneView) {
+  const detail = tower ? `最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`
     : `${planet.subtitle} · ${region.facility ? '飞船设施' : `Lv.${region.levels[0]}–${region.levels[1]}`}`;
+  return `${name} · ${detail}`;
 }
 /** A Tower contact shows its first opponent's name. */
 export const contactName = (scene: WorldSceneView, boss: BossView) => scene.tower ? scene.tower.opponents[0]?.name ?? boss.name : boss.name;

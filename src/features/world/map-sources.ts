@@ -92,7 +92,8 @@ export const ACTOR_CROPS:Record<number,Readonly<Record<string,{src:string;size:r
  * Offline placements from the official 10-unit, x-major road masks (1 = open).
  * Each rectangle consists entirely of open cells. Runtime uses only these four
  * numbers, with manual terrain refinements below; no road-grid engine is added.
- * Source and extraction evidence: public/maps/original-manifest.json.
+ * Source and extraction evidence: public/maps/original-manifest.json; except map 12,
+ * tools/assets/extract_map_floors.py recomputes these rows from the cached masks.
  */
 export const ORIGINAL_FLOORS:Record<number,SceneRect>={
   1:[15.4,51.4,91.9,91.4],
@@ -209,6 +210,11 @@ export const ORIGINAL_FLOORS:Record<number,SceneRect>={
   810:[52.9,55.0,81.5,91.4],
   929:[23.8,53.1,54.4,77.1],
   948:[39.3,76.4,91.8,91.4],
+  // The habitat regions' own backgrounds (data/habitat-regions.json), extracted the same way.
+  13:[12.3,69.3,65.8,80.7],34:[24.7,47.4,85.4,58.8],38:[23.8,58.6,74.2,91.4],48:[27.9,51.4,77.3,84.3],330:[13.3,65.7,65.8,91.4],
+  352:[20.6,81.8,82.5,91.4],442:[37.4,54.9,51.3,87.7],461:[52.9,55.0,64.8,91.4],476:[22.7,62.1,78.3,91.4],478:[44.6,56.8,66.9,91.4],
+  669:[11.2,65.7,29.4,80.7],691:[11.2,58.6,69.0,91.4],693:[13.3,80.0,91.9,91.4],694:[54.0,64.0,91.9,88.0],697:[19.6,69.3,74.2,91.4],
+  727:[44.6,56.8,58.5,71.8],750:[51.9,38.9,72.1,70.0],
   // The following floors are visually placed where H5 road masks are absent.
   42:[20,55,85,87],
   47:[10,76,55,90],

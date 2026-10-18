@@ -1,5 +1,5 @@
 {
- "note": "Source-supported habitat regions added to existing planets. Original membership and encounters are preserved; scenery is explicitly reused from the recovered parent map.",
+ "note": "Source-supported habitat regions added to existing planets. Original membership and encounters are preserved. A region shows its own recovered background (backgroundMapId equals originalMapId) where the official H5 art and road mask exist and the art fits the stage; otherwise it reuses its parent map's, and ownArtwork says why: flash-only maps have no H5 resource table, only the named Flash map, and unused art is not delivered.",
  "source": {
   "repository": "https://github.com/Nattsu39/seer_data",
   "commit": "a00bcdd",
@@ -16,8 +16,8 @@
    "name": "克洛斯星地心",
    "planetId": "klose",
    "sourceParentMapId": 10,
-   "backgroundMapId": 10,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 13,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 348,
@@ -35,8 +35,8 @@
    "name": "精灵广场",
    "planetId": "helka",
    "sourceParentMapId": 30,
-   "backgroundMapId": 30,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 34,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 74,
@@ -54,8 +54,8 @@
    "name": "麦田村",
    "planetId": "allen",
    "sourceParentMapId": 29,
-   "backgroundMapId": 29,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 38,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 1144,
@@ -92,8 +92,8 @@
    "name": "海盗要塞废墟",
    "planetId": "beta",
    "sourceParentMapId": 47,
-   "backgroundMapId": 47,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 48,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 184,
@@ -113,6 +113,10 @@
    "sourceParentMapId": 60,
    "backgroundMapId": 60,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/64.swf"
+   },
    "species": [
     {
      "id": 257,
@@ -159,6 +163,10 @@
    "sourceParentMapId": 325,
    "backgroundMapId": 325,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/329.swf"
+   },
    "species": [
     {
      "id": 287,
@@ -176,8 +184,8 @@
    "name": "斯科尔浮岛",
    "planetId": "planet-328",
    "sourceParentMapId": 328,
-   "backgroundMapId": 328,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 330,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 422,
@@ -195,8 +203,8 @@
    "name": "蜜桃森林",
    "planetId": "planet-350",
    "sourceParentMapId": 350,
-   "backgroundMapId": 350,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 352,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 219,
@@ -240,6 +248,11 @@
    "sourceParentMapId": 424,
    "backgroundMapId": 424,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "unused",
+    "url": "https://seerh5.61.com/resource/assets/map/425/map_425_bg_mc.png",
+    "reason": "The H5 background is 1274 by 1019 at registration (-115, -100), larger than the 960 by 560 stage, so showing it needs a stage viewport crop and a checked floor. Until then it is not delivered."
+   },
    "species": [
     {
      "id": 499,
@@ -257,8 +270,8 @@
    "name": "尼古尔海底",
    "planetId": "planet-57",
    "sourceParentMapId": 57,
-   "backgroundMapId": 57,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 442,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 814,
@@ -276,8 +289,8 @@
    "name": "赫鲁卡城",
    "planetId": "planet-459",
    "sourceParentMapId": 459,
-   "backgroundMapId": 459,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 461,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 588,
@@ -295,8 +308,8 @@
    "name": "阳光大地",
    "planetId": "planet-497",
    "sourceParentMapId": 497,
-   "backgroundMapId": 497,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 476,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 742,
@@ -322,8 +335,8 @@
    "name": "黑色洞穴",
    "planetId": "white",
    "sourceParentMapId": 484,
-   "backgroundMapId": 484,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 478,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 416,
@@ -338,11 +351,15 @@
   {
    "id": "habitat-505",
    "originalMapId": 505,
-   "name": "暮色之城",
+   "name": "时空通道场景-暮色之城",
    "planetId": "eddy",
    "sourceParentMapId": 325,
    "backgroundMapId": 325,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation. Its name is the maps.json one: map_config.json calls both map 505 and map 326 暮色之城.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/505.swf"
+   },
    "species": [
     {
      "id": 720,
@@ -362,6 +379,10 @@
    "sourceParentMapId": 494,
    "backgroundMapId": 494,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/665.swf"
+   },
    "species": [
     {
      "id": 872,
@@ -379,8 +400,8 @@
    "name": "异能山谷",
    "planetId": "ability",
    "sourceParentMapId": 668,
-   "backgroundMapId": 668,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 669,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 884,
@@ -400,6 +421,10 @@
    "sourceParentMapId": 30,
    "backgroundMapId": 30,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/675.swf"
+   },
    "species": [
     {
      "id": 59,
@@ -427,6 +452,10 @@
    "sourceParentMapId": 484,
    "backgroundMapId": 484,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/689.swf"
+   },
    "species": [
     {
      "id": 1015,
@@ -444,8 +473,8 @@
    "name": "斯诺秘洞",
    "planetId": "snow",
    "sourceParentMapId": 53,
-   "backgroundMapId": 53,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 691,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 378,
@@ -479,8 +508,8 @@
    "name": "拉铂尔仙境",
    "planetId": "rabol",
    "sourceParentMapId": 441,
-   "backgroundMapId": 441,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 693,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 1048,
@@ -498,8 +527,8 @@
    "name": "新泽部落",
    "planetId": "twitter",
    "sourceParentMapId": 688,
-   "backgroundMapId": 688,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 694,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 1056,
@@ -517,8 +546,8 @@
    "name": "迷雾森林",
    "planetId": "twitter",
    "sourceParentMapId": 688,
-   "backgroundMapId": 688,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 697,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 799,
@@ -546,6 +575,10 @@
    "sourceParentMapId": 668,
    "backgroundMapId": 668,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/707.swf"
+   },
    "species": [
     {
      "id": 905,
@@ -603,8 +636,8 @@
    "name": "冰火绝命崖",
    "planetId": "lainna",
    "sourceParentMapId": 726,
-   "backgroundMapId": 726,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 727,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 751,
@@ -630,8 +663,8 @@
    "name": "幽暗迷宫",
    "planetId": "demon",
    "sourceParentMapId": 748,
-   "backgroundMapId": 748,
-   "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "backgroundMapId": 750,
+   "sceneAttribution": "This scene shows its own recovered official background on a floor derived from its official road mask; its original map ID and parent membership are source-backed, while encounter positions are a remake adaptation.",
    "species": [
     {
      "id": 1273,
@@ -651,6 +684,10 @@
    "sourceParentMapId": 688,
    "backgroundMapId": 688,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/1063.swf"
+   },
    "species": [
     {
      "id": 139,
@@ -670,6 +707,10 @@
    "sourceParentMapId": 105,
    "backgroundMapId": 105,
    "sceneAttribution": "This scene reuses recovered parent-map artwork; its original map ID and parent membership are source-backed, while scenery and encounter positions are a remake adaptation.",
+   "ownArtwork": {
+    "status": "flash-only",
+    "url": "https://seer.61.com/resource/map/1303.swf"
+   },
    "species": [
     {
      "id": 1450,
