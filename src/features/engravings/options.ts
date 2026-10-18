@@ -25,7 +25,7 @@ export function engravingView(
   };
 }
 
-/** Engravings this monster's species and known skills qualify for. */
+/** Engravings this monster's species and known skills qualify for. Reads only what the monsters and engravingStock slices carry. */
 export function engravingOptions(ctx: GameContext, save: GameSave, uid: string): EngravingView[] {
   const mon = findMon(save, uid), known = new Set([...mon.skills, ...mon.learned]), equipped = equippedEngravingCounts(save);
   return engravings
