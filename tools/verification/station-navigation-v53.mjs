@@ -2,23 +2,18 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createServer} from 'vite';
+import {memoryStorage,root,suite,withSsr} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
-const report={checks:[],failures:[],observations:{}};
-const check=(name,run)=>{try{run();report.checks.push(name)}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`)}};
-const memory=new Map([['seer-classic-save','Player save sentinel']]);
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/station-navigation-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-try{
+const observations={};
+const memory=memoryStorage({'seer-classic-save':'Player save sentinel'});
+await withSsr('station-navigation-v53',async load=>{
+  const t=suite('station-navigation-v53'),{check}=t;
   const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog},{braveTowerPosition}]=await Promise.all([
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
     '/src/domain/challenges/brave-tower.ts',
-  ].map(id=>server.ssrLoadModule(id)));
+  ].map(load));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
   const ship=WORLD_PLANETS.find(planet=>planet.id==='station'),station=WORLD_PLANETS.find(planet=>planet.id==='space-station');
@@ -82,7 +77,7 @@ try{
     }
     for(const alias of ['mission-dock','challenge-dock'])for(const boss of s.bosses.filter(row=>findChallengeLocation(row).staging))assert(findSceneChallenges('station',alias,s.bosses,boss.id).some(row=>row.id===boss.id));
     assert.equal(findSceneChallenges('station','transport',s.bosses).length,0);
-    report.observations.encounters=counts;
+    observations.encounters=counts;
   });
   check('Dark wildlife, fortress capture and all eight Puni stages keep their original places',()=>{
     const dark=resolveWorldLocation('space-station','dark-arena').region,trial=resolveWorldLocation('fortress','trial').region,mystery=resolveWorldLocation('space-station','mystery').region;
@@ -118,7 +113,7 @@ try{
     const complete=markup('space-station','brave-tower',climb(totalFloors,null));
     assert(complete.includes(`data-tower-floor="${totalFloors}"`));assert(complete.includes('data-tower-complete="true"'));
     assert(complete.includes(`已通过全部 ${totalFloors} 层`));assert(complete.includes(`data-boss="boss_tower_brave_f${String(totalFloors).padStart(3,'0')}"`));
-    report.observations.towerSceneStates=totalFloors+1;
+    observations.towerSceneStates=totalFloors+1;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);
@@ -133,11 +128,5 @@ try{
     assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(game.exportSave(),saveBefore);assert.equal(game.snapshot().battle,null);
     assert.equal(memory.get('seer-classic-save'),'Player save sentinel');
   });
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  await server.close();
-  if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;
-  const destination=path.join(root,'artifacts/station-navigation-v53');fs.mkdirSync(destination,{recursive:true});fs.writeFileSync(path.join(destination,'report.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,...report.observations},null,2));
-  if(report.failures.length)process.exitCode=1;
-}
+  t.finish({observations});
+});
