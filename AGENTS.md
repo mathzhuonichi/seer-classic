@@ -31,9 +31,11 @@ Never write an absolute or home-directory path into a tracked file, a generated 
 
 ## Rules
 
-1. **Imports point down only:** components → presentation → controller (`src/game.ts`) → progression/mechanics → `raising/core` and `battle/core` → `data/`.
+1. **Imports point down only:** components → controller (`src/game.ts`) → presentation → progression/mechanics → `raising/core` and `battle/core` → `data/`.
+   - Presentation modules are pure view builders and label data; they never import the controller. Components may import them directly.
    - The engine does not import the AI; the policy is injected.
    - Components render the snapshot and dispatch actions. Existing exceptions are debt; add none.
+   - Shared view helpers live in `src/presentation/view-helpers.ts` and `src/components/use-pager.ts`; do not re-implement them.
 2. **One source per rule:** stats from `raising/core/stats.ts`; damage from the engine pipeline; limits from the raising constants; the catalog from one loader; labels from `src/presentation/labels.ts`.
 3. **No unnamed rule numbers.** Battle numbers go in `battle/core/src/constants.ts`, economy numbers in one economy module, and data-driven values in `data/`.
 4. **YAGNI:**

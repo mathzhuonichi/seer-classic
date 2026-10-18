@@ -1,17 +1,13 @@
 /** 2013 engravings: installed data, every skill-engraving transform, engine hooks, and the controller loadout. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {createServer} from 'vite';
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
-const memory=new Map();
-globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({configFile:false,cacheDir:'artifacts/.validation-cache/engravings-2013',server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-const checks=[],failures=[];
-const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-try {
+memoryStorage();
+await withSsr('engravings-2013',async load=>{
+  const t=suite('engravings-2013'),{check}=t;
   const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,engravingBlockedReason,engravingEffectGroup,engravingStatKeys,ENGRAVING_EFFECT_GROUPS},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
     '/src/game.ts','/src/mechanics/engravings.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   const learns=(sid,move)=>species.get(sid)?.learnset.some(l=>l.skill===move);
@@ -152,8 +148,5 @@ try {
     assert.equal(engravingBlockedReason(def(10039),{species:16,level:100,skills:[],learned:[]}),'仅限专属精灵');
     assert.equal(engravingBlockedReason(def(10001),{species:1,level:99,skills:[],learned:[]}),'需要 Lv.100');
   });
-}catch(error){failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  fs.mkdirSync('artifacts/engravings-2013',{recursive:true});fs.writeFileSync('artifacts/engravings-2013/regression.json',JSON.stringify({checks,failures},null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,failures},null,2));await server.close();if(failures.length)process.exitCode=1;
-}
+  t.finish();
+});

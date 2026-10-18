@@ -1,17 +1,12 @@
 import iconAssets from './type-icon-assets.json';
+import {TYPE_LABELS} from './labels.ts';
 
 interface TypeAsset {path:string;sha256:string;name?:string;types?:string[];typeId?:number}
 export const typeAssets=iconAssets as Record<string,TypeAsset>;
-const aliases:Record<string,string>={
-  grass:'草',water:'水',fire:'火',flying:'飞行',electric:'电',mechanical:'机械',steel:'机械',
-  ground:'地面',normal:'普通',ice:'冰',psychic:'超能',fighting:'战斗',fight:'战斗',
-  light:'光',shadow:'暗影',dark:'暗影',mystic:'神秘',myth:'神秘',dragon:'龙',holy:'圣灵',saint:'圣灵',
-  dimension:'次元',ancient:'远古',nature:'自然',evil:'邪灵',demon:'邪灵',prop:'属性',
-};
 export type ElementTypes=string|readonly string[];
 function normalize(input:ElementTypes):string[] {
   const parts=typeof input==='string'?input.trim().split(/[\s_/·]+/):input;
-  return parts.map(type=>aliases[type]??(type.replace(/属性技能$|属性$|系$/,'')||'属性'));
+  return parts.map(type=>TYPE_LABELS[type]??(type.replace(/属性技能$|属性$|系$/,'')||'属性'));
 }
 export function elementName(input:ElementTypes):string {
   const key=normalize(input).join('');
