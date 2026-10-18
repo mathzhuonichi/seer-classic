@@ -1,7 +1,7 @@
 .breeding-management{height:100%;min-height:0;flex:1;padding:0!important;display:flex;flex-direction:column}
 .breeding-panel .fusion-index-heading{margin-bottom:12px}
 .breeding-panel .fusion-recipe-scroll>button{min-height:69px}
-.management-panel .breeding-dex-link{display:block;padding:5px 0!important;background:transparent!important;border:0!important;color:#427b89;font-size:10px;text-align:left}
+.management-panel .breeding-dex-link{display:block;padding:5px 0!important;background:transparent!important;border:0!important;font-size:10px;text-align:left}
 .breeding-parent-warning{color:#9c6039;font-size:10px;line-height:1.6}
 @media(max-width:620px){.breeding-panel .fusion-recipe-scroll>button{min-height:76px}}
 
@@ -10,13 +10,11 @@
 .breeding-panel{grid-template-rows:minmax(0,1fr)}
 .breeding-panel .fusion-recipe-index{overflow:hidden;min-height:0}
 .breeding-panel .fusion-index-heading{flex-shrink:0}
-.breeding-panel .fusion-recipe-scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#769eaf #cce2eb;scrollbar-width:thin}
+.breeding-panel .fusion-recipe-scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 
 /* PetBreedPanel.swf sprite 66: navy grid, cyan rails and paired blue wells. */
 .breeding-management{background:#073563}
-.breeding-management>.management-panel-heading{background:linear-gradient(#bcc3c8,#eef1f3 28%,#9ca8b3 29%,#bbc5cc 65%,#18b9ef 66%,#168ce2);border-bottom:3px solid #013c7b;box-shadow:inset 0 1px #fff}
-.breeding-management>.management-panel-heading strong{color:#074f91;text-shadow:0 1px #e6faff;font-size:17px}
-.breeding-management>.management-panel-heading>span{color:#064577;text-shadow:0 1px #d9f8ff}
+.breeding-management>.management-panel-heading strong{color:#074f91}
 .breeding-panel .fusion-recipe-index{background:#123d6b;border-right:3px solid #00b1ed;box-shadow:inset -1px 0 #0756a3}
 .breeding-panel .fusion-index-heading{color:#e1faff;padding-bottom:9px}
 .breeding-panel .fusion-index-heading>span{color:#9ed9f6}
@@ -26,7 +24,7 @@
 .breeding-panel .fusion-recipe-scroll small{color:#b4d8ee}
 .breeding-panel .fusion-recipe-scroll b{color:#aac8dd}
 .breeding-panel .fusion-recipe-scroll b.ready{color:#a9ffd1}
-.breeding-panel .fusion-detail-scroll{color:#e9f8ff;border:1px solid #099ee0;background-color:#073563;background-image:linear-gradient(#3881b029 1px,transparent 1px),linear-gradient(90deg,#3881b029 1px,transparent 1px);background-size:36px 36px;scrollbar-color:#21b7ee #073563}
+.breeding-panel .fusion-detail-scroll{color:#e9f8ff;border:1px solid #099ee0;background-color:#073563;scrollbar-color:#21b7ee #073563}
 .breeding-panel .fusion-heading{border-bottom:2px solid #10b8f2;padding-bottom:9px}
 .window-body .breeding-panel .fusion-heading h3{color:#fff;text-shadow:0 2px #003374}
 .breeding-panel .fusion-heading small,.breeding-panel .fusion-heading>span,.breeding-panel .fusion-rules,.breeding-panel .fusion-hatch-note,.breeding-panel .fusion-confirm>span{color:#badff5}
@@ -51,7 +49,7 @@
 .breeding-panel .fusion-feedback{color:#9ceac8}
 .breeding-panel .fusion-route-note{color:#775421;background:#fff0cb;border-color:#d5b05a}
 .breeding-panel .fusion-obtained{color:#18555c}
-@media(max-width:620px){.breeding-panel .fusion-parent-art{width:65px;height:65px}.breeding-management>.management-panel-heading strong{font-size:14px}}
+@media(max-width:620px){.breeding-panel .fusion-parent-art{width:65px;height:65px}}
 .breeding-management{padding:7px 9px 9px!important;background-color:#073563}
 @media(max-width:620px){.breeding-management{padding:4px 5px 5px!important}}
 
