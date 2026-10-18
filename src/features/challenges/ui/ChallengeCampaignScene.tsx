@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { CampaignView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
-import BossEvidence from './BossEvidence.tsx';
+import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
 import './challenge-campaign-scene.css';
 

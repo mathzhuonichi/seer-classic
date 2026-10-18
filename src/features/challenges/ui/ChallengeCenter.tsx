@@ -4,7 +4,7 @@ import type { BossView, ChallengeCategoryId } from '../../../shared/views.ts';
 import {findChallengeLocation,resolveWorldLocation} from '../../../domain/world/world.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
-import BossEvidence from './BossEvidence.tsx';
+import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
