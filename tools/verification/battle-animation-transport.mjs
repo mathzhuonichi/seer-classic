@@ -1,11 +1,25 @@
-/** Exercise the production decoder with raw, transport-decoded, and live responses. */
+/** Exercise the production timeline decoder with raw, transport-decoded, and live responses. */
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import fs from 'node:fs';
+import path from 'node:path';
 import {gunzipSync} from 'node:zlib';
-import {stripTypeScriptTypes} from 'node:module';
-const code=stripTypeScriptTypes(readFileSync('src/presentation/battle-animation-response.ts','utf8'));
-const {decodeBattleAnimationResponse}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
-const raw=readFileSync('public/battle-animations/1.json.gz');
-for(const response of [new Response(raw),new Response(gunzipSync(raw),{headers:{'Content-Encoding':'gzip'}}),new Response(gunzipSync(raw))])assert.equal((await decodeBattleAnimationResponse(response)).petId,1);
-for(const url of process.argv.slice(2)){const response=await fetch(url);const encoding=response.headers.get('content-encoding');const clip=await decodeBattleAnimationResponse(response);assert.equal(clip.petId,1);console.log(`Live timeline decoded: ${url}, Content-Encoding=${encoding}, species=${clip.petId}.`);}
-console.log('Production decoder passed raw-gzip, already-decoded gzip, and unencoded JSON responses.');
+import {root, suite, withSsr} from './_harness.mjs';
+
+await withSsr('battle-animation-transport', async load => {
+  const {decodeBattleAnimationResponse} = await load('/src/presentation/battle-animation-loader.ts');
+  const t = suite('battle-animation-transport');
+  const raw = fs.readFileSync(path.join(root, 'public/battle-animations/1.json.gz'));
+  await t.checkAsync('Raw gzip, already-decoded gzip and unencoded JSON responses each decode exactly once', async () => {
+    for (const response of [new Response(raw), new Response(gunzipSync(raw), {headers: {'Content-Encoding': 'gzip'}}), new Response(gunzipSync(raw))])
+      assert.equal((await decodeBattleAnimationResponse(response)).petId, 1);
+  });
+  await t.checkAsync('An HTTP failure is rejected before decoding', async () => {
+    await assert.rejects(decodeBattleAnimationResponse(new Response(raw, {status: 404})), /Unavailable timeline/);
+  });
+  for (const url of process.argv.slice(2)) await t.checkAsync(`Live timeline decodes: ${url}`, async () => {
+    const response = await fetch(url), encoding = response.headers.get('content-encoding');
+    assert.equal((await decodeBattleAnimationResponse(response)).petId, 1);
+    t.witness(url, {contentEncoding: encoding});
+  });
+  t.finish();
+});

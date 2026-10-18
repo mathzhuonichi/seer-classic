@@ -20,7 +20,7 @@ function harness(Buffer,frames=9){
 const originalFetch=globalThis.fetch,originalDecode=globalThis.createImageBitmap;
 try{
   server=await createServer({root,configFile:false,cacheDir,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-  const {SkillFrameBuffer}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts');
+  const {SkillFrameBuffer}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts');
   await check('Only the current source frame is drawn even when future decodes finish first',async()=>{
     const h=harness(SkillFrameBuffer);h.buffer.seek(0);await flush();assert.deepEqual(h.requests.map(r=>r.frame),[0,1,2]);h.resolve(h.requests[2]);await flush();assert.deepEqual(h.draws,[]);h.resolve(h.requests[0]);await flush();assert.deepEqual(h.draws,[0]);h.buffer.seek(1);await flush();assert(h.closed.includes(0));assert.deepEqual(h.requests.map(r=>r.frame),[0,1,2,3]);h.resolve(h.requests[1]);await flush();assert.deepEqual(h.draws,[0,1]);h.buffer.dispose();h.resolve(h.requests[3]);await flush();assert.deepEqual(h.closed.sort(),[0,1,2,3]);assert.deepEqual(h.errors,[]);
   });
@@ -40,28 +40,28 @@ try{
     const h=harness(SkillFrameBuffer,4);h.buffer.seek(3);h.buffer.seek(3);await flush();assert.deepEqual(h.requests.map(r=>r.frame),[3]);h.resolve(h.requests[0]);await flush();h.buffer.seek(99);await flush();assert.equal(h.requests.length,1);assert(h.draws.every(f=>f===3));h.buffer.dispose();assert.deepEqual(h.closed,[3]);
   });
   await check('Decoded slots are shared across moves and never exceed three live or pending images',async()=>{
-    const {loadSkillFrame}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts?pool=shared');let live=0,peak=0;const decodes=[];
+    const {loadSkillFrame}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts?pool=shared');let live=0,peak=0;const decodes=[];
     globalThis.fetch=async()=>new Response(new Blob(['source']));globalThis.createImageBitmap=()=>new Promise(resolve=>{live++;peak=Math.max(peak,live);decodes.push(()=>resolve({width:2048,height:2048,close:()=>live--}))});
     const controllers=Array.from({length:6},()=>new AbortController());const pending=controllers.map((c,i)=>loadSkillFrame(`/pool/${i}`,c.signal));await flush();assert.equal(decodes.length,3);decodes.slice(0,3).forEach(done=>done());const first=await Promise.all(pending.slice(0,3));assert.equal(live,3);first[0].close();first[0].close();await flush();assert.equal(decodes.length,4);first.slice(1).forEach(x=>x.close());await flush();assert.equal(decodes.length,6);decodes.slice(3).forEach(done=>done());const rest=await Promise.all(pending.slice(3));rest.forEach(x=>x.close());assert.equal(live,0);assert.equal(peak,3);
   });
   await check('An aborted move cannot double memory while its old decodes are still completing',async()=>{
-    const {loadSkillFrame}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts?pool=cancel');let live=0,peak=0;const decodes=[];
+    const {loadSkillFrame}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts?pool=cancel');let live=0,peak=0;const decodes=[];
     globalThis.fetch=async()=>new Response(new Blob(['source']));globalThis.createImageBitmap=()=>new Promise(resolve=>{live++;peak=Math.max(peak,live);decodes.push(()=>resolve({close:()=>live--}))});
     const oldControllers=Array.from({length:3},()=>new AbortController());const old=oldControllers.map((c,i)=>loadSkillFrame(`/old/${i}`,c.signal).catch(error=>error));await flush();oldControllers.forEach(c=>c.abort());const currentControllers=Array.from({length:3},()=>new AbortController());const current=currentControllers.map((c,i)=>loadSkillFrame(`/new/${i}`,c.signal));await flush();assert.equal(decodes.length,3);decodes.slice(0,3).forEach(done=>done());await Promise.all(old);await flush();assert.equal(decodes.length,6);decodes.slice(3).forEach(done=>done());(await Promise.all(current)).forEach(x=>x.close());assert.equal(live,0);assert.equal(peak,3);
   });
   await check('Queued decode cancellation removes its request without leaking a shared slot',async()=>{
-    const {loadSkillFrame}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts?pool=queued');let decoded=0,closed=0;
+    const {loadSkillFrame}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts?pool=queued');let decoded=0,closed=0;
     globalThis.fetch=async()=>new Response(new Blob(['source']));globalThis.createImageBitmap=async()=>{decoded++;return {close:()=>closed++}};
     const frames=await Promise.all([0,1,2].map(i=>loadSkillFrame(`/queue/${i}`,new AbortController().signal)));const controller=new AbortController();const queued=loadSkillFrame('/queue/3',controller.signal).catch(error=>error);await flush();controller.abort();assert((await queued)instanceof Error);frames.forEach(f=>f.close());await flush();assert.equal(decoded,3);const next=await loadSkillFrame('/queue/4',new AbortController().signal);next.close();assert.equal(decoded,4);assert.equal(closed,4);
   });
   await check('The compressed cache reuses recent frames and evicts old bytes beyond sixteen MiB',async()=>{
-    const {loadSkillFrame}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts?pool=cache');const fetched=[];
+    const {loadSkillFrame}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts?pool=cache');const fetched=[];
     globalThis.fetch=async url=>{fetched.push(url);return new Response(new Blob([new Uint8Array(8*1024*1024)]))};globalThis.createImageBitmap=async()=>({close(){}});
     for(const url of ['/cache/a','/cache/b','/cache/c','/cache/b','/cache/a']){const frame=await loadSkillFrame(url,new AbortController().signal);frame.close()}
     assert.deepEqual(fetched,['/cache/a','/cache/b','/cache/c','/cache/a']);
   });
   await check('HTTP and pre-aborted requests fail without allocating decoded pixels',async()=>{
-    const {loadSkillFrame}=await server.ssrLoadModule('/src/components/skill-frame-buffer.ts?pool=http');let decoded=0;
+    const {loadSkillFrame}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts?pool=http');let decoded=0;
     globalThis.fetch=async()=>new Response('',{status:404});globalThis.createImageBitmap=async()=>{decoded++;return {close(){}}};await assert.rejects(loadSkillFrame('/missing',new AbortController().signal),/404/);const controller=new AbortController();controller.abort();globalThis.fetch=async()=>new Response(new Blob(['x']));await assert.rejects(loadSkillFrame('/aborted',controller.signal));assert.equal(decoded,0);
   });
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'public/battle-effects/manifest.json')));
