@@ -64,7 +64,8 @@ function useRaising(rt: Runtime, item: CatalogItem, action: Extract<GameAction, 
   commit(rt, useRaisingItem(rt.save, action.uid, item as unknown as RaisingItem, ctx.dex, rt.rng, options).save);
   if (effect.op === 'restore') clearEngravingDeficit(rt.save, action.uid);
   if (effect.op === 'exp' || effect.op === 'levels' && effect.amount > 0) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, action.uid)));
-  notice(rt, `已对${ctx.speciesName(findMon(rt.save, action.uid).species)}使用${itemName(item)}。`);
+  const mon = findMon(rt.save, action.uid);
+  notice(rt, `已对${mon.nickname || ctx.speciesName(mon.species)}使用${itemName(item)}。`);
 }
 
 const useItem: ActionHandler<'useItem'> = (rt, action) => {

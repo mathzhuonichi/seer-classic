@@ -70,6 +70,11 @@ await withSsr('unlimited-access-v50',async load=>{
     assert.deepEqual([row(CAP).useAction,row('item_level_up_1').useAction],['capture',null]);
     leave(game);assert.equal(row(CAP).useAction,null);
   });
+  check('A raising item\'s notice names the monster by its nickname',()=>{
+    const save=structuredClone(base),uid=save.storage[0].uid;save.items={[CURE]:0};const game=make(save);
+    game.dispatch({type:'rename',uid,name:'Bob'});
+    assert.equal(game.dispatch({type:'useItem',uid,itemId:'item_level_up_1'}).notice,'已对Bob使用小型升级秘药。');
+  });
   check('Repeated real controller captures at zero stock add the caught monsters without inventing stock',()=>{
     const save=fixture(1);save.items={[CURE]:0};const game=make(save);
     for(const species of [10,13]){const before=parse(game).storage.length;start(game,{type:'startTraining',species,level:3});game.dispatch({type:'capture',itemId:CAP});
