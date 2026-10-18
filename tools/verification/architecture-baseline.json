@@ -13,10 +13,6 @@
     "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel"
   ],
   "size": {
-    "src/app/App.tsx": {
-      "lines": 0,
-      "long": 1
-    },
     "src/app/AudioSettings.tsx": {
       "lines": 0,
       "long": 3

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
+import { useGame } from '../../../shared/ui/use-game.ts';
 import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
@@ -14,7 +15,6 @@ const ArenaLandscape = () => <div className="classic-arena-landscape" aria-hidde
 </div>;
 
 interface BattleProps {
-  s: GameSnapshot;
   c: GameController;
   /** A command tab opened from outside the battle screen; `id` distinguishes repeated requests. */
   commandRequest?: { command: 'party' | 'items'; id: number };
@@ -22,8 +22,8 @@ interface BattleProps {
   onSettings?: () => void;
 }
 
-export default function Battle({ s, c, commandRequest, background, onSettings }: BattleProps) {
-  const b = s.battle!;
+export default function Battle({ c, commandRequest, background, onSettings }: BattleProps) {
+  const b = useGame(c, s => s.battle)!, inventory = useGame(c, s => s.items);
   const [tab, setTab] = useState<BattleCommand>(b.needsSwitch ? 'party' : 'battle');
   const [showLog, setShowLog] = useState(false);
   const [partySelection, setPartySelection] = useState(b.player.uid);
@@ -73,7 +73,7 @@ export default function Battle({ s, c, commandRequest, background, onSettings }:
         <div><strong>{battleResultTitle(b)}</strong><p>{b.result}</p></div>
         {onSettings && <button onClick={onSettings}>设置</button>}
       </div>
-      : <BattleCommandDeck battle={b} inventory={s.items} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
+      : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
     {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} evidence={enemy.evidence} onClose={closeEvidence}/>}
     {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={() => setShowDetails(false)}/>}

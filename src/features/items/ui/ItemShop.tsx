@@ -4,6 +4,7 @@ import type { ShopItemView } from '../../../shared/views.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {EngravingShop} from '../../engravings/ui.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
@@ -16,7 +17,8 @@ import './ItemShop.css';
 const SHOP_TABS=[...ITEM_POCKETS,['engraving','刻印']] as const;
 type ShopTab=typeof SHOP_TABS[number][0];
 
-export default function ItemShop({s,c,onOpenBag}:{s:GameSnapshot;c:GameController;onOpenBag:(pocket:string)=>void}){
+export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pocket:string)=>void}){
+ const s=useGame(c,snapshot=>snapshot);
  const [tab,setTab]=useState<ShopTab>('battle'),[search,setSearch]=useState(''),[selected,setSelected]=useState('');
  const [quantity,setQuantity]=useState('1'),[feedback,setFeedback]=useState('');
  const inTab=s.shopItems.filter(item=>itemPocket(item.kind)===tab),content=useItemContent(tab,inTab,()=>setSelected(''));

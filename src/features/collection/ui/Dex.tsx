@@ -1,5 +1,5 @@
 import {useEffect,useMemo,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { SpeciesView } from '../../../shared/views.ts';
 import type { StatBlock as Stats } from '../../../../raising/core/types.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
@@ -15,16 +15,18 @@ import MonsterCard from '../../../shared/ui/MonsterCard.tsx';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 import TypeFilter from '../../../shared/ui/TypeFilter.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import '../../../shared/ui/management.css';
 import './Dex.css';
 
-export interface DexProps {s:GameSnapshot;c?:GameController;onLocate:(species:number,route:AcquisitionRoute)=>void;focusSpecies?:number}
+export interface DexProps {c:GameController;onLocate:(species:number,route:AcquisitionRoute)=>void;focusSpecies?:number}
 type Locate=DexProps['onLocate'];
 
-export default function Dex({s,onLocate,focusSpecies}:DexProps) {
-  const [filter,setFilter]=useState(()=>dexFilter(focusSpecies)),[selected,setSelected]=useState(focusSpecies??s.species[0]?.id??1);
-  const filtered=useMemo(()=>filterDex(s.species,filter),[s.species,filter]);
-  const summary=useMemo(()=>dexCollectionSummary(s.species),[s.species]);
+export default function Dex({c,onLocate,focusSpecies}:DexProps) {
+  const species=useGame(c,s=>s.species);
+  const [filter,setFilter]=useState(()=>dexFilter(focusSpecies)),[selected,setSelected]=useState(focusSpecies??species[0]?.id??1);
+  const filtered=useMemo(()=>filterDex(species,filter),[species,filter]);
+  const summary=useMemo(()=>dexCollectionSummary(species),[species]);
   const {page,setPage,pages,start,end}=usePager(filtered.length,DEX_PAGE_SIZE);
   const rows=filtered.slice(start,end);
   const entry=filtered.find(sp=>sp.id===selected)??rows[0]??filtered[0];
@@ -36,7 +38,7 @@ export default function Dex({s,onLocate,focusSpecies}:DexProps) {
   return <section className="management-panel dex-management" aria-label="精灵图鉴面板">
     <div className="management-panel-heading"><strong>精灵图鉴</strong><span>{heading}</span></div>
     <div className="dex-inner"><aside className="dex-index">
-      <DexFilters species={s.species} filter={filter} onChange={refine}/>
+      <DexFilters species={species} filter={filter} onChange={refine}/>
       <div className="dex-index-grid">
         {rows.map(mon=><MonsterCard key={mon.id} compact monster={mon} selected={mon.id===entry?.id} onClick={()=>setSelected(mon.id)}/>)}
       </div>
@@ -47,7 +49,7 @@ export default function Dex({s,onLocate,focusSpecies}:DexProps) {
         <button aria-label="下一页图鉴" disabled={page+1>=pages} onClick={()=>turn(1)}>›</button>
       </div>
     </aside><div className="dex-entry-scroll">
-      {entry?<DexEntry species={entry} name={speciesNamer(s.species)} onLocate={onLocate}/>:<div className="management-empty">选择精灵查看种族值与获取入口。</div>}
+      {entry?<DexEntry species={entry} name={speciesNamer(species)} onLocate={onLocate}/>:<div className="management-empty">选择精灵查看种族值与获取入口。</div>}
     </div></div>
   </section>;
 }

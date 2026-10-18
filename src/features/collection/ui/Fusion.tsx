@@ -1,5 +1,5 @@
 import {useMemo,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {FUSION_RECIPES,type FusionRecipe} from '../../../domain/recipes/fusion.ts';
 import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
@@ -8,19 +8,21 @@ import {
 } from '../fusion-view.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {ConfirmBar,OutcomeCard,ParentCard,ParentPair,RecipeButton,RecipeHeading,useRecipeWorkbench} from './RecipeWorkbench.tsx';
 import './fusion.css';
 
 interface FusionResult {feedback:string;obtained:{species:number;name:string}|null}
 type Role='primary'|'secondary';
 
-export default function Fusion({s,c,initialRecipeId,onOpenBeads}:{s:GameSnapshot;c:GameController;initialRecipeId?:string;onOpenBeads:()=>void}) {
+export default function Fusion({c,initialRecipeId,onOpenBeads}:{c:GameController;initialRecipeId?:string;onOpenBeads:()=>void}) {
   const {recipe,setRecipeId,first:primaryUid,setFirst:setPrimaryUid,second:secondaryUid,setSecond:setSecondaryUid,result,setResult}
     =useRecipeWorkbench<FusionRecipe,FusionResult>(FUSION_RECIPES,initialRecipeId);
-  const name=speciesNamer(s.species),activeBattle=battleActive(s);
-  const rows=useMemo(()=>fusionRecipeRows(s.monsters),[s.monsters]);
+  const species=useGame(c,s=>s.species),monsters=useGame(c,s=>s.monsters),activeBattle=useGame(c,battleActive);
+  const name=speciesNamer(species);
+  const rows=useMemo(()=>fusionRecipeRows(monsters),[monsters]);
   const current=rows.find(row=>row.recipe===recipe);
-  const choices=recipe?fusionParentChoices(recipe,s.monsters,primaryUid):{primary:[],secondary:[]};
+  const choices=recipe?fusionParentChoices(recipe,monsters,primaryUid):{primary:[],secondary:[]};
   const primary=choices.primary.find(mon=>mon.uid===primaryUid),secondary=choices.secondary.find(mon=>mon.uid===secondaryUid);
   const valid=!!recipe&&fusionPairValid(recipe,primary,secondary);
 

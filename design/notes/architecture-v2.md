@@ -188,7 +188,7 @@ interface Feature<A extends { type: string }, S> {
   - Preparation must run before anything else can consume `b.rng` in that turn.
   - A gate checks that prepared and unprepared turns replay identically.
 
-**React:** `useGame(selector)` subscribes a screen to its slice. Slices keep their identity when unchanged, so unaffected screens skip rendering.
+**React:** `useGame(c, select)` (`shared/ui/use-game.ts`) subscribes a screen to its slice of the controller `c`. Slices keep their identity when unchanged, so unaffected screens skip rendering.
 
 ## 6. Implementation plan
 

@@ -23,7 +23,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure (moves, indexes, contracts, gate), wave-2 units, follow-ups, load budget. | current handoff |
 | [architecture-v2](architecture-v2.md) | Target feature-module architecture: experience budgets, dependency rules, kernel/feature contracts, AI turn preparation. | plan (active) |
 | [refactor-survey-2026-10-18](refactor-survey-2026-10-18.md) | Repository refactor survey (items A–E and a ranked plan); the source of the AGENTS.md rules. | plan (active) |
-| [handoff-2026-10-18](handoff-2026-10-18.md) | Branch state, search-AI measurements, open items, and refactor progress after the move to the new machine. | current (latest handoff) |
+| [handoff-2026-10-18](handoff-2026-10-18.md) | Branch state, search-AI measurements, open items, and refactor progress after the move to the new machine. | historical (previous handoff; item 1 resolved, open items continue in [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md)) |
 | [codex-takeover-v31](codex-takeover-v31.md) | Codex takeover at `04d6196`: starting acquisition metrics and the decisions recorded in `approved-plan.json`. | done |
 | [platform](platform.md) | 2026-10-02 platform proposal: TypeScript, React and Tauri, with Godot as runner-up. Its planned monorepo was never built. | historical |
 | [mechanics](mechanics.md) | Research on pre-2013 boss rule patterns, contradictions with the rule specs, types and dual types. | current (research reference) |

@@ -151,9 +151,18 @@ Boss rules filter on kind (`immune_fixed_damage`, `immune_percent_damage`,
 `damage_only_from`).
 Non-OHKO true self-costs also bypass encounter HP floors so sacrifice effects
 actually consume the specified HP. Multiple outgoing/final script transforms
-receive the preceding transform's result, in condition order. The AI's raw
-estimate filters ordinary outgoing multipliers by their kind, condition and
-level without consuming charges; it is not a complete simulation of all shields.
+receive the preceding transform's result, in condition order.
+
+The AI's damage estimate is a read-only probe of this same pipeline
+(`probeDamage`): one attack hit at a fixed roll and crit, by default the mean
+roll `MEAN_ROLL` without a crit (`estimateDamage`). It draws no RNG, emits no
+events and consumes no charges. Condition multipliers and boss rules apply as
+in a real hit; the skill's `power` and `defense` scripts run in estimate mode;
+other scripts (`modifyDamage`, `finalDamage`, scripted hooks) are skipped;
+chance-gated `power_if` and a damage-cap break count as not triggered. The
+search planner also probes the minimum roll to find sure knockouts, and the
+opponent model probes both roll limits to bound unseen stats. The probe is
+therefore not a complete simulation of scripted shields.
 
 ## 6. Type effectiveness
 

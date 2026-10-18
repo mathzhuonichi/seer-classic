@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent } from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import { getSceneExits, type SceneExit } from '../scene-exits.ts';
 import { percentIn, type ScenePoint } from '../scene-geometry.ts';
 import { buildWorldPopulation } from '../world-population.ts';
@@ -8,6 +8,7 @@ import {
 } from '../world-scene.ts';
 import { ARROW_STEPS, visiblePlayerPoint } from '../world-walk.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation, isWorldLocation, resolveWorldLocation, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
+import { useGame } from '../../../shared/ui/use-game.ts';
 import ClassicRobot from './ClassicRobot.tsx';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
@@ -16,7 +17,7 @@ import { WorldDialogue, type WorldInteraction } from './WorldDialogue.tsx';
 import './world.css';
 
 export interface WorldMapProps {
-  s: GameSnapshot; c: GameController; onNavigate?: (page: string) => void;
+  c: GameController; onNavigate?: (page: string) => void;
   travelTo?: { planetId: string; regionId?: string; bossId?: string; requestId?: number };
   onInteract?: (event: WorldInteraction) => void;
   onSceneChange?: (scene: {src:string;name:string}) => void;
@@ -30,7 +31,8 @@ const ignoresArrowKeys = (event: globalThis.KeyboardEvent) => event.defaultPreve
 const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`
   +`${planet.id==='space-station'?' world-station-scene':''}${tower?' world-tower-scene':''}`;
 
-export function WorldMap({s,c,onNavigate,travelTo,onInteract,onSceneChange}:WorldMapProps) {
+export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldMapProps) {
+  const s=useGame(c,snapshot=>snapshot);
   const viewport=useRef<HTMLElement>(null);
   const walker=useWorldWalk(),{planet,region,layout,position,motion}=walker;
   const [dialogue,setDialogue]=useState<{selection:WorldSelection;details:boolean}|null>(null);

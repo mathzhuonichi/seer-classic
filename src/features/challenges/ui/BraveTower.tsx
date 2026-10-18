@@ -1,19 +1,20 @@
 import {useEffect,useState} from 'react';
-import type { GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import {BRAVE_TOWER_SEGMENT,braveTowerPosition} from '../../../domain/challenges/brave-tower.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import '../../../shared/ui/management.css';
 import './BraveTower.css';
 
 /** Select an entrance; battles begin only by approaching the floor's guardian. */
-export default function BraveTower({s,onEnter}:{s:GameSnapshot;onEnter:(floor:number)=>void}) {
-  const progress=s.braveTower,{checkpoints,resumeFloor:resume}=progress,position=braveTowerPosition(progress);
-  const hasProgress=progress.highestCleared>0||!position.climbComplete&&!!s.bosses.find(boss=>boss.id===position.bossId)?.attempts;
+export default function BraveTower({c,onEnter}:{c:GameController;onEnter:(floor:number)=>void}) {
+  const progress=useGame(c,s=>s.braveTower),bosses=useGame(c,s=>s.bosses),activeBattle=useGame(c,battleActive);
+  const {checkpoints,resumeFloor:resume}=progress,position=braveTowerPosition(progress);
+  const hasProgress=progress.highestCleared>0||!position.climbComplete&&!!bosses.find(boss=>boss.id===position.bossId)?.attempts;
   const [floor,setFloor]=useState(position.entrance);
   useEffect(()=>setFloor(position.entrance),[resume]);
   const selected=checkpoints.find(checkpoint=>checkpoint.floor===floor)??checkpoints[0];
-  const activeBattle=battleActive(s);
   return <section className="management-panel brave-tower" aria-label="勇者之塔起点选择">
     <div className="tower-progress"><span>最高通过 <b>{progress.highestCleared}</b> / {progress.totalFloors} 层</span><span>每通过十层，解锁下一段起点</span><meter aria-label="勇者之塔通关进度" value={progress.highestCleared} max={progress.totalFloors}/></div>
     {resume!==null&&hasProgress&&<div className="tower-resume"><div><strong>继续上次挑战 · 第 {resume} 层</strong><span>进入楼层，与中央的守层精灵互动开始挑战</span></div><button className="primary" disabled={activeBattle} onClick={()=>onEnter(resume)}>继续第 {resume} 层</button></div>}

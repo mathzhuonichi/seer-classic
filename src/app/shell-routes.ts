@@ -1,4 +1,4 @@
-import type { GameController, GameSnapshot } from '../kernel/contract.ts';
+import type { GameController } from '../kernel/contract.ts';
 import type { BossView } from '../shared/views.ts';
 import {campaignBackdrop} from '../features/battle/index.ts';
 import { locateTarget, parseRoute } from './shell-navigation.ts';
@@ -9,8 +9,8 @@ import type { BattleBackdrops } from './useBattlePreparation.ts';
 import type { useShellNavigation } from './useShellNavigation.ts';
 
 /** The shell's destinations: campaigns, the Tower, challenge locations, scene routes and encyclopedia routes. */
-export function shellRoutes({ c, s, navigation, backdrops, setMessage, setSelected }: {
-  c: GameController; s: GameSnapshot; navigation: ReturnType<typeof useShellNavigation>; backdrops: { current: BattleBackdrops };
+export function shellRoutes({ c, navigation, backdrops, setMessage, setSelected }: {
+  c: GameController; navigation: ReturnType<typeof useShellNavigation>; backdrops: { current: BattleBackdrops };
   setMessage: (message: string) => void; setSelected: (uid: string) => void;
 }) {
   const { show, travel, enterCampaign } = navigation;
@@ -33,11 +33,11 @@ export function shellRoutes({ c, s, navigation, backdrops, setMessage, setSelect
   function navigate(page: string) {
     const route = parseRoute(page);
     if (route.kind === 'tower') openTower();
-    else if (route.kind === 'campaign') { if (s.campaigns.some(campaign => campaign.id === route.campaignId)) openCampaign(route.campaignId); }
+    else if (route.kind === 'campaign') { if (c.snapshot().campaigns.some(campaign => campaign.id === route.campaignId)) openCampaign(route.campaignId); }
     else show(route.windowKind, route.focus);
   }
   function locate(_species: number, route: AcquisitionRoute) {
-    const target = locateTarget(route);
+    const target = locateTarget(route), s = c.snapshot();
     if (target.kind === 'travel') travel(target.destination, target.windowKind, target.focus);
     else if (target.kind === 'campaign') openCampaign(target.campaignId);
     else if (target.kind === 'boss') travelToChallenge(s.bosses.find(boss => boss.id === target.bossId)!);

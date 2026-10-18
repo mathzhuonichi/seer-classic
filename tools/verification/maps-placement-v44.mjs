@@ -76,7 +76,7 @@ await withSsr('maps-placement-v44',async load=>{
   const game=createGame(await loadCatalog(),''),s=game.snapshot();
   const markup=({planet,region})=>{
     memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:planet.id,regionId:region.id,x:50,y:70,visited:[]}));
-    return renderToStaticMarkup(React.createElement(WorldMap,{s,c:game}));
+    return renderToStaticMarkup(React.createElement(WorldMap,{c:game}));
   };
   const placed=(home,actor)=>`style="left:${home.x}%;top:${home.y}%${actor?`;width:${actor.width}%;height:${actor.height}%`:''}"`;
   check('WorldMap draws every contact at its source position with native actor dimensions',()=>{

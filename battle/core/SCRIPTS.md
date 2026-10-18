@@ -4,7 +4,7 @@ Skills whose effect has no declarative op carry `{ "op": "script", "id": "seer_e
 `<n>` is the original Seer side-effect template; its Chinese text is quoted above each entry
 (`params` = `{0}`, `{1}`, ... in order). Boss rules `{ "rule": "script", "id", "params" }` and phase ops
 `{ "op": "script", "id", "params" }` use the same registry. Pass `scripts: SEER_SCRIPTS` to `createBattle`;
-the game adds its own registries from `src/mechanics` (classic traits, campaign rules, NPC training).
+the game adds its own registries (see [Game registries](#game-registries)).
 
 ## Modules (`src/scripts/`)
 
@@ -20,6 +20,20 @@ the game adds its own registries from `src/mechanics` (classic traits, campaign 
 
 A number quoted in a template's text stays next to that quote; any other number goes in `constants.ts`.
 
+## Game registries
+
+`src/features/battle/battle-setup.ts` creates every battle with
+`BATTLE_SCRIPTS = { ...SEER_SCRIPTS, ...traitScripts, ...campaignScripts, ...npcTrainingScripts }`:
+
+| module | holds |
+|---|---|
+| `src/domain/traits.ts` | all 48 classic traits: `traits` (definitions, source parameters, implementation limitations) and `traitScripts` (their hooks), from one table keyed by the original effect id |
+| `src/domain/challenges/campaign-rules.ts` | `campaignScripts`, the campaign encounter rules |
+| `src/domain/challenges/npc-training-scripts.ts` | `npcTrainingScripts`, the seal passives of the NPC trainer's Gaia |
+
+The game registries are built with the builders and helpers below (`builders.ts`, `util.ts`); campaign
+`status_on_attacker` reuses the boss rule's hook, `statusOnAttacker` from `boss.ts`.
+
 ## Entry shape
 
 An entry is a function (treated as `apply`) or an object with any of:
@@ -27,7 +41,7 @@ An entry is a function (treated as `apply`) or an object with any of:
 | member | called | context `c` | return |
 |---|---|---|---|
 | `apply(c, p)` | effect phase, after damage, in effect order | `battle, user, foe, ctx` | ignored |
-| `power(c, p, power)` | before damage (also by the AI with `c.estimate = true`: **no RNG draws then**) | `battle, user, foe, skill, ctx, estimate` | new power |
+| `power(c, p, power)` | before damage; also by the read-only probe behind the AI's damage estimate, with `c.estimate = true`: **no RNG draws then** | `battle, user, foe, skill, ctx, estimate` | new power |
 | `priority(c, p)` | turn ordering | `battle, user, foe, skill` | new priority |
 | `crit(c, p)` | crit roll | `battle, user, foe, skill, ctx` | `{ force?, add? }` (add = x/16) |
 | `accuracy(c, p)` | accuracy check | `battle, user, foe, skill, ctx` | `true` sure hit, `false` miss |

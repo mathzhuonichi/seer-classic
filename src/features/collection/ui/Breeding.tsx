@@ -1,5 +1,5 @@
 import {useMemo} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {BREEDING_RECIPES,type BreedingRecipe} from '../../../domain/recipes/breeding.ts';
 import {
@@ -8,22 +8,24 @@ import {
 import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {ConfirmBar,OutcomeCard,ParentCard,ParentPair,RecipeButton,RecipeHeading,useRecipeWorkbench} from './RecipeWorkbench.tsx';
 import './fusion.css';
 import './Breeding.css';
 
 interface BreedingResult {feedback:string;offspringUid:string}
-interface BreedingProps {s:GameSnapshot;c:GameController;initialRecipeId?:string;onOpenDex:(species:number)=>void;onOpenMonsters:(uid:string)=>void}
+interface BreedingProps {c:GameController;initialRecipeId?:string;onOpenDex:(species:number)=>void;onOpenMonsters:(uid:string)=>void}
 
-export default function Breeding({s,c,initialRecipeId,onOpenDex,onOpenMonsters}:BreedingProps){
+export default function Breeding({c,initialRecipeId,onOpenDex,onOpenMonsters}:BreedingProps){
  const {recipe,setRecipeId,first:maleUid,setFirst:setMaleUid,second:femaleUid,setSecond:setFemaleUid,result,setResult}
   =useRecipeWorkbench<BreedingRecipe,BreedingResult>(BREEDING_RECIPES,initialRecipeId);
- const name=speciesNamer(s.species),activeBattle=battleActive(s);
- const rows=useMemo(()=>breedingRecipeRows(s.monsters),[s.monsters]);
- const choices=recipe?breedingParentChoices(recipe,s.monsters):{male:[],female:[]};
+ const species=useGame(c,s=>s.species),monsters=useGame(c,s=>s.monsters),activeBattle=useGame(c,battleActive);
+ const name=speciesNamer(species);
+ const rows=useMemo(()=>breedingRecipeRows(monsters),[monsters]);
+ const choices=recipe?breedingParentChoices(recipe,monsters):{male:[],female:[]};
  const male=choices.male.find(mon=>mon.uid===maleUid),female=choices.female.find(mon=>mon.uid===femaleUid);
  const valid=!!recipe&&breedingPairValid(recipe,male,female);
- const offspring=s.monsters.find(mon=>mon.uid===result?.offspringUid);
+ const offspring=monsters.find(mon=>mon.uid===result?.offspringUid);
 
  function breed(){
   if(!recipe||!male||!female||!valid||activeBattle)return;

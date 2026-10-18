@@ -12,7 +12,8 @@ import { reuseUnchanged } from './structural-sharing.ts';
 
 /**
  * Builds a snapshot function whose catalogue rows are created once and reused while unchanged. Every slice and row that equals
- * the previous snapshot's keeps its identity, and an unchanged snapshot is returned as is.
+ * the previous snapshot's keeps its identity. The snapshot object itself is new on every build, because a screen may also read
+ * controller state that no slice carries (`engravingOptions`).
  */
 export function createSnapshotBuilder(ctx: GameContext): (rt: Runtime) => GameSnapshot {
   const catalog = catalogViews(ctx), inventory = createInventoryViews(ctx), shop = createShopViews(ctx);
@@ -31,7 +32,7 @@ export function createSnapshotBuilder(ctx: GameContext): (rt: Runtime) => GameSn
       quests: questViews(ctx, save), battle: session ? battleView(rt, session) : null, expPool: save.exp_pool, coins: save.game.coins,
       notices: [...rt.notices], natures, traits, items: inventory(items, unlimited, session?.battle ?? null), shopItems: shop(save, items),
     };
-    previous = previous ? reuseUnchanged(previous, next) : next;
+    previous = previous ? { ...reuseUnchanged(previous, next) } : next;
     return previous;
   };
 }

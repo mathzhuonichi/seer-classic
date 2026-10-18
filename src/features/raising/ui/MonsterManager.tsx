@@ -1,7 +1,8 @@
 import {useEffect,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {battleActive,hpPercent} from '../../../shared/view-helpers.ts';
 import {appearanceOf,partyMonsters} from '../../../shared/monster-views.ts';
 import MonsterCard from '../../../shared/ui/MonsterCard.tsx';
@@ -16,7 +17,8 @@ import '../../../shared/ui/management.css';
 interface NavButton {id:string;label:string;title?:string;text:string;pressed?:boolean;disabled?:boolean;onClick:()=>void}
 
 /** The PetBag: side buttons, the selected monster's portrait and detail panel, the party strip and the box. */
-export default function MonsterManager({s,c,selected,onSelect}:{s:GameSnapshot;c:GameController;selected:string;onSelect:(uid:string)=>void}) {
+export default function MonsterManager({c,selected,onSelect}:{c:GameController;selected:string;onSelect:(uid:string)=>void}) {
+  const s=useGame(c,snapshot=>snapshot);
   const [storageOpen,setStorageOpen]=useState(false),[swapOpen,setSwapOpen]=useState(false);
   const [tabRequest,setTabRequest]=useState<{tab:RaisingTab;id:number}>(),[feedback,setFeedback]=useState('');
   const box=useStorageBox(s.monsters),party=partyMonsters(s),busy=battleActive(s);

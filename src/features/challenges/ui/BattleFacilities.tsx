@@ -1,8 +1,9 @@
 import {useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import '../../../shared/ui/management.css';
 import './BattleFacilities.css';
 
@@ -11,14 +12,14 @@ const TAGLINES:Record<string,string>={random:'随机六精灵',elite:'精选主�
 const RANDOM_NOTES:Record<string,string>={random:'对方阵容会在进入战斗后揭晓。',elite:'高种族值主力与精选战术精灵同池登场，特训精灵使用对应的强化状态。'};
 
 export interface BattleFacilitiesProps {
-  s:GameSnapshot;c:GameController;facilityId?:string;
+  c:GameController;facilityId?:string;
   /** Opens on this fixed team, inside its facility and group. */
   initialTeamId?:string;
   onManage?:()=>void;
 }
 
-export default function BattleFacilities({s,c,facilityId,initialTeamId,onManage}:BattleFacilitiesProps) {
-  const facilities=s.facilities;
+export default function BattleFacilities({c,facilityId,initialTeamId,onManage}:BattleFacilitiesProps) {
+  const facilities=useGame(c,s=>s.facilities),party=useGame(c,s=>s.party),monsters=useGame(c,s=>s.monsters),activeBattle=useGame(c,battleActive);
   const initial=initialTeamId===undefined?undefined:facilities
     .flatMap(row=>(row.teams??[]).map(team=>({facilityId:row.id,team}))).find(entry=>entry.team.id===initialTeamId);
   const [selected,setSelected]=useState(facilityId??initial?.facilityId??DEFAULT_FACILITY),[teamId,setTeamId]=useState(initialTeamId??'');
@@ -37,8 +38,7 @@ export default function BattleFacilities({s,c,facilityId,initialTeamId,onManage}
   const team=teams.find(row=>row.id===teamId)??teams[0];
   if(team?.id!==shownTeamId){setShownTeamId(team?.id);setMemberIndex(0)}
   const member=team?.opponents[memberIndex]??team?.opponents[0];
-  const ready=s.party.filter(uid=>s.monsters.some(mon=>mon.uid===uid&&mon.hp>0)).length;
-  const activeBattle=battleActive(s);
+  const ready=party.filter(uid=>monsters.some(mon=>mon.uid===uid&&mon.hp>0)).length;
   const unavailable=!facility||activeBattle||!ready||(classic?!team:(facility.poolSize??0)<facility.opponentCount);
   return <section className="management-panel battle-facilities" aria-label="太空站对战设施">
     <div className="management-panel-heading"><strong>太空站对战中心</strong><span>六精灵对战 · 对方 Lv.100</span></div>
@@ -63,7 +63,7 @@ export default function BattleFacilities({s,c,facilityId,initialTeamId,onManage}
           </section>:<p className="management-empty">暂无可挑战的经典队伍。</p>}
         </div>
       </>:<section className="facility-random-preview" aria-label="随机对手说明"><div className="facility-random-slots" aria-hidden="true">{Array.from({length:facility.opponentCount},(_,index)=><span key={index}><b>?</b><small>Lv.{facility.level}</small></span>)}</div><p>每次开始对战都会重新抽取六只不同的精灵。{RANDOM_NOTES[facility.id]??RANDOM_NOTES.random}</p></section>}
-      <div className="facility-start-row"><div><strong>你的出战队伍 {s.party.length} / {PARTY_MAX}</strong><span>{ready?`${ready} 只精灵可以出战`:'请先恢复精灵，或将精灵加入出战队伍。'}</span></div><button className="primary" disabled={unavailable} onClick={()=>c.dispatch({type:'startFacility',facilityId:facility.id,...(classic&&team?{teamId:team.id}:{})})}>{classic?'挑战这支队伍 →':'随机匹配并开战 →'}</button></div>
+      <div className="facility-start-row"><div><strong>你的出战队伍 {party.length} / {PARTY_MAX}</strong><span>{ready?`${ready} 只精灵可以出战`:'请先恢复精灵，或将精灵加入出战队伍。'}</span></div><button className="primary" disabled={unavailable} onClick={()=>c.dispatch({type:'startFacility',facilityId:facility.id,...(classic&&team?{teamId:team.id}:{})})}>{classic?'挑战这支队伍 →':'随机匹配并开战 →'}</button></div>
       <div className="facility-preparation"><button disabled={activeBattle} onClick={()=>c.dispatch({type:'heal'})}>恢复全队</button>{onManage&&<button onClick={onManage}>调整出战队伍</button>}</div>
     </div>:<div className="management-empty">对战设施暂不可用。</div>}
   </section>;

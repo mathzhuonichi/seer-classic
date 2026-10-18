@@ -1,5 +1,6 @@
-import type { GameSnapshot } from '../kernel/contract.ts';
+import type { GameController } from '../kernel/contract.ts';
 import { partyMonsters } from '../shared/monster-views.ts';
+import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';
 
@@ -19,9 +20,10 @@ export function GameToolbar({ hidden, active, questAlert, onOpen }: {
   </nav></footer>;
 }
 
-export function RecoveryConsole({ s, onHeal }: { s: GameSnapshot; onHeal: () => void }) {
+export function RecoveryConsole({ c, onHeal }: { c: GameController; onHeal: () => void }) {
+  const party = useGame(c, s => s.party), monsters = useGame(c, s => s.monsters), roster = partyMonsters({ party, monsters });
   return <section className="recovery-console"><div className="recovery-symbol">✚</div><h3>恢复体力与技能 PP</h3>
-    <div className="recovery-roster">{partyMonsters(s).map(mon => <div key={mon.uid}><span>{mon.name}</span><span>{mon.hp} / {mon.stats.hp}</span></div>)}</div>
+    <div className="recovery-roster">{roster.map(mon => <div key={mon.uid}><span>{mon.name}</span><span>{mon.hp} / {mon.stats.hp}</span></div>)}</div>
     <button className="primary" onClick={onHeal}>恢复全队</button>
   </section>;
 }

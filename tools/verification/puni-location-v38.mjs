@@ -28,7 +28,7 @@ try {
   const expectedBackground=`${registeredArt.path}?v=${registeredArt.sha256.slice(0,12)}`;
   const expectedLocation={planetId:'space-station',regionId:'mystery',staging:false};
   function stageMarkup(game){return renderToStaticMarkup(React.createElement(CampaignScene,{campaign:view(game),c:game,onLeave:()=>{},onManage:()=>{},background:region.background}));}
-  function mapMarkup(game){memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:'space-station',regionId:'mystery',x:42,y:80,visited:['space-station/mystery']}));return renderToStaticMarkup(React.createElement(WorldMap,{s:game.snapshot(),c:game,onNavigate:()=>{}}));}
+  function mapMarkup(game){memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId:'space-station',regionId:'mystery',x:42,y:80,visited:['space-station/mystery']}));return renderToStaticMarkup(React.createElement(WorldMap,{c:game,onNavigate:()=>{}}));}
   check('All seven seals and the final body resolve to the same retained Puni arena',()=>{
     assert.deepEqual(definition.stages.map(row=>row.id),stageIds);assert.equal(region.originalMapId,10032);assert.equal(region.campaignId,'puni');assert.deepEqual([...region.bossIds].sort(),[...bossIds].sort());
     assert.equal(region.backgroundAssetMapId,10032);assert.equal(region.background,expectedBackground);assert.equal(region.backgroundKind,'remastered');

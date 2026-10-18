@@ -7,6 +7,7 @@ import {MAX_LEVEL} from '../../../../raising/core/growth.ts';
 import {getCreatureArt} from '../../../shared/creature-art.ts';
 import {STAT_LABELS} from '../../../shared/labels.ts';
 import {isEvValue} from '../ev-draft.ts';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {appearanceOf,speciesName,statTotal} from '../../../shared/monster-views.ts';
 import './Modifier.css';
 
@@ -65,10 +66,11 @@ function trapTab(event:KeyboardEvent<HTMLElement>){
  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
 }
 
-type Props={s:GameSnapshot;c:GameController;m:MonsterView|undefined;onSelect:(uid:string)=>void;close:()=>void};
+type Props={c:GameController;m:MonsterView|undefined;onSelect:(uid:string)=>void;close:()=>void};
 
 /** 航行修改器: a test dialog that edits monsters, adds species and sets resources. */
-export default function Modifier({s,c,m,onSelect,close}:Props){
+export default function Modifier({c,m,onSelect,close}:Props){
+ const s=useGame(c,snapshot=>snapshot);
  const [species,setSpecies]=useState(1),[exp,setExp]=useState(100000),[feedback,setFeedback]=useState('');
  const dialog=useRef<HTMLElement>(null),picker=useRef<HTMLSelectElement>(null);
  useEffect(()=>{

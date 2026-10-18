@@ -31,9 +31,9 @@ try{
     'space-station/classic-arena':['space-station','resources'],
   };
   const location=(planetId,regionId)=>{const {planet,region}=resolveWorldLocation(planetId,regionId);return [planet.id,region.id]};
-  const markup=(planetId,regionId,extra={})=>{
+  const markup=(planetId,regionId,snapshot=s)=>{
     memory.set('seer-classic.world-ui.v1',JSON.stringify({planetId,regionId,x:50,y:70,visited:[`${planetId}/${regionId}`]}));
-    return renderToStaticMarkup(React.createElement(WorldMap,{s,c:game,...extra}));
+    return renderToStaticMarkup(React.createElement(WorldMap,{c:{...game,snapshot:()=>snapshot}}));
   };
   check('Ship and Space Station retain only three and four distinct functional backgrounds',()=>{
     assert.deepEqual(ship.regions.map(region=>region.id),['transport','lab','captain']);
@@ -103,7 +103,7 @@ try{
     for(let floor=1;floor<=70;floor++){
       const id=`boss_tower_brave_f${String(floor).padStart(3,'0')}`,boss=s.bosses.find(row=>row.id===id);
       assert(boss);
-      const html=markup('space-station','brave-tower',{s:{...s,braveTower:{...s.braveTower,highestCleared:floor-1,resumeFloor:floor}}});
+      const html=markup('space-station','brave-tower',{...s,braveTower:{...s.braveTower,highestCleared:floor-1,resumeFloor:floor}});
       assert(html.includes('data-map-id="500"'));
       assert(html.includes(`data-tower-floor="${floor}"`));assert(html.includes('data-tower-complete="false"'));
       assert.equal((html.match(/data-boss=/g)??[]).length,1);assert(html.includes(`data-boss="${id}" data-species="${boss.species}" style="left:50%;top:58%"`));
@@ -111,7 +111,7 @@ try{
       assert(html.includes('data-tower-action="choose"'));assert(!html.includes('data-station-action='));assert(!html.includes('world-roamer'));
       if(boss.opponents.length>1)assert(html.includes(`队伍 ${boss.opponents.length} 只`));
     }
-    const complete=markup('space-station','brave-tower',{s:{...s,braveTower:{...s.braveTower,highestCleared:70,resumeFloor:null}}});
+    const complete=markup('space-station','brave-tower',{...s,braveTower:{...s.braveTower,highestCleared:70,resumeFloor:null}});
     assert(complete.includes('data-tower-floor="70"'));assert(complete.includes('data-tower-complete="true"'));
     assert(complete.includes('已通过全部 70 层'));assert(complete.includes('data-boss="boss_tower_brave_f070"'));
     report.observations.towerSceneStates=71;
@@ -119,7 +119,7 @@ try{
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);
     for(const facility of s.facilities){
-      const html=renderToStaticMarkup(React.createElement(BattleFacilities,{s,c:game,facilityId:facility.id}));
+      const html=renderToStaticMarkup(React.createElement(BattleFacilities,{c:game,facilityId:facility.id}));
       for(const option of s.facilities)assert(html.includes(option.name));
       assert(html.includes(`aria-pressed="true">${facility.name}</button>`));
     }

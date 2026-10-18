@@ -18,7 +18,7 @@ try{
   for(const uid of seed.snapshot().party)seed.dispatch({type:'cheatMonster',uid,level:100});
   const save=JSON.parse(seed.exportSave()),rngState=[...new Rng(20261016).s];save.rng_state=rngState;
   const make=()=>createGame(catalog,JSON.stringify(save));
-  const render=game=>renderToStaticMarkup(React.createElement(Battle,{s:game.snapshot(),c:game}));
+  const render=game=>renderToStaticMarkup(React.createElement(Battle,{c:game}));
   /** Drive ordinary moves, switching on knockouts, and collect every presentation frame and snapshot. */
   function play(game,turns=12){
     const frames=[],snapshots=[game.snapshot().battle];
@@ -100,7 +100,8 @@ try{
     const foeHits=hits(wildRun.frames,1);assert(foeHits.length>0);
     for(const hit of foeHits)assert(hit.text.includes(`剩余体力 ${hit.enemy.hp}/${hit.enemy.maxHp}`),hit.text);
     assert(wildRun.battle.log.some(line=>line.includes(`剩余体力 ${foeHits[0].enemy.hp}/${foeHits[0].enemy.maxHp}`)));
-    const start=wildRun.snapshots[0],html=renderToStaticMarkup(React.createElement(Battle,{s:{...wild.snapshot(),battle:start},c:wild}));
+    const start=wildRun.snapshots[0],fixed={...wild.snapshot(),battle:start};
+    const html=renderToStaticMarkup(React.createElement(Battle,{c:{...wild,snapshot:()=>fixed}}));
     assert(html.includes(`<span>${start.enemy.hp} / ${start.enemy.maxHp}</span>`));
     report.wild={maxHp:start.enemy.maxHp,foeHits:foeHits.map(hit=>hit.amount)};
   });

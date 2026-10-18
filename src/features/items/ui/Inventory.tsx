@@ -1,10 +1,11 @@
 import {useEffect,useRef,useState} from 'react';
-import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
 import InventoryDetail from './InventoryDetail.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
+import {useGame} from '../../../shared/ui/use-game.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,isItemPocket,type ItemPocket} from '../../../shared/item-categories.ts';
 import {bagItems,itemStock,itemUseAction,itemUseFeedback,pocketItems} from '../inventory-views.ts';
@@ -13,9 +14,10 @@ import '../../../shared/ui/management.css';
 import './Inventory.css';
 
 const PAGE_SIZE=48;
-interface Props {s:GameSnapshot;c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}
+interface Props {c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}
 
-export default function Inventory({s,c,onSave,onMessage,initialPocket}:Props) {
+export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
+  const s=useGame(c,snapshot=>snapshot);
   const inBattle=battleActive(s);
   const [pocket,setPocket]=useState<ItemPocket>(initialPocket&&isItemPocket(initialPocket)?initialPocket:inBattle?'battle':'raising');
   const [search,setSearch]=useState(''),[itemId,setItemId]=useState('');

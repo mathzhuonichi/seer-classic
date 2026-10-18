@@ -50,7 +50,7 @@ Never write an absolute or home-directory path into a tracked file, a generated 
 7. **Saves:** change the format through `MIGRATIONS` with a version bump. Never overwrite an unreadable save.
 8. **Size:**
    - New or changed functions stay under about 80 lines, and lines under about 160 characters.
-   - Do not grow `src/kernel/game.ts` or `battle/core/src/battle.ts`; extract instead.
+   - Do not grow `src/kernel/game.ts` or `battle/core/src/engine/battle.ts`; extract instead.
 9. **Documentation:** index every design note in `design/notes/INDEX.md` with a status. Repository files are written in English.
 10. **Concurrency:** keep commits small, use one branch or worktree per agent, and do not reformat whole files.
 

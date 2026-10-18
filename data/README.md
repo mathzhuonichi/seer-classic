@@ -1,6 +1,6 @@
 # Seer Classic catalog (data/)
 
-Owner: the "Monster and boss catalog" thread. Shapes follow `design/foundation.md` v0.2.
+Owner: the "Monster and boss catalog" thread. Shapes are the types in `battle/core/src/types.ts` (see [ARCHITECTURE.md](../ARCHITECTURE.md)).
 `natures.json` and `growth.json` belong to the raising thread.
 
 ## Files
@@ -11,13 +11,11 @@ Owner: the "Monster and boss catalog" thread. Shapes follow `design/foundation.m
 | `skills.json` | 5,325 skills (array), id = original skill id |
 | `conditions.json` | timed conditions referenced by skill `add_condition` ops |
 | `types.json` | 18 base types and 29 composite mappings; all 324 single-type coefficients match the official Unity configuration (see `_note`) |
-| `bosses/*.json` | PvE boss encounters (section 7 shape + `capture`, `strategy_notes`, `engine_notes`, `confidence`, `sources`) |
+| `bosses/*.json` | PvE boss encounters (`BossEncounter` shape + `capture`, `strategy_notes`, `engine_notes`, `confidence`, `sources`) |
 | `trainers/*.json` | Ten authored six-member Lv.100 teams in four tactical groups; ordinary builds with level-learned or explicitly task-rewarded skills, loaded separately from boss acquisition routes |
 | `bosses/_modes_tower.md` | rules of the repeatable challenge modes |
-| `scripts_needed.md` | skill effects that need an engine script, with original template text |
-| `items.json` | 51 pre-2013 items: capsules, HP/PP potions, 能量珠, 学习力/性格/level items, EXP/EV boosters (`_build/build_items.py`) |
+| `items.json` | 51 pre-2013 items: capsules, HP/PP potions, 能量珠, 学习力/性格/level items, EXP/EV boosters |
 | `catalog_index.json` | one-line index of every species (name, types, stat total, evolutions, tags) |
-| `_build/` | the scripts that generated monsters/skills/conditions/types |
 
 ## Source
 
@@ -54,7 +52,7 @@ id or any later id, i.e. a month by which the monster certainly existed. All 1,4
   Fixed hit counts (AtkNum) become `multi_hit {min=max}`.
 - Every skill keeps `seer_effects` (original effect id + args) next to the converted
   `effects`, so any op mapping can be re-derived. 490 ops (on 484 skills) are
-  `script` ops named `seer_eff_<n>`; `scripts_needed.md` lists each with its text.
+  `script` ops named `seer_eff_<n>`, implemented in `battle/core/src/scripts/` under their quoted template text.
   Ops marked `"inferred": true` come from Flash effects with no template text
   (21 counter, 41 fire resistance, 42 charge, 31 without args), read from the skill text.
 - Learnset entries with `"method": "special"` were task-taught in Flash (雷伊特训:

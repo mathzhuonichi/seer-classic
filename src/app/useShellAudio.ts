@@ -2,12 +2,14 @@ import { useEffect, useRef } from 'react';
 import { battleLevelGained } from '../shared/audio/action-sounds.ts';
 import { gameAudio } from '../shared/audio/game-audio.ts';
 import type { GameSnapshot } from '../kernel/contract.ts';
+import { useGame, type GameStore } from '../shared/ui/use-game.ts';
 import type { BattleView } from '../shared/views.ts';
 
 const partyLevels = (battle: BattleView) => new Map(battle.party.map(mon => [mon.uid, mon.level]));
 
 /** Audio that follows the shell: gesture unlock, tab visibility, battle music and the post-battle level-up cue. */
-export function useShellAudio(s: GameSnapshot, preparing: boolean) {
+export function useShellAudio(store: GameStore<GameSnapshot>, preparing: boolean) {
+  const battleOpen = useGame(store, s => !!s.battle);
   const levels = useRef<Map<string, number> | null>(null), levelUp = useRef(false);
   useEffect(() => {
     const unlock = () => { void gameAudio.unlock(); };
@@ -20,14 +22,15 @@ export function useShellAudio(s: GameSnapshot, preparing: boolean) {
     };
   }, []);
   useEffect(() => {
-    gameAudio.setBattleActive(!!s.battle && !preparing);
-    if (s.battle && !levels.current) levels.current = partyLevels(s.battle);
-    if (!s.battle && levels.current) {
+    const battle = battleOpen ? store.snapshot().battle : null;
+    gameAudio.setBattleActive(battleOpen && !preparing);
+    if (battle && !levels.current) levels.current = partyLevels(battle);
+    if (!battle && levels.current) {
       levels.current = null;
       if (levelUp.current) gameAudio.playSfx('level-up');
       levelUp.current = false;
     }
-  }, [!!s.battle, preparing]);
+  }, [battleOpen, preparing]);
   return {
     /** A new battle's party levels: the baseline for the level-up cue. */
     track(battle: BattleView) { levels.current = partyLevels(battle); },
