@@ -1,5 +1,6 @@
 import source from '../../../data/engravings.json';
-import type { EffectOp, Skill, StatKey } from '../../../battle/core/src/index.ts';
+import type { EffectOp, Skill } from '../../../battle/core/src/index.ts';
+import type { StatKey } from '../../../raising/core/stats.ts';
 
 /** One 2013 ability (能力) or skill (技能) engraving; design/notes/engravings-2013.md. */
 export interface EngravingDefinition {

@@ -1,5 +1,6 @@
 // features/raising's registration: raising and organising owned monsters, the editor, and the roster slices.
-import type { StatBlock, StatKey } from '../../../raising/core/types.ts';
+import type { StatBlock } from '../../../raising/core/types.ts';
+import type { StatKey } from '../../../raising/core/stats.ts';
 import type { MonsterView } from '../../shared/views.ts';
 import type { Feature } from '../../kernel/api.ts';
 import { raisingActions } from './actions.ts';

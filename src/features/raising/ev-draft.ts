@@ -1,6 +1,6 @@
 // The 学习力 editor's draft (one text field per stat), checked against the raising caps.
-import {STAT_KEYS,type StatBlock,type StatKey} from '../../../raising/core/types.ts';
-import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../raising/core/stats.ts';
+import {STAT_KEYS,type StatBlock} from '../../../raising/core/types.ts';
+import {EV_STAT_CAP,EV_TOTAL_CAP,type StatKey} from '../../../raising/core/stats.ts';
 
 export type EvDraft=Record<StatKey,string>;
 

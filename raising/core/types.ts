@@ -1,7 +1,9 @@
 // Shared types for the raising core; the rules they carry are in raising/SPEC.md.
 // Keys are snake_case to match the JSON data files.
 
-export type StatKey = "hp" | "atk" | "def" | "spa" | "spd" | "spe";
+// StatKey lives in stats.ts, the one raising module the battle core may import (architecture-v2 §4).
+import type { StatKey } from "./stats.ts";
+
 export const STAT_KEYS: readonly StatKey[] = ["hp", "atk", "def", "spa", "spd", "spe"];
 
 export type StatBlock = Record<StatKey, number>;

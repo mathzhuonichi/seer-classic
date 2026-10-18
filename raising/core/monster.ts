@@ -1,8 +1,8 @@
 // Rules that act on one raised monster: creation, 个体, 学习力, 性格, EXP/levels, skills,
 // evolution. Every function is pure: it returns a new Monster plus the events that happened.
-import type { Dex, Monster, PartialStats, RaisingEvent, Rng, Species, StatBlock, StatKey } from "./types.ts";
+import type { Dex, Monster, PartialStats, RaisingEvent, Rng, Species, StatBlock } from "./types.ts";
 import { STAT_KEYS } from "./types.ts";
-import { computeStats, EV_STAT_CAP, EV_TOTAL_CAP, evTotal, IV_MAX, IV_MIN, IV_NATURAL_MIN } from "./stats.ts";
+import { computeStats, EV_STAT_CAP, EV_TOTAL_CAP, evTotal, IV_MAX, IV_MIN, IV_NATURAL_MIN, type StatKey } from "./stats.ts";
 import { expToNext, MAX_LEVEL } from "./growth.ts";
 
 export const MAX_EQUIPPED = 4;

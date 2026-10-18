@@ -2,7 +2,7 @@ import evidenceIndex from '../../../data/boss-evidence-runtime-v56.json';
 import ruleIndex from '../../../data/boss-rule-support-v56.json';
 import type {BossEncounter} from '../../../battle/core/src/types.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import type {StatKey} from '../../../raising/core/types.ts';
+import type {StatKey} from '../../../raising/core/stats.ts';
 import type { BossEvidenceStatus, BossEvidenceView } from '../../shared/views.ts';
 import {encounterLevel} from '../../shared/encounter-level.ts';
 import {STAT_LABELS} from '../../shared/labels.ts';

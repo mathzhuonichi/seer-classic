@@ -3,8 +3,8 @@
 
 import type { Battle } from './engine/battle.ts';
 import type { Side } from './engine/state.ts';
+import type { StatKey } from '../../../raising/core/stats.ts';
 
-export type StatKey = 'hp' | 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 export type StageKey = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'acc' | 'eva';
 export type Stats = Record<StatKey, number>;
 export type Text = { zh: string; en?: string };

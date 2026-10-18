@@ -1,5 +1,6 @@
 // Raising items (`kind: "raising"` in data/items.json). Each carries one `raising_effect`.
-import type { Boost, Dex, Monster, PartialStats, RaisingEvent, Rng, Save, StatKey } from "./types.ts";
+import type { Boost, Dex, Monster, PartialStats, RaisingEvent, Rng, Save } from "./types.ts";
+import type { StatKey } from "./stats.ts";
 import {
   addEvs, changeNature, gainExp, gainLevels, rerollIv, rerollNature, resetEvs, restoreMonster, setIv,
   type Result,
