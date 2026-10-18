@@ -57,8 +57,7 @@
       "status": "needs-assets"
     },
     "battle-observe-v58.mjs": {
-      "status": "known-failure",
-      "note": "Its pre-journal baseline imports the retired battle/core/src/tactics.ts; handoff-2026-10-18.md open item 1."
+      "status": "gate"
     },
     "battle-offline-clip.mjs": {
       "status": "needs-assets"

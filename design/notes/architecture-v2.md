@@ -101,6 +101,20 @@ These are enforced by a new gate suite, `tools/verification/architecture.mjs`. I
 
 The contracts are written as real types in `src/kernel/contract.ts` before any feature is filled in.
 
+**Kernel boundary.** The kernel exposes exactly two modules:
+
+- `src/kernel/contract.ts` is the UI-facing contract: `GameSnapshot` (the composition of the feature slices), `GameAction` (the union of the feature actions), `DispatchResult` and `GameController`.
+  - The app, the feature UIs and the kernel import it.
+- `src/kernel/api.ts` is the feature-facing API, imported by feature code that is not UI:
+  - the types `Runtime`, `GameContext` and `Feature`;
+  - the helpers `notice`, `commit`, `replaceMonster`, `requireSession`, `battleInProgress`, `ok` and `fail`.
+  - Features never import other kernel modules.
+- Display types used by several features live in `src/shared/views.ts`:
+  - `SkillView`, `MonsterView`, `ItemView`, `BossEvidenceView`, and the encounter and opponent views.
+  - The kernel and the features both import them, so `shared` never imports the kernel.
+
+**Feature indexes.** `features/X/index.ts` is the only module that re-exports. It lists exactly what other features, the kernel and the app use, and AGENTS rule 4 ("no alias exports") applies to every other file.
+
 **Dispatch result.** `dispatch(action)` returns `DispatchResult`:
 
 ```
