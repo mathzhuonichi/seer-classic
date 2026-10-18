@@ -1,38 +1,45 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createGame } from '../../src/game.ts';
+import { loadCatalog } from '../../src/mechanics/catalog.ts';
 import { WORLD_PLANETS } from '../../src/world.ts';
 import { CHALLENGE_CAMPAIGNS } from '../../src/progression/challenge-campaigns.ts';
 import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/progression/acquisition.ts';
+import { braveTowerFloor } from '../../src/progression/brave-tower.ts';
 import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index.ts';
+import { suite } from './_harness.mjs';
 
 /** Audit catalog-wide route coverage without granting generic remote recruitment. */
-export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisition-v14') {
-  const source = JSON.parse(readFileSync('data/gamedata.json', 'utf8'));
-  source.bosses = readdirSync('data/bosses').filter(file => file.endsWith('.json')).sort().map(file => JSON.parse(readFileSync(`data/bosses/${file}`, 'utf8')));
+export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisition-v14') {
+  const t = suite('dex-acquisition');
+  const source = await loadCatalog() as any;
   const original = structuredClone(source);
-  for (const id of [111, 112, 671]) assert.deepEqual(source.species.find((species: any) => species.id === id), JSON.parse(readFileSync(`data/monsters/${String(id).padStart(4, '0')}.json`, 'utf8')), 'The executable bundle and source species record must agree.');
   const index = buildAcquisitionIndex(original as AcquisitionCatalog);
   const families = buildAcquisitionFamilies(original as AcquisitionCatalog, index);
-  assert.equal(new Set(families.flatMap(family => family.memberIds)).size, source.species.length, 'Every retained species belongs to one source-defined family.');
-  assert.equal(families.flatMap(family => family.memberIds).length, source.species.length);
-  assert.deepEqual(families.filter(family => family.status === 'npc').map(family => family.memberIds), [[122, 123, 124], [125]], 'The user-specified exclusions apply to both complete example families.');
+  t.check('every retained species belongs to one source-defined family; NPC families excluded', () => {
+    assert.equal(new Set(families.flatMap(family => family.memberIds)).size, source.species.length, 'Every retained species belongs to one source-defined family.');
+    assert.equal(families.flatMap(family => family.memberIds).length, source.species.length);
+    assert.deepEqual(families.filter(family => family.status === 'npc').map(family => family.memberIds), [[122, 123, 124], [125]], 'The user-specified exclusions apply to both complete example families.');
+  });
   const runtime = structuredClone(source);
   const fresh = createGame(runtime);
   const byId = new Map<number, any>(source.species.map((species: any) => [species.id, species]));
   const available = [...index].filter(([, entry]) => entry.status === 'available').map(([id]) => id);
   const direct = [...index].filter(([, entry]) => entry.routes.some(route => route.kind !== 'evolution')).map(([id]) => id);
   const missing = [...index].filter(([, entry]) => entry.status === 'unimplemented').map(([id]) => id);
-  assert.equal(index.size, 1483);
-  assert.equal(available.length + missing.length + NPC_ONLY_SPECIES.size, index.size);
-  assert.deepEqual(fresh.snapshot().monsters.map(mon => mon.species), [1, 4, 7]);
-  for (const quest of fresh.snapshot().quests) assert(index.get(quest.rewardSpecies)?.routes.some(route => route.questId === quest.id));
+  t.check('index partition, starters and journey quests', () => {
+    assert.equal(index.size, 1483);
+    assert.equal(available.length + missing.length + NPC_ONLY_SPECIES.size, index.size);
+    assert.deepEqual(fresh.snapshot().monsters.map(mon => mon.species), [1, 4, 7]);
+    for (const quest of fresh.snapshot().quests) assert(index.get(quest.rewardSpecies)?.routes.some(route => route.questId === quest.id));
+  });
 
   const habitatCaptures: { species: number; planetId: string; regionId: string }[] = [];
   const habitatInterceptions: { species: number; planetId: string; regionId: string; battle: string | null }[] = [];
   const habitatCollectionGates: { species: number; planetId: string; regionId: string; questId: string }[] = [];
   const simplifiedHabitatChains: number[][] = [];
+  t.check('all mapped habitats tested for actual capture, named interception, or gated collection task', () => {
   for (const planet of WORLD_PLANETS) for (const region of planet.regions) for (const species of region.creatures) {
     const game = createGame(structuredClone(source));
     if(region.recruitmentSpecies?.includes(species)){
@@ -83,6 +90,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
       simplifiedHabitatChains.push(chain);
     }
   }
+  });
   // The controller owns its catalog copy, so check each reward essence by hatching it.
   const explicitHatchBindings: Record<string, unknown>[] = [];
   const hatchProbe = createGame(structuredClone(source)), probeSave = hatchProbe.exportSave();
@@ -92,31 +100,38 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     game.dispatch({ type: 'useItem', itemId, uid: game.snapshot().party[0] });
     return game.snapshot().monsters.slice(before).map(mon => mon.species)[0];
   };
-  for (const boss of original.bosses) {
+  // An independent statement of the reward rule; brave-tower floors grant tower items, not essences.
+  const essenceItemIds = (boss: any): string[] => {
     const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));
     const intermediate = !!campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
     const explicit = Object.keys(boss.reward?.items ?? {}).filter(id => id.startsWith('essence_'));
-    const itemIds = explicit.length ? explicit : !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' ? [`essence_${boss.id}`] : [];
-    for (const itemId of itemIds) {
+    const authored = !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' && braveTowerFloor(boss.id) === undefined;
+    return explicit.length ? explicit : authored ? [`essence_${boss.id}`] : [];
+  };
+  t.check('all runtime essence items checked against catalog and original hatch metadata', () => {
+    for (const boss of original.bosses) for (const itemId of essenceItemIds(boss)) {
       const hatched = hatchItem(itemId);
       assert(byId.has(hatched), `Missing usable essence binding: ${boss.id}/${itemId}`);
       if (boss.reward_hatches !== undefined) {
         assert.equal(hatched, boss.reward_hatches, `Original hatch binding must survive: ${boss.id}`);
-        explicitHatchBindings.push({ bossId: boss.id, itemId, actualSpecies: hatched, originalSpecies: boss.reward_hatches, enemySpecies: boss.team.at(-1).species });
+        explicitHatchBindings.push({ bossId: boss.id, itemId, actualSpecies: hatched, originalSpecies: boss.reward_hatches, enemySpecies: boss.team.at(-1)!.species });
       }
     }
-  }
+  });
   const dex = makeDex(source);
   const evolutionEdges: { from: number; to: number; level: number }[] = [];
-  for (const id of available) for (const evolution of byId.get(id).evolution) {
-    if (evolution.method !== 'level' || evolution.level === undefined || evolution.level > 100) continue;
-    const mon = createMonster(dex, id, 100, new SeededRng(id));
-    assert(evolutionOptions(mon, dex).includes(evolution.to), `Level evolution must be executable: ${id}->${evolution.to}`);
-    assert.equal(index.get(evolution.to)?.status, 'available');
-    evolutionEdges.push({ from: id, to: evolution.to, level: evolution.level });
-  }
+  t.check('reachable level-evolution edges checked by raising API', () => {
+    for (const id of available) for (const evolution of byId.get(id).evolution) {
+      if (evolution.method !== 'level' || evolution.level === undefined || evolution.level > 100) continue;
+      const mon = createMonster(dex, id, 100, new SeededRng(id));
+      assert(evolutionOptions(mon, dex).includes(evolution.to), `Level evolution must be executable: ${id}->${evolution.to}`);
+      assert.equal(index.get(evolution.to)?.status, 'available');
+      evolutionEdges.push({ from: id, to: evolution.to, level: evolution.level });
+    }
+  });
   // A minimal opponent fixture verifies the real victory -> inventory -> hatch
   // transaction and save reload; it does not establish original boss difficulty.
+  t.check('real victory/essence/hatch/reload fixture', () => {
   const fixture = structuredClone(source);
   fixture.skills.find((skill: any) => skill.id === 10001).accuracy = null;
   const fixtureBoss = fixture.bosses.find((boss: any) => boss.id === 'boss_spt_liaosi');
@@ -132,7 +147,9 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
   assert(game.snapshot().monsters.some(mon => mon.species === 41), 'Liaosi essence must hatch Huliya, not adult Liaosi.');
   const reloaded = createGame(structuredClone(source), game.exportSave());
   assert(reloaded.snapshot().monsters.some(mon => mon.species === 41));
+  });
   const manualEvolutionChecks: number[][] = [], automaticEvolutionChecks: number[][] = [];
+  t.check('ordinary mechanical chain through pooled experience and unchanged non-mechanical manual chain; both register every form and survive reload', () => {
   for (const [bossId, chain] of [['boss_spt_leinaduo', [111, 112, 113]], ['boss_spt_yalunsi', [671, 672]]] as const) {
     const routeFixture = structuredClone(source);
     routeFixture.skills.find((skill: any) => skill.id === 10001).accuracy = null;
@@ -180,6 +197,8 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     for (const species of recordedChain) assert(restored.snapshot().species.find(mon => mon.id === species)!.owned);
     (automatic ? automaticEvolutionChecks : manualEvolutionChecks).push(recordedChain);
   }
+  });
+  t.check('NPC normal recruitment rejected; modifier retained', () => {
   for (const npc of NPC_ONLY_SPECIES) {
     const npcGame = createGame(structuredClone(source));
     npcGame.dispatch({ type: 'startTraining', species: npc });
@@ -187,6 +206,7 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     npcGame.dispatch({ type: 'cheatAcquire', species: npc });
     assert(npcGame.snapshot().monsters.some(mon => mon.species === npc), 'Explicit modifier acquisition remains available.');
   }
+  });
   const oldWorld = structuredClone(WORLD_PLANETS);
   for (const planet of oldWorld) for (const region of planet.regions) region.creatures = region.creatures.filter(id => ![83, 105, 116, 128, 153].includes(id));
   const oldCatalog = structuredClone(original);
@@ -206,10 +226,13 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     missingBaseAcquisition: missing.filter(id => !explicitRewardSpecies.has(id) && !hasAvailablePredecessor(id) && !byId.get(id).obtain?.includes('wild') && !hasPredecessor(id)),
     evolutionsWithUnavailablePredecessors: missing.filter(id => !explicitRewardSpecies.has(id) && !hasAvailablePredecessor(id) && !byId.get(id).obtain?.includes('wild') && hasPredecessor(id)),
   };
-  assert.equal(Object.values(groups).flat().length, missing.length);
-  assert.equal(new Set(Object.values(groups).flat()).size, missing.length);
+  t.check('missing groups partition the missing species', () => {
+    assert.equal(Object.values(groups).flat().length, missing.length);
+    assert.equal(new Set(Object.values(groups).flat()).size, missing.length);
+  });
   const routes = [...index].map(([id, entry]) => ({ id, name: byId.get(id).name.zh, obtainMetadata: byId.get(id).obtain, ...entry }));
-  const sourceHashes = Object.fromEntries(['src/game.ts', 'src/progression/acquisition.ts', 'src/progression/recruitment.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'src/components/Dex.tsx', 'src/components/WorldMap.tsx', 'src/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/gamedata.json', 'data/habitats.json', 'data/acquisition-policy.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
+  const sourceHashes = Object.fromEntries(['src/game.ts', 'src/progression/acquisition.ts', 'src/progression/recruitment.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'src/components/Dex.tsx', 'src/components/WorldMap.tsx', 'src/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/habitats.json', 'data/acquisition-policy.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
+  sourceHashes['data/monsters/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(original.species)).digest('hex');
   sourceHashes['data/bosses/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(original.bosses)).digest('hex');
   const summary = {
     catalogSpecies: index.size, excludedNpcSpecies: [...NPC_ONLY_SPECIES], collectibleDenominator: index.size - NPC_ONLY_SPECIES.size,
@@ -231,7 +254,6 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     manualEvolutionChecks,
     automaticEvolutionChecks,
     simplifiedHabitatChains,
-    checks: ['all mapped habitats tested for actual capture, named interception, or gated collection task', 'map collection gates reject with and without location and preserve saved inventory and unlocks', 'first simplified habitat batch captured, explicitly evolved, registered, and reloaded through controller', 'all runtime essence items checked against catalog and original hatch metadata', 'reachable level-evolution edges checked by raising API', 'real victory/essence/hatch/reload fixture', 'ordinary mechanical chain through pooled experience and unchanged non-mechanical manual chain; both register every form and survive reload', 'NPC normal recruitment rejected; modifier retained'],
   };
   mkdirSync(outputDirectory, { recursive: true });
   writeFileSync(`${outputDirectory}/audit.json`, JSON.stringify({ summary, sourceHashes, habitatCaptures, habitatInterceptions, habitatCollectionGates, explicitHatchBindings, evolutionEdges, routes,
@@ -253,5 +275,5 @@ export function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-acquisit
     familyLines.push('');
   }
   writeFileSync(`${outputDirectory}/acquisition-families.md`, familyLines.join('\n') + '\n');
-  return summary;
+  return t.finish(summary);
 }
