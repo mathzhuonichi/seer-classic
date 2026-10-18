@@ -14,6 +14,30 @@ export function bagItems(inPocket:readonly ItemView[],pocket:ItemPocket,content:
     .sort((a,b)=>pocket==='battle'&&battleSupplyOrder(a)-battleSupplyOrder(b)||a.name.localeCompare(b.name,'zh'));
 }
 
+/**
+ * The bag's selected item. Until the player picks one (`pickedId` is empty) the first item on the page is shown; a picked item
+ * that has run out selects nothing, so the confirm button cannot use up a different item.
+ */
+export function bagSelection(items:readonly ItemView[],pageItems:readonly ItemView[],pickedId:string):ItemView|undefined {
+  return pickedId?items.find(item=>item.id===pickedId):pageItems[0]??items[0];
+}
+
+/** What moves the bag's pick: a tile click, a use, opening a pocket (on the item a link names), a list change, the content filter falling back. */
+export type BagPickEvent={type:'pick'|'use';itemId:string}|{type:'open';itemId?:string}|{type:'clear'}|{type:'fallback'};
+
+/**
+ * The bag's pick after `event` ('' for nothing picked yet). Picking or using an item pins it, so once it runs out nothing is
+ * selected; a link stays named even when the bag holds none of that item; search, a content tab, a page turn or a load clear
+ * the pick; the content filter falling back to 全部 keeps it.
+ */
+export function nextBagPick(pick:string,event:BagPickEvent):string {
+  if(event.type==='clear')return '';
+  return event.type==='fallback'?pick:event.itemId??'';
+}
+
+/** The page of `items` that lists `itemId`, or 0 when it is not listed. */
+export const pageOf=(items:readonly {id:string}[],itemId:string,pageSize:number)=>Math.max(0,Math.floor(items.findIndex(item=>item.id===itemId)/pageSize));
+
 /** The action the confirm button dispatches for `item` on monster `target`, or undefined when the bag cannot use it so; a capsule needs `canCapture`. */
 export function itemUseAction(item:ItemView,target:string|undefined,canCapture:boolean):GameAction|undefined {
   if(item.useAction==='capture')return canCapture?{type:'capture',itemId:item.id}:undefined;

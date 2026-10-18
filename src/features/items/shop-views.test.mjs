@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {shopOrder,shopSearch} from './shop-views.ts';
+import {fitQuantity,shopOrder,shopSearch} from './shop-views.ts';
 
 test('shop orders stay within the product limit',()=>{
   const product={id:'e',name:'精元',kind:'essence',description:'',count:0,price:0,maxQuantity:999};
@@ -11,6 +11,14 @@ test('shop orders stay within the product limit',()=>{
   const blocked=shopOrder({...product,blockedReason:'已达上限。'},'1',true);
   assert.deepEqual([blocked.locked,blocked.canBuy,blocked.hint],[true,false,'请先结束当前战斗']);
   assert.equal(shopOrder(undefined,'1',false).canBuy,false);
+});
+
+test('the typed quantity follows the product maximum',()=>{
+  assert.equal(fitQuantity('4',0),'0','an exhausted allowance shows 0, not the last order');
+  assert.equal(fitQuantity('0',3),'1','ordering opens again at 1');
+  assert.equal(fitQuantity('5',3),'3');
+  assert.equal(fitQuantity('2',3),'2');
+  assert.equal(fitQuantity('',3),'','a cleared field stays cleared');
 });
 
 test('shop search matches names or the hatched species number',()=>{

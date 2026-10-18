@@ -20,6 +20,7 @@
 .shop-order strong{color:#377b6b;margin-left:4px}
 .shop-order label{display:flex;align-items:center;gap:6px;font-size:11px}
 .shop-order input{width:66px;padding:4px 6px;font-size:11px}
+.item-shop-management .shop-order input:disabled{color:#617d8e;background:#e6eef3;box-shadow:none;cursor:default}
 .shop-quantity-presets{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap;margin-bottom:8px}
 .shop-quantity-presets button{padding:3px 8px;font-size:11px}
 .shop-feedback{font-size:11px;line-height:1.6;color:#347967;margin:7px 0}

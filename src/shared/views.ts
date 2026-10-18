@@ -50,7 +50,9 @@ export interface QuestView {
 }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
 export interface CampaignView {
-  id: string; name: string; species: number; speciesName: string; location: string; description: string; stages: CampaignStageView[];
+  id: string; name: string; species: number; speciesName: string; location: string; stages: CampaignStageView[];
+  /** The current stage's instruction: the next stage's, or the last stage's once every stage is cleared. */
+  description: string;
   completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean;
   /** `skills`: each stage teaches a skill instead of the last stage granting the essence. */
   reward: 'essence' | 'skills';

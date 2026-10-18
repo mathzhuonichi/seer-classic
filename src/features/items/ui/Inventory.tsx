@@ -8,31 +8,47 @@ import {usePager} from '../../../shared/ui/use-pager.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,isItemPocket,type ItemPocket} from '../../../shared/item-categories.ts';
-import {bagItems,itemStock,itemUseAction,itemUseFeedback,pocketItems} from '../inventory-views.ts';
+import {bagItems,bagSelection,itemStock,itemUseAction,itemUseFeedback,nextBagPick,pageOf,pocketItems,type BagPickEvent} from '../inventory-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import '../../../shared/ui/management.css';
 import './Inventory.css';
 
 const PAGE_SIZE=48;
-interface Props {c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}
+interface Props {
+  c:GameController;onSave:()=>void;onMessage:(text:string)=>void;
+  /** The pocket to open, and the item to pick in it (nothing is selected while the bag holds none of it). */
+  focus?:{pocket:string;itemId?:string};
+}
 
-export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
+export default function Inventory({c,onSave,onMessage,focus}:Props) {
   const held=useGame(c,s=>s.items),monsters=useGame(c,s=>s.monsters),party=useGame(c,s=>s.party),battle=useGame(c,s=>s.battle);
   const coins=useGame(c,s=>s.coins),expPool=useGame(c,s=>s.expPool),inBattle=battleActive({battle});
-  const [pocket,setPocket]=useState<ItemPocket>(initialPocket&&isItemPocket(initialPocket)?initialPocket:inBattle?'battle':'raising');
+  const [pocket,setPocket]=useState<ItemPocket>(focus&&isItemPocket(focus.pocket)?focus.pocket:inBattle?'battle':'raising');
+  // The picked item id ('' until one is picked or used, see nextBagPick); a pick the bag no longer holds selects nothing.
   const [search,setSearch]=useState(''),[itemId,setItemId]=useState('');
   const [target,setTarget]=useState(inBattle?battle!.player.uid:party[0]??''),[feedback,setFeedback]=useState('');
-  const inPocket=pocketItems(held,pocket),content=useItemContent(pocket,inPocket,clearList);
+  const inPocket=pocketItems(held,pocket),content=useItemContent(pocket,inPocket,filterFellBack);
   const items=bagItems(inPocket,pocket,content.content,search);
   const pager=usePager(items.length,PAGE_SIZE),pageItems=items.slice(pager.start,pager.end);
-  const item=items.find(i=>i.id===itemId)??pageItems[0]??items[0];
+  const item=bagSelection(items,pageItems,itemId),pickGone=!!itemId&&!item;
   const monster=monsters.find(m=>m.uid===target)??monsters.find(m=>m.uid===party[0])??monsters[0];
   const action=item&&itemUseAction(item,monster?.uid,!!battle?.canCapture);
-  function clearList(){pager.setPage(0);setItemId('')}
-  function openPocket(next:ItemPocket){setPocket(next);content.setContent('all');setSearch('');setFeedback('');clearList()}
-  useEffect(()=>{if(initialPocket&&isItemPocket(initialPocket))openPocket(initialPocket)},[initialPocket]);
+  const repick=(event:BagPickEvent)=>setItemId(pick=>nextBagPick(pick,event));
+  function clearList(){pager.setPage(0);repick({type:'clear'});setFeedback('')}
+  function filterFellBack(){pager.setPage(0);repick({type:'fallback'})}
+  function turnPage(step:number){pager.setPage(page=>page+step);repick({type:'clear'});setFeedback('')}
+  /** Opens a pocket afresh, on the page of the item `link` names. */
+  function openPocket(next:ItemPocket,link?:string){
+    const listed=bagItems(pocketItems(held,next),next,'all',''),picked=nextBagPick(itemId,{type:'open',itemId:link});
+    setPocket(next);content.setContent('all');setSearch('');setFeedback('');pager.setPage(pageOf(listed,picked,PAGE_SIZE));setItemId(picked);
+  }
+  useEffect(()=>{if(focus&&isItemPocket(focus.pocket))openPocket(focus.pocket,focus.itemId)},[focus]);
+  useEffect(()=>{if(pickGone)setFeedback('')},[pickGone]);
+  function loadSave(text:string){c.importSave(text);onMessage('已载入航行存档。');setTarget('');repick({type:'clear'});setFeedback('')}
   function confirmUse() {
-    if(item&&action)setFeedback(itemUseFeedback(c.dispatch(action),item,monster));
+    if(!item||!action)return;
+    repick({type:'use',itemId:item.id});
+    setFeedback(itemUseFeedback(c.dispatch(action),item,monster));
   }
   return <section className="management-panel inventory-management" aria-label="道具背包面板">
     <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{coins.toLocaleString()}</b></span>
@@ -41,24 +57,24 @@ export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
     {inBattle&&<p className="inventory-battle-hint">{pocket==='capsule'?'选择胶囊，确认捕捉对方野生精灵。':'战斗期间为出战精灵选择补给，再确认使用。'}</p>}
     <div className="inventory-inner"><aside className="inventory-item-list">
       {content.options.length>2&&<ItemCategoryTabs label="道具用途" value={content.content} options={content.options}
-        onChange={id=>{content.setContent(id);setFeedback('');clearList()}}/>}
+        onChange={id=>{content.setContent(id);clearList()}}/>}
       <div className="management-filter">
         <input aria-label="搜索当前口袋道具" value={search} onChange={e=>{setSearch(e.target.value);clearList()}} placeholder="搜索道具…"/></div>
       <div className="inventory-icon-scroll item-icon-grid">
         {pageItems.map(i=><ItemTile key={i.id} icon={<ItemIcon id={i.id} kind={i.kind} label={i.name}/>} name={i.name} description={i.description}
-          quantity={itemStock(i)} selected={item?.id===i.id} onSelect={()=>{setItemId(i.id);setFeedback('')}}/>)}
+          quantity={itemStock(i)} selected={item?.id===i.id} onSelect={()=>{repick({type:'pick',itemId:i.id});setFeedback('')}}/>)}
         {!items.length&&<div className="management-empty">这个口袋中没有匹配的道具。</div>}
       </div>
       {pager.pages>1&&<div className="management-pagination">
-        <button aria-label="上一页道具" disabled={!pager.page} onClick={()=>{pager.setPage(p=>p-1);setItemId('')}}>‹</button>
+        <button aria-label="上一页道具" disabled={!pager.page} onClick={()=>turnPage(-1)}>‹</button>
         <span>{pager.page+1} / {pager.pages}</span>
-        <button aria-label="下一页道具" disabled={pager.page+1>=pager.pages} onClick={()=>{pager.setPage(p=>p+1);setItemId('')}}>›</button>
+        <button aria-label="下一页道具" disabled={pager.page+1>=pager.pages} onClick={()=>turnPage(1)}>›</button>
       </div>}
     </aside>
       <InventoryDetail item={item} monster={monster} monsters={monsters} party={party} battle={battle} enabled={!!action} feedback={feedback}
-        onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
+        pickGone={pickGone} onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
     </div>
-    <SaveControls inBattle={inBattle} onSave={onSave} onLoad={text=>{c.importSave(text);onMessage('已载入航行存档。');setTarget('');setItemId('');setFeedback('')}}
+    <SaveControls inBattle={inBattle} onSave={onSave} onLoad={loadSave}
       onError={error=>onMessage(`存档无法读取：${String(error)}`)}/>
   </section>;
 }

@@ -57,7 +57,8 @@ export function campaignViews(ctx: GameContext): (save: GameSave) => CampaignVie
     const cleared = campaignProgress(save, campaign), completed = cleared.length;
     return {
       id: campaign.id, name: campaign.name, species: campaign.species, speciesName: ctx.speciesName(campaign.species), location: campaign.location,
-      description: campaign.stages[0].description, reward: campaign.reward, completed, nextStageId: campaign.stages[completed]?.id ?? null,
+      description: campaign.stages[Math.min(completed, campaign.stages.length - 1)].description, reward: campaign.reward, completed,
+      nextStageId: campaign.stages[completed]?.id ?? null,
       finished: completed === campaign.stages.length, resetOnLoss: !!campaign.resetOnLoss,
       stages: campaign.stages.map((stage, index): CampaignStageView => {
         const blockedReason = index > completed ? `请先完成「${campaign.stages[index - 1].name}」。` : stageRequirement(ctx, save, stage);

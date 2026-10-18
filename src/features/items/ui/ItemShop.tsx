@@ -9,7 +9,7 @@ import {EngravingShop} from '../../engravings/ui.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';
-import {shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
+import {fitQuantity,shopOrder,shopSearch,type ShopOrder} from '../shop-views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import '../../../shared/ui/management.css';
 import './ItemShop.css';
@@ -17,7 +17,7 @@ import './ItemShop.css';
 const SHOP_TABS=[...ITEM_POCKETS,['engraving','刻印']] as const;
 type ShopTab=typeof SHOP_TABS[number][0];
 
-export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pocket:string)=>void}){
+export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pocket:string,itemId:string)=>void}){
  const shopItems=useGame(c,s=>s.shopItems),species=useGame(c,s=>s.species),inBattle=useGame(c,battleActive);
  const [tab,setTab]=useState<ShopTab>('battle'),[search,setSearch]=useState(''),[selected,setSelected]=useState('');
  const [quantity,setQuantity]=useState('1'),[feedback,setFeedback]=useState('');
@@ -26,9 +26,9 @@ export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pock
  const products=inTab.filter(item=>(content.content==='all'||itemContentCategory(item)===content.content)&&matches(item));
  const item=products.find(entry=>entry.id===selected)??products[0];
  const order=shopOrder(item,quantity,inBattle);
- useEffect(()=>{setQuantity('1');setFeedback('')},[item?.id]);
- // A successful claim or hatch can change the shared allowance while this panel is open.
- useEffect(()=>{if(order.maximum>0)setQuantity(previous=>Number(previous)>order.maximum?String(order.maximum):previous)},[order.maximum]);
+ useEffect(()=>{setQuantity(fitQuantity('1',order.maximum));setFeedback('')},[item?.id]);
+ // An order or a claim can use up the shared allowance while this panel is open, so the typed quantity follows it.
+ useEffect(()=>setQuantity(previous=>fitQuantity(previous,order.maximum)),[order.maximum]);
  function buy(){
   if(item&&order.canBuy)setFeedback(c.dispatch({type:'buyItem',itemId:item.id,quantity:order.count}).notice??'');
  }
@@ -54,7 +54,7 @@ export default function ItemShop({c,onOpenBag}:{c:GameController;onOpenBag:(pock
 
 interface DetailProps {
  species:SpeciesView[]; item:ShopItemView; order:ShopOrder; quantity:string; feedback:string;
- onQuantity:(value:string)=>void; onBuy:()=>void; onOpenBag:(pocket:string)=>void;
+ onQuantity:(value:string)=>void; onBuy:()=>void; onOpenBag:(pocket:string,itemId:string)=>void;
 }
 
 /** One product: what it is, the free order form for finite stock, and the way to the bag. */
@@ -77,7 +77,7 @@ function ProductDetail({species,item,order,quantity,feedback,onQuantity,onBuy,on
    <div className="management-confirm-row"><span className={maximum===0||item.blockedReason?'shop-order-blocked':''}>{hint}</span>
     <button className="primary" disabled={!canBuy} onClick={onBuy}>{item.hatches?'免费补充':'免费购买'}</button></div></>}
   {feedback&&<p className="shop-feedback" role="status">{feedback}</p>}
-  <button className={item.unlimited?'primary shop-bag-link':'shop-bag-link'} onClick={()=>onOpenBag(itemPocket(item.kind))}>
+  <button className={item.unlimited?'primary shop-bag-link':'shop-bag-link'} onClick={()=>onOpenBag(itemPocket(item.kind),item.id)}>
    {item.hatches?'前往道具背包孵化':item.unlimited?'前往背包取用':'查看道具背包'} →</button>
  </>;
 }

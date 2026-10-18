@@ -61,6 +61,8 @@
 .campaign-scene-controls button{font-size:11px;padding:9px 13px;background:linear-gradient(#f6fbff,#d6e8f3);border:1px solid #8aafc5;white-space:nowrap}
 .campaign-scene-controls .campaign-return{background:#e5f1f8;border-color:#9abacf;color:#3d6781}
 .campaign-scene-controls .campaign-restart{font-size:10px;color:#5b788a}
+.campaign-restart-confirm{display:flex;align-items:center;gap:6px;font-size:10px;color:#8b502b}
+.campaign-scene-controls .campaign-restart-yes{font-size:10px;color:#8b3a1f;background:linear-gradient(#fff4e8,#f5d6b8);border-color:#d09a6c}
 .campaign-scene-controls .campaign-start{margin-left:auto;min-width:156px;color:#61451a;font-weight:700;background:linear-gradient(#ffe8ac,#f0c86d);border-color:#c59b45;box-shadow:0 2px #a77d36}
 .campaign-scene-controls .campaign-start:hover:not(:disabled){background:#fff0c5;color:#61451a}
 @media(max-width:800px){.campaign-scene-heading{padding:11px 15px}.campaign-scene-heading h2{font-size:20px}.campaign-stage-rail{padding:8px 13px}.campaign-stage-rail li{min-width:87px}.campaign-scene-main{grid-template-columns:minmax(170px,35%) minmax(0,1fr);gap:9px;padding:9px 13px}.campaign-stage-detail{padding:12px 14px}.campaign-guardian{padding:8px 9px 12px}.campaign-guardian>p{font-size:10px}.campaign-scene-controls{padding:9px 13px;gap:6px}.campaign-scene-controls button{padding:8px 9px;font-size:10px}.campaign-scene-controls .campaign-start{min-width:126px}.campaign-progress{font-size:10px;padding:6px 8px}}

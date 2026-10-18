@@ -43,6 +43,8 @@ t.check('reward kind and species name drive the stage and archive reward texts',
     }
   }
 });
+const reiTraining=()=>game.snapshot().campaigns.find(campaign=>campaign.id==='rei-training')!;
+t.check('a fresh campaign shows its first stage\'s instruction',()=>assert.equal(reiTraining().description,reiTraining().stages[0].description));
 t.check('entry and sequence requirements',()=>{
   assert.equal(game.snapshot().campaigns.length,7);
   game.dispatch({type:'startCampaignStage',campaignId:'puni',stageId:'body'});
@@ -64,7 +66,8 @@ t.check('conditional learning and correct stage reward',()=>{
   game.dispatch({type:'move',skillId:10170});
   assert(game.snapshot().battle?.won,'The fixture must meet the original White Blade finishing objective.');
   assert(game.snapshot().monsters.find(monster=>monster.uid===rei.uid)!.learned.some(skill=>skill.id===10823));
-  assert.equal(game.snapshot().campaigns.find(campaign=>campaign.id==='rei-training')!.completed,1);
+  assert.equal(reiTraining().completed,1);
+  assert.equal(reiTraining().description,reiTraining().stages[1].description,'The guardian panel shows the next stage\'s instruction.');
 });
 t.check('no premature training essence',()=>assert(!game.snapshot().items.some(item=>item.id.includes('essence_boss_rei_training')),'Training grants a skill rather than an essence.'));
 game.dispatch({type:'closeBattle'});
@@ -81,7 +84,16 @@ t.check('progress and reward reload',()=>{
 });
 t.check('explicit restart preserves learned rewards',()=>{
   reloaded.dispatch({type:'resetCampaign',campaignId:'rei-training'});
-  assert.equal(reloaded.snapshot().campaigns.find(campaign=>campaign.id==='rei-training')!.completed,0);
+  const restarted=reloaded.snapshot().campaigns.find(campaign=>campaign.id==='rei-training')!;
+  assert.equal(restarted.completed,0);
+  assert.equal(restarted.description,restarted.stages[0].description);
   assert(reloaded.snapshot().monsters.find(monster=>monster.uid===rei.uid)!.learned.some(skill=>skill.id===10823),'Restarting a challenge does not erase learned rewards.');
+});
+t.check('a finished campaign shows its last stage\'s instruction',()=>{
+  const save=JSON.parse(createGame(structuredClone(source),JSON.stringify(newSave(0x71cafe))).exportSave());
+  const xuanwu=CHALLENGE_CAMPAIGNS.find(campaign=>campaign.id==='xuanwu')!;
+  save.game.campaigns.xuanwu=xuanwu.stages.map(stage=>stage.id);
+  const finished=createGame(structuredClone(source),JSON.stringify(save)).snapshot().campaigns.find(campaign=>campaign.id==='xuanwu')!;
+  assert.deepEqual([finished.finished,finished.description],[true,xuanwu.stages.at(-1)!.description]);
 });
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});

@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
-import type { CampaignView } from '../../../shared/views.ts';
+import type { CampaignStageView, CampaignView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
@@ -17,8 +17,10 @@ export interface ChallengeCampaignSceneProps {
 /** Campaign progress comes from the controller; the scene only selects a stage. */
 export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, background}: ChallengeCampaignSceneProps) {
   const defaultStageId = campaign.nextStageId ?? campaign.stages.at(-1)?.id ?? '';
-  const [selectedId, setSelectedId] = useState(defaultStageId);
-  useEffect(() => setSelectedId(defaultStageId), [campaign.id, campaign.completed, campaign.nextStageId]);
+  // A picked stage holds until the campaign or its progress changes; the default stage then shows in that same render.
+  const progress = `${campaign.id}/${campaign.completed}/${campaign.nextStageId ?? ''}`;
+  const [picked, setPicked] = useState({progress, stageId: defaultStageId});
+  const selectedId = picked.progress === progress ? picked.stageId : defaultStageId;
   const stage = campaign.stages.find(entry => entry.id === selectedId) ?? campaign.stages.find(entry => entry.id === defaultStageId) ?? campaign.stages[0];
   const stageIndex = campaign.stages.findIndex(entry => entry.id === stage?.id);
   const requirement = stage?.requiredSpecies;
@@ -26,7 +28,7 @@ export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, 
   return <section className="campaign-scene" aria-label={`${campaign.name}挑战场景`}>
     <div className="campaign-scenery" aria-hidden="true">{background?<><img className="campaign-scene-backdrop" src={background} alt="" draggable={false}/><div className="campaign-scene-shade"/></>:<><div className="campaign-orbit"/><div className="campaign-horizon"/><div className="campaign-floor"/><i/><i/><i/></>}</div>
     <header className="campaign-scene-heading"><div><span>{campaign.location}</span><h2>{campaign.name}</h2></div><span className="campaign-progress">{campaign.finished ? '全部关卡已完成' : `已完成 ${campaign.completed} / ${campaign.stages.length} 关`}</span></header>
-    <nav className="campaign-stage-rail" aria-label="按顺序挑战关卡"><ol>{campaign.stages.map((entry, index) => <li key={entry.id} className={`${entry.cleared ? 'cleared' : entry.available ? 'available' : 'locked'}${stage?.id === entry.id ? ' selected' : ''}`}><button aria-pressed={stage?.id === entry.id} aria-label={`第${index + 1}关 ${entry.name}，${entry.cleared ? '已完成，可重战' : entry.available ? '可挑战' : '尚未解锁'}`} onClick={() => setSelectedId(entry.id)}><span className="campaign-stage-seal" aria-hidden="true">{entry.cleared ? '✓' : index + 1}</span><strong>{entry.name}</strong><small>{entry.cleared ? '已完成' : entry.available ? '可挑战' : '未解锁'}</small></button></li>)}</ol></nav>
+    <nav className="campaign-stage-rail" aria-label="按顺序挑战关卡"><ol>{campaign.stages.map((entry, index) => <li key={entry.id} className={`${entry.cleared ? 'cleared' : entry.available ? 'available' : 'locked'}${stage?.id === entry.id ? ' selected' : ''}`}><button aria-pressed={stage?.id === entry.id} aria-label={`第${index + 1}关 ${entry.name}，${entry.cleared ? '已完成，可重战' : entry.available ? '可挑战' : '尚未解锁'}`} onClick={() => setPicked({progress, stageId: entry.id})}><span className="campaign-stage-seal" aria-hidden="true">{entry.cleared ? '✓' : index + 1}</span><strong>{entry.name}</strong><small>{entry.cleared ? '已完成' : entry.available ? '可挑战' : '未解锁'}</small></button></li>)}</ol></nav>
     <div className="campaign-scene-main">
       <div className="campaign-guardian"><div className="campaign-guardian-art"><CreatureArt species={campaign.species} name={campaign.name} fill={.93}/></div><div className="campaign-guardian-platform" aria-hidden="true"><i/><span>✧</span></div><p>{campaign.description}</p></div>
       <div className="campaign-stage-detail" aria-label="当前关卡详情" tabIndex={0}>
@@ -40,6 +42,39 @@ export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, 
         </> : <p className="campaign-blocked-reason">暂无可用关卡。</p>}
       </div>
     </div>
-    <footer className="campaign-scene-controls"><button className="campaign-return" onClick={onLeave}>‹ 返回探索</button><button onClick={onManage}>精灵背包</button><button className="campaign-restart" disabled={campaign.completed === 0} onClick={() => c.dispatch({type: 'resetCampaign', campaignId: campaign.id})}>重置挑战进度</button><button className="campaign-start" disabled={!stage?.available} onClick={() => stage?.available && c.dispatch({type: 'startCampaignStage', campaignId: campaign.id, stageId: stage.id})}>{stage?.cleared ? '再次挑战' : stage?.kind === 'chain' ? '开始连续挑战' : '开始本关挑战'}<span aria-hidden="true"> →</span></button></footer>
+    <CampaignControls campaign={campaign} stage={stage} c={c} onLeave={onLeave} onManage={onManage}/>
   </section>;
+}
+
+type ControlsProps = Pick<ChallengeCampaignSceneProps, 'campaign' | 'c' | 'onLeave' | 'onManage'> & { stage: CampaignStageView | undefined };
+
+/** The scene's footer: leave, manage the party, reset the progress after a confirmation, and start the selected stage. */
+function CampaignControls({campaign, stage, c, onLeave, onManage}: ControlsProps) {
+  const [confirming, setConfirming] = useState(false);
+  // Where focus goes once 取消 or 确认重置 closes the prompt, so it does not fall to the page body. A reset disables
+  // 重置挑战进度 (nothing is left to clear), so it hands focus to the start button, or to 精灵背包 while the stage is blocked.
+  const refocus = useRef<'restart' | 'start' | undefined>(undefined);
+  const restartButton = useRef<HTMLButtonElement>(null), startButton = useRef<HTMLButtonElement>(null), manageButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => setConfirming(false), [campaign.id, campaign.completed]);
+  useEffect(() => {
+    if (confirming || !refocus.current) return;
+    const start = startButton.current?.disabled ? manageButton.current : startButton.current;
+    (refocus.current === 'start' ? start : restartButton.current)?.focus();
+    refocus.current = undefined;
+  }, [confirming]);
+  const start = () => stage?.available && c.dispatch({type: 'startCampaignStage', campaignId: campaign.id, stageId: stage.id});
+  const close = (focus: 'restart' | 'start') => { refocus.current = focus; setConfirming(false); };
+  const reset = () => { close('start'); c.dispatch({type: 'resetCampaign', campaignId: campaign.id}); };
+  return <footer className="campaign-scene-controls">
+    <button className="campaign-return" onClick={onLeave}>‹ 返回探索</button>
+    <button ref={manageButton} onClick={onManage}>精灵背包</button>
+    {confirming ? <span className="campaign-restart-confirm" role="group" aria-label="确认重置挑战进度">
+      <span>清空已完成的 {campaign.completed} 关？已获得的奖励保留。</span>
+      <button className="campaign-restart-yes" onClick={reset}>确认重置</button>
+      <button autoFocus onClick={() => close('restart')}>取消</button>
+    </span> : <button ref={restartButton} className="campaign-restart" disabled={campaign.completed === 0}
+      onClick={() => setConfirming(true)}>重置挑战进度</button>}
+    <button ref={startButton} className="campaign-start" disabled={!stage?.available} onClick={start}>
+      {stage?.cleared ? '再次挑战' : stage?.kind === 'chain' ? '开始连续挑战' : '开始本关挑战'}<span aria-hidden="true"> →</span></button>
+  </footer>;
 }

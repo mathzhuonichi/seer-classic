@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,isEvValue,presetDraft,sameEvs} from './ev-draft.ts';
+import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,presetDraft,sameEvs,wholeNumber} from './ev-draft.ts';
 
 const evs={hp:4,atk:252,def:0,spa:0,spd:0,spe:252};
 
@@ -25,5 +25,9 @@ test('checkEvDraft: whole numbers 0-255 per stat, at most 510 in total', () => {
   assert.equal(checkEvDraft({...clearedDraft(),atk:' 7 '}).valid,true);
   for(const bad of ['','  ','256','-1','1.5','x'])assert.equal(checkEvDraft({...clearedDraft(),atk:bad}).valid,false,JSON.stringify(bad));
   assert.deepEqual(checkEvDraft({hp:'255',atk:'255',def:'1',spa:'0',spd:'0',spe:'0'}),{valid:true,total:511,over:true,fits:false});
-  assert.deepEqual([isEvValue(0),isEvValue(255),isEvValue(256),isEvValue(2.5)],[true,true,false,false]);
+});
+
+test('wholeNumber accepts whole numbers in range only',()=>{
+  assert.deepEqual(['0',' 7 ','100'].map(text=>wholeNumber(text,0,100)),[0,7,100]);
+  for(const bad of ['','  ','101','-1','1.5','x'])assert.equal(wholeNumber(bad,0,100),undefined,JSON.stringify(bad));
 });

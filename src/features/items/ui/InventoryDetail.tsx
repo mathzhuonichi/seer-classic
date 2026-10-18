@@ -11,13 +11,15 @@ interface Props {
   item?:ItemView; monster?:MonsterView; monsters:MonsterView[]; party:string[]; battle:BattleView|null;
   /** The confirm button can use the item on `monster` now. */
   enabled:boolean; feedback:string; onTarget:(uid:string)=>void; onUse:()=>void;
+  /** The picked item is not in the bag: it ran out, or a link named one the bag holds none of. */
+  pickGone:boolean;
 }
 const CONFIRM_LABELS={use:'确认使用',hatch:'确认孵化',capture:'确认捕捉'} as const;
 
 /** The bag's detail pane: what the selected item does, its target and the confirm action. */
-export default function InventoryDetail({item,monster,monsters,party,battle,enabled,feedback,onTarget,onUse}:Props) {
+export default function InventoryDetail({item,monster,monsters,party,battle,enabled,feedback,onTarget,onUse,pickGone}:Props) {
   if(!item)return <div className="inventory-detail-scroll">
-    <div className="management-empty">选择左侧道具查看详情。首领精元和融合元神珠均放入精元 / 元神珠口袋。</div></div>;
+    <div className="management-empty">{pickGone&&'背包中暂无所选道具。'}选择左侧道具查看详情。首领精元和融合元神珠均放入精元 / 元神珠口袋。</div></div>;
   const inBattle=battleActive({battle}),picksTarget=item.useAction==='use';
   const group=item.kind==='battle'?battleSupplyLabel(item):itemKindLabel(item.kind);
   return <div className="inventory-detail-scroll">
