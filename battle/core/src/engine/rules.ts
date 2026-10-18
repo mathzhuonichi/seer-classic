@@ -206,7 +206,8 @@ function scriptObjective(b: Battle, o: Objective): boolean {
   if (b.probing) return false;
   const entry = b.script(o.id);
   if (!entry) { b.warn(`unknown script ${o.id}`); return false; }
-  return !!entry.objective?.({ battle: b }, o.params);
+  if (!entry.objective) { b.warn(`script ${o.id} has no objective`); return false; }
+  return !!entry.objective({ battle: b }, o.params);
 }
 
 function ppExhausted(b: Battle): boolean {
