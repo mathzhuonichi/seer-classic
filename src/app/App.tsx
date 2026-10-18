@@ -3,7 +3,7 @@ import {createGame,loadCatalog} from '../kernel/game.ts';
 import type { GameController } from '../kernel/contract.ts';
 import {Battle} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';
-import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
+import {BossEvidenceContent,ChallengeCampaignScene} from '../features/challenges/ui.ts';
 import {Modifier} from '../features/raising/ui.ts';
 import GameWindow from '../shared/ui/GameWindow.tsx';
 import {useGame} from '../shared/ui/use-game.ts';
@@ -106,7 +106,8 @@ export function Game({controller:c}:{controller:GameController}){
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}
     onLeave={leaveCampaign} onManage={()=>show('monsters')}/>}
    {battleOpen&&!preparation&&<div className="battle-layer">
-    <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src} onSettings={()=>openTool('settings')}/>
+    <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src} evidenceTable={BossEvidenceContent}
+     onSettings={()=>openTool('settings')}/>
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
    {notices&&!preparation&&!battleOpen&&<button className="game-toast" aria-label="关闭提示" onClick={dismiss}>{notices}<span>×</span></button>}

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ComponentType } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
+import type { BossEvidenceView } from '../../../shared/views.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
 import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
@@ -19,10 +20,12 @@ interface BattleProps {
   /** A command tab opened from outside the battle screen; `id` distinguishes repeated requests. */
   commandRequest?: { command: 'party' | 'items'; id: number };
   background?: string;
+  /** The Boss evidence table: features/challenges owns it and battle UI may not import challenges, so the app passes it. */
+  evidenceTable: ComponentType<{ evidence: BossEvidenceView }>;
   onSettings?: () => void;
 }
 
-export default function Battle({ c, commandRequest, background, onSettings }: BattleProps) {
+export default function Battle({ c, commandRequest, background, evidenceTable: EvidenceTable, onSettings }: BattleProps) {
   const b = useGame(c, s => s.battle)!, inventory = useGame(c, s => s.items);
   const [tab, setTab] = useState<BattleCommand>(b.needsSwitch ? 'party' : 'battle');
   const [showLog, setShowLog] = useState(false);
@@ -75,7 +78,9 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
-    {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} evidence={enemy.evidence} onClose={closeEvidence}/>}
+    {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} onClose={closeEvidence}>
+      <EvidenceTable evidence={enemy.evidence}/>
+    </BattleEvidenceDialog>}
     {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={() => setShowDetails(false)}/>}
   </section>;
 }
