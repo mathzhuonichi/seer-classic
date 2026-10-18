@@ -51,7 +51,7 @@ function recruitmentView(ctx: GameContext, save: GameSave, reward: RecruitmentRe
     prerequisites: reward.prerequisites.map((condition, index) => condition.kind === 'species'
       ? { kind: 'species' as const, species: condition.species, name: ctx.speciesName(condition.species), complete: progress.conditions[index] }
       : {
-        kind: 'boss' as const, bossId: condition.bossId, name: ctx.bosses.find(boss => boss.id === condition.bossId)?.name?.zh ?? condition.bossId,
+        kind: 'boss' as const, bossId: condition.bossId, name: ctx.encounterById.get(condition.bossId)?.name?.zh ?? condition.bossId,
         complete: progress.conditions[index],
       }),
   };
