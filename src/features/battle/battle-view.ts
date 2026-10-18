@@ -1,7 +1,7 @@
 // Snapshot views of the open battle.
 import { MAX_TURNS, type Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
-import {buildBossEvidence} from '../challenges/index.ts';
+import {buildBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
 import { capacityReason, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';

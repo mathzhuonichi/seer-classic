@@ -9,7 +9,10 @@ import {STAT_LABELS} from '../../shared/labels.ts';
 
 type FieldKey='level'|'iv'|'evs'|'nature'|'hp'|'skills'|'ai'|'rules';
 type Field={status:BossEvidenceStatus;basis?:string};
-interface Entry {displayLevelUnknown?:boolean;sourceUrls?:string[];userPolicies?:{id:string;disposition:'waived'|'replaced'}[];fields:Partial<Record<FieldKey,Field>>;members?:{slot:number;species:number;displayLevelUnknown?:boolean;fields:Partial<Record<FieldKey,Field>>}[]}
+interface Entry {
+  displayLevelUnknown?:boolean;sourceUrls?:string[];userPolicies?:{id:string;disposition:'waived'|'replaced'}[];fields:Partial<Record<FieldKey,Field>>;
+  members?:{slot:number;species:number;displayLevelUnknown?:boolean;fields:Partial<Record<FieldKey,Field>>}[];
+}
 const entries=(evidenceIndex as unknown as {encounters:Record<string,Entry>}).encounters;
 const rules=new Map((ruleIndex as unknown as {bosses:{id:string;unsupported:unknown[]}[]}).bosses.map(row=>[row.id,row]));
 const FIELD_LABELS:Record<FieldKey,string>={level:'等级',iv:'个体值',evs:'学习力',nature:'性格',hp:'体力',skills:'技能配置',ai:'选招策略',rules:'特殊机制'};

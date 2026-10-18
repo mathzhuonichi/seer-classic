@@ -5,10 +5,10 @@ import {
   BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
-import { buildBossEncounterEvidence, mergeBossEvidence } from './boss-evidence.ts';
+import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import {opponentViews, towerRewardLabel} from '../collection/index.ts';
+import { opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 
 /** The rei training campaign's last stage teaches a skill instead of granting an essence. */
 const NO_ESSENCE_CAMPAIGN_ID = 'rei-training';

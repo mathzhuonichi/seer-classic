@@ -4,7 +4,7 @@ import type { BossView, BraveTowerView, CampaignView } from '../../shared/views.
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import {braveTowerFloor,braveTowerPosition} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CAMPAIGNS,CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
-import {mergeBossEvidence} from './boss-evidence.ts';
+import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
 
 /** The tab that lists every category. */

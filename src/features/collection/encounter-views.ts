@@ -2,21 +2,15 @@
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { bossEncounterForAttempt, isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
-import {buildBossEncounterEvidence, buildBossEvidence} from '../challenges/index.ts';
+import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
+import { opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 import { createCatalogViews } from './catalog-views.ts';
-import type { BossView, EncounterOpponentView } from '../../shared/views.ts';
+import type { BossView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
-import { SEER_BEANS_ITEM_ID } from '../../domain/economy.ts';
 import { portrait, typeLabel } from '../../shared/view-common.ts';
 
 type EncounterExtras = { location?: { zh?: string }; strategy_notes?: { zh?: string } | string };
 
-
-export function opponentViews(ctx: CatalogContext, encounter: BossEncounter): EncounterOpponentView[] {
-  return encounter.team.map((mon, slot) => ({
-    species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, evidence: buildBossEvidence(encounter, slot),
-  }));
-}
 
 function encounterCategory(b: BossEncounter): string {
   if (b.category === 'trainer') return '训练师对战';
@@ -24,15 +18,6 @@ function encounterCategory(b: BossEncounter): string {
   if (b.category === 'tower') return '勇者之塔';
   if (b.category === 'legendary') return '传说挑战';
   return ['story', 'event'].includes(String(b.category)) ? '任务挑战' : 'SPT首领';
-}
-
-export function towerRewardLabel(ctx: CatalogContext, id: string, count: number): string {
-  const item = ctx.catalog.items.find(entry => entry.id === id);
-  const name = id === SEER_BEANS_ITEM_ID ? '赛尔豆' : (item?.name as { zh?: string })?.zh ?? id;
-  const species = ctx.catalog.species.find(entry => entry.id === item?.hatches);
-  const evolutions = species?.evolution as { to: number; level?: number; method?: string }[] | undefined;
-  const evolution = evolutions?.length === 1 && evolutions[0].method === 'level' ? evolutions[0] : undefined;
-  return `${name} ×${count}${evolution?.level ? `（${evolution.level}级进化为${ctx.speciesName(evolution.to)}）` : ''}`;
 }
 
 function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
