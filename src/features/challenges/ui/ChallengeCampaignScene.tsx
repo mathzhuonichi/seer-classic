@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { CampaignStageView, CampaignView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
@@ -49,18 +49,27 @@ type ControlsProps = Pick<ChallengeCampaignSceneProps, 'campaign' | 'c' | 'onLea
 /** The scene's footer: leave, manage the party, reset the progress after a confirmation, and start the selected stage. */
 function CampaignControls({campaign, stage, c, onLeave, onManage}: ControlsProps) {
   const [confirming, setConfirming] = useState(false);
+  // Set when 取消 or 确认重置 closes the prompt: focus then returns to the footer instead of falling to the page body.
+  const refocus = useRef(false), restartButton = useRef<HTMLButtonElement>(null), startButton = useRef<HTMLButtonElement>(null);
   useEffect(() => setConfirming(false), [campaign.id, campaign.completed]);
+  useEffect(() => {
+    if (confirming || !refocus.current) return;
+    refocus.current = false;
+    (restartButton.current?.disabled ? startButton.current : restartButton.current)?.focus();
+  }, [confirming]);
   const start = () => stage?.available && c.dispatch({type: 'startCampaignStage', campaignId: campaign.id, stageId: stage.id});
-  const reset = () => { setConfirming(false); c.dispatch({type: 'resetCampaign', campaignId: campaign.id}); };
+  const close = () => { refocus.current = true; setConfirming(false); };
+  const reset = () => { close(); c.dispatch({type: 'resetCampaign', campaignId: campaign.id}); };
   return <footer className="campaign-scene-controls">
     <button className="campaign-return" onClick={onLeave}>‹ 返回探索</button>
     <button onClick={onManage}>精灵背包</button>
     {confirming ? <span className="campaign-restart-confirm" role="group" aria-label="确认重置挑战进度">
       <span>清空已完成的 {campaign.completed} 关？已获得的奖励保留。</span>
       <button className="campaign-restart-yes" onClick={reset}>确认重置</button>
-      <button onClick={() => setConfirming(false)}>取消</button>
-    </span> : <button className="campaign-restart" disabled={campaign.completed === 0} onClick={() => setConfirming(true)}>重置挑战进度</button>}
-    <button className="campaign-start" disabled={!stage?.available} onClick={start}>
+      <button autoFocus onClick={close}>取消</button>
+    </span> : <button ref={restartButton} className="campaign-restart" disabled={campaign.completed === 0}
+      onClick={() => setConfirming(true)}>重置挑战进度</button>}
+    <button ref={startButton} className="campaign-start" disabled={!stage?.available} onClick={start}>
       {stage?.cleared ? '再次挑战' : stage?.kind === 'chain' ? '开始连续挑战' : '开始本关挑战'}<span aria-hidden="true"> →</span></button>
   </footer>;
 }
