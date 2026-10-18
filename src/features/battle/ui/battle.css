@@ -223,8 +223,11 @@
 .classic-battle-result{padding-left:calc(31% + 10px)}
 .classic-dialogue{
  position:absolute;left:1%;bottom:8px;z-index:4;width:29%;height:140px;min-height:0;
- background:#05265c url('/ui/classic/hd/battle-log-panel-v44.svg') center / 100% 100% no-repeat;color:#e1f5ff;padding:29px 21px 9px 12px;overflow:hidden;
+ background:#05265c;color:#e1f5ff;padding:29px 21px 9px 12px;overflow:hidden;
 }
+/* The frame art fills the panel on both axes, also when the record expands: a border image with fill stretches the
+ * SVG to its box, where a background would keep the art's aspect ratio. */
+.classic-dialogue::before{content:'';position:absolute;inset:0;z-index:-1;border-image:url('/ui/classic/hd/battle-log-panel-v44.svg') 0 fill / 0 stretch;pointer-events:none}
 .classic-dialogue.is-expanded{height:46%;min-height:140px;max-height:46%;width:29%;flex:none}
 .classic-dialogue-header{position:relative;gap:4px;flex:1;min-height:0}
 .classic-dialogue-signal{display:none}
@@ -289,7 +292,7 @@
 .classic-health-type>.battle-type-icon{width:80%;height:80%;flex-basis:auto}
 .classic-hp-track{top:20%;height:16%;border-radius:6px}
 .classic-health-footer{bottom:0;height:15%;min-height:13px}
-.classic-dialogue{padding-top:27px;border:2px solid #2ca8dc;border-radius:6px;background-size:100% 100%}
+.classic-dialogue{padding-top:27px;border:2px solid #2ca8dc;border-radius:6px}
 .classic-record-title{position:absolute;top:-23px;left:0;right:0;text-align:center;font-size:11px;line-height:20px;color:#a4ddff;font-weight:400}
 .classic-dialogue .classic-log-toggle{top:-23px;right:0}
 .classic-dialogue .classic-log-toggle.is-collapse{top:-23px}
