@@ -95,6 +95,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 - **Conditions.** Timed modifiers are hooks on fixed engine extension points (`turn_end`, `modify_damage_taken`, `on_hit`, …). Statuses are conditions with `kind: "status"`, so there is one mechanism.
 - **Encounters.** An encounter has a `team`, `rules`, `win`/`lose` objectives, `phases` and an `ai` spec; side kinds are `player`, `wild`, `boss` and `trainer`.
 - **Determinism.** One seeded `sfc32` RNG per battle, consumed in a fixed order. The search planner simulates on clones and draws from the live RNG only once, when its chosen strategy is mixed.
+- **Turn preparation.** `battle.prepare(side)` decides for an automatic side when its turn opens, exactly as `resolveTurn` would, and stores the decision as its pending action (RULES.md section 11). The gate `battle-prepare-replay` checks that prepared and unprepared turns replay identically, and `battle-ai-latency` the search decision budget. The battle feature does not call `prepare` yet.
 
 ### AI policies
 

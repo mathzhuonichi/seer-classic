@@ -66,6 +66,7 @@ export function buildWorld(b: Battle, me: 0 | 1): World {
   const foe = (1 - me) as 0 | 1, real = b.sides[foe];
   const w = cloneBattle(b);
   w.planning = {};
+  w.prepared = null;
   delete w.sacrificePlans;
   w.journal = [];
   const slots = new Set([real.active, ...revealedOpponentSlots(b, me)].filter(slot => !real.team[slot].fainted));

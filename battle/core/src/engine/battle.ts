@@ -71,6 +71,8 @@ export class Battle {
   hitTrace: HitTrace | null = null;
   /** The ordinary priority/speed ordering of this turn, for the journal; null when there was none. */
   lastOrder: { tie: boolean; spe: [number, number] } | null = null;
+  /** From the first `prepare` until its turn resolves: the RNG before the prepared decisions and where their events start. */
+  prepared: { s: Rng['s']; draws: number; mark: number } | null = null;
   /** True only inside probeDamage: scripts, warnings and RNG-bearing branches are off. */
   probing = false;
   /** Inside probeDamage: the side whose side-level rules count as unknown (none). */
@@ -197,20 +199,10 @@ export class Battle {
     return !turn.isAuto(side);
   }
 
-  resolveTurn(): BattleEvent[] {
-    if (this.phase === 'ended') return [];
-    this.out = [];
-    rules.checkEnd(this);
-    const retreat = this.sides.find((side) => side.pending?.kind === 'flee');
-    if (!this.result && retreat) this.doAction(retreat.index, { kind: 'flee' }, true);
-    else if (!this.result && this.phase === 'replace') turn.resolveReplacements(this);
-    else if (!this.result) turn.resolveFullTurn(this);
-    for (const s of this.sides) s.pending = null;
-    const events = this.out;
-    this.log.push(...events);
-    this.out = [];
-    return events;
-  }
+  /** Turn preparation: decides for an automatic side when its turn opens, exactly as resolveTurn would (turn.ts). */
+  prepare(sideIndex: 0 | 1): Action | null { return turn.prepare(this, sideIndex); }
+
+  resolveTurn(): BattleEvent[] { return turn.resolveTurn(this); }
 
   /**
    * Events of the turn being resolved that are not yet in `log` (for decisions made

@@ -387,6 +387,26 @@ One seeded PRNG per battle (`sfc32`, `seed` in the battle options). The order of
 draws is fixed by the code path above, so the same seed and actions replay the
 same battle. Every random draw is a call to `rng.next()`; no `Math.random`.
 
+**Turn preparation.** `battle.prepare(side)` decides for an automatic side when
+its turn opens, so the search planner can run while the player is still
+choosing, and stores the decision as the side's pending action. It runs the
+same decision as `resolveTurn` (a pending action, forced execution,
+`choose_action` hooks, then the policy) at the same point of the RNG stream,
+so a prepared turn replays an unprepared one exactly: the same action, draws,
+events, state and result. This holds because submitting an action draws
+nothing and no decision reads the opponent's pending action (the planner plays
+a simultaneous-move equilibrium in a world that clears it), and because
+preparation runs before anything else draws in that turn, side 0 first. It
+declines, and `resolveTurn` decides as before, outside the choose phase (an
+automatic side replaces a fainted active at once, so the replacement phase has
+nothing to prepare), for side 1 before an automatic side 0, when the battle is
+already decided, and for scripted decisions (a `script` AI or `choose_action`
+hooks). A flee ends the battle before any decision is used, so `resolveTurn`
+then rewinds the RNG to where preparation found it and drops the prepared
+decisions' events (the RNG state goes back into the save). The planner's one
+mixed-strategy draw stays on the battle RNG: preparation sees the same state,
+so it draws the same value.
+
 ## 12. Scripted skill effects
 
 Skill effects with no declarative op are `{ op: "script", id: "seer_eff_<n>",
@@ -410,6 +430,8 @@ The suites that exercise this spec most directly:
 | `battle-v3.ts` | replacement after a faint, retreat, battle items and critical hits |
 | `battle-clone-fidelity-v58.mjs` | determinism: a cloned battle resolves the same actions to the same events and state |
 | `battle-ai-liveness.mjs` | AI battles over the full catalog end within the hard turn limit |
+| `battle-prepare-replay.mjs` | turn preparation: game battles of each kind replay identically with and without `prepare` |
+| `battle-ai-latency.mjs` | trainer search decisions stay within the p95 budget of architecture-v2 §2, in thread CPU time |
 
 ## 14. Data model additions
 
