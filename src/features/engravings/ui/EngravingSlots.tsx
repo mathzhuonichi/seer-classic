@@ -27,21 +27,29 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const options=useMemo(()=>openSlot?c.engravingOptions(m.uid):[],[c,m.uid,openSlot,monsters,stock]);
   useEffect(()=>{setFeedback('');setOpenSlot(null);setSelected('');setSourceUid('');setFilter('all')},[m.uid]);
   useEffect(()=>{if(openSlot)pickerRef.current?.scrollIntoView({block:'nearest',inline:'nearest'})},[openSlot,selected,filter]);
+  // Escape closes an open picker, not its window, wherever the focus is (a click leaves none in WebKit): the document hears
+  // it after the controls inside, such as a tile's tooltip, and before the shell's window listener.
+  useEffect(()=>{
+    if(!openSlot)return;
+    const close=(event:KeyboardEvent)=>{if(event.key==='Escape'){event.stopPropagation();setOpenSlot(null)}};
+    document.addEventListener('keydown',close);return()=>document.removeEventListener('keydown',close);
+  },[openSlot]);
   const candidates=openSlot?engravingSlotCandidates(options,openSlot):[];
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];
   const chosen=list.find(option=>option.id===selected),source=chosen&&transferHolder(chosen,sourceUid);
   const equip=(slot:EngravingSlot,id:string,fromUid?:string)=>
     setFeedback(c.dispatch({type:'setEngraving',uid:m.uid,slot,engravingId:id||null,fromUid}).notice??'');
-  return <section className="raising-engravings" aria-label="刻印" onKeyDown={event=>{if(event.key==='Escape')setOpenSlot(null)}}>
+  return <section className="raising-engravings" aria-label="刻印">
     <div className="engraving-equipped-grid">{ENGRAVING_SLOTS.map(slot=>{
-      const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot];
+      const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot],inactive=current&&!current.ready;
       return <div key={slot} className="engraving-equipped-slot">
         <ItemTile size="small" icon={current?<ItemIcon id={current.id} engraving label={current.name} size={28}/>:<span className="engraving-empty-slot"/>}
           name={current?.name??`${label}空孔`} description={current?`${current.effect}${current.ready?'':` · 未生效：${current.reason}`}`:'点击选择可装备的刻印。'}
-          selected={openSlot===slot}
+          selected={openSlot===slot} className={inactive?'engraving-inactive':''}
           onSelect={()=>{setOpenSlot(openSlot===slot?null:slot);setSelected(current?.id??'');setSourceUid('');setFeedback('');setFilter('all')}}/>
         <div className="engraving-slot-caption"><strong>{label}</strong>
+          {inactive&&<small className="engraving-inactive-mark" title={current.reason}>未生效</small>}
           {current?<button className="engraving-unload" aria-label={`卸下${label}`} onClick={()=>equip(slot,'')}>卸下</button>:<small>空孔</small>}</div>
       </div>;
     })}</div>

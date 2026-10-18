@@ -13,7 +13,8 @@ import ClassicRobot from './ClassicRobot.tsx';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
 import { sceneCovered } from './scene-cover.ts';
-import { useSceneFit, useWorldWalk } from './useWorldWalk.ts';
+import { useSceneKeys } from './useSceneKeys.ts';
+import { useSceneFit, useTowerLanding, useWorldWalk } from './useWorldWalk.ts';
 import { WorldDialogue, type WorldInteraction } from './WorldDialogue.tsx';
 import './world.css';
 
@@ -26,9 +27,6 @@ export interface WorldMapProps {
 /** Wildlife shown per scene, before scarce species stay single. */
 const SCENE_POPULATION = 6;
 const ARRIVAL_FLASH_MS = 380;
-/** The global arrow-key walk ignores keys meant for what covers the scene and for form fields. */
-const ignoresArrowKeys = (event: globalThis.KeyboardEvent) => event.defaultPrevented || sceneCovered()
-  || /^(INPUT|TEXTAREA|SELECT)$/.test((event.target as HTMLElement)?.tagName);
 const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`
   +`${planet.id==='space-station'?' world-station-scene':''}${tower?' world-tower-scene':''}`;
 
@@ -57,7 +55,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
   useEffect(()=>{if(battle){walker.stop();close()}},[battle]);
-  useEffect(()=>{if(!tower)return;walker.stop({duration:0});close();setArrival(true)},[!!tower,tower?.floor,tower?.complete]);
+  useTowerLanding(tower,()=>visit(planet,region),()=>{walker.stop({duration:0});close();setArrival(true)});
   useEffect(()=>{
     if(!travelTo)return;
     const targetBoss=travelTo.bossId?bosses.find(boss=>boss.id===travelTo.bossId):undefined;
@@ -67,18 +65,14 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
       open(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   const step=(key:string)=>{const delta=ARROW_STEPS[key];walkTo(position.x+delta[0],position.y+delta[1])};
-  useEffect(()=>{
-    const key=(event:globalThis.KeyboardEvent)=>{if(!battle&&ARROW_STEPS[event.key]&&!ignoresArrowKeys(event)){event.preventDefault();step(event.key)}};
-    window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
-  },[position.x,position.y,battle,layout]);
+  useSceneKeys(battle,{step,dismiss:()=>{walker.stop();close()}});
 
   function walkClick(event:MouseEvent<HTMLDivElement>){
     const target=percentIn(event.currentTarget.getBoundingClientRect(),event.clientX,event.clientY);
     walkTo(target.x,target.y);
   }
   function walkKey(event:KeyboardEvent<HTMLDivElement>){
-    if(event.key==='Escape'){walker.stop();close();return;}
-    if(event.target===event.currentTarget&&ARROW_STEPS[event.key]){event.preventDefault();step(event.key)}
+    if(event.target===event.currentTarget&&ARROW_STEPS[event.key]&&!sceneCovered()){event.preventDefault();step(event.key)}
   }
   function approach(event:MouseEvent<HTMLButtonElement>,selection:WorldSelection,contact:ScenePoint){
     event.stopPropagation();close();
@@ -100,7 +94,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   const frozen=(instanceId:string)=>motion.approaching===instanceId||(selection?.kind==='creature'&&selection.instanceId===instanceId);
   const sceneStyle={'--world-color':planet.color,'--walk-duration':`${motion.duration}ms`} as CSSProperties;
   return <section ref={viewport} className={`world-exploration ${arrival?'world-arrival':''}`} style={sceneStyle} aria-label="星球探索">
-    <div key={scene.key} className={sceneClass(scene)} style={{width:size.width,height:size.height}}
+    <div key={`${scene.key}#${walker.landings}`} className={sceneClass(scene)} style={{width:size.width,height:size.height}}
       data-background-kind={region.backgroundKind??(scene.official?'official':'authored')} data-map-id={region.originalMapId??planet.originalMapId}
       data-tower-floor={tower?.floor} data-tower-complete={tower?.complete} tabIndex={0}
       aria-label={`${scene.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>

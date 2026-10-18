@@ -63,7 +63,7 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
     {"id":"landing","name":"天蛇花原","originalMapId":95,"description":"探索天蛇花原，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}
   ]),
   destination("planet-948","kalan","索伦森星",948,"helka","#d7c69b",[
-    {"id":"landing","name":"祸乱之源 ","originalMapId":948,"description":"探索祸乱之源 ，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}
+    {"id":"landing","name":"祸乱之源","originalMapId":948,"description":"探索祸乱之源，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}
   ]),
   destination("planet-411","rogue","陨石地带",411,"helka","#d7c69b",[
     {"id":"landing","name":"陨石地带","originalMapId":411,"description":"探索陨石地带，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}

@@ -117,10 +117,6 @@
       "lines": 0,
       "long": 1
     },
-    "src/features/world/world-roaming.ts": {
-      "lines": 0,
-      "long": 1
-    },
     "src/features/world/world-scene.ts": {
       "lines": 0,
       "long": 3
@@ -143,7 +139,7 @@
     },
     "src/shared/ui/ItemTile.tsx": {
       "lines": 0,
-      "long": 3
+      "long": 2
     },
     "src/shared/ui/ItemTooltip.tsx": {
       "lines": 0,

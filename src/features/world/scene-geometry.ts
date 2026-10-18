@@ -3,6 +3,8 @@ export interface ScenePoint { x: number; y: number }
 export interface SceneBounds { left: number; top: number; right: number; bottom: number }
 /** A screen rectangle, as returned by getBoundingClientRect. */
 export interface ScreenRect { left: number; top: number; width: number; height: number }
+/** A width and height in screen pixels. */
+export interface Size { width: number; height: number }
 
 export const point = (x: number, y: number): ScenePoint => ({ x, y });
 export const clamp = (value: number, low: number, high: number) => Math.max(low, Math.min(high, value));

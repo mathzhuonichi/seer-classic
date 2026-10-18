@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState, type RefObject, type SyntheticEvent } from 'react';
 import { constrainScenePoint, getSceneLayout, type SceneLayout } from '../map-presentation.ts';
 import { point, type ScenePoint } from '../scene-geometry.ts';
-import { IDLE_WALK, approachStop, robotFoot, walkMotion, walkTiming, type RobotDirection } from '../world-walk.ts';
+import { IDLE_WALK, approachStop, robotFoot, towerClimbed, towerStage, walkMotion, walkTiming, type RobotDirection } from '../world-walk.ts';
 import { readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
 import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 
@@ -42,6 +42,8 @@ export function useWorldWalk() {
   const { planet, region } = resolveWorldLocation(preference.planetId, preference.regionId);
   const layout: SceneLayout = useMemo(() => getSceneLayout(planet, region), [planet, region]);
   const [motion, dispatch] = useReducer(walkMotion, IDLE_WALK);
+  /** Counts landings, so that each arrival redraws the scene and its wildlife makes room for the explorer. */
+  const [landings, setLandings] = useState(0);
   const player = useRef<HTMLDivElement>(null), timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const position = constrainScenePoint(layout, point(preference.x, preference.y));
   useEffect(() => writeWorldPreference(preference), [preference]);
@@ -70,23 +72,36 @@ export function useWorldWalk() {
       after?.();
     }, duration);
   }
-  /** Walk up to a contact's feet; a contact within a pixel opens at once. */
+  /** Walk up to a contact's feet, beside its name; a contact within a pixel opens at once. */
   function approach(button: HTMLElement, contact: ScenePoint, { arrive, approaching = null, fallback }: ApproachOptions) {
     const robot = player.current?.getBoundingClientRect();
     const scene = button.closest('.world-scene')!.getBoundingClientRect();
-    const from = robot ? robotFoot(robot, scene) : fallback;
-    const { stop: target, immediate } = approachStop(from, contact, scene, button.getBoundingClientRect().width, robot?.width);
+    const from = robot ? robotFoot(robot, scene) : fallback, name = button.querySelector('.world-character-name')?.getBoundingClientRect();
+    const { stop: target, immediate } = approachStop(from, contact, scene, button.getBoundingClientRect().width, robot, name);
     if (!immediate) { walkTo(target.x, target.y, arrive, approaching); return; }
     // A nearby click opens immediately, and also stops an interrupted walk.
     stop({ duration: 0 });
     setPreference(old => ({ ...old, x: from.x, y: from.y }));
     arrive();
   }
-  /** Land in another scene at `entry`, or at its default entry. */
+  /** Land in a scene, the current one included, at `entry` or at its default entry. */
   function visit(planet: WorldPlanet, region: WorldRegion, entry?: ScenePoint) {
     stop({ duration: 0, direction: 'front' });
     const destination = getSceneLayout(planet, region), landing = constrainScenePoint(destination, entry ?? destination.entry);
     setPreference(old => ({ ...old, planetId: planet.id, regionId: region.id, ...landing, visited: [...new Set([...old.visited, `${planet.id}/${region.id}`])] }));
+    setLandings(count => count + 1);
   }
-  return { planet, region, layout, position, motion, player, stop, walkTo, approach, visit };
+  return { planet, region, layout, position, motion, player, landings, stop, walkTo, approach, visit };
+}
+
+/**
+ * Inside the Brave Tower, a new floor or completion re-lands the explorer (`land`), clear of the next guardian and its floor badge;
+ * entering the tower keeps the landing it came by (`enter`).
+ */
+export function useTowerLanding(tower: { floor: number; complete: boolean } | undefined, land: () => void, enter: () => void) {
+  const stage = towerStage(tower), shown = useRef(stage);
+  useEffect(() => {
+    const climbed = towerClimbed(shown.current, stage); shown.current = stage;
+    if (climbed) land(); else if (stage) enter();
+  }, [stage]);
 }
