@@ -1,6 +1,6 @@
 # Changelog
 
-Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. The delivery reports for versions 0.1 to 0.3.2 are in [DELIVERY.md](DELIVERY.md).
+Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
 ## Repository refactor (2026-10-18)
 
@@ -222,20 +222,28 @@ The character follow-up reconstructs every original nested placement matrix and 
 
 ## Version 0.3.2
 
-Version 0.3.2 adds three selectable galaxies, complete original eight-direction Seer character art, randomized bounded creature routes, capsule-free boss item panels, and ordered cylindrical capture feedback. See [design/notes/classic-navigation-and-presentation.md](design/notes/classic-navigation-and-presentation.md).
+Version 0.3.2 adds three selectable galaxies, complete original eight-direction Seer character art, randomized bounded creature routes, capsule-free boss item panels, and ordered cylindrical capture feedback. The navigation window covers Pano, Kalan and Rogue with 13 destinations and 39 landing regions. The captain and scientist wear their official NPC equipment, battle portraits no longer repeat the health-panel names, and the capture outcome appears only after the capsule closes and shakes. It was a development delivery; nothing was packaged. See [design/notes/classic-navigation-and-presentation.md](design/notes/classic-navigation-and-presentation.md).
 
 ## Version 0.3.1
 
-Version 0.3.1 adds capsule capture for ordinary wild creatures, three battle-item categories and locally roaming creatures. The reported broken assets were caused by the development process ending with the previous task; the current port-1421 server runs as an independent local launchd job. See [design/notes/capture-and-roaming.md](design/notes/capture-and-roaming.md).
+Version 0.3.1 adds capsule capture for ordinary wild creatures, three battle-item categories and locally roaming creatures. A captured creature keeps its encounter level, individual value, nature, HP and skills. The recovered item catalog has no status cure, so the status-removal category uses an authored supply that is not presented as an original record. Roaming creatures turn their original 2D portraits through simulated directional poses. The reported broken assets were caused by the development process ending with the previous task; the port-1421 server then moved to an independent local launchd job. Nothing was packaged. See [design/notes/capture-and-roaming.md](design/notes/capture-and-roaming.md).
 
 On the original development machine, independent launchd jobs served the development preview at ports 1421, 1424 and 1425, each with its own origin-specific browser save, while `npm run dev` kept port 1420 for Tauri. Those jobs did not move to the current machine.
 
 ## Version 0.3
 
-Version 0.3 turns the interface into a fixed game frame: the map fills the scene, eight visible tools open draggable in-scene windows, and battles return to the same location and player position. Actual portrait resources load behind a progress screen before combat opens. Creature details and the complete dex show base stats; learning values can be edited and saved directly in the regular creature window. Classic command panels use selection and confirmation, action logs combine their consequences, and critical hits have explicit visual feedback. Original vector viewports, including Rei, are calibrated from their own rendered silhouettes. See [design/notes/experience-v3.md](design/notes/experience-v3.md) for the implementation and completion audit.
+Version 0.3 turns the interface into a fixed game frame: the map fills the scene, eight visible tools open draggable in-scene windows, and battles return to the same location and player position. Actual portrait resources load behind a progress screen before combat opens. Creature details and the complete dex show base stats; learning values can be edited and saved directly in the regular creature window. Classic command panels use selection and confirmation, action logs combine their consequences, and critical hits have explicit visual feedback. Retreat works in the replacement phase and grants no encounter rewards. Original vector viewports, including Rei, are calibrated from their own rendered silhouettes. See [design/notes/experience-v3.md](design/notes/experience-v3.md) for the implementation and completion audit.
 
-Version 0.3 is a development delivery. The previously packaged 0.2 application is historical and is not updated by this work.
+Version 0.3 is a development delivery served by `npm run dev:preview`, with version identifiers 0.3.0; no production bundle or native package was made. The previously packaged 0.2 application is historical and is not updated by this work.
 
-## Versions 0.2 and 0.1
+## Version 0.2
 
-See [DELIVERY.md](DELIVERY.md).
+Version 0.2 adds seven destinations with 21 locations, walking, local creature interactions, SPT entry points, recovery and missions. Catalog species without a map place stay reachable through recruitment commissions, and mapped Bosses open their destination. Creature management separates party and storage, and items are grouped into essences, combat supplies, raising items and capsules. The classic battle, item, creature and escape panels sit below the battlefield and a central dialogue strip; physical, special, status and hit animations play in the engine's event order with staged HP changes, and enemy art is mirrored. 143 original official vectors replace the low-resolution portraits, covering all 114 originals under 100 pixels on the longest edge, and every species has a measured silhouette position and evolution-stage scaling. Map scenery is authored for this remake, and the battle layout follows the official guide's command structure rather than a pixel comparison. See [design/notes/experience-v2.md](design/notes/experience-v2.md).
+
+`npm run package` produced a 33.21 MiB macOS app at version 0.2.0, which launched and rendered the map and starter vectors in the native webview. A production-interface check entered Mushroom Monster's location from the map and won in three physical-attack turns; the commands stayed locked during playback, and HP matched the engine's events.
+
+## Version 0.1
+
+Version 0.1 recovers the original Claude project into this independent repository as a playable desktop game. It has the Chinese single-player interface for the party, raising, challenges, collection, inventory and saves; an optional modifier for level, individual value, learning values, nature, trait, collection and resources; and an offline catalog of 1,483 species, 5,325 skills, 162 encounters and 1,483 original official portraits. Bosses are available at any time and their first-clear essences hatch immediately; ordinary recruitment challenges and explicit quest rewards replace complicated acquisition routes. Forty-five classic traits work; at this version Hui Xin and Mian Bao lacked their critical-rate mapping, Luan Wu needed multi-target combat, and the fifth-skill, soul-mark and engraving datasets were empty. Tower floor 69 uses the documented substitute team because its recovered record is empty.
+
+`npm run build` passed, and `npm run package` produced a locally signed 31.85 MiB Apple Silicon app that launched at `tauri://localhost` and exported a save. A manual playthrough raised a starter to level 35, evolved Bubu Seed into Bubu Flower, defeated the level-15 Mushroom Monster, hatched its essence and kept the progress across a reload. The earlier large test suites were not rerun, and not every encounter was played.
