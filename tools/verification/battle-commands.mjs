@@ -1,9 +1,10 @@
 /**
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
- * forced replacement, and the lines a capture and a wild victory say, each once.
+ * forced replacement, the lines a capture and a wild victory say, each once, and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
+import {levelledGames} from './_game-battle.mjs';
 import {memoryStorage, suite, withSsr} from './_harness.mjs';
 
 memoryStorage();
@@ -22,14 +23,16 @@ function manualClock() {
     setTimeout: (run, ms) => { timers.set(nextId, {at: now + Math.max(0, ms), run}); return nextId++; },
     clearTimeout: id => { timers.delete(id); },
     now: () => now,
+    /** Runs the next due timer. */
+    step: () => runNext(),
     /** Runs every pending timer, including the ones they set. */
     runAll() { while (timers.size) runNext(); },
   };
 }
 await withSsr('battle-commands', async load => {
-  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}] = await Promise.all([
+  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}, idleSlots] = await Promise.all([
     '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts',
-    '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts'].map(load));
+    '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts', '/src/shared/idle.ts'].map(load));
   const catalog = await loadCatalog(), t = suite('battle-commands');
   const base = JSON.parse(createGame(catalog, '', {idle: () => {}}).exportSave());
   base.rng_state = [101, 202, 303, 404];
@@ -54,9 +57,17 @@ await withSsr('battle-commands', async load => {
     }
   });
 
-  /** The battle screen over `game`: the player, what it dispatched, played and said (and when), and the screen's revision effect. */
-  function screen(game) {
-    const clock = manualClock(), dispatched = [], sounds = [], events = [], dialogue = [], saidAt = new Map();
+  /**
+   * The battle screen over `game`: the player, what it dispatched, played and said (and when), how many idle holds it keeps, and the
+   * screen's revision effect. `holdIdle` is the browser's hold when given, else one that only counts.
+   */
+  function screen(game, {holdIdle} = {}) {
+    const clock = manualClock(), dispatched = [], sounds = [], events = [], dialogue = [], saidAt = new Map(), idle = {holds: 0};
+    const countingHold = () => {
+      let held = true;
+      idle.holds++;
+      return () => { if (held) idle.holds--; held = false; };
+    };
     const player = createBattlePlayer({
       battle: () => game.snapshot().battle,
       dispatch: action => { dispatched.push(action); return game.dispatch(action); },
@@ -66,6 +77,7 @@ await withSsr('battle-commands', async load => {
       onStart: () => events.push('start'),
       onNeedsSwitch: battle => events.push(battle.needsSwitch ? 'needsSwitch' : 'needsSwitch without a faint'),
       onReplaced: () => events.push('replaced'),
+      holdIdle: holdIdle ?? countingHold,
     });
     player.subscribe(() => {
       const line = player.state().dialogue;
@@ -74,7 +86,7 @@ await withSsr('battle-commands', async load => {
     let stop = player.play(game.snapshot().battle);
     /** What the screen does when the animation revision changes: cancel the old turn and play the new one. */
     const rerender = () => { stop(); stop = player.play(game.snapshot().battle); };
-    return {player, clock, dispatched, sounds, events, dialogue, saidAt, rerender};
+    return {player, clock, dispatched, sounds, events, dialogue, saidAt, idle, rerender};
   }
   const wild = (input = catalog) => started({type: 'startTraining', species: 22, level: 3}, input);
   const failing = structuredClone(catalog);
@@ -87,7 +99,7 @@ await withSsr('battle-commands', async load => {
     ui.player.submit(capture);
     ui.player.submit(capture);
     assert.equal(ui.dispatched.length, 1, 'the second click before the screen re-renders is locked out');
-    assert.equal(ui.player.state().busy, true);
+    assert.deepEqual([ui.player.state().busy, ui.idle.holds], [true, 1]);
     ui.rerender();
     ui.player.submit(capture);
     assert.equal(ui.dispatched.length, 1, 'no command while the turn plays');
@@ -96,6 +108,7 @@ await withSsr('battle-commands', async load => {
     ui.clock.runAll();
     const state = ui.player.state(), view = game.snapshot().battle;
     assert.deepEqual([state.busy, state.frame, state.captureResolved, view.finished, view.captured], [false, null, true, true, true]);
+    assert.equal(ui.idle.holds, 0, 'the settle lets idle work go');
     assert.deepEqual(ui.events, ['start']);
     assert.deepEqual(ui.sounds, ['click', 'capture']);
     const thrown = ui.saidAt.get(`正在使用无敌精灵胶囊捕捉${foe}…`), caught = ui.saidAt.get(`我方使用了无敌精灵胶囊，成功捕捉${foe}！`);
@@ -134,7 +147,7 @@ await withSsr('battle-commands', async load => {
     const game = started({type: 'startBattle', bossId: catalog.bosses[0].id}), ui = screen(game);
     ui.player.submit({type: 'capture', itemId: 'item_capsule_master'});
     const state = ui.player.state();
-    assert.deepEqual([state.busy, state.dialogue], [false, game.snapshot().battle.captureBlockedReason]);
+    assert.deepEqual([state.busy, state.dialogue, ui.idle.holds], [false, game.snapshot().battle.captureBlockedReason, 0]);
     assert.ok(ui.player.canAct());
   });
 
@@ -179,6 +192,40 @@ await withSsr('battle-commands', async load => {
     ui.clock.runAll();
     assert.equal(game.snapshot().battle.player.uid, bench[1].uid);
     assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch', 'replaced']);
+  });
+
+  t.check('A screen that unmounts while a turn plays lets idle work go', () => {
+    const game = wild(), ui = screen(game);
+    ui.player.submit({type: 'move', skillId: game.snapshot().battle.player.skills[0].id});
+    ui.rerender();
+    assert.equal(ui.idle.holds, 1);
+    ui.player.dispose();
+    ui.player.dispose();
+    assert.equal(ui.idle.holds, 0);
+  });
+
+  await t.checkAsync('Turn preparation waits while a turn plays and runs once its last frame shows, before the commands unlock', async () => {
+    const levelled = await levelledGames(load), runs = [], macrotask = () => new Promise(resolve => setTimeout(resolve, 5));
+    let ui;
+    // The browser's idle slots (timers in Node), observed: each preparation records whether a turn was still playing.
+    const game = levelled({idle: task => idleSlots.whenIdle(() => { runs.push(ui.player.state().busy); task(); })});
+    assert.ok(game.dispatch({type: 'startBattle', bossId: 'trainer_attrition'}).ok);
+    ui = screen(game, {holdIdle: idleSlots.holdIdle});
+    await macrotask();
+    assert.deepEqual(runs, [false], 'the opening turn is prepared in the first idle slot');
+    ui.player.submit({type: 'move', skillId: game.snapshot().battle.player.skills.find(skill => skill.pp > 0).id});
+    ui.rerender();
+    const {frames} = game.snapshot().battle.animation;
+    assert.ok(frames.length > 2);
+    for (await macrotask(); ui.player.state().frame !== frames.at(-1); await macrotask()) {
+      assert.deepEqual(runs, [false], 'no preparation while the turn plays');
+      ui.clock.step();
+    }
+    await macrotask();
+    assert.deepEqual(runs, [false, true], 'prepared while the last frame shows');
+    ui.clock.runAll();
+    assert.equal(ui.player.state().busy, false);
+    ui.player.dispose();
   });
 
   t.finish();

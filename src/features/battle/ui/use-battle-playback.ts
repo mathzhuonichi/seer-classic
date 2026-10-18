@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { GameAction, GameController } from '../../../kernel/contract.ts';
 import type { BattlePresentationFrame, BattleView } from '../../../shared/views.ts';
 import { gameAudio } from '../../../shared/audio/game-audio.ts';
+import { holdIdle } from '../../../shared/idle.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
 import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 import { battleAnimationTiming } from '../battle-animation.ts';
@@ -46,11 +47,13 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     sound: cue => gameAudio.playSfx(cue),
     motion: frameMotion,
     clock: BROWSER_CLOCK,
+    holdIdle,
   }));
   const state = useSyncExternalStore(player.subscribe, player.state);
   const revision = battle.animation.revision;
 
   useEffect(() => player.play(latest.current.battle), [revision, player]);
+  useEffect(() => () => player.dispose(), [player]);
   useEffect(() => {
     if (!battle.finished || state.busy) return;
     const timer = setTimeout(() => c.dispatch({ type: 'closeBattle' }), CLOSE_DELAY_MS);

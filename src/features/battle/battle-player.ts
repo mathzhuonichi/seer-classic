@@ -47,6 +47,8 @@ export interface PlayerHost extends PlaybackEvents {
   /** One frame's timing inputs: reduced motion, the actor's loaded clip and the move's skill effect length. */
   motion(frame: BattlePresentationFrame): { reducedMotion: boolean; timing?: MoveTiming | null; effectMs?: number };
   clock: PlaybackClock;
+  /** Holds the controller's idle work (turn preparation) until the returned function runs. */
+  holdIdle(): () => void;
 }
 
 export interface BattlePlayer {
@@ -58,6 +60,8 @@ export interface BattlePlayer {
   canAct(): boolean;
   /** Sends a battle command; a command the controller rejects shows its notice and unlocks. */
   submit(action: GameAction): void;
+  /** Lets go of the idle work it holds; the screen calls it when it unmounts. */
+  dispose(): void;
 }
 
 const OPENING_DIALOGUE = '请选择指令。';
@@ -75,6 +79,14 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
     for (const listener of listeners) listener();
   };
   const canAct = () => !state.busy && !host.battle().finished;
+  // The next turn's preparation (idle work) waits from a command until the turn's last frame is on screen, so it does not take
+  // the playback's frames and is still ready before the commands unlock.
+  let releaseIdle: (() => void) | null = null;
+  const holdIdle = () => { releaseIdle ??= host.holdIdle(); };
+  const releaseHeldIdle = () => {
+    releaseIdle?.();
+    releaseIdle = null;
+  };
   return {
     state: () => state,
     subscribe(listener) {
@@ -84,17 +96,20 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
     play(battle) {
       const batch = battle.animation.frames;
       if (!batch.length) {
+        releaseHeldIdle();
         set({ busy: false, frame: null });
         return () => {};
       }
+      holdIdle();
       set({ busy: true });
       host.onStart();
-      const cancel = playFrames(batch, host, set, () => {
+      const settle = () => {
         const settled = host.battle(), sound = battleEndSound(settled);
         set({ frame: null, sourceAction: null, skillEffect: null, busy: false, dialogue: settledDialogue(settled, batch.at(-1)) });
         if (sound) host.sound(sound);
         if (settled.needsSwitch) host.onNeedsSwitch(settled);
-      });
+      };
+      const cancel = playFrames(batch, host, set, { last: releaseHeldIdle, settle });
       return () => {
         cancel();
         set({ sourceAction: null, skillEffect: null });
@@ -105,16 +120,25 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
       if (!canAct()) return;
       const replacing = action.type === 'switch' && host.battle().needsSwitch;
       host.sound('click');
+      holdIdle();
       set({ busy: true });
       const result = host.dispatch(action);
-      if (!result.ok) set({ busy: false, dialogue: result.notice || REJECTED_DIALOGUE });
-      else if (replacing) host.onReplaced();
+      if (result.ok) {
+        if (replacing) host.onReplaced();
+        return;
+      }
+      releaseHeldIdle();
+      set({ busy: false, dialogue: result.notice || REJECTED_DIALOGUE });
     },
+    dispose: releaseHeldIdle,
   };
 }
 
-/** Shows `batch` frame by frame on the host's clock; the returned function cancels whatever is still pending. */
-function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Patch, settle: () => void): () => void {
+/**
+ * Shows `batch` frame by frame on the host's clock, calls `last` once the last frame is on screen and `settle` once it has played;
+ * the returned function cancels whatever is still pending.
+ */
+function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Patch, { last, settle }: { last(): void; settle(): void }) {
   const { clock } = host, timers: Partial<Record<TimerName, number>> = {};
   const schedule = (name: TimerName, run: () => void, ms: number) => { clock.clearTimeout(timers[name]); timers[name] = clock.setTimeout(run, ms); };
   let cursor = 0, actionEndsAt = 0, effectEndsAt = 0;
@@ -135,6 +159,7 @@ function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Pat
     if (cursor >= batch.length) { settle(); return; }
     const next = batch[cursor++];
     show(next);
+    if (cursor === batch.length) last();
     const plan = planBattleFrame(next, batch[cursor], host.motion(next));
     if (plan.effect === 'clear') { set({ skillEffect: null }); effectEndsAt = 0; }
     else if (plan.effect !== 'keep') {

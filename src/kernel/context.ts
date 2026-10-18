@@ -17,6 +17,7 @@ import { buildSkinOptions } from '../domain/acquisition/skins.ts';
 import type { LineageSpecies } from '../domain/acquisition/species-graph.ts';
 import { getEligibleRecruitmentSPTs } from '../domain/acquisition/spt-recruitment.ts';
 import type { BattleFacilityView } from '../shared/views.ts';
+import { whenIdle } from '../shared/idle.ts';
 import { enrichCatalog } from '../domain/catalog/enrichment.ts';
 
 export type BattleFactory = (options: BattleOptions) => Battle;
@@ -24,18 +25,8 @@ export type BattleFactory = (options: BattleOptions) => Battle;
 export interface GameDependencies {
   /** Constructs each battle from options that carry the AI policy; verification passes a wrapper to observe the controller's battles. */
   createBattle?: BattleFactory;
-  /** Schedules idle work (turn preparation); verification runs the tasks when it chooses. */
+  /** Schedules idle work (turn preparation); by default the browser's idle slots (`shared/idle.ts`), and verification runs the tasks when it chooses. */
   idle?: (task: () => void) => void;
-}
-
-/**
- * Runs `task` in an idle slot after the frame. WebKit, the macOS app's web view, has no requestIdleCallback: there a timer set in
- * the next animation frame runs after that frame is painted. Node has neither and uses a timer.
- */
-function whenIdle(task: () => void) {
-  if (typeof requestIdleCallback === 'function') requestIdleCallback(() => task());
-  else if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => setTimeout(task));
-  else setTimeout(task);
 }
 
 /** Catalog lookups that view builders need. */
