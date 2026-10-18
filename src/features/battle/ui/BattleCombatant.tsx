@@ -5,7 +5,7 @@ import { STATUS_LABELS } from '../../../shared/labels.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import BattleSkillEffect from './BattleSkillEffect.tsx';
-import type { SkillEffectCue } from './use-battle-playback.ts';
+import type { SkillEffectCue } from '../battle-player.ts';
 
 /** Frame kinds with their own CSS motion on the combatant. */
 const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture']);
