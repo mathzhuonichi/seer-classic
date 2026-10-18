@@ -3,14 +3,8 @@
  * separately verifies live drag, map movement, tooltip/menu placement, resizing, and GPU continuity.
  */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import {parseSync,transformSync} from 'rolldown/utils';
-import {root,suite,withSsr} from './_harness.mjs';
+import {suite,withSsr} from './_harness.mjs';
 
-// TypeFilter and TypeIcon handlers are still extracted from source; they belong to the type UI.
-const files=['src/shared/ui/TypeFilter.tsx','src/shared/ui/TypeIcon.tsx'];
-const sources=new Map(files.map(file=>[file,fs.readFileSync(path.join(root,file),'utf8')]));
 const layouts=[],coordinates=[];
 const close=(actual,expected,label='number')=>assert(Math.abs(actual-expected)<=1e-7*Math.max(1,Math.abs(expected)),`${label}: ${actual} != ${expected}`);
 const previousComputedStyle=Object.getOwnPropertyDescriptor(globalThis,'getComputedStyle');
@@ -19,23 +13,6 @@ Object.defineProperty(globalThis,'getComputedStyle',{configurable:true,value:ele
   styleReads++;return {zoom:element.fixtureZoom??'1',get transform(){throw Error('Layout zoom must ignore transient transforms');}};
 }});
 
-// Extract executable source with Vite's TypeScript-capable parser, rather than maintain a
-// duplicate of the coordinate equations. Dependencies are explicit DOM fixtures.
-function handler(file,name,bindings,ancestor){
-  const source=sources.get(file),parsed=parseSync(file,source);assert.equal(parsed.errors.length,0,file+' parses');
-  const matches=[];
-  function visit(node,parents=[]){
-    if(!node||typeof node!=='object')return;
-    if((node.type==='FunctionDeclaration'||node.type==='VariableDeclarator')&&node.id?.name===name){
-      if(!ancestor||parents.some(parent=>parent.type==='FunctionDeclaration'&&parent.id?.name===ancestor))matches.push(node);
-    }
-    for(const value of Object.values(node)){if(Array.isArray(value))for(const child of value)visit(child,[...parents,node]);else if(value&&typeof value==='object')visit(value,[...parents,node]);}
-  }
-  visit(parsed.program);assert.equal(matches.length,1,`${file}: unique ${ancestor??''}/${name}`);
-  const node=matches[0],definition=node.type==='FunctionDeclaration'?source.slice(node.start,node.end):`const ${name}=${source.slice(node.init.start,node.init.end)};`;
-  const compiled=transformSync('handler.ts',`function extractedHandler(){${definition}\nreturn ${name};}`).code;
-  return new Function(...Object.keys(bindings),compiled+'\nreturn extractedHandler();')(...Object.values(bindings));
-}
 const viewportCases=[
   ['baseline',1280,720],['small portrait',640,760],['3840 by 2160 viewport',3840,2160],
   ['2560 by 1440 viewport',2560,1440],['1920 by 1080 viewport',1920,1080],
@@ -44,8 +21,9 @@ const viewportCases=[
 ];
 try{await withSsr('game-display-v43',async load=>{
   const t=suite('game-display-v43'),{check}=t;
-  const [{gameDisplayLayout,getLayoutZoom,startWindowDrag,startsWindowDrag,dragWindow,clampWindow},walk,roaming,{rectangle,percentIn}]=await Promise.all(
-    ['/src/shared/game-display.ts','/src/features/world/world-walk.ts','/src/features/world/world-roaming.ts','/src/features/world/scene-geometry.ts'].map(load));
+  const [{gameDisplayLayout,getLayoutZoom,startWindowDrag,startsWindowDrag,dragWindow,clampWindow},walk,roaming,{rectangle,percentIn},{typeMenuPosition},
+    {typeTooltipPosition}]=await Promise.all(['/src/shared/game-display.ts','/src/features/world/world-walk.ts','/src/features/world/world-roaming.ts',
+    '/src/features/world/scene-geometry.ts','/src/shared/ui/TypeFilter.tsx','/src/shared/ui/TypeIcon.tsx'].map(load));
   check('Each viewport retains the original 960:650 fit without overflowing',()=>{
     for(const [name,width,height] of viewportCases){
       const layout=gameDisplayLayout(width,height),rendered={width:layout.width*layout.zoom,height:layout.height*layout.zoom};
@@ -152,8 +130,7 @@ try{await withSsr('game-display-v43',async load=>{
       const zoom=gameDisplayLayout(width,height).zoom;
       for(const anchor of ['center','top left','bottom right']){
         const rect={left:anchor==='top left'?0:anchor==='bottom right'?width-120*zoom:width*.4,top:anchor==='top left'?0:anchor==='bottom right'?height-30*zoom:height*.4,width:120*zoom};rect.bottom=rect.top+30*zoom;
-        let position;const place=handler('src/shared/ui/TypeFilter.tsx','place',{trigger:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
-        place();assert.equal(position.zoom,zoom);
+        const position=typeMenuPosition(rect,zoom,{innerWidth:width,innerHeight:height});assert.equal(position.zoom,zoom);
         const rendered={left:position.left*zoom,top:position.top*zoom,width:position.width*zoom,height:position.maxHeight*zoom};
         assert(rendered.left>=8*zoom-1e-7&&rendered.left+rendered.width<=width-8*zoom+1e-7);
         assert(rendered.top>=8*zoom-1e-7&&rendered.top+rendered.height<=height-8*zoom+1e-7);
@@ -168,17 +145,13 @@ try{await withSsr('game-display-v43',async load=>{
       const zoom=gameDisplayLayout(width,height).zoom;
       for(const anchor of ['center','top left','bottom right']){
         const rect={left:anchor==='top left'?0:anchor==='bottom right'?width-21*zoom:width*.5,top:anchor==='top left'?0:anchor==='bottom right'?height-21*zoom:height*.5,width:21*zoom};rect.bottom=rect.top+21*zoom;
-        let position;const place=handler('src/shared/ui/TypeIcon.tsx','placeTooltip',{icon:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},tooltip:{current:{offsetWidth:90,offsetHeight:30}},label:'Fire element',getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
-        place();assert.equal(position.zoom,zoom);
+        const position=typeTooltipPosition(rect,zoom,{width:90,height:30},width);assert.equal(position.zoom,zoom);
         const left=position.left*zoom-45*zoom,right=left+90*zoom,top=position.top*zoom-(position.below?0:30*zoom),bottom=top+30*zoom;
         assert(left>=8*zoom-1e-7&&right<=width-8*zoom+1e-7);assert(top>=0&&bottom<=height);
         if(anchor==='top left')assert(position.below);else assert(!position.below);
         if(anchor==='center')close(position.left*zoom,rect.left+rect.width/2,'tooltip center');
       }
     }
-  });
-  check('Verification leaves all measured production source bytes unchanged',()=>{
-    for(const [file,source] of sources)assert.equal(fs.readFileSync(path.join(root,file),'utf8'),source,file);
   });
   t.finish({scope:'Viewport CSS-pixel calculations and the pure geometry behind UI handlers; no physical-display measurements or browser rendering.',layouts,coordinates});
 });

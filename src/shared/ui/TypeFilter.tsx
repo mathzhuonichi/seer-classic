@@ -23,19 +23,20 @@ export default function TypeFilter({label,value,groups,onChange,withIcons}:Props
 
 const hasArt=(choice:ElementFilterOption)=>choice.kind!=='count';
 
+/** The open menu in layout pixels: below the trigger unless there is more room above, and 8 px inside the viewport. */
+export function typeMenuPosition(r:Pick<DOMRect,'left'|'top'|'bottom'|'width'>,zoom:number,viewport:Pick<Window,'innerWidth'|'innerHeight'>){
+ const margin=8*zoom,width=Math.min(Math.max(r.width,190*zoom),viewport.innerWidth-2*margin);
+ const below=Math.max(0,viewport.innerHeight-r.bottom-12*zoom),above=Math.max(0,r.top-12*zoom),down=below>=320*zoom||below>=above;
+ const maxHeight=Math.min(320*zoom,down?below:above);
+ const left=Math.max(margin,Math.min(r.left,viewport.innerWidth-width-margin)),top=down?r.bottom+4*zoom:Math.max(margin,r.top-4*zoom-maxHeight);
+ return {left:left/zoom,top:top/zoom,width:width/zoom,maxHeight:maxHeight/zoom,zoom};
+}
+
 function IconTypeFilter({label,value,options:choices,onChange}:ChoiceProps){
  const selected=choices.find(choice=>choice.value===value)??choices[0];
  const [open,setOpen]=useState(false),[position,setPosition]=useState({left:0,top:0,width:180,maxHeight:320,zoom:1});
  const trigger=useRef<HTMLButtonElement>(null),menu=useRef<HTMLDivElement>(null),listId=useId();
- function place(){
-  const r=trigger.current!.getBoundingClientRect(),zoom=getLayoutZoom(trigger.current!),margin=8*zoom;
-  const width=Math.min(Math.max(r.width,190*zoom),window.innerWidth-2*margin);
-  const below=Math.max(0,window.innerHeight-r.bottom-12*zoom),above=Math.max(0,r.top-12*zoom),down=below>=320*zoom||below>=above;
-  const maxHeight=Math.min(320*zoom,down?below:above);
-  const left=Math.max(margin,Math.min(r.left,window.innerWidth-width-margin)),top=down?r.bottom+4*zoom:Math.max(margin,r.top-4*zoom-maxHeight);
-  setPosition({left:left/zoom,top:top/zoom,width:width/zoom,maxHeight:maxHeight/zoom,zoom});
- }
- function show(){place();setOpen(true)}
+ function show(){setPosition(typeMenuPosition(trigger.current!.getBoundingClientRect(),getLayoutZoom(trigger.current!),window));setOpen(true)}
  function close(){setOpen(false);trigger.current?.focus()}
  function choose(next:string){onChange(next);close()}
  useEffect(()=>{
