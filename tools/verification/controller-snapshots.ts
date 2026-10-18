@@ -58,7 +58,7 @@ export async function verifySnapshotIdentity(){
 }
 
 /**
- * Slice builders rebuild rows only when their inputs change (monster rows). After each step the snapshot equals
+ * Slice builders rebuild rows only when their inputs change (monster rows, quests). After each step the snapshot equals
  * the one a new controller builds from the exported save, and exactly the monster rows listed as changed are new; `maybe` rows
  * may change either way.
  */
@@ -94,6 +94,13 @@ export async function verifySnapshotInputs(){
   step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);
   assert(row(m).evolutionChoices[0].blockedReason,'Six copies block the evolution.');
   step('evolution frees capacity',act({type:'evolve',uid:c}),[c,m]);
+  step('quest reward capacity',act(...Array.from({length:6},():GameAction=>({type:'cheatAcquire',species:10,level:5}))),[]);
+  assert(game.snapshot().quests.find(quest=>quest.rewardSpecies===10)!.blockedReason,'Six copies block the quest reward.');
+  const quest=game.snapshot().quests.find(quest=>quest.prerequisites?.some(condition=>condition.kind==='species'&&!condition.complete))!;
+  const saved=JSON.parse(game.exportSave()),missing=quest.prerequisites!.find(condition=>condition.kind==='species'&&!condition.complete)!;
+  saved.dex.owned.push(missing.species);
+  step('import with one more owned species',()=>game.importSave(JSON.stringify(saved)),[]);
+  assert.notEqual(game.snapshot().quests.find(entry=>entry.id===quest.id),quest,'The quest row follows the owned species.');
   return {checks};
 }
 
