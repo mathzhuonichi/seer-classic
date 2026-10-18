@@ -2,16 +2,20 @@
 import assert from 'node:assert/strict';
 import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
+/** The seed of the fixture's journey; a new journey would seed itself from the clock. */
+const JOURNEY_SEED=0xac9c1a;
+
 memoryStorage();
 await withSsr('acquisition-limits-controller',async load=>{
  const t=suite('acquisition-limits-controller'),{check}=t;
  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {newSave}=await load('/src/kernel/save.ts');
  const {buildRecruitmentRewards}=await load('/src/domain/acquisition/recruitment.ts');
  const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');
  const {Rng}=await load('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
  const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
- const {SHOP_MAX_QUANTITY}=await load('/src/domain/economy.ts');
+ const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
@@ -19,7 +23,9 @@ await withSsr('acquisition-limits-controller',async load=>{
  const aliasA=`essence_test_a_${reward.rewardSpecies}`,aliasB=`essence_test_b_${reward.rewardSpecies}`;
  const catalog={...source,items:[...source.items,...[aliasA,aliasB].map(id=>({id,name:{zh:id},kind:'essence',hatches:reward.rewardSpecies}))]},catalogBytes=JSON.stringify(catalog);
  const parse=g=>JSON.parse(g.exportSave()),make=save=>createGame(catalog,JSON.stringify(save));
- const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:20,item_level_up_1:10};base.exp_pool=1e9;base.game.recruitmentClaims={};base.game.shopUnlocked=[];
+ const journey=make(newSave(JOURNEY_SEED));for(const species of STARTER_SPECIES)journey.dispatch({type:'cheatAcquire',species,level:STARTER_LEVEL});
+ const base=parse(journey);base.rng_state=[101,202,303,404];base.items={item_capsule_master:20,item_level_up_1:10};base.exp_pool=1e9;
+ base.game.recruitmentClaims={};base.game.shopUnlocked=[];
  const reject=(g,action,label)=>{const before=g.exportSave();g.dispatch(action);assert(g.exportSave()===before,label);};
  const templateCache=new Map();
  const template=(species,level=1)=>{

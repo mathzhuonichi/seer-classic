@@ -2,17 +2,23 @@
 import assert from 'node:assert/strict';
 import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
+/** The seed of the fixture's journey; a new journey would seed itself from the clock. */
+const JOURNEY_SEED=0xc0115;
+
 memoryStorage();
 await withSsr('collection-shop-v25',async load=>{
  const t=suite('collection-shop-v25'),{check}=t;
  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {newSave}=await load('/src/kernel/save.ts');
+ const {STARTER_LEVEL}=await load('/src/domain/economy.ts');
  const {buildCollectionAncestry}=await load('/src/domain/acquisition/collection-ancestry.ts');
  const {FUSION_RECIPES,fusionBeadItemId}=await load('/src/domain/recipes/fusion.ts');
  const {normalizeBattleSupplyItems}=await load('/src/domain/battle-supplies.ts');
  const {SPECIES_COPY_LIMIT}=await load('/src/domain/acquisition/acquisition-limits.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog);
  const parse=game=>JSON.parse(game.exportSave()),owned=(game,id)=>game.snapshot().species.find(row=>row.id===id)?.owned;
- const raw=parse(createGame(catalog,''));raw.game.coins=0;raw.dex.owned=[];raw.dex.seen=[];raw.storage=raw.storage.filter(mon=>mon.species===1);
+ const journey=createGame(catalog,JSON.stringify(newSave(JOURNEY_SEED)));journey.dispatch({type:'cheatAcquire',species:1,level:STARTER_LEVEL});
+ const raw=parse(journey);raw.game.coins=0;raw.dex.owned=[];raw.dex.seen=[];
  raw.party=raw.storage.map(mon=>mon.uid);raw.rng_state=[101,202,303,404];raw.game.shopUnlocked=[];
  const make=(save=raw)=>createGame(catalog,JSON.stringify(save));
  const count=make().snapshot().monsters.length;

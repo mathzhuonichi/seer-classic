@@ -3,11 +3,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
+import {newSave} from '../../src/kernel/save.ts';
+import {STARTER_LEVEL,STARTER_SPECIES,STARTING_ITEM_STOCK} from '../../src/domain/economy.ts';
 import {root,suite} from './_harness.mjs';
+
+/** The seed of the fixture's journey; a new journey would seed itself from the clock. */
+const JOURNEY_SEED=0x9a3e3;
+const potion='item_potion_hp_20';
 
 const t=suite('game-v3');
 const catalog=await loadCatalog() as any;
-const game=createGame(structuredClone(catalog));
+const journey=newSave(JOURNEY_SEED);journey.items[potion]=STARTING_ITEM_STOCK;
+const game=createGame(structuredClone(catalog),JSON.stringify(journey));
+for(const species of STARTER_SPECIES)game.dispatch({type:'cheatAcquire',species,level:STARTER_LEVEL});
 const initial=game.snapshot();
 const keys=['hp','atk','def','spa','spd','spe'] as const;
 t.check('all1483 base-stat views',()=>{
@@ -28,7 +36,7 @@ t.check('reject overbudget/fractional EVs without changes',()=>{
 const order=[...initial.party].reverse();game.dispatch({type:'reorderParty',uids:order});
 const saved=game.exportSave();const restored=createGame(structuredClone(catalog),saved);
 t.check('party order and save roundtrip',()=>{assert.deepEqual(game.snapshot().party,order);assert.deepEqual(restored.snapshot().party,order);assert.deepEqual(restored.snapshot().monsters.find(m=>m.uid===uid)!.evs,trained.evs);});
-const potion='item_potion_hp_20',beforeItems=restored.snapshot().items.find(i=>i.id===potion)!.count;
+const beforeItems=restored.snapshot().items.find(i=>i.id===potion)!.count;
 t.check('live battle inventory count',()=>{
   restored.dispatch({type:'startTraining',species:10,level:3});assert(restored.snapshot().battle);
   const beforeIneffectivePotion=restored.snapshot().battle!.log;
