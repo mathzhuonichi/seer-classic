@@ -56,7 +56,7 @@ export function Game({controller:c}:{controller:GameController}){
  const shell=useRef<HTMLDivElement>(null),display=useGameDisplay(shell);
  const s=useSyncExternalStore(c.subscribe,c.snapshot);
  const [windowKind,setWindowKind]=useState<WindowKind|null>(null),[selected,setSelected]=useState(''),[modifier,setModifier]=useState(false);
- const [focusSpecies,setFocusSpecies]=useState<number>(),[message,setMessage]=useState('');
+ const [message,setMessage]=useState('');
  const [travelTo,setTravelTo]=useState<{planetId:string;regionId:string;bossId?:string;requestId:number}>();
  const [campaignId,setCampaignId]=useState<string|null>(null);
  const activeCampaign=s.campaigns.find(campaign=>campaign.id===campaignId);
@@ -122,7 +122,7 @@ export function Game({controller:c}:{controller:GameController}){
   const campaign=c.snapshot().campaigns.find(entry=>entry.id===id),boss=c.snapshot().bosses.find(entry=>entry.id===campaign?.stages[0]?.bossIds[0]);
   if(boss){const destination=findChallengeLocation(boss),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);campaignScene.current={src:region.background??planet.background,name:campaign?.location??region.name}}
   else campaignScene.current=explorationScene.current;
-  if(c.snapshot().battle?.finished)c.dispatch({type:'closeBattle'});setCampaignId(id);setFocusSpecies(undefined);setWindowKind(null);setMessage('')
+  if(c.snapshot().battle?.finished)c.dispatch({type:'closeBattle'});setCampaignId(id);setWindowKind(null);setMessage('')
  }
  const uiController=useMemo<GameController>(()=>({...c,dispatch:action=>{
   if(action.type==='closeBattle'){const before=c.snapshot(),result=before.battle?.result;battleLevelUpPending.current=!!before.battle?.finished&&!!before.battle.won&&!!battleLevels.current&&battleLevelGained(battleLevels.current,before.monsters);c.dispatch(action);setWindowKind(null);if(result)setMessage(result);return}
@@ -131,7 +131,7 @@ export function Game({controller:c}:{controller:GameController}){
   if(action.type==='startBattle'||action.type==='startTraining'||action.type==='startCampaignStage'||action.type==='startFacility'||action.type==='startTower')void beginBattle(action);else{const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound)};
  }}),[c]);
  function open(kind:WindowKind){if(preparation)return;if(s.battle&&!s.battle.finished){if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});setWindowKind(null);return}if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}}if(kind==='quests')setQuestFocusId(undefined);if(kind==='monsters')setFusionRecipeId(undefined);if(kind==='bag')setBagPocket(undefined);if(kind==='challenge')setChallengeCategory(undefined);setWindowKind(current=>current===kind?null:kind)}
- function openTower(){setCampaignId(null);setFocusSpecies(undefined);setTravelTo({planetId:'space-station',regionId:'brave-tower',requestId:Date.now()});setWindowKind(null)}
+ function openTower(){setCampaignId(null);setTravelTo({planetId:'space-station',regionId:'brave-tower',requestId:Date.now()});setWindowKind(null)}
  function enterTower(floor:number){c.dispatch({type:'enterTower',floor});if(c.snapshot().braveTower.resumeFloor===floor)openTower()}
  function navigate(page:string){
   if(page==='tower'){openTower();return}
@@ -145,7 +145,7 @@ export function Game({controller:c}:{controller:GameController}){
  }
  function exportSave(){const url=URL.createObjectURL(new Blob([c.exportSave()],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='赛尔号-星际存档.json';link.click();URL.revokeObjectURL(url);setMessage('航行存档已导出。')}
  function locate(_species:number,route:AcquisitionRoute){
-  setFocusSpecies(undefined);
+  
   if(route.breedingRecipeId){setCampaignId(null);setBreedingRecipeId(route.breedingRecipeId);setTravelTo({planetId:'station',regionId:'lab',requestId:Date.now()});setWindowKind('breeding');return}
   if(route.fusionRecipeId){setCampaignId(null);setFusionRecipeId(route.fusionRecipeId);setTravelTo({planetId:'station',regionId:'lab',requestId:Date.now()});setWindowKind('fusion');return}
   if(route.campaignId){openCampaign(route.campaignId);return}
@@ -158,21 +158,21 @@ export function Game({controller:c}:{controller:GameController}){
   setWindowKind('monsters');
   if(!owned)setMessage('初始伙伴在新旅程开始时赠送，可在精灵仓库查看。');
  }
- function travelToChallenge(boss:BossView){if(braveTowerFloor(boss.id)!==undefined){openTower();return}const {planetId,regionId}=findChallengeLocation(boss);setCampaignId(null);setFocusSpecies(undefined);setWindowKind(null);setTravelTo({planetId,regionId,bossId:boss.id,requestId:Date.now()})}
+ function travelToChallenge(boss:BossView){if(braveTowerFloor(boss.id)!==undefined){openTower();return}const {planetId,regionId}=findChallengeLocation(boss);setCampaignId(null);setWindowKind(null);setTravelTo({planetId,regionId,bossId:boss.id,requestId:Date.now()})}
  function leaveLoading(){preparationId.current++;preparationAbort.current?.abort();preparationAbort.current=null;c.dispatch({type:'flee'});c.dispatch({type:'closeBattle'});setPreparation(null);preparing.current=false;setWindowKind(null);clearIdleBattleAnimations()}
  const notices=message||s.notices[0];
  useEffect(()=>{if(!notices)return;const timer=setTimeout(()=>{setMessage('');c.dispatch({type:'dismissNotice'})},3500);return()=>clearTimeout(timer)},[notices,c]);
  function renderTool(tool:typeof classicTools[number]){return <button key={tool.id} className={`toolbar-${tool.id} ${windowKind===tool.id?'active':''}`} aria-label={tool.label} title={tool.label} aria-pressed={windowKind===tool.id} onClick={()=>open(tool.id)}><img src={classicIcon(tool.asset)} alt="" draggable={false}/>{['dex','recovery','settings'].includes(tool.id)&&<span className="toolbar-label">{tool.label}</span>}{tool.id==='quests'&&s.quests.some(q=>q.claimable??(q.complete&&!q.claimed))&&<i className="hud-alert"/>}</button>}
  return <div ref={shell} style={display} className={`game-shell${s.battle||preparation?' is-in-battle':''}`} onClickCapture={event=>{const target=event.target as HTMLElement;const button=target.closest('button');if(button&&!button.disabled&&!target.closest('.battle-layer'))gameAudio.playSfx(target.closest('.game-toolbar')?'tab':'click')}}>
   <div className="game-stage">
-   <div className="exploration-layer" hidden={!!s.battle||!!activeCampaign}><WorldMap s={s} c={uiController} onNavigate={navigate} focusSpecies={focusSpecies} travelTo={travelTo} onSceneChange={rememberScene} onInteract={event=>{if(event.kind==='species'){setDexFocus(event.species);setWindowKind('dex')}else{setQuestFocusId(event.questId);setWindowKind('quests')}}}/></div>
+   <div className="exploration-layer" hidden={!!s.battle||!!activeCampaign}><WorldMap s={s} c={uiController} onNavigate={navigate} travelTo={travelTo} onSceneChange={rememberScene} onInteract={event=>{if(event.kind==='species'){setDexFocus(event.species);setWindowKind('dex')}else{setQuestFocusId(event.questId);setWindowKind('quests')}}}/></div>
    {activeCampaign&&!s.battle&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={campaignScene.current?.src} onLeave={()=>setCampaignId(null)} onManage={()=>setWindowKind('monsters')}/>}
    {s.battle&&!preparation&&<div className="battle-layer"><Battle s={s} c={uiController} commandRequest={battleCommand} background={battleScene.src} onSettings={()=>open('settings')}/></div>}
    {preparation&&<BattleLoading state={preparation} onLeave={leaveLoading}/>}
    {notices&&!preparation&&!s.battle&&<button className="game-toast" aria-label="关闭提示" onClick={()=>{setMessage('');c.dispatch({type:'dismissNotice'})}}>{notices}<span>×</span></button>}
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={()=>setWindowKind(null)}/>}
    {windowKind&&<GameWindow key={windowKind} title={titles[windowKind]} compact={['recovery','settings','quests'].includes(windowKind)} onClose={()=>setWindowKind(null)}>
-    {windowKind==='atlas'&&<WorldAtlas onTravel={destination=>{setCampaignId(null);setFocusSpecies(undefined);setTravelTo({...destination,requestId:Date.now()});setWindowKind(null)}}/>}
+    {windowKind==='atlas'&&<WorldAtlas onTravel={destination=>{setCampaignId(null);setTravelTo({...destination,requestId:Date.now()});setWindowKind(null)}}/>}
     {windowKind==='monsters'&&<MonsterManager s={s} c={uiController} selected={selected} onSelect={setSelected}/>}
     {windowKind==='fusion'&&<section className="management-panel" aria-label="实验室融合面板"><Fusion s={s} c={uiController} initialRecipeId={fusionRecipeId} onOpenBeads={()=>{setBagPocket('essence');setWindowKind('bag')}}/></section>}
     {windowKind==='breeding'&&<Breeding s={s} c={uiController} initialRecipeId={breedingRecipeId} onOpenDex={species=>{setDexFocus(species);setWindowKind('dex')}} onOpenMonsters={uid=>{setSelected(uid);setWindowKind('monsters')}}/>}

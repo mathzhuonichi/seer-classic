@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent } from 'react';
 import type { GameController, GameSnapshot, SpeciesView } from '../game-types.ts';
-import { WORLD_PLANETS, findChallengeLocation, findSceneChallenges, findSpeciesLocation, readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../world.ts';
+import { findChallengeLocation, findSceneChallenges, readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../world.ts';
 import { CreatureArt } from './CreatureArt.tsx';
 import { buildWorldPopulation } from '../presentation/world-population.ts';
 import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation.ts';
@@ -14,7 +14,7 @@ import '../world.css';
 
 export interface WorldDestination { planetId: string; regionId: string }
 export interface WorldMapProps {
-  s: GameSnapshot; c: GameController; onNavigate?: (page: string) => void; focusSpecies?: number;
+  s: GameSnapshot; c: GameController; onNavigate?: (page: string) => void;
   travelTo?: { planetId: string; regionId?: string; bossId?: string; requestId?: number };
   onInteract?: (event: { kind: 'species'; species: number } | {kind:'quest';questId:string}) => void;
   onSceneChange?: (scene: {src:string;name:string}) => void;
@@ -164,7 +164,7 @@ function Facility({kind}:{kind:NonNullable<WorldRegion['facility']>}) {
   return <div className="world-facility-art world-original-npc"><ClassicRobot direction="front" walking={false} role={kind==='missions'?'captain':kind==='recovery'?'scientist':'player'}/></div>;
 }
 
-export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onSceneChange}:WorldMapProps) {
+export function WorldMap({s,c,onNavigate,travelTo,onInteract,onSceneChange}:WorldMapProps) {
   const [preference,setPreference]=useState(readWorldPreference);
   const [selection,setSelection]=useState<Selection|null>(null);
   const [approachingInstance,setApproachingInstance]=useState<string|null>(null);
@@ -258,20 +258,6 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
     if(targetBoss&&!(target.planet.id==='space-station'&&target.region.id==='brave-tower'))
       setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
-  useEffect(()=>{
-    if(!focusSpecies)return;
-    const habitat=findSpeciesLocation(focusSpecies);
-    const contactCampaign=s.campaigns.find(campaign=>campaign.species===focusSpecies);
-    const contactPlanet=contactCampaign?WORLD_PLANETS.find(p=>p.regions.some(r=>r.campaignId===contactCampaign.id)):undefined;
-    const contactRegion=contactPlanet?.regions.find(r=>r.campaignId===contactCampaign!.id);
-    const linkedBoss=s.bosses.find(b=>b.species===focusSpecies);
-    const bossPlanet=linkedBoss?WORLD_PLANETS.find(p=>p.regions.some(r=>r.bossIds?.includes(linkedBoss.id))):undefined;
-    const bossRegion=bossPlanet?.regions.find(r=>r.bossIds?.includes(linkedBoss!.id));
-    const target=habitat??(contactPlanet&&contactRegion?{planet:contactPlanet,region:contactRegion}:undefined)??(bossPlanet&&bossRegion?{planet:bossPlanet,region:bossRegion}:undefined);
-    if(!target)return;
-    visit(target.planet,target.region);
-    setSelection(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:!habitat&&bossPlanet&&bossRegion?{kind:'boss',id:linkedBoss!.id}:{kind:'creature',id:focusSpecies,instanceId:`${target.planet.id}/${target.region.id}:${focusSpecies}:0`});
-  },[focusSpecies]);
   function walk(x:number,y:number,after?:()=>void) {
     cancelWalk();setSelection(null);setShowDetails(false);
     const target=constrainScenePoint(layout,{x,y}),targetX=target.x,targetY=target.y;
