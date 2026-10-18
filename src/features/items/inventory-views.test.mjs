@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {bagItems,bagSelection,itemUseAction,itemUseFeedback,pageOf,pocketItems} from './inventory-views.ts';
+import {bagItems,bagSelection,itemUseAction,itemUseFeedback,nextBagPick,pageOf,pocketItems} from './inventory-views.ts';
 import {BATTLE_SUPPLY_CATEGORIES,battleSupplyLabel,itemCategoryOptions,itemKindLabel,itemPocket} from '../../shared/item-categories.ts';
 import {partyFirstMonsters,partyMonsters} from '../../shared/party-order.ts';
 
@@ -32,6 +32,20 @@ test('the bag shows the first item until a pick, and nothing once the pick runs 
   assert.equal(bagSelection(items.slice(1),page,'a'),undefined,'the picked item ran out: no other item is selected');
   assert.equal(bagSelection([],[],''),undefined);
   assert.deepEqual([pageOf(items,'a',2),pageOf(items,'c',2),pageOf(items,'gone',2)],[0,1,0]);
+});
+
+test('a used-up item never hands the selection to another item',()=>{
+  const items=[item({id:'a'}),item({id:'b'})],left=items.slice(1);
+  const shown=bagSelection(items,items,'');
+  const used=nextBagPick('',{type:'use',itemId:shown.id});
+  assert.equal(bagSelection(left,left,used),undefined,'the default item ran out: using it pinned it');
+  const fellBack=nextBagPick('a',{type:'fallback'});
+  assert.equal(bagSelection(left,left,fellBack),undefined,'the content tab emptied and fell back to 全部: the pick stays');
+  const linked=nextBagPick('b',{type:'open',itemId:'gone'});
+  assert.equal(bagSelection(items,items,linked),undefined,'a link to an item the bag holds none of selects nothing');
+  assert.equal(bagSelection(items,items,nextBagPick('b',{type:'open'}))?.id,'a','a plain open shows the first item');
+  assert.equal(nextBagPick('a',{type:'pick',itemId:'b'}),'b');
+  assert.equal(nextBagPick('a',{type:'clear'}),'','search, a content tab, a page turn or a load: nothing picked');
 });
 
 test('the confirm action follows the controller\'s use action and targets',()=>{
