@@ -12,7 +12,7 @@ const oracleRevision=execFileSync('git',['rev-parse','d7e87e9'],{cwd:root,encodi
 const oracleSource=execFileSync('git',['show',`${oracleRevision}:battle/core/src/ai.ts`],{cwd:root,encoding:'utf8'});
 const oracleId='/__verification_legacy_boss_ai_v56.ts';
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/boss-ai-isolation-v56'),
-  plugins:[{name:'git-legacy-ai-oracle',resolveId:id=>id===oracleId?id:undefined,load:id=>id===oracleId?oracleSource.replaceAll("'./battle.ts'","'/battle/core/src/engine/battle.ts'").replaceAll("'./types.ts'","'/battle/core/src/types.ts'"):undefined}],
+  plugins:[{name:'git-legacy-ai-oracle',resolveId:id=>id===oracleId?id:undefined,load:id=>id===oracleId?oracleSource.replaceAll("'./battle.ts'","'/battle/core/src/index.ts'").replaceAll("'./types.ts'","'/battle/core/src/types.ts'"):undefined}],
   server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha256:crypto.createHash('sha256').update(oracleSource).digest('hex')},checks:[],failures:[],bossCases:[],facilityCases:[],scope:'The oracle is the complete historical policy loaded directly from Git, running on current battle mechanics and encounter data. This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
