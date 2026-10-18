@@ -9,7 +9,8 @@ import { buildAcquisitionFamilies, buildAcquisitionIndex } from '../../src/domai
 import { NPC_ONLY_SPECIES, type AcquisitionCatalog } from '../../src/domain/acquisition/acquisition-model.ts';
 import { bossEssenceRewards } from '../../src/domain/acquisition/native-acquisition.ts';
 import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
-import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index.ts';
+import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, totalExp } from '../../raising/core/index.ts';
+import { Rng } from '../../battle/core/src/rng.ts';
 import { suite } from './_harness.mjs';
 
 /** Audit catalog-wide route coverage without granting generic remote recruitment. */
@@ -139,7 +140,7 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
   t.check('reachable level-evolution edges checked by raising API', () => {
     for (const id of available) for (const evolution of byId.get(id).evolution) {
       if (evolution.method !== 'level' || evolution.level === undefined || evolution.level > 100) continue;
-      const mon = createMonster(dex, id, 100, new SeededRng(id));
+      const mon = createMonster(dex, id, 100, new Rng(id));
       assert(evolutionOptions(mon, dex).includes(evolution.to), `Level evolution must be executable: ${id}->${evolution.to}`);
       assert.equal(index.get(evolution.to)?.status, 'available');
       evolutionEdges.push({ from: id, to: evolution.to, level: evolution.level });

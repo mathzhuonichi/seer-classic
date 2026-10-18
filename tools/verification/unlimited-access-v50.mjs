@@ -10,14 +10,14 @@ const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',CAP
 const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('unlimited-access-v50',async load=>{
   const t=suite('unlimited-access-v50'),{check}=t;
-  const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle},{buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
+  const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,useRaisingItem},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/src/domain/engravings/engraving-access.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/battle-supplies.ts',
   ].map(load));
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
   const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
   const catalog=await loadCatalog();catalog.items=normalizeBattleSupplyItems([...catalog.items,{id:CURE,name:{zh:'Status cure fixture'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]}]);
-  const catalogBefore=JSON.stringify(catalog),dex=makeDex(catalog),rng=new SeededRng(50);
+  const catalogBefore=JSON.stringify(catalog),dex=makeDex(catalog),rng=new Rng(50);
   const genericAbilityCaps=engravings.filter(def=>def.slot==='ability'&&!def.species.length).map(def=>({id:def.id,name:def.name.zh,stats:{...def.stats},levelMin:def.levelMin,sourceMaxOwned:def.maxOwned,...engravingAccess(def)}));
   const ordinary=catalog.items.filter(item=>['raising','battle','capsule'].includes(item.kind)).map(item=>item.id),base=parse(createGame(catalog,''));
   base.rng_state=[101,202,303,404];base.game.traits={};

@@ -8,7 +8,8 @@ await withSsr('skins', async load => {
   const t=suite('skins'),{check}=t;
   const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
   const {advanceBattlePresentation}=await load('/src/features/battle/index.ts');
-  const {makeDex,createMonster,SeededRng,computeStats}=await load('/raising/core/index.ts');
+  const {makeDex,createMonster,computeStats}=await load('/raising/core/index.ts');
+  const {Rng}=await load('/battle/core/src/rng.ts');
   const {buildSkinOptions}=await load('/src/domain/acquisition/skins.ts');
   const {BREEDING_RECIPES,canBreedParents}=await load('/src/domain/recipes/breeding.ts');
   const {CHALLENGE_CAMPAIGNS}=await load('/src/domain/challenges/challenge-campaigns.ts');
@@ -16,7 +17,7 @@ await withSsr('skins', async load => {
   const parse=game=>JSON.parse(game.exportSave()),base=parse(createGame(catalog,''));
   base.rng_state=[101,202,303,404];base.items={...base.items,item_capsule_master:20,item_restore:3,item_level_down:3,item_level_up_1:10};base.exp_pool=1e9;
   const make=(save,input=catalog)=>createGame(input,JSON.stringify(save));
-  function mon(species,level=100,uid=`skin-${species}`){const value=createMonster(dex,species,level,new SeededRng(species),{how:'capture',at:'2026-10-14T00:00:00.000Z'});Object.assign(value,{uid,nickname:'Skin fixture',iv:29,generation:0,evs:{hp:21,atk:12,def:30,spa:40,spd:20,spe:15}});value.hp=computeStats(value,dex).hp;return value;}
+  function mon(species,level=100,uid=`skin-${species}`){const value=createMonster(dex,species,level,new Rng(species),{how:'capture',at:'2026-10-14T00:00:00.000Z'});Object.assign(value,{uid,nickname:'Skin fixture',iv:29,generation:0,evs:{hp:21,atk:12,def:30,spa:40,spd:20,spe:15}});value.hp=computeStats(value,dex).hp;return value;}
   function fixture(species,level=100,input=catalog){const save=structuredClone(base),value=mon(species,level);save.storage.push(value);save.party=[value.uid];return {game:make(save,input),uid:value.uid};}
   const owned=(game,uid)=>parse(game).storage.find(value=>value.uid===uid),view=(game,uid)=>game.snapshot().monsters.find(value=>value.uid===uid);
   function reject(game,action,label){const save=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);game.dispatch(action);assert.equal(game.exportSave(),save,`${label}: save, resources, and RNG stay unchanged`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle unchanged`);}
