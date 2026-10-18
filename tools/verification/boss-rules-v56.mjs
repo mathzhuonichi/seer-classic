@@ -2,7 +2,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
 import {createBattle} from './_battle.ts';
@@ -10,8 +9,8 @@ import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 import {loadCatalogNode} from '../catalog.mjs';
+import {root,suite} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
 const read=relative=>JSON.parse(fs.readFileSync(path.join(root,relative),'utf8'));
 const data=buildDataSet(loadCatalogNode()),scripts={...SEER_SCRIPTS,...campaignScripts};
 const bosses=fs.readdirSync(path.join(root,'data/bosses')).filter(file=>file.endsWith('.json')).sort().map(file=>read(`data/bosses/${file}`));
@@ -93,12 +92,12 @@ support.summary={encounters:bosses.length,handledEntries:support.bosses.reduce((
 const supportPath=path.join(root,'data/boss-rule-support-v56.json');
 if(process.argv.includes('--write-support'))fs.writeFileSync(supportPath,JSON.stringify(support,null,2)+'\n');
 
-const report={checks:[],failures:[],smoke:[],summary:support.summary,limits:[
+const report={smoke:[],summary:support.summary,limits:[
   'No browser, controller, user save, server or network is used. Boss JSON and full battle mechanics remain real; player HP is enlarged for finite-state smoke coverage.',
   'This is execution compatibility, not historical certification. Four explicitly declined mechanics are listed as waived; the below-25-percent execution rule is an authored user policy, not official behavior.',
   'Deterministic focused probes exercise public battle operations and selected internal hooks without replacing rule handlers.',
 ]};
-const check=(name,fn)=>{try{fn();report.checks.push(name);console.log(`PASS ${name}`);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
+const t=suite('boss-rules-v56'),{check}=t;
 const player=(skills=[20001],n=1)=>({kind:'player',team:Array.from({length:n},(_,slot)=>({species:70,level:100,iv:31,nature:'hardy',skills,hp_override:1000000,uid:`rules-v56-${slot}`}))});
 const make=(id,variant,options={})=>createBattle({data,scripts,encounter:structuredClone(byId.get(id)),variant,seed:56,sides:[player()],...options});
 const tick=battle=>{if(!battle.result){battle.submit(0,{kind:'move',skill:20001});battle.resolveTurn();}};
@@ -263,6 +262,4 @@ check('Four declined mechanics and one authored replacement are explicit; defens
 check('Boss catalog inputs remain byte-equivalent in memory',()=>{assert.equal(JSON.stringify(bosses),fullInput);});
 
 report.sourceSha256=createHash('sha256').update(fullInput).digest('hex');
-fs.mkdirSync(path.join(root,'artifacts/boss-rules-v56'),{recursive:true});fs.writeFileSync(path.join(root,'artifacts/boss-rules-v56/regression.json'),JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:report.checks.length,failed:report.failures.length,smoke:report.smoke.length,...support.summary},null,2));
-if(report.failures.length)process.exitCode=1;
+t.finish(report);
