@@ -1,5 +1,6 @@
 import {createRoot} from 'react-dom/client';
 import type {Save} from '../../raising/core/types.ts';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower.ts';
 
 function memoryStorage(): Storage {
   const values=new Map<string,string>();
@@ -31,8 +32,8 @@ seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.par
 seed.items={};
 // Optional fixture for reviewing checkpoint states; this remains memory-only.
 const towerFloor=Number(new URLSearchParams(location.search).get('towerFloor'));
-if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=70){
-  seed.progress.bosses_cleared=Array.from({length:towerFloor-1},(_,index)=>`boss_tower_brave_f${String(index+1).padStart(3,'0')}`);
+if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=BRAVE_TOWER_FLOORS){
+  seed.progress.bosses_cleared=Array.from({length:towerFloor-1},(_,index)=>braveTowerBossId(index+1));
   (seed as Save&{game:{braveTower:{highestCleared:number;resumeFloor:number}}}).game.braveTower={highestCleared:towerFloor-1,resumeFloor:towerFloor};
 }
 game.importSave(JSON.stringify(seed));
