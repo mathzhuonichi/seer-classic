@@ -65,8 +65,9 @@ function localSource(id, file, upstream) {
 }
 const catalog = loadCatalogNode();
 // The species are one file each, so their provenance is the digest of the assembled list classified here.
-sources.push({ id: 'classic-catalog', file: 'data/monsters/', sha256: hash(JSON.stringify(catalog.species)), representation: 'audited-project-extraction',
-  scope: 'SHA-256 of JSON.stringify(loadCatalogNode().species), the species list assembled from data/monsters/*.json.' });
+// The label matches the same digest's witness key in dex-acquisition and export-acquisition-status.
+sources.push({ id: 'classic-catalog', file: 'data/monsters/*.json (sorted parsed records)', sha256: hash(JSON.stringify(catalog.species)),
+  representation: 'audited-project-extraction' });
 const byId = new Map(catalog.species.map(s => [s.id, s]));
 const byName = new Map(catalog.species.map(s => [s.name.zh, s.id]));
 const parents = buildPredecessors(catalog.species);

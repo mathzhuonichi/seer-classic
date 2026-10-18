@@ -121,10 +121,9 @@
   },
   {
    "id": "classic-catalog",
-   "file": "data/monsters/",
+   "file": "data/monsters/*.json (sorted parsed records)",
    "sha256": "cc690f9bdd3e8dedb4020adbc1588d307d259066a158a756bcb4fdb3bff892bf",
-   "representation": "audited-project-extraction",
-   "scope": "SHA-256 of JSON.stringify(loadCatalogNode().species), the species list assembled from data/monsters/*.json."
+   "representation": "audited-project-extraction"
   },
   {
    "id": "paid-audit",
