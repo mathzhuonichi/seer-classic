@@ -47,6 +47,7 @@
 .official-petbag .raising-ability-footnote.invalid{color:#ffb397}
 .official-petbag .raising-ability-panel>.raising-engravings{background:none;border-color:#3479a6}
 .official-petbag .engraving-slot-caption{color:#d7f1ff}
+.official-petbag .engraving-slot-caption>.engraving-inactive-mark{color:#ffb397}
 .official-petbag .raising-ability-panel .engraving-unload,.official-petbag .raising-ability-panel .engraving-picker-heading>button{color:#bce7fc;text-shadow:none}
 .official-petbag .raising-ability-panel.is-editing .ev-cell input{width:42px!important;height:22px!important;padding:2px 3px!important;font-size:11px!important}
 .official-petbag .raising-ability-panel.is-editing .ev-cell button{padding:2px 4px;font-size:9px}

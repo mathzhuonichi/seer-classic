@@ -265,6 +265,8 @@
 .engraving-slot-caption>strong{font-size:10px;line-height:1.5}
 .engraving-slot-caption>small{font-size:9px;opacity:.8}
 .engraving-slot-caption>.engraving-unload{padding:2px 5px;font-size:9px;line-height:14px}
+.engraving-slot-caption>.engraving-inactive-mark{color:#b4441c;font-weight:700;opacity:1}
+button.item-tile.item-tile.engraving-inactive>.item-tile-art{opacity:.45;filter:grayscale(.8)}
 .engraving-empty-slot{width:25px;height:28px;background:url('/ui/classic/hd/petbag-slot.svg') center/100% 100% no-repeat}
 .engraving-picker{margin-top:6px;padding-top:5px;border-top:1px solid #4b9bca}
 .engraving-picker-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px}

@@ -42,13 +42,14 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
     setFeedback(c.dispatch({type:'setEngraving',uid:m.uid,slot,engravingId:id||null,fromUid}).notice??'');
   return <section className="raising-engravings" aria-label="刻印">
     <div className="engraving-equipped-grid">{ENGRAVING_SLOTS.map(slot=>{
-      const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot];
+      const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot],inactive=current&&!current.ready;
       return <div key={slot} className="engraving-equipped-slot">
         <ItemTile size="small" icon={current?<ItemIcon id={current.id} engraving label={current.name} size={28}/>:<span className="engraving-empty-slot"/>}
           name={current?.name??`${label}空孔`} description={current?`${current.effect}${current.ready?'':` · 未生效：${current.reason}`}`:'点击选择可装备的刻印。'}
-          selected={openSlot===slot}
+          selected={openSlot===slot} className={inactive?'engraving-inactive':''}
           onSelect={()=>{setOpenSlot(openSlot===slot?null:slot);setSelected(current?.id??'');setSourceUid('');setFeedback('');setFilter('all')}}/>
         <div className="engraving-slot-caption"><strong>{label}</strong>
+          {inactive&&<small className="engraving-inactive-mark" title={current.reason}>未生效</small>}
           {current?<button className="engraving-unload" aria-label={`卸下${label}`} onClick={()=>equip(slot,'')}>卸下</button>:<small>空孔</small>}</div>
       </div>;
     })}</div>
