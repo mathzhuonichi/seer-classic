@@ -6,7 +6,7 @@ import {root,suite,withSsr} from './_harness.mjs';
 
 await withSsr('graphical-atlas',async load=>{
   const t=suite('graphical-atlas'),{check}=t;
-  const [{WORLD_PLANETS,resolveWorldLocation},atlas]=await Promise.all(['/src/domain/world/world.ts','/src/features/world/atlas.ts'].map(load));
+  const [{WORLD_GALAXIES,WORLD_PLANETS,resolveWorldLocation},atlas]=await Promise.all(['/src/domain/world/world.ts','/src/features/world/atlas.ts'].map(load));
   const {pages,backArrow}=atlas.ATLAS_GRAPHICS,report={};
   check('Introduced hotspots never overlap another hotspot on the same page',()=>{
     const overlaps=[];let audited=0;
@@ -54,6 +54,12 @@ await withSsr('graphical-atlas',async load=>{
   check('Every landing region is reachable through the graphical atlas',()=>{
     const missing=WORLD_PLANETS.flatMap(p=>p.regions.map(r=>`${p.id}/${r.id}`)).filter(id=>!landings.has(id));
     assert.deepEqual(missing,[],`Unreachable landing regions: ${missing.join(', ')}`);
+  });
+  check('Galaxy, planet and region names and texts have no stray spaces at either end or before punctuation',()=>{
+    const stray=(owner,id,keys)=>keys.filter(key=>/^\s|\s$|\s[，。、：]/.test(owner[key]??'')).map(key=>`${id}.${key}`);
+    const found=[...WORLD_GALAXIES.flatMap(galaxy=>stray(galaxy,galaxy.id,['name','subtitle'])),...WORLD_PLANETS.flatMap(planet=>[
+      ...stray(planet,planet.id,['name','subtitle']),...planet.regions.flatMap(region=>stray(region,`${planet.id}/${region.id}`,['name','description']))])];
+    assert.deepEqual(found,[]);
   });
   check('All atlas artwork is shipped under /ui/classic/',()=>{
     for(const asset of assets){
