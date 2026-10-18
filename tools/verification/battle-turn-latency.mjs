@@ -1,7 +1,7 @@
 /**
  * Battle turn latency (architecture-v2 §2): once turn preparation has run, a player's move in a trainer battle against the
- * search AI gives the new snapshot with its frames in p95 ≤ 50 ms. The controller's dispatch (turn, frames and snapshot; the
- * save write follows the frame) is timed in this thread's CPU time (`process.threadCpuUsage`), so suites running in parallel do not count.
+ * search AI gives the new snapshot with its frames in p95 ≤ 50 ms. The controller's dispatch (turn, frames, save write and
+ * snapshot) is timed in this thread's CPU time (`process.threadCpuUsage`), so suites running in parallel do not count.
  */
 import assert from 'node:assert/strict';
 import {memoryStorage, suite, withSsr} from './_harness.mjs';

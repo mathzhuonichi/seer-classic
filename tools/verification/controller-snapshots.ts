@@ -256,20 +256,21 @@ export async function verifyControllerSaveRecovery(){
 
 /**
  * Saves are written at most once per scheduled slot: a burst of actions writes once, an action that changes nothing writes
- * nothing, and a page exit or an export writes the latest state at once. The slot is reserved before the action, ahead of the
- * turn preparation a battle action schedules.
+ * nothing, and a page exit or an export writes the latest state at once. An export still returns the latest state when storage
+ * refuses the write, and the slot is reserved before the action, ahead of the turn preparation a battle action schedules.
  */
 export async function verifyCoalescedSaveWrites(){
   const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
   memoryStorage();
   const storage=globalThis.localStorage,setItem=storage.setItem,slots:(()=>void)[]=[],exits:(()=>void)[]=[],order:string[]=[];
-  let writes=0;
-  storage.setItem=(key:string,value:string)=>{writes++;setItem(key,value);};
+  let writes=0,full=false;
+  storage.setItem=(key:string,value:string)=>{if(full)throw new Error('QuotaExceededError');writes++;setItem(key,value);};
   const runSlots=()=>slots.splice(0).forEach(write=>write());
   try{
     const scheduleSave=(write:()=>void)=>{order.push('save');slots.push(write);return true;},idle=()=>{order.push('prepare');};
     const game=createGame(catalog,'',{scheduleSave,idle,onPageExit:flush=>exits.push(flush)}),uid=game.snapshot().party[0];
-    const stored=()=>JSON.parse(readLocalSave()!),nickname=()=>stored().storage.find((mon:{uid:string})=>mon.uid===uid).nickname;
+    const stored=()=>JSON.parse(readLocalSave()!),nicknameIn=(text:string)=>JSON.parse(text).storage.find((mon:{uid:string})=>mon.uid===uid).nickname;
+    const nickname=()=>nicknameIn(readLocalSave()!);
     assert.equal(writes,1,'A new journey is written at once.');assert.equal(exits.length,1,'The page exit flushes the save.');
     for(let i=0;i<10;i++)game.dispatch({type:'rename',uid,name:`Burst${i}`});
     game.dispatch({type:'cheatResources',coins:4321});
@@ -287,9 +288,13 @@ export async function verifyCoalescedSaveWrites(){
     assert.equal(writes,4);assert.equal(readLocalSave(),exported,'An export writes the latest state first.');
     runSlots();game.exportSave();
     assert.equal(writes,4,'An export with nothing pending writes nothing.');
+    full=true;game.dispatch({type:'rename',uid,name:'Full'});
+    assert.equal(nicknameIn(game.exportSave()),'Full','An export returns the latest state when storage refuses the write.');
+    full=false;game.dispatch({type:'rename',uid,name:'Retry'});runSlots();
+    assert.equal(writes,5,'The next action writes again.');assert.equal(nickname(),'Retry');
     game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
-    assert.equal(writes,5,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
-    runSlots();assert.equal(writes,5);
+    assert.equal(writes,6,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
+    runSlots();assert.equal(writes,6);
     order.length=0;assert(game.dispatch({type:'startBattle',bossId:'boss_spt_liaosi'}).ok,'The battle starts.');
     assert.deepEqual(order,['save','prepare'],'A battle start reserves its write before it schedules its turn preparation.');
     runSlots();order.length=0;
@@ -298,7 +303,7 @@ export async function verifyCoalescedSaveWrites(){
     assert(!game.snapshot().battle!.finished,'Three starters outlast one turn.');
     assert.deepEqual(order,['save','prepare'],'A turn reserves its write before the next turn preparation.');
     return {checks:['burst writes once','unchanged save not written','page exit writes the latest state','export writes the latest state',
-      'reset writes at once','write reserved before turn preparation']};
+      'export returns the latest state when storage refuses it','reset writes at once','write reserved before turn preparation']};
   }finally{
     if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }
