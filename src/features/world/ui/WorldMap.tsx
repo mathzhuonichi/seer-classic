@@ -57,7 +57,14 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
   useEffect(()=>{if(battle){walker.stop();close()}},[battle]);
-  useEffect(()=>{if(!tower)return;walker.stop({duration:0});close();setArrival(true)},[!!tower,tower?.floor,tower?.complete]);
+  // A new floor starts at the tower entry, clear of the next guardian and its floor badge; entering the tower keeps the landing.
+  const towerStage=tower?`${tower.floor}/${tower.complete}`:'',shownTowerStage=useRef(towerStage);
+  useEffect(()=>{
+    const climbed=!!shownTowerStage.current&&shownTowerStage.current!==towerStage;shownTowerStage.current=towerStage;
+    if(!towerStage)return;
+    if(climbed){visit(planet,region);return}
+    walker.stop({duration:0});close();setArrival(true);
+  },[towerStage]);
   useEffect(()=>{
     if(!travelTo)return;
     const targetBoss=travelTo.bossId?bosses.find(boss=>boss.id===travelTo.bossId):undefined;

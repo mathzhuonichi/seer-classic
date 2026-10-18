@@ -72,12 +72,12 @@ export function useWorldWalk() {
       after?.();
     }, duration);
   }
-  /** Walk up to a contact's feet; a contact within a pixel opens at once. */
+  /** Walk up to a contact's feet, beside its name; a contact within a pixel opens at once. */
   function approach(button: HTMLElement, contact: ScenePoint, { arrive, approaching = null, fallback }: ApproachOptions) {
     const robot = player.current?.getBoundingClientRect();
     const scene = button.closest('.world-scene')!.getBoundingClientRect();
-    const from = robot ? robotFoot(robot, scene) : fallback;
-    const { stop: target, immediate } = approachStop(from, contact, scene, button.getBoundingClientRect().width, robot?.width);
+    const from = robot ? robotFoot(robot, scene) : fallback, name = button.querySelector('.world-character-name')?.getBoundingClientRect();
+    const { stop: target, immediate } = approachStop(from, contact, scene, button.getBoundingClientRect().width, robot, name);
     if (!immediate) { walkTo(target.x, target.y, arrive, approaching); return; }
     // A nearby click opens immediately, and also stops an interrupted walk.
     stop({ duration: 0 });
