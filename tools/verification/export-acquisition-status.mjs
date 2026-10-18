@@ -2,26 +2,22 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { createServer } from 'vite';
+import { root, withSsr } from './_harness.mjs';
 
 // Run from any directory: node tools/verification/export-acquisition-status.mjs [output].
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const output = path.resolve(root, process.argv[2] ?? 'artifacts/acquisition-v24');
 const read = relative => fs.readFileSync(path.join(root, relative), 'utf8');
-const server = await createServer({ root, server: { middlewareMode: true, hmr: false, watch: null }, appType: 'custom' });
-try {
-  const { buildAcquisitionIndex, buildAcquisitionFamilies, NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/progression/acquisition.ts');
-  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
-  const { FUSION_RECIPES } = await server.ssrLoadModule('/src/progression/fusion.ts');
-  const { BREEDING_RECIPES, getBreedingGender } = await server.ssrLoadModule('/src/progression/breeding.ts');
-  const { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES } = await server.ssrLoadModule('/src/progression/recruitment.ts');
-  const { getEligibleRecruitmentSPTs } = await server.ssrLoadModule('/src/progression/spt-recruitment.ts');
-  const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/progression/challenge-campaigns.ts');
-  const { NIAO_CAPTURE_PARTNERS } = await server.ssrLoadModule('/battle/core/src/capture.ts');
-  const { WORLD_PLANETS } = await server.ssrLoadModule('/src/world.ts');
-  const catalog = JSON.parse(read('data/gamedata.json'));
-  catalog.bosses = fs.readdirSync(path.join(root, 'data/bosses')).filter(file => file.endsWith('.json')).sort().map(file => JSON.parse(read(`data/bosses/${file}`)));
+await withSsr('export-acquisition-status', async load => {
+  const { buildAcquisitionIndex, buildAcquisitionFamilies, NPC_ONLY_SPECIES } = await load('/src/progression/acquisition.ts');
+  const { buildInitialFormAcquisitionIndex } = await load('/src/progression/initial-acquisition.ts');
+  const { FUSION_RECIPES } = await load('/src/progression/fusion.ts');
+  const { BREEDING_RECIPES, getBreedingGender } = await load('/src/progression/breeding.ts');
+  const { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES } = await load('/src/progression/recruitment.ts');
+  const { getEligibleRecruitmentSPTs } = await load('/src/progression/spt-recruitment.ts');
+  const { CHALLENGE_CAMPAIGNS } = await load('/src/progression/challenge-campaigns.ts');
+  const { NIAO_CAPTURE_PARTNERS } = await load('/battle/core/src/capture.ts');
+  const { WORLD_PLANETS } = await load('/src/world.ts');
+  const catalog = await (await load('/src/mechanics/catalog.ts')).loadCatalog();
   const unchanged = JSON.stringify(catalog);
   const index = buildAcquisitionIndex(catalog);
   const initial = buildInitialFormAcquisitionIndex(catalog, index);
@@ -185,8 +181,9 @@ try {
   };
   assert.equal(summary.availableSpecies + summary.missingSpecies, summary.eligibleSpecies);
   assert.equal(Object.values(summary.missingCategoryCounts).reduce((sum, count) => sum + count, 0), missing.length);
-  const sourceFiles = ['data/gamedata.json', 'data/breeding.json', 'data/acquisition-policy.json', 'data/habitats.json', 'data/habitat-regions.json', 'src/progression/acquisition.ts', 'src/progression/initial-acquisition.ts', 'src/progression/fusion.ts', 'src/progression/breeding.ts', 'src/progression/recruitment.ts', 'src/progression/spt-recruitment.ts', 'battle/core/src/capture.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'tools/verification/export-acquisition-status.mjs'];
+  const sourceFiles = ['data/breeding.json', 'data/acquisition-policy.json', 'data/habitats.json', 'data/habitat-regions.json', 'src/mechanics/catalog.ts', 'src/progression/acquisition.ts', 'src/progression/acquisition-model.ts', 'src/progression/native-acquisition.ts', 'src/progression/initial-acquisition.ts', 'src/progression/fusion.ts', 'src/progression/breeding.ts', 'src/progression/recruitment.ts', 'src/progression/spt-recruitment.ts', 'battle/core/src/capture.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'tools/verification/export-acquisition-status.mjs'];
   const sourceHashes = Object.fromEntries(sourceFiles.map(file => [file, createHash('sha256').update(read(file)).digest('hex')]));
+  sourceHashes['data/monsters/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(catalog.species)).digest('hex');
   sourceHashes['data/bosses/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(catalog.bosses)).digest('hex');
   fs.mkdirSync(output, { recursive: true });
   fs.writeFileSync(path.join(output, 'status.json'), JSON.stringify({ generatedAt: new Date().toISOString(), summary, sourceHashes, reasons, species: rows, families: familyRows, fusionDependencies, breedingDependencies, recruitmentDependencies, witnesses }, null, 2) + '\n');
@@ -210,6 +207,4 @@ try {
   lines.push('', '## Excluded NPC forms', '', names(rows.filter(row => row.status === 'npc')), '');
   fs.writeFileSync(path.join(output, 'missing-initial-families.md'), lines.join('\n'));
   console.log(JSON.stringify(summary, null, 2));
-} finally {
-  await server.close();
-}
+});

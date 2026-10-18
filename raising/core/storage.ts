@@ -5,6 +5,7 @@ import { createMonster } from "./monster.ts";
 
 export const PARTY_MAX = 6;
 export const BOX_MAX = 1000; // the remake's box size; Seer's 仓库 grew over time
+export const NICKNAME_MAX = 12; // characters (code points)
 
 const copy = (s: Save): Save => structuredClone(s);
 
@@ -20,6 +21,15 @@ export function putMon(save: Save, mon: Monster): void {
   save.storage[i] = mon;
 }
 
+export function requireItem(save: Save, id: string): void {
+  if ((save.items[id] ?? 0) < 1) throw new Error(`no ${id} left`);
+}
+
+// Takes one `id` from a save copy the caller owns; an emptied stack leaves the bag.
+export function spendItem(save: Save, id: string): void {
+  save.items[id] -= 1;
+  if (save.items[id] === 0) delete save.items[id];
+}
 
 export function boxOf(save: Save): Monster[] {
   return save.storage.filter((m) => !save.party.includes(m.uid));
@@ -48,7 +58,7 @@ export function deposit(save: Save, uid: string): Save {
 
 export function withdraw(save: Save, uid: string): Save {
   if (save.party.includes(uid)) throw new Error(`${uid} is already in the party`);
-  if (!save.storage.some((m) => m.uid === uid)) throw new Error(`no monster ${uid}`);
+  findMon(save, uid);
   if (save.party.length >= PARTY_MAX) throw new Error("背包已满");
   const s = copy(save);
   s.party.push(uid);
@@ -67,7 +77,7 @@ export function setPartyOrder(save: Save, order: string[]): Save {
 // 放生. The last party monster can never be released.
 export function release(save: Save, uid: string): Save {
   if (save.party.includes(uid) && save.party.length <= 1) throw new Error("cannot release the last party monster");
-  if (!save.storage.some((m) => m.uid === uid)) throw new Error(`no monster ${uid}`);
+  findMon(save, uid);
   const s = copy(save);
   s.storage = s.storage.filter((m) => m.uid !== uid);
   s.party = s.party.filter((u) => u !== uid);
@@ -76,10 +86,9 @@ export function release(save: Save, uid: string): Save {
 
 export function rename(save: Save, uid: string, nickname: string | null): Save {
   const s = copy(save);
-  const m = s.storage.find((x) => x.uid === uid);
-  if (!m) throw new Error(`no monster ${uid}`);
+  const m = findMon(s, uid);
   const name = nickname?.trim() ?? "";
-  if ([...name].length > 12) throw new Error("nickname is at most 12 characters");
+  if ([...name].length > NICKNAME_MAX) throw new Error(`nickname is at most ${NICKNAME_MAX} characters`);
   m.nickname = name === "" ? null : name;
   return s;
 }
@@ -100,10 +109,9 @@ export function healAll(save: Save, dex: Dex): Save {
 export function hatchEssence(
   save: Save, item: { id: string; kind: "essence"; hatches: number }, dex: Dex, rng: Rng, at = "",
 ): { save: Save; mon: Monster } {
-  if ((save.items[item.id] ?? 0) < 1) throw new Error(`no ${item.id} left`);
+  requireItem(save, item.id);
   const mon = createMonster(dex, item.hatches, 1, rng, { how: "essence", at });
   const s = addMonster(save, mon);
-  s.items[item.id] -= 1;
-  if (s.items[item.id] === 0) delete s.items[item.id];
+  spendItem(s, item.id);
   return { save: s, mon };
 }

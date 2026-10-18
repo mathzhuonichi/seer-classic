@@ -1,19 +1,15 @@
 /** Trainer integration, ordinary roster legality, and bounded real-team simulations. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createServer} from 'vite';
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
-const memory=new Map(),previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
-const checks=[],simulations=[],controller=[],report={checks,simulations,controller};
-const check=(name,run)=>{run();checks.push(name)};
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error',plugins:[{name:'trainer-tab-ssr-fixture',enforce:'pre',transform(code,id){if(id.endsWith('/src/components/ChallengeCenter.tsx'))return code.replace("useState('SPT首领')","useState('训练师对战')");}}]});
-try{
+memoryStorage();
+await withSsr('trainer-teams',async load=>{
+ const t=suite('trainer-teams'),{check}=t,simulations=[],controller=[],report={};
  const [{loadCatalog},{createGame},{buildAcquisitionIndex},{buildRecruitmentRewards},{createBattle,buildDataSet},{SEER_SCRIPTS},{default:ChallengeCenter},{findChallengeLocation},{chooseAiAction}]=await Promise.all([
   '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/components/ChallengeCenter.tsx','/src/world.ts','/battle/core/src/ai.ts'
- ].map(file=>server.ssrLoadModule(file)));
+ ].map(load));
  const catalog=await loadCatalog(),trainers=catalog.trainers??[],without={...catalog,trainers:[]};
  const species=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));
  const trainedRewards=new Set(catalog.bosses.flatMap(boss=>boss.reward?.learn_skill?[`${boss.reward.learn_skill.species}/${boss.reward.learn_skill.skill}`]:[]));
@@ -41,7 +37,7 @@ try{
   assert(!after.shopItems.some(row=>row.id.includes('trainer_')));
  });
  check('Trainer tab renders a disclosed six-member team and meaningful reward copy',()=>{
-  const html=renderToStaticMarkup(React.createElement(ChallengeCenter,{s:game.snapshot(),c:game,onTravel:()=>{}}));
+  const html=renderToStaticMarkup(React.createElement(ChallengeCenter,{s:game.snapshot(),c:game,initialCategory:'训练师对战',onTravel:()=>{}}));
   assert(html.includes('训练师对战'));assert(html.includes('aria-label="训练师队伍"'));assert(html.includes('对方阵容 · 6'));assert(html.includes('与训练师互动'));assert(html.includes('赛尔豆与经验。'));
   assert(!html.includes('获得首领精元'));assert(!html.includes('不解锁新的精灵获取路线'));
   for(const trainer of trainers){const view=game.snapshot().bosses.find(row=>row.id===trainer.id);assert.equal(view.opponents.length,6);assert(view.opponents.every(mon=>mon.level===100));assert.deepEqual(findChallengeLocation(view),{planetId:'space-station',regionId:'resources',staging:false});}
@@ -52,9 +48,10 @@ try{
   candidate.dispatch({type:'flee'});const fled=JSON.parse(candidate.exportSave());
   check(`${trainer.id}: retreat does not unlock rewards or collection`,()=>{assert.deepEqual(fled.dex,JSON.parse(saved).dex);assert.deepEqual(fled.game.shopUnlocked,JSON.parse(saved).game.shopUnlocked);assert(!fled.progress.bosses_cleared.includes(trainer.id));});
  }
- // One-HP copies isolate reward integration from combat difficulty. The bounded
- // simulations below use unmodified production rosters and standard stats.
- const fixture={...catalog,trainers:trainers.map(trainer=>({...trainer,team:trainer.team.map(mon=>({...mon,hp_override:1}))}))};
+ // One-HP copies isolate reward integration from combat difficulty; NPC training cannot
+ // combine with an HP override, so the copies drop it. The bounded simulations below
+ // use unmodified production rosters and standard stats.
+ const fixture={...catalog,trainers:trainers.map(trainer=>({...trainer,team:trainer.team.map(({training_profile,...mon})=>({...mon,hp_override:1}))}))};
  const prepared=createGame(fixture,saved);prepared.dispatch({type:'cheatAcquire',species:9,level:100});
  const attacker=prepared.snapshot().monsters.find(mon=>mon.species===9);assert(attacker);
  prepared.dispatch({type:'cheatMonster',uid:attacker.uid,level:100,iv:31,evs:{hp:0,atk:255,def:0,spa:0,spd:0,spe:255},traitId:null});
@@ -115,7 +112,6 @@ try{
   report.voluntarySwitch={trainer:trainer.id,seed:7,player,trace,outgoingHp:battle.sides[1].team[0].hp,incomingHp:battle.active(1).hp};
  });
  report.scriptOps=[...new Set(trainers.flatMap(row=>row.team.flatMap(mon=>mon.skills.flatMap(id=>skills.get(id).effects.filter(effect=>effect.op==='script').map(effect=>`${id}:${effect.id}`)))))];
- assert.equal(JSON.stringify(catalog),inputBytes,'Verification must not mutate shared encounter definitions');
- report.passed=true;console.log(JSON.stringify(report,null,2));
-}catch(error){report.passed=false;report.error=String(error.stack);console.error(JSON.stringify(report,null,2));process.exitCode=1;}
-finally{await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;}
+ check('Verification does not mutate shared encounter definitions',()=>assert.equal(JSON.stringify(catalog),inputBytes));
+ t.finish({simulations,controller,...report});
+});

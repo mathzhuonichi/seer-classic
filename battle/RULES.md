@@ -1,13 +1,13 @@
 # Seer Classic: Battle Rules Spec
 
-Owner: the "Battle engine" thread. Status: **v1.0**, implemented by `battle/core/` (tests: `node --test test/*.test.ts`).
+Owner: the "Battle engine" thread. Status: **v1.0**, implemented by `battle/core/` (checks: section 13).
 Every number here is a named constant in `core/src/constants.ts`, so a rule that
 turns out to be wrong is a one-line change. Confidence tags:
 **[sourced]** = found in a Seer guide, **[recalled]** = from memory of the game,
 **[chosen]** = our decision where the original is unknown or not worth copying.
 
-Data shapes follow `design/foundation.md` (v0.1). Additions this spec needs are
-listed in section 12 as change requests.
+Data shapes are defined in `core/src/types.ts` (see `ARCHITECTURE.md`). The additions
+this spec requested from the original data model are listed in section 14.
 
 ## 1. Battle format
 
@@ -23,7 +23,7 @@ listed in section 12 as change requests.
 
 ## 2. Stats
 
-Stats come from the raising rules (`foundation.md` 6.1). The battle core
+Stats come from the raising rules (`raising/SPEC.md` section 1). The battle core
 accepts either a raised monster (it then calls the same `computeStats`) or
 precomputed stats (bosses with `hp_override`, tests).
 
@@ -238,7 +238,7 @@ See `design/notes/capture-official-v25.md` for table/protocol evidence and limit
 
 ## 10. PvE bosses
 
-A boss encounter (`data/bosses/*.json`, `foundation.md` section 7) builds side 1
+A boss encounter (`data/bosses/*.json`, shape `BossEncounter` in `core/src/types.ts`) builds side 1
 from `team` (`hp_override`, `stat_multipliers` per member) and adds rules,
 phases, objectives and AI. `validateEncounter` checks the player team first.
 
@@ -268,7 +268,7 @@ phases, objectives and AI. `validateEncounter` checks the player team first.
 | `lives {count}` | on fainting, revive to full HP and PP `count` times (multi-life bosses) |
 | `player_level_cap {level}` / `player_team_size {max}` | checked by `validateEncounter` before the battle |
 | `no_capture` / `no_items` / `no_switch` | disable those actions for the player |
-| `script {id, params}` | a boss rule script (`src/scripts/boss.ts`), or an alias of a native rule (`infinite_pp`, `immune_pct_damage`, `reflect_damage`) |
+| `script {id, params}` | a boss rule script (`core/src/scripts/boss.ts`), or an alias of a native rule (`infinite_pp`, `immune_pct_damage`, `reflect_damage`) |
 
 Boss rule scripts: `drain_each_turn`, `stages_unclearable`,
 `immune_skill_list`, `foe_stage_each_turn`, `copy_foe_boosts_on_switch_in`,
@@ -366,15 +366,22 @@ params }`, where `<n>` is the original Seer effect template. Implementations
 are in `core/src/scripts/`; `core/SCRIPTS.md` is the authoring guide (entry
 points, condition hook points, helpers and argument encodings).
 
-## 13. Verification tools (`battle/core/tools`)
+## 13. Verification
 
-| tool | what it does |
+`battle/core` has no tool directory of its own. Battle checks are suites in
+`tools/verification/`, each registered with a status in
+`tools/verification/MANIFEST.json`. `npm run verify` runs the `gate` suites, and
+`node tools/verification/run.mjs <suite>` runs any one (see `ARCHITECTURE.md`).
+The suites that exercise this spec most directly:
+
+| suite | what it checks |
 |---|---|
-| `load-data.ts` | bundles `data/` into `.cache/gamedata.json` (rerun after catalog changes) |
-| `smoke.ts` | uses every catalog skill for a few turns; reports crashes and warnings |
-| `bosses.ts [n]` | fights every boss and variant n times with a strong team |
-| `fuzz.ts [n] [seed]` | random battles with real data; checks state invariants each turn and replays each battle to check determinism |
-| `sim.ts --boss <id> --seed <n>` | plays one battle and prints a readable log (`--json` for raw events) |
+| `boss-rules-v56.mjs` | every boss rule, phase and objective, with real-data smoke battles for every boss and variant |
+| `damage-audit.ts`, `classic-damage.ts` | the damage chain, critical-hit stage clearing and shields |
+| `dual-types.ts` | dual-type effectiveness and type-dependent conditions |
+| `battle-v3.ts` | replacement after a faint, retreat, battle items and critical hits |
+| `battle-clone-fidelity-v58.mjs` | determinism: a cloned battle resolves the same actions to the same events and state |
+| `battle-ai-liveness.mjs` | AI battles over the full catalog end within the hard turn limit |
 
 ## 14. Change requests for the foundation data model
 

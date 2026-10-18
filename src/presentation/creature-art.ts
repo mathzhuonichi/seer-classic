@@ -1,3 +1,4 @@
+// The one source of creature portrait paths, art layout and species display names.
 import type { CSSProperties } from 'react';
 import data from './creature-art-data.json';
 
@@ -12,18 +13,23 @@ export interface CreatureArtProfile {
   evolutionStage: number;
 }
 
-const rows = data as Record<string, (number | string)[]>;
+/** Measured rows: native size, visible alpha bounds, family root, stage, scale and an optional vector source. */
+type ArtRow = [number, number, number, number, number, number, number, number, number, string?];
+const rows = data as unknown as Record<string, ArtRow>;
+
+/** Raster portrait published under `public/portraits/`. */
+export const portraitPath = (speciesId: number) => `/portraits/${speciesId}.png`;
 
 export function getCreatureArt(speciesId: number): CreatureArtProfile {
   const row = rows[String(speciesId)];
   if (!row) return {
-    src: `/portraits/${speciesId}.png`, nativeWidth: 1, nativeHeight: 1,
+    src: portraitPath(speciesId), nativeWidth: 1, nativeHeight: 1,
     bounds: { x: 0, y: 0, width: 1, height: 1 }, physicalScale: .84,
     familyRoot: speciesId, evolutionStage: 0,
   };
-  const [width, height, x, y, visibleWidth, visibleHeight, root, stage, scale] = row as number[];
+  const [width, height, x, y, visibleWidth, visibleHeight, root, stage, scale, src] = row;
   return {
-    src: typeof row[9] === 'string' ? row[9] : `/portraits/${speciesId}.png`,
+    src: typeof src === 'string' ? src : portraitPath(speciesId),
     nativeWidth: width, nativeHeight: height,
     bounds: { x, y, width: visibleWidth, height: visibleHeight },
     familyRoot: root, evolutionStage: stage, physicalScale: scale,
@@ -54,4 +60,27 @@ export function creatureArtStyle(
       : { bottom: unit(-(art.nativeHeight - art.bounds.y - art.bounds.height) * factor) }),
     maxWidth: 'none', maxHeight: 'none', objectFit: 'fill',
   };
+}
+
+/** Idle-breathing phase and period, staggered by species so neighbouring cards never move in step. */
+export function creatureIdleTiming(speciesId: number): CSSProperties {
+  return { animationDelay: `-${speciesId % 11 * .27 / 1.5}s`, animationDuration: `${(3.6 + speciesId % 4 * .2) / 1.5}s` };
+}
+
+interface NamedSpecies { readonly id: number; readonly name: string }
+export type SpeciesName = (id: number) => string;
+const namers = new WeakMap<readonly NamedSpecies[], SpeciesName>();
+
+/**
+ * Display-name lookup over a species list, normally `snapshot.species`; an id the list lacks reads `精灵 <id>`.
+ * The lookup is cached per list, so it keeps its identity until the list changes.
+ */
+export function speciesNamer(species: readonly NamedSpecies[]): SpeciesName {
+  let namer = namers.get(species);
+  if (!namer) {
+    const names = new Map(species.map(row => [row.id, row.name]));
+    namer = id => names.get(id) ?? `精灵 ${id}`;
+    namers.set(species, namer);
+  }
+  return namer;
 }

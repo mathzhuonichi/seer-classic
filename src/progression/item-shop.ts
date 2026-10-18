@@ -1,17 +1,23 @@
-import type {ShopItemView} from '../game-types.ts';
-export const ITEM_SHOP_CATEGORIES=[['raising','培养道具','◇'],['battle','战斗补给','✚'],['capsule','精灵胶囊','◈'],['essence','精元 / 元神珠','◉'],['other','其他','▣']] as const;
-export type ShopCategory=typeof ITEM_SHOP_CATEGORIES[number][0];
-export function itemShopCategory(kind:string):ShopCategory{return ITEM_SHOP_CATEGORIES.some(row=>row[0]===kind)?kind as ShopCategory:'other'}
+// The free item shop: which products exist, the order cap, and memoised product rows.
+
+/** Largest quantity of one shop order. */
+export const SHOP_ORDER_MAX=999;
+
+/** Essences become products only once the player has unlocked them. */
 export function isShopItemAvailable(item:{id:string;kind:string},unlocked:ReadonlySet<string>):boolean{return item.kind!=='essence'||unlocked.has(item.id)}
 
-/** Unchanged stock reuses immutable rows; hidden unearned essences never become shop products. */
-export function createItemShopViews(definitions:readonly Omit<ShopItemView,'count'>[]){
- let ids:readonly string[]|undefined,length=-1,products:readonly Omit<ShopItemView,'count'>[]=[],view:ShopItemView[]=[];
+/** Unchanged stock reuses immutable rows; hidden unearned essences never become shop products.
+ * `unlocked` is the save's list, which grows in place, so its length is compared too. */
+export function createItemShopViews<P extends {id:string;kind:string}>(definitions:readonly P[]){
+ let unlockedIds:readonly string[]|undefined,unlockedCount=-1,products:readonly P[]=[],rows:(P&{count:number})[]=[];
  return (inventory:Readonly<Record<string,number>>,unlocked:readonly string[])=>{
-  if(ids!==unlocked||length!==unlocked.length){ids=unlocked;length=unlocked.length;const known=new Set(unlocked);products=definitions.filter(item=>isShopItemAvailable(item,known))}
-  if(view.length===products.length&&view.every((item,index)=>item.id===products[index].id&&item.count===(inventory[item.id]??0)))return view;
-  const previous=new Map(view.map(item=>[item.id,item]));
-  view=products.map(item=>{const count=inventory[item.id]??0,old=previous.get(item.id);return old?.count===count?old:{...item,count}});
-  return view;
+  if(unlockedIds!==unlocked||unlockedCount!==unlocked.length){
+   unlockedIds=unlocked;unlockedCount=unlocked.length;
+   const known=new Set(unlocked);products=definitions.filter(item=>isShopItemAvailable(item,known));
+  }
+  if(rows.length===products.length&&rows.every((row,index)=>row.id===products[index].id&&row.count===(inventory[row.id]??0)))return rows;
+  const previous=new Map(rows.map(row=>[row.id,row]));
+  rows=products.map(item=>{const count=inventory[item.id]??0,old=previous.get(item.id);return old?.count===count?old:{...item,count}});
+  return rows;
  };
 }

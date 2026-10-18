@@ -1,4 +1,6 @@
-import type {AcquisitionCatalog, AcquisitionRoute, SpeciesAcquisition} from './acquisition.ts';
+import {MAX_LEVEL} from '../../raising/core/growth.ts';
+import type {AcquisitionCatalog, AcquisitionRoute, SpeciesAcquisition} from './acquisition-model.ts';
+import {buildPredecessors} from './species-graph.ts';
 
 export interface InitialEvolutionStep {
   from:number;
@@ -20,13 +22,10 @@ export interface InitialFormAcquisition {
 }
 
 /** Only directed ancestors can supply an initial entry; siblings and adult rewards cannot. */
-export function buildInitialFormAcquisitionIndex(catalog:AcquisitionCatalog, acquisition:Map<number,SpeciesAcquisition>):Map<number,InitialFormAcquisition> {
+export function buildInitialFormAcquisitionIndex(catalog:AcquisitionCatalog,
+  acquisition:ReadonlyMap<number,Pick<SpeciesAcquisition,'status'|'routes'>>):Map<number,InitialFormAcquisition> {
   const definitions=new Map(catalog.species.map(species=>[species.id,species]));
-  const predecessors=new Map(catalog.species.map(species=>[species.id,new Set<number>()]));
-  for(const species of catalog.species){
-    if(species.evolves_from&&definitions.has(species.evolves_from))predecessors.get(species.id)!.add(species.evolves_from);
-    for(const edge of species.evolution)if(definitions.has(edge.to))predecessors.get(edge.to)!.add(species.id);
-  }
+  const predecessors=buildPredecessors(catalog.species);
   return new Map(catalog.species.map(species=>{
     const excluded=acquisition.get(species.id)?.status==='npc';
     const initialForms:InitialFormEntry[]=[];
@@ -42,7 +41,7 @@ export function buildInitialFormAcquisitionIndex(catalog:AcquisitionCatalog, acq
           evolutionPath:current.path});
       }
       for(const from of previous){
-        const edge=definitions.get(from)!.evolution.find(edge=>edge.to===current.id&&edge.method==='level'&&edge.level!==undefined&&edge.level<=100);
+        const edge=definitions.get(from)!.evolution.find(edge=>edge.to===current.id&&edge.method==='level'&&edge.level!==undefined&&edge.level<=MAX_LEVEL);
         const step:InitialEvolutionStep={from,to:current.id,implemented:!!edge,...(edge?{level:edge.level,automatic:edge.automatic}:{})};
         queue.push({id:from,path:[step,...current.path]});
       }

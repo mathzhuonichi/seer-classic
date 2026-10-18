@@ -1,8 +1,7 @@
 # Seer Classic: Monster Raising Rules
 
 Owner: the "Monster raising system" thread. Status: **v0.1**, implemented by
-`raising/core/` (pure rules) and `raising/game/save.ts` (save file). Moves into
-`packages/core` / `packages/game` when the repo exists (foundation.md section 2).
+`raising/core/` (pure rules) and `raising/game/save.ts` (save file).
 
 Confidence tags, same as `battle/RULES.md`:
 **[sourced]** found in a Seer guide (links at the end), **[recalled]** from memory
@@ -82,8 +81,8 @@ Level 1–100. `exp` in the save is EXP into the current level, like Seer's
 
 ### 5.1 Curves [sourced]
 Seer used exactly four curves. Its published per-level tables (7k7k, 2010) are
-exactly T(n+1) − T(n) of these cumulative curves; `tests/formulas.test.ts`
-checks every level:
+exactly T(n+1) − T(n) of these cumulative curves; `core/stats.test.mjs`
+checks every level against `data/growth.json`:
 
 | id | Seer name (Lv100 row) | cumulative T(n) | total Lv1→100 |
 |---|---|---|---|
@@ -171,20 +170,19 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 - 背包 (party): 1–6 ordered monsters, the first is sent out first. 精灵仓库 (box):
   everything else, up to 1000 [chosen].
 - A newly obtained monster joins the party if there is room, else the box.
-- Deposit, withdraw, swap a party slot with a box monster, reorder, rename (≤12
-  characters), 放生 (release). The last party monster can't be deposited or
-  released.
+- Deposit, withdraw, reorder, rename (≤12 characters), 放生 (release). The last
+  party monster can't be deposited or released.
 - 精灵恢复舱: `healAll` restores HP, PP and status for free [chosen; Seer charged
   赛尔豆 without 超能NoNo, which has no meaning here].
 
 ## 8.1 Boss 精元
-A boss reward is a 精元 item (`kind: "essence"`, `hatches: species`, see
-foundation 7). `hatchEssence` consumes one and hatches the monster at level 1
+A boss reward is a 精元 item (`kind: "essence"`, `hatches: species`).
+`hatchEssence` consumes one and hatches the monster at level 1
 with a fresh 1–31 个体 and random 性格, into the party or the box if full.
 
 ## 9. Save file
 
-Shape: foundation.md 6.2. `raising/game/save.ts`:
+Shape: `Save` in `core/types.ts`. `raising/game/save.ts`:
 `newSave(seed)`, `serialize`, `deserialize(text, dex)` (parse, migrate, then
 validate), `validateSave`, `migrate` with a per-version migration table.
 Validation checks ranges (level, 个体, 学习力 caps, exp within level), equipped
@@ -209,7 +207,8 @@ IndexedDB, Tauri fs) is the app's choice.
 | `boost` | `what`, `multiplier`, `battles` | 经验加速器 / 学习力双倍仪 (5.4) |
 | `energy_bead` | `stats` or `crit_rate_add` or `damage_taken_and_dealt_multiplier`, `battles` | 能量珠 (5.4) |
 
-`useRaisingItem(save, uid, item, dex, rng)` applies one and consumes it.
+`useRaisingItem(save, uid, item, dex, rng, {unlimited})` applies one and consumes it,
+unless `unlimited` (the game's unlimited-access mode) is set.
 
 ## 11. Code map
 
@@ -219,13 +218,12 @@ core/stats.ts      stat formula and caps (also used by battle core)
 core/growth.ts     4 EXP curves
 core/monster.ts    create, 学习力, 个体, 性格, EXP/levels, skills, evolution
 core/rewards.ts    after-battle EXP/学习力 split, exp pool, 经验分配器
-core/storage.ts    party/box, release, rename, heal, 精元 hatching
+core/storage.ts    party/box, release, rename, heal, item counts, 精元 hatching
 core/items.ts      raising items, boosters, 能量珠, tickBoosts
 core/dex.ts        Dex from parsed data files
-core/rng.ts        re-exports battle core's sfc32 Rng
+core/index.ts      the barrel, plus battle core's sfc32 Rng as SeededRng
+core/*.test.mjs    node:test unit tests on a fixture Dex (npm test)
 game/save.ts       save create/validate/migrate/serialise
-tools/build-data.ts  writes data/natures.json, growth.json
-tests/             node:test suites (npm test)
 ```
 
 Every rule function is pure: it returns a new object plus an ordered list of
