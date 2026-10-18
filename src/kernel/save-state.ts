@@ -2,12 +2,12 @@
 import { Rng } from '../../battle/core/src/index.ts';
 import { addMonster, createMonster, type Save } from '../../raising/core/index.ts';
 import { deserialize, newSave, serialize, type GameExtras, type GameSave, type MigrationContext } from './save.ts';
-import { readLocalSave, writeLocalSave, backupUnreadableSave } from './persistence.ts';
+import { afterNextFrame, backupUnreadableSave, onPageExit, readLocalSave, writeLocalSave } from './persistence.ts';
 import { normalizeBraveTowerProgress } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS } from '../domain/challenges/challenge-campaigns.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import { rollTrait } from './acquire.ts';
-import type { GameContext } from './context.ts';
+import type { GameContext, GameDependencies } from './context.ts';
 import { CURE_ITEM_ID, CURE_ITEM_STOCK, STARTER_LEVEL, STARTER_SPECIES, STARTING_COINS, STARTING_ITEM_STOCK } from '../domain/economy.ts';
 import {campaignProgress} from '../features/challenges/index.ts';
 
@@ -96,9 +96,57 @@ function applyLedgers(ctx: GameContext, save: GameSave) {
   for (const [bossId, ids] of ctx.bossRewardItemIds) if (cleared.has(bossId)) ids.forEach(unlock);
 }
 
-/** Applies the live save rules and records the RNG; `store` also writes the save to local storage. */
-export function writeJourney(ctx: GameContext, { save, rng }: Journey, store: boolean) {
+/** Applies the live save rules and records the RNG, so that the snapshot and every write see them. */
+function settle(ctx: GameContext, { save, rng }: Journey) {
   applyLedgers(ctx, save);
   save.rng_state = [...rng.s];
-  if (store) writeLocalSave(serialize(save));
+}
+
+/** Keeps the stored save in step with the live journey. */
+export interface JourneyWriter {
+  /**
+   * Runs an action and settles the journey after it. The write slot is reserved before the action runs, so the write comes ahead
+   * of any work the action schedules (turn preparation); all the actions before the slot share its write. Where no slot can be
+   * reserved, the journey is written at once after the action.
+   */
+  update<T>(action: () => T): T;
+  /** After an import or a new journey, the player's choice to replace the stored save: settles and writes it at once. */
+  replaced(): void;
+  /** Writes a pending change now and returns the save's text (an export). */
+  flush(): string;
+}
+
+/**
+ * Writes `journey`, the live runtime whose save actions replace, to local storage: at once when it is opened or replaced, and
+ * after actions at most once per `scheduleSave` slot, with a pending write flushed when the page may close (`onPageExit`) and
+ * before an export. A text equal to the last one written is not written again. While `durable` is false (an unreadable stored
+ * save that could not be backed up) nothing is written until the journey is replaced.
+ */
+export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean, dependencies: GameDependencies): JourneyWriter {
+  const { scheduleSave = afterNextFrame, onPageExit: exit = onPageExit } = dependencies;
+  let pending = false, written: string | null = null;
+  const write = (text: string) => {
+    pending = false;
+    if (durable && text !== written) { writeLocalSave(text); written = text; }
+  };
+  const writePending = () => { if (pending) write(serialize(journey.save)); };
+  exit(writePending);
+  settle(ctx, journey);
+  write(serialize(journey.save));
+  return {
+    update: action => {
+      if (durable && !pending) pending = scheduleSave(writePending);
+      const result = action();
+      settle(ctx, journey);
+      if (durable && !pending) write(serialize(journey.save));
+      return result;
+    },
+    replaced: () => { durable = true; settle(ctx, journey); write(serialize(journey.save)); },
+    flush: () => {
+      const text = serialize(journey.save);
+      // An export carries the progress even when storage refuses it; the next action tries the write again.
+      try { if (pending) write(text); } catch { /* storage full or unavailable */ }
+      return text;
+    },
+  };
 }

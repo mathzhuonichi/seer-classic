@@ -38,7 +38,7 @@ export async function verifyControllerSnapshots(){
 
 /** Unchanged slices and rows keep their identity, so screens that select them skip rendering (architecture-v2 §5). */
 export async function verifySnapshotIdentity(){
-  const game=createGame(await loadCatalog(),'');
+  const catalog=await loadCatalog(),game=createGame(catalog,'');
   game.dispatch({type:'dismissNotice'});
   const settled=game.snapshot();
   game.dispatch({type:'dismissNotice'});
@@ -52,9 +52,17 @@ export async function verifySnapshotIdentity(){
   assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
   for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits','engravingStock'] as const)
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
+  // A new species rebuilds the quest memo with equal rows, which it then returns on every build: the shared rows stay.
+  game.dispatch({type:'cheatAcquire',species:2,level:5});game.dispatch({type:'dismissNotice'});
+  assert.equal(game.snapshot().quests,settled.quests,'Quest rows rebuilt equal keep their identity.');
+  game.dispatch({type:'cheatAcquire',species:19,level:5});
+  const progressed=game.snapshot().quests;
+  assert.notEqual(progressed,settled.quests,'Changed quest rows are new.');
+  assert.deepEqual(progressed,createGame(catalog,game.exportSave()).snapshot().quests,'Shared quest rows equal a fresh build of the save.');
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
-  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity']};
+  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity',
+    'memo rebuilt equal keeps the shared rows']};
 }
 
 /**
@@ -168,40 +176,44 @@ function collectionSave(catalog:CatalogData,size:number):string{
 
 /**
  * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2),
- * on a new journey and on a collection of 200 monsters, for a mix of common actions. It counts this thread's CPU time, so other
- * suites running in parallel do not fail it; the best of three rounds counts.
+ * on a new journey and on a collection of 200 monsters, for a mix of common actions. The write runs after the frame, so each
+ * action is timed with the write it schedules; `dispatchP95` is the action and its snapshot alone. It counts this thread's CPU
+ * time, so other suites running in parallel do not fail it; the best of three rounds counts.
  */
 export async function verifyDispatchBudget(){
   const catalog=await loadCatalog(),saves={journey:'',collection:collectionSave(catalog,200)},p95:Record<string,number>={};
+  const dispatchP95:Record<string,number>={},ms=(used:NodeJS.CpuUsage)=>(used.user+used.system)/1000;
   const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map<string,string>();
   const storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,value);}};
   Object.defineProperty(globalThis,'localStorage',{configurable:true,value:storage});
   try{
     for(const [name,save] of Object.entries(saves)){
-      const game=createGame(catalog,save),uid=game.snapshot().party[0];
+      const slots:(()=>void)[]=[],game=createGame(catalog,save,{scheduleSave:write=>{slots.push(write);return true;}}),uid=game.snapshot().party[0];
       game.dispatch({type:'cheatResources',coins:1000000});game.dispatch({type:'cheatMonster',uid,level:50});
       const skills=game.snapshot().monsters.find(mon=>mon.uid===uid)!.skills.map(skill=>skill.id),member=game.snapshot().party.at(-1)!;
       const mix=(i:number):GameAction=>[{type:'rename',uid,name:`Budget${i%7}`},{type:'dismissNotice'},
         {type:'equip',uid,skills:i%12<6?[...skills].reverse():skills},{type:'train',uid,stat:'atk',amount:1},{type:'party',uid:member,add:i%12>=6},
         {type:'buyItem',itemId:'item_level_up_1',quantity:1}][i%6] as GameAction;
-      const rounds:number[]=[];
+      const rounds:number[]=[],dispatchRounds:number[]=[],at95=(times:number[])=>times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)];
       for(let round=0;round<3;round++){
-        const times:number[]=[];
+        const times:number[]=[],dispatchTimes:number[]=[];
         for(let i=0;i<240;i++){
-          const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),used=process.threadCpuUsage(started);
+          const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),dispatched=process.threadCpuUsage(started);
+          slots.splice(0).forEach(write=>write());
+          const used=process.threadCpuUsage(started);
           assert(result.ok,`${name} ${action.type}: ${result.notice}`);
-          if(i>=40)times.push((used.user+used.system)/1000);
+          if(i>=40){times.push(ms(used));dispatchTimes.push(ms(dispatched));}
         }
-        rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
+        rounds.push(at95(times));dispatchRounds.push(at95(dispatchTimes));
       }
-      p95[name]=Math.min(...rounds);
+      p95[name]=Math.min(...rounds);dispatchP95[name]=Math.min(...dispatchRounds);
       assert(p95[name]<=4,`${name}: dispatch p95 ${p95[name].toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
       assert.equal(memory.size,1,`${name}: the save is written to storage.`);memory.clear();
     }
   }finally{
     if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }
-  return {p95};
+  return {p95,dispatchP95};
 }
 
 /** An unreadable stored save is backed up before a new journey replaces it; version-1 repairs run once, on load. */
@@ -218,9 +230,10 @@ export async function verifyControllerSaveRecovery(){
     // Without room for a backup, progress stays in memory until the player replaces the save explicitly.
     memory.clear();writeLocalSave('{"version":99}');
     storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');setItem(key,value);};
-    const unsaved=createGame(catalog);
+    const exits:(()=>void)[]=[],unsaved=createGame(catalog,undefined,{onPageExit:flush=>exits.push(flush)});
     assert.equal(unsaved.snapshot().notices.length,1);assert.notEqual(unsaved.snapshot().notices[0],'旧存档无法读取，已创建新存档。');
-    unsaved.dispatch({type:'heal'});assert.equal(readLocalSave(),'{"version":99}','The unreadable save is never overwritten.');
+    unsaved.dispatch({type:'heal'});unsaved.exportSave();exits.forEach(flush=>flush());
+    assert.equal(readLocalSave(),'{"version":99}','The unreadable save is never overwritten.');
     unsaved.reset();assert.equal(readLocalSave(),unsaved.exportSave(),'A new journey chosen by the player replaces it.');
     storage.setItem=setItem;
     const quest=game.snapshot().quests.find(row=>row.group==='spt-recruitment')!;
@@ -236,6 +249,61 @@ export async function verifyControllerSaveRecovery(){
     fs.mkdirSync('artifacts/battle-media-v22',{recursive:true});
     fs.writeFileSync('artifacts/battle-media-v22/controller-save-recovery.json',JSON.stringify(output,null,2)+'\n');
     return output;
+  }finally{
+    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
+  }
+}
+
+/**
+ * Saves are written at most once per scheduled slot: a burst of actions writes once, an action that changes nothing writes
+ * nothing, and a page exit or an export writes the latest state at once. An export still returns the latest state when storage
+ * refuses the write, and the slot is reserved before the action, ahead of the turn preparation a battle action schedules.
+ */
+export async function verifyCoalescedSaveWrites(){
+  const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
+  memoryStorage();
+  const storage=globalThis.localStorage,setItem=storage.setItem,slots:(()=>void)[]=[],exits:(()=>void)[]=[],order:string[]=[];
+  let writes=0,full=false;
+  storage.setItem=(key:string,value:string)=>{if(full)throw new Error('QuotaExceededError');writes++;setItem(key,value);};
+  const runSlots=()=>slots.splice(0).forEach(write=>write());
+  try{
+    const scheduleSave=(write:()=>void)=>{order.push('save');slots.push(write);return true;},idle=()=>{order.push('prepare');};
+    const game=createGame(catalog,'',{scheduleSave,idle,onPageExit:flush=>exits.push(flush)}),uid=game.snapshot().party[0];
+    const stored=()=>JSON.parse(readLocalSave()!),nicknameIn=(text:string)=>JSON.parse(text).storage.find((mon:{uid:string})=>mon.uid===uid).nickname;
+    const nickname=()=>nicknameIn(readLocalSave()!);
+    assert.equal(writes,1,'A new journey is written at once.');assert.equal(exits.length,1,'The page exit flushes the save.');
+    for(let i=0;i<10;i++)game.dispatch({type:'rename',uid,name:`Burst${i}`});
+    game.dispatch({type:'cheatResources',coins:4321});
+    assert.equal(writes,1,'A burst of actions waits for its slot.');assert.equal(slots.length,1,'A burst of actions schedules one write.');
+    runSlots();
+    assert.equal(writes,2,'The slot writes the burst once.');assert.equal(nickname(),'Burst9');assert.equal(stored().game.coins,4321);
+    game.dispatch({type:'dismissNotice'});runSlots();
+    assert.equal(writes,2,'An action that changes nothing writes nothing.');
+    game.dispatch({type:'rename',uid,name:'Exit'});exits[0]();
+    assert.equal(writes,3,'A page exit writes at once.');assert.equal(nickname(),'Exit','A page exit writes the latest state.');
+    runSlots();exits[0]();
+    assert.equal(writes,3,'Neither the flushed slot nor a second exit writes again.');
+    game.dispatch({type:'rename',uid,name:'Export'});
+    const exported=game.exportSave();
+    assert.equal(writes,4);assert.equal(readLocalSave(),exported,'An export writes the latest state first.');
+    runSlots();game.exportSave();
+    assert.equal(writes,4,'An export with nothing pending writes nothing.');
+    full=true;game.dispatch({type:'rename',uid,name:'Full'});
+    assert.equal(nicknameIn(game.exportSave()),'Full','An export returns the latest state when storage refuses the write.');
+    full=false;game.dispatch({type:'rename',uid,name:'Retry'});runSlots();
+    assert.equal(writes,5,'The next action writes again.');assert.equal(nickname(),'Retry');
+    game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
+    assert.equal(writes,6,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
+    runSlots();assert.equal(writes,6);
+    order.length=0;assert(game.dispatch({type:'startBattle',bossId:'boss_spt_liaosi'}).ok,'The battle starts.');
+    assert.deepEqual(order,['save','prepare'],'A battle start reserves its write before it schedules its turn preparation.');
+    runSlots();order.length=0;
+    const skillId=game.snapshot().battle!.player.skills[0].id;
+    assert(game.dispatch({type:'move',skillId}).ok);
+    assert(!game.snapshot().battle!.finished,'Three starters outlast one turn.');
+    assert.deepEqual(order,['save','prepare'],'A turn reserves its write before the next turn preparation.');
+    return {checks:['burst writes once','unchanged save not written','page exit writes the latest state','export writes the latest state',
+      'export returns the latest state when storage refuses it','reset writes at once','write reserved before turn preparation']};
   }finally{
     if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }

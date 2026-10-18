@@ -27,6 +27,13 @@ export interface GameDependencies {
   createBattle?: BattleFactory;
   /** Schedules idle work (turn preparation); by default the browser's idle slots (`shared/idle.ts`), and verification runs the tasks when it chooses. */
   idle?: (task: () => void) => void;
+  /**
+   * Schedules the coalesced save write (by default after the next frame) and returns true, or returns false where it cannot wait
+   * and the controller writes at once; verification runs the writes when it chooses.
+   */
+  scheduleSave?: (write: () => void) => boolean;
+  /** Registers the flush of a pending save write for when the page may close (by default `onPageExit`); verification calls it. */
+  onPageExit?: (flush: () => void) => void;
 }
 
 /** Catalog lookups that view builders need. */

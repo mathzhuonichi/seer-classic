@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { reuseUnchanged } from './structural-sharing.ts';
+import { fieldSharing, reuseUnchanged } from './structural-sharing.ts';
 
 test('an equal rebuild returns the previous value itself', () => {
   const prev = { monsters: [{ uid: 'a', hp: 10, skills: [1, 2] }], coins: 5, battle: null };
@@ -42,4 +42,21 @@ test('neither argument is modified', () => {
   reuseUnchanged(prev, next);
   assert.equal(JSON.stringify(prev), prevText);
   assert.equal(next.rows[0], nextRow);
+});
+
+test('a field built as the same value as last time keeps its shared value without being compared again', () => {
+  let reads = 0;
+  const rows = () => [{ get id() { reads++; return 1; } }], share = fieldSharing(), memo = rows();
+  const first = share({ quests: rows(), coins: 1 });
+  const rebuilt = share({ quests: memo, coins: 1 });
+  assert.equal(rebuilt, first, 'an equal rebuild keeps the shared object');
+  reads = 0;
+  const later = share({ quests: memo, coins: 2 });
+  assert.equal(reads, 0, 'the memo\'s unchanged rows are not compared with the shared ones again');
+  assert.equal(later.quests, first.quests);
+  assert.equal(later.coins, 2);
+  assert.equal(share({ quests: memo, coins: 2 }), later, 'nothing changed: the shared object itself');
+  const changed = share({ quests: [{ id: 2 }], coins: 2 });
+  assert.notEqual(changed.quests, first.quests);
+  assert.deepEqual(changed.quests, [{ id: 2 }]);
 });
