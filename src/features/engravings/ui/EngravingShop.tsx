@@ -9,8 +9,7 @@ import {useGame} from '../../../shared/ui/use-game.ts';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
-  ENGRAVING_STAT_TABS,engravingCapNote,engravingHolderNames,engravingMoveChoices,engravingShopProducts,equipButtonLabel,setEngravingAction,transferHolder,
-  type EngravingShopFilter,
+  ENGRAVING_STAT_TABS,engravingCapNote,engravingHolderNames,engravingMoveChoices,engravingShopProducts,equipButtonLabel,transferHolder,type EngravingShopFilter,
 } from '../view.ts';
 import {partyFirstMonsters} from '../../../shared/party-order.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
@@ -40,7 +39,8 @@ export default function EngravingShop({c}:{c:GameController}) {
     if(item?.canBuy&&!inBattle)setFeedback(c.dispatch({type:'buyEngraving',engravingId:item.id}).notice??'');
   }
   function equip(){
-    if(item&&item.equipMode!=='blocked'&&!inBattle)setFeedback(c.dispatch(setEngravingAction(monster.uid,item.slot,item.id,source?.uid)).notice??'');
+    if(!item||item.equipMode==='blocked'||inBattle)return;
+    setFeedback(c.dispatch({type:'setEngraving',uid:monster.uid,slot:item.slot,engravingId:item.id,fromUid:source?.uid}).notice??'');
   }
   return <div className="item-shop-inner engraving-shop">
     <div className="engraving-shop-filters">

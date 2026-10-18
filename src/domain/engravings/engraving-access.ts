@@ -16,10 +16,7 @@ export function engravingAccess(def: EngravingDefinition): {unlimited: boolean; 
   return {unlimited: false, maxOwned: OWNERSHIP_TIERS.find(([minGain]) => gain >= minGain)?.[1] ?? DEFAULT_MAX_OWNED};
 }
 
-/**
- * How a monster that does not hold `def` gets a copy: an unlimited engraving needs none, and a finite one takes a spare copy from
- * stock while the equipped copies are below the cap, else moves one from another holder.
- */
+/** How a monster without `def` gets a copy: none needed, a spare one from stock while equipped copies are below the cap, else another holder's. */
 export function equipMode(def: EngravingDefinition, stock: number, equipped: number, otherHolders: number): EngravingView['equipMode'] {
   const access = engravingAccess(def);
   if (access.unlimited) return 'unlimited';

@@ -9,8 +9,8 @@ import {useGame} from '../../../shared/ui/use-game.ts';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
-  ENGRAVING_GROUP_SHORT_LABELS,ENGRAVING_STAT_TABS,engravingCapNote,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,
-  setEngravingAction,transferHolder,type EngravingSlot,
+  ENGRAVING_GROUP_SHORT_LABELS,ENGRAVING_STAT_TABS,engravingCapNote,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,transferHolder,
+  type EngravingSlot,
 } from '../view.ts';
 
 const TABS:Record<EngravingSlot,readonly (readonly [string,string])[]>={
@@ -31,7 +31,8 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];
   const chosen=list.find(option=>option.id===selected),source=chosen&&transferHolder(chosen,sourceUid);
-  const equip=(slot:EngravingSlot,id:string,fromUid?:string)=>setFeedback(c.dispatch(setEngravingAction(m.uid,slot,id||null,fromUid)).notice??'');
+  const equip=(slot:EngravingSlot,id:string,fromUid?:string)=>
+    setFeedback(c.dispatch({type:'setEngraving',uid:m.uid,slot,engravingId:id||null,fromUid}).notice??'');
   return <section className="raising-engravings" aria-label="刻印" onKeyDown={event=>{if(event.key==='Escape')setOpenSlot(null)}}>
     <div className="engraving-equipped-grid">{ENGRAVING_SLOTS.map(slot=>{
       const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot];

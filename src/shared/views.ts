@@ -11,11 +11,9 @@ export interface EngravingView {
   group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
   /** Effective remake cap, preserved legacy stock, equipped copies and every holder. */
   maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
-  /** What equipping it here does: needs no copy, takes one from stock, moves one from `transferFrom`, or cannot (no copy, or held here). */
-  equipMode: 'unlimited' | 'stock' | 'transfer' | 'blocked';
-  /** Transfer mode: the other holders a copy can move from, the first by default. */
-  transferFrom?: {uid:string;name:string}[];
-  /** Copies in stock or equipped, which count against `maxOwned`; `canBuy` while a finite one is below it. */
+  /** Equipping here needs no copy, takes one from stock, moves one from `transferFrom` (the first by default), or cannot (none, or held here). */
+  equipMode: 'unlimited' | 'stock' | 'transfer' | 'blocked'; transferFrom?: {uid:string;name:string}[];
+  /** Stock plus equipped copies, which count against `maxOwned`; `canBuy` while a finite one is below it. */
   owned: number; canBuy: boolean;
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }

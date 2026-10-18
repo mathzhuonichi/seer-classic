@@ -1,5 +1,4 @@
 // Pure views over the controller's engraving options, shared by the shop page and the PetBag slots.
-import type { GameAction } from '../../kernel/contract.ts';
 import type { EngravingView } from '../../shared/views.ts';
 import type { StatKey } from '../../../raising/core/types.ts';
 import type {EngravingEffectGroup} from '../../domain/engravings/engravings.ts';
@@ -14,11 +13,6 @@ export const ENGRAVING_GROUP_SHORT_LABELS:Record<EngravingEffectGroup,string>={
 };
 /** One tab per stat an ability engraving can raise. */
 export const ENGRAVING_STAT_TABS=STAT_KEYS.map(key=>[key,STAT_LABELS[key]] as const);
-
-/** Equip (or, with a null id, unload) one slot; a transfer names its source holder. */
-export function setEngravingAction(uid:string,slot:EngravingSlot,engravingId:string|null,fromUid?:string):GameAction {
-  return {type:'setEngraving',uid,slot,engravingId,...(fromUid?{fromUid}:{})};
-}
 
 /** The holder a transfer moves the copy from: the chosen one, else the first. */
 export const transferHolder=(option:EngravingView,uid:string)=>option.transferFrom?.find(holder=>holder.uid===uid)??option.transferFrom?.[0];

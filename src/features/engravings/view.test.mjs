@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  ENGRAVING_STAT_TABS,engravingCapNote,engravingMoveChoices,engravingShopProducts,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,
-  setEngravingAction,transferHolder,
+  ENGRAVING_STAT_TABS,engravingCapNote,engravingMoveChoices,engravingShopProducts,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,transferHolder,
 } from './view.ts';
 
 const option=fields=>({id:'1',name:'体力刻印',slot:'ability',effect:'体力+60',levelMin:1,bound:false,statKeys:['hp'],era:'2013',ready:true,
@@ -15,11 +14,6 @@ test('a transfer moves the chosen holder\'s copy, else the first holder\'s',()=>
   assert.equal(transferHolder(moving,'b'),holders[1]);assert.equal(transferHolder(moving,'gone'),holders[0]);
   assert.equal(transferHolder(option({equipMode:'stock'}),'a'),undefined);
   assert.deepEqual([moving,option({}),option({equippedHere:true})].map(equipButtonLabel),['确认移装','确认装备','已装备']);
-});
-
-test('setEngraving names a source only for a transfer',()=>{
-  assert.deepEqual(setEngravingAction('a','ability','1'),{type:'setEngraving',uid:'a',slot:'ability',engravingId:'1'});
-  assert.deepEqual(setEngravingAction('a','skill',null,'b'),{type:'setEngraving',uid:'a',slot:'skill',engravingId:null,fromUid:'b'});
 });
 
 test('shop products follow the slot-specific filters and list bound engravings first',()=>{
