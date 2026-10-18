@@ -7,6 +7,7 @@ import type { EssenceDefinition } from '../domain/acquisition/acquisition-limits
 import { buildFacilityViews } from '../domain/challenges/battle-facilities.ts';
 import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
+import { buildAcquisitionViews, type AcquisitionCatalog, type AcquisitionViews } from '../domain/acquisition/acquisition.ts';
 import { buildCollectionAncestry, type CollectionSpecies } from '../domain/acquisition/collection-ancestry.ts';
 import { conventionalMovesResolver } from '../domain/acquisition/conventional-moves.ts';
 import type { RecruitmentCatalog, RecruitmentReward } from '../domain/acquisition/recruitment.ts';
@@ -40,6 +41,8 @@ export interface GameContext extends CatalogContext {
   readonly skinOptions: ReadonlyMap<number, readonly number[]>;
   readonly availableTraits: readonly TraitDefinition[];
   readonly recruitments: readonly RecruitmentReward[];
+  /** Acquisition routes and families of the source catalog, which the dex, fusion and breeding views show. */
+  readonly acquisition: AcquisitionViews;
   /** Kind and hatched species of every catalogue item, by id. */
   readonly itemDefinitions: ReadonlyMap<string, EssenceDefinition>;
   /** The essence items that reserve a copy of each species. */
@@ -79,6 +82,8 @@ export function createGameContext(source: CatalogData, createBattle: BattleFacto
     ordinarySPTs: new Set(getEligibleRecruitmentSPTs(catalog as unknown as RecruitmentCatalog).map(boss => boss.id)),
     unlimitedItemIds: new Set(catalog.items.filter(item => UNLIMITED_ITEM_KINDS.includes(String(item.kind))).map(item => String(item.id))),
     facilityViews: buildFacilityViews(catalog),
+    // Recruitment rewards do not depend on the enrichment, so the source catalog's routes reuse them.
+    acquisition: buildAcquisitionViews(source as unknown as AcquisitionCatalog, recruitments),
     campaignForBoss: id => CHALLENGE_CAMPAIGNS.find(campaign => campaign.stages.some(stage => stage.bossIds.includes(id))),
   };
 }

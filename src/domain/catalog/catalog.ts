@@ -38,7 +38,7 @@ export function assembleCatalog(files: CatalogFiles): CatalogData {
  * The catalog bundled into this build. Vite resolves the globs at build time; plain Node can import this
  * module for `assembleCatalog` but cannot call this function. Each call returns fresh arrays.
  */
-export function bundledCatalog(): CatalogData {
+export async function loadCatalog(): Promise<CatalogData> {
   const tables = import.meta.glob('../../../data/{skills,natures,types,conditions,items}.json', { import: 'default', eager: true });
   // Keys are the glob paths as written; match the file name so the lookup does not depend on this module's depth.
   const table = (name: string) => Object.entries(tables).find(([key]) => key.endsWith(`/${name}.json`))?.[1];
@@ -48,8 +48,4 @@ export function bundledCatalog(): CatalogData {
     trainers: import.meta.glob('../../../data/trainers/*.json', { import: 'default', eager: true }),
     skills: table('skills'), natures: table('natures'), types: table('types'), conditions: table('conditions'), items: table('items'),
   });
-}
-
-export async function loadCatalog(): Promise<CatalogData> {
-  return bundledCatalog();
 }

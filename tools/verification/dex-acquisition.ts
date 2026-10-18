@@ -24,6 +24,20 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
   });
   const runtime = structuredClone(source);
   const fresh = createGame(runtime);
+  t.check('dex, fusion and breeding slices follow the acquisition index', () => {
+    const { dex, fusion, breeding, species } = fresh.snapshot(), available = (id: number) => index.get(id)?.status === 'available';
+    assert.equal(Object.keys(dex.entries).length, index.size);
+    assert.deepEqual([dex.ownedForms, dex.collectibleFamilies], [species.filter(row => row.owned).length, families.filter(family => family.status !== 'npc').length]);
+    for (const [id, entry] of index) {
+      const view = dex.entries[id];
+      assert.equal(view.npc, entry.status === 'npc');
+      for (const form of view.initialForms) {
+        assert.deepEqual(form.routes, index.get(form.species)!.routes.filter(route => route.kind !== 'evolution' && route.entrySpecies === form.species));
+      }
+    }
+    for (const row of fusion.recipes) assert.equal(row.collectible, row.recipe.primary.some(available) && row.recipe.secondary.some(available));
+    for (const row of breeding.recipes) assert.equal(row.routesMissing, ![...row.recipe.maleSpecies, ...row.recipe.femaleSpecies].every(available));
+  });
   const byId = new Map<number, any>(source.species.map((species: any) => [species.id, species]));
   const available = [...index].filter(([, entry]) => entry.status === 'available').map(([id]) => id);
   const direct = [...index].filter(([, entry]) => entry.routes.some(route => route.kind !== 'evolution')).map(([id]) => id);

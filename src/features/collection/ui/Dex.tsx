@@ -1,15 +1,12 @@
 import {useEffect,useMemo,useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { SpeciesView } from '../../../shared/views.ts';
-import type { StatBlock as Stats } from '../../../../raising/core/types.ts';
-import {STAT_KEYS} from '../../../../raising/core/types.ts';
+import {STAT_KEYS,type StatBlock} from '../../../../raising/core/types.ts';
 import type {AcquisitionRoute} from '../../../domain/acquisition/acquisition.ts';
-import {speciesNamer,type SpeciesName} from '../../../shared/monster-views.ts';
-import {
-  BASE_STAT_BAR_MAX,DEX_OWNED_FILTERS,DEX_PAGE_SIZE,dexAcquisitionView,dexCollectionSummary,dexFilter,filterDex,routeActionLabel,
-  type DexAcquisitionView,type DexFilter,
-} from '../dex-view.ts';
+import type {DexEntryView} from '../view.ts';
+import {ALL_ELEMENTS,matchesElement} from '../../../shared/element-types.ts';
 import {STAT_LABELS} from '../../../shared/labels.ts';
+import {statTotal} from '../../../shared/monster-views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import MonsterCard from '../../../shared/ui/MonsterCard.tsx';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
@@ -19,22 +16,41 @@ import {useGame} from '../../../shared/ui/use-game.ts';
 import '../../../shared/ui/management.css';
 import './Dex.css';
 
+const PAGE_SIZE=16;
+/** A base stat this high fills its distribution bar. */
+const BASE_STAT_BAR_MAX=255;
+const OWNED_FILTERS=['全部精灵','已收集','未收集'] as const;
+interface DexFilter {search:string;type:string;owned:typeof OWNED_FILTERS[number]}
+/** The unfiltered index, or one searched for a focused species. */
+const dexFilter=(focusSpecies?:number):DexFilter=>({search:focusSpecies===undefined?'':String(focusSpecies),type:ALL_ELEMENTS,owned:'全部精灵'});
+const matches=({search,type,owned}:DexFilter)=>(sp:SpeciesView)=>
+  `${sp.id} ${sp.name}`.includes(search)&&matchesElement(sp.types,type)&&(owned==='全部精灵'||(owned==='已收集')===sp.owned);
+
+/** Button text for travelling to one route of an initial form. */
+function routeActionLabel(route:AcquisitionRoute):string {
+  if(route.breedingRecipeId)return '前往初始形态繁殖';
+  if(route.fusionRecipeId)return '前往初始形态融合';
+  if(route.campaignId)return '前往初始形态阶段挑战';
+  if(route.bossId)return '前往初始形态挑战';
+  if(route.questId)return '查看初始形态任务';
+  return route.kind==='starter'?'查看初始伙伴':'前往初始形态栖息地';
+}
+
 export interface DexProps {c:GameController;onLocate:(species:number,route:AcquisitionRoute)=>void;focusSpecies?:number}
 type Locate=DexProps['onLocate'];
 
 export default function Dex({c,onLocate,focusSpecies}:DexProps) {
-  const species=useGame(c,s=>s.species);
+  const species=useGame(c,s=>s.species),dex=useGame(c,s=>s.dex);
   const [filter,setFilter]=useState(()=>dexFilter(focusSpecies)),[selected,setSelected]=useState(focusSpecies??species[0]?.id??1);
-  const filtered=useMemo(()=>filterDex(species,filter),[species,filter]);
-  const summary=useMemo(()=>dexCollectionSummary(species),[species]);
-  const {page,setPage,pages,start,end}=usePager(filtered.length,DEX_PAGE_SIZE);
+  const filtered=useMemo(()=>species.filter(matches(filter)),[species,filter]);
+  const {page,setPage,pages,start,end}=usePager(filtered.length,PAGE_SIZE);
   const rows=filtered.slice(start,end);
   const entry=filtered.find(sp=>sp.id===selected)??rows[0]??filtered[0];
   useEffect(()=>{if(focusSpecies!==undefined){setFilter(dexFilter(focusSpecies));setSelected(focusSpecies);setPage(0)}},[focusSpecies]);
   const refine=(change:Partial<DexFilter>)=>{setFilter(current=>({...current,...change}));setPage(0)};
   // Turning the page selects the new page's first row.
   const turn=(step:number)=>{setPage(current=>current+step);setSelected(-1)};
-  const heading=`${summary.ownedForms} 个形态已收集 · ${summary.completeFamilies} / ${summary.collectibleFamilies} 个完整家族`;
+  const heading=`${dex.ownedForms} 个形态已收集 · ${dex.completeFamilies} / ${dex.collectibleFamilies} 个完整家族`;
   return <section className="management-panel dex-management" aria-label="精灵图鉴面板">
     <div className="management-panel-heading"><strong>精灵图鉴</strong><span>{heading}</span></div>
     <div className="dex-inner"><aside className="dex-index">
@@ -49,7 +65,7 @@ export default function Dex({c,onLocate,focusSpecies}:DexProps) {
         <button aria-label="下一页图鉴" disabled={page+1>=pages} onClick={()=>turn(1)}>›</button>
       </div>
     </aside><div className="dex-entry-scroll">
-      {entry?<DexEntry species={entry} name={speciesNamer(species)} onLocate={onLocate}/>:<div className="management-empty">选择精灵查看种族值与获取入口。</div>}
+      {entry?<DexEntry species={entry} view={dex.entries[entry.id]} onLocate={onLocate}/>:<div className="management-empty">选择精灵查看种族值与获取入口。</div>}
     </div></div>
   </section>;
 }
@@ -61,13 +77,13 @@ function DexFilters({species,filter,onChange}:{species:readonly SpeciesView[];fi
     <div>
       <TypeFilter withIcons label="图鉴属性分类" value={filter.type} groups={groups} onChange={type=>onChange({type})}/>
       <select aria-label="图鉴收集筛选" value={filter.owned} onChange={e=>onChange({owned:e.target.value as DexFilter['owned']})}>
-        {DEX_OWNED_FILTERS.map(name=><option key={name}>{name}</option>)}
+        {OWNED_FILTERS.map(name=><option key={name}>{name}</option>)}
       </select>
     </div>
   </div>;
 }
 
-function DexEntry({species,name,onLocate}:{species:SpeciesView;name:SpeciesName;onLocate:Locate}) {
+function DexEntry({species,view,onLocate}:{species:SpeciesView;view:DexEntryView;onLocate:Locate}) {
   return <>
     <div className="dex-entry-hero">
       <div className="dex-entry-art"><CreatureArt species={species.id} name={species.name}/></div>
@@ -79,13 +95,13 @@ function DexEntry({species,name,onLocate}:{species:SpeciesView;name:SpeciesName;
     </div>
     <BaseStats stats={species.baseStats}/>
     <p className="management-hint">种族值是此种精灵的基础能力。个体值、等级、学习力和性格共同决定伙伴的实际属性。</p>
-    <DexAcquisition view={dexAcquisitionView(species.id,name)} onLocate={onLocate}/>
+    <DexAcquisition view={view} onLocate={onLocate}/>
   </>;
 }
 
-function BaseStats({stats}:{stats:Stats}) {
+function BaseStats({stats}:{stats:StatBlock}) {
   return <>
-    <div className="stat-table-heading"><strong>种族值</strong><span>总和 <b>{STAT_KEYS.reduce((sum,key)=>sum+stats[key],0)}</b></span></div>
+    <div className="stat-table-heading"><strong>种族值</strong><span>总和 <b>{statTotal(stats)}</b></span></div>
     <table className="management-stat-table dex-base-table">
       <thead><tr><th scope="col">能力</th><th scope="col">种族值</th><th scope="col">分布</th></tr></thead>
       <tbody>{STAT_KEYS.map(key=><tr key={key}>
@@ -96,7 +112,7 @@ function BaseStats({stats}:{stats:Stats}) {
   </>;
 }
 
-function DexAcquisition({view,onLocate}:{view:DexAcquisitionView;onLocate:Locate}) {
+function DexAcquisition({view,onLocate}:{view:DexEntryView;onLocate:Locate}) {
   return <div className="dex-acquisition-routes"><strong>家族获取方式</strong>
     {view.family&&<><p className="management-hint">{view.family.summary}</p><p className="management-hint">家族形态：{view.family.members}</p></>}
     <p className="management-hint">{view.description}</p>

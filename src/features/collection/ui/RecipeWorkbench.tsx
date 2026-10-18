@@ -2,18 +2,20 @@
 // the outcome table and a confirm bar, all styled by fusion.css.
 import {useEffect,useState,type ReactNode} from 'react';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
+import type {ParentPairs} from '../view.ts';
 
 /**
- * The chosen recipe, its two parent uids and the last attempt's result. An `initialId` naming a known
- * recipe selects it; the parents and result clear whenever the recipe changes.
+ * The chosen recipe row, its two parent uids, whether the row accepts that pair, and the last attempt's result. An `initialId`
+ * naming a known recipe selects it; the parents and result clear whenever the recipe changes.
  */
-export function useRecipeWorkbench<Recipe extends {id:string},Result>(recipes:readonly Recipe[],initialId?:string) {
-  const [recipeId,setRecipeId]=useState(initialId??recipes[0]?.id??'');
+export function useRecipeWorkbench<Row extends {recipe:{id:string};pairs:ParentPairs},Result>(rows:readonly Row[],initialId?:string) {
+  const [recipeId,setRecipeId]=useState(initialId??rows[0]?.recipe.id??'');
   const [first,setFirst]=useState(''),[second,setSecond]=useState(''),[result,setResult]=useState<Result|null>(null);
-  const recipe:Recipe|undefined=recipes.find(entry=>entry.id===recipeId)??recipes[0];
-  useEffect(()=>{if(initialId&&recipes.some(entry=>entry.id===initialId))setRecipeId(initialId)},[initialId]);
-  useEffect(()=>{setFirst('');setSecond('');setResult(null)},[recipe?.id]);
-  return {recipe,setRecipeId,first,setFirst,second,setSecond,result,setResult};
+  const row:Row|undefined=rows.find(entry=>entry.recipe.id===recipeId)??rows[0];
+  useEffect(()=>{if(initialId&&rows.some(entry=>entry.recipe.id===initialId))setRecipeId(initialId)},[initialId]);
+  useEffect(()=>{setFirst('');setSecond('');setResult(null)},[row?.recipe.id]);
+  const valid=!!row?.pairs.some(([a,b])=>a===first&&b===second);
+  return {row,setRecipeId,first,setFirst,second,setSecond,valid,result,setResult};
 }
 
 interface RecipeButtonProps {
@@ -31,7 +33,7 @@ export function RecipeHeading({kicker,name,note}:{kicker:string;name:string;note
   return <div className="fusion-heading"><div><small>{kicker}</small><h3>{name}</h3></div><span>{note}</span></div>;
 }
 
-export interface ParentOption {value:string;label:string;disabled?:boolean}
+export interface ParentOption {value:string;label:string}
 interface ParentCardProps {
   id:string;label:string;heading:ReactNode;art:ReactNode;value:string;disabled:boolean;onChange:(uid:string)=>void;
   placeholder:string;options:ParentOption[];requirement:string;children?:ReactNode;
@@ -43,7 +45,7 @@ export function ParentCard({id,label,heading,art,value,disabled,onChange,placeho
     <div className="fusion-parent-art">{art}</div>
     <select id={id} aria-label={`选择${label}`} disabled={disabled} value={value} onChange={event=>onChange(event.target.value)}>
       <option value="">{placeholder}</option>
-      {options.map(option=><option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
+      {options.map(option=><option key={option.value} value={option.value}>{option.label}</option>)}
     </select>
     <p className="fusion-parent-requirement">{requirement}</p>
     {children}

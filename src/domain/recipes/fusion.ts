@@ -23,9 +23,6 @@ export interface FusionRecipe {
   probabilityBasis: 'remake';
 }
 export interface FusionParent { species: number; level: number }
-export type FusionParentPolicy = 'retain' | 'consume-secondary' | 'consume-both';
-/** User-approved policy: keep both actual parents and generate only the spirit bead. */
-export const FUSION_PARENT_POLICY: FusionParentPolicy = 'retain';
 
 /** User-facing remake calibration, independently adjustable from source-backed pairs. */
 export const FUSION_RARE_PROBABILITIES = { karu: 5, hige: 5 } as const;

@@ -9,6 +9,8 @@ export async function runFusionAudit() {
   const definitions = new Map(catalog.species.map(species => [Number(species.id), species]));
   const game = createGame(structuredClone(catalog));
   const baseline = game.exportSave();
+  const offers = (recipeId: string, first: string, second: string) => game.snapshot().fusion.recipes.find(row => row.recipe.id === recipeId)!.pairs
+    .some(([a, b]) => a === first && b === second);
   const rows: string[] = [];
   for (const recipe of FUSION_RECIPES) {
     assert(Math.abs(recipe.outcomes.reduce((sum, outcome) => sum + outcome.weight, 0) - 100) < 1e-10);
@@ -25,6 +27,7 @@ export async function runFusionAudit() {
     game.dispatch({ type: 'cheatAcquire', species: recipe.secondary[0], level: 5 });
     const secondary = game.snapshot().monsters.at(-1)!;
     assert(canFuseParents(recipe, primary, secondary));
+    assert(offers(recipe.id, primary.uid, secondary.uid), 'The snapshot offers the owned parent pair.');
     const before = JSON.parse(game.exportSave());
     const expected = chooseFusionOutcome(recipe, new Rng(before.rng_state).next());
     const itemId = fusionBeadItemId(expected.species);
@@ -62,8 +65,10 @@ export async function runFusionAudit() {
   const invalidBefore = JSON.parse(game.exportSave());
   game.dispatch({ type: 'fuse', recipeId: 'fusion-301', primaryUid: parents[0].uid, secondaryUid: parents[0].uid });
   assert.deepEqual(JSON.parse(game.exportSave()), invalidBefore, 'Rejected pair consumes no item or RNG.');
+  assert(!offers('fusion-301', parents[0].uid, parents[0].uid) && offers('fusion-301', parents[0].uid, parents[1].uid), 'A monster never pairs with itself.');
   game.dispatch({ type: 'fuse', recipeId: 'fusion-301', primaryUid: game.snapshot().monsters[0].uid, secondaryUid: parents[1].uid });
   assert.deepEqual(JSON.parse(game.exportSave()), invalidBefore, 'An unevolved starter cannot serve as the primary.');
+  assert(!offers('fusion-301', game.snapshot().monsters[0].uid, parents[1].uid), 'The snapshot offers no pair the controller rejects.');
   game.dispatch({ type: 'fuse', recipeId: 'fusion-301', primaryUid: parents[0].uid, secondaryUid: parents[1].uid });
   game.dispatch({ type: 'useItem', uid: parents[0].uid, itemId: fusionBeadItemId(301) });
   assert.equal(game.snapshot().party.length, 6);

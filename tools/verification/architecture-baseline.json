@@ -28,10 +28,6 @@
       "lines": 0,
       "long": 1
     },
-    "src/domain/acquisition/acquisition.ts": {
-      "lines": 0,
-      "long": 1
-    },
     "src/domain/acquisition/recruitment.ts": {
       "lines": 0,
       "long": 3
@@ -127,14 +123,6 @@
     "src/features/challenges/ui/QuestPanel.tsx": {
       "lines": 0,
       "long": 8
-    },
-    "src/features/collection/dex-view.ts": {
-      "lines": 0,
-      "long": 1
-    },
-    "src/features/collection/ui/Fusion.tsx": {
-      "lines": 0,
-      "long": 1
     },
     "src/features/raising/ui/Raising.tsx": {
       "lines": 0,
