@@ -94,7 +94,7 @@ export function Game({controller:c}:{controller:GameController}){
   const campaign=campaignForAction(action);
   if(campaign){routes.openCampaign(campaign.id);return {ok:true}}
   if(startsBattle(action)){void battle.begin(action);return {ok:true}}
-  const before=c.snapshot(),done=c.dispatch(action),sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound);
+  const before=c.snapshot(),done=c.dispatch(action),sound=actionSound(action,done,before,c.snapshot());if(sound)gameAudio.playSfx(sound);
   return done;
  }}),[c]);
  function openTool(kind:WindowKind){

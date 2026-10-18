@@ -1,26 +1,15 @@
-import type { GameAction, GameSnapshot } from '../kernel/contract.ts';
+import type { DispatchResult, GameAction, GameSnapshot } from '../kernel/contract.ts';
 import type {GameSound} from '../shared/audio/game-audio.ts';
-type OutcomeSnapshot=Pick<GameSnapshot,'monsters'|'items'|'quests'|'expPool'>;
-/** Positive state transitions are authoritative; notices also describe rejected actions. */
-export function actionSound(action:GameAction,before:OutcomeSnapshot,after:OutcomeSnapshot):GameSound|null{
- if(action.type==='claimQuest'){
-  const claimed=(s:OutcomeSnapshot)=>s.quests.find(q=>q.id===action.questId)?.claimed;
-  return !claimed(before)&&claimed(after)?'reward':null;
- }
- if(action.type==='fuse'){
-  const gained=after.items.some(item=>item.id.startsWith('fusion_bead_')&&item.count>(before.items.find(old=>old.id===item.id)?.count??0));
-  return gained?'reward':null;
- }
- if(action.type==='breed')return after.monsters.some(mon=>!before.monsters.some(old=>old.uid===mon.uid))?'reward':null;
- if(action.type!=='useItem'&&action.type!=='allocateExp'&&action.type!=='evolve')return null;
+type OutcomeSnapshot=Pick<GameSnapshot,'monsters'|'items'>;
+/** The dispatch result says whether the action succeeded and what it created; only a level gain is read from the snapshots. */
+export function actionSound(action:GameAction,result:DispatchResult,before:OutcomeSnapshot,after:OutcomeSnapshot):GameSound|null{
+ if(!result.ok)return null;
+ if(action.type==='claimQuest'||action.type==='evolve')return 'reward';
+ // A fusion or breeding result over the six-copy allowance succeeds without creating anything.
+ if(action.type==='fuse'||action.type==='breed')return result.created?'reward':null;
+ if(action.type!=='useItem'&&action.type!=='allocateExp')return null;
+ if(action.type==='useItem'&&before.items.find(item=>item.id===action.itemId)?.kind==='essence')return 'reward';
  const old=before.monsters.find(mon=>mon.uid===action.uid),next=after.monsters.find(mon=>mon.uid===action.uid);
- if(action.type==='evolve')return old&&next&&old.species!==next.species?'reward':null;
- if(action.type==='useItem'){
-  const item=before.items.find(item=>item.id===action.itemId);
-  if(!item||item.count<1||(after.items.find(item=>item.id===action.itemId)?.count??0)>=item.count)return null;
-  if(item.kind==='essence'&&after.monsters.some(mon=>!before.monsters.some(old=>old.uid===mon.uid)))return 'reward';
- }
- if(action.type==='allocateExp'&&after.expPool>=before.expPool)return null;
  return old&&next&&next.level>old.level?'level-up':null;
 }
 export function battleLevelGained(initial:ReadonlyMap<string,number>,monsters:OutcomeSnapshot['monsters']):boolean{
