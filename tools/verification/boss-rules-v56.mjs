@@ -55,7 +55,7 @@ for(const boss of bosses){
         const fields=NATIVE_BOSS_RULE_FIELDS[value.rule];
         const unknown=Object.keys(value).filter(key=>!['rule','member',...(fields??[])].includes(key));
         if(!fields||unknown.length){entry.reason=`Unsupported native rule or fields: ${unknown.join(',')||value.rule}`;row.unsupported.push(entry);unexpected.push({boss:boss.id,...entry});}
-        else row.handled.push({...entry,implementation:'battle/core/src/battle.ts'});
+        else row.handled.push({...entry,implementation:'battle/core/src/engine/rules.ts'});
       }else if(policyFor(boss.id,value.id)?.disposition==='waived'){
         assert.equal(typeof scripts[value.id]?.[mode==='rule'?'install':'apply'],'function','waived script must be acknowledged explicitly');
       }
