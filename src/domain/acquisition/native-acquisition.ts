@@ -6,11 +6,6 @@ import type { AcquisitionCatalog, AcquisitionEncounter, AcquisitionSpecies } fro
 type EssenceSource = Pick<AcquisitionEncounter, 'reward_hatches' | 'reward' | 'team'>;
 /** Original infant reward bindings take precedence over the defeated final form; undefined only for an empty team. */
 const encounterEssenceSpecies = (boss: EssenceSource) => boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)?.species;
-export function resolveEncounterEssenceSpecies(boss: EssenceSource): number {
-  const species = encounterEssenceSpecies(boss);
-  if (species === undefined) throw new TypeError('An encounter with an empty team has no essence species.');
-  return species;
-}
 
 /** The controller redirects a field species that appears in a named (non-tower, non-dark-door) boss team. */
 export function interceptedFieldSpecies(bosses: readonly Pick<AcquisitionEncounter, 'id' | 'team'>[]): Set<number> {
