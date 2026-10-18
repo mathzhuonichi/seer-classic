@@ -23,12 +23,14 @@ export const TOOLBAR: { left: ToolbarTool[]; center: ToolbarTool; right: Toolbar
 
 /** Initial selections handed to a window when it opens. */
 export interface WindowFocus {
-  dexSpecies?: number; fusionRecipeId?: string; breedingRecipeId?: string; bagPocket?: string;
+  dexSpecies?: number; fusionRecipeId?: string; breedingRecipeId?: string;
+  /** The bag pocket to open, and the item to select in it. */
+  bag?: { pocket: string; itemId?: string };
   questId?: string; facilityId?: string; challengeCategory?: ChallengeCategoryId;
 }
 /** Opening a window from the toolbar clears the selection it was last opened with. */
 export const TOOLBAR_RESETS: Partial<Record<WindowKind, keyof WindowFocus>> = {
-  quests: 'questId', monsters: 'fusionRecipeId', bag: 'bagPocket', challenge: 'challengeCategory',
+  quests: 'questId', monsters: 'fusionRecipeId', bag: 'bag', challenge: 'challengeCategory',
 };
 
 /** A navigation request from a scene, as a page string: a window, `campaign:<id>`, `facilities:<id>` or a Tower action. */

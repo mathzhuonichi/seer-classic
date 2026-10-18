@@ -10,7 +10,7 @@ import './QuestPanel.css';
 const PAGE_SIZE=2;
 type QuestFilter='all'|'ready'|'pending';
 
-export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:{c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;onOpenBag?:()=>void}){
+export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:{c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;onOpenBag?:(itemId:string)=>void}){
  const quests=useGame(c,s=>s.quests),bosses=useGame(c,s=>s.bosses),activeBattle=useGame(c,battleActive);
  const focused=quests.find(quest=>quest.id===focusQuestId);
  const [group,setGroup]=useState<QuestView['group']>(focused?.group??'journey');
@@ -56,7 +56,7 @@ export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOp
     {!claimed&&quest.blockedReason&&<p className="quest-blocked">{quest.blockedReason}</p>}
     <footer className="quest-card-footer"><span>{conditions.length?'条件':'任务进度'} {quest.progress}</span><button className="primary" disabled={!claimable||activeBattle} onClick={()=>claim(quest)}>{claimed?'已领取':quest.rewardItemId?'领取精元':'领取精灵'}</button></footer>
     {feedback?.questId===quest.id&&<p className="quest-feedback" role="status">{feedback.message}</p>}
-    {quest.rewardHeld&&onOpenBag&&<button className="quest-hatch-link" onClick={onOpenBag}>前往道具背包孵化 →</button>}
+    {quest.rewardHeld&&quest.rewardItemId&&onOpenBag&&<button className="quest-hatch-link" onClick={()=>onOpenBag(quest.rewardItemId!)}>前往道具背包孵化 →</button>}
    </article>;
   })}{!rows.length&&<p className="quest-empty">{query||filter!=='all'?'没有符合筛选条件的任务。':'这一分类暂时没有任务。'}</p>}</div>
   {activeBattle&&<p className="quest-battle-hint">请先结束当前战斗，再领取奖励。</p>}

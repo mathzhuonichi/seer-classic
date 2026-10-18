@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {bagItems,itemUseAction,itemUseFeedback,pocketItems} from './inventory-views.ts';
+import {bagItems,bagSelection,itemUseAction,itemUseFeedback,pageOf,pocketItems} from './inventory-views.ts';
 import {BATTLE_SUPPLY_CATEGORIES,battleSupplyLabel,itemCategoryOptions,itemKindLabel,itemPocket} from '../../shared/item-categories.ts';
 import {partyFirstMonsters,partyMonsters} from '../../shared/party-order.ts';
 
@@ -23,6 +23,15 @@ test('the bag lists a pocket by name, with recovery supplies before status cures
   assert.deepEqual(bagItems(pocketItems(items,'battle'),'battle','all','').map(i=>i.id),['b','a','c']);
   assert.deepEqual(pocketItems(items,'other').map(i=>i.id),['t']);
   assert.deepEqual(bagItems(pocketItems(items,'battle'),'battle','all','甲').map(i=>i.id),['a']);
+});
+
+test('the bag shows the first item until a pick, and nothing once the pick runs out',()=>{
+  const items=[item({id:'a'}),item({id:'b'}),item({id:'c'})],page=items.slice(1);
+  assert.equal(bagSelection(items,page,'')?.id,'b','nothing picked yet: the page\'s first item');
+  assert.equal(bagSelection(items,page,'a')?.id,'a');
+  assert.equal(bagSelection(items.slice(1),page,'a'),undefined,'the picked item ran out: no other item is selected');
+  assert.equal(bagSelection([],[],''),undefined);
+  assert.deepEqual([pageOf(items,'a',2),pageOf(items,'c',2),pageOf(items,'gone',2)],[0,1,0]);
 });
 
 test('the confirm action follows the controller\'s use action and targets',()=>{

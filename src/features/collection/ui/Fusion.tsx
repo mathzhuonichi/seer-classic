@@ -23,7 +23,7 @@ function chance(recipe:FusionRecipe,outcome:FusionOutcome):string {
   return `${Number((outcome.weight/total*100).toFixed(2))}%`;
 }
 
-export default function Fusion({c,initialRecipeId,onOpenBeads}:{c:GameController;initialRecipeId?:string;onOpenBeads:()=>void}) {
+export default function Fusion({c,initialRecipeId,onOpenBeads}:{c:GameController;initialRecipeId?:string;onOpenBeads:(itemId?:string)=>void}) {
   const rows=useGame(c,s=>s.fusion.recipes),species=useGame(c,s=>s.species),monsters=useGame(c,s=>s.monsters),activeBattle=useGame(c,battleActive);
   const {row,setRecipeId,first:primaryUid,setFirst:setPrimaryUid,second:secondaryUid,setSecond:setSecondaryUid,valid,result,setResult}
     =useRecipeWorkbench<FusionRecipeRow,FusionResult>(rows,initialRecipeId);
@@ -61,7 +61,7 @@ export default function Fusion({c,initialRecipeId,onOpenBeads}:{c:GameController
       <ConfirmBar status={status} action="确认融合" disabled={!valid||activeBattle} onConfirm={fuse} feedback={result?.feedback}/>
       {result?.bead&&<div className="fusion-obtained"><span className="fusion-bead-symbol" aria-hidden="true">◉</span>
         <div><small>融合成功</small><strong>{result.bead.beadName} × 1</strong><span>可孵化为{name(result.bead.species)}</span></div>
-        <button className="primary" onClick={onOpenBeads}>前往孵化</button></div>}
+        <button className="primary" onClick={()=>onOpenBeads(fusionBeadItemId(result.bead!.species))}>前往孵化</button></div>}
     </>:<div className="management-empty">暂无融合配方。</div>}</div>
   </div>;
 }
@@ -84,7 +84,7 @@ function FusionIndex({rows,activeId,name,onSelect,onOpenBeads}:FusionIndexProps)
         statusClass={pairs.length?'ready':collectible?'':'blocked'} onClick={()=>onSelect(recipe.id)}/>)}
       {!shown.length&&<div className="management-empty">没有匹配的融合配方。</div>}
     </div>
-    <button className="fusion-bag-link" onClick={onOpenBeads}>查看我的元神珠</button>
+    <button className="fusion-bag-link" onClick={()=>onOpenBeads()}>查看我的元神珠</button>
   </aside>;
 }
 
