@@ -27,7 +27,7 @@ These are measured on the 10-core development Mac. The ones marked *gate* become
 
 | Path | Budget | Today |
 | --- | --- | --- |
-| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p50 0.8 ms, max 2.4 ms |
+| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p95 0.8–0.9 ms on a new journey, 2.3–2.6 ms with 200 monsters (7 ms before the row memos) |
 | Player clicks a move → first battle frame | ≤ 50 ms (*gate*) | +91 ms p50 / +176 ms p95: the search AI decides synchronously inside `resolveTurn` |
 | Search AI decision, run while the player is choosing | p95 ≤ 250 ms (*gate*) | 91 / 176 ms |
 | Cold start: catalog load + `createGame` | ≤ 100 ms (*gate*) | 7 + 29 ms |

@@ -147,24 +147,59 @@ export async function verifyEngravingOptionInputs(){
   return {checks:steps.map(([action])=>action.type)};
 }
 
+/** A collection of `size` monsters: mixed species and levels, every fifth raised to Lv 100 with an engraving, an EXP boost and a bead. */
+function collectionSave(catalog:CatalogData,size:number):string{
+  const game=createGame(catalog,''),species=catalog.species.map(row=>Number(row.id));
+  for(let i=0;game.snapshot().monsters.length<size&&i<size*4;i++)
+    game.dispatch({type:'cheatAcquire',species:species[Math.floor(i/3)*7919%species.length],level:1+i*37%100});
+  for(const mon of game.snapshot().monsters.filter((_,index)=>index%5===4)){
+    game.dispatch({type:'cheatMonster',uid:mon.uid,level:100});
+    const option=game.engravingOptions(mon.uid).find(option=>option.ready&&(option.equipMode==='unlimited'||option.canBuy));
+    if(option?.canBuy)game.dispatch({type:'buyEngraving',engravingId:option.id});
+    if(option)game.dispatch({type:'setEngraving',uid:mon.uid,slot:option.slot,engravingId:option.id});
+  }
+  const monsters=game.snapshot().monsters;
+  for(const itemId of ['item_exp_x2','item_bead_atk_20'])assert(game.dispatch({type:'useItem',uid:monsters[0].uid,itemId}).ok,itemId);
+  assert.equal(monsters.length,size);
+  assert(monsters.filter(mon=>mon.engravings.ability||mon.engravings.skill).length>=size/10,'A tenth of the collection is engraved.');
+  return game.exportSave();
+}
+
 /**
- * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2).
- * It counts this thread's CPU time, so other suites running in parallel do not fail it; the best of three rounds counts.
+ * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2),
+ * on a new journey and on a collection of 200 monsters, for a mix of common actions. It counts this thread's CPU time, so other
+ * suites running in parallel do not fail it; the best of three rounds counts.
  */
 export async function verifyDispatchBudget(){
-  const game=createGame(await loadCatalog(),''),uid=game.snapshot().monsters[0].uid,rounds:number[]=[];
-  for(let round=0;round<3;round++){
-    const times:number[]=[];
-    for(let i=0;i<240;i++){
-      const started=process.threadCpuUsage();
-      game.dispatch(i%2?{type:'rename',uid,name:`Budget${i%7}`}:{type:'dismissNotice'});
-      const used=process.threadCpuUsage(started);
-      if(i>=40)times.push((used.user+used.system)/1000);
+  const catalog=await loadCatalog(),saves={journey:'',collection:collectionSave(catalog,200)},p95:Record<string,number>={};
+  const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map<string,string>();
+  const storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,value);}};
+  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:storage});
+  try{
+    for(const [name,save] of Object.entries(saves)){
+      const game=createGame(catalog,save),uid=game.snapshot().party[0];
+      game.dispatch({type:'cheatResources',coins:1000000});game.dispatch({type:'cheatMonster',uid,level:50});
+      const skills=game.snapshot().monsters.find(mon=>mon.uid===uid)!.skills.map(skill=>skill.id),member=game.snapshot().party.at(-1)!;
+      const mix=(i:number):GameAction=>[{type:'rename',uid,name:`Budget${i%7}`},{type:'dismissNotice'},
+        {type:'equip',uid,skills:i%12<6?[...skills].reverse():skills},{type:'train',uid,stat:'atk',amount:1},{type:'party',uid:member,add:i%12>=6},
+        {type:'buyItem',itemId:'item_level_up_1',quantity:1}][i%6] as GameAction;
+      const rounds:number[]=[];
+      for(let round=0;round<3;round++){
+        const times:number[]=[];
+        for(let i=0;i<240;i++){
+          const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),used=process.threadCpuUsage(started);
+          assert(result.ok,`${name} ${action.type}: ${result.notice}`);
+          if(i>=40)times.push((used.user+used.system)/1000);
+        }
+        rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
+      }
+      p95[name]=Math.min(...rounds);
+      assert(p95[name]<=4,`${name}: dispatch p95 ${p95[name].toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
+      assert.equal(memory.size,1,`${name}: the save is written to storage.`);memory.clear();
     }
-    rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
+  }finally{
+    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }
-  const p95=Math.min(...rounds);
-  assert(p95<=4,`Dispatch p95 ${p95.toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
   return {p95};
 }
 
