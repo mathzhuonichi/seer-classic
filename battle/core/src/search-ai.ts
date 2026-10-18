@@ -10,8 +10,8 @@ import { observeOpponent, revealedOpponentSlots, type ModeledFoe } from './obser
 
 const SAMPLES = 8, HORIZON = 2, SACRIFICE_EXTRA = 2, BUDGET = 6000, MIN_SAMPLES = 2, MIN_SACRIFICE_SAMPLES = 4;
 const TRIM = 0.05, SOLVER_ITERATIONS = 4000, ALIVE = 0.35, RACE = 0.5, HEAL_STREAK_LIMIT = 5;
-/** Turns the active monster must have been in before a voluntary switch; 0 leaves switching to the search alone. */
-const SWITCH_GAP = 0;
+/** Turns the active monster must have been in before a voluntary switch (V47 gate; measured in design note 13). */
+const SWITCH_GAP = 2;
 const MEAN_ROLL = (RANDOM_MIN + RANDOM_MAX) / 2;
 
 type Style = NonNullable<AiSpec['style']>;
