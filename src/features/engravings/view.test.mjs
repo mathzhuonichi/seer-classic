@@ -1,31 +1,20 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  ENGRAVING_STAT_TABS,engravingAccessView,engravingCapNote,engravingMoveChoices,engravingShopProducts,engravingSlotCandidates,matchesEngravingTab,setEngravingAction,
+  ENGRAVING_STAT_TABS,engravingCapNote,engravingMoveChoices,engravingShopProducts,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,
+  setEngravingAction,transferHolder,
 } from './view.ts';
 
 const option=fields=>({id:'1',name:'体力刻印',slot:'ability',effect:'体力+60',levelMin:1,bound:false,statKeys:['hp'],era:'2013',ready:true,
-  maxOwned:2,stock:0,equipped:0,equippedHere:false,...fields});
+  maxOwned:2,stock:0,equipped:0,equippedHere:false,equipMode:'stock',owned:0,canBuy:true,...fields});
 const holders=[{uid:'a',name:'甲'},{uid:'b',name:'乙'}];
 const noFilter={slot:'all',kind:'all',stat:'',move:'',group:'',search:''};
 
-test('finite engravings move from another holder when stock is empty or the equip cap is reached',()=>{
-  const empty=engravingAccessView(option({equipped:1,equippedHolders:holders}),'a');
-  assert.deepEqual(empty.holders,[holders[1]]);
-  assert.equal(empty.moving,true);assert.equal(empty.source,holders[1]);assert.equal(empty.canEquip,true);
-  const capped=engravingAccessView(option({stock:1,equipped:2,equippedHolders:holders}),'c','a');
-  assert.equal(capped.moving,true);assert.equal(capped.source,holders[0]);
-  assert.equal(capped.owned,3);assert.equal(capped.full,true);
-  const stocked=engravingAccessView(option({stock:1,equipped:1,equippedHolders:holders}),'c');
-  assert.equal(stocked.moving,false);assert.equal(stocked.full,true);
-});
-
-test('equipped, unlimited and unavailable engravings never transfer',()=>{
-  assert.equal(engravingAccessView(option({equipped:1,equippedHere:true,equippedHolders:holders}),'a').moving,false);
-  const unlimited=engravingAccessView(option({unlimited:true,equipped:5,equippedHolders:holders}),'c');
-  assert.deepEqual([unlimited.moving,unlimited.canEquip,unlimited.full],[false,true,false]);
-  const none=engravingAccessView(option({}),'a');
-  assert.deepEqual([none.moving,none.canEquip,none.source],[false,false,undefined]);
+test('a transfer moves the chosen holder\'s copy, else the first holder\'s',()=>{
+  const moving=option({equipMode:'transfer',transferFrom:holders});
+  assert.equal(transferHolder(moving,'b'),holders[1]);assert.equal(transferHolder(moving,'gone'),holders[0]);
+  assert.equal(transferHolder(option({equipMode:'stock'}),'a'),undefined);
+  assert.deepEqual([moving,option({}),option({equippedHere:true})].map(equipButtonLabel),['确认移装','确认装备','已装备']);
 });
 
 test('setEngraving names a source only for a transfer',()=>{
@@ -45,10 +34,10 @@ test('shop products follow the slot-specific filters and list bound engravings f
   assert.deepEqual(engravingMoveChoices(all),[[7,'火花']]);
 });
 
-test('PetBag candidates exclude unready or unavailable engravings, and tabs combine scope with stats or groups',()=>{
-  const listed=engravingSlotCandidates([option({id:'stock',stock:1}),option({id:'held',equipped:1}),option({id:'none'}),option({id:'unready',stock:1,ready:false}),
-    option({id:'bound',bound:true,unlimited:true}),option({id:'skill',slot:'skill',stock:1})],'ability');
-  assert.deepEqual(listed.map(o=>o.id),['bound','stock','held']);
+test('PetBag candidates exclude unready engravings and those it cannot equip, and tabs combine scope with stats or groups',()=>{
+  const listed=engravingSlotCandidates([option({id:'stock'}),option({id:'here',equippedHere:true,equipMode:'blocked'}),option({id:'none',equipMode:'blocked'}),
+    option({id:'unready',ready:false}),option({id:'bound',bound:true,equipMode:'unlimited'}),option({id:'skill',slot:'skill'})],'ability');
+  assert.deepEqual(listed.map(o=>o.id),['bound','stock','here']);
   assert(matchesEngravingTab(option({statKeys:['spe']}),'ability','spe'));
   assert(!matchesEngravingTab(option({statKeys:['spe']}),'skill','spe'),'skill tabs are effect groups');
   assert(matchesEngravingTab(option({slot:'skill',group:'power'}),'skill','power'));

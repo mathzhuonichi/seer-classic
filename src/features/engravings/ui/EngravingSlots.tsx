@@ -8,8 +8,8 @@ import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
-  ENGRAVING_GROUP_SHORT_LABELS,ENGRAVING_STAT_TABS,engravingAccessView,engravingCapNote,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,
-  setEngravingAction,type EngravingSlot,
+  ENGRAVING_GROUP_SHORT_LABELS,ENGRAVING_STAT_TABS,engravingCapNote,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,
+  setEngravingAction,transferHolder,type EngravingSlot,
 } from '../view.ts';
 
 const TABS:Record<EngravingSlot,readonly (readonly [string,string])[]>={
@@ -27,13 +27,8 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
   const candidates=openSlot?engravingSlotCandidates(c.engravingOptions(m.uid),openSlot):[];
   const categories=openSlot?TABS[openSlot].filter(([id])=>id==='all'||candidates.some(option=>matchesEngravingTab(option,openSlot,id))):[];
   const list=openSlot?candidates.filter(option=>matchesEngravingTab(option,openSlot,filter)):[];
-  const chosen=list.find(option=>option.id===selected),access=chosen&&engravingAccessView(chosen,m.uid,sourceUid);
-  function equip(slot:EngravingSlot,id:string,fromUid?:string) {
-    c.dispatch(setEngravingAction(m.uid,slot,id||null,fromUid));
-    const snapshot=c.snapshot(),after=snapshot.monsters.find(mon=>mon.uid===m.uid)?.engravings?.[slot];
-    setFeedback(!id?(after?snapshot.notices[0]??'刻印未卸下。':'已卸下刻印。')
-      :after?.id===id?`已装备${after.name}。`:snapshot.notices[0]??'刻印未装备，请重新选择。');
-  }
+  const chosen=list.find(option=>option.id===selected),source=chosen&&transferHolder(chosen,sourceUid);
+  const equip=(slot:EngravingSlot,id:string,fromUid?:string)=>setFeedback(c.dispatch(setEngravingAction(m.uid,slot,id||null,fromUid)).notice??'');
   return <section className="raising-engravings" aria-label="刻印" onKeyDown={event=>{if(event.key==='Escape')setOpenSlot(null)}}>
     <div className="engraving-equipped-grid">{ENGRAVING_SLOTS.map(slot=>{
       const current=m.engravings?.[slot]??null,label=ENGRAVING_SLOT_LABELS[slot];
@@ -57,12 +52,12 @@ export default function EngravingSlots({m,c}:{m:MonsterView;c:GameController}) {
           onSelect={()=>{setSelected(option.id);setSourceUid('');setFeedback('')}}>{engravingCapNote(option)}</ItemTile>)}
         {!list.length&&<p className="management-empty">没有可用刻印，可前往商城补充。</p>}
       </div>
-      {chosen&&access&&<div className="engraving-selection-detail"><strong>{chosen.name}</strong><span>{chosen.effect}</span>
-        {access.moving&&<EngravingTransferSource holders={access.holders} value={access.source?.uid??''} onChange={setSourceUid}/>}
+      {chosen&&<div className="engraving-selection-detail"><strong>{chosen.name}</strong><span>{chosen.effect}</span>
+        {source&&<EngravingTransferSource holders={chosen.transferFrom!} value={source.uid} onChange={setSourceUid}/>}
         <div className="engraving-picker-confirm">
-          <small>{chosen.equippedHere?'当前已装备':access.moving?`从${access.source?.name}移装到${m.name}`:`装备到${m.name}`}</small>
-          <button className="primary" disabled={chosen.equippedHere} onClick={()=>equip(openSlot,chosen.id,access.moving?access.source?.uid:undefined)}>
-            {equipButtonLabel(chosen,access.moving)}</button></div></div>}
+          <small>{chosen.equippedHere?'当前已装备':source?`从${source.name}移装到${m.name}`:`装备到${m.name}`}</small>
+          <button className="primary" disabled={chosen.equipMode==='blocked'} onClick={()=>equip(openSlot,chosen.id,source?.uid)}>
+            {equipButtonLabel(chosen)}</button></div></div>}
     </div>}
     {feedback&&<p className="management-feedback" role="status">{feedback}</p>}
   </section>;

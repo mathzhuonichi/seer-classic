@@ -1,6 +1,6 @@
 // Action handlers for buying, equipping and moving engravings.
 import { findMon } from '../../../raising/core/index.ts';
-import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
+import { engravingAccess, equipMode } from '../../domain/engravings/engraving-access.ts';
 import { engravingBlockedReason, engravingById, ENGRAVING_SLOTS, type EngravingDefinition } from '../../domain/engravings/engravings.ts';
 import { engravingHolder, equippedEngravingCounts, equippedEngravings } from './loadout.ts';
 import { notice, type ActionHandler, type Feature, type Runtime } from '../../kernel/api.ts';
@@ -21,19 +21,14 @@ const buyEngraving: ActionHandler<'buyEngraving'> = (rt, action) => {
   notice(rt, `${def.name.zh} ×1 已放入刻印库存。`);
 };
 
-/**
- * The holder a finite engraving moves from: the requested one, or another holder when no spare copy is in stock
- * or every copy is equipped. Undefined means the copy comes from stock.
- */
+/** The holder a finite engraving moves from: the requested one, else one by its equip mode; undefined takes a copy from stock. */
 function transferSource(rt: Runtime, def: EngravingDefinition, uid: string, fromUid: string | undefined): string | undefined {
-  const { save } = rt, access = engravingAccess(def), stock = save.game.engravingStock;
+  const { save } = rt, equipped = equippedEngravingCounts(save)[def.id] ?? 0;
   const holders = save.storage.filter(holder => holder.uid !== uid && equippedEngravings(save, holder.uid).includes(def.id));
-  const atLimit = (equippedEngravingCounts(save)[def.id] ?? 0) >= access.maxOwned;
-  const source = fromUid ?? (!stock[def.id] || atLimit ? holders[0]?.uid : undefined);
-  if (source && !holders.some(holder => holder.uid === source)) throw new Error('来源精灵未装备此刻印。');
-  if (!source && atLimit) throw new Error(`${def.name.zh}最多同时装备 ${access.maxOwned} 个。`);
-  if (!source && !stock[def.id]) throw new Error(`${def.name.zh}库存不足，请先在商城补充。`);
-  return source;
+  if (fromUid && !holders.some(holder => holder.uid === fromUid)) throw new Error('来源精灵未装备此刻印。');
+  const mode = equipMode(def, save.game.engravingStock[def.id] ?? 0, equipped, holders.length), { maxOwned } = engravingAccess(def);
+  if (mode === 'blocked') throw new Error(equipped >= maxOwned ? `${def.name.zh}最多同时装备 ${maxOwned} 个。` : `${def.name.zh}库存不足，请先在商城补充。`);
+  return fromUid ?? (mode === 'transfer' ? holders[0].uid : undefined);
 }
 
 const setEngraving: ActionHandler<'setEngraving'> = (rt, action) => {
@@ -56,7 +51,7 @@ const setEngraving: ActionHandler<'setEngraving'> = (rt, action) => {
   }
   else if (def && !engravingAccess(def).unlimited && !--stock[def.id]) delete stock[def.id];
   save.game.modules[mon.uid] = { ...save.game.modules[mon.uid], engravings: [...equipped.filter(id => id !== previous), ...(def ? [def.id] : [])] };
-  notice(rt, def ? `${mon.nickname ?? rt.ctx.speciesName(mon.species)}${sourceUid ? '移装' : '装备'}了${def.name.zh}。` : '已卸下刻印。');
+  notice(rt, def ? `${mon.nickname || rt.ctx.speciesName(mon.species)}${sourceUid ? '移装' : '装备'}了${def.name.zh}。` : '已卸下刻印。');
 };
 
 export const engravingActions = { buyEngraving, setEngraving } satisfies Feature<EngravingsAction>['actions'];

@@ -8,8 +8,8 @@ import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
 import EngravingTransferSource from './EngravingTransferSource.tsx';
 import {ENGRAVING_SLOT_LABELS} from '../../../shared/labels.ts';
 import {
-  ENGRAVING_STAT_TABS,engravingAccessView,engravingCapNote,engravingHolderNames,engravingMoveChoices,engravingShopProducts,equipButtonLabel,setEngravingAction,
-  type EngravingAccessView,type EngravingShopFilter,
+  ENGRAVING_STAT_TABS,engravingCapNote,engravingHolderNames,engravingMoveChoices,engravingShopProducts,equipButtonLabel,setEngravingAction,transferHolder,
+  type EngravingShopFilter,
 } from '../view.ts';
 import {partyFirstMonsters} from '../../../shared/party-order.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
@@ -30,19 +30,14 @@ export default function EngravingShop({s,c}:{s:GameSnapshot;c:GameController}) {
   const equippable=c.engravingOptions(monster.uid).filter(option=>option.ready),products=engravingShopProducts(equippable,filter);
   const moves=engravingMoveChoices(equippable);
   const groups=ENGRAVING_EFFECT_GROUPS.filter(([id])=>equippable.some(option=>option.slot==='skill'&&option.group===id));
-  const item=products.find(option=>option.id===selected)??products[0],access=item&&engravingAccessView(item,monster.uid,sourceUid);
+  const item=products.find(option=>option.id===selected)??products[0],source=item&&transferHolder(item,sourceUid);
   const inBattle=battleActive(s);
   const refine=(patch:Partial<EngravingShopFilter>)=>{setFilter(f=>({...f,...patch}));setSelected('');setFeedback('');setSourceUid('')};
-  const after=(id:string)=>c.engravingOptions(monster.uid).find(option=>option.id===id);
   function buy(){
-    if(!item||!access||item.unlimited||access.full||inBattle)return;
-    c.dispatch({type:'buyEngraving',engravingId:item.id});
-    setFeedback(after(item.id)?.stock===item.stock+1?`${item.name} ×1 已放入刻印库存。`:c.snapshot().notices[0]??'购买未完成。');
+    if(item?.canBuy&&!inBattle)setFeedback(c.dispatch({type:'buyEngraving',engravingId:item.id}).notice??'');
   }
   function equip(){
-    if(!item||!access?.canEquip||item.equippedHere||inBattle)return;
-    c.dispatch(setEngravingAction(monster.uid,item.slot,item.id,access.moving?access.source?.uid:undefined));
-    setFeedback(after(item.id)?.equippedHere?`${monster.name}已装备${item.name}。`:c.snapshot().notices[0]??'装备未完成。');
+    if(item&&item.equipMode!=='blocked'&&!inBattle)setFeedback(c.dispatch(setEngravingAction(monster.uid,item.slot,item.id,source?.uid)).notice??'');
   }
   return <div className="item-shop-inner engraving-shop">
     <div className="engraving-shop-filters">
@@ -71,20 +66,20 @@ export default function EngravingShop({s,c}:{s:GameSnapshot;c:GameController}) {
         {!products.length&&<p className="management-empty">{equippable.length?'没有符合筛选条件的刻印。':`${monster.name}当前没有可装备的刻印。`}</p>}
       </div>
     </aside>
-    <div className="shop-detail-scroll">{item&&access?<EngravingDetail monster={monster} item={item} access={access} inBattle={inBattle} feedback={feedback}
+    <div className="shop-detail-scroll">{item?<EngravingDetail monster={monster} item={item} source={source} inBattle={inBattle} feedback={feedback}
       onBuy={buy} onEquip={equip} onSource={setSourceUid}/>:<p className="management-empty">选择刻印查看效果与库存。</p>}</div>
   </div>;
 }
 
 interface DetailProps {
-  monster:MonsterView; item:EngravingView; access:EngravingAccessView; inBattle:boolean; feedback:string;
+  monster:MonsterView; item:EngravingView; source?:{uid:string;name:string}; inBattle:boolean; feedback:string;
   onBuy:()=>void; onEquip:()=>void; onSource:(uid:string)=>void;
 }
 
 /** One engraving: its effect, the free restock of finite copies, and equipping or moving it to the monster. */
-function EngravingDetail({monster,item,access,inBattle,feedback,onBuy,onEquip,onSource}:DetailProps) {
-  const slot=ENGRAVING_SLOT_LABELS[item.slot],current=monster.engravings?.[item.slot]??null,{moving,source,full,canEquip}=access;
-  const target=`${moving?`从${source?.name}移装至`:'装备到'}${monster.name} · ${slot}孔${current?`，替换${current.name}`:''}${!canEquip?'（请先补充）':''}`;
+function EngravingDetail({monster,item,source,inBattle,feedback,onBuy,onEquip,onSource}:DetailProps) {
+  const slot=ENGRAVING_SLOT_LABELS[item.slot],current=monster.engravings?.[item.slot]??null,moving=item.equipMode==='transfer';
+  const target=`${moving?`从${source?.name}移装至`:'装备到'}${monster.name} · ${slot}孔${current?`，替换${current.name}`:''}${item.equipMode==='blocked'?'（请先补充）':''}`;
   return <>
     <div className="shop-product-heading">
       <div className="shop-product-art engraving-product-art" aria-hidden="true"><ItemIcon id={item.id} engraving label={item.name} size={36}/></div>
@@ -95,11 +90,11 @@ function EngravingDetail({monster,item,access,inBattle,feedback,onBuy,onEquip,on
       {!item.unlimited&&<> · 上限 <b>{item.maxOwned}</b></>}</p>
     {!!item.equippedHolders?.length&&<p className="engraving-equipped-line">装备于：{engravingHolderNames(item)}</p>}
     {!item.unlimited&&<div className="management-confirm-row">
-      <span className={full?'shop-order-blocked':''}>{inBattle?'请先结束当前战斗':full?`已持有 ${access.owned} 个，达到上限`:'每次免费补充 1 个'}</span>
-      <button className="primary" disabled={full||inBattle} onClick={onBuy}>免费补充 ×1</button></div>}
-    {moving&&<EngravingTransferSource className="engraving-transfer-source" holders={access.holders} value={source?.uid??''} onChange={onSource}/>}
+      <span className={item.canBuy?'':'shop-order-blocked'}>{inBattle?'请先结束当前战斗':item.canBuy?'每次免费补充 1 个':`已持有 ${item.owned} 个，达到上限`}</span>
+      <button className="primary" disabled={!item.canBuy||inBattle} onClick={onBuy}>免费补充 ×1</button></div>}
+    {moving&&<EngravingTransferSource className="engraving-transfer-source" holders={item.transferFrom!} value={source?.uid??''} onChange={onSource}/>}
     <div className="management-confirm-row"><span>{item.equippedHere?`${monster.name}已装备此刻印。`:target}</span>
-      <button disabled={!canEquip||item.equippedHere||inBattle} onClick={onEquip}>{equipButtonLabel(item,moving)}</button></div>
+      <button disabled={item.equipMode==='blocked'||inBattle} onClick={onEquip}>{equipButtonLabel(item)}</button></div>
     {feedback&&<p className="shop-feedback" role="status">{feedback}</p>}
   </>;
 }

@@ -9,8 +9,14 @@ export interface EngravingView {
   id: string; name: string; slot: 'ability' | 'skill'; effect: string; levelMin: number; bound: boolean; moveName?: string; moveIds?: number[];
   /** Skill engravings: classifier group (ENGRAVING_EFFECT_GROUPS). Ability engravings: raised stats. */
   group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
-  /** Effective remake cap, preserved legacy stock, and holders available for direct transfer. */
+  /** Effective remake cap, preserved legacy stock, equipped copies and every holder. */
   maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
+  /** What equipping it here does: needs no copy, takes one from stock, moves one from `transferFrom`, or cannot (no copy, or held here). */
+  equipMode: 'unlimited' | 'stock' | 'transfer' | 'blocked';
+  /** Transfer mode: the other holders a copy can move from, the first by default. */
+  transferFrom?: {uid:string;name:string}[];
+  /** Copies in stock or equipped, which count against `maxOwned`; `canBuy` while a finite one is below it. */
+  owned: number; canBuy: boolean;
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings?: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
