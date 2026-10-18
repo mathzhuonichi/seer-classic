@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -35,6 +36,16 @@ def selected(path):
     if path.is_symlink():
         raise ValueError(f"Refusing symbolic link: {relative}")
     return path.is_file()
+
+
+def unpacked_tracked_files(source):
+    """Git-tracked files outside public/ that the source selection leaves out; none outside a Git checkout."""
+    if not (ROOT / ".git").exists():
+        return []
+    tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True).stdout.decode()
+    packed = {path.relative_to(ROOT).as_posix() for path in source}
+    return sorted(name for name in tracked.split("\0")
+                  if name and not name.startswith("public/") and (ROOT / name).is_file() and name not in packed)
 
 
 def instructions(revision):
@@ -127,6 +138,9 @@ def main():
     source = sorted(set(source))
     if any(not selected(path) for path in source):
         parser.error("A required source file is absent or excluded")
+    left_out = unpacked_tracked_files(source)
+    if left_out:
+        parser.error("Add these tracked files to SOURCE_FILES or SOURCE_DIRECTORIES: " + ", ".join(left_out))
     assets = sorted(path for path in (ROOT / "public").rglob("*") if selected(path))
     groups = [(name + "-source.zip", source), (name + "-assets-1-of-2.zip", []),
               (name + "-assets-2-of-2.zip", [])]
