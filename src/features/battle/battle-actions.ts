@@ -3,6 +3,7 @@ import { Rng, type BossEncounter } from '../../../battle/core/src/index.ts';
 import { createMonster, findMon } from '../../../raising/core/index.ts';
 import { NPC_ONLY_SPECIES } from '../../domain/acquisition/acquisition.ts';
 import { createFacilityEncounter } from '../../domain/challenges/battle-facilities.ts';
+import { isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
 import { braveTowerFloor } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS } from '../../domain/challenges/challenge-campaigns.ts';
 import { WORLD_PLANETS } from '../../domain/world/world.ts';
@@ -10,9 +11,9 @@ import { ensureAcquisitionCapacity, ensureSpeciesCapacity } from '../../kernel/a
 import { DEFAULT_WILD_SPECIES, NO_STAMINA_MESSAGE, towerEncounter } from './battle-setup.ts';
 import { playTurn, startBattle } from './battle-session.ts';
 import { TRAINER_CAPTURE_MESSAGE } from './battle-view.ts';
-import {isRegularEncounter} from '../collection/index.ts';
 import {campaignProgress, stageRequirement} from '../challenges/index.ts';
-import { battleInProgress, notice, requireSession, type ActionHandler, type ActionHandlers, type Runtime } from '../../kernel/api.ts';
+import { battleInProgress, notice, requireSession, type ActionHandler, type Feature, type Runtime } from '../../kernel/api.ts';
+import type { BattleAction } from './feature.ts';
 
 
 /** Recruit-only species are met at the lead's level, and never below this minimum. */
@@ -127,4 +128,4 @@ export const battleActions = {
     if (battleInProgress(rt)) throw new Error('请先结束战斗。');
     rt.session = null;
   },
-} satisfies Partial<ActionHandlers>;
+} satisfies Feature<BattleAction>['actions'];

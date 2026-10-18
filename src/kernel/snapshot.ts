@@ -1,37 +1,23 @@
-// The immutable snapshot the components render.
+// The immutable snapshot the components render: the union of the registered features' slices.
 import type { GameSnapshot } from './contract.ts';
-import {battleView} from '../features/battle/index.ts';
 import type { GameContext } from './context.ts';
-import {catalogViews} from '../features/collection/index.ts';
-import {createInventoryViews, createShopViews} from '../features/items/index.ts';
-import {monsterView} from '../features/raising/index.ts';
-import {campaignViews, towerView} from '../features/challenges/index.ts';
-import {questViews} from '../features/challenges/index.ts';
 import type { Runtime } from './api.ts';
+import { FEATURES } from './features.ts';
 import { reuseUnchanged } from './structural-sharing.ts';
 
 /**
- * Builds a snapshot function whose catalogue rows are created once and reused while unchanged. Every slice and row that equals
- * the previous snapshot's keeps its identity. The snapshot object itself is new on every build, because a screen may also read
- * controller state that no slice carries (`engravingOptions`).
+ * Builds a snapshot function from every feature's slice builder. Every slice and row that equals the previous snapshot's keeps
+ * its identity. The snapshot object itself is new on every build, because a screen may also read controller state that no slice
+ * carries (`engravingOptions`).
  */
 export function createSnapshotBuilder(ctx: GameContext): (rt: Runtime) => GameSnapshot {
-  const catalog = catalogViews(ctx), inventory = createInventoryViews(ctx), shop = createShopViews(ctx);
-  const natures = ctx.catalog.natures.map(nature => ({ id: String(nature.id), name: (nature.name as { zh: string }).zh }));
-  const traits = ctx.availableTraits.map(trait => ({ id: trait.id, name: trait.name, description: trait.description }));
+  const slices = FEATURES.flatMap(feature => feature.slice ? [feature.slice(ctx)] : []);
   let previous: GameSnapshot | undefined;
   return rt => {
-    const { save, session } = rt;
-    // An unsettled battle shows the battle's own inventory and supply access.
-    const live = session && !session.settled ? session.battle.sides[0] : undefined;
-    const items = live?.items ?? save.items, unlimited = live?.unlimitedItems ?? ctx.unlimitedItemIds;
-    const next: GameSnapshot = {
-      monsters: save.storage.map(mon => monsterView(ctx, save, mon)), party: [...save.party], campaigns: campaignViews(ctx, save),
-      braveTower: towerView(ctx, save), facilities: ctx.facilityViews,
-      bosses: catalog.bosses(save.progress.bosses_cleared, save.progress.boss_attempts), species: catalog.species(save.dex.owned),
-      quests: questViews(ctx, save), battle: session ? battleView(rt, session) : null, expPool: save.exp_pool, coins: save.game.coins,
-      notices: [...rt.notices], natures, traits, items: inventory(items, unlimited, session?.battle ?? null), shopItems: shop(save, items),
-    };
+    const parts = slices.map(slice => slice(rt)), next = Object.assign({}, ...parts) as GameSnapshot;
+    if (!previous && Object.keys(next).length !== parts.reduce((count, part) => count + Object.keys(part).length, 0)) {
+      throw new Error('two features build the same snapshot field');
+    }
     previous = previous ? { ...reuseUnchanged(previous, next) } : next;
     return previous;
   };

@@ -7,7 +7,8 @@ import { traits } from '../../domain/traits.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
 import { acquire, boundedAutoEvolve, ensureSpeciesCapacity } from '../../kernel/acquire.ts';
 import { TRAINING_COST_PER_EV } from '../../domain/economy.ts';
-import { commit, notice, replaceMonster, type ActionHandler, type ActionHandlers } from '../../kernel/api.ts';
+import { commit, notice, replaceMonster, type ActionHandler, type Feature } from '../../kernel/api.ts';
+import type { RaisingAction } from './feature.ts';
 
 
 /** The editor's default level for an added monster. */
@@ -111,4 +112,4 @@ export const raisingActions = {
     if (action.coins !== undefined) rt.save.game.coins = Math.max(0, Math.floor(action.coins));
     if (action.expPool !== undefined) rt.save.exp_pool = Math.max(0, Math.floor(action.expPool));
   },
-} satisfies Partial<ActionHandlers>;
+} satisfies Feature<RaisingAction>['actions'];

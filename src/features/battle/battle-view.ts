@@ -6,9 +6,8 @@ import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
 import { capacityReason, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import {skillView} from '../raising/index.ts';
 import type { BattleSession, Runtime } from '../../kernel/api.ts';
-import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
+import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
 export function battleMonsterView(ctx: GameContext, session: BattleSession, mon: Mon): BattleMonsterView {
   const original = mon.side === 0 ? session.appearances.get(mon.slot) : undefined;

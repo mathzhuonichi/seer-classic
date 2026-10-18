@@ -16,3 +16,6 @@ export function bossEncounterForAttempt(boss:BossEncounter,attempts:number):Boss
   const level=Math.max(floor,Math.floor(start!+step!*count));
   return {...boss,team:boss.team.map(member=>({...member,level}))};
 }
+
+/** Tower and dark-door encounters are not where a species is met or recruited. */
+export const isRegularEncounter = (boss: { id: string }) => !boss.id.includes('tower') && !boss.id.includes('dark_door');

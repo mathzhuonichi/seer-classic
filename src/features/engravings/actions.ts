@@ -3,7 +3,8 @@ import { findMon } from '../../../raising/core/index.ts';
 import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
 import { engravingBlockedReason, engravingById, ENGRAVING_SLOTS, type EngravingDefinition } from '../../domain/engravings/engravings.ts';
 import { engravingHolder, equippedEngravingCounts, equippedEngravings } from './loadout.ts';
-import { notice, type ActionHandler, type ActionHandlers, type Runtime } from '../../kernel/api.ts';
+import { notice, type ActionHandler, type Feature, type Runtime } from '../../kernel/api.ts';
+import type { EngravingsAction } from './feature.ts';
 
 
 const buyEngraving: ActionHandler<'buyEngraving'> = (rt, action) => {
@@ -58,4 +59,4 @@ const setEngraving: ActionHandler<'setEngraving'> = (rt, action) => {
   notice(rt, def ? `${mon.nickname ?? rt.ctx.speciesName(mon.species)}${sourceUid ? '移装' : '装备'}了${def.name.zh}。` : '已卸下刻印。');
 };
 
-export const engravingActions = { buyEngraving, setEngraving } satisfies Partial<ActionHandlers>;
+export const engravingActions = { buyEngraving, setEngraving } satisfies Feature<EngravingsAction>['actions'];

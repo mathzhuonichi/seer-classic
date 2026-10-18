@@ -3,7 +3,7 @@ import type { Battle, BossEncounter, Rng } from '../../battle/core/src/index.ts'
 import { putMon, type Monster, type Save } from '../../raising/core/index.ts';
 import type { GameSave } from './save.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
-import type { GameAction } from './contract.ts';
+import type { Created, GameAction } from './contract.ts';
 import type { BattlePresentationFrame } from '../shared/views.ts';
 import type { GameContext } from './context.ts';
 
@@ -67,5 +67,16 @@ export function requireSession(rt: Runtime): BattleSession {
   return rt.session;
 }
 
-export type ActionHandler<T extends GameAction['type']> = (rt: Runtime, action: Extract<GameAction, { type: T }>) => void;
-export type ActionHandlers = { [T in GameAction['type']]: ActionHandler<T> };
+/** A handler returns nothing, or what it created; failures throw, and `dispatch` turns them into notices. */
+export type HandlerResult = void | { created: Created };
+export type ActionHandler<T extends GameAction['type']> = (rt: Runtime, action: Extract<GameAction, { type: T }>) => HandlerResult;
+
+/** One feature's registration (architecture-v2 §5); `kernel/features.ts` lists them, and dispatch and the snapshot fold over them. */
+export interface Feature<A extends { type: string }, S extends object = Record<never, never>> {
+  /** One handler per action type the feature owns. */
+  readonly actions: { readonly [T in A['type']]: (rt: Runtime, action: Extract<A, { type: T }>) => HandlerResult };
+  /** Action types that stay available while a battle is unresolved. */
+  readonly inBattle?: readonly A['type'][];
+  /** Creates the feature's slice builder once per game, so it may keep catalogue caches. */
+  readonly slice?: (ctx: GameContext) => (rt: Runtime) => S;
+}

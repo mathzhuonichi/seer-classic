@@ -1,6 +1,6 @@
 // Catalogue views: encounters, their opponents and rewards, and the species collection.
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
-import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
+import { bossEncounterForAttempt, isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import {buildBossEncounterEvidence, buildBossEvidence} from '../challenges/index.ts';
 import { createCatalogViews } from './catalog-views.ts';
@@ -11,8 +11,6 @@ import { portrait, typeLabel } from '../../shared/view-common.ts';
 
 type EncounterExtras = { location?: { zh?: string }; strategy_notes?: { zh?: string } | string };
 
-/** Tower and dark-door encounters are not where a species is met or recruited. */
-export const isRegularEncounter = (boss: { id: string }) => !boss.id.includes('tower') && !boss.id.includes('dark_door');
 
 export function opponentViews(ctx: CatalogContext, encounter: BossEncounter): EncounterOpponentView[] {
   return encounter.team.map((mon, slot) => ({
