@@ -1,19 +1,16 @@
 /** Source-pinned NPC ability training, encounter boundaries, and owner-only passives. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createServer} from 'vite';
+import path from 'node:path';
+import {memoryStorage,root,suite,withSsr} from './_harness.mjs';
 
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[];
-const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-const keys=['hp','atk','def','spa','spd','spe'];
-try {
+memoryStorage();
+await withSsr('npc-training-v45',async load=>{
+  const t=suite('npc-training-v45'),{check}=t,keys=['hp','atk','def','spa','spd','spe'];
   const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize,npcTrainingProfileView:view},{npcTrainingScripts},{createFacilityEncounter,facilityPool},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
     '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
-  ].map(path=>server.ssrLoadModule(path)));
-  const catalog=await loadCatalog(),before=JSON.stringify(catalog),profileData=JSON.parse(fs.readFileSync('data/npc-training-profiles.json','utf8'));
+  ].map(load));
+  const catalog=await loadCatalog(),before=JSON.stringify(catalog),profileData=JSON.parse(fs.readFileSync(path.join(root,'data/npc-training-profiles.json'),'utf8'));
   const core=catalog.trainers.find(row=>row.id==='trainer_trained_core'),fast=catalog.trainers.find(row=>row.id==='trainer_fast_pressure');
   const normalized=normalize(catalog,core),data=buildDataSet(catalog),scripts={...SEER_SCRIPTS,...npcTrainingScripts};
   const ordinary=mon=>computeStats(data.species.get(mon.species).base,mon.level,mon.iv,mon.evs,data.natures.get(mon.nature));
@@ -71,7 +68,7 @@ try {
     assert.throws(()=>normalize(catalog,{...structuredClone(core),rules:[{rule:'script',id:'npc_gaia_blood_seal'}]}));
   });
 
-  const noop=990900,attack=990901,special=990902,miss=990903,multi=990904,statusDamage=990905,electric=990906,fixed=990907;
+  const noop=990900,attack=990901,special=990902,miss=990903,multi=990904,statusDamage=990905,electric=990906,fixed=990907,cut342=990908,cut343=990909;
   const fixtureSkills=[
     {id:noop,category:'status',target:'self',power:0,effects:[]},
     {id:attack,category:'physical',power:20,effects:[]},
@@ -81,6 +78,7 @@ try {
     {id:statusDamage,category:'status',target:'foe',power:0,effects:[{op:'fixed_damage',amount:10}]},
     {id:electric,category:'special',type:'electric',power:20,effects:[]},
     {id:fixed,category:'physical',power:0,effects:[{op:'fixed_damage',amount:10}]},
+    ...[[cut342,342],[cut343,343]].map(([id,amount])=>({id,category:'physical',power:0,priority:99,effects:[{op:'fixed_damage',amount}]})),
   ].map(s=>({name:{zh:'NPC training fixture'},type:'normal',accuracy:null,pp:99,crit_rate:0,...s}));
   const fixtureData=buildDataSet({...catalog,skills:[...catalog.skills,...fixtureSkills]});
   function fixture(profile='gaia-blood-seal',move=attack,targetSpecies=1) {
@@ -145,13 +143,19 @@ try {
       assert(!mon.conditions.some(c=>c.id.startsWith('npc_gaia_')));
     }
   });
-  const {createGame}=await server.ssrLoadModule('/src/game.ts');
+  const {createGame}=await load('/src/game.ts');
   check('Direct controller start and facility start both produce Rei HP343 without doubling training',()=>{
-    const saved=createGame(catalog,'').exportSave();
+    // Trainer HP shows only as a whole-percent bar, so exact first-strike fixed hits measure it:
+    // 342 damage leaves Rei standing on the smallest bar and 343 knocks it out, so its HP is exactly 343.
+    const saved=JSON.parse(createGame(catalog,'').exportSave()),lead=saved.storage.find(m=>m.uid===saved.party[0]),input={...catalog,skills:[...catalog.skills,...fixtureSkills]};
+    lead.skills=[cut342,cut343];lead.learned=[...lead.learned,cut342,cut343];lead.pp={[cut342]:99,[cut343]:99};
     for(const action of [{type:'startBattle',bossId:core.id},{type:'startFacility',facilityId:'classic',teamId:core.id}]){
-      const game=createGame(catalog,saved),playerBefore=game.snapshot().monsters.map(m=>({uid:m.uid,stats:m.stats,learned:m.learned}));
+      const reiAfter=skillId=>{const game=createGame(input,JSON.stringify(saved));game.dispatch(action);game.dispatch({type:'move',skillId});return game.snapshot().battle.enemyParty.find(m=>m.species===70);};
+      const scratched=reiAfter(cut342),down=reiAfter(cut343);
+      assert.equal(scratched.fainted,false);assert.equal(scratched.hp,1,'1 HP left shows the smallest bar');assert.equal(down.fainted,true);
+      const game=createGame(input,JSON.stringify(saved)),playerBefore=game.snapshot().monsters.map(m=>({uid:m.uid,stats:m.stats,learned:m.learned}));
       game.dispatch(action);const state=game.snapshot();assert(state.battle,JSON.stringify(state.notices));
-      assert.equal(state.battle.enemy.species,70);assert.equal(state.battle.enemy.hp,343);assert.equal(state.battle.enemy.maxHp,343);
+      assert.equal(state.battle.enemy.species,70);assert.equal(state.battle.enemy.hp,100,'a full trainer bar');
       assert.deepEqual(state.monsters.map(m=>({uid:m.uid,stats:m.stats,learned:m.learned})),playerBefore);
       const member=state.facilities.find(f=>f.id==='classic').teams.find(t=>t.id===core.id).opponents[0];
       assert.equal(member.baseTotal,532);assert.equal(member.training.equivalentBaseTotal,612);assert.equal(member.training.label,'能力特训完成');
@@ -163,13 +167,11 @@ try {
     mon.level=100;mon.exp=0;mon.iv=31;mon.nature='hardy';mon.skills=[noop];mon.learned=[noop];mon.pp={[noop]:99};mon.hp=computeStats(data.species.get(mon.species).base,100,31,mon.evs,data.natures.get('hardy')).hp;
     saved.party=[mon.uid];saved.game.traits={};
     const inputFor=(profile,skill,hp)=>({...catalog,skills:[...catalog.skills,...fixtureSkills],trainers:catalog.trainers.map(t=>t.id===core.id?{...structuredClone(t),team:[{species:261,level:100,iv:31,evs:{hp:255,atk:255},nature:'hardy',skills:[skill],...(profile?{training_profile:profile}:{}),...(hp?{hp}:{}),role:{zh:'Fixture'}},...t.team.filter(m=>m.species!==261)],ai:{kind:'sequence',skills:[skill]}}:t)});
-    const blood=createGame(inputFor('gaia-blood-seal',noop,300),JSON.stringify(saved));blood.dispatch({type:'startBattle',bossId:core.id});assert.equal(blood.snapshot().battle.enemy.hp,300);blood.dispatch({type:'move',skillId:noop});assert.equal(blood.snapshot().battle.enemy.hp,320);
+    const bar=hp=>Math.round(hp/414*100);// Gaia's 414 maximum HP as the trainer's whole-percent bar
+    const blood=createGame(inputFor('gaia-blood-seal',noop,300),JSON.stringify(saved));blood.dispatch({type:'startBattle',bossId:core.id});assert.equal(blood.snapshot().battle.enemy.hp,bar(300));blood.dispatch({type:'move',skillId:noop});assert.equal(blood.snapshot().battle.enemy.hp,bar(320));
     const losses=[];for(const profile of ['gaia-evil-seal','']){const game=createGame(inputFor(profile,attack),JSON.stringify(saved));game.dispatch({type:'startBattle',bossId:core.id});const hp=game.snapshot().battle.player.hp;game.dispatch({type:'move',skillId:noop});losses.push(hp-game.snapshot().battle.player.hp);}
     assert.equal(losses[0],losses[1]+30);
   });
   check('Source catalog and all original reward definitions remain unchanged after every fixture',()=>assert.equal(JSON.stringify(catalog),before));
-}catch(error){failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  fs.mkdirSync('artifacts/npc-training-v45',{recursive:true});fs.writeFileSync('artifacts/npc-training-v45/regression.json',JSON.stringify({checks,failures},null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,failures},null,2));await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;if(failures.length)process.exitCode=1;
-}
+  t.finish();
+});

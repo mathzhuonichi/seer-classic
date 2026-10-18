@@ -1,6 +1,5 @@
-import type {AcquisitionAllowance} from '../game-types.ts';
-
 export const SPECIES_COPY_LIMIT = 6;
+export interface AcquisitionAllowance {owned:number;reserved:number;remaining:number;limit:number}
 export interface AcquisitionStock {
   storage: readonly {uid:string;species:number}[];
   items: Readonly<Record<string,number>>;

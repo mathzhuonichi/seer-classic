@@ -3,6 +3,9 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { NPC_ONLY_SPECIES as NPC } from '../../src/progression/acquisition-model.ts';
+import { ancestorsOf, buildPredecessors } from '../../src/progression/species-graph.ts';
+import { loadCatalogNode } from '../catalog.mjs';
 
 // Classify source-backed acquisition offers; do not invent historical repeat limits.
 // node tools/assets/build_acquisition_policy.mjs [--source-dir DIRECTORY] [--check]
@@ -60,16 +63,13 @@ for (const [id, kind] of Object.entries(files)) {
 function localSource(id, file, upstream) {
   sources.push({ id, file, sha256: hash(fs.readFileSync(path.join(root, file))), representation: 'audited-project-extraction', upstream });
 }
+const catalog = loadCatalogNode();
+// The recorded provenance is still the aggregate bundle; it must hold exactly the per-file species read here.
+assert.equal(JSON.stringify(read('data/gamedata.json').species), JSON.stringify(catalog.species), 'data/gamedata.json species differ from data/monsters');
 localSource('classic-catalog', 'data/gamedata.json');
-const catalog = read('data/gamedata.json');
 const byId = new Map(catalog.species.map(s => [s.id, s]));
 const byName = new Map(catalog.species.map(s => [s.name.zh, s.id]));
-const parents = new Map(catalog.species.map(s => [s.id, new Set()]));
-for (const s of catalog.species) {
-  if (byId.has(s.evolves_from)) parents.get(s.id).add(s.evolves_from);
-  for (const edge of s.evolution) if (byId.has(edge.to)) parents.get(edge.to).add(s.id);
-}
-const NPC = new Set([122, 123, 124, 125]);
+const parents = buildPredecessors(catalog.species);
 const roots = new Map();
 for (const s of catalog.species) if (!parents.get(s.id).size && !NPC.has(s.id)) {
   roots.set(s.id, { species: s.id, name: s.name.zh, categories: [], repeatability: 'unknown', evidence: [] });
@@ -77,18 +77,8 @@ for (const s of catalog.species) if (!parents.get(s.id).size && !NPC.has(s.id)) 
 const ancestry = new Map();
 function initialRoots(id) {
   if (!byId.has(id)) return [];
-  if (ancestry.has(id)) return ancestry.get(id);
-  const todo = [id], seen = new Set(), result = new Set();
-  for (let i = 0; i < todo.length; i++) {
-    const current = todo[i];
-    if (seen.has(current)) continue;
-    seen.add(current);
-    if (!parents.get(current).size) { if (roots.has(current)) result.add(current); }
-    else todo.push(...parents.get(current));
-  }
-  const values = [...result].sort((a, b) => a - b);
-  ancestry.set(id, values);
-  return values;
+  if (!ancestry.has(id)) ancestry.set(id, [id, ...ancestorsOf(id, parents)].filter(current => roots.has(current)).sort((a, b) => a - b));
+  return ancestry.get(id);
 }
 function add(id, categories, evidence) {
   id = Number(id);

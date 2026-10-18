@@ -27,9 +27,21 @@ export type FusionParentPolicy = 'retain' | 'consume-secondary' | 'consume-both'
 /** User-approved policy: keep both actual parents and generate only the spirit bead. */
 export const FUSION_PARENT_POLICY: FusionParentPolicy = 'retain';
 
-
 /** User-facing remake calibration, independently adjustable from source-backed pairs. */
 export const FUSION_RARE_PROBABILITIES = { karu: 5, hige: 5 } as const;
+
+/** Ordinary pairings share one bead and three equally likely infants (remake odds). */
+function normalFusion(primary: number, secondary: number[]): FusionRecipe {
+  const beadName = '米色元神珠';
+  return {
+    id: `fusion-normal-${primary}-${secondary[0]}`, name: '卡门兔 / 辛克 / 伊达', primary: [primary], secondary,
+    minPrimaryLevel: 1, minSecondaryLevel: 1, beadName,
+    outcomes: [325, 328, 330].map(species => ({ species, weight: 100 / 3, beadName })),
+    sources: ['https://news.4399.com/seer/jingyanxinde/201003-23-65200.html', 'https://news.4399.com/seer/jingyanxinde/201202-20-144032.html',
+      'https://news.4399.com/seer/jingyanxinde/201202-20-144016.html'],
+    probabilityBasis: 'remake',
+  };
+}
 
 /** No failure outcome, material cost, timer, or parent mutation is implemented here. */
 export const FUSION_RECIPES: readonly FusionRecipe[] = [
@@ -61,12 +73,12 @@ export const FUSION_RECIPES: readonly FusionRecipe[] = [
   {"id": "fusion-1267", "name": "瑞姆", "primary": [1194], "secondary": [1056, 1057], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "咖啡色元神珠", "outcomes": [{"species": 1267, "weight": 100, "beadName": "咖啡色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201207-13-176282.html"], "probabilityBasis": "remake"},
   {"id": "fusion-1448", "name": "瑞普", "primary": [147], "secondary": [133, 134, 135], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "红黄色元神珠", "outcomes": [{"species": 1448, "weight": 100, "beadName": "红黄色元神珠"}], "sources": ["https://news.4399.com/gonglue/seer/saiergonglue/201212-07-220416.html", "https://news.4399.com/news/seerwenda/242688.html"], "probabilityBasis": "remake"},
   {"id": "fusion-1487", "name": "霍迪斯", "primary": [1270], "secondary": [710, 711, 712], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "青紫色元神珠", "outcomes": [{"species": 1487, "weight": 100, "beadName": "青紫色元神珠"}], "sources": ["https://news.4399.com/gonglue/seer/saiergonglue/201301-11-229869.html", "https://news.4399.com/news/seerwenda/242688.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-121-205", "name": "卡门兔 / 辛克 / 伊达", "primary": [121], "secondary": [205, 206, 207], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-207-119", "name": "卡门兔 / 辛克 / 伊达", "primary": [207], "secondary": [119, 120, 121], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-34-205", "name": "卡门兔 / 辛克 / 伊达", "primary": [34], "secondary": [205, 206, 207], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-55-178", "name": "卡门兔 / 辛克 / 伊达", "primary": [55], "secondary": [178, 179, 180], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-166-77", "name": "卡门兔 / 辛克 / 伊达", "primary": [166], "secondary": [77, 78, 79], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-normal-15-43", "name": "卡门兔 / 辛克 / 伊达", "primary": [15], "secondary": [43, 44, 45], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
+  normalFusion(121, [205, 206, 207]),
+  normalFusion(207, [119, 120, 121]),
+  normalFusion(34, [205, 206, 207]),
+  normalFusion(55, [178, 179, 180]),
+  normalFusion(166, [77, 78, 79]),
+  normalFusion(15, [43, 44, 45]),
 ];
 
 export function canFuseParents(recipe: FusionRecipe, primary: FusionParent, secondary: FusionParent): boolean {

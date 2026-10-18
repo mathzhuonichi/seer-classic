@@ -1,27 +1,28 @@
 /** Focused replay of the original breeding allowlist and pure progression rules. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createServer } from 'vite';
-const server = await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
-try {
-  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await server.ssrLoadModule('/src/progression/breeding.ts');
-  const source = JSON.parse(fs.readFileSync('data/breeding.json'));
-  const xml = fs.readFileSync('.cache/breeding-v24/eggs-166.xml','utf8');
-  const original = [...xml.matchAll(/<Egg\s+([^>]+)\/>/g)].map(match => Object.fromEntries([...match[1].matchAll(/(\w+)="([^"]*)"/g)].map(m => [m[1],m[2]])));
-  const catalog = JSON.parse(fs.readFileSync('data/gamedata.json'));
-  const species = new Map(catalog.species.map(s => [s.id,s]));
-  const {EXCLUDED_RECRUITMENT_SPECIES: excluded} = await server.ssrLoadModule('/src/progression/spt-recruitment.ts');
-  assert.equal(recipes.length,8);
-  assert.equal(Object.keys(source.genderBySpecies).length,1483);
-  const petsXml=fs.readFileSync('.cache/paid-spt-recruitment-v23/core-binary-23.xml','utf8');
-  const originalPets=new Map([...petsXml.matchAll(/<Monster\s+([^>]+)>/g)].map(match=>{
-    const attrs=Object.fromEntries([...match[1].matchAll(/(\w+)="([^"]*)"/g)].map(m=>[m[1],m[2]]));
-    return [Number(attrs.ID),Number(attrs.Gender ?? 0)];
-  }));
-  for(const [id,value] of Object.entries(source.genderBySpecies))assert.equal(value,originalPets.get(Number(id)));
+import path from 'node:path';
+import {root,suite,withSsr} from './_harness.mjs';
 
+const attributes = text => Object.fromEntries([...text.matchAll(/(\w+)="([^"]*)"/g)].map(m => [m[1],m[2]]));
+await withSsr('breeding', async load => {
+  const t = suite('breeding');
+  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await load('/src/progression/breeding.ts');
+  const {buildExcludedRecruitmentSpecies} = await load('/src/progression/spt-recruitment.ts');
+  const catalog = await (await load('/src/mechanics/catalog.ts')).loadCatalog();
+  const species = new Map(catalog.species.map(s => [s.id,s])), excluded = buildExcludedRecruitmentSpecies(catalog);
+  const source = JSON.parse(fs.readFileSync(path.join(root, 'data/breeding.json'), 'utf8'));
+  const xml = fs.readFileSync(path.join(root, '.cache/breeding-v24/eggs-166.xml'),'utf8');
+  const original = [...xml.matchAll(/<Egg\s+([^>]+)\/>/g)].map(match => attributes(match[1]));
+  t.check('1,483 species genders match the original pet table', () => {
+    assert.equal(recipes.length,8);
+    assert.equal(Object.keys(source.genderBySpecies).length,1483);
+    const petsXml=fs.readFileSync(path.join(root, '.cache/paid-spt-recruitment-v23/core-binary-23.xml'),'utf8');
+    const originalPets=new Map([...petsXml.matchAll(/<Monster\s+([^>]+)>/g)].map(match=>{const attrs=attributes(match[1]);return [Number(attrs.ID),Number(attrs.Gender ?? 0)];}));
+    for(const [id,value] of Object.entries(source.genderBySpecies))assert.equal(value,originalPets.get(Number(id)));
+  });
   const checked = [];
-  for (const recipe of recipes) {
+  for (const recipe of recipes) t.check(`${recipe.id}: exact original pair, weighted initial offspring, Lv50 gates, identities and generation restriction`, () => {
     const row = original.find(row => Number(row.Id) === recipe.originalEggId);
     assert.deepEqual(recipe.maleSpecies,[Number(row.MaleMon)]);
     assert.deepEqual(recipe.femaleSpecies,[Number(row.FemaleMon)]);
@@ -57,9 +58,10 @@ try {
     }
     assert.throws(()=>choose(recipe,-1));assert.throws(()=>choose(recipe,1));assert.throws(()=>choose(recipe,NaN));
     checked.push(recipe);
-  }
-  assert.equal(find(3,6),undefined); assert.equal(find(450,450),undefined);
-  fs.mkdirSync('artifacts/breeding-v24',{recursive:true});
-  fs.writeFileSync('artifacts/breeding-v24/registry-verification.json',JSON.stringify({checkedRecipes:checked.length,recipes:checked},null,2)+'\n');
-  console.log('Verified 8 exact original mature pairs, all 24 weighted initial offspring entries, 1,483 species genders, Lv50 gates, distinct identities, generation restriction, and NPC/divine exclusions.');
-} finally { await server.close(); }
+  });
+  t.check('no recipe for unrelated or same-species pairs', () => {assert.equal(find(3,6),undefined); assert.equal(find(450,450),undefined);});
+  const out = path.join(root, 'artifacts/breeding-v24');
+  fs.mkdirSync(out,{recursive:true});
+  fs.writeFileSync(path.join(out, 'registry-verification.json'),JSON.stringify({checkedRecipes:checked.length,recipes:checked},null,2)+'\n');
+  t.finish({checkedRecipes:checked.length});
+});

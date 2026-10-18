@@ -100,11 +100,12 @@ A read-only survey of the repository at commit `3f332e7`, with the V57 planner r
 
 ## E. Documentation
 
-- **E1.** `design/foundation.md` describes a monorepo that does not exist, and says there is no world map. Rewrite it as a short `ARCHITECTURE.md`.
+- **E1.** `design/foundation.md` describes a monorepo that does not exist, and says there is no world map. Rewrite it as a short `ARCHITECTURE.md`. *Done: `ARCHITECTURE.md` replaces it.*
 - **E2.** `design/notes` holds 121 notes with no index.
   - Add `INDEX.md` with each note's status.
   - Move the README revision log to `CHANGELOG.md`.
   - Mark the V57 notes as superseded.
+  - *Done: `design/notes/INDEX.md` and `CHANGELOG.md`. The V57 trainer knockout notes are superseded by `trainer-search-ai-v58.md`; `boss-user-policies-v57.md` stays current, because the V58 planner does not cover Bosses.*
 - **E3.** `src` has 257 extensionless relative imports. Standardise on explicit `.ts`/`.tsx`, so that pure modules run under `node --test`.
 
 ## Ranked plan

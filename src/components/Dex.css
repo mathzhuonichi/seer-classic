@@ -1,5 +1,7 @@
 /* Use the actual window height: a wide viewport can still have a short game stage. */
 .dex-management{container:dex-manager / size}
+.dex-index .management-filter>div>.icon-type-filter{flex:1 1 56%;width:56%}
+.dex-index .management-filter>div:has(.icon-type-filter)>select{flex:1 1 40%;width:40%}
 
 @container dex-manager (max-height:390px){
   .dex-entry-hero{
