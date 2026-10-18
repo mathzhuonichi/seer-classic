@@ -1,11 +1,10 @@
 import { constrainHabitatPoint, type SceneLayout } from './map-presentation.ts';
-import { clamp, point, polygonBounds, type SceneBounds, type ScenePoint } from './scene-geometry.ts';
+import { clamp, point, polygonBounds, type SceneBounds, type ScenePoint, type Size } from './scene-geometry.ts';
 
 /** Wildlife wandering: one pure frame step per creature. Randomness is injected. */
 export type RoamRandom = () => number;
 export interface RoamLeg { from: ScenePoint; to: ScenePoint; control: ScenePoint | null; elapsed: number; duration: number }
 export interface RoamState { position: ScenePoint; rest: number; leg: RoamLeg | null; facing: 'left' | 'right' }
-export interface Size { width: number; height: number }
 /** One frame's CSS layout measurements: the scene, the creature host and its name label. */
 export interface RoamFrame { scene: Size; body: Size; labelHeight: number }
 export interface RoamContext {

@@ -1,4 +1,4 @@
-import { clamp, percentIn, point, type ScenePoint, type ScreenRect } from './scene-geometry.ts';
+import { clamp, percentIn, point, type ScenePoint, type ScreenRect, type Size } from './scene-geometry.ts';
 
 /** The player robot's walking geometry, in scene percentages unless noted. */
 export type RobotDirection = 'front' | 'back' | 'left' | 'right' | 'front-left' | 'front-right' | 'back-left' | 'back-right';
@@ -10,15 +10,17 @@ export const ARROW_STEPS: Readonly<Record<string, readonly [dx: number, dy: numb
 const MIN_WALK_MS = 320;
 /** Screen pixels kept between the robot and the scene edge, and between the robot and a contact's name. */
 const EDGE_MARGIN = 3, NAME_MARGIN = 6;
+/** The robot stands at this fraction of its box height; the name tag hangs below. */
+const ROBOT_FOOT = .95;
 
 export function robotDirection(dx: number, dy: number): RobotDirection {
   const views: RobotDirection[] = ['right', 'front-right', 'front', 'front-left', 'left', 'back-left', 'back', 'back-right'];
   return views[(Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8];
 }
 
-/** The robot stands at 95% of its box height; the name tag hangs below. */
+/** Where the robot stands, from its measured box. */
 export const robotFoot = (robot: ScreenRect, scene: ScreenRect) =>
-  percentIn(scene, robot.left + robot.width / 2, robot.top + robot.height * .95);
+  percentIn(scene, robot.left + robot.width / 2, robot.top + robot.height * ROBOT_FOOT);
 /** A creature host ends at its feet. */
 export const contactFoot = (contact: ScreenRect & { bottom: number }, scene: ScreenRect) =>
   percentIn(scene, contact.left + contact.width / 2, contact.bottom);
@@ -66,15 +68,15 @@ export function contactApproachPoint(from: ScenePoint, contact: ScenePoint, scen
   return { x: contact.x + (from.x - contact.x) * fraction, y: contact.y + (from.y - contact.y) * fraction };
 }
 
-type Size = { width: number; height: number };
 /** A box in scene pixels. */
 interface PixelBox { left: number; top: number; right: number; bottom: number }
 
-/** The robot foot points, in scene pixels, at which the robot (standing at 95% of its height) would cover a name. */
+/** The robot foot points, in scene pixels, at which the robot would cover a name. */
 function nameKeepOut(scene: ScreenRect, robot: Size, name: ScreenRect): PixelBox {
   return {
     left: name.left - scene.left - robot.width / 2 - NAME_MARGIN, right: name.left + name.width - scene.left + robot.width / 2 + NAME_MARGIN,
-    top: name.top - scene.top - robot.height * .05 - NAME_MARGIN, bottom: name.top + name.height - scene.top + robot.height * .95 + NAME_MARGIN,
+    top: name.top - scene.top - robot.height * (1 - ROBOT_FOOT) - NAME_MARGIN,
+    bottom: name.top + name.height - scene.top + robot.height * ROBOT_FOOT + NAME_MARGIN,
   };
 }
 const inside = (box: PixelBox, p: ScenePoint) => p.x > box.left && p.x < box.right && p.y > box.top && p.y < box.bottom;
@@ -96,7 +98,7 @@ export function clearOfName(stop: ScenePoint, contact: ScenePoint, scene: Screen
   const [ux, uy] = length ? [(at.x - origin.x) / length, (at.y - origin.y) / length] : [0, 1];
   const exit = rayExit(at, ux, uy, keepOut) + 1, outward = point(at.x + ux * exit, at.y + uy * exit);
   const visible = (p: ScenePoint) => p.x >= robot.width / 2 + EDGE_MARGIN && p.x <= scene.width - robot.width / 2 - EDGE_MARGIN
-    && p.y >= robot.height * .95 + EDGE_MARGIN && p.y <= scene.height - robot.height * .05 - EDGE_MARGIN;
+    && p.y >= robot.height * ROBOT_FOOT + EDGE_MARGIN && p.y <= scene.height - robot.height * (1 - ROBOT_FOOT) - EDGE_MARGIN;
   const sides = [point(keepOut.left - 1, at.y), point(keepOut.right + 1, at.y)].filter(visible)
     .sort((a, b) => Math.abs(a.x - at.x) - Math.abs(b.x - at.x));
   const clear = visible(outward) ? outward : sides[0];
@@ -120,6 +122,6 @@ export function visiblePlayerPoint(position: ScenePoint, scene: { width: number;
   const width = clamp(scene.width * .06, 40, 72), height = clamp(scene.width * .075, 50, 90) + 17;
   return point(
     clamp(position.x, (width / 2 + EDGE_MARGIN) / scene.width * 100, 100 - (width / 2 + EDGE_MARGIN) / scene.width * 100),
-    clamp(position.y, (height * .95 + EDGE_MARGIN) / scene.height * 100, 100 - (height * .05 + EDGE_MARGIN) / scene.height * 100),
+    clamp(position.y, (height * ROBOT_FOOT + EDGE_MARGIN) / scene.height * 100, 100 - (height * (1 - ROBOT_FOOT) + EDGE_MARGIN) / scene.height * 100),
   );
 }
