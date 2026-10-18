@@ -242,8 +242,7 @@
       "status": "gate"
     },
     "solo-challenges.ts": {
-      "status": "stale",
-      "note": "Already failing at V30."
+      "status": "gate"
     },
     "station-navigation-v53.mjs": {
       "status": "gate"

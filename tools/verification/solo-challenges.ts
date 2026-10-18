@@ -4,6 +4,7 @@ import {createBattle} from './_battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import {buildAcquisitionIndex} from '../../src/domain/acquisition/acquisition.ts';
+import {isSpeciesRepeatable} from '../../src/domain/acquisition/recruitment.ts';
 import type {AcquisitionCatalog} from '../../src/domain/acquisition/acquisition-model.ts';
 
 /** Real controller fixtures isolate ordinary entry and reward settlement from boss difficulty. */
@@ -26,7 +27,14 @@ export function runSoloChallengeAudit(){
     for(let turn=0;turn<4&&!game.snapshot().battle!.finished;turn++)game.dispatch({type:'move',skillId:skill.id});
     assert.equal(game.snapshot().battle!.won,true);const essence=Object.keys(easy.reward.items).find(item=>item.startsWith('essence_'))!;assert.equal(game.snapshot().items.find(item=>item.id===essence)?.count,1);
     game.dispatch({type:'closeBattle'});const restored=createGame(structuredClone(source),game.exportSave());restored.dispatch({type:'useItem',uid:restored.snapshot().party[0],itemId:essence});assert.equal(restored.snapshot().monsters.at(-1)!.species,infant);
-    const repeat=createGame(structuredClone(fixture),restored.exportSave());repeat.dispatch({type:'startBattle',bossId:id});for(let turn=0;turn<4&&!repeat.snapshot().battle!.finished;turn++)repeat.dispatch({type:'move',skillId:repeat.snapshot().battle!.player.skills.find(s=>s.power>0)!.id});assert.equal(repeat.snapshot().items.some(item=>item.id===essence),false,'Repeated victory does not regrant first-clear essence');
+    // A repeat clear grants the essence again for a repeatable species while the six-copy allowance has room.
+    const repeat=createGame(structuredClone(fixture),restored.exportSave());repeat.dispatch({type:'startBattle',bossId:id});
+    for(let turn=0;turn<4&&!repeat.snapshot().battle!.finished;turn++){
+      repeat.dispatch({type:'move',skillId:repeat.snapshot().battle!.player.skills.find(s=>s.power>0)!.id});
+    }
+    assert.equal(repeat.snapshot().battle!.won,true);assert.equal(isSpeciesRepeatable(infant),true);
+    assert.equal(repeat.snapshot().items.find(item=>item.id===essence)?.count,1,'A repeat victory grants one more essence');
+    assert.deepEqual(JSON.parse(repeat.exportSave()).progress.bosses_cleared.filter((cleared:string)=>cleared===id),[id],'The clear is recorded once');
   }
   const seville=source.bosses.find((boss:any)=>boss.id==='boss_spt_saiweier');
   assert.deepEqual(seville.rules.find((rule:any)=>rule.rule==='heal_full_below'),{rule:'heal_full_below',hp:200});
@@ -39,5 +47,6 @@ export function runSoloChallengeAudit(){
   const index=buildAcquisitionIndex(source as AcquisitionCatalog);assert.ok(index.get(412)!.routes.some(route=>route.bossId==='boss_spt_saiweier'));assert.ok(index.get(413)!.routes.some(route=>route.bossId==='boss_spt_saiweier'&&route.kind==='evolution'));
   assert.equal(source.species.find((s:any)=>s.id===412).evolution.find((e:any)=>e.to===413).level,32);
   for(const id of ['boss_campaign_qinglong_guardians','boss_puni_zhenshen','boss_campaign_xuanwu_body'])assert.ok(source.bosses.some((boss:any)=>boss.id===id),'Normal campaign enemies are retained');
-  console.log('Solo challenges passed: Seville/Qigesa entry for roster sizes1–6, one opponent, victory/essence/hatch/reload, first-clear-only rewards, Sevi level32 evolution route and absolute200HP healing/lethal boundaries.');
+  console.log('Solo challenges passed: Seville/Qigesa entry for roster sizes1–6, one opponent, victory/essence/hatch/reload, '+
+    'repeat clears regrant a repeatable essence, Sevi level32 evolution route and absolute200HP healing/lethal boundaries.');
 }
