@@ -25,26 +25,15 @@
  * tools/verification/parallel-shards.mjs runs all shards at once.
  */
 import fs from 'node:fs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {withSsr} from './_harness.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const quick = process.argv.includes('--quick');
 const jsonOut = process.argv.includes('--json') ? process.argv[process.argv.indexOf('--json') + 1] : undefined;
 const [shardIndex, shardCount] = process.argv.includes('--shard') ? process.argv[process.argv.indexOf('--shard') + 1].split('/').map(Number) : [0, 1];
-const previousFetch = globalThis.fetch;
 globalThis.fetch = () => { throw new Error('Clone fidelity verification must remain offline.'); };
 
-const server = await createServer({
-  root, configFile: false, cacheDir: path.join(root, 'artifacts/.validation-cache/battle-clone-fidelity-v58'),
-  server: {middlewareMode: true, watch: null, hmr: false, ws: false}, optimizeDeps: {noDiscovery: true, include: []},
-  appType: 'custom', logLevel: 'error',
-});
-
 let exitCode = 0;
-try {
-  const load = (id) => server.ssrLoadModule(id);
+await withSsr('battle-clone-fidelity-v58', async load => {
   const [core, {createBattle}, {cloneBattle}, {SEER_SCRIPTS}, facilities, {npcTrainingScripts}, {traitScripts, traits}, {campaignScripts}, {loadCatalog}, supplies, {normalizeNpcTrainingEncounter}] = await Promise.all([
     '/battle/core/src/index.ts', '/tools/verification/_battle.ts', '/battle/ai/src/clone.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/battle-facilities.ts',
     '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts', '/src/domain/challenges/campaign-rules.ts', '/src/domain/catalog/catalog.ts',
@@ -401,11 +390,8 @@ try {
   if (jsonOut) fs.writeFileSync(jsonOut, JSON.stringify(report, null, 2));
   if (report.mismatchCount) { console.error(`FAIL: ${report.mismatchCount} mismatches`); exitCode = 1; }
   else console.log(`PASS: ${report.battles} battles, ${report.turns} turns, ${report.extraCloneTurns} extra clone turns, 0 mismatches`);
-} catch (error) {
+}).catch(error => {
   console.error(error);
   exitCode = 1;
-} finally {
-  globalThis.fetch = previousFetch;
-  await server.close();
-}
+});
 process.exit(exitCode);
