@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {approachStop, clearOfName} from './world-walk.ts';
+import {approachStop, clearOfName, towerClimbed, towerStage} from './world-walk.ts';
 
 // A 1000x600 scene at the origin, a 60x100 robot standing at 95% of its height, and a contact at the scene centre
 // whose 120x16 name hangs 4px below its feet.
@@ -41,4 +41,16 @@ test('at the scene edge the robot steps aside rather than leave the scene', () =
   const stop = clearOfName({x: 50, y: 97}, low, scene, robot, label);
   assert.ok(clear(stop, label) && stop.y === 97, JSON.stringify(stop));
   assert.ok(pixels(stop).x - robot.width / 2 >= 0 && pixels(stop).x + robot.width / 2 <= scene.width);
+});
+
+test('a new Brave Tower floor or completion re-lands the robot, entering or leaving the tower does not', () => {
+  const first = towerStage({floor: 1, complete: false}), second = towerStage({floor: 2, complete: false});
+  const done = towerStage({floor: 2, complete: true}), outside = towerStage(undefined);
+  assert.equal(outside, '');
+  assert.equal(towerClimbed(first, second), true);
+  assert.equal(towerClimbed(second, done), true);
+  assert.equal(towerClimbed(done, first), true, 'choosing a new start after completion');
+  assert.equal(towerClimbed(second, second), false);
+  assert.equal(towerClimbed(outside, first), false, 'entering the tower keeps the landing it came by');
+  assert.equal(towerClimbed(second, outside), false, 'leaving the tower');
 });

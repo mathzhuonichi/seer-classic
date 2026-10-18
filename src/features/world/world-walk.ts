@@ -110,6 +110,11 @@ export function approachStop(from: ScenePoint, contact: ScenePoint, scene: Scree
   return { stop, immediate: Math.hypot((stop.x - from.x) * scene.width / 100, (stop.y - from.y) * scene.height / 100) < 1 };
 }
 
+/** A Brave Tower floor and its completion, or '' outside the tower. */
+export const towerStage = (tower?: { floor: number; complete: boolean }) => tower ? `${tower.floor}/${tower.complete}` : '';
+/** Whether the tower moved on to another floor or to completion since stage `shown`, rather than being entered or left. */
+export const towerClimbed = (shown: string, stage: string) => !!shown && !!stage && shown !== stage;
+
 /** At the image edge, keep the complete robot visible without moving the requested point. */
 export function visiblePlayerPoint(position: ScenePoint, scene: { width: number; height: number }): ScenePoint {
   const width = clamp(scene.width * .06, 40, 72), height = clamp(scene.width * .075, 50, 90) + 17;

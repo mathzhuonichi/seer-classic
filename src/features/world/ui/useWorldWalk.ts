@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState, type RefObject, type SyntheticEvent } from 'react';
 import { constrainScenePoint, getSceneLayout, type SceneLayout } from '../map-presentation.ts';
 import { point, type ScenePoint } from '../scene-geometry.ts';
-import { IDLE_WALK, approachStop, robotFoot, walkMotion, walkTiming, type RobotDirection } from '../world-walk.ts';
+import { IDLE_WALK, approachStop, robotFoot, towerClimbed, towerStage, walkMotion, walkTiming, type RobotDirection } from '../world-walk.ts';
 import { readWorldPreference, resolveWorldLocation, writeWorldPreference, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
 import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 
@@ -92,4 +92,16 @@ export function useWorldWalk() {
     setLandings(count => count + 1);
   }
   return { planet, region, layout, position, motion, player, landings, stop, walkTo, approach, visit };
+}
+
+/**
+ * Inside the Brave Tower, a new floor or completion re-lands the explorer (`land`), clear of the next guardian and its floor badge;
+ * entering the tower keeps the landing it came by (`enter`).
+ */
+export function useTowerLanding(tower: { floor: number; complete: boolean } | undefined, land: () => void, enter: () => void) {
+  const stage = towerStage(tower), shown = useRef(stage);
+  useEffect(() => {
+    const climbed = towerClimbed(shown.current, stage); shown.current = stage;
+    if (climbed) land(); else if (stage) enter();
+  }, [stage]);
 }

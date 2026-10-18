@@ -13,7 +13,8 @@ import ClassicRobot from './ClassicRobot.tsx';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
 import { sceneCovered } from './scene-cover.ts';
-import { useSceneFit, useWorldWalk } from './useWorldWalk.ts';
+import { useSceneKeys } from './useSceneKeys.ts';
+import { useSceneFit, useTowerLanding, useWorldWalk } from './useWorldWalk.ts';
 import { WorldDialogue, type WorldInteraction } from './WorldDialogue.tsx';
 import './world.css';
 
@@ -26,9 +27,6 @@ export interface WorldMapProps {
 /** Wildlife shown per scene, before scarce species stay single. */
 const SCENE_POPULATION = 6;
 const ARRIVAL_FLASH_MS = 380;
-/** The global arrow-key walk ignores keys meant for what covers the scene and for form fields. */
-const ignoresArrowKeys = (event: globalThis.KeyboardEvent) => event.defaultPrevented || sceneCovered()
-  || /^(INPUT|TEXTAREA|SELECT)$/.test((event.target as HTMLElement)?.tagName);
 const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`
   +`${planet.id==='space-station'?' world-station-scene':''}${tower?' world-tower-scene':''}`;
 
@@ -57,14 +55,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
   useEffect(()=>{if(battle){walker.stop();close()}},[battle]);
-  // A new floor starts at the tower entry, clear of the next guardian and its floor badge; entering the tower keeps the landing.
-  const towerStage=tower?`${tower.floor}/${tower.complete}`:'',shownTowerStage=useRef(towerStage);
-  useEffect(()=>{
-    const climbed=!!shownTowerStage.current&&shownTowerStage.current!==towerStage;shownTowerStage.current=towerStage;
-    if(!towerStage)return;
-    if(climbed){visit(planet,region);return}
-    walker.stop({duration:0});close();setArrival(true);
-  },[towerStage]);
+  useTowerLanding(tower,()=>visit(planet,region),()=>{walker.stop({duration:0});close();setArrival(true)});
   useEffect(()=>{
     if(!travelTo)return;
     const targetBoss=travelTo.bossId?bosses.find(boss=>boss.id===travelTo.bossId):undefined;
@@ -74,15 +65,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
       open(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
   },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
   const step=(key:string)=>{const delta=ARROW_STEPS[key];walkTo(position.x+delta[0],position.y+delta[1])};
-  useEffect(()=>{
-    const key=(event:globalThis.KeyboardEvent)=>{if(!battle&&ARROW_STEPS[event.key]&&!ignoresArrowKeys(event)){event.preventDefault();step(event.key)}};
-    window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
-  },[position.x,position.y,battle,layout]);
-  useEffect(()=>{
-    // Escape closes the dialogue wherever focus is. It is captured before the shell closes a window, so one press closes one layer.
-    const key=(event:globalThis.KeyboardEvent)=>{if(event.key==='Escape'&&!battle&&!sceneCovered()){walker.stop();close()}};
-    window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);
-  },[battle]);
+  useSceneKeys(battle,{step,dismiss:()=>{walker.stop();close()}});
 
   function walkClick(event:MouseEvent<HTMLDivElement>){
     const target=percentIn(event.currentTarget.getBoundingClientRect(),event.clientX,event.clientY);
