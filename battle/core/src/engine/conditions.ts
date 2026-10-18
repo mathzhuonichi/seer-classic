@@ -48,7 +48,10 @@ export function addCondition(b: Battle, target: Mon, def: ConditionDef, turns?: 
     existing.appliedTurn = appliedTurnFor(b, target);
     if (level) existing.level = level;
     if (charges !== undefined) existing.charges = stack === 'add' ? (existing.charges ?? 0) + charges : charges;
-    b.emit({ type: 'condition_refreshed', side: target.side, slot: target.slot, condition: def.id, turns: existing.turns });
+    b.emit({
+      type: 'condition_refreshed', side: target.side, slot: target.slot, name: target.name, conditionName: existing.def.name?.zh,
+      condition: def.id, turns: existing.turns,
+    });
     return true;
   }
   target.conditions.push({ id: def.id, def, turns: n, level, charges, appliedTurn: appliedTurnFor(b, target) });

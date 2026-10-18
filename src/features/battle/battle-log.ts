@@ -12,8 +12,13 @@ export interface BattleLogContext {
   hideEnemyHp?: boolean;
 }
 type Sided = { side: 0 | 1 };
-const conditionName = (id: string) => STATUS_LABELS[id] || (id && !/^(seer_|boss_|trait-|\d)/.test(id) && /[一-鿿]/.test(id) ? id : '技能效果');
-const conditionLabel = (event: { condition: string; conditionName?: string }) => event.conditionName || conditionName(event.condition);
+const CHINESE = /[一-鿿]/;
+const conditionName = (id: string) => STATUS_LABELS[id] || (id && !/^(seer_|boss_|trait-|\d)/.test(id) && CHINESE.test(id) ? id : '技能效果');
+type Named = { condition: string; conditionName?: string };
+/** The condition's Chinese name; Boss rule conditions are named by their rule ids, which are not shown. */
+const conditionLabel = (event: Named) => event.conditionName && CHINESE.test(event.conditionName) ? event.conditionName : conditionName(event.condition);
+/** The condition as "…效果", without doubling the fallback's own 效果. */
+const effectLabel = (event: Named) => { const label = conditionLabel(event); return label.endsWith('效果') ? label : `${label}效果`; };
 const stageLabel = (stat: StageKey) => STAGE_LABELS[stat] || '能力';
 /** The opposing side's events; events without a side belong to the player's line. */
 const onFoe = (event: BattleEvent) => 'side' in event && event.side === 1;
@@ -68,9 +73,9 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'switch_out': return `${name}返回精灵胶囊。`;
     case 'transform': return `${name}变为${speciesName(event, context) || '新的形态'}。`;
     case 'status_applied': return `${name}陷入${conditionName(event.status)}${lasting(event)}。`;
-    case 'condition_added': return `${name}获得${conditionLabel(event)}效果${lasting(event)}。`;
-    case 'condition_refreshed': return `${name}的${conditionLabel(event)}效果更新${Number.isFinite(event.turns) ? `为 ${event.turns} 回合` : ''}。`;
-    case 'condition_removed': return `${name}的${conditionLabel(event)}${event.reason === 'expired' ? '效果结束' : '已解除'}。`;
+    case 'condition_added': return `${name}获得${effectLabel(event)}${lasting(event)}。`;
+    case 'condition_refreshed': return `${name}的${effectLabel(event)}更新${Number.isFinite(event.turns) ? `为 ${event.turns} 回合` : ''}。`;
+    case 'condition_removed': return `${name}的${event.reason === 'expired' ? `${effectLabel(event)}结束` : `${conditionLabel(event)}已解除`}。`;
     case 'condition_tick': return `${name}的${conditionLabel(event)}在回合结束时生效。`;
     case 'stat_stage': return stageText(event, name);
     case 'stages_cleared': return `${name}的能力${event.which === 'up' ? '提升' : event.which === 'down' ? '下降' : '变化'}已清除。`;

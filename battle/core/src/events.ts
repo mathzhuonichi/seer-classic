@@ -36,10 +36,10 @@ interface EventFields {
   max_hp_changed: HpFields & { side: 0 | 1 };
   status_applied: ConditionEvent & { status: string };
   condition_added: ConditionEvent;
-  condition_refreshed: { side: 0 | 1; slot: number; condition: string; turns: number };
+  condition_refreshed: ConditionEvent;
   condition_removed: { side: 0 | 1; slot: number; name: string; conditionName?: string; condition: string; reason: 'expired' | 'removed' };
   condition_failed: { side: 0 | 1; condition: string; reason: 'already' };
-  condition_tick: { side: 0 | 1; condition: string };
+  condition_tick: { side: 0 | 1; slot: number; name: string; conditionName?: string; condition: string };
   status_blocked: { side: 0 | 1; status: string; reason: string };
   stat_stage: { side: 0 | 1; stat: StageKey; delta: number; stage: number; capped?: boolean; name?: string; reason?: 'critical' };
   stage_blocked: { side: 0 | 1; stat: StageKey };
