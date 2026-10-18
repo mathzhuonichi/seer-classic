@@ -10,8 +10,7 @@
   },
   "suites": {
     "acquisition-limits-controller.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
+      "status": "gate"
     },
     "architecture.mjs": {
       "status": "gate"

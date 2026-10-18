@@ -11,6 +11,7 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {Rng}=await load('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
  const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
+ const {SHOP_MAX_QUANTITY}=await load('/src/domain/economy.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
@@ -33,12 +34,13 @@ await withSsr('acquisition-limits-controller',async load=>{
   reject(g,{type:'claimQuest',questId:reward.questId},'2 held + 3 old aliases + 1 new essence must block a seventh copy');
   assert.equal(g.snapshot().quests.find(q=>q.id===reward.questId).allowance.remaining,0);
  });
- check('Shop enforces aggregate remaining allowance; ordinary quantities still reach 999',()=>{
+ check('Shop enforces aggregate remaining allowance; ordinary products are unlimited at the full quantity',()=>{
   const g=make(seedStock(2,3));reject(g,{type:'buyItem',itemId:aliasB,quantity:2},'Bulk essence purchase above remaining allowance');
   const before=parse(g);g.dispatch({type:'buyItem',itemId:aliasB,quantity:1});assert.equal(parse(g).items[aliasB],1);assert.deepEqual(parse(g).rng_state,before.rng_state);
   reject(g,{type:'buyItem',itemId:aliasA,quantity:1},'Cross-alias refill after reaching cap');
-  const ordinary=g.snapshot().shopItems.find(i=>i.kind!=='essence');assert(ordinary);const old=parse(g).items[ordinary.id]??0;
-  g.dispatch({type:'buyItem',itemId:ordinary.id,quantity:999});assert.equal(parse(g).items[ordinary.id],old+999);
+  const ordinary=g.snapshot().shopItems.find(i=>i.kind!=='essence');assert(ordinary?.unlimited);assert.equal(ordinary.maxQuantity,SHOP_MAX_QUANTITY);
+  const stock=g.exportSave();assert.equal(g.dispatch({type:'buyItem',itemId:ordinary.id,quantity:SHOP_MAX_QUANTITY}).ok,true);
+  assert.equal(g.exportSave(),stock,'An unlimited product persists no artificial stock');
  });
  check('Legacy surplus essence is preserved, hatches up to six owned, then rejects atomically',()=>{
   const save=seedStock(0,20),g=make(save);assert.equal(parse(g).items[aliasA],20,'Do not erase old inventory');
@@ -64,7 +66,8 @@ await withSsr('acquisition-limits-controller',async load=>{
  });
  check('Capture fifth to sixth copy still succeeds with a master capsule',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'startTraining',species:19,level:5});const before=parse(g);g.dispatch({type:'capture',itemId:'item_capsule_master'});
-  assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);assert.equal(parse(g).items.item_capsule_master,before.items.item_capsule_master-1);
+  assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);
+  assert.equal(parse(g).items.item_capsule_master,before.items.item_capsule_master,'Unlimited capsules keep the saved count');
  });
  check('Fusion rejects a fully capped outcome pool before drawing RNG',()=>{
   const recipe=FUSION_RECIPES.find(r=>r.outcomes.length>1),save=structuredClone(base);assert(recipe);
@@ -114,7 +117,7 @@ await withSsr('acquisition-limits-controller',async load=>{
    assert.equal(trained.level,name==='level item training'?18:100,'Training itself remains valid at an evolution cap');
    assert.deepEqual(after.rng_state,before.rng_state);
    if(name==='pooled EXP auto evolution')assert(after.exp_pool<before.exp_pool);
-   if(name==='level item training')assert.equal(after.items.item_level_up_1,before.items.item_level_up_1-1);
+   if(name==='level item training')assert.equal(after.items.item_level_up_1,before.items.item_level_up_1,'Unlimited raising items keep the saved count');
    const released=parse(g),remove=released.storage.find(m=>m.species===target).uid;released.storage=released.storage.filter(m=>m.uid!==remove);released.party=released.party.filter(uid=>uid!==remove);
    const retry=make(released);retry.dispatch({type:'evolve',uid:mon.uid});assert.equal(parse(retry).storage.find(m=>m.uid===mon.uid).species,target);
    assert.equal(parse(retry).storage.filter(m=>m.species===target).length,6);
