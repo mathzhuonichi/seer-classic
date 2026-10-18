@@ -47,7 +47,7 @@ npm run package                  # macOS .app through Tauri (needs Rust and the 
 Two scripts write distributable archives to the ignored `releases/` directory:
 
 - `python3 tools/distribution/pack_linux_playtest.py --revision N --format zip` packages an existing `dist/` build with its public assets as a portable browser game. The player runs `python3 start.py`; see [distribution/PLAYTEST.md](distribution/PLAYTEST.md).
-- `python3 tools/distribution/pack_source.py --revision N` packages the working tree as one source ZIP and two asset ZIPs. It generates `START-HERE-SOURCE.md` and `SOURCE-MANIFEST.json` inside the source ZIP. The root `SOURCE-MANIFEST.json` is the revision 30 inventory used to check the transferred assets.
+- `python3 tools/distribution/pack_source.py --revision N` packages the working tree as one source ZIP and two asset ZIPs. It generates `START-HERE-SOURCE.md` and `SOURCE-MANIFEST.json` inside the source ZIP.
 
 ## Content
 
