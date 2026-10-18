@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import type {CampaignView, GameController} from '../game-types.ts';
 import {CreatureArt} from './CreatureArt.tsx';
 import BossEvidence from './BossEvidence.tsx';
-import {encounterLevelText} from '../presentation/encounter-level.ts';
+import {opponentLevelText} from '../presentation/encounter-level.ts';
 import './challenge-campaign-scene.css';
 
 export interface ChallengeCampaignSceneProps {
@@ -30,7 +30,7 @@ export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, 
       <div className="campaign-guardian"><div className="campaign-guardian-art"><CreatureArt species={campaign.species} name={campaign.name} fill={.93}/></div><div className="campaign-guardian-platform" aria-hidden="true"><i/><span>✧</span></div><p>{campaign.description}</p></div>
       <div className="campaign-stage-detail" aria-label="当前关卡详情" tabIndex={0}>
         {stage ? <><div className="campaign-detail-title"><span>第 {stageIndex + 1} 关{stage.kind === 'chain' ? ' · 连续挑战' : ''}</span><h3>{stage.name}</h3><p>{stage.description}</p></div>
-          <div className="campaign-opponents"><h4>{stage.opponents.length > 1 ? '依次迎战' : '本关对手'}</h4><ol>{stage.opponents.map((opponent, index) => <li key={`${index}-${opponent.species}`}><span className="campaign-opponent-order">{index + 1}</span><div className="campaign-opponent-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{encounterLevelText(opponent.level,opponent.evidence?.hasInferredLevel,opponent.evidence?.displayLevelUnknown)}</small></li>)}</ol></div>
+          <div className="campaign-opponents"><h4>{stage.opponents.length > 1 ? '依次迎战' : '本关对手'}</h4><ol>{stage.opponents.map((opponent, index) => <li key={`${index}-${opponent.species}`}><span className="campaign-opponent-order">{index + 1}</span><div className="campaign-opponent-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></li>)}</ol></div>
           <BossEvidence evidence={stage.evidence}/>
           {(requirement || stage.minLevel || stage.carry || campaign.resetOnLoss) && <div className="campaign-stage-rules"><h4>挑战条件</h4>{requirement && <div className="campaign-required-creature"><div><CreatureArt species={requirement} name="指定出战精灵"/></div><span>只派自己的{stage.requiredSpeciesName}出战</span></div>}{stage.minLevel && <p>出战精灵等级至少 {stage.minLevel} 级。</p>}{stage.carry && <p>本关连续战斗保留体力、PP 与异常状态。</p>}{campaign.resetOnLoss && <p>挑战失败后需要从第一关重新开始。</p>}</div>}
           <div className="campaign-stage-reward"><span aria-hidden="true">✦</span><div><h4>关卡奖励</h4><p>{stage.rewardText || '完成本关，继续挑战后续关卡。'}</p></div></div>
