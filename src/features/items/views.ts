@@ -65,10 +65,7 @@ function bagAction(row: ItemRow, legal: Action[] | undefined): ItemView['useActi
   return row.kind === 'battle' && row.battleUsable ? 'use' : null;
 }
 
-/**
- * Inventory rows for held or unlimited items, with what the bag can do with each now. During an unsettled `battle` a supply
- * targets the party members it would change; outside one a raising item targets any monster in `storage`.
- */
+/** Inventory rows for held or unlimited items: in an unsettled `battle` supplies target the members they would change, else any monster. */
 export function createInventoryViews(ctx: GameContext) {
   const rows = ctx.catalog.items.map(itemRow);
   return (inventory: Record<string, number>, unlimited: ReadonlySet<string>, battle: Battle | null, storage: readonly Monster[]): ItemView[] => {
