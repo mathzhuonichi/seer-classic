@@ -38,7 +38,7 @@ export async function verifyControllerSnapshots(){
 
 /** Unchanged slices and rows keep their identity, so screens that select them skip rendering (architecture-v2 §5). */
 export async function verifySnapshotIdentity(){
-  const game=createGame(await loadCatalog(),'');
+  const catalog=await loadCatalog(),game=createGame(catalog,'');
   game.dispatch({type:'dismissNotice'});
   const settled=game.snapshot();
   game.dispatch({type:'dismissNotice'});
@@ -52,9 +52,17 @@ export async function verifySnapshotIdentity(){
   assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
   for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits','engravingStock'] as const)
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
+  // A new species rebuilds the quest memo with equal rows, which it then returns on every build: the shared rows stay.
+  game.dispatch({type:'cheatAcquire',species:2,level:5});game.dispatch({type:'dismissNotice'});
+  assert.equal(game.snapshot().quests,settled.quests,'Quest rows rebuilt equal keep their identity.');
+  game.dispatch({type:'cheatAcquire',species:19,level:5});
+  const progressed=game.snapshot().quests;
+  assert.notEqual(progressed,settled.quests,'Changed quest rows are new.');
+  assert.deepEqual(progressed,createGame(catalog,game.exportSave()).snapshot().quests,'Shared quest rows equal a fresh build of the save.');
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
-  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity']};
+  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity',
+    'memo rebuilt equal keeps the shared rows']};
 }
 
 /**

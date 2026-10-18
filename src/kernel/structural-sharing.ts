@@ -30,3 +30,19 @@ export function reuseUnchanged<T>(prev: T, next: T): T {
   }
   return (same ? prev : kept) as T;
 }
+
+/**
+ * Returns a function that shares each object it is given with the one it returned last (`reuseUnchanged`), field by field. A
+ * field built as the same value as last time keeps the field it was shared into without being compared again: builders return
+ * immutable views, and a memo that once rebuilt rows equal to the shared ones returns its own rows on every later build.
+ */
+export function fieldSharing<T extends object>(): (next: T) => T {
+  let shared: Record<string, unknown> | undefined, built: Record<string, unknown> = {};
+  return next => {
+    const fields = { ...next } as Record<string, unknown>;
+    if (shared) for (const key of Object.keys(fields)) if (fields[key] === built[key]) fields[key] = shared[key];
+    built = { ...next } as Record<string, unknown>;
+    shared = shared ? reuseUnchanged(shared, fields) : fields;
+    return shared as T;
+  };
+}
