@@ -25,14 +25,6 @@ export function boxOf(save: Save): Monster[] {
   return save.storage.filter((m) => !save.party.includes(m.uid));
 }
 
-export function partyOf(save: Save): Monster[] {
-  return save.party.map((u) => {
-    const m = save.storage.find((x) => x.uid === u);
-    if (!m) throw new Error(`party uid ${u} missing from storage`);
-    return m;
-  });
-}
-
 // A newly obtained monster joins the party if there is room, otherwise the box.
 export function addMonster(save: Save, mon: Monster): Save {
   if (save.storage.some((m) => m.uid === mon.uid)) throw new Error(`duplicate uid ${mon.uid}`);
@@ -60,16 +52,6 @@ export function withdraw(save: Save, uid: string): Save {
   if (save.party.length >= PARTY_MAX) throw new Error("背包已满");
   const s = copy(save);
   s.party.push(uid);
-  return s;
-}
-
-// Swaps a party monster with a box monster in place (same party slot).
-export function swapWithBox(save: Save, partyUid: string, boxUid: string): Save {
-  const i = save.party.indexOf(partyUid);
-  if (i < 0) throw new Error(`${partyUid} is not in the party`);
-  if (save.party.includes(boxUid) || !save.storage.some((m) => m.uid === boxUid)) throw new Error(`${boxUid} is not in the box`);
-  const s = copy(save);
-  s.party[i] = boxUid;
   return s;
 }
 

@@ -215,7 +215,7 @@
     },
     "paid-spt-controller.mjs": {
       "status": "known-failure",
-      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+      "note": "Nondeterministic: identical runs pass and fail. Find the unseeded randomness before gating."
     },
     "paid-spt-recruitment.mjs": {
       "status": "gate"

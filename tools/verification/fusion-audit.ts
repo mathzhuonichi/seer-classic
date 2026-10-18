@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
-import { createGame, loadGameData } from '../../src/game';
+import { createGame, loadCatalog } from '../../src/game';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../src/progression/fusion';
 import { Rng } from '../../battle/core/src/rng';
 
 /** Vite SSR fixtures use no browser storage and cannot alter a player's save. */
 export async function runFusionAudit() {
-  const catalog = await loadGameData();
+  const catalog = await loadCatalog();
   const definitions = new Map(catalog.species.map(species => [Number(species.id), species]));
   const game = createGame(structuredClone(catalog));
   const baseline = game.exportSave();

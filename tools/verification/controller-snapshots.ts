@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame,loadGameData} from '../../src/game';
+import {createGame,loadCatalog} from '../../src/game';
 import type {CatalogData} from '../../src/mechanics/catalog';
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
 export async function verifyControllerSnapshots(){
-  const catalog=await loadGameData(),original=JSON.stringify(catalog);
+  const catalog=await loadCatalog(),original=JSON.stringify(catalog);
   const game=createGame(catalog,'');
   createGame(catalog,'');
   assert.equal(JSON.stringify(catalog),original,'Controllers must not mutate the shared source catalog.');

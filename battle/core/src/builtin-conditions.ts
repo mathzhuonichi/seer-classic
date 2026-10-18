@@ -2,21 +2,21 @@
 // data/conditions.json may override any of these by id.
 
 import type { ConditionDef } from './types.ts';
-import { STATUS_DEFAULT_TURNS as T } from './constants.ts';
+import { BURN_DAMAGE_MULTIPLIER, STATUS_DEFAULT_TURNS as T, STATUS_DOT_FRACTION } from './constants.ts';
 
 const cannotAct = { on: 'before_move' as const, prevent: true };
-const dot = { on: 'turn_end' as const, damage_pct_max_hp: 12.5 };
+const dot = { on: 'turn_end' as const, damage_pct_max_hp: STATUS_DOT_FRACTION * 100 };
 
 export const BUILTIN_CONDITIONS: ConditionDef[] = [
   { id: 'paralysis', name: { zh: '麻痹' }, kind: 'status', control: true, default_turns: T, stack: 'fail', hooks: [cannotAct] },
   { id: 'poison', name: { zh: '中毒' }, kind: 'status', default_turns: T, stack: 'fail', hooks: [dot] },
   {
     id: 'burn', name: { zh: '烧伤' }, kind: 'status', default_turns: T, stack: 'fail',
-    hooks: [dot, { on: 'modify_damage_dealt', multiplier: 0.5, kinds: ['attack'] }],
+    hooks: [dot, { on: 'modify_damage_dealt', multiplier: BURN_DAMAGE_MULTIPLIER, kinds: ['attack'] }],
   },
   {
     id: 'leech', name: { zh: '寄生' }, kind: 'status', default_turns: 5, stack: 'fail',
-    hooks: [{ on: 'turn_end', damage_pct_max_hp: 12.5, drain_to_foe: true }],
+    hooks: [{ on: 'turn_end', damage_pct_max_hp: STATUS_DOT_FRACTION * 100, drain_to_foe: true }],
   },
   { id: 'freeze', name: { zh: '冻伤' }, kind: 'status', default_turns: T, stack: 'fail', hooks: [dot] },
   { id: 'fear', name: { zh: '害怕' }, kind: 'status', control: true, default_turns: T, stack: 'fail', hooks: [cannotAct] },

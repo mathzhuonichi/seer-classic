@@ -10,12 +10,12 @@ const checks=[],failures=[];
 const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,selectionActions:0,resetActions:0,batches:0,npcModifierSpecies:[],species:[]};
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,4000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
-  const {createGame,loadGameData,advanceBattlePresentation}=await server.ssrLoadModule('/src/game.ts');
+  const {createGame,loadCatalog,advanceBattlePresentation}=await server.ssrLoadModule('/src/game.ts');
   const {makeDex,createMonster,SeededRng,computeStats}=await server.ssrLoadModule('/raising/core/index.ts');
   const {buildSkinOptions}=await server.ssrLoadModule('/src/progression/skins.ts');
   const {BREEDING_RECIPES,canBreedParents}=await server.ssrLoadModule('/src/progression/breeding.ts');
   const {CHALLENGE_CAMPAIGNS}=await server.ssrLoadModule('/src/progression/challenge-campaigns.ts');
-  const catalog=await loadGameData(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
+  const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
   const parse=game=>JSON.parse(game.exportSave()),base=parse(createGame(catalog,''));
   base.rng_state=[101,202,303,404];base.items={...base.items,item_capsule_master:20,item_restore:3,item_level_down:3,item_level_up_1:10};base.exp_pool=1e9;
   const make=(save,input=catalog)=>createGame(input,JSON.stringify(save));

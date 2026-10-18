@@ -94,4 +94,3 @@ export function getSPTRecruitmentProgress(quest: Pick<PaidSPTRecruitment,'prereq
 
 const encounters = import.meta.glob('../../data/bosses/*.json',{import:'default',eager:true});
 export const PAID_SPT_RECRUITMENTS: readonly PaidSPTRecruitment[] = buildPaidSPTRecruitments({...bundle,bosses:Object.values(encounters)} as unknown as RecruitmentCatalog);
-export function getPaidSPTRecruitment(questId: string): PaidSPTRecruitment | undefined { return PAID_SPT_RECRUITMENTS.find(quest => quest.questId === questId); }

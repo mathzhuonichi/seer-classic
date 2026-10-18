@@ -18,7 +18,7 @@ try {
   const { WORLD_PLANETS, GENERATED_HABITATS } = await server.ssrLoadModule('/src/world.ts');
   const { getSceneLayout, creatureSceneHome } = await server.ssrLoadModule('/src/presentation/map-presentation.ts');
   const { buildWorldPopulation } = await server.ssrLoadModule('/src/presentation/world-population.ts');
-  const { createGame, loadGameData } = await server.ssrLoadModule('/src/game.ts');
+  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/game.ts');
   const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/progression/acquisition.ts');
   const { buildRecruitmentRewards } = await server.ssrLoadModule('/src/progression/recruitment.ts');
   const maps = read('.cache/seer-data-a00bcdd/maps.json');
@@ -26,7 +26,7 @@ try {
   for (const [name, expected] of Object.entries(definitions.source.files)) {
     assert.equal(createHash('sha256').update(fs.readFileSync(`.cache/seer-data-a00bcdd/${name}`)).digest('hex'), expected, `${name}: exact source snapshot`);
   }
-  const catalog = await loadGameData(), original = JSON.stringify(catalog);
+  const catalog = await loadCatalog(), original = JSON.stringify(catalog);
   const species = new Map(catalog.species.map(entry => [entry.id, entry]));
   const index = buildAcquisitionIndex(catalog), baseline = JSON.parse(createGame(catalog, '').exportSave());
   baseline.rng_state = [101, 202, 303, 404];

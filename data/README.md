@@ -1,7 +1,7 @@
 # Seer Classic catalog (data/)
 
 Owner: the "Monster and boss catalog" thread. Shapes follow `design/foundation.md` v0.2.
-`natures.json`, `growth.json` and `potential.json` belong to the raising thread.
+`natures.json` and `growth.json` belong to the raising thread.
 
 ## Files
 

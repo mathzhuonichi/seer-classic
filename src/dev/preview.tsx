@@ -20,11 +20,11 @@ for(const name of ['localStorage','sessionStorage'] as const) {
 }
 document.title='Seer Classic Preview';
 
-const [{Game},{createGame,loadGameData}]=await Promise.all([
+const [{Game},{createGame,loadCatalog}]=await Promise.all([
   import('../App'),
   import('../game'),
 ]);
-const game=createGame(await loadGameData(),'');
+const game=createGame(await loadCatalog(),'');
 for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});
 const seed=JSON.parse(game.exportSave()) as Save;
 seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.party.slice(1)].slice(0,6);

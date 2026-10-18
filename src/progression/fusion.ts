@@ -69,10 +69,6 @@ export const FUSION_RECIPES: readonly FusionRecipe[] = [
   {"id": "fusion-normal-15-43", "name": "卡门兔 / 辛克 / 伊达", "primary": [15], "secondary": [43, 44, 45], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "米色元神珠", "outcomes": [{"species": 325, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 328, "weight": 100 / 3, "beadName": "米色元神珠"}, {"species": 330, "weight": 100 / 3, "beadName": "米色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201003-23-65200.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144032.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144016.html"], "probabilityBasis": "remake"},
 ];
 
-export function findFusionRecipe(primarySpecies: number, secondarySpecies: number): FusionRecipe | undefined {
-  return FUSION_RECIPES.find(recipe => recipe.primary.includes(primarySpecies) && recipe.secondary.includes(secondarySpecies));
-}
-
 export function canFuseParents(recipe: FusionRecipe, primary: FusionParent, secondary: FusionParent): boolean {
   return recipe.primary.includes(primary.species) && recipe.secondary.includes(secondary.species)
     && primary.level >= recipe.minPrimaryLevel && secondary.level >= recipe.minSecondaryLevel;

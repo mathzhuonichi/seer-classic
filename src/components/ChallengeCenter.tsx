@@ -5,7 +5,7 @@ import {CreatureArt} from './CreatureArt';
 import BossEvidence from './BossEvidence';
 import {encounterLevelText} from '../presentation/encounter-level';
 import {mergeBossEvidence} from '../presentation/boss-evidence';
-import {braveTowerFloor,normalizeBraveTowerProgress} from '../progression/brave-tower';
+import {braveTowerFloor} from '../progression/brave-tower';
 import '../management.css';
 import './ChallengeCenter.css';
 const categories=['全部挑战','SPT首领','传说挑战','勇者之塔','暗黑武斗场','任务挑战','训练师对战'];
@@ -18,7 +18,7 @@ export default function ChallengeCenter({s,c,initialCategory,onExplore,onTravel,
   const stageBossIds=new Set(s.campaigns.flatMap(campaign=>campaign.stages.flatMap(stage=>stage.bossIds)));
   const campaigns:ChallengeEntry[]=s.campaigns.map(campaign=>({id:`campaign-${campaign.id}`,name:campaign.name,species:campaign.species,category:campaign.id==='rei-training'?'任务挑战':'传说挑战',description:campaign.stages.map(stage=>`${stage.name} ${stage.description}`).join(' '),location:campaign.location,level:s.bosses.find(boss=>boss.id===campaign.stages.at(-1)!.bossIds[0])?.level??100,portrait:`/portraits/${campaign.species}.png`,cleared:campaign.finished,attempts:0,evidence:mergeBossEvidence(campaign.stages.map(stage=>stage.evidence)),campaign}));
   const towerFloors=s.bosses.filter(boss=>braveTowerFloor(boss.id)!==undefined);
-  const towerProgress=s.braveTower??normalizeBraveTowerProgress(undefined,s.bosses.filter(boss=>boss.cleared).map(boss=>boss.id));
+  const towerProgress=s.braveTower;
   const tower:ChallengeEntry|undefined=towerFloors[0]?{...towerFloors[0],id:'brave-tower',name:'勇者之塔',description:'每通过十层解锁新的起点；保存当前挑战楼层，可继续上次进度。',cleared:towerProgress.highestCleared===70,attempts:towerFloors.reduce((sum,boss)=>sum+boss.attempts,0),tower:true}:undefined;
   const entries:ChallengeEntry[]=[...s.bosses.filter(boss=>!stageBossIds.has(boss.id)&&braveTowerFloor(boss.id)===undefined),...campaigns,...(tower?[tower]:[])];
   const numbered=category==='勇者之塔'||category==='暗黑武斗场';

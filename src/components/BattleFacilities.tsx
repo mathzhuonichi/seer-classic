@@ -9,7 +9,7 @@ export interface BattleFacilitiesProps {
 }
 
 export default function BattleFacilities({s,c,facilityId,onManage}:BattleFacilitiesProps) {
-  const facilities=s.facilities??[];
+  const facilities=s.facilities;
   const [selected,setSelected]=useState(facilityId??'random'),[teamId,setTeamId]=useState(''),[groupId,setGroupId]=useState('trained'),[memberIndex,setMemberIndex]=useState(0);
   useEffect(()=>{if(facilityId){setSelected(facilityId);setTeamId('');setGroupId('trained')}},[facilityId]);
   const facility=facilities.find(row=>row.id===selected)??facilities[0];

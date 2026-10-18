@@ -10,10 +10,10 @@ const server=await createServer({configFile:false,cacheDir:'artifacts/.validatio
 const checks=[],failures=[],observations=[];
 const check=(name,run)=>{try{const witness=run();checks.push({name,...(witness===undefined?{}:{witness})});}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
-  const [{createGame,loadGameData},{engravings,engraveSkill,engravingById,activeEngravings},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
+  const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,activeEngravings},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
     '/src/game.ts','/src/mechanics/engravings.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
-  const catalog=await loadGameData(),data=buildDataSet(catalog),catalogBefore=JSON.stringify(catalog);
+  const catalog=await loadCatalog(),data=buildDataSet(catalog),catalogBefore=JSON.stringify(catalog);
   const def=id=>engravingById(String(id)),skill=id=>data.skills.get(id);
   const parse=game=>JSON.parse(game.exportSave());
   const target=(game,uid)=>parse(game).storage.find(mon=>mon.uid===uid);

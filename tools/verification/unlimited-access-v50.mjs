@@ -23,10 +23,10 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
 const sort=values=>[...values].sort(),parse=game=>JSON.parse(game.exportSave());
 const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',CAP='item_capsule_master',WAIT=990500;
 try{
-  const [{createGame,loadGameData},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
+  const [{createGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
     '/src/game.ts','/src/mechanics/engravings.ts','/src/mechanics/engraving-access.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/progression/battle-supplies.ts',
   ].map(file=>server.ssrLoadModule(file)));
-  const catalog=await loadGameData();catalog.items=normalizeBattleSupplyItems([...catalog.items,{id:CURE,name:{zh:'Status cure fixture'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]}]);
+  const catalog=await loadCatalog();catalog.items=normalizeBattleSupplyItems([...catalog.items,{id:CURE,name:{zh:'Status cure fixture'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]}]);
   const catalogBefore=JSON.stringify(catalog),dex=makeDex(catalog),rng=new SeededRng(50);
   report.genericAbilityCaps=engravings.filter(def=>def.slot==='ability'&&!def.species.length).map(def=>({id:def.id,name:def.name.zh,stats:{...def.stats},levelMin:def.levelMin,sourceMaxOwned:def.maxOwned,...engravingAccess(def)}));
   report.genericAbilityCapsSource='Runtime engravingAccess(def); sourceMaxOwned records the unchanged 2013 catalog value.';

@@ -9,10 +9,10 @@ const server=await createServer({configFile:false,cacheDir:'artifacts/.validatio
 const checks=[],failures=[];
 const check=(name,run)=>{try{run();checks.push(name);}catch(error){failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
-  const [{createGame,loadGameData},{engravings,engraveSkill,engravingById,engravingBlockedReason,engravingEffectGroup,engravingStatKeys,ENGRAVING_EFFECT_GROUPS},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
+  const [{createGame,loadCatalog},{engravings,engraveSkill,engravingById,engravingBlockedReason,engravingEffectGroup,engravingStatKeys,ENGRAVING_EFFECT_GROUPS},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
     '/src/game.ts','/src/mechanics/engravings.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
-  const catalog=await loadGameData(),data=buildDataSet(catalog);
+  const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   const learns=(sid,move)=>species.get(sid)?.learnset.some(l=>l.skill===move);
   const def=id=>engravingById(String(id));

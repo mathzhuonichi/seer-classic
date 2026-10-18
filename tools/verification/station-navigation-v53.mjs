@@ -15,11 +15,11 @@ const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage')
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/station-navigation-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadGameData}]=await Promise.all([
+  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog}]=await Promise.all([
     '/src/world.ts','/src/presentation/scene-exits.ts','/src/components/WorldMap.tsx','/src/components/BattleFacilities.tsx','/src/game.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
-  const catalog=await loadGameData(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
+  const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
   const ship=WORLD_PLANETS.find(planet=>planet.id==='station'),station=WORLD_PLANETS.find(planet=>planet.id==='space-station');
   const aliases={
     'station/brave-tower':['space-station','brave-tower'],
@@ -114,9 +114,7 @@ try{
     const complete=markup('space-station','brave-tower',{s:{...s,braveTower:{...s.braveTower,highestCleared:70,resumeFloor:null}}});
     assert(complete.includes('data-tower-floor="70"'));assert(complete.includes('data-tower-complete="true"'));
     assert(complete.includes('已通过全部 70 层'));assert(complete.includes('data-boss="boss_tower_brave_f070"'));
-    const legacy=markup('space-station','brave-tower',{s:{...s,braveTower:undefined,bosses:s.bosses.map(boss=>({...boss,cleared:boss.id==='boss_tower_brave_f010'}))}});
-    assert(legacy.includes('data-tower-floor="11"'));assert(legacy.includes('data-boss="boss_tower_brave_f011"'));
-    report.observations.towerSceneStates=72;
+    report.observations.towerSceneStates=71;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);

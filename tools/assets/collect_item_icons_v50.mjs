@@ -10,10 +10,10 @@ const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
 const server=await createServer({root,configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
-  const [{createGame,loadGameData},{FUSION_RECIPES,fusionBeadItemId},{buildRecruitmentRewards}]=await Promise.all([
+  const [{createGame,loadCatalog},{FUSION_RECIPES,fusionBeadItemId},{buildRecruitmentRewards}]=await Promise.all([
     '/src/game.ts','/src/progression/fusion.ts','/src/progression/recruitment.ts',
   ].map(file=>server.ssrLoadModule(file)));
-  const catalog=await loadGameData();
+  const catalog=await loadCatalog();
   const ids=new Set(catalog.items.map(item=>String(item.id)));
   for(const boss of catalog.bosses){ids.add(`essence_${boss.id}`);for(const id of Object.keys(boss.reward?.items??{}))ids.add(id);}
   for(const species of catalog.species)ids.add(`essence_recruit_${species.id}`);

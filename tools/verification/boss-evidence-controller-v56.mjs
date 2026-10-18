@@ -23,12 +23,12 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
   },
 }]});
 try{
-  const [{createGame,loadGameData},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
+  const [{createGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
     '/src/game.ts','/src/mechanics/boss-encounter.ts','/src/presentation/encounter-level.ts','/src/presentation/boss-evidence.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/traits.ts','/src/mechanics/npc-training.ts','/battle/core/src/ai.ts','/battle/core/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
   const runtime=readJson('data/boss-evidence-runtime-v56.json'),audit=readJson('data/boss-evidence-v56.json'),ruleAudit=readJson('data/boss-rule-support-v56.json');
-  const catalog=await loadGameData(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new SeededRng(56);
+  const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new SeededRng(56);
   const bosses=new Map(catalog.bosses.map(boss=>[boss.id,boss])),unsupported=new Map(ruleAudit.bosses.map(row=>[row.id,row.unsupported.length]));
   const fieldKeys=['level','iv','evs','nature','hp','skills','ai','rules'],statsKeys=fieldKeys.slice(0,6),statuses=new Set(['official','observed','authored','inferred']);
   const rank={official:0,observed:1,authored:2,inferred:3};

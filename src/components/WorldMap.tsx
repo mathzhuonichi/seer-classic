@@ -6,7 +6,7 @@ import { buildWorldPopulation } from '../presentation/world-population';
 import { constrainScenePoint, constrainHabitatPoint, creatureSceneHome, getSceneBossActor, getSceneBossHome, getSceneLayout, type SceneLayout } from '../presentation/map-presentation';
 import {getSceneExits,type SceneExit} from '../presentation/scene-exits';
 import {contactApproachPoint} from '../presentation/world-interaction';
-import {BRAVE_TOWER_FLOORS,braveTowerBossId,normalizeBraveTowerProgress} from '../progression/brave-tower';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower';
 import ClassicRobot from './ClassicRobot';
 import BossEvidence from './BossEvidence';
 import {encounterLevelText} from '../presentation/encounter-level';
@@ -181,7 +181,7 @@ export function WorldMap({s,c,onNavigate,focusSpecies,travelTo,onInteract,onScen
   const {planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
   const layout=useMemo(()=>getSceneLayout(planet,region),[planet,region]);
   const inTower=planet.id==='space-station'&&region.id==='brave-tower';
-  const towerProgress=s.braveTower??normalizeBraveTowerProgress(undefined,s.bosses.filter(boss=>boss.cleared).map(boss=>boss.id));
+  const towerProgress=s.braveTower;
   const towerFloor=towerProgress.resumeFloor??BRAVE_TOWER_FLOORS;
   const towerComplete=inTower&&towerProgress.resumeFloor===null;
   const towerBoss=inTower?s.bosses.find(boss=>boss.id===braveTowerBossId(towerFloor)):undefined;

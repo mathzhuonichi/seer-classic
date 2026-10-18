@@ -51,9 +51,9 @@ Changing it:
 - `restore` item (精灵还原药剂): back to level 1 with fresh 个体 and 性格 and no 学习力,
   same species and uid [sourced].
 
-### 3.2 潜力 (display tier) [chosen]
-The original's exact tier wording could not be confirmed, so these are remake
-choices, stored in `data/potential.json` and easy to rename:
+### 3.2 潜力 (display tier) [not implemented]
+The game shows the raw 个体值; no tier is displayed. The original's tier wording could not
+be confirmed. If tiers are added, these were the proposed remake choices:
 
 | 个体值 | 潜力 |
 |---|---|
@@ -217,7 +217,6 @@ IndexedDB, Tauri fs) is the app's choice.
 core/types.ts      shared shapes (Monster, Save, Species, events)
 core/stats.ts      stat formula and caps (also used by battle core)
 core/growth.ts     4 EXP curves
-core/potential.ts  潜力 tiers
 core/monster.ts    create, 学习力, 个体, 性格, EXP/levels, skills, evolution
 core/rewards.ts    after-battle EXP/学习力 split, exp pool, 经验分配器
 core/storage.ts    party/box, release, rename, heal, 精元 hatching
@@ -225,7 +224,7 @@ core/items.ts      raising items, boosters, 能量珠, tickBoosts
 core/dex.ts        Dex from parsed data files
 core/rng.ts        re-exports battle core's sfc32 Rng
 game/save.ts       save create/validate/migrate/serialise
-tools/build-data.ts  writes data/natures.json, growth.json, potential.json
+tools/build-data.ts  writes data/natures.json, growth.json
 tests/             node:test suites (npm test)
 ```
 
@@ -234,7 +233,7 @@ Every rule function is pure: it returns a new object plus an ordered list of
 
 ## 12. Open questions
 
-- 潜力 tier wording (3.2): if Johnny remembers the original wording, it's a data edit.
+- 潜力 tier wording (3.2): only needed if tiers are ever displayed.
 - GrowthType 4 → `medium` is inferred (5.1).
 - Seer's own battle EXP formula and how 学习力 was shared (5.2, 2).
 - Whether any pre-2013 evolutions could be declined; currently automatic.

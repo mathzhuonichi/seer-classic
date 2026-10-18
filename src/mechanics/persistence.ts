@@ -5,6 +5,3 @@ export function readLocalSave(): string | null {
 export function writeLocalSave(value: string): void {
   if (typeof localStorage !== 'undefined') localStorage.setItem(SAVE_KEY, value);
 }
-export function clearLocalSave(): void {
-  if (typeof localStorage !== 'undefined') localStorage.removeItem(SAVE_KEY);
-}

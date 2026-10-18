@@ -30,7 +30,6 @@ const pool=createBattleClipPool<Asset>({
   onOwnership(asset,unuploaded){if(!unuploaded&&!asset.rehydrating&&asset.clip.atlasWidth*asset.clip.atlasHeight*4>=LARGE_ATLAS_BYTES)asset.clip.atlas.close();},
 });
 export const originalAction=(kind:string):OriginalAction=>({physical:'attack',special:'sa',status:'cp',hit:'hited'}as Record<string,OriginalAction>)[kind]||'standby';
-export function hasBattleAnimation(species:number){return!!entries[species];}
 export function hasLoadedBattleAnimation(species:number){return!!pool.peek(species)?.clip;}
 export function battleAnimationTiming(species:number,kind:string){if(!hasLoadedBattleAnimation(species))return null;const e=entries[species],s=e?.sequences.find(s=>s.name===originalAction(kind));return s?{durationMs:s.frames/e.frameRate*1000,hitMs:s.hitFrame>=0?s.hitFrame/e.frameRate*1000:null}:null;}
 async function ensureBitmap(asset:Asset){if(asset.clip.atlas.width)return;if(!asset.rehydrating){diagnostics.rehydrations++;asset.rehydrating=createImageBitmap(asset.atlasBlob,{premultiplyAlpha:'none'}).then(bitmap=>{asset.clip.atlas=bitmap;}).finally(()=>{asset.rehydrating=undefined;});}await asset.rehydrating;}

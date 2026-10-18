@@ -8,13 +8,13 @@ const server=await createServer({server:{middlewareMode:true,watch:null,hmr:fals
 const checks=[],failures=[];
 const check=(name,fn)=>{try{fn();checks.push(name)}catch(error){failures.push({name,error:String(error.message).slice(0,2000)});console.error(`FAIL ${name}: ${String(error.message).slice(0,500)}`)}};
 try{
- const {createGame,loadGameData}=await server.ssrLoadModule('/src/game.ts');
+ const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
  const {buildRecruitmentRewards}=await server.ssrLoadModule('/src/progression/recruitment.ts');
  const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await server.ssrLoadModule('/src/progression/fusion.ts');
  const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await server.ssrLoadModule('/src/progression/breeding.ts');
  const {PARTY_MAX,BOX_MAX}=await server.ssrLoadModule('/raising/core/storage.ts');
- const source=await loadGameData(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
+ const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
  // per-item caps that can be bypassed by combining legacy and new reward items.

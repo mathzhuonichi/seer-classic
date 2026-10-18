@@ -10,11 +10,11 @@ Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
 } });
 const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
-  const { createGame, loadGameData } = await server.ssrLoadModule('/src/game.ts');
+  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/game.ts');
   const { buildAcquisitionIndex, resolveEncounterEssenceSpecies } = await server.ssrLoadModule('/src/progression/acquisition.ts');
   const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
   const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/progression/challenge-campaigns.ts');
-  const catalog = await loadGameData(), originalCatalog = JSON.stringify(catalog);
+  const catalog = await loadCatalog(), originalCatalog = JSON.stringify(catalog);
   const byId = new Map(catalog.species.map(species => [species.id, species]));
   const declaredRewards = catalog.bosses.filter(boss => boss.reward?.monster);
   assert.equal(declaredRewards.length, 25, 'Exercise every recovered monster-reward encounter.');

@@ -24,11 +24,11 @@ const server=await createServer({server:{middlewareMode:true,watch:null,hmr:fals
 const checks=[],failures=[],transitions=[],repeatRoutes=[];
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,3500)});console.error(`FAIL ${name}: ${error.message}`)}}
 try {
-  const {createGame,loadGameData}=await server.ssrLoadModule('/src/game.ts');
+  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
   const {makeDex,createMonster,SeededRng,computeStats,evolutionOptions,autoEvolve}=await server.ssrLoadModule('/raising/core/index.ts');
   const {buildAcquisitionIndex,NPC_ONLY_SPECIES}=await server.ssrLoadModule('/src/progression/acquisition.ts');
   const {buildInitialFormAcquisitionIndex}=await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
-  const catalog=await loadGameData(),catalogBytes=JSON.stringify(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
+  const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
   const dex=makeDex(catalog),oldDex=makeDex(source),parse=game=>JSON.parse(game.exportSave());
   const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:40,item_level_up_1:30};base.exp_pool=1e9;
   const make=(save,input=catalog)=>createGame(input,JSON.stringify(save));

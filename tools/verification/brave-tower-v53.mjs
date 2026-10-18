@@ -26,10 +26,10 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must not make HTTP requests.');};
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/brave-tower-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [{createGame,loadGameData},{makeDex,createMonster,SeededRng}]=await Promise.all([
+  const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng}]=await Promise.all([
     server.ssrLoadModule('/src/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
   ]);
-  const original=await loadGameData(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
+  const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   let alteredMembers=0;
   for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id))for(const mon of boss.team){mon.hp_override=1;alteredMembers++;}
   const fixtureBytes=JSON.stringify(catalog),dex=makeDex(catalog),rng=new SeededRng(53),FAST=10166,WAIT=20001;

@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useMemo,useRef,useState,useSyncExternalStore} from 'react';
-import {createGame,loadGameData} from './game';
+import {createGame,loadCatalog} from './game';
 import {preloadBattleImages,waitForBattleLoad} from './presentation/battle-loading';
 import type {BossView,GameAction,GameController} from './game-types';
 import Battle from './components/Battle';
@@ -47,7 +47,7 @@ const classicTools:{id:WindowKind;asset:string;label:string}[]=[
 const classicIconFiles:Record<string,string>={'new-spt':'new-spt-vector.svg',map:'hd/map-v44.svg',creatures:'hd/creatures-no-circle-v50.svg'};
 const classicIcon=(asset:string)=>`/ui/classic/${classicIconFiles[asset]??`${asset}.svg`}`;
 const titles:Record<WindowKind,string>={atlas:'星际地图',monsters:'精灵背包',fusion:'实验室 · 精灵融合',breeding:'实验室 · 精灵繁殖',shop:'实验室 · 道具商城',bag:'道具背包',dex:'精灵图鉴',quests:'航行任务',challenge:'SPT 挑战档案',facilities:'太空站 · 对战设施',tower:'勇者之塔 · 选择起点',recovery:'精灵恢复舱',settings:'航行设置'};
-export default function App(){const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');useEffect(()=>{loadGameData().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>}
+export default function App(){const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');useEffect(()=>{loadCatalog().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>}
 function currentBattleScene(){
  const preference=readWorldPreference(),{planet,region}=resolveWorldLocation(preference.planetId,preference.regionId);
  return {src:region.background??planet.background,name:region.name};
@@ -132,7 +132,7 @@ export function Game({controller:c}:{controller:GameController}){
  }}),[c]);
  function open(kind:WindowKind){if(preparation)return;if(s.battle&&!s.battle.finished){if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});setWindowKind(null);return}if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}}if(kind==='quests')setQuestFocusId(undefined);if(kind==='monsters')setFusionRecipeId(undefined);if(kind==='bag')setBagPocket(undefined);if(kind==='challenge')setChallengeCategory(undefined);setWindowKind(current=>current===kind?null:kind)}
  function openTower(){setCampaignId(null);setFocusSpecies(undefined);setTravelTo({planetId:'space-station',regionId:'brave-tower',requestId:Date.now()});setWindowKind(null)}
- function enterTower(floor:number){c.dispatch({type:'enterTower',floor});if(c.snapshot().braveTower?.resumeFloor===floor)openTower()}
+ function enterTower(floor:number){c.dispatch({type:'enterTower',floor});if(c.snapshot().braveTower.resumeFloor===floor)openTower()}
  function navigate(page:string){
   if(page==='tower'){openTower();return}
   if(page==='tower:choose'){setWindowKind('tower');return}

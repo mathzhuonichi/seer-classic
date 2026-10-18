@@ -26,10 +26,6 @@ export function getSkillEffect(skillId?: number): OriginalSkillEffect | undefine
   return skillId === undefined ? undefined : effects[String(skillId)];
 }
 
-export function hasSkillEffect(skillId?: number): boolean {
-  return getSkillEffect(skillId) !== undefined;
-}
-
 export function getSkillEffectDurationMs(skillId?: number): number | undefined {
   const effect = getSkillEffect(skillId);
   return effect ? effect.frames / effect.fps * 1000 : undefined;
