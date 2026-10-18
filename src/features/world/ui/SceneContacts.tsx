@@ -1,5 +1,5 @@
 import type { CSSProperties, MouseEvent } from 'react';
-import type { BossView } from '../../../kernel/contract.ts';
+import type { BossView } from '../../../shared/views.ts';
 import { CHALLENGE_CATEGORY } from '../../../domain/challenges/challenge-campaigns.ts';
 import { opponentLevelText } from '../../../shared/encounter-level.ts';
 import { getSceneBossActor, getSceneBossHome, type SceneBossActor, type SceneLayout } from '../map-presentation.ts';

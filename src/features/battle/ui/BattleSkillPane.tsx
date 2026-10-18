@@ -1,4 +1,4 @@
-import type { BattleMonsterView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView } from '../../../shared/views.ts';
 import { BATTLE_SKILL_SLOTS, battleSkills } from '../battle-hud.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';

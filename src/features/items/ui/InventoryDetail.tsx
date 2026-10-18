@@ -1,4 +1,5 @@
-import type {GameSnapshot,ItemView,MonsterView} from '../../../kernel/contract.ts';
+import type { GameSnapshot } from '../../../kernel/contract.ts';
+import type { ItemView, MonsterView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import {encounterLevelText} from '../../../shared/encounter-level.ts';

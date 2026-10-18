@@ -31,15 +31,16 @@ Never write an absolute or home-directory path into a tracked file, a generated 
 
 ## Rules
 
-1. **Imports point down only:** components → controller (`src/kernel/game.ts`) → presentation → progression/mechanics → `raising/core` and `battle/core` → `data/`.
-   - Presentation modules are pure view builders and label data; they never import the controller. Components may import them directly.
+1. **Imports point down only:** `src/app` → `src/kernel` → `src/features/*` → `src/domain` → `src/shared` → `battle/core`, `raising/core` → `data/`.
+   - The full rules, the feature DAG and the reasons are in `design/notes/architecture-v2.md` §4. `tools/verification/architecture.mjs` (a gate) enforces them against a shrink-only baseline. Never add a baseline entry; remove the ones you fix.
+   - Features use the kernel only through `kernel/contract.ts` (UI-facing), `kernel/api.ts` and `kernel/acquire.ts` (feature-facing). Other features are reached only through their `index.ts` (headless) or `ui.ts` (screens, for UI code only).
+   - `domain/` holds pure content and rules used by several features; `shared/` holds display helpers, view types (`shared/views.ts`), labels and the UI kit.
    - The engine does not import the AI; the policy is injected.
-   - Components render the snapshot and dispatch actions. Existing exceptions are debt; add none.
-   - Shared view helpers live in `src/shared/view-helpers.ts` and `src/shared/ui/use-pager.ts`; do not re-implement them.
+   - Components render the snapshot and dispatch actions; `dispatch` returns a `DispatchResult`.
 2. **One source per rule:** stats from `raising/core/stats.ts`; damage from the engine pipeline; limits from the raising constants; the catalog from one loader; labels from `src/shared/labels.ts`.
 3. **No unnamed rule numbers.** Battle numbers go in `battle/core/src/constants.ts`, economy numbers in one economy module, and data-driven values in `data/`.
 4. **YAGNI:**
-   - No placeholders, single-value options or alias exports.
+   - No placeholders, single-value options or alias exports. A feature's `index.ts` and `ui.ts` and `kernel/api.ts` are the only modules that re-export.
    - Delete code with its last caller.
    - Replace an old version instead of adding a version switch.
 5. **No test hooks in production, and no source-rewriting tests.** Give tests a real seam instead of a Vite `transform`.

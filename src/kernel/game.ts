@@ -33,7 +33,7 @@ export function createGame(catalog: CatalogData, initialSave?: string, dependenc
   return {
     snapshot: () => cached,
     subscribe: listener => { listeners.add(listener); return () => listeners.delete(listener); },
-    dispatch: action => { runAction(rt, action); emit(); },
+    dispatch: action => { const result = runAction(rt, action); emit(); return result; },
     engravingOptions: uid => engravingOptions(ctx, rt.save, uid),
     exportSave: () => serialize(rt.save),
     importSave: text => { adopt(loadJourney(ctx, text)); notice(rt, '存档已导入。'); emit(); },

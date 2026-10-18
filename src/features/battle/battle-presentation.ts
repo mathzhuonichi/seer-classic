@@ -1,7 +1,7 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
 import type { BattleEvent, DataSet, RawData } from '../../../battle/core/src/index.ts';
 import { battleEventText, displayedDamage } from './battle-log.ts';
-import type { BattleMonsterView, BattlePresentationFrame } from '../../kernel/contract.ts';
+import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }

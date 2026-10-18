@@ -12,7 +12,7 @@ const sorted=values=>[...values].sort();
 const parse=game=>JSON.parse(game.exportSave());
 const snapshotItems=game=>game.snapshot().items.filter(item=>item.unlimited).map(item=>item.id);
 const finiteInventory=items=>Object.values(items).every(value=>typeof value==='number'&&Number.isFinite(value));
-const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
+const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('battle-supplies-v48',async load=>{
   const t=suite('battle-supplies-v48'),{check}=t,publicEntries=[];
   const [{loadCatalog},{createGame:createProductionGame},{createBattle,buildDataSet},{SEER_SCRIPTS},{makeDex,computeStats},{trainerBattleSupplies,TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([

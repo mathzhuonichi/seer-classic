@@ -5,5 +5,3 @@ export { type BattleBackdrop, battleImageSources, campaignBackdrop, entersTower,
 export { preloadBattleImages, waitForBattleLoad } from './battle-loading.ts';
 export { advanceBattlePresentation, type BattlePresentationState } from './battle-presentation.ts';
 export { battleView } from './battle-view.ts';
-export { default as Battle } from './ui/Battle.tsx';
-export { default as BattleLoading, type BattlePreparation } from './ui/BattleLoading.tsx';

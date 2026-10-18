@@ -1,4 +1,4 @@
-import type {MonsterView,SpeciesView} from '../../kernel/contract.ts';
+import type { MonsterView, SpeciesView } from '../views.ts';
 import {hpPercent} from '../view-helpers.ts';
 import {appearanceOf,speciesNumber} from '../monster-views.ts';
 import {CreatureArt} from './CreatureArt.tsx';

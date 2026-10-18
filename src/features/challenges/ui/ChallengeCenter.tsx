@@ -1,5 +1,6 @@
 import {useEffect,useMemo,useState} from 'react';
-import type {BossView,GameController,GameSnapshot} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { BossView } from '../../../shared/views.ts';
 import {findChallengeLocation,resolveWorldLocation} from '../../../domain/world/world.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';

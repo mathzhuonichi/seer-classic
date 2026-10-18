@@ -8,7 +8,7 @@ const scope='Production controller and core objects, observed through the contro
 let storageReads=0,storageWrites=0,networkRequests=0;
 globalThis.localStorage={getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}};
 globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification must remain offline.');};
-const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().map(file=>`src/controller/${file}`);
+const controllerFiles=fs.readdirSync(path.join(root,'src/kernel')).filter(file=>file.endsWith('.ts')).sort().map(file=>`src/kernel/${file}`);
 await withSsr('boss-evidence-controller-v56',async load=>{
   const t=suite('boss-evidence-controller-v56'),{check}=t;
   const [{createGame:createProductionGame,loadCatalog},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster,SeededRng},{createBattle,buildDataSet},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([

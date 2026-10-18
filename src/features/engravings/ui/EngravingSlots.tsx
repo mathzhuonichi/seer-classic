@@ -1,5 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
-import type {GameController,MonsterView} from '../../../kernel/contract.ts';
+import type { GameController } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {ENGRAVING_EFFECT_GROUPS,ENGRAVING_SLOTS} from '../../../domain/engravings/engravings.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';

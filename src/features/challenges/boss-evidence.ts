@@ -3,7 +3,7 @@ import ruleIndex from '../../../data/boss-rule-support-v56.json';
 import type {BossEncounter} from '../../../battle/core/src/types.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import type {StatKey} from '../../../raising/core/types.ts';
-import type {BossEvidenceStatus,BossEvidenceView} from '../../kernel/contract.ts';
+import type { BossEvidenceStatus, BossEvidenceView } from '../../shared/views.ts';
 import {encounterLevel} from '../../shared/encounter-level.ts';
 import {STAT_LABELS} from '../../shared/labels.ts';
 

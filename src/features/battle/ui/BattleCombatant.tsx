@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { BattleMonsterView, BattlePresentationFrame } from '../../../kernel/contract.ts';
+import type { BattleMonsterView, BattlePresentationFrame } from '../../../shared/views.ts';
 import { getCreatureArt } from '../../../shared/creature-art.ts';
 import { STATUS_LABELS } from '../../../shared/labels.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';

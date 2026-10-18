@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import OverviewTab from './raising/OverviewTab.tsx';
 import AbilityTab from './raising/AbilityTab.tsx';

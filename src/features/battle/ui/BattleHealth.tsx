@@ -1,4 +1,4 @@
-import type { BattleMonsterView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView } from '../../../shared/views.ts';
 import { creatureArtStyle, getCreatureArt } from '../../../shared/creature-art.ts';
 import { encounterLevel } from '../../../shared/encounter-level.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import type {GameController,GameSnapshot} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';

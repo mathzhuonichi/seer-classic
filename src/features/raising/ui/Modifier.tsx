@@ -1,5 +1,6 @@
 import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
-import type {GameSnapshot,GameController,MonsterView} from '../../../kernel/contract.ts';
+import type { GameSnapshot, GameController } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP,IV_MAX,IV_MIN} from '../../../../raising/core/stats.ts';
 import {MAX_LEVEL} from '../../../../raising/core/growth.ts';

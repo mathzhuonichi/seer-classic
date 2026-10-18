@@ -12,7 +12,7 @@ import { conventionalMovesResolver } from '../domain/acquisition/conventional-mo
 import type { RecruitmentCatalog, RecruitmentReward } from '../domain/acquisition/recruitment.ts';
 import { buildSkinOptions } from '../domain/acquisition/skins.ts';
 import { getEligibleRecruitmentSPTs } from '../domain/acquisition/spt-recruitment.ts';
-import type { BattleFacilityView } from './contract.ts';
+import type { BattleFacilityView } from '../shared/views.ts';
 import { enrichCatalog } from '../domain/catalog/enrichment.ts';
 
 export type BattleFactory = (options: BattleOptions) => Battle;

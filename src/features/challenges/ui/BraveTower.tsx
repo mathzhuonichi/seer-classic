@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import type {GameSnapshot} from '../../../kernel/contract.ts';
+import type { GameSnapshot } from '../../../kernel/contract.ts';
 import {BRAVE_TOWER_SEGMENT,braveTowerPosition} from '../../../domain/challenges/brave-tower.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';

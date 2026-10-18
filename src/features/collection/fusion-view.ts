@@ -1,6 +1,6 @@
 // Fusion panel view builders. Every fusion rule query of the panel lives here, so the snapshot can
 // serve these results instead once the controller exposes them.
-import type {ItemView,MonsterView} from '../../kernel/contract.ts';
+import type { ItemView, MonsterView } from '../../shared/views.ts';
 import {getSpeciesAcquisition} from '../../domain/acquisition/acquisition.ts';
 import {FUSION_PARENT_POLICY,FUSION_RECIPES,canFuseParents,fusionBeadItemId,type FusionOutcome,type FusionRecipe} from '../../domain/recipes/fusion.ts';
 import type {SpeciesName} from '../../shared/creature-art.ts';

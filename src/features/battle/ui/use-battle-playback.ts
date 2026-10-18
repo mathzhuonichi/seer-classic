@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { BattlePresentationFrame, BattleView, GameAction, GameController } from '../../../kernel/contract.ts';
+import type { GameAction, GameController } from '../../../kernel/contract.ts';
+import type { BattlePresentationFrame, BattleView } from '../../../shared/views.ts';
 import { gameAudio } from '../../../shared/audio/game-audio.ts';
 import { battleAnimationTiming } from '../battle-animation.ts';
 import { battleEndSound, settledDialogue } from '../battle-hud.ts';

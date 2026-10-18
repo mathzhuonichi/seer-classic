@@ -1,12 +1,12 @@
 import {useCallback,useEffect,useMemo,useRef,useState,useSyncExternalStore,type ChangeEvent,type MouseEvent} from 'react';
 import {createGame,loadCatalog} from '../kernel/game.ts';
-import type {GameController} from '../kernel/contract.ts';
-import {Battle} from '../features/battle/index.ts';
-import {WorldMap} from '../features/world/index.ts';
-import {ChallengeCampaignScene} from '../features/challenges/index.ts';
-import {Modifier} from '../features/raising/index.ts';
+import type { GameController } from '../kernel/contract.ts';
+import {Battle} from '../features/battle/ui.ts';
+import {WorldMap} from '../features/world/ui.ts';
+import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
+import {Modifier} from '../features/raising/ui.ts';
 import GameWindow from '../shared/ui/GameWindow.tsx';
-import {BattleLoading} from '../features/battle/index.ts';
+import {BattleLoading} from '../features/battle/ui.ts';
 import {GameToolbar} from './ShellPanels.tsx';
 import {ShellWindowContent} from './ShellWindowContent.tsx';
 import {shellRoutes} from './shell-routes.ts';
@@ -67,12 +67,13 @@ export function Game({controller:c}:{controller:GameController}){
   const {routes,battle,audio}=latest.current;
   if(action.type==='closeBattle'){
    const before=c.snapshot(),result=before.battle?.result;
-   audio.closing(before);c.dispatch(action);close();if(result)setMessage(result);return;
+   audio.closing(before);const done=c.dispatch(action);close();if(result)setMessage(result);return done;
   }
   const campaign=campaignForAction(action);
-  if(campaign){routes.openCampaign(campaign.id);return}
-  if(startsBattle(action)){void battle.begin(action);return}
-  const before=c.snapshot();c.dispatch(action);const sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound);
+  if(campaign){routes.openCampaign(campaign.id);return {ok:true}}
+  if(startsBattle(action)){void battle.begin(action);return {ok:true}}
+  const before=c.snapshot(),done=c.dispatch(action),sound=actionSound(action,before,c.snapshot());if(sound)gameAudio.playSfx(sound);
+  return done;
  }}),[c]);
  function openTool(kind:WindowKind){
   if(preparation)return;

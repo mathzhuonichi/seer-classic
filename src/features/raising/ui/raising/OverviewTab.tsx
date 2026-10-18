@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {GameController,MonsterView} from '../../../../kernel/contract.ts';
+import type { GameController } from '../../../../kernel/contract.ts';
+import type { MonsterView } from '../../../../shared/views.ts';
 import {STAT_KEYS} from '../../../../../raising/core/types.ts';
 import {IV_MAX} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';

@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {battleActive,hpPercent} from '../../../shared/view-helpers.ts';
 import {appearanceOf,partyMonsters} from '../../../shared/monster-views.ts';

@@ -6,7 +6,7 @@ import {
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
 import { buildBossEncounterEvidence, mergeBossEvidence } from './boss-evidence.ts';
-import type { BraveTowerView, CampaignStageView, CampaignView } from '../../kernel/contract.ts';
+import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import {opponentViews, towerRewardLabel} from '../collection/index.ts';
 

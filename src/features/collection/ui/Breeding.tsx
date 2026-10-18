@@ -1,5 +1,6 @@
 import {useMemo} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {BREEDING_RECIPES,type BreedingRecipe} from '../../../domain/recipes/breeding.ts';
 import {
   breedingOutcomeLabel,breedingPairValid,breedingParentChoices,breedingRecipeRows,breedingRoutesMissing,isBredOffspring,type BreedingRecipeRow,

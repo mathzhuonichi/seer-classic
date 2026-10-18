@@ -4,7 +4,7 @@ import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import {buildBossEncounterEvidence, buildBossEvidence} from '../challenges/index.ts';
 import { createCatalogViews } from './catalog-views.ts';
-import type { BossView, EncounterOpponentView } from '../../kernel/contract.ts';
+import type { BossView, EncounterOpponentView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
 import { SEER_BEANS_ITEM_ID } from '../../domain/economy.ts';
 import { portrait, typeLabel } from '../../shared/view-common.ts';

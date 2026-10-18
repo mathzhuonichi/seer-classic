@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
-import type { BattleMonsterView, BossEvidenceView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView, BossEvidenceView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
-import {BossEvidenceContent} from '../../challenges/index.ts';
+import {BossEvidenceContent} from '../../challenges/ui.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
 /** A modal over the battle; a click on the backdrop closes it. */

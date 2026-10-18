@@ -1,4 +1,4 @@
-import type {BossEvidenceStatus,BossEvidenceView} from '../../../kernel/contract.ts';
+import type { BossEvidenceStatus, BossEvidenceView } from '../../../shared/views.ts';
 import './boss-evidence.css';
 
 const statusLabels:Record<BossEvidenceStatus,string>={official:'官方资料',observed:'资料记载',inferred:'推定',authored:'重制实现'};

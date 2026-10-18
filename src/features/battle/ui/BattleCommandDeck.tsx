@@ -1,4 +1,4 @@
-import type { BattleMonsterView, BattleView, ItemView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView, BattleView, ItemView } from '../../../shared/views.ts';
 import { gameAudio } from '../../../shared/audio/game-audio.ts';
 import type { BattleItemChoice } from '../battle-hud.ts';
 import BattleItemPane from './BattleItemPane.tsx';

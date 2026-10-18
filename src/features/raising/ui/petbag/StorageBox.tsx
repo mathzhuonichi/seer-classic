@@ -1,5 +1,6 @@
 import {useMemo,useState} from 'react';
-import type {GameSnapshot,MonsterView} from '../../../../kernel/contract.ts';
+import type { GameSnapshot } from '../../../../kernel/contract.ts';
+import type { MonsterView } from '../../../../shared/views.ts';
 import {matchesElement} from '../../../../shared/element-types.ts';
 import {usePager} from '../../../../shared/ui/use-pager.ts';
 import MonsterCard from '../../../../shared/ui/MonsterCard.tsx';

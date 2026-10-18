@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import type { BattleView } from '../../../kernel/contract.ts';
+import type { BattleView } from '../../../shared/views.ts';
 import { recentBattleLog } from '../battle-hud.ts';
 
 /** The current line, the latest turn's entries, and the expandable full record. */

@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import type {ItemView} from '../../../../kernel/contract.ts';
+import type { ItemView } from '../../../../shared/views.ts';
 import {itemCategoryOptions,raisingItemCategory} from '../../../../shared/item-categories.ts';
 import ItemCategoryTabs from '../../../../shared/ui/ItemCategoryTabs.tsx';
 import ItemIcon from '../../../../shared/ui/ItemIcon.tsx';

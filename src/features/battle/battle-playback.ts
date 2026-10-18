@@ -1,5 +1,5 @@
 // Timing of the battle presentation: how long each frame of a turn stays on screen.
-import type { BattlePresentationFrame } from '../../kernel/contract.ts';
+import type { BattlePresentationFrame } from '../../shared/views.ts';
 import type { MoveTiming } from './battle-animation.ts';
 
 type FrameKind = BattlePresentationFrame['kind'];

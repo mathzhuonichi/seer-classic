@@ -12,7 +12,7 @@ import { traits } from '../../domain/traits.ts';
 import { getBreedingGender } from '../../domain/recipes/breeding.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
 import { SKILL_CATEGORY_LABELS } from '../../shared/labels.ts';
-import type { EngravingView, EvolutionChoiceView, MonsterEngravingsView, MonsterView, SkillView } from '../../kernel/contract.ts';
+import type { EngravingView, EvolutionChoiceView, MonsterEngravingsView, MonsterView, SkillView } from '../../shared/views.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import {engravingHolder, equippedEngravingCounts, equippedEngravings} from '../engravings/index.ts';

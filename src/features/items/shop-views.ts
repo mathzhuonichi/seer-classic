@@ -1,5 +1,5 @@
 // Pure rules of the item shop page: product search and the order form.
-import type {ShopItemView} from '../../kernel/contract.ts';
+import type { ShopItemView } from '../../shared/views.ts';
 import {SHOP_ORDER_MAX} from '../../domain/item-shop.ts';
 
 /** A product search by name, or by the species number an essence hatches (`#12` or `12`). */

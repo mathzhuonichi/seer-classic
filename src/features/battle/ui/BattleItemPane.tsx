@@ -1,4 +1,5 @@
-import type { BattleView, GameAction, ItemView } from '../../../kernel/contract.ts';
+import type { GameAction } from '../../../kernel/contract.ts';
+import type { BattleView, ItemView } from '../../../shared/views.ts';
 import { battleItemPane, itemCardAction, type BattleItemChoice } from '../battle-hud.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';

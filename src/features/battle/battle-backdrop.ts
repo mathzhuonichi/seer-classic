@@ -1,4 +1,5 @@
-import type { BattleView, GameAction, GameSnapshot } from '../../kernel/contract.ts';
+import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
+import type { BattleView } from '../../shared/views.ts';
 import { braveTowerFloor } from '../../domain/challenges/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation, resolveWorldLocation, type WorldLocationId } from '../../domain/world/world.ts';
 import { getCreatureArt } from '../../shared/creature-art.ts';

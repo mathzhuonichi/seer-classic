@@ -1,6 +1,6 @@
 // Breeding panel view builders. Every breeding rule query of the panel lives here, so the snapshot can
 // serve these results instead once the controller exposes them.
-import type {MonsterView} from '../../kernel/contract.ts';
+import type { MonsterView } from '../../shared/views.ts';
 import {getSpeciesAcquisition} from '../../domain/acquisition/acquisition.ts';
 import {BREEDING_RECIPES,canBreedParents,type BreedingRecipe} from '../../domain/recipes/breeding.ts';
 

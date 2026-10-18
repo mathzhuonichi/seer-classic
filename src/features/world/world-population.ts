@@ -1,4 +1,4 @@
-import type { SpeciesView } from '../../kernel/contract.ts';
+import type { SpeciesView } from '../../shared/views.ts';
 
 export interface WorldCreatureInstance {
   /** Stable within a scene: use this for React keys and individual selection. */

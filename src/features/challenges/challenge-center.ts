@@ -1,5 +1,6 @@
 // Rows and texts of the challenge archive (星际挑战档案), built from the snapshot.
-import type {BossView,BraveTowerView,CampaignView,GameSnapshot} from '../../kernel/contract.ts';
+import type { GameSnapshot } from '../../kernel/contract.ts';
+import type { BossView, BraveTowerView, CampaignView } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import {braveTowerFloor,braveTowerPosition} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CAMPAIGNS,CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';

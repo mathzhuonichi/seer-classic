@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react';
-import type { SpeciesView } from '../../../kernel/contract.ts';
+import type { SpeciesView } from '../../../shared/views.ts';
 import { creatureSceneHome, type SceneLayout } from '../map-presentation.ts';
 import type { ScenePoint } from '../scene-geometry.ts';
 import { MAX_ROAM_FRAME_MS, advanceRoam, roamFit, roamTerritory, startRoam, type RoamState } from '../world-roaming.ts';

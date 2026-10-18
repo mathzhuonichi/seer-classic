@@ -1,5 +1,6 @@
 import {useMemo,useState} from 'react';
-import type {GameController,GameSnapshot,MonsterView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { MonsterView } from '../../../shared/views.ts';
 import {FUSION_RECIPES,type FusionRecipe} from '../../../domain/recipes/fusion.ts';
 import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
 import {

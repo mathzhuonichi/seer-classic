@@ -1,4 +1,4 @@
-import type { BattleMonsterView, BattleView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView, BattleView } from '../../../shared/views.ts';
 import { getCreatureArt } from '../../../shared/creature-art.ts';
 import { hpPercent } from '../../../shared/view-helpers.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';

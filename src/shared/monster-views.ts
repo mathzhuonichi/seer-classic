@@ -1,5 +1,7 @@
 // Pure views over owned monsters shared by the monster panels (PetBag, modifier, shops).
-import type {GameSnapshot,MonsterView,Stats} from '../kernel/contract.ts';
+import type { GameSnapshot } from '../kernel/contract.ts';
+import type { MonsterView } from './views.ts';
+import type { StatBlock as Stats } from '../../raising/core/types.ts';
 import {STAT_KEYS} from '../../raising/core/types.ts';
 
 type Roster=Pick<GameSnapshot,'party'|'monsters'>;

@@ -1,4 +1,5 @@
-import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, GameAction, GameSnapshot, QuestView, SpeciesView } from '../../kernel/contract.ts';
+import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
+import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
 import { BRAVE_TOWER_FLOORS, braveTowerPosition } from '../../domain/challenges/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';

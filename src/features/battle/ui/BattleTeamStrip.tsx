@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import type { BattleMonsterView } from '../../../kernel/contract.ts';
+import type { BattleMonsterView } from '../../../shared/views.ts';
 import { getCreatureArt } from '../../../shared/creature-art.ts';
 import './battle-team-strip.css';
 import {encounterLevelText} from '../../../shared/encounter-level.ts';

@@ -139,7 +139,7 @@ The contracts are written as real types in `src/kernel/contract.ts` before any f
   - `SkillView`, `MonsterView`, `ItemView`, `BossEvidenceView`, and the encounter and opponent views.
   - The kernel and the features both import them, so `shared` never imports the kernel.
 
-**Feature indexes.** `features/X/index.ts` is the only module that re-exports. It lists exactly what other features, the kernel and the app use, and AGENTS rule 4 ("no alias exports") applies to every other file.
+**Feature surfaces.** Each feature has two public modules. `features/X/index.ts` is headless: actions, views and types, imported by the kernel and by other features. `features/X/ui.ts` holds the screens and is imported only by the app and by other features' UI. Without this split, the kernel loaded React screens and their import-time side effects, such as the audio settings read. These two modules and `kernel/api.ts` are the only ones that re-export. It lists exactly what other features, the kernel and the app use, and AGENTS rule 4 ("no alias exports") applies to every other file.
 
 **Dispatch result.** `dispatch(action)` returns `DispatchResult`:
 

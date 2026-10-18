@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { battleLevelGained } from '../shared/audio/action-sounds.ts';
 import { gameAudio } from '../shared/audio/game-audio.ts';
-import type { BattleView, GameSnapshot } from '../kernel/contract.ts';
+import type { GameSnapshot } from '../kernel/contract.ts';
+import type { BattleView } from '../shared/views.ts';
 
 const partyLevels = (battle: BattleView) => new Map(battle.party.map(mon => [mon.uid, mon.level]));
 

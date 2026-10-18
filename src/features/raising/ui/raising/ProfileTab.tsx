@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import type {EvolutionChoiceView} from '../../../../kernel/contract.ts';
+import type { EvolutionChoiceView } from '../../../../shared/views.ts';
 import {MAX_LEVEL} from '../../../../../raising/core/growth.ts';
 import {CreatureArt} from '../../../../shared/ui/CreatureArt.tsx';
 import {dispatchNext,feedbackFor,monsterIn,type TabProps} from './dispatch-feedback.ts';

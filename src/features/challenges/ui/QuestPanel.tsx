@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
-import type {BossView,GameController,GameSnapshot,QuestView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { BossView, QuestView } from '../../../shared/views.ts';
 import {battleActive} from '../../../shared/view-helpers.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';

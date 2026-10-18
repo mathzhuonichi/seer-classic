@@ -1,9 +1,10 @@
 import {useEffect,useState} from 'react';
-import type {GameController,GameSnapshot,ShopItemView} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { ShopItemView } from '../../../shared/views.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
-import {EngravingShop} from '../../engravings/index.ts';
+import {EngravingShop} from '../../engravings/ui.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';

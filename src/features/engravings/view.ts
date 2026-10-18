@@ -1,5 +1,7 @@
 // Pure views over the controller's engraving options, shared by the shop page and the PetBag slots.
-import type {EngravingView,GameAction,StatKey} from '../../kernel/contract.ts';
+import type { GameAction } from '../../kernel/contract.ts';
+import type { EngravingView } from '../../shared/views.ts';
+import type { StatKey } from '../../../raising/core/types.ts';
 import type {EngravingEffectGroup} from '../../domain/engravings/engravings.ts';
 import {STAT_KEYS} from '../../../raising/core/types.ts';
 import {STAT_LABELS} from '../../shared/labels.ts';

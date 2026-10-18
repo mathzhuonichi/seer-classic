@@ -1,4 +1,4 @@
-import type {GameAction,GameSnapshot} from '../../kernel/contract.ts';
+import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type {GameSound} from './game-audio.ts';
 type OutcomeSnapshot=Pick<GameSnapshot,'monsters'|'items'|'quests'|'expPool'>;
 /** Positive state transitions are authoritative; notices also describe rejected actions. */

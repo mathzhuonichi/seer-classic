@@ -1,19 +1,16 @@
 {
   "imports": [
-    "src/domain/challenges/battle-facilities.ts -> src/kernel/contract.ts: src/domain must not import src/kernel",
     "src/features/battle/battle-actions.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
     "src/features/battle/battle-actions.ts -> src/features/collection/index.ts: features/battle may not depend on features/collection",
     "src/features/battle/battle-view.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
     "src/features/battle/battle-view.ts -> src/features/raising/index.ts: features/battle may not depend on features/raising",
     "src/features/battle/settlement.ts -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
-    "src/features/battle/ui/BattleDialogs.tsx -> src/features/challenges/index.ts: features/battle may not depend on features/challenges",
+    "src/features/battle/ui/BattleDialogs.tsx -> src/features/challenges/ui.ts: features/battle may not depend on features/challenges",
     "src/features/challenges/progress-views.ts -> src/features/collection/index.ts: features/challenges may not depend on features/collection",
     "src/features/collection/encounter-views.ts -> src/features/challenges/index.ts: features/collection may not depend on features/challenges",
     "src/features/items/actions.ts -> src/features/challenges/index.ts: features/items may not depend on features/challenges",
     "src/shared/audio/action-sounds.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
-    "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel",
-    "src/shared/ui/ClassicRobot.tsx -> src/features/world/index.ts: shared-ui must not import feature",
-    "src/shared/ui/MonsterCard.tsx -> src/kernel/contract.ts: shared-ui must not import src/kernel"
+    "src/shared/monster-views.ts -> src/kernel/contract.ts: src/shared must not import src/kernel"
   ],
   "size": {
     "src/app/App.tsx": {
@@ -160,6 +157,10 @@
       "lines": 0,
       "long": 1
     },
+    "src/features/world/ui/ClassicRobot.tsx": {
+      "lines": 0,
+      "long": 2
+    },
     "src/features/world/ui/SceneContacts.tsx": {
       "lines": 0,
       "long": 1
@@ -178,11 +179,11 @@
     },
     "src/features/world/world-scene.ts": {
       "lines": 0,
-      "long": 4
+      "long": 3
     },
     "src/kernel/contract.ts": {
       "lines": 0,
-      "long": 16
+      "long": 3
     },
     "src/shared/audio/action-sounds.ts": {
       "lines": 0,
@@ -200,10 +201,6 @@
       "lines": 0,
       "long": 2
     },
-    "src/shared/ui/ClassicRobot.tsx": {
-      "lines": 0,
-      "long": 2
-    },
     "src/shared/ui/ItemCategoryTabs.tsx": {
       "lines": 0,
       "long": 1
@@ -215,6 +212,10 @@
     "src/shared/ui/ItemTooltip.tsx": {
       "lines": 0,
       "long": 1
+    },
+    "src/shared/views.ts": {
+      "lines": 0,
+      "long": 14
     },
     "battle/core/src/observe.ts": {
       "lines": 0,

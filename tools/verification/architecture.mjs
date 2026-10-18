@@ -33,7 +33,7 @@ const walk = dir => fs.readdirSync(dir, {withFileTypes: true}).flatMap(entry => 
 /** Zone of a repository-relative path: {zone, feature?, ui?}. */
 function zoneOf(rel) {
   let m;
-  if ((m = rel.match(/^src\/features\/([^/]+)\/(.*)$/))) return {zone: 'feature', feature: m[1], ui: m[2].startsWith('ui/'), entry: m[2] === 'index.ts'};
+  if ((m = rel.match(/^src\/features\/([^/]+)\/(.*)$/))) return {zone: 'feature', feature: m[1], ui: m[2].startsWith('ui/') || m[2] === 'ui.ts', entry: m[2] === 'index.ts' || m[2] === 'ui.ts'};
   if (rel.startsWith('src/shared/ui/')) return {zone: 'shared-ui'};
   for (const zone of ['src/shared', 'src/domain', 'src/kernel', 'src/app', 'battle/core', 'battle/ai', 'raising/core', 'data']) {
     if (rel === zone || rel.startsWith(zone + '/')) return {zone};
@@ -60,7 +60,8 @@ function violation(from, to, toRel) {
     if (to.zone === 'feature' && to.feature === from.feature) return from.ui || from.entry || !to.ui ? null : 'feature rules must not import their ui';
     if (from.ui && to.zone === 'src/kernel' && toRel !== 'src/kernel/contract.ts') return 'feature ui imports only the kernel contract';
     if (to.zone === 'feature') {
-      if (!to.entry) return `import features/${to.feature} through its index.ts`;
+      if (!to.entry) return `import features/${to.feature} through its index.ts or ui.ts`;
+      if (to.ui && !from.ui) return `only UI may import features/${to.feature}/ui.ts`;
       return FEATURE_DEPS[from.feature]?.includes(to.feature) ? null : `features/${from.feature} may not depend on features/${to.feature}`;
     }
     if (to.zone === 'src/kernel') return ['src/kernel/contract.ts', 'src/kernel/api.ts', 'src/kernel/acquire.ts'].includes(toRel) ? null : 'features import the kernel only through contract.ts, api.ts and acquire.ts';
@@ -68,10 +69,11 @@ function violation(from, to, toRel) {
   }
   if (from.zone === 'src/kernel') {
     if (to.zone === 'feature' && !to.entry) return `kernel imports features/${to.feature} through its index.ts`;
+    if (to.zone === 'feature' && to.ui) return 'kernel must not import feature UI';
     return ['src/app', 'main', 'shared-ui', 'other'].includes(to.zone) ? `kernel must not import ${to.zone}` : null;
   }
   if (from.zone === 'src/app') {
-    if (to.zone === 'feature' && !to.entry) return `app imports features/${to.feature} through its index.ts`;
+    if (to.zone === 'feature' && !to.entry) return `app imports features/${to.feature} through its index.ts or ui.ts`;
     return ['main', 'other'].includes(to.zone) ? `app must not import ${to.zone}` : null;
   }
   return null;

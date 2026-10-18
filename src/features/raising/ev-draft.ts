@@ -1,5 +1,5 @@
 // The 学习力 editor's draft (one text field per stat), checked against the raising caps.
-import type {StatKey,Stats} from '../../kernel/contract.ts';
+import type { StatKey, StatBlock as Stats } from '../../../raising/core/types.ts';
 import {STAT_KEYS} from '../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../raising/core/stats.ts';
 

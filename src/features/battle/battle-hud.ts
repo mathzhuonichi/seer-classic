@@ -1,5 +1,5 @@
 // View rules of the battle screen: condition chips, command panes and settled messages.
-import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEvidenceView, ItemView, SkillView } from '../../kernel/contract.ts';
+import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEvidenceView, ItemView, SkillView } from '../../shared/views.ts';
 import { STRUGGLE } from '../../../battle/core/src/constants.ts';
 import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from '../../shared/item-categories.ts';
 import { SKILL_CATEGORY_LABELS, STAGE_LABELS, TYPE_LABELS, type StageKey } from '../../shared/labels.ts';

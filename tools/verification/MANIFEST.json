@@ -13,6 +13,9 @@
       "status": "known-failure",
       "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
     },
+    "architecture.mjs": {
+      "status": "gate"
+    },
     "base-form-acquisition.ts": {
       "status": "gate"
     },

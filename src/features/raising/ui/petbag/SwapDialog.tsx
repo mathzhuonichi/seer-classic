@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import type {MonsterView} from '../../../../kernel/contract.ts';
+import type { MonsterView } from '../../../../shared/views.ts';
 
 type Props={m:MonsterView;party:MonsterView[];order:string[];onSwap:(uid:string)=>void;onClose:()=>void};
 

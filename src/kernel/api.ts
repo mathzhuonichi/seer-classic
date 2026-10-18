@@ -3,7 +3,8 @@ import type { Battle, BossEncounter, Rng } from '../../battle/core/src/index.ts'
 import { putMon, type Monster, type Save } from '../../raising/core/index.ts';
 import type { GameSave } from './save.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
-import type { BattlePresentationFrame, GameAction } from './contract.ts';
+import type { GameAction } from './contract.ts';
+import type { BattlePresentationFrame } from '../shared/views.ts';
 import type { GameContext } from './context.ts';
 
 // Kernel types that feature code may use; features import nothing else from the kernel.

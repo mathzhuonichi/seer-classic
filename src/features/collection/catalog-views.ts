@@ -1,4 +1,4 @@
-import type {BossView, SpeciesView} from '../../kernel/contract.ts';
+import type { BossView, SpeciesView } from '../../shared/views.ts';
 
 type SpeciesRow = Omit<SpeciesView,'owned'>;
 type BossRow = Omit<BossView,'cleared'|'attempts'>;

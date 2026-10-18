@@ -7,7 +7,7 @@ import {EV_STAT_CAP,IV_MAX} from '../../../raising/core/stats.ts';
 import {PARTY_MAX} from '../../../raising/core/storage.ts';
 import {STAT_KEYS} from '../../../raising/core/types.ts';
 import type {CatalogData} from '../catalog/catalog.ts';
-import type {BattleFacilityGroupView,BattleFacilityTeamView,BattleFacilityView} from '../../kernel/contract.ts';
+import type { BattleFacilityGroupView, BattleFacilityTeamView, BattleFacilityView } from '../../shared/views.ts';
 import {NPC_ONLY_SPECIES} from '../acquisition/acquisition.ts';
 import {isNaturalLevel,trainerSkillOrigin} from './trainer-skills.ts';
 import {normalizeNpcTrainingEncounter,npcTrainingProfileView} from './npc-training.ts';

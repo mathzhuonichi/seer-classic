@@ -1,6 +1,6 @@
 // Dex panel view builders. Every acquisition query of the panel lives here; they still read the
 // import-time acquisition index, so the snapshot can serve these results once that index takes the catalog.
-import type {SpeciesView} from '../../kernel/contract.ts';
+import type { SpeciesView } from '../../shared/views.ts';
 import {getAcquisitionFamilies,getAcquisitionFamily,getInitialFormAcquisition,getSpeciesAcquisition,type AcquisitionRoute} from '../../domain/acquisition/acquisition.ts';
 import type {InitialEvolutionStep} from '../../domain/acquisition/initial-acquisition.ts';
 import type {SpeciesName} from '../../shared/creature-art.ts';

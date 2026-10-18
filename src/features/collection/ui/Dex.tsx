@@ -1,5 +1,7 @@
 import {useEffect,useMemo,useState} from 'react';
-import type {GameController,GameSnapshot,SpeciesView,Stats} from '../../../kernel/contract.ts';
+import type { GameController, GameSnapshot } from '../../../kernel/contract.ts';
+import type { SpeciesView } from '../../../shared/views.ts';
+import type { StatBlock as Stats } from '../../../../raising/core/types.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
 import type {AcquisitionRoute} from '../../../domain/acquisition/acquisition.ts';
 import {speciesNamer,type SpeciesName} from '../../../shared/creature-art.ts';
