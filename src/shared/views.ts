@@ -35,9 +35,9 @@ export interface ShopItemView {id:string;name:string;kind:string;description:str
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView {
   id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
-  /** The one claim rule: complete, not yet claimed (or repeatable), and the reward fits the six-copy allowance. */
+  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), and within the six-copy allowance. */
   complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
-  /** Recruitment quests: the essence reward, whether the player holds one to hatch, and its claim ledger. */
+  /** Recruitment quests only; `rewardHeld`: the player holds the reward essence. */
   prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
   repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;
 }
@@ -45,19 +45,15 @@ export interface CampaignStageView { id: string; name: string; bossIds: string[]
 export interface CampaignView {
   id: string; name: string; species: number; speciesName: string; location: string; description: string; stages: CampaignStageView[];
   completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean;
-  /** `essence`: the last stage grants the species' essence. `skills`: each stage teaches one skill instead. */
+  /** `skills`: each stage teaches a skill instead of the last stage granting the essence. */
   reward: 'essence' | 'skills';
 }
 /** Where the player stands in the Brave Tower: one rule for the tower scene, the entrance picker and the archive. */
 export interface BraveTowerPosition {
-  /** The floor the tower scene stands on: the climb's next floor, or the top floor after a completed climb. */
-  floor:number;
-  /** The guardian encounter of that floor. */
-  bossId:string;
-  /** This climb reached the top; a new climb starts from a checkpoint. */
-  climbComplete:boolean;
-  /** Every floor has been cleared at least once. */
-  conquered:boolean;
+  /** The tower scene's floor: the climb's next floor, or the top floor after a completed climb; `bossId` is its guardian. */
+  floor:number;bossId:string;
+  /** This climb reached the top, so a new one starts from a checkpoint; `conquered`: every floor was cleared at least once. */
+  climbComplete:boolean;conquered:boolean;
   /** The checkpoint offered first: the segment of the saved floor, or floor 1 after a completed climb. */
   entrance:number;
 }

@@ -3,7 +3,6 @@ import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, Q
 import { CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
-import { speciesName } from '../../shared/monster-views.ts';
 import type { ScenePoint } from './scene-geometry.ts';
 
 /** What the player is talking to in the current scene. */
@@ -71,9 +70,7 @@ export interface WorldSceneView {
 function towerScene(s: WorldSlices): TowerScene {
   const { highestCleared, totalFloors, position: { floor, bossId, climbComplete } } = s.braveTower;
   const boss = s.bosses.find(entry => entry.id === bossId);
-  const opponents = boss?.opponents?.length ? boss.opponents
-    : boss ? [{ species: boss.species, name: speciesName(s, boss.species, boss.name), level: boss.level, evidence: boss.evidence }] : [];
-  return { floor, complete: climbComplete, highestCleared, totalFloors, boss, opponents };
+  return { floor, complete: climbComplete, highestCleared, totalFloors, boss, opponents: boss?.opponents ?? [] };
 }
 
 function campaignContact(s: WorldSlices, region: WorldRegion): CampaignContact | undefined {

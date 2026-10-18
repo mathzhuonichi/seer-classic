@@ -1,12 +1,11 @@
 import {useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
 import {createGame,loadCatalog} from '../kernel/game.ts';
 import type { GameController } from '../kernel/contract.ts';
-import {Battle} from '../features/battle/ui.ts';
+import {Battle,BattleLoading} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';
 import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
 import {Modifier} from '../features/raising/ui.ts';
 import GameWindow from '../shared/ui/GameWindow.tsx';
-import {BattleLoading} from '../features/battle/ui.ts';
 import {GameToolbar} from './ShellPanels.tsx';
 import {ShellWindowContent} from './ShellWindowContent.tsx';
 import {shellRoutes} from './shell-routes.ts';
