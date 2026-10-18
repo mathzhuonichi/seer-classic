@@ -4,7 +4,7 @@ import {
   ENGRAVING_STAT_TABS,engravingCapNote,engravingMoveChoices,engravingShopProducts,engravingSlotCandidates,equipButtonLabel,matchesEngravingTab,transferHolder,
 } from './view.ts';
 
-const option=fields=>({id:'1',name:'体力刻印',slot:'ability',effect:'体力+60',levelMin:1,bound:false,statKeys:['hp'],era:'2013',ready:true,
+const option=fields=>({id:'1',name:'体力刻印',slot:'ability',effect:'体力+60',levelMin:1,bound:false,statKeys:['hp'],ready:true,
   maxOwned:2,stock:0,equipped:0,equippedHere:false,equipMode:'stock',owned:0,canBuy:true,...fields});
 const holders=[{uid:'a',name:'甲'},{uid:'b',name:'乙'}];
 const noFilter={slot:'all',kind:'all',stat:'',move:'',group:'',search:''};

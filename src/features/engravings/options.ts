@@ -19,7 +19,7 @@ export function engravingView(
   return {
     id: def.id, name: def.name.zh, slot: def.slot, effect: def.effect.desc, levelMin: def.levelMin, bound: def.species.length > 0,
     moveName: moveName || undefined, moveIds: def.moveIds,
-    group: engravingEffectGroup(def), statKeys: engravingStatKeys(def), era: def.era, ready: !reason, reason, note: def.notes?.join(' '),
+    group: engravingEffectGroup(def), statKeys: engravingStatKeys(def), ready: !reason, reason,
     ...access, stock, equipped: count, equippedHere, equippedHolders: holders, equipMode: mode, ...(mode === 'transfer' ? { transferFrom: others } : {}),
     owned: stock + count, canBuy: !access.unlimited && stock + count < access.maxOwned,
   };

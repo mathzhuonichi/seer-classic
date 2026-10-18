@@ -8,7 +8,7 @@ export interface EvolutionChoiceView {species:number;name:string;level:number;re
 export interface EngravingView {
   id: string; name: string; slot: 'ability' | 'skill'; effect: string; levelMin: number; bound: boolean; moveName?: string; moveIds?: number[];
   /** Skill engravings: classifier group (ENGRAVING_EFFECT_GROUPS). Ability engravings: raised stats. */
-  group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
+  group?: string; statKeys: StatKey[]; ready: boolean; reason?: string;
   /** Effective remake cap, preserved legacy stock, equipped copies and every holder. */
   maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
   /** Equipping here needs no copy, takes one from stock, moves one from `transferFrom` (the first by default), or cannot (none, or held here). */
