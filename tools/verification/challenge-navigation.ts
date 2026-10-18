@@ -54,7 +54,7 @@ t.check('all encounters have valid landings and local targets; no unrelated or d
     } else {
       mapped++;
       if (region.bossIds?.includes(boss.id)) explicit++;
-      else { metadata++; assert(['勇者之塔','暗黑武斗场'].includes(boss.category)||[planet.name,...(planet.aliases??[])].some(name=>boss.location?.includes(name)), 'A catalog planet route must be supported by its facility category, retained location text or a source-backed alias.'); }
+      else { metadata++; assert(['tower','dark'].includes(boss.category)||[planet.name,...(planet.aliases??[])].some(name=>boss.location?.includes(name)), 'A catalog planet route must be supported by its facility category, retained location text or a source-backed alias.'); }
     }
     const sceneBosses = findSceneChallenges(planet.id, region.id, bosses, boss.id);
     if(region.campaignId||planet.id==='space-station'&&region.id==='brave-tower')assert.equal(sceneBosses.length,0,`${boss.id} uses its progression entry.`);
@@ -73,7 +73,7 @@ t.check('five Helka training routes', () => {
   }
   assert.equal(findSceneChallenges('helka', 'training-lake', bosses).length, 0, 'The five alternate training challenges must not appear simultaneously.');
 });
-const spt = bosses.filter(boss => boss.category === 'SPT首领');
+const spt = bosses.filter(boss => boss.category === 'spt');
 t.check('all SPT encounters use mapped habitats', () => {
   assert.equal(spt.length, catalog.bosses.filter((boss: any) => boss.category === 'spt').length);
   for (const boss of spt) {
@@ -100,12 +100,12 @@ t.check('55 primary-index destinations in five galaxies plus small Phantom and b
 });
 t.check('actual space-station tower and dark-arena routes', () => {
   assert.deepEqual(findChallengeLocation({ ...bosses.find(boss => boss.id === 'boss_rei')!, location: '海洋星海底' }), { planetId: 'helka', regionId: 'temple', staging: false }, 'Explicit IDs remain authoritative when metadata differs.');
-  for (const [category, planetId, regionId] of [['勇者之塔', 'space-station', 'brave-tower'], ['暗黑武斗场', 'space-station', 'dark-arena'], ['任务挑战', 'station', 'transport']] as const) {
+  for (const [category, planetId, regionId] of [['tower', 'space-station', 'brave-tower'], ['dark', 'space-station', 'dark-arena'], ['quest', 'station', 'transport']] as const) {
     const boss = bosses.find(boss => boss.category === category)!;
     assert(boss, `Missing category ${category}.`);
     assert.deepEqual(findChallengeLocation(boss), { planetId, regionId, staging: planetId==='station' });
   }
-  const unmappedLegend = bosses.find(boss => boss.category === '传说挑战' && !Object.hasOwn(expected, boss.id) && findChallengeLocation(boss).staging)!;
+  const unmappedLegend = bosses.find(boss => boss.category === 'legendary' && !Object.hasOwn(expected, boss.id) && findChallengeLocation(boss).staging)!;
   assert.deepEqual(findChallengeLocation(unmappedLegend), { planetId: 'station', regionId: 'transport', staging: true });
   const hamo = findSceneChallenges('hamo', 'dragon-temple', bosses, 'boss_spt_hamoleite');
   assert.equal(hamo.length, resolveWorldLocation('hamo', 'dragon-temple').region.bossIds!.length, 'The selected mapped boss must not duplicate its existing scene actor.');

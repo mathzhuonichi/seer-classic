@@ -1,6 +1,7 @@
 import type { GameAction } from '../kernel/contract.ts';
 import type { AcquisitionRoute } from '../domain/acquisition/acquisition.ts';
-import { CHALLENGE_CAMPAIGNS, CHALLENGE_CATEGORY, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
+import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
+import type { ChallengeCategoryId } from '../shared/views.ts';
 import { LABORATORY_LOCATION, type WorldLocationId } from '../domain/world/world.ts';
 
 /** The game shell's scene windows, toolbar and navigation routes. */
@@ -23,7 +24,7 @@ export const TOOLBAR: { left: ToolbarTool[]; center: ToolbarTool; right: Toolbar
 /** Initial selections handed to a window when it opens. */
 export interface WindowFocus {
   dexSpecies?: number; fusionRecipeId?: string; breedingRecipeId?: string; bagPocket?: string;
-  questId?: string; facilityId?: string; challengeCategory?: string;
+  questId?: string; facilityId?: string; challengeCategory?: ChallengeCategoryId;
 }
 /** Opening a window from the toolbar clears the selection it was last opened with. */
 export const TOOLBAR_RESETS: Partial<Record<WindowKind, keyof WindowFocus>> = {
@@ -47,7 +48,7 @@ const ROUTE_RESETS: Record<string, keyof WindowFocus> = {
 export function parseRoute(page: string): ShellRoute {
   if (page === 'tower') return { kind: 'tower' };
   if (page === 'tower:choose') return { kind: 'window', windowKind: 'tower', focus: {} };
-  if (page === 'challenge:dark') return { kind: 'window', windowKind: 'challenge', focus: { challengeCategory: CHALLENGE_CATEGORY.dark } };
+  if (page === 'challenge:dark') return { kind: 'window', windowKind: 'challenge', focus: { challengeCategory: 'dark' } };
   if (page.startsWith('campaign:')) return { kind: 'campaign', campaignId: page.slice('campaign:'.length) };
   if (page.startsWith('facilities:')) return { kind: 'window', windowKind: 'facilities', focus: { facilityId: page.slice('facilities:'.length) } };
   const reset = ROUTE_RESETS[page];

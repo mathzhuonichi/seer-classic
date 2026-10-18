@@ -1,5 +1,6 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
+import { CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
 import { speciesName } from '../../shared/monster-views.ts';
@@ -193,7 +194,7 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
     : !tower.complete && boss.id === tower.boss?.id ? { kind: 'battle', action: { type: 'startTower', floor: tower.floor } } : { kind: 'none' };
   return {
     label: `与${name}交谈`, portrait: { species: boss.species, name }, title: name, text,
-    kicker: tower ? scene.name : `${boss.category}${staging ? ' · 挑战接驳' : ''}`,
+    kicker: tower ? scene.name : `${CHALLENGE_CATEGORY[boss.category]}${staging ? ' · 挑战接驳' : ''}`,
     detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
     towerTeam: tower && { floor: tower.floor,
       opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },

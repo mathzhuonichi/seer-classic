@@ -1,4 +1,4 @@
-import { CHALLENGE_CATEGORY } from '../challenges/challenge-campaigns.ts';
+import type { ChallengeCategoryId } from '../../shared/views.ts';
 import { WORLD_PLANETS } from './planets.ts';
 import type { WorldLocationId, WorldPlanet, WorldRegion } from './types.ts';
 
@@ -34,7 +34,7 @@ export function resolveWorldLocation(planetId: string, regionId: string): { plan
 }
 
 /** The encounter fields that decide where it is staged. */
-export interface ChallengeTarget { id: string; category: string; location?: string }
+export interface ChallengeTarget { id: string; category: ChallengeCategoryId; location?: string }
 export interface ChallengeLocation extends WorldLocationId { staging: boolean }
 
 function namedPlanetLocation(location: string): ChallengeLocation | undefined {
@@ -54,8 +54,8 @@ export function findChallengeLocation(boss: ChallengeTarget): ChallengeLocation 
   for (const planet of WORLD_PLANETS) for (const region of planet.regions) {
     if (region.bossIds?.includes(boss.id)) return { planetId: planet.id, regionId: region.id, staging: false };
   }
-  if (boss.category === CHALLENGE_CATEGORY.tower) return { ...BRAVE_TOWER_LOCATION, staging: false };
-  if (boss.category === CHALLENGE_CATEGORY.dark) return { ...DARK_ARENA_LOCATION, staging: false };
+  if (boss.category === 'tower') return { ...BRAVE_TOWER_LOCATION, staging: false };
+  if (boss.category === 'dark') return { ...DARK_ARENA_LOCATION, staging: false };
   return namedPlanetLocation(boss.location?.replace(/[\s()（）]/g, '') ?? '') ?? { ...STAGING_LOCATION, staging: true };
 }
 

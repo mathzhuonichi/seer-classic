@@ -3,7 +3,7 @@ import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { bossEncounterForAttempt, isRegularEncounter } from '../../domain/challenges/boss-encounter.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
-import { opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { encounterCategory, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
@@ -11,14 +11,6 @@ import { portrait, typeLabel } from '../../shared/view-common.ts';
 
 type EncounterExtras = { location?: { zh?: string }; strategy_notes?: { zh?: string } | string };
 
-
-function encounterCategory(b: BossEncounter): string {
-  if (b.category === 'trainer') return '训练师对战';
-  if (b.name!.zh.includes('暗黑')) return '暗黑武斗场';
-  if (b.category === 'tower') return '勇者之塔';
-  if (b.category === 'legendary') return '传说挑战';
-  return ['story', 'event'].includes(String(b.category)) ? '任务挑战' : 'SPT首领';
-}
 
 function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
   const rewards = braveTowerRewards(boss.reward as BraveTowerRewardSource);
