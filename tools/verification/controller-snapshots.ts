@@ -58,7 +58,7 @@ export async function verifySnapshotIdentity(){
 }
 
 /**
- * Slice builders rebuild rows only when their inputs change (monster rows, quests). After each step the snapshot equals
+ * Slice builders rebuild rows only when their inputs change (monster rows, quests, recipes). After each step the snapshot equals
  * the one a new controller builds from the exported save, and exactly the monster rows listed as changed are new; `maybe` rows
  * may change either way.
  */
@@ -76,8 +76,8 @@ export async function verifySnapshotInputs(){
       assert.equal(mon!==before.get(mon.uid),changed.includes(mon.uid),`${label}: ${mon.name} ${changed.includes(mon.uid)?'is new':'keeps its row'}.`);
     checks.push(label);
   };
-  act({type:'cheatResources',coins:100000},...[15,15,19,20,20,20,20,20].map((species):GameAction=>({type:'cheatAcquire',species,level:100})))();
-  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).traitId)!.id;
+  act({type:'cheatResources',coins:100000},...[15,15,19,20,20,20,20,20,97,14].map((species):GameAction=>({type:'cheatAcquire',species,level:100})))();
+  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),[x]=uids(14),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).traitId)!.id;
   step('notice dismissed',act({type:'dismissNotice'}),[]);
   step('rename',act({type:'rename',uid:m,name:'Identity'}),[m]);
   step('party',act({type:'party',uid:m,add:false}),[m]);
@@ -94,6 +94,12 @@ export async function verifySnapshotInputs(){
   step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);
   assert(row(m).evolutionChoices[0].blockedReason,'Six copies block the evolution.');
   step('evolution frees capacity',act({type:'evolve',uid:c}),[c,m]);
+  step('evolution into a fusion parent',act({type:'evolve',uid:x}),[x]);
+  assert.equal(game.snapshot().fusion.recipes.find(recipe=>recipe.recipe.id==='fusion-401')!.pairs.length,3,'The evolved form pairs with the secondary.');
+  act(...[450,447].map((species,index):GameAction=>({type:'cheatAcquire',species,level:49+index*11})))();
+  const [male]=uids(450);
+  step('breeding level reached',act({type:'cheatMonster',uid:male,level:50}),[male]);
+  assert.equal(game.snapshot().breeding.recipes.find(recipe=>recipe.recipe.id==='breeding-1')!.pairs.length,1,'A Lv 50 male breeds.');
   step('quest reward capacity',act(...Array.from({length:6},():GameAction=>({type:'cheatAcquire',species:10,level:5}))),[]);
   assert(game.snapshot().quests.find(quest=>quest.rewardSpecies===10)!.blockedReason,'Six copies block the quest reward.');
   const quest=game.snapshot().quests.find(quest=>quest.prerequisites?.some(condition=>condition.kind==='species'&&!condition.complete))!;
