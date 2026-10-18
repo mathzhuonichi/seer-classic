@@ -2,17 +2,15 @@
 import assert from 'node:assert/strict';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createServer} from 'vite';
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],report={checks};
-const check=(name,run)=>{run();checks.push(name)};
-try{
+memoryStorage();
+const report={};
+await withSsr('trainer-hp-visibility-v58',async load=>{
+  const t=suite('trainer-hp-visibility-v58'),{check}=t;
   const [{loadCatalog},{createGame},{Rng},{createBattle},{buildDataSet},{createFacilityEncounter},{npcTrainingScripts},{battleEventText},{default:Battle}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/npc-training-scripts.ts','/src/features/battle/battle-log.ts','/src/features/battle/ui/Battle.tsx',
-  ].map(file=>server.ssrLoadModule(file)));
+  ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const seed=createGame(catalog,'');
   for(const uid of seed.snapshot().party)seed.dispatch({type:'cheatMonster',uid,level:100});
@@ -120,8 +118,5 @@ try{
     assert.equal(text({type:'heal',side:1,amount:25,hp:295,maxHp:400},false),'敌恢复 25 点体力，剩余体力 295/400。');
     assert.equal(text({type:'revive',side:1,hp:200,maxHp:400},false),'敌恢复了战斗能力，剩余体力 200/400。');
   });
-  console.log(JSON.stringify(report,null,2));
-}finally{
-  await server.close();
-  if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;
-}
+  t.finish(report);
+});
