@@ -5,7 +5,6 @@ export interface MonsterModules {
   engravingDeficit?: { hp: number; pp: Record<string,number> };
 }
 
+// Re-exports kept only for src/game.ts; import them from their modules instead.
 export { engravings } from './engravings.ts';
-export type { EngravingDefinition } from './engravings.ts';
 export { traits } from './traits.ts';
-export type { TraitDefinition } from './traits.ts';
