@@ -130,9 +130,9 @@ Continue on branch `claude/refactor`. The target is `architecture-v2.md`, which 
 - **Resolved in `ab0b5e6`:** `handoff-2026-10-18.md` item 1 is marked resolved.
 
 **Distribution:**
-- `tools/distribution/pack_source.py` `SOURCE_FILES` misses `AGENTS.md`, `CLAUDE.md`, `ARCHITECTURE.md`, `CHANGELOG.md` and `preview.html`. Then fold `DELIVERY.md` into `CHANGELOG.md`.
-- `SOURCE-MANIFEST.json` lists deleted files.
-- `tools/assets/download_original_maps.py` must also scan the world `classic-planets.ts`.
+- **Resolved in `c724634` and `056f4e8`:** `tools/distribution/pack_source.py` `SOURCE_FILES` misses `AGENTS.md`, `CLAUDE.md`, `ARCHITECTURE.md`, `CHANGELOG.md` and `preview.html`. Then fold `DELIVERY.md` into `CHANGELOG.md`.
+- **Resolved in `9f9ab02` (deleted; nothing read it):** `SOURCE-MANIFEST.json` lists deleted files.
+- **Resolved in `7b98bf9`:** `tools/assets/download_original_maps.py` must also scan the world `classic-planets.ts`.
 
 **Code:**
 - Move `scripts/constants.ts` into `battle/core/src/constants.ts`.

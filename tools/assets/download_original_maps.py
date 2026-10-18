@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / '.cache/map-assets'
 DEST = ROOT / 'public/maps/original'
 HOST = 'https://seerh5.61.com/'
+WORLD_SOURCES = ('classic-planets.ts', 'expansion.ts')
 
 
 def download(url, target):
@@ -60,20 +61,25 @@ def recover(map_id, versions):
     return record
 
 
+def world_map_ids():
+    """Map ids named by the world module's planets, regions and expansion destinations."""
+    ids = set()
+    for name in WORLD_SOURCES:
+        text = (ROOT / 'src/domain/world' / name).read_text()
+        ids.update(map(int, re.findall(r'originalMapId[\"\x27]?\s*:\s*(\d+)', text)))
+        ids.update(map(int, re.findall(r'destination\([^\n]+?,\s*(\d+)\s*,\s*"[^\"]+"\s*,', text)))
+    return ids
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('ids', nargs='*', type=int)
     args = parser.parse_args()
+    ids = set(args.ids) or world_map_ids()
     DEST.mkdir(parents=True, exist_ok=True)
     version_url = HOST + 'version/version.json'
     version_bytes = download(version_url, CACHE / 'version.json')
     versions = json.loads(version_bytes)['files']['resource']['assets']['map']
-    ids = set(args.ids)
-    if not ids:
-        for name in ['world.ts', 'world-expansion.ts']:
-            text = (ROOT / 'src' / name).read_text()
-            ids.update(map(int, re.findall(r'originalMapId[\"\x27]?\s*:\s*(\d+)', text)))
-            ids.update(map(int, re.findall(r'destination\([^\n]+?,\s*(\d+)\s*,\s*"[^\"]+"\s*,', text)))
     manifest_path = ROOT / 'public/maps/original-manifest.json'
     previous = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     maps, failures = previous.get('maps', {}), previous.get('failures', {})

@@ -33,7 +33,7 @@ def files_under(directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--format", choices=["tar.gz", "zip"], default="tar.gz")
-    parser.add_argument("--revision", type=int, default=18)
+    parser.add_argument("--revision", type=int, required=True)
     args = parser.parse_args()
     if args.revision < 1:
         parser.error("revision must be a positive integer")

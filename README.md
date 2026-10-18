@@ -14,7 +14,7 @@ A local, single-player remake of pre-2013 Seer (赛尔号), focused on PvE battl
 | [design/notes/INDEX.md](design/notes/INDEX.md) | Every design note with a one-line summary and its status. |
 | [CHANGELOG.md](CHANGELOG.md) | What each revision changed, newest first. |
 
-`approved-plan.json` records the user's product decisions through revision 50; later decisions are in the design notes. `DELIVERY.md` holds the delivery reports for versions 0.1 to 0.3.2.
+`approved-plan.json` records the user's product decisions through revision 50; later decisions are in the design notes.
 
 ## Run and check
 
@@ -47,7 +47,7 @@ npm run package                  # macOS .app through Tauri (needs Rust and the 
 Two scripts write distributable archives to the ignored `releases/` directory:
 
 - `python3 tools/distribution/pack_linux_playtest.py --revision N --format zip` packages an existing `dist/` build with its public assets as a portable browser game. The player runs `python3 start.py`; see [distribution/PLAYTEST.md](distribution/PLAYTEST.md).
-- `python3 tools/distribution/pack_source.py --revision N` packages the working tree as one source ZIP and two asset ZIPs. It generates `START-HERE-SOURCE.md` and `SOURCE-MANIFEST.json` inside the source ZIP. The root `SOURCE-MANIFEST.json` is the revision 30 inventory used to check the transferred assets.
+- `python3 tools/distribution/pack_source.py --revision N` packages the working tree as one source ZIP and two asset ZIPs. It generates `START-HERE-SOURCE.md` and `SOURCE-MANIFEST.json` inside the source ZIP.
 
 ## Content
 

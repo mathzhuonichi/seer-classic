@@ -6,12 +6,13 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_DIRECTORIES = ("src", "battle", "raising", "data", "design", "tools", "distribution", "src-tauri")
-SOURCE_FILES = (".gitignore", "README.md", "DELIVERY.md", "approved-plan.json", "index.html",
-                "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts")
+SOURCE_FILES = (".gitignore", "AGENTS.md", "ARCHITECTURE.md", "CHANGELOG.md", "CLAUDE.md", "README.md", "approved-plan.json",
+                "index.html", "preview.html", "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts")
 EXCLUDED_PARTS = {".git", "node_modules", "dist", "artifacts", "releases", ".cache", "__pycache__", ".DS_Store"}
 MAX_ARCHIVE_BYTES = 500_000_000
 
@@ -37,7 +38,18 @@ def selected(path):
     return path.is_file()
 
 
+def unpacked_tracked_files(source):
+    """Git-tracked files outside public/ that the source selection leaves out; none outside a Git checkout."""
+    if not (ROOT / ".git").exists():
+        return []
+    tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True).stdout.decode()
+    packed = {path.relative_to(ROOT).as_posix() for path in source}
+    return sorted(name for name in tracked.split("\0")
+                  if name and not name.startswith("public/") and (ROOT / name).is_file() and name not in packed)
+
+
 def instructions(revision):
+    version = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"]
     return f"""# Seer Classic revision {revision}: editable source
 
 This delivery contains the current editable application source and the complete
@@ -103,8 +115,8 @@ optional workflows and their source requirements.
 file in this delivery, including modified and untracked source files. It also
 records which ZIP contains each file. Its content identity covers that inventory;
 the manifest and this generated instruction file are not self-hashed. The source
-snapshot is identified as development revision {revision}; the existing package
-metadata remains version 0.3.2.
+snapshot is identified as development revision {revision}; the package metadata
+is version {version}.
 
 The package excludes Git history, installed dependencies, compiled output,
 temporary artifacts, old releases, research caches, Tauri target/generated
@@ -114,7 +126,7 @@ directories, operating-system metadata, and player saves.
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--revision", type=int, default=30)
+    parser.add_argument("--revision", type=int, required=True)
     args = parser.parse_args()
     if args.revision < 1:
         parser.error("revision must be positive")
@@ -126,6 +138,9 @@ def main():
     source = sorted(set(source))
     if any(not selected(path) for path in source):
         parser.error("A required source file is absent or excluded")
+    left_out = unpacked_tracked_files(source)
+    if left_out:
+        parser.error("Add these tracked files to SOURCE_FILES or SOURCE_DIRECTORIES: " + ", ".join(left_out))
     assets = sorted(path for path in (ROOT / "public").rglob("*") if selected(path))
     groups = [(name + "-source.zip", source), (name + "-assets-1-of-2.zip", []),
               (name + "-assets-2-of-2.zip", [])]

@@ -11,10 +11,10 @@ The proposed runtime is Python 3.8 or newer plus a modern browser with JavaScrip
 After the frontend source is ready and the approved production build succeeds, run:
 
 ```sh
-python3 tools/distribution/pack_linux_playtest.py
+python3 tools/distribution/pack_linux_playtest.py --revision 18
 ```
 
-The default archive is `releases/seer-classic-linux-playtest-v18.tar.gz`. Use `--format zip` for a ZIP archive with the same root directory. The packager never invokes a build. It rejects missing or changed public assets by comparing their SHA-256 digests with `dist`, preventing use of the existing outdated build. It copies only the frontend entry point, compiled assets, complete public tree, launcher, playtest instructions, bug template, and content manifest. Generated archives and staging files stay under the ignored `releases/` directory.
+The archive is `releases/seer-classic-linux-playtest-v18.tar.gz`. Use `--format zip` for a ZIP archive with the same root directory. The packager never invokes a build. It rejects missing or changed public assets by comparing their SHA-256 digests with `dist`, preventing use of the existing outdated build. It copies only the frontend entry point, compiled assets, complete public tree, launcher, playtest instructions, bug template, and content manifest. Generated archives and staging files stay under the ignored `releases/` directory.
 
 `PACKAGE.json` records the content identity, per-file hashes and sizes. The archive has a separate `.sha256` sidecar. The archive root is always `seer-classic-linux-playtest-v18` and contains `game/`, `start.py`, `PLAYTEST.md`, `BUG_REPORT.md`, and `PACKAGE.json`.
 
