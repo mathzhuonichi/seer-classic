@@ -34,9 +34,7 @@ const buyItem: ActionHandler<'buyItem'> = (rt, action) => {
     const stock = allowance(ctx, save, item.hatches);
     if (quantity > stock.remaining) throw new Error(acquisitionLimitReason(ctx.speciesName(item.hatches), stock));
   }
-  const count = (save.items[itemId] ?? 0) + quantity;
-  if (!Number.isSafeInteger(count)) throw new Error('道具库存已达到上限。');
-  save.items[itemId] = count;
+  save.items[itemId] = (save.items[itemId] ?? 0) + quantity;
   notice(rt, `免费购买：${itemName(item)} ×${quantity}，已加入道具背包。`);
 };
 
