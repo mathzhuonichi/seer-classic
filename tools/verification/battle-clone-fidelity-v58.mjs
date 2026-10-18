@@ -53,7 +53,7 @@ try {
   const {createBattle, buildDataSet, Rng, STRUGGLE_SKILL} = core;
   const {createFacilityEncounter, facilityPool} = facilities;
 
-  // Game-equivalent catalog, data set and script registry (src/game.ts).
+  // Game-equivalent catalog (src/domain/catalog/enrichment.ts), data set (src/kernel/context.ts) and script registry (src/features/battle/battle-setup.ts).
   const loaded = await loadCatalog();
   const catalog = {...loaded, items: supplies.normalizeBattleSupplyItems(loaded.items), bosses: structuredClone(loaded.bosses)};
   const data = buildDataSet(catalog);
@@ -182,7 +182,7 @@ try {
     return {kind: 'player', name: 'player', team: team.map((m, slot) => ({...m, uid: `p${slot}`})), items: {...PLAYER_ITEMS}, traits: withTraits};
   }
   function attachTraits(battle, rng) {
-    // As src/game.ts does for the player's monsters.
+    // As src/features/battle/battle-setup.ts does for the player's monsters.
     for (const mon of battle.sides[0].team) {
       const trait = rng.pick(implementedTraits);
       mon.conditions.push({id: `trait-${trait.id}`, def: {id: `trait-${trait.id}`, name: {zh: trait.name}, kind: 'buff', removed_on_switch: false, hooks: trait.hooks}, turns: Infinity, appliedTurn: 0});

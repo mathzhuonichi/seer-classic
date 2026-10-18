@@ -117,8 +117,8 @@ export function effStat(b: Battle, mon: Mon, stat: StageKey & keyof Stats): numb
  * (RANDOM_MIN..RANDOM_MAX) and crit; 0 for a skill that never strikes (status or
  * unpowered: its damage comes from effect ops). Reuses calcAttack and the damage pipeline
  * of applyDamage. Draws no RNG, emits no events and mutates nothing beyond the
- * caches of estimate-mode power scripts: the skill's own power and defense
- * scripts run in estimate mode, other scripts (modifyDamage, finalDamage and
+ * caches of estimate-mode power scripts: the skill's own power scripts run in
+ * estimate mode and its defense scripts as usual, other scripts (modifyDamage, finalDamage and
  * every script hook) are not run, chance-gated power counts as not triggered,
  * charges are not consumed and a cap-break chance counts as failed. Those cases
  * are journaled as opaque, so every non-opaque real hit equals the probe at its

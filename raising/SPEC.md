@@ -213,17 +213,17 @@ unless `unlimited` (the game's unlimited-access mode) is set.
 ## 11. Code map
 
 ```
-core/types.ts      shared shapes (Monster, Save, Species, events)
-core/stats.ts      stat formula and caps (also used by battle core)
-core/growth.ts     4 EXP curves
-core/monster.ts    create, 学习力, 个体, 性格, EXP/levels, skills, evolution
-core/rewards.ts    after-battle EXP/学习力 split, exp pool, 经验分配器
-core/storage.ts    party/box, release, rename, heal, item counts, 精元 hatching
-core/items.ts      raising items, boosters, 能量珠, tickBoosts
-core/dex.ts        Dex from parsed data files
-core/index.ts      the barrel, plus battle core's sfc32 Rng as SeededRng
-core/*.test.mjs    node:test unit tests on a fixture Dex (npm test)
-game/save.ts       save create/validate/migrate/serialise
+core/types.ts          shared shapes (Monster, Save, Species, events)
+core/stats.ts          stat formula and caps (also used by battle core)
+core/growth.ts         4 EXP curves
+core/monster.ts        create, 学习力, 个体, 性格, EXP/levels, skills, evolution
+core/rewards.ts        after-battle EXP/学习力 split, exp pool, 经验分配器
+core/storage.ts        party/box, release, rename, heal, item counts, 精元 hatching
+core/items.ts          raising items, boosters, 能量珠, tickBoosts
+core/dex.ts            Dex from parsed data files
+core/index.ts          the barrel, plus battle core's sfc32 Rng as SeededRng
+core/*.test.mjs        node:test unit tests on a fixture Dex (npm test)
+../src/kernel/save.ts  save create/validate/migrate/serialise
 ```
 
 Every rule function is pure: it returns a new object plus an ordered list of

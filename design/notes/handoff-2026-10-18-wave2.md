@@ -61,10 +61,11 @@ Continue on branch `claude/refactor`. The target is `architecture-v2.md`, which 
 **Last full check:** `npm run verify` passed 57/57, including the architecture gate; build passes, 88/88 unit tests.
 
 **Still to do before the wave-2 workers start:**
-- **`useGame(selector)` hook** in `shared/ui`, plus slice identity in `kernel/snapshot.ts`. This could also be the first task of unit A, folded into C1.
-- **Rewrite `ARCHITECTURE.md`** from `architecture-v2.md` for the new tree. It still describes the wave-1 layout; its paths were rewritten mechanically.
-- **Fold `src/domain/INTEGRATION.md`** (the old mechanics integration notes) into `ARCHITECTURE.md` or `battle/core/SCRIPTS.md`.
-- **Delete `tools/refactor/`** once no further mechanical move is needed. `move-files.mjs` moves any file list and rewrites imports and path strings; keep it until wave 2 ends.
+- **Done in `9d755cd` and `ab0b5e6`:** the `useGame(c, select)` hook in `shared/ui`, and slice identity in `kernel/snapshot.ts`.
+- **Done in `ab0b5e6`:** `ARCHITECTURE.md` rewritten from `architecture-v2.md` for the new tree.
+- **Done in `ab0b5e6`:** `src/domain/INTEGRATION.md` folded into `ARCHITECTURE.md` and `battle/core/SCRIPTS.md`, and deleted.
+- **Done in `91bb67a`:** the one-shot scripts in `tools/refactor/` are deleted. `move-files.mjs` (moves files and rewrites imports and path strings) stays until wave 2 ends.
+- **Done in `43c080f`:** the feature registry (architecture-v2 §5): `kernel/features.ts` and one `feature.ts` per feature; `fuse`/`breed` moved to collection and `claimQuest` to challenges.
 
 ## Wave 2 units (at most 4 agents at once, disjoint directories)
 
@@ -109,11 +110,11 @@ Continue on branch `claude/refactor`. The target is `architecture-v2.md`, which 
 ## Smaller follow-ups found by wave-1 workers
 
 **Documentation:**
-- `raising/SPEC.md` (lines 5, 182, 187) and `data/README.md:3` cite the deleted `foundation.md`.
-- `data/scripts_needed.md` is cited by `battle/core/SCRIPTS.md` and the script headers, but the file does not exist.
-- `battle/RULES.md` §5.1 should describe the probe-based AI estimate.
-- `SCRIPTS.md`'s `power` row should say that the probe calls it with `c.estimate = true`.
-- Mark `handoff-2026-10-18.md` item 1 resolved.
+- **Resolved** (`raising/SPEC.md` in `edb850f`, `data/README.md` in `ab0b5e6`): citations of the deleted `foundation.md`.
+- **Resolved in `ab0b5e6`:** citations of the missing `data/scripts_needed.md`.
+- **Resolved in `ab0b5e6`:** `battle/RULES.md` §5.1 describes the probe-based AI estimate.
+- **Resolved in `ab0b5e6`:** `SCRIPTS.md`'s `power` row says the probe calls it with `c.estimate = true`.
+- **Resolved in `ab0b5e6`:** `handoff-2026-10-18.md` item 1 is marked resolved.
 
 **Distribution:**
 - `tools/distribution/pack_source.py` `SOURCE_FILES` misses `AGENTS.md`, `CLAUDE.md`, `ARCHITECTURE.md`, `CHANGELOG.md` and `preview.html`. Then fold `DELIVERY.md` into `CHANGELOG.md`.

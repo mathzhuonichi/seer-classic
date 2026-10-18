@@ -147,7 +147,7 @@ const INSTALL_RULES: Record<string, ScriptEntry> = {
     install: (c) => { c.battle.emit({ type: 'mechanic_waived', side: c.mon.side, policy: 'v57-eersaila-critical-curve' }); },
   },
   // V56. The game applies this before construction, where the saved attempt
-  // counter is available (src/mechanics/boss-encounter.ts); the battle must not apply it twice.
+  // counter is available (src/domain/challenges/boss-encounter.ts); the battle must not apply it twice.
   level_drops_per_attempt: { install: () => {} },
   crit_rate_bonus: {
     install: (c, p) => {

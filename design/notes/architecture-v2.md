@@ -94,8 +94,9 @@ Filing any of them under one feature created cycles: collection ↔ challenges a
 
 Each feature folder has the same shape:
 
-- `index.ts`: its whole public surface. This is the `feature` registration object, the feature's action and slice types, and its screen components.
-- `actions.ts`: handlers `(rt, action) => DispatchResult`.
+- `feature.ts`: the registration (`xFeature`): the feature's action union and slice type, its handlers and its slice builder. `kernel/features.ts` lists every registration.
+- `index.ts`: the headless public surface (re-exports, including the registration and its types); `ui.ts`: the screens.
+- `actions.ts`: handlers `(rt, action) => void | { created }`; failures throw, and the kernel turns them into the `DispatchResult`.
 - `view.ts`: the snapshot slice builder, pure. It carries every derived rule outcome the screens need.
 - `ui/`: React components that render the slice and dispatch actions.
 - Pure rules that only this feature uses may sit next to them; rules other features need go to `domain/`.
@@ -113,6 +114,7 @@ These are enforced by a new gate suite, `tools/verification/architecture.mjs`. I
    - It may import another feature only through `features/Y/index.ts`, and only along this DAG:
      - `challenges` → `battle`
      - `world` → `battle`, `challenges`
+     - `battle` → `engravings` (engraving loadouts at battle setup and resource settlement)
      - `raising` → `engravings`
      - `items` → `engravings`
 7. **`features/X/ui`** imports React, `shared`, `shared/ui`, `domain` types, its own feature, and `kernel/contract.ts`. Feature rules never import their own `ui/`.
@@ -154,12 +156,14 @@ This replaces the 9 components that read `notices[0]` or diff snapshots before a
 **Feature registration:**
 
 ```
-interface Feature<A extends { type: string }, S> {
-  actions: { [K in A['type']]: (rt: Runtime, action: Extract<A, { type: K }>) => DispatchResult | void };
-  inBattle?: readonly A['type'][];   // actions allowed while a battle is unresolved
-  view(ctx: GameContext, rt: Runtime): S;  // must return the previous object when nothing it reads changed
+interface Feature<A extends { type: string }, S extends object = Record<never, never>> {
+  actions: { [T in A['type']]: (rt: Runtime, action: Extract<A, { type: T }>) => void | { created: Created } };
+  inBattle?: readonly A['type'][];                  // actions allowed while a battle is unresolved
+  slice?: (ctx: GameContext) => (rt: Runtime) => S; // built once per game; the kernel shares unchanged parts between snapshots
 }
 ```
+
+As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the registrations, and structural sharing in the kernel (`reuseUnchanged`) keeps unchanged slices and rows identical, so slice builders need no memo of their own.
 
 - `GameAction` is the union of the features' action unions.
 - `GameSnapshot` is the intersection of their slices.

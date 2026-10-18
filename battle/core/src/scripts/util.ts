@@ -1,6 +1,7 @@
 // State helpers shared by every script registry: the engine's (seer-main,
-// seer-tail, boss) and the game's (src/mechanics traits, campaign rules, NPC
-// training). Entry factories built on them live in builders.ts. Guide: SCRIPTS.md.
+// seer-tail, boss) and the game's (traits in src/domain/traits.ts, campaign rules
+// and NPC training in src/domain/challenges/). Entry factories built on them live
+// in builders.ts. Guide: SCRIPTS.md.
 import type { ConditionDef, Hook, HookPoint, StageKey } from '../types.ts';
 import type { ActiveCondition, Battle, Mon } from '../battle.ts';
 

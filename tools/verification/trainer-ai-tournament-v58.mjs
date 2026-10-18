@@ -183,7 +183,7 @@ try {
   };
   const policyName = role => role === 'A' ? `search${variant ? '*' : ''}` : opts.b;
 
-  // Catalog exactly as createGame prepares it for battle (src/game.ts).
+  // Catalog exactly as createGame prepares it for battle (enrichCatalog, src/domain/catalog/enrichment.ts).
   let catalog = await loadCatalog();
   catalog = {...catalog, items: normalizeBattleSupplyItems(catalog.items), bosses: structuredClone(catalog.bosses)};
   if (!catalog.items.some(item => item.id === 'item_status_cure')) catalog.items.push({id: 'item_status_cure', name: {zh: '异常解除剂'}, kind: 'battle',

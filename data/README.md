@@ -55,6 +55,9 @@ id or any later id, i.e. a month by which the monster certainly existed. All 1,4
   `script` ops named `seer_eff_<n>`, implemented in `battle/core/src/scripts/` under their quoted template text.
   Ops marked `"inferred": true` come from Flash effects with no template text
   (21 counter, 41 fire resistance, 42 charge, 31 without args), read from the skill text.
+- Every species has at least one level-1 learnset entry. Keep it so: level-1 hatching
+  and acquisition give a new monster its level-1 skills, so a species without one
+  would start with no skill.
 - Learnset entries with `"method": "special"` were task-taught in Flash (雷伊特训:
   极光刃, 元气电光球, 雷神天明闪, 雷神觉醒); the modern client moved them to later forms.
 

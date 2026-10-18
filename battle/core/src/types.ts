@@ -1,5 +1,5 @@
-// Data shapes shared by the battle core. Static data mirrors
-// design/foundation.md v0.1; battle-only shapes are defined here.
+// Data shapes shared by the battle core: the static catalog shapes (data/README.md)
+// and the battle-only shapes. See ARCHITECTURE.md and battle/RULES.md.
 
 import type { Battle } from './engine/battle.ts';
 import type { Side } from './engine/state.ts';
@@ -37,7 +37,7 @@ export interface Skill {
   pp: number;
   priority?: number;
   crit_rate?: number;   // numerator over 16
-  crit_stage?: number;  // foundation v0.1 field; crit_rate = 1 + crit_stage
+  crit_stage?: number;  // legacy field (RULES.md section 14); crit_rate = 1 + crit_stage
   power_bonus?: number; // added after power ops and scripts (skill engravings)
   pp_cost?: number;     // PP spent per use; default 1
   target?: Target;

@@ -156,10 +156,12 @@ receive the preceding transform's result, in condition order.
 The AI's damage estimate is a read-only probe of this same pipeline
 (`probeDamage`): one attack hit at a fixed roll and crit, by default the mean
 roll `MEAN_ROLL` without a crit (`estimateDamage`). It draws no RNG, emits no
-events and consumes no charges. Condition multipliers and boss rules apply as
-in a real hit; the skill's `power` and `defense` scripts run in estimate mode;
-other scripts (`modifyDamage`, `finalDamage`, scripted hooks) are skipped;
-chance-gated `power_if` and a damage-cap break count as not triggered. The
+events and consumes no charges; apart from caches kept by estimate-mode power
+scripts, it changes no state. Condition multipliers and boss rules apply as
+in a real hit; the skill's `power` scripts run with `c.estimate = true` and its
+`defense` scripts run as usual; other scripts (`modifyDamage`, `finalDamage`,
+scripted hooks) are skipped; chance-gated `power_if` and a damage-cap break
+count as not triggered. The
 search planner also probes the minimum roll to find sure knockouts, and the
 opponent model probes both roll limits to bound unseen stats. The probe is
 therefore not a complete simulation of scripted shields.
@@ -182,9 +184,8 @@ the defending types. Do not transpose the grouping. A controlled 2018
 [experiment by Orange](https://news.4399.com/gonglue/seer/jingyanxinde/825548.html)
 supports this direction; its date is later than the classic target.
 
-The chart itself lives in `data/types.json` (catalog thread). A draft chart
-found during research is in `battle/research/type_chart_draft.json` for the
-catalog thread to verify.
+The chart itself lives in `data/types.json` (catalog thread); its single-type
+coefficients match the official Unity configuration (`data/README.md`).
 
 ## 7. Statuses (异常状态)
 
@@ -329,31 +330,46 @@ field against it. This is the input of raising's `applyBattleRewards`.
 
 ### 10.4 AI
 
-`sequence`, `weighted`, `random` (wild default: uniformly among usable
-skills), `smart` (boss and trainer default), `script`. A forced skill from
-`counter_skill` overrides all of them.
+`ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random` (wild
+default: uniformly among usable skills), `script`, and `smart` (boss and
+trainer default). A forced skill from `counter_skill` overrides all of them.
+A side with no usable skill uses Struggle, except that a smart trainer plans
+first and may restore PP with an item instead.
 
-The smart profile uses pure local scoring for estimated useful damage, accuracy,
-priority, recovery, statuses, relevant stat stages and known conditions. It knows
-its own team; the active opponent uses a neutral IV15/zero-EV species-and-level
-stat estimate, visible HP ratio/stages/statuses, announced conditions and resolved
-move history. It does not read pending actions, hidden builds or reserve teams.
-Unknown script effects are not executed during scoring. Scores use stable ties
-and do not consume RNG or modify live battle state.
+`smart` has two implementations, chosen by side kind:
 
-Only `smart` with explicit `allow_switch: true` considers voluntary switching
-and tactical faint replacements. A voluntary switch needs two completed active
-turns, a substantial matchup improvement, entry-hit survival and a chance to act
-before a second lethal hit; free faint replacements pay no entry-hit cost and
-bypass trapping. Existing historical encounters do not opt in. Optional styles
-`offense`, `control`, and `attrition` adjust supported effect preferences; they
-do not alter stats or damage rules. See `design/notes/offline-battle-ai-v36.md`.
+- **Boss and other non-trainer sides: local scoring** (`legacy-ai.ts`, the
+  project's historical Boss policy). Each usable skill is scored by its
+  priority and by the damage probe (5.1) against the live foe. A skill whose
+  estimate knocks the foe out wins, highest priority first, then highest
+  damage; otherwise the first status skill this monster has not used yet;
+  otherwise the highest estimated damage. Ties keep skill order. Only when no
+  skill has a positive estimate does it pick at random, with one RNG draw. It
+  never switches voluntarily, and a fainted active is replaced by the first
+  living team member.
+- **Trainer sides: the engine-simulated search planner** (`search-ai.ts`,
+  `search/`; [trainer-search-ai-v58](../design/notes/trainer-search-ai-v58.md)).
+  Every legal move, item and voluntary switch (after two active turns; HP
+  medicine is barred after five turns of it in a row) is scored against each
+  modeled player move by resolving real turns on isolated clones
+  (`clone.ts`), with a short rollout and seeds derived from the live RNG state
+  without drawing from it. The player is modeled only from public
+  information (`observe.ts`): a neutral IV 31 / EV 85 baseline refined by
+  observation, the visible HP bar, stages and announced conditions, and
+  observed plus conventional moves; hidden builds, the inventory, pending
+  actions and unrevealed reserves are never read. The planner solves the
+  payoff matrix as a zero-sum game (`search/equilibrium.ts`) and plays the
+  mixed strategy. When that strategy is impure (no action holds 95% of it
+  after trimming), it draws one live RNG value to pick the action; that is
+  its only live draw. With
+  `allow_switch: true` (every authored trainer and facility opts in) it also
+  picks faint replacements by simulation. Styles `offense`, `control` and
+  `attrition` adjust the evaluation weights only; they do not alter stats or
+  damage rules.
 
-The public opponent view records revealed moves once per decision and reuses
-that immutable observation for all candidate evaluations. There is no search
-tree or unbounded retry loop. The existing default limit of 200 completed turns
-ends prolonged recovery/status battles with `winner: null`, `reason: turn_cap`.
-The UI identifies this as a draw and grants no victory bonus. Full PP restoration
+The existing default limit of 200 completed turns ends prolonged
+recovery/status battles with `winner: null`, `reason: turn_cap`. The UI
+identifies this as a draw and grants no victory bonus. Full PP restoration
 (`amount: "all"` or omitted) fills each existing move to its finite maximum.
 
 Space Station facilities generate six distinct ordinary Lv.100 opponents with
@@ -392,7 +408,7 @@ The suites that exercise this spec most directly:
 | `battle-clone-fidelity-v58.mjs` | determinism: a cloned battle resolves the same actions to the same events and state |
 | `battle-ai-liveness.mjs` | AI battles over the full catalog end within the hard turn limit |
 
-## 14. Change requests for the foundation data model
+## 14. Data model additions
 
 1. Skill `crit_stage` → `crit_rate` (numerator over 16, default 1). Seer skill
    text states rates as "x/16" directly. The engine reads `crit_rate` and
@@ -403,7 +419,6 @@ The suites that exercise this spec most directly:
    `capture_multiplier`.
 4. Effect ops added by the engine: `restore_pp`, `struggle` is built in,
    `heal {amount}` (flat), `status {level}` for 衰弱, `force_switch`.
-5. Boss rule and objective additions listed in section 10 beyond the v0.1
-   vocabulary: `reflect_damage`, `invulnerable_turns`,
+5. Boss rule and objective additions listed in section 10: `reflect_damage`, `invulnerable_turns`,
    `clear_debuffs_each_turn`, `lives`, `no_capture`, `no_items`, `no_switch`,
    `immune_percent_damage`, `finish_with_crit`.
