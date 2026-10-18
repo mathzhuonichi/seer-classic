@@ -10,9 +10,10 @@ const read=name=>JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
 await withSsr('habitat-regions',async load=>{
   const t=suite('habitat-regions'),{check}=t;
   const modules=['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-population.ts','/src/kernel/game.ts',
-    '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/features/world/map-sources.ts'];
+    '/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/features/world/map-sources.ts',
+    '/src/features/world/world-scene.ts'];
   const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},
-    {buildAcquisitionIndex},{buildRecruitmentRewards},{ORIGINAL_FLOORS}]=await Promise.all(modules.map(load));
+    {buildAcquisitionIndex},{buildRecruitmentRewards},{ORIGINAL_FLOORS},{buildWorldScene,sceneTitle}]=await Promise.all(modules.map(load));
   const definitions=read('data/habitat-regions.json'),artwork={...read('src/domain/world/map-art-assets.json'),...read('src/domain/world/map-hd-assets.json')};
   const locate=({planetId,regionId})=>{const planet=WORLD_PLANETS.find(entry=>entry.id===planetId);return {planet,region:planet?.regions.find(entry=>entry.id===regionId)}};
   const catalog=await loadCatalog(),original=JSON.stringify(catalog),species=new Map(catalog.species.map(entry=>[entry.id,entry]));
@@ -47,6 +48,13 @@ await withSsr('habitat-regions',async load=>{
         assert.equal(ownArtwork.status,'unused',id);assert(!artwork[mapId]&&!failures[mapId],`${id}: unused art is not delivered`);
         assert(ownArtwork.url.startsWith(`https://seerh5.61.com/resource/assets/map/${mapId}/`)&&ownArtwork.reason.length>20,id);
       }
+    }
+  });
+  check('The nameplate tooltip gives each subregion\'s full name, which the plate may cut off',()=>{
+    const slices=createGame(catalog,'').snapshot();
+    for(const definition of definitions.regions){
+      const {planet,region}=locate({planetId:definition.planetId,regionId:definition.id});
+      assert(sceneTitle(buildWorldScene(slices,planet,region)).startsWith(`${definition.name} · `),definition.id);
     }
   });
   check('Every generated habitat is placed with its levels, scarcity and route',()=>{
