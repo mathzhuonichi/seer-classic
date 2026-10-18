@@ -33,6 +33,7 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
   const [showEvidence, setShowEvidence] = useState(false);
   const chooseItems = useCallback((patch: Partial<BattleItemChoice>) => setItems(current => ({ ...current, ...patch })), []);
   const closeEvidence = useCallback(() => setShowEvidence(false), []);
+  const closeDetails = useCallback(() => setShowDetails(false), []);
   const playback = useBattlePlayback(b, c, {
     onStart: () => setShowLog(false),
     onNeedsSwitch: battle => { setTab('party'); setPartySelection(battle.party.find(mon => mon.hp > 0)?.uid || ''); },
@@ -80,6 +81,6 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
     {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} onClose={closeEvidence}>
       <BossEvidenceContent evidence={enemy.evidence}/>
     </BattleEvidenceDialog>}
-    {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={() => setShowDetails(false)}/>}
+    {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={closeDetails}/>}
   </section>;
 }
