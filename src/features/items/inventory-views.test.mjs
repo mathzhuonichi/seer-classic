@@ -35,7 +35,9 @@ test('the confirm action follows the controller\'s use action and targets',()=>{
   const capsule=item({id:'cap',kind:'capsule',useAction:'capture'});
   assert.deepEqual(itemUseAction(capsule,undefined,true),{type:'capture',itemId:'cap'});
   assert.equal(itemUseAction(capsule,undefined,false),undefined,'the battle blocks a capture the engine still lists');
-  assert.deepEqual(itemUseAction(item({id:'e',kind:'essence',useAction:'hatch'}),'a',false),{type:'useItem',uid:'a',itemId:'e'});
+  const essence=item({id:'e',kind:'essence',useAction:'hatch'});
+  assert.deepEqual(itemUseAction(essence,'a',false),{type:'useItem',uid:'a',itemId:'e'});
+  assert.equal(itemUseAction(essence,undefined,false),undefined,'useItem always names a monster');
   assert.equal(itemUseAction(item({kind:'battle',useAction:null}),'a',true),undefined);
 });
 
