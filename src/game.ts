@@ -1,4 +1,4 @@
-import { buildDataSet, createBattle, Rng, validateEncounter, type Battle, type Mon, type Action, type BattleEvent, type BossEncounter, type RawData, type Hook, type Skill as BattleSkill } from '../battle/core/src/index.ts';
+import { buildDataSet, createBattle, Rng, validateEncounter, type Battle, type BattleOptions, type Mon, type Action, type BattleEvent, type BossEncounter, type RawData, type Hook, type Skill as BattleSkill } from '../battle/core/src/index.ts';
 import { traitScripts } from './mechanics/traits.ts';
 import { campaignScripts } from './mechanics/campaign-rules.ts';
 import { npcTrainingScripts } from './mechanics/npc-training.ts';
@@ -134,7 +134,13 @@ function itemDescription(item:Record<string,unknown>):string {
   return '用于精灵培育。';
 }
 
-export function createGame(catalog: CatalogData, initialSave?: string): GameController {
+export interface GameDependencies {
+  /** Creates each battle; verification passes a wrapper to observe the controller's battles. */
+  createBattle?: (options: BattleOptions) => Battle;
+}
+
+export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
+  const newBattle = dependencies.createBattle ?? createBattle;
   // Runtime rewards belong to this controller. Static definitions are shared read-only.
   catalog = {...catalog, items:normalizeBattleSupplyItems(catalog.items), bosses:structuredClone(catalog.bosses)};
   // A simple remake supply fills the recovered catalogue's missing cure-item category.
@@ -552,7 +558,7 @@ export function createGame(catalog: CatalogData, initialSave?: string): GameCont
     encounterMonster=wild;
     battleAppearances=new Map(roster.map((mon,slot)=>[slot,{species:mon.species,appearanceSpecies:appearanceSpecies(mon,skinOptions)}]));
     transformedSlots.clear();
-    battle=createBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),...(boss?.category==='trainer'?{conventionalMoves:conventionalMoves??=conventionalMovesResolver(catalog)}:{}),sides:wild?[player,{kind:'wild',team:[wild]}]:[player,{kind:boss!.category==='trainer'?'trainer':'boss',team:boss!.team,unlimited_items:unlimitedItems}],encounter:boss??undefined});
+    battle=newBattle({data,scripts:{...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts},seed:rng.nextU32(),...(boss?.category==='trainer'?{conventionalMoves:conventionalMoves??=conventionalMovesResolver(catalog)}:{}),sides:wild?[player,{kind:'wild',team:[wild]}]:[player,{kind:boss!.category==='trainer'?'trainer':'boss',team:boss!.team,unlimited_items:unlimitedItems}],encounter:boss??undefined});
     for(const event of battle.initialEvents)if(event.type==='transform')transformedSlots.add(`${event.side===1?1:0}:${event.slot??battle.sides[event.side===1?1:0].active}`);
     for(const mon of battle.sides[0].team) {
       const trait=traits.find(t=>t.id===save.game.traits[mon.uid!]);

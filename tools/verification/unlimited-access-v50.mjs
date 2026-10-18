@@ -1,35 +1,21 @@
 /** V50 access policy through the real controller, raising core, and battle core. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import crypto from 'node:crypto';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
-const report={checks:[],failures:[],witnesses:[]};
-const check=(name,run)=>{try{run();report.checks.push(name);console.log(`PASS ${name}`);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-const captureKey='__unlimitedAccessV50Created',previousCapture=Object.getOwnPropertyDescriptor(globalThis,captureKey);
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-Object.defineProperty(globalThis,captureKey,{configurable:true,value:[]});
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/unlimited-access-v50'),plugins:[{
-  name:'observe-v50-controller-battle',enforce:'pre',transform(code,id){
-    if(id.split('?')[0]!==path.join(root,'src/game.ts'))return;
-    const anchor='for(const event of battle.initialEvents)';assert.equal(code.split(anchor).length,2);
-    return code.replace(anchor,`globalThis.${captureKey}.push(battle);\n    ${anchor}`);
-  },
-}],server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
+memoryStorage();
 const sort=values=>[...values].sort(),parse=game=>JSON.parse(game.exportSave());
 const HP='item_potion_hp_250',PP='item_potion_pp_20',CURE='item_status_cure',CAP='item_capsule_master',WAIT=990500;
-try{
-  const [{createGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
+await withSsr('unlimited-access-v50',async load=>{
+  const t=suite('unlimited-access-v50'),{check}=t;
+  const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
     '/src/game.ts','/src/mechanics/engravings.ts','/src/mechanics/engraving-access.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/progression/battle-supplies.ts',
-  ].map(file=>server.ssrLoadModule(file)));
+  ].map(load));
+  // The controller's real battles, observed through its battle-factory seam.
+  const created=[];
+  const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
   const catalog=await loadCatalog();catalog.items=normalizeBattleSupplyItems([...catalog.items,{id:CURE,name:{zh:'Status cure fixture'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]}]);
   const catalogBefore=JSON.stringify(catalog),dex=makeDex(catalog),rng=new SeededRng(50);
-  report.genericAbilityCaps=engravings.filter(def=>def.slot==='ability'&&!def.species.length).map(def=>({id:def.id,name:def.name.zh,stats:{...def.stats},levelMin:def.levelMin,sourceMaxOwned:def.maxOwned,...engravingAccess(def)}));
-  report.genericAbilityCapsSource='Runtime engravingAccess(def); sourceMaxOwned records the unchanged 2013 catalog value.';
+  const genericAbilityCaps=engravings.filter(def=>def.slot==='ability'&&!def.species.length).map(def=>({id:def.id,name:def.name.zh,stats:{...def.stats},levelMin:def.levelMin,sourceMaxOwned:def.maxOwned,...engravingAccess(def)}));
   const ordinary=catalog.items.filter(item=>['raising','battle','capsule'].includes(item.kind)).map(item=>item.id),base=parse(createGame(catalog,''));
   base.rng_state=[101,202,303,404];base.game.traits={};
   const make=(save=base)=>createGame(catalog,JSON.stringify(structuredClone(save)));
@@ -39,7 +25,7 @@ try{
   const held=(game,uid,id)=>parse(game).game.modules[uid]?.engravings?.includes(id)??false;
   const reject=(game,action,label)=>{const before=game.exportSave();game.dispatch(action);assert.equal(game.exportSave(),before,label);};
   const fixture=(count=7)=>{const save=structuredClone(base);save.storage=Array.from({length:count},(_,i)=>createMonster(dex,1,100,rng,{uid:`access-${i}`,iv:31,nature:'hardy'}));save.party=save.storage.slice(0,6).map(m=>m.uid);save.game.modules={};save.game.engravingStock={};return save;};
-  const start=(game,action)=>{const count=globalThis[captureKey].length;game.dispatch(action);assert(game.snapshot().battle&&!game.snapshot().battle.finished,JSON.stringify(game.snapshot().notices));assert.equal(globalThis[captureKey].length,count+1);return globalThis[captureKey].at(-1);};
+  const start=(game,action)=>{const count=created.length;game.dispatch(action);assert(game.snapshot().battle&&!game.snapshot().battle.finished,JSON.stringify(game.snapshot().notices));assert.equal(created.length,count+1);return created.at(-1);};
   const leave=game=>{game.dispatch({type:'flee'});game.dispatch({type:'closeBattle'});};
 
   check('All ordinary raising, battle, and capsule items are available without materialized inventory',()=>{
@@ -54,7 +40,7 @@ try{
       const game=make(save),initial=parse(game).storage.find(m=>m.uid===uid).level;
       for(let i=0;i<7;i++){game.dispatch({type:'useItem',uid,itemId:'item_level_up_1'});assert.equal(parse(game).storage.find(m=>m.uid===uid).level,initial+i+1);assert.deepEqual(parse(game).items,save.items);}
     }
-    report.witnesses.push({case:'raising',usesPerInventoryVariant:7,inventoryVariants:['missing key','3 finite copies'],finiteCountsPreserved:true});
+    t.witness('raising',{usesPerInventoryVariant:7,inventoryVariants:['missing key','3 finite copies'],finiteCountsPreserved:true});
   });
   check('Raising core defaults remain finite and explicit unlimited boosts keep their nonstacking rule',()=>{
     const item=catalog.items.find(i=>i.id==='item_level_up_1'),save=structuredClone(base),uid=save.storage[0].uid;save.items={};
@@ -76,7 +62,7 @@ try{
     const save=fixture(1);save.items={[CURE]:0};const game=make(save);
     for(const species of [10,13]){const before=parse(game).storage.length;start(game,{type:'startTraining',species,level:3});game.dispatch({type:'capture',itemId:CAP});
       assert.equal(game.snapshot().battle.captured,true,JSON.stringify(game.snapshot().notices));assert.equal(parse(game).storage.length,before+1);assert.equal(parse(game).storage.at(-1).species,species);assert.deepEqual(parse(game).items,save.items);game.dispatch({type:'closeBattle'});}
-    report.witnesses.push({case:'controller-capture',successfulCaptures:2,capsule:CAP,initialStock:0,finalStock:0});
+    t.witness('controller-capture',{successfulCaptures:2,capsule:CAP,initialStock:0,finalStock:0});
   });
 
   const probe=structuredClone(catalog);probe.skills.push({id:WAIT,name:{zh:'Access wait fixture'},type:'normal',category:'status',target:'self',power:0,accuracy:null,pp:99,effects:[]});
@@ -87,7 +73,7 @@ try{
   check('Seven failed capsule attempts and seven HP uses each spend a turn without consuming stock',()=>{
     const b=core();for(let i=0;i<7;i++){const before=b.turn,events=turn(b,{kind:'capture',item:CAP});assert.equal(b.turn,before+1);assert(events.some(e=>e.type==='capture_attempt'&&!e.success));assert.deepEqual(b.sides[0].items,{});}
     for(let i=0;i<7;i++){b.active(0).hp=1;const before=b.turn;turn(b,{kind:'item',item:HP,target:0});assert.equal(b.turn,before+1);assert.equal(b.active(0).hp,251);assert.deepEqual(b.sides[0].items,{});}
-    report.witnesses.push({case:'core-repeated-use',failedCaptures:7,hpUses:7,capsuleMultiplierFixture:0,turnsSpent:14});
+    t.witness('core-repeated-use',{failedCaptures:7,hpUses:7,capsuleMultiplierFixture:0,turnsSpent:14});
   });
   check('Core finite capsule exhaustion and no-items/no-capture gates are preserved',()=>{
     const finite=core({unlimited:false,items:{[CAP]:2,[HP]:1}});for(let i=0;i<2;i++)turn(finite,{kind:'capture',item:CAP});assert.equal(finite.sides[0].items[CAP],0);assert(!finite.legalActions(0).some(a=>a.kind==='capture'));
@@ -103,14 +89,14 @@ try{
   });
 
   check('Published cap tiers are per generic ability ID, and all exclusive/skill marks are unlimited',()=>{
-    assert.equal(report.genericAbilityCaps.length,62);
+    assert.equal(genericAbilityCaps.length,62);
     const expected={'10001':6,'10013':4,'10031':2,'10037':1,'10038':1,'10134':2};
     for(const [id,cap] of Object.entries(expected))assert.deepEqual(engravingAccess(engravings.find(e=>e.id===id)),{unlimited:false,maxOwned:cap},id);
     // Exercise the otherwise absent gain=25 band explicitly at the access boundary.
     assert.equal(engravingAccess({...engravings[0],stats:{atk:25},species:[],slot:'ability'}).maxOwned,3);
     for(const e of engravings)assert.equal(engravingAccess(e).unlimited,e.slot==='skill'||e.species.length>0,e.id);
     const game=make(fixture());for(const id of ['10037','10033']){buy(game,id);buy(game,id);assert.equal(stock(game,id),1,id);}
-    report.witnesses.push({case:'independent-caps',speed18:{id:'10037',cap:1},speed15:{id:'10031',cap:2},otherCap1:{id:'10033',stock:stock(game,'10033')}});
+    t.witness('independent-caps',{speed18:{id:'10037',cap:1},speed15:{id:'10031',cap:2},otherCap1:{id:'10033',stock:stock(game,'10033')}});
   });
   check('Every generic ability mark enforces its own stock-plus-equipped ownership cap',()=>{
     for(const def of engravings.filter(e=>e.slot==='ability'&&!e.species.length)){
@@ -156,16 +142,12 @@ try{
       if(def.species.length){const wrong=structuredClone(save);wrong.storage[0].species=catalog.species.find(s=>!def.species.includes(s.id)).id;game.importSave(JSON.stringify(wrong));reject(game,{type:'setEngraving',uid:mon.uid,slot:def.slot,engravingId:def.id},`${def.id} species`);counts.wrongSpeciesRejected++;}
       if(def.slot==='skill'){const missing=structuredClone(save),other=catalog.skills.find(s=>!def.moveIds.includes(s.id));missing.storage[0].skills=[other.id];missing.storage[0].learned=[other.id];missing.storage[0].pp={[other.id]:other.pp};game.importSave(JSON.stringify(missing));reject(game,{type:'setEngraving',uid:mon.uid,slot:def.slot,engravingId:def.id},`${def.id} missing learned move`);counts.missingMoveRejected++;}
     }
-    assert.equal(counts.equipped,546);assert.equal(counts.missingMoveRejected,399);report.witnesses.push({case:'all-mark-qualification',...counts});
+    assert.equal(counts.equipped,546);assert.equal(counts.missingMoveRejected,399);t.witness('all-mark-qualification',{...counts});
   });
   check('Catalog data remains byte-equivalent after controller and core access probes',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
   const files=['src/game.ts','src/mechanics/engraving-access.ts','raising/core/items.ts','battle/core/src/battle.ts','src/progression/battle-supplies.ts'];
-  report.sourceHashes=Object.fromEntries(files.map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
-  fs.mkdirSync(path.join(root,'artifacts/unlimited-access-v50'),{recursive:true});fs.writeFileSync(path.join(root,'artifacts/unlimited-access-v50/regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,witnesses:report.witnesses},null,2));await server.close();
-  if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;
-  if(previousCapture)Object.defineProperty(globalThis,captureKey,previousCapture);else delete globalThis[captureKey];
-  if(report.failures.length)process.exitCode=1;
-}
+  t.finish({
+    genericAbilityCaps,genericAbilityCapsSource:'Runtime engravingAccess(def); sourceMaxOwned records the unchanged 2013 catalog value.',
+    sourceHashes:Object.fromEntries([...files].map(file=>[file,sha256File(file)])),
+  });
+});
