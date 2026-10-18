@@ -1,18 +1,11 @@
-export interface SkinSpecies {id:number;evolution:readonly {to:number}[]}
+import {ancestorsOf,buildPredecessors,type LineageSpecies} from './species-graph.ts';
+
 export interface SkinMonster {species:number;skinSpecies?:number}
 
 /** Appearance permission follows executable directed ancestry, never family-wide membership. */
-export function buildSkinOptions(species:readonly SkinSpecies[]):ReadonlyMap<number,readonly number[]> {
-  const parents=new Map(species.map(row=>[row.id,new Set<number>()]));
-  for(const row of species)for(const edge of row.evolution)parents.get(edge.to)?.add(row.id);
-  return new Map(species.map(row=>{
-    const choices=new Set([row.id]),queue=[...parents.get(row.id)!];
-    for(let index=0;index<queue.length;index++){
-      const id=queue[index];if(choices.has(id))continue;
-      choices.add(id);queue.push(...parents.get(id)!);
-    }
-    return [row.id,[...choices]];
-  }));
+export function buildSkinOptions(species:readonly Pick<LineageSpecies,'id'|'evolution'>[]):ReadonlyMap<number,readonly number[]> {
+  const predecessors=buildPredecessors(species,'evolution');
+  return new Map(species.map(row=>[row.id,[row.id,...ancestorsOf(row.id,predecessors)]]));
 }
 
 export function appearanceSpecies(mon:SkinMonster,options:ReadonlyMap<number,readonly number[]>):number {
