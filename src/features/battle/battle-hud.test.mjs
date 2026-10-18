@@ -22,9 +22,9 @@ test('Struggle replaces the skills only when every one is out of PP', () => {
 
 test('the item pane falls back to recovery without capture and resolves its target', () => {
   const inventory = [
-    {id: 'cap', battleCategory: 'capsule', count: 1}, {id: 'pot', battleCategory: 'recovery', count: 2, usableTargetUids: ['c']},
+    {id: 'cap', battleCategory: 'capsule', count: 1}, {id: 'pot', battleCategory: 'recovery', count: 2, useAction: 'use', useTargets: ['c']},
     {id: 'empty', battleCategory: 'recovery', count: 0},
-    {id: 'revive', battleCategory: 'recovery', unlimited: true, count: 0, targetMode: 'fainted', usableTargetUids: ['b']},
+    {id: 'revive', battleCategory: 'recovery', unlimited: true, count: 0, targetMode: 'fainted', useAction: 'use', useTargets: ['b']},
   ];
   const open = battleItemPane(battle(), inventory, {category: 'recovery', selection: '', target: 'zzz'});
   assert.deepEqual(open.items.map(item => item.id), ['pot', 'revive']);
