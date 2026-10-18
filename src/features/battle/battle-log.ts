@@ -1,5 +1,8 @@
-import type { BattleEvent, DataSet } from '../../../battle/core/src/types.ts';
+import type { BattleEvent as EngineEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { STAGE_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
+
+/** Any field of any event type, as this module still reads them; narrowing per `type` is the battle feature's next step. */
+type BattleEvent = EngineEvent & Record<string, any>;
 
 export interface BattleLogCreature { name: string; hp: number; maxHp: number }
 export interface BattleLogContext {

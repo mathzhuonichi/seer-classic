@@ -130,7 +130,7 @@ function initialTransforms(battle: Battle): Set<string> {
   for (const event of battle.initialEvents) {
     if (event.type !== 'transform') continue;
     const side = event.side === 1 ? 1 : 0;
-    slots.add(`${side}:${event.slot ?? battle.sides[side].active}`);
+    slots.add(`${side}:${battle.sides[side].active}`);
   }
   return slots;
 }

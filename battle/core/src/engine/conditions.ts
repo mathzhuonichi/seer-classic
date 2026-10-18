@@ -51,11 +51,8 @@ export function addCondition(b: Battle, target: Mon, def: ConditionDef, turns?: 
     return true;
   }
   target.conditions.push({ id: def.id, def, turns: n, level, charges, appliedTurn: appliedTurnFor(b, target) });
-  b.emit({
-    type: def.kind === 'status' ? 'status_applied' : 'condition_added',
-    side: target.side, slot: target.slot, name:target.name, conditionName:def.name?.zh, condition: def.id,
-    status: def.kind === 'status' ? def.id : undefined, turns: n, level,
-  });
+  const at = { side: target.side, slot: target.slot, name: target.name, conditionName: def.name?.zh, condition: def.id };
+  b.emit(def.kind === 'status' ? { type: 'status_applied', ...at, status: def.id, turns: n, level } : { type: 'condition_added', ...at, turns: n, level });
   return true;
 }
 

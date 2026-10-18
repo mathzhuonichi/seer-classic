@@ -1,4 +1,5 @@
 export * from './types.ts';
+export type { BattleEvent } from './events.ts';
 export * from './constants.ts';
 export { Rng } from './rng.ts';
 export { computeStats } from './stats.ts';

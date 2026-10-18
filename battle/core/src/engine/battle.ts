@@ -9,9 +9,10 @@
 // never imports the AI (battle/ai implements it; the game's kernel injects it).
 
 import type {
-  Action, BattleEvent, BattleOptions, BattlePolicy, BattleResult, BossEncounter, ConditionDef, DamageProbe, DataSet, EffectOp,
+  Action, BattleOptions, BattlePolicy, BattleResult, BossEncounter, ConditionDef, DamageProbe, DataSet, EffectOp,
   EncounterVariant, Hook, HookPoint, JournalEntry, MonsterInput, Objective, ScriptEntry, ScriptRegistry, SideInput, Skill, StageKey, Stats, When,
 } from '../types.ts';
+import type { BattleEvent } from '../events.ts';
 import * as C from '../constants.ts';
 import { STRUGGLE_SKILL } from '../constants.ts';
 import { Rng } from '../rng.ts';

@@ -12,7 +12,8 @@
 
 import type { Battle } from '../../core/src/engine/battle.ts';
 import type { ActiveCondition, Mon } from '../../core/src/engine/state.ts';
-import type { BattleEvent, ConditionDef, JournalHit, JournalMon, JournalOrder, Skill, StageKey, Stats, When } from '../../core/src/types.ts';
+import type { ConditionDef, JournalHit, JournalMon, JournalOrder, Skill, StageKey, Stats, When } from '../../core/src/types.ts';
+import type { BattleEvent } from '../../core/src/events.ts';
 import { computeStats } from '../../core/src/stats.ts';
 import { RANDOM_MAX, RANDOM_MIN, STRUGGLE_SKILL, stageMultiplier } from '../../core/src/constants.ts';
 import { effectiveness } from '../../core/src/typechart.ts';
@@ -41,7 +42,6 @@ export const BASELINE_IV = 31;
 export const BASELINE_EVS: Stats = { hp: 85, atk: 85, def: 85, spa: 85, spd: 85, spe: 85 };
 /** Search domain for stat inversion. */
 const STAT_LIMIT = 1 << 24;
-const ANNOUNCEMENTS = new Set(['condition_added', 'condition_refreshed', 'status_applied']);
 
 /** Opposing slots that have entered the field (a `switch_in` event), in order of first appearance. */
 export function revealedOpponentSlots(b: Battle, viewer: 0 | 1): number[] {
@@ -105,7 +105,7 @@ function publicRecord(b: Battle, foeSide: 0 | 1, slot: number): PublicRecord {
   const rec: PublicRecord = { announced: new Set(), moves: [], uses: {}, damaged: false, transformAt: -Infinity };
   let active = -1;
   const scan = (e: BattleEvent, index: number) => {
-    if (e.side !== foeSide) return;
+    if (!('side' in e) || e.side !== foeSide) return;
     if (e.type === 'switch_in') active = e.slot;
     if (e.type === 'damage' && e.slot === slot && e.amount + (e.overkill ?? 0) > 0) rec.damaged = true;
     if (active !== slot) return;
@@ -114,7 +114,7 @@ function publicRecord(b: Battle, foeSide: 0 | 1, slot: number): PublicRecord {
       if (!(e.skill in rec.uses)) { rec.moves.push(e.skill); rec.uses[e.skill] = 0; }
       rec.uses[e.skill]++;
     }
-    if (ANNOUNCEMENTS.has(e.type)) rec.announced.add(e.condition ?? e.status);
+    if (e.type === 'condition_added' || e.type === 'condition_refreshed' || e.type === 'status_applied') rec.announced.add(e.condition);
   };
   for (const e of b.initialEvents) scan(e, -1);
   b.log.forEach((e, i) => scan(e, i));

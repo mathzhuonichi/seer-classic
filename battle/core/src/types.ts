@@ -141,6 +141,7 @@ export interface BossTeamMember extends MonsterInput {
 /** An encounter variant chosen by the player: extra rules, extra phases, and its own objectives. */
 export interface EncounterVariant {
   id: string;
+  label: Text;
   win?: Objective[];
   lose?: Objective[];
   rules?: BossRule[];
@@ -241,7 +242,7 @@ export interface DataSet {
   items: Map<string, Item>;
 }
 
-// ---------- actions & events ----------
+// ---------- actions and results (events: events.ts) ----------
 
 export type Action =
   | { kind: 'move'; skill: number }
@@ -249,8 +250,6 @@ export type Action =
   | { kind: 'item'; item: string; target?: number }
   | { kind: 'capture'; item: string }
   | { kind: 'flee' };
-
-export type BattleEvent = { type: string; [k: string]: any };
 
 export interface BattleResult {
   winner: 0 | 1 | null;

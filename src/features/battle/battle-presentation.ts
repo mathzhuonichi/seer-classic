@@ -1,8 +1,11 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
-import type { BattleEvent, DataSet, RawData } from '../../../battle/core/src/index.ts';
+import type { BattleEvent as EngineEvent, DataSet, RawData } from '../../../battle/core/src/index.ts';
 import { battleEventText, displayedDamage } from './battle-log.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
+
+/** Any field of any event type, as this module still reads them; narrowing per `type` is the battle feature's next step. */
+type BattleEvent = EngineEvent & Record<string, any>;
 
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
 type SpeciesSource = RawData['species'] | ReadonlyMap<number, NonNullable<RawData['species']>[number]>;
