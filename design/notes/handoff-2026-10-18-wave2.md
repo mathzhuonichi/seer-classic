@@ -30,7 +30,7 @@ Continue on branch `claude/refactor`. The target is `architecture-v2.md`, which 
   - Wave 1 made the code modular but not smaller: `src` production code grew from 616 KB to about 713 KB, and the engine from 235 KB to 257 KB.
   - Wave 2 is where it is meant to shrink: the UI rule mirrors, the transitional getters, `gamedata.json`, and the suite boilerplate and superseded suites.
 
-## Step 0 (coordinator): mostly done in this session
+## Step 0 (coordinator): done
 
 **Done.** These commits landed after `128c7fd`; see `git log`.
 
@@ -66,6 +66,19 @@ Continue on branch `claude/refactor`. The target is `architecture-v2.md`, which 
 - **Done in `ab0b5e6`:** `src/domain/INTEGRATION.md` folded into `ARCHITECTURE.md` and `battle/core/SCRIPTS.md`, and deleted.
 - **Done in `91bb67a`:** the one-shot scripts in `tools/refactor/` are deleted. `move-files.mjs` (moves files and rewrites imports and path strings) stays until wave 2 ends.
 - **Done in `43c080f`:** the feature registry (architecture-v2 §5): `kernel/features.ts` and one `feature.ts` per feature; `fuse`/`breed` moved to collection and `claimQuest` to challenges.
+
+## Wave 2 in progress (second session, 2026-10-18)
+
+- **Base:** `88cad12` (Step 0 complete: verify 57/57, build passes, 93/93 unit tests, architecture baseline 8 import violations and 52 oversized files).
+- **Run:** one workflow runs four chains at once, in worktrees reset to the base. B runs B1 (engine and AI) and then B2 (the battle feature); C1, C2 and D run one worker each. Each chain is implement → adversarial review → fix, and ends on a branch `wave2/<unit>` (`wave2/B`, `wave2/C1`, `wave2/C2`, `wave2/D`).
+- **Ownership** beyond the unit lists below:
+  - B2 owns `BattleSession`, `CampaignContext` and a scheduling field in `kernel/api.ts`, `GameDependencies` in `kernel/game.ts`, and the world registration in `kernel/features.ts` and `contract.ts`.
+  - C2 moves `engravingView`/`engravingOptions` from `raising/view.ts` into features/engravings.
+  - D moves `opponentViews`, `towerRewardLabel` and the boss evidence out of collection to break the challenges ↔ collection cycle.
+- **Next steps (coordinator):**
+  1. Merge the four branches into `claude/refactor` one at a time, regenerate the baseline (removals only), run `npm run verify` after each merge, then the build.
+  2. Run unit E (tools; below) from the merged head, together with the remaining distribution and code follow-ups.
+  3. Run the visual playtest.
 
 ## Wave 2 units (at most 4 agents at once, disjoint directories)
 
