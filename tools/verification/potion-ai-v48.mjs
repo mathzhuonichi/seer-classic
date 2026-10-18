@@ -1,16 +1,15 @@
 /** Smart trainer supplies: real action ordering, public information, and unlimited recovery liveness. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createServer} from 'vite';
+import {suite,withSsr} from './_harness.mjs';
 
-const report={checks:[],failures:[],witnesses:[],battles:[]};
-const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
+const report={witnesses:[],battles:[]};
 const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-try{
+await withSsr('potion-ai-v48',async load=>{
+  const t=suite('potion-ai-v48'),{check}=t;
   const [{createBattle},{buildDataSet},{chooseAiAction},{SEER_SCRIPTS},{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([
     '/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/battle-supplies.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const HP='item_potion_hp_200',PP='item_potion_pp_20',CURE='item_status_cure',SMALL='audit-hp-100';
   const realItems=JSON.parse(fs.readFileSync('data/items.json','utf8'));
   const cure={id:CURE,name:{zh:'Audit status cure'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]};
@@ -113,9 +112,5 @@ try{
     assert.equal(JSON.stringify(catalog),catalogBefore);
   });
   report.summary={battles:report.battles.length,turnCaps:report.battles.filter(row=>row.reason==='turn_cap').length,maxTurns:Math.max(...report.battles.map(row=>row.turns)),itemsBySide:[0,1].map(side=>report.battles.reduce((sum,row)=>sum+row.itemsBySide[side],0)),longestItems:Math.max(...report.battles.map(row=>row.longestItems))};
-}catch(error){report.failures.push({name:'Harness',error:String(error.stack)});}
-finally{
-  await server.close();
-  fs.mkdirSync('artifacts/potion-ai-v48',{recursive:true});fs.writeFileSync('artifacts/potion-ai-v48/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,supplies:report.supplies,summary:report.summary,battles:report.battles.map(({actions,...row})=>row)},null,2));if(report.failures.length)process.exitCode=1;
-}
+  t.finish(report);
+});
