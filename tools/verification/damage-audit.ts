@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
+import { suite, readGameData } from './_harness.mjs';
 import { createBattle, type Battle } from '../../battle/core/src/battle.ts';
+import { MEAN_ROLL } from '../../battle/core/src/constants.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';
@@ -8,8 +9,9 @@ import type { BossRule, ConditionDef, ScriptRegistry, Skill, Stats } from '../..
 import { traits, traitScripts } from '../../src/mechanics/traits.ts';
 
 /** Focused damage audit. Run through Vite SSR; fixtures never load or modify a save. */
-export function runDamageAudit(factory: typeof createBattle = createBattle, label = 'current') {
-  const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));
+export function runDamageAudit() {
+  const t = suite('damage-audit');
+  const catalog = readGameData();
   const stats: Stats = { hp: 1000, atk: 100, def: 100, spa: 100, spd: 100, spe: 100 };
   const skills: Skill[] = [
     { id: 1, name: { zh: '普通物攻' }, type: 'normal', category: 'physical', power: 100, accuracy: null, pp: 10 },
@@ -28,7 +30,7 @@ export function runDamageAudit(factory: typeof createBattle = createBattle, labe
     audit_minus: { hook: c => c.amount - 10 },
     audit_skill_half: { finalDamage: (_c, _p, amount) => amount / 2 },
   };
-  const make = (rules: BossRule[] = [], playerRules: BossRule[] = []) => factory({ data, scripts, seed: 7, sides: [
+  const make = (rules: BossRule[] = [], playerRules: BossRule[] = []) => createBattle({ data, scripts, seed: 7, sides: [
     { kind: 'player', rules: playerRules, team: [
       { species: 1, level: 50, stats, skills: [1, 2, 3, 20175] },
       { species: 1, level: 50, stats, skills: [1] },
@@ -51,12 +53,9 @@ export function runDamageAudit(factory: typeof createBattle = createBattle, labe
     const r = b.calcAttack(b.active(0), b.active(1), skill);
     return b.dealDamage(b.active(1), r.damage, { kind: 'attack', source: b.active(0), skill, crit: r.crit, effectiveness: r.effectiveness });
   };
-  const rows: { name: string; expected: unknown; actual: unknown; passed: boolean }[] = [];
-  const check = (name: string, expected: unknown, run: () => unknown) => {
-    let actual: unknown;
-    try { actual = run(); assert.deepEqual(actual, expected); rows.push({ name, expected, actual, passed: true }); }
-    catch (error) { rows.push({ name, expected, actual: actual ?? String(error), passed: false }); }
-  };
+  const estimate = (b: Battle, skill = skills[0]) => b.estimateDamage(b.active(0), b.active(1), skill);
+  const untouched = (b: Battle) => JSON.stringify({ rng: b.rng.s, draws: b.rng.draws, conditions: b.sides.map(s => s.team.map(m => m.conditions)), out: b.turnEvents });
+  const check = (name: string, expected: unknown, run: () => unknown) => t.check(name, () => assert.deepEqual(run(), expected));
 
   check('last shield charge blocks the whole hit', 0, () => {
     const b = make(); b.addCondition(b.active(1), data.conditions.get('cond_block_attacks')!, undefined, undefined, 1);
@@ -74,20 +73,43 @@ export function runDamageAudit(factory: typeof createBattle = createBattle, labe
     const b = make(); b.addCondition(b.active(1), { id: 'audit_active_zero', hooks: [{ on: 'modify_damage_taken', multiplier: 0 }] });
     return damage(b, 0.4);
   });
+
+  // The AI estimate is the damage pipeline at the mean roll without a crit (survey B4).
   check('AI ignores the catalog fire buff for a normal skill', 63, () => {
     const b = make(); b.addCondition(b.active(0), data.conditions.get('cond_fire_power_x2')!);
-    return b.estimateDamage(b.active(0), b.active(1), skills[0]);
+    return estimate(b);
   });
   check('AI uses the active condition level', 127, () => {
     const b = make(); b.addCondition(b.active(0), { id: 'audit_leveled', hooks: [{ on: 'modify_damage_dealt', multiplier_by_level: [1.5, 2] }] }, undefined, 2);
-    return b.estimateDamage(b.active(0), b.active(1), skills[0]);
+    return estimate(b);
   });
-  check('AI estimate preserves RNG and condition charges', true, () => {
+  check('AI estimate preserves RNG, events and condition charges', true, () => {
     const b = make(); b.addCondition(b.active(0), { id: 'audit_charged', hooks: [{ on: 'modify_damage_dealt', multiplier: 2, consume_charge: true }] }, undefined, undefined, 1);
-    const before = JSON.stringify({ rng: b.rng.s, conditions: b.active(0).conditions });
-    b.estimateDamage(b.active(0), b.active(1), skills[0]);
-    return before === JSON.stringify({ rng: b.rng.s, conditions: b.active(0).conditions });
+    b.addCondition(b.active(1), data.conditions.get('cond_block_attacks')!, undefined, undefined, 1);
+    const before = untouched(b);
+    estimate(b);
+    return before === untouched(b);
   });
+  check('AI estimate equals the damage probe at the mean roll', true, () => {
+    const b = make(); b.applyStatus(b.active(1), 'weaken', { level: 2 }); b.applyStatus(b.active(0), 'burn', {});
+    return skills.slice(0, 3).every(skill => estimate(b, skill) === b.probeDamage(b.active(0), b.active(1), skill, { roll: MEAN_ROLL, crit: false }));
+  });
+  check('AI estimate applies the defender\'s taken multipliers', 79, () => {
+    const b = make(); b.applyStatus(b.active(1), 'weaken', { level: 1 }); return estimate(b);
+  });
+  check('AI estimate sees a shield as no damage without spending its charge', [0, 1], () => {
+    const b = make(); b.addCondition(b.active(1), data.conditions.get('cond_block_attacks')!, undefined, undefined, 1);
+    return [estimate(b), b.active(1).conditions.find(c => c.id === 'cond_block_attacks')!.charges];
+  });
+  check('AI estimate applies boss damage rules', [30, 0], () => [
+    estimate(make([{ rule: 'damage_cap_per_hit', amount: 30 }])),
+    estimate(make([{ rule: 'invulnerable_turns', turns: 3 }])),
+  ]);
+  check('AI estimate runs script power in estimate mode without drawing', [63, true], () => {
+    const b = make(), before = untouched(b);
+    return [estimate(b, { ...skills[0], power: 0, effects: [{ op: 'script', id: 'seer_eff_61' }] }), before === untouched(b)];
+  });
+
   for (const point of ['modify_damage_outgoing', 'modify_damage_final'] as const) {
     check(`${point} scripts compose sequentially`, 40, () => {
       const b = make(), holder = b.active(point === 'modify_damage_outgoing' ? 0 : 1);
@@ -162,7 +184,5 @@ export function runDamageAudit(factory: typeof createBattle = createBattle, labe
   check('weakened levels use the declared damage multipliers', [125, 150, 200, 350, 600], () => [1, 2, 3, 4, 5].map(level => {
     const b = make(); b.applyStatus(b.active(1), 'weaken', { level }); return damage(b, 100);
   }));
-  const result = { label, passed: rows.filter(r => r.passed).length, failed: rows.filter(r => !r.passed).length, cases: rows };
-  console.log(JSON.stringify(result, null, 2));
-  return result;
+  return t.finish();
 }

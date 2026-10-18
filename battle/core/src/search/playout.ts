@@ -4,12 +4,10 @@ import type { Action, Skill } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { Mon, Side } from '../engine/state.ts';
 import { Rng } from '../rng.ts';
-import { RANDOM_MAX, RANDOM_MIN } from '../constants.ts';
+import { MEAN_ROLL, RANDOM_MIN } from '../constants.ts';
 import { cloneBattle } from '../clone.ts';
 import type { World } from './world.ts';
 import { evaluate, hitChance, race, type Weights } from './evaluate.ts';
-
-const MEAN_ROLL = (RANDOM_MIN + RANDOM_MAX) / 2;
 
 function hash(text: string): number {
   let h = 2166136261 >>> 0;

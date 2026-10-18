@@ -17,15 +17,16 @@ export interface Attack { damage: number; crit: boolean; effectiveness: number; 
 
 /**
  * Damage before taken/dealt condition mods. Draws: crit, roll.
- * With `roll` (and `crit`) given, those are used instead and nothing is drawn;
- * a chance-gated power condition then counts as not triggered (as in `estimate`).
+ * With `estimate`, or with `roll` (and `crit`) given, nothing is drawn: the roll is
+ * the mean or the given one, a chance-gated power condition counts as not
+ * triggered, and script power runs in estimate mode (SCRIPTS.md: no RNG draws).
  */
 export function calcAttack(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Partial<MoveCtx> | undefined, opts: AttackOptions): Attack {
   const power = attackPower(b, user, target, skill, ctx, opts);
   const physical = skill.category === 'physical';
   const A = b.effStat(user, physical ? 'atk' : 'spa');
   let D = b.effStat(target, physical ? 'def' : 'spd');
-  for (const { entry, op } of b.probing ? [] : skillScripts(b, skill)) {
+  for (const { entry, op } of skillScripts(b, skill)) {
     const r = entry.defense?.({ battle: b, user, foe: target, skill }, op.params, D);
     if (typeof r === 'number') D = r;
   }
@@ -45,13 +46,13 @@ export function calcAttack(b: Battle, user: Mon, target: Mon, skill: Skill, ctx:
 }
 
 function attackPower(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Partial<MoveCtx> | undefined, opts: AttackOptions): number {
-  const fixed = opts.roll !== undefined;
+  const readOnly = !!opts.estimate || opts.roll !== undefined;
   let power = skill.power;
   for (const op of skill.effects ?? []) {
     if (op.op === 'power_if') {
       if (!b.evalWhen(op.when, { self: user, foe: target, actedFirst: ctx?.actedFirst })) continue;
       if (op.chance !== undefined && op.chance < 100) {
-        if (opts.estimate || fixed) continue;
+        if (readOnly) continue;
         traceHit(b, target, 'power_chance');
         if (!b.rng.chance(op.chance)) continue;
       }
@@ -59,8 +60,8 @@ function attackPower(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Parti
       if (op.multiplier) power *= op.multiplier;
     } else if (op.op === 'script') {
       const fn = b.script(op.id)?.power;
-      if (!fn || b.probing) continue;
-      const r = fn({ battle: b, user, foe: target, skill, ctx, estimate: !!opts.estimate }, op.params, power);
+      if (!fn) continue;
+      const r = fn({ battle: b, user, foe: target, skill, ctx, estimate: readOnly }, op.params, power);
       if (typeof r === 'number') power = r;
     }
   }
@@ -113,11 +114,13 @@ export function effStat(b: Battle, mon: Mon, stat: StageKey & keyof Stats): numb
 /**
  * Displayed damage (`amount + overkill`) of one attack hit with a fixed roll
  * (RANDOM_MIN..RANDOM_MAX) and crit. Reuses calcAttack and the damage pipeline
- * of applyDamage. Draws no RNG, emits no events and mutates nothing: scripts
- * (script power, defense, modifyDamage, finalDamage and script hooks) are not
- * run, chance-gated power counts as not triggered, charges are not consumed and
- * a cap-break chance counts as failed. Those cases are journaled as opaque, so
- * every non-opaque real hit equals the probe at its realized roll and crit.
+ * of applyDamage. Draws no RNG, emits no events and mutates nothing beyond the
+ * caches of estimate-mode power scripts: the skill's own power and defense
+ * scripts run in estimate mode, other scripts (modifyDamage, finalDamage and
+ * every script hook) are not run, chance-gated power counts as not triggered,
+ * charges are not consumed and a cap-break chance counts as failed. Those cases
+ * are journaled as opaque, so every non-opaque real hit equals the probe at its
+ * realized roll and crit.
  */
 export function probeDamage(b: Battle, user: Mon, target: Mon, skill: Skill, opts: DamageProbe): number {
   const { roll } = opts;
@@ -143,17 +146,9 @@ export function probeDamage(b: Battle, user: Mon, target: Mon, skill: Skill, opt
   }
 }
 
-/** Raw expected damage, no RNG (AI). */
+/** The AI's expected damage of one hit: the probe at the mean roll without a crit. */
 export function estimateDamage(b: Battle, user: Mon, target: Mon, skill: Skill): number {
-  if (skill.category === 'status') return 0;
-  const r = b.calcAttack(user, target, skill, {}, { estimate: true });
-  let d = r.damage;
-  for (const { cond, hook } of b.hooksWithCond(user, 'modify_damage_dealt')) {
-    if (!(hook.kinds ?? ['attack']).includes('attack')) continue;
-    if (hook.when && !b.evalWhen(hook.when, { self: user, foe: target, skill, kind: 'attack' })) continue;
-    d *= levelMult(hook, cond);
-  }
-  return Math.floor(d);
+  return b.probeDamage(user, target, skill, { roll: C.MEAN_ROLL, crit: false });
 }
 
 // ---------- the pipeline ----------

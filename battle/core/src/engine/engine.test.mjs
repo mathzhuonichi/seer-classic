@@ -9,6 +9,7 @@ import {createBattle} from '../battle.ts';
 import {AI_POLICY} from '../ai.ts';
 import {cloneBattle} from '../clone.ts';
 import {buildDataSet} from '../data.ts';
+import {MEAN_ROLL} from '../constants.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const AI_MODULES = ['ai.ts', 'legacy-ai.ts', 'search-ai.ts', 'observe.ts', 'clone.ts', 'search'].map(file => path.join(here, '..', file));
@@ -56,6 +57,16 @@ test('a battle without a policy runs player decisions and refuses an automatic o
   const automatic = new Battle(options());
   automatic.submit(0, {kind: 'move', skill: 1});
   assert.throws(() => automatic.resolveTurn(), /no policy/);
+});
+
+test('the AI estimate is the damage probe at the mean roll, and both are read-only', () => {
+  const battle = createBattle(options());
+  battle.addCondition(battle.active(1), {id: 'guard', hooks: [{on: 'modify_damage_taken', multiplier: 0.5, consume_charge: true}]}, undefined, undefined, 1);
+  const before = JSON.stringify({rng: battle.rng.s, draws: battle.rng.draws, conditions: battle.active(1).conditions, out: battle.turnEvents});
+  const skill = battle.skill(1), probe = battle.probeDamage(battle.active(0), battle.active(1), skill, {roll: MEAN_ROLL, crit: false});
+  assert.equal(battle.estimateDamage(battle.active(0), battle.active(1), skill), probe);
+  assert.equal(probe, Math.floor(battle.calcAttack(battle.active(0), battle.active(1), skill, {}, {estimate: true}).damage * 0.5));
+  assert.equal(JSON.stringify({rng: battle.rng.s, draws: battle.rng.draws, conditions: battle.active(1).conditions, out: battle.turnEvents}), before);
 });
 
 test('createBattle injects the AI unless a policy is given, and clones share the policy', () => {
