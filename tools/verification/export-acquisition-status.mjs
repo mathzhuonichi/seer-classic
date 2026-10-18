@@ -8,7 +8,8 @@ import { root, withSsr } from './_harness.mjs';
 const output = path.resolve(root, process.argv[2] ?? 'artifacts/acquisition-v24');
 const read = relative => fs.readFileSync(path.join(root, relative), 'utf8');
 await withSsr('export-acquisition-status', async load => {
-  const { buildAcquisitionIndex, buildAcquisitionFamilies, NPC_ONLY_SPECIES } = await load('/src/domain/acquisition/acquisition.ts');
+  const { buildAcquisitionIndex, buildAcquisitionFamilies } = await load('/src/domain/acquisition/acquisition.ts');
+  const { NPC_ONLY_SPECIES } = await load('/src/domain/acquisition/acquisition-model.ts');
   const { buildInitialFormAcquisitionIndex } = await load('/src/domain/acquisition/initial-acquisition.ts');
   const { FUSION_RECIPES } = await load('/src/domain/recipes/fusion.ts');
   const { BREEDING_RECIPES, getBreedingGender } = await load('/src/domain/recipes/breeding.ts');

@@ -31,7 +31,8 @@ const ids = value => String(value ?? '').split(/\s+/).filter(Boolean).map(Number
 const server = await createServer({ root, server: { middlewareMode: true, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
   const { WORLD_PLANETS, GENERATED_HABITATS } = await server.ssrLoadModule('/src/domain/world/world.ts');
-  const { buildAcquisitionIndex, NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/domain/acquisition/acquisition-model.ts');
   const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/initial-acquisition.ts');
   const { interceptedFieldSpecies } = await server.ssrLoadModule('/src/domain/acquisition/native-acquisition.ts');
   const { CONVERTED_POLICY_CATEGORIES } = await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');

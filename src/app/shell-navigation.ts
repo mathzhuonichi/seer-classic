@@ -1,5 +1,5 @@
 import type { GameAction } from '../kernel/contract.ts';
-import type { AcquisitionRoute } from '../domain/acquisition/acquisition.ts';
+import type { AcquisitionRoute } from '../domain/acquisition/acquisition-model.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
 import type { ChallengeCategoryId } from '../shared/views.ts';
 import { LABORATORY_LOCATION, type WorldLocationId } from '../domain/world/world.ts';
