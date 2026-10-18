@@ -9,9 +9,9 @@ memoryStorage();
 const read=name=>JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
 await withSsr('habitat-regions',async load=>{
   const t=suite('habitat-regions'),{check}=t;
-  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},{buildAcquisitionIndex},{buildRecruitmentRewards}]=await Promise.all([
-    '/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-population.ts','/src/game.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts',
-  ].map(load));
+  const [{WORLD_PLANETS,GENERATED_HABITATS},{getSceneLayout,creatureSceneHome},{buildWorldPopulation},{createGame,loadCatalog},{buildAcquisitionIndex},{buildRecruitmentRewards}]
+    =await Promise.all(['/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-population.ts','/src/game.ts',
+      '/src/progression/acquisition.ts','/src/progression/recruitment.ts'].map(load));
   const definitions=read('data/habitat-regions.json'),artwork={...read('src/presentation/map-art-assets.json'),...read('src/presentation/map-hd-assets.json')};
   const locate=({planetId,regionId})=>{const planet=WORLD_PLANETS.find(entry=>entry.id===planetId);return {planet,region:planet?.regions.find(entry=>entry.id===regionId)}};
   const catalog=await loadCatalog(),original=JSON.stringify(catalog),species=new Map(catalog.species.map(entry=>[entry.id,entry]));
@@ -126,7 +126,8 @@ await withSsr('habitat-regions',async load=>{
   const crowded=[];
   check('Crowded scenes give every resident a distinct anchor on the ground',()=>{
     for(const planet of WORLD_PLANETS)for(const region of planet.regions){
-      const population=buildWorldPopulation(`${planet.id}/${region.id}`,region.creatures.map(id=>({id,...species.get(id)})),6,region.levels,region.creatureLevels,region.scarceCreatures);
+      const residents=region.creatures.map(id=>({id,...species.get(id)}));
+      const population=buildWorldPopulation(`${planet.id}/${region.id}`,residents,6,region.levels,region.creatureLevels,region.scarceCreatures);
       if(population.length<=6)continue;
       const layout=getSceneLayout(planet,region),homes=population.map((_,i)=>creatureSceneHome(layout,i,population.length));
       assert.equal(new Set(homes.map(p=>`${p.x}/${p.y}`)).size,homes.length,`${region.id}: no shared creature anchors`);

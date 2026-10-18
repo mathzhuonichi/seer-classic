@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState,type ReactNode,type PointerEvent} from 'react';
-import {clampWindow,dragWindow,getLayoutZoom,startWindowDrag,type WindowDrag,type WindowPosition} from '../presentation/game-display.ts';
+import {clampWindow,dragWindow,getLayoutZoom,startWindowDrag,startsWindowDrag,type WindowDrag,type WindowPosition} from '../presentation/game-display.ts';
 
 export default function GameWindow({title,children,onClose,compact=false}:{title:string;children:ReactNode;onClose:()=>void;compact?:boolean}) {
   const ref=useRef<HTMLElement>(null);
@@ -10,7 +10,7 @@ export default function GameWindow({title,children,onClose,compact=false}:{title
     const observer=new ResizeObserver(()=>setPosition(old=>old&&clampWindow(old,parent,box)));observer.observe(parent);return()=>observer.disconnect();
   },[]);
   function begin(event:PointerEvent<HTMLElement>) {
-    if((event.target as HTMLElement).closest('button'))return;
+    if(!startsWindowDrag(event.target as HTMLElement))return;
     const box=ref.current!;
     drag.current=startWindowDrag(event,box.getBoundingClientRect(),box.parentElement!.getBoundingClientRect(),getLayoutZoom(box));
     event.currentTarget.setPointerCapture(event.pointerId);

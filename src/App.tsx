@@ -13,9 +13,11 @@ import {shellRoutes} from './components/shell/shell-routes.ts';
 import {useBattlePreparation,type BattleBackdrops} from './components/shell/useBattlePreparation.ts';
 import {useShellAudio} from './components/shell/useShellAudio.ts';
 import {useShellNavigation} from './components/shell/useShellNavigation.ts';
-import {savedSceneBackdrop,type BattleBackdrop} from './presentation/battle-backdrop.ts';
+import {locationBackdrop,type BattleBackdrop} from './presentation/battle-backdrop.ts';
 import {useGameDisplay} from './presentation/game-display.ts';
+import {battleActive} from './presentation/view-helpers.ts';
 import {COMPACT_WINDOWS,WINDOW_TITLES,campaignForAction,startsBattle,type WindowKind} from './presentation/shell-navigation.ts';
+import {readWorldPreference} from './world.ts';
 import {gameAudio} from './audio/game-audio.ts';
 import {actionSound} from './audio/action-sounds.ts';
 import './app.css';
@@ -47,19 +49,22 @@ export function Game({controller:c}:{controller:GameController}){
  const [selected,setSelected]=useState(''),[modifier,setModifier]=useState(false),[message,setMessage]=useState('');
  const [battleCommand,setBattleCommand]=useState<{command:'party'|'items';id:number}>();
  // One mutable box for the backdrops a battle may open over, read when the battle starts.
- const [backdrops]=useState<{current:BattleBackdrops}>(()=>({current:{exploration:savedSceneBackdrop(),campaign:null}}));
+ const [backdrops]=useState<{current:BattleBackdrops}>(()=>({current:{exploration:locationBackdrop(readWorldPreference()),campaign:null}}));
  const rememberScene=useCallback((scene:BattleBackdrop)=>{backdrops.current.exploration=scene},[]);
  const battle=useBattlePreparation(c,backdrops,!!s.battle,{onStart(){close();setMessage('')},onBattle:started=>audio.track(started)});
  const audio=useShellAudio(s,!!battle.preparation);
  const routes=shellRoutes({c,s,navigation,backdrops,setMessage,setSelected});
- const inBattle=!!s.battle&&!s.battle.finished,{preparation}=battle,{windowKind}=nav;
+ const inBattle=battleActive(s),{preparation}=battle,{windowKind}=nav;
  useEffect(()=>{
   const key=(event:KeyboardEvent)=>{if(event.key==='Escape'){close();setModifier(false)}};
   window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
  },[]);
  // Components receive this controller: battles start behind the loading screen, campaign
- // encounters open their stage scene, and confirmed outcomes play their sound.
+ // encounters open their stage scene, and confirmed outcomes play their sound. It is created
+ // once per game controller and calls this render's handlers.
+ const latest=useRef({routes,battle,audio});latest.current={routes,battle,audio};
  const uiController=useMemo<GameController>(()=>({...c,dispatch:action=>{
+  const {routes,battle,audio}=latest.current;
   if(action.type==='closeBattle'){
    const before=c.snapshot(),result=before.battle?.result;
    audio.closing(before);c.dispatch(action);close();if(result)setMessage(result);return;

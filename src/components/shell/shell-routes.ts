@@ -13,7 +13,6 @@ export function shellRoutes({ c, s, navigation, backdrops, setMessage, setSelect
   setMessage: (message: string) => void; setSelected: (uid: string) => void;
 }) {
   const { show, travel, enterCampaign } = navigation;
-  // Uses only the controller and stable setters: the dispatching controller keeps its first copy.
   function openCampaign(id: string) {
     backdrops.current.campaign = campaignBackdrop(c.snapshot(), id) ?? backdrops.current.exploration;
     if (c.snapshot().battle?.finished) c.dispatch({ type: 'closeBattle' });

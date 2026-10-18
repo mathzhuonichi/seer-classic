@@ -193,7 +193,8 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
     label: `与${name}交谈`, portrait: { species: boss.species, name }, title: name, text,
     kicker: tower ? scene.name : `${boss.category}${staging ? ' · 挑战接驳' : ''}`,
     detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
-    towerTeam: tower && { floor: tower.floor, opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
+    towerTeam: tower && { floor: tower.floor,
+      opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
     reward: tower ? boss.rewardText : undefined,
     challenge: { label: tower?.complete ? '本轮已通关' : tower ? `挑战第 ${tower.floor} 层` : '挑战', disabled: !!tower?.complete, chooseStart: !!tower?.complete, run },
   };

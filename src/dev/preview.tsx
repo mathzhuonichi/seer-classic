@@ -1,6 +1,5 @@
 import {createRoot} from 'react-dom/client';
 import type {Save} from '../../raising/core/types.ts';
-import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../progression/brave-tower.ts';
 
 function memoryStorage(): Storage {
   const values=new Map<string,string>();
@@ -21,9 +20,10 @@ for(const name of ['localStorage','sessionStorage'] as const) {
 }
 document.title='Seer Classic Preview';
 
-const [{Game},{createGame,loadCatalog}]=await Promise.all([
+const [{Game},{createGame,loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
   import('../App.tsx'),
   import('../game.ts'),
+  import('../progression/brave-tower.ts'),
 ]);
 const game=createGame(await loadCatalog(),'');
 for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});

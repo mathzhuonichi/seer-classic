@@ -6,6 +6,5 @@ export { WORLD_GALAXIES } from './world/classic-planets.ts';
 export { GENERATED_HABITATS, WORLD_PLANETS } from './world/planets.ts';
 export {
   BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findChallengeLocation, findSceneChallenges, isWorldLocation, resolveWorldLocation,
-  type ChallengeLocation, type ChallengeTarget,
 } from './world/locations.ts';
 export { readWorldPreference, writeWorldPreference, type WorldPreference } from './world/preference.ts';

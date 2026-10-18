@@ -4,11 +4,15 @@ import {suite,withSsr} from './_harness.mjs';
 
 await withSsr('world-roaming-v44',async load=>{
   const t=suite('world-roaming-v44'),{check}=t;
-  const [{WORLD_PLANETS},{getSceneLayout,creatureSceneHome,constrainHabitatPoint},roaming]=await Promise.all(['/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-roaming.ts'].map(load));
+  const [{WORLD_PLANETS},{getSceneLayout,creatureSceneHome,constrainHabitatPoint},roaming]=await Promise.all(
+    ['/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-roaming.ts'].map(load));
   const regions=WORLD_PLANETS.flatMap(planet=>planet.regions.map(region=>({planet,region,layout:getSceneLayout(planet,region)})));
   const row=regions.find(r=>r.region.backgroundAssetMapId===726);assert(row);
   const {layout}=row,homes=Array.from({length:6},(_,index)=>creatureSceneHome(layout,index,6));
-  const within=(p,home)=>{assert(Math.abs(p.x-home.x)<=layout.homeRoam.x+1e-7);assert(Math.abs(p.y-home.y)<=layout.homeRoam.y+1e-7);assert.deepEqual(constrainHabitatPoint(layout,p),p);};
+  const within=(p,home)=>{
+    assert(Math.abs(p.x-home.x)<=layout.homeRoam.x+1e-7);assert(Math.abs(p.y-home.y)<=layout.homeRoam.y+1e-7);
+    assert.deepEqual(constrainHabitatPoint(layout,p),p);
+  };
   check('This territory change is scoped to map 726',()=>{
     assert.deepEqual([...new Set(regions.filter(r=>r.layout.homeRoam).map(r=>r.region.backgroundAssetMapId))],[726]);
   });

@@ -2,7 +2,6 @@ import type { WorldPlanet, WorldRegion } from '../world.ts';
 import { ORIGINAL_ENTRIES, ORIGINAL_ROUTES, type SceneExitFacing } from './map-sources.ts';
 import { clamp, point, type ScenePoint } from './scene-geometry.ts';
 
-export type { SceneExitFacing };
 export interface SceneExit {
   id: string;
   targetRegionId: string;
@@ -45,7 +44,7 @@ const AUTHORED_ANCHORS: Record<SceneExitFacing, readonly ScenePoint[]> = {
 const OPPOSITE: Record<SceneExitFacing, SceneExitFacing> = { left: 'right', right: 'left', up: 'down', down: 'up' };
 /** Arrival offset from a reverse doorway, pointing into the scene. */
 const INSET: Record<SceneExitFacing, readonly [number, number]> = { left: [7, 0], right: [-7, 0], up: [0, 10], down: [0, -10] };
-const DEFAULT_ENTRY = point(50, 80);
+const DEFAULT_ENTRY: ScenePoint = Object.freeze(point(50, 80));
 
 const inset = (anchor: ScenePoint, facing: SceneExitFacing): ScenePoint =>
   point(clamp(anchor.x + INSET[facing][0], 8, 92), clamp(anchor.y + INSET[facing][1], 12, 90));

@@ -30,6 +30,8 @@ export function clampWindow(position: WindowPosition, parent: LayoutBox, box: { 
 export interface WindowDrag { x: number; y: number; left: number; top: number; zoom: number }
 type Pointer = { clientX: number; clientY: number };
 type Corner = { left: number; top: number };
+/** The title bar drags the window, except from its buttons. */
+export const startsWindowDrag = (target: { closest(selector: string): unknown }) => !target.closest('button');
 export const startWindowDrag = (pointer: Pointer, box: Corner, parent: Corner, zoom: number): WindowDrag =>
   ({ x: pointer.clientX, y: pointer.clientY, left: (box.left - parent.left) / zoom, top: (box.top - parent.top) / zoom, zoom });
 /** Pointer movement in rendered pixels becomes layout movement once, at the drag's zoom. */

@@ -44,7 +44,7 @@ const viewportCases=[
 ];
 try{await withSsr('game-display-v43',async load=>{
   const t=suite('game-display-v43'),{check}=t;
-  const [{gameDisplayLayout,getLayoutZoom,startWindowDrag,dragWindow,clampWindow},walk,roaming,{rectangle,percentIn}]=await Promise.all(
+  const [{gameDisplayLayout,getLayoutZoom,startWindowDrag,startsWindowDrag,dragWindow,clampWindow},walk,roaming,{rectangle,percentIn}]=await Promise.all(
     ['/src/presentation/game-display.ts','/src/presentation/world-walk.ts','/src/presentation/world-roaming.ts','/src/presentation/scene-geometry.ts'].map(load));
   check('Each viewport retains the original 960:650 fit without overflowing',()=>{
     for(const [name,width,height] of viewportCases){
@@ -83,6 +83,8 @@ try{await withSsr('game-display-v43',async load=>{
       assert.deepEqual(dragWindow(drag,{clientX:100000,clientY:100000},parent,box),{x:303,y:139});
       assert.deepEqual(dragWindow(drag,{clientX:-100000,clientY:-100000},parent,box),{x:0,y:0});
     }
+    assert.equal(startsWindowDrag({closest:()=>({tagName:'BUTTON'})}),false,'The close button never starts a drag');
+    assert.equal(startsWindowDrag({closest:()=>null}),true);
     const inside={x:20,y:30};assert.equal(clampWindow(inside,{clientWidth:1063,clientHeight:619},{offsetWidth:760,offsetHeight:480}),inside,'A resize that fits keeps the position');
   });
   check('Map click and creature approach preserve percentage destinations at every zoom',()=>{

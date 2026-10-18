@@ -1,6 +1,6 @@
 import type { BattleView, GameAction, GameSnapshot } from '../game-types.ts';
 import { braveTowerFloor } from '../progression/brave-tower.ts';
-import { BRAVE_TOWER_LOCATION, findChallengeLocation, readWorldPreference, resolveWorldLocation, type WorldLocationId } from '../world.ts';
+import { BRAVE_TOWER_LOCATION, findChallengeLocation, resolveWorldLocation, type WorldLocationId } from '../world.ts';
 import { getCreatureArt } from './creature-art.ts';
 import { appearanceOf } from './monster-views.ts';
 
@@ -11,8 +11,6 @@ export function locationBackdrop({ planetId, regionId }: WorldLocationId, name?:
   const { planet, region } = resolveWorldLocation(planetId, regionId);
   return { src: region.background ?? planet.background, name: name ?? region.name };
 }
-/** The explorer's saved scene, before the world map reports its own. */
-export const savedSceneBackdrop = () => locationBackdrop(readWorldPreference());
 
 /** A campaign is fought in its first encounter's arena, under the campaign's location name. */
 export function campaignBackdrop(s: Pick<GameSnapshot, 'campaigns' | 'bosses'>, campaignId: string): BattleBackdrop | undefined {

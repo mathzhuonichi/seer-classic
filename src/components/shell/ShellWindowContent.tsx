@@ -32,7 +32,8 @@ export function ShellWindowContent({ kind, s, c, focus, selected, inBattle, navi
     case 'fusion': return <section className="management-panel" aria-label="实验室融合面板">
       <Fusion s={s} c={c} initialRecipeId={focus.fusionRecipeId} onOpenBeads={() => openBag('essence')}/>
     </section>;
-    case 'breeding': return <Breeding s={s} c={c} initialRecipeId={focus.breedingRecipeId} onOpenDex={openDex} onOpenMonsters={uid => { onSelect(uid); openMonsters(); }}/>;
+    case 'breeding': return <Breeding s={s} c={c} initialRecipeId={focus.breedingRecipeId} onOpenDex={openDex}
+      onOpenMonsters={uid => { onSelect(uid); openMonsters(); }}/>;
     case 'shop': return <ItemShop s={s} c={c} onOpenBag={openBag}/>;
     case 'bag': return <Inventory s={s} c={c} onSave={actions.onExportSave} onMessage={onMessage} initialPocket={focus.bagPocket}/>;
     case 'dex': return <Dex s={s} c={c} onLocate={routes.locate} focusSpecies={focus.dexSpecies}/>;
@@ -40,8 +41,10 @@ export function ShellWindowContent({ kind, s, c, focus, selected, inBattle, navi
       onTravel={routes.travelToChallenge} onCampaign={routes.openCampaign} onTower={routes.openTower}/>;
     case 'facilities': return <BattleFacilities s={s} c={c} facilityId={focus.facilityId} onManage={openMonsters}/>;
     case 'tower': return <BraveTower s={s} onEnter={routes.enterTower}/>;
-    case 'quests': return <QuestPanel s={s} c={c} focusQuestId={focus.questId} onTravel={routes.travelToChallenge} onLocateSpecies={openDex} onOpenBag={() => openBag('essence')}/>;
+    case 'quests': return <QuestPanel s={s} c={c} focusQuestId={focus.questId} onTravel={routes.travelToChallenge} onLocateSpecies={openDex}
+      onOpenBag={() => openBag('essence')}/>;
     case 'recovery': return <RecoveryConsole s={s} onHeal={actions.onHeal}/>;
-    case 'settings': return <SettingsConsole inBattle={inBattle} onExport={actions.onExportSave} onImport={actions.onImportSave} onModifier={actions.onModifier} onMessage={onMessage}/>;
+    case 'settings': return <SettingsConsole inBattle={inBattle} onExport={actions.onExportSave} onImport={actions.onImportSave} onModifier={actions.onModifier}
+      onMessage={onMessage}/>;
   }
 }

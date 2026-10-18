@@ -31,7 +31,7 @@ export interface SceneLayout {
 /** An authored composition: everything except the free player plane and the source contacts. */
 type ScenePlacement = Omit<SceneLayout,'walk'|'bossHomes'|'bossActors'>;
 
-const PLAYER_PLANE=rectangle(1,1,99,99);
+const PLAYER_PLANE:readonly ScenePoint[]=Object.freeze(rectangle(1,1,99,99).map(vertex=>Object.freeze(vertex)));
 /** Spacing between contacts that have no source position. */
 const BOSS_SPACING=15;
 
@@ -46,8 +46,9 @@ function byMap<T,U>(table:Record<number,Readonly<Record<string,T>>>,build:(mapId
 }
 const BOSS_HOMES=byMap(CONTACT_ANCHORS,(mapId,_id,anchor)=>stagePoint(mapId,anchor));
 const BOSS_ACTORS=byMap(ACTOR_CROPS,(mapId,id,{src,size:[width,height]}):SceneBossActor=>{
-  const viewport=viewportOf(mapId);
-  return {src,width:width/viewport[2]*100,height:height/viewport[3]*100,anchor:BOSS_HOMES[mapId][id]};
+  const viewport=viewportOf(mapId),anchor=BOSS_HOMES[mapId]?.[id];
+  if(!anchor)throw new Error(`Map ${mapId} actor ${id} needs a contact anchor`);
+  return {src,width:width/viewport[2]*100,height:height/viewport[3]*100,anchor};
 });
 
 const common:ScenePlacement={
