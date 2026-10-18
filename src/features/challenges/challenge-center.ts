@@ -3,7 +3,7 @@ import type { GameSnapshot } from '../../kernel/contract.ts';
 import type { BossView, BraveTowerView, CampaignView } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
-import {CHALLENGE_CAMPAIGNS,CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
+import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
 import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
 
@@ -15,9 +15,8 @@ export const CHALLENGE_PAGE_SIZE=10;
 /** An archive row: a standalone encounter, a whole campaign, or the whole Brave Tower. */
 export type ChallengeEntry=BossView&{campaign?:CampaignView;tower?:boolean};
 export type ChallengeKind='tower'|'campaign'|'trainer'|'boss';
-type ArchiveSnapshot=Pick<GameSnapshot,'bosses'|'campaigns'|'braveTower'|'species'>;
+type ArchiveSnapshot=Pick<GameSnapshot,'bosses'|'campaigns'|'braveTower'>;
 
-const SKILL_CAMPAIGNS=new Set(CHALLENGE_CAMPAIGNS.filter(campaign=>campaign.reward==='skills').map(campaign=>campaign.id));
 /** Tabs whose rows are ordered by the floor or door number in the encounter id. */
 const NUMBERED_TABS=new Set<string>([CHALLENGE_CATEGORY.tower,CHALLENGE_CATEGORY.dark]);
 const encounterNumber=(entry:ChallengeEntry)=>Number(entry.id.match(/(?:_f|_door)(\d+)/)?.[1]??Number.MAX_SAFE_INTEGER);
@@ -27,7 +26,7 @@ const isTowerFloor=(boss:BossView)=>braveTowerFloor(boss.id)!==undefined;
 function campaignEntry(s:ArchiveSnapshot,campaign:CampaignView):ChallengeEntry {
   return {
     id:`campaign-${campaign.id}`,name:campaign.name,species:campaign.species,
-    category:SKILL_CAMPAIGNS.has(campaign.id)?CHALLENGE_CATEGORY.quest:CHALLENGE_CATEGORY.legendary,
+    category:campaign.reward==='skills'?CHALLENGE_CATEGORY.quest:CHALLENGE_CATEGORY.legendary,
     description:campaign.stages.map(stage=>`${stage.name} ${stage.description}`).join(' '),location:campaign.location,
     level:s.bosses.find(boss=>boss.id===campaign.stages.at(-1)!.bossIds[0])?.level??MAX_LEVEL,portrait:`/portraits/${campaign.species}.png`,
     cleared:campaign.finished,attempts:0,evidence:mergeBossEvidence(campaign.stages.map(stage=>stage.evidence)),campaign,
@@ -96,8 +95,8 @@ function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):s
   if(kind==='trainer')return '赛尔豆与经验。';
   if(kind==='boss')return '获得首领精元 → 道具背包 → 确认孵化';
   const campaign=entry.campaign!;
-  if(!SKILL_CAMPAIGNS.has(campaign.id))return '完成全部阶段后获得精元，途中阶段不会重复发放精灵';
-  return `通过每项特训，领悟对应的${s.species.find(species=>species.id===campaign.species)?.name??campaign.name}技能`;
+  if(campaign.reward==='essence')return '完成全部阶段后获得精元，途中阶段不会重复发放精灵';
+  return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
 }
 
 /** The detail pane texts; `staging` means the challenge is reached through the ship's transfer dock. */

@@ -33,7 +33,12 @@ export interface ShopItemView {id:string;name:string;kind:string;description:str
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView { id: string; name: string; description: string; rewardSpecies: number; complete: boolean; claimed: boolean; progress: string; group?: 'journey' | 'spt-recruitment'; requiredBossIds?: readonly string[];prerequisites?:readonly QuestPrerequisiteView[];rewardItemId?:string;repeatable?:boolean;claimCount?:number;claimable?:boolean;blockedReason?:string;allowance?:AcquisitionAllowance }
 export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
-export interface CampaignView { id: string; name: string; species: number; location: string; description: string; stages: CampaignStageView[]; completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean }
+export interface CampaignView {
+  id: string; name: string; species: number; speciesName: string; location: string; description: string; stages: CampaignStageView[];
+  completed: number; nextStageId: string | null; finished: boolean; resetOnLoss: boolean;
+  /** `essence`: the last stage grants the species' essence. `skills`: each stage teaches one skill instead. */
+  reward: 'essence' | 'skills';
+}
 /** Where the player stands in the Brave Tower: one rule for the tower scene, the entrance picker and the archive. */
 export interface BraveTowerPosition {
   /** The floor the tower scene stands on: the climb's next floor, or the top floor after a completed climb. */

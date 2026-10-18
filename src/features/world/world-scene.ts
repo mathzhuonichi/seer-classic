@@ -78,7 +78,7 @@ function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact 
   if (!campaign) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
   const progress = campaign.finished ? '全部挑战已完成' : next ? `当前挑战：${next.name}` : '查看挑战进度';
-  return { campaign, name: speciesName(s, campaign.species, '挑战精灵'), progress };
+  return { campaign, name: campaign.speciesName, progress };
 }
 
 function groundHint(tower: TowerScene | undefined) {

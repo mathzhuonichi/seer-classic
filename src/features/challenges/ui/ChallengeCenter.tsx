@@ -15,9 +15,8 @@ import './ChallengeCenter.css';
 
 export interface ChallengeCenterProps {c:GameController;initialCategory?:string;onExplore?:()=>void;onTravel?:(boss:BossView)=>void;onCampaign?:(id:string)=>void;onTower?:()=>void}
 export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,onCampaign,onTower}:ChallengeCenterProps) {
-  const bosses=useGame(c,s=>s.bosses),campaigns=useGame(c,s=>s.campaigns),braveTower=useGame(c,s=>s.braveTower),species=useGame(c,s=>s.species);
-  const party=useGame(c,s=>s.party);
-  const archive=useMemo(()=>({bosses,campaigns,braveTower,species}),[bosses,campaigns,braveTower,species]);
+  const bosses=useGame(c,s=>s.bosses),campaigns=useGame(c,s=>s.campaigns),braveTower=useGame(c,s=>s.braveTower),partySize=useGame(c,s=>s.party.length);
+  const archive=useMemo(()=>({bosses,campaigns,braveTower}),[bosses,campaigns,braveTower]);
   const defaultTab=initialCategory??CHALLENGE_CATEGORY.spt;
   const [category,setCategory]=useState(defaultTab),[search,setSearch]=useState(''),[selected,setSelected]=useState('');
   const entries=useMemo(()=>challengeEntries(archive),[archive]);
@@ -47,7 +46,7 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
       <div className="challenge-description"><strong>挑战地点</strong><p>{campaign?.location??landingName}</p><p>{detail.instruction}</p></div>
       <div className="challenge-description"><strong>{campaign?'挑战流程':'挑战提示'}</strong>{campaign?campaign.stages.map((stage,index)=><p key={stage.id}>{stage.cleared?'✓':index+1} · {stage.name}</p>):<p>{boss.description||'带上精灵伙伴，挑战这位星际首领。'}</p>}</div>
       <div className="challenge-reward-note"><strong>通关奖励</strong><span>{detail.reward}</span></div>
-      <div className="management-confirm-row"><span className="management-hint">精灵背包 {party.length} / {PARTY_MAX}</span><button className="primary" disabled={!launch} onClick={()=>launch?.()}>{detail.action}</button></div>
+      <div className="management-confirm-row"><span className="management-hint">精灵背包 {partySize} / {PARTY_MAX}</span><button className="primary" disabled={!launch} onClick={()=>launch?.()}>{detail.action}</button></div>
       <div className="challenge-secondary-actions"><button onClick={()=>c.dispatch({type:'heal'})}>恢复全队</button>{onExplore&&<button onClick={onExplore}>返回星球探索</button>}</div>
     </>:<div className="management-empty">选择对手查看挑战提示。</div>}</div></div>
   </section>;
