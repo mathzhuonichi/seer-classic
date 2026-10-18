@@ -1,26 +1,15 @@
 /** Branch selection, atomic rejection, identity preservation, and repeat acquisition. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createServer } from 'vite';
+import { memoryStorage, suite, withSsr } from './_harness.mjs';
 
-const priorStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
-const memory = new Map();
-Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
-  getItem: key => memory.get(key) ?? null,
-  setItem: (key, value) => memory.set(key, value),
-  removeItem: key => memory.delete(key),
-} });
-const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
-const checks = [], failures = [], selected = [], repeated = [], mechanical = [];
-function check(name, run) {
-  try { run(); checks.push(name); }
-  catch (error) { failures.push({ name, error: String(error.stack).slice(0,3000) }); console.error(`FAIL ${name}: ${error.message}`); }
-}
-try {
-  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/kernel/game.ts');
-  const { makeDex, createMonster, SeededRng, computeStats, autoEvolve, expToNext } = await server.ssrLoadModule('/raising/core/index.ts');
-  const { buildRecruitmentRewards } = await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
-  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+memoryStorage();
+await withSsr('evolution-branches', async load => {
+  const t = suite('evolution-branches'), { check } = t, selected = [], repeated = [], mechanical = [];
+  const { createGame, loadCatalog } = await load('/src/kernel/game.ts');
+  const { makeDex, createMonster, SeededRng, computeStats, autoEvolve, expToNext } = await load('/raising/core/index.ts');
+  const { buildRecruitmentRewards } = await load('/src/domain/acquisition/recruitment.ts');
+  const { buildAcquisitionIndex } = await load('/src/domain/acquisition/acquisition.ts');
   const catalog = await loadCatalog(), sourceBytes = JSON.stringify(catalog), dex = makeDex(catalog);
   const byId = new Map(catalog.species.map(row => [row.id, row]));
   const evolutionRules = JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8')).rules;
@@ -236,11 +225,9 @@ try {
     });
   }
   check('Input catalog remains immutable',()=>assert.equal(JSON.stringify(catalog),sourceBytes));
-  const report={branchPoints:branches.map(row=>row.id),mechanical,selected,repeated,checks,failures,limits:['Battle-EXP fixture strengthens one existing attack to isolate settlement behavior.','The direct EXP-item path uses a test-only item; production data currently contains EXP boosts instead.','Tower essence repetition begins with an existing cleared-tower save; this does not certify a complete tower playthrough.']};
-  fs.mkdirSync('artifacts/evolution-branches',{recursive:true});fs.writeFileSync('artifacts/evolution-branches/controller.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({branchPoints:report.branchPoints,mechanicalEdges:mechanical.length,selectedBranches:selected.length,repeatedRoutes:repeated.length,passed:checks.length,failures},null,2));
-  assert.equal(failures.length,0,`${failures.length} evolution branch verification failures`);
-} finally {
-  await server.close();
-  if(priorStorage)Object.defineProperty(globalThis,'localStorage',priorStorage);else delete globalThis.localStorage;
-}
+  t.finish({branchPoints:branches.map(row=>row.id),mechanical,selected,repeated,limits:[
+    'Battle-EXP fixture strengthens one existing attack to isolate settlement behavior.',
+    'The direct EXP-item path uses a test-only item; production data currently contains EXP boosts instead.',
+    'Tower essence repetition begins with an existing cleared-tower save; this does not certify a complete tower playthrough.',
+  ]});
+});

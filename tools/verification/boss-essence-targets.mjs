@@ -1,20 +1,15 @@
 /** Source-declared infant rewards, legacy essence inventories, and route consistency. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createServer } from 'vite';
+import { memoryStorage, withSsr } from './_harness.mjs';
 
-const originalStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
-const memory = new Map();
-Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
-  getItem: key => memory.get(key) ?? null, setItem: (key, value) => memory.set(key, value), removeItem: key => memory.delete(key),
-} });
-const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
-try {
-  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/kernel/game.ts');
-  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
-  const { bossEssenceRewards } = await server.ssrLoadModule('/src/domain/acquisition/native-acquisition.ts');
-  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/initial-acquisition.ts');
-  const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/domain/challenges/challenge-campaigns.ts');
+memoryStorage();
+await withSsr('boss-essence-targets', async load => {
+  const { createGame, loadCatalog } = await load('/src/kernel/game.ts');
+  const { buildAcquisitionIndex } = await load('/src/domain/acquisition/acquisition.ts');
+  const { bossEssenceRewards } = await load('/src/domain/acquisition/native-acquisition.ts');
+  const { buildInitialFormAcquisitionIndex } = await load('/src/domain/acquisition/initial-acquisition.ts');
+  const { CHALLENGE_CAMPAIGNS } = await load('/src/domain/challenges/challenge-campaigns.ts');
   const catalog = await loadCatalog(), originalCatalog = JSON.stringify(catalog);
   const byId = new Map(catalog.species.map(species => [species.id, species]));
   const declaredRewards = catalog.bosses.filter(boss => boss.reward?.monster);
@@ -123,8 +118,4 @@ try {
   assert.deepEqual(restored.snapshot().monsters.slice(before).map(mon => [mon.species, mon.level]), [[1060, 1]]);
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
   console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
-} finally {
-  await server.close();
-  if (originalStorage) Object.defineProperty(globalThis, 'localStorage', originalStorage);
-  else delete globalThis.localStorage;
-}
+});

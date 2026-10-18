@@ -1,20 +1,16 @@
 /** Skin permissions, persisted identity, gameplay invariance, and battle presentation. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import { createServer } from 'vite';
+import { memoryStorage, suite, withSsr } from './_harness.mjs';
 
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map();
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[];
 const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,selectionActions:0,resetActions:0,batches:0,npcModifierSpecies:[],species:[]};
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,4000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
-try {
-  const {createGame,loadCatalog,advanceBattlePresentation}=await server.ssrLoadModule('/src/kernel/game.ts');
-  const {makeDex,createMonster,SeededRng,computeStats}=await server.ssrLoadModule('/raising/core/index.ts');
-  const {buildSkinOptions}=await server.ssrLoadModule('/src/domain/acquisition/skins.ts');
-  const {BREEDING_RECIPES,canBreedParents}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');
-  const {CHALLENGE_CAMPAIGNS}=await server.ssrLoadModule('/src/domain/challenges/challenge-campaigns.ts');
+memoryStorage();
+await withSsr('skins', async load => {
+  const t=suite('skins'),{check}=t;
+  const {createGame,loadCatalog,advanceBattlePresentation}=await load('/src/kernel/game.ts');
+  const {makeDex,createMonster,SeededRng,computeStats}=await load('/raising/core/index.ts');
+  const {buildSkinOptions}=await load('/src/domain/acquisition/skins.ts');
+  const {BREEDING_RECIPES,canBreedParents}=await load('/src/domain/recipes/breeding.ts');
+  const {CHALLENGE_CAMPAIGNS}=await load('/src/domain/challenges/challenge-campaigns.ts');
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
   const parse=game=>JSON.parse(game.exportSave()),base=parse(createGame(catalog,''));
   base.rng_state=[101,202,303,404];base.items={...base.items,item_capsule_master:20,item_restore:3,item_level_down:3,item_level_up_1:10};base.exp_pool=1e9;
@@ -183,7 +179,5 @@ try {
     const transformed=advanceBattlePresentation(switched,{type:'transform',side:0,slot:0,species:3,hp:state.player.hp,maxHp:state.player.maxHp},catalog.species);assert.equal(transformed.player.appearanceSpecies,3);assert.equal(transformed.player.portrait,'/portraits/3.png');assert.equal(JSON.stringify(state),bytes);
   });
   check('Regression fixtures never mutate the source catalog',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
-  fs.mkdirSync('artifacts/skins',{recursive:true});fs.writeFileSync('artifacts/skins/controller.json',JSON.stringify({exhaustive,checks,failures},null,2)+'\n');
-  const {species:details,...coverage}=exhaustive;
-  console.log(JSON.stringify({passed:checks.length,exhaustive:coverage,failures},null,2));assert.equal(failures.length,0,`${failures.length} skin verification failures`);
-} finally {await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;}
+  t.finish({exhaustive});
+});
