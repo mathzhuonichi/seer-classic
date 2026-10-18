@@ -1,6 +1,6 @@
 # V58 trainer AI: engine-simulated search (design)
 
-**Status:** design agreed in principle on 2026-10-16; implementation not started. Section 10 lists the remaining open details. This note supersedes `BATTLE-AI-REDESIGN-HANDOFF.md` and replaces the approach of `trainer-ko-priority-v57.md`.
+**Status:** design agreed on 2026-10-16 and implemented on branch `claude/search-ai`; trainer encounters use the search planner by default. Section 13 records the verification results and section 10 the remaining open details. This note supersedes `BATTLE-AI-REDESIGN-HANDOFF.md` and replaces the approach of `trainer-ko-priority-v57.md`.
 
 ## 1. Decisions
 
@@ -224,7 +224,9 @@ A self-KO grants a **free entry**: the successor arrives without being hit on en
 1. Simulate the sacrifice turn against each player response, as in 5.2.
 2. For each reserve `s`, force `s` as the replacement. The engine applies the real gift: inheritance stages on switch-in, crit charges through the shared pool.
 3. Roll out with `H + 2` turns, extending the normal horizon so that the gift is actually spent within the simulation.
-4. The candidate's row is the best reserve's row. That reserve is also recorded and used when the real replacement happens: `tacticalReplacement` honors the plan.
+4. The candidate's row is the best reserve's row. That reserve is also recorded and used when the real replacement happens: when the sacrifice is chosen, `battle.sacrificePlans` keeps the best successor per player response, and `searchReplacement` follows the one planned against the move the player actually used that turn.
+
+A sacrifice is detected from the first sample of every response, so a self-KO that happens only against some responses is still expanded.
 
 Cost: at most 5 reserves × 4 responses × `K` × (`H` + 3) turns per sacrifice candidate. This fits the budget in section 8.
 
