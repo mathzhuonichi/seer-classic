@@ -1,9 +1,15 @@
 import type { GameController } from '../kernel/contract.ts';
 import type { WindowFocus, WindowKind } from './shell-navigation.ts';
-import {BattleFacilities,BraveTower,ChallengeCenter,QuestPanel} from '../features/challenges/ui.ts';
-import {Breeding,Dex,Fusion} from '../features/collection/ui.ts';
-import {Inventory,ItemShop} from '../features/items/ui.ts';
+import {BattleFacilities} from '../features/challenges/ui.ts';
+import {BraveTower} from '../features/challenges/ui.ts';
+import {Breeding} from '../features/collection/ui.ts';
+import {ChallengeCenter} from '../features/challenges/ui.ts';
+import {Dex} from '../features/collection/ui.ts';
+import {Fusion} from '../features/collection/ui.ts';
+import {Inventory} from '../features/items/ui.ts';
+import {ItemShop} from '../features/items/ui.ts';
 import {MonsterManager} from '../features/raising/ui.ts';
+import {QuestPanel} from '../features/challenges/ui.ts';
 import {WorldAtlas} from '../features/world/ui.ts';
 import { RecoveryConsole, SettingsConsole } from './ShellPanels.tsx';
 import type { shellRoutes } from './shell-routes.ts';
