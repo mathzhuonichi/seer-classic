@@ -22,7 +22,9 @@ await withSsr('battle-animation-registration', async load => {
   });
   t.check('A Retina readback of one opaque rectangle yields logical bounds that centre the clip', () => {
     const width = 170, height = 170, pixelWidth = 340, pixelHeight = 340;
-    const gl = {RGBA: 1, UNSIGNED_BYTE: 2, readPixels(_x, _y, _w, _h, _rgba, _type, pixels) { for (let y = 80; y < 240; y++) for (let x = 120; x < 220; x++) pixels[(y * pixelWidth + x) * 4 + 3] = 255; }};
+    const gl = {RGBA: 1, UNSIGNED_BYTE: 2, readPixels(_x, _y, _w, _h, _rgba, _type, pixels) {
+      for (let y = 80; y < 240; y++) for (let x = 120; x < 220; x++) pixels[(y * pixelWidth + x) * 4 + 3] = 255;
+    }};
     const canvas = {width: pixelWidth, height: pixelHeight, getContext() { return gl; }};
     const player = {pause() {}, setSequence() {}, gotoFrame() {}, setFixedTransform() {}, draw() {}, getCanvas() { return canvas; }};
     const visible = visibleStandbyBounds(player, {minX: -1, maxX: 1, minY: -1, maxY: 1}, width, height);

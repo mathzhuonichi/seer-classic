@@ -38,4 +38,5 @@ export function disposeOfflineBattleClip(clip:SwfClipData){if(clip.atlas.width||
 /** Decoded RGBA bytes of the clip's atlas at its timeline dimensions. */
 export const clipAtlasBytes=(clip:Pick<SwfClipData,'atlasWidth'|'atlasHeight'>)=>clip.atlasWidth*clip.atlasHeight*4;
 /** Bytes held by the decoded typed mesh arrays. */
-export const clipGeometryBytes=(clip:SwfClipData)=>clip.sequences.reduce((total,s)=>total+s.frames.reduce((sum,f)=>sum+f.mesh.positions.byteLength+f.mesh.uvs.byteLength+f.mesh.addColors.byteLength+f.mesh.mulColors.byteLength+f.mesh.indices.byteLength,0),0);
+export const clipGeometryBytes=(clip:SwfClipData)=>clip.sequences.reduce((total,s)=>total+s.frames.reduce((sum,{mesh})=>
+  sum+mesh.positions.byteLength+mesh.uvs.byteLength+mesh.addColors.byteLength+mesh.mulColors.byteLength+mesh.indices.byteLength,0),0);

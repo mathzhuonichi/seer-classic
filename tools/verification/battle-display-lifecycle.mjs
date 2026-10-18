@@ -9,12 +9,14 @@ const saved = new Map(browserGlobals.map(key => [key, Object.getOwnPropertyDescr
 function scenario(options = {}) {
   const h = {...options, players: [], renderers: [], canvases: [], resizeObservers: [], mutationObservers: [], queries: [], raf: new Map(), nextFrame: 0,
     windowListeners: new Set(), leases: 0, releases: 0, uploads: 0, initCalls: 0, mountCalls: 0, plays: 0, alphaReads: 0, draws: 0, resizeCalls: 0,
-    clockAttaches: 0, clockDestroys: 0, clockRecoveries: 0, playerDestroys: 0, rendererDestroys: 0, stageDestroys: 0, lostContexts: 0, ready: [], recoverRequests: 0};
+    clockAttaches: 0, clockDestroys: 0, clockRecoveries: 0, playerDestroys: 0, rendererDestroys: 0, stageDestroys: 0, lostContexts: 0,
+    ready: [], recoverRequests: 0};
   h.root = {parentElement: null, zoom: '1.5'};
   h.host = {parentElement: h.root, clientWidth: 170, clientHeight: 170, dataset: {}, appendChild(canvas) { canvas.parent = this; }};
   h.window = {devicePixelRatio: 2,
     matchMedia(media) {
-      const query = {media, matches: false, listeners: new Set(), addEventListener(_type, fn) { this.listeners.add(fn); }, removeEventListener(_type, fn) { this.listeners.delete(fn); }};
+      const query = {media, matches: false, listeners: new Set(),
+        addEventListener(_type, fn) { this.listeners.add(fn); }, removeEventListener(_type, fn) { this.listeners.delete(fn); }};
       h.queries.push(query); return query;
     },
     addEventListener(_type, fn) { h.windowListeners.add(fn); }, removeEventListener(_type, fn) { h.windowListeners.delete(fn); }};
@@ -34,7 +36,9 @@ function scenario(options = {}) {
       this.gl = {RGBA: 1, UNSIGNED_BYTE: 2, getExtension: () => ({loseContext: () => h.lostContexts++}),
         readPixels: (_x, _y, w, height, _format, _type, pixels) => {
           h.alphaReads++;
-          for (let y = Math.floor(height / 3); y < Math.floor(2 * height / 3); y++) for (let x = Math.floor(w / 3); x < Math.floor(2 * w / 3); x++) pixels[(y * w + x) * 4 + 3] = 255;
+          // One opaque square in the middle third.
+          for (let y = Math.floor(height / 3); y < Math.floor(2 * height / 3); y++)
+            for (let x = Math.floor(w / 3); x < Math.floor(2 * w / 3); x++) pixels[(y * w + x) * 4 + 3] = 255;
         }};
     }
     async init(init) {
@@ -56,9 +60,16 @@ function scenario(options = {}) {
     loadRenderer: async () => ({SwfPlayer, WebGLRenderer, Container}),
     retain() {
       let released = false; h.leases++;
-      return {prepareForMount: async () => ({clip, releasePixelsAfterUpload: true}), uploaded() { h.uploads++; }, release(release) { if (!released) { released = true; h.releases++; h.warm = !!release?.warm; } }};
+      return {
+        prepareForMount: async () => ({clip, releasePixelsAfterUpload: true}),
+        uploaded() { h.uploads++; },
+        release(options) { if (!released) { released = true; h.releases++; h.warm = !!options?.warm; } },
+      };
     },
-    clock: {attach(player) { h.clockAttaches++; return {running(value) { h.running = value; }, draw() { player.draw(); }, destroy() { h.clockDestroys++; }}; }, recovered() { h.clockRecoveries++; }},
+    clock: {
+      attach(player) { h.clockAttaches++; return {running(value) { h.running = value; }, draw() { player.draw(); }, destroy() { h.clockDestroys++; }}; },
+      recovered() { h.clockRecoveries++; },
+    },
   };
   return h;
 }
@@ -73,8 +84,9 @@ function install(h) {
     h.canvases.push(canvas); return canvas;
   }};
   globalThis.getComputedStyle = element => ({zoom: element.zoom ?? '1'});
-  globalThis.ResizeObserver = class { constructor(callback) { this.callback = callback; h.resizeObservers.push(this); } observe() {} disconnect() { this.disconnected = true; } };
-  globalThis.MutationObserver = class { constructor(callback) { this.callback = callback; h.mutationObservers.push(this); } observe() {} disconnect() { this.disconnected = true; } };
+  const observer = list => class { constructor(callback) { this.callback = callback; list.push(this); } observe() {} disconnect() { this.disconnected = true; } };
+  globalThis.ResizeObserver = observer(h.resizeObservers);
+  globalThis.MutationObserver = observer(h.mutationObservers);
   globalThis.requestAnimationFrame = fn => { const id = ++h.nextFrame; h.raf.set(id, fn); return id; };
   globalThis.cancelAnimationFrame = id => h.raf.delete(id);
 }
@@ -91,7 +103,10 @@ try {
     /** Mount species 6 mid-attack and return its dispose function. */
     const start = h => {
       install(h);
-      const animation = mountCreatureAnimation(h.host, {species: 6, extent: .9, motion: () => ({kind: 'physical', resting: true}), onReady: ready => h.ready.push(ready), recover: () => { h.recoverRequests++; return !!h.grantRecovery; }}, h.deps);
+      const animation = mountCreatureAnimation(h.host, {
+        species: 6, extent: .9, motion: () => ({kind: 'physical', resting: true}), onReady: ready => h.ready.push(ready),
+        recover: () => { h.recoverRequests++; return !!h.grantRecovery; },
+      }, h.deps);
       return () => animation.dispose();
     };
     const assertReleased = h => {
@@ -108,7 +123,8 @@ try {
       assert.equal(h.renderers[0].resolution, 4); assert.equal(h.canvases[0].width, 680); assert.equal(h.players[0].frame, 11);
       h.window.devicePixelRatio = 1; for (const fn of h.queries.find(q => q.media.includes('resolution')).listeners) fn(); flush(h);
       assert.equal(h.renderers[0].resolution, 2); assert.equal(h.canvases[0].width, 340); assert.equal(h.players[0].frame, 11);
-      h.host.clientWidth = 200; h.host.clientHeight = 200; h.resizeObservers[0].callback(); assert.equal(h.canvases[0].width, 400); assert.equal(h.players[0].frame, 11);
+      h.host.clientWidth = 200; h.host.clientHeight = 200; h.resizeObservers[0].callback();
+      assert.equal(h.canvases[0].width, 400); assert.equal(h.players[0].frame, 11);
       assert.equal(h.players.length, 1); assert.equal(h.renderers.length, 1); assert.equal(h.mountCalls, 1); assert.equal(h.uploads, 1);
       assert.equal(h.alphaReads, 1); assert.equal(h.plays, 1); assert.equal(h.clockAttaches, 1);
       cleanup(); assertReleased(h); assert.equal(h.clockDestroys, 1); assert.equal(h.playerDestroys, 1); assert.equal(h.windowListeners.size, 0);
@@ -148,7 +164,8 @@ try {
       assert.equal(h.recoverRequests, 1); assert.equal(h.clockRecoveries, 0);
       cleanup(); assertReleased(h); assert.equal(h.warm, false);
     });
-    for (const [flag, message] of [['failStageDestroy', 'stage destroy failed'], ['failRendererDestroy', 'renderer destroy failed'], ['failPlayerDestroy', 'player destroy failed']]) {
+    const destroyFailures = [['failStageDestroy', 'stage destroy failed'], ['failRendererDestroy', 'renderer destroy failed'], ['failPlayerDestroy', 'player destroy failed']];
+    for (const [flag, message] of destroyFailures) {
       await t.checkAsync(`${message}: subsequent cleanup still runs and the error remains visible`, async () => {
         const h = scenario(), stop = start(h);
         await waitFor(() => h.plays === 1); h[flag] = true;
@@ -156,7 +173,7 @@ try {
         if (flag === 'failRendererDestroy') assert.equal(h.lostContexts, 1);
       });
     }
-    t.finish({scope: 'Production creature-animation lifecycle with injected GPU, pool and clock boundaries; actual GPU rendering is verified separately.'});
+    t.finish({scope: 'Production creature-animation lifecycle with injected GPU, pool and clock boundaries; GPU rendering is verified separately.'});
   });
 } finally {
   for (const [key, descriptor] of saved) { if (descriptor) Object.defineProperty(globalThis, key, descriptor); else delete globalThis[key]; }
