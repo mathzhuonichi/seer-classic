@@ -1,7 +1,22 @@
-/** Wildlife roaming on map 726: local territories, label separation, and the per-frame step that RoamingCreature runs. */
+/** Wildlife roaming on map 726: local territories, label separation, the per-frame step that RoamingCreature runs, and what pauses it. */
 import assert from 'node:assert/strict';
-import {suite,withSsr} from './_harness.mjs';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
+/** A stand-in for `document.querySelector` over rendered markup that answers `.class` and `[attribute="value"]` selector lists. */
+function markupDocument(html){
+  const classes=new Set([...html.matchAll(/ class="([^"]*)"/g)].flatMap(([,names])=>names.split(/\s+/)));
+  const matches=selector=>{
+    const attribute=selector.match(/^\[([\w-]+)="([^"]*)"\]$/),name=selector.match(/^\.([\w-]+)$/)?.[1];
+    if(attribute)return html.includes(` ${attribute[1]}="${attribute[2]}"`);
+    if(name)return classes.has(name);
+    throw new Error(`Unsupported selector ${selector}`);
+  };
+  return {querySelector:list=>list.split(',').find(matches)??null};
+}
+
+memoryStorage();
 await withSsr('world-roaming-v44',async load=>{
   const t=suite('world-roaming-v44'),{check}=t;
   const [{WORLD_PLANETS},{getSceneLayout,creatureSceneHome,constrainHabitatPoint},roaming]=await Promise.all(
@@ -55,6 +70,22 @@ await withSsr('world-roaming-v44',async load=>{
       assert(resumed,'Closing interaction must resume the selected creature');
     }
   });
+  const [{createGame,loadCatalog},{Modifier},{default:GameWindow},{WorldMap},{sceneCovered}]=await Promise.all(['/src/kernel/game.ts',
+    '/src/features/raising/ui.ts','/src/shared/ui/GameWindow.tsx','/src/features/world/ui.ts','/src/features/world/ui/scene-cover.ts'].map(load));
+  const game=createGame(await loadCatalog(),'');
+  const covered=element=>{
+    delete globalThis.document;
+    const html=renderToStaticMarkup(element);
+    globalThis.document=markupDocument(html);
+    return sceneCovered();
+  };
+  check('The modifier and scene windows cover the scene, so wildlife pauses and the arrow keys do not walk',()=>{
+    const m=game.snapshot().monsters[0];
+    assert(covered(React.createElement(Modifier,{c:game,m,onSelect(){},close(){}})),'The modifier dialog covers the scene');
+    assert(covered(React.createElement(GameWindow,{title:'设置',onClose(){}},'')),'A scene window covers the scene');
+    assert(!covered(React.createElement(WorldMap,{c:game})),'The bare scene is not covered');
+  });
+  delete globalThis.document;
   t.finish({mapId:726,homes,homeRoam:layout.homeRoam,simulatedPositions:positions,
     limitations:['Desktop geometry fixture; browser artwork, actual font metrics, and responsive presentation are verified separately.']});
 });

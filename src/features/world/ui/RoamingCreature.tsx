@@ -5,9 +5,7 @@ import type { ScenePoint } from '../scene-geometry.ts';
 import { MAX_ROAM_FRAME_MS, advanceRoam, roamFit, roamTerritory, startRoam, type RoamState } from '../world-roaming.ts';
 import { contactFoot } from '../world-walk.ts';
 import { CreatureArt } from '../../../shared/ui/CreatureArt.tsx';
-
-/** Overlays that pause wildlife while they cover the scene. */
-const COVERING_OVERLAYS = '.scene-window,.scene-window-shield,.modal-backdrop,.battle-loading';
+import { sceneCovered } from './scene-cover.ts';
 
 /** Animates one creature host with requestAnimationFrame; inline styles, not React state, carry its position.
  * The frame loop restarts when `identity`, `battle` or the layout changes; the roaming state persists. */
@@ -25,7 +23,7 @@ function useRoaming(button: { current: HTMLButtonElement | null }, layout: Scene
       const sceneElement = element.closest<HTMLElement>('.world-scene')!;
       const scene = { width: sceneElement.clientWidth, height: sceneElement.clientHeight };
       const visible = !!element.getClientRects().length && scene.width > 0 && scene.height > 0;
-      const paused = freeze.current || battle || document.hidden || !visible || !!document.querySelector(COVERING_OVERLAYS);
+      const paused = freeze.current || battle || document.hidden || !visible || sceneCovered();
       const delta = last ? Math.min(MAX_ROAM_FRAME_MS, now - last) : 0; last = now;
       if (visible) {
         // Fit with layout sizes: rendered rectangles would mix in the CSS zoom.
