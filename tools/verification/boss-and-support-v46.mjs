@@ -1,18 +1,14 @@
 /** Source-preserving Boss loadouts and public-information trainer support decisions. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import crypto from 'node:crypto';
-import {createServer} from 'vite';
+import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-const report={checks:[],failures:[],bossChanges:[],supportWitnesses:[]};
-function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
-try {
+memoryStorage();
+const report={bossChanges:[],supportWitnesses:[]};
+await withSsr('boss-and-support-v46',async load=>{
+  const t=suite('boss-and-support-v46'),{check}=t;
   const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle},{buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/constants.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   // This is an audit classification, not a rule for rewriting original Bosses.
   const selfKoScripts=new Set(['seer_eff_59','seer_eff_71','seer_eff_72','seer_eff_112','seer_eff_144']);
@@ -130,7 +126,7 @@ try {
       Object.assign(b.sides[0],{pending:{kind:'move',skill:STRONG},items:{hidden:99}});rewind();assert.deepEqual(action(b),first);legal(b,first);
     }
   });
-  const {createGame}=await server.ssrLoadModule('/src/kernel/game.ts');
+  const {createGame}=await load('/src/kernel/game.ts');
   check('The actual controller preserves Tower 61 original skills, three-member team and HP',()=>{
     const game=createGame(catalog,'');
     const save=JSON.parse(game.exportSave());
@@ -151,10 +147,6 @@ try {
   });
   check('Catalog and all production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
   const watched=['src/kernel/game.ts','src/domain/challenges/npc-training.ts','battle/core/src/engine/battle.ts'];
-  report.sourceHashes=Object.fromEntries(watched.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
-} catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally {
-  fs.mkdirSync('artifacts/boss-and-support-v46',{recursive:true});fs.writeFileSync('artifacts/boss-and-support-v46/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,changedBosses:report.bossChanges,witnesses:report.supportWitnesses,failures:report.failures},null,2));
-  await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;if(report.failures.length)process.exitCode=1;
-}
+  report.sourceHashes=Object.fromEntries(watched.map(path=>[path,sha256File(path)]));
+  t.finish(report);
+});
