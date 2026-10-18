@@ -127,8 +127,7 @@
       "status": "gate"
     },
     "collection-shop-v25.mjs": {
-      "status": "known-failure",
-      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+      "status": "gate"
     },
     "controller-snapshots.ts": {
       "status": "gate"

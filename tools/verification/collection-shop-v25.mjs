@@ -8,6 +8,7 @@ await withSsr('collection-shop-v25',async load=>{
  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
  const {buildCollectionAncestry}=await load('/src/domain/acquisition/collection-ancestry.ts');
  const {FUSION_RECIPES,fusionBeadItemId}=await load('/src/domain/recipes/fusion.ts');
+ const {normalizeBattleSupplyItems}=await load('/src/domain/battle-supplies.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog);
  const parse=game=>JSON.parse(game.exportSave()),owned=(game,id)=>game.snapshot().species.find(row=>row.id===id)?.owned;
  const raw=parse(createGame(catalog,''));raw.game.coins=0;raw.dex.owned=[];raw.dex.seen=[];raw.storage=raw.storage.filter(mon=>mon.species===1);
@@ -52,7 +53,9 @@ await withSsr('collection-shop-v25',async load=>{
   for(const game of [repaired,make(parse(repaired))])for(const id of [1,2,3])assert(owned(game,id));
   assert.equal(repaired.snapshot().monsters.length,legacy.storage.length);
  });
- const nonEssence=catalog.items.filter(item=>item.kind!=='essence'),shop=make(),supply=shop.snapshot().shopItems.find(item=>item.kind!=='essence');
+ // Ordinary products are the runtime item set, which drops the supply tiers without classic-use evidence.
+ const nonEssence=normalizeBattleSupplyItems(catalog.items).filter(item=>item.kind!=='essence');
+ const shop=make(),supply=shop.snapshot().shopItems.find(item=>item.kind!=='essence');
  const bead=fusionBeadItemId(FUSION_RECIPES[0].outcomes[0].species),essence=`essence_recruit_${catalog.species.find(row=>!row.obtain?.includes('wild')).id}`;
  const earnedSave=structuredClone(raw);earnedSave.items[bead]=1;earnedSave.items[essence]=1;
  const earned=make(earnedSave);
@@ -93,13 +96,16 @@ await withSsr('collection-shop-v25',async load=>{
   const reject=(game,action,label)=>{const previous=game.exportSave();game.dispatch(action);assert.equal(game.exportSave(),previous,label)};
   const hidden=shop.snapshot().shopItems.some(item=>item.id===essence);assert.equal(hidden,false);
   reject(shop,{type:'buyItem',itemId:essence,quantity:1},'Unearned recruit essence');
-  for(const quantity of [0,-1,1000,1.5,NaN,Infinity])reject(shop,{type:'buyItem',itemId:supply.id,quantity},`Invalid quantity ${quantity}`);
+  // Ordinary products are unlimited and store no stock; the quantity and count limits apply to the finite bead.
+  assert(supply.unlimited);for(const quantity of [1,999,1000,NaN])reject(shop,{type:'buyItem',itemId:supply.id,quantity},`Unlimited product ${quantity}`);
+  const finite=make(earnedSave);
+  for(const quantity of [0,-1,1000,1.5,NaN,Infinity])reject(finite,{type:'buyItem',itemId:bead,quantity},`Invalid quantity ${quantity}`);
   reject(shop,{type:'buyItem',itemId:'missing_product',quantity:1},'Unknown item');
-  const overflowSave=parse(shop);overflowSave.items[supply.id]=Number.MAX_SAFE_INTEGER;
-  reject(make(overflowSave),{type:'buyItem',itemId:supply.id,quantity:1},'Inventory safe integer overflow');
-  const fighting=make();fighting.dispatch({type:'startBattle',bossId:'boss_spt_liaosi'});
+  const overflowSave=parse(finite);overflowSave.items[bead]=Number.MAX_SAFE_INTEGER;
+  reject(make(overflowSave),{type:'buyItem',itemId:bead,quantity:1},'Inventory safe integer overflow');
+  const fighting=make(earnedSave);fighting.dispatch({type:'startBattle',bossId:'boss_spt_liaosi'});
   assert(fighting.snapshot().battle&&!fighting.snapshot().battle.finished);
-  reject(fighting,{type:'buyItem',itemId:supply.id,quantity:1},'Active battle');
+  reject(fighting,{type:'buyItem',itemId:bead,quantity:1},'Active battle');
  });
  check('Shared source catalog remains unchanged',()=>assert.equal(JSON.stringify(catalog),original));
  t.finish({ancestrySpecies:catalog.species.length,ordinaryProducts:nonEssence.length,shopProducts:shop.snapshot().shopItems.length,
