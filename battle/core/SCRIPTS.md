@@ -136,8 +136,8 @@ species, fainted, vol` (cleared on switch-out), `persist` (whole battle; `persis
 `hasStatus`, `hasAnyStatus`, `hasStageUp`, `hasStageDown`, `sameType`.
 
 Scripts import `Battle` and `Mon` as types only and keep no state outside the battle (`cond.data`,
-`vol`, `persist`), so `clone.ts` can copy a battle; seer-tail's synchronous `reflecting` guard is the one
-exception.
+`vol`, `persist`), so `clone.ts` can copy a battle. The exceptions are two synchronous re-entrancy guards, set only
+while their hook runs: seer-tail's `reflecting` (seer_eff_191) and seer-main's `mirroring` (seer_eff_91).
 
 ## Original arg encodings
 
