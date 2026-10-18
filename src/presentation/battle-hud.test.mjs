@@ -32,7 +32,7 @@ test('the item pane falls back to recovery without capture and resolves its targ
   const revive = battleItemPane(battle(), inventory, {category: 'recovery', selection: 'revive', target: 'a'});
   assert.deepEqual([revive.targets.map(m => m.uid), revive.target.uid, revive.helpsTarget], [['b'], 'b', true]);
   const blocked = battleItemPane(battle({canCapture: false}), inventory, {category: 'capsule', selection: '', target: 'a'});
-  assert.deepEqual([blocked.category, blocked.categories.map(c => c.id)], ['recovery', ['recovery', 'status']]);
+  assert.deepEqual([blocked.category, blocked.categories.map(([id]) => id)], ['recovery', ['recovery', 'status']]);
   assert.equal(battleItemPane(battle(), [], {category: 'status', selection: '', target: 'a'}).empty, '暂无异常解除道具。');
 });
 

@@ -1,6 +1,7 @@
 import type { BattleMonsterView } from '../../game-types.ts';
 import { creatureArtStyle, getCreatureArt } from '../../presentation/creature-art.ts';
 import { encounterLevel } from '../../presentation/encounter-level.ts';
+import { appearanceOf } from '../../presentation/monster-views.ts';
 import { conditionSummary, stageChips } from '../../presentation/battle-hud.ts';
 import { hpPercent } from '../../presentation/view-helpers.ts';
 import BattleTeamStrip from './BattleTeamStrip.tsx';
@@ -8,7 +9,7 @@ import TypeIcon from '../TypeIcon.tsx';
 
 /** One side's health panel: portrait, type, level, HP bar, conditions and team strip. */
 export default function BattleHealth({ monster, team, enemy }: { monster: BattleMonsterView; team: BattleMonsterView[]; enemy?: boolean }) {
-  const appearance = monster.appearanceSpecies ?? monster.species;
+  const appearance = appearanceOf(monster);
   const summary = conditionSummary(monster);
   const level = encounterLevel(monster.level, enemy && monster.evidence?.displayLevelUnknown);
   const portraitStyle = creatureArtStyle(appearance, undefined, { scaleByStage: false, fill: .9, verticalAlign: 'center' });

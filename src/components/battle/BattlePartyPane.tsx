@@ -1,6 +1,7 @@
 import type { BattleMonsterView, BattleView } from '../../game-types.ts';
 import { getCreatureArt } from '../../presentation/creature-art.ts';
 import { hpPercent } from '../../presentation/view-helpers.ts';
+import { appearanceOf } from '../../presentation/monster-views.ts';
 import TypeIcon from '../TypeIcon.tsx';
 
 /** The party with the selected creature's summary, details and switch-in. */
@@ -13,7 +14,7 @@ export default function BattlePartyPane({ battle, selected, disabled, onSelect, 
     <div className="classic-party-grid">{battle.party.map(monster =>
       <button key={monster.uid} disabled={disabled} className={`${monster.uid === active ? 'current' : ''} ${monster.uid === selected.uid ? 'selected' : ''}`}
         aria-pressed={monster.uid === selected.uid} onClick={() => onSelect(monster.uid)}>
-        <img src={getCreatureArt(monster.appearanceSpecies ?? monster.species).src} alt="" />
+        <img src={getCreatureArt(appearanceOf(monster)).src} alt="" />
         <strong>{monster.name}<small>Lv.{monster.level}</small></strong>
         <span>{monster.uid === active ? '出战中' : monster.hp <= 0 ? '无法战斗' : `${monster.hp} / ${monster.maxHp}`}</span>
         <i style={{ width: `${hpPercent(monster.hp, monster.maxHp)}%` }} />

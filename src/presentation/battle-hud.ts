@@ -1,6 +1,7 @@
 // View rules of the battle screen: condition chips, command panes and settled messages.
 import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEvidenceView, ItemView, SkillView } from '../game-types.ts';
 import { STRUGGLE } from '../../battle/core/src/constants.ts';
+import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from './item-categories.ts';
 import { SKILL_CATEGORY_LABELS, STAGE_LABELS, TYPE_LABELS, type StageKey } from './labels.ts';
 
 export interface StageChip { stat: string; label: string; value: number }
@@ -48,26 +49,22 @@ const STRUGGLE_VIEW: SkillView = {
 export const BATTLE_SKILL_SLOTS = 4;
 export const battleSkills = (player: BattleMonsterView): SkillView[] => player.skills.some(skill => skill.pp > 0) ? player.skills : [STRUGGLE_VIEW];
 
-export type BattleItemCategory = NonNullable<ItemView['battleCategory']>;
-const ITEM_CATEGORIES: { id: BattleItemCategory; label: string; empty: string }[] = [
-  { id: 'recovery', label: '体力 / PP 恢复', empty: '暂无体力或 PP 恢复道具。' },
-  { id: 'capsule', label: '精灵胶囊', empty: '暂无精灵胶囊，请到道具管理补充。' },
-  { id: 'status', label: '异常解除', empty: '暂无异常解除道具。' },
-];
+const EMPTY_SUPPLIES: Record<BattleSupplyCategory, string> = {
+  recovery: '暂无体力或 PP 恢复道具。', capsule: '暂无精灵胶囊，请到道具管理补充。', status: '暂无异常解除道具。',
+};
 
 /** The item pane's own choices; the pane resolves them against the current battle. */
-export interface BattleItemChoice { category: BattleItemCategory; selection: string; target: string }
+export interface BattleItemChoice { category: BattleSupplyCategory; selection: string; target: string }
 
 export const hasStock = (item: ItemView) => item.unlimited || item.count > 0;
 
 /** Visible categories, the effective category, its items and the resolved selection and target. */
 export function battleItemPane(battle: BattleView, inventory: ItemView[], choice: BattleItemChoice) {
-  const categories = ITEM_CATEGORIES.filter(category => category.id !== 'capsule' || battle.canCapture);
+  const categories = BATTLE_SUPPLY_CATEGORIES.filter(([id]) => id !== 'capsule' || battle.canCapture);
   const category = choice.category === 'capsule' && !battle.canCapture ? 'recovery' : choice.category;
   const items = inventory.filter(item => hasStock(item) && item.battleCategory === category);
   const selected = items.find(item => item.id === choice.selection) || items[0];
   const targets = battle.party.filter(mon => selected?.targetMode === 'fainted' ? mon.hp <= 0 : mon.hp > 0);
   const target = targets.find(mon => mon.uid === choice.target) || targets.find(mon => mon.uid === battle.player.uid) || targets[0];
-  const empty = ITEM_CATEGORIES.find(entry => entry.id === category)!.empty;
-  return { categories, category, items, selected, targets, target, empty, helpsTarget: !!target && !!selected?.usableTargetUids?.includes(target.uid) };
+  return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget: !!target && !!selected?.usableTargetUids?.includes(target.uid) };
 }

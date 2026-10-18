@@ -5,6 +5,7 @@ import { battleAnimationTiming } from '../../presentation/battle-animation.ts';
 import { battleEndSound, settledDialogue } from '../../presentation/battle-hud.ts';
 import { CAPTURE_OUTCOME_MS, captureDialogue, isMoveFrame, planBattleFrame } from '../../presentation/battle-playback.ts';
 import { getSkillEffectDurationMs } from '../../presentation/battle-skill-effects.ts';
+import { appearanceOf } from '../../presentation/monster-views.ts';
 import { prefersReducedMotion } from './reduced-motion.ts';
 
 export interface SkillEffectCue { move: BattlePresentationFrame; delay: number; duration: number }
@@ -83,7 +84,7 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
       show(next);
       const plan = planBattleFrame(next, batch[cursor], {
         reducedMotion: prefersReducedMotion(),
-        timing: move ? battleAnimationTiming(actor.appearanceSpecies ?? actor.species, next.kind) : null,
+        timing: move ? battleAnimationTiming(appearanceOf(actor), next.kind) : null,
         effectMs: move ? getSkillEffectDurationMs(next.skillId) : undefined,
       });
       if (plan.effect) {

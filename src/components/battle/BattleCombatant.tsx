@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../game-types.ts';
 import { getCreatureArt } from '../../presentation/creature-art.ts';
+import { appearanceOf } from '../../presentation/monster-views.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import BattleSkillEffect from './BattleSkillEffect.tsx';
 import type { SkillEffectCue } from './use-battle-playback.ts';
@@ -35,7 +36,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const originalFrame = action?.side === side ? action : frame?.side === side ? frame : null;
   const critical = effect === 'hit' && !!frame?.critical;
   const effectActor = effectCue?.move.side === side, effectTarget = effectCue?.move.targetSide === side;
-  const art = getCreatureArt(monster.appearanceSpecies ?? monster.species);
+  const appearance = appearanceOf(monster), art = getCreatureArt(appearance);
   const groundY = 50 + art.bounds.height / Math.max(art.bounds.width, art.bounds.height) * art.physicalScale * .9 * 50;
   const held = monster.statuses.some(status => STILL_STATUSES.includes(status));
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
@@ -48,7 +49,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
       <div className="classic-ground-shadow" />
       <div className={`classic-creature-facing ${side === 1 ? 'mirrored' : ''}`}>
         <div className="classic-art-box">
-          <BattleCreatureAnimation species={monster.appearanceSpecies ?? monster.species} name={monster.name} kind={originalFrame?.kind || 'idle'}
+          <BattleCreatureAnimation species={appearance} name={monster.name} kind={originalFrame?.kind || 'idle'}
             eventKey={originalFrame?.id || 'idle'} resting={resting}/>
         </div>
       </div>

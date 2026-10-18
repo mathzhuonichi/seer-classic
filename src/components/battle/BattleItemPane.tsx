@@ -16,9 +16,9 @@ export default function BattleItemPane({ battle, inventory, choice, onChoice, di
     if (battle.canCapture) submit({ type: 'capture', itemId: item.id });
   }
   return <>
-    <nav className="classic-item-category-tabs" aria-label="战斗道具分类">{pane.categories.map(category =>
-      <button key={category.id} className={pane.category === category.id ? 'active' : ''} aria-pressed={pane.category === category.id} disabled={blocked}
-        onClick={() => onChoice({ category: category.id, selection: '' })}>{category.label}</button>)}</nav>
+    <nav className="classic-item-category-tabs" aria-label="战斗道具分类">{pane.categories.map(([id, label]) =>
+      <button key={id} className={pane.category === id ? 'active' : ''} aria-pressed={pane.category === id} disabled={blocked}
+        onClick={() => onChoice({ category: id, selection: '' })}>{label}</button>)}</nav>
     <div className="classic-item-workspace">
       <div className="classic-item-grid item-icon-grid">
         {pane.items.map(item => <ItemTile key={item.id} size="small" icon={<ItemIcon id={item.id} kind={item.kind} label={item.name} size={30}/>}
