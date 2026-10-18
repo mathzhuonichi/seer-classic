@@ -21,8 +21,7 @@ export function shellRoutes({ c, navigation, backdrops, setMessage, setSelected 
   }
   const openTower = () => travel(BRAVE_TOWER_LOCATION);
   function enterTower(floor: number) {
-    c.dispatch({ type: 'enterTower', floor });
-    if (c.snapshot().braveTower.resumeFloor === floor) openTower();
+    if (c.dispatch({ type: 'enterTower', floor }).ok) openTower();
   }
   function travelToChallenge(boss: BossView) {
     if (braveTowerFloor(boss.id) !== undefined) { openTower(); return; }
