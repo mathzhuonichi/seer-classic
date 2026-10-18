@@ -1,32 +1,26 @@
-import {useCallback,useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
+import {useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
 import {createGame,loadCatalog} from '../kernel/game.ts';
 import type { GameController } from '../kernel/contract.ts';
-import type { QuestView } from '../shared/views.ts';
 import {Battle} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';
 import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
 import {Modifier} from '../features/raising/ui.ts';
 import GameWindow from '../shared/ui/GameWindow.tsx';
-import {useGame} from '../shared/ui/use-game.ts';
 import {BattleLoading} from '../features/battle/ui.ts';
 import {GameToolbar} from './ShellPanels.tsx';
 import {ShellWindowContent} from './ShellWindowContent.tsx';
 import {shellRoutes} from './shell-routes.ts';
-import {useBattlePreparation,type BattleBackdrops} from './useBattlePreparation.ts';
+import {useBattlePreparation} from './useBattlePreparation.ts';
 import {useShellAudio} from './useShellAudio.ts';
-import {useShellNavigation} from './useShellNavigation.ts';
-import {locationBackdrop, type BattleBackdrop} from '../features/battle/index.ts';
+import {useShellState} from './useShellState.ts';
 import {useGameDisplay} from '../shared/game-display.ts';
-import {battleActive} from '../shared/view-helpers.ts';
 import {COMPACT_WINDOWS,WINDOW_TITLES,campaignForAction,startsBattle,type WindowKind} from './shell-navigation.ts';
-import {readWorldPreference} from '../domain/world/world.ts';
 import {gameAudio} from '../shared/audio/game-audio.ts';
 import {actionSound} from '../shared/audio/action-sounds.ts';
 import './app.css';
 import './game-shell.css';
 if(import.meta.env.DEV)void import('./classic-font.css');
 
-const NOTICE_MS=3500;
 /** Buttons click, toolbar buttons tab; the battle scene plays its own sounds. */
 function clickSound(event:MouseEvent<HTMLDivElement>){
  const target=event.target as HTMLElement,button=target.closest('button');
@@ -34,9 +28,10 @@ function clickSound(event:MouseEvent<HTMLDivElement>){
 }
 function downloadSave(json:string){
  const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));const link=document.createElement('a');
- link.href=url;link.download='赛尔号-星际存档.json';link.click();URL.revokeObjectURL(url);
+ link.href=url;link.download='赛尔号-星际存档.json';link.click();
+ // The browser starts the download after this click is handled, so the URL must outlive it.
+ setTimeout(()=>URL.revokeObjectURL(url));
 }
-const questAlert=(s:{quests:QuestView[]})=>s.quests.some(quest=>quest.claimable);
 
 export default function App(){
  const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');
@@ -46,25 +41,13 @@ export default function App(){
 
 export function Game({controller:c}:{controller:GameController}){
  const shell=useRef<HTMLDivElement>(null),display=useGameDisplay(shell),file=useRef<HTMLInputElement>(null);
- const navigation=useShellNavigation(),{nav,show,close,toggle,leaveCampaign}=navigation;
- const [selected,setSelected]=useState(''),[modifier,setModifier]=useState(false),[message,setMessage]=useState('');
- const battleOpen=useGame(c,s=>!!s.battle),inBattle=useGame(c,battleActive),notice=useGame(c,s=>s.notices[0]);
- const questReady=useGame(c,questAlert);
- const activeCampaign=useGame(c,s=>s.campaigns.find(campaign=>campaign.id===nav.campaignId));
- // Selected only while the modifier is open, so monster changes elsewhere do not re-render the shell.
- const modifierTarget=useGame(c,s=>modifier?s.monsters.find(m=>m.uid===selected)??s.monsters[0]:undefined);
- const [battleCommand,setBattleCommand]=useState<{command:'party'|'items';id:number}>();
- // One mutable box for the backdrops a battle may open over, read when the battle starts.
- const [backdrops]=useState<{current:BattleBackdrops}>(()=>({current:{exploration:locationBackdrop(readWorldPreference()),campaign:null}}));
- const rememberScene=useCallback((scene:BattleBackdrop)=>{backdrops.current.exploration=scene},[]);
+ const {navigation,selected,setSelected,modifier,setModifier,setMessage,battleCommand,setBattleCommand,
+  battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,dismiss}=useShellState(c);
+ const {nav,show,close,toggle,leaveCampaign}=navigation;
  const battle=useBattlePreparation(c,backdrops,battleOpen,{onStart(){close();setMessage('')},onBattle:started=>audio.track(started)});
  const audio=useShellAudio(c,!!battle.preparation);
  const routes=shellRoutes({c,navigation,backdrops,setMessage,setSelected});
  const {preparation}=battle,{windowKind}=nav;
- useEffect(()=>{
-  const key=(event:KeyboardEvent)=>{if(event.key==='Escape'){close();setModifier(false)}};
-  window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
- },[]);
  // Components receive this controller: battles start behind the loading screen, campaign
  // encounters open their stage scene, and confirmed outcomes play their sound. It is created
  // once per game controller and calls this render's handlers.
@@ -95,9 +78,6 @@ export function Game({controller:c}:{controller:GameController}){
   if(chosen)try{c.importSave(await chosen.text());setMessage('航行存档已载入。');close()}catch(error){setMessage('存档无法读取：'+String(error))}
   event.target.value='';
  }
- const notices=message||notice;
- const dismiss=()=>{setMessage('');c.dispatch({type:'dismissNotice'})};
- useEffect(()=>{if(!notices)return;const timer=setTimeout(dismiss,NOTICE_MS);return()=>clearTimeout(timer)},[notices,c]);
  return <div ref={shell} style={display} className={`game-shell${battleOpen||preparation?' is-in-battle':''}`} onClickCapture={clickSound}>
   <div className="game-stage">
    <div className="exploration-layer" hidden={battleOpen||!!activeCampaign}>
@@ -110,7 +90,7 @@ export function Game({controller:c}:{controller:GameController}){
     <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src} onSettings={()=>openTool('settings')}/>
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
-   {notices&&!preparation&&!battleOpen&&<button className="game-toast" aria-label="关闭提示" onClick={dismiss}>{notices}<span>×</span></button>}
+   {toast&&!preparation&&!battleOpen&&<button className="game-toast" aria-label="关闭提示" onClick={dismiss}>{toast}<span>×</span></button>}
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={close}/>}
    {windowKind&&<GameWindow key={windowKind} title={WINDOW_TITLES[windowKind]} compact={COMPACT_WINDOWS.has(windowKind)} onClose={close}>
     <ShellWindowContent kind={windowKind} c={uiController} focus={nav.focus} selected={selected} inBattle={inBattle} navigation={navigation} routes={routes}

@@ -3,6 +3,7 @@ import { partyMonsters } from '../shared/monster-views.ts';
 import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';
+import { version } from '../../package.json';
 
 export function GameToolbar({ hidden, active, questAlert, onOpen }: {
   hidden: boolean; active: WindowKind | null; questAlert: boolean; onOpen: (kind: WindowKind) => void;
@@ -40,6 +41,6 @@ export function SettingsConsole({ inBattle, onExport, onImport, onModifier, onMe
     <div className="action-row"><button onClick={onExport}>导出存档</button><button disabled={inBattle} onClick={onImport}>导入存档</button></div>
     <h3>开发工具</h3><button disabled={inBattle} onClick={onModifier}>修改器</button>
     <h3>画面</h3><button onClick={toggleFullscreen}>切换全屏</button>
-    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 0.3.2 · 本地单人航行</p>
+    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 {version} · 本地单人航行</p>
   </section>;
 }
