@@ -18,7 +18,9 @@ export default function OverviewTab({m,c}:{m:MonsterView;c:GameController}) {
       <p className="engraving-stat-note">基础能力（不含刻印）</p>
       <div className="petbag-stat-summary">{STAT_KEYS.map(key=><div key={key}><span>{STAT_LABELS[key]}</span><strong>{m.stats[key]}</strong></div>)}</div>
       <div className="petbag-experience"><span>升级经验</span><meter value={m.exp} max={Math.max(1,m.expToNext)}/><small>{m.exp} / {m.expToNext}</small></div>
-      <div className="petbag-skill-summary"><strong>当前技能</strong>{m.skills.map(sk=><div key={sk.id}><span>{sk.name}</span><small>PP {sk.pp}/{sk.maxPp}</small></div>)}</div>
+      <div className="petbag-skill-summary"><strong>当前技能</strong>
+        {m.skills.map(sk=><div key={sk.id}><span>{sk.name}</span><small>PP {sk.pp}/{sk.maxPp}</small></div>)}
+      </div>
     </div>
   </>;
 }
@@ -34,7 +36,8 @@ function SkinPicker({m,c}:{m:MonsterView;c:GameController}) {
     setFeedback(feedbackFor(next,!!result&&appearanceOf(result)===species,'此精灵的皮肤已保存。','皮肤未更换，请重新选择。'));
   }
   return <section className="raising-skins" aria-label="精灵皮肤">
-    <div className="raising-skin-picker"><label htmlFor={`skin-${m.uid}`}>皮肤外观</label><select id={`skin-${m.uid}`} aria-label="选择精灵皮肤" value={appearance} onChange={event=>choose(Number(event.target.value))}>
+    <div className="raising-skin-picker"><label htmlFor={`skin-${m.uid}`}>皮肤外观</label>
+      <select id={`skin-${m.uid}`} aria-label="选择精灵皮肤" value={appearance} onChange={event=>choose(Number(event.target.value))}>
       {options.map(option=><option key={option.species} value={option.species}>{option.name}{option.species===m.species?'（默认外观）':''}</option>)}
     </select></div>
     <p>当前外观：{options.find(option=>option.species===appearance)?.name??m.speciesName}。仅改变此精灵外观，属性与技能保持当前形态。</p>

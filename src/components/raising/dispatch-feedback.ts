@@ -1,4 +1,7 @@
-import type {GameAction,GameController,GameSnapshot} from '../../game-types.ts';
+import type {GameAction,GameController,GameSnapshot,MonsterView} from '../../game-types.ts';
+
+/** What every Raising tab gets: the monster, the controller, and the panel's one status line. */
+export interface TabProps {m:MonsterView;c:GameController;feedback:string;say:(text:string)=>void}
 
 /** Dispatches `action` and returns the snapshot it produced. */
 export function dispatchNext(c:GameController,action:GameAction):GameSnapshot {
