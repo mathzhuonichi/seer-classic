@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {fitQuantity,shopOrder,shopSearch} from './shop-views.ts';
+import {fitQuantity,shopBagLink,shopOrder,shopSearch} from './shop-views.ts';
 
 test('shop orders stay within the product limit',()=>{
   const product={id:'e',name:'精元',kind:'essence',description:'',count:0,price:0,maxQuantity:999};
@@ -27,4 +27,14 @@ test('shop search matches names or the hatched species number',()=>{
   assert(shopSearch('alpha').matches(product));
   assert(!shopSearch('13').matches(product));
   assert.equal(shopSearch('#').query,'');
+});
+
+test('the bag link shows only while the bag holds a copy of the product',()=>{
+  const essence={id:'e',name:'精元',kind:'essence',description:'',count:0,price:0,hatches:12,maxQuantity:6};
+  assert.equal(shopBagLink(essence),undefined,'an essence the bag does not hold has nothing to hatch');
+  assert.equal(shopBagLink({...essence,count:1}),'前往道具背包孵化');
+  assert.equal(shopBagLink({...essence,id:'s',kind:'battle',hatches:undefined,unlimited:true}),'前往背包取用','unlimited stock is always held');
+  const finite={...essence,hatches:undefined};
+  assert.equal(shopBagLink(finite),undefined);
+  assert.equal(shopBagLink({...finite,count:2}),'查看道具背包');
 });
