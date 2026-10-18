@@ -177,8 +177,7 @@ As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the
 - **Items:** `useTargets` and `useAction` (`use`, `hatch`, `capture` or null).
 - **Collection:**
   - `dex.entries[species]` with its acquisition view;
-  - `fusion.recipes` (ready, collectible);
-  - `breeding.recipes` (ready, routesMissing).
+  - `fusion.recipes` (pairs, collectible) and `breeding.recipes` (pairs, routesMissing), where `pairs` are the owned parent pairs a recipe accepts: a recipe is ready when `pairs` is not empty.
 - **Campaigns:** `reward`. Encounters carry a `category` id from `CHALLENGE_CATEGORY` and a display label.
 - **Raising:** the active boosts (EXP/EV boost, energy bead) per monster.
 

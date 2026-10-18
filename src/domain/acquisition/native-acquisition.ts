@@ -1,4 +1,5 @@
 import type { WorldPlanet, WorldRegion } from '../world/world.ts';
+import { isRegularEncounter } from '../challenges/boss-encounter.ts';
 import { braveTowerFloor } from '../challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../challenges/challenge-campaigns.ts';
 import type { AcquisitionCatalog, AcquisitionEncounter, AcquisitionSpecies } from './acquisition-model.ts';
@@ -7,9 +8,9 @@ type EssenceSource = Pick<AcquisitionEncounter, 'reward_hatches' | 'reward' | 't
 /** Original infant reward bindings take precedence over the defeated final form; undefined only for an empty team. */
 const encounterEssenceSpecies = (boss: EssenceSource) => boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)?.species;
 
-/** The controller redirects a field species that appears in a named (non-tower, non-dark-door) boss team. */
+/** The controller redirects a field species that appears in a regular boss team. */
 export function interceptedFieldSpecies(bosses: readonly Pick<AcquisitionEncounter, 'id' | 'team'>[]): Set<number> {
-  return new Set(bosses.filter(boss => !boss.id.includes('tower') && !boss.id.includes('dark_door')).flatMap(boss => boss.team.map(mon => mon.species)));
+  return new Set(bosses.filter(isRegularEncounter).flatMap(boss => boss.team.map(mon => mon.species)));
 }
 
 export interface HabitatEntry {

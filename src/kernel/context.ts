@@ -9,10 +9,11 @@ import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
 import { buildAcquisitionViews, type AcquisitionViews } from '../domain/acquisition/acquisition.ts';
 import type { AcquisitionCatalog } from '../domain/acquisition/acquisition-model.ts';
-import { buildCollectionAncestry, type CollectionSpecies } from '../domain/acquisition/collection-ancestry.ts';
+import { buildCollectionAncestry } from '../domain/acquisition/collection-ancestry.ts';
 import { conventionalMovesResolver } from '../domain/acquisition/conventional-moves.ts';
-import type { RecruitmentCatalog, RecruitmentReward } from '../domain/acquisition/recruitment.ts';
+import type { RecruitmentReward } from '../domain/acquisition/recruitment.ts';
 import { buildSkinOptions } from '../domain/acquisition/skins.ts';
+import type { LineageSpecies } from '../domain/acquisition/species-graph.ts';
 import { getEligibleRecruitmentSPTs } from '../domain/acquisition/spt-recruitment.ts';
 import type { BattleFacilityView } from '../shared/views.ts';
 import { enrichCatalog } from '../domain/catalog/enrichment.ts';
@@ -75,12 +76,12 @@ export function createGameContext(source: CatalogData, createBattle: BattleFacto
     encounterById: new Map(encounters.map(boss => [boss.id, boss])),
     towerEncounters: bosses.filter(boss => braveTowerFloor(boss.id) !== undefined),
     bossRewardItemIds: bosses.map(boss => [boss.id, Object.keys((boss.reward as { items?: Record<string, number> } | undefined)?.items ?? {})] as const),
-    collectionAncestry: buildCollectionAncestry(catalog.species as unknown as CollectionSpecies[]),
+    collectionAncestry: buildCollectionAncestry(catalog.species as unknown as LineageSpecies[]),
     skinOptions: buildSkinOptions(catalog.species as unknown as Species[]),
     availableTraits: traits.filter(trait => trait.implemented),
     itemDefinitions: new Map(definitions.map(item => [item.id, item])),
     essencesBySpecies: essencesBySpecies(definitions),
-    ordinarySPTs: new Set(getEligibleRecruitmentSPTs(catalog as unknown as RecruitmentCatalog).map(boss => boss.id)),
+    ordinarySPTs: new Set(getEligibleRecruitmentSPTs(catalog as unknown as AcquisitionCatalog).map(boss => boss.id)),
     unlimitedItemIds: new Set(catalog.items.filter(item => UNLIMITED_ITEM_KINDS.includes(String(item.kind))).map(item => String(item.id))),
     facilityViews: buildFacilityViews(catalog),
     // Recruitment rewards do not depend on the enrichment, so the source catalog's routes reuse them.

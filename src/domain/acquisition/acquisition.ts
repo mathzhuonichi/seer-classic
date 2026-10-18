@@ -16,7 +16,6 @@ import { buildPredecessors } from './species-graph.ts';
 import { getEligibleRecruitmentSPTs } from './spt-recruitment.ts';
 
 export { NPC_ONLY_SPECIES } from './acquisition-model.ts';
-export type { AcquisitionRoute } from './acquisition-model.ts';
 
 /** Niao (尼奥) can only be captured while one of NIAO_CAPTURE_PARTNERS is active. */
 const NIAO_SPECIES = 416;

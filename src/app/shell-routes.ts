@@ -2,7 +2,7 @@ import type { GameController } from '../kernel/contract.ts';
 import type { BossView } from '../shared/views.ts';
 import {campaignBackdrop} from '../features/battle/index.ts';
 import { locateTarget, parseRoute } from './shell-navigation.ts';
-import type { AcquisitionRoute } from '../domain/acquisition/acquisition.ts';
+import type { AcquisitionRoute } from '../domain/acquisition/acquisition-model.ts';
 import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation } from '../domain/world/world.ts';
 import type { BattleBackdrops } from './useBattlePreparation.ts';

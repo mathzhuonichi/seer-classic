@@ -1,5 +1,6 @@
 // Journey quests and SPT recruitment quests: views and claims.
 import type { GameSave } from '../../kernel/api.ts';
+import { JOURNEY_QUEST_SPECIES } from '../../domain/acquisition/acquisition-model.ts';
 import { recruitmentProgress, type RecruitmentReward } from '../../domain/acquisition/recruitment.ts';
 import type { QuestView } from '../../shared/views.ts';
 import { acquire, allowance, capacityReason } from '../../kernel/acquire.ts';
@@ -14,10 +15,10 @@ interface JourneyQuest {
 
 const wins = (_ctx: GameContext, save: GameSave) => save.game.battlesWon;
 const JOURNEY_QUESTS: readonly JourneyQuest[] = [
-  { id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战，领取皮皮。', species: 10, goal: 1, count: wins },
-  { id: 'three-victories', name: '成长之路', description: '赢得三场战斗，领取比比鼠。', species: 13, goal: 3, count: wins },
+  { id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战，领取皮皮。', species: JOURNEY_QUEST_SPECIES['first-victory'], goal: 1, count: wins },
+  { id: 'three-victories', name: '成长之路', description: '赢得三场战斗，领取比比鼠。', species: JOURNEY_QUEST_SPECIES['three-victories'], goal: 3, count: wins },
   {
-    id: 'first-spt', name: 'SPT 挑战者', description: '完成任意一个 SPT 挑战，领取巴鲁斯。', species: 6, goal: 1,
+    id: 'first-spt', name: 'SPT 挑战者', description: '完成任意一个 SPT 挑战，领取巴鲁斯。', species: JOURNEY_QUEST_SPECIES['first-spt'], goal: 1,
     count: (ctx, save) => Number(save.progress.bosses_cleared.some(id => ctx.ordinarySPTs.has(id))),
   },
 ];

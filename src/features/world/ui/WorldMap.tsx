@@ -12,6 +12,7 @@ import { useGame } from '../../../shared/ui/use-game.ts';
 import ClassicRobot from './ClassicRobot.tsx';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
+import { sceneCovered } from './scene-cover.ts';
 import { useSceneFit, useWorldWalk } from './useWorldWalk.ts';
 import { WorldDialogue, type WorldInteraction } from './WorldDialogue.tsx';
 import './world.css';
@@ -25,8 +26,8 @@ export interface WorldMapProps {
 /** Wildlife shown per scene, before scarce species stay single. */
 const SCENE_POPULATION = 6;
 const ARRIVAL_FLASH_MS = 380;
-/** The global arrow-key walk ignores keys meant for windows and form fields. */
-const ignoresArrowKeys = (event: globalThis.KeyboardEvent) => event.defaultPrevented || !!document.querySelector('.scene-window,.modal-backdrop')
+/** The global arrow-key walk ignores keys meant for what covers the scene and for form fields. */
+const ignoresArrowKeys = (event: globalThis.KeyboardEvent) => event.defaultPrevented || sceneCovered()
   || /^(INPUT|TEXTAREA|SELECT)$/.test((event.target as HTMLElement)?.tagName);
 const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene theme-${planet.theme} ${official?'world-original-scene':'world-authored-scene'}`
   +`${planet.id==='space-station'?' world-station-scene':''}${tower?' world-tower-scene':''}`;
