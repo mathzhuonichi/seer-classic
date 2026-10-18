@@ -26,6 +26,10 @@ export interface GameDependencies {
   createBattle?: BattleFactory;
   /** Schedules idle work (turn preparation); verification runs the tasks when it chooses. */
   idle?: (task: () => void) => void;
+  /** Schedules the coalesced save write (by default after the next frame); verification runs it when it chooses. */
+  scheduleSave?: (write: () => void) => void;
+  /** Registers the flush of a pending save write for when the page may close (by default `onPageExit`); verification calls it. */
+  onPageExit?: (flush: () => void) => void;
 }
 
 /**
