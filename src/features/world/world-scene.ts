@@ -43,6 +43,8 @@ const FACILITY_GREETINGS: Partial<Record<FacilityKind, string>> = {
   recovery: '把精灵交给恢复舱，体力与技能 PP 会完全恢复。',
 };
 
+/** The slices the world scene and its dialogues read: a battle or a raising change does not rebuild the scene. */
+export type WorldSlices = Pick<GameSnapshot, 'bosses' | 'species' | 'campaigns' | 'braveTower' | 'quests'>;
 export interface TowerScene {
   floor: number; complete: boolean; highestCleared: number; totalFloors: number; boss?: BossView; opponents: EncounterOpponentView[];
 }
@@ -66,7 +68,7 @@ export interface WorldSceneView {
   hint: string;
 }
 
-function towerScene(s: GameSnapshot): TowerScene {
+function towerScene(s: WorldSlices): TowerScene {
   const { highestCleared, totalFloors, position: { floor, bossId, climbComplete } } = s.braveTower;
   const boss = s.bosses.find(entry => entry.id === bossId);
   const opponents = boss?.opponents?.length ? boss.opponents
@@ -74,7 +76,7 @@ function towerScene(s: GameSnapshot): TowerScene {
   return { floor, complete: climbComplete, highestCleared, totalFloors, boss, opponents };
 }
 
-function campaignContact(s: GameSnapshot, region: WorldRegion): CampaignContact | undefined {
+function campaignContact(s: WorldSlices, region: WorldRegion): CampaignContact | undefined {
   const campaign = s.campaigns.find(entry => entry.id === region.campaignId);
   if (!campaign) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
@@ -87,7 +89,7 @@ function groundHint(tower: TowerScene | undefined) {
   return tower.complete ? '本轮挑战已完成 · 可选择起点重新登塔' : '点击中央对手挑战本层 · 胜利后前往下一层';
 }
 
-export function buildWorldScene(s: GameSnapshot, planet: WorldPlanet, region: WorldRegion, targetBossId?: string): WorldSceneView {
+export function buildWorldScene(s: WorldSlices, planet: WorldPlanet, region: WorldRegion, targetBossId?: string): WorldSceneView {
   const tower = isWorldLocation(planet, region, BRAVE_TOWER_LOCATION) ? towerScene(s) : undefined;
   const background = region.background ?? planet.background;
   return {
@@ -163,7 +165,7 @@ function creatureNote(creature: SpeciesView, recruitment: QuestView | undefined)
   return '在战斗道具中使用精灵胶囊捕捉。';
 }
 
-function creatureDialogue(s: GameSnapshot, scene: WorldSceneView, creature: SpeciesView, level: number): WorldDialogueView {
+function creatureDialogue(s: WorldSlices, scene: WorldSceneView, creature: SpeciesView, level: number): WorldDialogueView {
   const { planet, region } = scene;
   const recruitment = region.recruitmentSpecies?.includes(creature.id)
     ? s.quests.find(quest => quest.group === 'spt-recruitment' && quest.rewardSpecies === creature.id) : undefined;
@@ -213,7 +215,7 @@ function facilityDialogue(scene: WorldSceneView): WorldDialogueView {
 }
 
 /** The dialogue for a selection, or undefined when it is not shown (an unknown Tower contact). */
-export function buildWorldDialogue(s: GameSnapshot, scene: WorldSceneView, selection: WorldSelection): WorldDialogueView | undefined {
+export function buildWorldDialogue(s: WorldSlices, scene: WorldSceneView, selection: WorldSelection): WorldDialogueView | undefined {
   const { campaign, region, tower } = scene;
   const boss = selection.kind === 'boss' ? (tower ? scene.bosses : s.bosses).find(entry => entry.id === selection.id) : undefined;
   if (tower && !boss) return undefined;
