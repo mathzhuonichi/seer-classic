@@ -19,6 +19,21 @@ export function getLayoutZoom(element:Element):number{
   return zoom;
 }
 
+/** A dragged window's layout position inside its parent, kept fully visible. */
+export interface WindowPosition { x: number; y: number }
+type LayoutBox = { clientWidth: number; clientHeight: number };
+export function clampWindow(position: WindowPosition, parent: LayoutBox, box: { offsetWidth: number; offsetHeight: number }): WindowPosition {
+  const x = Math.max(0, Math.min(parent.clientWidth - box.offsetWidth, position.x)), y = Math.max(0, Math.min(parent.clientHeight - box.offsetHeight, position.y));
+  return x === position.x && y === position.y ? position : { x, y };
+}
+/** A drag in progress: the pointer start and the window's layout offset, from rendered rectangles at one CSS zoom. */
+export interface WindowDrag { x: number; y: number; left: number; top: number; zoom: number }
+export const startWindowDrag = (pointer: { clientX: number; clientY: number }, box: { left: number; top: number }, parent: { left: number; top: number }, zoom: number): WindowDrag =>
+  ({ x: pointer.clientX, y: pointer.clientY, left: (box.left - parent.left) / zoom, top: (box.top - parent.top) / zoom, zoom });
+/** Pointer movement in rendered pixels becomes layout movement once, at the drag's zoom. */
+export const dragWindow = (drag: WindowDrag, pointer: { clientX: number; clientY: number }, parent: LayoutBox, box: { offsetWidth: number; offsetHeight: number }) =>
+  clampWindow({ x: drag.left + (pointer.clientX - drag.x) / drag.zoom, y: drag.top + (pointer.clientY - drag.y) / drag.zoom }, parent, box);
+
 export function useGameDisplay(shell:RefObject<HTMLDivElement|null>){
   const [layout,setLayout]=useState<ReturnType<typeof gameDisplayLayout>>();
   useLayoutEffect(()=>{
