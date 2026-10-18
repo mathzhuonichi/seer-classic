@@ -1,36 +1,123 @@
-/** Compare every Boss with the Git-recovered pre-tactical policy and test category boundaries. */
+/** Hold every Boss to the pre-tactical policy of d7e87e9 and test the Boss/trainer category boundaries. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import crypto from 'node:crypto';
-import {execFileSync} from 'node:child_process';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {sha256File,suite,withSsr} from './_harness.mjs';
 
-const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
-const oracleRevision=execFileSync('git',['rev-parse','d7e87e9'],{cwd:root,encoding:'utf8'}).trim();
-const oracleSource=execFileSync('git',['show',`${oracleRevision}:battle/core/src/ai.ts`],{cwd:root,encoding:'utf8'});
-const oracleId='/__verification_legacy_boss_ai_v56.ts';
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/boss-ai-isolation-v56'),
-  plugins:[{name:'git-legacy-ai-oracle',resolveId:id=>id===oracleId?id:undefined,load:id=>id===oracleId?oracleSource.replaceAll("'./battle.ts'","'/battle/core/src/index.ts'").replaceAll("'./types.ts'","'/battle/core/src/types.ts'"):undefined}],
-  server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha256:crypto.createHash('sha256').update(oracleSource).digest('hex')},checks:[],failures:[],bossCases:[],facilityCases:[],scope:'The oracle is the complete historical policy loaded directly from Git, running on current battle mechanics and encounter data. This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'};
-function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
-try {
-  const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
-    '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',oracleId,'/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
-  ].map(id=>server.ssrLoadModule(id)));
+/**
+ * Decisions of `chooseAiAction` at d7e87e9 (battle/core/src/ai.ts, the last policy before the tactical planner) on this suite's
+ * fixtures, recorded as `skill,skill,...@draws`: the chosen skills in order, then the RNG draws the decisions made in total.
+ * Wild, Boss and trainer sides gave the same decisions for each explicit policy. A random policy, an empty weight table and a
+ * script that returns nothing all fall back to the same seeded pick.
+ */
+const S={attack:1,wait:2,heal:3,quick:4,strong:5,fire:6,water:7,grass:8};
+const SEEDED_PICK=['1,3,3@3','3,3,1@3','1,3,3@3','1,3,3@3','3,3,3@3','3,1,3@3','1,1,3@3','1,1,3@3'];
+const ORACLE_POLICIES=[
+  [{kind:'random'},SEEDED_PICK],
+  [{kind:'sequence',skills:[S.heal,S.attack]},['3,1,3@0','3,1,3@0','3,1,3@0','3,1,3@0','3,1,3@0','3,1,3@0','3,1,3@0','3,1,3@0']],
+  [{kind:'weighted',weights:{[S.heal]:3,[S.attack]:1}},['3,3,3@3','3,3,1@3','3,3,3@3','1,3,3@3','3,3,3@3','3,3,3@3','1,3,3@3','1,3,3@3']],
+  [{kind:'weighted',weights:{}},SEEDED_PICK],
+  [{kind:'script',id:'fixed'},['3,3,3@0','3,3,3@0','3,3,3@0','3,3,3@0','3,3,3@0','3,3,3@0','3,3,3@0','3,3,3@0']],
+  [{kind:'script',id:'fallback'},SEEDED_PICK],
+];
+/** Ten decisions of a wild side without a policy, seed 71. */
+const ORACLE_DEFAULT_WILD='1,3,1,1,3,1,1,1,3,1@10';
+/** One decision per seed 1–16 when no skill does damage. */
+const ORACLE_NO_DAMAGE=['2@1','3@1','2@1','2@1','3@1','3@1','2@1','2@1','3@1','2@1','3@1','3@1','2@1','2@1','2@1','2@1'];
+/** Twelve decisions of the weighted Boss boss_spt_liaosi after its HP phase, seed 124. */
+const ORACLE_HP_PHASE='10096,10096,10096,10099,10096,10099,10099,10096,10099,10096,10099,10099@12';
+
+/*
+ * The independent Boss oracle: `chooseAiAction` and `smartPick` of d7e87e9 (battle/core/src/ai.ts), frozen here verbatim except
+ * for the d7e87e9 name prefix, the removed type annotations and Struggle's id as a parameter. It runs on current battles, so it
+ * follows current mechanics and encounter data, and it must reproduce the decisions recorded above from the Git module.
+ */
+function d7e87e9ChooseAiAction(battle, side, struggleId) {
+  const mon = battle.active(side.index);
+  const usable = mon.skills.filter((id) => mon.pp[id] > 0);
+  if (!usable.length) return { kind: 'move', skill: struggleId };
+  if (mon.vol.forcedSkill !== undefined && usable.includes(mon.vol.forcedSkill)) {
+    const id = mon.vol.forcedSkill;
+    delete mon.vol.forcedSkill;
+    return { kind: 'move', skill: id };
+  }
+  const ai = mon.ai ?? side.ai ?? { kind: side.kind === 'wild' ? 'random' : 'smart' };
+  const move = (skill) => ({ kind: 'move', skill });
+
+  switch (ai.kind) {
+    case 'sequence': {
+      const list = (ai.skills ?? mon.skills);
+      for (let k = 0; k < list.length; k++) {
+        const id = list[(mon.aiCursor + k) % list.length];
+        if (usable.includes(id)) {
+          mon.aiCursor = (mon.aiCursor + k + 1) % list.length;
+          return move(id);
+        }
+      }
+      return move(battle.rng.pick(usable));
+    }
+    case 'weighted': {
+      const w = usable.map((id) => Math.max(0, ai.weights?.[String(id)] ?? 0));
+      const total = w.reduce((a, b) => a + b, 0);
+      if (total <= 0) return move(battle.rng.pick(usable));
+      let r = battle.rng.next() * total;
+      for (let k = 0; k < usable.length; k++) {
+        r -= w[k];
+        if (r < 0) return move(usable[k]);
+      }
+      return move(usable[usable.length - 1]);
+    }
+    case 'random':
+      return move(battle.rng.pick(usable));
+    case 'script': {
+      const a = battle.callScript(ai.id, { side, mon }, ai.params);
+      return a ?? move(battle.rng.pick(usable));
+    }
+    case 'smart':
+    default:
+      return move(d7e87e9SmartPick(battle, mon, usable));
+  }
+}
+
+/** d7e87e9's Boss default: a KO if one exists, otherwise each status skill once, otherwise the highest raw damage. */
+function d7e87e9SmartPick(battle, mon, usable) {
+  const foe = battle.foeOf(mon);
+  const scored = usable.map((id) => {
+    const s = battle.skill(id);
+    return { id, s, d: battle.estimateDamage(mon, foe, s), pri: battle.priority(mon, s) };
+  });
+  const kos = scored.filter((x) => x.d >= foe.hp && x.d > 0);
+  if (kos.length) {
+    kos.sort((a, b) => b.pri - a.pri || b.d - a.d);
+    return kos[0].id;
+  }
+  const setup = scored.find((x) => x.s.category === 'status' && !mon.usedSkills.has(x.id));
+  if (setup) return setup.id;
+  const attacks = scored.filter((x) => x.d > 0).sort((a, b) => b.d - a.d);
+  if (attacks.length) return attacks[0].id;
+  return battle.rng.pick(usable);
+}
+
+const t=suite('boss-ai-isolation-v56'),{check}=t,bossCases=[],facilityCases=[];
+await withSsr('boss-ai-isolation-v56',async load=>{
+  const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{loadCatalog},{SEER_SCRIPTS},{traitScripts},
+    {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
+    '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',
+    '/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
+    '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
+  ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
   const move=skill=>({kind:'move',skill});
   const decide=b=>chooseAiAction(b,b.sides[1]);
-  const serial=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
-  const observed=b=>({state:b.state,mon:b.sides.map(s=>s.team.map(m=>({aiCursor:m.aiCursor,ai:m.ai,persist:m.persist,vol:m.vol,usedSkills:[...m.usedSkills]})))});
-  function matchOracle(current,reference,label){
-    const actual=decide(current),expected=oldAction(reference,reference.sides[1]);
-    assert.deepEqual(actual,expected,`${label}: action`);
-    assert.deepEqual(observed(current),observed(reference),`${label}: RNG and decision side effects`);
-    return actual;
+  const decideAsD7e87e9=b=>d7e87e9ChooseAiAction(b,b.sides[1],STRUGGLE_SKILL.id);
+  /** The current policy and the frozen oracle, both held to the recorded decisions. */
+  const policies={current:decide,d7e87e9:decideAsD7e87e9};
+  const observed=b=>({draws:b.rng.draws,state:b.state,
+    mon:b.sides.map(s=>s.team.map(m=>({aiCursor:m.aiCursor,ai:m.ai,persist:m.persist,vol:m.vol,usedSkills:[...m.usedSkills]})))});
+  /** `count` decisions of side 1 in the recorded format. */
+  function decisions(b,count,choose=decide){
+    const skills=[];
+    for(let i=0;i<count;i++){const action=choose(b);assert.equal(action.kind,'move');skills.push(action.skill);}
+    return `${skills.join(',')}@${b.rng.draws}`;
   }
   function bossBattle(encounter,lead,seed){
     const b=createBattle({data,scripts,seed,sides:[{kind:'player',team:[{species:6,level:100,iv:31,skills:[10001],hp_override:20000}]}],encounter:structuredClone(encounter)});
@@ -45,18 +132,25 @@ try {
     partialPP:b=>{b.active(1).skills.forEach((id,i)=>{if(i%2===0)b.active(1).pp[id]=0;});},
     exhausted:b=>{b.active(1).skills.forEach(id=>{b.active(1).pp[id]=0;});},
   };
-  check('Every catalog Boss member matches the pre-tactical Git oracle across six battle states',()=>{
+  /** The current policy decides as the frozen oracle on an identical battle: same action, RNG draws and decision state, no planner. */
+  function matchOracle(current,reference,label){
+    const actual=decide(current),expected=decideAsD7e87e9(reference);
+    assert.equal(lastSearchDecision(current,current.sides[1]),undefined,`${label}: no planner`);
+    assert.deepEqual(actual,expected,`${label}: action`);
+    assert.deepEqual(observed(current),observed(reference),`${label}: RNG and decision side effects`);
+    return actual;
+  }
+  check('Every catalog Boss member, whatever its policy, decides as the frozen d7e87e9 policy across six battle states',()=>{
     assert.equal(catalog.bosses.length,180);
     for(const encounter of catalog.bosses)for(let lead=0;lead<encounter.team.length;lead++)for(const [state,prepare] of Object.entries(states)){
       const current=bossBattle(encounter,lead,5617+lead),reference=bossBattle(encounter,lead,5617+lead);prepare(current);prepare(reference);
       assert.equal(current.sides[1].kind,'boss');
       const action=matchOracle(current,reference,`${encounter.id}/${lead}/${state}`);
       assert.equal(action.kind,'move');
-      report.bossCases.push({boss:encounter.id,category:encounter.category,member:lead,state,action});
+      bossCases.push({boss:encounter.id,category:encounter.category,member:lead,state,action});
     }
   });
 
-  const S={attack:1,wait:2,heal:3,quick:4,strong:5,fire:6,water:7,grass:8};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100},stats={...base,hp:400};
   const attack=(id,power=80,extra={})=>({id,name:{zh:`Isolation fixture ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});
   const raw={species:[{id:1,name:{zh:'Neutral'},types:['normal'],base},{id:2,name:{zh:'Fire'},types:['fire'],base},{id:3,name:{zh:'Water'},types:['water'],base},{id:4,name:{zh:'Grass'},types:['grass'],base}],
@@ -70,8 +164,10 @@ try {
       {kind:options.kind??'boss',team:options.team??[member(1,options.skills??[S.attack,S.heal])],ai:options.ai??{kind:'smart'},items:options.items??{},rules:options.rules??[]},
     ]});
   }
-  check('Legacy setup, repeat-heal avoidance and KO priority are distinct from trainer heuristics',()=>{
+  check('Legacy setup, repeat-heal avoidance, KO priority and raw-damage order are distinct from trainer heuristics',()=>{
     assert.deepEqual(decide(fixture()),move(S.heal));
+    assert.deepEqual(decide(fixture({skills:[S.attack,S.wait,S.heal]})),move(S.wait),'the first unused status move');
+    assert.deepEqual(decide(fixture({skills:[S.attack,S.strong,S.fire]})),move(S.strong),'the highest raw damage');
     assert.deepEqual(decide(fixture({kind:'trainer'})),move(S.attack));
     for(const kind of ['boss','trainer']){
       const b=fixture({kind});b.active(1).hp=120;b.active(1).stats.spe=300;b.active(1).usedSkills.add(S.heal);
@@ -109,25 +205,24 @@ try {
       b.resolveTurn();assert.equal(b.sides[1].active,expected);assert.equal(b.phase,'choose');
     }
   });
-  check('Wild random, sequence, weighted, script and forced-skill behavior matches the old oracle',()=>{
-    const policies=[{kind:'random'},{kind:'sequence',skills:[S.heal,S.attack]},{kind:'weighted',weights:{[S.heal]:3,[S.attack]:1}},{kind:'weighted',weights:{}},{kind:'script',id:'fixed'},{kind:'script',id:'fallback'}];
+  check('Wild random, sequence, weighted, script and forced-skill behavior of both policies matches the recorded d7e87e9 decisions',()=>{
     const callbacks={fixed:{apply:()=>move(S.heal)},fallback:{apply:()=>undefined}};
-    for(const ai of policies)for(const kind of ['wild','boss','trainer'])for(let seed=1;seed<=8;seed++){
-      const a=fixture({kind,ai,seed,scripts:callbacks}),b=fixture({kind,ai,seed,scripts:callbacks});
-      for(let i=0;i<3;i++)matchOracle(a,b,`${kind}/${ai.kind}/${seed}/${i}`);
+    for(const [name,choose] of Object.entries(policies)){
+      for(const [ai,expected] of ORACLE_POLICIES)for(const kind of ['wild','boss','trainer'])for(let seed=1;seed<=8;seed++){
+        assert.equal(decisions(fixture({kind,ai,seed,scripts:callbacks}),3,choose),expected[seed-1],`${name}/${kind}/${JSON.stringify(ai)}/${seed}`);
+      }
+      for(const kind of ['wild','boss','trainer']){
+        const b=fixture({kind});b.active(1).vol.forcedSkill=S.attack;
+        assert.deepEqual(choose(b),move(S.attack),`${name}/${kind}/forced`);assert.equal(b.active(1).vol.forcedSkill,undefined);assert.equal(b.rng.draws,0);
+      }
+      const b=fixture({kind:'wild'});b.sides[1].ai=undefined;
+      assert.equal(decisions(b,10,choose),ORACLE_DEFAULT_WILD,`${name}/default wild policy`);
     }
-    for(const kind of ['wild','boss','trainer']){
-      const a=fixture({kind}),b=fixture({kind});a.active(1).vol.forcedSkill=S.attack;b.active(1).vol.forcedSkill=S.attack;
-      assert.deepEqual(matchOracle(a,b,`${kind}/forced`),move(S.attack));assert.equal(a.active(1).vol.forcedSkill,undefined);
-    }
-    const a=fixture({kind:'wild'}),b=fixture({kind:'wild'});a.sides[1].ai=undefined;b.sides[1].ai=undefined;
-    for(let i=0;i<10;i++)matchOracle(a,b,`default-wild/${i}`);
   });
   check('Legacy fallback randomness and skill-order ties remain seeded and preserve equipped order',()=>{
-    for(let seed=1;seed<=16;seed++){
-      const a=fixture({seed,skills:[S.wait,S.heal]}),b=fixture({seed,skills:[S.wait,S.heal]});
-      for(const battle of [a,b])battle.active(1).skills.forEach(id=>battle.active(1).usedSkills.add(id));
-      matchOracle(a,b,`no-damage/${seed}`);
+    for(const [name,choose] of Object.entries(policies))for(let seed=1;seed<=16;seed++){
+      const b=fixture({seed,skills:[S.wait,S.heal]});b.active(1).skills.forEach(id=>b.active(1).usedSkills.add(id));
+      assert.equal(decisions(b,1,choose),ORACLE_NO_DAMAGE[seed-1],`${name}/no-damage/${seed}`);
     }
     const b=fixture({skills:[S.strong,S.attack]});b.data.skills.get(S.strong).power=b.data.skills.get(S.attack).power;
     assert.deepEqual(decide(b),move(S.strong));
@@ -144,11 +239,12 @@ try {
     assert(events.some(e=>e.type==='move_used'&&e.side===1&&e.skill===11470));
   });
   check('Existing weighted HP-phase Boss policy changes remain active',()=>{
-    const encounter=catalog.bosses.find(row=>row.ai?.kind==='weighted');assert(encounter?.phases.length);
-    const a=bossBattle(encounter,0,124),b=bossBattle(encounter,0,124);
-    for(const battle of [a,b])battle.dealDamage(battle.active(1),Math.floor(battle.active(1).maxHp*.6),{kind:'true'});
-    assert(a.active(1).ai||JSON.stringify(a.sides[1].ai)!==JSON.stringify(encounter.ai),'The HP phase must replace its policy');
-    for(let i=0;i<12;i++)matchOracle(a,b,`${encounter.id}/HP-phase/${i}`);
+    const encounter=catalog.bosses.find(row=>row.ai?.kind==='weighted');assert.equal(encounter?.id,'boss_spt_liaosi');assert(encounter.phases.length);
+    for(const [name,choose] of Object.entries(policies)){
+      const b=bossBattle(encounter,0,124);b.dealDamage(b.active(1),Math.floor(b.active(1).maxHp*.6),{kind:'true'});
+      assert(b.active(1).ai||JSON.stringify(b.sides[1].ai)!==JSON.stringify(encounter.ai),'The HP phase must replace its policy');
+      assert.equal(decisions(b,12,choose),ORACLE_HP_PHASE,name);
+    }
   });
   // V58: real trainer encounters dispatch the search planner; it may draw once from the live RNG to mix.
   const serialWithoutRng=b=>JSON.stringify(b,(key,value)=>key==='rng'?undefined:value instanceof Map?[...value]:value instanceof Set?[...value]:value);
@@ -159,13 +255,13 @@ try {
       const b=createBattle({data,scripts,seed:562,sides:[{kind:'player',team:[{species:6,level:100,skills:[10001]}]}],encounter});if(lead)b.switchIn(b.sides[1],lead);
       assert.equal(b.sides[1].kind,'trainer');const before=serialWithoutRng(b),actual=decide(b),record=lastSearchDecision(b,b.sides[1]);
       assert(record&&record.turn===b.turn+1,'decision recorded by the search planner');assert.deepEqual(actual,record.chosen);assert.equal(serialWithoutRng(b),before);
-      report.facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
+      facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
     }
   });
-  report.sourceHashes=Object.fromEntries(['battle/ai/src/ai.ts','battle/ai/src/legacy-ai.ts','battle/core/src/engine/battle.ts'].map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  const dir=path.join(root,'artifacts/boss-ai-isolation-v56');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,bosses:new Set(report.bossCases.map(row=>row.boss)).size,bossCases:report.bossCases.length,facilityCases:report.facilityCases.length,failures:report.failures},null,2));
-  await server.close();if(report.failures.length)process.exitCode=1;
-}
+  const hashed=['battle/ai/src/ai.ts','battle/ai/src/legacy-ai.ts','battle/core/src/engine/battle.ts'];
+  const sourceHashes=Object.fromEntries(hashed.map(file=>[file,sha256File(file)]));
+  t.finish({bosses:new Set(bossCases.map(row=>row.boss)).size,bossCases,facilityCases,sourceHashes,
+    scope:'Boss decisions are held to a frozen copy of the d7e87e9 policy on current mechanics and encounter data; '+
+      'both reproduce the decisions recorded from d7e87e9 on synthetic fixtures. '+
+      'This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'});
+});

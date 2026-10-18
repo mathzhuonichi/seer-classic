@@ -3,9 +3,7 @@
     "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
     "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
     "needs-cache": "Needs the ignored research inputs under .cache/.",
-    "historical": "Compares against a fixed Git revision; needs full history.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
-    "stale": "Already failing at V30; asserts superseded behaviour. Fix or delete, do not gate.",
     "tool": "A measurement or export script, not a pass/fail check."
   },
   "suites": {
@@ -82,7 +80,7 @@
       "status": "gate"
     },
     "boss-ai-isolation-v56.mjs": {
-      "status": "historical"
+      "status": "gate"
     },
     "boss-and-support-v46.mjs": {
       "status": "gate"
@@ -123,8 +121,7 @@
       "status": "gate"
     },
     "capture-v3.ts": {
-      "status": "known-failure",
-      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+      "status": "gate"
     },
     "catalog-loaders.mjs": {
       "status": "gate"
@@ -189,8 +186,7 @@
       "status": "gate"
     },
     "evolution-specials.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07 (33 checks); one check already failed on claude/engravings. Also loads fixed Git revisions."
+      "status": "gate"
     },
     "export-acquisition-status.mjs": {
       "status": "gate"
@@ -246,14 +242,13 @@
       "status": "gate"
     },
     "solo-challenges.ts": {
-      "status": "stale",
-      "note": "Already failing at V30."
+      "status": "gate"
     },
     "station-navigation-v53.mjs": {
       "status": "gate"
     },
     "switch-policy-v47.mjs": {
-      "status": "historical"
+      "status": "gate"
     },
     "trainer-ai-tournament-v58.mjs": {
       "status": "tool"

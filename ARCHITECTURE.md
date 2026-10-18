@@ -127,7 +127,7 @@ The game extends the engine when it sets up a battle (`features/battle/battle-se
 ## Verification
 
 - `npm run typecheck` runs `tsc --noEmit`. `npm test` runs the `node --test` unit tests (`*.test.mjs` under `src/`, `battle/` and `raising/`).
-- `npm run verify` runs `tools/verification/run.mjs`, which runs every suite whose status in `MANIFEST.json` is `gate`. The other statuses say why a suite does not gate: `needs-assets`, `needs-cache`, `historical`, `known-failure`, `stale` and `tool`. `--status all` runs every registered suite except `tool` scripts, `--jobs N` limits parallelism, and suites can also be named. Logs and `SUMMARY.json` go to `artifacts/verification/`.
+- `npm run verify` runs `tools/verification/run.mjs`, which runs every suite whose status in `MANIFEST.json` is `gate`. The other statuses say why a suite does not gate: `needs-assets`, `needs-cache`, `known-failure` and `tool`. `--status all` runs every registered suite except `tool` scripts, `--jobs N` limits parallelism, and suites can also be named. Logs and `SUMMARY.json` go to `artifacts/verification/`.
 - `.ts` suites load through Vite SSR. Suites marked `shards: N` run on N cores through `parallel-shards.mjs`.
 - `_harness.mjs` provides Vite SSR loading, a check-and-report `suite()`, memory storage, an offline `fetch` and file hashing. New suites must be registered in `MANIFEST.json`. A behaviour change updates or deletes the old assertions in the same commit.
 
