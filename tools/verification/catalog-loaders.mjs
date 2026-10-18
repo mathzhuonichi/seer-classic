@@ -9,7 +9,7 @@ import {readGameData, suite, withSsr} from './_harness.mjs';
 const TABLES = ['species', 'skills', 'natures', 'types', 'conditions', 'items'];
 await withSsr('catalog-loaders', async load => {
   const t = suite('catalog-loaders');
-  const {loadCatalog} = await load('/src/mechanics/catalog.ts');
+  const {loadCatalog} = await load('/src/domain/catalog/catalog.ts');
   const bundled = await loadCatalog(), node = loadCatalogNode();
   t.check('bundled and Node loaders assemble byte-identical catalogs', () => {
     assert.deepEqual(Object.keys(node), [...TABLES, 'bosses', 'trainers']);

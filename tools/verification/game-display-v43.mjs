@@ -9,7 +9,7 @@ import {parseSync,transformSync} from 'rolldown/utils';
 import {root,suite,withSsr} from './_harness.mjs';
 
 // TypeFilter and TypeIcon handlers are still extracted from source; they belong to the type UI.
-const files=['src/components/TypeFilter.tsx','src/components/TypeIcon.tsx'];
+const files=['src/shared/ui/TypeFilter.tsx','src/shared/ui/TypeIcon.tsx'];
 const sources=new Map(files.map(file=>[file,fs.readFileSync(path.join(root,file),'utf8')]));
 const layouts=[],coordinates=[];
 const close=(actual,expected,label='number')=>assert(Math.abs(actual-expected)<=1e-7*Math.max(1,Math.abs(expected)),`${label}: ${actual} != ${expected}`);
@@ -45,7 +45,7 @@ const viewportCases=[
 try{await withSsr('game-display-v43',async load=>{
   const t=suite('game-display-v43'),{check}=t;
   const [{gameDisplayLayout,getLayoutZoom,startWindowDrag,startsWindowDrag,dragWindow,clampWindow},walk,roaming,{rectangle,percentIn}]=await Promise.all(
-    ['/src/presentation/game-display.ts','/src/presentation/world-walk.ts','/src/presentation/world-roaming.ts','/src/presentation/scene-geometry.ts'].map(load));
+    ['/src/shared/game-display.ts','/src/features/world/world-walk.ts','/src/features/world/world-roaming.ts','/src/features/world/scene-geometry.ts'].map(load));
   check('Each viewport retains the original 960:650 fit without overflowing',()=>{
     for(const [name,width,height] of viewportCases){
       const layout=gameDisplayLayout(width,height),rendered={width:layout.width*layout.zoom,height:layout.height*layout.zoom};
@@ -152,7 +152,7 @@ try{await withSsr('game-display-v43',async load=>{
       const zoom=gameDisplayLayout(width,height).zoom;
       for(const anchor of ['center','top left','bottom right']){
         const rect={left:anchor==='top left'?0:anchor==='bottom right'?width-120*zoom:width*.4,top:anchor==='top left'?0:anchor==='bottom right'?height-30*zoom:height*.4,width:120*zoom};rect.bottom=rect.top+30*zoom;
-        let position;const place=handler('src/components/TypeFilter.tsx','place',{trigger:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
+        let position;const place=handler('src/shared/ui/TypeFilter.tsx','place',{trigger:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
         place();assert.equal(position.zoom,zoom);
         const rendered={left:position.left*zoom,top:position.top*zoom,width:position.width*zoom,height:position.maxHeight*zoom};
         assert(rendered.left>=8*zoom-1e-7&&rendered.left+rendered.width<=width-8*zoom+1e-7);
@@ -168,7 +168,7 @@ try{await withSsr('game-display-v43',async load=>{
       const zoom=gameDisplayLayout(width,height).zoom;
       for(const anchor of ['center','top left','bottom right']){
         const rect={left:anchor==='top left'?0:anchor==='bottom right'?width-21*zoom:width*.5,top:anchor==='top left'?0:anchor==='bottom right'?height-21*zoom:height*.5,width:21*zoom};rect.bottom=rect.top+21*zoom;
-        let position;const place=handler('src/components/TypeIcon.tsx','placeTooltip',{icon:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},tooltip:{current:{offsetWidth:90,offsetHeight:30}},label:'Fire element',getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
+        let position;const place=handler('src/shared/ui/TypeIcon.tsx','placeTooltip',{icon:{current:{currentCSSZoom:zoom,getBoundingClientRect:()=>rect}},tooltip:{current:{offsetWidth:90,offsetHeight:30}},label:'Fire element',getLayoutZoom,window:{innerWidth:width,innerHeight:height},setPosition:value=>{position=value;}});
         place();assert.equal(position.zoom,zoom);
         const left=position.left*zoom-45*zoom,right=left+90*zoom,top=position.top*zoom-(position.below?0:30*zoom),bottom=top+30*zoom;
         assert(left>=8*zoom-1e-7&&right<=width-8*zoom+1e-7);assert(top>=0&&bottom<=height);

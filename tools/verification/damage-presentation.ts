@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createGame, advanceBattlePresentation, type BattlePresentationState } from '../../src/game.ts';
-import { displayedDamage, battleEventText } from '../../src/presentation/battle-log.ts';
-import type { CatalogData } from '../../src/mechanics/catalog.ts';
+import { createGame, advanceBattlePresentation, type BattlePresentationState } from '../../src/kernel/game.ts';
+import { displayedDamage, battleEventText } from '../../src/features/battle/battle-log.ts';
+import type { CatalogData } from '../../src/domain/catalog/catalog.ts';
 
 // Isolated catalog and save fixtures; this runner never accesses browser storage.
 const catalog = JSON.parse(fs.readFileSync('data/gamedata.json', 'utf8'));

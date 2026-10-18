@@ -6,7 +6,7 @@ import {gunzipSync} from 'node:zlib';
 import {root, suite, withSsr} from './_harness.mjs';
 
 await withSsr('battle-animation-transport', async load => {
-  const {decodeBattleAnimationResponse} = await load('/src/presentation/battle-animation-loader.ts');
+  const {decodeBattleAnimationResponse} = await load('/src/features/battle/battle-animation-loader.ts');
   const t = suite('battle-animation-transport');
   const raw = fs.readFileSync(path.join(root, 'public/battle-animations/1.json.gz'));
   await t.checkAsync('Raw gzip, already-decoded gzip and unencoded JSON responses each decode exactly once', async () => {

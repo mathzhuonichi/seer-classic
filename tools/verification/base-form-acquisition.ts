@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import {loadCatalog} from '../../src/mechanics/catalog.ts';
-import {buildAcquisitionIndex} from '../../src/progression/acquisition.ts';
-import type {AcquisitionCatalog} from '../../src/progression/acquisition-model.ts';
-import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition.ts';
-import {buildRecruitmentRewards} from '../../src/progression/recruitment.ts';
+import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
+import {buildAcquisitionIndex} from '../../src/domain/acquisition/acquisition.ts';
+import type {AcquisitionCatalog} from '../../src/domain/acquisition/acquisition-model.ts';
+import {buildInitialFormAcquisitionIndex} from '../../src/domain/acquisition/initial-acquisition.ts';
+import {buildRecruitmentRewards} from '../../src/domain/acquisition/recruitment.ts';
 import {suite} from './_harness.mjs';
 
 export async function verifyBaseFormAcquisition() {

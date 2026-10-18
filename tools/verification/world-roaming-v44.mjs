@@ -5,7 +5,7 @@ import {suite,withSsr} from './_harness.mjs';
 await withSsr('world-roaming-v44',async load=>{
   const t=suite('world-roaming-v44'),{check}=t;
   const [{WORLD_PLANETS},{getSceneLayout,creatureSceneHome,constrainHabitatPoint},roaming]=await Promise.all(
-    ['/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/world-roaming.ts'].map(load));
+    ['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-roaming.ts'].map(load));
   const regions=WORLD_PLANETS.flatMap(planet=>planet.regions.map(region=>({planet,region,layout:getSceneLayout(planet,region)})));
   const row=regions.find(r=>r.region.backgroundAssetMapId===726);assert(row);
   const {layout}=row,homes=Array.from({length:6},(_,index)=>creatureSceneHome(layout,index,6));

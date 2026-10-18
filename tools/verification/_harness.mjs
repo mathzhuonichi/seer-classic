@@ -4,7 +4,7 @@
  *   import {withSsr, suite, memoryStorage} from './_harness.mjs';
  *   memoryStorage();
  *   await withSsr('my-suite', async load => {
- *     const {createGame} = await load('/src/game.ts');
+ *     const {createGame} = await load('/src/kernel/game.ts');
  *     const t = suite('my-suite');
  *     t.check('does the thing', () => assert.equal(...));
  *     t.finish({extra: 'report fields'});
@@ -92,7 +92,7 @@ export const sha256File = file => crypto.createHash('sha256').update(fs.readFile
 
 /**
  * The raw `data/gamedata.json` aggregate, whose `bosses` list is stale. New code loads the catalog with
- * `loadCatalog()` (`src/mechanics/catalog.ts`) inside Vite or `loadCatalogNode()` (`tools/catalog.mjs`) in
+ * `loadCatalog()` (`src/domain/catalog/catalog.ts`) inside Vite or `loadCatalogNode()` (`tools/catalog.mjs`) in
  * plain Node. Delete this once the remaining gamedata.json readers have moved.
  */
 export const readGameData = () => JSON.parse(fs.readFileSync(path.join(root, 'data/gamedata.json'), 'utf8'));

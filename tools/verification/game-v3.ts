@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createGame} from '../../src/game.ts';
-import {loadCatalog} from '../../src/mechanics/catalog.ts';
+import {createGame} from '../../src/kernel/game.ts';
+import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {root,suite} from './_harness.mjs';
 
 const t=suite('game-v3');

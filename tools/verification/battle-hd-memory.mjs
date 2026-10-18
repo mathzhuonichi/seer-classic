@@ -29,7 +29,7 @@ try{
   assert(source.width>0&&source.height>0,'Cloning requires live source pixels');return bitmap('private-copy',source.width,source.height);
  };
  server=await createServer({root,configFile:false,cacheDir:cache,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
- const runtime=await server.ssrLoadModule('/src/presentation/battle-animation.ts');
+ const runtime=await server.ssrLoadModule('/src/features/battle/battle-animation.ts');
  const check=async(name,run)=>{await run();checks.push(name);};
  await check('Warm preload accounts for repacked pixels before releasing CPU bitmap ownership',async()=>{
   await runtime.preloadBattleAnimations([species]);const stats=runtime.getBattleAnimationRuntimeStats();

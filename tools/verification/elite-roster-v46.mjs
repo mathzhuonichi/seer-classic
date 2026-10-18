@@ -16,7 +16,7 @@ const APPROVED={
 };
 try {
   const [{loadCatalog},{facilityPool,eliteFacilityPool,createFacilityEncounter,buildFacilityViews},{trainerSkillOrigin},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/src/progression/trainer-skills.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog),defs=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const species=new Map(catalog.species.map(s=>[s.id,s])),skills=new Map(catalog.skills.map(s=>[s.id,s]));

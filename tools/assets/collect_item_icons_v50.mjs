@@ -11,7 +11,7 @@ globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=
 const server=await createServer({root,configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
   const [{createGame,loadCatalog},{FUSION_RECIPES,fusionBeadItemId},{buildRecruitmentRewards}]=await Promise.all([
-    '/src/game.ts','/src/progression/fusion.ts','/src/progression/recruitment.ts',
+    '/src/kernel/game.ts','/src/domain/recipes/fusion.ts','/src/domain/acquisition/recruitment.ts',
   ].map(file=>server.ssrLoadModule(file)));
   const catalog=await loadCatalog();
   const ids=new Set(catalog.items.map(item=>String(item.id)));

@@ -31,12 +31,12 @@ Never write an absolute or home-directory path into a tracked file, a generated 
 
 ## Rules
 
-1. **Imports point down only:** components → controller (`src/game.ts`) → presentation → progression/mechanics → `raising/core` and `battle/core` → `data/`.
+1. **Imports point down only:** components → controller (`src/kernel/game.ts`) → presentation → progression/mechanics → `raising/core` and `battle/core` → `data/`.
    - Presentation modules are pure view builders and label data; they never import the controller. Components may import them directly.
    - The engine does not import the AI; the policy is injected.
    - Components render the snapshot and dispatch actions. Existing exceptions are debt; add none.
-   - Shared view helpers live in `src/presentation/view-helpers.ts` and `src/components/use-pager.ts`; do not re-implement them.
-2. **One source per rule:** stats from `raising/core/stats.ts`; damage from the engine pipeline; limits from the raising constants; the catalog from one loader; labels from `src/presentation/labels.ts`.
+   - Shared view helpers live in `src/shared/view-helpers.ts` and `src/shared/ui/use-pager.ts`; do not re-implement them.
+2. **One source per rule:** stats from `raising/core/stats.ts`; damage from the engine pipeline; limits from the raising constants; the catalog from one loader; labels from `src/shared/labels.ts`.
 3. **No unnamed rule numbers.** Battle numbers go in `battle/core/src/constants.ts`, economy numbers in one economy module, and data-driven values in `data/`.
 4. **YAGNI:**
    - No placeholders, single-value options or alias exports.
@@ -49,7 +49,7 @@ Never write an absolute or home-directory path into a tracked file, a generated 
 7. **Saves:** change the format through `MIGRATIONS` with a version bump. Never overwrite an unreadable save.
 8. **Size:**
    - New or changed functions stay under about 80 lines, and lines under about 160 characters.
-   - Do not grow `src/game.ts` or `battle/core/src/battle.ts`; extract instead.
+   - Do not grow `src/kernel/game.ts` or `battle/core/src/battle.ts`; extract instead.
 9. **Documentation:** index every design note in `design/notes/INDEX.md` with a status. Repository files are written in English.
 10. **Concurrency:** keep commits small, use one branch or worktree per agent, and do not reformat whole files.
 

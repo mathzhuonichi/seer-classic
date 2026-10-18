@@ -183,8 +183,8 @@ def original_assets():
 
 
 def portraits():
-    current = load('src/presentation/creature-art-data.json')
-    previous = baseline_json('src/presentation/creature-art-data.json')
+    current = load('src/shared/creature-art-data.json')
+    previous = baseline_json('src/shared/creature-art-data.json')
     require(set(current) == set(previous) and len(current) == 1483, 'Creature inventory must remain exactly the baseline 1483 IDs')
     registry = {}
     for name, key in [('public/portraits/vectors/manifest.json', 'portraits'),
@@ -218,8 +218,8 @@ def maps():
     original = load('public/maps/original-manifest.json')['maps']
     source_hd = load('public/maps/original-hd-manifest.json')['maps']
     generated = load('public/maps/hd/manifest.json')['assets']
-    native_runtime = load('src/presentation/map-art-assets.json')
-    hd_runtime = load('src/presentation/map-hd-assets.json')
+    native_runtime = load('src/features/world/map-art-assets.json')
+    hd_runtime = load('src/features/world/map-hd-assets.json')
     require(len(native_runtime) == 134 and set(native_runtime) == set(original), 'Base map identity inventory changed')
     require(set(generated) == set(hd_runtime), 'AI map manifest and runtime IDs differ')
     for sid, row in source_hd.items():
@@ -311,7 +311,7 @@ def interface():
         original_geometry = [ET.tostring(node) for node in source_root.iter() if node.tag in geometry_tags]
         restored_geometry = [ET.tostring(node) for node in runtime_root.iter() if node.tag in geometry_tags]
         require(source_root.attrib == runtime_root.attrib and original_geometry == restored_geometry, f'HUD {key} source vector geometry changed')
-        require(row['path'] in (ROOT / 'src/battle.css').read_text(), f'HUD {key} is not connected to the battle interface')
+        require(row['path'] in (ROOT / 'src/features/battle/ui/battle.css').read_text(), f'HUD {key} is not connected to the battle interface')
         runtime_assets.add(row['path'])
     return {'nativePublished': 47, 'nativeRetainedRecords': len(rows) - 47, 'generatedImages': len(ai['assets']),
             'generatedRuntimeAssets': len({row['runtimePath'] for row in ai['assets'].values()}),
@@ -385,8 +385,8 @@ def atlas():
     registry.update({row['path']: row for row in supplemental.values()})
     effective = {key: row for key, row in rows.items() if row.get('path')} | supplemental
     require(len(effective) == 59, f'Expected 59 final atlas assets, found {len(effective)}')
-    graph = load('src/presentation/atlas-graph-assets.json')
-    baseline_graph = baseline_json('src/presentation/atlas-graph-assets.json')
+    graph = load('src/features/world/atlas-graph-assets.json')
+    baseline_graph = baseline_json('src/features/world/atlas-graph-assets.json')
     require(set(graph['pages']) == set(baseline_graph['pages']), 'Atlas page identities changed')
     def geometry(value):
         if isinstance(value, dict):

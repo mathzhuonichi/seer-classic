@@ -6,9 +6,9 @@ const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try{
- const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
- const {buildCollectionAncestry}=await server.ssrLoadModule('/src/progression/collection-ancestry.ts');
- const {FUSION_RECIPES,fusionBeadItemId}=await server.ssrLoadModule('/src/progression/fusion.ts');
+ const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
+ const {buildCollectionAncestry}=await server.ssrLoadModule('/src/domain/acquisition/collection-ancestry.ts');
+ const {FUSION_RECIPES,fusionBeadItemId}=await server.ssrLoadModule('/src/domain/recipes/fusion.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog);
  const parse=game=>JSON.parse(game.exportSave()),owned=(game,id)=>game.snapshot().species.find(row=>row.id===id)?.owned;
  const raw=parse(createGame(catalog,''));raw.game.coins=0;raw.dex.owned=[];raw.dex.seen=[];raw.storage=raw.storage.filter(mon=>mon.species===1);raw.party=raw.storage.map(mon=>mon.uid);raw.rng_state=[101,202,303,404];raw.game.shopUnlocked=[];

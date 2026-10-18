@@ -98,7 +98,7 @@ async function waitFor(predicate) {
 
 try {
   await withSsr('battle-display-lifecycle', async load => {
-    const {mountCreatureAnimation, RecoveryBudget} = await load('/src/components/battle/creature-animation-mount.ts');
+    const {mountCreatureAnimation, RecoveryBudget} = await load('/src/features/battle/ui/creature-animation-mount.ts');
     const t = suite('battle-display-lifecycle');
     /** Mount species 6 mid-attack and return its dispose function. */
     const start = h => {

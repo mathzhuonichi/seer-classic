@@ -14,7 +14,7 @@ def main():
     parser.add_argument('--preserve-layout', action='store_true',
                         help='Retain existing evolution root, stage and physical scale while upgrading artwork.')
     args = parser.parse_args()
-    target = ROOT / 'src/presentation/creature-art-data.json'
+    target = ROOT / 'src/shared/creature-art-data.json'
     previous = json.loads(target.read_text()) if args.preserve_layout and target.exists() else {}
     species = {int(p.stem): json.loads(p.read_text()) for p in (ROOT / 'data/monsters').glob('*.json')}
     manifest = json.loads((ROOT / 'public/portraits/manifest.json').read_text())

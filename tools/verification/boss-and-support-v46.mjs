@@ -11,7 +11,7 @@ const report={checks:[],failures:[],bossChanges:[],supportWitnesses:[]};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
   const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle,buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/battle.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/battle.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   // This is an audit classification, not a rule for rewriting original Bosses.
@@ -130,7 +130,7 @@ try {
       Object.assign(b.sides[0],{pending:{kind:'move',skill:STRONG},items:{hidden:99}});rewind();assert.deepEqual(action(b),first);legal(b,first);
     }
   });
-  const {createGame}=await server.ssrLoadModule('/src/game.ts');
+  const {createGame}=await server.ssrLoadModule('/src/kernel/game.ts');
   check('The actual controller preserves Tower 61 original skills, three-member team and HP',()=>{
     const game=createGame(catalog,'');
     const save=JSON.parse(game.exportSave());
@@ -150,7 +150,7 @@ try {
     assert(b.sides[1].team.every(mon=>!mon.conditions.some(c=>c.id.startsWith('npc_gaia_')||c.id==='seer_eff_59')));
   });
   check('Catalog and all production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  const watched=['src/game.ts','src/progression/npc-training.ts','battle/core/src/battle.ts'];
+  const watched=['src/kernel/game.ts','src/domain/challenges/npc-training.ts','battle/core/src/battle.ts'];
   report.sourceHashes=Object.fromEntries(watched.map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 } catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally {

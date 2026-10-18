@@ -53,7 +53,7 @@ const originalCalls=f=>f.calls.filter(url=>url===original.meta||url===original.a
 const originalSucceeded=(result,f)=>{assert.equal(result.usedHd,false);assert.equal(result.clip.petId,346);assert.equal(result.clip.atlasWidth,original.atlasWidth);assert.equal(originalCalls(f).length,2);assert.equal(f.bitmaps.at(-1).closeCalls,0);result.clip.atlas.close();};
 try{
   server=await createServer({root,configFile:false,cacheDir:cache,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-  const {loadBattleAnimation}=await server.ssrLoadModule('/src/presentation/battle-animation-loader.ts');
+  const {loadBattleAnimation}=await server.ssrLoadModule('/src/features/battle/battle-animation-loader.ts');
   const check=async(name,run)=>{await run();checks.push(name);};
   await check('No HD entry uses the original asset without extra requests',async()=>{
     const f=setup(),result=await loadBattleAnimation(346,original,undefined,f.controller.signal);
@@ -137,7 +137,7 @@ try{
     await assert.rejects(loadBattleAnimation(346,original,hd,f.controller.signal),/identity or dimensions/);
     assert.equal(f.bitmaps.length,2);assert(f.bitmaps.every(b=>b.closeCalls===1));
   });
-  const runtime=await server.ssrLoadModule('/src/presentation/battle-animation.ts');
+  const runtime=await server.ssrLoadModule('/src/features/battle/battle-animation.ts');
   const publishedIndex=path.join(root,'public/battle-animations/hd/runtime-index.json');
   const published=fs.existsSync(publishedIndex)?JSON.parse(fs.readFileSync(publishedIndex,'utf8')).species?.['346']:undefined;
   if(published)await check('Published HD selection integrates with the unchanged lease and large-bitmap ownership flow',async()=>{

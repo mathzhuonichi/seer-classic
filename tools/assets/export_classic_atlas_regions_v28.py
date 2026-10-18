@@ -90,7 +90,7 @@ def publish_station_v53():
             'sha256':hashlib.sha256(target.read_bytes()).hexdigest()}
     # Update only the two owned pages. The legacy generic publisher can replay
     # unrelated cached pages and would replace their current HD projections.
-    for path in (OUT / 'manifest.json', ROOT / 'src/presentation/atlas-graph-assets.json'):
+    for path in (OUT / 'manifest.json', ROOT / 'src/features/world/atlas-graph-assets.json'):
         document = json.loads(path.read_text())
         document['pages']['planet-102'] = page
         ship = document['pages']['planet-1']

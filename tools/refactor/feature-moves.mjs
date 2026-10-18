@@ -32,6 +32,7 @@ const rules = [
   [/^src\/mechanics\/npc-training\.ts$/, `${D}/challenges/npc-training-scripts.ts`],
   [/^src\/mechanics\/(engravings|engraving-access)\.ts$/, `${D}/engravings/$1.ts`],
   [/^src\/mechanics\/traits\.ts$/, `${D}/traits.ts`],
+  [/^src\/mechanics\/INTEGRATION\.md$/, `${D}/INTEGRATION.md`],
   [/^src\/progression\/battle-supplies\.ts$/, `${D}/battle-supplies.ts`],
   [/^src\/progression\/item-shop(\.test\.mjs|\.ts)$/, `${D}/item-shop$1`],
   [/^src\/world\.ts$/, `${D}/world/world.ts`],

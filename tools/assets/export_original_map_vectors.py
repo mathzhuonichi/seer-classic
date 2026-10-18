@@ -106,7 +106,7 @@ def main():
                 print(f'{n}: {error}', flush=True)
     manifest['maps'] = dict(sorted(manifest['maps'].items(), key=lambda pair:int(pair[0])))
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
-    index_path = ROOT / 'src/presentation/map-art-assets.json'
+    index_path = ROOT / 'src/features/world/map-art-assets.json'
     index = json.loads(index_path.read_text())
     for key in exported_ids:
         entry = manifest['maps'][key]

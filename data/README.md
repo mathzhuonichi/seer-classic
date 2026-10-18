@@ -69,7 +69,7 @@ bonus for N PvE battles) and a negative `levels` for 降级秘药. Items marked 
 (升级秘药, 性格转换剂) could not be dated to before 2013 but are kept for the raising rules.
 The initial recovered item table omitted fusion spirit beads, traits, engravings,
 automation and event items. The current application supplies spirit beads at
-runtime through `src/progression/fusion.ts`, reusing essence hatching with the
+runtime through `src/domain/recipes/fusion.ts`, reusing essence hatching with the
 user-approved material-free rules. Traits are provided by the application mechanics
 modules rather than this original item table. `engravings.json` holds the 2013 engravings
 (`tools/assets/build_engravings.py`, `design/notes/engravings-2013.md`).

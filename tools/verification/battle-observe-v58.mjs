@@ -26,8 +26,8 @@ const baseModules={name:'git-base-engine',resolveId:id=>id.startsWith(BASE)?id:u
 
 await withSsr('battle-observe-v58',async load=>{
   const t=suite('battle-observe-v58'),{check,witnesses}=t;
-  const ids=['/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/catalog.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts',
-    '/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
+  const ids=['/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
+    '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
   const [core,{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},base]=await Promise.all(ids.map(load));
   const {createBattle,buildDataSet,computeStats,observeOpponent,revealedOpponentSlots,Rng,stageMultiplier}=core;
   const catalog=await loadCatalog(),realData=buildDataSet(catalog);

@@ -1,12 +1,12 @@
 /**
  * Node loader for the game catalog: reads `data/` from disk and assembles it exactly like the bundled
- * loader (`src/mechanics/catalog.ts`). For plain Node scripts; code that already runs inside Vite
+ * loader (`src/domain/catalog/catalog.ts`). For plain Node scripts; code that already runs inside Vite
  * (SSR suites, `ssrLoadModule`) calls `loadCatalog()` from that module instead.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {assembleCatalog} from '../src/mechanics/catalog.ts';
+import {assembleCatalog} from '../src/domain/catalog/catalog.ts';
 
 const defaultDataDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../data');
 

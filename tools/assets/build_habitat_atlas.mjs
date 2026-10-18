@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const target = path.join(root, 'src/presentation/atlas-graph-assets.json');
+const target = path.join(root, 'src/features/world/atlas-graph-assets.json');
 const definitions = JSON.parse(fs.readFileSync(path.join(root, 'data/habitat-regions.json'), 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(target, 'utf8'));
 const server = await createServer({ root, server: { middlewareMode: true, hmr: false }, appType: 'custom', logLevel: 'error' });
@@ -25,7 +25,7 @@ const footprint = node => node.drawLabel
   : { x: node.x - 8, y: node.y - 8, width: node.width + 16, height: node.height + 16 };
 
 try {
-  const { WORLD_PLANETS } = await server.ssrLoadModule('/src/world.ts');
+  const { WORLD_PLANETS } = await server.ssrLoadModule('/src/domain/world/world.ts');
   for (const [key, page] of Object.entries(manifest.pages)) {
     if (page.habitatExpansion) delete manifest.pages[key];
     else page.nodes = page.nodes.filter(node => !node.habitatExpansion);

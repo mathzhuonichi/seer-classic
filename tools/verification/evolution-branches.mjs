@@ -17,10 +17,10 @@ function check(name, run) {
   catch (error) { failures.push({ name, error: String(error.stack).slice(0,3000) }); console.error(`FAIL ${name}: ${error.message}`); }
 }
 try {
-  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/game.ts');
+  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/kernel/game.ts');
   const { makeDex, createMonster, SeededRng, computeStats, autoEvolve, expToNext } = await server.ssrLoadModule('/raising/core/index.ts');
-  const { buildRecruitmentRewards } = await server.ssrLoadModule('/src/progression/recruitment.ts');
-  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/progression/acquisition.ts');
+  const { buildRecruitmentRewards } = await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
+  const { buildAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
   const catalog = await loadCatalog(), sourceBytes = JSON.stringify(catalog), dex = makeDex(catalog);
   const byId = new Map(catalog.species.map(row => [row.id, row]));
   const evolutionRules = JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8')).rules;

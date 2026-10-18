@@ -11,7 +11,7 @@ const checks=[],report={checks};
 const check=(name,run)=>{run();checks.push(name)};
 try{
   const [{loadCatalog},{createGame},{Rng},{createBattle,buildDataSet},{createFacilityEncounter},{npcTrainingScripts},{battleEventText},{default:Battle}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/game.ts','/battle/core/src/rng.ts','/battle/core/src/index.ts','/src/progression/battle-facilities.ts','/src/mechanics/npc-training.ts','/src/presentation/battle-log.ts','/src/components/Battle.tsx',
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/battle/core/src/index.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/npc-training-scripts.ts','/src/features/battle/battle-log.ts','/src/features/battle/ui/Battle.tsx',
   ].map(file=>server.ssrLoadModule(file)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const seed=createGame(catalog,'');

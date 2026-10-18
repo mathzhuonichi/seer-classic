@@ -9,7 +9,7 @@ const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try{
   const [{createBattle,buildDataSet},{chooseAiAction},{SEER_SCRIPTS},{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems}]=await Promise.all([
-    '/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/src/progression/battle-supplies.ts',
+    '/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/battle-supplies.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const HP='item_potion_hp_200',PP='item_potion_pp_20',CURE='item_status_cure',SMALL='audit-hp-100';
   const realItems=JSON.parse(fs.readFileSync('data/items.json','utf8'));

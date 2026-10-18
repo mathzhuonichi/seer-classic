@@ -18,7 +18,7 @@ const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha25
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
   const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
-    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
+    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};

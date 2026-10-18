@@ -2,7 +2,7 @@
 
 The interactive exploration screen now uses 133 recovered official backgrounds under `original/`. The 121 H5 raster images retain their original source bytes; twelve Flash background layers are registered static SVG exports. Existing official creature portraits remain separate interactive actors. Some current official sources contain later redesigns; exact 2009 artwork is not claimed.
 
-`original-manifest.json` records source URLs, SHA-256 digests, dimensions, registrations and extraction details. `src/presentation/map-art-assets.json` projects only offline paths and cache identities into the game; `world.ts` assigns the matching regional background, or the parent background for a custom rendezvous/training area. The seven earlier authored SVGs and their `manifest.json` remain legacy fallback assets. No promotional screenshot is used as a shipped background.
+`original-manifest.json` records source URLs, SHA-256 digests, dimensions, registrations and extraction details. `src/features/world/map-art-assets.json` projects only offline paths and cache identities into the game; `world.ts` assigns the matching regional background, or the parent background for a custom rendezvous/training area. The seven earlier authored SVGs and their `manifest.json` remain legacy fallback assets. No promotional screenshot is used as a shipped background.
 
 Region coordinates, walking bounds, routes, suggested levels, and navigation order are explicit remake choices. Every planet and SPT entry remains available without a progression lock. The navigation preference is stored separately from gameplay saves and does not alter save import or export.
 

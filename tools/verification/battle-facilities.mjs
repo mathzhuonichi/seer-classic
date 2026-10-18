@@ -21,10 +21,10 @@ const battleState=battle=>{const {animation,...state}=battle;return state};
 
 try {
   const [{loadCatalog},{createGame},{Rng},{makeDex,createMonster,SeededRng,computeStats},{createBattle,buildDataSet},{buildAcquisitionIndex},{buildRecruitmentRewards},{WORLD_PLANETS,resolveWorldLocation},{buildFacilityViews,facilityPool,createFacilityEncounter},{getSceneExits}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/battle/core/src/index.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/src/world.ts',
-    '/src/progression/battle-facilities.ts','/src/presentation/scene-exits.ts',
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/battle/core/src/rng.ts','/raising/core/index.ts','/battle/core/src/index.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/src/domain/world/world.ts',
+    '/src/domain/challenges/battle-facilities.ts','/src/features/world/scene-exits.ts',
   ].map(file=>server.ssrLoadModule(file)));
-  const {npcTrainingScripts}=await server.ssrLoadModule('/src/mechanics/npc-training.ts');
+  const {npcTrainingScripts}=await server.ssrLoadModule('/src/domain/challenges/npc-training-scripts.ts');
   const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure','facility_elite'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
   const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),data=buildDataSet(catalog),byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame,loadCatalog} from '../../src/game.ts';
-import type {CatalogData} from '../../src/mechanics/catalog.ts';
-import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/mechanics/persistence.ts';
+import {createGame,loadCatalog} from '../../src/kernel/game.ts';
+import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/kernel/persistence.ts';
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
 export async function verifyControllerSnapshots(){

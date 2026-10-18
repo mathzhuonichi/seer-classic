@@ -166,7 +166,7 @@ def main() -> None:
     }
     DEST.mkdir(parents=True,exist_ok=True)
     (DEST/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    (ROOT/'src/presentation/item-icon-assets.json').write_text(json.dumps(compact,ensure_ascii=False,separators=(',',':'))+'\n')
+    (ROOT/'src/shared/item-icon-assets.json').write_text(json.dumps(compact,ensure_ascii=False,separators=(',',':'))+'\n')
     print(json.dumps(manifest['counts']),flush=True)
 
 

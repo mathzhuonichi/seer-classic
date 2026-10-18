@@ -7,7 +7,7 @@ import {parseSync,transformSync} from 'rolldown/utils';
 import {createServer} from 'vite';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
-const source=fs.readFileSync(path.join(root,'src/components/Battle.tsx'),'utf8');
+const source=fs.readFileSync(path.join(root,'src/features/battle/ui/Battle.tsx'),'utf8');
 const parsed=parseSync('Battle.tsx',source);assert.equal(parsed.errors.length,0);
 const nodes=[];
 function visit(node){if(!node||typeof node!=='object')return;nodes.push(node);for(const value of Object.values(node)){if(Array.isArray(value))value.forEach(visit);else if(value&&typeof value==='object')visit(value);}}
@@ -38,7 +38,7 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 const cacheDir=path.join(root,'artifacts/.validation-cache/battle-capsule-click');
 const server=await createServer({root,configFile:false,cacheDir,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [{loadCatalog},{createGame}]=await Promise.all(['/src/mechanics/catalog.ts','/src/game.ts'].map(file=>server.ssrLoadModule(file)));
+  const [{loadCatalog},{createGame}]=await Promise.all(['/src/domain/catalog/catalog.ts','/src/kernel/game.ts'].map(file=>server.ssrLoadModule(file)));
   const catalog=await loadCatalog(),base=JSON.parse(createGame(catalog,'').exportSave());
   base.rng_state=[101,202,303,404];
   for(const item of catalog.items)if(item.kind==='capsule'||item.battle_effects?.length)base.items[item.id]=3;

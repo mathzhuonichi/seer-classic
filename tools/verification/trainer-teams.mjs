@@ -8,7 +8,7 @@ memoryStorage();
 await withSsr('trainer-teams',async load=>{
  const t=suite('trainer-teams'),{check}=t,simulations=[],controller=[],report={};
  const [{loadCatalog},{createGame},{buildAcquisitionIndex},{buildRecruitmentRewards},{createBattle,buildDataSet},{SEER_SCRIPTS},{default:ChallengeCenter},{findChallengeLocation},{chooseAiAction}]=await Promise.all([
-  '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/components/ChallengeCenter.tsx','/src/world.ts','/battle/core/src/ai.ts'
+  '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/acquisition/acquisition.ts','/src/domain/acquisition/recruitment.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/features/challenges/ui/ChallengeCenter.tsx','/src/domain/world/world.ts','/battle/core/src/ai.ts'
  ].map(load));
  const catalog=await loadCatalog(),trainers=catalog.trainers??[],without={...catalog,trainers:[]};
  const species=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row]));

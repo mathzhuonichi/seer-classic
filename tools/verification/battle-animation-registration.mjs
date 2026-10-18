@@ -6,7 +6,7 @@ import {gunzipSync} from 'node:zlib';
 import {root, suite, withSsr} from './_harness.mjs';
 
 await withSsr('battle-animation-registration', async load => {
-  const {fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds} = await load('/src/presentation/battle-animation-registration.ts');
+  const {fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds} = await load('/src/features/battle/battle-animation-registration.ts');
   const t = suite('battle-animation-registration');
   for (const id of [1, 6, 70, 502]) t.check(`Species ${id}: standby extent is centred and scaled to the silhouette extent`, () => {
     const clip = JSON.parse(gunzipSync(fs.readFileSync(path.join(root, `public/battle-animations/${id}.json.gz`))));

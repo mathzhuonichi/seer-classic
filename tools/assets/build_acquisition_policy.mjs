@@ -3,8 +3,8 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NPC_ONLY_SPECIES as NPC } from '../../src/progression/acquisition-model.ts';
-import { ancestorsOf, buildPredecessors } from '../../src/progression/species-graph.ts';
+import { NPC_ONLY_SPECIES as NPC } from '../../src/domain/acquisition/acquisition-model.ts';
+import { ancestorsOf, buildPredecessors } from '../../src/domain/acquisition/species-graph.ts';
 import { loadCatalogNode } from '../catalog.mjs';
 
 // Classify source-backed acquisition offers; do not invent historical repeat limits.

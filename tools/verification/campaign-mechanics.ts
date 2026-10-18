@@ -4,7 +4,7 @@ import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import type {BossEncounter, BossRule, MonsterInput, Objective, Phase, Skill} from '../../battle/core/src/types.ts';
-import {campaignScripts} from '../../src/mechanics/campaign-rules.ts';
+import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 
 const stats = {hp: 2000, atk: 100, def: 100, spa: 100, spd: 100, spe: 200};
 const skills: Skill[] = [

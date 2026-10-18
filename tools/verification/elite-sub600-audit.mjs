@@ -8,12 +8,12 @@ const output='artifacts/elite-sub600-audit';
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const bst=mon=>statKeys.reduce((sum,key)=>sum+mon.base[key],0);
 const hash=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
-const files=['data/gamedata.json','data/npc-training-profiles.json','src/progression/battle-facilities.ts','src/progression/trainer-skills.ts','src/progression/npc-training.ts','src/mechanics/npc-training.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
+const files=['data/gamedata.json','data/npc-training-profiles.json','src/domain/challenges/battle-facilities.ts','src/domain/challenges/trainer-skills.ts','src/domain/challenges/npc-training.ts','src/domain/challenges/npc-training-scripts.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts'];
 const sourceHashes=Object.fromEntries(files.map(path=>[path,hash(path)]));
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
   const [{loadCatalog},{facilityPool,createFacilityEncounter},{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{normalizeNpcTrainingEncounter},{npcTrainingScripts}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),snapshot=JSON.stringify(catalog),data=buildDataSet(catalog);
   const species=new Map(catalog.species.map(mon=>[mon.id,mon])),skills=new Map(catalog.skills.map(skill=>[skill.id,skill]));

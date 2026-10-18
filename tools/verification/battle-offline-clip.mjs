@@ -5,7 +5,7 @@ import {gunzipSync} from 'node:zlib';
 import {stripTypeScriptTypes} from 'node:module';
 import {createHash} from 'node:crypto';
 import {loadSwfClipPackage} from '../../node_modules/@seer-pet-anim/swf-bundle/dist/clip-data.js';
-const code=stripTypeScriptTypes(readFileSync('src/presentation/battle-offline-clip.ts','utf8'));
+const code=stripTypeScriptTypes(readFileSync('src/features/battle/battle-offline-clip.ts','utf8'));
 const {decodeOfflineBattleClip,disposeOfflineBattleClip}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
 globalThis.ImageBitmap=class{constructor(width,height){this.width=width;this.height=height;this.closes=0;}close(){this.width=0;this.height=0;this.closes++;}};
 const bytes=array=>Buffer.from(array.buffer,array.byteOffset,array.byteLength);

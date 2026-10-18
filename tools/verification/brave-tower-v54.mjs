@@ -21,8 +21,8 @@ globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/brave-tower-v54'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try {
   const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng},{buildAcquisitionIndex},{buildRecruitmentRewards}]=await Promise.all([
-    server.ssrLoadModule('/src/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
-    server.ssrLoadModule('/src/progression/acquisition.ts'),server.ssrLoadModule('/src/progression/recruitment.ts'),
+    server.ssrLoadModule('/src/kernel/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
+    server.ssrLoadModule('/src/domain/acquisition/acquisition.ts'),server.ssrLoadModule('/src/domain/acquisition/recruitment.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id)||boss.id==='boss_spt_liaosi')for(const mon of boss.team)mon.hp_override=1;

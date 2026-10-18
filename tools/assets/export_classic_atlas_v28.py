@@ -14,7 +14,7 @@ CACHE = ROOT / '.cache/classic-ui-v28'
 OUT = ROOT / 'public/ui/classic/maps'
 JAVA = ROOT / '.cache/vector-export/jre/jdk-17.0.20.1+1-jre/Contents/Home/bin/java'
 FFDEC = ROOT / '.cache/vector-export/ffdec/ffdec.jar'
-RUNTIME = ROOT / 'src/presentation/atlas-graph-assets.json'
+RUNTIME = ROOT / 'src/features/world/atlas-graph-assets.json'
 
 
 def ffdec(*args):

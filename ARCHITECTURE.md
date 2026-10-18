@@ -58,7 +58,7 @@ Presentation modules never import the controller; components may import them dir
 ## Data flow
 
 1. **Catalog load.** One loader in `src/mechanics/` returns the catalog: the prebuilt `data/gamedata.json` bundle (species, skills, natures, types, conditions, items) plus every encounter in `data/bosses/` and `data/trainers/`. Other `data/` files (habitats, acquisition policy, breeding, engravings, traits, elite roster, NPC training profiles) are imported by the module that owns them. The split catalog files (`monsters/`, `skills.json`, `natures.json`, `conditions.json`, `items.json`, `types.json`) are identical readable copies of the bundle. No tool rebuilds the bundle from them, so editing only a split file changes nothing at runtime: a generator that changes catalog data writes both, as `tools/assets/build_evolution_rules.py` does. The loader replaces the bundle's own `bosses` list with the files in `data/bosses/`.
-2. **createGame.** `createGame(catalog, save?)` in `src/game.ts` builds the engine data set, the script registry and the progression views, and reads or creates the save. It returns a `GameController`: `snapshot()`, `subscribe()`, `dispatch(action)`, `exportSave()`, `importSave()` and `reset()`.
+2. **createGame.** `createGame(catalog, save?)` in `src/kernel/game.ts` builds the engine data set, the script registry and the progression views, and reads or creates the save. It returns a `GameController`: `snapshot()`, `subscribe()`, `dispatch(action)`, `exportSave()`, `importSave()` and `reset()`.
 3. **Snapshot.** The snapshot is one view of everything the UI shows: party and storage, items, quests, the world, the current battle and its presentation frame.
 4. **Components.** `App.tsx` subscribes with `useSyncExternalStore`, renders the snapshot, and turns user input into `GameAction`s.
 5. **Dispatch.** Each action runs raising or progression rules, or drives the battle, then persists the save and notifies subscribers.
@@ -106,7 +106,7 @@ These decisions from the foundation design still hold; later product decisions a
 
 ## Raising and saves
 
-`raising/core` holds the pure rules of [raising/SPEC.md](raising/SPEC.md); stats come from `raising/core/stats.ts` and are always derived, never stored. A save holds the party (ordered uids), storage, items, accumulated experience, progress, the dex and the shared RNG state; `raising/core/types.ts` defines it. `raising/game/save.ts` validates saves and upgrades old ones through `MIGRATIONS`, one step per `SAVE_VERSION`. The browser stores the serialised save in `localStorage`, and the settings and item windows export and import it as JSON. Change the format only through a migration, and never overwrite an unreadable save (AGENTS.md rule 7).
+`raising/core` holds the pure rules of [raising/SPEC.md](raising/SPEC.md); stats come from `raising/core/stats.ts` and are always derived, never stored. A save holds the party (ordered uids), storage, items, accumulated experience, progress, the dex and the shared RNG state; `raising/core/types.ts` defines it. `src/kernel/save.ts` validates saves and upgrades old ones through `MIGRATIONS`, one step per `SAVE_VERSION`. The browser stores the serialised save in `localStorage`, and the settings and item windows export and import it as JSON. Change the format only through a migration, and never overwrite an unreadable save (AGENTS.md rule 7).
 
 ## Verification
 

@@ -10,10 +10,10 @@ Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
 } });
 const server = await createServer({ server: { middlewareMode: true, watch: null, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
-  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/game.ts');
-  const { buildAcquisitionIndex, resolveEncounterEssenceSpecies } = await server.ssrLoadModule('/src/progression/acquisition.ts');
-  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
-  const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/progression/challenge-campaigns.ts');
+  const { createGame, loadCatalog } = await server.ssrLoadModule('/src/kernel/game.ts');
+  const { buildAcquisitionIndex, resolveEncounterEssenceSpecies } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/initial-acquisition.ts');
+  const { CHALLENGE_CAMPAIGNS } = await server.ssrLoadModule('/src/domain/challenges/challenge-campaigns.ts');
   const catalog = await loadCatalog(), originalCatalog = JSON.stringify(catalog);
   const byId = new Map(catalog.species.map(species => [species.id, species]));
   const declaredRewards = catalog.bosses.filter(boss => boss.reward?.monster);

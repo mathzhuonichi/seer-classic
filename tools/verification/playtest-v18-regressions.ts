@@ -3,10 +3,10 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createBattle} from '../../battle/core/src/battle.ts';
 import {buildDataSet} from '../../battle/core/src/data.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
-import {campaignScripts} from '../../src/mechanics/campaign-rules.ts';
-import {createGame} from '../../src/game.ts';
+import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
+import {createGame} from '../../src/kernel/game.ts';
 import type {BossEncounter,MonsterInput} from '../../battle/core/src/types.ts';
-import type {CatalogData} from '../../src/mechanics/catalog.ts';
+import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
 
 const raw=JSON.parse(readFileSync('data/gamedata.json','utf8'));
 const data=buildDataSet(raw);

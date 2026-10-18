@@ -8,7 +8,7 @@ const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]
 await withSsr('elite-recovery-v49',async load=>{
   const t=suite('elite-recovery-v49'),{check}=t,replacements=[],witnesses=[];
   const [{loadCatalog},facilities,{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{chooseAiAction},{SEER_SCRIPTS},{engravings,engraveSkill},{normalizeBattleSupplyItems}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/mechanics/engravings.ts','/src/progression/battle-supplies.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/src/domain/challenges/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/domain/engravings/engravings.ts','/src/domain/battle-supplies.ts',
   ].map(load));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),sm=new Map(catalog.skills.map(s=>[s.id,s])),pool=facilities.eliteFacilityPool(catalog),data=buildDataSet(catalog);
   // Independently pinned current recovery-only IDs. Combined benefit moves are not included.
@@ -72,5 +72,5 @@ await withSsr('elite-recovery-v49',async load=>{
     Object.assign(b.sides[0],{pending:{kind:'move',skill:ids.b},items:{[HP]:99},unlimitedItems:new Set([HP])});rewind();assert.deepEqual(choice(b),expected);
   });
   check('The catalog is unchanged',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  t.finish({replacements,witnesses,sourceHashes:Object.fromEntries(['src/progression/battle-facilities.ts','data/elite-roster.json'].map(file=>[file,sha256File(file)]))});
+  t.finish({replacements,witnesses,sourceHashes:Object.fromEntries(['src/domain/challenges/battle-facilities.ts','data/elite-roster.json'].map(file=>[file,sha256File(file)]))});
 });

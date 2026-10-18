@@ -9,7 +9,7 @@ const report={checks:[],failures:[],witnesses:[]};
 const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
   const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle,buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),roster=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const WAIT=990470,HIT=990471,FOE=990472,BULK=990473;
@@ -100,7 +100,7 @@ try {
     }
   });
   check('Catalog and production move definitions remain immutable',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  report.sourceHashes=Object.fromEntries(['data/elite-roster.json','src/mechanics/npc-training.ts'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
+  report.sourceHashes=Object.fromEntries(['data/elite-roster.json','src/domain/challenges/npc-training-scripts.ts'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 } catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally {
   fs.mkdirSync('artifacts/elite-tactics-v46',{recursive:true});fs.writeFileSync('artifacts/elite-tactics-v46/regression.json',JSON.stringify(report,null,2)+'\n');

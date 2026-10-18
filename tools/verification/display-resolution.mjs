@@ -30,8 +30,8 @@ Object.defineProperty(host,'getBoundingClientRect',{get(){throw Error('Motion tr
 const flush=()=>{const pending=[...callbacks.values()];callbacks.clear();for(const callback of pending)callback(0);};
 const resize=()=>{for(const callback of windowListeners.get('resize')??[])callback();};
 try{
-  const {getDisplayResolution,observeDisplayResolution}=await server.ssrLoadModule('/src/presentation/display-resolution.ts');
-  const {visibleStandbyBounds}=await server.ssrLoadModule('/src/presentation/battle-animation-registration.ts');
+  const {getDisplayResolution,observeDisplayResolution}=await server.ssrLoadModule('/src/shared/display-resolution.ts');
+  const {visibleStandbyBounds}=await server.ssrLoadModule('/src/features/battle/battle-animation-registration.ts');
   pass('DPR multiplied by currentCSSZoom, including fractional density',()=>{
     host.currentCSSZoom=1.5;screen.devicePixelRatio=2;assert.equal(getDisplayResolution(host),3);
     screen.devicePixelRatio=1.25;assert.equal(getDisplayResolution(host),1.875);delete host.currentCSSZoom;

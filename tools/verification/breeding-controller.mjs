@@ -6,9 +6,9 @@ const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
 try {
-  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
-  const {BREEDING_RECIPES:recipes,getBreedingGender}=await server.ssrLoadModule('/src/progression/breeding.ts');
-  const {deserialize}=await server.ssrLoadModule('/raising/game/save.ts');
+  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
+  const {BREEDING_RECIPES:recipes,getBreedingGender}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');
+  const {deserialize}=await server.ssrLoadModule('/src/kernel/save.ts');
   const {makeDex,gainLevels,autoEvolve}=await server.ssrLoadModule('/raising/core/index.ts');
   const catalog=await loadCatalog(),originalCatalog=JSON.stringify(catalog),dex=makeDex(catalog);
   const base=JSON.parse(createGame(catalog,'').exportSave());base.game.coins=0;

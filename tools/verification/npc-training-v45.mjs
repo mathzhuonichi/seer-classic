@@ -8,7 +8,7 @@ memoryStorage();
 await withSsr('npc-training-v45',async load=>{
   const t=suite('npc-training-v45'),{check}=t,keys=['hp','atk','def','spa','spd','spe'];
   const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize,npcTrainingProfileView:view},{npcTrainingScripts},{createFacilityEncounter,facilityPool},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{computeStats}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/battle/core/src/stats.ts',
   ].map(load));
   const catalog=await loadCatalog(),before=JSON.stringify(catalog),profileData=JSON.parse(fs.readFileSync(path.join(root,'data/npc-training-profiles.json'),'utf8'));
   const core=catalog.trainers.find(row=>row.id==='trainer_trained_core'),fast=catalog.trainers.find(row=>row.id==='trainer_fast_pressure');
@@ -143,7 +143,7 @@ await withSsr('npc-training-v45',async load=>{
       assert(!mon.conditions.some(c=>c.id.startsWith('npc_gaia_')));
     }
   });
-  const {createGame}=await load('/src/game.ts');
+  const {createGame}=await load('/src/kernel/game.ts');
   check('Direct controller start and facility start both produce Rei HP343 without doubling training',()=>{
     // Trainer HP shows only as a whole-percent bar, so exact first-strike fixed hits measure it:
     // 342 damage leaves Rei standing on the smallest bar and 343 knocks it out, so its HP is exactly 343.

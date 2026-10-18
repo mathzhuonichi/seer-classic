@@ -16,7 +16,7 @@ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getIte
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/station-navigation-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
   const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame,loadCatalog}]=await Promise.all([
-    '/src/world.ts','/src/presentation/scene-exits.ts','/src/components/WorldMap.tsx','/src/components/BattleFacilities.tsx','/src/game.ts',
+    '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();

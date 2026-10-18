@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { createGame } from '../../src/game.ts';
-import { loadCatalog } from '../../src/mechanics/catalog.ts';
-import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/world.ts';
+import { createGame } from '../../src/kernel/game.ts';
+import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
+import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
 import { suite } from './_harness.mjs';
 
 // Exercise the live encounter view catalog (bosses and trainers) without reading or changing a browser save.

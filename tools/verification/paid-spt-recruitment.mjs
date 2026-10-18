@@ -6,9 +6,9 @@ import {root,suite,withSsr} from './_harness.mjs';
 
 await withSsr('paid-spt-recruitment',async load=>{
   const t=suite('paid-spt-recruitment');
-  const {getSPTRecruitmentProgress:progress,buildPaidSPTRecruitments:build,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs:eligible}=await load('/src/progression/spt-recruitment.ts');
-  const {buildInitialFormAcquisitionIndex}=await load('/src/progression/initial-acquisition.ts');
-  const catalog=await (await load('/src/mechanics/catalog.ts')).loadCatalog();
+  const {getSPTRecruitmentProgress:progress,buildPaidSPTRecruitments:build,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs:eligible}=await load('/src/domain/acquisition/spt-recruitment.ts');
+  const {buildInitialFormAcquisitionIndex}=await load('/src/domain/acquisition/initial-acquisition.ts');
+  const catalog=await (await load('/src/domain/catalog/catalog.ts')).loadCatalog();
   const quests=build(catalog),excluded=buildExcludedRecruitmentSpecies(catalog);
   const definitions=new Map(catalog.species.map(species=>[species.id,species]));
   const bosses=new Map(catalog.bosses.map(boss=>[boss.id,boss]));

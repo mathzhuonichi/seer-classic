@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame} from '../../src/game.ts';
-import type {CatalogData} from '../../src/mechanics/catalog.ts';
+import {createGame} from '../../src/kernel/game.ts';
+import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
 const source=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));
 source.bosses=fs.readdirSync('data/bosses').filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(`data/bosses/${n}`,'utf8')));
 const fresh=()=>createGame(structuredClone(source) as CatalogData);

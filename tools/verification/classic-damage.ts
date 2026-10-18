@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createBattle } from '../../battle/core/src/battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import type { Category } from '../../battle/core/src/types.ts';
-import { battleEventText } from '../../src/presentation/battle-log.ts';
+import { battleEventText } from '../../src/features/battle/battle-log.ts';
 
 const stats = { hp: 2000, atk: 100, def: 100, spa: 100, spd: 100, spe: 100 };
 function fixture(category: Category = 'physical', options: { misses?: boolean; multi?: boolean; immuneCrit?: boolean; blockClear?: boolean; shield?: boolean } = {}) {

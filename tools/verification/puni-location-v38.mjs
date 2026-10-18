@@ -16,14 +16,14 @@ const parse=game=>JSON.parse(game.exportSave());
 const reject=(game,action)=>{const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);game.dispatch(action);assert.equal(game.exportSave(),before,'Rejected entry preserves save and RNG');assert.equal(JSON.stringify(game.snapshot().battle),battle,'Rejected entry preserves the current battle');};
 try {
   const [{loadCatalog},{createGame},{CHALLENGE_CAMPAIGNS},{WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation},{getSceneLayout},{getSceneExits},{default:CampaignScene},{WorldMap}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/challenge-campaigns.ts','/src/world.ts','/src/presentation/map-presentation.ts','/src/presentation/scene-exits.ts','/src/components/ChallengeCampaignScene.tsx','/src/components/WorldMap.tsx',
+    '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/challenges/challenge-campaigns.ts','/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/scene-exits.ts','/src/features/challenges/ui/ChallengeCampaignScene.tsx','/src/features/world/ui/WorldMap.tsx',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),definition=CHALLENGE_CAMPAIGNS.find(row=>row.id==='puni'),stageIds=['seal1','seal2','seal3','seal4','seal5','seal6','seal7','body'];
   const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(createGame(catalog,''));
   const make=save=>createGame(catalog,JSON.stringify(save??base)),view=game=>game.snapshot().campaigns.find(row=>row.id==='puni');
   const {planet,region}=resolveWorldLocation('space-station','mystery');
-  const originalArt=JSON.parse(fs.readFileSync('src/presentation/map-art-assets.json','utf8'))['10032'];
-  const registeredArt=JSON.parse(fs.readFileSync('src/presentation/map-hd-assets.json','utf8'))['10032'];
+  const originalArt=JSON.parse(fs.readFileSync('src/features/world/map-art-assets.json','utf8'))['10032'];
+  const registeredArt=JSON.parse(fs.readFileSync('src/features/world/map-hd-assets.json','utf8'))['10032'];
   const publishedArt=JSON.parse(fs.readFileSync('public/maps/hd/manifest.json','utf8')).assets['10032'];
   const expectedBackground=`${registeredArt.path}?v=${registeredArt.sha256.slice(0,12)}`;
   const expectedLocation={planetId:'space-station',regionId:'mystery',staging:false};

@@ -1,5 +1,5 @@
 // Builds an indexed DataSet from plain JSON-shaped objects. Loading files is
-// the host's job (`src/mechanics/catalog.ts` in this repository); the core never touches I/O.
+// the host's job (`src/domain/catalog/catalog.ts` in this repository); the core never touches I/O.
 
 import type { ConditionDef, DataSet, Item, Nature, Skill, Species, TypeData } from './types.ts';
 import { BUILTIN_CONDITIONS } from './builtin-conditions.ts';

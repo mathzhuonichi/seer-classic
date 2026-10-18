@@ -7,9 +7,9 @@ import {root,suite,withSsr} from './_harness.mjs';
 const attributes = text => Object.fromEntries([...text.matchAll(/(\w+)="([^"]*)"/g)].map(m => [m[1],m[2]]));
 await withSsr('breeding', async load => {
   const t = suite('breeding');
-  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await load('/src/progression/breeding.ts');
-  const {buildExcludedRecruitmentSpecies} = await load('/src/progression/spt-recruitment.ts');
-  const catalog = await (await load('/src/mechanics/catalog.ts')).loadCatalog();
+  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await load('/src/domain/recipes/breeding.ts');
+  const {buildExcludedRecruitmentSpecies} = await load('/src/domain/acquisition/spt-recruitment.ts');
+  const catalog = await (await load('/src/domain/catalog/catalog.ts')).loadCatalog();
   const species = new Map(catalog.species.map(s => [s.id,s])), excluded = buildExcludedRecruitmentSpecies(catalog);
   const source = JSON.parse(fs.readFileSync(path.join(root, 'data/breeding.json'), 'utf8'));
   const xml = fs.readFileSync(path.join(root, '.cache/breeding-v24/eggs-166.xml'),'utf8');

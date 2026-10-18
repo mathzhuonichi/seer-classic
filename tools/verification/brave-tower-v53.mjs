@@ -16,7 +16,7 @@ function check(name,run){try{run();report.checks.push(name);console.log(`PASS ${
 const parse=game=>JSON.parse(game.exportSave());
 const floorId=floor=>`boss_tower_brave_f${String(floor).padStart(3,'0')}`;
 const progress=game=>parse(game).game.braveTower;
-const sourceFiles=['src/game.ts','src/game-types.ts','src/progression/brave-tower.ts'];
+const sourceFiles=['src/kernel/game.ts','src/kernel/contract.ts','src/domain/challenges/brave-tower.ts'];
 const hashes=()=>Object.fromEntries(sourceFiles.map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
 report.sourceHashes=hashes();
 const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
@@ -27,7 +27,7 @@ globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/brave-tower-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
   const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng}]=await Promise.all([
-    server.ssrLoadModule('/src/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
+    server.ssrLoadModule('/src/kernel/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   let alteredMembers=0;

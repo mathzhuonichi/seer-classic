@@ -6,7 +6,7 @@ import {root,suite,withSsr} from './_harness.mjs';
 
 await withSsr('graphical-atlas',async load=>{
   const t=suite('graphical-atlas'),{check}=t;
-  const [{WORLD_PLANETS,resolveWorldLocation},atlas]=await Promise.all(['/src/world.ts','/src/presentation/atlas.ts'].map(load));
+  const [{WORLD_PLANETS,resolveWorldLocation},atlas]=await Promise.all(['/src/domain/world/world.ts','/src/features/world/atlas.ts'].map(load));
   const {pages,backArrow}=atlas.ATLAS_GRAPHICS,report={};
   check('Introduced hotspots never overlap another hotspot on the same page',()=>{
     const overlaps=[];let audited=0;

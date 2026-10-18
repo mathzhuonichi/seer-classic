@@ -6,9 +6,9 @@ const memory=new Map();
 globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
 const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
 try {
- const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
- const {buildRecruitmentRewards,recruitmentProgress,ACQUISITION_POLICIES}=await server.ssrLoadModule('/src/progression/recruitment.ts');
- const {buildPaidSPTRecruitments}=await server.ssrLoadModule('/src/progression/spt-recruitment.ts');
+ const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
+ const {buildRecruitmentRewards,recruitmentProgress,ACQUISITION_POLICIES}=await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
+ const {buildPaidSPTRecruitments}=await server.ssrLoadModule('/src/domain/acquisition/spt-recruitment.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog),rewards=buildRecruitmentRewards(catalog);
  const parse=g=>JSON.parse(g.exportSave());
  const starterSave=parse(createGame(catalog,'')),base=structuredClone(starterSave);base.storage=[];base.party=[];base.dex={seen:[],owned:[]};base.items={};base.rng_state=[101,202,303,404];base.game.coins=0;base.game.quests=[];base.game.shopUnlocked=[];base.game.recruitmentClaims={};

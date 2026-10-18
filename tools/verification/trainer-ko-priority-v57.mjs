@@ -14,7 +14,7 @@ const previousFetch=globalThis.fetch;let networkRequests=0;
 globalThis.fetch=()=>{networkRequests++;throw new Error('KO verification must remain offline.');};
 const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/trainer-ko-priority-v57'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
 try{
-  const [{createBattle,buildDataSet},{chooseAiAction},{computeStats},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/scripts/index.ts','/src/mechanics/npc-training.ts'].map(id=>server.ssrLoadModule(id)));
+  const [{createBattle,buildDataSet},{chooseAiAction},{computeStats},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts'].map(id=>server.ssrLoadModule(id)));
   const S={quick:57001,clear:57002,wait:57003,foeHit:57004,heal:57005,control:57006,shield:57007,fixed:57008,lottery:57009,multi:57010,probPower:57011,foeStatus:57012,foeUnknown:57013,steal:11924};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100},publicStats=computeStats(base,50,15);
   const attack=(id,power=80,extra={})=>({id,name:{zh:`KO fixture ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});

@@ -5,7 +5,7 @@ import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';
 import type { BossRule, ConditionDef, ScriptRegistry, Skill, Stats } from '../../battle/core/src/types.ts';
-import { traits, traitScripts } from '../../src/mechanics/traits.ts';
+import { traits, traitScripts } from '../../src/domain/traits.ts';
 
 type Check = (name: string, expected: unknown, run: () => unknown) => void;
 

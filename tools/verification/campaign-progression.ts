@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {createGame} from '../../src/game.ts';
-import {loadCatalog} from '../../src/mechanics/catalog.ts';
-import {CHALLENGE_CAMPAIGNS} from '../../src/progression/challenge-campaigns.ts';
-import {newSave} from '../../raising/game/save.ts';
+import {createGame} from '../../src/kernel/game.ts';
+import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
+import {CHALLENGE_CAMPAIGNS} from '../../src/domain/challenges/challenge-campaigns.ts';
+import {newSave} from '../../src/kernel/save.ts';
 import {suite} from './_harness.mjs';
 
 const t=suite('campaign-progression');

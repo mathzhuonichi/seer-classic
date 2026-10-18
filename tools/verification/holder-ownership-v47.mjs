@@ -9,7 +9,7 @@ const report={checks:[],failures:[],traitStructure:[],effectWitnesses:[],scope:{
 const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
   const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{npcTrainingScripts},{traits,traitScripts},{createBattle,buildDataSet},{SEER_SCRIPTS}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/src/mechanics/traits.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts','/src/domain/traits.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),traitsBefore=JSON.stringify(traits);
   const WAIT=990480,PHYSICAL=990481,SPECIAL=990482,NEUTRAL=990483;
@@ -151,7 +151,7 @@ try {
     report.effectWitnesses.push({mechanic:'On-hit status triggers',ids:['1067','1068','1069','1070'],probability:'Forced true to isolate ownership; rates not measured.'});
   });
   check('Catalog and trait definitions are unchanged by all ownership scenarios',()=>{assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(JSON.stringify(traits),traitsBefore);});
-  report.sourceHashes=Object.fromEntries(['src/mechanics/traits.ts','src/mechanics/npc-training.ts','src/progression/npc-training.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts','src/game.ts'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
+  report.sourceHashes=Object.fromEntries(['src/domain/traits.ts','src/domain/challenges/npc-training-scripts.ts','src/domain/challenges/npc-training.ts','battle/core/src/battle.ts','battle/core/src/scripts/seer-main.ts','battle/core/src/scripts/seer-tail.ts','src/kernel/game.ts'].map(path=>[path,crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex')]));
 } catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
 finally {
   fs.mkdirSync('artifacts/holder-ownership-v47',{recursive:true});fs.writeFileSync('artifacts/holder-ownership-v47/regression.json',JSON.stringify(report,null,2)+'\n');

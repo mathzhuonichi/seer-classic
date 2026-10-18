@@ -11,7 +11,7 @@ const controllerFiles=fs.readdirSync(path.join(root,'src/controller')).sort().ma
 await withSsr('unlimited-access-v50',async load=>{
   const t=suite('unlimited-access-v50'),{check}=t;
   const [{createGame:createProductionGame,loadCatalog},{engravings},{engravingAccess},{makeDex,createMonster,SeededRng,useRaisingItem},{createBattle,buildDataSet},{SEER_SCRIPTS},{normalizeBattleSupplyItems}]=await Promise.all([
-    '/src/game.ts','/src/mechanics/engravings.ts','/src/mechanics/engraving-access.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/progression/battle-supplies.ts',
+    '/src/kernel/game.ts','/src/domain/engravings/engravings.ts','/src/domain/engravings/engraving-access.ts','/raising/core/index.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/battle-supplies.ts',
   ].map(load));
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
@@ -148,7 +148,7 @@ await withSsr('unlimited-access-v50',async load=>{
     assert.equal(counts.equipped,546);assert.equal(counts.missingMoveRejected,399);t.witness('all-mark-qualification',{...counts});
   });
   check('Catalog data remains byte-equivalent after controller and core access probes',()=>assert.equal(JSON.stringify(catalog),catalogBefore));
-  const files=['src/game.ts','src/mechanics/engraving-access.ts','raising/core/items.ts','battle/core/src/battle.ts','src/progression/battle-supplies.ts'];
+  const files=['src/kernel/game.ts','src/domain/engravings/engraving-access.ts','raising/core/items.ts','battle/core/src/battle.ts','src/domain/battle-supplies.ts'];
   t.finish({
     genericAbilityCaps,genericAbilityCapsSource:'Runtime engravingAccess(def); sourceMaxOwned records the unchanged 2013 catalog value.',
     sourceHashes:Object.fromEntries([...files,...controllerFiles].map(file=>[file,sha256File(file)])),

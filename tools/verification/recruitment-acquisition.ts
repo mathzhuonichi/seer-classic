@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
-import {loadCatalog} from '../../src/mechanics/catalog.ts';
-import {buildAcquisitionIndex} from '../../src/progression/acquisition.ts';
-import type {AcquisitionCatalog,AcquisitionSeed,RecruitmentPrerequisite} from '../../src/progression/acquisition-model.ts';
-import {buildInitialFormAcquisitionIndex} from '../../src/progression/initial-acquisition.ts';
-import {buildRecruitmentRewards,initialSpecies} from '../../src/progression/recruitment.ts';
-import {getEligibleRecruitmentSPTs} from '../../src/progression/spt-recruitment.ts';
-import {FUSION_RECIPES,type FusionRecipe} from '../../src/progression/fusion.ts';
-import {BREEDING_RECIPES,getBreedingGender} from '../../src/progression/breeding.ts';
+import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
+import {buildAcquisitionIndex} from '../../src/domain/acquisition/acquisition.ts';
+import type {AcquisitionCatalog,AcquisitionSeed,RecruitmentPrerequisite} from '../../src/domain/acquisition/acquisition-model.ts';
+import {buildInitialFormAcquisitionIndex} from '../../src/domain/acquisition/initial-acquisition.ts';
+import {buildRecruitmentRewards,initialSpecies} from '../../src/domain/acquisition/recruitment.ts';
+import {getEligibleRecruitmentSPTs} from '../../src/domain/acquisition/spt-recruitment.ts';
+import {FUSION_RECIPES,type FusionRecipe} from '../../src/domain/recipes/fusion.ts';
+import {BREEDING_RECIPES,getBreedingGender} from '../../src/domain/recipes/breeding.ts';
 import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture.ts';
-import {WORLD_PLANETS,type WorldPlanet} from '../../src/world.ts';
+import {WORLD_PLANETS,type WorldPlanet} from '../../src/domain/world/world.ts';
 import {suite} from './_harness.mjs';
 
 export async function verifyRecruitmentAcquisition(){

@@ -21,10 +21,10 @@ const oldById = new Map(source.species.map(row=>[row.id,row]));
 memoryStorage();
 const t=suite('evolution-specials'),transitions=[],repeatRoutes=[];
 await withSsr('evolution-specials',async load=>{
-  const {createGame,loadCatalog}=await load('/src/game.ts');
+  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
   const {makeDex,createMonster,SeededRng,computeStats,evolutionOptions,autoEvolve}=await load('/raising/core/index.ts');
-  const {buildAcquisitionIndex,NPC_ONLY_SPECIES}=await load('/src/progression/acquisition.ts');
-  const {buildInitialFormAcquisitionIndex}=await load('/src/progression/initial-acquisition.ts');
+  const {buildAcquisitionIndex,NPC_ONLY_SPECIES}=await load('/src/domain/acquisition/acquisition.ts');
+  const {buildInitialFormAcquisitionIndex}=await load('/src/domain/acquisition/initial-acquisition.ts');
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
   const dex=makeDex(catalog),oldDex=makeDex(source),parse=game=>JSON.parse(game.exportSave());
   const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:40,item_level_up_1:30};base.exp_pool=1e9;

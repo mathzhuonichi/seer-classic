@@ -30,12 +30,12 @@ const ids = value => String(value ?? '').split(/\s+/).filter(Boolean).map(Number
 
 const server = await createServer({ root, server: { middlewareMode: true, hmr: false }, appType: 'custom', logLevel: 'error' });
 try {
-  const { WORLD_PLANETS, GENERATED_HABITATS } = await server.ssrLoadModule('/src/world.ts');
-  const { buildAcquisitionIndex, NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/progression/acquisition.ts');
-  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
-  const { interceptedFieldSpecies } = await server.ssrLoadModule('/src/progression/native-acquisition.ts');
-  const { CONVERTED_POLICY_CATEGORIES } = await server.ssrLoadModule('/src/progression/recruitment.ts');
-  const { loadCatalog } = await server.ssrLoadModule('/src/mechanics/catalog.ts');
+  const { WORLD_PLANETS, GENERATED_HABITATS } = await server.ssrLoadModule('/src/domain/world/world.ts');
+  const { buildAcquisitionIndex, NPC_ONLY_SPECIES } = await server.ssrLoadModule('/src/domain/acquisition/acquisition.ts');
+  const { buildInitialFormAcquisitionIndex } = await server.ssrLoadModule('/src/domain/acquisition/initial-acquisition.ts');
+  const { interceptedFieldSpecies } = await server.ssrLoadModule('/src/domain/acquisition/native-acquisition.ts');
+  const { CONVERTED_POLICY_CATEGORIES } = await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
+  const { loadCatalog } = await server.ssrLoadModule('/src/domain/catalog/catalog.ts');
   const maps = await source(SOURCES.maps), petbook = await source(SOURCES.petbook), mapConfig = await source(SOURCES.mapConfig);
   const read = relative => JSON.parse(fs.readFileSync(path.join(root, relative), 'utf8'));
   const catalog = await loadCatalog();

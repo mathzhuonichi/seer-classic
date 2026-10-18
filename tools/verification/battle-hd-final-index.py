@@ -238,8 +238,8 @@ def main():
     require({str(item['species']) for item in exception_rows} == EXCEPTIONS, 'Not all seven exception species were verified')
     for key, path in paths.items():
         require(path.read_bytes() == raw[key], f'{key} changed during the final audit')
-    source_paths = ['src/presentation/battle-animation.ts', 'src/presentation/battle-animation-loader.ts',
-                    'src/presentation/battle-clip-pool.ts', 'src/components/battle/creature-animation-mount.ts']
+    source_paths = ['src/features/battle/battle-animation.ts', 'src/features/battle/battle-animation-loader.ts',
+                    'src/features/battle/battle-clip-pool.ts', 'src/features/battle/ui/creature-animation-mount.ts']
     result = {'passed': True, 'scope': 'Final frozen catalog/index/manifest/assets/loader-input audit; no repeated pixel reconstruction or browser pose review.',
         'originalSpecies': len(original), 'publishedSpecies': len(hd), 'states': dict(states),
         'cellModes': dict(modes), 'indexAndManifestDigests': {key: digest(value) for key, value in raw.items()},

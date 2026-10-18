@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { createGame } from '../../src/game.ts';
-import { loadCatalog } from '../../src/mechanics/catalog.ts';
-import { WORLD_PLANETS } from '../../src/world.ts';
-import { CHALLENGE_CAMPAIGNS } from '../../src/progression/challenge-campaigns.ts';
-import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/progression/acquisition.ts';
-import { braveTowerFloor } from '../../src/progression/brave-tower.ts';
+import { createGame } from '../../src/kernel/game.ts';
+import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
+import { WORLD_PLANETS } from '../../src/domain/world/world.ts';
+import { CHALLENGE_CAMPAIGNS } from '../../src/domain/challenges/challenge-campaigns.ts';
+import { buildAcquisitionFamilies, buildAcquisitionIndex, NPC_ONLY_SPECIES, resolveEncounterEssenceSpecies, type AcquisitionCatalog } from '../../src/domain/acquisition/acquisition.ts';
+import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
 import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, SeededRng, totalExp } from '../../raising/core/index.ts';
 import { suite } from './_harness.mjs';
 
@@ -231,7 +231,7 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
     assert.equal(new Set(Object.values(groups).flat()).size, missing.length);
   });
   const routes = [...index].map(([id, entry]) => ({ id, name: byId.get(id).name.zh, obtainMetadata: byId.get(id).obtain, ...entry }));
-  const sourceHashes = Object.fromEntries(['src/game.ts', 'src/progression/acquisition.ts', 'src/progression/recruitment.ts', 'src/world.ts', 'src/world-expansion.ts', 'src/world-habitat-regions.ts', 'src/components/Dex.tsx', 'src/components/WorldMap.tsx', 'src/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/habitats.json', 'data/acquisition-policy.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
+  const sourceHashes = Object.fromEntries(['src/kernel/game.ts', 'src/domain/acquisition/acquisition.ts', 'src/domain/acquisition/recruitment.ts', 'src/domain/world/world.ts', 'src/domain/world/expansion.ts', 'src/domain/world/habitat-regions.ts', 'src/features/collection/ui/Dex.tsx', 'src/features/world/ui/WorldMap.tsx', 'src/app/App.tsx', 'raising/core/monster.ts', 'raising/core/types.ts', 'data/habitats.json', 'data/acquisition-policy.json'].map(path => [path, createHash('sha256').update(readFileSync(path)).digest('hex')]));
   sourceHashes['data/monsters/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(original.species)).digest('hex');
   sourceHashes['data/bosses/*.json (sorted parsed records)'] = createHash('sha256').update(JSON.stringify(original.bosses)).digest('hex');
   const summary = {

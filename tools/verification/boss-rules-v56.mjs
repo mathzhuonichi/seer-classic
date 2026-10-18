@@ -8,7 +8,7 @@ import {createBattle,buildDataSet,validateEncounter} from '../../battle/core/src
 import {NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL} from '../../battle/core/src/battle.ts';
 import {legacySmartPick} from '../../battle/core/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
-import {campaignScripts} from '../../src/mechanics/campaign-rules.ts';
+import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const read=relative=>JSON.parse(fs.readFileSync(path.join(root,relative),'utf8'));

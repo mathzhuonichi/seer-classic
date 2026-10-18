@@ -10,7 +10,7 @@ const state=b=>JSON.stringify(b,(k,v)=>k==='rng'?undefined:v instanceof Map?[...
 async function runtime(){
   const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
   try {
-    const [core,ai,catalog,seer,training,passives]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts'].map(p=>server.ssrLoadModule(p)));
+    const [core,ai,catalog,seer,training,passives]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training.ts','/src/domain/challenges/npc-training-scripts.ts'].map(p=>server.ssrLoadModule(p)));
     return {server,...core,...ai,...catalog,...seer,...training,...passives};
   } catch(error) {await server.close();throw error;}
 }

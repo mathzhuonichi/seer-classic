@@ -135,7 +135,7 @@ def main():
     write_json(vector_file, vectors)
     write_json(ROOT / 'public/portraits/source-renders/manifest.json', published_renders)
     write_json(ROOT / 'public/portraits/source-audit.json', audit)
-    profile_file = ROOT / 'src/presentation/creature-art-data.json'
+    profile_file = ROOT / 'src/shared/creature-art-data.json'
     before = json.loads(profile_file.read_text())
     subprocess.run([sys.executable, str(ROOT / 'tools/assets/build_art_profiles.py'), '--preserve-layout'], check=True)
     after = json.loads(profile_file.read_text())

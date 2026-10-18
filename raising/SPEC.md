@@ -1,7 +1,7 @@
 # Seer Classic: Monster Raising Rules
 
 Owner: the "Monster raising system" thread. Status: **v0.1**, implemented by
-`raising/core/` (pure rules) and `raising/game/save.ts` (save file).
+`raising/core/` (pure rules) and `src/kernel/save.ts` (save file).
 
 Confidence tags, same as `battle/RULES.md`:
 **[sourced]** found in a Seer guide (links at the end), **[recalled]** from memory
@@ -182,7 +182,7 @@ with a fresh 1–31 个体 and random 性格, into the party or the box if full.
 
 ## 9. Save file
 
-Shape: `Save` in `core/types.ts`. `raising/game/save.ts`:
+Shape: `Save` in `core/types.ts`. `src/kernel/save.ts`:
 `newSave(seed)`, `serialize`, `deserialize(text, dex)` (parse, migrate, then
 validate), `validateSave`, `migrate` with a per-version migration table.
 Validation checks ranges (level, 个体, 学习力 caps, exp within level), equipped

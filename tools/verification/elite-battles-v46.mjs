@@ -7,7 +7,7 @@ const server=await createServer({configFile:false,server:{middlewareMode:true,wa
 const report={battles:[],failures:[]};
 try {
   const [{loadCatalog},{createFacilityEncounter},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all([
-    '/src/mechanics/catalog.ts','/src/progression/battle-facilities.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/mechanics/npc-training.ts',
+    '/src/domain/catalog/catalog.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/npc-training-scripts.ts',
   ].map(path=>server.ssrLoadModule(path)));
   const catalog=await loadCatalog(),before=JSON.stringify(catalog),data=buildDataSet(catalog);
   const ids=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8')).additions.map(row=>row.species);

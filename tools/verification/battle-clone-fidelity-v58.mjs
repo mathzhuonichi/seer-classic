@@ -46,9 +46,9 @@ let exitCode = 0;
 try {
   const load = (id) => server.ssrLoadModule(id);
   const [core, {cloneBattle}, {SEER_SCRIPTS}, facilities, {npcTrainingScripts}, {traitScripts, traits}, {campaignScripts}, {loadCatalog}, supplies, {normalizeNpcTrainingEncounter}] = await Promise.all([
-    '/battle/core/src/index.ts', '/battle/core/src/clone.ts', '/battle/core/src/scripts/index.ts', '/src/progression/battle-facilities.ts',
-    '/src/mechanics/npc-training.ts', '/src/mechanics/traits.ts', '/src/mechanics/campaign-rules.ts', '/src/mechanics/catalog.ts',
-    '/src/progression/battle-supplies.ts', '/src/progression/npc-training.ts',
+    '/battle/core/src/index.ts', '/battle/core/src/clone.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/battle-facilities.ts',
+    '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts', '/src/domain/challenges/campaign-rules.ts', '/src/domain/catalog/catalog.ts',
+    '/src/domain/battle-supplies.ts', '/src/domain/challenges/npc-training.ts',
   ].map(load));
   const {createBattle, buildDataSet, Rng, STRUGGLE_SKILL} = core;
   const {createFacilityEncounter, facilityPool} = facilities;

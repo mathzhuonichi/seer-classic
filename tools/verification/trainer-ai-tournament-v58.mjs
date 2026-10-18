@@ -156,9 +156,9 @@ const server = await createServer({root, configFile: false, cacheDir: path.join(
 try {
   const [core, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
     {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
-    '/battle/core/src/index.ts', '/battle/core/src/scripts/index.ts', '/src/mechanics/npc-training.ts', '/src/mechanics/traits.ts',
-    '/src/mechanics/campaign-rules.ts', '/src/mechanics/catalog.ts', '/src/progression/battle-facilities.ts', '/src/progression/battle-supplies.ts',
-    '/src/progression/npc-training.ts', '/src/mechanics/boss-encounter.ts', '/src/progression/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
+    '/battle/core/src/index.ts', '/battle/core/src/scripts/index.ts', '/src/domain/challenges/npc-training-scripts.ts', '/src/domain/traits.ts',
+    '/src/domain/challenges/campaign-rules.ts', '/src/domain/catalog/catalog.ts', '/src/domain/challenges/battle-facilities.ts', '/src/domain/battle-supplies.ts',
+    '/src/domain/challenges/npc-training.ts', '/src/domain/challenges/boss-encounter.ts', '/src/domain/acquisition/conventional-moves.ts'].map(id => server.ssrLoadModule(id)));
   const {createBattle, buildDataSet, Rng} = core;
   const {chooseAiAction, chooseAiReplacement} = await server.ssrLoadModule('/battle/core/src/ai.ts');
   const variant = Object.keys(opts.consts).length ? await server.ssrLoadModule(`/battle/core/src/ai.ts${VARIANT}`) : null;

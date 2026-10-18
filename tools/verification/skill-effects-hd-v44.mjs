@@ -20,7 +20,7 @@ function harness(Buffer,frames=9){
 const originalFetch=globalThis.fetch,originalDecode=globalThis.createImageBitmap;
 try{
   server=await createServer({root,configFile:false,cacheDir,server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-  const {SkillFrameBuffer}=await server.ssrLoadModule('/src/presentation/skill-frame-buffer.ts');
+  const {SkillFrameBuffer}=await server.ssrLoadModule('/src/features/battle/skill-frame-buffer.ts');
   await check('Only the current source frame is drawn even when future decodes finish first',async()=>{
     const h=harness(SkillFrameBuffer);h.buffer.seek(0);await flush();assert.deepEqual(h.requests.map(r=>r.frame),[0,1,2]);h.resolve(h.requests[2]);await flush();assert.deepEqual(h.draws,[]);h.resolve(h.requests[0]);await flush();assert.deepEqual(h.draws,[0]);h.buffer.seek(1);await flush();assert(h.closed.includes(0));assert.deepEqual(h.requests.map(r=>r.frame),[0,1,2,3]);h.resolve(h.requests[1]);await flush();assert.deepEqual(h.draws,[0,1]);h.buffer.dispose();h.resolve(h.requests[3]);await flush();assert.deepEqual(h.closed.sort(),[0,1,2,3]);assert.deepEqual(h.errors,[]);
   });
