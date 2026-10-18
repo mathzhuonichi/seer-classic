@@ -90,5 +90,9 @@ export function offlineFetch() {
 
 export const sha256File = file => crypto.createHash('sha256').update(fs.readFileSync(path.resolve(root, file))).digest('hex');
 
-/** The raw `data/gamedata.json` catalog. Replaced by the shared catalog loader once it exists. */
+/**
+ * The raw `data/gamedata.json` aggregate, whose `bosses` list is stale. New code loads the catalog with
+ * `loadCatalog()` (`src/mechanics/catalog.ts`) inside Vite or `loadCatalogNode()` (`tools/catalog.mjs`) in
+ * plain Node. Delete this once the remaining gamedata.json readers have moved.
+ */
 export const readGameData = () => JSON.parse(fs.readFileSync(path.join(root, 'data/gamedata.json'), 'utf8'));

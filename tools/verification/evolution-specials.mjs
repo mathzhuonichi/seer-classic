@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { createServer } from 'vite';
+import { memoryStorage, suite, withSsr } from './_harness.mjs';
 
 const BASELINE_REVISION = '6e92e09';
 // These expectations come from the approved policy, not from the generator output.
@@ -18,16 +18,13 @@ const EXPECTED = [...SOURCE_LEVELS,...OVERRIDE_LEVELS,...REMAKE_LEVELS].map(([fr
 const targetIds = new Set(EXPECTED.map(edge=>edge.to)), parentIds = new Set(EXPECTED.map(edge=>edge.from));
 const source = JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/gamedata.json`],{encoding:'utf8',maxBuffer:50*1024*1024}));
 const oldById = new Map(source.species.map(row=>[row.id,row]));
-const beforeStorage = Object.getOwnPropertyDescriptor(globalThis,'localStorage'), memory = new Map();
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[],transitions=[],repeatRoutes=[];
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,3500)});console.error(`FAIL ${name}: ${error.message}`)}}
-try {
-  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/game.ts');
-  const {makeDex,createMonster,SeededRng,computeStats,evolutionOptions,autoEvolve}=await server.ssrLoadModule('/raising/core/index.ts');
-  const {buildAcquisitionIndex,NPC_ONLY_SPECIES}=await server.ssrLoadModule('/src/progression/acquisition.ts');
-  const {buildInitialFormAcquisitionIndex}=await server.ssrLoadModule('/src/progression/initial-acquisition.ts');
+memoryStorage();
+const t=suite('evolution-specials'),transitions=[],repeatRoutes=[];
+await withSsr('evolution-specials',async load=>{
+  const {createGame,loadCatalog}=await load('/src/game.ts');
+  const {makeDex,createMonster,SeededRng,computeStats,evolutionOptions,autoEvolve}=await load('/raising/core/index.ts');
+  const {buildAcquisitionIndex,NPC_ONLY_SPECIES}=await load('/src/progression/acquisition.ts');
+  const {buildInitialFormAcquisitionIndex}=await load('/src/progression/initial-acquisition.ts');
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
   const dex=makeDex(catalog),oldDex=makeDex(source),parse=game=>JSON.parse(game.exportSave());
   const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:40,item_level_up_1:30};base.exp_pool=1e9;
@@ -54,7 +51,7 @@ try {
     return value;
   }
 
-  check('Exactly the 32 approved forward edges were added and prior edges remain byte-equivalent',()=>{
+  t.check('Exactly the 32 approved forward edges were added and prior edges remain byte-equivalent',()=>{
     assert.equal(EXPECTED.length,32);assert.equal(targetIds.size,32);
     const additions=[];
     for(const row of catalog.species){const old=oldById.get(row.id);assert(old,'No extra catalog species');
@@ -65,7 +62,7 @@ try {
     const order=(a,b)=>a.from-b.from||a.to-b.to;
     assert.deepEqual(additions.sort(order),EXPECTED.map(({from,to,level,method,automatic})=>({from,to,method,level,automatic})).sort(order));
   });
-  check('Evidence distinguishes three source gates, three explicit level-one overrides, and 26 fallback levels',()=>{
+  t.check('Evidence distinguishes three source gates, three explicit level-one overrides, and 26 fallback levels',()=>{
     const policy=JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8'));
     const oldPolicy=JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/evolution-rules.json`],{encoding:'utf8',maxBuffer:10*1024*1024}));
     for(const rule of oldPolicy.rules)assert.deepEqual(policy.rules.find(value=>value.from===rule.from&&value.kind===rule.kind),rule,'Prior evidence rows are preserved');
@@ -81,12 +78,10 @@ try {
     }
     assert.equal(policy.deferredMissingForms.length,0,'All 32 previously deferred forms are resolved');
   });
-  check('The catalog changed only approved evolution fields and the single 1459 ancestry correction',()=>{
+  t.check('The catalog changed only approved evolution fields and the single 1459 ancestry correction',()=>{
     assert.equal(catalog.species.length,source.species.length);
-    // Runtime deliberately replaces the older bundled encounter section with the
-    // individual boss files. Compare each representation with its own v33 baseline.
-    const currentBundle=JSON.parse(fs.readFileSync('data/gamedata.json','utf8'));
-    const {species:unusedCurrent,...currentRest}=currentBundle,{species:unusedOld,...oldRest}=source;assert.deepEqual(currentRest,oldRest,'Skills, items, bundled battles, types, and other catalog sections unchanged');
+    // The runtime catalog reads the per-file tables and encounter files; compare each with its v33 baseline.
+    for(const table of ['skills','natures','types','conditions','items'])assert.deepEqual(catalog[table],source[table],`${table} unchanged`);
     assert.equal(execFileSync('git',['diff','--name-only',BASELINE_REVISION,'--','data/bosses'],{encoding:'utf8'}).trim(),'','Runtime encounter files unchanged');
     assert.equal(execFileSync('git',['ls-files','--others','--exclude-standard','--','data/bosses'],{encoding:'utf8'}).trim(),'','No new encounter files');
     for(const row of catalog.species){const old=oldById.get(row.id),expected=structuredClone(old);
@@ -103,13 +98,13 @@ try {
       assert.deepEqual(row,expected,`${row.id}: catalog index changes only the approved graph`);
     }
   });
-  check('The executable evolution graph has no cycles',()=>{
+  t.check('The executable evolution graph has no cycles',()=>{
     const done=new Set(),active=new Set();
     function visit(id){assert(!active.has(id),`Evolution cycle at ${id}`);if(done.has(id))return;active.add(id);for(const edge of byId.get(id).evolution)if(edge.method==='level')visit(edge.to);active.delete(id);done.add(id);}
     for(const id of byId.keys())visit(id);
   });
 
-  for(const edge of EXPECTED)check(`${edge.from}->${edge.to}: threshold, training policy, explicit target, and old level-100 save`,()=>{
+  for(const edge of EXPECTED)t.check(`${edge.from}->${edge.to}: threshold, training policy, explicit target, and old level-100 save`,()=>{
     const actual=byId.get(edge.from).evolution.find(value=>value.to===edge.to);assert.deepEqual(actual,{to:edge.to,method:'level',level:edge.level,automatic:edge.automatic});
     if(edge.level>1){const under=fixture(edge.from,edge.level-1);reject(under.game,{type:'evolve',uid:under.uid,toSpecies:edge.to},'Under-level evolution');assert(!evolutionOptions(mon(edge.from,edge.level-1),dex).includes(edge.to));}
     assert(evolutionOptions(mon(edge.from,edge.level),dex).includes(edge.to),'Target is eligible at the exact approved level');
@@ -130,7 +125,7 @@ try {
     transitions.push({from:edge.from,to:edge.to,level:edge.level,automatic:edge.automatic});
   });
 
-  for(const edge of EXPECTED)check(`${edge.from}->${edge.to}: owned plus all pending aliases enforce the six-copy limit`,()=>{
+  for(const edge of EXPECTED)t.check(`${edge.from}->${edge.to}: owned plus all pending aliases enforce the six-copy limit`,()=>{
     const aliases=[`essence_special_a_${edge.to}`,`essence_special_b_${edge.to}`];
     const input={...catalog,items:[...catalog.items,...aliases.map(id=>({id,name:{zh:id},kind:'essence',hatches:edge.to}))]};
     const save=structuredClone(base),origin=mon(edge.from,Math.max(1,edge.level-1));
@@ -145,7 +140,7 @@ try {
     allowed.dispatch({type:'evolve',uid:origin.uid,toSpecies:edge.to});assert.equal(parse(allowed).storage.find(value=>value.uid===origin.uid).species,edge.to,'The sixth combined copy is permitted');
   });
 
-  for(const chain of [[821,1017,1018,1019],[37,1237,1238],[500,1278,1279]])check(`${chain.join('->')}: bulk training stops and each special step remains manual`,()=>{
+  for(const chain of [[821,1017,1018,1019],[37,1237,1238],[500,1278,1279]])t.check(`${chain.join('->')}: bulk training stops and each special step remains manual`,()=>{
     const {game,uid}=fixture(chain[0],59);game.dispatch({type:'allocateExp',uid,amount:1e9});
     const complete=parse(game);assert.equal(complete.storage.find(value=>value.uid===uid).species,chain[0]);assert.equal(complete.storage.find(value=>value.uid===uid).level,100);
     for(const to of chain.slice(1))assertSelected(game,uid,to);
@@ -159,7 +154,7 @@ try {
     for(const to of chain.slice(2))assertSelected(recovered,origin.uid,to);
     assert.equal(parse(recovered).storage.find(value=>value.uid===origin.uid).species,chain.at(-1));
   });
-  check('Original level-one source gates now require manual level-60 selection after ordinary parents',()=>{
+  t.check('Original level-one source gates now require manual level-60 selection after ordinary parents',()=>{
     for(const [initial,parent,target] of [[346,347,729],[54,55,1143],[600,601,881]]){
       const {game,uid}=fixture(initial,1);game.dispatch({type:'allocateExp',uid,amount:1e9});
       assert.equal(parse(game).storage.find(value=>value.uid===uid).species,parent);
@@ -169,7 +164,7 @@ try {
   });
 
   const acquisition=buildAcquisitionIndex(catalog),initial=buildInitialFormAcquisitionIndex(catalog,acquisition);
-  check('Nier keeps its ordinary chain and Aifeidesi has the complete executable initial-form path',()=>{
+  t.check('Nier keeps its ordinary chain and Aifeidesi has the complete executable initial-form path',()=>{
     assert.deepEqual(byId.get(77).evolution,oldById.get(77).evolution);assert.deepEqual(byId.get(78).evolution,oldById.get(78).evolution);
     assert.equal(byId.get(1459).evolves_from,79);
     const route=initial.get(1459).initialForms.find(value=>value.species===77);assert(route&&route.routes.length>0);
@@ -180,7 +175,7 @@ try {
   });
 
   for(const [root,parent,targets,predecessor,parentLevel] of [[65,67,[1316,1317],66,36],[738,739,[1428,1429],738,33]]){
-    check(`${root}->${parent}: actual repeat capture supplies both new branches under the six-copy limit`,()=>{
+    t.check(`${root}->${parent}: actual repeat capture supplies both new branches under the six-copy limit`,()=>{
       const wild=acquisition.get(root).routes.find(route=>route.kind==='wild');assert(wild,'An existing initial-form wild route is required');
       const game=make(base);game.dispatch({type:'cheatMonster',uid:game.snapshot().party[0],level:100});
       function capture(current){current.dispatch({type:'startTraining',species:root,level:5,planetId:wild.planetId,regionId:wild.regionId});assert.equal(current.snapshot().battle?.canCapture,true);current.dispatch({type:'capture',itemId:'item_capsule_master'});assert.equal(current.snapshot().battle?.captured,true);current.dispatch({type:'closeBattle'});}
@@ -192,7 +187,7 @@ try {
       assert.equal(parse(make(parse(repeated))).storage.filter(value=>value.species===root).length,6);
       repeatRoutes.push({root,parent,targets,planetId:wild.planetId,regionId:wild.regionId,captures:8});
     });
-    check(`${parent}: evolving a capped branch parent releases room for another raised instance`,()=>{
+    t.check(`${parent}: evolving a capped branch parent releases room for another raised instance`,()=>{
       const save=structuredClone(base),origin=mon(predecessor,parentLevel-1);save.storage.push(origin,...Array.from({length:6},(_,i)=>mon(parent,100,`parent-cap-${parent}-${i}`)));
       const game=make(save);game.dispatch({type:'useItem',uid:origin.uid,itemId:'item_level_up_1'});assert.equal(parse(game).storage.find(value=>value.uid===origin.uid).species,predecessor);assert.equal(parse(game).storage.find(value=>value.uid===origin.uid).level,parentLevel);
       reject(game,{type:'evolve',uid:origin.uid,toSpecies:parent},'Seventh branch-parent instance');
@@ -200,7 +195,7 @@ try {
     });
   }
 
-  check('Independent closure reaches all 1479 eligible forms and no existing acquisition route regresses',()=>{
+  t.check('Independent closure reaches all 1479 eligible forms and no existing acquisition route regresses',()=>{
     const baseline=buildAcquisitionIndex({...source,bosses:catalog.bosses}),reachable=new Set([...baseline].filter(([,entry])=>entry.status==='available').map(([id])=>id));
     assert.equal(reachable.size,1447,'Pinned v33 baseline');
     for(let previous=-1;previous!==reachable.size;){previous=reachable.size;for(const id of [...reachable])for(const edge of byId.get(id).evolution)if(edge.method==='level'&&edge.level<=100)reachable.add(edge.to);}
@@ -209,8 +204,6 @@ try {
     assert.deepEqual([...acquisition].filter(([,entry])=>entry.status==='npc').map(([id])=>id).sort((a,b)=>a-b),[122,123,124,125]);
     for(const [id,entry]of baseline)if(entry.status==='available')assert.equal(acquisition.get(id).status,'available');
   });
-  check('Controllers and test fixtures leave the input catalog unchanged',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
-  const report={baselineRevision:BASELINE_REVISION,sourceLevelTransitions:SOURCE_LEVELS.length,overrideLevelTransitions:OVERRIDE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,transitions,repeatRoutes,checks,failures};
-  fs.mkdirSync('artifacts/evolution-specials',{recursive:true});fs.writeFileSync('artifacts/evolution-specials/controller.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({transitions:transitions.length,repeatRoutes:repeatRoutes.length,passed:checks.length,failures},null,2));assert.equal(failures.length,0,`${failures.length} special evolution verification failures`);
-} finally {await server.close();if(beforeStorage)Object.defineProperty(globalThis,'localStorage',beforeStorage);else delete globalThis.localStorage;}
+  t.check('Controllers and test fixtures leave the input catalog unchanged',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
+  t.finish({baselineRevision:BASELINE_REVISION,sourceLevelTransitions:SOURCE_LEVELS.length,overrideLevelTransitions:OVERRIDE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,transitions,repeatRoutes});
+});
