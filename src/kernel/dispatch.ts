@@ -1,9 +1,9 @@
 // Routes each player action to its domain handler and reports failures as notices.
 import type { GameAction } from './contract.ts';
-import { battleActions } from '../features/battle/battle-actions.ts';
-import { engravingActions } from '../features/engravings/actions.ts';
-import { itemActions } from '../features/items/actions.ts';
-import { raisingActions } from '../features/raising/actions.ts';
+import {battleActions} from '../features/battle/index.ts';
+import {engravingActions} from '../features/engravings/index.ts';
+import {itemActions} from '../features/items/index.ts';
+import {raisingActions} from '../features/raising/index.ts';
 import { battleInProgress, notice, type ActionHandlers, type Runtime } from './api.ts';
 
 const handlers: ActionHandlers = {

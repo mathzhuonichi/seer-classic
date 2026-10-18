@@ -10,8 +10,8 @@ import { acquire, allowance, boundedAutoEvolve, capacityReason, ensureAcquisitio
 import { TOWER_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
 import type { GameContext } from '../../kernel/context.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
-import { clearEngravingDeficit } from '../engravings/loadout.ts';
-import { claimQuest } from '../challenges/quests.ts';
+import {clearEngravingDeficit} from '../engravings/index.ts';
+import {claimQuest} from '../challenges/index.ts';
 import { commit, notice, replaceMonster, type ActionHandler, type ActionHandlers, type Runtime } from '../../kernel/api.ts';
 
 type CatalogItem = Record<string, unknown>;

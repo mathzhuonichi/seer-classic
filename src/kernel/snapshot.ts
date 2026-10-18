@@ -1,12 +1,12 @@
 // The immutable snapshot the components render.
 import type { GameSnapshot } from './contract.ts';
-import { battleView } from '../features/battle/battle-view.ts';
+import {battleView} from '../features/battle/index.ts';
 import type { GameContext } from './context.ts';
-import { catalogViews } from '../features/collection/encounter-views.ts';
-import { createInventoryViews, createShopViews } from '../features/items/views.ts';
-import { monsterView } from '../features/raising/view.ts';
-import { campaignViews, towerView } from '../features/challenges/progress-views.ts';
-import { questViews } from '../features/challenges/quests.ts';
+import {catalogViews} from '../features/collection/index.ts';
+import {createInventoryViews, createShopViews} from '../features/items/index.ts';
+import {monsterView} from '../features/raising/index.ts';
+import {campaignViews, towerView} from '../features/challenges/index.ts';
+import {questViews} from '../features/challenges/index.ts';
 import type { Runtime } from './api.ts';
 
 /** Builds a snapshot function whose catalogue rows are created once and reused while unchanged. */

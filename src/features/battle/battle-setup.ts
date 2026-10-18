@@ -16,7 +16,7 @@ import { CHALLENGE_CAMPAIGNS, type CampaignStage } from '../../domain/challenges
 import { normalizeNpcTrainingEncounter } from '../../domain/challenges/npc-training.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
 import type { GameContext } from '../../kernel/context.ts';
-import { engravingLoadout } from '../engravings/loadout.ts';
+import {engravingLoadout} from '../engravings/index.ts';
 import type { Appearance, CampaignContext } from '../../kernel/api.ts';
 
 export const BATTLE_SCRIPTS: ScriptRegistry = { ...SEER_SCRIPTS, ...traitScripts, ...campaignScripts, ...npcTrainingScripts };

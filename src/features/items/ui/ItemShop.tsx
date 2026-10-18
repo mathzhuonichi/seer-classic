@@ -3,7 +3,7 @@ import type {GameController,GameSnapshot,ShopItemView} from '../../../kernel/con
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
 import ItemCategoryTabs from '../../../shared/ui/ItemCategoryTabs.tsx';
-import EngravingShop from '../../engravings/ui/EngravingShop.tsx';
+import {EngravingShop} from '../../engravings/index.ts';
 import {useItemContent} from './use-item-content.ts';
 import {ITEM_POCKETS,ITEM_POCKET_TITLES,itemContentCategory,itemPocket} from '../../../shared/item-categories.ts';
 import {itemStock} from '../inventory-views.ts';

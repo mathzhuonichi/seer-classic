@@ -5,13 +5,13 @@ import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
 import { createGameContext, type BattleFactory } from './context.ts';
 import { runAction } from './dispatch.ts';
-import { engravingOptions } from '../features/raising/view.ts';
+import {engravingOptions} from '../features/raising/index.ts';
 import { notice, type Runtime } from './api.ts';
 import { loadJourney, openJourney, startJourney, writeJourney, type Journey } from './save-state.ts';
 import { createSnapshotBuilder } from './snapshot.ts';
 
 export { loadCatalog };
-export { advanceBattlePresentation, type BattlePresentationState } from '../features/battle/battle-presentation.ts';
+export {advanceBattlePresentation, type BattlePresentationState} from '../features/battle/index.ts';
 
 export interface GameDependencies {
   /** Creates each battle; verification passes a wrapper to observe the controller's battles. */

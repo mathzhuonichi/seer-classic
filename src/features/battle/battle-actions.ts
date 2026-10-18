@@ -10,8 +10,8 @@ import { ensureAcquisitionCapacity, ensureSpeciesCapacity } from '../../kernel/a
 import { DEFAULT_WILD_SPECIES, NO_STAMINA_MESSAGE, towerEncounter } from './battle-setup.ts';
 import { playTurn, startBattle } from './battle-session.ts';
 import { TRAINER_CAPTURE_MESSAGE } from './battle-view.ts';
-import { isRegularEncounter } from '../collection/encounter-views.ts';
-import { campaignProgress, stageRequirement } from '../challenges/progress-views.ts';
+import {isRegularEncounter} from '../collection/index.ts';
+import {campaignProgress, stageRequirement} from '../challenges/index.ts';
 import { battleInProgress, notice, requireSession, type ActionHandler, type ActionHandlers, type Runtime } from '../../kernel/api.ts';
 
 

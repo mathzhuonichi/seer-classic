@@ -1,0 +1,9 @@
+// The public surface of features/battle: everything other features, the kernel and the app may use.
+export { battleActions } from './battle-actions.ts';
+export { clearIdleBattleAnimations, preloadBattleAnimations } from './battle-animation.ts';
+export { type BattleBackdrop, battleImageSources, campaignBackdrop, entersTower, locationBackdrop, towerBackdrop } from './battle-backdrop.ts';
+export { preloadBattleImages, waitForBattleLoad } from './battle-loading.ts';
+export { advanceBattlePresentation, type BattlePresentationState } from './battle-presentation.ts';
+export { battleView } from './battle-view.ts';
+export { default as Battle } from './ui/Battle.tsx';
+export { default as BattleLoading, type BattlePreparation } from './ui/BattleLoading.tsx';

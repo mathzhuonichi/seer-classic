@@ -5,7 +5,7 @@ import {EV_STAT_CAP,EV_TOTAL_CAP} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {statTotal} from '../../../../shared/monster-views.ts';
 import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,presetDraft,sameEvs} from '../../ev-draft.ts';
-import EngravingSlots from '../../../engravings/ui/EngravingSlots.tsx';
+import {EngravingSlots} from '../../../engravings/index.ts';
 import {dispatchNext,monsterIn,type TabProps} from './dispatch-feedback.ts';
 
 type Props=TabProps&{editing:boolean;setEditing:(editing:boolean)=>void};

@@ -15,7 +15,7 @@ import { SKILL_CATEGORY_LABELS } from '../../shared/labels.ts';
 import type { EngravingView, EvolutionChoiceView, MonsterEngravingsView, MonsterView, SkillView } from '../../kernel/contract.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/context.ts';
-import { engravingHolder, equippedEngravingCounts, equippedEngravings } from '../engravings/loadout.ts';
+import {engravingHolder, equippedEngravingCounts, equippedEngravings} from '../engravings/index.ts';
 import { portrait, typeLabel } from '../../shared/view-common.ts';
 
 const STRUGGLE_VIEW = {

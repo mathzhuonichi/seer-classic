@@ -2,7 +2,7 @@
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
-import { buildBossEncounterEvidence, buildBossEvidence } from '../challenges/boss-evidence.ts';
+import {buildBossEncounterEvidence, buildBossEvidence} from '../challenges/index.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView, EncounterOpponentView } from '../../kernel/contract.ts';
 import type { CatalogContext, GameContext } from '../../kernel/context.ts';

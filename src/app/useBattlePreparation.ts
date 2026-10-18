@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BattleView, GameAction, GameController } from '../kernel/contract.ts';
-import { clearIdleBattleAnimations, preloadBattleAnimations } from '../features/battle/battle-animation.ts';
-import { battleImageSources, entersTower, towerBackdrop, type BattleBackdrop } from '../features/battle/battle-backdrop.ts';
-import { preloadBattleImages, waitForBattleLoad } from '../features/battle/battle-loading.ts';
+import {clearIdleBattleAnimations, preloadBattleAnimations} from '../features/battle/index.ts';
+import {battleImageSources, entersTower, towerBackdrop, type BattleBackdrop} from '../features/battle/index.ts';
+import {preloadBattleImages, waitForBattleLoad} from '../features/battle/index.ts';
 import { appearanceOf } from '../shared/monster-views.ts';
 import { CHALLENGE_CAMPAIGNS } from '../domain/challenges/challenge-campaigns.ts';
-import type { BattlePreparation } from '../features/battle/ui/BattleLoading.tsx';
+import type {BattlePreparation} from '../features/battle/index.ts';
 
 /** The scenes a battle can open over: where the explorer stands, and the open campaign's arena. */
 export interface BattleBackdrops { exploration: BattleBackdrop; campaign: BattleBackdrop | null }

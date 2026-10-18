@@ -1,7 +1,7 @@
 import './classic-robot.css';
 import robotManifest from '../../public/robots/classic/manifest.json';
 import walkingManifest from '../../public/robots/classic/walking-manifest.json';
-import type {RobotDirection} from '../features/world/world-walk.ts';
+import type {RobotDirection} from '../features/world/index.ts';
 export default function ClassicRobot({direction='front',walking=false,role='player'}:{direction?:RobotDirection;walking?:boolean;role?:'player'|'captain'|'scientist'}) {
  const player=role==='player';
  const asset=player?walkingManifest.poses[direction]:robotManifest[role];

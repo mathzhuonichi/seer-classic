@@ -8,7 +8,7 @@ import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../do
 import { buildBossEncounterEvidence, mergeBossEvidence } from './boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../kernel/contract.ts';
 import type { GameContext } from '../../kernel/context.ts';
-import { opponentViews, towerRewardLabel } from '../collection/encounter-views.ts';
+import {opponentViews, towerRewardLabel} from '../collection/index.ts';
 
 /** The rei training campaign's last stage teaches a skill instead of granting an essence. */
 const NO_ESSENCE_CAMPAIGN_ID = 'rei-training';

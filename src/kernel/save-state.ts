@@ -9,7 +9,7 @@ import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import { rollTrait } from './acquire.ts';
 import type { GameContext } from './context.ts';
 import { CURE_ITEM_ID, CURE_ITEM_STOCK, STARTER_LEVEL, STARTER_SPECIES, STARTING_COINS, STARTING_ITEM_STOCK } from '../domain/economy.ts';
-import { campaignProgress } from '../features/challenges/progress-views.ts';
+import {campaignProgress} from '../features/challenges/index.ts';
 
 export interface Journey { save: GameSave; rng: Rng }
 

@@ -6,8 +6,8 @@ import { CHALLENGE_CAMPAIGNS } from '../../domain/challenges/challenge-campaigns
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import { allowance, boundedAutoEvolve, storeMonster } from '../../kernel/acquire.ts';
 import { SEER_BEANS_ITEM_ID, victoryReward } from '../../domain/economy.ts';
-import { engravingLoadout, settleEngravingResource } from '../engravings/loadout.ts';
-import { campaignProgress } from '../challenges/progress-views.ts';
+import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
+import {campaignProgress} from '../challenges/index.ts';
 import { commit, notice, replaceMonster, type BattleSession, type Runtime } from '../../kernel/api.ts';
 
 type EncounterReward = BraveTowerRewardSource & { learn_skill?: { species: number; skill: number } };
