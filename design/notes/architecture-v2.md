@@ -163,7 +163,7 @@ interface Feature<A extends { type: string }, S extends object = Record<never, n
 }
 ```
 
-As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the registrations, and structural sharing in the kernel (`reuseUnchanged`) keeps unchanged slices and rows identical, so slice builders need no memo of their own.
+As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the registrations, and structural sharing in the kernel (`reuseUnchanged`) keeps unchanged slices and rows identical. Rebuilding and comparing every row on each emit cost 7 ms per dispatch with 200 monsters, so the builders whose rows grow with the collection also rebuild a row only when its inputs change: monster rows, quests, campaign stages and recipes.
 
 - `GameAction` is the union of the features' action unions.
 - `GameSnapshot` is the intersection of their slices.
@@ -192,7 +192,7 @@ As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the
   - Preparation must run before anything else can consume `b.rng` in that turn.
   - A gate checks that prepared and unprepared turns replay identically.
 
-**React:** `useGame(c, select)` (`shared/ui/use-game.ts`) subscribes a screen to its slice of the controller `c`. Slices keep their identity when unchanged, so unaffected screens skip rendering.
+**React:** `useGame(c, select)` (`shared/ui/use-game.ts`) subscribes a screen to its slice of the controller `c`. Slices keep their identity when unchanged, and the snapshot keeps its own when nothing changed, so unaffected screens skip rendering.
 
 ## 6. Implementation plan
 

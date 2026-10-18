@@ -42,8 +42,7 @@ export async function verifySnapshotIdentity(){
   const settled=game.snapshot();
   game.dispatch({type:'dismissNotice'});
   const repeated=game.snapshot();
-  assert.notEqual(repeated,settled,'Every emit gives a new snapshot object.');
-  for(const key of Object.keys(settled) as (keyof typeof settled)[])assert.equal(repeated[key],settled[key],`An action that changes nothing keeps ${key}.`);
+  assert.equal(repeated,settled,'An action that changes nothing keeps the snapshot object.');
   const [first,second]=settled.monsters;
   game.dispatch({type:'rename',uid:first.uid,name:'Identity'});
   const renamed=game.snapshot();
@@ -54,7 +53,7 @@ export async function verifySnapshotIdentity(){
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
-  return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
+  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity']};
 }
 
 /**
