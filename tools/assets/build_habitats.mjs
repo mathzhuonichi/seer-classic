@@ -50,8 +50,10 @@ try {
   const sourceMapNames = new Map(maps.json.Maps.Map.map(map => [map.ID, map.Name]));
   for (const expansion of expansions.regions) {
     const map = sourceRegions.get(expansion.originalMapId);
-    // A region takes its maps.json name where map_config.json gives two landings of one planet the same name.
-    const named = [map?.name, sourceMapNames.get(expansion.originalMapId)].includes(expansion.name);
+    // A region takes its maps.json name only where map_config.json's name is another landing's on the same planet.
+    const landings = WORLD_PLANETS.find(planet => planet.id === expansion.planetId)?.regions ?? [];
+    const taken = landings.some(region => region.id !== expansion.id && region.name === map?.name);
+    const named = expansion.name === map?.name || (taken && expansion.name === sourceMapNames.get(expansion.originalMapId));
     if (!named || Number(map?.super) !== expansion.sourceParentMapId) {
       throw new Error(`Habitat membership differs from source: ${expansion.id}`);
     }
