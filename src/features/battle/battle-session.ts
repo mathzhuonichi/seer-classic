@@ -50,7 +50,7 @@ export function playTurn(rt: Runtime, action: Action) {
  */
 function prepareTurn(rt: Runtime, battle: Battle) {
   const { turn, phase } = battle;
-  if (!battle.result) rt.idle(() => {
+  if (!battle.result) rt.ctx.idle(() => {
     if (rt.session?.battle !== battle || battle.turn !== turn || battle.phase !== phase) return;
     battle.prepare(0);
     battle.prepare(1);

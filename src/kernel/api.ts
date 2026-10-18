@@ -55,8 +55,6 @@ export interface Runtime {
   notices: string[];
   /** Animation counters span battles so frame ids stay unique for the view. */
   animation: { revision: number; frameId: number };
-  /** Runs `task` in an idle slot after the current frame (turn preparation). */
-  idle(task: () => void): void;
 }
 
 const NOTICE_LIMIT = 5;

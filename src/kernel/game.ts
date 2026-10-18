@@ -2,7 +2,7 @@
 import { serialize } from './save.ts';
 import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
-import { createGameContext, type BattleFactory } from './context.ts';
+import { createGameContext, type GameDependencies } from './context.ts';
 import { runAction } from './dispatch.ts';
 import {engravingOptions} from '../features/raising/index.ts';
 import { notice, type Runtime } from './api.ts';
@@ -11,20 +11,10 @@ import { createSnapshotBuilder } from './snapshot.ts';
 
 export { loadCatalog };
 
-export interface GameDependencies {
-  /** Constructs each battle from options that carry the AI policy; verification passes a wrapper to observe the controller's battles. */
-  createBattle?: BattleFactory;
-  /** Schedules idle work: requestIdleCallback, else a macrotask; verification runs the tasks when it chooses. */
-  idle?: (task: () => void) => void;
-}
-
-const whenIdle = (task: () => void) => { if (typeof requestIdleCallback === 'function') requestIdleCallback(() => task()); else setTimeout(task); };
-
 export function createGame(catalog: CatalogData, initialSave?: string, dependencies: GameDependencies = {}): GameController {
-  const ctx = createGameContext(catalog, dependencies.createBattle);
+  const ctx = createGameContext(catalog, dependencies);
   const opened = openJourney(ctx, initialSave);
-  const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 },
-    idle: dependencies.idle ?? whenIdle };
+  const rt: Runtime = { ctx, save: opened.save, rng: opened.rng, session: null, notices: opened.notices, animation: { revision: 0, frameId: 0 } };
   const build = createSnapshotBuilder(ctx), listeners = new Set<() => void>();
   // An explicit import or new journey is the player's choice to replace the stored save.
   let durable = opened.durable;
