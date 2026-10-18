@@ -10,7 +10,8 @@ export interface ChallengesSlice { campaigns: CampaignView[]; braveTower: BraveT
 
 export const challengesFeature: Feature<ChallengesAction, ChallengesSlice> = {
   actions: { claimQuest: (rt, action) => claimQuest(rt, action.questId), ...challengeStarts },
-  slice: ctx => ({ save }) => ({
-    campaigns: campaignViews(ctx, save), braveTower: towerView(ctx, save), facilities: ctx.facilityViews, quests: questViews(ctx, save),
-  }),
+  slice: ctx => {
+    const campaigns = campaignViews(ctx), quests = questViews(ctx);
+    return ({ save }) => ({ campaigns: campaigns(save), braveTower: towerView(ctx, save), facilities: ctx.facilityViews, quests: quests(save) });
+  },
 };

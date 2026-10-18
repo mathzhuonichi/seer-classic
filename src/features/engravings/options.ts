@@ -6,15 +6,24 @@ import { engravingBlockedReason, engravingEffectGroup, engravings, engravingStat
 import type { EngravingView } from '../../shared/views.ts';
 import { engravingHolder, equippedEngravingCounts, equippedEngravings } from './loadout.ts';
 
-export function engravingView(
-  ctx: GameContext, save: GameSave, def: EngravingDefinition, mon: Monster, equipped = equippedEngravingCounts(save),
-): EngravingView {
+/** Who holds each engraving: the stored holders in storage order with their names, and the equipped copies. */
+export interface EngravingLedger { holders: ReadonlyMap<string, { uid: string; name: string }[]>; equipped: Record<string, number> }
+
+export function engravingLedger(ctx: GameContext, save: GameSave): EngravingLedger {
+  const holders = new Map<string, { uid: string; name: string }[]>();
+  for (const mon of save.storage) for (const id of new Set(equippedEngravings(save, mon.uid))) {
+    const list = holders.get(id) ?? [];
+    list.push({ uid: mon.uid, name: mon.nickname || ctx.speciesName(mon.species) });
+    holders.set(id, list);
+  }
+  return { holders, equipped: equippedEngravingCounts(save) };
+}
+
+export function engravingView(ctx: GameContext, save: GameSave, def: EngravingDefinition, mon: Monster, ledger: EngravingLedger): EngravingView {
   const reason = engravingBlockedReason(def, engravingHolder(mon)), access = engravingAccess(def);
   const moveName = def.moveIds?.map(id => ctx.data.skills.get(id)?.name.zh).filter(Boolean).join('、');
-  const holders = save.storage.filter(holder => equippedEngravings(save, holder.uid).includes(def.id))
-    .map(holder => ({ uid: holder.uid, name: holder.nickname || ctx.speciesName(holder.species) }));
-  const others = holders.filter(holder => holder.uid !== mon.uid), equippedHere = others.length < holders.length;
-  const stock = save.game.engravingStock[def.id] ?? 0, count = equipped[def.id] ?? 0;
+  const holders = ledger.holders.get(def.id) ?? [], others = holders.filter(holder => holder.uid !== mon.uid), equippedHere = others.length < holders.length;
+  const stock = save.game.engravingStock[def.id] ?? 0, count = ledger.equipped[def.id] ?? 0;
   const mode = equippedHere ? 'blocked' : equipMode(def, stock, count, others.length);
   return {
     id: def.id, name: def.name.zh, slot: def.slot, effect: def.effect.desc, levelMin: def.levelMin, bound: def.species.length > 0,
@@ -27,8 +36,8 @@ export function engravingView(
 
 /** Engravings this monster's species and known skills qualify for. Reads only what the monsters and engravingStock slices carry. */
 export function engravingOptions(ctx: GameContext, save: GameSave, uid: string): EngravingView[] {
-  const mon = findMon(save, uid), known = new Set([...mon.skills, ...mon.learned]), equipped = equippedEngravingCounts(save);
+  const mon = findMon(save, uid), known = new Set([...mon.skills, ...mon.learned]), ledger = engravingLedger(ctx, save);
   return engravings
     .filter(def => (!def.species.length || def.species.includes(mon.species)) && (def.slot === 'ability' || def.moveIds!.some(id => known.has(id))))
-    .map(def => engravingView(ctx, save, def, mon, equipped));
+    .map(def => engravingView(ctx, save, def, mon, ledger));
 }

@@ -65,11 +65,16 @@ function bagAction(row: ItemRow, legal: Action[] | undefined): ItemView['useActi
   return row.kind === 'battle' && row.battleUsable ? 'use' : null;
 }
 
-/** Inventory rows for held or unlimited items: in an unsettled `battle` supplies target the members they would change, else any monster. */
+/**
+ * Inventory rows for held or unlimited items: in an unsettled `battle` supplies target the members they would change, else any
+ * monster. The list of every monster keeps its identity while the storage holds the same monsters, as every row shares it.
+ */
 export function createInventoryViews(ctx: GameContext) {
   const rows = ctx.catalog.items.map(itemRow);
+  let everyone: string[] = [];
   return (inventory: Record<string, number>, unlimited: ReadonlySet<string>, battle: Battle | null, storage: readonly Monster[]): ItemView[] => {
-    const legal = battle?.legalActions(0), side = battle?.sides[0], everyone = storage.map(mon => mon.uid);
+    const legal = battle?.legalActions(0), side = battle?.sides[0];
+    if (storage.length !== everyone.length || storage.some((mon, index) => mon.uid !== everyone[index])) everyone = storage.map(mon => mon.uid);
     const itemActions = legal?.filter((action): action is Extract<Action, { kind: 'item' }> => action.kind === 'item');
     return rows.filter(row => (inventory[row.id] ?? 0) > 0 || unlimited.has(row.id)).map(row => {
       const usableTargetUids = itemActions?.filter(action => action.item === row.id)

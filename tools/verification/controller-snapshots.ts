@@ -43,8 +43,7 @@ export async function verifySnapshotIdentity(){
   const settled=game.snapshot();
   game.dispatch({type:'dismissNotice'});
   const repeated=game.snapshot();
-  assert.notEqual(repeated,settled,'Every emit gives a new snapshot object.');
-  for(const key of Object.keys(settled) as (keyof typeof settled)[])assert.equal(repeated[key],settled[key],`An action that changes nothing keeps ${key}.`);
+  assert.equal(repeated,settled,'An action that changes nothing keeps the snapshot object.');
   const [first,second]=settled.monsters;
   game.dispatch({type:'rename',uid:first.uid,name:'Identity'});
   const renamed=game.snapshot();
@@ -55,7 +54,60 @@ export async function verifySnapshotIdentity(){
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
-  return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
+  return {checks:['unregistered action rejected','no-op action keeps the snapshot','changed slice is new','unchanged rows and slices keep identity']};
+}
+
+/**
+ * Slice builders rebuild rows only when their inputs change (monster rows, quests, recipes). After each step the snapshot equals
+ * the one a new controller builds from the exported save, and exactly the monster rows listed as changed are new; `maybe` rows
+ * may change either way.
+ */
+export async function verifySnapshotInputs(){
+  const catalog=await loadCatalog(),game=createGame(catalog,''),checks:string[]=[];
+  const act=(...actions:GameAction[])=>()=>actions.forEach(action=>{const result=game.dispatch(action);assert(result.ok,`${action.type}: ${result.notice}`);});
+  const uids=(species:number)=>game.snapshot().monsters.filter(mon=>mon.species===species).map(mon=>mon.uid);
+  const row=(uid:string)=>game.snapshot().monsters.find(mon=>mon.uid===uid)!;
+  const step=(label:string,run:()=>void,changed:string[],maybe:string[]=[])=>{
+    const before=new Map(game.snapshot().monsters.map(mon=>[mon.uid,mon]));
+    run();
+    const {notices,...current}=game.snapshot(),{notices:fresh,...rebuilt}=createGame(catalog,game.exportSave()).snapshot();
+    assert.deepEqual(current,rebuilt,`${label}: every slice is current.`);
+    for(const mon of current.monsters)if(before.has(mon.uid)&&!maybe.includes(mon.uid))
+      assert.equal(mon!==before.get(mon.uid),changed.includes(mon.uid),`${label}: ${mon.name} ${changed.includes(mon.uid)?'is new':'keeps its row'}.`);
+    checks.push(label);
+  };
+  act({type:'cheatResources',coins:100000},...[15,15,19,20,20,20,20,20,97,14].map((species):GameAction=>({type:'cheatAcquire',species,level:100})))();
+  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),[x]=uids(14),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).traitId)!.id;
+  step('notice dismissed',act({type:'dismissNotice'}),[]);
+  step('rename',act({type:'rename',uid:m,name:'Identity'}),[m]);
+  step('party',act({type:'party',uid:m,add:false}),[m]);
+  step('trait',act({type:'cheatMonster',uid:a,traitId}),[a]);
+  step('engraving stock',act({type:'buyEngraving',engravingId:'10031'},{type:'buyEngraving',engravingId:'10031'}),[]);
+  step('equip',act({type:'setEngraving',uid:a,slot:'ability',engravingId:'10031'}),[a]);
+  step('second holder',act({type:'setEngraving',uid:b,slot:'ability',engravingId:'10031'}),[a,b]);
+  step('holder renamed',act({type:'rename',uid:b,name:'Holder'}),[a,b]);
+  step('unequip',act({type:'setEngraving',uid:a,slot:'ability',engravingId:null}),[a,b]);
+  step('engraving moved',act({type:'setEngraving',uid:a,slot:'ability',engravingId:'10031',fromUid:b}),[a,b]);
+  step('bead used on a cloned save',act({type:'useItem',uid:c,itemId:'item_bead_reduce_damage'}),[c]);
+  step('bead ended',act({type:'startTraining',species:10,level:3},{type:'flee'},{type:'closeBattle'}),[c],game.snapshot().party);
+  assert.deepEqual(row(c).boosts,[],'The one-battle bead has ended.');
+  step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);
+  assert(row(m).evolutionChoices[0].blockedReason,'Six copies block the evolution.');
+  step('evolution frees capacity',act({type:'evolve',uid:c}),[c,m]);
+  step('evolution into a fusion parent',act({type:'evolve',uid:x}),[x]);
+  assert.equal(game.snapshot().fusion.recipes.find(recipe=>recipe.recipe.id==='fusion-401')!.pairs.length,3,'The evolved form pairs with the secondary.');
+  act(...[450,447].map((species,index):GameAction=>({type:'cheatAcquire',species,level:49+index*11})))();
+  const [male]=uids(450);
+  step('breeding level reached',act({type:'cheatMonster',uid:male,level:50}),[male]);
+  assert.equal(game.snapshot().breeding.recipes.find(recipe=>recipe.recipe.id==='breeding-1')!.pairs.length,1,'A Lv 50 male breeds.');
+  step('quest reward capacity',act(...Array.from({length:6},():GameAction=>({type:'cheatAcquire',species:10,level:5}))),[]);
+  assert(game.snapshot().quests.find(quest=>quest.rewardSpecies===10)!.blockedReason,'Six copies block the quest reward.');
+  const quest=game.snapshot().quests.find(quest=>quest.prerequisites?.some(condition=>condition.kind==='species'&&!condition.complete))!;
+  const saved=JSON.parse(game.exportSave()),missing=quest.prerequisites!.find(condition=>condition.kind==='species'&&!condition.complete)!;
+  saved.dex.owned.push(missing.species);
+  step('import with one more owned species',()=>game.importSave(JSON.stringify(saved)),[]);
+  assert.notEqual(game.snapshot().quests.find(entry=>entry.id===quest.id),quest,'The quest row follows the owned species.');
+  return {checks};
 }
 
 /** Each monster lists the player-wide boosts and only its own energy bead; a settled battle counts every boost down. */
@@ -96,24 +148,59 @@ export async function verifyEngravingOptionInputs(){
   return {checks:steps.map(([action])=>action.type)};
 }
 
+/** A collection of `size` monsters: mixed species and levels, every fifth raised to Lv 100 with an engraving, an EXP boost and a bead. */
+function collectionSave(catalog:CatalogData,size:number):string{
+  const game=createGame(catalog,''),species=catalog.species.map(row=>Number(row.id));
+  for(let i=0;game.snapshot().monsters.length<size&&i<size*4;i++)
+    game.dispatch({type:'cheatAcquire',species:species[Math.floor(i/3)*7919%species.length],level:1+i*37%100});
+  for(const mon of game.snapshot().monsters.filter((_,index)=>index%5===4)){
+    game.dispatch({type:'cheatMonster',uid:mon.uid,level:100});
+    const option=game.engravingOptions(mon.uid).find(option=>option.ready&&(option.equipMode==='unlimited'||option.canBuy));
+    if(option?.canBuy)game.dispatch({type:'buyEngraving',engravingId:option.id});
+    if(option)game.dispatch({type:'setEngraving',uid:mon.uid,slot:option.slot,engravingId:option.id});
+  }
+  const monsters=game.snapshot().monsters;
+  for(const itemId of ['item_exp_x2','item_bead_atk_20'])assert(game.dispatch({type:'useItem',uid:monsters[0].uid,itemId}).ok,itemId);
+  assert.equal(monsters.length,size);
+  assert(monsters.filter(mon=>mon.engravings.ability||mon.engravings.skill).length>=size/10,'A tenth of the collection is engraved.');
+  return game.exportSave();
+}
+
 /**
- * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2).
- * It counts this thread's CPU time, so other suites running in parallel do not fail it; the best of three rounds counts.
+ * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2),
+ * on a new journey and on a collection of 200 monsters, for a mix of common actions. It counts this thread's CPU time, so other
+ * suites running in parallel do not fail it; the best of three rounds counts.
  */
 export async function verifyDispatchBudget(){
-  const game=createGame(await loadCatalog(),''),uid=game.snapshot().monsters[0].uid,rounds:number[]=[];
-  for(let round=0;round<3;round++){
-    const times:number[]=[];
-    for(let i=0;i<240;i++){
-      const started=process.threadCpuUsage();
-      game.dispatch(i%2?{type:'rename',uid,name:`Budget${i%7}`}:{type:'dismissNotice'});
-      const used=process.threadCpuUsage(started);
-      if(i>=40)times.push((used.user+used.system)/1000);
+  const catalog=await loadCatalog(),saves={journey:'',collection:collectionSave(catalog,200)},p95:Record<string,number>={};
+  const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map<string,string>();
+  const storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,value);}};
+  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:storage});
+  try{
+    for(const [name,save] of Object.entries(saves)){
+      const game=createGame(catalog,save),uid=game.snapshot().party[0];
+      game.dispatch({type:'cheatResources',coins:1000000});game.dispatch({type:'cheatMonster',uid,level:50});
+      const skills=game.snapshot().monsters.find(mon=>mon.uid===uid)!.skills.map(skill=>skill.id),member=game.snapshot().party.at(-1)!;
+      const mix=(i:number):GameAction=>[{type:'rename',uid,name:`Budget${i%7}`},{type:'dismissNotice'},
+        {type:'equip',uid,skills:i%12<6?[...skills].reverse():skills},{type:'train',uid,stat:'atk',amount:1},{type:'party',uid:member,add:i%12>=6},
+        {type:'buyItem',itemId:'item_level_up_1',quantity:1}][i%6] as GameAction;
+      const rounds:number[]=[];
+      for(let round=0;round<3;round++){
+        const times:number[]=[];
+        for(let i=0;i<240;i++){
+          const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),used=process.threadCpuUsage(started);
+          assert(result.ok,`${name} ${action.type}: ${result.notice}`);
+          if(i>=40)times.push((used.user+used.system)/1000);
+        }
+        rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
+      }
+      p95[name]=Math.min(...rounds);
+      assert(p95[name]<=4,`${name}: dispatch p95 ${p95[name].toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
+      assert.equal(memory.size,1,`${name}: the save is written to storage.`);memory.clear();
     }
-    rounds.push(times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)]);
+  }finally{
+    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }
-  const p95=Math.min(...rounds);
-  assert(p95<=4,`Dispatch p95 ${p95.toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
   return {p95};
 }
 

@@ -3,7 +3,7 @@ import type { StatBlock, StatKey } from '../../../raising/core/types.ts';
 import type { MonsterView } from '../../shared/views.ts';
 import type { Feature } from '../../kernel/api.ts';
 import { raisingActions } from './actions.ts';
-import { monsterView } from './view.ts';
+import { monsterRows } from './view.ts';
 
 export type RaisingAction =
   | {type: 'heal'}
@@ -29,6 +29,7 @@ export const raisingFeature: Feature<RaisingAction, RaisingSlice> = {
   slice: ctx => {
     const natures = ctx.catalog.natures.map(nature => ({ id: String(nature.id), name: (nature.name as { zh: string }).zh }));
     const traits = ctx.availableTraits.map(trait => ({ id: trait.id, name: trait.name, description: trait.description }));
-    return ({ save }) => ({ monsters: save.storage.map(mon => monsterView(ctx, save, mon)), party: [...save.party], expPool: save.exp_pool, natures, traits });
+    const monsters = monsterRows(ctx);
+    return ({ save }) => ({ monsters: monsters(save), party: [...save.party], expPool: save.exp_pool, natures, traits });
   },
 };

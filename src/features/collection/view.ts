@@ -68,15 +68,24 @@ function parentPairs(storage: readonly Monster[], first: readonly number[], seco
   return storage.filter(mon => first.includes(mon.species)).flatMap(a => seconds.filter(b => accepts(a, b)).map(b => [a.uid, b.uid] as const));
 }
 
-/** Fusion and breeding recipes with the owned parent pairs each accepts. */
+/**
+ * Fusion and breeding recipes with the owned parent pairs each accepts, rebuilt only when a parent field the rules read changes:
+ * the storage order and each monster's uid, species, level and generation.
+ */
 export function recipeViews(ctx: GameContext) {
   const available = (id: number) => ctx.acquisition.index.get(id)?.status === 'available';
   const fusion = FUSION_RECIPES.map(recipe => ({ recipe, collectible: recipe.primary.some(available) && recipe.secondary.some(available) }));
   const breeding = BREEDING_RECIPES.map(recipe => ({ recipe, routesMissing: ![...recipe.maleSpecies, ...recipe.femaleSpecies].every(available) }));
-  return (storage: readonly Monster[]) => ({
-    fusion: { recipes: fusion.map((row): FusionRecipeRow => ({ ...row,
-      pairs: parentPairs(storage, row.recipe.primary, row.recipe.secondary, (a, b) => a.uid !== b.uid && canFuseParents(row.recipe, a, b)) })) },
-    breeding: { recipes: breeding.map((row): BreedingRecipeRow => ({ ...row,
-      pairs: parentPairs(storage, row.recipe.maleSpecies, row.recipe.femaleSpecies, (a, b) => canBreedParents(row.recipe, a, b)) })) },
-  });
+  let parents = '', views: { fusion: { recipes: FusionRecipeRow[] }; breeding: { recipes: BreedingRecipeRow[] } };
+  return (storage: readonly Monster[]) => {
+    const next = JSON.stringify(storage.map(mon => [mon.uid, mon.species, mon.level, mon.generation ?? 0]));
+    if (next === parents) return views;
+    parents = next;
+    return views = {
+      fusion: { recipes: fusion.map((row): FusionRecipeRow => ({ ...row,
+        pairs: parentPairs(storage, row.recipe.primary, row.recipe.secondary, (a, b) => a.uid !== b.uid && canFuseParents(row.recipe, a, b)) })) },
+      breeding: { recipes: breeding.map((row): BreedingRecipeRow => ({ ...row,
+        pairs: parentPairs(storage, row.recipe.maleSpecies, row.recipe.femaleSpecies, (a, b) => canBreedParents(row.recipe, a, b)) })) },
+    };
+  };
 }
