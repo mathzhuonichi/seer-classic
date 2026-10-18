@@ -42,12 +42,9 @@ export function engravingBlockedReason(def: EngravingDefinition, mon: EngravingH
 
 /** Equipped engravings that currently apply, one per slot (2013 client: abilityMark + skillMark). */
 export function activeEngravings(ids: readonly string[] | undefined, mon: EngravingHolder): EngravingDefinition[] {
-  const out: EngravingDefinition[] = [];
-  for (const slot of ENGRAVING_SLOTS) {
-    const def = (ids ?? []).map(engravingById).find((e) => e?.slot === slot);
-    if (def && !engravingBlockedReason(def, mon)) out.push(def);
-  }
-  return out;
+  const equipped = (ids ?? []).map(engravingById);
+  return ENGRAVING_SLOTS.map((slot) => equipped.find((e) => e?.slot === slot))
+    .filter((def): def is EngravingDefinition => !!def && !engravingBlockedReason(def, mon));
 }
 
 /** Shop and PetBag classifier groups for skill engravings, by original Effect code. */
@@ -56,13 +53,14 @@ export const ENGRAVING_EFFECT_GROUPS = [
   ['duration', '回合数'], ['status', '异常 / 附加效果'], ['stages', '能力变化'], ['drawback', '移除副作用'], ['other', 'PP / 暴击 / 回复'],
 ] as const;
 export type EngravingEffectGroup = typeof ENGRAVING_EFFECT_GROUPS[number][0];
-const GROUP_BY_CODE: Record<number, EngravingEffectGroup> = {
-  101: 'power', 113: 'power', 120: 'power', 102: 'fixed', 123: 'fixed', 103: 'priority', 112: 'priority', 104: 'accuracy', 106: 'accuracy',
-  105: 'hits', 114: 'hits', 107: 'duration', 115: 'status', 117: 'status', 118: 'status', 116: 'stages', 127: 'stages',
-  108: 'drawback', 109: 'drawback', 110: 'drawback', 121: 'drawback', 122: 'drawback',
+const GROUP_CODES: Partial<Record<EngravingEffectGroup, number[]>> = {
+  power: [101, 113, 120], fixed: [102, 123], priority: [103, 112], accuracy: [104, 106], hits: [105, 114], duration: [107],
+  status: [115, 117, 118], stages: [116, 127], drawback: [108, 109, 110, 121, 122],
 };
+const GROUP_BY_CODE = new Map(Object.entries(GROUP_CODES).flatMap(([group, codes]) => codes.map((code) => [code, group as EngravingEffectGroup] as const)));
+/** Skill engravings' classifier group (codes without one are 'other'); undefined for ability engravings. */
 export function engravingEffectGroup(def: EngravingDefinition): EngravingEffectGroup | undefined {
-  return def.slot === 'skill' ? GROUP_BY_CODE[def.effect.code ?? 0] ?? 'other' : undefined;
+  return def.slot === 'skill' ? GROUP_BY_CODE.get(def.effect.code ?? 0) ?? 'other' : undefined;
 }
 /** The stats an ability engraving raises. */
 export const engravingStatKeys = (def: EngravingDefinition) => (Object.keys(def.stats) as StatKey[]).filter((k) => def.stats[k]);
@@ -78,75 +76,75 @@ const TURN_SCRIPTS = new Set(['seer_eff_55', 'seer_eff_56', 'seer_eff_69', 'seer
   'seer_eff_150', 'seer_eff_153', 'seer_eff_163', 'seer_eff_187', 'seer_eff_189', 'seer_eff_191']);
 // Scripts carrying a status chance in percent, by parameter index (effect 117).
 const CHANCE_SCRIPTS: Record<string, number> = { seer_eff_121: 0, seer_eff_152: 1, seer_eff_176: 0 };
+
 const isScript = (op: EffectOp, id: string) => op.op === 'script' && op.id === id && Array.isArray(op.params);
+const opsOf = (s: Skill, op: string) => s.effects!.filter((x) => x.op === op);
+const scriptOps = (s: Skill, id: string) => s.effects!.filter((op) => isScript(op, id));
+const selfStages = (s: Skill) => s.effects!.filter((op) => op.op === 'stat_stage' && op.target === 'self');
+const drop = (s: Skill, unwanted: (op: EffectOp) => boolean) => { s.effects = s.effects!.filter((op) => !unwanted(op)); };
+
+/** CountermarkXMLInfo skill Effect codes: each edits a copy of the skill (whose `effects` exists) by the Arg `n`. */
+const SKILL_EFFECTS: Record<number, (s: Skill, n: number) => void> = {
+  101: (s, n) => { s.power_bonus = (s.power_bonus ?? 0) + n; },
+  102: (s, n) => {
+    const fixed = s.effects!.find((op) => op.op === 'fixed_damage' && op.chance === undefined && !op.when);
+    if (fixed) fixed.amount += n; else s.effects!.push({ op: 'fixed_damage', amount: n });
+  },
+  103: (s, n) => { s.priority = (s.priority ?? 0) + n; for (const op of opsOf(s, 'priority_if')) op.priority += n; },
+  // Original value, not capped at 100: the surplus offsets the user's lowered accuracy stages.
+  // Seer has no evasion stat (no catalog skill changes `eva`); rng.chance treats >= 100 as a hit.
+  104: (s, n) => { if (s.accuracy !== null) s.accuracy += n; },
+  105: (s, n) => { for (const op of opsOf(s, 'multi_hit')) { const min = op.min ?? 2, max = op.max ?? min; op.min = min + n; op.max = max + n; } },
+  106: (s) => { s.accuracy = null; },
+  107: (s, n) => {
+    for (const op of s.effects!) {
+      if ((op.op === 'add_condition' || op.op === 'status') && typeof op.turns === 'number') op.turns += n;
+      else if (op.op === 'script' && TURN_SCRIPTS.has(op.id) && typeof op.params?.[0] === 'number') op.params[0] += n;
+    }
+  },
+  108: (s) => { drop(s, (op) => op.op === 'recoil'); for (const op of scriptOps(s, 'seer_eff_80')) op.params = [1]; },
+  109: (s) => {
+    for (const op of selfStages(s)) for (const [k, v] of Object.entries(op.stats)) if ((v as number) < 0) delete op.stats[k];
+    drop(s, (op) => op.op === 'stat_stage' && !Object.keys(op.stats).length);
+  },
+  110: (s) => drop(s, (op) => op.op === 'status' && op.target === 'self' && op.status === 'fatigue'),
+  111: (s, n) => { s.pp += n; },
+  112: (s, n) => { s.priority = (s.priority ?? 0) + n; s.pp_cost = 2; },
+  113: (s, n) => { drop(s, (op) => isScript(op, 'seer_eff_70')); s.power = n; },
+  114: (s, n) => { for (const op of opsOf(s, 'multi_hit')) op.min = op.max; s.power = n; },
+  115: (s) => { s.effects!.push({ op: 'clear_stages', target: 'foe', which: 'up' }); },
+  116: (s) => { for (const op of opsOf(s, 'stat_stage')) for (const k of Object.keys(op.stats)) op.stats[k] *= 2; },
+  117: (s, n) => {
+    for (const op of s.effects!) {
+      if (typeof op.chance === 'number' && op.chance < 100) op.chance = Math.min(100, op.chance + n);
+      else if (op.op === 'script' && op.id in CHANCE_SCRIPTS && typeof op.params?.[CHANCE_SCRIPTS[op.id]] === 'number') {
+        const at = CHANCE_SCRIPTS[op.id];
+        op.params[at] = Math.min(100, op.params[at] + n);
+      }
+    }
+  },
+  118: (s) => { s.effects!.push({ op: 'status', target: 'foe', status: 'fatigue', turns: 2 }); },
+  119: (s, n) => { s.crit_rate = (s.crit_rate ?? 1) + n; },
+  120: (s, n) => { for (const op of scriptOps(s, 'seer_eff_9')) op.params[1] = n; },
+  121: (s) => drop(s, (op) => isScript(op, 'seer_eff_161')),
+  122: (s, n) => { for (const op of scriptOps(s, 'seer_eff_142')) op.params[0] = n; },
+  123: (s, n) => { for (const op of scriptOps(s, 'seer_eff_419')) op.params[1] += n; },
+  124: (s, n) => { for (const op of scriptOps(s, 'seer_eff_154')) op.params[1] = n; },
+  125: (s, n) => { for (const op of s.effects!) if (op.op === 'heal' && op.target === 'self' && op.pct_max_hp) op.pct_max_hp = 100 / n; },
+  126: (s, n) => { for (const op of scriptOps(s, 'seer_eff_125')) op.params[1] -= n; },
+  127: (s, n) => { for (const op of selfStages(s)) if ((op.stats.atk ?? 0) > 0) op.stats.atk += n; },
+};
 
 /**
  * The skill as modified by a skill engraving (CountermarkXMLInfo Effect codes 101–127).
  * Returns null when the engraving has no supported effect on this skill.
  */
 export function engraveSkill(base: Skill, def: EngravingDefinition): Skill | null {
+  const edit = SKILL_EFFECTS[def.effect.code ?? 0];
+  if (!edit) return null;
   const skill: Skill = structuredClone(base);
-  const ops: EffectOp[] = (skill.effects ??= []);
-  const n = Number(def.effect.arg) || 0;
-  const selfStages = () => ops.filter((op) => op.op === 'stat_stage' && op.target === 'self');
-  switch (def.effect.code) {
-    case 101: skill.power_bonus = (skill.power_bonus ?? 0) + n; break;
-    case 102: {
-      const fixed = ops.find((op) => op.op === 'fixed_damage' && op.chance === undefined && !op.when);
-      if (fixed) fixed.amount += n; else ops.push({ op: 'fixed_damage', amount: n });
-      break;
-    }
-    case 103: skill.priority = (skill.priority ?? 0) + n; for (const op of ops) if (op.op === 'priority_if') op.priority += n; break;
-    // Original value, not capped at 100: the surplus offsets the user's lowered accuracy stages.
-    // Seer has no evasion stat (no catalog skill changes `eva`); rng.chance treats >= 100 as a hit.
-    case 104: if (skill.accuracy !== null) skill.accuracy += n; break;
-    case 105:
-      for (const op of ops) if (op.op === 'multi_hit') { const min = op.min ?? 2, max = op.max ?? min; op.min = min + n; op.max = max + n; }
-      break;
-    case 106: skill.accuracy = null; break;
-    case 107:
-      for (const op of ops) {
-        if ((op.op === 'add_condition' || op.op === 'status') && typeof op.turns === 'number') op.turns += n;
-        else if (op.op === 'script' && TURN_SCRIPTS.has(op.id) && typeof op.params?.[0] === 'number') op.params[0] += n;
-      }
-      break;
-    case 108: {
-      skill.effects = ops.filter((op) => op.op !== 'recoil');
-      for (const op of skill.effects) if (isScript(op, 'seer_eff_80')) op.params = [1];
-      break;
-    }
-    case 109:
-      for (const op of selfStages()) for (const [k, v] of Object.entries(op.stats)) if ((v as number) < 0) delete op.stats[k];
-      skill.effects = ops.filter((op) => op.op !== 'stat_stage' || Object.keys(op.stats).length);
-      break;
-    case 110: skill.effects = ops.filter((op) => !(op.op === 'status' && op.target === 'self' && op.status === 'fatigue')); break;
-    case 111: skill.pp += n; break;
-    case 112: skill.priority = (skill.priority ?? 0) + n; skill.pp_cost = 2; break;
-    case 113: skill.effects = ops.filter((op) => !isScript(op, 'seer_eff_70')); skill.power = n; break;
-    case 114: for (const op of ops) if (op.op === 'multi_hit') op.min = op.max; skill.power = n; break;
-    case 115: ops.push({ op: 'clear_stages', target: 'foe', which: 'up' }); break;
-    case 116: for (const op of ops) if (op.op === 'stat_stage') for (const k of Object.keys(op.stats)) op.stats[k] *= 2; break;
-    case 117:
-      for (const op of ops) {
-        if (typeof op.chance === 'number' && op.chance < 100) op.chance = Math.min(100, op.chance + n);
-        else if (op.op === 'script' && op.id in CHANCE_SCRIPTS && typeof op.params?.[CHANCE_SCRIPTS[op.id]] === 'number') {
-          const at = CHANCE_SCRIPTS[op.id];
-          op.params[at] = Math.min(100, op.params[at] + n);
-        }
-      }
-      break;
-    case 118: ops.push({ op: 'status', target: 'foe', status: 'fatigue', turns: 2 }); break;
-    case 119: skill.crit_rate = (skill.crit_rate ?? 1) + n; break;
-    case 120: for (const op of ops) if (isScript(op, 'seer_eff_9')) op.params[1] = n; break;
-    case 121: skill.effects = ops.filter((op) => !isScript(op, 'seer_eff_161')); break;
-    case 122: for (const op of ops) if (isScript(op, 'seer_eff_142')) op.params[0] = n; break;
-    case 123: for (const op of ops) if (isScript(op, 'seer_eff_419')) op.params[1] += n; break;
-    case 124: for (const op of ops) if (isScript(op, 'seer_eff_154')) op.params[1] = n; break;
-    case 125: for (const op of ops) if (op.op === 'heal' && op.target === 'self' && op.pct_max_hp) op.pct_max_hp = 100 / n; break;
-    case 126: for (const op of ops) if (isScript(op, 'seer_eff_125')) op.params[1] -= n; break;
-    case 127: for (const op of selfStages()) if ((op.stats.atk ?? 0) > 0) op.stats.atk += n; break;
-    default: return null;
-  }
+  skill.effects ??= [];
+  edit(skill, Number(def.effect.arg) || 0);
   return JSON.stringify(skill) === JSON.stringify(base) ? null : skill;
 }
 
