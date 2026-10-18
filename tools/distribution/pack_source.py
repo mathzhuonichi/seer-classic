@@ -114,7 +114,7 @@ directories, operating-system metadata, and player saves.
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--revision", type=int, default=30)
+    parser.add_argument("--revision", type=int, required=True)
     args = parser.parse_args()
     if args.revision < 1:
         parser.error("revision must be positive")
