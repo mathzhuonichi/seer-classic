@@ -23,6 +23,10 @@ try {
   const eligible=catalog.species.filter(s=>![122,123,124,125].includes(s.id)&&s.learnset?.some(row=>row.level>=1&&row.level<=100&&skills.has(row.skill)));
   const elite=eligible.filter(s=>Object.values(s.base).reduce((sum,n)=>sum+n,0)>=600);
   const ai={kind:'smart',allow_switch:true};
+  // V58: the search planner may draw once from the live RNG to mix its strategy. A decision is
+  // repeatable and read-only when it is a pure function of the battle state and the RNG state.
+  const rngState=battle=>({s:[...battle.rng.s],draws:battle.rng.draws});
+  const restoreRng=(battle,state)=>{battle.rng.s=[...state.s];battle.rng.draws=state.draws;};
   function rng(seed){let state=seed>>>0;return()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};}
   function shuffled(rows,seed){const result=[...rows],random=rng(seed);for(let i=result.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
   function build(species,seed){
@@ -86,7 +90,7 @@ try {
 
   check('Every eligible species can actively make a legal, repeatable, read-only Lv100 decision',()=>{
     const opponent=build(eligible.find(row=>row.id===6),137001);let actors=0;
-    for(const species of eligible){const member=build(species,137001+species.id),battle=battleFor([opponent],[member],137001+species.id),before=serialize(battle),action=chooseAiAction(battle,battle.sides[1]);assert(battle.legalActions(1).some(legal=>JSON.stringify(legal)===JSON.stringify(action)),`${species.id}: illegal decision`);assert.deepEqual(chooseAiAction(battle,battle.sides[1]),action);assert.equal(serialize(battle),before);finite(battle);actors++;}
+    for(const species of eligible){const member=build(species,137001+species.id),battle=battleFor([opponent],[member],137001+species.id),before=serialize(battle),random=rngState(battle),action=chooseAiAction(battle,battle.sides[1]);assert(battle.legalActions(1).some(legal=>JSON.stringify(legal)===JSON.stringify(action)),`${species.id}: illegal decision`);restoreRng(battle,random);assert.deepEqual(chooseAiAction(battle,battle.sides[1]),action);restoreRng(battle,random);assert.equal(serialize(battle),before);finite(battle);actors++;}
     report.activeActors=actors;assert.equal(actors,eligible.length);
   });
 
@@ -117,10 +121,11 @@ try {
       const battle=battleFor(members,members,97001);battle.turn=100;battle.active(1).turnsActive=2;
       const announcements=members[0].skills.filter(id=>skills.get(id).category!=='status');
       for(let i=0;i<events;i++)battle.log.push(i%3===0?{type:'turn_start',turn:Math.floor(i/3)+1}:{type:'move_used',side:i%2,skill:announcements[i%announcements.length],name:'Public history benchmark'});
-      const before=serialize(battle);for(let warmup=0;warmup<3;warmup++)chooseAiAction(battle,battle.sides[1]);
-      let iterated=0;const originalIterator=battle.log[Symbol.iterator];battle.log[Symbol.iterator]=function*(){for(const value of originalIterator.call(this)){iterated++;yield value;}};const action=chooseAiAction(battle,battle.sides[1]);delete battle.log[Symbol.iterator];
-      assert.equal(iterated,events,'Public battle history is projected once per decision, including reserve evaluation');
-      const durations=[];for(let repeat=0;repeat<15;repeat++){const start=performance.now();assert.deepEqual(chooseAiAction(battle,battle.sides[1]),action);durations.push(performance.now()-start);}
+      const before=serialize(battle),random=rngState(battle);for(let warmup=0;warmup<3;warmup++){chooseAiAction(battle,battle.sides[1]);restoreRng(battle,random);}
+      let iterated=0;const originalIterator=battle.log[Symbol.iterator];battle.log[Symbol.iterator]=function*(){for(const value of originalIterator.call(this)){iterated++;yield value;}};const action=chooseAiAction(battle,battle.sides[1]);delete battle.log[Symbol.iterator];restoreRng(battle,random);
+      // Observation, medicine streak and world construction each pass over the public history; simulations do not.
+      assert(iterated<=8*events,'Public battle history is scanned a bounded number of times per decision, independent of the simulation count');
+      const durations=[];for(let repeat=0;repeat<15;repeat++){const start=performance.now();assert.deepEqual(chooseAiAction(battle,battle.sides[1]),action);durations.push(performance.now()-start);restoreRng(battle,random);}
       assert.equal(serialize(battle),before);report.performance.push({events,action,historyEntriesVisited:iterated,equivalentFullScans:events?iterated/events:0,medianDecisionMs:+median(durations).toFixed(3),p95DecisionMs:+percentile(durations,.95).toFixed(3),maxDecisionMs:+Math.max(...durations).toFixed(3)});
     }
   });

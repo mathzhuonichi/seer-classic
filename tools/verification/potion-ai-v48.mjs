@@ -9,9 +9,11 @@ const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report
 const snapshot=b=>JSON.stringify(b,(_key,value)=>value instanceof Map?[...value]:value instanceof Set?[...value]:value);
 const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error',plugins:[{name:'potion-audit-readonly',enforce:'pre',transform(code,id){if(id.endsWith('/battle/core/src/tactics.ts'))return code+'\nexport {potionProgress as auditProgress};';}}]});
 try{
-  const [{createBattle,buildDataSet},{chooseAiAction},{SEER_SCRIPTS},{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems},{auditProgress}]=await Promise.all([
+  const [{createBattle:createBattleRaw,buildDataSet},{chooseAiAction},{SEER_SCRIPTS},{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{TRAINER_UNLIMITED_ITEMS,normalizeBattleSupplyItems},{auditProgress}]=await Promise.all([
     '/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts','/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/src/progression/battle-supplies.ts','/battle/core/src/tactics.ts',
   ].map(path=>server.ssrLoadModule(path)));
+  // V58: this suite verifies the retained V57 planner (tactics.ts); the search planner has its own suites.
+  const createBattle=(...args)=>{const battle=createBattleRaw(...args);for(const side of battle.sides)if(side.kind==='trainer'&&!side.ai)side.ai={kind:'smart'};for(const side of battle.sides)for(const holder of [side,...side.team])if(holder.ai&&(holder.ai.kind??'smart')==='smart')holder.ai={...holder.ai,planner:'v57'};return battle;};
   const HP='item_potion_hp_200',PP='item_potion_pp_20',CURE='item_status_cure',SMALL='audit-hp-100';
   const realItems=JSON.parse(fs.readFileSync('data/items.json','utf8'));
   const cure={id:CURE,name:{zh:'Audit status cure'},kind:'battle',battle_effects:[{op:'cure_status',target:'self'}]};

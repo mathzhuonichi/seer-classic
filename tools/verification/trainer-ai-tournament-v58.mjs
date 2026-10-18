@@ -10,8 +10,10 @@
  * Usage:
  *   node tools/verification/trainer-ai-tournament-v58.mjs \
  *     [--facility random|elite|classic|all] [--games N] [--a search|v57] [--b search|v57] \
- *     [--seed S] [--max-turns T] [--out report.json] [--quiet] [--jobs N]
+ *     [--seed S] [--max-turns T] [--out report.json] [--quiet] [--jobs N] [--const NAME=VALUE ...]
  *
+ * --const overrides a numeric constant of battle/core/src/search-ai.ts in memory
+ * (for example --const ALIVE=0.5), for tuning; the source file is not changed.
  * --jobs N splits the pairings over N worker processes (pairing index modulo N)
  * and merges their games and timings into one report; results are unchanged.
  * --games is the number of team pairings per facility; each pairing is two battles.
@@ -29,7 +31,7 @@ const FACILITIES = ['random', 'elite', 'classic'];
 const PLANNERS = ['search', 'v57'];
 
 function parseArgs(argv) {
-  const opts = {facility: 'all', games: 30, a: 'search', b: 'v57', seed: 1, maxTurns: 200, out: undefined, quiet: false, jobs: 1, shard: [0, 1]};
+  const opts = {facility: 'all', games: 30, a: 'search', b: 'v57', seed: 1, maxTurns: 200, out: undefined, quiet: false, jobs: 1, shard: [0, 1], consts: {}};
   for (let k = 0; k < argv.length; k++) {
     const flag = argv[k], value = () => {
       if (k + 1 >= argv.length) throw new Error(`${flag} needs a value`);
@@ -46,6 +48,12 @@ function parseArgs(argv) {
       case '--quiet': opts.quiet = true; break;
       case '--jobs': opts.jobs = Number(value()); break;
       case '--shard': opts.shard = value().split('/').map(Number); break;
+      case '--const': {
+        const [name, number] = value().split('=');
+        if (!/^[A-Z_]+$/.test(name) || !Number.isFinite(Number(number))) throw new Error('--const needs NAME=number');
+        opts.consts[name] = Number(number);
+        break;
+      }
       case '--help': case '-h':
         console.log('Usage: trainer-ai-tournament-v58.mjs [--facility random|elite|classic|all] [--games N] [--a search|v57] [--b search|v57] [--seed S] [--max-turns T] [--out report.json] [--quiet]');
         process.exit(0);
@@ -60,7 +68,8 @@ function parseArgs(argv) {
   const [k, n] = opts.shard;
   if (!Number.isSafeInteger(n) || n < 1 || !Number.isSafeInteger(k) || k < 0 || k >= n) throw new Error('--shard must be k/n with 0 <= k < n');
   if (!Number.isSafeInteger(opts.maxTurns) || opts.maxTurns < 1) throw new Error('--max-turns must be a positive integer');
-  opts.out = path.resolve(opts.out ?? path.join(root, 'artifacts/trainer-ai-tournament-v58', `${opts.a}-vs-${opts.b}-${opts.facility}-g${opts.games}-s${opts.seed}.json`));
+  const tag = Object.entries(opts.consts).map(([name, number]) => `-${name}${number}`).join('');
+  opts.out = path.resolve(opts.out ?? path.join(root, 'artifacts/trainer-ai-tournament-v58', `${opts.a}-vs-${opts.b}-${opts.facility}-g${opts.games}-s${opts.seed}${tag}.json`));
   return opts;
 }
 
@@ -137,10 +146,24 @@ const replacementTiming = {
   },
 };
 
+const SEARCH_FILE = path.join(root, 'battle/core/src/search-ai.ts');
+const searchConstants = {
+  name: 'tournament-search-constants', enforce: 'pre',
+  transform(code, id) {
+    if (id.split('?')[0] !== SEARCH_FILE || !Object.keys(opts.consts).length) return;
+    for (const [name, number] of Object.entries(opts.consts)) {
+      const re = new RegExp(`\\b${name} = [-0-9.]+`);
+      if (!re.test(code)) throw new Error(`search-ai.ts has no numeric constant ${name}`);
+      code = code.replace(re, `${name} = ${number}`);
+    }
+    return code;
+  },
+};
+
 const wallStart = performance.now();
 const server = await createServer({root, configFile: false, cacheDir: path.join(root, 'artifacts/.validation-cache/trainer-ai-tournament-v58'),
   server: {middlewareMode: true, watch: null, hmr: false, ws: false}, optimizeDeps: {noDiscovery: true, include: []}, appType: 'custom', logLevel: 'error',
-  plugins: [replacementTiming]});
+  plugins: [replacementTiming, searchConstants]});
 try {
   const [core, {SEER_SCRIPTS}, {npcTrainingScripts}, {traitScripts}, {campaignScripts}, {loadCatalog}, {createFacilityEncounter},
     {normalizeBattleSupplyItems, trainerBattleSupplies}, {normalizeNpcTrainingEncounter}, {bossEncounterForAttempt}, {conventionalMovesResolver}] = await Promise.all([
@@ -203,6 +226,7 @@ try {
     const encounter = {...foe, ai: aiFor(foe, planners[1])};
     const record = {facility, pairing, mirror, battleSeed, roles, planners, teams: teams.map(t => t.facility === 'classic' ? t.id : t.team.map(m => m.species))};
     const notes = [];
+    const choices = {A: {decisions: 0, switches: 0, quickSwitches: 0}, B: {decisions: 0, switches: 0, quickSwitches: 0}}, lastSwitch = [-9, -9];
     let battle;
     const started = performance.now();
     try {
@@ -227,6 +251,14 @@ try {
           const start = performance.now();
           const action = chooseAiAction(battle, side);
           timing[roles[index]].action.push(performance.now() - start);
+          const choice = choices[roles[index]];
+          choice.decisions++;
+          if (action.kind === 'switch') {
+            choice.switches++;
+            // A switch within two turns of the previous one by the same side (the V47 two-active-turn gate).
+            if (battle.turn + 1 - lastSwitch[index] < 3) choice.quickSwitches++;
+            lastSwitch[index] = battle.turn + 1;
+          }
           if (!battle.isLegal(index, action) && notes.length < 20) notes.push({turn: battle.turn, side: index, illegalAction: action});
           // The engine's own AI path does not validate legality either; keep its behavior.
           side.pending = action;
@@ -239,7 +271,7 @@ try {
       const out = battle.sides.map(side => side.team.every(mon => mon.fainted));
       const draw = winner === null || (out[0] && out[1]);
       return {...record, winnerSide: draw ? null : winner, outcome: draw ? 'draw' : roles[winner], reason: draw && out[0] && out[1] ? 'both_out' : reason,
-        turns: battle.turn, ms: round(performance.now() - started, 1), ...(notes.length ? {notes} : {})};
+        turns: battle.turn, ms: round(performance.now() - started, 1), choices, ...(notes.length ? {notes} : {})};
     } catch (error) {
       return {...record, outcome: 'error', turns: battle?.turn ?? null, ms: round(performance.now() - started, 1),
         error: {seed: battleSeed, turn: battle?.turn ?? null, phase: battle?.phase ?? 'construction', message: String(error?.message ?? error),
@@ -298,8 +330,13 @@ try {
       timingSummary[role] = {planner, actionMs: distribution(action), replacementMs: replacementTimingInstalled ? distribution(replacement) : null,
         allDecisionsMs: distribution([...action, ...(replacementTimingInstalled ? replacement : [])])};
     }
+    const switching = Object.fromEntries(['A', 'B'].map(role => {
+      const total = key => played.reduce((sum, row) => sum + (row.choices?.[role][key] ?? 0), 0);
+      const decisions = total('decisions');
+      return [role, {decisions, switches: total('switches'), quickSwitches: total('quickSwitches'), switchRate: decisions ? round(total('switches') / decisions, 4) : null}];
+    }));
     return {
-      games: rows.length, played: n, aWins, bWins, draws, errors: rows.length - n,
+      games: rows.length, played: n, switching, aWins, bWins, draws, errors: rows.length - n,
       aScoreRate: n ? round(score / n, 4) : null, aScoreWilson95: [round(lo, 4), round(hi, 4)],
       turns: {mean: n ? round(played.reduce((s, row) => s + row.turns, 0) / n, 2) : null, median: median(played.map(row => row.turns))},
       sides: {side0Wins: played.filter(row => row.winnerSide === 0).length, side1Wins: played.filter(row => row.winnerSide === 1).length, draws},
@@ -314,7 +351,7 @@ try {
   const wallSeconds = round((performance.now() - wallStart) / 1000, 1);
   const report = {
     tool: 'trainer-ai-tournament-v58', generatedAt: new Date().toISOString(),
-    config: {facility: opts.facility, pairingsPerFacility: opts.games, a: opts.a, b: opts.b, seed: opts.seed, maxTurns: opts.maxTurns, jobs: opts.jobs},
+    config: {facility: opts.facility, pairingsPerFacility: opts.games, a: opts.a, b: opts.b, seed: opts.seed, maxTurns: opts.maxTurns, jobs: opts.jobs, searchConstants: opts.consts},
     protocol: 'Each pairing: two facility-built teams and one battle seed; game 0 has A on side 0 and B on side 1, game 1 exchanges the planners. Teams keep their sides. Draws (turn cap, both sides out) score one half for A.',
     notes: [
       'planner is passed through AiSpec.planner; ai.ts sends trainer decisions to search-ai.ts, or to tactics.ts for v57.',
@@ -334,7 +371,7 @@ try {
     const t = s.decisionTime;
     return `${name.padEnd(8)} games ${String(s.played).padStart(4)}  A ${String(s.aWins).padStart(3)}  B ${String(s.bWins).padStart(3)}  draw ${String(s.draws).padStart(3)}  err ${s.errors}  ` +
       `A score ${pct(s.aScoreRate)} [${pct(s.aScoreWilson95[0])}, ${pct(s.aScoreWilson95[1])}]  turns mean ${s.turns.mean} median ${s.turns.median}  ` +
-      `side0/side1 ${s.sides.side0Wins}/${s.sides.side1Wins}  ` +
+      `side0/side1 ${s.sides.side0Wins}/${s.sides.side1Wins}  switch A ${pct(s.switching.A.switchRate)} (${s.switching.A.quickSwitches} quick) B ${pct(s.switching.B.switchRate)} (${s.switching.B.quickSwitches} quick)  ` +
       ['A', 'B'].map(role => `${role}(${t[role].planner}) ms p50 ${t[role].allDecisionsMs.p50} p95 ${t[role].allDecisionsMs.p95} p99 ${t[role].allDecisionsMs.p99} max ${t[role].allDecisionsMs.max}`).join('  ');
   };
   console.log(`\nTrainer AI tournament: A=${opts.a} vs B=${opts.b}, seed ${opts.seed}, ${opts.games} pairings per facility, max ${opts.maxTurns} turns`);

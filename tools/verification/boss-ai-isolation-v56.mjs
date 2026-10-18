@@ -17,8 +17,8 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
 const report={oracle:{revision:oracleRevision,path:'battle/core/src/ai.ts',sha256:crypto.createHash('sha256').update(oracleSource).digest('hex')},checks:[],failures:[],bossCases:[],facilityCases:[],scope:'The oracle is the complete historical policy loaded directly from Git, running on current battle mechanics and encounter data. This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'};
 function check(name,run){try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
 try {
-  const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{tacticalAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng}]=await Promise.all([
-    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/battle/core/src/tactics.ts','/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/rng.ts',
+  const [{createBattle,STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{chooseAiAction:oldAction},{tacticalAction},{loadCatalog},{SEER_SCRIPTS},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
+    '/battle/core/src/battle.ts','/battle/core/src/data.ts','/battle/core/src/ai.ts',oracleId,'/battle/core/src/tactics.ts','/src/mechanics/catalog.ts','/battle/core/src/scripts/index.ts','/src/mechanics/traits.ts','/src/mechanics/campaign-rules.ts','/src/mechanics/npc-training.ts','/src/progression/battle-facilities.ts','/battle/core/src/rng.ts','/battle/core/src/search-ai.ts',
   ].map(id=>server.ssrLoadModule(id)));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -97,7 +97,8 @@ try {
   });
   check('Normal turn KO replacement preserves Boss team order and trainer matchup selection',()=>{
     for(const [kind,expected] of [['boss',1],['trainer',2]]){
-      const b=matchup(kind,true);b.submit(0,move(S.strong));const events=b.resolveTurn();
+      // Both actions are explicit: this checks the knockout replacement, not whether a trainer escapes the knockout.
+      const b=matchup(kind,true);b.submit(0,move(S.strong));b.submit(1,move(S.wait));const events=b.resolveTurn();
       assert(events.some(e=>e.type==='faint'&&e.side===1));assert.equal(b.sides[1].active,expected);assert.equal(b.phase,'choose');
     }
   });
@@ -131,12 +132,12 @@ try {
     const b=fixture({skills:[S.strong,S.attack]});b.data.skills.get(S.strong).power=b.data.skills.get(S.attack).power;
     assert.deepEqual(decide(b),move(S.strong));
   });
-  check('Historical live-hook evaluation remains part of Boss policy while trainer scoring stays pure',()=>{
+  check('Historical live-hook evaluation remains part of Boss policy while V57 trainer scoring stays pure',()=>{
     const b=fixture(),calls={damage:0,priority:0};
     b.estimateDamage=(_user,_foe,skill)=>{calls.damage++;return skill.id===S.attack?1000:0;};
     b.priority=()=>{calls.priority++;return 0;};
     assert.deepEqual(decide(b),move(S.attack));assert.deepEqual(calls,{damage:2,priority:2});
-    const trainer=fixture({kind:'trainer'});trainer.estimateDamage=trainer.priority=()=>{throw new Error('Trainer used a live callback');};
+    const trainer=fixture({kind:'trainer',ai:{kind:'smart',planner:'v57'}});trainer.estimateDamage=trainer.priority=()=>{throw new Error('Trainer used a live callback');};
     assert.deepEqual(decide(trainer),move(S.attack));
   });
   check('Existing encounter choose_action scripts retain authority over generic Boss selection',()=>{
@@ -151,13 +152,15 @@ try {
     assert(a.active(1).ai||JSON.stringify(a.sides[1].ai)!==JSON.stringify(encounter.ai),'The HP phase must replace its policy');
     for(let i=0;i<12;i++)matchOracle(a,b,`${encounter.id}/HP-phase/${i}`);
   });
-  check('Every fixed trainer and both generated facilities dispatch the unchanged tactical planner',()=>{
+  // V58: real trainer encounters dispatch the search planner; it may draw once from the live RNG to mix.
+  const serialWithoutRng=b=>JSON.stringify(b,(key,value)=>key==='rng'?undefined:value instanceof Map?[...value]:value instanceof Set?[...value]:value);
+  check('Every fixed trainer and both generated facilities dispatch the search planner',()=>{
     const encounters=[...catalog.trainers.map(row=>createFacilityEncounter(catalog,'classic',new Rng(560),row.id)),...['random','elite'].map(id=>createFacilityEncounter(catalog,id,new Rng(561)))];
     assert.equal(encounters.length,12);
     for(const encounter of encounters)for(let lead=0;lead<encounter.team.length;lead++){
       const b=createBattle({data,scripts,seed:562,sides:[{kind:'player',team:[{species:6,level:100,skills:[10001]}]}],encounter});if(lead)b.switchIn(b.sides[1],lead);
-      assert.equal(b.sides[1].kind,'trainer');const before=serial(b),actual=decide(b);
-      assert.deepEqual(actual,tacticalAction(b,b.sides[1],b.active(1).ai??b.sides[1].ai));assert.equal(serial(b),before);
+      assert.equal(b.sides[1].kind,'trainer');const before=serialWithoutRng(b),actual=decide(b),record=lastSearchDecision(b,b.sides[1]);
+      assert(record&&record.turn===b.turn+1,'decision recorded by the search planner');assert.deepEqual(actual,record.chosen);assert.equal(serialWithoutRng(b),before);
       report.facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
     }
   });

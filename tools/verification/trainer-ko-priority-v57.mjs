@@ -19,7 +19,9 @@ const server=await createServer({root,configFile:false,cacheDir:path.join(root,'
   },
 }]});
 try{
-  const [{createBattle,buildDataSet},{chooseAiAction},{computeStats},{publicOpponent,immediateKoAction},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/tactics.ts','/battle/core/src/scripts/index.ts','/src/mechanics/npc-training.ts'].map(id=>server.ssrLoadModule(id)));
+  const [{createBattle:createBattleRaw,buildDataSet},{chooseAiAction},{computeStats},{publicOpponent,immediateKoAction},{SEER_SCRIPTS},{npcTrainingScripts}]=await Promise.all(['/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/stats.ts','/battle/core/src/tactics.ts','/battle/core/src/scripts/index.ts','/src/mechanics/npc-training.ts'].map(id=>server.ssrLoadModule(id)));
+  // V58: this suite verifies the retained V57 planner (tactics.ts); the search planner has its own suites.
+  const createBattle=(...args)=>{const battle=createBattleRaw(...args);for(const side of battle.sides)if(side.kind==='trainer'&&!side.ai)side.ai={kind:'smart'};for(const side of battle.sides)for(const holder of [side,...side.team])if(holder.ai&&(holder.ai.kind??'smart')==='smart')holder.ai={...holder.ai,planner:'v57'};return battle;};
   const S={quick:57001,clear:57002,wait:57003,foeHit:57004,heal:57005,control:57006,shield:57007,fixed:57008,lottery:57009,multi:57010,probPower:57011,foeStatus:57012,foeUnknown:57013,steal:11924};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100},publicStats=computeStats(base,50,15);
   const attack=(id,power=80,extra={})=>({id,name:{zh:`KO fixture ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});

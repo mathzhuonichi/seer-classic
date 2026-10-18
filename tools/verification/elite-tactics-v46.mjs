@@ -8,9 +8,11 @@ const server=await createServer({configFile:false,server:{middlewareMode:true,wa
 const report={checks:[],failures:[],witnesses:[]};
 const check=(name,run)=>{try{run();report.checks.push(name);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
 try {
-  const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle,buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
+  const [{loadCatalog},{normalizeNpcTrainingEncounter},{npcTrainingScripts},{createBattle:createBattleRaw,buildDataSet},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
     '/src/mechanics/catalog.ts','/src/progression/npc-training.ts','/src/mechanics/npc-training.ts','/battle/core/src/index.ts','/battle/core/src/ai.ts','/battle/core/src/scripts/index.ts',
   ].map(path=>server.ssrLoadModule(path)));
+  // V58: this suite verifies the retained V57 planner (tactics.ts); the search planner has its own suites.
+  const createBattle=(...args)=>{const battle=createBattleRaw(...args);for(const side of battle.sides)if(side.kind==='trainer'&&!side.ai)side.ai={kind:'smart'};for(const side of battle.sides)for(const holder of [side,...side.team])if(holder.ai&&(holder.ai.kind??'smart')==='smart')holder.ai={...holder.ai,planner:'v57'};return battle;};
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),roster=JSON.parse(fs.readFileSync('data/elite-roster.json','utf8'));
   const WAIT=990470,HIT=990471,FOE=990472,BULK=990473;
   const fixtureSkills=[

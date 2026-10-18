@@ -7,7 +7,9 @@ const server=await createServer({server:{middlewareMode:true,watch:null,hmr:fals
 const checks=[],failures=[],trainerCases=[];
 function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,3500)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
 try {
-  const {createBattle,STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/battle.ts');
+  const {createBattle:createBattleRaw,STRUGGLE_SKILL}=await server.ssrLoadModule('/battle/core/src/battle.ts');
+  // V58: this suite verifies the retained V57 planner (tactics.ts); the search planner has its own suites.
+  const createBattle=(...args)=>{const battle=createBattleRaw(...args);for(const side of battle.sides)if(side.kind==='trainer'&&!side.ai)side.ai={kind:'smart'};for(const side of battle.sides)for(const holder of [side,...side.team])if(holder.ai&&(holder.ai.kind??'smart')==='smart')holder.ai={...holder.ai,planner:'v57'};return battle;};
   const {buildDataSet}=await server.ssrLoadModule('/battle/core/src/data.ts');
   const {chooseAiAction}=await server.ssrLoadModule('/battle/core/src/ai.ts');
   const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
