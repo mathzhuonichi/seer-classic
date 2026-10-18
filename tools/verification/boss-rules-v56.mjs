@@ -8,6 +8,7 @@ import {createBattle} from './_battle.ts';
 import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
+import {groupedBattleLog,openingEvents} from '../../src/features/battle/battle-log.ts';
 import {loadCatalogNode} from '../catalog.mjs';
 import {root,suite} from './_harness.mjs';
 
@@ -258,6 +259,19 @@ check('Four declined mechanics and one authored replacement are explicit; defens
   const eer=make('boss_spt_eersaila','sat');tick(eer);assert(eer.initialEvents.some(event=>event.type==='mechanic_waived'&&event.policy==='v57-eersaila-critical-curve'));assert.deepEqual(eer.warnings,[]);
   assert(!byId.get('boss_spt_moshidilu').phases.some(phase=>phase.do.some(op=>['ohko_attacks','damage_scales_with_hp_lost'].includes(op.id))));
   const battle=make('boss_tower_brave_f001'),mon=battle.active(1),hp=mon.hp;assert.equal(battle.heal(mon,NaN),0);assert.equal(mon.hp,hp);assert(battle.warnings.includes('non-finite heal amount rejected'));
+});
+check('Rule conditions are installed before the first switch-in, so no Boss opening log line names one',()=>{
+  const conditionEvents=new Set(['condition_added','condition_refreshed']);let installed=0;
+  for(const boss of bosses){
+    const battle=make(boss.id),events=battle.initialEvents,fielded=events.findIndex(event=>event.type==='switch_in');
+    installed+=events.slice(0,fielded).filter(event=>conditionEvents.has(event.type)).length;
+    const late=events.slice(fielded).find(event=>conditionEvents.has(event.type)&&event.condition.startsWith('boss_'));
+    assert(!late,`${boss.id}: rule condition ${late?.condition} after the switch-ins`);
+    const creature=mon=>({name:mon.name,hp:mon.hp,maxHp:mon.maxHp});
+    const lines=groupedBattleLog(openingEvents(events),{data,initialPlayer:creature(battle.active(0)),initialEnemy:creature(battle.active(1))});
+    assert(!lines.some(line=>/获得|效果更新/.test(line)),`${boss.id}: ${lines.join(' / ')}`);
+  }
+  assert(installed>50,`the encounters install rule conditions (${installed})`);
 });
 check('Boss catalog inputs remain byte-equivalent in memory',()=>{assert.equal(JSON.stringify(bosses),fullInput);});
 

@@ -100,6 +100,15 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   }
 }
 
+/**
+ * A battle's opening events as the log shows them. The Battle constructor installs the encounter rules between `battle_start`
+ * and the first switch-in; the conditions they attach are Boss mechanics, shown in the evidence dialog, so they get no line.
+ */
+export function openingEvents(events: BattleEvent[]): BattleEvent[] {
+  const fielded = events.findIndex(event => event.type === 'switch_in');
+  return events.filter((event, index) => index >= fielded || (event.type !== 'condition_added' && event.type !== 'condition_refreshed'));
+}
+
 /** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
 const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
   new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);

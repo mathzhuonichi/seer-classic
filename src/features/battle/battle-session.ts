@@ -1,7 +1,7 @@
 // The battle lifecycle: start a session, play turns, and keep the log and animation frames.
 import type { Action, Battle, BattleEvent } from '../../../battle/core/src/index.ts';
 import { findMon, type Monster } from '../../../raising/core/index.ts';
-import { groupedBattleLog } from './battle-log.ts';
+import { groupedBattleLog, openingEvents } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
 import { setupBattle, type Foe } from './battle-setup.ts';
 import { foeView, hidesFoeHp, presentationState } from './battle-view.ts';
@@ -24,7 +24,7 @@ export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: Sess
   const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [`挑战${setup.name}。`], frames: [] };
   rt.session = session;
   rt.animation.revision++;
-  logEvents(rt.ctx, session, setup.battle.initialEvents);
+  logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));
   const fought = setup.encounter;
   if (fought && !hooks.unrecorded) save.progress.boss_attempts[fought.id] = (save.progress.boss_attempts[fought.id] ?? 0) + 1;
   prepareTurn(rt, setup.battle);
