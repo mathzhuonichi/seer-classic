@@ -49,7 +49,7 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     clock: BROWSER_CLOCK,
     holdIdle,
   }));
-  const state = useSyncExternalStore(player.subscribe, player.state);
+  const state = useSyncExternalStore(player.subscribe, player.state, player.state);
   const revision = battle.animation.revision;
 
   useEffect(() => player.play(latest.current.battle), [revision, player]);
