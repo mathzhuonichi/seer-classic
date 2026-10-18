@@ -7,7 +7,7 @@ import { activeBeads, computeStats, createMonster, findMon, type Monster } from 
 import type { GameSave } from '../../raising/game/save.ts';
 import { bossEncounterForAttempt } from '../mechanics/boss-encounter.ts';
 import { campaignScripts } from '../mechanics/campaign-rules.ts';
-import { traits } from '../mechanics/modules.ts';
+import { traits } from '../mechanics/traits.ts';
 import { npcTrainingScripts } from '../mechanics/npc-training.ts';
 import { traitScripts } from '../mechanics/traits.ts';
 import { trainerBattleSupplies } from '../progression/battle-supplies.ts';

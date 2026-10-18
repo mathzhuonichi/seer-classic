@@ -10,7 +10,7 @@ import { PARTY_MAX } from "../core/storage.ts";
 
 export const SAVE_VERSION = 2;
 
-/** Per-monster later-era mechanics state (see src/mechanics/modules.ts). */
+/** Per-monster later-era mechanics state: equipped engravings and spent engraving resources. */
 export interface SavedModules {
   engravings: string[];
   /** Spent bonus resources that cannot fit in the nonnegative base HP/PP save fields. */

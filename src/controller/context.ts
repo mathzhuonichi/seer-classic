@@ -2,7 +2,7 @@
 import { buildDataSet, type Battle, type BattleOptions, type BossEncounter, type DataSet, type RawData } from '../../battle/core/src/index.ts';
 import { makeDex, type Dex, type Nature, type Skill, type Species } from '../../raising/core/index.ts';
 import type { CatalogData } from '../mechanics/catalog.ts';
-import { traits, type TraitDefinition } from '../mechanics/modules.ts';
+import { traits, type TraitDefinition } from '../mechanics/traits.ts';
 import type { EssenceDefinition } from '../progression/acquisition-limits.ts';
 import { buildFacilityViews } from '../progression/battle-facilities.ts';
 import { braveTowerFloor } from '../progression/brave-tower.ts';

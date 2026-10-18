@@ -17,7 +17,6 @@ All encounters are listed without calendar or story unlock requirements. Encount
 | `boss-encounter.ts` | the attempt-based boss level rule, applied before battle creation |
 | `engravings.ts` | the 2013 ability and skill engravings: applicability, stat bonuses and the skill Effect-code table |
 | `engraving-access.ts` | remake ownership limits for generic ability engravings |
-| `modules.ts` | `MonsterModules`, the per-monster save state of these mechanics |
 | `persistence.ts` | the browser local-storage save slot |
 
 The game registers `{...SEER_SCRIPTS, ...traitScripts, ...campaignScripts, ...npcTrainingScripts}`. The three game registries are built with the engine's script builders and helpers (`battle/core/src/scripts/builders.ts` and `util.ts`, described in `battle/core/SCRIPTS.md`); campaign `status_on_attacker` shares the engine boss rule's hook and keeps one condition per repeated rule.

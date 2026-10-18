@@ -7,7 +7,8 @@ import { engravingAccess } from '../mechanics/engraving-access.ts';
 import {
   activeEngravings, engravingBlockedReason, engravingById, engravingEffectGroup, engravingStatBonus, engravingStatKeys, type EngravingDefinition,
 } from '../mechanics/engravings.ts';
-import { engravings, traits } from '../mechanics/modules.ts';
+import { engravings } from '../mechanics/engravings.ts';
+import { traits } from '../mechanics/traits.ts';
 import { getBreedingGender } from '../progression/breeding.ts';
 import { appearanceSpecies } from '../progression/skins.ts';
 import { SKILL_CATEGORY_LABELS } from '../presentation/labels.ts';

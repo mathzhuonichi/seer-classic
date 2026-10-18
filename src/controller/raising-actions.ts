@@ -3,7 +3,7 @@ import {
   addEvs, allocatePoolExp, changeNature, computeStats, deposit, equipSkills, EV_STAT_CAP, EV_TOTAL_CAP, evolutionOptions, evolve, findMon, gainLevels,
   healAll, IV_MAX, IV_MIN, MAX_LEVEL, rename, requiresEvolutionChoice, setIv, setPartyOrder, STAT_KEYS, withdraw, type Monster,
 } from '../../raising/core/index.ts';
-import { traits } from '../mechanics/modules.ts';
+import { traits } from '../mechanics/traits.ts';
 import { STAT_LABELS } from '../presentation/labels.ts';
 import { acquire, boundedAutoEvolve, ensureSpeciesCapacity } from './acquisition.ts';
 import { TRAINING_COST_PER_EV } from './economy.ts';
