@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  BRAVE_TOWER_FLOORS,BRAVE_TOWER_CHECKPOINTS,braveTowerFloor,braveTowerBossId,
-  normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,braveTowerRewards,
+  BRAVE_TOWER_FLOORS,BRAVE_TOWER_SEGMENT,BRAVE_TOWER_CHECKPOINTS,braveTowerFloor,braveTowerBossId,
+  normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,braveTowerRewards,braveTowerPosition,
 } from './brave-tower.ts';
 
 const fresh=()=>normalizeBraveTowerProgress(undefined,[]);
@@ -23,6 +23,7 @@ test('explicit rewards separate repeatable supplies from first-clear milestones'
 test('a fresh tower opens only floor 1, with fixed ten-floor checkpoints',()=>{
   const progress=fresh();
   assert.equal(BRAVE_TOWER_FLOORS,70);
+  assert.equal(BRAVE_TOWER_SEGMENT,10);
   assert.deepEqual(BRAVE_TOWER_CHECKPOINTS,[1,11,21,31,41,51,61]);
   assert.deepEqual(progress,{highestCleared:0,resumeFloor:1});
   assert.deepEqual(unlocked(progress),[1]);
@@ -106,4 +107,13 @@ test('invalid requested floors fail without mutating progression',()=>{
     assert.throws(()=>clearBraveTowerFloor(progress,floor),RangeError);
   }
   assert.deepEqual(progress,{highestCleared:70,resumeFloor:17});
+});
+
+test('the position names the scene floor, its guardian, completion and the offered entrance',()=>{
+  const position=(highestCleared,resumeFloor)=>braveTowerPosition({highestCleared,resumeFloor});
+  assert.deepEqual(braveTowerPosition(fresh()),{floor:1,bossId:'boss_tower_brave_f001',climbComplete:false,conquered:false,entrance:1});
+  assert.deepEqual(position(16,17),{floor:17,bossId:'boss_tower_brave_f017',climbComplete:false,conquered:false,entrance:11});
+  for(const [resumeFloor,entrance] of [[10,1],[11,11],[20,11],[61,61],[70,61]])assert.equal(position(69,resumeFloor).entrance,entrance);
+  assert.deepEqual(position(70,null),{floor:70,bossId:'boss_tower_brave_f070',climbComplete:true,conquered:true,entrance:1});
+  assert.deepEqual(position(70,61),{floor:61,bossId:'boss_tower_brave_f061',climbComplete:false,conquered:true,entrance:61});
 });

@@ -1,26 +1,10 @@
 /** Grouped classic rosters, exact training origins, ordinary builds, and previews. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createServer} from 'vite';
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}});
-// SSR has no clicks. Query-specific fixtures change only the selected UI state;
-// all production grouping, member lookup, descriptions, and rendering stay real.
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error',plugins:[{
-  name:'classic-selected-state-audit',enforce:'pre',transform(code,id){
-    if(!id.includes('/src/components/BattleFacilities.tsx?'))return;
-    const query=new URLSearchParams(id.split('?')[1]);if(!query.has('auditTeam'))return;
-    return code.replace("[teamId,setTeamId]=useState('')",`[teamId,setTeamId]=useState(${JSON.stringify(query.get('auditTeam'))})`)
-      .replace("[groupId,setGroupId]=useState('trained')",`[groupId,setGroupId]=useState(${JSON.stringify(query.get('auditGroup'))})`)
-      .replace('[memberIndex,setMemberIndex]=useState(0)',`[memberIndex,setMemberIndex]=useState(${Number(query.get('auditMember')??0)})`);
-  },
-}]});
-const checks=[],failures=[],teams=[],previews=[];
-const report={checks,failures,teams,previews};
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,5000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
+memoryStorage();
 const sorted=values=>[...values].sort((a,b)=>a-b),statKeys=['hp','atk','def','spa','spd','spe'];
 const approved={
   trainer_offense:{group:'foundation',species:[3,6,9,12,15,79]},
@@ -34,11 +18,12 @@ const approved={
   trainer_shining_team:{group:'specialist',species:[166,286,312,411,444,1250]},
   trainer_legendary:{group:'legendary',species:[300,501,502,503,504,1000]},
 };
-try {
+await withSsr('classic-teams-v38',async load=>{
+  const t=suite('classic-teams-v38'),{check}=t,teams=[],previews=[],strengthening=[];
   const [{loadCatalog},{createGame},{buildFacilityViews,createFacilityEncounter},{trainerSkillOrigin},{createBattle,buildDataSet,Rng},{SEER_SCRIPTS},{makeDex,computeStats},{buildAcquisitionIndex},{buildRecruitmentRewards},{FUSION_RECIPES},{default:BattleFacilities}]=await Promise.all([
     '/src/mechanics/catalog.ts','/src/game.ts','/src/progression/battle-facilities.ts','/src/progression/trainer-skills.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/raising/core/index.ts','/src/progression/acquisition.ts','/src/progression/recruitment.ts','/src/progression/fusion.ts','/src/components/BattleFacilities.tsx',
-  ].map(path=>server.ssrLoadModule(path)));
-  const {npcTrainingScripts}=await server.ssrLoadModule('/src/mechanics/npc-training.ts');
+  ].map(load));
+  const {npcTrainingScripts}=await load('/src/mechanics/npc-training.ts');
   const expectedProfile=(team,species)=>['trainer_trained_core','trainer_fast_pressure'].includes(team)?species===70?'rei-classic-full':species===261?(team==='trainer_trained_core'?'gaia-blood-seal':'gaia-evil-seal'):undefined:undefined;
   const expectedStats=mon=>{const values=computeStats(mon,dex);if(mon.training_profile==='rei-classic-full')for(const [key,value] of Object.entries({hp:60,atk:20,def:30,spa:10,spd:20,spe:20}))values[key]+=value;return values;};
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),trainers=catalog.trainers??[],byId=new Map(catalog.species.map(row=>[row.id,row])),skills=new Map(catalog.skills.map(row=>[row.id,row])),dex=makeDex(catalog),data=buildDataSet(catalog);
@@ -93,11 +78,10 @@ try {
     const core=trainers.find(row=>row.id==='trainer_trained_core');assert(core);const bySpecies=new Map(core.team.map(mon=>[mon.species,mon]));
     assert(bySpecies.get(70).skills.includes(10825)&&bySpecies.get(70).skills.includes(20364));assert(bySpecies.get(261).skills.includes(20312));assert(bySpecies.get(216).skills.includes(20269));
     const noop=990002,fixtureData=buildDataSet({...catalog,skills:[...catalog.skills,{id:noop,name:{zh:'Training audit wait'},type:'normal',category:'status',target:'self',power:0,accuracy:null,pp:30,effects:[]}]});
-    report.strengthening=[];
     for(const [species,skill,expected] of [[70,20364,{atk:2,spe:2}],[261,20312,{atk:2,acc:2}],[216,20269,{atk:1,def:1,spa:1,spd:1,spe:1}]]){
       const battle=createBattle({data:fixtureData,scripts:SEER_SCRIPTS,seed:71,sides:[{kind:'player',team:[structuredClone(bySpecies.get(species))]},{kind:'trainer',team:[{species:125,level:100,skills:[noop]}]}]});
       battle.submit(0,{kind:'move',skill});battle.submit(1,{kind:'move',skill:noop});battle.resolveTurn();for(const [key,value] of Object.entries(expected))assert.equal(battle.active(0).stages[key],value);
-      report.strengthening.push({species,skill,stages:{...battle.active(0).stages}});
+      strengthening.push({species,skill,stages:{...battle.active(0).stages}});
     }
   });
   check('Classic views disclose every real role and move, marking only actual training rewards',()=>{
@@ -108,9 +92,8 @@ try {
     const html=renderToStaticMarkup(React.createElement(BattleFacilities,{s:game.snapshot(),c:game,facilityId:'classic'}));const core=classic.teams.find(row=>row.id==='trainer_trained_core');assert(html.includes(`aria-label="${core.name}完整阵容"`));assert(html.includes('雷神觉醒')&&html.includes('雷神天明闪')&&html.includes('特训技能'));assert(html.includes('612')&&html.includes('532')&&html.includes('能力特训完成'),'The preview distinguishes original base total from trained equivalent strength');assert.equal((html.match(/，查看配招"/g)??[]).length,6);
   });
   for(const team of classic.teams){
-    const path=`/src/components/BattleFacilities.tsx?auditGroup=${encodeURIComponent(team.groupId)}&auditTeam=${encodeURIComponent(team.id)}&auditMember=0`,{default:SelectedFacilities}=await server.ssrLoadModule(path);
     check(`${team.id}: selected group renders this complete roster and its lead role plus four moves`,()=>{
-      const html=renderToStaticMarkup(React.createElement(SelectedFacilities,{s:game.snapshot(),c:game,facilityId:'classic'}));assert(html.includes(`aria-label="${team.name}完整阵容"`));assert(html.includes(`aria-label="${team.opponents[0].name}配招详情"`));assert.equal((html.match(/，查看配招"/g)??[]).length,6);
+      const html=renderToStaticMarkup(React.createElement(BattleFacilities,{s:game.snapshot(),c:game,facilityId:'classic',initialTeamId:team.id}));assert(html.includes(`aria-label="${team.name}完整阵容"`));assert(html.includes(`aria-label="${team.opponents[0].name}配招详情"`));assert.equal((html.match(/，查看配招"/g)??[]).length,6);
       for(const mon of team.opponents)assert(html.includes(`${mon.name}，Lv.100，查看配招`));assert(html.includes(team.opponents[0].role));for(const skill of team.opponents[0].skills)assert(html.includes(skill.name));
       previews.push({teamId:team.id,groupId:team.groupId,member:team.opponents[0].species});
     });
@@ -121,8 +104,6 @@ try {
     const before=JSON.parse(candidate.exportSave());candidate.dispatch({type:'startFacility',facilityId:'classic',teamId:'trainer_trained_core'});const opponent=candidate.snapshot().battle.enemyParty.find(mon=>mon.species===70);assert(opponent.skills.some(skill=>skill.id===20364)&&opponent.skills.some(skill=>skill.id===10825));candidate.dispatch({type:'flee'});const after=JSON.parse(candidate.exportSave());
     assert.deepEqual(after.storage.find(mon=>mon.uid===rei.uid).learned,before.storage.find(mon=>mon.uid===rei.uid).learned);for(const key of ['dex','items','progress'])assert.deepEqual(after[key],before[key]);for(const key of ['quests','recruitmentClaims','shopUnlocked','campaigns'])assert.deepEqual(after.game[key],before.game[key]);
   });
-  assert.equal(JSON.stringify(catalog),catalogBytes,'Verification preserves shared definitions');
-}catch(error){failures.push({name:'harness',error:String(error.stack).slice(0,7000)});}
-finally{
-  fs.mkdirSync('artifacts/classic-teams-v38',{recursive:true});fs.writeFileSync('artifacts/classic-teams-v38/regression.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:checks.length,teams:teams.length,previews:previews.length,failures},null,2));await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;if(failures.length)process.exitCode=1;
-}
+  check('Verification preserves shared definitions',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
+  t.finish({teams,previews,strengthening});
+});

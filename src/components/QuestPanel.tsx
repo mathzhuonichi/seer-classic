@@ -1,6 +1,8 @@
 import {useEffect,useState} from 'react';
 import type {BossView,GameController,GameSnapshot,QuestView} from '../game-types.ts';
+import {battleActive} from '../presentation/view-helpers.ts';
 import {CreatureArt} from './CreatureArt.tsx';
+import {usePager} from './use-pager.ts';
 import './QuestPanel.css';
 
 const PAGE_SIZE=2;
@@ -11,18 +13,18 @@ const canClaim=(quest:QuestView)=>quest.claimable??(quest.complete&&!isClaimed(q
 export default function QuestPanel({s,c,focusQuestId,onTravel,onLocateSpecies,onOpenBag}:{s:GameSnapshot;c:GameController;focusQuestId?:string;onTravel:(boss:BossView)=>void;onLocateSpecies?:(species:number)=>void;onOpenBag?:()=>void}){
  const focused=s.quests.find(quest=>quest.id===focusQuestId);
  const [group,setGroup]=useState<'journey'|'spt-recruitment'>(focused?.group??'journey');
- const [showFocus,setShowFocus]=useState(!!focused),[page,setPage]=useState(0);
+ const [showFocus,setShowFocus]=useState(!!focused);
  const [search,setSearch]=useState(''),[filter,setFilter]=useState<QuestFilter>('all');
  const [feedback,setFeedback]=useState<{questId:string;message:string}>();
- const activeBattle=!!s.battle&&!s.battle.finished;
- useEffect(()=>{setShowFocus(!!focusQuestId);setPage(0);setFeedback(undefined);if(focused)setGroup(focused.group??'journey')},[focusQuestId,focused?.group]);
+ const activeBattle=battleActive(s);
  const query=search.trim().replace(/^#/,'').toLowerCase();
  const matching=s.quests.filter(quest=>(quest.group??'journey')===group
   &&(!query||quest.name.toLowerCase().includes(query)||String(quest.rewardSpecies)===query)
   &&(filter==='all'||filter==='ready'&&canClaim(quest)||filter==='pending'&&!isClaimed(quest)&&!quest.complete));
  const quests=showFocus&&focused?[focused]:matching;
- const pages=Math.max(1,Math.ceil(quests.length/PAGE_SIZE)),current=Math.min(page,pages-1);
- const rows=quests.slice(current*PAGE_SIZE,(current+1)*PAGE_SIZE);
+ const {page,setPage,pages,start,end}=usePager(quests.length,PAGE_SIZE);
+ useEffect(()=>{setShowFocus(!!focusQuestId);setPage(0);setFeedback(undefined);if(focused)setGroup(focused.group??'journey')},[focusQuestId,focused?.group]);
+ const rows=quests.slice(start,end);
  const selectGroup=(next:typeof group)=>{setGroup(next);setShowFocus(false);setPage(0);setSearch('');setFilter('all');setFeedback(undefined)};
  function claim(quest:QuestView){
   if(!canClaim(quest)||activeBattle)return;
@@ -39,7 +41,7 @@ export default function QuestPanel({s,c,focusQuestId,onTravel,onLocateSpecies,on
    <input aria-label="搜索任务或奖励精灵编号" placeholder="任务名称 / 精灵编号" value={search} onChange={event=>{setSearch(event.target.value);setPage(0)}}/>
    <select aria-label="任务状态" value={filter} onChange={event=>{setFilter(event.target.value as QuestFilter);setPage(0)}}><option value="all">全部任务</option><option value="ready">可领取</option><option value="pending">未完成</option></select>
   </div>}
-  <div className="quest-console" key={`${group}-${current}-${showFocus}-${search}-${filter}`} tabIndex={0}>{rows.map(quest=>{
+  <div className="quest-console" key={`${group}-${page}-${showFocus}-${search}-${filter}`} tabIndex={0}>{rows.map(quest=>{
    const reward=s.species.find(species=>species.id===quest.rewardSpecies),claimed=isClaimed(quest),claimable=canClaim(quest);
    const conditions=quest.prerequisites??quest.requiredBossIds?.map(bossId=>{const boss=s.bosses.find(entry=>entry.id===bossId);return {kind:'boss' as const,bossId,species:undefined,name:boss?.name??'挑战暂不可用',complete:!!boss?.cleared}})??[];
    const allowance=quest.allowance,hasEssence=!!quest.rewardItemId&&s.items.some(item=>item.id===quest.rewardItemId&&item.count>0);
@@ -61,10 +63,10 @@ export default function QuestPanel({s,c,focusQuestId,onTravel,onLocateSpecies,on
   })}{!rows.length&&<p className="quest-empty">{query||filter!=='all'?'没有符合筛选条件的任务。':'这一分类暂时没有任务。'}</p>}</div>
   {activeBattle&&<p className="quest-battle-hint">请先结束当前战斗，再领取奖励。</p>}
   <nav className="quest-pagination" aria-label="任务翻页">
-   <button aria-label="上一页任务" disabled={current===0} onClick={()=>setPage(current-1)}>‹</button>
-   <label>第 <select aria-label="任务页码" value={current} onChange={event=>setPage(Number(event.target.value))}>{Array.from({length:pages},(_,index)=><option key={index} value={index}>{index+1}</option>)}</select> / {pages} 页</label>
+   <button aria-label="上一页任务" disabled={page===0} onClick={()=>setPage(page-1)}>‹</button>
+   <label>第 <select aria-label="任务页码" value={page} onChange={event=>setPage(Number(event.target.value))}>{Array.from({length:pages},(_,index)=><option key={index} value={index}>{index+1}</option>)}</select> / {pages} 页</label>
    <span>{quests.length} 个任务</span>
-   <button aria-label="下一页任务" disabled={current+1>=pages} onClick={()=>setPage(current+1)}>›</button>
+   <button aria-label="下一页任务" disabled={page+1>=pages} onClick={()=>setPage(page+1)}>›</button>
   </nav>
  </section>;
 }
