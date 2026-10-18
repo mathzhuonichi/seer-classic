@@ -1,3 +1,5 @@
+import source from '../../../data/fusion.json';
+
 /** Source-calibrated parent pairs; remake rates are documented in fusion-source-v17.md. */
 export interface FusionOutcome {
   /** The infant species hatched from this bead, never the evolved showcase form. */
@@ -24,59 +26,8 @@ export interface FusionRecipe {
 }
 export interface FusionParent { species: number; level: number }
 
-/** User-facing remake calibration, independently adjustable from source-backed pairs. */
-export const FUSION_RARE_PROBABILITIES = { karu: 5, hige: 5 } as const;
-
-/** Ordinary pairings share one bead and three equally likely infants (remake odds). */
-function normalFusion(primary: number, secondary: number[]): FusionRecipe {
-  const beadName = '米色元神珠';
-  return {
-    id: `fusion-normal-${primary}-${secondary[0]}`, name: '卡门兔 / 辛克 / 伊达', primary: [primary], secondary,
-    minPrimaryLevel: 1, minSecondaryLevel: 1, beadName,
-    outcomes: [325, 328, 330].map(species => ({ species, weight: 100 / 3, beadName })),
-    sources: ['https://news.4399.com/seer/jingyanxinde/201003-23-65200.html', 'https://news.4399.com/seer/jingyanxinde/201202-20-144032.html',
-      'https://news.4399.com/seer/jingyanxinde/201202-20-144016.html'],
-    probabilityBasis: 'remake',
-  };
-}
-
 /** No failure outcome, material cost, timer, or parent mutation is implemented here. */
-export const FUSION_RECIPES: readonly FusionRecipe[] = [
-  {"id": "fusion-301", "name": "黄金布布", "primary": [3], "secondary": [27, 28, 29], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "绿色元神珠", "outcomes": [{"species": 301, "weight": 100, "beadName": "绿色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144024.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-304", "name": "伊优达", "primary": [6], "secondary": [198, 199, 200], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "蓝色元神珠", "outcomes": [{"species": 304, "weight": 100, "beadName": "蓝色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144027.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-307", "name": "炎火猴", "primary": [9], "secondary": [35, 36, 37, 1237], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "红色元神珠", "outcomes": [{"species": 307, "weight": 100, "beadName": "红色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144030.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-310", "name": "闪光尼尔 / 卡鲁", "primary": [79], "secondary": [164, 165, 166], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "紫色元神珠", "outcomes": [{"species": 310, "weight": 100 - FUSION_RARE_PROBABILITIES.karu, "beadName": "紫色元神珠"}, {"species": 313, "weight": FUSION_RARE_PROBABILITIES.karu, "rare": true, "beadName": "粉色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144036.html", "https://news.4399.com/seer/jingyanxinde/201202-20-144021.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-316", "name": "达莫拉", "primary": [180], "secondary": [53, 54, 55], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "咖啡色元神珠", "outcomes": [{"species": 316, "weight": 100, "beadName": "咖啡色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144019.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-319", "name": "轻羽蜂", "primary": [155], "secondary": [25, 26], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "橙色元神珠", "outcomes": [{"species": 319, "weight": 100, "beadName": "橙色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-143905.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-322", "name": "卡克", "primary": [118], "secondary": [190, 191, 192], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "天青色元神珠", "outcomes": [{"species": 322, "weight": 100, "beadName": "天青色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-143886.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-332", "name": "烈炎兽", "primary": [210], "secondary": [38, 39, 40], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "红色元神珠", "outcomes": [{"species": 332, "weight": 100, "beadName": "红色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-18-143756.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-338", "name": "多塔", "primary": [61], "secondary": [102, 103, 104], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "银色元神珠", "outcomes": [{"species": 338, "weight": 100, "beadName": "银色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144041.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-341", "name": "索尔", "primary": [138], "secondary": [128, 129, 130], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "暗紫色元神珠", "outcomes": [{"species": 341, "weight": 100, "beadName": "暗紫色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144037.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-401", "name": "泰尼", "primary": [15], "secondary": [97, 98, 99], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "黄色元神珠", "outcomes": [{"species": 401, "weight": 100, "beadName": "黄色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144038.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-404", "name": "迪姆", "primary": [189], "secondary": [228, 229], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "深红色元神珠", "outcomes": [{"species": 404, "weight": 100, "beadName": "深红色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144040.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-427", "name": "桑帕", "primary": [251], "secondary": [232, 233, 234], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "橙紫色元神珠", "outcomes": [{"species": 427, "weight": 100, "beadName": "橙紫色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-18-143750.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-571", "name": "埃洛种子 / 希格", "primary": [473], "secondary": [480, 481], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "绿紫色元神珠", "outcomes": [{"species": 571, "weight": 100 - FUSION_RARE_PROBABILITIES.hige, "beadName": "绿紫色元神珠"}, {"species": 639, "weight": FUSION_RARE_PROBABILITIES.hige, "rare": true, "beadName": "粉色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-18-143739.html", "https://news.4399.com/seer/jlfx/201102-02-86043.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-578", "name": "萨酷 / 希格", "primary": [481], "secondary": [560, 561], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "紫棕色元神珠", "outcomes": [{"species": 578, "weight": 100 - FUSION_RARE_PROBABILITIES.hige, "beadName": "紫棕色元神珠"}, {"species": 639, "weight": FUSION_RARE_PROBABILITIES.hige, "rare": true, "beadName": "粉色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-14-142972.html", "https://news.4399.com/seer/jlfx/201102-02-86043.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-623", "name": "沃拉普 / 希格", "primary": [561], "secondary": [576, 577], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "棕黑色元神珠", "outcomes": [{"species": 623, "weight": 100 - FUSION_RARE_PROBABILITIES.hige, "beadName": "棕黑色元神珠"}, {"species": 639, "weight": FUSION_RARE_PROBABILITIES.hige, "rare": true, "beadName": "粉色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144218.html", "https://news.4399.com/seer/jlfx/201102-02-86043.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-625", "name": "卡龙 / 希格", "primary": [577], "secondary": [618, 619], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "橙黑色元神珠", "outcomes": [{"species": 625, "weight": 100 - FUSION_RARE_PROBABILITIES.hige, "beadName": "橙黑色元神珠"}, {"species": 639, "weight": FUSION_RARE_PROBABILITIES.hige, "rare": true, "beadName": "粉色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144215.html", "https://news.4399.com/seer/jlfx/201102-02-86043.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-627", "name": "晶岩虫", "primary": [554], "secondary": [203, 204], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "咖啡色元神珠", "outcomes": [{"species": 627, "weight": 100, "beadName": "咖啡色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144232.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-629", "name": "依尔", "primary": [559], "secondary": [83, 84, 85], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "红绿色元神珠", "outcomes": [{"species": 629, "weight": 100, "beadName": "红绿色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144227.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-632", "name": "杰丹", "primary": [511], "secondary": [463, 464, 465], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "紫色元神珠", "outcomes": [{"species": 632, "weight": 100, "beadName": "紫色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144033.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-849", "name": "雪灵", "primary": [717], "secondary": [378, 379, 380], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "天青色元神珠", "outcomes": [{"species": 849, "weight": 100, "beadName": "天青色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144022.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-932", "name": "马尔洛", "primary": [931], "secondary": [801, 802], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "紫色元神珠", "outcomes": [{"species": 932, "weight": 100, "beadName": "紫色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144205.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-946", "name": "果然多多", "primary": [683], "secondary": [677, 678, 679], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "绿色元神珠", "outcomes": [{"species": 946, "weight": 100, "beadName": "绿色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144029.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-1070", "name": "布迪", "primary": [828], "secondary": [1048, 1049], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "橙色元神珠", "outcomes": [{"species": 1070, "weight": 100, "beadName": "橙色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-20-144025.html", "https://news.4399.com/seer/tujian/139577.htm"], "probabilityBasis": "remake"},
-  {"id": "fusion-1072", "name": "莫德", "primary": [1047], "secondary": [1022, 1023], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "蓝紫色元神珠", "outcomes": [{"species": 1072, "weight": 100, "beadName": "蓝紫色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201202-21-144209.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-1267", "name": "瑞姆", "primary": [1194], "secondary": [1056, 1057], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "咖啡色元神珠", "outcomes": [{"species": 1267, "weight": 100, "beadName": "咖啡色元神珠"}], "sources": ["https://news.4399.com/seer/jingyanxinde/201207-13-176282.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-1448", "name": "瑞普", "primary": [147], "secondary": [133, 134, 135], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "红黄色元神珠", "outcomes": [{"species": 1448, "weight": 100, "beadName": "红黄色元神珠"}], "sources": ["https://news.4399.com/gonglue/seer/saiergonglue/201212-07-220416.html", "https://news.4399.com/news/seerwenda/242688.html"], "probabilityBasis": "remake"},
-  {"id": "fusion-1487", "name": "霍迪斯", "primary": [1270], "secondary": [710, 711, 712], "minPrimaryLevel": 1, "minSecondaryLevel": 1, "beadName": "青紫色元神珠", "outcomes": [{"species": 1487, "weight": 100, "beadName": "青紫色元神珠"}], "sources": ["https://news.4399.com/gonglue/seer/saiergonglue/201301-11-229869.html", "https://news.4399.com/news/seerwenda/242688.html"], "probabilityBasis": "remake"},
-  normalFusion(121, [205, 206, 207]),
-  normalFusion(207, [119, 120, 121]),
-  normalFusion(34, [205, 206, 207]),
-  normalFusion(55, [178, 179, 180]),
-  normalFusion(166, [77, 78, 79]),
-  normalFusion(15, [43, 44, 45]),
-];
+export const FUSION_RECIPES: readonly FusionRecipe[] = source.recipes as FusionRecipe[];
 
 export function canFuseParents(recipe: FusionRecipe, primary: FusionParent, secondary: FusionParent): boolean {
   return recipe.primary.includes(primary.species) && recipe.secondary.includes(secondary.species)
