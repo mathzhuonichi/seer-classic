@@ -180,6 +180,9 @@ def build(args, spec):
         root.set('width', f'{width / 2:g}')
         root.set('height', f'{height / 2:g}')
         root.set('viewBox', ' '.join(f'{number:g}' for number in viewbox))
+        # A frame drawn over boxes of any shape stretches instead of letterboxing.
+        if row.get('preserveAspectRatio'):
+            root.set('preserveAspectRatio', row['preserveAspectRatio'])
         target = destination / f"{name.replace('/', '-')}.svg"
         tree.write(target, encoding='utf-8', xml_declaration=True)
         rendered = preview / target.with_suffix('.png').name
