@@ -40,8 +40,9 @@ function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContex
   return `${sideLabel(event)}使用了${capsule}，${event.success ? `成功捕捉${target}！` : `${target}挣脱了胶囊，捕捉失败。`}`;
 }
 
+/** A capture's end needs no line: the capsule's line already says the target was caught. */
 function battleEndText(event: EventOf<'battle_end'>): string {
-  if (event.reason === 'capture') return '捕捉成功，战斗结束！';
+  if (event.reason === 'capture') return '';
   if (event.reason === 'flee') return '已撤离战斗，本次不发放战斗奖励。';
   if (event.reason === 'turn_cap') return '达到回合上限，本场平局。';
   return event.success ? '战斗胜利！' : '战斗结束。';

@@ -44,6 +44,9 @@
       "status": "gate",
       "shards": 8
     },
+    "battle-commands.mjs": {
+      "status": "gate"
+    },
     "battle-display-lifecycle.mjs": {
       "status": "gate"
     },

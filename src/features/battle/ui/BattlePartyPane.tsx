@@ -16,7 +16,7 @@ export default function BattlePartyPane({ battle, selected, disabled, onSelect, 
         aria-pressed={monster.uid === selected.uid} onClick={() => onSelect(monster.uid)}>
         <img src={getCreatureArt(appearanceOf(monster)).src} alt="" />
         <strong>{monster.name}<small>Lv.{monster.level}</small></strong>
-        <span>{monster.uid === active ? '出战中' : monster.hp <= 0 ? '无法战斗' : `${monster.hp} / ${monster.maxHp}`}</span>
+        <span>{monster.hp <= 0 ? '无法战斗' : monster.uid === active ? '出战中' : `${monster.hp} / ${monster.maxHp}`}</span>
         <i style={{ width: `${hpPercent(monster.hp, monster.maxHp)}%` }} />
       </button>)}</div>
     <div className="classic-party-actions">

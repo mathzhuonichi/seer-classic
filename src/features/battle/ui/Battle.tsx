@@ -33,9 +33,11 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
   const [showEvidence, setShowEvidence] = useState(false);
   const chooseItems = useCallback((patch: Partial<BattleItemChoice>) => setItems(current => ({ ...current, ...patch })), []);
   const closeEvidence = useCallback(() => setShowEvidence(false), []);
+  const closeDetails = useCallback(() => setShowDetails(false), []);
   const playback = useBattlePlayback(b, c, {
     onStart: () => setShowLog(false),
     onNeedsSwitch: battle => { setTab('party'); setPartySelection(battle.party.find(mon => mon.hp > 0)?.uid || ''); },
+    onReplaced: () => setTab('battle'),
   });
   const { frame, busy } = playback;
 
@@ -71,7 +73,7 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
     <BattleDialogue battle={b} dialogue={playback.dialogue} busy={busy} showLog={showLog} onToggleLog={() => setShowLog(value => !value)}/>
     {b.finished && !busy
       ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status">
-        <div><strong>{battleResultTitle(b)}</strong><p>{b.result}</p></div>
+        <div><strong>{battleResultTitle(b)}</strong></div>
         {onSettings && <button onClick={onSettings}>设置</button>}
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
@@ -79,6 +81,6 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
     {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} onClose={closeEvidence}>
       <BossEvidenceContent evidence={enemy.evidence}/>
     </BattleEvidenceDialog>}
-    {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={() => setShowDetails(false)}/>}
+    {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={closeDetails}/>}
   </section>;
 }

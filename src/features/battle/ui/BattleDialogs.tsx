@@ -3,10 +3,15 @@ import type { BattleMonsterView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
-/** A modal over the battle; a click on the backdrop closes it. */
+/** A modal over the battle; a click on the backdrop or Escape closes it. */
 function BattleModal({ className, label, title, closeLabel, autoFocus = false, onClose, children }: {
   className: string; label: string; title: string; closeLabel: string; autoFocus?: boolean; onClose: () => void; children: ReactNode;
 }) {
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [onClose]);
   return <div className="classic-detail-backdrop" onClick={onClose}>
     <section className={className} role="dialog" aria-modal="true" aria-label={label} onClick={event => event.stopPropagation()}>
       <header><strong>{title}</strong><button autoFocus={autoFocus} aria-label={closeLabel} onClick={onClose}>×</button></header>
@@ -15,13 +20,8 @@ function BattleModal({ className, label, title, closeLabel, autoFocus = false, o
   </div>;
 }
 
-/** Sources and inferred parameters of a Boss opponent; Escape closes it. */
+/** Sources and inferred parameters of a Boss opponent. */
 export function BattleEvidenceDialog({ name, onClose, children }: { name: string; onClose: () => void; children: ReactNode }) {
-  useEffect(() => {
-    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', close);
-    return () => window.removeEventListener('keydown', close);
-  }, [onClose]);
   return <BattleModal className="classic-boss-evidence-modal" label={`${name}参数依据`} title={`${name} · 资料依据`} closeLabel="关闭资料依据" autoFocus onClose={onClose}>
     {children}
   </BattleModal>;

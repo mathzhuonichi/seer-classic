@@ -30,7 +30,7 @@ export default function BattleItemPane({ battle, inventory, choice, onChoice, di
         {!pane.items.length && <p className="classic-panel-empty">{pane.empty}</p>}
       </div>
       {capsules ? <div className="classic-item-actions classic-capture-actions">
-        <p>{battle.canCapture ? '点击胶囊即可立即捕捉。削减体力、施加异常状态能提高捕捉机会。' : battle.captureBlockedReason || '首领与招募挑战无法捕捉，请通过挑战奖励获得精元。'}</p>
+        <p>点击胶囊即可立即捕捉。削减体力、施加异常状态能提高捕捉机会。</p>
         <div className="classic-capture-target">
           <span>捕捉目标</span><strong>{battle.enemy.name}</strong>{!battle.enemy.hpHidden && <small>HP {battle.enemy.hp}/{battle.enemy.maxHp}</small>}
         </div>
