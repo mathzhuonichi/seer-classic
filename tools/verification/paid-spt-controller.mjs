@@ -66,7 +66,7 @@ try {
  assert.deepEqual(hatchBefore.storage,[]);
  // Old direct-creature quest saves become claimed/unlocked ledgers without granting another item.
  const old=buildPaidSPTRecruitments(catalog)[0],legacyReward=rewards.find(r=>r.questId===old.questId),legacy=fixture(legacyReward);
- delete legacy.game.recruitmentClaims;legacy.game.quests=[old.questId];legacy.game.shopUnlocked=[];
+ legacy.version=1;delete legacy.game.recruitmentClaims;legacy.game.quests=[old.questId];legacy.game.shopUnlocked=[];
  const migrated=make(legacy),migratedSave=parse(migrated);
  assert(migratedSave.game.recruitmentClaims[old.questId]>=1);assert(migratedSave.game.shopUnlocked.includes(legacyReward.itemId));assert.equal(migratedSave.items[legacyReward.itemId]??0,0);
  assert.equal(parse(make(migratedSave)).game.recruitmentClaims[old.questId],migratedSave.game.recruitmentClaims[old.questId]);

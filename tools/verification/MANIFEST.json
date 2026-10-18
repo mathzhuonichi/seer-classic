@@ -215,8 +215,7 @@
       "status": "gate"
     },
     "paid-spt-controller.mjs": {
-      "status": "known-failure",
-      "note": "Nondeterministic: identical runs pass and fail. Find the unseeded randomness before gating."
+      "status": "gate"
     },
     "paid-spt-recruitment.mjs": {
       "status": "gate"

@@ -158,6 +158,7 @@ export function restoreMonster(mon: Monster, dex: Dex, rng: Rng): Result {
   });
   fresh.nickname = mon.nickname;
   if (mon.skinSpecies !== undefined) fresh.skinSpecies = mon.skinSpecies;
+  if (mon.generation !== undefined) fresh.generation = mon.generation;
   return {
     mon: fresh,
     events: [
