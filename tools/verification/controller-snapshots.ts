@@ -56,6 +56,21 @@ export async function verifySnapshotIdentity(){
   return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
 }
 
+/** Each monster lists the player-wide boosts and only its own energy bead; a settled battle counts every boost down. */
+export async function verifyMonsterBoosts(){
+  const game=createGame(await loadCatalog(),''),[a,b]=game.snapshot().monsters;
+  for(const itemId of ['item_exp_x2','item_bead_atk_20'])assert(game.dispatch({type:'useItem',uid:a.uid,itemId}).ok,itemId);
+  const boosts=(uid:string)=>game.snapshot().monsters.find(mon=>mon.uid===uid)!.boosts;
+  assert.deepEqual(boosts(a.uid),[{name:'双倍经验加速器',battlesLeft:50},{name:'攻击能量珠',battlesLeft:20}]);
+  assert.deepEqual(boosts(b.uid),[{name:'双倍经验加速器',battlesLeft:50}],'Another monster\'s energy bead stays hidden.');
+  game.dispatch({type:'startTraining',species:10,level:3});
+  assert(game.snapshot().battle,'A training battle starts.');
+  game.dispatch({type:'flee'});game.dispatch({type:'closeBattle'});
+  assert.deepEqual(boosts(a.uid),[{name:'双倍经验加速器',battlesLeft:49},{name:'攻击能量珠',battlesLeft:19}]);
+  assert.deepEqual(boosts(b.uid),[{name:'双倍经验加速器',battlesLeft:49}]);
+  return {checks:['player-wide boost on every monster','energy bead on its own monster only','boosts count down after a settled battle']};
+}
+
 /**
  * Budget: a non-battle action, its snapshot and the save write take at most 4 ms at the 95th percentile (architecture-v2 §2).
  * It counts this thread's CPU time, so other suites running in parallel do not fail it; the best of three rounds counts.
