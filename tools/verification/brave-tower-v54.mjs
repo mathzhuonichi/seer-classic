@@ -1,28 +1,24 @@
 /** V54 tower entry, explicit rewards and acquisition routes through actual controllers. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {suite,withSsr} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
-const report={checks:[],failures:[],witnesses:[],limits:[
+const limits=[
   'Tower opponents and Rios have 1 HP in an in-memory fixture; actual moves, rules, AI and settlement run unchanged.',
   'First-clear essence and suit limits are the V54 remake contract. Historical repeatability of the two pet rewards remains unverified.',
   'No browser storage or network is read. Persistence writes are discarded; no game build or package is produced.',
-]};
-const check=(name,run)=>{try{run();report.checks.push(name);console.log(`PASS ${name}`);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}};
+];
+const witnesses=[];
+let isolation;
 const parse=game=>JSON.parse(game.exportSave());
 const floorId=floor=>`boss_tower_brave_f${String(floor).padStart(3,'0')}`;
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),previousFetch=globalThis.fetch;
 let storageReads=0,storageWrites=0,networkRequests=0;
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}}});
 globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must not make HTTP requests.');};
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/brave-tower-v54'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-try {
+await withSsr('brave-tower-v54',async load=>{
+  const t=suite('brave-tower-v54'),{check}=t;
   const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng},{buildAcquisitionIndex},{buildRecruitmentRewards}]=await Promise.all([
-    server.ssrLoadModule('/src/kernel/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
-    server.ssrLoadModule('/src/domain/acquisition/acquisition.ts'),server.ssrLoadModule('/src/domain/acquisition/recruitment.ts'),
+    load('/src/kernel/game.ts'),load('/raising/core/index.ts'),
+    load('/src/domain/acquisition/acquisition.ts'),load('/src/domain/acquisition/recruitment.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id)||boss.id==='boss_spt_liaosi')for(const mon of boss.team)mon.hp_override=1;
@@ -52,7 +48,7 @@ try {
       }else game.dispatch({type:'move',skillId:FAST});
     }
     const battle=game.snapshot().battle;assert.equal(battle.finished,true,'bounded actual battle');assert.equal(battle.won,true,battle.result);
-    report.witnesses.push({floor,turns:battle.turn,opponents:battle.enemyParty.length,result:battle.result});
+    witnesses.push({floor,turns:battle.turn,opponents:battle.enemyParty.length,result:battle.result});
     game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);
     return battle.result;
   }
@@ -157,12 +153,7 @@ try {
   });
   check('Verification neither reads browser storage nor fetches data, and leaves catalog inputs unchanged',()=>{
     assert.equal(storageReads,0);assert.equal(networkRequests,0);assert.equal(JSON.stringify(original),originalBytes);assert.equal(JSON.stringify(catalog),catalogBytes);
-    report.isolation={storageReads,discardedStorageWrites:storageWrites,networkRequests};
+    isolation={storageReads,discardedStorageWrites:storageWrites,networkRequests};
   });
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally {
-  fs.mkdirSync(path.join(root,'artifacts/brave-tower-v54'),{recursive:true});fs.writeFileSync(path.join(root,'artifacts/brave-tower-v54/regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,witnesses:report.witnesses.length},null,2));
-  await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;globalThis.fetch=previousFetch;
-  if(report.failures.length)process.exitCode=1;
-}
+  t.finish({limits,isolation,witnesses});
+});

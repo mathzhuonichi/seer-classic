@@ -37,7 +37,9 @@ if (unknown.length || !Number.isSafeInteger(jobs) || jobs < 1) {
 
 const tsRunner = `
 import { createServer } from 'vite';
-const server = await createServer({ root: process.cwd(), server: { middlewareMode: true, hmr: false, watch: null }, appType: 'custom', logLevel: 'error' });
+const server = await createServer({
+  root: process.cwd(), server: { middlewareMode: true, hmr: false, ws: false, watch: null }, appType: 'custom', logLevel: 'error',
+});
 let code = 0;
 try {
   const mod = await server.ssrLoadModule('/tools/verification/' + process.argv[1]);

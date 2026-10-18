@@ -3,11 +3,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
+import {newSave} from '../../src/kernel/save.ts';
+import {STARTER_LEVEL,STARTER_SPECIES,STARTING_ITEM_STOCK} from '../../src/domain/economy.ts';
 import {root,suite} from './_harness.mjs';
+
+/** The seed of the fixture's journey; a new journey would seed itself from the clock. */
+const JOURNEY_SEED=0x9a3e3;
+const potion='item_potion_hp_20';
 
 const t=suite('game-v3');
 const catalog=await loadCatalog() as any;
-const game=createGame(structuredClone(catalog));
+const journey=newSave(JOURNEY_SEED);journey.items[potion]=STARTING_ITEM_STOCK;
+const game=createGame(structuredClone(catalog),JSON.stringify(journey));
+for(const species of STARTER_SPECIES)game.dispatch({type:'cheatAcquire',species,level:STARTER_LEVEL});
 const initial=game.snapshot();
 const keys=['hp','atk','def','spa','spd','spe'] as const;
 t.check('all1483 base-stat views',()=>{
@@ -28,7 +36,7 @@ t.check('reject overbudget/fractional EVs without changes',()=>{
 const order=[...initial.party].reverse();game.dispatch({type:'reorderParty',uids:order});
 const saved=game.exportSave();const restored=createGame(structuredClone(catalog),saved);
 t.check('party order and save roundtrip',()=>{assert.deepEqual(game.snapshot().party,order);assert.deepEqual(restored.snapshot().party,order);assert.deepEqual(restored.snapshot().monsters.find(m=>m.uid===uid)!.evs,trained.evs);});
-const potion='item_potion_hp_20',beforeItems=restored.snapshot().items.find(i=>i.id===potion)!.count;
+const beforeItems=restored.snapshot().items.find(i=>i.id===potion)!.count;
 t.check('live battle inventory count',()=>{
   restored.dispatch({type:'startTraining',species:10,level:3});assert(restored.snapshot().battle);
   const beforeIneffectivePotion=restored.snapshot().battle!.log;
@@ -37,9 +45,11 @@ t.check('live battle inventory count',()=>{
   const injuredSave=JSON.parse(saved);injuredSave.storage.find((monster:any)=>monster.uid===uid).hp=1;
   const injured=createGame(structuredClone(catalog),JSON.stringify(injuredSave));
   injured.dispatch({type:'startTraining',species:10,level:3});
-  assert(injured.snapshot().items.find(i=>i.id===potion)!.usableTargetUids.includes(uid));
+  const offered=injured.snapshot().items.find(i=>i.id===potion)!,turnLog=injured.snapshot().battle!.log;
+  assert(offered.unlimited,'Battle supplies are unlimited for the player.');assert(offered.usableTargetUids.includes(uid));
   injured.dispatch({type:'battleItem',itemId:potion,targetUid:uid});
-  assert.equal(injured.snapshot().items.find(i=>i.id===potion)!.count,beforeItems-1,'A potion used on an injured target is consumed.');
+  assert.equal(injured.snapshot().items.find(i=>i.id===potion)!.count,beforeItems,'An unlimited potion keeps the saved count.');
+  assert(injured.snapshot().battle!.log.length>turnLog.length,'A potion used on an injured target takes the turn.');
 });
 t.check('retreat without rewards and close',()=>{
   const coins=restored.snapshot().coins,exp=restored.snapshot().expPool;

@@ -1,15 +1,14 @@
 /** Independent controller transactions for source-backed breeding. Test fixtures never edit the source catalog. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createServer} from 'vite';
-const memory=new Map();
-globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
-try {
-  const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
-  const {BREEDING_RECIPES:recipes,getBreedingGender}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');
-  const {deserialize}=await server.ssrLoadModule('/src/kernel/save.ts');
-  const {makeDex,gainLevels,autoEvolve}=await server.ssrLoadModule('/raising/core/index.ts');
+import {memoryStorage,withSsr} from './_harness.mjs';
+
+memoryStorage();
+await withSsr('breeding-controller',async load=>{
+  const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+  const {BREEDING_RECIPES:recipes,getBreedingGender}=await load('/src/domain/recipes/breeding.ts');
+  const {deserialize}=await load('/src/kernel/save.ts');
+  const {makeDex,gainLevels,autoEvolve}=await load('/raising/core/index.ts');
   const catalog=await loadCatalog(),originalCatalog=JSON.stringify(catalog),dex=makeDex(catalog);
   const base=JSON.parse(createGame(catalog,'').exportSave());base.game.coins=0;
   const parse=game=>JSON.parse(game.exportSave());
@@ -88,4 +87,4 @@ try {
   const result={checks:['all 24 exact original outcome branches','Lv1 generation1 offspring','parents byte-equivalent and resources unchanged','repeat same parents and save/reload','legacy generation0 views','female generation1 exposed client policy','evolved descendant male excluded','full party storage fallback','capacity and all invalid requests preserve complete save/RNG','active battle rejection','malformed generation import rejection','catalog immutability'],recipeCount:recipes.length,outcomeCount:rows.length,rows};
   fs.mkdirSync('artifacts/breeding-v24',{recursive:true});fs.writeFileSync('artifacts/breeding-v24/controller-verification.json',JSON.stringify(result,null,2)+'\n');
   console.log(`Verified ${recipes.length} breeding controller pairs and ${rows.length} exact weighted branches, repeat/save persistence, parent/resource preservation, generation rules and rejection/RNG invariants.`);
-}finally{await server.close();delete globalThis.localStorage;}
+});

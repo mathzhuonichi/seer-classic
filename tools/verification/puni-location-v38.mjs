@@ -1,23 +1,19 @@
 /** Puni contact, shared arena location, and fresh/legacy campaign progression. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createHash} from 'node:crypto';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createServer} from 'vite';
+import {memoryStorage,sha256File,suite,withSsr} from './_harness.mjs';
 
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map();
-Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)}});
-const server=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[],progressCases=[];
-const report={checks,failures,progressCases};
-function check(name,run){try{run();checks.push(name)}catch(error){failures.push({name,error:String(error.stack).slice(0,5000)});console.error(`FAIL ${name}: ${error.message.split('\n')[0]}`)}}
+const memory=memoryStorage(),progressCases=[];
+let location;
 const parse=game=>JSON.parse(game.exportSave());
 const reject=(game,action)=>{const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle);game.dispatch(action);assert.equal(game.exportSave(),before,'Rejected entry preserves save and RNG');assert.equal(JSON.stringify(game.snapshot().battle),battle,'Rejected entry preserves the current battle');};
-try {
+await withSsr('puni-location-v38',async load=>{
+  const t=suite('puni-location-v38'),{check}=t;
   const [{loadCatalog},{createGame},{CHALLENGE_CAMPAIGNS},{WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation},{getSceneLayout},{getSceneExits},{default:CampaignScene},{WorldMap}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/challenges/challenge-campaigns.ts','/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/scene-exits.ts','/src/features/challenges/ui/ChallengeCampaignScene.tsx','/src/features/world/ui/WorldMap.tsx',
-  ].map(path=>server.ssrLoadModule(path)));
+  ].map(load));
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),definition=CHALLENGE_CAMPAIGNS.find(row=>row.id==='puni'),stageIds=['seal1','seal2','seal3','seal4','seal5','seal6','seal7','body'];
   const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(createGame(catalog,''));
   const make=save=>createGame(catalog,JSON.stringify(save??base)),view=game=>game.snapshot().campaigns.find(row=>row.id==='puni');
@@ -34,12 +30,12 @@ try {
     assert.equal(region.backgroundAssetMapId,10032);assert.equal(region.background,expectedBackground);assert.equal(region.backgroundKind,'remastered');
     assert.equal(registeredArt.path,publishedArt.path);assert.equal(registeredArt.sha256,publishedArt.sha256);
     assert.equal(publishedArt.sourcePath,'/maps/original/10032.svg');assert.equal(publishedArt.sourceSha256,originalArt.sha256);
-    assert.equal(createHash('sha256').update(fs.readFileSync(`public${registeredArt.path}`)).digest('hex'),registeredArt.sha256);
+    assert.equal(sha256File(`public${registeredArt.path}`),registeredArt.sha256);
     assert.match(region.sceneAttribution,/Conservative AI restoration.*public\/maps\/hd\/manifest\.json/);
     const game=make();for(const id of bossIds)assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id===id)),expectedLocation,id);
     assert.deepEqual(findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_seal1')),findChallengeLocation(game.snapshot().bosses.find(row=>row.id==='boss_puni_zhenshen')),'Campaign entry and final-body travel cannot choose different battle backdrops');
     assert(getSceneExits(planet,region).length>0,'The arena keeps a return route');const anchor=getSceneLayout(planet,region).boss;assert(Math.abs(anchor.x*960/100-446.5)<.01&&Math.abs(anchor.y*560/100-225.5)<.01,'The neutral contact grounds its visible feet at the recovered platform top-face center');
-    report.location={...expectedLocation,originalMapId:region.originalMapId,background:region.background,boss:getSceneLayout(planet,region).boss};
+    location={...expectedLocation,originalMapId:region.originalMapId,background:region.background,boss:getSceneLayout(planet,region).boss};
   });
   check('The physical Puni route joins Brave Tower and retains the shared facility hub',()=>{
     const tower=planet.regions.find(row=>row.id==='brave-tower'),dark=planet.regions.find(row=>row.id==='dark-arena'),hub=planet.regions.find(row=>row.id==='resources');
@@ -78,9 +74,6 @@ try {
     const complete=structuredClone(base);complete.game.campaigns.puni=[...stageIds];complete.progress.bosses_cleared=[...bossIds];const reset=make(complete);reset.dispatch({type:'resetCampaign',campaignId:'puni'});
     const reloaded=make(parse(reset));assert.equal(view(reloaded).completed,0);assert.equal(view(reloaded).nextStageId,'seal1');assert.deepEqual(parse(reloaded).progress.bosses_cleared,bossIds);reject(reloaded,{type:'startCampaignStage',campaignId:'puni',stageId:'body'});
   });
-  assert.equal(JSON.stringify(catalog),catalogBytes,'Verification does not mutate shared source definitions');
-}catch(error){failures.push({name:'harness',error:String(error.stack).slice(0,7000)});}
-finally{
-  fs.mkdirSync('artifacts/puni-location-v38',{recursive:true});fs.writeFileSync('artifacts/puni-location-v38/regression.json',JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:checks.length,progressCases:progressCases.length,location:report.location,failures},null,2));await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;if(failures.length)process.exitCode=1;
-}
+  check('Verification does not mutate shared source definitions',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
+  t.finish({progressCases,location});
+});

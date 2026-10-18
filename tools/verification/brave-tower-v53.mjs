@@ -1,33 +1,27 @@
 /** V53 tower progression through public controller actions and real battle settlement. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import crypto from 'node:crypto';
-import {fileURLToPath} from 'node:url';
-import {createServer} from 'vite';
+import {sha256File,suite,withSsr} from './_harness.mjs';
 
-const root=fileURLToPath(new URL('../../',import.meta.url));
-const report={checks:[],failures:[],witnesses:[],limits:[
+const limits=[
   'Numbered tower enemies have 1 HP in the in-memory catalog to isolate progression; their teams, skills, rules, AI and rewards remain intact.',
   'All wins and the loss use actual controller moves and engine settlement; no battle result or progression field is patched during combat.',
   'Loading cancellation is checked as the controller lifecycle start, flee, close; browser preloading and navigation are outside this script.',
-]};
-function check(name,run){try{run();report.checks.push(name);console.log(`PASS ${name}`);}catch(error){report.failures.push({name,error:String(error.stack)});console.error(`FAIL ${name}: ${error.message}`);}}
+];
+const witnesses=[];
+let fixture;
 const parse=game=>JSON.parse(game.exportSave());
 const floorId=floor=>`boss_tower_brave_f${String(floor).padStart(3,'0')}`;
 const progress=game=>parse(game).game.braveTower;
 const sourceFiles=['src/kernel/game.ts','src/kernel/contract.ts','src/domain/challenges/brave-tower.ts'];
-const hashes=()=>Object.fromEntries(sourceFiles.map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex')]));
-report.sourceHashes=hashes();
-const previousStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-const previousFetch=globalThis.fetch;
+const hashes=()=>Object.fromEntries(sourceFiles.map(file=>[file,sha256File(file)]));
+const sourceHashes=hashes();
 let storageReads=0,storageWrites=0,networkRequests=0;
 Object.defineProperty(globalThis,'localStorage',{configurable:true,value:{getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}}});
 globalThis.fetch=()=>{networkRequests++;throw new Error('Tower verification must not make HTTP requests.');};
-const server=await createServer({root,configFile:false,cacheDir:path.join(root,'artifacts/.validation-cache/brave-tower-v53'),server:{middlewareMode:true,watch:null,hmr:false,ws:false},optimizeDeps:{noDiscovery:true,include:[]},appType:'custom',logLevel:'error'});
-try{
+await withSsr('brave-tower-v53',async load=>{
+  const t=suite('brave-tower-v53'),{check}=t;
   const [{createGame,loadCatalog},{makeDex,createMonster,SeededRng}]=await Promise.all([
-    server.ssrLoadModule('/src/kernel/game.ts'),server.ssrLoadModule('/raising/core/index.ts'),
+    load('/src/kernel/game.ts'),load('/raising/core/index.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
   let alteredMembers=0;
@@ -57,7 +51,7 @@ try{
     }
     const battle=game.snapshot().battle;assert.equal(battle.finished,true,`${floor}: bounded real battle`);assert.equal(battle.won,true,`${floor}: ${battle.result}`);assert.equal(battle.resultReason,'ko');
     assert(parse(game).progress.bosses_cleared.includes(floorId(floor)));
-    report.witnesses.push({kind:'victory',floor,opponents:battle.enemyParty.length,turns:battle.turn,progress:progress(game)});
+    witnesses.push({kind:'victory',floor,opponents:battle.enemyParty.length,turns:battle.turn,progress:progress(game)});
     game.dispatch({type:'closeBattle'});assert.equal(game.snapshot().battle,null);
   }
 
@@ -100,7 +94,7 @@ try{
     leave(game);assert.deepEqual(progress(game),{highestCleared:16,resumeFloor:17});
     const restored=make(parse(game));assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});assert(!parse(restored).progress.bosses_cleared.includes(floorId(17)));
     start(restored,{type:'startTower',floor:17});leave(restored);assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});
-    report.witnesses.push({kind:'retreat-and-cancel',floor:17,attempts:parse(restored).progress.boss_attempts[floorId(17)],progress:progress(restored)});
+    witnesses.push({kind:'retreat-and-cancel',floor:17,attempts:parse(restored).progress.boss_attempts[floorId(17)],progress:progress(restored)});
   });
   check('An actual knockout loss retains floor 17 rather than resetting or advancing',()=>{
     const save=withProgress(16,17),mon=createMonster(dex,1,100,rng,{uid:'tower-v53-loss',iv:31,nature:'hardy'});
@@ -110,7 +104,7 @@ try{
     const battle=game.snapshot().battle;assert.equal(battle.finished,true);assert.equal(battle.won,false);assert.equal(battle.resultReason,'ko');assert.equal(parse(game).storage[0].hp,0);
     assert.deepEqual(progress(game),{highestCleared:16,resumeFloor:17});assert.deepEqual(parse(game).progress.bosses_cleared,[]);
     game.dispatch({type:'closeBattle'});const restored=make(parse(game));assert.deepEqual(progress(restored),{highestCleared:16,resumeFloor:17});
-    report.witnesses.push({kind:'knockout-loss',floor:17,turns:battle.turn,progress:progress(restored)});
+    witnesses.push({kind:'knockout-loss',floor:17,turns:battle.turn,progress:progress(restored)});
   });
   check('Selecting an older checkpoint preserves the highest clear and saves the new attempt',()=>{
     const game=make(withProgress(45,46));start(game,{type:'startBattle',bossId:floorId(11)});
@@ -134,7 +128,7 @@ try{
       const expected={highestCleared:floor,resumeFloor:floor===70?null:61},game=make(save);
       assert.deepEqual(progress(game),expected);assert.deepEqual(parse(game).progress,save.progress);assert(game.snapshot().braveTower.checkpoints.every(row=>row.unlocked));
       const imported=make();imported.importSave(JSON.stringify(save));assert.deepEqual(progress(imported),expected);assert.deepEqual(parse(imported).progress,save.progress);
-      report.witnesses.push({kind:'legacy-migration',floor,withoutGame,progress:progress(game),clears:parse(game).progress.bosses_cleared});
+      witnesses.push({kind:'legacy-migration',floor,withoutGame,progress:progress(game),clears:parse(game).progress.bosses_cleared});
     }
   });
   check('Failed start validation leaves checkpoint choice, attempts and RNG unchanged',()=>{
@@ -152,12 +146,8 @@ try{
   check('The verification stays offline, uses explicit saves, and preserves both catalog inputs',()=>{
     assert.equal(storageReads,0,'no controller reads any original local save');assert(storageWrites>0,'save writes reached only the installed no-op adapter');assert.equal(networkRequests,0,'no HTTP or remote save requests');
     assert.equal(JSON.stringify(original),originalBytes);assert.equal(JSON.stringify(catalog),fixtureBytes);
-    assert.deepEqual(hashes(),report.sourceHashes,'controller sources stayed stable during this run');report.fixture={alteredTowerEnemyMembers:alteredMembers,playerSpecies:70,prioritySkill:FAST,storageReads,discardedStorageWrites:storageWrites,networkRequests};
+    assert.deepEqual(hashes(),sourceHashes,'controller sources stayed stable during this run');
+    fixture={alteredTowerEnemyMembers:alteredMembers,playerSpecies:70,prioritySkill:FAST,storageReads,discardedStorageWrites:storageWrites,networkRequests};
   });
-}catch(error){report.failures.push({name:'harness',error:String(error.stack)});}
-finally{
-  fs.mkdirSync(path.join(root,'artifacts/brave-tower-v53'),{recursive:true});fs.writeFileSync(path.join(root,'artifacts/brave-tower-v53/regression.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({passed:report.checks.length,failures:report.failures,witnesses:report.witnesses},null,2));
-  await server.close();if(previousStorage)Object.defineProperty(globalThis,'localStorage',previousStorage);else delete globalThis.localStorage;globalThis.fetch=previousFetch;
-  if(report.failures.length)process.exitCode=1;
-}
+  t.finish({limits,sourceHashes,fixture,witnesses});
+});

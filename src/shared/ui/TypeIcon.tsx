@@ -4,6 +4,16 @@ import {elementIcon,type ElementTypes} from '../element-types.ts';
 import {getLayoutZoom} from '../game-display.ts';
 import './type-icon.css';
 
+/** The tooltip in layout pixels: centred above the icon, below it near the top edge, and 8 px inside the viewport width. */
+export function typeTooltipPosition(anchor: Pick<DOMRect, 'left' | 'top' | 'bottom' | 'width'>, zoom: number,
+  size: { width: number; height: number }, viewportWidth: number) {
+  const margin = 8 * zoom, width = size.width * zoom, height = size.height * zoom;
+  const half = Math.min(width / 2, (viewportWidth - 2 * margin) / 2);
+  const below = anchor.top < height + 14 * zoom;
+  return { left: Math.max(half + margin, Math.min(viewportWidth - half - margin, anchor.left + anchor.width / 2)) / zoom,
+    top: (below ? anchor.bottom + 7 * zoom : anchor.top - 7 * zoom) / zoom, below, zoom };
+}
+
 /** Original official button artwork, with a tooltip outside clipping card panels. */
 export default function TypeIcon({ type, focusable = true }: { type: ElementTypes; focusable?: boolean }) {
   const {name,label,src}=elementIcon(type);
@@ -17,14 +27,8 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
 
   function placeTooltip() {
     if (!icon.current) return;
-    const anchor = icon.current.getBoundingClientRect();
-    const zoom=getLayoutZoom(icon.current),margin=8*zoom;
-    const width = (tooltip.current?.offsetWidth ?? Math.max(54, label.length * 12 + 20))*zoom;
-    const height = (tooltip.current?.offsetHeight ?? 30)*zoom;
-    const half = Math.min(width / 2, (window.innerWidth - 2*margin) / 2);
-    const below = anchor.top < height + 14*zoom;
-    setPosition({ left: Math.max(half + margin, Math.min(window.innerWidth - half - margin, anchor.left + anchor.width / 2))/zoom,
-      top: (below ? anchor.bottom + 7*zoom : anchor.top - 7*zoom)/zoom, below,zoom });
+    const size = { width: tooltip.current?.offsetWidth ?? Math.max(54, label.length * 12 + 20), height: tooltip.current?.offsetHeight ?? 30 };
+    setPosition(typeTooltipPosition(icon.current.getBoundingClientRect(), getLayoutZoom(icon.current), size, window.innerWidth));
   }
   /** The tooltip shows while the icon, or the button around it, is hovered or focused. */
   function track(flag: { current: boolean }, on: boolean) {

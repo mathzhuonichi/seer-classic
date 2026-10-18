@@ -10,8 +10,7 @@
   },
   "suites": {
     "acquisition-limits-controller.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
+      "status": "gate"
     },
     "architecture.mjs": {
       "status": "gate"
@@ -40,10 +39,6 @@
     "battle-animation.mjs": {
       "status": "needs-cache",
       "note": "Needs .cache/unity-swf-audit/, which was not transferred."
-    },
-    "battle-capsule-click.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07: asserts the old PetBag source text."
     },
     "battle-clone-fidelity-v58.mjs": {
       "status": "gate",
@@ -141,8 +136,7 @@
       "status": "gate"
     },
     "collection-shop-v25.mjs": {
-      "status": "known-failure",
-      "note": "Fails since a347f6c (battle-only trainer supplies); passes at the merge base 889c323."
+      "status": "gate"
     },
     "controller-snapshots.ts": {
       "status": "gate"
@@ -205,8 +199,7 @@
       "status": "gate"
     },
     "game-v3.ts": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07 (item icon grids, generic engraving access)."
+      "status": "gate"
     },
     "graphical-atlas.mjs": {
       "status": "gate"
@@ -225,8 +218,7 @@
       "status": "gate"
     },
     "paid-spt-controller.mjs": {
-      "status": "known-failure",
-      "note": "Nondeterministic: its starter save comes from a clock-seeded new journey (newSave(Date.now())). With Date.now pinned, seeds 4*7919 and 8*7919 fail the one-turn boss_spt_delasa win at line 86. Seed the fixture or inject the journey seed before gating."
+      "status": "gate"
     },
     "paid-spt-recruitment.mjs": {
       "status": "gate"

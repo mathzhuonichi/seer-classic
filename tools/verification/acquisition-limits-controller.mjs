@@ -1,19 +1,21 @@
 /** Transaction boundaries for the six-copy rule across every acquisition entry point. */
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import {createServer} from 'vite';
-const memory=new Map();
-globalThis.localStorage={getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value),removeItem:key=>memory.delete(key)};
-const server=await createServer({server:{middlewareMode:true,watch:null,hmr:false},appType:'custom',logLevel:'error'});
-const checks=[],failures=[];
-const check=(name,fn)=>{try{fn();checks.push(name)}catch(error){failures.push({name,error:String(error.message).slice(0,2000)});console.error(`FAIL ${name}: ${String(error.message).slice(0,500)}`)}};
-try{
- const {createGame,loadCatalog}=await server.ssrLoadModule('/src/kernel/game.ts');
- const {buildRecruitmentRewards}=await server.ssrLoadModule('/src/domain/acquisition/recruitment.ts');
- const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await server.ssrLoadModule('/src/domain/recipes/fusion.ts');
- const {Rng}=await server.ssrLoadModule('/battle/core/src/rng.ts');
- const {BREEDING_RECIPES}=await server.ssrLoadModule('/src/domain/recipes/breeding.ts');
- const {PARTY_MAX,BOX_MAX}=await server.ssrLoadModule('/raising/core/storage.ts');
+import {memoryStorage,suite,withSsr} from './_harness.mjs';
+
+/** The seed of the fixture's journey; a new journey would seed itself from the clock. */
+const JOURNEY_SEED=0xac9c1a;
+
+memoryStorage();
+await withSsr('acquisition-limits-controller',async load=>{
+ const t=suite('acquisition-limits-controller'),{check}=t;
+ const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
+ const {newSave}=await load('/src/kernel/save.ts');
+ const {buildRecruitmentRewards}=await load('/src/domain/acquisition/recruitment.ts');
+ const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');
+ const {Rng}=await load('/battle/core/src/rng.ts');
+ const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
+ const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
+ const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
@@ -21,7 +23,9 @@ try{
  const aliasA=`essence_test_a_${reward.rewardSpecies}`,aliasB=`essence_test_b_${reward.rewardSpecies}`;
  const catalog={...source,items:[...source.items,...[aliasA,aliasB].map(id=>({id,name:{zh:id},kind:'essence',hatches:reward.rewardSpecies}))]},catalogBytes=JSON.stringify(catalog);
  const parse=g=>JSON.parse(g.exportSave()),make=save=>createGame(catalog,JSON.stringify(save));
- const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:20,item_level_up_1:10};base.exp_pool=1e9;base.game.recruitmentClaims={};base.game.shopUnlocked=[];
+ const journey=make(newSave(JOURNEY_SEED));for(const species of STARTER_SPECIES)journey.dispatch({type:'cheatAcquire',species,level:STARTER_LEVEL});
+ const base=parse(journey);base.rng_state=[101,202,303,404];base.items={item_capsule_master:20,item_level_up_1:10};base.exp_pool=1e9;
+ base.game.recruitmentClaims={};base.game.shopUnlocked=[];
  const reject=(g,action,label)=>{const before=g.exportSave();g.dispatch(action);assert(g.exportSave()===before,label);};
  const templateCache=new Map();
  const template=(species,level=1)=>{
@@ -36,12 +40,13 @@ try{
   reject(g,{type:'claimQuest',questId:reward.questId},'2 held + 3 old aliases + 1 new essence must block a seventh copy');
   assert.equal(g.snapshot().quests.find(q=>q.id===reward.questId).allowance.remaining,0);
  });
- check('Shop enforces aggregate remaining allowance; ordinary quantities still reach 999',()=>{
+ check('Shop enforces aggregate remaining allowance; ordinary products are unlimited at the full quantity',()=>{
   const g=make(seedStock(2,3));reject(g,{type:'buyItem',itemId:aliasB,quantity:2},'Bulk essence purchase above remaining allowance');
   const before=parse(g);g.dispatch({type:'buyItem',itemId:aliasB,quantity:1});assert.equal(parse(g).items[aliasB],1);assert.deepEqual(parse(g).rng_state,before.rng_state);
   reject(g,{type:'buyItem',itemId:aliasA,quantity:1},'Cross-alias refill after reaching cap');
-  const ordinary=g.snapshot().shopItems.find(i=>i.kind!=='essence');assert(ordinary);const old=parse(g).items[ordinary.id]??0;
-  g.dispatch({type:'buyItem',itemId:ordinary.id,quantity:999});assert.equal(parse(g).items[ordinary.id],old+999);
+  const ordinary=g.snapshot().shopItems.find(i=>i.kind!=='essence');assert(ordinary?.unlimited);assert.equal(ordinary.maxQuantity,SHOP_MAX_QUANTITY);
+  const stock=g.exportSave();assert.equal(g.dispatch({type:'buyItem',itemId:ordinary.id,quantity:SHOP_MAX_QUANTITY}).ok,true);
+  assert.equal(g.exportSave(),stock,'An unlimited product persists no artificial stock');
  });
  check('Legacy surplus essence is preserved, hatches up to six owned, then rejects atomically',()=>{
   const save=seedStock(0,20),g=make(save);assert.equal(parse(g).items[aliasA],20,'Do not erase old inventory');
@@ -67,7 +72,8 @@ try{
  });
  check('Capture fifth to sixth copy still succeeds with a master capsule',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'startTraining',species:19,level:5});const before=parse(g);g.dispatch({type:'capture',itemId:'item_capsule_master'});
-  assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);assert.equal(parse(g).items.item_capsule_master,before.items.item_capsule_master-1);
+  assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);
+  assert.equal(parse(g).items.item_capsule_master,before.items.item_capsule_master,'Unlimited capsules keep the saved count');
  });
  check('Fusion rejects a fully capped outcome pool before drawing RNG',()=>{
   const recipe=FUSION_RECIPES.find(r=>r.outcomes.length>1),save=structuredClone(base);assert(recipe);
@@ -117,13 +123,12 @@ try{
    assert.equal(trained.level,name==='level item training'?18:100,'Training itself remains valid at an evolution cap');
    assert.deepEqual(after.rng_state,before.rng_state);
    if(name==='pooled EXP auto evolution')assert(after.exp_pool<before.exp_pool);
-   if(name==='level item training')assert.equal(after.items.item_level_up_1,before.items.item_level_up_1-1);
+   if(name==='level item training')assert.equal(after.items.item_level_up_1,before.items.item_level_up_1,'Unlimited raising items keep the saved count');
    const released=parse(g),remove=released.storage.find(m=>m.species===target).uid;released.storage=released.storage.filter(m=>m.uid!==remove);released.party=released.party.filter(uid=>uid!==remove);
    const retry=make(released);retry.dispatch({type:'evolve',uid:mon.uid});assert.equal(parse(retry).storage.find(m=>m.uid===mon.uid).species,target);
    assert.equal(parse(retry).storage.filter(m=>m.species===target).length,6);
   }
  });
  check('Shared input catalog remains immutable',()=>{assert.equal(JSON.stringify(source),sourceBytes);assert.equal(JSON.stringify(catalog),catalogBytes)});
- const report={checks,failures,limit:6,storageCapacity:PARTY_MAX+BOX_MAX};fs.mkdirSync('artifacts/acquisition-v32',{recursive:true});fs.writeFileSync('artifacts/acquisition-v32/limits-controller.json',JSON.stringify(report,null,2)+'\n');
- console.log(JSON.stringify(report,null,2));assert.equal(failures.length,0,`${failures.length} acquisition-limit controller checks failed`);
-}finally{await server.close();delete globalThis.localStorage;}
+ t.finish({limit:6,storageCapacity:PARTY_MAX+BOX_MAX});
+});
