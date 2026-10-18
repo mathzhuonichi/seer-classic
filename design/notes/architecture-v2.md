@@ -27,14 +27,14 @@ These are measured on the 10-core development Mac. The ones marked *gate* become
 
 | Path | Budget | Today |
 | --- | --- | --- |
-| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p95 0.8–0.9 ms on a new journey, 2.3–2.6 ms with 200 monsters (7 ms before the row memos) |
+| Non-battle action → new snapshot (dispatch + snapshot + save write) | p95 ≤ 4 ms (*gate*) | p95 0.8–0.9 ms on a new journey, 2.3–2.6 ms with 200 monsters (7 ms before the row memos); 5.5–6 ms with 600, where the whole-save copies in `raising/core` and the per-record comparison cost about 3 ms |
 | Player clicks a move → first battle frame | ≤ 50 ms (*gate*) | +91 ms p50 / +176 ms p95: the search AI decides synchronously inside `resolveTurn` |
 | Search AI decision, run while the player is choosing | p95 ≤ 250 ms (*gate*) | 91 / 176 ms |
 | Cold start: catalog load + `createGame` | ≤ 100 ms (*gate*) | 7 + 29 ms |
-| Screen re-render | Only screens whose snapshot slice changed | The whole tree re-renders on every emit |
+| Screen re-render | Only screens whose snapshot slice changed | Screens re-render only when their selected slice or row changes identity; a no-op action keeps the snapshot |
 | Saves | Never lost: versioned migrations, and a backup of an unreadable save | Done in wave 1 |
 
-The battle row is the only budget the game misses today, and it is the one the player feels on every turn.
+Apart from dispatch with 600 monsters, the battle row is the only budget the game misses today, and it is the one the player feels on every turn.
 
 ## 3. Module map
 
@@ -163,7 +163,7 @@ interface Feature<A extends { type: string }, S extends object = Record<never, n
 }
 ```
 
-As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the registrations, and structural sharing in the kernel (`reuseUnchanged`) keeps unchanged slices and rows identical. Rebuilding and comparing every row on each emit cost 7 ms per dispatch with 200 monsters, so the builders whose rows grow with the collection also rebuild a row only when its inputs change: monster rows, quests, campaign stages and recipes.
+As built (`43c080f`): `kernel/api.ts` defines it, `kernel/features.ts` lists the registrations, and structural sharing in the kernel (`reuseUnchanged`) keeps unchanged slices and rows identical. Rebuilding and comparing every row on each emit cost 7 ms per dispatch with 200 monsters, so the monster rows are also memoised per row (rebuilt only when their record or save fields change), the quests and the recipes are kept while a key of the save fields they read is unchanged, and the campaign stages build their catalogue parts once per game.
 
 - `GameAction` is the union of the features' action unions.
 - `GameSnapshot` is the intersection of their slices.
