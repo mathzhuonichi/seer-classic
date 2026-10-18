@@ -30,11 +30,10 @@ export function presentationState(ctx: GameContext, session: BattleSession): Bat
   return { player: view(battle.active(0)), enemy: view(battle.active(1)), party: battle.sides[0].team.map(view), enemyParty: battle.sides[1].team.map(view) };
 }
 
-export const TRAINER_CAPTURE_MESSAGE = '训练师的精灵不可捕捉。';
-
-function captureBlockedReason(rt: Runtime, session: BattleSession): string | undefined {
+/** Why the player cannot throw a capsule now, or undefined when they can; the capture action refuses with the same text. */
+export function captureBlockedReason(rt: Runtime, session: BattleSession): string | undefined {
   const { battle, encounter } = session;
-  if (encounter) return encounter.category === 'trainer' ? TRAINER_CAPTURE_MESSAGE : '首领与招募挑战不可捕捉，胜利后通过精元或任务获取。';
+  if (encounter) return encounter.category === 'trainer' ? '训练师的精灵不可捕捉。' : '首领与招募挑战不可捕捉，胜利后通过精元或任务获取。';
   if (!meetsWildCapturePrerequisite(battle.active(1).species.id, battle.active(0).species.id)) return '捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。';
   if (storageFull(rt.save)) return '仓库已满';
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
