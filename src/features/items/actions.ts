@@ -49,7 +49,8 @@ function hatch(rt: Runtime, item: CatalogItem, itemId: string) {
   const hatched = hatchEssence(rt.save, item as { id: string; kind: 'essence'; hatches: number }, ctx.dex, rt.rng, new Date().toISOString());
   commit(rt, hatched.save);
   rollTrait(ctx, rt.save, rt.rng, hatched.mon.uid);
-  notice(rt, `${itemId.startsWith('fusion_bead_') ? '元神珠' : '精元'}孵化成功：${ctx.speciesName(hatched.mon.species)}！`);
+  const place = rt.save.party.includes(hatched.mon.uid) ? '背包' : '仓库';
+  notice(rt, `${itemId.startsWith('fusion_bead_') ? '元神珠' : '精元'}孵化成功：${ctx.speciesName(hatched.mon.species)}已加入${place}！`);
 }
 
 function useRaising(rt: Runtime, item: CatalogItem, action: Extract<GameAction, { type: 'useItem' }>) {

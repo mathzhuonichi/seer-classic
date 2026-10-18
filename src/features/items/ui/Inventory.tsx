@@ -17,28 +17,27 @@ const PAGE_SIZE=48;
 interface Props {c:GameController;onSave:()=>void;onMessage:(text:string)=>void;initialPocket?:string}
 
 export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
-  const s=useGame(c,snapshot=>snapshot);
-  const inBattle=battleActive(s);
+  const held=useGame(c,s=>s.items),monsters=useGame(c,s=>s.monsters),party=useGame(c,s=>s.party),battle=useGame(c,s=>s.battle);
+  const coins=useGame(c,s=>s.coins),expPool=useGame(c,s=>s.expPool),inBattle=battleActive({battle});
   const [pocket,setPocket]=useState<ItemPocket>(initialPocket&&isItemPocket(initialPocket)?initialPocket:inBattle?'battle':'raising');
   const [search,setSearch]=useState(''),[itemId,setItemId]=useState('');
-  const [target,setTarget]=useState(inBattle?s.battle!.player.uid:s.party[0]??''),[feedback,setFeedback]=useState('');
-  const inPocket=pocketItems(s.items,pocket),content=useItemContent(pocket,inPocket,clearList);
+  const [target,setTarget]=useState(inBattle?battle!.player.uid:party[0]??''),[feedback,setFeedback]=useState('');
+  const inPocket=pocketItems(held,pocket),content=useItemContent(pocket,inPocket,clearList);
   const items=bagItems(inPocket,pocket,content.content,search);
   const pager=usePager(items.length,PAGE_SIZE),pageItems=items.slice(pager.start,pager.end);
   const item=items.find(i=>i.id===itemId)??pageItems[0]??items[0];
-  const monster=s.monsters.find(m=>m.uid===target)??s.monsters.find(m=>m.uid===s.party[0])??s.monsters[0];
+  const monster=monsters.find(m=>m.uid===target)??monsters.find(m=>m.uid===party[0])??monsters[0];
+  // A capsule needs a battle that allows a capture now.
+  const action=item&&(item.useAction!=='capture'||battle?.canCapture)?itemUseAction(item,monster?.uid):undefined;
   function clearList(){pager.setPage(0);setItemId('')}
   function openPocket(next:ItemPocket){setPocket(next);content.setContent('all');setSearch('');setFeedback('');clearList()}
   useEffect(()=>{if(initialPocket&&isItemPocket(initialPocket))openPocket(initialPocket)},[initialPocket]);
   function confirmUse() {
-    const action=item&&itemUseAction(s,item,monster);
-    if(!item||!action)return;
-    c.dispatch(action);
-    setFeedback(itemUseFeedback(s,c.snapshot(),item,monster));
+    if(item&&action)setFeedback(itemUseFeedback(c.dispatch(action),item,monster));
   }
   return <section className="management-panel inventory-management" aria-label="道具背包面板">
-    <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{s.coins.toLocaleString()}</b></span>
-      <span>积累经验 <b>{s.expPool.toLocaleString()}</b></span></div>
+    <div className="inventory-resources" aria-label="航行资源"><span>赛尔豆 <b>{coins.toLocaleString()}</b></span>
+      <span>积累经验 <b>{expPool.toLocaleString()}</b></span></div>
     <ItemCategoryTabs label="道具口袋" value={pocket} options={ITEM_POCKETS} className="inventory-primary-categories" onChange={openPocket}/>
     {inBattle&&<p className="inventory-battle-hint">{pocket==='capsule'?'选择胶囊，确认捕捉对方野生精灵。':'战斗期间为出战精灵选择补给，再确认使用。'}</p>}
     <div className="inventory-inner"><aside className="inventory-item-list">
@@ -57,7 +56,8 @@ export default function Inventory({c,onSave,onMessage,initialPocket}:Props) {
         <button aria-label="下一页道具" disabled={pager.page+1>=pager.pages} onClick={()=>{pager.setPage(p=>p+1);setItemId('')}}>›</button>
       </div>}
     </aside>
-      <InventoryDetail s={s} item={item} monster={monster} feedback={feedback} onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
+      <InventoryDetail item={item} monster={monster} monsters={monsters} party={party} battle={battle} enabled={!!action} feedback={feedback}
+        onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
     </div>
     <SaveControls inBattle={inBattle} onSave={onSave} onLoad={text=>{c.importSave(text);onMessage('已载入航行存档。');setTarget('');setItemId('');setFeedback('')}}
       onError={error=>onMessage(`存档无法读取：${String(error)}`)}/>

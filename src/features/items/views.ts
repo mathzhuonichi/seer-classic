@@ -1,5 +1,6 @@
 // Inventory and shop views of catalogue items.
 import type { Action, Battle } from '../../../battle/core/src/index.ts';
+import type { Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import { createItemShopViews } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
@@ -57,18 +58,32 @@ function itemRow(item: CatalogItem): ItemRow {
   };
 }
 
-/** Inventory rows for held or unlimited items; in battle, with the party members each item can target now. */
+/** What the bag does with an item now: raising items and essences outside a battle, supplies and capsules the battle allows in one. */
+function bagAction(row: ItemRow, legal: Action[] | undefined): ItemView['useAction'] {
+  if (!legal) return row.kind === 'raising' ? 'use' : row.kind === 'essence' ? 'hatch' : null;
+  if (row.kind === 'capsule') return legal.some(action => action.kind === 'capture' && action.item === row.id) ? 'capture' : null;
+  return row.kind === 'battle' && row.battleUsable ? 'use' : null;
+}
+
+/**
+ * Inventory rows for held or unlimited items, with what the bag can do with each now. During an unsettled `battle` a supply
+ * targets the party members it would change; outside one a raising item targets any monster in `storage`.
+ */
 export function createInventoryViews(ctx: GameContext) {
   const rows = ctx.catalog.items.map(itemRow);
-  return (inventory: Record<string, number>, unlimited: ReadonlySet<string>, battle: Battle | null): ItemView[] => {
-    const legal = battle?.legalActions(0).filter((action): action is Extract<Action, { kind: 'item' }> => action.kind === 'item');
-    return rows.filter(row => (inventory[row.id] ?? 0) > 0 || unlimited.has(row.id)).map(row => ({
-      id: row.id, name: row.name, kind: row.kind, count: inventory[row.id] ?? 0, unlimited: unlimited.has(row.id), description: row.description,
-      battleUsable: row.battleUsable, battleCategory: row.battleCategory,
-      usableTargetUids: legal?.filter(action => action.item === row.id)
-        .map(action => battle!.sides[0].team[action.target ?? battle!.sides[0].active].uid!).filter(Boolean),
-      targetMode: row.targetMode,
-    }));
+  return (inventory: Record<string, number>, unlimited: ReadonlySet<string>, battle: Battle | null, storage: readonly Monster[]): ItemView[] => {
+    const legal = battle?.legalActions(0), side = battle?.sides[0], everyone = storage.map(mon => mon.uid);
+    const itemActions = legal?.filter((action): action is Extract<Action, { kind: 'item' }> => action.kind === 'item');
+    return rows.filter(row => (inventory[row.id] ?? 0) > 0 || unlimited.has(row.id)).map(row => {
+      const usableTargetUids = itemActions?.filter(action => action.item === row.id)
+        .map(action => side!.team[action.target ?? side!.active].uid!).filter(Boolean);
+      const useAction = bagAction(row, legal);
+      return {
+        id: row.id, name: row.name, kind: row.kind, count: inventory[row.id] ?? 0, unlimited: unlimited.has(row.id), description: row.description,
+        battleUsable: row.battleUsable, battleCategory: row.battleCategory, usableTargetUids, targetMode: row.targetMode,
+        useAction, ...(useAction === 'use' ? { useTargets: usableTargetUids ?? everyone } : {}),
+      };
+    });
   };
 }
 
