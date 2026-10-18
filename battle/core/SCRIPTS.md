@@ -16,9 +16,9 @@ the game adds its own registries (see [Game registries](#game-registries)).
 | `boss.ts` | boss rules (`install`) and phase ops (`apply`); exports `statusOnAttacker` for campaign rules |
 | `builders.ts` | entry factories: `timedScripts`, `ruleScripts` and the template families |
 | `util.ts` | argument encodings, predicates, damage, stage and condition helpers |
-| `constants.ts` | numbers the template text does not state: formulas, AI estimates, interpretations |
 
-A number quoted in a template's text stays next to that quote; any other number goes in `constants.ts`.
+A number quoted in a template's text stays next to that quote. Any other number (formulas, AI estimates,
+interpretations) goes in the skill script section of `src/constants.ts`, with the other battle numbers.
 
 ## Game registries
 

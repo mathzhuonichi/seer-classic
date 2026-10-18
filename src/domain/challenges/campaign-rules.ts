@@ -2,7 +2,7 @@ import type {Battle, Hook, Mon, ScriptRegistry, Skill, StageKey} from '../../../
 import {effectiveness} from '../../../battle/core/src/index.ts';
 import {ruleScripts, type RuleSpec} from '../../../battle/core/src/scripts/builders.ts';
 import {statusOnAttacker} from '../../../battle/core/src/scripts/boss.ts';
-import {ALWAYS_FIRST_PRIORITY} from '../../../battle/core/src/scripts/constants.ts';
+import {ALWAYS_FIRST_PRIORITY} from '../../../battle/core/src/constants.ts';
 import {raiseStagesTo, ruleCondition, scriptHooks, type StageMap} from '../../../battle/core/src/scripts/util.ts';
 
 /** Encounter-only conditions are attached to their member, never the whole side; a repeated rule gets its own condition. */

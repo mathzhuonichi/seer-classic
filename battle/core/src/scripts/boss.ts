@@ -6,7 +6,7 @@
 
 import type { Hook, HookPoint, ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
 import type { Battle, Mon } from '../battle.ts';
-import { ALWAYS_FIRST_PRIORITY, RANDOM_PRIORITY_FLOOR } from './constants.ts';
+import { ALWAYS_FIRST_PRIORITY, RANDOM_PRIORITY_FLOOR } from '../constants.ts';
 import { ruleScripts, type HookFn, type RuleSpec } from './builders.ts';
 import { attach, fromFoeAttack, raiseStagesTo, ruleCondition, scriptHooks } from './util.ts';
 
