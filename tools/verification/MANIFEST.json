@@ -158,7 +158,7 @@
     },
     "elite-recovery-v49.mjs": {
       "status": "known-failure",
-      "note": "Search weakness kept failing by the test triage; handoff-2026-10-18.md open item 2. Also loads fixed Git revisions."
+      "note": "Search weakness kept failing by the test triage; handoff-2026-10-18.md open item 2."
     },
     "elite-roster-v46.mjs": {
       "status": "gate"
@@ -210,8 +210,7 @@
       "status": "gate"
     },
     "npc-training-v45.mjs": {
-      "status": "known-failure",
-      "note": "Fails since the search planner became the default (passes at d8d4db9); see handoff-2026-10-18.md open item 2."
+      "status": "gate"
     },
     "paid-spt-controller.mjs": {
       "status": "known-failure",
@@ -262,8 +261,7 @@
       "status": "gate"
     },
     "trainer-teams.mjs": {
-      "status": "stale",
-      "note": "Already failing at V30: expects the old trainer roster markup."
+      "status": "gate"
     },
     "unlimited-access-v50.mjs": {
       "status": "gate"
