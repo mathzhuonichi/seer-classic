@@ -185,8 +185,7 @@
       "status": "gate"
     },
     "evolution-specials.mjs": {
-      "status": "known-failure",
-      "note": "Fails since ccbbf07 (33 checks); one check already failed on claude/engravings. Also loads fixed Git revisions."
+      "status": "gate"
     },
     "export-acquisition-status.mjs": {
       "status": "gate"

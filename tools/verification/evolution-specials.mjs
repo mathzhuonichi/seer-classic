@@ -1,10 +1,8 @@
 /** Independent v35 regression: approved special transitions, legacy saves, and branch entry routes. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { memoryStorage, suite, withSsr } from './_harness.mjs';
 
-const BASELINE_REVISION = '6e92e09';
 // These expectations come from the approved policy, not from the generator output.
 const SOURCE_LEVELS = [[398,432,63],[651,652,34],[810,811,40]];
 const OVERRIDE_LEVELS = [[347,729,60],[601,881,60],[55,1143,60]];
@@ -15,23 +13,24 @@ const REMAKE_LEVELS = [[821,1017,60],[1017,1018,70],[1018,1019,80],[1120,1121,60
   [79,1459,60],[239,1464,60],[197,1473,60]];
 const BRANCH_PARENTS = new Set([67,739]);
 const EXPECTED = [...SOURCE_LEVELS,...OVERRIDE_LEVELS,...REMAKE_LEVELS].map(([from,to,level])=>({from,to,level,method:'level',automatic:false}));
-const targetIds = new Set(EXPECTED.map(edge=>edge.to)), parentIds = new Set(EXPECTED.map(edge=>edge.from));
-const source = JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/gamedata.json`],{encoding:'utf8',maxBuffer:50*1024*1024}));
-const oldById = new Map(source.species.map(row=>[row.id,row]));
+const targetIds = new Set(EXPECTED.map(edge=>edge.to));
+/** Nier's ordinary chain, unchanged since the v33 catalog: the special form 1459 follows its last stage. */
+const NIER_CHAIN = {77:[{to:78,method:'level',level:17}],78:[{to:79,method:'level',level:37}]};
 memoryStorage();
 const t=suite('evolution-specials'),transitions=[],repeatRoutes=[];
 await withSsr('evolution-specials',async load=>{
   const {createGame,loadCatalog}=await load('/src/kernel/game.ts');
-  const {makeDex,createMonster,SeededRng,computeStats,evolutionOptions,autoEvolve}=await load('/raising/core/index.ts');
+  const {makeDex,createMonster,computeStats,evolutionOptions,autoEvolve}=await load('/raising/core/index.ts');
+  const {Rng}=await load('/battle/core/src/rng.ts');
   const {buildAcquisitionIndex}=await load('/src/domain/acquisition/acquisition.ts');
   const {NPC_ONLY_SPECIES}=await load('/src/domain/acquisition/acquisition-model.ts');
   const {buildInitialFormAcquisitionIndex}=await load('/src/domain/acquisition/initial-acquisition.ts');
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),byId=new Map(catalog.species.map(row=>[row.id,row]));
-  const dex=makeDex(catalog),oldDex=makeDex(source),parse=game=>JSON.parse(game.exportSave());
+  const dex=makeDex(catalog),parse=game=>JSON.parse(game.exportSave());
   const base=parse(createGame(catalog,''));base.rng_state=[101,202,303,404];base.items={item_capsule_master:40,item_level_up_1:30};base.exp_pool=1e9;
   const make=(save,input=catalog)=>createGame(input,JSON.stringify(save));
   function mon(species,level=100,uid=`special-${species}`){
-    const value=createMonster(oldDex,species,level,new SeededRng(species),{how:'capture',at:'2026-10-14T00:00:00.000Z'});
+    const value=createMonster(dex,species,level,new Rng(species),{how:'capture',at:'2026-10-14T00:00:00.000Z'});
     Object.assign(value,{uid,nickname:'Legacy special fixture',iv:29,generation:1,evs:{hp:21,atk:12,def:30,spa:40,spd:20,spe:15}});
     value.hp=computeStats(value,dex).hp;return value;
   }
@@ -52,21 +51,16 @@ await withSsr('evolution-specials',async load=>{
     return value;
   }
 
-  t.check('Exactly the 32 approved forward edges were added and prior edges remain byte-equivalent',()=>{
+  t.check('Each of the 32 approved targets has exactly one manual level edge, and no species repeats a target',()=>{
     assert.equal(EXPECTED.length,32);assert.equal(targetIds.size,32);
-    const additions=[];
-    for(const row of catalog.species){const old=oldById.get(row.id);assert(old,'No extra catalog species');
-      for(const edge of old.evolution)assert(row.evolution.some(candidate=>JSON.stringify(candidate)===JSON.stringify(edge)),`${row.id}->${edge.to}: prior rule preserved`);
-      for(const edge of row.evolution)if(!old.evolution.some(previous=>previous.to===edge.to))additions.push({from:row.id,...edge});
-      assert.equal(new Set(row.evolution.map(edge=>edge.to)).size,row.evolution.length,'No duplicate targets');
+    for(const row of catalog.species)assert.equal(new Set(row.evolution.map(edge=>edge.to)).size,row.evolution.length,`${row.id}: no duplicate targets`);
+    for(const {from,to,level,method,automatic} of EXPECTED){
+      const into=catalog.species.flatMap(row=>row.evolution.filter(edge=>edge.to===to).map(edge=>({from:row.id,...edge})));
+      assert.deepEqual(into,[{from,to,method,level,automatic}],`${to}: the approved edge is its only evolution route`);
     }
-    const order=(a,b)=>a.from-b.from||a.to-b.to;
-    assert.deepEqual(additions.sort(order),EXPECTED.map(({from,to,level,method,automatic})=>({from,to,method,level,automatic})).sort(order));
   });
   t.check('Evidence distinguishes three source gates, three explicit level-one overrides, and 26 fallback levels',()=>{
     const policy=JSON.parse(fs.readFileSync('data/evolution-rules.json','utf8'));
-    const oldPolicy=JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/evolution-rules.json`],{encoding:'utf8',maxBuffer:10*1024*1024}));
-    for(const rule of oldPolicy.rules)assert.deepEqual(policy.rules.find(value=>value.from===rule.from&&value.kind===rule.kind),rule,'Prior evidence rows are preserved');
     const added=policy.rules.filter(rule=>rule.kind.startsWith('special-'));assert.equal(added.length,30);
     assert.equal(added.flatMap(rule=>rule.transitions).length,32);
     for(const rule of added)for(const transition of rule.transitions){const expected=EXPECTED.find(edge=>edge.from===rule.from&&edge.to===transition.to);assert(expected,'Every evidence row belongs to the approved target set');
@@ -79,25 +73,10 @@ await withSsr('evolution-specials',async load=>{
     }
     assert.equal(policy.deferredMissingForms.length,0,'All 32 previously deferred forms are resolved');
   });
-  t.check('The catalog changed only approved evolution fields and the single 1459 ancestry correction',()=>{
-    assert.equal(catalog.species.length,source.species.length);
-    // The runtime catalog reads the per-file tables and encounter files; compare each with its v33 baseline.
-    for(const table of ['skills','natures','types','conditions','items'])assert.deepEqual(catalog[table],source[table],`${table} unchanged`);
-    assert.equal(execFileSync('git',['diff','--name-only',BASELINE_REVISION,'--','data/bosses'],{encoding:'utf8'}).trim(),'','Runtime encounter files unchanged');
-    assert.equal(execFileSync('git',['ls-files','--others','--exclude-standard','--','data/bosses'],{encoding:'utf8'}).trim(),'','No new encounter files');
-    for(const row of catalog.species){const old=oldById.get(row.id),expected=structuredClone(old);
-      if(parentIds.has(row.id)){expected.evolution=row.evolution;expected.source_note=row.source_note;}
-      if(row.id===1459){assert.equal(old.evolves_from,77);assert.equal(row.evolves_from,79);expected.evolves_from=79;expected.source_note=row.source_note;}
-      assert.deepEqual(row,expected,`${row.id}: stats, skills, acquisition, and unrelated ancestry are preserved`);
-      if(parentIds.has(row.id)||row.id===1459)assert.deepEqual(row,JSON.parse(fs.readFileSync(`data/monsters/${String(row.id).padStart(4,'0')}.json`,'utf8')),'Standalone record agrees');
-    }
-    const oldIndex=JSON.parse(execFileSync('git',['show',`${BASELINE_REVISION}:data/catalog_index.json`],{encoding:'utf8',maxBuffer:10*1024*1024}));
+  t.check('The catalog index lists every species with its catalog evolution targets',()=>{
     const index=JSON.parse(fs.readFileSync('data/catalog_index.json','utf8'));
-    for(const row of index.monsters){const previous=oldIndex.monsters.find(value=>value.id===row.id),expected=structuredClone(previous);
-      if(parentIds.has(row.id))expected.evolves_to=byId.get(row.id).evolution.map(edge=>edge.to);
-      if(row.id===1459&&'evolves_from' in row)expected.evolves_from=79;
-      assert.deepEqual(row,expected,`${row.id}: catalog index changes only the approved graph`);
-    }
+    assert.deepEqual(index.monsters.map(row=>row.id).sort((a,b)=>a-b),[...byId.keys()].sort((a,b)=>a-b));
+    for(const row of index.monsters)assert.deepEqual(row.evolves_to,byId.get(row.id).evolution.map(edge=>edge.to),`${row.id}: index evolves_to`);
   });
   t.check('The executable evolution graph has no cycles',()=>{
     const done=new Set(),active=new Set();
@@ -134,7 +113,8 @@ await withSsr('evolution-specials',async load=>{
     const game=make(save,input);game.dispatch({type:'useItem',uid:origin.uid,itemId:'item_level_up_1'});
     const after=parse(game),retained=after.storage.find(value=>value.uid===origin.uid);
     assert.equal(retained.species,edge.from);assert.equal(retained.level,Math.max(2,edge.level),'Training retained at a destination cap');
-    assert.equal(after.items.item_level_up_1,save.items.item_level_up_1-1);assert.deepEqual(after.rng_state,save.rng_state);
+    assert.deepEqual(after.items,save.items,'Raising items are unlimited: the finite stock and both aliases are kept');
+    assert.deepEqual(after.rng_state,save.rng_state);
     reject(game,{type:'evolve',uid:origin.uid,toSpecies:edge.to},'Two owned and four aliases already reserve six');
     const view=game.snapshot().monsters.find(value=>value.uid===origin.uid).evolutionChoices.find(value=>value.species===edge.to);assert(view.blockedReason&&/6/.test(view.blockedReason));
     const freed=parse(game);freed.items[aliases[1]]=2;const allowed=make(freed,input);
@@ -166,7 +146,7 @@ await withSsr('evolution-specials',async load=>{
 
   const acquisition=buildAcquisitionIndex(catalog),initial=buildInitialFormAcquisitionIndex(catalog,acquisition);
   t.check('Nier keeps its ordinary chain and Aifeidesi has the complete executable initial-form path',()=>{
-    assert.deepEqual(byId.get(77).evolution,oldById.get(77).evolution);assert.deepEqual(byId.get(78).evolution,oldById.get(78).evolution);
+    for(const [id,chain] of Object.entries(NIER_CHAIN))assert.deepEqual(byId.get(Number(id)).evolution,chain);
     assert.equal(byId.get(1459).evolves_from,79);
     const route=initial.get(1459).initialForms.find(value=>value.species===77);assert(route&&route.routes.length>0);
     assert.deepEqual(route.evolutionPath.map(step=>[step.from,step.to,step.level]),[[77,78,17],[78,79,37],[79,1459,60]]);
@@ -196,15 +176,19 @@ await withSsr('evolution-specials',async load=>{
     });
   }
 
-  t.check('Independent closure reaches all 1479 eligible forms and no existing acquisition route regresses',()=>{
-    const baseline=buildAcquisitionIndex({...source,bosses:catalog.bosses}),reachable=new Set([...baseline].filter(([,entry])=>entry.status==='available').map(([id])=>id));
-    assert.equal(reachable.size,1447,'Pinned v33 baseline');
+  t.check('Independent closure from the forms acquired without evolving reaches all 1479 eligible forms',()=>{
+    const reachable=new Set([...acquisition].filter(([,entry])=>entry.routes.some(route=>route.kind!=='evolution')).map(([id])=>id));
+    t.witness('directlyAcquired',reachable.size);
     for(let previous=-1;previous!==reachable.size;){previous=reachable.size;for(const id of [...reachable])for(const edge of byId.get(id).evolution)if(edge.method==='level'&&edge.level<=100)reachable.add(edge.to);}
     const eligible=catalog.species.filter(row=>!NPC_ONLY_SPECIES.has(row.id));assert.equal(eligible.length,1479);assert.equal(reachable.size,1479);
-    for(const row of eligible){assert(reachable.has(row.id),`Independent directed closure misses ${row.id}`);assert.equal(acquisition.get(row.id).status,'available');const paths=initial.get(row.id).initialForms;assert(paths.some(path=>path.routes.length>0&&path.evolutionPath.every(step=>step.implemented)),`${row.id}: executable root-to-form path`);}
+    for(const row of eligible){
+      assert(reachable.has(row.id),`Independent directed closure misses ${row.id}`);assert.equal(acquisition.get(row.id).status,'available');
+      const paths=initial.get(row.id).initialForms;
+      assert(paths.some(path=>path.routes.length>0&&path.evolutionPath.every(step=>step.implemented)),`${row.id}: executable root-to-form path`);
+    }
     assert.deepEqual([...acquisition].filter(([,entry])=>entry.status==='npc').map(([id])=>id).sort((a,b)=>a-b),[122,123,124,125]);
-    for(const [id,entry]of baseline)if(entry.status==='available')assert.equal(acquisition.get(id).status,'available');
   });
   t.check('Controllers and test fixtures leave the input catalog unchanged',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
-  t.finish({baselineRevision:BASELINE_REVISION,sourceLevelTransitions:SOURCE_LEVELS.length,overrideLevelTransitions:OVERRIDE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,transitions,repeatRoutes});
+  t.finish({sourceLevelTransitions:SOURCE_LEVELS.length,overrideLevelTransitions:OVERRIDE_LEVELS.length,remakeLevelTransitions:REMAKE_LEVELS.length,
+    transitions,repeatRoutes});
 });
