@@ -92,17 +92,19 @@ try{await withSsr('game-display-v43',async load=>{
       baseline??=timing;close(timing.duration,baseline.duration);assert.equal(timing.direction,baseline.direction);
     }
   });
+  // The clearance is 35% of the contact and robot widths together, kept between 2.5% and 8% of the scene width.
   check('Creature contact stops on the incoming side and nearby clicks open without a second walk',()=>{
+    for(const [width,clearance] of [[20,42],[60,56],[140,80]])
     for(const zoom of [1,1.5,3])for(const from of [{x:10,y:50},{x:90,y:50},{x:50,y:10},{x:50,y:90},{x:90,y:80},{x:52,y:51}]){
       const scene={left:23,top:11,width:1000*zoom,height:600*zoom};
-      const robot={left:scene.left+from.x*10*zoom-30*zoom,top:scene.top+from.y*6*zoom-76*zoom,width:60*zoom,height:80*zoom};
+      const robot={left:scene.left+(from.x*10-width/2)*zoom,top:scene.top+from.y*6*zoom-76*zoom,width:width*zoom,height:80*zoom};
       const foot=walk.robotFoot(robot,scene);close(foot.x,from.x);close(foot.y,from.y);
-      const {stop,immediate}=walk.approachStop(foot,{x:50,y:50},scene,100*zoom,robot.width);
+      const {stop,immediate}=walk.approachStop(foot,{x:50,y:50},scene,100*zoom,robot);
       const startDistance=Math.hypot((from.x-50)*10,(from.y-50)*6);
-      if(startDistance<=56){assert(immediate);close(stop.x,from.x);close(stop.y,from.y);}
+      if(startDistance<=clearance){assert(immediate);close(stop.x,from.x);close(stop.y,from.y);}
       else{
         assert(!immediate,'No early popup while walking');
-        close(Math.hypot((stop.x-50)*10,(stop.y-50)*6),56,'Contact clearance');
+        close(Math.hypot((stop.x-50)*10,(stop.y-50)*6),clearance,'Contact clearance');
         assert((stop.x-50)*(from.x-50)+(stop.y-50)*(from.y-50)>0,'Never cross the contact');
         assert(Math.hypot(stop.x-from.x,stop.y-from.y)<Math.hypot(50-from.x,50-from.y));
       }
@@ -114,7 +116,7 @@ try{await withSsr('game-display-v43',async load=>{
   });
   check('Creature approach clears its roaming lock after both immediate and animated arrival',()=>{
     const scene={left:0,top:0,width:1000,height:600},robot={left:70,top:224,width:60,height:80};
-    const {stop,immediate}=walk.approachStop(walk.robotFoot(robot,scene),{x:50,y:50},scene,100,robot.width);
+    const {stop,immediate}=walk.approachStop(walk.robotFoot(robot,scene),{x:50,y:50},scene,100,robot);
     assert(!immediate);close(stop.x,44.4);close(stop.y,50);
     for(const reducedMotion of [true,false]){
       const timing=walk.walkTiming(walk.robotFoot(robot,scene),stop,scene,reducedMotion);
