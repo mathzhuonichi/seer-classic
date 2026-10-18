@@ -9,7 +9,10 @@ const JOURNEY_RNG_STATE=[0x0ca97,0x5eed,0x3,0x5ee4];
 const journey=JSON.parse(createGame(structuredClone(source) as CatalogData).exportSave());journey.rng_state=JOURNEY_RNG_STATE;
 const start=(catalog:CatalogData)=>createGame(catalog,JSON.stringify(journey));
 const fresh=()=>start(structuredClone(source) as CatalogData);
-const game=fresh(), initial=game.snapshot(), capsule='item_capsule_master', stock=initial.items.find(i=>i.id===capsule)!.count;
+const count=(snapshot:{items:readonly {id:string;count:number}[]},id:string)=>snapshot.items.find(i=>i.id===id)!.count;
+const game=fresh(), initial=game.snapshot(), capsule='item_capsule_master';
+/** An item's stock at the start of the pinned journey, which an unlimited use leaves as it was. */
+const stock=(id:string)=>count(initial,id);
 // Ten held recovery supplies plus the unlimited trainer-tier HP250 at zero stock.
 assert.equal(initial.items.filter(i=>i.battleCategory==='recovery').length,11);
 assert.equal(initial.items.filter(i=>i.battleCategory==='capsule').length,7);
@@ -20,14 +23,14 @@ const enemy=game.snapshot().battle!.enemy, before=game.exportSave();
 game.dispatch({type:'capture',itemId:capsule});
 const caught=game.snapshot();
 assert(caught.battle!.captured&&caught.battle!.finished&&caught.battle!.won);
-assert.equal(caught.items.find(i=>i.id===capsule)!.count,stock);
+assert.equal(count(caught,capsule),stock(capsule));
 const added=caught.monsters.find(m=>!initial.monsters.some(old=>old.uid===m.uid))!;
 assert.equal(added.species,22);assert.equal(added.level,enemy.level);assert.equal(added.hp,enemy.hp);assert(caught.party.includes(added.uid));
 assert(caught.battle!.animation.frames.some(f=>f.kind==='capture'&&f.side===1&&f.captureSuccess));
 assert(caught.battle!.log.some(line=>line.includes('毛毛')&&line.includes('成功捕捉')));
 assert.equal(caught.coins,initial.coins);assert.equal(caught.expPool,initial.expPool);
 const reloaded=createGame(structuredClone(source),game.exportSave());assert(reloaded.snapshot().monsters.some(m=>m.uid===added.uid));
-assert.equal(reloaded.snapshot().items.find(i=>i.id===capsule)!.count,stock);
+assert.equal(count(reloaded.snapshot(),capsule),stock(capsule));
 const full=createGame(structuredClone(source),before);
 for(const species of [13,16,19])full.dispatch({type:'cheatAcquire',species,level:3});
 assert.equal(full.snapshot().party.length,6);const oldUids=full.snapshot().monsters.map(m=>m.uid);
@@ -43,7 +46,8 @@ const failureData=structuredClone(source);failureData.species.find((s:any)=>s.id
 const failure=start(failureData);failure.dispatch({type:'startTraining',species:22,level:3});failure.dispatch({type:'capture',itemId:'item_capsule_basic'});
 const failed=failure.snapshot().battle!;
 assert(!failed.finished);assert.equal(failed.turn,1);assert(failed.animation.frames.some(f=>f.kind==='capture'&&f.side===1&&!f.captureSuccess));
-assert.equal(failure.snapshot().items.find(i=>i.id==='item_capsule_basic')!.count,stock);assert.equal(JSON.parse(failure.exportSave()).items.item_capsule_basic,stock);
+assert.equal(count(failure.snapshot(),'item_capsule_basic'),stock('item_capsule_basic'));
+assert.equal(JSON.parse(failure.exportSave()).items.item_capsule_basic,stock('item_capsule_basic'));
 assert.equal(failure.snapshot().monsters.length,3);assert(failed.log.some(l=>l.includes('挣脱')));
 // Exercise the authored cure supply against a real status applied by the battle engine.
 const statusData=structuredClone(source),poison=statusData.skills.find((s:any)=>s.name.zh==='毒粉');
@@ -53,7 +57,7 @@ statusGame.dispatch({type:'cheatMonster',uid:lead,level:50,traitId:null});status
 const defend=statusGame.snapshot().battle!.player.skills.find(s=>s.category==='属性')!;
 statusGame.dispatch({type:'move',skillId:defend.id});assert(statusGame.snapshot().battle!.player.statuses.includes('中毒'));
 statusGame.dispatch({type:'battleItem',itemId:'item_status_cure',targetUid:lead});
-assert.equal(statusGame.snapshot().items.find(i=>i.id==='item_status_cure')!.count,stock);
+assert.equal(count(statusGame.snapshot(),'item_status_cure'),stock('item_status_cure'));
 assert(statusGame.snapshot().battle!.log.some(l=>l.includes('中毒')&&l.includes('已解除')));
 console.log(JSON.stringify({passed:[
   'three item categories','capture transfers level/HP and party placement','unlimited capsule keeps its stock across a save roundtrip',
