@@ -5,7 +5,7 @@ import { loadCatalog, type CatalogData } from '../domain/catalog/catalog.ts';
 import type { GameController, GameSnapshot } from './contract.ts';
 import { createGameContext, type BattleFactory } from './context.ts';
 import { runAction } from './dispatch.ts';
-import {engravingOptions} from '../features/raising/index.ts';
+import {engravingOptions} from '../features/engravings/index.ts';
 import { notice, type Runtime } from './api.ts';
 import { loadJourney, openJourney, startJourney, writeJourney, type Journey } from './save-state.ts';
 import { createSnapshotBuilder } from './snapshot.ts';

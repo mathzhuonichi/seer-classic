@@ -1,6 +1,5 @@
 // Pure rules of the item shop page: product search and the order form.
 import type { ShopItemView } from '../../shared/views.ts';
-import {SHOP_ORDER_MAX} from '../../domain/item-shop.ts';
 
 /** A product search by name, or by the species number an essence hatches (`#12` or `12`). */
 export function shopSearch(search:string):{query:string;matches:(item:ShopItemView)=>boolean} {
@@ -21,9 +20,9 @@ export interface ShopOrder {
   hint:string;
 }
 
-/** The order form for `item` with the typed `quantity`; the controller re-checks the order. */
+/** The order form for `item` with the typed `quantity`, up to its `maxQuantity`; the controller re-checks the order. */
 export function shopOrder(item:ShopItemView|undefined,quantity:string,inBattle:boolean):ShopOrder {
-  const maximum=Math.max(0,Math.min(SHOP_ORDER_MAX,item?.maxQuantity??SHOP_ORDER_MAX)),count=Number(quantity);
+  const maximum=item?.maxQuantity??0,count=Number(quantity);
   const valid=Number.isSafeInteger(count)&&count>=1&&count<=maximum,locked=inBattle||!!item?.blockedReason;
   const presets=[...new Set((item?.hatches?[1,3,6,maximum]:[1,5,10,99]).filter(value=>value>0&&value<=maximum))].sort((a,b)=>a-b);
   const hint=inBattle?'请先结束当前战斗':item?.blockedReason??(maximum===0?'当前无法补充':!valid?`数量须为 1 至 ${maximum} 的整数`

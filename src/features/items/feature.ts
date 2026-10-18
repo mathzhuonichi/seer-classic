@@ -15,9 +15,9 @@ export const itemsFeature: Feature<ItemsAction, ItemsSlice> = {
     const inventory = createInventoryViews(ctx), shop = createShopViews(ctx);
     return ({ save, session }) => {
       // An unsettled battle shows the battle's own inventory and supply access.
-      const live = session && !session.settled ? session.battle.sides[0] : undefined;
+      const battle = session && !session.settled ? session.battle : null, live = battle?.sides[0];
       const items = live?.items ?? save.items, unlimited = live?.unlimitedItems ?? ctx.unlimitedItemIds;
-      return { items: inventory(items, unlimited, session?.battle ?? null), shopItems: shop(save, items), coins: save.game.coins };
+      return { items: inventory(items, unlimited, battle, save.storage), shopItems: shop(save, items), coins: save.game.coins };
     };
   },
 };

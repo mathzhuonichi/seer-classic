@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createGame,loadCatalog} from '../../src/kernel/game.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import type {GameAction} from '../../src/kernel/contract.ts';
 import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/kernel/persistence.ts';
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
@@ -49,11 +50,34 @@ export async function verifySnapshotIdentity(){
   assert.equal(renamed.monsters.find(mon=>mon.uid===first.uid)!.name,'Identity');
   assert.notEqual(renamed.monsters,settled.monsters,'The changed slice is new.');
   assert.equal(renamed.monsters.find(mon=>mon.uid===second.uid),second,'An unchanged row keeps its identity.');
-  for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits'] as const)
+  for(const key of ['party','campaigns','braveTower','facilities','bosses','species','quests','items','shopItems','natures','traits','engravingStock'] as const)
     assert.equal(renamed[key],settled[key],`Unchanged slice ${key} keeps its identity.`);
   const unknown=game.dispatch({type:'noSuchAction'} as unknown as Parameters<typeof game.dispatch>[0]);
   assert.equal(unknown.ok,false,'An unregistered action type is rejected.');
   return {checks:['unregistered action rejected','no-op action keeps every slice','changed slice is new','unchanged rows and slices keep identity']};
+}
+
+/**
+ * EngravingShop and EngravingSlots memoise `engravingOptions` on the monsters and engravingStock slices, so the options may change
+ * only when one of them does; buying, equipping, moving and unequipping, and renaming a holder, do change them.
+ */
+export async function verifyEngravingOptionInputs(){
+  const game=createGame(await loadCatalog(),'');
+  for(let i=0;i<2;i++)game.dispatch({type:'cheatAcquire',species:15,level:100});
+  const [a,b]=game.snapshot().monsters.filter(mon=>mon.species===15).map(mon=>mon.uid),starter=game.snapshot().party[0];
+  const options=()=>JSON.stringify(game.snapshot().monsters.map(mon=>game.engravingOptions(mon.uid)));
+  // Each action, and whether it must change the options (undefined: either way).
+  const steps:[GameAction,boolean?][]=[[{type:'dismissNotice'},false],[{type:'buyItem',itemId:'item_level_up_1',quantity:1},false],
+    [{type:'buyEngraving',engravingId:'10031'},true],[{type:'setEngraving',uid:a,slot:'ability',engravingId:'10031'},true],
+    [{type:'setEngraving',uid:b,slot:'ability',engravingId:'10031',fromUid:a},true],[{type:'rename',uid:b,name:'Holder'},true],
+    [{type:'useItem',uid:starter,itemId:'item_level_up_1'}],[{type:'heal'}],[{type:'setEngraving',uid:b,slot:'ability',engravingId:null},true]];
+  for(const [action,changes] of steps){
+    const before=game.snapshot(),seen=options(),result=game.dispatch(action),after=game.snapshot(),changed=options()!==seen;
+    assert(result.ok,`${action.type}: ${result.notice}`);
+    if(changed)assert(after.monsters!==before.monsters||after.engravingStock!==before.engravingStock,`${action.type} changed the options, not their slices.`);
+    if(changes!==undefined)assert.equal(changed,changes,`${action.type} ${changes?'changes':'keeps'} the engraving options.`);
+  }
+  return {checks:steps.map(([action])=>action.type)};
 }
 
 /**

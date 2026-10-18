@@ -1,3 +1,4 @@
+import type {EngravingView} from '../../shared/views.ts';
 import type {EngravingDefinition} from './engravings.ts';
 
 // Remake balance limits apply per generic ability engraving, including equipped copies.
@@ -13,4 +14,11 @@ export function engravingAccess(def: EngravingDefinition): {unlimited: boolean; 
   if (def.slot !== 'ability' || def.species.length) return {unlimited: true, maxOwned: def.maxOwned};
   const gain = Object.entries(def.stats).reduce((sum, [key, value]) => sum + (value ?? 0) * STAT_WEIGHTS[key as keyof typeof STAT_WEIGHTS], 0);
   return {unlimited: false, maxOwned: OWNERSHIP_TIERS.find(([minGain]) => gain >= minGain)?.[1] ?? DEFAULT_MAX_OWNED};
+}
+
+/** How a monster without `def` gets a copy: none needed, a spare one from stock while equipped copies are below the cap, else another holder's. */
+export function equipMode(def: EngravingDefinition, stock: number, equipped: number, otherHolders: number): EngravingView['equipMode'] {
+  const access = engravingAccess(def);
+  if (access.unlimited) return 'unlimited';
+  return stock > 0 && equipped < access.maxOwned ? 'stock' : otherHolders > 0 ? 'transfer' : 'blocked';
 }

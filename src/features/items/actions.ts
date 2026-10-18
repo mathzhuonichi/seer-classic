@@ -49,7 +49,8 @@ function hatch(rt: Runtime, item: CatalogItem, itemId: string) {
   const hatched = hatchEssence(rt.save, item as { id: string; kind: 'essence'; hatches: number }, ctx.dex, rt.rng, new Date().toISOString());
   commit(rt, hatched.save);
   rollTrait(ctx, rt.save, rt.rng, hatched.mon.uid);
-  notice(rt, `${itemId.startsWith('fusion_bead_') ? '元神珠' : '精元'}孵化成功：${ctx.speciesName(hatched.mon.species)}！`);
+  const place = rt.save.party.includes(hatched.mon.uid) ? '背包' : '仓库';
+  notice(rt, `${itemId.startsWith('fusion_bead_') ? '元神珠' : '精元'}孵化成功：${ctx.speciesName(hatched.mon.species)}已加入${place}！`);
 }
 
 function useRaising(rt: Runtime, item: CatalogItem, action: Extract<GameAction, { type: 'useItem' }>) {
@@ -63,7 +64,8 @@ function useRaising(rt: Runtime, item: CatalogItem, action: Extract<GameAction, 
   commit(rt, useRaisingItem(rt.save, action.uid, item as unknown as RaisingItem, ctx.dex, rt.rng, options).save);
   if (effect.op === 'restore') clearEngravingDeficit(rt.save, action.uid);
   if (effect.op === 'exp' || effect.op === 'levels' && effect.amount > 0) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, action.uid)));
-  notice(rt, `已对${ctx.speciesName(findMon(rt.save, action.uid).species)}使用${itemName(item)}。`);
+  const mon = findMon(rt.save, action.uid);
+  notice(rt, `已对${mon.nickname || ctx.speciesName(mon.species)}使用${itemName(item)}。`);
 }
 
 const useItem: ActionHandler<'useItem'> = (rt, action) => {

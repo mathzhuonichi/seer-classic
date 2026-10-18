@@ -8,9 +8,13 @@ export interface EvolutionChoiceView {species:number;name:string;level:number;re
 export interface EngravingView {
   id: string; name: string; slot: 'ability' | 'skill'; effect: string; levelMin: number; bound: boolean; moveName?: string; moveIds?: number[];
   /** Skill engravings: classifier group (ENGRAVING_EFFECT_GROUPS). Ability engravings: raised stats. */
-  group?: string; statKeys: StatKey[]; era: string; ready: boolean; reason?: string; note?: string;
-  /** Effective remake cap, preserved legacy stock, and holders available for direct transfer. */
+  group?: string; statKeys: StatKey[]; ready: boolean; reason?: string;
+  /** Effective remake cap, preserved legacy stock, equipped copies and every holder. */
   maxOwned: number; stock: number; equipped: number; equippedHere: boolean; unlimited?: boolean; equippedHolders?:{uid:string;name:string}[];
+  /** Equipping here needs no copy, takes one from stock, moves one from `transferFrom` (the first by default), or cannot (none, or held here). */
+  equipMode: 'unlimited' | 'stock' | 'transfer' | 'blocked'; transferFrom?: {uid:string;name:string}[];
+  /** Stock plus equipped copies, which count against `maxOwned`; `canBuy` while a finite one is below it. */
+  owned: number; canBuy: boolean;
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions?:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings?: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices?:EvolutionChoiceView[]; gender?: 0 | 1 | 2; generation?: number }
@@ -29,9 +33,11 @@ export interface SpeciesView { id: number; name: string; types: string[]; baseSt
 export interface BattleMonsterView { uid: string; slot?: number; name: string; species: number; appearanceSpecies?:number; level: number; hp: number; maxHp: number; fainted: boolean; types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number>; evidence?:BossEvidenceView; /** Trainer foes: hp and maxHp hold only the bar ratio on a 0–100 scale. */ hpHidden?: boolean }
 export interface BattlePresentationFrame { id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number; critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillType?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
 export interface BattleView { name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[]; finished: boolean; won: boolean; result: string; resultReason?: string; canCapture: boolean; captureBlockedReason?: string; captured?: boolean; needsSwitch: boolean; animation: {revision: number; frames: BattlePresentationFrame[]} }
-export interface ItemView { id: string; name: string; kind: string; count: number; unlimited?: boolean; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted'; usableTargetUids?: string[] }
+export interface ItemView { id: string; name: string; kind: string; count: number; unlimited?: boolean; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted'; usableTargetUids?: string[];
+  /** What the bag does with it now, if anything; `use` applies it to one of `useTargets`. */
+  useAction: 'use' | 'hatch' | 'capture' | null; useTargets?: string[] }
 export interface AcquisitionAllowance {owned:number;reserved:number;remaining:number;limit:number}
-export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;unlimited?:boolean;price:0;hatches?:number;maxQuantity?:number;blockedReason?:string;allowance?:AcquisitionAllowance}
+export interface ShopItemView {id:string;name:string;kind:string;description:string;count:number;unlimited?:boolean;price:0;hatches?:number;maxQuantity:number;blockedReason?:string;allowance?:AcquisitionAllowance}
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView {
   id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';

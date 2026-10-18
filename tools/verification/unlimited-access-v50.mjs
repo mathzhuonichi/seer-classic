@@ -61,6 +61,28 @@ await withSsr('unlimited-access-v50',async load=>{
       const target=b.sides[0].team[1],before=target.hp,turn=b.turn;game.dispatch({type:'battleItem',itemId:HP,targetUid:target.uid});assert.equal(b.turn,turn+1);assert.equal(target.hp,Math.min(target.maxHp,before+250));assert.deepEqual(parse(game).items,save.items);leave(game);}
     assert.deepEqual(sort(game.snapshot().items.filter(i=>i.unlimited).map(i=>i.id)),sort(ordinary));
   });
+  check('The bag uses raising items on any monster outside battle, and supplies on the members they help and capsules in one',()=>{
+    const save=fixture(3);save.items={[CURE]:0};save.storage[0].hp=1;const game=make(save),row=id=>game.snapshot().items.find(i=>i.id===id);
+    assert.deepEqual([row('item_level_up_1').useAction,row('item_level_up_1').useTargets],['use',save.storage.map(m=>m.uid)]);
+    assert.deepEqual([row(HP).useAction,row(CAP).useAction],[null,null],'supplies and capsules wait for a battle');
+    start(game,{type:'startTraining',species:10,level:3});
+    assert.deepEqual([row(HP).useAction,row(HP).useTargets],['use',[save.storage[0].uid]],'only the injured member');
+    assert.deepEqual([row(CAP).useAction,row('item_level_up_1').useAction],['capture',null]);
+    leave(game);assert.equal(row(CAP).useAction,null);
+  });
+  check('A raising item\'s notice names the monster by its nickname',()=>{
+    const save=structuredClone(base),uid=save.storage[0].uid;save.items={[CURE]:0};const game=make(save);
+    game.dispatch({type:'rename',uid,name:'Bob'});
+    assert.equal(game.dispatch({type:'useItem',uid,itemId:'item_level_up_1'}).notice,'已对Bob使用小型升级秘药。');
+  });
+  check('A hatch notice says whether the new monster joined the party or storage',()=>{
+    for(const [count,place] of [[1,'背包'],[6,'仓库']]){
+      const save=fixture(count);save.items={[CURE]:0,essence_liaosi:1};const game=make(save);
+      const {notice}=game.dispatch({type:'useItem',uid:save.party[0],itemId:'essence_liaosi'});
+      const hatched=game.snapshot().monsters.find(m=>!save.storage.some(old=>old.uid===m.uid));
+      assert.deepEqual([notice,hatched.inParty],[`精元孵化成功：${hatched.speciesName}已加入${place}！`,place==='背包']);
+    }
+  });
   check('Repeated real controller captures at zero stock add the caught monsters without inventing stock',()=>{
     const save=fixture(1);save.items={[CURE]:0};const game=make(save);
     for(const species of [10,13]){const before=parse(game).storage.length;start(game,{type:'startTraining',species,level:3});game.dispatch({type:'capture',itemId:CAP});
