@@ -69,14 +69,18 @@ const towerHooks = (floor: number): SessionHooks => ({
 const stageRoster = (save: GameSave, stage: CampaignStage) => !stage.requiredSpecies ? undefined : save.party.map(uid => findMon(save, uid))
   .filter(mon => mon.species === stage.requiredSpecies && mon.level >= (stage.minLevel ?? 1) && mon.hp > 0).slice(0, 1);
 
+/** What a stage victory did to the campaign: finished it, opened the next stage, or passed a stage already cleared. */
+const stageClearText = (campaign: Campaign, cleared: readonly string[], advanced: boolean) =>
+  cleared.length === campaign.stages.length ? `${campaign.name}已全部完成。` : advanced ? '本阶段完成，下一阶段已开启。' : '本阶段再次通过。';
+
 /** A victory clears the stage; a defeat restarts a campaign that resets on loss. */
 const campaignHooks = (campaign: Campaign, stageId: string): SessionHooks => ({
   evidence: buildBossEvidence,
   settled: (rt, session, result) => {
     if (result.success) {
-      const cleared = campaignProgress(rt.save, campaign), index = campaign.stages.findIndex(stage => stage.id === stageId);
-      if (index === cleared.length) cleared.push(stageId);
-      session.resultMessage ||= cleared.length === campaign.stages.length ? `${campaign.name}已全部完成。` : `本阶段完成，下一阶段已开启。`;
+      const cleared = campaignProgress(rt.save, campaign), advanced = campaign.stages.findIndex(stage => stage.id === stageId) === cleared.length;
+      if (advanced) cleared.push(stageId);
+      session.resultMessage ||= stageClearText(campaign, cleared, advanced);
       return;
     }
     if (campaign.resetOnLoss) rt.save.game.campaigns[campaign.id] = [];

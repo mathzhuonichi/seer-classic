@@ -96,4 +96,25 @@ t.check('a finished campaign shows its last stage\'s instruction',()=>{
   const finished=createGame(structuredClone(source),JSON.stringify(save)).snapshot().campaigns.find(campaign=>campaign.id==='xuanwu')!;
   assert.deepEqual([finished.finished,finished.description],[true,xuanwu.stages.at(-1)!.description]);
 });
+t.check('a replayed stage says it was passed again, and only a new clear says the next stage opened',()=>{
+  // White Tiger's guardians on 1 HP, whose clear pays no essence: the stage's own text is the outcome the player reads.
+  const weak=structuredClone(source),guardians=weak.bosses.find((boss:any)=>boss.id==='boss_campaign_baihu_guardians');
+  for(const member of guardians.team)Object.assign(member,{hp_override:1,member_rules:[],member_phases:[],skills:[20006]});
+  Object.assign(guardians,{phases:[],ai:{kind:'sequence',skills:[20006]}});
+  const save=JSON.parse(createGame(structuredClone(source),JSON.stringify(newSave(0x71cafe))).exportSave());
+  const play=(baihu:string[])=>{
+    const g=createGame(weak,JSON.stringify({...save,game:{...save.game,campaigns:{baihu}}}));
+    g.dispatch({type:'cheatAcquire',species:501,level:100});
+    const lead=g.snapshot().monsters.find(monster=>monster.species===501)!;
+    g.dispatch({type:'reorderParty',uids:[lead.uid,...g.snapshot().party.filter(uid=>uid!==lead.uid)]});
+    g.dispatch({type:'startCampaignStage',campaignId:'baihu',stageId:'guardians'});
+    for(let turn=0;turn<20&&!g.snapshot().battle!.finished;turn++)g.dispatch({type:'move',skillId:g.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0)!.id});
+    assert(g.snapshot().battle!.won,'the 1-HP guardians fall');
+    return [g.snapshot().battle!.result,JSON.parse(g.exportSave()).game.campaigns.baihu];
+  };
+  const [first,opened]=play([]),[replayed,unchanged]=play(['guardians']),[finished]=play(['guardians','avatars','body']);
+  assert.match(first,/^本阶段完成，下一阶段已开启。/);assert.deepEqual(opened,['guardians']);
+  assert.match(replayed,/^本阶段再次通过。/,'a replay opens nothing');assert.deepEqual(unchanged,['guardians']);
+  assert.match(finished,/^白虎试炼已全部完成。/,'a finished campaign keeps its text');
+});
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});
