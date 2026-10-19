@@ -1,6 +1,6 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
-import { CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
+import { CHALLENGE_CAMPAIGNS, CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
 import type { ScenePoint } from './scene-geometry.ts';
@@ -47,7 +47,8 @@ export type WorldSlices = Pick<GameSnapshot, 'bosses' | 'species' | 'campaigns' 
 export interface TowerScene {
   floor: number; complete: boolean; highestCleared: number; totalFloors: number; boss?: BossView; opponents: EncounterOpponentView[];
 }
-export interface CampaignContact { campaign: CampaignView; name: string; progress: string }
+/** A campaign's world contact; `kicker` and `action` are the campaign's own dialogue wording. */
+export interface CampaignContact { campaign: CampaignView; name: string; progress: string; kicker: string; action: string }
 export interface WorldSceneView {
   planet: WorldPlanet; region: WorldRegion;
   /** Set only inside the Brave Tower. */
@@ -75,10 +76,11 @@ function towerScene(s: WorldSlices): TowerScene {
 
 function campaignContact(s: WorldSlices, region: WorldRegion): CampaignContact | undefined {
   const campaign = s.campaigns.find(entry => entry.id === region.campaignId);
-  if (!campaign) return undefined;
+  const wording = CHALLENGE_CAMPAIGNS.find(entry => entry.id === region.campaignId)?.contact;
+  if (!campaign || !wording) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
   const progress = campaign.finished ? '全部挑战已完成' : next ? `当前挑战：${next.name}` : '查看挑战进度';
-  return { campaign, name: campaign.speciesName, progress };
+  return { campaign, name: campaign.speciesName, progress, ...wording };
 }
 
 function groundHint(tower: TowerScene | undefined) {
@@ -146,12 +148,12 @@ function facilityActions(scene: WorldSceneView): FacilityAction[] {
   return actions;
 }
 
-function campaignDialogue(scene: WorldSceneView, { campaign, name, progress }: CampaignContact): WorldDialogueView {
+function campaignDialogue(scene: WorldSceneView, { campaign, name, progress, kicker, action }: CampaignContact): WorldDialogueView {
   return {
-    label: `与${name}交谈`, portrait: { species: campaign.species, name }, kicker: '封印挑战', title: name,
+    label: `与${name}交谈`, portrait: { species: campaign.species, name }, kicker, title: name,
     text: `${scene.region.description} ${progress}。已完成 ${campaign.completed} / ${campaign.stages.length} 关。`,
     detail: campaign.description, facilityActions: [],
-    challenge: { label: '查看封印进度', disabled: false, chooseStart: false, run: { kind: 'campaign', campaignId: campaign.id } },
+    challenge: { label: action, disabled: false, chooseStart: false, run: { kind: 'campaign', campaignId: campaign.id } },
   };
 }
 

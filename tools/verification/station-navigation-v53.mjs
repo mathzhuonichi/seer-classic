@@ -70,7 +70,10 @@ await withSsr('station-navigation-v53',async load=>{
       const destination=findChallengeLocation(boss),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
       assert.deepEqual([planet.id,region.id],[destination.planetId,destination.regionId],boss.id);
       const contacts=findSceneChallenges(planet.id,region.id,s.bosses,boss.id);
-      if(region.campaignId){assert.equal(contacts.length,0);assert(region.bossIds.includes(boss.id));counts.campaign++}
+      if(region.campaignId){
+        assert.equal(contacts.length,0);counts.campaign++;
+        assert(s.campaigns.find(row=>row.id===region.campaignId).stages.some(stage=>stage.bossIds.includes(boss.id)),`${boss.id}: a stage of the region's campaign`);
+      }
       else if(planet.id==='space-station'&&region.id==='brave-tower'){assert.equal(contacts.length,0);counts.tower++}
       else{assert(contacts.some(contact=>contact.id===boss.id),boss.id);assert.equal(new Set(contacts.map(contact=>contact.id)).size,contacts.length);counts.ordinary++}
       if(destination.staging){assert.deepEqual([planet.id,region.id],['station','transport']);assert(region.challengeStaging);counts.transport++}

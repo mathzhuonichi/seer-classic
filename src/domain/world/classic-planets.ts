@@ -58,7 +58,7 @@ export const CLASSIC_PLANETS: WorldPlanet[] = [
     {id:'temple',originalMapId:32,name:'赫尔卡星荒地',description:'循着电光前往第三层荒地，迎接雷伊的挑战。此处随时开放。',x:79,y:65,creatures:[],levels:[70,70],bossIds:['boss_rei']},
     // The training lake is named in the five encounter location records. It
     // reuses the parent Helka backdrop; its lake identity is a remake layout.
-    {id:'training-lake',name:'雷伊特训湖边',description:'来到雷伊的特训湖边，与当前选择的特训对手交谈，准备开始训练。',x:65,y:57,creatures:[],levels:[1,100]},
+    {id:'training-lake',name:'雷伊特训湖边',description:'雷伊在湖边等候特训。与它交谈，带上自己的雷伊，按顺序完成五项技能特训。',x:65,y:57,creatures:[],levels:[1,100],campaignId:'rei-training'},
   ]},
   {id:'cecilia',originalMapId:40,galaxyId:'pano',name:'塞西利亚星',subtitle:'冰面 · 冰窟 · 冰原',theme:'ice',color:'#9de5fa',background:'/maps/cecilia.svg',regions:[
     {id:'snow',originalMapId:40,name:'塞西利亚星冰面',description:'冰雪覆盖着星球表面，玄冰兽与卡卡在冰原上游走，可以在野外对战中使用胶囊捕捉。',x:24,y:67,creatures:[51,116],levels:[15,18]},

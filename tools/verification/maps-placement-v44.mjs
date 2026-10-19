@@ -104,9 +104,17 @@ await withSsr('maps-placement-v44',async load=>{
     assert(wide.every(plate=>plate.className==='world-location-hud world-location-hud-wide'),JSON.stringify(wide));
     assert.deepEqual(wide.map(plate=>plate.id).sort(),['eddy/habitat-505','space-station/brave-tower']);
   });
-  check('A campaign contact opens its saved campaign rather than a stage',()=>{
-    const row=regions.find(row=>row.region.campaignId==='puni'),scene=buildWorldScene(s,row.planet,row.region);
-    assert.deepEqual(buildWorldDialogue(s,scene,{kind:'campaign',id:'puni'}).challenge.run,{kind:'campaign',campaignId:'puni'});
+  check('Each campaign contact is drawn once and opens its saved campaign in the campaign\'s own wording',()=>{
+    const wording={puni:['封印挑战','查看封印进度'],'rei-training':['技能特训','查看特训进度']},hosts=regions.filter(row=>row.region.campaignId);
+    assert.deepEqual(hosts.map(row=>`${row.planet.id}/${row.region.id}:${row.region.campaignId}`),['helka/training-lake:rei-training','space-station/mystery:puni']);
+    for(const row of hosts){
+      const id=row.region.campaignId,dialogue=buildWorldDialogue(s,buildWorldScene(s,row.planet,row.region),{kind:'campaign',id});
+      assert.deepEqual(dialogue.challenge.run,{kind:'campaign',campaignId:id});
+      assert.deepEqual([dialogue.kicker,dialogue.challenge.label],wording[id],id);
+      const actor=getSceneBossActor(row.layout,`campaign:${id}`),html=markup(row);
+      assert.equal(html.split('data-campaign=').length-1,1,`${id}: one contact`);
+      assert(html.includes(`data-campaign="${id}" ${placed(actor?.anchor??row.layout.boss,actor)}`),`${id}: contact placement`);
+    }
   });
   report.inventory={regions:regions.length,populatedRegions:regions.filter(row=>row.region.creatures.length).length,bossAreas:bossAreas.length,contacts:Object.keys(manifest.contacts).length,nativeActors:Object.keys(manifest.actors).length,homeSamples,projectionSamples};
   t.finish(report);
