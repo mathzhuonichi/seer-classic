@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 591,
+    "handledEntries": 590,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 118,
+    "approximatedEntries": 119,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -6325,22 +6325,19 @@
       "id": "boss_tower_brave_f069",
       "handled": [
         {
-          "rule": "heal_full_below",
-          "scope": "root/rules/0",
-          "fields": [
-            "pct",
-            "member"
-          ],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "No 61F+ grass full heal here: the sourced line-up (吉娜斯, 尹泰拉多, 迪斯凯特, 沙罗希瓦) has no grass member, so the rule (61层以上的草系1/5血以下的时候会回满Hp, 聚侠) does not apply to this floor."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
