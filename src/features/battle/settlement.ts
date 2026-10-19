@@ -132,6 +132,7 @@ function grantEncounterRewards(rt: Runtime, session: BattleSession) {
     const granted = Math.min(Number(count), allowance(ctx, save, item.hatches).remaining);
     if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essences.push(id); } else essenceBlocked = true;
   }
+  // A skill the participant already knew teaches nothing, so the challenge's own text (本阶段再次通过。) names the outcome.
   if (reward?.learn_skill) session.resultMessage = teachSkill(rt, session, reward.learn_skill);
   else if (essences.length) session.resultMessage = `${essences.map(id => itemName(ctx, id)).join('、')}已入库，到道具背包的精元页即可孵化。`;
   else if (essenceBlocked) session.resultMessage = paid.blocked;
@@ -146,9 +147,11 @@ const encounterItems = (reward: EncounterReward | undefined, firstClear: boolean
 
 const REPEAT_LATER = '挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
 
+/** Teaches the fielded participant of the reward's species its skill and says so, or returns '' when it already knew the skill. */
 function teachSkill(rt: Runtime, session: BattleSession, learned: { species: number; skill: number }): string {
   const participant = session.battle.sides[0].team.find(mon => mon.species.id === learned.species)!;
   const mon = findMon(rt.save, participant.uid!);
-  if (!mon.learned.includes(learned.skill)) replaceMonster(rt, { ...mon, learned: [...mon.learned, learned.skill] });
+  if (mon.learned.includes(learned.skill)) return '';
+  replaceMonster(rt, { ...mon, learned: [...mon.learned, learned.skill] });
   return `${rt.ctx.speciesName(learned.species)}领悟了「${rt.ctx.data.skills.get(learned.skill)!.name.zh}」，可在技能管理中装备。`;
 }
