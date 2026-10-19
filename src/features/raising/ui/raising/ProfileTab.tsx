@@ -28,17 +28,16 @@ export default function ProfileTab({m,c,feedback,say}:TabProps) {
   </div>;
 }
 
-/** 放生 after a confirmation; the last party monster stays. The bag then selects another monster, so the result is a notice. */
+/** 放生 after a confirmation, unless the view says why it is refused. The bag then selects another monster, so the result is the action's notice. */
 function ReleaseSection({m,c,say}:TabProps) {
-  const partySize=useGame(c,s=>s.party.length),[confirming,setConfirming]=useState(false),last=m.inParty&&partySize<=1;
-  const release=()=>{setConfirming(false);say(feedbackFor(c.dispatch({type:'release',uid:m.uid}),`已放生${m.name}。`))};
-  const intro=last?'出战背包至少保留一只精灵，最后一只出战精灵不能放生。':confirming?`确定放生${m.name}吗？放生后无法找回。`
-    :'放生后这只精灵会永久离开，刻印退回库存；图鉴收集记录保留。';
+  const [confirming,setConfirming]=useState(false),refusal=m.releaseBlockedReason;
+  const release=()=>{setConfirming(false);say(c.dispatch({type:'release',uid:m.uid}).notice??'')};
+  const intro=refusal??(confirming?`确定放生${m.name}吗？放生后无法找回。`:'放生后这只精灵会永久离开，刻印退回库存；图鉴收集记录保留。');
   return <section className="raising-release"><h4>放生精灵</h4>
     <p>{intro}</p>
     {confirming?<div className="management-inline-form" role="group" aria-label={`确认放生${m.name}`}>
       <button className="primary" onClick={release}>确认放生</button><button autoFocus onClick={()=>setConfirming(false)}>取消</button>
-    </div>:<button disabled={last} onClick={()=>setConfirming(true)}>放生{m.name}</button>}
+    </div>:<button disabled={!!refusal} onClick={()=>setConfirming(true)}>放生{m.name}</button>}
   </section>;
 }
 
