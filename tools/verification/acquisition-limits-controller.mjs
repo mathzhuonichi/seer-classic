@@ -20,6 +20,7 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {engravings}=await load('/src/domain/engravings/engravings.ts');
  const {engravingAccess}=await load('/src/domain/engravings/engraving-access.ts');
  const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
+ const {STORAGE_FULL_REASON}=await load('/src/kernel/acquire.ts');
  const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
  const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {expToNext}=await load('/raising/core/growth.ts');
@@ -97,6 +98,14 @@ await withSsr('acquisition-limits-controller',async load=>{
   g.dispatch({type:'release',uid:`full-box-${PARTY_MAX}`});assert.equal(parse(g).storage.length,PARTY_MAX+BOX_MAX-1);
   assert.equal(row().claimable,true);assert.equal(row().blockedReason,undefined);
   g.dispatch({type:'claimQuest',questId:'first-victory'});assert(parse(g).game.quests.includes('first-victory'));assert.equal(row().claimed,true);
+ });
+ check('A full box refuses a capture with the journey row\'s text, which points to 放生',()=>{
+  const save=structuredClone(base),filler=template(19);save.storage=[];save.game.traits={};
+  for(let i=0;i<PARTY_MAX+BOX_MAX;i++)save.storage.push({...structuredClone(filler),uid:`full-box-${i}`});
+  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);const g=make(save);g.dispatch({type:'startTraining',species:22,level:3});
+  const view=g.snapshot().battle;assert.equal(view.canCapture,false);assert.equal(view.captureBlockedReason,STORAGE_FULL_REASON);
+  assert.match(view.captureBlockedReason,/放生/);const before=g.exportSave();
+  assert.deepEqual(g.dispatch({type:'capture',itemId:'item_capsule_master'}),{ok:false,notice:STORAGE_FULL_REASON});assert.equal(g.exportSave(),before);
  });
  check('Direct acquisition allows the sixth and rejects the seventh copy',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'cheatAcquire',species:19,level:1});assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);
