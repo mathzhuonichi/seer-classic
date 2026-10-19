@@ -22,12 +22,24 @@ test('species rows keep their identity until the owned set changes',()=>{
 
 test('boss rows are decorated once per progress change and otherwise reused',()=>{
   const catalog=views();
-  const first=catalog.bosses([],{});
+  const first=catalog.bosses([],{},{});
   assert.deepEqual(first.map(row=>[row.cleared,row.attempts,row.decorated]),[[false,0,0],[false,0,0]]);
-  assert.equal(catalog.bosses([],{}),first);
-  const second=catalog.bosses(['b'],{b:2});
+  assert.equal(catalog.bosses([],{},{}),first);
+  const second=catalog.bosses(['b'],{b:2},{});
   assert.notEqual(second,first);
   assert.equal(second[0],first[0],'an unchanged boss keeps its decorated row');
   assert.deepEqual([second[1].cleared,second[1].attempts,second[1].decorated],[true,2,2]);
-  assert.equal(catalog.bosses(['b'],{b:2}),second);
+  assert.equal(catalog.bosses(['b'],{b:2},{}),second);
+});
+
+test('a boss row with variants is decorated again when its cleared variants change',()=>{
+  const rows=[{id:'a',name:'A'},{id:'v',name:'V',variants:[{id:'mon',cleared:false},{id:'tue',cleared:false}]}];
+  const decorate=(view,_attempts,cleared)=>({...view,variants:view.variants?.map(variant=>({...variant,cleared:cleared.includes(variant.id)}))});
+  const catalog=createCatalogViews(species,rows,decorate);
+  const first=catalog.bosses([],{},{});
+  assert.equal(catalog.bosses([],{},{v:[]}),first,'an empty record changes nothing');
+  const second=catalog.bosses([],{},{v:['tue']});
+  assert.notEqual(second,first);assert.equal(second[0],first[0],'a row without variants keeps its identity');
+  assert.deepEqual(second[1].variants.map(variant=>variant.cleared),[false,true]);
+  assert.equal(catalog.bosses([],{},{v:['tue']}),second);
 });

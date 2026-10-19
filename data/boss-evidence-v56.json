@@ -11276,7 +11276,7 @@
       "id": "boss_gaia",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_gaia.json",
-      "sourceSha256": "da1b482e3dd4ec8baf4b44131469b6ecb4a97730433c472405a5f51be5d53676",
+      "sourceSha256": "e283bfc8315618cceb5e46b2ac4a64b4518a27f87af7b75649eb15e5ad35681c",
       "sourceNoteSha256": "043a5cb61b48ae7486336c2511a9e083e6b392cc6197249812ba5435f82a8da9",
       "sourceUrls": [
         "https://news.7k7k.com/content/20100412/6704.html",
@@ -17667,7 +17667,7 @@
       "id": "boss_spt_eersaila",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_eersaila.json",
-      "sourceSha256": "d69baaa5dde645f6be97cb3340a5352615c600cfddb87c53ec3ba828ebdc0951",
+      "sourceSha256": "6b3bb270ab8c05e91067a3fbf9e9f812a3292f667508c5236c0443a164124d9a",
       "sourceNoteSha256": "1e67234e49dc2c3ed37dae146d626e091d296e26e144367cc4bc0cc2851c5d89",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201008-14-75469.html",
@@ -21464,7 +21464,7 @@
       "id": "boss_spt_laokemengde",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_laokemengde.json",
-      "sourceSha256": "b794d3b10804dc53bfaa98a15b82b87f3fd04e659f97a9240cd17b5287f0f5b6",
+      "sourceSha256": "2bcc73728757af889a3292690f8a9d2531c6906f958e1fb035f5bf64447f6496",
       "sourceNoteSha256": "eec5125787e4ad78a0dae0fa819e5daed5bfa252b0038114fc02b3eb42266580",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201010-16-78995.html",

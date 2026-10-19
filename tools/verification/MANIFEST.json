@@ -95,6 +95,9 @@
     "boss-party-rules.ts": {
       "status": "gate"
     },
+    "boss-variants.ts": {
+      "status": "gate"
+    },
     "boss-rules-v56.mjs": {
       "status": "gate"
     },

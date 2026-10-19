@@ -12,10 +12,13 @@ import { SEER_BEANS_ITEM_ID } from '../../domain/economy.ts';
 import { notice, type Feature, type GameContext, type GameSave, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { NO_STAMINA_MESSAGE, startSession } from '../battle/index.ts';
 import { buildBossEvidence } from '../../domain/challenges/boss-evidence.ts';
+import { chosenVariant } from '../../domain/challenges/encounter-variants.ts';
+import { encounterHooks } from './boss-variants.ts';
 import { campaignProgress, stageRequirement } from './progress-views.ts';
 
 export type ChallengeStartAction =
-  | {type: 'startBattle'; bossId: string}
+  /** `variant`: one of the encounter's variants (a weekday objective or a field), which an encounter with variants may require. */
+  | {type: 'startBattle'; bossId: string; variant?: string}
   | {type: 'startTower'; floor: number}
   | {type: 'enterTower'; floor: number}
   | {type: 'startFacility'; facilityId: string; teamId?: string}
@@ -26,14 +29,16 @@ export type ChallengeStartAction =
 const FACILITY_HOOKS: SessionHooks = { unrecorded: true, evidence: buildBossEvidence };
 
 /**
- * A Boss, trainer or recruit encounter; a Brave Tower floor climbs the tower, a campaign Boss starts from its stage,
- * and a Tower side challenge starts like any Boss: every Boss is open from the start (user decision, 2026-10-19).
+ * A Boss, trainer or recruit encounter, with the chosen variant or as a practice fight where one is offered (boss-variants.ts);
+ * a Brave Tower floor climbs the tower, a campaign Boss starts from its stage, and a Tower side challenge starts like any Boss:
+ * every Boss is open from the start (user decision, 2026-10-19).
  */
-export function startEncounter(rt: Runtime, encounter: BossEncounter) {
+export function startEncounter(rt: Runtime, encounter: BossEncounter, variantId?: string) {
   const campaign = rt.ctx.campaignForBoss(encounter.id), floor = braveTowerFloor(encounter.id);
   if (campaign) throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);
+  const variant = chosenVariant(encounter, variantId);
   if (floor !== undefined) startTowerFloor(rt, floor);
-  else startSession(rt, { encounter }, { hooks: { evidence: buildBossEvidence } });
+  else startSession(rt, { encounter, variant: variant?.id }, { hooks: encounterHooks(encounter, variant) });
 }
 
 function towerEncounter(ctx: GameContext, save: GameSave, floor: number): BossEncounter {
@@ -96,7 +101,7 @@ export const challengeStarts = {
   startBattle: (rt, action) => {
     const boss = rt.ctx.encounters.find(entry => entry.id === action.bossId);
     if (!boss) throw new Error('挑战不存在。');
-    startEncounter(rt, boss);
+    startEncounter(rt, boss, action.variant);
   },
   startTower: (rt, action) => startTowerFloor(rt, action.floor),
   enterTower: (rt, action) => {

@@ -10,9 +10,10 @@ const context = {
 };
 const version1 = (game, items = {}) => ({ ...newSave(1), version: 1, items, game });
 const version2 = (game, items = {}, cleared = []) => ({ ...newSave(1), version: 2, items, game, progress: { bosses_cleared: cleared, boss_attempts: {} } });
+const version3 = (game, cleared = []) => ({ ...newSave(1), version: 3, game, progress: { bosses_cleared: cleared, boss_attempts: {} } });
 
 test('new saves are written at the current version', () => {
-  assert.equal(SAVE_VERSION, 3);
+  assert.equal(SAVE_VERSION, 4);
   assert.equal(newSave(7).version, SAVE_VERSION);
   assert.equal(deserialize(serialize(newSave(7))).version, SAVE_VERSION);
 });
@@ -59,6 +60,13 @@ test('version 2 saves that cleared an encounter receive its first-clear items on
   assert.equal(migrate(version2(undefined, {}, ['boss_b']), context).items.suit_a, undefined, 'only a cleared encounter pays');
   const fromVersion1 = migrate({ ...version1(undefined), progress: { bosses_cleared: ['boss_a'], boss_attempts: {} } }, context);
   assert.deepEqual(fromVersion1.items, { item_status_cure: 5, suit_a: 1 }, 'a version-1 save passes through both steps');
+});
+
+test('version 3 saves start an empty variant record and keep their clears', () => {
+  const migrated = migrate(version3({ quests: [] }, ['boss_gaia']), context);
+  assert.deepEqual([migrated.version, migrated.game.bossVariants, migrated.progress.bosses_cleared], [SAVE_VERSION, {}, ['boss_gaia']]);
+  assert.equal(migrate(version3(undefined)).game, undefined, 'a save without game extras is left for the game to complete');
+  assert.deepEqual(migrate(version1({ quests: [] }), context).game.bossVariants, {}, 'a version-1 save passes through every step');
 });
 
 test('malformed version-1 fields are left for validation to report', () => {

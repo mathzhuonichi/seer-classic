@@ -1,6 +1,6 @@
 // Rows and texts of the challenge archive (星际挑战档案), built from the snapshot.
 import type { GameSnapshot } from '../../kernel/contract.ts';
-import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId } from '../../shared/views.ts';
+import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId, EncounterVariantView } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
@@ -104,9 +104,16 @@ function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):s
   return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
 }
 
-/** The progress tag. */
+const allCleared=(variants:readonly EncounterVariantView[])=>variants.every(variant=>variant.cleared);
+/** How many of the variants are cleared: 已通过 3/7, marked once all are. */
+function variantProgress(variants:readonly EncounterVariantView[]):string {
+  return `${allCleared(variants)?'✓ ':''}已通过 ${variants.filter(variant=>variant.cleared).length}/${variants.length}`;
+}
+
+/** The progress tag; an encounter with variants counts its cleared variants. */
 function challengeStatus(entry:ChallengeEntry,s:ArchiveSnapshot):string {
   if(entry.tower)return towerRecord(s.braveTower);
+  if(entry.variants)return variantProgress(entry.variants);
   if(entry.cleared)return '✓ 已完成';
   if(entry.campaign)return `${entry.campaign.completed} / ${entry.campaign.stages.length} 阶段`;
   return '可挑战';
@@ -123,19 +130,23 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   };
 }
 
+/** What a clear earns, then what clearing every variant earns. */
 function honorNote(entry:ChallengeEntry,s:ArchiveSnapshot):string|undefined {
-  const honors=entry.tower?s.braveTower.honors:entry.honors??[];
-  return honors.length?`${entry.tower||entry.cleared?'已获得':'通关后获得'}：${honors.join(' · ')}`:undefined;
+  const honors=entry.tower?s.braveTower.honors:entry.honors??[],variants=entry.variants??[],variantHonors=entry.variantHonors??[];
+  const notes=honors.length?[`${entry.tower||entry.cleared?'已获得':'通关后获得'}：${honors.join(' · ')}`]:[];
+  if(variantHonors.length)notes.push(`${allCleared(variants)?'已获得':`通过全部 ${variants.length} 种规则后获得`}：${variantHonors.join(' · ')}`);
+  return notes.length?notes.join('；'):undefined;
 }
 
 /** An earned honour and the challenge that gave it. */
 export interface HonorRow {label:string;source:string}
 
-/** Every honour earned so far, once each, in catalogue order: derived from the cleared encounters, so it needs no save field. */
+/** Every honour earned so far, once each, in catalogue order: derived from the cleared encounters and variants. */
 export function challengeHonors(s:ArchiveSnapshot):HonorRow[] {
   const rows=new Map<string,string>();
-  for(const boss of s.bosses)if(boss.cleared)for(const label of boss.honors??[]){
-    if(!rows.has(label))rows.set(label,isTowerFloor(boss)?CHALLENGE_CATEGORY.tower:boss.name);
+  for(const boss of s.bosses){
+    const earned=[...boss.cleared?boss.honors??[]:[],...boss.variants&&allCleared(boss.variants)?boss.variantHonors??[]:[]];
+    for(const label of earned)if(!rows.has(label))rows.set(label,isTowerFloor(boss)?CHALLENGE_CATEGORY.tower:boss.name);
   }
   return [...rows].map(([label,source])=>({label,source}));
 }

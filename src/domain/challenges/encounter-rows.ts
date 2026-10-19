@@ -14,15 +14,21 @@ export function opponentViews(ctx: EncounterCatalog, encounter: BossEncounter): 
   }));
 }
 
-type HonorReward = { achievement?: { zh?: string }; title?: { zh?: string }; title_on_all_variants?: { zh?: string } };
+type Honor = { zh?: string } | undefined;
+type HonorReward = { achievement?: Honor; title?: Honor; achievement_on_all_variants?: Honor; title_on_all_variants?: Honor };
+const honorLabels = (achievement: Honor, title: Honor) =>
+  [achievement?.zh, title?.zh ? `称号：${title.zh}` : undefined].filter((value): value is string => !!value);
 
-/**
- * The achievement and title a clear of the encounter earns, as the archive shows them. Honours are read from the cleared record, so they
- * need no save field. The remake offers only an encounter's base fight (no variant is ever chosen), so its clear stands for every variant.
- */
+/** The achievement and title a clear of the encounter earns, as the archive shows them; read from the cleared record, they need no save field. */
 export function encounterHonors(reward: unknown): string[] {
-  const source = reward as HonorReward | undefined, title = source?.title?.zh ?? source?.title_on_all_variants?.zh;
-  return [source?.achievement?.zh, title ? `称号：${title}` : undefined].filter((value): value is string => !!value);
+  const source = reward as HonorReward | undefined;
+  return honorLabels(source?.achievement, source?.title);
+}
+
+/** The achievement and title earned once every variant of the encounter is cleared (厄尔塞拉's 七色光羽), read from its cleared variants. */
+export function allVariantHonors(reward: unknown): string[] {
+  const source = reward as HonorReward | undefined;
+  return honorLabels(source?.achievement_on_all_variants, source?.title_on_all_variants);
 }
 
 /** The reward line of an encounter that teaches a skill. */

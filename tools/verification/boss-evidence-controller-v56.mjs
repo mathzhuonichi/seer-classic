@@ -14,7 +14,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   const [{createGame:createProductionGame},{bossEncounterForAttempt},{encounterLevel,encounterLevelText},{buildBossEvidence,buildBossEncounterEvidence,mergeBossEvidence},{makeDex,createMonster},{createBattle},{buildDataSet,Rng},{SEER_SCRIPTS},{campaignScripts},{traitScripts},{npcTrainingScripts},{chooseAiAction},{lastSearchDecision}]=await Promise.all([
     '/src/kernel/game.ts','/src/domain/challenges/boss-encounter.ts','/src/shared/encounter-level.ts','/src/domain/challenges/boss-evidence.ts','/raising/core/index.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/scripts/index.ts','/src/domain/challenges/campaign-rules.ts','/src/domain/traits.ts','/src/domain/challenges/npc-training-scripts.ts','/battle/ai/src/ai.ts','/battle/ai/src/search-ai.ts',
   ].map(load));
-  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
+  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts'),{partyRules}=await load('/battle/core/src/index.ts');
   // The controller's real battles, observed through its battle-factory seam.
   const created=[];
   const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
@@ -210,19 +210,28 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     }
   });
   check('Real Boss starts log no rule condition before the switch-ins; the evidence dialog shows the rules instead',()=>{
-    // Turn preparation never runs, so the sweep only opens and leaves each battle.
+    // Turn preparation never runs, so the sweep only opens and leaves each battle. Every encounter opens, once per variant where it has
+    // variants and with the team its party rules allow; only campaign stages and locked Tower floors refuse, as they start from their own routes.
     const seam=options=>{const battle=createBattle(options);created.push(battle);return battle;};
-    const game=createProductionGame(catalog,JSON.stringify(base),{idle:()=>{},createBattle:seam});
-    const conditionEvents=new Set(['condition_added','condition_refreshed']);let opened=0,installed=0;
+    const open=size=>createProductionGame(catalog,JSON.stringify({...base,party:base.party.slice(0,size)}),{idle:()=>{},createBattle:seam});
+    const games=new Map(),routed=/阶段场景开始挑战|此楼层尚未开放/,conditionEvents=new Set(['condition_added','condition_refreshed']);
+    let opened=0,installed=0,elsewhere=0;const staged={};
     for(const boss of bosses.values()){
-      if(!game.dispatch({type:'startBattle',bossId:boss.id}).ok||!game.snapshot().battle)continue;
-      const events=captured().initialEvents,log=game.snapshot().battle.log,switched=log.findIndex(line=>line.includes('派出了'));opened++;
-      installed+=events.slice(0,events.findIndex(event=>event.type==='switch_in')).filter(event=>conditionEvents.has(event.type)).length;
-      assert(switched>0&&!log.slice(0,switched).some(line=>/获得|效果更新/.test(line)),`${boss.id}: ${log.join(' / ')}`);
-      leave(game);
+      const size=partyRules(boss).find(rule=>rule.kind==='team_max')?.count??base.party.length,game=games.get(size)??games.set(size,open(size)).get(size);
+      for(const variant of boss.variants?.length?boss.variants.map(entry=>entry.id):[undefined]){
+        const label=variant?`${boss.id}/${variant}`:boss.id,result=game.dispatch({type:'startBattle',bossId:boss.id,...(variant?{variant}:{})});
+        if(!result.ok){assert.match(result.notice,routed,`${label} opens`);elsewhere++;continue;}
+        const events=captured().initialEvents,log=game.snapshot().battle.log,switched=log.findIndex(line=>line.includes('派出了'));opened++;
+        installed+=events.slice(0,events.findIndex(event=>event.type==='switch_in')).filter(event=>conditionEvents.has(event.type)).length;
+        assert(switched>0,`${label}: ${log.join(' / ')}`);
+        if(switched>1)staged[label]=log.slice(1,switched);
+        leave(game);
+      }
     }
-    assert(installed>40,`the opened encounters install rule conditions (${installed} in ${opened})`);
-    t.witness('boss-openings',{opened,installed});
+    // Between the opening line and the switch-ins, only a rule's real effect keeps a line: 周二's evasion stages.
+    assert.deepEqual(staged,{'boss_spt_eersaila/tue':['厄尔塞拉的闪避提升 3 级，当前 +3 级。']});
+    assert(installed>80,`the opened encounters install rule conditions (${installed} in ${opened})`);
+    t.witness('boss-openings',{opened,installed,elsewhere});
   });
   check('Unknown evidence remains explicitly inferred and the entire verification preserves catalog and user state',()=>{
     const unknown={...structuredClone(source),id:'unverified-v56'};const evidence=buildBossEvidence(unknown);assert(evidence.fields.every(row=>row.status==='inferred'));assert(evidence.limitations.some(text=>text.includes('尚未完成核对')));

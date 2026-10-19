@@ -17,7 +17,7 @@ const STARTING_STOCK_KINDS = ['battle', 'capsule', 'raising'];
 
 const newGameExtras = (): GameExtras => ({
   coins: STARTING_COINS, traits: {}, quests: [], battlesWon: 0, modules: {}, engravingStock: {}, campaigns: {}, shopUnlocked: [],
-  recruitmentClaims: {}, braveTower: { highestCleared: 0, resumeFloor: 1 },
+  recruitmentClaims: {}, braveTower: { highestCleared: 0, resumeFloor: 1 }, bossVariants: {},
 });
 
 /** Defaults for absent game extras, legacy Brave Tower clears, valid skins and campaign records. */

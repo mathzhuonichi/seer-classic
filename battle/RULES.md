@@ -330,7 +330,9 @@ a list of effect ops plus `transform {species, keep_hp?, full_heal?}`,
 Lose: `turn_limit {turns}` (the player loses at the end of turn N), `script`.
 
 **Variants** (`encounter.variants[]`, chosen by the player with `variant`):
-each adds `rules` and may replace `win` / `lose`.
+each adds `rules` and `phases` and may replace `win` / `lose`. The game offers
+the choice before the start and settles its rewards (ARCHITECTURE.md, remake
+decisions).
 
 **Result** (`BattleResult`): `winner`, `reason` (`ko`, `flee`, `capture`,
 `objective`, `lose_condition`, `turn_cap`, `boss_fled`), `success`,

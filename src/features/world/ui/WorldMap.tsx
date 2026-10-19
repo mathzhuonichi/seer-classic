@@ -21,7 +21,8 @@ import './world.css';
 
 export interface WorldMapProps {
   c: GameController; onNavigate?: (page: string) => void;
-  travelTo?: { planetId: string; regionId?: string; bossId?: string; requestId?: number };
+  /** `variant`: the Boss variant picked in the challenge archive, preselected in its dialogue (null: the practice fight). */
+  travelTo?: { planetId: string; regionId?: string; bossId?: string; variant?: string | null; requestId?: number };
   onInteract?: (event: WorldInteraction) => void;
   onSceneChange?: (scene: {src:string;name:string}) => void;
 }
@@ -37,7 +38,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   const world=useMemo(()=>({bosses,species,campaigns,braveTower,quests}),[bosses,species,campaigns,braveTower,quests]);
   const viewport=useRef<HTMLElement>(null);
   const walker=useWorldWalk(),{planet,region,layout,position,motion}=walker;
-  const [dialogue,setDialogue]=useState<{selection:WorldSelection;details:boolean}|null>(null);
+  const [dialogue,setDialogue]=useState<{selection:WorldSelection;details:boolean;variant?:string|null}|null>(null);
   const [arrival,setArrival]=useState(false);
   const scene=buildWorldScene(world,planet,region,travelTo?.bossId),{tower}=scene;
   const {size,onLoad}=useSceneFit(viewport,scene.background);
@@ -48,7 +49,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
     return buildWorldPopulation(`${planet.id}/${region.id}`,habitat,SCENE_POPULATION,region.levels,region.creatureLevels,region.scarceCreatures);
   },[planet,region,species]);
   const view=dialogue?buildWorldDialogue(world,scene,dialogue.selection):undefined;
-  const open=(selection:WorldSelection)=>setDialogue({selection,details:false});
+  const open=(selection:WorldSelection,variant?:string|null)=>setDialogue({selection,details:false,variant});
   const close=()=>setDialogue(null);
 
   function walkTo(x:number,y:number,after?:()=>void){close();walker.walkTo(x,y,after)}
@@ -63,8 +64,8 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
     const landing=targetBoss?findChallengeLocation(targetBoss):travelTo;
     const target=resolveWorldLocation(landing.planetId,landing.regionId??'');visit(target.planet,target.region);
     if(targetBoss&&!isWorldLocation(target.planet,target.region,BRAVE_TOWER_LOCATION))
-      open(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id});
-  },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.requestId]);
+      open(target.region.campaignId?{kind:'campaign',id:target.region.campaignId}:{kind:'boss',id:targetBoss.id},travelTo.variant);
+  },[travelTo?.planetId,travelTo?.regionId,travelTo?.bossId,travelTo?.variant,travelTo?.requestId]);
   const step=(key:string)=>{const delta=ARROW_STEPS[key];walkTo(position.x+delta[0],position.y+delta[1])};
   useSceneKeys(battle,{step,dismiss:()=>{walker.stop();close()}});
 
@@ -112,7 +113,8 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
       <div className="world-ground-hint" aria-live="polite">{motion.moving?'正在前往…':scene.hint}</div>
     </div>
     {view&&<WorldDialogue view={view} showDetails={!!dialogue?.details} c={c} onNavigate={onNavigate} onInteract={onInteract} onClose={close}
-      onToggleDetails={()=>setDialogue(old=>old&&{...old,details:!old.details})} onChooseStart={chooseTowerStart}/>}
+      onToggleDetails={()=>setDialogue(old=>old&&{...old,details:!old.details})} onChooseStart={chooseTowerStart}
+      variant={dialogue?.variant} onChooseVariant={variant=>setDialogue(old=>old&&{...old,variant})}/>}
   </section>;
 }
 export default WorldMap;

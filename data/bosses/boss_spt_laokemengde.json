@@ -168,7 +168,7 @@
     "zh": "先消强化再打；速度250以上就能先手；用超能、飞行、暗影/电系克制，魔焰猩猩、阿克希亚等秒杀型精灵速战速决，能量领域时段（双方伤害翻倍）最有利。"
   },
   "engine_notes": [
-    "Three time-window fields become variants (no real-time clock): healing = both sides heal 10% max HP per turn; extreme = both lose 100 HP per turn; energy = both deal double damage.",
+    "Three time-window fields become variants (no real-time clock): healing = both sides heal 10% max HP per turn; extreme = both lose 100 HP per turn; energy = both deal double damage. Every fight takes a variant, as each time window had its field; any variant clear pays the 精元.",
     "alternating_immunity: on even turns it becomes immune to one damage class, cycling 特殊攻击无效 → 物理攻击无效 → 属性攻击无效 (techbang: 每个领域时段偶数回合会依照顺序出现…).",
     "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+1/spe+1 assumed (matches its 规则掌控).",
     "unlimited_pp and 100% accuracy per techbang. Very high crit damage noted; no number.",

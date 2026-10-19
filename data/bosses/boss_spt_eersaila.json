@@ -286,7 +286,7 @@
     "zh": "多用丽莎布布：周一花草能量3次+叶绿光束消强+金光绿叶；周二依卡莱恩/辛奇帕克或斯加尔卡自杀流；周三先减防再用草系（单击别超过150）；周四全力减防后丽莎强化满金光绿叶；周五依卡莱恩毒粉毒死；周六减防后丽莎进攻；周日精确控血，在它1/5体力以上时一口气打完。"
   },
   "engine_notes": [
-    "Seven weekday rule sets become variants the player picks (no real-time clock, foundation 7.2). Variant `rules`/`phases` are ADDED to the top-level ones (unlimited PP, always-hit, immunities apply every day).",
+    "Seven weekday rule sets become variants the player picks (no real-time clock, foundation 7.2). Variant `rules`/`phases` are ADDED to the top-level ones (unlimited PP, always-hit, immunities apply every day). Every fight takes a variant, as every day had its trait; any variant clear pays the 精元.",
     "Fri: the boss fully revives whenever a direct hit KOs it (techbang: 5回合内体力被降为0会完全恢复, 最多6～7次瞬间补满3000血); only a KO by poison/burn/freeze damage sticks — revive_unless_status_ko + finish_with_status_damage.",
     "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed).",
     "Mon 血很厚 (hp x2 estimate); Tue MISS超高 (evasion +3 estimate); Sat 防御很高 (def/spd +2 estimate) and 血越少越容易打致命 (read as: its crit rate rises as its HP falls; could also mean the player's crits — unclear).",

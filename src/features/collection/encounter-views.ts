@@ -5,7 +5,10 @@ import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisi
 import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { braveTowerFloor, braveTowerRewards, braveTowerUnlockFloor, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
-import { encounterCategory, encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import {
+  allVariantHonors, encounterCategory, encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel,
+} from '../../domain/challenges/encounter-rows.ts';
+import { offersPractice, variantViews } from '../../domain/challenges/encounter-variants.ts';
 import { partyRuleTexts } from '../../domain/challenges/party-rules.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView } from '../../shared/views.ts';
@@ -40,8 +43,12 @@ function winRewardText(ctx: GameContext, reward: EncounterReward | undefined): s
   return items.length ? `获得${items.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}` : '';
 }
 
-export function encounterView(ctx: GameContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
+/** The encounter's row at `attempts` attempts, with the ids of its `variantsCleared`. */
+export function encounterView(
+  ctx: GameContext, source: BossEncounter, attempts = 0, variantsCleared: readonly string[] = [],
+): Omit<BossView, 'cleared' | 'attempts'> {
   const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras, honors = encounterHonors(b.reward);
+  const variants = variantViews(b, variantsCleared), variantHonors = allVariantHonors(b.reward);
   const floor = braveTowerFloor(b.id), unlockFloor = braveTowerUnlockFloor(b);
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
   const ruleTexts = partyRuleTexts(b, ctx.speciesName);
@@ -53,6 +60,8 @@ export function encounterView(ctx: GameContext, source: BossEncounter, attempts 
     ...(floor === undefined && unlockFloor ? { towerSideFloor: unlockFloor } : {}),
     ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
     ...(honors.length ? { honors } : {}),
+    ...(variants.length ? { variants, ...(offersPractice(b) ? { practice: true } : {}) } : {}),
+    ...(variantHonors.length ? { variantHonors } : {}),
   };
 }
 
@@ -69,6 +78,6 @@ export function catalogViews(ctx: GameContext) {
   return createCatalogViews(
     species,
     ctx.encounters.map(boss => encounterView(ctx, boss)),
-    (view, attempts) => ({ ...view, ...encounterView(ctx, ctx.encounterById.get(view.id)!, attempts) }),
+    (view, attempts, variantsCleared) => ({ ...view, ...encounterView(ctx, ctx.encounterById.get(view.id)!, attempts, variantsCleared) }),
   );
 }

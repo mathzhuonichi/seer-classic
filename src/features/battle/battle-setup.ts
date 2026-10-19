@@ -24,8 +24,11 @@ export const NO_STAMINA_MESSAGE = '精灵体力耗尽，请使用恢复舱。';
 
 const wildLevel = (leadLevel: number) => Math.max(WILD_MIN_LEVEL, Math.round(leadLevel * WILD_LEVEL_RATIO));
 
-/** A catalogue or generated encounter, or a wild monster of species `wild`, by default met at a level from the lead's. */
-export type Foe = { encounter: BossEncounter } | { wild: number; level?: number };
+/**
+ * A catalogue or generated encounter, with the id of the variant the player chose (checked by the challenge that starts it),
+ * or a wild monster of species `wild`, by default met at a level from the lead's.
+ */
+export type Foe = { encounter: BossEncounter; variant?: string } | { wild: number; level?: number };
 
 export interface BattleSetup {
   battle: Battle;
@@ -53,15 +56,21 @@ export function setupBattle(ctx: GameContext, save: GameSave, rng: Rng, foe: Foe
   const options: BattleOptions = {
     data: ctx.data, scripts: BATTLE_SCRIPTS, seed: rng.nextU32(),
     ...(encounter?.category === 'trainer' ? { conventionalMoves: ctx.conventionalMoves() } : {}),
-    sides: [player, opponent], encounter: encounter ?? undefined,
+    sides: [player, opponent], encounter: encounter ?? undefined, variant: 'encounter' in foe ? foe.variant : undefined,
   };
   const battle = ctx.createBattle(options);
   attachTraits(battle, save);
   return {
-    battle, encounter, wild, name: wild ? `野外遭遇 · ${ctx.speciesName(wild.species)}` : encounter!.name?.zh ?? encounter!.id,
+    battle, encounter, wild, name: wild ? `野外遭遇 · ${ctx.speciesName(wild.species)}` : encounterName(encounter!, battle),
     appearances: new Map(roster.map((mon, slot) => [slot, { species: mon.species, appearanceSpecies: appearanceSpecies(mon, ctx.skinOptions) }])),
     transformedSlots: initialTransforms(battle),
   };
+}
+
+/** The encounter's name, followed by the chosen variant: 厄尔塞拉（周一：免疫异常状态，血很厚）. */
+function encounterName(encounter: BossEncounter, battle: Battle): string {
+  const name = encounter.name?.zh ?? encounter.id;
+  return battle.variant ? `${name}（${battle.variant.label.zh}）` : name;
 }
 
 /** The encounter at this save's attempt count, with explicit NPC training applied. */
