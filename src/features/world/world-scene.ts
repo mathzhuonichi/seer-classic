@@ -102,7 +102,7 @@ export function buildWorldScene(s: WorldSlices, planet: WorldPlanet, region: Wor
   };
 }
 
-/** The location HUD tooltip: the full scene name, which the nameplate may cut off, then Tower progress or the planet subtitle with the level range. */
+/** The location HUD tooltip: the scene name, then Tower progress or the planet subtitle with the level range. */
 export function sceneTitle({ name, planet, region, tower }: WorldSceneView) {
   const detail = tower ? `最高通过 ${tower.highestCleared} / ${tower.totalFloors} 层`
     : `${planet.subtitle} · ${region.facility ? '飞船设施' : `Lv.${region.levels[0]}–${region.levels[1]}`}`;
