@@ -21,7 +21,7 @@ function SideChallenge({c,boss,activeBattle}:{c:GameController;boss:BossView;act
 /** Select an entrance; floor battles begin only by approaching the floor's guardian, side challenges from their row. */
 export default function BraveTower({c,onEnter}:{c:GameController;onEnter:(floor:number)=>void}) {
   const progress=useGame(c,s=>s.braveTower),activeBattle=useGame(c,battleActive),bosses=useGame(c,s=>s.bosses);
-  const sides=useMemo(()=>bosses.filter(boss=>boss.towerSideFloor!==undefined),[bosses]);
+  const sides=useMemo(()=>bosses.filter(boss=>boss.towerSide),[bosses]);
   const attempted=useGame(c,s=>!!s.bosses.find(boss=>boss.id===s.braveTower.position.bossId)?.attempts);
   const {checkpoints,resumeFloor:resume,position}=progress;
   const hasProgress=progress.highestCleared>0||!position.climbComplete&&attempted;

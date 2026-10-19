@@ -80,7 +80,7 @@ await withSsr('station-navigation-v53',async load=>{
       }
       else if(planet.id==='space-station'&&region.id==='brave-tower'){
         assert.equal(contacts.length,0);counts.tower++;
-        assert(braveTowerFloor(boss.id)!==undefined||boss.towerSideFloor!==undefined,`${boss.id}: a Tower floor or a Tower panel entry`);
+        assert(braveTowerFloor(boss.id)!==undefined||boss.towerSide,`${boss.id}: a Tower floor or a Tower panel entry`);
       }
       else{assert(contacts.some(contact=>contact.id===boss.id),boss.id);assert.equal(new Set(contacts.map(contact=>contact.id)).size,contacts.length);counts.ordinary++}
       if(destination.staging){assert.deepEqual([planet.id,region.id],['station','transport']);assert(region.challengeStaging);counts.transport++}
@@ -133,7 +133,7 @@ await withSsr('station-navigation-v53',async load=>{
       const snapshot=climb(highestCleared),html=renderToStaticMarkup(React.createElement(BraveTower,{c:{...game,snapshot:()=>snapshot},onEnter:()=>{}}));
       return html.match(/<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery">.*?<\/button><\/div>/)?.[0];
     };
-    assert.equal(mystery.towerSideFloor,60);
+    assert.deepEqual(s.bosses.filter(boss=>boss.towerSide).map(boss=>boss.id),[mystery.id],'the one Tower side challenge, never a floor');
     const open=`<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery"><div><strong>${mystery.name}</strong>`
       +'<span>通关奖励：仅赛尔豆与积累经验，没有精元或道具</span></div><button class="primary">开始挑战</button></div>';
     for(const floor of [0,59,60])assert.equal(row(floor),open,`highest cleared floor ${floor}`);

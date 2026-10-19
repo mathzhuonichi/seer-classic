@@ -3,7 +3,7 @@ import test from 'node:test';
 import {
   BRAVE_TOWER_FLOORS,BRAVE_TOWER_SEGMENT,BRAVE_TOWER_CHECKPOINTS,braveTowerFloor,braveTowerBossId,
   normalizeBraveTowerProgress,braveTowerCheckpoints,canStartBraveTowerFloor,clearBraveTowerFloor,braveTowerRewards,braveTowerPosition,
-  braveTowerUnlockFloor,
+  isBraveTowerSideChallenge,
 } from './brave-tower.ts';
 
 const fresh=()=>normalizeBraveTowerProgress(undefined,[]);
@@ -100,11 +100,13 @@ test('only exact numbered tower identifiers participate, excluding the Mystery R
   }
 });
 
-test('a side challenge is placed at the highest tower floor its record requires',()=>{
-  assert.equal(braveTowerUnlockFloor({unlock:{requires:['boss_tower_brave_f060'],entry:{team_size:6}}}),60);
-  assert.equal(braveTowerUnlockFloor({unlock:{requires:['boss_tower_brave_f010','boss_tower_brave_f030']}}),30);
+test('a side challenge is an encounter other than a floor whose record requires a tower floor',()=>{
+  const side='boss_tower_brave_mystery';
+  assert.equal(isBraveTowerSideChallenge({id:side,unlock:{requires:['boss_tower_brave_f060'],entry:{team_size:6}}}),true);
+  assert.equal(isBraveTowerSideChallenge({id:side,unlock:{requires:['boss_dark_door1_moyasha','boss_tower_brave_f010']}}),true);
+  assert.equal(isBraveTowerSideChallenge({id:'boss_tower_brave_f061',unlock:{requires:['boss_tower_brave_f060']}}),false,'a floor');
   for(const unlock of [undefined,{},{requires:[]},{requires:['boss_dark_door1_moyasha']},{requires:'boss_tower_brave_f060'},{requires:[60]}]){
-    assert.equal(braveTowerUnlockFloor({unlock}),0,JSON.stringify(unlock));
+    assert.equal(isBraveTowerSideChallenge({id:side,unlock}),false,JSON.stringify(unlock));
   }
 });
 
