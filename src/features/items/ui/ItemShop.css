@@ -22,7 +22,7 @@
 .shop-order input{width:66px;padding:4px 6px;font-size:11px}
 .item-shop-management .shop-order input:disabled{color:#617d8e;background:#e6eef3;box-shadow:none;cursor:default}
 .shop-quantity-presets{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.shop-quantity-presets button{padding:3px 8px;font-size:11px}
+.item-shop-management .shop-quantity-presets button{padding:3px 8px;font-size:11px}
 .shop-feedback{font-size:11px;line-height:1.6;color:#347967;margin:7px 0}
 .shop-bag-link{font-size:11px;margin-top:9px}
 .shop-order-blocked{color:#8a6030}

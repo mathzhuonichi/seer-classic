@@ -58,7 +58,7 @@ div.fusion-confirm>button{white-space:nowrap;min-width:100px}
 .fusion-obtained small{font-size:9px;color:#64846c}
 .fusion-obtained strong{font-size:12px;margin:5px 0}
 .fusion-obtained>div>span{font-size:10px;color:#6c8574;line-height:1.6}
-.fusion-obtained>button{white-space:nowrap;font-size:11px}
+div.fusion-obtained>button{white-space:nowrap;font-size:11px}
 @media(max-width:900px){.fusion-panel{grid-template-columns:220px minmax(0,1fr)}.fusion-detail-scroll{padding:14px}.fusion-recipe-scroll>button{gap:6px}.fusion-recipe-art{width:36px;height:36px}.fusion-recipe-scroll b{font-size:8px}.fusion-parent-grid{gap:5px;grid-template-columns:minmax(0,1fr) 19px minmax(0,1fr)}.fusion-parent-card{padding:8px}.fusion-parent-art{width:82px;height:82px}.fusion-parent-card label>small{display:none}}
 @media(max-width:620px){
  .fusion-panel{grid-template-columns:160px minmax(0,1fr)}
@@ -93,7 +93,7 @@ div.fusion-confirm>button{white-space:nowrap;min-width:100px}
  div.fusion-confirm>button{margin-left:auto;font-size:10px;min-width:85px}
  .fusion-obtained{flex-wrap:wrap;gap:8px;padding:9px}
  .fusion-bead-symbol{font-size:29px}
- .fusion-obtained>button{margin-left:auto;font-size:10px}
+ div.fusion-obtained>button{margin-left:auto;font-size:10px}
  .fusion-obtained strong{font-size:10px}
 }
 

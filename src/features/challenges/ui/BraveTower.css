@@ -12,7 +12,7 @@
 .tower-resume>div{display:flex;flex-direction:column;gap:4px;min-width:0}
 .tower-resume strong{font-size:14px;font-weight:400}
 .tower-resume span{font-size:11px;color:#476d87}
-.tower-resume>button{white-space:nowrap;font-size:12px}
+.brave-tower .tower-resume>button{white-space:nowrap;font-size:12px}
 .tower-complete{margin:0;padding:9px 12px;background:#d9effc;border-bottom:1px solid #79adc9;font-size:12px}
 .tower-checkpoints{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;flex-shrink:0}
 /* The nav qualifier outranks .management-panel button (0,1,1) and stays below its :hover (0,2,1) and :active (0,3,1). */
@@ -32,4 +32,11 @@ nav.tower-checkpoints>button.locked{color:#698294;background:#e5edf2;opacity:1}
 .tower-rewards p{margin:4px 0;font-size:11px;line-height:1.6;color:#476d87}
 .tower-rewards small{font-size:10px;color:#52778e}
 .tower-honors{margin:0;font-size:11px;line-height:1.7;color:#52778e}
-@media(max-width:700px){.management-panel.brave-tower{padding:10px;gap:9px}.tower-checkpoints{grid-template-columns:repeat(4,minmax(0,1fr))}.tower-resume{flex-wrap:wrap}.tower-resume>button{margin-left:auto}.tower-start-row{flex-wrap:wrap}.brave-tower .tower-start-row>button{margin-left:auto}}
+@media(max-width:700px){
+ .management-panel.brave-tower{padding:10px;gap:9px}
+ .tower-checkpoints{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .tower-resume{flex-wrap:wrap}
+ .brave-tower .tower-resume>button{margin-left:auto}
+ .tower-start-row{flex-wrap:wrap}
+ .brave-tower .tower-start-row>button{margin-left:auto}
+}
