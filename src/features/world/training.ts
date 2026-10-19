@@ -14,6 +14,10 @@ const DEFAULT_WILD_SPECIES = 10;
 /** Recruit-only species are met at the lead's level, and never below this minimum. */
 const RECRUIT_MIN_LEVEL = 5;
 
+/**
+ * A contact starts its species' Boss without a variant. No world region lists the species of a Boss with variants as a contact
+ * (the boss-variants gate checks this): those fights start from the Boss dialogue, where the player chooses the variant.
+ */
 export function startTraining(rt: Runtime, action: WorldAction) {
   const { ctx } = rt, species = action.species ?? DEFAULT_WILD_SPECIES, located = !!(action.planetId || action.regionId);
   const location = located ? WORLD_PLANETS.find(planet => planet.id === action.planetId)?.regions.find(region => region.id === action.regionId) : undefined;

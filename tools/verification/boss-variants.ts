@@ -6,7 +6,7 @@ import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {newSave} from '../../src/kernel/save.ts';
-import {findChallengeLocation,resolveWorldLocation} from '../../src/domain/world/world.ts';
+import {findChallengeLocation,resolveWorldLocation,WORLD_PLANETS} from '../../src/domain/world/world.ts';
 import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import {buildWorldDialogue,buildWorldScene} from '../../src/features/world/world-scene.ts';
@@ -215,6 +215,12 @@ t.check('Clearing 盖亚’s three objectives earns 完胜盖亚 beside the 击�
   start(game,GAIA,'within_2_turns');
   assert(knockOut(game).result.includes('3 种规则全部通过，荣誉档案新增「完胜盖亚」。获得 '));
   assert.deepEqual(earned(),['击败盖亚','完胜盖亚']);
+});
+
+t.check('No world contact meets a Boss with variants, whose fights start from the Boss dialogue with the choice',()=>{
+  const species=new Set(source.bosses.filter((boss:any)=>boss.variants?.length).flatMap((boss:any)=>boss.team.map((mon:any)=>mon.species)));
+  const contacts=WORLD_PLANETS.flatMap(planet=>planet.regions.flatMap(region=>region.creatures.filter(id=>species.has(id)).map(id=>`${region.id}:${id}`)));
+  assert.deepEqual([species.size>=3,contacts],[true,[]],'startTraining starts a species’ Boss without a variant');
 });
 
 /** A controller whose snapshot lists only the Boss `id`, so the archive opens on it. */
