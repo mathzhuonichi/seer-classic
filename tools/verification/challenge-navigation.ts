@@ -5,6 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
+import { campaignBackdrop } from '../../src/features/battle/index.ts';
 import { challengeDetail, challengeEntries, challengeHonors } from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import { suite } from './_harness.mjs';
@@ -76,6 +77,20 @@ t.check('five Helka training stages land at the lake, whose one contact opens �
     assert.deepEqual(findChallengeLocation(boss), { planetId: 'helka', regionId: 'training-lake', staging: false });
     assert.equal(findSceneChallenges('helka', 'training-lake', bosses, boss.id).length, 0, 'A stage opens from the campaign contact, not as its own actor.');
   }
+});
+t.check('seven 麒麟 stages land at 麒麟空间 (map 73), whose one contact opens 麒麟六道轮回 in front of that scene', () => {
+  const { planet, region } = resolveWorldLocation('qilin', 'space');
+  assert.deepEqual([planet.id, region.id, region.campaignId, region.originalMapId], ['qilin', 'space', 'qilin', 73]);
+  const stages = game.snapshot().campaigns.find(campaign => campaign.id === 'qilin')!.stages.flatMap(stage => stage.bossIds);
+  assert.equal(stages.length, 7);
+  for (const id of stages) {
+    const boss = bosses.find(boss => boss.id === id)!;
+    assert.equal(boss.location, '麒麟空间');
+    assert.deepEqual(findChallengeLocation(boss), { planetId: 'qilin', regionId: 'space', staging: false }, id);
+    assert.equal(findSceneChallenges('qilin', 'space', bosses, id).length, 0, 'A stage opens from the campaign contact, not as its own actor.');
+  }
+  assert(region.background && ['official', 'remastered'].includes(region.backgroundKind!), 'The scene shows recovered map art.');
+  assert.deepEqual(campaignBackdrop(game.snapshot(), 'qilin'), { src: region.background, name: '麒麟空间' });
 });
 const spt = bosses.filter(boss => boss.category === 'spt');
 t.check('all SPT encounters use mapped habitats', () => {

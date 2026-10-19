@@ -69,7 +69,7 @@ These do not require additional planet tiles. Preserve their source-backed regio
 | Brave tower | 勇者之塔 **500**, `super=102` | Keep catalog floor records under this facility. |
 | Dark arena | 暗黑武斗场 **110**, `super=102` | Exact original spelling; separate from the tower. |
 | Four divine beasts | Existing campaign entrance at Y星 → 菲尼克斯禁地 **666** | Named battle spaces **401 玄武空间**, **403 青龙空间**, **483 白虎空间**, **318 朱雀空间** also exist. Do not fabricate new planets from those arena names. |
-| 麒麟 campaign | 麒麟空间 **73** | The map name/ID is confirmed. Its node has no `super`, and the recovered group tables do not assign it to a galaxy. Keep the dedicated campaign destination; its physical parent/entrance is unresolved in this audit. The later 麒麟之峰1281 must not silently replace this 2013 space. |
+| 麒麟 campaign | 麒麟空间 **73** | The map name/ID is confirmed. Its node has no `super`, no doorway in either direction, and the recovered group tables do not assign it to a galaxy. The [March 2013 first-wheel guide](https://news.7k7k.com/51seer/20130304-566003.html) gives the entrance: the 时报 entry 【麒麟，绝世降临】 GO, or a 麒麟 icon on the star map that teleports there. The remake (2026-10-19) offers it on the atlas overview beside the bases as its own destination `qilin/space`, hosting the campaign contact. The later 麒麟之峰1281 must not silently replace this 2013 space. |
 | 雷伊 / training | Existing 赫尔卡星荒地 **32**, plus current source-named training lake | No missing planet. Preserve the campaign's dedicated training interaction. |
 | 盖亚 | Pano's existing planetary routes | Catalog explicitly says random appearance among Pano planets. No source here establishes one permanent landing. |
 
@@ -81,7 +81,7 @@ Treat the space station as a facility tile/button. The original maps **102**, **
 - **Kawoer source disagreement:** both official SPT XMLs say habitat **石源密林** but point to local **11109**, whose official map name is **黑风崖**. Original **706** is 石源密林 and **708** is 黑风崖; both belong to 巨石星702. The catalog supports706. Preserve the disagreement in provenance rather than claiming the local node proves706 exactly.
 - **Nate correction:** the catalog's parenthetical 火山口 is inconsistent with the official SPT habitat 恶灵深渊 and original map784's route to775. Use 魔神星/恶灵深渊 for the encounter; do not send it to 火山星15.
 - **Historical aliases:** the [September 2013 actual map walkthrough](https://news.4399.com/news/seerwenda/299757.html) confirms 泰若星 in Rift and the 丛林秘境 → 冰封洞窟 → 神兽谷 sequence. Official group157 now directly corroborates the planet identity. Thus 泰若星, 推特星 and 巨石星 are valid planet labels, not catalog mistakes.
-- No unsupported English transliterations or unrelated modern planets are required. The absent sixth galaxy is not needed for the current catalog. Exact server-era map replacement dates and the physical entrance to 麒麟空间 remain unresolved.
+- No unsupported English transliterations or unrelated modern planets are required. The absent sixth galaxy is not needed for the current catalog. Exact server-era map replacement dates remain unresolved; the 麒麟空间 entrance is the star-map icon above.
 
 ## Verification boundary
 

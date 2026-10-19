@@ -876,6 +876,22 @@
           "labelX": 603.5,
           "labelY": 508.88837209302324,
           "positionKind": "authorized-overview-composition"
+        },
+        {
+          "id": "base-qilin",
+          "targetKind": "planet",
+          "targetId": "qilin",
+          "mapId": 73,
+          "x": 690,
+          "y": 456,
+          "width": 41,
+          "height": 41,
+          "asset": "/ui/classic/maps/hd/region-go.svg",
+          "drawLabel": true,
+          "label": "麒麟空间",
+          "labelX": 710.5,
+          "labelY": 501,
+          "adaptation": "麒麟空间 (map 73) belongs to no galaxy; the March 2013 guide enters it from a 麒麟 icon on the star map. That icon is not recovered, so the original GO chrome marks it beside the bases."
         }
       ],
       "layoutKind": "Remake composition of original galaxy selector artwork on the original space background."

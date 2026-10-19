@@ -146,6 +146,16 @@ await withSsr('station-navigation-v53',async load=>{
     routes.travelToChallenge(mystery);
     assert.deepEqual(travels,[[{planetId:'space-station',regionId:'brave-tower'},'tower']]);
   });
+  check('A 麒麟 stage travels to 麒麟空间, whose scene shows one contact for its campaign',()=>{
+    const travels=[],routes=shellRoutes({c:game,navigation:{show(){},travel:(...args)=>travels.push(args),enterCampaign(){}},
+      backdrops:{current:{exploration:null,campaign:null}},setMessage(){},setSelected(){}});
+    const stages=s.campaigns.find(row=>row.id==='qilin').stages.flatMap(stage=>stage.bossIds);
+    for(const id of stages)routes.travelToChallenge(s.bosses.find(boss=>boss.id===id));
+    assert.deepEqual(travels,stages.map(bossId=>[{planetId:'qilin',regionId:'space',bossId}]));
+    const html=markup('qilin','space');
+    assert.equal((html.match(/data-campaign=/g)??[]).length,1);assert(html.includes('data-campaign="qilin"'));assert(!html.includes('data-boss='));
+    assert(html.includes('aria-label="与阿瑞斯互动，查看挑战进度"'),'The contact names the campaign species');
+  });
   check('Each archive Boss row states what its encounter pays, from the controller\'s own catalog',()=>{
     const {catalog:enriched}=enrichCatalog(catalog),encounters=new Map(enriched.bosses.map(boss=>[boss.id,boss]));
     const essences=new Set(enriched.items.filter(item=>item.kind==='essence'&&typeof item.hatches==='number').map(item=>String(item.id)));
