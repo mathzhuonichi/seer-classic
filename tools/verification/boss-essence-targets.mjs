@@ -162,6 +162,20 @@ await withSsr('boss-essence-targets', async load => {
   const unsold = liaosi.exportSave();
   assert.equal(liaosi.dispatch({ type: 'buyItem', itemId: suit, quantity: 1 }).ok, false);
   assert.equal(liaosi.exportSave(), unsold, 'nor sell it');
+
+  // A version-2 save keeps what version 3 retired or newly pays: 黑刺球's collection essence, whose recruitment retired when
+  // 卡特斯's essence began to hatch 黑刺球, becomes 卡特斯's essence, and an earlier 里奥斯 clear receives the 蓝武士装 once.
+  const version2 = { ...structuredClone(base), version: 2 }, katesi = 'essence_boss_dark_trial_katesi';
+  version2.items.essence_collection_167 = 1;
+  version2.game.shopUnlocked = ['essence_collection_167'];
+  version2.progress.bosses_cleared = ['boss_spt_liaosi'];
+  const upgraded = createGame(catalog, JSON.stringify(version2)), held = id => upgraded.snapshot().items.find(item => item.id === id);
+  assert.deepEqual([held(katesi)?.name, held(katesi)?.count, held('essence_collection_167')], ['黑刺球精元', 1, undefined], 'the essence moves');
+  assert.equal(held(suit)?.count, 1, 'an earlier 里奥斯 clear receives the suit');
+  const owned = upgraded.snapshot().monsters.length;
+  upgraded.dispatch({ type: 'useItem', itemId: katesi, uid: upgraded.snapshot().party[0] });
+  assert.deepEqual(upgraded.snapshot().monsters.slice(owned).map(mon => [mon.species, mon.level]), [[167, 1]], 'it hatches 黑刺球');
+  assert.ok(upgraded.snapshot().shopItems.some(item => item.id === katesi), 'its shop listing moves with it');
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
-  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'first-clear collectible', 'catalog immutability'] }));
+  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'first-clear collectible', 'version-2 retired essence and suit', 'catalog immutability'] }));
 });

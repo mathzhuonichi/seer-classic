@@ -8,7 +8,7 @@ import { expToNext, MAX_LEVEL } from "../../raising/core/growth.ts";
 import { MAX_EQUIPPED } from "../../raising/core/monster.ts";
 import { PARTY_MAX } from "../../raising/core/storage.ts";
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 /** Per-monster later-era mechanics state: equipped engravings and spent engraving resources. */
 export interface SavedModules {
@@ -57,6 +57,10 @@ export interface MigrationContext {
   recruitments: readonly { questId: string; itemId: string }[];
   /** Items introduced during version 1, granted once without replacing existing stock. */
   introducedItems: Readonly<Record<string, number>>;
+  /** Items version 3 retired, each with the item that takes over its stock and shop listing. */
+  replacedItems: Readonly<Record<string, string>>;
+  /** First-clear items per encounter, which version 2 never paid: a save that cleared the encounter receives them once. */
+  firstClearItems: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }
 
 const isRecord = (x: unknown): x is Record<string, any> => typeof x === "object" && x !== null && !Array.isArray(x);
@@ -80,8 +84,30 @@ function fromVersion1(s: any, context: MigrationContext | undefined): any {
   return s;
 }
 
+// Version 3 moves retired items to their replacements and pays the first-clear items of earlier clears.
+// Malformed fields are left for validateSave to report.
+function fromVersion2(s: any, context: MigrationContext | undefined): any {
+  if (!context) throw new Error("version 2 saves need the game's migration context");
+  if (!isRecord(s.items)) return s;
+  for (const [retired, replacement] of Object.entries(context.replacedItems)) {
+    if (isInt(s.items[retired]) && (s.items[replacement] === undefined || isInt(s.items[replacement]))) {
+      s.items[replacement] = (s.items[replacement] ?? 0) + s.items[retired];
+      delete s.items[retired];
+    }
+    const listed = s.game?.shopUnlocked;
+    if (Array.isArray(listed)) s.game.shopUnlocked = [...new Set(listed.map((id: unknown) => id === retired ? replacement : id))];
+  }
+  const cleared: unknown = s.progress?.bosses_cleared;
+  if (!Array.isArray(cleared)) return s;
+  for (const [encounterId, items] of Object.entries(context.firstClearItems)) {
+    if (!cleared.includes(encounterId)) continue;
+    for (const [id, count] of Object.entries(items)) if (!(id in s.items)) s.items[id] = count;
+  }
+  return s;
+}
+
 // Each entry upgrades a save from version k to k + 1.
-const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1 };
+const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1, 2: fromVersion2 };
 
 export function migrate(raw: any, context?: MigrationContext): Save {
   let s = raw;
