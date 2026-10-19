@@ -211,7 +211,8 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   });
   check('Real Boss starts log no rule condition before the switch-ins; the evidence dialog shows the rules instead',()=>{
     // Turn preparation never runs, so the sweep only opens and leaves each battle.
-    const game=createProductionGame(catalog,JSON.stringify(base),{idle:()=>{},createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
+    const seam=options=>{const battle=createBattle(options);created.push(battle);return battle;};
+    const game=createProductionGame(catalog,JSON.stringify(base),{idle:()=>{},createBattle:seam});
     const conditionEvents=new Set(['condition_added','condition_refreshed']);let opened=0,installed=0;
     for(const boss of bosses.values()){
       if(!game.dispatch({type:'startBattle',bossId:boss.id}).ok||!game.snapshot().battle)continue;
