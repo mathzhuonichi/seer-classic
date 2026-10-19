@@ -8,10 +8,11 @@ import {useGame} from '../../../shared/ui/use-game.ts';
 import '../../../shared/ui/management.css';
 import './BraveTower.css';
 
-/** A challenge beside the climb, such as the Mystery Realm's 谱尼; like every Boss it is open from the start. */
+/** A challenge beside the climb, such as the Mystery Realm's 谱尼; like every Boss it is open from the start, and states its party rules. */
 function SideChallenge({c,boss,activeBattle}:{c:GameController;boss:BossView;activeBattle:boolean}) {
   return <div className="tower-resume tower-side-challenge" data-tower-side={boss.id}>
-    <div><strong>{boss.name}</strong><span>{`通关奖励：${boss.rewardText}`}</span></div>
+    <div><strong>{boss.name}</strong><span>{`通关奖励：${boss.rewardText}`}</span>
+      {boss.partyRuleTexts&&<span>{`挑战条件：${boss.partyRuleTexts.join('')}`}</span>}</div>
     <button className="primary" disabled={activeBattle} onClick={()=>c.dispatch({type:'startBattle',bossId:boss.id})}>
       {boss.cleared?'再次挑战':'开始挑战'}
     </button>

@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {createElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {Battle} from '../../battle/core/src/index.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
-import {newSave} from '../../src/kernel/save.ts';
+import {migrate,newSave} from '../../src/kernel/save.ts';
+import {shellRoutes} from '../../src/app/shell-routes.ts';
 import {findChallengeLocation,resolveWorldLocation,WORLD_PLANETS} from '../../src/domain/world/world.ts';
 import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
@@ -197,13 +199,39 @@ t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the 
   assert.deepEqual(parse(lost).game.bossVariants,{});
 });
 
-t.check('A version-3 save opens at version 4 with an empty variant record and keeps its clears',()=>{
+const variantIds=(id:string)=>encounter(id).variants.map((variant:any)=>variant.id);
+
+t.check('A version-3 save opens at version 4 and keeps its clears; a 厄尔塞拉 clear stands for all its variants, a 盖亚 clear for none',()=>{
   const v3=parse(journey());v3.version=3;delete v3.game.bossVariants;v3.progress.bosses_cleared=[GAIA,EERSAILA];
   const game=journey(v3),opened=parse(game);
-  assert.equal(opened.version,4);assert.deepEqual(opened.game.bossVariants,{});assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
-  start(game,EERSAILA,'thu');knockOut(game);
+  assert.equal(opened.version,4);assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
+  assert.deepEqual(opened.game.bossVariants,{[EERSAILA]:variantIds(EERSAILA)},'version 3 never showed 完胜盖亚, so 盖亚 records none');
+  start(game,GAIA,'within_2_turns');knockOut(game);
   const reopened=parse(journey(parse(game)));
-  assert.deepEqual(reopened.game.bossVariants,{[EERSAILA]:['thu']},'the record survives a reload');
+  assert.deepEqual(reopened.game.bossVariants,{[EERSAILA]:variantIds(EERSAILA),[GAIA]:['within_2_turns']},'the record survives a reload');
+});
+
+/**
+ * A save the version-3 game wrote (a8a2c328c0347b176ee53d14f09efb0411b4c63d: createGame, the three starters at Lv.100, 盖亚 and
+ * 厄尔塞拉 cleared without a variant in real battles whose opponents were held at 1 HP, exportSave). That game's honour roll for it
+ * listed 击败盖亚 and 称号：七色光羽, and its 厄尔塞拉 entry read 已获得：称号：七色光羽.
+ */
+const VERSION_3_SAVE=readFileSync(new URL('./fixtures/save-version-3-boss-clears.json',import.meta.url),'utf8');
+const VERSION_3_HONORS=[{label:'击败盖亚',source:'盖亚'},{label:'称号：七色光羽',source:'厄尔塞拉'}];
+
+t.check('A save written by the version-3 game keeps the honour roll it showed at version 4, and opening it again changes nothing',()=>{
+  assert.equal(JSON.parse(VERSION_3_SAVE).version,3);
+  const game=createGame(source,VERSION_3_SAVE,{createBattle:(options:any)=>(battle=new Battle(options)),idle:()=>{}}),opened=parse(game);
+  const detail=()=>challengeDetail(challengeEntries(game.snapshot()).find(entry=>entry.id===EERSAILA)!,game.snapshot(),false);
+  assert.deepEqual([opened.version,opened.game.bossVariants],[4,{[EERSAILA]:variantIds(EERSAILA)}]);
+  assert.deepEqual(challengeHonors(game.snapshot()),VERSION_3_HONORS);
+  assert.deepEqual([detail().status,detail().honors],['✓ 已通过 7/7','已获得：称号：七色光羽']);
+  const again=journey(opened);
+  assert.equal(again.exportSave(),game.exportSave(),'reopening the upgraded save changes nothing');
+  assert.deepEqual(migrate(structuredClone(opened)),opened,'a version-4 save is not migrated again');
+  assert.deepEqual(challengeHonors(again.snapshot()),VERSION_3_HONORS);
+  start(game,EERSAILA,'mon');
+  assert(!knockOut(game).result.includes('荣誉档案'),'a later clear does not announce the title again');
 });
 
 t.check('Clearing the last of 厄尔塞拉’s seven variants earns 七色光羽; its clear alone and a repeat earn nothing',()=>{
@@ -242,6 +270,13 @@ function only(game:GameController,id:string):GameController{
   return Object.assign(Object.create(game),{snapshot:()=>({...full,bosses:full.bosses.filter(boss=>boss.id===id)})});
 }
 const checkedLabel=(html:string)=>html.match(/checked=""\/><span><strong>([^<]*)/)?.[1];
+/** The Boss world dialogue at the contact of `id`, opened with `variant` as WorldMap passes it (a travel request's pick). */
+function dialogueMarkup(game:GameController,id:string,variant?:string|null){
+  const s=game.snapshot(),destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!);
+  const {planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
+  const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
+  return renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,variant,onClose(){},onToggleDetails(){},onChooseStart(){}}));
+}
 
 t.check('The challenge archive lists every variant with its rules and objectives, picks the first not cleared, and offers 盖亚’s practice fight',()=>{
   const save=parse(journey());save.game.bossVariants={[EERSAILA]:['mon','tue']};
@@ -264,12 +299,7 @@ t.check('The challenge archive lists every variant with its rules and objectives
 });
 
 t.check('The Boss world dialogue offers the variant choice and states the picked variant’s rules and objectives',()=>{
-  const game=journey(),s=game.snapshot();
-  const dialogue=(id:string,variant?:string|null)=>{
-    const destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
-    const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
-    return renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,variant,onClose(){},onToggleDetails(){},onChooseStart(){}}));
-  };
+  const game=journey(),dialogue=(id:string,variant?:string|null)=>dialogueMarkup(game,id,variant);
   const plain=dialogue(EERSAILA);
   assert(plain.includes('<legend>挑战规则 · 已通过 0/7</legend>'));assert.equal(checkedLabel(plain),label(EERSAILA,'mon'));
   for(const variant of encounter(EERSAILA).variants)assert(plain.includes(variant.label.zh),variant.id);
@@ -281,6 +311,16 @@ t.check('The Boss world dialogue offers the variant choice and states the picked
   assert.equal(checkedLabel(practice),'练习战');assert(practice.includes('不计入挑战记录，也不发放精元'));
   const field=dialogue(LAOKE,'healing_field');
   assert(field.includes('规则：双方每回合结束时回复 10% 体力。'));assert(field.includes('失败条件：我方精灵全部倒下。'));
+});
+
+t.check('The archive’s pick travels to the Boss dialogue: 盖亚’s 练习战 stays the practice fight, and no pick takes the default',()=>{
+  const game=journey(),gaia=game.snapshot().bosses.find(boss=>boss.id===GAIA)!,travels:any[]=[];
+  const navigation={show(){},enterCampaign(){},travel:(destination:any)=>travels.push(destination)} as any;
+  const routes=shellRoutes({c:game,navigation,backdrops:{current:{} as any},setMessage(){},setSelected(){}});
+  routes.travelToChallenge(gaia,null);routes.travelToChallenge(gaia,'finish_with_crit');routes.travelToChallenge(gaia);
+  assert.deepEqual(travels.map(destination=>'variant' in destination),[true,true,false],'only a pick is carried');
+  const checked=travels.map(destination=>checkedLabel(dialogueMarkup(game,GAIA,destination.variant)));
+  assert.deepEqual(checked,['练习战',label(GAIA,'finish_with_crit'),label(GAIA,'within_2_turns')]);
 });
 
 t.finish();
