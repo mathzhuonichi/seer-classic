@@ -181,7 +181,6 @@ def curate(entries: dict[str, dict]) -> None:
         for key, value in fields.items():
             set_field(entries[boss_id], key, value, observed("This configured value or complete named loadout is explicitly reported by the cited period guide; it is not an official server dump.", [src]))
     # These reports name fewer than four attacks. Do not upgrade the whole loadout.
-    partial_skills(entries["boss_spt_nainifenduo"], [20314, 10725, 10724], CLASSIC)
     dark_members = {1: [("moyasha", 50, 300)], 2: [("beilujide", 60, 500)], 3: [("bafuluo", 70, 700), ("qilatadun", 75, 750)], 4: [("xisalasi", 80, 800), ("kelinkaxiu", 85, 800)], 5: [("kaku", 90, 900), ("hedeka", 95, 950), ("yilanluoni", 100, 1000)], 6: [("sijiaerka", 100, 1200), ("aieryiluo", 100, 1500), ("bulinkeke", None, 2000)], 7: [("mohuashizhe", 100, 1800), ("moerjiasi", 100, 2000), ("sanuolasi", 100, 2000)]}
     for door, members in dark_members.items():
         for name, level, hp in members:
@@ -203,10 +202,6 @@ def curate(entries: dict[str, dict]) -> None:
     entries["boss_spt_difute"]["members"][0].update({"displayLevelUnknown": True, "displayEvidence": observed("The 2011 report explicitly displays ??; internal level 80 is a remake estimate and must not replace the historical display.", [SPT2011])})
     # Narrow claims with disagreement or approximation stay inferred even when read.
     for boss_id, field, srcs, note in [
-        ("boss_spt_moguguai", "level", [MUSHROOM, LIST2011], "Level 15 in the 2010 source conflicts with level 10 in 2011 summaries; the selected version remains inferred."),
-        ("boss_spt_hamoleite", "hp", [CLASSIC, LIST2011], "The 2010 guide gives HP 10000 while the 2011 list gives 3000. The selected version remains inferred."),
-        ("boss_spt_naduolei", "hp", [NADUO], "The same page states 1400 HP, then quotes an estimate of 2000-3000. Exact selected HP remains unresolved."),
-        ("boss_spt_akexiya", "hp", [CLASSIC], "The guide says approximately 1000 HP; the exact integer remains an estimate."),
         ("boss_rei", "hp", [CLASSIC], "The 2010 guide reports 2800 HP; the configured 2000 is from a different 2011 source. Version consistency remains unresolved."),
         ("boss_spt_laokemengde", "hp", [LAOKE], "HP 5000 is reported for the energy field. Applying it to all three field variants remains inferred."),
         ("boss_dark_door8_paduoni", "hp", [DARK8], "The source says approximately 1600 HP; exact HP and level remain unverified."),
@@ -223,6 +218,15 @@ def curate(entries: dict[str, dict]) -> None:
         akenoya["members"][0]["fields"]["hp"] = evidence("inferred", "unverified", "The configured 1250 conflicts with a report of 2500 per life. A separate authorized data correction is pending.", [DARK9], observedValue=2500)
     for key in ("level", "hp"):
         entries["boss_spt_saiweier"]["members"][0]["fields"][key] = evidence("authored", "remake-policy", "The solo Seville encounter deliberately uses authored difficulty values; cooperative-era parameters are not substituted.")
+
+
+SEER_DATA = "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/"
+MAPS = source(SEER_DATA + "maps.json", "Official client config (seer_data a00bcdd): SPT rows Maps.Map[].Bosses.Boss[] give MonID, Hp and Lv. "
+              "Its levels agree with every period-stated SPT level checked; several single-player HP values are later reductions.", "verified-client")
+SOURCES[MAPS]["sha256"] = "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3"
+MONSTERS = source(SEER_DATA + "monsters.json", "Official client config (seer_data a00bcdd): learnsets of the boss-only forms. ID 5012 亚伦斯 (RealId 672), "
+                  "used by the SPT row, lists only 11668; ID 5022 斯普林特 lists 20933, 11836, 20934 and 11841.", "verified-client")
+SOURCES[MONSTERS]["sha256"] = "12d8c059973a9c03560d3739910ecb5a578da3a1235c24260279b723743d7936"
 
 
 def period(url: str, scope: str) -> str:
@@ -274,6 +278,96 @@ def curate_tower_high(entries: dict[str, dict]) -> None:
             set_field(tower(floor), "hp", 50 * floor - 1900, observed("The floor heading states this HP for each of its monsters.", [JUXIA]), slot=slot)
     for floor, slot, ids, srcs in TOWER_HIGH_MOVES:
         partial_skills(tower(floor), ids, srcs, slot=slot)
+G4399, G7K = "https://news.4399.com/seer/spt/", "http://news.7k7k.com/content/"
+AJIASHA = period(G4399 + "201201-10-137149.html", "Page dated 2012-01-10: 阿加莎，80级，草系，8000血左右, and four named attacks.")
+AKEXIYA = period(G4399 + "200911-23-48480.html", "Page dated 2009-11-23: 等级：65级, 阿克希亚生命：1000.")
+ANYE = period(G4399 + "201112-05-130110.html", "2011-12 report: 暗夜冰狐 level 80, HP 8000左右 and four named attacks.")
+BOKATE = period(G4399 + "201206-02-165052.html", "2012-06 report: 博卡特 体力12000.")
+DELASA = period(G7K + "20110328/82467.html", "2011-03-28 report: the 19:00-21:00 limited mode lowers 德拉萨's HP from 10000 to 5000 and weakens its attacks.")
+DELASA2 = period(G7K + "20110331/82812.html", "2011-03-31 report: the daytime 德拉萨 has 10000 HP and strong attacks; the evening one has 5000.")
+DIFUTE = period(G4399 + "201108-23-111513.html", "Page dated 2011-08-23: 迪符特 HP10000, unlimited PP.")
+EER_FRI = period(G7K + "20100816/12668.html", "2010-08-16 report: the Friday 厄尔塞拉 revives to its full 3000 HP.")
+EER_SUN = period(G7K + "20100809/12297.html", "2010-08-09 report: the Sunday 厄尔塞拉 has HP 5000.")
+FUXISI = period(G4399 + "201212-31-227044.html", "Page dated 2012-12-31: 弗希斯，草暗影系，体力10000.")
+GUER = period(G4399 + "201109-17-115971.html", "2011-09 report: 古尔扎迪，80级，地面系，5000血左右, and four named attacks.")
+HAMO = period(G7K + "20100816/12660.html", "2010-08-16 report: 哈默雷特有10000的血.")
+KAILUOYA = period(G4399 + "201203-17-148791.html", "Page dated 2012-03-17: four named 凯洛亚 attacks.")
+KALUNNI = period(G4399 + "201204-07-152582.html", "2012-04 report: 卡伦尼 血量8000 (有待验证).")
+KELAIFEN = period(G4399 + "201108-23-111468.html", "2011-08 report: the second 克莱芬 fight is level 80.")
+KELANITE = period(G4399 + "201011-22-81263.html", "Page dated 2010-11-22: the first 克拉尼特 form uses 火龙红莲击 until its PP is drained.")
+LANSITE = period(G4399 + "201202-08-141904.html", "2012-02 report: 兰斯特，80级，战斗地面系，12000血左右, and four named attacks.")
+LEINADUO = period(G4399 + "201006-05-70396.html", "2010-06-05 report: 雷纳多 level 75 and four named attacks.")
+LUOLA = period(G4399 + "201211-24-216477.html", "2012-11-24 report: 洛拉斯克 returns to level 100 after a capture; the original lowered its level with each win.")
+MUSH7K = period(G7K + "20100816/12649.html", "2010-08-16 report: 蘑菇怪 等级：10级.")
+PALISI = period(G4399 + "201208-22-189879.html", "Page dated 2012-08-22: 帕里斯 血量大概12000 and 帕里斯血量12000.")
+PULANTE = period(G4399 + "201205-19-161367.html", "2012-05-19 report: 8000血量; the boss uses 混沌绿光, 蚀梦术 and 灵光缠绕.")
+SIKELU = period(G4399 + "201209-21-199064.html", "Page dated 2012-09-21: 斯克鲁 体力8000.")
+TIYASI = period(G4399 + "201006-05-70393.html", "2010-06-05 report: 提亚斯 level 45 and four named attacks.")
+YALUNSI = period(G4399 + "201102-28-87994.html", "2011-02 report: 亚伦斯 体力为5000.")
+ROBOT2013 = source("https://web.archive.org/web/20130706235627id_/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
+                   "Official 2013-07-06 client PetXMLInfo (DefineBinaryData 196): boss-only form 2522 斯普林特 lists 20933, 11836, 20934, 11841.",
+                   "verified-client")
+# The V58 SPT fidelity pass: (boss suffix, field, value, kind, sources, note). observed = a period report states it; official = an
+# official client table states it; estimate = an approximate or single-tip report; partial = only the listed moves are named.
+SPT_CLAIMS = [
+    ("ajiasha", "level", 80, "observed", [AJIASHA], "The report states level 80."),
+    ("ajiasha", "hp", 8000, "estimate", [AJIASHA], "The report says about 8000 HP."),
+    ("ajiasha", "skills", [12494, 12495, 12491, 21296], "observed", [AJIASHA], "The report names all four attacks."),
+    ("akexiya", "hp", 1000, "observed", [AKEXIYA, MAPS], "The 2009 report states 1000 HP, as does the official SPT table."),
+    ("anyebinghu", "level", 80, "observed", [ANYE], "The report states level 80."),
+    ("anyebinghu", "hp", 8000, "estimate", [ANYE], "The report says about 8000 HP."),
+    ("anyebinghu", "skills", [12396, 12399, 12398, 21249], "observed", [ANYE], "The report names all four attacks."),
+    ("bokate", "hp", 12000, "observed", [BOKATE], "The report states 12000 HP; the later single-player 6000 is a reduction."),
+    ("delasa", "hp", 10000, "observed", [DELASA, DELASA2], "The daytime fight has 10000 HP. The evening limited mode (5000 HP) is not modelled."),
+    ("difute", "hp", 10000, "observed", [DIFUTE], "The report states HP 10000."),
+    ("eersaila", "hp", 3000, "estimate", [EER_FRI, EER_SUN], "Friday revives to its full 3000 HP; a Sunday report gives 5000, which no variant carries."),
+    ("fuxisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
+    ("fuxisi", "hp", 10000, "observed", [FUXISI], "The report states 体力10000."),
+    ("gangyasha", "hp", 200, "estimate", [LIST2011, MAPS], "A 2011 tip implies 200 HP (从200拉到50以下); the official team-fight row also has 200."),
+    ("guerzhadi", "level", 80, "observed", [GUER], "The report states level 80."),
+    ("guerzhadi", "hp", 5000, "estimate", [GUER], "The report says about 5000 HP."),
+    ("guerzhadi", "skills", [12213, 21145, 12215, 12212], "observed", [GUER], "The report names all four attacks."),
+    ("hamoleite", "hp", 10000, "observed", [CLASSIC, HAMO, MAPS],
+     "Two 2010 reports and the official map-348 SPT row give 10000; the 3000 copy is a weakened duplicate."),
+    ("kailuoya", "skills", [12661, 12660, 12658, 21383], "observed", [KAILUOYA], "The report names all four attacks."),
+    ("kalunni", "hp", 8000, "estimate", [KALUNNI], "The report gives 8000 HP and marks it unverified."),
+    ("kelaifen1", "level", 55, "official", [MAPS], "The official SPT table's 'SPT克莱芬难度1' row gives level 55."),
+    ("kelaifen2", "level", 80, "observed", [KELAIFEN], "The report states the rematch is level 80."),
+    ("kelanite1", "skills", [11357], "partial", [KELANITE], None),
+    ("lansite", "level", 80, "observed", [LANSITE], "The report states level 80."),
+    ("lansite", "hp", 12000, "estimate", [LANSITE], "The report says about 12000 HP."),
+    ("lansite", "skills", [12563, 12562, 12564, 21333], "observed", [LANSITE], "The report names all four attacks."),
+    ("leinaduo", "hp", 1500, "observed", [LIST2011], "The 2011 list states 1500 HP."),
+    ("leinaduo", "skills", [20145, 10331, 10336, 10335], "observed", [LEINADUO], "The report names all four attacks."),
+    ("luolasike", "level", 100, "observed", [LUOLA], "The fight starts at level 100; the per-win level decrease is not modelled."),
+    ("moguguai", "level", 10, "observed", [MUSH7K, LIST2011, SPT2011, MAPS, MUSHROOM],
+     "Four period reports and the official SPT table give level 10; the 2010-06 report's 15 is the SPT panel's recommended level."),
+    ("naduolei", "hp", 1400, "observed", [NADUO], "The report states 1400 HP; the same page's later 2000-3000 is a guess."),
+    ("nainifenduo", "skills", [20314, 10723, 10724, 10725], "observed", [CLASSIC, LIST2011], "The two reports together name all four attacks."),
+    ("palisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
+    ("palisi", "hp", 12000, "observed", [PALISI], "The report states 12000 HP."),
+    ("pulante", "hp", 8000, "observed", [PULANTE], "The report states 8000 HP."),
+    ("pulante", "skills", [12796, 12794, 21451], "partial", [PULANTE], None),
+    ("sikelu", "hp", 8000, "observed", [SIKELU, MAPS], "The report states 体力8000, as does the official SPT table."),
+    ("sipulinte", "skills", [20933, 11836, 20934, 11841], "official", [MONSTERS, ROBOT2013], "The boss form 5022 (2013: 2522) lists these four."),
+    ("tiyasi", "hp", 500, "official", [MAPS], "The official SPT table gives 500 HP for the single fight."),
+    ("tiyasi", "skills", [10161, 20082, 10162, 10163], "observed", [TIYASI], "The report names all four attacks."),
+    ("yalunsi", "hp", 5000, "observed", [YALUNSI], "The report states 体力为5000."),
+    ("yalunsi", "skills", [11668], "official", [MONSTERS], "The SPT boss form 5012 has the single move 交错冰柱."),
+]
+
+
+def curate_spt(entries: dict[str, dict]) -> None:
+    for suffix, field, value, kind, srcs, note in SPT_CLAIMS:
+        entry = entries["boss_spt_" + suffix]
+        if kind == "partial":
+            partial_skills(entry, value, srcs[0])
+        elif kind == "official":
+            set_field(entry, field, value, evidence("official", "official-client-table", note, srcs))
+        elif kind == "estimate":
+            set_field(entry, field, value, evidence("inferred", "explicit-estimate", note, srcs, observationStatus="observed"))
+        else:
+            set_field(entry, field, value, observed(note, srcs))
 
 
 def aggregate(fields: list[dict]) -> dict:
@@ -298,6 +392,7 @@ def build() -> tuple[dict, dict]:
     if len(entries) != 180 or sum(len(e["members"]) for e in entries.values()) != 247:
         raise ValueError("Encounter scope changed; review the expected 180 encounters / 247 members before regenerating.")
     curate(entries)
+    curate_spt(entries)
     for entry in entries.values():
         entry["userPolicies"] = [deepcopy(policy) for policy in USER_POLICY_LEDGER["policies"] if policy["bossId"] == entry["id"]]
     for entry in entries.values():

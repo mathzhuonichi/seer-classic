@@ -18,7 +18,7 @@
       "skills": [
         11358,
         20457,
-        11356,
+        11357,
         20528
       ],
       "hp_override": 1500
@@ -59,7 +59,7 @@
     "skills": [
       11358,
       20457,
-      11356,
+      11357,
       20528
     ]
   },
@@ -89,7 +89,7 @@
     "Pre-battle requirement: the player must wear no equipment (戴斯星 can only be walked without gear) — unlock flag no_equipment.",
     "PP-exhaust strategy is the classic answer, so no_struggle (a boss at 0 PP cannot act).",
     "Immune to 同生共死, 镇魂歌, 极度冰点; its own skills always hit.",
-    "Skills: the Lv50 learnset top four (火光四溅/火龙的咆哮/龙族之力/进攻意识); HP not published (1500 estimate).",
+    "Skills: 火龙红莲击 is reported (4399 2010-11-22: the first five pets drain its PP) and takes the slot of 龙族之力; 火光四溅/火龙的咆哮/进攻意识 remain the Lv50 learnset top moves. HP not published (1500 estimate).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

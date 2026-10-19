@@ -21,7 +21,7 @@
         11754,
         20878
       ],
-      "hp_override": 5000
+      "hp_override": 10000
     }
   ],
   "rules": [],
@@ -78,7 +78,7 @@
   },
   "engine_notes": [
     "Very thin sourcing: only the 4399 2011 summary (70级, 消强化 then 大招) and a 4399 问答 dated 2011-03-24.",
-    "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 5000 is an estimate.",
+    "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 10000 is the daytime fight (7k7k 2011-03-28 and 2011-03-31); the 19:00-21:00 limited mode (HP 5000, weaker attacks) is not modelled.",
     "skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
@@ -88,7 +88,6 @@
       "iv",
       "evs",
       "nature",
-      "hp",
       "skills",
       "innate_stage_stats",
       "rules"
@@ -96,7 +95,9 @@
   },
   "sources": [
     "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-    "http://wenda.4399.com/question/6/64186.html"
+    "http://wenda.4399.com/question/6/64186.html",
+    "http://news.7k7k.com/content/20110328/82467.html",
+    "http://news.7k7k.com/content/20110331/82812.html"
   ],
   "source_note": "4399 SPT+BOSS全攻略 (2011-07): 德拉萨 70级, 叶绿光束消强化然后大招; 4399 问答 2011-03-24."
 }

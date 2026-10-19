@@ -114,7 +114,7 @@ await withSsr('paid-spt-controller',async load=>{
  check('Real final named-SPT victory completes the mixed gate and unlocks an essence-only claim',()=>{
   assert(battleReward);const lastBoss=battleReward.prerequisites.findIndex(p=>p.kind==='boss'&&p.bossId==='boss_spt_delasa');
   const battleCatalog=structuredClone(catalog),attack=battleCatalog.skills.find(s=>s.id===10001);
-  assert(attack);attack.power=1000000;attack.accuracy=null;attack.priority=20;
+  assert(attack);attack.power=10000000;attack.accuracy=null;attack.priority=20;
   const battleSave=fixture(battleReward,lastBoss);
   battleSave.storage=structuredClone(starterSave.storage);battleSave.party=[...starterSave.party];battleSave.game.traits={};
   const battleGame=createGame(battleCatalog,JSON.stringify(battleSave));assert.equal(view(battleGame,battleReward).complete,false);
@@ -166,5 +166,5 @@ await withSsr('paid-spt-controller',async load=>{
  });
  check('Source catalog unchanged',()=>assert.equal(JSON.stringify(catalog),original,'Source catalog unchanged'));
  t.finish({rewardCount:rewards.length,journeySeed:JOURNEY_SEED,rows,
-  controlledBattle:{bossId:'boss_spt_delasa',questId:battleReward?.questId,testOnlySkillOverride:{id:10001,power:1000000,accuracy:null,priority:20}}});
+  controlledBattle:{bossId:'boss_spt_delasa',questId:battleReward?.questId,testOnlySkillOverride:{id:10001,power:10000000,accuracy:null,priority:20}}});
 });

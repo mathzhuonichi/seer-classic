@@ -5526,8 +5526,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -5546,8 +5546,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -5560,8 +5560,8 @@
           "species": 1061,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -5580,8 +5580,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -5591,8 +5591,8 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -5620,8 +5620,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "observed",
@@ -5654,8 +5654,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "observed",
@@ -5666,9 +5666,10 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
+        "https://news.4399.com/seer/spt/200911-23-48480.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201006-05-70394.html",
-        "https://news.7k7k.com/content/20110316/76862.html",
-        "https://www.weste.net/2010/9-15/72453.html"
+        "https://news.7k7k.com/content/20110316/76862.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -5685,8 +5686,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -5705,8 +5706,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -5719,8 +5720,8 @@
           "species": 1012,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -5739,8 +5740,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -5750,8 +5751,8 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -5859,8 +5860,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -5893,8 +5894,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -5938,8 +5939,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -5972,8 +5973,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -5984,6 +5985,8 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "http://news.7k7k.com/content/20110328/82467.html",
+        "http://news.7k7k.com/content/20110331/82812.html",
         "http://wenda.4399.com/question/6/64186.html"
       ],
       "summary": {
@@ -6017,8 +6020,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -6051,8 +6054,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -6063,8 +6066,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201108-23-111513.html",
+        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/zenmezhua/201106-10-99559.html",
         "https://news.4399.com/seer/tujian/99561.htm"
       ],
@@ -6145,10 +6148,10 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "http://news.7k7k.com/content/20100816/12668.html",
+        "http://news.7k7k.com/content/20100809/12297.html",
         "https://news.4399.com/seer/spt/201008-14-75469.html",
-        "https://wenda.4399.com/question/2/28746.html",
-        "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
-        "https://news.4399.com/seer/tujian/74884.htm"
+        "https://wenda.4399.com/question/2/28746.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -6173,8 +6176,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "iv": {
           "status": "inferred",
@@ -6189,8 +6192,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -6207,8 +6210,8 @@
           "species": 1477,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             },
             "iv": {
               "status": "inferred",
@@ -6223,8 +6226,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -6234,11 +6237,14 @@
         }
       ],
       "sourceUrls": [
-        "https://www.juxia.com/news/2012-12-28/73290.html"
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+        "https://news.4399.com/seer/spt/201212-31-227044.html",
+        "https://www.juxia.com/news/2012-12-28/73290.html",
+        "https://news.4399.com/gonglue/seer/saiergonglue/201212-26-225737.html"
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       },
@@ -6313,6 +6319,7 @@
       ],
       "sourceUrls": [
         "https://news.7k7k.com/content/20110316/76862.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201006-05-70390.html"
       ],
       "summary": {
@@ -6330,8 +6337,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -6350,8 +6357,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -6364,8 +6371,8 @@
           "species": 925,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -6384,8 +6391,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -6395,8 +6402,8 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -6424,8 +6431,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "observed",
@@ -6458,8 +6465,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "observed",
@@ -6470,10 +6477,10 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
-        "https://news.7k7k.com/content/20110316/76862.html",
+        "http://news.7k7k.com/content/20100816/12660.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://www.weste.net/2010/9-15/72453.html",
-        "https://www.techbang.com/posts/33164-order-spt-boss-raiders-hamo-hamlet-review",
-        "https://news.4399.com/seer/zenmezhua/201101-20-85001.html"
+        "https://news.7k7k.com/content/20110316/76862.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -6510,8 +6517,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -6544,8 +6551,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -6557,7 +6564,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -6727,8 +6734,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "iv": {
           "status": "inferred",
@@ -6761,8 +6768,8 @@
           "species": 855,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             },
             "iv": {
               "status": "inferred",
@@ -6788,12 +6795,13 @@
         }
       ],
       "sourceUrls": [
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201108-23-111468.html",
         "https://news.4399.com/jdseer/xinde/m/808365.html"
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       },
@@ -6806,8 +6814,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -6840,8 +6848,8 @@
           "species": 855,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -6872,7 +6880,7 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       },
@@ -7214,8 +7222,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -7231,11 +7239,11 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -7248,8 +7256,8 @@
           "species": 1085,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -7265,11 +7273,11 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -7280,8 +7288,8 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -7389,12 +7397,12 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -7423,12 +7431,12 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -7441,7 +7449,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -7532,8 +7540,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -7566,8 +7574,8 @@
           "species": 1431,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -7592,10 +7600,12 @@
           }
         }
       ],
-      "sourceUrls": [],
+      "sourceUrls": [
+        "https://news.4399.com/seer/spt/201211-24-216477.html"
+      ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       },
@@ -7765,8 +7775,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "iv": {
           "status": "inferred",
@@ -7799,8 +7809,8 @@
           "species": 47,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "iv": {
               "status": "inferred",
@@ -7826,13 +7836,15 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/spt/201006-05-70388.html",
+        "http://news.7k7k.com/content/20100816/12649.html",
         "https://news.7k7k.com/content/20110316/76862.html",
-        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+        "https://news.4399.com/seer/spt/201006-05-70388.html"
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
@@ -7955,8 +7967,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "observed",
@@ -7989,8 +8001,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "observed",
@@ -8038,8 +8050,8 @@
           "basis": "verified-period-observation"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -8072,22 +8084,22 @@
               "basis": "verified-period-observation"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
-        "https://news.4399.com/seer/spt/201006-05-70399.html",
         "https://news.7k7k.com/content/20110316/76862.html",
+        "https://news.4399.com/seer/spt/201006-05-70399.html",
         "https://www.weste.net/2010/9-15/72453.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -8178,8 +8190,8 @@
           "basis": "remake-policy"
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "iv": {
           "status": "inferred",
@@ -8194,8 +8206,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -8212,8 +8224,8 @@
           "species": 1304,
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             },
             "iv": {
               "status": "inferred",
@@ -8228,8 +8240,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -8239,11 +8251,12 @@
         }
       ],
       "sourceUrls": [
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201208-22-189879.html"
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       },
@@ -8350,8 +8363,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -8384,8 +8397,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -8667,8 +8680,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -8701,8 +8714,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -8712,6 +8725,8 @@
         }
       ],
       "sourceUrls": [
+        "https://news.4399.com/seer/spt/201209-21-199064.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81"
       ],
       "summary": {
@@ -8829,8 +8844,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "rules": {
           "status": "inferred",
@@ -8863,21 +8878,23 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             }
           }
         }
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
+        "https://web.archive.org/web/20130706235627id_/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
         "https://news.4399.com/seer/tujian/94787.htm",
         "https://news.5068.com/z/seer/gonglue/40335.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -9147,12 +9164,12 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -9181,26 +9198,27 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-        "https://news.7k7k.com/content/20110316/76862.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201006-05-70393.html",
+        "https://news.7k7k.com/content/20110316/76862.html",
         "https://news.7k7k.com/content/20100602/8159.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -9228,12 +9246,12 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "official",
+          "basis": "official-client-table"
         },
         "rules": {
           "status": "inferred",
@@ -9262,12 +9280,12 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "official",
+              "basis": "official-client-table"
             }
           }
         }
@@ -9275,12 +9293,13 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201102-28-87994.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
         "https://blog.sina.com.cn/s/blog_752dd1260100orml.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
