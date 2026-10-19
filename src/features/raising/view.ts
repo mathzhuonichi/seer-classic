@@ -1,5 +1,5 @@
 // Snapshot views of owned monsters, their skills and their engravings.
-import { activeBeads, computeStats, evolutionOptions, expToNext, releaseRefusal, type Boost, type Monster } from '../../../raising/core/index.ts';
+import { activeBeads, computeStats, evolutionOptions, expToNext, type Boost, type Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import { activeEngravings, engravingById, engravingStatBonus, type EngravingDefinition } from '../../domain/engravings/engravings.ts';
 import { traits } from '../../domain/traits.ts';
@@ -12,7 +12,7 @@ import {engravingHolder, engravingLedger, engravingView, equippedEngravings, typ
 import { portrait, skillView, typeLabel } from '../../shared/view-common.ts';
 
 /** The row fields that the rest of the save decides; every other field follows from the monster's own record. */
-const SAVE_FIELDS = ['trait', 'traitId', 'engravings', 'inParty', 'evolutionChoices', 'boosts', 'releaseBlockedReason'] as const;
+const SAVE_FIELDS = ['trait', 'traitId', 'engravings', 'inParty', 'evolutionChoices', 'boosts'] as const;
 type SaveFields = Pick<MonsterView, (typeof SAVE_FIELDS)[number]>;
 
 /** What every row of one snapshot shares: the party, each species' stored copies, the engravings' holders and the player-wide boosts. */
@@ -48,16 +48,12 @@ function evolutionChoices(ctx: GameContext, save: GameSave, index: SaveIndex, mo
 
 const traitById = new Map(traits.map(trait => [trait.id, trait]));
 
-/**
- * The trait, engravings, party place, evolution capacity, boosts (the player-wide ones and this monster's energy bead) and why 放生
- * is refused. `releaseBlockedReason` is always set, undefined included, so a row rebuilt from an older one drops an old reason.
- */
+/** The trait, engravings, party place, evolution capacity and boosts (the player-wide ones and this monster's energy bead). */
 function saveFields(ctx: GameContext, save: GameSave, index: SaveIndex, mon: Monster): SaveFields {
   const trait = traitById.get(save.game.traits[mon.uid]);
   return {
     trait: trait?.name ?? '无', traitId: trait?.id ?? null, engravings: monsterEngravings(ctx, save, mon, index.ledger), inParty: index.party.has(mon.uid),
     evolutionChoices: evolutionChoices(ctx, save, index, mon), boosts: [...index.boosts, ...activeBeads(save, mon.uid).map(index.boostView)],
-    releaseBlockedReason: releaseRefusal(save, mon.uid),
   };
 }
 

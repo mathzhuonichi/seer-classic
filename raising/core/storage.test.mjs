@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, release, rename, setPartyOrder, withdraw,
+  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, rename, setPartyOrder, withdraw,
 } from './index.ts';
 import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
@@ -25,7 +25,7 @@ test('the box takes any number of monsters once the party is full', () => {
   assert.deepEqual([boxOf(added).length, boxOf(added).at(-1).uid, added.party], [LARGE_BOX + 1, 'x', s.party]);
 });
 
-test('deposit, withdraw and release keep at least one party monster and at most six', () => {
+test('deposit and withdraw keep at least one party monster and at most six', () => {
   const s = saveWith(PARTY_MAX + 1);
   assert.throws(() => withdraw(s, 'm6'), /背包已满/);
   const fewer = deposit(s, 'm0');
@@ -34,21 +34,6 @@ test('deposit, withdraw and release keep at least one party monster and at most 
   assert.throws(() => withdraw(fewer, 'm1'), /already in the party/);
   const one = saveWith(1);
   assert.throws(() => deposit(one, 'm0'), /at least one/);
-  assert.throws(() => release(one, 'm0'), /最后一只出战精灵/);
-  assert.deepEqual(release(s, 'm6').storage.length, PARTY_MAX);
-  assert.throws(() => release(s, 'nope'), /no monster nope/);
-});
-
-test('release takes a party or box monster with its energy beads and keeps every other boost', () => {
-  const bead = (uid) => ({kind: 'energy_bead', item: 'bead', uid, battles_left: 2, stats: {atk: 10}});
-  const s = {...saveWith(PARTY_MAX + 1), boosts: [{kind: 'exp', item: 'exp', multiplier: 2, battles_left: 3}, bead('m6'), bead('m0')]};
-  const boxed = release(s, 'm6'), member = release(s, 'm0');
-  assert.deepEqual(boxed.boosts, [s.boosts[0], s.boosts[2]]);
-  assert.deepEqual([member.party, member.boosts], [['m1', 'm2', 'm3', 'm4', 'm5'], [s.boosts[0], s.boosts[1]]]);
-  const unboosted = saveWith(PARTY_MAX + 1);
-  delete unboosted.boosts;
-  assert.equal('boosts' in release(unboosted, 'm6'), false, 'a save without boosts gains no boost list');
-  assert.equal(s.boosts.length, 3, 'the input save is never changed');
 });
 
 test('setPartyOrder takes only a permutation of the party', () => {
@@ -96,14 +81,14 @@ test('storage operations never change the save they are given and keep every rec
   const changed = (next) => next.storage.filter((m) => !s.storage.includes(m)).map((m) => m.uid);
   const hatched = hatchEssence(s, essence, dex, rng(3)), healedSave = healAll(s, dex);
   assert.deepEqual(
-    [addMonster(s, mon('new')), deposit(s, 'm0'), withdraw(fewer, 'm0'), setPartyOrder(s, [...s.party].reverse()), release(s, 'm6')].map(changed),
-    [['new'], [], [], [], []]);
+    [addMonster(s, mon('new')), deposit(s, 'm0'), withdraw(fewer, 'm0'), setPartyOrder(s, [...s.party].reverse())].map(changed),
+    [['new'], [], [], []]);
   assert.deepEqual([rename(s, 'm2', 'x'), healedSave, hatched.save].map(changed), [['m2'], ['m1', 'm3', 'm4'], [hatched.mon.uid]],
     'only m1, m3 and m4 need healing');
   for (const m of healedSave.storage) assert.deepEqual([m.hp, m.status, m.pp], [computeStats(m, dex).hp, null, {1: 11}], `${m.uid} is healed`);
   const refusals = [
     [() => addMonster(s, mon('m0')), /duplicate uid/], [() => withdraw(s, 'm6'), /背包已满/], [() => deposit(s, 'm6'), /not in the party/],
-    [() => setPartyOrder(s, ['m0']), /permutation/], [() => release(s, 'nope'), /no monster nope/],
+    [() => setPartyOrder(s, ['m0']), /permutation/],
     [() => rename(s, 'm0', '一二三四五六七八九十一二三'), /at most 12/], [() => hatchEssence(s, {...essence, id: 'none'}, dex, rng()), /no none left/],
   ];
   for (const [refused, error] of refusals) assert.throws(refused, error);

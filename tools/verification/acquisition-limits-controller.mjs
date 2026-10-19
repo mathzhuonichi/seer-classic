@@ -18,8 +18,6 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');
  const {Rng}=await load('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
- const {engravings}=await load('/src/domain/engravings/engravings.ts');
- const {engravingAccess}=await load('/src/domain/engravings/engraving-access.ts');
  const {PARTY_MAX}=await load('/raising/core/storage.ts');
  const {readLocalSave}=await load('/src/kernel/persistence.ts');
  const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
@@ -88,29 +86,12 @@ await withSsr('acquisition-limits-controller',async load=>{
   assert.deepEqual(gained(g,before),[[reward.rewardSpecies,false],[reward.rewardSpecies,false]],'Both hatch into the box');
   persisted(g);
  });
- check('放生 takes a stored or party monster with its trait, bead and engravings, never the last party monster',()=>{
-  const save=structuredClone(base),[lead,second,third]=save.party,finite=engravings.find(def=>!engravingAccess(def).unlimited);assert(finite);
-  save.game.modules[second]={engravings:[finite.id]};save.game.engravingStock={};
-  save.boosts=[{kind:'energy_bead',item:'bead',uid:second,battles_left:3,stats:{atk:10}},{kind:'exp',item:'exp',multiplier:2,battles_left:3}];
-  const g=make(save);assert(parse(g).game.traits[second],'Fixture monster has a trait');
-  // The pet bag's 资料 tab offers 放生 for any monster but the last one in the party.
-  const monster=uid=>g.snapshot().monsters.find(m=>m.uid===uid);
-  const releaseSection=uid=>renderToStaticMarkup(React.createElement(ProfileTab,{m:monster(uid),c:g,feedback:'',say(){}}))
-   .match(/<section class="raising-release">.*?<\/section>/)?.[0]??'';
-  const releaseButton=uid=>releaseSection(uid).match(/<button[^>]*>放生[^<]*<\/button>/)?.[0]??'';
-  assert.match(releaseButton(second),/^<button>放生/,'A party monster with company can be released');
-  assert.equal(monster(second).releaseBlockedReason,undefined);
-  g.dispatch({type:'release',uid:second});const after=parse(g);
-  assert.deepEqual(after.party,[lead,third]);assert(!after.storage.some(m=>m.uid===second));assert.equal(after.game.traits[second],undefined);
-  assert.equal(after.game.modules[second],undefined);assert.equal(after.game.engravingStock[finite.id],1,'A finite engraving returns to stock');
-  assert.deepEqual(after.boosts,[save.boosts[1]],'The bead of the released monster goes with it');
-  assert.deepEqual(after.dex,save.dex,'The collection record stays');
-  assert.deepEqual(parse(make(after)).storage,after.storage,'The released save reloads as is');
-  g.dispatch({type:'release',uid:third});reject(g,{type:'release',uid:lead},'The last party monster stays');
-  const refusal=g.snapshot().notices[0];assert.match(refusal,/最后一只出战精灵不能放生/);
-  assert.equal(monster(lead).releaseBlockedReason,refusal,'The monster view carries the refusal the action gives');
-  assert(releaseSection(lead).includes(`<p>${refusal}</p>`),'The bag states that refusal');
-  assert.match(releaseButton(lead),/^<button disabled="">放生/,'The bag disables 放生 for the last party monster');
+ check('No monster can be released: the 资料 tab offers no 放生 and the controller has no release action',()=>{
+  const g=make(structuredClone(base)),uid=g.snapshot().party[1],monster=g.snapshot().monsters.find(m=>m.uid===uid);
+  const profile=renderToStaticMarkup(React.createElement(ProfileTab,{m:monster,c:g,feedback:'',say(){}}));
+  assert(profile.includes('精灵进化')&&!profile.includes('放生'),'The 资料 tab shows evolution and no release');
+  assert(!('releaseBlockedReason' in monster),'The monster view carries no release state');
+  reject(g,{type:'release',uid},'A release action changes nothing');
  });
  check(`A journey reward joins a box of ${LARGE_BOX} monsters while the party is full`,()=>{
   const save=largeBox(structuredClone(base),19);save.game.battlesWon=1;
@@ -199,11 +180,15 @@ await withSsr('acquisition-limits-controller',async load=>{
    assert.deepEqual(after.rng_state,before.rng_state);
    if(name==='pooled EXP auto evolution')assert(after.exp_pool<before.exp_pool);
    if(name==='level item training')assert.equal(after.items.item_level_up_1,before.items.item_level_up_1,'Unlimited raising items keep the saved count');
-   // 放生 one copy of the target frees the allowance the cap notice asks for.
-   g.dispatch({type:'release',uid:parse(g).storage.find(m=>m.species===target).uid});
-   g.dispatch({type:'evolve',uid:mon.uid});assert.equal(parse(g).storage.find(m=>m.uid===mon.uid).species,target);
-   assert.equal(parse(g).storage.filter(m=>m.species===target).length,6);
   }
+ });
+ check('Evolving one copy of a capped species frees the allowance another evolution asks for',()=>{
+  const save=copies(structuredClone(base),2,6),mon={...template(1,18),uid:'evolution-source'};save.storage.push(mon);
+  const g=make(save),[copy]=parse(g).storage.filter(m=>m.species===2);reject(g,{type:'evolve',uid:mon.uid},'Six 布布草 block another');
+  accept(g,{type:'allocateExp',uid:copy.uid,amount:1e9});
+  assert.equal(parse(g).storage.find(m=>m.uid===copy.uid).species,3,'Pooled experience evolves that 布布草 into a 布布花');
+  accept(g,{type:'evolve',uid:mon.uid});assert.equal(parse(g).storage.find(m=>m.uid===mon.uid).species,2);
+  assert.equal(parse(g).storage.filter(m=>m.species===2).length,6);
  });
  /**
   * Two 布布种子 one point short of Lv18, with `held` 布布草, both take part in a won wild battle: the lead, then the one switched

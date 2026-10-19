@@ -10,7 +10,6 @@ export type RaisingAction =
   | {type: 'heal'}
   | {type: 'party'; uid: string; add: boolean}
   | {type: 'rename'; uid: string; name: string}
-  | {type: 'release'; uid: string}
   | {type: 'equip'; uid: string; skills: number[]}
   | {type: 'train'; uid: string; stat: StatKey; amount: number}
   | {type: 'setEvs'; uid: string; evs: StatBlock}

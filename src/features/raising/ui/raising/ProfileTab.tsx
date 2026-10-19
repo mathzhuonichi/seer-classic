@@ -6,7 +6,7 @@ import {CreatureArt} from '../../../../shared/ui/CreatureArt.tsx';
 import {useGame} from '../../../../shared/ui/use-game.ts';
 import {feedbackFor,type TabProps} from './dispatch-feedback.ts';
 
-/** 资料: nickname, the 经验分配器, evolution and 放生. */
+/** 资料: nickname, the 经验分配器 and evolution. */
 export default function ProfileTab({m,c,feedback,say}:TabProps) {
   const expPool=useGame(c,s=>s.expPool),[nickname,setNickname]=useState(m.name),[amount,setAmount]=useState('1000');
   useEffect(()=>setNickname(m.name),[m.uid,m.name]);
@@ -23,22 +23,8 @@ export default function ProfileTab({m,c,feedback,say}:TabProps) {
       <button className="primary" disabled={!canAllocate} onClick={allocate}>分配经验</button>
     </div></section>
     <EvolutionSection key={m.species} {...{m,c,feedback,say}}/>
-    <ReleaseSection {...{m,c,feedback,say}}/>
     <p className="management-feedback" role="status">{feedback}</p>
   </div>;
-}
-
-/** 放生 after a confirmation, unless the view says why it is refused. The bag then selects another monster, so the result is the action's notice. */
-function ReleaseSection({m,c,say}:TabProps) {
-  const [confirming,setConfirming]=useState(false),refusal=m.releaseBlockedReason;
-  const release=()=>{setConfirming(false);say(c.dispatch({type:'release',uid:m.uid}).notice??'')};
-  const intro=refusal??(confirming?`确定放生${m.name}吗？放生后无法找回。`:'放生后这只精灵会永久离开，刻印退回库存；图鉴收集记录保留。');
-  return <section className="raising-release"><h4>放生精灵</h4>
-    <p>{intro}</p>
-    {confirming?<div className="management-inline-form" role="group" aria-label={`确认放生${m.name}`}>
-      <button className="primary" onClick={release}>确认放生</button><button autoFocus onClick={()=>setConfirming(false)}>取消</button>
-    </div>:<button disabled={!!refusal} onClick={()=>setConfirming(true)}>放生{m.name}</button>}
-  </section>;
 }
 
 const selectable=(choice:EvolutionChoiceView)=>!choice.blockedReason;
