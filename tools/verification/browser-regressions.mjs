@@ -39,6 +39,8 @@ const LAB_POSITION = {x: 48, y: 62};
 const BREEDING_COPIES = 4;
 /** The tower save has cleared these floors, so the Brave Tower window offers to resume the next one. */
 const TOWER_CLEARED = 3;
+/** The facilities save stands in the space-station hall at its 对战终端 (world-scene.ts), which opens the battle facilities. */
+const FACILITY_HALL = {planetId: 'space-station', regionId: 'resources', x: 69, y: 44};
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
@@ -73,16 +75,22 @@ async function fixtures() {
       dispatch(game, {type: 'buyEngraving', engravingId: RAISED_ENGRAVING});
     });
     const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
-    const lab = journey({[LAB_ESSENCE]: 1}, game => labParents(game, dispatch));
+    const plain = journey(), lab = journey({[LAB_ESSENCE]: 1}, game => labParents(game, dispatch));
     const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
+    const hallPlace = entries(() => writeWorldPreference({...FACILITY_HALL, visited: []}));
     // A new save has no game extras yet; the loader fills in the others.
     const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
-    const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot};
+    const saves = {
+      journey: plain.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
+      facilities: {...plain.slot, ...hallPlace},
+    };
+    const facilities = plain.game.snapshot().facilities.map(({name, teams}) => ({name, teams: !!teams?.length}));
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
     const labEssence = lab.game.snapshot().items.find(item => item.id === LAB_ESSENCE);
     const shopTab = pockets.ITEM_POCKETS.find(([pocket]) => pocket === pockets.itemPocket(labEssence.kind))[1];
-    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), lab: {essence: labEssence.name, shopTab}};
+    const essence = essenceLabels(hatching.game.snapshot().items, pockets);
+    return {silent, saves, tools, essence, lab: {essence: labEssence.name, shopTab}, facilities};
   });
 }
 
@@ -371,6 +379,10 @@ const LAYOUT_CHECKS = [
   {name: 'no property on the essence order form, engraving shop and fusion and breeding result cards is decided by the bundle order', save: 'lab',
     run: layout.labCascade},
   {name: 'no property on the SPT window and the Brave Tower resume row is decided by the bundle order', save: 'tower', run: layout.towerCascade},
+  {name: 'no property on the battle facilities window\'s tabs is decided by the bundle order', save: 'facilities', run: layout.facilityCascade},
+  // The smallest frame also gives the facilities panel its short, scrolling layout.
+  {name: `no property on the battle facilities window's tabs is decided by the bundle order at ${size(layout.NARROW_VIEWPORTS.at(-1))}`,
+    save: 'facilities', viewport: layout.NARROW_VIEWPORTS.at(-1), run: layout.facilityCascade},
 ];
 
 /** Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default). */

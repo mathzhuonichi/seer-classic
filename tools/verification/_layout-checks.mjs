@@ -1,7 +1,7 @@
 /**
  * Layout and clickability checks for browser-regressions.mjs: the styling fixes of the wave-3 D-styles unit, each something
- * only a rendered page shows, and the bundle-order audit (`_cascade.mjs`) over the screens that unit restyled. Every check
- * takes the suite's `{page, fixture}` and throws on failure.
+ * only a rendered page shows, and the bundle-order audit (`_cascade.mjs`) over the screens that unit restyled and the battle
+ * facilities window. Every check takes the suite's `{page, fixture}` and throws on failure.
  */
 import assert from 'node:assert/strict';
 import {
@@ -228,6 +228,24 @@ export async function labCascade({page, fixture}) {
       await page.click('.world-scene button.world-lab-breeding');
       await confirmRecipe(page, '.breeding-panel', '繁殖并孵化');
     }],
+  ]);
+}
+
+/**
+ * The facilities save stands at the space-station hall's 对战终端, which opens the battle facilities window; each facility tab
+ * is audited in turn. The fixed-team facility opens on a trained member, whose training note sits in the member detail.
+ */
+export async function facilityCascade({page, fixture}) {
+  await auditScreens(page, [
+    ['the battle facilities window', async () => {
+      await waitWorld(page);
+      await page.locator('.world-station-terminal[data-station-action^="facilities:"]').evaluate(element => element.click());
+      await page.waitForSelector('.battle-facilities');
+    }],
+    ...fixture.facilities.map(({name, teams}) => [`the ${name} tab`, async () => {
+      await page.click(`.battle-facilities .facility-mode-tabs>button:text-is("${name}")`);
+      if (teams) await page.waitForSelector('.facility-member-detail .facility-training>p', {timeout: HIT_TIMEOUT_MS});
+    }]),
   ]);
 }
 
