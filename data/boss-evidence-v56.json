@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 407,
+    "ruleNodes": 408,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -22428,7 +22428,7 @@
       "id": "boss_spt_luolasike",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_luolasike.json",
-      "sourceSha256": "61b87ca8e8fe17caca5d1112ef6c0304c0880147e3969785cd88286df3bbb316",
+      "sourceSha256": "fd1c2058c1a51558faeb426e03f71b29b41dc914715ccbfbf53d3377f9e187d3",
       "sourceNoteSha256": "0ab6ea547cb518ce2eeacc7411130a9fc68b57aeebe3b1df7521531f3d5edb16",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201211-24-216477.html"
@@ -22467,7 +22467,7 @@
             "level": {
               "status": "observed",
               "basis": "verified-period-observation",
-              "note": "The fight starts at level 100; the per-win level decrease is not modelled.",
+              "note": "The fight starts at level 100; each win lowers it by 5 and each lost fight by 1, down to level 1.",
               "sources": [
                 "src-31893ebfc3b7"
               ]
@@ -22545,6 +22545,28 @@
         },
         {
           "index": 2,
+          "path": "rules[2]",
+          "rule": "level_drops_per_attempt",
+          "configuration": {
+            "rule": "script",
+            "id": "level_drops_per_attempt",
+            "params": {
+              "start": 100,
+              "step_win": -5,
+              "step_loss": -1,
+              "floor": 1
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 3,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
