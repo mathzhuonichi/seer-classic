@@ -4,6 +4,7 @@ import { braveTowerFloor } from '../challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../challenges/challenge-campaigns.ts';
 import type { AcquisitionCatalog, AcquisitionEncounter, AcquisitionSpecies } from './acquisition-model.ts';
 import { buildPredecessors, initialFormOf } from './species-graph.ts';
+import { isHatchingEssence } from './acquisition-limits.ts';
 
 type EssenceSource = Pick<AcquisitionEncounter, 'reward_hatches' | 'reward' | 'team'>;
 /**
@@ -59,7 +60,7 @@ export interface BossEssenceReward {
  * registers these items for the controller.
  */
 export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceReward[] {
-  const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches!]));
+  const bindings = new Map((catalog.items ?? []).filter(item => isHatchingEssence(item)).map(item => [item.id, item.hatches]));
   const predecessors = buildPredecessors(catalog.species);
   return catalog.bosses.flatMap(boss => {
     const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));

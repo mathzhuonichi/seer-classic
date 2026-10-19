@@ -4,6 +4,7 @@ import type { Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
 import { isShopItemAvailable } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
+import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
 import type { ItemView, ShopItemView } from '../../shared/views.ts';
 import { allowance, capacityReason } from '../../kernel/acquire.ts';
@@ -100,7 +101,7 @@ export function createShopViews(ctx: GameContext) {
     const unlocked = new Set(save.game.shopUnlocked);
     return products.filter(item => isShopItemAvailable(item, unlocked)).map(product => {
       const item = { ...product, count: inventory[product.id] ?? 0 };
-      if (item.kind !== 'essence' || item.hatches === undefined) return { ...item, maxQuantity: SHOP_MAX_QUANTITY };
+      if (!isHatchingEssence(item)) return { ...item, maxQuantity: SHOP_MAX_QUANTITY };
       const stock = allowance(ctx, save, item.hatches);
       const blockedReason = !isSpeciesRepeatable(item.hatches) ? '此精灵的来源只允许领取一次。' : capacityReason(ctx, save, item.hatches);
       return { ...item, allowance: stock, maxQuantity: blockedReason ? 0 : stock.remaining, blockedReason };

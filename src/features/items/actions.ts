@@ -1,6 +1,6 @@
 // Action handlers for the shop, items and essences.
 import { activeBeads, findMon, hatchEssence, useRaisingItem, type RaisingItem } from '../../../raising/core/index.ts';
-import { SPECIES_COPY_LIMIT, acquisitionLimitReason } from '../../domain/acquisition/acquisition-limits.ts';
+import { SPECIES_COPY_LIMIT, acquisitionLimitReason, isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { isShopItemAvailable } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import type { GameAction } from '../../kernel/contract.ts';
@@ -29,10 +29,11 @@ const buyItem: ActionHandler<'buyItem'> = (rt, action) => {
     return;
   }
   if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > SHOP_MAX_QUANTITY) throw new Error(`购买数量须为1至${SHOP_MAX_QUANTITY}的整数。`);
-  if (item.kind === 'essence' && typeof item.hatches === 'number') {
-    if (!isSpeciesRepeatable(item.hatches)) throw new Error('此精灵的来源只允许领取一次。');
-    const stock = allowance(ctx, save, item.hatches);
-    if (quantity > stock.remaining) throw new Error(acquisitionLimitReason(ctx.speciesName(item.hatches), stock));
+  const essence = ctx.itemDefinitions.get(itemId);
+  if (isHatchingEssence(essence)) {
+    if (!isSpeciesRepeatable(essence.hatches)) throw new Error('此精灵的来源只允许领取一次。');
+    const stock = allowance(ctx, save, essence.hatches);
+    if (quantity > stock.remaining) throw new Error(acquisitionLimitReason(ctx.speciesName(essence.hatches), stock));
   }
   save.items[itemId] = (save.items[itemId] ?? 0) + quantity;
   notice(rt, `免费购买：${itemName(item)} ×${quantity}，已加入道具背包。`);

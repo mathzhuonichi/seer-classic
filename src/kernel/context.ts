@@ -4,7 +4,7 @@ import { AI_POLICY } from '../../battle/ai/src/index.ts';
 import { makeDex, type Dex, type Nature, type Skill, type Species } from '../../raising/core/index.ts';
 import type { CatalogData } from '../domain/catalog/catalog.ts';
 import { traits, type TraitDefinition } from '../domain/traits.ts';
-import type { EssenceDefinition } from '../domain/acquisition/acquisition-limits.ts';
+import { isHatchingEssence, type EssenceDefinition } from '../domain/acquisition/acquisition-limits.ts';
 import { buildFacilityViews } from '../domain/challenges/battle-facilities.ts';
 import { braveTowerFloor } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../domain/challenges/challenge-campaigns.ts';
@@ -103,7 +103,7 @@ export function createGameContext(source: CatalogData, dependencies: GameDepende
 function essencesBySpecies(definitions: readonly EssenceDefinition[]) {
   const result = new Map<number, EssenceDefinition[]>();
   for (const item of definitions) {
-    if (item.kind !== 'essence' || item.hatches === undefined) continue;
+    if (!isHatchingEssence(item)) continue;
     const list = result.get(item.hatches) ?? [];
     list.push(item);
     result.set(item.hatches, list);
