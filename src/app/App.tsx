@@ -1,7 +1,7 @@
 import {useCallback,useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
 import {createGame} from '../kernel/game.ts';
 import {loadCatalog} from '../domain/catalog/catalog.ts';
-import type { GameController, GameSnapshot } from '../kernel/contract.ts';
+import type { GameController } from '../kernel/contract.ts';
 import {Battle,BattleLoading} from '../features/battle/ui.ts';
 import {WorldMap} from '../features/world/ui.ts';
 import {ChallengeCampaignScene} from '../features/challenges/ui.ts';
@@ -16,7 +16,7 @@ import {useShellAudio} from './useShellAudio.ts';
 import {useShellNavigation} from './useShellNavigation.ts';
 import {locationBackdrop, type BattleBackdrop} from '../features/battle/index.ts';
 import {useGameDisplay} from '../shared/game-display.ts';
-import {battleActive} from '../shared/view-helpers.ts';
+import {battleActive,questAlert} from '../shared/view-helpers.ts';
 import {COMPACT_WINDOWS,WINDOW_TITLES,campaignForAction,startsBattle,type WindowKind} from './shell-navigation.ts';
 import {readWorldPreference} from '../domain/world/world.ts';
 import {gameAudio} from '../shared/audio/game-audio.ts';
@@ -38,7 +38,6 @@ function downloadSave(json:string){
 }
 
 const NOTICE_MS=3500;
-const questAlert=(s:Pick<GameSnapshot,'quests'>)=>s.quests.some(quest=>quest.newReward);
 
 /** The shell's own state and the snapshot selections it renders: navigation, selections, the modifier and the toast. */
 function useShellState(c:GameController){

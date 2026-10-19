@@ -14,6 +14,7 @@ await withSsr('paid-spt-controller',async load=>{
  const {STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {buildRecruitmentRewards,recruitmentProgress,ACQUISITION_POLICIES}=await load('/src/domain/acquisition/recruitment.ts');
  const {buildPaidSPTRecruitments}=await load('/src/domain/acquisition/spt-recruitment.ts');
+ const {questAlert}=await load('/src/shared/view-helpers.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog),rewards=buildRecruitmentRewards(catalog);
  const parse=g=>JSON.parse(g.exportSave());
  const journey=createGame(catalog,JSON.stringify(newSave(JOURNEY_SEED)));
@@ -128,11 +129,25 @@ await withSsr('paid-spt-controller',async load=>{
   assert.equal(claimed.items[battleReward.itemId],(won.items[battleReward.itemId]??0)+1);
   assert.equal(view(createGame(battleCatalog,battleGame.exportSave()),battleReward).complete,true,'Settled named clear survives reload');
  });
- check('A journey reward alerts until it is claimed',()=>{
+ check('The toolbar quest alert lights for a reward not taken yet: a journey reward until claimed, never a repeat claim',()=>{
   const save=structuredClone(starterSave);save.game.battlesWon=1;save.game.quests=[];save.game.recruitmentClaims={};
-  const g=make(save),row=()=>g.snapshot().quests.find(q=>q.id==='first-victory');
-  assert.equal(row().newReward,true);g.dispatch({type:'claimQuest',questId:'first-victory'});
-  assert.equal(row().claimed,true);assert.equal(row().newReward,false);
+  const g=make(save),quests=()=>g.snapshot().quests,alert=()=>questAlert(g.snapshot()),claim=id=>g.dispatch({type:'claimQuest',questId:id});
+  assert.equal(alert(),true,'An unclaimed journey reward lights the alert');
+  // Take each new reward once: 初次胜利 pays 皮皮, which completes a repeatable recruitment.
+  const taken=[];
+  while(alert()){
+   const next=quests().find(q=>q.newReward);assert(next?.claimable,'A lit alert has a new, claimable reward behind it');
+   assert(!taken.includes(next.id),`${next.id} lights the alert again once taken`);
+   assert.equal(claim(next.id).ok,true);taken.push(next.id);
+  }
+  assert(taken.includes('first-victory'));assert.equal(quests().find(q=>q.id==='first-victory').claimed,true);
+  const repeat=quests().find(q=>q.claimable);
+  assert(repeat?.repeatable&&repeat.claimCount>0,'A repeat claim is still offered with the alert off');
+  assert.equal(claim(repeat.id).ok,true);assert.equal(alert(),false,'A repeat claim leaves the alert off');
+  const later=JSON.parse(g.exportSave());later.game.battlesWon=3;g.importSave(JSON.stringify(later));
+  assert.deepEqual(quests().filter(q=>q.newReward).map(q=>q.id),['three-victories']);
+  assert.equal(claim(repeat.id).ok,true);assert.equal(alert(),true,'An unclaimed journey reward keeps the alert on through a repeat claim');
+  assert.equal(claim('three-victories').ok,true);assert.equal(alert(),false,'Claiming it puts the alert out');
  });
  check('SPT 挑战者 counts a clear of any encounter the archive lists under SPT首领, and of nothing else',()=>{
   const probe=make(base),{bosses,campaigns}=probe.snapshot(),stages=new Set(campaigns.flatMap(c=>c.stages.flatMap(s=>s.bossIds)));

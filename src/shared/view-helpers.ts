@@ -6,6 +6,9 @@ export const hpPercent=(hp:number,maxHp:number)=>Math.max(0,Math.min(100,hp/maxH
 /** True while a battle is open and not yet finished. */
 export const battleActive=(snapshot:{battle?:{finished:boolean}|null})=>!!snapshot.battle&&!snapshot.battle.finished;
 
+/** The toolbar's quest alert: some reward is ready that was never taken before (a repeat claim does not light it). */
+export const questAlert=(snapshot:{quests:readonly {newReward:boolean}[]})=>snapshot.quests.some(quest=>quest.newReward);
+
 /**
  * The selected item of a list whose pick a click or a use pins: until one is picked (`picked` is empty) `first` is shown; a
  * picked item the list no longer holds selects nothing, so a confirm button cannot use up a different item.
