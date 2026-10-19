@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {validateEncounter} from '../../../battle/core/src/index.ts';
-import {partyRefusalText} from './party-rules.ts';
+import {partyRefusalText, partyRuleTexts} from './party-rules.ts';
 
 const names = {70: '雷伊', 72: '盖亚'};
 const speciesName = id => names[id];
@@ -10,6 +10,13 @@ const encounter = {id: 'party-rules-fixture', team: [], rules: [
   {rule: 'script', id: 'require_player_species', params: {species: [70, 72]}}, {rule: 'no_items'},
 ]};
 const member = (species, level) => ({species, level, skills: [1]});
+
+test('every party rule kind is stated before the start', () => {
+  assert.deepEqual(partyRuleTexts(encounter, speciesName), [
+    '只能派 2 只精灵出战。', '至少要派 1 只精灵出战。', '出战精灵等级至少 30 级。', '出战精灵等级不超过 60 级。', '只能派雷伊或盖亚出战。',
+  ]);
+  assert.deepEqual(partyRuleTexts({rules: [{rule: 'no_items'}]}, speciesName), []);
+});
 
 test('the refusal names each broken rule with what the team has against it, then where to adjust it', () => {
   const team = [member(70, 20), member(1, 80), member(72, 40)];

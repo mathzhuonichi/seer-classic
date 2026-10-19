@@ -1,12 +1,20 @@
 import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {partyRules} from '../../battle/core/src/index.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {STARTER_LEVEL,STARTER_SPECIES} from '../../src/domain/economy.ts';
+import {findChallengeLocation,resolveWorldLocation} from '../../src/domain/world/world.ts';
 import {newSave} from '../../src/kernel/save.ts';
+import {challengeDetail,challengeEntries} from '../../src/features/challenges/challenge-center.ts';
+import {buildWorldDialogue,buildWorldScene} from '../../src/features/world/world-scene.ts';
+import {WorldDialogue} from '../../src/features/world/ui/WorldDialogue.tsx';
 import {suite} from './_harness.mjs';
 
-// Boss party rules through the real controller: the refusal notice of each rule kind.
+// Boss party rules through the real controller: the refusal notice of each rule kind, and the rules stated in the
+// challenge archive and the Boss world dialogue before the start.
 const t=suite('boss-party-rules');
 const SEED=0x9a27e,REI=70,FIXTURE_BOSS='boss_spt_saiweier',FIXTURE_LEVEL_CAP=50;
 const ADJUST='请在精灵背包中调整出战精灵后再挑战。';
@@ -47,4 +55,24 @@ t.check('A party that meets the rule starts the battle',()=>{
   assert.equal(single.dispatch({type:'startBattle',bossId:'boss_buleike'}).ok,true);assert.equal(single.snapshot().battle?.party.length,1);
 });
 
-t.finish({});
+const game=journey(source),s=game.snapshot(),entries=challengeEntries(s);
+const stated:Record<string,string[]>={
+  boss_buleike:['只能派 1 只精灵出战。'],boss_spt_ruiersi:['只能派 1 只精灵出战。'],
+  boss_tower_brave_mystery:['至少要派 6 只精灵出战。','出战精灵等级至少 100 级。'],boss_spt_saiweier:[],
+};
+t.check('The challenge archive detail states each Boss party rule before the start',()=>{
+  for(const [id,rules] of Object.entries(stated))assert.deepEqual(challengeDetail(entries.find(entry=>entry.id===id)!,s,false).rules,rules,id);
+  const ruled=source.bosses.filter((boss:any)=>partyRules(boss).length);
+  for(const boss of ruled)assert.equal(s.bosses.find(view=>view.id===boss.id)!.partyRules?.length,partyRules(boss).length,boss.id);
+  assert.equal(ruled.length,8,'Bulaike, Ruiersi, the five Rei trainings and the Mystery Realm carry party rules');
+});
+t.check('The Boss world dialogue states the party rule before the start',()=>{
+  for(const id of ['boss_buleike','boss_spt_ruiersi']){
+    const destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
+    const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
+    assert.deepEqual(view.partyRules,stated[id],id);
+    const markup=renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,onClose(){},onToggleDetails(){},onChooseStart(){}}));
+    assert(markup.includes('挑战条件：只能派 1 只精灵出战。'),`${id}: the dialogue shows the rule`);
+  }
+});
+t.finish({stated});

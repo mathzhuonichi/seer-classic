@@ -1,5 +1,5 @@
-// The player's wording of the Boss party rules: the refusal when the team breaks one.
-import type { PartyRefusal, PartyRule } from '../../../battle/core/src/index.ts';
+// The player's wording of the Boss party rules: each rule as stated before the start, and the refusal when the team breaks it.
+import { partyRules, type BossEncounter, type PartyRefusal, type PartyRule } from '../../../battle/core/src/index.ts';
 
 type SpeciesName = (species: number) => string;
 
@@ -21,6 +21,11 @@ function refusalCount(refusal: PartyRefusal): string {
     case 'level_min': return `${refusal.slots.length} 只未达到`;
     case 'species': return `${refusal.slots.length} 只不符合`;
   }
+}
+
+/** The encounter's party rules as sentences, stated before the start. */
+export function partyRuleTexts(encounter: Pick<BossEncounter, 'rules'>, speciesName: SpeciesName): string[] {
+  return partyRules(encounter).map(rule => `${ruleClause(rule, speciesName)}。`);
 }
 
 /** The refusal notice for the rules the team breaks, and where to adjust it. */

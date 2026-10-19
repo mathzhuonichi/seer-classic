@@ -43,6 +43,7 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
       {!boss.tower&&<BossEvidence evidence={boss.evidence}/>}
       {boss.category==='trainer'&&!!boss.opponents?.length&&<section className="trainer-roster" aria-label="训练师队伍"><strong>对方阵容 · {boss.opponents.length} 只精灵</strong><div>{boss.opponents.map((opponent,index)=><article key={`${index}-${opponent.species}`}><div className="trainer-roster-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></article>)}</div></section>}
       <div className="challenge-description"><strong>挑战地点</strong><p>{campaign?.location??landingName}</p><p>{detail.instruction}</p></div>
+      {!!detail.rules.length&&<div className="challenge-description"><strong>挑战条件</strong>{detail.rules.map(rule=><p key={rule}>{rule}</p>)}</div>}
       <div className="challenge-description"><strong>{campaign?'挑战流程':'挑战提示'}</strong>{campaign?campaign.stages.map((stage,index)=><p key={stage.id}>{stage.cleared?'✓':index+1} · {stage.name}</p>):<p>{boss.description||'带上精灵伙伴，挑战这位星际首领。'}</p>}</div>
       <div className="challenge-reward-note"><strong>通关奖励</strong><span>{detail.reward}</span></div>
       <div className="management-confirm-row"><span className="management-hint">精灵背包 {partySize} / {PARTY_MAX}</span><button className="primary" disabled={!launch} onClick={()=>launch?.()}>{detail.action}</button></div>

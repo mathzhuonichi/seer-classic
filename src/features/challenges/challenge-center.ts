@@ -79,6 +79,8 @@ export interface ChallengeDetail {
   status:string;
   /** How the challenge begins. */
   instruction:string;
+  /** The rules on the player's team, stated before the start; empty when the challenge has none. */
+  rules:string[];
   reward:string;
   action:string;
 }
@@ -105,7 +107,7 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
-    instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
+    instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],rules:entry.partyRules??[],
     reward:rewardNote(entry,kind,s),action:ACTIONS[kind],
   };
 }
