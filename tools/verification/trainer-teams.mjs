@@ -62,9 +62,14 @@ await withSsr('trainer-teams',async load=>{
   const candidate=createGame(fixture,winningSave),before=JSON.parse(candidate.exportSave());candidate.dispatch({type:'startBattle',bossId:trainer.id});
   let actions=0;while(!candidate.snapshot().battle?.finished&&actions++<20)candidate.dispatch({type:'move',skillId:10031});
   const b=candidate.snapshot().battle,after=JSON.parse(candidate.exportSave());
-  check(`${trainer.id}: victory grants standard rewards without new essence or collection`,()=>{assert(b?.finished&&b.won);assert.equal(after.game.coins-before.game.coins,500);assert(after.exp_pool-before.exp_pool>=1000,'Victory includes the 1000 bonus plus ordinary defeated-monster experience');
-   const paid=`挑战成功，奖励已入账。获得 500 赛尔豆及 ${after.exp_pool-before.exp_pool} 积累经验。`;assert.equal(b.result,paid,'the result states the actual pooled experience');assert.equal(candidate.snapshot().notices[0],paid);
-   assert.deepEqual(after.dex,before.dex);assert.deepEqual(after.game.shopUnlocked,before.game.shopUnlocked);assert.deepEqual(after.items,before.items);assert(after.progress.bosses_cleared.includes(trainer.id));assert(!candidate.snapshot().shopItems.some(row=>row.id.includes('trainer_')));});
+  check(`${trainer.id}: victory grants standard rewards without new essence or collection`,()=>{
+   assert(b?.finished&&b.won);assert.equal(after.game.coins-before.game.coins,500);
+   assert(after.exp_pool-before.exp_pool>=1000,'Victory includes the 1000 bonus plus ordinary defeated-monster experience');
+   const paid=`挑战成功，奖励已入账。获得 500 赛尔豆及 ${after.exp_pool-before.exp_pool} 积累经验。`;
+   assert.equal(b.result,paid,'the result states the actual pooled experience');assert.equal(candidate.snapshot().notices[0],paid);
+   assert.deepEqual(after.dex,before.dex);assert.deepEqual(after.game.shopUnlocked,before.game.shopUnlocked);assert.deepEqual(after.items,before.items);
+   assert(after.progress.bosses_cleared.includes(trainer.id));assert(!candidate.snapshot().shopItems.some(row=>row.id.includes('trainer_')));
+  });
   controller.push({trainer:trainer.id,fixture:'one-HP reward integration only',actions,coins:after.game.coins-before.game.coins,pooledExperience:after.exp_pool-before.exp_pool});
  }
  const balanced=[

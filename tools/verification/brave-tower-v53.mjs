@@ -141,7 +141,9 @@ await withSsr('brave-tower-v53',async load=>{
   check('Ordinary bosses bypass the checkpoint gate; the unnumbered Mystery Realm is open before and after floor 60 and leaves the climb unchanged',()=>{
     const mystery='boss_tower_brave_mystery';
     for(const [bossId,save] of [['boss_spt_liaosi',base],[mystery,withProgress(59,60)],[mystery,withProgress(60,61)]]){
-      const game=make(save),before=progress(game),battle=start(game,{type:'startBattle',bossId});assert.equal(battle.name,catalog.bosses.find(boss=>boss.id===bossId).name.zh);assert.deepEqual(progress(game),before);leave(game);assert.deepEqual(progress(game),before);
+      const game=make(save),before=progress(game),battle=start(game,{type:'startBattle',bossId});
+      assert.equal(battle.name,catalog.bosses.find(boss=>boss.id===bossId).name.zh);assert.deepEqual(progress(game),before);
+      leave(game);assert.deepEqual(progress(game),before);
       assert.equal(parse(game).progress.boss_attempts[bossId],1);assert(!parse(game).progress.bosses_cleared.includes(bossId));
     }
   });

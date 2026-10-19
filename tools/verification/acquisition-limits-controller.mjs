@@ -190,7 +190,10 @@ await withSsr('acquisition-limits-controller',async load=>{
    assert.equal(parse(g).storage.filter(m=>m.species===target).length,6);
   }
  });
- /** Two 布布种子 one point short of Lv18, with `held` 布布草, both take part in a won wild battle: the lead, then the one switched in to win. */
+ /**
+  * Two 布布种子 one point short of Lv18, with `held` 布布草, both take part in a won wild battle: the lead, then the one switched
+  * in to win.
+  */
  const seedsWin=held=>{
   const save=copies(structuredClone(base),2,held),seeds=['lead','relief'].map(role=>({...template(1,17),uid:`battle-evolution-${role}`}));
   for(const mon of seeds)mon.exp=expToNext(source.species.find(species=>species.id===1).growth,17)-1;

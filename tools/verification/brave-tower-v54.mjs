@@ -155,7 +155,9 @@ await withSsr('brave-tower-v54',async load=>{
   check('Daidaiyong also comes from a collection recruitment without a floor-70 clear, and evolves into each branch',()=>{
     const reward=buildRecruitmentRewards(original).find(row=>row.rewardSpecies===366);assert(reward,'呆呆蛹 has a collection recruitment');
     const save=fixture();
-    for(const condition of reward.prerequisites)if(condition.kind==='species')save.dex.owned.push(condition.species);else save.progress.bosses_cleared.push(condition.bossId);
+    for(const condition of reward.prerequisites){
+      if(condition.kind==='species')save.dex.owned.push(condition.species);else save.progress.bosses_cleared.push(condition.bossId);
+    }
     const game=make(save);assert.equal(game.dispatch({type:'claimQuest',questId:reward.questId}).ok,true);
     assert.equal(parse(game).items[reward.itemId],1);assert(!parse(game).progress.bosses_cleared.includes(floorId(70)));
     game.dispatch({type:'useItem',itemId:reward.itemId,uid:game.snapshot().party[0]});
