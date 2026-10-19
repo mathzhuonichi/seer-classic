@@ -10,14 +10,14 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
-import {BOOT_TIMEOUT_MS, buildApp, openGame, withBrowser} from './_browser.mjs';
+import {
+  BOOT_TIMEOUT_MS, SETTLE_MS, buildApp, closeWindow, count, openGame, openTool, robot, talkToCreature, tool, wait, waitWorld, withBrowser,
+} from './_browser.mjs';
 
 const NAME = 'browser-regressions';
 const DIST = path.join(root, 'artifacts', NAME, 'dist');
 const ENGINES = ['chrome', 'webkit'];
 const CHECK_TIMEOUT_MS = 60_000;
-/** Time for a key press to take effect (or, for a check that nothing happened, to have taken effect). */
-const SETTLE_MS = 250;
 const SAVE_SEED = 20261018;
 /** The essence that sorts first in its pocket, so the bag shows it before any pick. */
 const SHOWN_ESSENCE = {id: 'essence_recruit_200', copies: 1};
@@ -86,25 +86,11 @@ function essenceLabels(held, pockets) {
   };
 }
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function press(page, keys) { for (const key of keys) { await page.keyboard.press(key); await wait(SETTLE_MS); } }
-const robot = page => page.$eval('.world-player', element => `${element.style.left} ${element.style.top}`);
 const windows = page => page.$$eval('.scene-window', list => list.map(element => element.getAttribute('aria-label')));
-const count = (page, selector) => page.locator(selector).count();
 /** Moves the mouse off every tile and lets a hover tooltip close (its Escape listener goes with it). */
 const awayFromTiles = async page => { await page.mouse.move(2, 2); await wait(SETTLE_MS); };
 const focusInside = (page, selector) => page.evaluate(selector => !!document.activeElement?.closest(selector), selector);
-const waitWorld = page => page.waitForSelector('.world-scene .world-player', {timeout: BOOT_TIMEOUT_MS});
-const tool = (fixture, id) => fixture.tools.find(entry => entry.id === id);
-
-async function openTool(page, {label, title}) {
-  await page.click(`.game-toolbar button[aria-label="${label}"]`);
-  await page.waitForSelector(`.scene-window[aria-label="${title}"]`);
-}
-async function closeWindow(page, title) {
-  await page.keyboard.press('Escape');
-  await page.waitForSelector(`.scene-window[aria-label="${title}"]`, {state: 'detached'});
-}
 /** Presses `key` up to `times` times and counts the presses that left the focus inside `selector`. */
 async function tabStopsInside(page, selector, key, times) {
   let inside = 0;
@@ -125,11 +111,6 @@ async function openModifier(page, fixture) {
   await openTool(page, tool(fixture, 'settings'));
   await page.click('.scene-window button:text-is("修改器")');
   await page.waitForSelector('.modifier-dialog');
-}
-/** Opens the world dialogue of the first wild creature (the robot walks up to it). */
-async function talkToCreature(page) {
-  await page.locator('.world-roamer').first().evaluate(element => element.click());
-  await page.waitForSelector('.world-dialogue');
 }
 
 async function bootAndWindows({page, errors, failed, fixture}) {
@@ -342,7 +323,7 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
-/** Each check runs in every engine, in a fresh browser with its save (`journey` by default). */
+/** Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default). */
 const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
   {name: 'the arrows do not walk the robot behind a window or the modifier, and walk again after closing', run: arrowsBehindCovers},
@@ -371,7 +352,7 @@ const seconds = since => Number(((performance.now() - since) / 1000).toFixed(1))
 function runCheck(engine, check) {
   const label = `${engine}: ${check.name}`, began = performance.now();
   return withBrowser(engine, browser => t.checkAsync(label, async () => {
-    const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.saves[check.save ?? 'journey']});
+    const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.saves[check.save ?? 'journey'], viewport: check.viewport});
     try { await within(CHECK_TIMEOUT_MS, check.run({...session, engine, fixture})); } finally { await session.context.close(); }
   })).then(skipped => { if (!skipped) timings[label] = seconds(began); return skipped; });
 }
