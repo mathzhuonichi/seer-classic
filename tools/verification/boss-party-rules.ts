@@ -8,7 +8,8 @@ import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {STARTER_LEVEL,STARTER_SPECIES} from '../../src/domain/economy.ts';
 import {findChallengeLocation,resolveWorldLocation} from '../../src/domain/world/world.ts';
 import {newSave} from '../../src/kernel/save.ts';
-import {challengeDetail,challengeEntries} from '../../src/features/challenges/challenge-center.ts';
+import {challengeDetail,challengeEntries,challengeRows} from '../../src/features/challenges/challenge-center.ts';
+import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import {buildWorldDialogue,buildWorldScene} from '../../src/features/world/world-scene.ts';
 import {WorldDialogue} from '../../src/features/world/ui/WorldDialogue.tsx';
 import {suite} from './_harness.mjs';
@@ -65,6 +66,17 @@ t.check('The challenge archive detail states each Boss party rule before the sta
   const ruled=source.bosses.filter((boss:any)=>partyRules(boss).length);
   for(const boss of ruled)assert.equal(s.bosses.find(view=>view.id===boss.id)!.partyRuleTexts?.length,partyRules(boss).length,boss.id);
   assert.equal(ruled.length,8,'Bulaike, Ruiersi, the five Rei trainings and the Mystery Realm carry party rules');
+});
+t.check('The challenge archive renders the selected Boss party rules as a 挑战条件 block, and none for a Boss without them',()=>{
+  // The archive opens on a tab's first row, so a fixture gives that row a team-size rule.
+  const first=challengeRows(entries,'spt','')[0]!,render=(c:GameController)=>
+    renderToStaticMarkup(createElement(ChallengeCenter,{c,initialCategory:'spt',onTravel(){}}));
+  assert.equal(first.partyRuleTexts,undefined,`${first.id} carries no party rule`);
+  const plain=render(game);assert(plain.includes(`<h3>${first.name}</h3>`),'The archive shows the first row');
+  assert(!plain.includes('挑战条件'),`${first.id}: no rules block without party rules`);
+  const ruled=structuredClone(source),boss=ruled.bosses.find((row:any)=>row.id===first.id);
+  boss.rules=[...boss.rules??[],{rule:'player_team_size',max:1}];
+  assert(render(journey(ruled)).includes('<strong>挑战条件</strong><p>只能派 1 只精灵出战。</p>'),`${first.id}: the archive shows the rule`);
 });
 t.check('The Boss world dialogue states the party rule before the start',()=>{
   for(const id of ['boss_buleike','boss_spt_ruiersi']){
