@@ -45,10 +45,10 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
  * The settled outcome as the player reads it: the battle's last dialogue line, and the scene's notice once the battle closes.
  * It names the outcome once, a challenge's in challenge wording, with what it gave or what to do next: where a capture went,
  * or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message (a floor passed, a
- * stage completed, an essence or a skill gained) stands for its win. The settlement's notes follow: what a victory paid, and
- * the automatic evolutions made or kept back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the
- * retreat), so it does not name the outcome again; only a wild win's end line names the win (战斗胜利！), since this text then
- * names only the reward.
+ * stage completed, an essence or a skill gained) stands for its win. The settlement's notes follow: what the battle paid (a
+ * victory's rewards, or the pooled experience a non-win's knockouts still added), and the automatic evolutions made or kept
+ * back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the retreat), so it does not name the
+ * outcome again; only a wild win's end line names the win (战斗胜利！), since this text then names only the reward.
  */
 export function resultText(session: BattleSession): string {
   const result = session.battle.result;

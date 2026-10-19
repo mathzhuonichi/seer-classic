@@ -18,16 +18,18 @@ const purse = ({ ctx, save }: Runtime): Purse => ({
 });
 
 /**
- * What a victory paid since `before`: its coins, if any, its pooled experience (the victory bonus plus the knockout shares of
- * Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装.
+ * What the battle paid since `before`: a victory's coins, if any, its pooled experience (the victory bonus plus the knockout
+ * shares of Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装. A settled non-win pays only
+ * the knockout shares of its Lv100 participants still standing (an unmet objective, a lose condition), or nothing: then ''.
  */
 function payoutText(ctx: GameContext, before: Purse, after: Purse): string {
   const coins = after.coins - before.coins, exp = after.exp - before.exp;
-  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
   const collectibles = Object.entries(after.collectibles).flatMap(([id, count]) => {
     const gained = count - (before.collectibles[id] ?? 0);
     return gained > 0 ? [`${itemName(ctx, id)}${gained > 1 ? `×${gained}` : ''}`] : [];
   });
+  if (!coins && !exp && !collectibles.length) return '';
+  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
   return collectibles.length ? `${amounts}，另获得${collectibles.join('、')}。` : `${amounts}。`;
 }
 
@@ -94,13 +96,15 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
 }
 
 /**
- * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and which
- * `evolutions` were made or kept back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
+ * A victory's rewards and the challenge's progress. The result then says what the battle paid since `before`, a non-win too
+ * when its knockouts added pooled experience, and which `evolutions` were made or kept back, and a notice repeats it. A capture
+ * is a wild victory: its result also says where the catch went.
  */
 function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, evolutions: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (result.success) session.resultNotes.push(payoutText(rt.ctx, before, purse(rt)));
+  const paid = payoutText(rt.ctx, before, purse(rt));
+  if (paid) session.resultNotes.push(paid);
   session.resultNotes.push(...evolutions);
   if (!session.resultNotes.length) return;
   const text = resultText(session);

@@ -56,6 +56,11 @@ function shield(){
   const id='boss-variants-shield';
   battle.active(0).conditions.push({id,def:{id,removed_on_switch:false,hooks:[{on:'modify_damage_taken',multiplier:0}]},turns:Infinity,appliedTurn:0});
 }
+/** The pooled experience a settled non-win still paid since `before` (an exported save), in the result text's words, or ''. */
+function poolText(game:GameController,before:any){
+  const exp=parse(game).exp_pool-before.exp_pool;
+  return exp?`获得 ${exp} 积累经验。`:'';
+}
 /** The party reduced to its first member. */
 function loseQuickly(game:GameController){
   for(const uid of game.snapshot().party.slice(1))game.dispatch({type:'party',uid,add:false});
@@ -109,9 +114,15 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   assert(view.result.startsWith(`已达成规则「${label(GAIA,'within_2_turns')}」的目标。提坦精元已入库`),view.result);
   assert.deepEqual(parse(game).game.bossVariants,{[GAIA]:['within_2_turns']});assert(parse(game).progress.bosses_cleared.includes(GAIA));
   game.dispatch({type:'closeBattle'});
+  const missed=parse(game);
   start(game,GAIA,'survive_10_then_ko');view=knockOut(game);
   assert.deepEqual([view.won,essences()],[false,1],'knocked out before turn 10: no essence');
-  assert.equal(view.result,`对手已倒下，但未达成规则「${label(GAIA,'survive_10_then_ko')}」的目标，本次挑战未通过，请按规则要求重试。`);
+  // The Lv 100 lead's knockout share still reaches the pool, and the result says so; no coins or victory are paid.
+  const pool=poolText(game,missed);
+  assert(pool,'the knockout pays pooled experience');
+  assert.deepEqual([parse(game).game.coins,parse(game).game.battlesWon],[missed.game.coins,missed.game.battlesWon]);
+  assert.equal(view.result,`对手已倒下，但未达成规则「${label(GAIA,'survive_10_then_ko')}」的目标，本次挑战未通过，请按规则要求重试。${pool}`);
+  assert.equal(game.snapshot().notices[0],view.result,'the settlement notice states it');
   game.dispatch({type:'closeBattle'});
   start(game,GAIA,'finish_with_crit');forceCrits();view=knockOut(game);
   assert.deepEqual([view.won,essences()],[true,2],'a critical final hit meets 致命一击');
@@ -152,21 +163,23 @@ t.check('厄尔塞拉 pays its essence on any variant clear; 周五 only on a st
   assert.deepEqual(parse(game).game.bossVariants,{[EERSAILA]:['mon','fri']});
 });
 
-t.check('厄尔塞拉 pays nothing when a direct knockout sticks after 周五’s revives, nor on a defeat',()=>{
+t.check('厄尔塞拉 pays no essence or victory when a direct knockout sticks after 周五’s revives, nor on a defeat',()=>{
   const game=journey(),before=parse(game),revives=encounter(EERSAILA).variants.find((entry:any)=>entry.id==='fri').rules[0].params.max_revives;
   const friday=start(game,EERSAILA,'fri').active(1);shield();
   let revived=0;
   for(let turn=0;turn<3*revives&&!game.snapshot().battle!.finished;turn++)if(!knockOut(game).finished&&friday.hp===friday.maxHp)revived++;
   const view=game.snapshot().battle!,after=parse(game);
   assert.deepEqual([view.finished,view.won,revived],[true,false,revives],'the knockout after the last revive sticks');
-  assert.equal(view.result,`对手已倒下，但未达成规则「${label(EERSAILA,'fri')}」的目标，本次挑战未通过，请按规则要求重试。`);
+  // Only the Lv 100 lead's knockout share reaches the pool, and the result says how much.
+  assert.equal(view.result,`对手已倒下，但未达成规则「${label(EERSAILA,'fri')}」的目标，本次挑战未通过，请按规则要求重试。${poolText(game,before)}`);
   assert.deepEqual([after.items.essence_eersaila,after.game.bossVariants,after.progress.bosses_cleared,after.game.battlesWon],
     [undefined,{},before.progress.bosses_cleared,before.game.battlesWon],'no essence, variant, clear or victory');
   // A lone poisoned member at one HP falls on turn 1.
-  const lost=loseQuickly(journey());start(lost,EERSAILA,'mon');battle.active(0).hp=1;battle.applyStatus(battle.active(0),'poison',{turns:4,fromFoe:true});
+  const lost=loseQuickly(journey()),unpaid=parse(lost);
+  start(lost,EERSAILA,'mon');battle.active(0).hp=1;battle.applyStatus(battle.active(0),'poison',{turns:4,fromFoe:true});
   lost.dispatch({type:'move',skillId:attack(lost)});
   const defeat=lost.snapshot().battle!;
-  assert.deepEqual([defeat.finished,defeat.won],[true,false]);
+  assert.deepEqual([defeat.finished,defeat.won,poolText(lost,unpaid)],[true,false,''],'a defeat without a knockout pays nothing');
   assert(defeat.result.endsWith(`本次未达成规则「${label(EERSAILA,'mon')}」的目标。`),defeat.result);
   assert.deepEqual([parse(lost).items.essence_eersaila,parse(lost).game.bossVariants],[undefined,{}]);
 });

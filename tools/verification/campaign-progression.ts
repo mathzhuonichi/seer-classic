@@ -164,4 +164,20 @@ t.check('a replayed stage says it was passed again, and only a new clear says th
   assert.equal(learned,`雷伊领悟了「极光刃」，可在技能管理中装备。${learnedPaid}`);
   assert.equal(retrained,`本阶段再次通过。${retrainedPaid}`,'a 雷伊 that already knows 极光刃 learns nothing');assert.deepEqual(record,['liaosi']);
 });
+t.check('a training knockout that misses the stage objective names the pooled experience its Lv 100 雷伊 still earned',()=>{
+  // 雷伊 knocks the 1-HP 里奥斯 out with another skill than 白光刃: no clear, no coins and no skill, but the knockout's share.
+  const missed=createGame(structuredClone(fixture),JSON.stringify(newSave(0x71cafe)));
+  missed.dispatch({type:'cheatAcquire',species:70,level:100});
+  const before=JSON.parse(missed.exportSave()),notices=missed.snapshot().notices.length;
+  missed.dispatch({type:'startCampaignStage',campaignId:'rei-training',stageId:'liaosi'});
+  for(let turn=0;turn<5&&!missed.snapshot().battle!.finished;turn++)
+    missed.dispatch({type:'move',skillId:missed.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0&&skill.id!==10170)!.id});
+  const view=missed.snapshot().battle!,after=JSON.parse(missed.exportSave()),exp=after.exp_pool-before.exp_pool;
+  assert.deepEqual([view.finished,view.won,view.resultReason],[true,false,'ko']);
+  assert(exp>0,'the Lv 100 雷伊 passes its knockout share to the pool');
+  assert.deepEqual([after.game.coins,after.game.battlesWon,after.game.campaigns['rei-training']??[]],[before.game.coins,before.game.battlesWon,[]]);
+  assert(!after.storage.find((mon:any)=>mon.species===70).learned.includes(10823),'no skill is taught');
+  assert.equal(view.result,`对手已倒下，但本关的特训条件尚未满足，请按场景中的要求重试。获得 ${exp} 积累经验。`);
+  assert.deepEqual([missed.snapshot().notices.length,missed.snapshot().notices[0]],[notices+1,view.result],'the settlement notice states it');
+});
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});
