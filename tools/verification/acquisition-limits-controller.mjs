@@ -14,6 +14,7 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
  const {newSave}=await load('/src/kernel/save.ts');
  const {buildRecruitmentRewards}=await load('/src/domain/acquisition/recruitment.ts');
+ const {buildAcquisitionIndex}=await load('/src/domain/acquisition/acquisition.ts');
  const {FUSION_RECIPES,fusionBeadItemId,chooseFusionOutcome}=await load('/src/domain/recipes/fusion.ts');
  const {Rng}=await load('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
@@ -103,6 +104,15 @@ await withSsr('acquisition-limits-controller',async load=>{
   g.dispatch({type:'release',uid:`full-box-${PARTY_MAX}`});assert.equal(parse(g).storage.length,PARTY_MAX+BOX_MAX-1);
   assert.equal(row().claimable,true);assert.equal(row().blockedReason,undefined);
   g.dispatch({type:'claimQuest',questId:'first-victory'});assert(parse(g).game.quests.includes('first-victory'));assert.equal(row().claimed,true);
+ });
+ check('Each journey quest\'s acquisition route words its name and task as its quest row does',()=>{
+  const index=buildAcquisitionIndex(source),quests=make(base).snapshot().quests.filter(row=>row.group==='journey');
+  assert.deepEqual(quests.map(quest=>quest.id),['first-victory','three-victories','first-spt']);
+  for(const quest of quests){
+   const task=quest.description.match(/^(.+)，领取.+。$/)?.[1];assert(task,`${quest.id}: the row states its task`);
+   const labels=index.get(quest.rewardSpecies).routes.filter(route=>route.kind==='quest'&&route.questId===quest.id).map(route=>route.label);
+   assert.deepEqual(labels,[`船长任务「${quest.name}」：${task}后领取${quest.rewardName}`],quest.id);
+  }
  });
  check('A full box refuses a capture with the journey row\'s text, which points to 放生',()=>{
   const save=structuredClone(base),filler=template(19);save.storage=[];save.game.traits={};

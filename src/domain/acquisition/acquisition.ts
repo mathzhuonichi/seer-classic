@@ -2,7 +2,7 @@ import { NIAO_CAPTURE_PARTNERS } from '../../../battle/core/src/capture.ts';
 import { MAX_LEVEL } from '../../../raising/core/growth.ts';
 import { WORLD_PLANETS, type WorldPlanet } from '../world/world.ts';
 import {
-  JOURNEY_QUEST_SPECIES, NPC_ONLY_SPECIES,
+  JOURNEY_QUESTS, NPC_ONLY_SPECIES,
   type AcquisitionCatalog, type AcquisitionFamily, type AcquisitionRoute, type AcquisitionSeed, type AcquisitionSpecies,
   type SpeciesAcquisition,
 } from './acquisition-model.ts';
@@ -17,11 +17,6 @@ import { getEligibleRecruitmentSPTs } from './spt-recruitment.ts';
 
 /** Niao (尼奥) can only be captured while one of NIAO_CAPTURE_PARTNERS is active. */
 const NIAO_SPECIES = 416;
-const JOURNEY_QUEST_LABELS: Record<keyof typeof JOURNEY_QUEST_SPECIES, string> = {
-  'first-victory': '船长任务「初次胜利」：赢得一场战斗后领取皮皮',
-  'three-victories': '船长任务「成长之路」：赢得三场战斗后领取比比鼠',
-  'first-spt': '船长任务「SPT 挑战者」：击败任意一位 SPT首领后领取巴鲁斯',
-};
 
 interface RouteIndex {
   index: Map<number, SpeciesAcquisition>;
@@ -56,11 +51,11 @@ function createRouteIndex(catalog: AcquisitionCatalog): RouteIndex {
 type SpeciesName = (id: number) => string;
 type Definitions = ReadonlyMap<number, AcquisitionSpecies>;
 
-/** New-journey starters and the captain's journey quests. */
-function journeySeeds(): AcquisitionSeed[] {
-  const quests = Object.entries(JOURNEY_QUEST_LABELS).map(([questId, label]): AcquisitionSeed => {
-    const id = JOURNEY_QUEST_SPECIES[questId as keyof typeof JOURNEY_QUEST_SPECIES];
-    return { species: id, route: { kind: 'quest', entrySpecies: id, questId, label } };
+/** New-journey starters and the captain's journey quests whose species the catalog holds. */
+function journeySeeds(definitions: Definitions): AcquisitionSeed[] {
+  const quests = JOURNEY_QUESTS.flatMap(({ id: questId, name, task, species: id }): AcquisitionSeed[] => {
+    const species = definitions.get(id);
+    return species ? [{ species: id, route: { kind: 'quest', entrySpecies: id, questId, label: `船长任务「${name}」：${task}后领取${species.name.zh}` } }] : [];
   });
   const starters = STARTER_SPECIES.map((id): AcquisitionSeed => ({ species: id, route: { kind: 'starter', entrySpecies: id, label: '新旅程开始时赠送 Lv.5 初始伙伴' } }));
   return [...starters, ...quests];
@@ -198,7 +193,7 @@ export function buildAcquisitionIndex(catalog: AcquisitionCatalog, planets: read
     .filter(boss => boss.team.every(mon => definitions.has(mon.species)))
     .map(boss => [boss.id, boss]));
   const routes = createRouteIndex(catalog), habitat = habitatSeeds(catalog, planets, definitions);
-  const direct = [...journeySeeds(), ...habitat.direct, ...bossEssenceSeeds(catalog, definitions),
+  const direct = [...journeySeeds(definitions), ...habitat.direct, ...bossEssenceSeeds(catalog, definitions),
     ...additionalSeeds.filter(seed => seed.prerequisites === undefined)];
   for (const seed of direct) routes.add(seed.species, seed.route);
   const gated = additionalSeeds.filter(seed => seed.prerequisites !== undefined);

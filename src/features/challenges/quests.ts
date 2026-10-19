@@ -1,6 +1,6 @@
 // Journey quests and SPT recruitment quests: views and claims.
 import type { GameSave } from '../../kernel/api.ts';
-import { JOURNEY_QUEST_SPECIES } from '../../domain/acquisition/acquisition-model.ts';
+import { JOURNEY_QUESTS, type JourneyQuest } from '../../domain/acquisition/acquisition-model.ts';
 import { recruitmentProgress, type RecruitmentReward } from '../../domain/acquisition/recruitment.ts';
 import { encounterCategory } from '../../domain/challenges/encounter-rows.ts';
 import type { QuestView } from '../../shared/views.ts';
@@ -8,35 +8,18 @@ import { acquire, allowance, capacityReason, STORAGE_FULL_REASON, storageFull } 
 import type { GameContext } from '../../kernel/api.ts';
 import { notice, type Runtime } from '../../kernel/api.ts';
 
-interface JourneyQuest {
-  id: string; name: string; description: string; species: number;
-  goal: number;
-  count(ctx: GameContext, save: GameSave): number;
-}
-
-/** Won battles; a successful capture is one. */
-const wins = (_ctx: GameContext, save: GameSave) => save.game.battlesWon;
 /** An encounter the challenge archive lists under SPT首领: an SPT-category Boss of its own, not a campaign stage. */
 function sptChallenge(ctx: GameContext, id: string): boolean {
   const boss = ctx.encounterById.get(id);
   return !!boss && encounterCategory(boss) === 'spt' && !ctx.campaignForBoss(id);
 }
-const JOURNEY_QUESTS: readonly JourneyQuest[] = [
-  {
-    id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战（捕捉成功也算），领取皮皮。', species: JOURNEY_QUEST_SPECIES['first-victory'],
-    goal: 1, count: wins,
-  },
-  {
-    id: 'three-victories', name: '成长之路', description: '赢得三场战斗（捕捉成功也算），领取比比鼠。', species: JOURNEY_QUEST_SPECIES['three-victories'],
-    goal: 3, count: wins,
-  },
-  {
-    id: 'first-spt', name: 'SPT 挑战者', description: '击败星际挑战档案「SPT首领」中的任意一位首领，领取巴鲁斯。', species: JOURNEY_QUEST_SPECIES['first-spt'],
-    goal: 1, count: (ctx, save) => Number(save.progress.bosses_cleared.some(id => sptChallenge(ctx, id))),
-  },
-];
-
-const ready = (ctx: GameContext, save: GameSave, quest: JourneyQuest) => quest.count(ctx, save) >= quest.goal;
+/** What counts toward a journey quest's goal: won battles (a successful capture is one), or cleared SPT首领. */
+const COUNTERS: Record<JourneyQuest['counts'], (ctx: GameContext, save: GameSave) => number> = {
+  wins: (_ctx, save) => save.game.battlesWon,
+  'spt-clears': (ctx, save) => save.progress.bosses_cleared.filter(id => sptChallenge(ctx, id)).length,
+};
+const count = (ctx: GameContext, save: GameSave, quest: JourneyQuest) => COUNTERS[quest.counts](ctx, save);
+const ready = (ctx: GameContext, save: GameSave, quest: JourneyQuest) => count(ctx, save, quest) >= quest.goal;
 
 /** The owned species and cleared Bosses that recruitment progress reads, built once per pass over the rewards. */
 interface Records { owned: ReadonlySet<number>; cleared: ReadonlySet<string> }
@@ -47,10 +30,11 @@ function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): Que
   const blockedReason = storageFull(save) ? STORAGE_FULL_REASON : capacityReason(ctx, save, quest.species);
   const claimed = save.game.quests.includes(quest.id), complete = ready(ctx, save, quest);
   const claimable = complete && !claimed && !blockedReason;
+  const rewardName = ctx.speciesName(quest.species);
   return {
-    id: quest.id, name: quest.name, description: quest.description, rewardSpecies: quest.species, rewardName: ctx.speciesName(quest.species), complete, claimed,
+    id: quest.id, name: quest.name, description: `${quest.task}，领取${rewardName}。`, rewardSpecies: quest.species, rewardName, complete, claimed,
     claimable, newReward: claimable, blockedReason,
-    progress: `${Math.min(quest.goal, quest.count(ctx, save))}/${quest.goal}`, group: 'journey',
+    progress: `${Math.min(quest.goal, count(ctx, save, quest))}/${quest.goal}`, group: 'journey',
   };
 }
 
