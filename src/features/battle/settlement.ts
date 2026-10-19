@@ -31,15 +31,18 @@ export function settle(rt: Runtime) {
   commit(rt, tickBoosts(rt.save));
 }
 
-/** Each participant follows its automatic evolutions; returns why the six-copy allowance kept any of them back. */
+/**
+ * Each participant follows its automatic evolutions; returns why the six-copy allowance kept any of them back, each reason
+ * once: participants of one line held back by the same allowance share it.
+ */
 function evolveParticipants(rt: Runtime, result: BattleResult): string[] {
-  const kept: string[] = [];
+  const kept = new Set<string>();
   for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) {
     const evolution = autoEvolution(rt, findMon(rt.save, uid));
     replaceMonster(rt, evolution.mon);
-    if (evolution.blocked) kept.push(evolution.blocked);
+    if (evolution.blocked) kept.add(evolution.blocked);
   }
-  return kept;
+  return [...kept];
 }
 
 /** Saved HP/PP return to the unengraved scale; spent engraving bonus is kept as a deficit. */
