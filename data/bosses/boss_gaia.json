@@ -63,6 +63,9 @@
     },
     "achievement": {
       "zh": "击败盖亚"
+    },
+    "achievement_on_all_variants": {
+      "zh": "完胜盖亚"
     }
   },
   "reward_hatches": 260,

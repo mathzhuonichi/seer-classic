@@ -1,9 +1,16 @@
 import assert from 'node:assert/strict';
+import {createElement} from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 import {Battle} from '../../battle/core/src/index.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {newSave} from '../../src/kernel/save.ts';
+import {findChallengeLocation,resolveWorldLocation} from '../../src/domain/world/world.ts';
+import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
+import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
+import {buildWorldDialogue,buildWorldScene} from '../../src/features/world/world-scene.ts';
+import {WorldDialogue} from '../../src/features/world/ui/WorldDialogue.tsx';
 import {suite} from './_harness.mjs';
 
 // Boss variants through the real controller (user decision, 2026-10-19): the player picks 盖亚's weekday objective,
@@ -43,6 +50,11 @@ function knockOut(game:GameController){
 function forceCrits(){
   const id='boss-variants-force-crit';
   battle.active(0).conditions.push({id,def:{id,hooks:[{on:'modify_crit_rate',force_crit:true}]},turns:Infinity,appliedTurn:0});
+}
+/** The player's active member takes no damage, through switches too. */
+function shield(){
+  const id='boss-variants-shield';
+  battle.active(0).conditions.push({id,def:{id,removed_on_switch:false,hooks:[{on:'modify_damage_taken',multiplier:0}]},turns:Infinity,appliedTurn:0});
 }
 /** The party reduced to its first member. */
 function loseQuickly(game:GameController){
@@ -105,6 +117,16 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   assert.deepEqual(parse(game).game.bossVariants,{[GAIA]:['within_2_turns','finish_with_crit']},'only met objectives are recorded');
 });
 
+t.check('盖亚’s 10-turn objective is met by a knockout after turn 10',()=>{
+  const game=journey(),gaia=start(game,GAIA,'survive_10_then_ko').active(1),turns=encounter(GAIA).variants[2].win[1].turns;
+  shield();gaia.maxHp=gaia.hp=1e6;
+  while(battle.turn<turns)game.dispatch({type:'move',skillId:attack(game)});
+  assert.equal(game.snapshot().battle!.finished,false,'盖亚 still stands after turn 10');
+  const view=knockOut(game);
+  assert.deepEqual([view.won,battle.turn,parse(game).items.essence_gaia],[true,turns+1,1]);
+  assert.deepEqual(parse(game).game.bossVariants,{[GAIA]:['survive_10_then_ko']});
+});
+
 t.check('盖亚 without a variant is a practice fight: no attempt, clear record or essence, only the victory',()=>{
   const game=journey(),before=parse(game);
   start(game,GAIA);
@@ -149,6 +171,76 @@ t.check('A version-3 save opens at version 4 with an empty variant record and ke
   start(game,EERSAILA,'thu');knockOut(game);
   const reopened=parse(journey(parse(game)));
   assert.deepEqual(reopened.game.bossVariants,{[EERSAILA]:['thu']},'the record survives a reload');
+});
+
+t.check('Clearing the last of 厄尔塞拉’s seven variants earns 七色光羽; its clear alone and a repeat earn nothing',()=>{
+  const save=parse(journey());save.progress.bosses_cleared=[EERSAILA];save.game.bossVariants={[EERSAILA]:['tue','wed','thu','fri','sat','sun']};
+  const game=journey(save),row=()=>game.snapshot().bosses.find(boss=>boss.id===EERSAILA)!;
+  const detail=()=>challengeDetail(challengeEntries(game.snapshot()).find(entry=>entry.id===EERSAILA)!,game.snapshot(),false);
+  const titled=()=>challengeHonors(game.snapshot()).filter(honor=>honor.label==='称号：七色光羽');
+  assert.equal(row().honors,undefined,'a clear earns no honour');assert.deepEqual(row().variantHonors,['称号：七色光羽']);
+  assert.deepEqual([titled(),detail().status,detail().honors],[[],'已通过 6/7','通过全部 7 种规则后获得：称号：七色光羽']);
+  start(game,EERSAILA,'mon');
+  const view=knockOut(game);
+  assert(view.result.includes('7 种规则全部通过，荣誉档案新增「称号：七色光羽」。获得 '),view.result);
+  assert.deepEqual([titled(),detail().status,detail().honors],[[{label:'称号：七色光羽',source:'厄尔塞拉'}],'✓ 已通过 7/7','已获得：称号：七色光羽']);
+  game.dispatch({type:'closeBattle'});start(game,EERSAILA,'mon');
+  assert(!knockOut(game).result.includes('荣誉档案'),'a repeat clear announces nothing');
+});
+
+t.check('Clearing 盖亚’s three objectives earns 完胜盖亚 beside the 击败盖亚 of its first clear',()=>{
+  const save=parse(journey());save.progress.bosses_cleared=[GAIA];save.game.bossVariants={[GAIA]:['finish_with_crit','survive_10_then_ko']};
+  const game=journey(save),earned=()=>challengeHonors(game.snapshot()).filter(honor=>honor.source==='盖亚').map(honor=>honor.label);
+  assert.deepEqual(earned(),['击败盖亚']);
+  start(game,GAIA,'within_2_turns');
+  assert(knockOut(game).result.includes('3 种规则全部通过，荣誉档案新增「完胜盖亚」。获得 '));
+  assert.deepEqual(earned(),['击败盖亚','完胜盖亚']);
+});
+
+/** A controller whose snapshot lists only the Boss `id`, so the archive opens on it. */
+function only(game:GameController,id:string):GameController{
+  const full=game.snapshot();
+  return Object.assign(Object.create(game),{snapshot:()=>({...full,bosses:full.bosses.filter(boss=>boss.id===id)})});
+}
+const checkedLabel=(html:string)=>html.match(/checked=""\/><span><strong>([^<]*)/)?.[1];
+
+t.check('The challenge archive lists every variant with its rules and objectives, picks the first not cleared, and offers 盖亚’s practice fight',()=>{
+  const save=parse(journey());save.game.bossVariants={[EERSAILA]:['mon','tue']};
+  const game=journey(save),eersaila=game.snapshot().bosses.find(boss=>boss.id===EERSAILA)!;
+  const archive=(id:string,initialCategory:any)=>renderToStaticMarkup(createElement(ChallengeCenter,{c:only(game,id),initialCategory,onTravel(){}}));
+  const html=archive(EERSAILA,'spt');
+  assert(html.includes('<span class="type-tag">已通过 2/7</span>'),'the progress tag');
+  assert(html.includes('<legend>挑战规则 · 已通过 2/7</legend>'));
+  for(const variant of eersaila.variants!){
+    for(const text of [variant.label,...variant.rules,`胜利条件：${variant.win}。`,`失败条件：${variant.lose}。`])assert(html.includes(text),`${variant.id}: ${text}`);
+  }
+  assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='thu')!.rules,['首领每回合结束时回复 1000 体力']);
+  assert.equal(eersaila.variants!.find(variant=>variant.id==='fri')!.win,'击败全部对手，最后一击须为中毒、烧伤、冻伤的异常状态伤害');
+  assert.equal(checkedLabel(html),label(EERSAILA,'wed'),'the first variant not cleared is picked');
+  const gaia=archive(GAIA,'legendary');
+  assert(gaia.includes('<strong>练习战</strong>'));assert.equal(checkedLabel(gaia),label(GAIA,'within_2_turns'));
+  assert(gaia.includes(`胜利条件：击败全部对手，第 10 回合之后才能击倒首领，提前击倒算作失败。`),'盖亚’s 10-turn objective');
+  assert(!archive(LAOKE,'spt').includes('练习战'),'劳克蒙德 offers no practice fight');
+});
+
+t.check('The Boss world dialogue offers the variant choice and states the picked variant’s rules and objectives',()=>{
+  const game=journey(),s=game.snapshot();
+  const dialogue=(id:string,variant?:string|null)=>{
+    const destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
+    const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
+    return renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,variant,onClose(){},onToggleDetails(){},onChooseStart(){}}));
+  };
+  const plain=dialogue(EERSAILA);
+  assert(plain.includes('<legend>挑战规则 · 已通过 0/7</legend>'));assert.equal(checkedLabel(plain),label(EERSAILA,'mon'));
+  for(const variant of encounter(EERSAILA).variants)assert(plain.includes(variant.label.zh),variant.id);
+  assert(plain.includes('规则：首领免疫所有异常状态；首领体力上限变为 2 倍。'),'the picked variant’s rules');
+  assert(!plain.includes('首领每回合结束时回复 1000 体力'),'another variant’s rules stay folded');
+  const thursday=dialogue(EERSAILA,'thu');
+  assert.equal(checkedLabel(thursday),label(EERSAILA,'thu'));assert(thursday.includes('规则：首领每回合结束时回复 1000 体力。'));
+  const practice=dialogue(GAIA,null);
+  assert.equal(checkedLabel(practice),'练习战');assert(practice.includes('不计入挑战记录，也不发放精元'));
+  const field=dialogue(LAOKE,'healing_field');
+  assert(field.includes('规则：双方每回合结束时回复 10% 体力。'));assert(field.includes('失败条件：我方精灵全部倒下。'));
 });
 
 t.finish();

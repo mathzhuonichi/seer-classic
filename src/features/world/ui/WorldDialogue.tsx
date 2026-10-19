@@ -1,6 +1,7 @@
 import type { GameController } from '../../../kernel/contract.ts';
 import type { FacilityAction, WorldDialogueView } from '../world-scene.ts';
 import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
+import BossVariantChoice, { defaultVariant } from '../../../shared/ui/BossVariantChoice.tsx';
 import { CreatureArt } from '../../../shared/ui/CreatureArt.tsx';
 import { FacilityNpc } from './SceneContacts.tsx';
 
@@ -8,18 +9,22 @@ import { FacilityNpc } from './SceneContacts.tsx';
 export type WorldInteraction = { kind: 'species'; species: number } | { kind: 'quest'; questId: string };
 export interface WorldDialogueProps {
   view: WorldDialogueView; showDetails: boolean; c: GameController;
+  /** The variant picked for a Boss with variants: null for the practice fight, undefined until one is picked (the default applies). */
+  variant?: string | null; onChooseVariant?: (variant: string | null) => void;
   onNavigate?: (page: string) => void; onInteract?: (event: WorldInteraction) => void;
   onClose: () => void; onToggleDetails: () => void; onChooseStart: () => void;
 }
 
 /** A conversation with a scene contact; its buttons challenge, open pages, or show details. */
-export function WorldDialogue({ view, showDetails, c, onNavigate, onInteract, onClose, onToggleDetails, onChooseStart }: WorldDialogueProps) {
-  const { portrait, towerTeam, challenge } = view;
+export function WorldDialogue(props: WorldDialogueProps) {
+  const { view, showDetails, c, onNavigate, onInteract, onClose, onToggleDetails, onChooseStart, onChooseVariant } = props;
+  const { portrait, towerTeam, challenge, variantChoice } = view;
+  const variant = variantChoice && props.variant === undefined ? defaultVariant(variantChoice.variants) : props.variant ?? null;
   function onChallenge() {
     const run = challenge?.run;
     if (run?.kind === 'campaign') { onClose(); onNavigate?.(`campaign:${run.campaignId}`); }
     else if (run?.kind === 'quest') onInteract?.({ kind: 'quest', questId: run.questId });
-    else if (run?.kind === 'battle') c.dispatch(run.action);
+    else if (run?.kind === 'battle') c.dispatch(variant && run.action.type === 'startBattle' ? { ...run.action, variant } : run.action);
   }
   function onDetails() {
     if (view.dexSpecies !== undefined && onInteract) onInteract({ kind: 'species', species: view.dexSpecies });
@@ -41,6 +46,8 @@ export function WorldDialogue({ view, showDetails, c, onNavigate, onInteract, on
           <li key={`${index}-${opponent.species}`}><span>{index + 1}. {opponent.name}</span><small>{opponent.level}</small></li>)}</ul>}
         <BossEvidence evidence={view.evidence}/>
         {view.partyRuleTexts && <p className="world-dialogue-detail">挑战条件：{view.partyRuleTexts.join('')}</p>}
+        {variantChoice && <BossVariantChoice variants={variantChoice.variants} practice={variantChoice.practice} selected={variant}
+          onSelect={id => onChooseVariant?.(id)}/>}
         {view.reward && <p className="world-dialogue-detail">通关奖励：{view.reward}</p>}
         {showDetails && <p className="world-dialogue-detail">{view.detail}</p>}
       </div>

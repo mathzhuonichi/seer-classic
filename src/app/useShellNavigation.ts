@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { TOOLBAR_RESETS, type WindowFocus, type WindowKind } from './shell-navigation.ts';
 import type { WorldLocationId } from '../domain/world/world.ts';
 
-/** A request for the world map to land somewhere; a new `requestId` repeats the same destination. */
-export interface TravelRequest extends WorldLocationId { bossId?: string; requestId: number }
+/** A request for the world map to land somewhere, at a Boss with the variant picked for it; a new `requestId` repeats the same destination. */
+export interface TravelRequest extends WorldLocationId { bossId?: string; variant?: string | null; requestId: number }
 export interface ShellNavigation {
   windowKind: WindowKind | null;
   /** Initial selections for the window being opened. */
@@ -30,7 +30,7 @@ export function useShellNavigation() {
       setNav(old => ({ ...old, windowKind: old.windowKind === windowKind ? null : windowKind, focus: reset ? focused(old, { [reset]: undefined }) : old.focus }));
     },
     /** Land the world map at a destination, leaving any campaign scene; `windowKind` opens over the landing. */
-    travel(destination: WorldLocationId & { bossId?: string }, windowKind: WindowKind | null = null, focus: WindowFocus = {}) {
+    travel(destination: Omit<TravelRequest, 'requestId'>, windowKind: WindowKind | null = null, focus: WindowFocus = {}) {
       setNav(old => ({ ...old, campaignId: null, travelTo: { ...destination, requestId: Date.now() }, windowKind, focus: focused(old, focus) }));
     },
     enterCampaign(campaignId: string) { setNav(old => ({ ...old, campaignId, windowKind: null })); },

@@ -18,7 +18,8 @@ export const collectionFeature: Feature<CollectionAction, CollectionSlice> = {
     const catalog = catalogViews(ctx), dex = dexViews(ctx), recipes = recipeViews(ctx);
     return ({ save }) => {
       const species = catalog.species(save.dex.owned);
-      return { bosses: catalog.bosses(save.progress.bosses_cleared, save.progress.boss_attempts), species, dex: dex(species), ...recipes(save.storage) };
+      const bosses = catalog.bosses(save.progress.bosses_cleared, save.progress.boss_attempts, save.game.bossVariants);
+      return { bosses, species, dex: dex(species), ...recipes(save.storage) };
     };
   },
 };

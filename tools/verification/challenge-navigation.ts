@@ -120,21 +120,22 @@ t.check('travel resolution starts no battle', () => {
   assert.deepEqual(WORLD_PLANETS[0].regions.map(region=>region.id),['transport','lab','captain']);
   assert.equal(WORLD_PLANETS[0].regions.filter(region => region.challengeStaging).length,1);
 });
-t.check('Boss titles and achievements follow the cleared record into the archive, without a save field', () => {
+t.check('Boss titles and achievements follow the cleared encounters into the archive; all-variant honours wait for every variant', () => {
   const save = JSON.parse(game.exportSave());
   save.progress.bosses_cleared = ['boss_spt_guerzhadi', 'boss_gaia', 'boss_spt_eersaila', 'boss_tower_brave_f050', 'boss_tower_brave_f060'];
   const cleared = createGame(catalog, JSON.stringify(save)), archive = cleared.snapshot(), entries = challengeEntries(archive);
   const row = (id: string) => archive.bosses.find(boss => boss.id === id)!;
   const detail = (id: string) => challengeDetail(entries.find(entry => entry.id === id)!, archive, false);
   assert.deepEqual(row('boss_spt_guerzhadi').honors, ['击败古尔扎迪', '称号：毁灭者']);
-  assert.deepEqual(row('boss_spt_eersaila').honors, ['称号：七色光羽'], 'Only the base fight is offered, so its clear earns the all-variant title');
+  assert.equal(row('boss_spt_eersaila').honors, undefined, 'A clear alone earns no honour: 七色光羽 needs every variant');
+  assert.deepEqual([row('boss_spt_eersaila').variantHonors, row('boss_gaia').variantHonors], [['称号：七色光羽'], ['完胜盖亚']]);
   assert.equal(detail('boss_spt_guerzhadi').honors, '已获得：击败古尔扎迪 · 称号：毁灭者', 'A cleared row shows what it earned');
   assert.equal(detail('boss_spt_ruiersi').honors, '通关后获得：击败瑞尔斯 · 称号：高傲的狂战者', 'An open row shows what it offers');
   assert.equal(detail('boss_spt_saiweier').honors, undefined);
   assert.equal(detail('brave-tower').honors, `已获得：${archive.braveTower.honors.join(' · ')}`);
   const honors = challengeHonors(archive), tower = honors.filter(honor => honor.source === '勇者之塔');
   assert.deepEqual(honors.filter(honor => !tower.includes(honor)), [
-    { label: '击败盖亚', source: row('boss_gaia').name }, { label: '称号：七色光羽', source: row('boss_spt_eersaila').name },
+    { label: '击败盖亚', source: row('boss_gaia').name },
     { label: '击败古尔扎迪', source: row('boss_spt_guerzhadi').name }, { label: '称号：毁灭者', source: row('boss_spt_guerzhadi').name },
   ]);
   assert(tower.length > 0);assert.deepEqual(tower.map(honor => honor.label), archive.braveTower.honors, 'The tower honours match the tower view');

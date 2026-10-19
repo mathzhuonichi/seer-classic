@@ -5,6 +5,7 @@ import {findChallengeLocation,resolveWorldLocation} from '../../../domain/world/
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
+import BossVariantChoice,{defaultVariant} from '../../../shared/ui/BossVariantChoice.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
@@ -14,13 +15,18 @@ import {
 import '../../../shared/ui/management.css';
 import './ChallengeCenter.css';
 
-export interface ChallengeCenterProps {c:GameController;initialCategory?:ChallengeCategoryId;onExplore?:()=>void;onTravel?:(boss:BossView)=>void;onCampaign?:(id:string)=>void;onTower?:()=>void}
+/** `onTravel` goes to the Boss's contact with the variant picked for it (null: the practice fight). */
+export interface ChallengeCenterProps {
+  c:GameController;initialCategory?:ChallengeCategoryId;onExplore?:()=>void;
+  onTravel?:(boss:BossView,variant?:string|null)=>void;onCampaign?:(id:string)=>void;onTower?:()=>void;
+}
 export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,onCampaign,onTower}:ChallengeCenterProps) {
   const bosses=useGame(c,s=>s.bosses),campaigns=useGame(c,s=>s.campaigns),braveTower=useGame(c,s=>s.braveTower),partySize=useGame(c,s=>s.party.length);
   const archive=useMemo(()=>({bosses,campaigns,braveTower}),[bosses,campaigns,braveTower]);
   const defaultTab=initialCategory??'spt';
   const [category,setCategory]=useState<ChallengeTab>(defaultTab),[search,setSearch]=useState(''),[selected,setSelected]=useState('');
   const [honorsOpen,setHonorsOpen]=useState(false),honors=useMemo(()=>challengeHonors(archive),[archive]);
+  const [variants,setVariants]=useState<Record<string,string|null>>({});
   const entries=useMemo(()=>challengeEntries(archive),[archive]);
   const rows=useMemo(()=>challengeRows(entries,category,search),[entries,category,search]);
   const {page,setPage,pages,start,end}=usePager(rows.length,CHALLENGE_PAGE_SIZE);
@@ -31,7 +37,8 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
   const landing=destination?resolveWorldLocation(destination.planetId,destination.regionId):undefined;
   const landingName=landing?(landing.planet.name===landing.region.name?landing.region.name:`${landing.planet.name} · ${landing.region.name}`):'';
   const detail=boss&&challengeDetail(boss,archive,!!destination?.staging);
-  const launch=boss?.tower?onTower:campaign?onCampaign&&(()=>onCampaign(campaign.id)):onTravel&&(()=>onTravel(boss!));
+  const variant=boss?.variants?(boss.id in variants?variants[boss.id]:defaultVariant(boss.variants)):undefined;
+  const launch=boss?.tower?onTower:campaign?onCampaign&&(()=>onCampaign(campaign.id)):onTravel&&(()=>onTravel(boss!,variant));
   const turnPage=(step:number)=>{setPage(value=>value+step);setSelected('')};
   const pick=(id:string)=>{setSelected(id);setHonorsOpen(false)};
   return <section className="management-panel challenge-management" aria-label="星际挑战面板">
@@ -48,6 +55,8 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
       {boss.category==='trainer'&&!!boss.opponents?.length&&<section className="trainer-roster" aria-label="训练师队伍"><strong>对方阵容 · {boss.opponents.length} 只精灵</strong><div>{boss.opponents.map((opponent,index)=><article key={`${index}-${opponent.species}`}><div className="trainer-roster-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></article>)}</div></section>}
       <div className="challenge-description"><strong>挑战地点</strong><p>{campaign?.location??landingName}</p><p>{detail.instruction}</p></div>
       {!!detail.rules.length&&<div className="challenge-description"><strong>挑战条件</strong>{detail.rules.map(rule=><p key={rule}>{rule}</p>)}</div>}
+      {boss.variants&&<BossVariantChoice variants={boss.variants} practice={boss.practice} selected={variant??null} expanded
+        onSelect={id=>setVariants(old=>({...old,[boss.id]:id}))}/>}
       <div className="challenge-description"><strong>{campaign?'挑战流程':'挑战提示'}</strong>{campaign?campaign.stages.map((stage,index)=><p key={stage.id}>{stage.cleared?'✓':index+1} · {stage.name}</p>):<p>{boss.description||'带上精灵伙伴，挑战这位星际首领。'}</p>}</div>
       <div className="challenge-reward-note"><strong>通关奖励</strong><span>{detail.reward}</span></div>
       {detail.honors&&<div className="challenge-description"><strong>挑战荣誉</strong><p>{detail.honors}</p></div>}

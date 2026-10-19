@@ -36,6 +36,23 @@ export interface BossView {
   partyRuleTexts?: string[];
   /** The titles (称号：…) and achievements a clear earns; earned once `cleared`. Absent when the encounter grants none. */
   honors?: string[];
+  /** The variants the player picks before the start (盖亚, 厄尔塞拉, 劳克蒙德); absent when the encounter has none. */
+  variants?: EncounterVariantView[];
+  /** With variants: a fight without one is offered as practice, with no clear record or reward items. */
+  practice?: boolean;
+  /** The titles and achievements earned once every variant is cleared (厄尔塞拉's 称号：七色光羽). */
+  variantHonors?: string[];
+}
+/** A variant of a Boss fight (a source weekday objective or field): the rules it adds, its objectives, and whether it was cleared. */
+export interface EncounterVariantView {
+  id: string;
+  /** The source's name for it, such as 周一：免疫异常状态，血很厚. */
+  label: string;
+  /** The rules it adds, as sentences; empty when it changes only the objectives. */
+  rules: string[];
+  /** Its win and lose objectives, each as one sentence. */
+  win: string; lose: string;
+  cleared: boolean;
 }
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
 export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<StatBlock>}

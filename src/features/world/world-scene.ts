@@ -1,5 +1,5 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
-import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
+import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, EncounterVariantView, QuestView, SpeciesView } from '../../shared/views.ts';
 import { CHALLENGE_CATEGORY, campaignContactWording } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
@@ -131,6 +131,8 @@ export interface WorldDialogueView {
   evidence?: BossEvidenceView;
   /** A Boss's rules on the player's team, stated before the start. */
   partyRuleTexts?: string[];
+  /** A Boss's variants, one of which the player picks before the start, and whether a practice fight is offered without one. */
+  variantChoice?: { variants: EncounterVariantView[]; practice: boolean };
   reward?: string;
   /** Set for a creature, boss or campaign contact; facilities use `facilityActions`. */
   challenge?: { label: string; disabled: boolean; chooseStart: boolean; run: DialogueChallenge };
@@ -202,6 +204,7 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
     towerTeam: tower && { floor: tower.floor,
       opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
     partyRuleTexts: boss.partyRuleTexts, reward: tower ? boss.rewardText : undefined,
+    variantChoice: !tower && boss.variants ? { variants: boss.variants, practice: !!boss.practice } : undefined,
     challenge: { label: tower?.complete ? '本轮已通关' : tower ? `挑战第 ${tower.floor} 层` : '挑战', disabled: !!tower?.complete, chooseStart: !!tower?.complete, run },
   };
 }

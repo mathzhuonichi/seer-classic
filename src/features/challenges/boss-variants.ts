@@ -1,7 +1,8 @@
-// Boss fights with variants: the practice fight without one, the record of cleared variants, and the result line that
-// names whether the chosen variant's objectives were met.
+// Boss fights with variants: the practice fight without one, the record of cleared variants, the honours for clearing every
+// variant, and the result line that names whether the chosen variant's objectives were met.
 import type { BattleResult, BossEncounter, EncounterVariant } from '../../../battle/core/src/index.ts';
 import { buildBossEvidence } from '../../domain/challenges/boss-evidence.ts';
+import { allVariantHonors } from '../../domain/challenges/encounter-rows.ts';
 import { offersPractice } from '../../domain/challenges/encounter-variants.ts';
 import type { BattleSession, Runtime, SessionHooks } from '../../kernel/api.ts';
 
@@ -20,8 +21,9 @@ export function encounterHooks(encounter: BossEncounter, variant: EncounterVaria
 }
 
 /**
- * A win records the variant as cleared. The result names whether its objectives were met: a win, a knockout that missed them
- * (盖亚 knocked out before turn 10), or a defeat; a retreat says only that it pays nothing.
+ * A win records the variant as cleared, and the first clear of the last one earns the honours for clearing every variant. The
+ * result names whether its objectives were met: a win, a knockout that missed them (盖亚 knocked out before turn 10), or a
+ * defeat; a retreat says only that it pays nothing.
  */
 function settleVariant(rt: Runtime, session: BattleSession, result: BattleResult, encounter: BossEncounter, variant: EncounterVariant) {
   const rule = `规则「${variant.label.zh}」`;
@@ -30,7 +32,10 @@ function settleVariant(rt: Runtime, session: BattleSession, result: BattleResult
     else if (result.reason !== 'flee') session.resultNotes.push(`本次未达成${rule}的目标。`);
     return;
   }
-  const record = rt.save.game.bossVariants, cleared = record[encounter.id] ?? [];
-  if (!cleared.includes(variant.id)) record[encounter.id] = [...cleared, variant.id];
-  session.resultMessage = `已达成${rule}的目标。${session.resultMessage}`;
+  const record = rt.save.game.bossVariants, cleared = record[encounter.id] ?? [], first = !cleared.includes(variant.id);
+  if (first) record[encounter.id] = [...cleared, variant.id];
+  const variants = encounter.variants!, completed = first && variants.every(entry => record[encounter.id].includes(entry.id));
+  const honors = completed ? allVariantHonors(encounter.reward) : [];
+  const earned = honors.length ? `${variants.length} 种规则全部通过，荣誉档案新增${honors.map(honor => `「${honor}」`).join('')}。` : '';
+  session.resultMessage = `已达成${rule}的目标。${session.resultMessage}${earned}`;
 }
