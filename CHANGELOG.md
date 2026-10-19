@@ -2,6 +2,17 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Waves 3 to 7 (2026-10-18 to 2026-10-19)
+
+- **PvE audit and fixes.** A six-area functional audit ran every Boss, habitat contact, campaign stage, tower floor, facility and quest through the controller. Its confirmed findings are fixed: a 挣扎 turn now settles, party rules are stated and refused in Chinese, missing world contacts exist, result texts state what was paid, quests and honours count correctly.
+- **User decisions.** Every Boss is open from the start; 盖亚, 厄尔塞拉 and 劳克蒙德 offer their variants; 麒麟空间 is on the atlas with map 73's art; engraving caps stay the V50 tiers; there is no 放生 and no box limit; Boss evidence is no longer shown to players.
+- **Boss fidelity.** Verified original HP, levels, skills and teams replace estimates: sourced HP for 151 Boss members (30 before), sourced levels for 111 (68 before).
+- **Saves.** Version 3 (first-clear collectibles, retargeted remake essences) and version 4 (cleared Boss variants). Writes happen before the task ends, so closing the window loses nothing.
+- **Battle and UI.** Capture counts as a victory; the styling no longer depends on bundle order; long scene names fit; a silent Chrome and WebKit regression suite (`needs-browser`) checks the playtest fixes.
+- **Checks.** `npm run verify` gates 73 suites (70 before); `npm test` 132 tests.
+
+See [design/notes/handoff-2026-10-19.md](design/notes/handoff-2026-10-19.md).
+
 ## Refactor wave 2 (2026-10-18)
 
 The code is grouped by feature behind fixed contracts ([design/notes/architecture-v2.md](design/notes/architecture-v2.md)):
