@@ -1,7 +1,7 @@
 import policyData from '../../../data/acquisition-policy.json';
 import {WORLD_PLANETS,type WorldPlanet} from '../world/world.ts';
 import {
-  JOURNEY_QUEST_SPECIES,NPC_ONLY_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite,
+  JOURNEY_QUESTS,NPC_ONLY_SPECIES,type AcquisitionCatalog,type AcquisitionSpecies,type RecruitmentPrerequisite,
 } from './acquisition-model.ts';
 import {STARTER_SPECIES} from '../economy.ts';
 import {FUSION_RECIPES} from '../recipes/fusion.ts';
@@ -49,7 +49,7 @@ const CLIMB_ONLY_ESSENCE_BOSS=braveTowerBossId(BRAVE_TOWER_FLOORS);
 
 /** Direct habitats/rewards and native fusion/breeding retain their own acquisition flows. */
 function nativeInitialRoutes(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]):Set<number> {
-  const seeds=new Set<number>([...STARTER_SPECIES,...Object.values(JOURNEY_QUEST_SPECIES)]);
+  const seeds=new Set<number>([...STARTER_SPECIES,...JOURNEY_QUESTS.map(quest=>quest.species)]);
   for(const entry of habitatEntries(catalog,planets))seeds.add(entry.species.id);
   for(const reward of bossEssenceRewards(catalog))if(reward.boss.id!==CLIMB_ONLY_ESSENCE_BOSS)seeds.add(reward.species);
   for(const recipe of [...FUSION_RECIPES,...BREEDING_RECIPES])for(const outcome of recipe.outcomes)if(outcome.weight>0)seeds.add(outcome.species);
@@ -75,7 +75,10 @@ export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:reado
     const prerequisites:RecruitmentPrerequisite[]=[...selected.map(candidate=>({kind:'species' as const,species:candidate.id})),...requiredBosses.map(boss=>({kind:'boss' as const,bossId:boss.id}))];
     if(prerequisites.length>MAX_RECRUITMENT_PREREQUISITES)throw new Error(`Too many recruitment prerequisites for ${row.id}`);
     const repeatability=policy?.repeatability??'unknown';
-    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[]}];
+    return [{
+      questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,
+      repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[],
+    }];
   });
 }
 

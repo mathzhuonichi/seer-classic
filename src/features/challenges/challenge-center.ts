@@ -125,7 +125,7 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:challengeStatus(entry,s),
-    instruction:entry.towerSideFloor!==undefined?TOWER_SIDE_INSTRUCTION:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
+    instruction:entry.towerSide?TOWER_SIDE_INSTRUCTION:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
     rules:entry.partyRuleTexts??[],reward:rewardNote(entry,kind,s),action:ACTIONS[kind],honors:honorNote(entry,s),
   };
 }

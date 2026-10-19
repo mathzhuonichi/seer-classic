@@ -2,8 +2,17 @@
 
 /** The user's collection scope excludes both complete NPC-partner families. */
 export const NPC_ONLY_SPECIES: ReadonlySet<number> = new Set([122, 123, 124, 125]);
-/** The captain's journey quests and the species each one grants. */
-export const JOURNEY_QUEST_SPECIES = { 'first-victory': 10, 'three-victories': 13, 'first-spt': 6 } as const;
+/**
+ * A captain's journey quest: its name, its task as the player reads it, the goal and what counts toward it (won battles, a
+ * capture among them, or clears of the challenge archive's SPT首领), and the species it grants.
+ */
+export interface JourneyQuest { id: string; name: string; task: string; goal: number; counts: 'wins' | 'spt-clears'; species: number }
+/** The captain's journey quests. The dex's quest routes and the quest rows both word them from here. */
+export const JOURNEY_QUESTS: readonly JourneyQuest[] = [
+  { id: 'first-victory', name: '初次胜利', task: '赢得一次野外遭遇或首领挑战（捕捉成功也算）', goal: 1, counts: 'wins', species: 10 },
+  { id: 'three-victories', name: '成长之路', task: '赢得三场战斗（捕捉成功也算）', goal: 3, counts: 'wins', species: 13 },
+  { id: 'first-spt', name: 'SPT 挑战者', task: '击败星际挑战档案「SPT首领」中的任意一位首领', goal: 1, counts: 'spt-clears', species: 6 },
+];
 
 export interface AcquisitionRoute {
   kind: 'starter' | 'wild' | 'boss' | 'campaign' | 'quest' | 'fusion' | 'breeding' | 'evolution';

@@ -3,7 +3,7 @@ import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
 import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisition.ts';
 import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
-import { braveTowerFloor, braveTowerRewards, braveTowerUnlockFloor, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
+import { braveTowerFloor, braveTowerRewards, isBraveTowerSideChallenge, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
 import {
   allVariantHonors, encounterCategory, encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel,
@@ -49,7 +49,7 @@ export function encounterView(
 ): Omit<BossView, 'cleared' | 'attempts'> {
   const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras, honors = encounterHonors(b.reward);
   const variants = variantViews(b, variantsCleared), variantHonors = allVariantHonors(b.reward);
-  const floor = braveTowerFloor(b.id), unlockFloor = braveTowerUnlockFloor(b);
+  const floor = braveTowerFloor(b.id);
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
   const ruleTexts = partyRuleTexts(b, ctx.speciesName);
   return {
@@ -57,7 +57,7 @@ export function encounterView(
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), rewardText: floor !== undefined ? towerRewardText(ctx, b) : encounterRewardText(ctx, b),
-    ...(floor === undefined && unlockFloor ? { towerSideFloor: unlockFloor } : {}),
+    ...(isBraveTowerSideChallenge(b) ? { towerSide: true } : {}),
     ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
     ...(honors.length ? { honors } : {}),
     ...(variants.length ? { variants, ...(offersPractice(b) ? { practice: true } : {}) } : {}),

@@ -76,9 +76,15 @@ export function setPartyOrder(save: Save, order: string[]): Save {
   return { ...save, party: [...order] };
 }
 
-// 放生. The last party monster can never be released; the monster's energy beads leave with it.
+// Why 放生 refuses `uid`, or undefined when it may leave: the last party monster can never be released.
+export function releaseRefusal(save: Pick<Save, "party">, uid: string): string | undefined {
+  return save.party.includes(uid) && save.party.length <= 1 ? "出战背包至少保留一只精灵，最后一只出战精灵不能放生。" : undefined;
+}
+
+// 放生, unless releaseRefusal refuses it; the monster's energy beads leave with it.
 export function release(save: Save, uid: string): Save {
-  if (save.party.includes(uid) && save.party.length <= 1) throw new Error("最后一只出战精灵不能放生");
+  const refusal = releaseRefusal(save, uid);
+  if (refusal) throw new Error(refusal);
   findMon(save, uid);
   const next = { ...save, storage: save.storage.filter((m) => m.uid !== uid), party: save.party.filter((u) => u !== uid) };
   return save.boosts ? { ...next, boosts: save.boosts.filter((b) => b.kind !== "energy_bead" || b.uid !== uid) } : next;

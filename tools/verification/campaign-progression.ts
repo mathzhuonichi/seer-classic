@@ -132,7 +132,9 @@ t.check('a replayed stage says it was passed again, and only a new clear says th
     g.dispatch({type:'reorderParty',uids:[lead.uid,...g.snapshot().party.filter(uid=>uid!==lead.uid)]});
     const before=JSON.parse(g.exportSave());
     g.dispatch({type:'startCampaignStage',campaignId:'baihu',stageId:'guardians'});
-    for(let turn=0;turn<20&&!g.snapshot().battle!.finished;turn++)g.dispatch({type:'move',skillId:g.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0)!.id});
+    for(let turn=0;turn<20&&!g.snapshot().battle!.finished;turn++){
+      g.dispatch({type:'move',skillId:g.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0)!.id});
+    }
     assert(g.snapshot().battle!.won,'the 1-HP guardians fall');
     // After the stage's text, the result states what the win paid: the measured coins and pooled experience.
     const after=JSON.parse(g.exportSave()),coins=after.game.coins-before.game.coins,exp=after.exp_pool-before.exp_pool;

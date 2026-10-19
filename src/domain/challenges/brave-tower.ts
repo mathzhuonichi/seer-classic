@@ -35,13 +35,13 @@ export function braveTowerFloor(id:string):number|undefined {
 }
 
 /**
- * The highest floor an encounter record's `unlock.requires` names, or 0. A side challenge that is not a floor
- * (the Mystery Realm's 谱尼, floor 60 in the source) is offered on the Tower panel. The remake opens every Boss from the start
- * (user decision, 2026-10-19), so the floor only places the challenge.
+ * Whether an encounter is a Brave Tower side challenge: not a floor itself, but its source record's `unlock.requires` names a
+ * floor (the Mystery Realm's 谱尼). The Tower panel offers it beside the climb. The remake opens every Boss from the start
+ * (user decision, 2026-10-19), so the floor it names neither gates nor places it.
  */
-export function braveTowerUnlockFloor(record:{readonly [field:string]:unknown}):number {
+export function isBraveTowerSideChallenge(record:{readonly id:string;readonly [field:string]:unknown}):boolean {
   const requires=(record.unlock as {requires?:unknown}|undefined)?.requires;
-  return Math.max(0,...(Array.isArray(requires)?requires:[]).map(id=>typeof id==='string'?braveTowerFloor(id)??0:0));
+  return braveTowerFloor(record.id)===undefined&&Array.isArray(requires)&&requires.some(id=>typeof id==='string'&&braveTowerFloor(id)!==undefined);
 }
 
 export function braveTowerBossId(floor:number):string {

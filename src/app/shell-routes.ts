@@ -29,7 +29,7 @@ export function shellRoutes({ c, navigation, backdrops, setMessage, setSelected 
    */
   function travelToChallenge(boss: BossView, variant?: string | null) {
     if (braveTowerFloor(boss.id) !== undefined) { openTower(); return; }
-    if (boss.towerSideFloor !== undefined) { travel(BRAVE_TOWER_LOCATION, 'tower'); return; }
+    if (boss.towerSide) { travel(BRAVE_TOWER_LOCATION, 'tower'); return; }
     const { planetId, regionId } = findChallengeLocation(boss);
     travel({ planetId, regionId, bossId: boss.id, ...(variant ? { variant } : {}) });
   }
