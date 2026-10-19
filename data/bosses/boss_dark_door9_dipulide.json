@@ -24,14 +24,40 @@
       "hp_override": 1500
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "stages_unclearable",
+      "params": {
+        "stats": [
+          "atk"
+        ]
+      }
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 6
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -65,7 +91,8 @@
   },
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
-    "Level not given; 100 assumed. 4399 writes 黑暗震荡 (= 黑能震荡 11890)."
+    "Level not given; 100 assumed. 4399 writes 黑暗震荡 (= 黑能震荡 11890).",
+    "Raises its attack by 6 stages at the start, and that boost cannot be cleared (百科 citing 4399 2013-08-19, 4399 98372)."
   ],
   "confidence": {
     "level": "medium",

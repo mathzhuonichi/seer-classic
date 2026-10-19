@@ -29,12 +29,38 @@
       "rule": "immune_status"
     },
     {
-      "rule": "heal_full_below",
-      "hp": 100
+      "rule": "script",
+      "id": "always_moves_first"
+    },
+    {
+      "rule": "unlimited_pp"
     },
     {
       "rule": "script",
-      "id": "always_moves_first"
+      "id": "status_on_attacker",
+      "params": {
+        "status": "paralysis",
+        "chance": 100,
+        "categories": [
+          "physical"
+        ]
+      }
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "绝命火焰",
+          "极度冰点",
+          "镇魂歌",
+          "寄生种子",
+          "同生共死"
+        ]
+      }
+    },
+    {
+      "rule": "immune_percent_damage"
     }
   ],
   "win": [
@@ -96,7 +122,9 @@
     "Level: 7k7k 2011 says it started at 55 and was raised by 5 each time it returned, 70 at the time of writing; 70 used.",
     "Innate boost stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (it must be cleared with 叶绿光束 / 日月皆伤 style moves).",
     "Weekday-only reward (Fri–Sun, 2011) dropped per foundation 7.2.",
-    "Skills 瞬雷天闪/极电千鸟/电闪光/白光刃 are the Lv70 list named by 7k7k 2011-03-16 and 4399 2011-09-28; they replace 雷雨天, which only a 2022 list of the Lv55 boss gave."
+    "Skills 瞬雷天闪/极电千鸟/电闪光/白光刃 are the Lv70 list named by 7k7k 2011-03-16 and 4399 2011-09-28; they replace 雷雨天, which only a 2022 list of the Lv55 boss gave.",
+    "Unlimited PP; a physical attack on it paralyses the attacker (single source, 7k7k 2011-07-20); 绝命火焰, 极度冰点, 镇魂歌, 海洋之心 and 寄生种子 have no effect (4399 2010-06-01 and 2011-09-28), nor 同生共死 (7k7k 2011-03-16).",
+    "No 雷伊 source heals it to full below 100 HP (that line of 7k7k 2011-03-16 belongs to 阿克希亚), so it does not."
   ],
   "confidence": {
     "level": "medium",

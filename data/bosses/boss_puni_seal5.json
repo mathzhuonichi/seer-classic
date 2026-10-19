@@ -35,6 +35,11 @@
     },
     {
       "rule": "no_struggle"
+    },
+    {
+      "rule": "player_team_size",
+      "min": 6,
+      "min_level": 100
     }
   ],
   "win": [
@@ -79,7 +84,8 @@
     "Level 105 (seal 1: 101) is the official map-108 boss table (seer_data maps.json); the client displays ?? above 100.",
     "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",
     "Reward: none for the seal itself; clearing it unlocks the next stage of the 'puni' campaign (src/domain/challenges/challenge-campaigns.ts).",
-    "HP 10000 is the official map-108 table; the later jingyan summary's 9000 is superseded."
+    "HP 10000 is the official map-108 table; the later jingyan summary's 9000 is superseded.",
+    "谱尼的领域 admits only a bag of six level-100 monsters (2013 client MapProcess_108 checkBag(6,100))."
   ],
   "confidence": {
     "level": "medium",

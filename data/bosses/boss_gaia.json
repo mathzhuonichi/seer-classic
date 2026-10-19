@@ -24,7 +24,12 @@
       "hp_override": 2000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "player_team_size",
+      "max": 1
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -138,7 +143,8 @@
     "Innate boost (天生强化，需消除) — stat and amount not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "Level not given in any source found; 70 is an estimate (2010 帕诺星系 legendaries).",
     "Hourly windows (13:00/20:00 30 min) are dropped per foundation 7.2.",
-    "reward_hatches 260: 盖亚精元 hatches the initial form 提坦 at Lv1, which evolves into 盖亚 at Lv31, as the original 分子转化器 hatched the base form of every essence line (the earlier binding hatched a Lv1 盖亚)."
+    "reward_hatches 260: 盖亚精元 hatches the initial form 提坦 at Lv1, which evolves into 盖亚 at Lv31, as the original 分子转化器 hatched the base form of every essence line (the earlier binding hatched a Lv1 盖亚).",
+    "Every 盖亚 fight is one against one (2013 client PetFightModel.SINGLE_MODE on map 419; 7k7k 2011-03-16 单挑BOSS)."
   ],
   "confidence": {
     "level": "medium",
