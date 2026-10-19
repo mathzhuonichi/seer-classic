@@ -57,6 +57,14 @@ test('the side is named when both sides field a monster of the same name', () =>
   assert.equal(text({type: 'faint', side: 1, slot: 0, species: 1, by: null}), '布布花失去战斗能力。');
 });
 
+test('挣扎, which only the engine defines, is named by the log', () => {
+  const lines = groupedBattleLog([
+    {type: 'move_used', side: 1, skill: 0, name: '挣扎'},
+    {type: 'damage', side: 0, slot: 0, name: '巴鲁斯', amount: 12, overkill: 0, hp: 88, maxHp: 100, kind: 'attack', crit: false},
+  ], context);
+  assert.deepEqual(lines, ['布布花使用了挣扎。　巴鲁斯受到 12 点伤害。剩余体力 88/100。']);
+});
+
 test('a switch opens its own entry: the switch_out with the switch_in that follows it', () => {
   const lines = groupedBattleLog([
     {type: 'item_used', side: 0, item: 'potion', slot: 0, targetName: '巴鲁斯'},

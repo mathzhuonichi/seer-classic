@@ -2,7 +2,7 @@
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { battleEventText, displayedDamage, type EventOf } from './battle-log.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
-import { portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
+import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
 
@@ -115,23 +115,23 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
       id: options.nextFrameId(), side, kind: motion.kind, text,
       amount: e.type === 'damage' ? displayedDamage(e) : e.type === 'heal' ? e.amount : undefined, critical: e.type === 'damage' && e.crit,
       captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh,
-      skillType: motion.skillType, skillId: motion.skillId, targetSide: motion.targetSide,
+      skillId: motion.skillId, targetSide: motion.targetSide,
       playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe),
     });
   }
   return frames;
 }
 
-interface FrameMotion { kind: BattlePresentationFrame['kind']; skillType?: string; skillId?: number; targetSide?: 0 | 1 }
+interface FrameMotion { kind: BattlePresentationFrame['kind']; skillId?: number; targetSide?: 0 | 1 }
 
 function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterView, data: DataSet): FrameMotion {
   switch (e.type) {
     case 'switch_in': case 'transform': return { kind: 'switch' };
     case 'capture_attempt': return { kind: 'capture' };
     case 'move_used': {
-      const skill = data.skills.get(e.skill)!;
+      const skill = moveSkill(data, e.skill)!;
       const kind = skill.category === 'physical' ? 'physical' : skill.category === 'special' ? 'special' : 'status';
-      return { kind, skillType: skill.type, skillId: Number(skill.id), targetSide: skill.target === 'self' ? side : side === 0 ? 1 : 0 };
+      return { kind, skillId: Number(skill.id), targetSide: skill.target === 'self' ? side : side === 0 ? 1 : 0 };
     }
     case 'damage': return { kind: e.slot === activeBefore.slot ? 'hit' : 'message' };
     case 'heal': case 'revive': return { kind: e.slot === activeBefore.slot ? 'heal' : 'message' };

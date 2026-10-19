@@ -44,7 +44,6 @@ const questAlert=(s:Pick<GameSnapshot,'quests'>)=>s.quests.some(quest=>quest.cla
 function useShellState(c:GameController){
  const navigation=useShellNavigation();
  const [selected,setSelected]=useState(''),[modifier,setModifier]=useState(false),[message,setMessage]=useState('');
- const [battleCommand,setBattleCommand]=useState<{command:'party'|'items';id:number}>();
  const battleOpen=useGame(c,s=>!!s.battle),inBattle=useGame(c,battleActive),notice=useGame(c,s=>s.notices[0]);
  const questReady=useGame(c,questAlert);
  const activeCampaign=useGame(c,s=>s.campaigns.find(campaign=>campaign.id===navigation.nav.campaignId));
@@ -62,7 +61,7 @@ function useShellState(c:GameController){
  const dismiss=()=>{setMessage('');c.dispatch({type:'dismissNotice'})};
  useEffect(()=>{if(!toast)return;const timer=setTimeout(dismiss,NOTICE_MS);return()=>clearTimeout(timer)},[toast,c]);
  return {
-  navigation,selected,setSelected,modifier,setModifier,setMessage,battleCommand,setBattleCommand,
+  navigation,selected,setSelected,modifier,setModifier,setMessage,
   battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,dismiss,
  };
 }
@@ -75,7 +74,7 @@ export default function App(){
 
 export function Game({controller:c}:{controller:GameController}){
  const shell=useRef<HTMLDivElement>(null),display=useGameDisplay(shell),file=useRef<HTMLInputElement>(null);
- const {navigation,selected,setSelected,modifier,setModifier,setMessage,battleCommand,setBattleCommand,
+ const {navigation,selected,setSelected,modifier,setModifier,setMessage,
   battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,dismiss}=useShellState(c);
  const {nav,show,close,toggle,leaveCampaign}=navigation;
  const battle=useBattlePreparation(c,backdrops,battleOpen,{onStart(){close();setMessage('')},onBattle:started=>audio.track(started)});
@@ -100,10 +99,6 @@ export function Game({controller:c}:{controller:GameController}){
  }}),[c]);
  function openTool(kind:WindowKind){
   if(preparation)return;
-  if(inBattle){
-   if(kind==='bag'||kind==='monsters'){setBattleCommand({command:kind==='bag'?'items':'party',id:Date.now()});close();return}
-   if(kind!=='settings'){setMessage('请先完成战斗，或选择逃跑返回场景。');return}
-  }
   toggle(kind);
  }
  function exportSave(){downloadSave(c.exportSave());setMessage('航行存档已导出。')}
@@ -122,7 +117,7 @@ export function Game({controller:c}:{controller:GameController}){
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}
     onLeave={leaveCampaign} onManage={()=>show('monsters')}/>}
    {battleOpen&&!preparation&&<div className="battle-layer">
-    <Battle c={uiController} commandRequest={battleCommand} background={battle.backdrop.src}
+    <Battle c={uiController} background={battle.backdrop.src}
      onSettings={()=>openTool('settings')}/>
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
