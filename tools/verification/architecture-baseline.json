@@ -87,7 +87,7 @@
     },
     "src/features/challenges/ui/ChallengeCenter.tsx": {
       "lines": 0,
-      "long": 9
+      "long": 8
     },
     "src/features/challenges/ui/QuestPanel.tsx": {
       "lines": 0,
@@ -147,7 +147,7 @@
     },
     "src/shared/views.ts": {
       "lines": 0,
-      "long": 10
+      "long": 9
     },
     "battle/core/src/scripts/seer-tail.ts": {
       "lines": 588,

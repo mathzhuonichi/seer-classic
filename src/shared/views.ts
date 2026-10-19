@@ -26,8 +26,8 @@ export interface EncounterOpponentView {species:number;name:string;level:number;
 /** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */
 export type ChallengeCategoryId = 'spt' | 'legendary' | 'tower' | 'dark' | 'quest' | 'trainer';
 export interface BossView {
-  category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number;
-  portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView;
+  category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean;
+  attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView;
   /** The titles (称号：…) and achievements a clear earns; earned once `cleared`. Absent when the encounter grants none. */
   honors?: string[];
 }
