@@ -21,7 +21,7 @@
         13202,
         21682
       ],
-      "hp_override": 10000
+      "hp_override": 6000
     }
   ],
   "rules": [],
@@ -65,7 +65,7 @@
   },
   "engine_notes": [
     "The fight was part of the 雷伊 light-wings storyline (雷伊超进化 / 雷光之翼); in the remake it can follow the storyline unlock.",
-    "Level, HP, rules and skills are NOT published in any source found; 100 / 10000 and the top learnset skills are placeholders.",
+    "Rules and skills are NOT published in any source found; the top learnset skills are placeholders. HP 6000 at Lv100 is the first (13:00-13:08) tier of the official map-782 event table; later tiers step down to Lv80/4000, 70/2000, 60/800, 30/150 and 20/80.",
     "SPT boss 斯克鲁 (通天塔) is described as 魔神艾里克's subordinate."
   ],
   "confidence": {
@@ -74,8 +74,6 @@
       "iv",
       "evs",
       "nature",
-      "level",
-      "hp",
       "skills",
       "rules",
       "location"

@@ -19,7 +19,7 @@
         10357,
         10644,
         10360,
-        10643
+        20281
       ],
       "hp_override": 1000
     }
@@ -38,7 +38,7 @@
       10357,
       10644,
       10360,
-      10643
+      20281
     ]
   },
   "reward": {
@@ -65,7 +65,8 @@
   },
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
-    "High double defence, three strong attacks; 7k7k: 特攻+2的招很气人."
+    "High double defence, three strong attacks; 7k7k: 特攻+2的招很气人.",
+    "Skills: 翔星刃 and 六芒星 (4399 2011) and 纯净能量 (7k7k 2010-06-02, the 特攻+2 move) are reported. The third high-power attack ('携带3个高威力攻击招式') is not named, so 星空闪光 is assumed and the weaker 气压波 gives way."
   ],
   "confidence": {
     "level": "high",

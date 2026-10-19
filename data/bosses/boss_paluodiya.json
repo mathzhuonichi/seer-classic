@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 1167,
-      "level": 80,
+      "level": 30,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -62,7 +62,7 @@
   },
   "engine_notes": [
     "Story: 帕罗狄亚's clan was to be sealed by the old dragon king; 龙王子哈莫雷特 later makes amends. The event was a one-hour server-wide face-off; some sources say every kill gave a 精元 fragment and 'enough' of them made 帕罗 — count unknown, so one essence per win is used.",
-    "Level, HP, rules and skills are NOT published in any source found; 80 / 5000 and the top learnset skills are placeholders."
+    "Rules, skills and HP are NOT published in any source found; 5000 HP and the top learnset skills are placeholders. Level 30: the 4399 2012-04-29 live report says the essence fights from the 40th minute were Lv30 (the first round was Lv100)."
   ],
   "confidence": {
     "level": "low",
@@ -70,7 +70,6 @@
       "iv",
       "evs",
       "nature",
-      "level",
       "hp",
       "skills",
       "rules",

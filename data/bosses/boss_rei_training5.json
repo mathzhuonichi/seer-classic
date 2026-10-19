@@ -16,10 +16,7 @@
       "evs": {},
       "nature": null,
       "skills": [
-        10825,
-        10823,
-        20364,
-        10170
+        10825
       ],
       "hp_override": 1200
     }
@@ -119,9 +116,10 @@
     "Pre-battle: if pirates are on the lake, shoot them with the head item first (map event).",
     "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
     "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
-    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "Level 100 and HP 1200 are stated by 7k7k 2011-03-16 and match the official map-32 entry 雷伊技能特训之雷伊幻影.",
     "The selected original-era shadow variant uses 1200 HP/four rounds from2011-03-16 report https://news.7k7k.com/content/20110316/76887.html; later 2013 guides report a five-round variant. Fixed IV 31/nature and four-action AI are calibration rather than recovered random IV/nature behavior.",
-    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
+    "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected.",
+    "Skills: the boss form 雷伊的幻影 (2013 id 2505, modern 5005) knows only 雷神天明闪 (3 PP). Species 70 stands in for the form, which has 雷伊's type and base stats."
   ],
   "confidence": {
     "level": "low",
@@ -129,9 +127,6 @@
       "iv",
       "evs",
       "nature",
-      "level",
-      "hp",
-      "skills",
       "innate_boost",
       "era"
     ]

@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -59,7 +59,7 @@
     },
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -69,7 +69,7 @@
         11000,
         10999
       ],
-      "hp_override": 10000,
+      "hp_override": 8000,
       "label": {
         "zh": "第2命：元素"
       },
@@ -97,7 +97,7 @@
     },
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -107,7 +107,7 @@
         11000,
         10999
       ],
-      "hp_override": 10000,
+      "hp_override": 9000,
       "label": {
         "zh": "第3命：能量"
       },
@@ -126,7 +126,7 @@
     },
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -152,7 +152,7 @@
     },
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -162,7 +162,7 @@
         11000,
         10999
       ],
-      "hp_override": 60000,
+      "hp_override": 20000,
       "label": {
         "zh": "第5命：虚无+圣洁+永恒, 天生双防+2"
       },
@@ -204,7 +204,7 @@
     },
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -278,14 +278,14 @@
   "engine_notes": [
     "Six lives = six consecutive Puni team members (7k7k 2011: '普尼有6命，其实就是6v6多精灵对战'). Each member carries its own seal traits in member_rules / member_phases — the engine needs per-team-member rules (encounter rules apply to all).",
     "Life traits: 7k7k 2011 gives life 1 = 虚无+圣洁 with 天生攻击+2, life 5 = 圣洁+虚无+永恒 with 天生双防+2, life 6 = 轮回(准)+圣洁+永恒 refilling below 1000 HP; lives 2-4 = 元素/能量/生命 per the spinoff summary (TapTap) which matches 7k7k on lives 1, 5, 6.",
-    "HP per life from 4399 2010: 7000 / 10000 / 10000 / 12000 / >60000 / 6500. Conflicts: a 2012 4399 guide lists 7000/8000/9000/10000/20000/65000; 7k7k 2011 says the 6th life totals 65000.",
+    "HP per life 7000 / 8000 / 9000 / 12000 / 20000 / 65000: the official map-108 table, the 7k7k 2010-10-28 per-life table and 4399 2012-10-18 agree, except life 4, where both 2010 sources give 12000 and the table and the 2012 guide give 10000; 12000 is kept.",
     "heal_full_below 1000 on life 6: to win, the final hit must take it from ≥1000 to 0 in one blow (hence '血量低于1300时可使用大招').",
     "4399 2010 also says the player's hit rate drops when 谱尼 is below 10000 HP (命中率70%) and that its crits remove the player's defence boosts (暴击破防) — not encoded.",
     "Daily limit (once per day) is reported only for the spinoff; the remake has no clock, so attempts_per_day is null.",
     "PP: lives 1-4 have finite PP (35 each), so no_struggle applies and the PP-exhaust tactic works; lives 5-6 have unlimited PP.",
     "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
-    "Level is not given by any source; 100 assumed (the battle showed ??? for seal bosses in some recollections).",
-    "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report. Other conflicting life 2/3/5 HP values remain unchanged pending separate reconciliation."
+    "Level 105 for all six lives is the official map-108 entry 普尼真身 (seer_data maps.json); the client displays ?? above 100.",
+    "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report."
   ],
   "confidence": {
     "level": "low",
@@ -294,7 +294,6 @@
       "evs",
       "nature",
       "hp",
-      "level",
       "life_traits_2_to_4",
       "era"
     ]

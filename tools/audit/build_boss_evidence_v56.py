@@ -202,7 +202,6 @@ def curate(entries: dict[str, dict]) -> None:
     entries["boss_spt_difute"]["members"][0].update({"displayLevelUnknown": True, "displayEvidence": observed("The 2011 report explicitly displays ??; internal level 80 is a remake estimate and must not replace the historical display.", [SPT2011])})
     # Narrow claims with disagreement or approximation stay inferred even when read.
     for boss_id, field, srcs, note in [
-        ("boss_rei", "hp", [CLASSIC], "The 2010 guide reports 2800 HP; the configured 2000 is from a different 2011 source. Version consistency remains unresolved."),
         ("boss_spt_laokemengde", "hp", [LAOKE], "HP 5000 is reported for the energy field. Applying it to all three field variants remains inferred."),
         ("boss_dark_door8_paduoni", "hp", [DARK8], "The source says approximately 1600 HP; exact HP and level remain unverified."),
         ("boss_dark_door8_jialuode", "hp", [DARK8], "The source says approximately 1700 HP; exact HP and level remain unverified."),
@@ -368,6 +367,143 @@ def curate_spt(entries: dict[str, dict]) -> None:
             set_field(entry, field, value, evidence("inferred", "explicit-estimate", note, srcs, observationStatus="observed"))
         else:
             set_field(entry, field, value, observed(note, srcs))
+SEER_DATA = "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/"
+MAPS = source(SEER_DATA + "maps.json", "Official H5 copy of the server map config: Boss entries with MonID, Hp and Lv, matched to encounters by map, "
+              "region index, task id and name. A later table, not a dated 2009-2013 snapshot.", "verified-official-table")
+SOURCES[MAPS].update({"localPath": "../analysis/seer-data-a00bcdd/maps.json",
+                      "sha256": "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3"})
+MONSTERS = source(SEER_DATA + "monsters.json", "Official H5 monster table: boss-only forms and their complete LearnableMoves lists.",
+                  "verified-official-table")
+SOURCES[MONSTERS].update({"localPath": "../analysis/seer-data-a00bcdd/monsters.json",
+                          "sha256": "12d8c059973a9c03560d3739910ecb5a578da3a1235c24260279b723743d7936"})
+CORE2013 = source("https://web.archive.org/web/20130706235627/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
+                  "2013-07-06 official client PetXMLInfo: boss forms 2505 (雷伊的幻影) and 2513-2516 (白虎 avatars) with their complete move lists.",
+                  "verified-client")
+SOURCES[CORE2013].update({"sha256": "ad513c3aa7c36c0a19cc58ab7a20fa8960b2f1efc489f8c0a05aa3b5d16a5df0",
+                          "decodedSha256": "6b1fc3dad932939e163c471ede28f6305e10d6fd71d0586f26fcf436f6be5288",
+                          "xmlSha256": "782e1f0a60fa3f6aa6d811da9a1c75396635c76cee04bb554dac169da1f91f9a"})
+REI2011 = period("https://news.4399.com/seer/jingyanxinde/201109-28-117631.html",
+                 "2011-09-28 report: Lv70 Rei with about 2000-2200 HP and four named attacks.")
+REI_SHADOW = period("https://news.7k7k.com/content/20110316/76887.html",
+                    "2011-03-16 Rei training report: the final shadow is Lv100 with 1200 HP under a four-round limit.")
+PALUO = period("https://news.4399.com/gonglue/seer/saiergonglue/201204-25-156091.html",
+               "Live report dated 2012-04-29: round one Lv100; the essence fights from the 40th minute are Lv30.")
+BULEIKE = period("https://news.7k7k.com/content/20110815/95405.html", "2011-08-15 report: Buleike Lv70, about 2000 HP, four commonly used attacks.")
+KAXIUSI = period("https://news.4399.com/seer/spt/201108-23-111511.html",
+                 "Page dated 2011-08-23: Kaxiusi Lv70, about 5000 HP, four commonly used attacks.")
+QILIN_WHEELS = {wheel: period(url, f"Qilin wheel-{wheel} report: HP{' and four named attacks' if wheel == 1 else ''}.") for wheel, url in {
+    1: "https://news.4399.com/gonglue/seer/jingyanxinde/243814.html", 2: "https://news.4399.com/gonglue/seer/saiergonglue/201305-03-262154.html",
+    3: "https://news.4399.com/gonglue/seer/jingyanxinde/272923.html", 5: "https://news.7k7k.com/51seer/20140924-673219.html",
+    6: "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html"}.items()}
+FORBIDDEN = period("https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
+                   "Page dated 2011-08-18: the Xuanwu and Qinglong bodies have 50000 HP after the 2011-08-05 update.")
+BAIHU = period("https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
+               "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000.")
+BAIHU_BODY = period("https://news.7k7k.com/content/20110426/84954.html", "2011-04-26 report: the Baihu body has 50000 HP.")
+BAIHU_MOVES = period("https://news.7k7k.com/content/20130106/555761.html", "2013 report: the Baihu body's four commonly used attacks.")
+BAIHU_GUARD = period("https://news.4399.com/seer/jingyanxinde/201103-12-89181.html", "2011-03-12 report: the Baihu guardian Laokemengde has 10000 HP.")
+ZHUQUE = period("https://news.4399.com/seer/jingyanxinde/201108-10-108989.html",
+                "2011-08-10 report: all three Zhuque shadows have 2000 HP and the same four attacks.")
+ZHUQUE_BODY = source("https://www.511du.com/p/7432.html", "Undated Q&A repost: the Zhuque body has 50000 HP. Weak secondary evidence.", "verified-secondary")
+PUNI_SEALS = {seal: period("https://news.4399.com/seer/pngl/" + page + ".html", f"2010-10 seal-{seal} guide: the four attacks and their PP, 35 in total.")
+              for seal, page in {1: "201010-14-78876", 2: "201010-16-78978", 3: "201010-16-78979", 4: "201010-16-78980", 5: "201010-16-78982"}.items()}
+PUNI2012 = period("https://news.4399.com/seer/jingyanxinde/201210-18-204899.html",
+                  "2012-10-18 report: the Puni body's six lives have 7000/8000/9000/10000/20000/65000 HP.")
+YILAN = period("https://news.7k7k.com/content/20100602/8159.html", "2010-06-02 report: Yilanluoni used 纯净能量 (special attack +2); Katesi used 舍身撞击.")
+KATESI = period("https://news.4399.com/seer/ahwdc/200912-04-54186.html", "Opening-day 2009-12-04 report: the trial-door Katesi is Lv45.")
+KATESI_WIKI = source("https://wapbaike.baidu.com/item/%E5%8D%A1%E7%89%B9%E6%96%AF/10553470",
+                     "Undated wiki boss section: Lv45 and four named attacks; only 舍身撞击 is corroborated by period reports.", "verified-secondary")
+DARK_WIKI = source("https://wapbaike.baidu.com/item/%E6%9A%97%E9%BB%91%E6%AD%A6%E6%96%97%E5%9C%BA/9200029",
+                   "Undated wiki door-8 section attributed to the 4399 2013-08-19 guide: Paduoni and Jialuode are Lv100.", "verified-secondary")
+REI_TRAINING = [("boss_rei_training1", 35, 350, "map 17 region 1"), ("boss_rei_training2", 45, 500, "map 27 region 1"),
+                ("boss_rei_training3", 75, 1500, "map 49 entry 雷伊技能特训之雷纳多"), ("boss_rei_training4", 65, 1000, "map 40 entry 雷伊技能特训之阿克希亚"),
+                ("boss_rei_training5", 100, 1200, "map 32 entry 雷伊技能特训之雷伊幻影")]
+
+
+def fidelity_table(note: str, *extra: str) -> dict:
+    return evidence("official", "official-data-table", note, [MAPS, *extra])
+
+
+def fidelity_claim(entries: dict[str, dict], boss_id: str, field: str, value, proof: dict, slots=(0,)) -> None:
+    for slot in slots:
+        set_field(entries[boss_id], field, value, proof, slot)
+
+
+def curate_legendary_dark(entries: dict[str, dict]) -> None:
+    """Fidelity values for the legendary, story, event and dark-door encounters."""
+    for seal, level in enumerate([101, 105, 105, 105, 105, 105, 105], 1):
+        fidelity_claim(entries, f"boss_puni_seal{seal}", "level", level, fidelity_table(f"Map 108 region-{seal} seal entry."))
+    for seal, hp in {2: 6000, 3: 7000, 5: 10000, 6: 13000, 7: 16000}.items():
+        fidelity_claim(entries, f"boss_puni_seal{seal}", "hp", hp, fidelity_table(f"Map 108 region-{seal} seal entry."))
+    for seal, src in PUNI_SEALS.items():
+        moves = observed("The guide lists all four attacks with PP summing to 35.", [src])
+        fidelity_claim(entries, f"boss_puni_seal{seal}", "skills", [20500, 10995, 11000, 10999], moves)
+    fidelity_claim(entries, "boss_puni_zhenshen", "level", 105, fidelity_table("Map 108 entry 普尼真身: all six lives Lv105."), range(6))
+    for slot, hp in {1: 8000, 2: 9000, 4: 20000}.items():
+        note = "Map 108 entry 普尼真身; the 7k7k 2010-10-28 per-life table and the 4399 2012-10-18 guide agree."
+        fidelity_claim(entries, "boss_puni_zhenshen", "hp", hp, fidelity_table(note, PUNI, PUNI2012), [slot])
+    entries["boss_puni_zhenshen"]["members"][3]["fields"]["hp"] = evidence(
+        "inferred", "explicit-estimate", "Both 2010 sources give life 4 12000 HP; the map table and the 2012 guide give 10000. 12000 is kept.",
+        [PUNI, PUNI2012, MAPS], observationStatus="observed")
+    rei_hp = "Map 32 entry SPT雷伊 (Hp 2000, Lv70). The 2010 guide's 2800 is an early report; 2011 sources give about 2000."
+    fidelity_claim(entries, "boss_rei", "hp", 2000, fidelity_table(rei_hp, REI2011, CLASSIC))
+    rei_moves = observed("Two 2011 reports name the same four attacks for the Lv70 Rei.", [LIST2011, REI2011])
+    fidelity_claim(entries, "boss_rei", "skills", [10176, 10175, 20087, 10170], rei_moves)
+    for boss_id, level, hp, region in REI_TRAINING:
+        proof = fidelity_table(f"The training opponent is the {region} entry fought by LeiyiTrainController.", *([REI_SHADOW] if level == 100 else []))
+        fidelity_claim(entries, boss_id, "level", level, proof)
+        fidelity_claim(entries, boss_id, "hp", hp, proof)
+    shadow = evidence("official", "official-data-table", "Boss form 雷伊的幻影 (2013 id 2505, modern 5005) knows only 雷神天明闪.", [MONSTERS, CORE2013])
+    fidelity_claim(entries, "boss_rei_training5", "skills", [10825], shadow)
+    fidelity_claim(entries, "boss_ailike", "level", 100, fidelity_table("Map 782 event table, first (13:00-13:08) tier."))
+    fidelity_claim(entries, "boss_ailike", "hp", 6000, fidelity_table("Map 782 event table, first (13:00-13:08) tier."))
+    fidelity_claim(entries, "boss_gaia", "hp", 2000, fidelity_table("Map 66 entry 盖亚; period reports also give 2000 HP."))
+    fidelity_claim(entries, "boss_buleike", "level", 70, fidelity_table("Map 693 entry; the 2011 report agrees.", BULEIKE))
+    fidelity_claim(entries, "boss_buleike", "hp", 2000, fidelity_table("Map 693 entry; the 2011 report says about 2000.", BULEIKE))
+    fidelity_claim(entries, "boss_buleike", "skills", [12112, 21090, 21089, 12114], observed("The report names four commonly used attacks.", [BULEIKE]))
+    fidelity_claim(entries, "boss_paluodiya", "level", 30, observed("The essence-granting fights from the 40th minute are Lv30.", [PALUO]))
+    fidelity_claim(entries, "boss_kaxiusi", "skills", [11925, 20982, 20639, 11927], observed("The report names four commonly used attacks.", [KAXIUSI]))
+    entries["boss_kaxiusi"]["members"][0]["fields"]["hp"] = evidence(
+        "inferred", "explicit-estimate", "The report says about 5000 HP; a later undated wiki says it was weakened to 2500.", [KAXIUSI], observationStatus="observed")
+    curate_campaign_fidelity(entries)
+    curate_dark_fidelity(entries)
+
+
+def curate_campaign_fidelity(entries: dict[str, dict]) -> None:
+    for boss_id, slots in [("boss_campaign_baihu_avatars", range(2)), ("boss_campaign_baihu_body", (0,)), ("boss_campaign_xuanwu_body", (0,)),
+                           ("boss_campaign_qinglong_body", (0,)), ("boss_campaign_zhuque_avatars", range(3)), ("boss_campaign_zhuque_body", (0,))]:
+        fidelity_claim(entries, boss_id, "level", 105, fidelity_table("The campaign map entry gives Lv105."), slots)
+    fidelity_claim(entries, "boss_campaign_baihu_avatars", "hp", 3000, observed("The fighting avatar has 3000 HP.", [BAIHU]))
+    fidelity_claim(entries, "boss_campaign_baihu_avatars", "hp", 2500, observed("The electric avatar has 2500 HP.", [BAIHU]), [1])
+    form = evidence("official", "official-data-table", "Boss forms 2513-2516 list exactly these four moves.", [CORE2013, MONSTERS])
+    fidelity_claim(entries, "boss_campaign_baihu_avatars", "skills", [11710, 20853, 20854, 11714], form)
+    fidelity_claim(entries, "boss_campaign_baihu_avatars", "skills", [20475, 11711, 20853, 11713], form, [1])
+    fidelity_claim(entries, "boss_campaign_baihu_body", "hp", 50000, observed("The body has 50000 HP.", [BAIHU_BODY]))
+    body_moves = observed("The report names the body's four commonly used attacks.", [BAIHU_MOVES])
+    fidelity_claim(entries, "boss_campaign_baihu_body", "skills", [11712, 11714, 20854, 20853], body_moves)
+    fidelity_claim(entries, "boss_campaign_baihu_guardians", "hp", 10000, observed("劳克蒙德 has 10000 HP as the Baihu guardian.", [BAIHU_GUARD]))
+    for boss_id in ("boss_campaign_xuanwu_body", "boss_campaign_qinglong_body"):
+        fidelity_claim(entries, boss_id, "hp", 50000, observed("The body has 50000 HP.", [FORBIDDEN]))
+    fidelity_claim(entries, "boss_campaign_zhuque_avatars", "hp", 2000, observed("Each shadow has 2000 HP (two lives for the rebirth shadow).", [ZHUQUE]), range(3))
+    shadows = observed("All three shadows use the same four named attacks.", [ZHUQUE])
+    fidelity_claim(entries, "boss_campaign_zhuque_avatars", "skills", [12095, 12094, 21078, 12091], shadows, range(3))
+    entries["boss_campaign_zhuque_body"]["members"][0]["fields"]["hp"] = evidence(
+        "inferred", "explicit-estimate", "Only an undated Q&A repost gives 50000 HP.", [ZHUQUE_BODY], observationStatus="observed")
+    for wheel, hp in {1: 20000, 2: 15000, 3: 15000, 5: 15000, 6: 15000}.items():
+        fidelity_claim(entries, f"boss_campaign_qilin_wheel{wheel}", "hp", hp, observed("The wheel report states this HP.", [QILIN_WHEELS[wheel]]))
+    wheel1 = observed("The report lists the four attacks used in this wheel.", [QILIN_WHEELS[1]])
+    fidelity_claim(entries, "boss_campaign_qilin_wheel1", "skills", [13550, 21895, 13554, 21896], wheel1)
+
+
+def curate_dark_fidelity(entries: dict[str, dict]) -> None:
+    partial_skills(entries["boss_dark_door5_yilanluoni"], [10357, 10644, 20281], DARK[5])
+    entries["boss_dark_door5_yilanluoni"]["members"][0]["fields"]["skills"]["sources"] = [DARK[5], YILAN]
+    fidelity_claim(entries, "boss_dark_trial_katesi", "level", 45, observed("The opening-day report gives the trial-door boss Lv45.", [KATESI, KATESI_WIKI]))
+    katesi = entries["boss_dark_trial_katesi"]["members"][0]["fields"]["skills"]
+    katesi.update({"verifiedMoveIds": [10043], "sources": [KATESI_WIKI, YILAN],
+                   "note": "The loadout is an undated wiki list; only 舍身撞击 is corroborated by period reports."})
+    for name in ("paduoni", "jialuode"):
+        fidelity_claim(entries, f"boss_dark_door8_{name}", "level", 100, observed("The wiki door-8 section gives Lv100; it is the only level source.", [DARK_WIKI]))
 
 
 def aggregate(fields: list[dict]) -> dict:
@@ -393,6 +529,7 @@ def build() -> tuple[dict, dict]:
         raise ValueError("Encounter scope changed; review the expected 180 encounters / 247 members before regenerating.")
     curate(entries)
     curate_spt(entries)
+    curate_legendary_dark(entries)
     for entry in entries.values():
         entry["userPolicies"] = [deepcopy(policy) for policy in USER_POLICY_LEDGER["policies"] if policy["bossId"] == entry["id"]]
     for entry in entries.values():

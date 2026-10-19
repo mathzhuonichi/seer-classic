@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 504,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": "hardy",
@@ -75,5 +75,5 @@
     "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
     "https://news.7k7k.com/content/20110806/94759.html"
   ],
-  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level 105 is the official map-table level; IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
 }

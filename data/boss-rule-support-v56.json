@@ -6,7 +6,7 @@
     "handledEntries": 590,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 118,
+    "approximatedEntries": 116,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -26,7 +26,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Level, HP, rules and skills are NOT published in any source found; 100 / 10000 and the top learnset skills are placeholders."
+          "reason": "Rules and skills are NOT published in any source found; the top learnset skills are placeholders. HP 6000 at Lv100 is the first (13:00-13:08) tier of the official map-782 event table; later tiers step down to Lv80/4000, 70/2000, 60/800, 30/150 and 20/80."
         }
       ],
       "waived": [],
@@ -1271,7 +1271,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Skills: 翔星刃 and 六芒星 (4399 2011) and 纯净能量 (7k7k 2010-06-02, the 特攻+2 move) are reported. The third high-power attack ('携带3个高威力攻击招式') is not named, so 星空闪光 is assumed and the weaker 气压波 gives way."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -1633,7 +1639,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/1",
+          "reason": "600 HP is an estimate. Level 45 is from the 4399 2009-12-04 opening-day article (Baike 卡特斯 agrees). Skills 舍身撞击/花瓣舞/生长/硬化 are Baike 卡特斯's BOSS攻略 list; only 舍身撞击 is independently corroborated."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -1754,7 +1766,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Level, HP, rules and skills are NOT published in any source found; 80 / 5000 and the top learnset skills are placeholders."
+          "reason": "Rules, skills and HP are NOT published in any source found; 5000 HP and the top learnset skills are placeholders. Level 30: the 4399 2012-04-29 live report says the essence fights from the 40th minute were Lv30 (the first round was Lv100)."
         }
       ],
       "waived": [],
@@ -2236,13 +2248,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
-          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -2285,11 +2291,6 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/0",
           "reason": "Skills = the 提亚斯 SPT boss set (飞空斩/精神干涉/飞空俯冲/飞翔之光, 4399 2010); 精神干涉 (accuracy -2) explains the high miss rate. Whether it also flees after two 精神干涉 here is unknown (not encoded)."
-        },
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/4",
-          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
         }
       ],
       "waived": [],
@@ -2411,13 +2412,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/5",
-          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -2492,13 +2487,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/5",
-          "reason": "Opponent levels and HP are not given by any source found; values are estimates."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },

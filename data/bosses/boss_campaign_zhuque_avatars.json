@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 504,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": "hardy",
@@ -36,7 +36,7 @@
     },
     {
       "species": 504,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": "hardy",
@@ -61,7 +61,7 @@
     },
     {
       "species": 504,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": "hardy",
@@ -115,7 +115,7 @@
     "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
   },
   "engine_notes": [
-    "Anger shadow 2000 HP and reflection are reported onrelease day; rebirth shadow 2000 HP/two lives/200 HP per turn are reported by the next-day successful player. Light shadow 2000 HP is calibrated.",
+    "Anger shadow 2000 HP and reflection are reported on release day; rebirth shadow 2000 HP/two lives/200 HP per turn are reported by the next-day successful player. 4399 2011-08-10 gives all three shadows 2000 HP.",
     "Finite PP is retained for all three avatars, matching the guide; no healing menu interrupts this one enemy team."
   ],
   "confidence": {
@@ -128,5 +128,5 @@
     "https://news.7k7k.com/content/20110806/94759.html",
     "https://news.7k7k.com/content/20110805/94666.html"
   ],
-  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
+  "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level 105 is the official map-table level; IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
 }
