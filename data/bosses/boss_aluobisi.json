@@ -74,7 +74,8 @@
     "consolation_reward: every attempt, won or lost, gives 100000 EXP ticket + a B-grade skill stone (item ids are placeholders).",
     "The 4399 page does not explicitly say the win gives a 精元 — the event was the way to obtain 阿洛比斯; essence of the base form 安普 (#1118) assumed, matching other 2012 essence pets.",
     "HP not published (5000 estimate); skills are the species' top learnset skills.",
-    "6-minute cooldown and 19-20点 window are real-time limits, dropped."
+    "6-minute cooldown and 19-20点 window are real-time limits, dropped.",
+    "consolation_reward is dropped in the remake: raising items are unlimited, so the EXP ticket and the skill stone would add nothing (battle/RULES.md 10.3)."
   ],
   "confidence": {
     "level": "low",

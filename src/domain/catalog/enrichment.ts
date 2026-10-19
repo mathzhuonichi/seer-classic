@@ -1,7 +1,6 @@
 // The catalog as one controller uses it, built once. The source catalog is never mutated.
 import type { CatalogData } from './catalog.ts';
 import { normalizeBattleSupplyItems } from '../battle-supplies.ts';
-import { braveTowerFloor } from '../challenges/brave-tower.ts';
 import type { AcquisitionCatalog } from '../acquisition/acquisition-model.ts';
 import { bossEssenceRewards } from '../acquisition/native-acquisition.ts';
 import { FUSION_RECIPES, fusionBeadItemId } from '../recipes/fusion.ts';
@@ -9,7 +8,7 @@ import { buildRecruitmentRewards, type RecruitmentReward } from '../acquisition/
 import { CURE_ITEM_ID } from '../economy.ts';
 
 type CatalogItem = Record<string, unknown>;
-type CatalogReward = { items?: Record<string, number> };
+type CatalogReward = { items?: Record<string, number>; first_clear_items?: Record<string, number> };
 
 /** A simple remake supply fills the recovered catalogue's missing cure-item category. */
 const CURE_ITEM: CatalogItem = {
@@ -17,9 +16,15 @@ const CURE_ITEM: CatalogItem = {
   battle_effects: [{ op: 'cure_status', target: 'self' }],
   source: 'Authored remake supply; the recovered item catalogue contains no status-cure consumables.',
 };
-/** Brave Tower floor rewards the recovered item catalogue does not define. */
-const TOWER_COLLECTIBLES: readonly (readonly [string, string])[] = [['item_gacha_coin', '扭蛋币'], ['item_suit_flash', '闪光套装']];
-export const TOWER_COLLECTIBLE_IDS: ReadonlySet<string> = new Set(TOWER_COLLECTIBLES.map(([id]) => id));
+/** Encounter rewards the recovered item catalogue does not define: collectibles that only their encounter pays, never sold. */
+const REWARD_COLLECTIBLES: readonly { id: string; zh: string; desc: string }[] = [
+  { id: 'item_gacha_coin', zh: '扭蛋币', desc: '勇者之塔通关奖励。' },
+  { id: 'item_suit_flash', zh: '闪光套装', desc: '勇者之塔通关奖励。' },
+  { id: 'suit_blue_warrior', zh: '蓝武士装', desc: '首次击败里奥斯的奖励。' },
+];
+export const REWARD_COLLECTIBLE_IDS: ReadonlySet<string> = new Set(REWARD_COLLECTIBLES.map(({ id }) => id));
+/** The items an encounter pays on some clear: its reward items and its first-clear items. */
+const rewardItemIds = (reward: CatalogReward | undefined) => [...Object.keys(reward?.items ?? {}), ...Object.keys(reward?.first_clear_items ?? {})];
 
 export interface EnrichedCatalog {
   /** Supplies plus every reward item the controller grants; Boss copies carry their default essence reward. */
@@ -41,9 +46,10 @@ export function enrichCatalog(source: CatalogData): EnrichedCatalog {
   };
   const items = itemRegistry(catalog.items);
   addBossEssences(catalog, items, name);
-  for (const [id, zh] of TOWER_COLLECTIBLES) {
-    const rewarded = catalog.bosses.some(boss => braveTowerFloor(String(boss.id)) !== undefined && (boss.reward as CatalogReward | undefined)?.items?.[id]);
-    if (rewarded) items.add({ id, name: { zh }, kind: 'collectible', desc: { zh: '勇者之塔通关奖励。' } });
+  for (const { id, zh, desc } of REWARD_COLLECTIBLES) {
+    if (catalog.bosses.some(boss => rewardItemIds(boss.reward as CatalogReward | undefined).includes(id))) {
+      items.add({ id, name: { zh }, kind: 'collectible', desc: { zh: desc } });
+    }
   }
   for (const species of catalog.species) if (!(species.obtain as string[] | undefined)?.includes('wild')) {
     items.add({ id: `essence_recruit_${species.id}`, name: { zh: `${name(Number(species.id))}精元` }, kind: 'essence', hatches: Number(species.id) });

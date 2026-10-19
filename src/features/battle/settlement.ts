@@ -8,7 +8,7 @@ import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts'
 import { commit, notice, replaceMonster, type BattleSession, type GameContext, type Runtime } from '../../kernel/api.ts';
 import { resultText } from './battle-view.ts';
 
-type EncounterReward = { items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
+type EncounterReward = { items?: Record<string, number>; first_clear_items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
 /** The save's coins and pooled experience: what they grow by over a settlement is what the battle paid. */
 type Purse = { coins: number; exp: number };
 const purse = (rt: Runtime): Purse => ({ coins: rt.save.game.coins, exp: rt.save.exp_pool });
@@ -98,12 +98,12 @@ function grantVictory(rt: Runtime, session: BattleSession) {
   else game.coins += reward.coins;
 }
 
-/** Victory coins, first clears, reward items within the six-copy allowance and taught skills. */
+/** Victory coins, first clears and their items, reward items within the six-copy allowance, and taught skills. */
 function grantEncounterRewards(rt: Runtime, session: BattleSession) {
   const { save, ctx } = rt, boss = session.encounter!, reward = boss.reward as EncounterReward | undefined;
   const firstClear = !save.progress.bosses_cleared.includes(boss.id);
   const paid = session.hooks.rewards?.(boss, firstClear)
-    ?? { coins: victoryReward(boss).coins, items: Object.entries(reward?.items ?? {}), blocked: REPEAT_LATER };
+    ?? { coins: victoryReward(boss).coins, items: encounterItems(reward, firstClear), blocked: REPEAT_LATER };
   save.game.coins += paid.coins;
   if (firstClear) save.progress.bosses_cleared.push(boss.id);
   const essences: string[] = [];
@@ -122,6 +122,10 @@ function grantEncounterRewards(rt: Runtime, session: BattleSession) {
 
 /** A catalogue item's name, as the bag shows it: an essence is named after the creature it hatches. */
 const itemName = (ctx: GameContext, id: string) => (ctx.catalog.items.find(item => String(item.id) === id)!.name as { zh: string }).zh;
+
+/** An encounter's reward items, and on its first clear its first-clear items too (里奥斯's 蓝武士装). */
+const encounterItems = (reward: EncounterReward | undefined, firstClear: boolean) =>
+  [...Object.entries(reward?.items ?? {}), ...firstClear ? Object.entries(reward?.first_clear_items ?? {}) : []];
 
 const REPEAT_LATER = '挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
 

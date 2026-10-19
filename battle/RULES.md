@@ -334,6 +334,12 @@ player knocked out, `{ foe: { species, level, boss? }, participants }`, where
 participants are the player monsters (uid, else `slot<n>`) that were on the
 field against it. This is the input of raising's `applyBattleRewards`.
 
+**Rewards** (paid by the game's settlement, not the engine): a victory pays
+`reward.items`, and a first clear also pays `reward.first_clear_items` once
+(里奥斯's 蓝武士装, a collectible like Brave Tower's 闪光套装).
+`consolation_reward` is dropped: 阿洛比斯's 10万经验券 and B级技能石 on every
+attempt, won or lost, would add nothing, because raising items are unlimited.
+
 ### 10.4 AI
 
 The engine asks an injected `BattlePolicy` (`chooseAction`, `chooseReplacement`)

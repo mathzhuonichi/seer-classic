@@ -1,4 +1,4 @@
-/** Source-declared infant rewards, legacy essence inventories, and route consistency. */
+/** Source-declared infant rewards, legacy essence inventories, route consistency, and first-clear reward items. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { memoryStorage, withSsr } from './_harness.mjs';
@@ -136,6 +136,23 @@ await withSsr('boss-essence-targets', async load => {
   const before = restored.snapshot().monsters.length;
   restored.dispatch({ type: 'useItem', itemId: 'essence_boss_spt_ajiasha', uid: restored.snapshot().party[0] });
   assert.deepEqual(restored.snapshot().monsters.slice(before).map(mon => [mon.species, mon.level]), [[1060, 1]]);
+
+  // 里奥斯's first clear pays the 蓝武士装 once, as a collectible that only the clear gives, like Brave Tower's 闪光套装.
+  const suit = 'suit_blue_warrior', liaosi = createGame(battleCatalog, JSON.stringify(battleSave));
+  liaosi.dispatch({ type: 'cheatMonster', uid: liaosi.snapshot().party[0], level: 100 });
+  for (const clear of ['first', 'repeat']) {
+    liaosi.dispatch({ type: 'heal' });
+    liaosi.dispatch({ type: 'startBattle', bossId: 'boss_spt_liaosi' });
+    liaosi.dispatch({ type: 'move', skillId: 10001 });
+    assert.equal(liaosi.snapshot().battle?.won, true, `${clear} 里奥斯 clear`);
+    liaosi.dispatch({ type: 'closeBattle' });
+    assert.equal(JSON.parse(liaosi.exportSave()).items[suit], 1, `${clear} clear: one 蓝武士装 in all`);
+  }
+  assert.deepEqual(liaosi.snapshot().items.filter(item => item.id === suit).map(item => [item.name, item.kind, item.count]), [['蓝武士装', 'collectible', 1]]);
+  assert.ok(!liaosi.snapshot().shopItems.some(item => item.id === suit), 'the shop does not list it');
+  const unsold = liaosi.exportSave();
+  assert.equal(liaosi.dispatch({ type: 'buyItem', itemId: suit, quantity: 1 }).ok, false);
+  assert.equal(liaosi.exportSave(), unsold, 'nor sell it');
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
-  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
+  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'first-clear collectible', 'catalog immutability'] }));
 });

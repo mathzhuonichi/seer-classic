@@ -7,7 +7,7 @@ import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
 import type { ItemView, ShopItemView } from '../../shared/views.ts';
 import { allowance, capacityReason } from '../../kernel/acquire.ts';
-import { TOWER_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
+import { REWARD_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
 
@@ -91,7 +91,7 @@ export function createInventoryViews(ctx: GameContext) {
 /** Shop rows: earned essences with their six-copy allowance, other items with the purchase limit. */
 export function createShopViews(ctx: GameContext) {
   const products = ctx.catalog.items
-    .filter(item => !TOWER_COLLECTIBLE_IDS.has(String(item.id)) && (!item.trainer_supply_only || ctx.unlimitedItemIds.has(String(item.id))))
+    .filter(item => !REWARD_COLLECTIBLE_IDS.has(String(item.id)) && (!item.trainer_supply_only || ctx.unlimitedItemIds.has(String(item.id))))
     .map(item => ({
       id: String(item.id), name: itemName(item), kind: String(item.kind), description: itemDescription(item), price: 0 as const,
       unlimited: ctx.unlimitedItemIds.has(String(item.id)), ...(typeof item.hatches === 'number' ? { hatches: item.hatches } : {}),
