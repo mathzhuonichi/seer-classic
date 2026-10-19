@@ -21,19 +21,20 @@ test('Boss rule conditions, named by their rule ids, are not shown by id', () =>
   assert.equal(text({type: 'condition_added', ...rule, turns: Infinity}), '布布花获得技能效果。');
 });
 
-test('the opening log leaves out the rule conditions installed before the first switch-in and keeps real conditions', () => {
+test('the opening log leaves out the rule conditions installed before the first switch-in and keeps real effects', () => {
   const foe = fields => at({side: 1, name: '布布花', ...fields});
   const opening = [
     {type: 'battle_start', sides: [{kind: 'player', name: 'player'}, {kind: 'boss', name: 'boss'}]},
     {type: 'condition_added', ...foe({condition: 'boss_drain_each_turn', conditionName: 'drain_each_turn'}), turns: Infinity},
     {type: 'condition_refreshed', ...foe({condition: 'campaign_always_moves_first', conditionName: '强制先手'}), turns: Infinity},
     {type: 'status_applied', ...foe({condition: 'poison'}), status: 'poison', turns: 3},
+    {type: 'stat_stage', side: 1, stat: 'eva', delta: 3, stage: 3, capped: false},
     {type: 'switch_in', side: 0, slot: 0, species: 1, types: [], name: '巴鲁斯', level: 50, hp: 100, maxHp: 100},
     {type: 'switch_in', side: 1, slot: 0, species: 2, types: [], name: '布布花', level: 50, hp: 100, maxHp: 100},
     {type: 'condition_added', ...at({conditionName: '护盾'}), turns: 5},
   ];
   assert.deepEqual(groupedBattleLog(openingEvents(opening), context),
-    ['布布花陷入中毒，持续 3 回合。', '我方派出了巴鲁斯。', '对手派出了布布花。　巴鲁斯获得护盾效果，持续 5 回合。']);
+    ['布布花陷入中毒，持续 3 回合。　布布花的闪避提升 3 级，当前 +3 级。', '我方派出了巴鲁斯。', '对手派出了布布花。　巴鲁斯获得护盾效果，持续 5 回合。']);
 });
 
 test('a retreat is said once, by the flee line; a turn cap\'s end names the cap, and only a wild win\'s end names the win', () => {
