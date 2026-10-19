@@ -2,9 +2,10 @@
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.ts';
 import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisition.ts';
+import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { braveTowerFloor, braveTowerRewards, braveTowerUnlockFloor, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
-import { encounterCategory, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { encounterCategory, learnSkillLabel, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
@@ -21,15 +22,15 @@ function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
 type EncounterReward = { items?: Record<string, number>; learn_skill?: { skill: number } };
 
 /** What any other won encounter pays besides the victory coins and pooled experience. */
-function encounterRewardText(ctx: CatalogContext, boss: BossEncounter): string {
+function encounterRewardText(ctx: GameContext, boss: BossEncounter): string {
   const reward = boss.reward as EncounterReward | undefined, items = Object.entries(reward?.items ?? {});
-  if (reward?.learn_skill) return `领悟技能：${ctx.data.skills.get(reward.learn_skill.skill)?.name.zh}`;
-  if (items.some(([id]) => ctx.catalog.items.find(item => item.id === id)?.kind === 'essence')) return '获得首领精元 → 道具背包 → 确认孵化';
+  if (reward?.learn_skill) return learnSkillLabel(ctx, reward.learn_skill.skill);
+  if (items.some(([id]) => isHatchingEssence(ctx.itemDefinitions.get(id)))) return '获得首领精元 → 道具背包 → 确认孵化';
   if (items.length) return `获得${items.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}`;
   return '仅赛尔豆与积累经验，没有精元或道具';
 }
 
-export function encounterView(ctx: CatalogContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
+export function encounterView(ctx: GameContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
   const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras;
   const floor = braveTowerFloor(b.id), unlockFloor = braveTowerUnlockFloor(b);
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';

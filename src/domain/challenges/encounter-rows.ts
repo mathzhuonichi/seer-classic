@@ -1,5 +1,5 @@
-// Encounter rows shared by the challenge views and the encounter catalogue: opponents, Brave Tower reward labels and categories.
-import type { BossEncounter } from '../../../battle/core/src/index.ts';
+// Encounter rows shared by the challenge views and the encounter catalogue: opponents, reward labels and categories.
+import type { BossEncounter, DataSet } from '../../../battle/core/src/index.ts';
 import type { ChallengeCategoryId, EncounterOpponentView } from '../../shared/views.ts';
 import type { CatalogData } from '../catalog/catalog.ts';
 import { SEER_BEANS_ITEM_ID } from '../economy.ts';
@@ -12,6 +12,11 @@ export function opponentViews(ctx: EncounterCatalog, encounter: BossEncounter): 
   return encounter.team.map((mon, slot) => ({
     species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, evidence: buildBossEvidence(encounter, slot),
   }));
+}
+
+/** The reward line of an encounter that teaches a skill. */
+export function learnSkillLabel(ctx: { readonly data: DataSet }, skill: number): string {
+  return `领悟技能：${ctx.data.skills.get(skill)?.name.zh}`;
 }
 
 export function towerRewardLabel(ctx: EncounterCatalog, id: string, count: number): string {

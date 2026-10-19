@@ -5,6 +5,8 @@ export interface AcquisitionStock {
   items: Readonly<Record<string,number>>;
 }
 export interface EssenceDefinition {id:string;kind?:string;hatches?:number}
+/** An essence that hatches a species and so counts against its copies; any other reward item simply goes to the bag. */
+export const isHatchingEssence=(item:EssenceDefinition|undefined):item is EssenceDefinition&{hatches:number}=>item?.kind==='essence'&&item.hatches!==undefined;
 
 /** Party members already belong to storage; every essence alias reserves one copy. */
 export function acquisitionAllowance(stock:AcquisitionStock, items:readonly EssenceDefinition[], species:number, excludeUid?:string):AcquisitionAllowance {
