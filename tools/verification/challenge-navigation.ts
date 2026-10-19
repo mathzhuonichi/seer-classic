@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
 import { challengeDetail, challengeEntries, challengeHonors } from '../../src/features/challenges/challenge-center.ts';
+import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import { suite } from './_harness.mjs';
 
 // Exercise the live encounter view catalog (bosses and trainers) without reading or changing a browser save.
@@ -136,5 +139,17 @@ t.check('Boss titles and achievements follow the cleared record into the archive
   ]);
   assert(tower.length > 0);assert.deepEqual(tower.map(honor => honor.label), archive.braveTower.honors, 'The tower honours match the tower view');
   assert(!cleared.exportSave().includes('毁灭者'), 'Honours are derived, not saved');
+});
+t.check('The archive panel shows a cleared Boss row its 挑战荣誉 and counts the 荣誉档案', () => {
+  const save = JSON.parse(game.exportSave());
+  save.progress.bosses_cleared = ['boss_spt_guerzhadi'];
+  const cleared = createGame(catalog, JSON.stringify(save)), full = cleared.snapshot();
+  // Two SPT Bosses with honours: the tab opens on the lower dex number, the cleared 古尔扎迪, so the render needs no click.
+  const shown = { ...full, bosses: full.bosses.filter(boss => ['boss_spt_guerzhadi', 'boss_spt_ruiersi'].includes(boss.id)) };
+  const store = Object.assign(Object.create(cleared), { snapshot: () => shown });
+  const html = renderToStaticMarkup(React.createElement(ChallengeCenter, { c: store }));
+  assert(html.includes(`<h3>${shown.bosses.find(boss => boss.id === 'boss_spt_guerzhadi')!.name}</h3>`), 'The cleared Boss row is open');
+  assert(html.includes('<strong>挑战荣誉</strong><p>已获得：击败古尔扎迪 · 称号：毁灭者</p>'), 'Its detail shows what the clear earned');
+  assert(html.includes('荣誉档案 · 2'), 'The honour roll button counts the earned honours');
 });
 t.finish({ encounters: bosses.length, spt: spt.length, destinations: WORLD_PLANETS.length, mapped, explicit, metadata, staged });
