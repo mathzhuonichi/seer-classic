@@ -40,23 +40,11 @@
   ],
   "rules": [
     {
-      "rule": "immune_stage_down",
-      "member": 0
-    },
-    {
       "rule": "script",
       "id": "foe_accuracy_penalty",
       "params": {
         "pct": 20,
         "member": 0
-      }
-    },
-    {
-      "rule": "script",
-      "id": "crit_rate_bonus",
-      "params": {
-        "stages": 3,
-        "member": 1
       }
     },
     {
@@ -109,8 +97,8 @@
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
     "HP 920 per monster from the T客邦 2011-01-19 floor table (TW server).",
     "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
-    "魔花仙子 (team[0]): immune to stage-downs; skills used on it have 20% less accuracy (TW 2011, 4399).",
-    "巨型仙人掌 (team[1]): crit rate 25%; reflects 25% of attack damage (TW 2011, 4399)."
+    "魔花仙子 (team[0]): skills used on it have 20% less accuracy (TW 2011 table; 4399: MISS率较高).",
+    "巨型仙人掌 (team[1]): reflects 25% of attack damage (TW 2011 table; 4399: 有反弹作用)."
   ],
   "confidence": {
     "level": "medium",

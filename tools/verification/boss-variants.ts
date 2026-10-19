@@ -35,6 +35,8 @@ function journey(save?:object):GameController{
   return game;
 }
 function start(game:GameController,bossId:string,variant?:string){
+  // 盖亚 is fought one against one (player_team_size max 1).
+  if(bossId===GAIA)for(const uid of game.snapshot().party.slice(1))game.dispatch({type:'party',uid,add:false});
   const result=game.dispatch({type:'startBattle',bossId,...(variant?{variant}:{})});
   assert.equal(result.ok,true,`${bossId}/${variant}: ${result.notice}`);assert(game.snapshot().battle&&!game.snapshot().battle!.finished);
   return battle;

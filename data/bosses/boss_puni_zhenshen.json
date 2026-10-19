@@ -55,7 +55,10 @@
           ],
           "once": true
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     },
     {
       "species": 300,
@@ -93,7 +96,10 @@
             ]
           }
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     },
     {
       "species": 300,
@@ -122,7 +128,10 @@
             ]
           }
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     },
     {
       "species": 300,
@@ -148,7 +157,10 @@
             "amount": 2000
           }
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     },
     {
       "species": 300,
@@ -200,7 +212,10 @@
           ],
           "once": true
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     },
     {
       "species": 300,
@@ -230,12 +245,20 @@
         {
           "rule": "unlimited_pp"
         }
-      ]
+      ],
+      "stat_multipliers": {
+        "spe": 1.0448
+      }
     }
   ],
   "rules": [
     {
       "rule": "no_struggle"
+    },
+    {
+      "rule": "player_team_size",
+      "min": 6,
+      "min_level": 100
     }
   ],
   "win": [
@@ -285,7 +308,9 @@
     "PP: lives 1-4 have finite PP (35 each), so no_struggle applies and the PP-exhaust tactic works; lives 5-6 have unlimited PP.",
     "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
     "Level 105 for all six lives is the official map-108 entry 普尼真身 (seer_data maps.json); the client displays ?? above 100.",
-    "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report."
+    "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report.",
+    "谱尼的领域 admits only a bag of six level-100 monsters (2013 client MapProcess_108 checkBag(6,100)).",
+    "Speed 280 on every life (7k7k 2010-10-28: 谱尼速度280): stat_multipliers spe scales the computed speed to 280."
   ],
   "confidence": {
     "level": "low",

@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 407,
+    "ruleNodes": 393,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -2063,7 +2063,7 @@
       "id": "boss_campaign_baihu_body",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_body.json",
-      "sourceSha256": "18e18ed1380e0f062bca297dbfff2bec80352a9041b620f10ba456f230b0ca86",
+      "sourceSha256": "b940b50a34c9e637bd72c449612c67a65e562f445e9831473e7a2e610c536177",
       "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
@@ -2190,15 +2190,47 @@
         {
           "index": 2,
           "path": "rules[2]",
+          "rule": "always_moves_first",
+          "configuration": {
+            "rule": "script",
+            "id": "always_moves_first"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 3,
+          "path": "rules[3]",
+          "rule": "immune_status_list",
+          "configuration": {
+            "rule": "immune_status_list",
+            "statuses": [
+              "leech"
+            ]
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 4,
+          "path": "rules[4]",
           "rule": "immune_skill_list",
           "configuration": {
             "rule": "script",
             "id": "immune_skill_list",
             "params": {
               "skills_zh": [
-                "\u6781\u5ea6\u51b0\u70b9",
-                "\u540c\u751f\u5171\u6b7b",
-                "\u7edd\u547d\u706b\u7130"
+                "\u5bc4\u751f\u79cd\u5b50"
               ]
             }
           },
@@ -2292,7 +2324,7 @@
       "id": "boss_campaign_baihu_guardians",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_guardians.json",
-      "sourceSha256": "9815bc0f56f11545971f0111311a085b703d841a2e2048a0b77d6f06e52e26e3",
+      "sourceSha256": "3de356995e2051116a75ae2f69dc93be94987b18417feaa9ccdd8183768136ba",
       "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110426/84954.html",
@@ -2680,6 +2712,59 @@
         },
         {
           "index": 3,
+          "path": "team[0].member_rules[3]",
+          "rule": "field_damage_each_turn",
+          "configuration": {
+            "rule": "script",
+            "id": "field_damage_each_turn",
+            "params": {
+              "amount": 100,
+              "sides": "both"
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 4,
+          "path": "team[0].member_rules[4]",
+          "rule": "immune_status_list",
+          "configuration": {
+            "rule": "immune_status_list",
+            "statuses": [
+              "leech"
+            ]
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 5,
+          "path": "team[0].member_rules[5]",
+          "rule": "immune_stage_down",
+          "configuration": {
+            "rule": "immune_stage_down"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 6,
           "path": "team[1].member_rules[0]",
           "rule": "immune_ohko",
           "configuration": {
@@ -2694,7 +2779,7 @@
           }
         },
         {
-          "index": 4,
+          "index": 7,
           "path": "team[1].member_rules[1]",
           "rule": "immune_skill_list",
           "configuration": {
@@ -2717,7 +2802,7 @@
           }
         },
         {
-          "index": 5,
+          "index": 8,
           "path": "team[1].member_rules[2]",
           "rule": "always_hit",
           "configuration": {
@@ -2733,7 +2818,7 @@
           }
         },
         {
-          "index": 6,
+          "index": 9,
           "path": "team[1].member_rules[3]",
           "rule": "no_struggle",
           "configuration": {
@@ -2748,7 +2833,7 @@
           }
         },
         {
-          "index": 7,
+          "index": 10,
           "path": "team[2].member_rules[0]",
           "rule": "vs_type_use_only",
           "configuration": {
@@ -2768,7 +2853,7 @@
           }
         },
         {
-          "index": 8,
+          "index": 11,
           "path": "team[3].member_rules[0]",
           "rule": "reflect_damage",
           "configuration": {
@@ -2788,34 +2873,11 @@
           }
         },
         {
-          "index": 9,
-          "path": "team[4].member_rules[0]",
-          "rule": "drain_each_turn",
+          "index": 12,
+          "path": "team[3].member_rules[1]",
+          "rule": "immune_status",
           "configuration": {
-            "rule": "script",
-            "id": "drain_each_turn",
-            "params": {
-              "foe_loss": 100,
-              "self_heal": 100
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 10,
-          "path": "team[4].member_rules[1]",
-          "rule": "immune_status_list",
-          "configuration": {
-            "rule": "immune_status_list",
-            "statuses": [
-              "leech"
-            ]
+            "rule": "immune_status"
           },
           "condition": null,
           "evidence": {
@@ -9018,7 +9080,7 @@
       "id": "boss_dark_door6_aieryiluo",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door6_aieryiluo.json",
-      "sourceSha256": "f3b5669787132b395ea1730d47ce42e1bc5bc2363934f1dbd603ce4cc29f59a8",
+      "sourceSha256": "a01f64b394087efce868602fae826a38b94a63d932faed0298c34012c6658f9b",
       "sourceNoteSha256": "1cdb3eb7e10f7a387ebd5d9dd23eddb55b590ec1fe881a4748bf4b3a2e6cd073",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
@@ -9117,6 +9179,26 @@
         },
         {
           "index": 1,
+          "path": "rules[1]",
+          "rule": "vs_type_use_only",
+          "configuration": {
+            "rule": "script",
+            "id": "vs_type_use_only",
+            "params": {
+              "type": "light",
+              "skill": 10432
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 2,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -9231,7 +9313,7 @@
       "id": "boss_dark_door6_bulinkeke",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door6_bulinkeke.json",
-      "sourceSha256": "bf6d11ed9d44bd0e0862f9262f8abd1625a3846a5f5cc05a926c99d992524087",
+      "sourceSha256": "412e84def652dd2c9608a1c71057cb4a4b4ad0c23f617076ad470415f8ffee3e",
       "sourceNoteSha256": "6f9bf2d890741f43d377c1a3007c0be659435713f56543c876421d60ed0ffe45",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
@@ -9330,7 +9412,8 @@
               "fear",
               "freeze",
               "burn",
-              "poison"
+              "poison",
+              "leech"
             ]
           },
           "condition": null,
@@ -9359,6 +9442,27 @@
         },
         {
           "index": 2,
+          "path": "rules[2]",
+          "rule": "immune_skill_list",
+          "configuration": {
+            "rule": "script",
+            "id": "immune_skill_list",
+            "params": {
+              "skills_zh": [
+                "\u5bc4\u751f\u79cd\u5b50"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 3,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -9850,7 +9954,7 @@
       "id": "boss_dark_door7_mohuashizhe",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door7_mohuashizhe.json",
-      "sourceSha256": "d7a28443d53e452ea49d7abb44a125ba3ba7744459ec285aecd4930e2d4e34d5",
+      "sourceSha256": "b2bd785b93c2b0e8239f99e1b0fb5b18ebd9f455bcfef1a723d0785a882779e8",
       "sourceNoteSha256": "d9562e9ec5272b160b5ffc356c8ac80c503fc10608b19a9debb32e9cd86dfbd3",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98441.html",
@@ -9878,7 +9982,7 @@
               11175,
               10017,
               20458,
-              10064
+              20459
             ]
           },
           "fields": {
@@ -9990,7 +10094,7 @@
             11175,
             10017,
             20458,
-            10064
+            20459
           ]
         }
       },
@@ -11322,7 +11426,7 @@
       "id": "boss_dark_door9_dipulide",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door9_dipulide.json",
-      "sourceSha256": "adc0134c422f79f2f677f574a0db24f02b42d9f0c9548a32d49a839572a9386f",
+      "sourceSha256": "d42b2fb7037e30128cbf900fd46c39e0436d5bc925510bf5e879bbc5253b6172",
       "sourceNoteSha256": "cd3d580b3f269bcfb78bbd65784bfb8ee1d481928e863db21c2a0a854e5bc138",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98372.html",
@@ -11405,7 +11509,50 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [],
+      "rules": [
+        {
+          "index": 0,
+          "path": "rules[0]",
+          "rule": "stages_unclearable",
+          "configuration": {
+            "rule": "script",
+            "id": "stages_unclearable",
+            "params": {
+              "stats": [
+                "atk"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 1,
+          "path": "phases[0].do[0]",
+          "rule": "stat_stage",
+          "configuration": {
+            "op": "stat_stage",
+            "target": "self",
+            "stats": {
+              "atk": 6
+            }
+          },
+          "condition": {
+            "first_turn": true
+          },
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        }
+      ],
       "additionalConfiguration": {
         "win": [
           {
@@ -11485,7 +11632,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
+          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": []
         }
       },
@@ -11686,7 +11833,7 @@
       "id": "boss_gaia",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_gaia.json",
-      "sourceSha256": "1b2cae58404244edf6e80cb4a1ceb83ef4d84d50b924e7898e376f23b82b0854",
+      "sourceSha256": "79c570b5b3de66a825e1e289833f0e09d677aa3864b73d9b4f5685b543ab2426",
       "sourceNoteSha256": "043a5cb61b48ae7486336c2511a9e083e6b392cc6197249812ba5435f82a8da9",
       "sourceUrls": [
         "https://news.7k7k.com/content/20100412/6704.html",
@@ -11774,6 +11921,22 @@
       "rules": [
         {
           "index": 0,
+          "path": "rules[0]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "max": 1
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 1,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -11887,7 +12050,7 @@
       "id": "boss_kaxiusi",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_kaxiusi.json",
-      "sourceSha256": "137f983261ce1ff862be75f80ab19b33b3835102e778f1eec3ce12a904b5a36e",
+      "sourceSha256": "8a16e676f1db144605c853a3264bd48801f59d92c5674c2c4899dd7e34687f3d",
       "sourceNoteSha256": "407931ed8808fe359ca4957c2957fa5cdac98d83905bf9fa1e1283ac072fb833",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111511.html",
@@ -11967,7 +12130,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 20
+          }
         }
       ],
       "rules": [
@@ -12278,7 +12443,7 @@
       "id": "boss_puni_seal1",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal1.json",
-      "sourceSha256": "34b092e9cbd6d2fb87249b5ed0f9044c1672687c782557320d5bc5662e411e3b",
+      "sourceSha256": "d296de519a0ab60c8eec58557ec8d2da13820ee6f8b4d914322441764367c8d2",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-14-78876.html",
@@ -12408,6 +12573,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 3,
+          "path": "rules[3]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -12503,7 +12685,7 @@
       "id": "boss_puni_seal2",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal2.json",
-      "sourceSha256": "6595705ae3adeb82ef92fe2719c1ba9027d31ab6a827c221d6a3e962876cd834",
+      "sourceSha256": "8cde7475cd07b3d57a4f3be902780b58162c3f3f889a69b6ee824ed1ee53ca37",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78978.html",
@@ -12641,6 +12823,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 3,
+          "path": "rules[3]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -12736,7 +12935,7 @@
       "id": "boss_puni_seal3",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal3.json",
-      "sourceSha256": "2b61e717c7e48d19e85876c8f59eb488f06abf27de95bade24e62cc699691cdf",
+      "sourceSha256": "3b109a9728d43d823a4b6e74209bcf8e44c4581a380a933b542673f35076a722",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78979.html",
@@ -12854,6 +13053,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 2,
+          "path": "rules[2]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -12949,7 +13165,7 @@
       "id": "boss_puni_seal4",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal4.json",
-      "sourceSha256": "c46ba7358ef50f557c7ea4dda1132426625ef0a4bca2a24f9b0576f47952f208",
+      "sourceSha256": "cb7b2a70554f50623ef22d4c86fdd071d79d8040ffcfe3dbe0f457ad69b1857c",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78980.html",
@@ -13066,6 +13282,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 2,
+          "path": "rules[2]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -13163,7 +13396,7 @@
       "id": "boss_puni_seal5",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal5.json",
-      "sourceSha256": "1a1a9827b5750d1b8e28e00c2013712a2ebd99168d6f958b0278ed13fdf49898",
+      "sourceSha256": "5df8c1a9261390585e4f87ec17e61b52371587ac1e6f52e5a5ee24865e2e68ae",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78982.html",
@@ -13291,6 +13524,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 3,
+          "path": "rules[3]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -13386,7 +13636,7 @@
       "id": "boss_puni_seal6",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal6.json",
-      "sourceSha256": "d58273f02a2d4b34115525a825c28b0a9afdd1cdd36cfd0f7ab992b3a006a179",
+      "sourceSha256": "118b5188b2fe087c6d0cf0d2044dfbc8c9287dc0efa358d7665faac39f117fe3",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78983.html",
@@ -13474,6 +13724,23 @@
           "rule": "unlimited_pp",
           "configuration": {
             "rule": "unlimited_pp"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 1,
+          "path": "rules[1]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
           },
           "condition": null,
           "evidence": {
@@ -13578,7 +13845,7 @@
       "id": "boss_puni_seal7",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal7.json",
-      "sourceSha256": "2a94c299802f3446bd5545684b41b268bd72cddce2320e70d988a3afd1afe93a",
+      "sourceSha256": "ae7a852a949a38f23d0b21cc5b4c4bbf955fcc79b8f66c4763f925ea609c83b7",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78984.html",
@@ -13694,6 +13961,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 2,
+          "path": "rules[2]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -13800,7 +14084,7 @@
       "id": "boss_puni_zhenshen",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_zhenshen.json",
-      "sourceSha256": "7839b35632d176d7be0522f95186fd962cd0deeb029640fd6339a545533fc5c5",
+      "sourceSha256": "189b12e84d0c6a6f3bbe8c1530b47ea111064923c182dfe3862c187d1f9ba431",
       "sourceNoteSha256": "5f206eb1dda1976ba43829b66e88591b8f4cab093eb8998518926dbc1bfb7d03",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78986.html",
@@ -13888,7 +14172,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         },
         {
           "slot": 1,
@@ -13958,7 +14244,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         },
         {
           "slot": 2,
@@ -14028,7 +14316,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         },
         {
           "slot": 3,
@@ -14099,7 +14389,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         },
         {
           "slot": 4,
@@ -14169,7 +14461,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         },
         {
           "slot": 5,
@@ -14237,7 +14531,9 @@
             }
           },
           "computedCombatStats": "inferred",
-          "statMultipliers": {}
+          "statMultipliers": {
+            "spe": 1.0448
+          }
         }
       ],
       "rules": [
@@ -14540,6 +14836,23 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
+        },
+        {
+          "index": 17,
+          "path": "rules[1]",
+          "rule": "player_team_size",
+          "configuration": {
+            "rule": "player_team_size",
+            "min": 6,
+            "min_level": 100
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
         }
       ],
       "additionalConfiguration": {
@@ -14650,7 +14963,7 @@
       "id": "boss_rei",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_rei.json",
-      "sourceSha256": "97aa249c8836167d29a4d30195d25beeedc8b5cd85f2cedf197ee820123e8631",
+      "sourceSha256": "b1a82b9979a05cf76cf7e9f59960c9133e5fb392480c0c07ac191753ac45cfe0",
       "sourceNoteSha256": "414916f71d8e58758b4c86e48660b269d25a7735e0dcf0dfbdc0d46c51479134",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -14756,22 +15069,6 @@
         {
           "index": 1,
           "path": "rules[1]",
-          "rule": "heal_full_below",
-          "configuration": {
-            "rule": "heal_full_below",
-            "hp": 100
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 2,
-          "path": "rules[2]",
           "rule": "always_moves_first",
           "configuration": {
             "rule": "script",
@@ -14786,7 +15083,85 @@
           }
         },
         {
+          "index": 2,
+          "path": "rules[2]",
+          "rule": "unlimited_pp",
+          "configuration": {
+            "rule": "unlimited_pp"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
           "index": 3,
+          "path": "rules[3]",
+          "rule": "status_on_attacker",
+          "configuration": {
+            "rule": "script",
+            "id": "status_on_attacker",
+            "params": {
+              "status": "paralysis",
+              "chance": 100,
+              "categories": [
+                "physical"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 4,
+          "path": "rules[4]",
+          "rule": "immune_skill_list",
+          "configuration": {
+            "rule": "script",
+            "id": "immune_skill_list",
+            "params": {
+              "skills_zh": [
+                "\u7edd\u547d\u706b\u7130",
+                "\u6781\u5ea6\u51b0\u70b9",
+                "\u9547\u9b42\u6b4c",
+                "\u5bc4\u751f\u79cd\u5b50",
+                "\u540c\u751f\u5171\u6b7b"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 5,
+          "path": "rules[5]",
+          "rule": "immune_percent_damage",
+          "configuration": {
+            "rule": "immune_percent_damage"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 6,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -34153,7 +34528,7 @@
       "id": "boss_tower_brave_f033",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f033.json",
-      "sourceSha256": "48a75fe8bc73583cd3ea2fb3a1cc7610319eec777771481639d74691030b642e",
+      "sourceSha256": "c2ab539c4f362da8d212f41529eb24141cafa4534ba3c6bec72156120d09a2e8",
       "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -34236,31 +34611,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "paralysis",
-              "chance": 50,
-              "categories": [
-                "physical"
-              ]
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -34339,7 +34690,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -34355,7 +34706,7 @@
       "id": "boss_tower_brave_f034",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f034.json",
-      "sourceSha256": "fa4550990cbec7c8b1a0206313c113da280bdcadc115b73149a3a2cdba35c007",
+      "sourceSha256": "c82c7ac5b27a1b8950245665db57045e0005c4699577e0db75f0580867b6441c",
       "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -34440,31 +34791,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "freeze",
-              "chance": 100,
-              "categories": [
-                "physical"
-              ]
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -34542,7 +34869,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -34558,7 +34885,7 @@
       "id": "boss_tower_brave_f035",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f035.json",
-      "sourceSha256": "b42a5e5ce65a9f55af3f8f0c0946885c20a2daddf265a05f5dc1488bd0ceea7d",
+      "sourceSha256": "dfa13769d686258e8c3bbc6285e117806286feaef2300c28c4e9bf92243a03bf",
       "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -34641,27 +34968,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -34740,7 +35047,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -35114,7 +35421,7 @@
       "id": "boss_tower_brave_f038",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f038.json",
-      "sourceSha256": "d65b7dd4c546458d4d35d0a6caa25957f7d36caa06a4050d3f603fc12878525f",
+      "sourceSha256": "1347d932172e22d2ad3ffd454c83189d5b659d22d470187f392b38e0e01015e6",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -35200,24 +35507,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "reflect_damage",
-          "configuration": {
-            "rule": "reflect_damage",
-            "pct": 25
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -35295,7 +35585,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -35311,7 +35601,7 @@
       "id": "boss_tower_brave_f039",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f039.json",
-      "sourceSha256": "e409b5f7c2033c23382da77c84288a53a6ce6de9fcfaf5ad3663f5f8be104aad",
+      "sourceSha256": "7868e616f8ab6eaa4dabcc85b11e4665d17098af28be00f2366f4636052b68d7",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -35395,23 +35685,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "immune_stage_down",
-          "configuration": {
-            "rule": "immune_stage_down"
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -35490,7 +35764,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -35506,7 +35780,7 @@
       "id": "boss_tower_brave_f040",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f040.json",
-      "sourceSha256": "4261db75d17c1fbce2b027d82efa620d6ab29b317186b4c6bebe47b4515e4b40",
+      "sourceSha256": "f7376250a4e0c6402fc1ab2cee09761f62b2baca11fe0ba0bf52768957e9d778",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -35592,31 +35866,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "freeze",
-              "chance": 100,
-              "categories": [
-                "physical"
-              ]
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -35694,7 +35944,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -35710,7 +35960,7 @@
       "id": "boss_tower_brave_f041",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f041.json",
-      "sourceSha256": "213956b768ff4a6b8aa9b299483419bc57e5de2f96ac8ee1b7a3a8e7447a1466",
+      "sourceSha256": "0a6a57754c18cee19e872c23c03a15e7f0ffe0ed0a939c538658bb52abc3e157",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -35799,23 +36049,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "immune_status",
-          "configuration": {
-            "rule": "immune_status"
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -35894,7 +36128,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -35910,7 +36144,7 @@
       "id": "boss_tower_brave_f042",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f042.json",
-      "sourceSha256": "a48a199424bea7176f9c60467adc2075fb5b5b03f4cc033f19fdd6ef6549ce76",
+      "sourceSha256": "1fd454b28777406d8c4d3459cb83bc9e5e86fa78c7eeac234f4e13367d6b3673",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -35997,23 +36231,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "immune_stage_down",
-          "configuration": {
-            "rule": "immune_stage_down"
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -36091,7 +36309,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -36107,7 +36325,7 @@
       "id": "boss_tower_brave_f043",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f043.json",
-      "sourceSha256": "dc6b604d4e7afecfb4ee2b30469c135ac9a71ffd7e01a4bbb98109f94871c211",
+      "sourceSha256": "04a92159d7df4773b91c3293d996e9cb4d354519fbf5a9d519b955568363f585",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -36191,43 +36409,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
-          "rule": "always_hit",
-          "configuration": {
-            "rule": "script",
-            "id": "always_hit"
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -36306,7 +36488,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -36899,7 +37081,7 @@
       "id": "boss_tower_brave_f047",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f047.json",
-      "sourceSha256": "77c0ecf2465433744c2c84d7fc0c666ee941d93e012a10339257ace21afd586d",
+      "sourceSha256": "3f30c3251551368fff66ddd9e47bf40faa1b32de2fe3c5822d278f44abfa17a3",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -36983,29 +37165,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "team[0].member_phases[0].do[0]",
-          "rule": "always_crit",
-          "configuration": {
-            "op": "script",
-            "id": "always_crit",
-            "params": {
-              "target": "self"
-            }
-          },
-          "condition": {
-            "self_hp_below": 200
-          },
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -37084,7 +37244,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -37283,7 +37443,7 @@
       "id": "boss_tower_brave_f049",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f049.json",
-      "sourceSha256": "bc30bae08940d7711a1ccc8e71a7eb2d718fbd9bbae17e38ee0630a678860ac2",
+      "sourceSha256": "087af311343dace7f526c35d2d76a56953101a7c15d70e25f8be565f4f69591c",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37680,7 +37840,7 @@
       "id": "boss_tower_brave_f051",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f051.json",
-      "sourceSha256": "55b4f64fa6b021abea5fca842bdaaf47e6796be75d7415139419d3edb07c6e6c",
+      "sourceSha256": "6e13fe4cc34799b61f7c5ff46c1dc13dac6556a526fd620afb274e306339361b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37836,22 +37996,6 @@
         {
           "index": 0,
           "path": "rules[0]",
-          "rule": "immune_stage_down",
-          "configuration": {
-            "rule": "immune_stage_down",
-            "member": 0
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
           "rule": "foe_accuracy_penalty",
           "configuration": {
             "rule": "script",
@@ -37870,28 +38014,8 @@
           }
         },
         {
-          "index": 2,
-          "path": "rules[2]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3,
-              "member": 1
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 3,
-          "path": "rules[3]",
+          "index": 1,
+          "path": "rules[1]",
           "rule": "reflect_damage",
           "configuration": {
             "rule": "reflect_damage",
@@ -38006,7 +38130,7 @@
       "id": "boss_tower_brave_f052",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f052.json",
-      "sourceSha256": "5c424674af250e7d84d982b7f46d2b34f8653609fa1bdcdc30c9b6f33b301313",
+      "sourceSha256": "8af71f1cc621e349f91031aceb165a98d5e7addcca695576533e6d5ad771698f",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38159,28 +38283,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3,
-              "member": 1
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -38265,7 +38368,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -38281,7 +38384,7 @@
       "id": "boss_tower_brave_f053",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f053.json",
-      "sourceSha256": "0910d080d43647ff1e50485ac9db83b9a458db483cc7915ffa579c65ea193def",
+      "sourceSha256": "853a00ffcc6e5d24f6d27e51b174a85bd0b5eda23109107c2eb28ff6745ef247",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38432,44 +38535,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "immune_stage_down",
-          "configuration": {
-            "rule": "immune_stage_down",
-            "member": 0
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
-          "rule": "foe_accuracy_penalty",
-          "configuration": {
-            "rule": "script",
-            "id": "foe_accuracy_penalty",
-            "params": {
-              "pct": 25,
-              "member": 1
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -38553,7 +38619,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -38569,7 +38635,7 @@
       "id": "boss_tower_brave_f054",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f054.json",
-      "sourceSha256": "e93114fca3c73ece4919d6ec9551e9a47732c6820879a4475c3936ab4d3638ae",
+      "sourceSha256": "133057edd9a04aa7b246ec4bfa500ee0f41715e2490794381851857271e2e95b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38720,71 +38786,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "always_hit",
-          "configuration": {
-            "rule": "script",
-            "id": "always_hit",
-            "params": {
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3,
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 2,
-          "path": "rules[2]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "paralysis",
-              "chance": 80,
-              "categories": [
-                "physical"
-              ],
-              "member": 1
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -38868,7 +38870,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -38884,7 +38886,7 @@
       "id": "boss_tower_brave_f055",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f055.json",
-      "sourceSha256": "f0f5aee7ffb1ded0248750a447a32480566f0de5626d2f665d381efd5bac6141",
+      "sourceSha256": "c1e16dd1b3aa7b20094ded4729a6519a903e409eb1ffed34bef3b68f7b077782",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39079,42 +39081,6 @@
             "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
             "sources": []
           }
-        },
-        {
-          "index": 2,
-          "path": "rules[2]",
-          "rule": "unlimited_pp",
-          "configuration": {
-            "rule": "unlimited_pp",
-            "member": 1
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 3,
-          "path": "rules[3]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3,
-              "member": 1
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
         }
       ],
       "additionalConfiguration": {
@@ -39218,7 +39184,7 @@
       "id": "boss_tower_brave_f056",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f056.json",
-      "sourceSha256": "d4a58df089590768737ed4c183489bb1ba9bfda74fe9de94177ab97c570b0443",
+      "sourceSha256": "0ce04c25640a330caeb1b09330e37137d8b7502fa7d72dbb3ac5270b63c01230",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39434,89 +39400,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "team[2].member_phases[0].do[0]",
-          "rule": "always_crit",
-          "configuration": {
-            "op": "script",
-            "id": "always_crit",
-            "params": {
-              "target": "self"
-            }
-          },
-          "condition": {
-            "self_hp_below": 200
-          },
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[0]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "freeze",
-              "chance": 100,
-              "categories": [
-                "physical"
-              ],
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 2,
-          "path": "rules[1]",
-          "rule": "foe_accuracy_penalty",
-          "configuration": {
-            "rule": "script",
-            "id": "foe_accuracy_penalty",
-            "params": {
-              "pct": 20,
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 3,
-          "path": "rules[2]",
-          "rule": "immune_stage_down",
-          "configuration": {
-            "rule": "immune_stage_down",
-            "member": 1
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -39604,7 +39488,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -39620,7 +39504,7 @@
       "id": "boss_tower_brave_f057",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f057.json",
-      "sourceSha256": "51e1a8dc6751cac6518ab5765f0f6c8f862297bf17977bf44940a3a6da5b5a22",
+      "sourceSha256": "66d9ff630a4ca1629aa381177c89cf46d4aa6929024790390b0bbdfb9aa17726",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39836,99 +39720,7 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [
-        {
-          "index": 0,
-          "path": "rules[0]",
-          "rule": "always_hit",
-          "configuration": {
-            "rule": "script",
-            "id": "always_hit",
-            "params": {
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
-          "rule": "crit_rate_bonus",
-          "configuration": {
-            "rule": "script",
-            "id": "crit_rate_bonus",
-            "params": {
-              "stages": 3,
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 2,
-          "path": "rules[2]",
-          "rule": "unlimited_pp",
-          "configuration": {
-            "rule": "unlimited_pp",
-            "member": 1
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 3,
-          "path": "rules[3]",
-          "rule": "reflect_damage",
-          "configuration": {
-            "rule": "reflect_damage",
-            "pct": 25,
-            "member": 2
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 4,
-          "path": "rules[4]",
-          "rule": "always_hit",
-          "configuration": {
-            "rule": "script",
-            "id": "always_hit",
-            "params": {
-              "member": 2
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        }
-      ],
+      "rules": [],
       "additionalConfiguration": {
         "win": [
           {
@@ -40017,7 +39809,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
+          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
           "sources": []
         }
       },
@@ -40033,7 +39825,7 @@
       "id": "boss_tower_brave_f058",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f058.json",
-      "sourceSha256": "ae9a9b6432739943f6395506878419e31cfdc1eacf6720410acfea6ba0805495",
+      "sourceSha256": "4e368654939249fe41c86744bfc9b73f5381e9228e518597763237d1bad54938",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -40260,49 +40052,6 @@
         {
           "index": 0,
           "path": "rules[0]",
-          "rule": "status_on_attacker",
-          "configuration": {
-            "rule": "script",
-            "id": "status_on_attacker",
-            "params": {
-              "status": "paralysis",
-              "chance": 90,
-              "categories": [
-                "physical"
-              ],
-              "member": 0
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
-          "rule": "always_hit",
-          "configuration": {
-            "rule": "script",
-            "id": "always_hit",
-            "params": {
-              "member": 2
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 2,
-          "path": "rules[2]",
           "rule": "always_moves_first",
           "configuration": {
             "rule": "script",
@@ -40425,7 +40174,7 @@
       "id": "boss_tower_brave_f059",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f059.json",
-      "sourceSha256": "0129488b0a2eee4d826a6086fff0075ab38512bd29de00e2e67a9b9727fd50f1",
+      "sourceSha256": "2a48ac6951e27796c7517e0ba0b8e8f1d555b1772affdb925269af386674a1e7",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -40646,22 +40395,6 @@
         {
           "index": 0,
           "path": "rules[0]",
-          "rule": "unlimited_pp",
-          "configuration": {
-            "rule": "unlimited_pp",
-            "member": 0
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
-          "path": "rules[1]",
           "rule": "heal_full_below",
           "configuration": {
             "rule": "heal_full_below",
@@ -40677,8 +40410,8 @@
           }
         },
         {
-          "index": 2,
-          "path": "rules[2]",
+          "index": 1,
+          "path": "rules[1]",
           "rule": "crit_rate_bonus",
           "configuration": {
             "rule": "script",
@@ -40687,22 +40420,6 @@
               "stages": 7,
               "member": 1
             }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 3,
-          "path": "rules[3]",
-          "rule": "immune_status",
-          "configuration": {
-            "rule": "immune_status",
-            "member": 2
           },
           "condition": null,
           "evidence": {

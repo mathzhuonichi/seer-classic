@@ -53,18 +53,6 @@
         "pct": 30,
         "member": 0
       }
-    },
-    {
-      "rule": "unlimited_pp",
-      "member": 1
-    },
-    {
-      "rule": "script",
-      "id": "crit_rate_bonus",
-      "params": {
-        "stages": 3,
-        "member": 1
-      }
     }
   ],
   "win": [
@@ -111,8 +99,7 @@
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
     "HP 1000 per monster from the T客邦 2011-01-19 floor table (TW server).",
     "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
-    "哈尔浮 (team[0]): moves first even against priority-2 闪光一击; skills used on it keep 70% accuracy (4399, TW 2011).",
-    "巴洛卡 (team[1]): unlimited PP; crit rate 25% (TW 2011)."
+    "哈尔浮 (team[0]): moves first even against priority-2 闪光一击; skills used on it keep 70% accuracy (4399, TW 2011)."
   ],
   "confidence": {
     "level": "medium",

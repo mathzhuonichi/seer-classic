@@ -68,12 +68,13 @@ const game=journey(source),s=game.snapshot(),entries=challengeEntries(s);
 const stated:Record<string,string[]>={
   boss_buleike:['只能派 1 只精灵出战。'],boss_spt_ruiersi:['只能派 1 只精灵出战。'],
   boss_tower_brave_mystery:['至少要派 6 只精灵出战。','出战精灵等级至少 100 级。'],boss_spt_saiweier:[],
+  boss_gaia:['只能派 1 只精灵出战。'],
 };
 t.check('The challenge archive detail states each Boss party rule before the start',()=>{
   for(const [id,rules] of Object.entries(stated))assert.deepEqual(challengeDetail(entries.find(entry=>entry.id===id)!,s,false).rules,rules,id);
   const ruled=source.bosses.filter((boss:any)=>partyRules(boss).length);
   for(const boss of ruled)assert.equal(s.bosses.find(view=>view.id===boss.id)!.partyRuleTexts?.length,partyRules(boss).length,boss.id);
-  assert.equal(ruled.length,8,'Bulaike, Ruiersi, the five Rei trainings and the Mystery Realm carry party rules');
+  assert.equal(ruled.length,17,'Bulaike, Ruiersi, Gaia, the five Rei trainings, the Mystery Realm and the seven seals and body of Puni carry party rules');
 });
 t.check('The challenge archive renders the selected Boss party rules as a 挑战条件 block, and none for a Boss without them',()=>{
   // The archive opens on a tab's first row, so a fixture gives that row a team-size rule.

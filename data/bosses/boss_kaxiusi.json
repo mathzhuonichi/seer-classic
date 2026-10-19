@@ -21,7 +21,10 @@
         20982,
         20639
       ],
-      "hp_override": 5000
+      "hp_override": 5000,
+      "stat_multipliers": {
+        "spe": 20
+      }
     }
   ],
   "rules": [
@@ -86,7 +89,8 @@
     "Reward essence is 卡茨的精元 (base form #796), so the item slug is essence_kaci.",
     "A later guide (9游) says it only appears 12:00-13:00 and 19:00-20:00 and that 'it reverses your boosts (它会翻转)'. Time windows are dropped; the reversal is not in the 2011 4399 page and is not encoded.",
     "4399 files this page under its SPT section (2011-08 compilation); it was assigned here as a 战神联盟 legendary.",
-    "Unlimited PP (single source; user decision 2026-10-19)."
+    "Unlimited PP (single source; user decision 2026-10-19).",
+    "Innate first move (天生先手): faster than every move without priority, while priority moves still go first (4399 2011-07-21, 百科); speed x20 instead of always_moves_first, which would beat priority."
   ],
   "confidence": {
     "level": "medium",

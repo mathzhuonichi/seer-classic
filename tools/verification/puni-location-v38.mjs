@@ -15,7 +15,13 @@ await withSsr('puni-location-v38',async load=>{
     '/src/domain/catalog/catalog.ts','/src/kernel/game.ts','/src/domain/challenges/challenge-campaigns.ts','/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/scene-exits.ts','/src/features/challenges/ui/ChallengeCampaignScene.tsx','/src/features/world/ui/WorldMap.tsx',
   ].map(load));
   const catalog=await loadCatalog(),catalogBytes=JSON.stringify(catalog),definition=CHALLENGE_CAMPAIGNS.find(row=>row.id==='puni'),stageIds=['seal1','seal2','seal3','seal4','seal5','seal6','seal7','body'];
-  const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(createGame(catalog,''));
+  // 谱尼's domain admits only six level-100 monsters (player_team_size min 6, min_level 100).
+  function partyOfSix(game){
+    for(const species of [300,503,1000])if(game.snapshot().party.length<6)game.dispatch({type:'cheatAcquire',species,level:100});
+    for(const uid of game.snapshot().party)game.dispatch({type:'cheatMonster',uid,level:100});
+    return game;
+  }
+  const bossIds=stageIds.map(id=>id==='body'?'boss_puni_zhenshen':`boss_puni_${id}`),base=parse(partyOfSix(createGame(catalog,'')));
   const make=save=>createGame(catalog,JSON.stringify(save??base)),view=game=>game.snapshot().campaigns.find(row=>row.id==='puni');
   const {planet,region}=resolveWorldLocation('space-station','mystery');
   const originalArt=JSON.parse(fs.readFileSync('src/domain/world/map-art-assets.json','utf8'))['10032'];
