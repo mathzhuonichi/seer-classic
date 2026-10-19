@@ -42,6 +42,8 @@ export interface BattleSession {
   /** `side:slot` keys whose appearance follows a battle transform. */
   readonly transformedSlots: Set<string>;
   resultMessage: string;
+  /** What the settlement adds after the outcome: what a victory paid. */
+  resultNotes: string[];
   settled: boolean;
   logs: string[];
   frames: BattlePresentationFrame[];

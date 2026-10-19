@@ -26,7 +26,7 @@ const openingLine = (rt: Runtime, { wild, name }: BattleSetup) => wild ? `遭遇
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
   const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));
-  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [openingLine(rt, setup)], frames: [] };
+  const session: BattleSession = { ...setup, hooks, resultMessage: '', resultNotes: [], settled: false, logs: [openingLine(rt, setup)], frames: [] };
   rt.session = session;
   rt.animation.revision++;
   logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));

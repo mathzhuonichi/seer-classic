@@ -6,24 +6,28 @@ import { allowance, boundedAutoEvolve, storeMonster } from '../../kernel/acquire
 import { victoryReward } from '../../domain/economy.ts';
 import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
 import { commit, notice, replaceMonster, type BattleSession, type GameContext, type Runtime } from '../../kernel/api.ts';
+import { resultText } from './battle-view.ts';
 
 type EncounterReward = { items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
+/** The save's coins and pooled experience: what they grow by over a settlement is what the battle paid. */
+type Purse = { coins: number; exp: number };
+const purse = (rt: Runtime): Purse => ({ coins: rt.save.game.coins, exp: rt.save.exp_pool });
 
-/** What a victory paid in coins and pooled experience. */
-export const victoryText = (reward: { coins: number; exp: number }) => `获得 ${reward.coins} 赛尔豆及 ${reward.exp} 积累经验。`;
+/** What a victory paid: its coins, if any, and its pooled experience, the victory bonus plus the knockout shares of Lv100 participants. */
+const payoutText = ({ coins, exp }: Purse) => coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验。` : `获得 ${exp} 积累经验。`;
 
 export function settle(rt: Runtime) {
   const session = rt.session;
   if (!session?.battle.result || session.settled) return;
   session.settled = true;
-  const { battle } = session, result = battle.result!;
+  const { battle } = session, result = battle.result!, before = purse(rt);
   settleTeam(rt, battle);
   rt.save.items = { ...battle.sides[0].items };
   rt.rng.s = [...battle.rng.s];
   commit(rt, applyBattleRewards(rt.save, result.defeated, rt.ctx.dex, { autoEvolve: false }).save);
   for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, uid)));
   if (result.reason === 'capture' && battle.capturedMon && session.wild) storeCapture(rt, session, battle.capturedMon);
-  settleOutcome(rt, session, result);
+  settleOutcome(rt, session, result, before);
   commit(rt, tickBoosts(rt.save));
 }
 
@@ -60,16 +64,18 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
   session.resultMessage = `${rt.ctx.speciesName(captured.species)}已加入${rt.save.party.includes(captured.uid) ? '背包' : '仓库'}。`;
 }
 
-/** A victory's rewards and the challenge's progress, then a victory's notice. A capture is a wild victory: it also says where the catch went. */
-function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult) {
-  const reward = victoryReward(session.encounter);
+/**
+ * A victory's rewards and the challenge's progress. A victory's result then says what it paid since `before`, and a notice
+ * repeats it. A capture is a wild victory: its result also says where the catch went.
+ */
+function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (!result.success) return;
-  if (result.reason === 'capture') {
-    session.resultMessage += victoryText(reward);
-    notice(rt, `捕捉成功：${session.resultMessage}`);
-  } else notice(rt, session.resultMessage || victoryText(reward));
+  const after = purse(rt);
+  if (result.success) session.resultNotes.push(payoutText({ coins: after.coins - before.coins, exp: after.exp - before.exp }));
+  if (!session.resultNotes.length) return;
+  const text = resultText(session);
+  notice(rt, result.reason === 'capture' ? `捕捉成功：${text}` : text);
 }
 
 function grantVictory(rt: Runtime, session: BattleSession) {

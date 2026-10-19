@@ -157,6 +157,9 @@ await withSsr('battle-facilities',async load=>{
     const game=make(winSave,winCatalog),before=parse(game);game.dispatch(action);assert(game.snapshot().battle);let turns=0;
     while(!game.snapshot().battle.finished&&turns++<12)game.dispatch({type:'move',skillId:testSkill});
     const battle=game.snapshot().battle,after=parse(game);assert(battle.finished&&battle.won,`Settlement fixture must win: ${battle.log.slice(-6).join(' | ')}`);assert.equal(after.game.coins-before.game.coins,500);assert(after.exp_pool-before.exp_pool>=1000);assert.equal(after.game.battlesWon-before.game.battlesWon,1);
+    // The 1000 bonus plus the Lv100 attacker's knockout experience, as the result and the settlement notice state it.
+    const paid=`挑战成功，奖励已入账。获得 500 赛尔豆及 ${after.exp_pool-before.exp_pool} 积累经验。`;
+    assert(after.exp_pool-before.exp_pool>1000);assert.equal(battle.result,paid);assert.equal(game.snapshot().notices[0],paid);
     assert.deepEqual(protectedSave(after),protectedSave(before));
     assert.deepEqual(after.progress,before.progress,'Even classic facility victories stay outside boss history');
     assert.deepEqual(game.snapshot().quests.filter(row=>row.group==='spt-recruitment'),make(winSave,winCatalog).snapshot().quests.filter(row=>row.group==='spt-recruitment'));

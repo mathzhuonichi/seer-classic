@@ -1,11 +1,9 @@
 // Snapshot views of the open battle.
-import type { Mon } from '../../../battle/core/src/index.ts';
+import type { BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
-import { victoryReward } from '../../domain/economy.ts';
 import { capacityReason, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
-import { victoryText } from './settlement.ts';
 import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
 import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
@@ -46,17 +44,20 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
 /**
  * The settled outcome as the player reads it: the battle's last dialogue line, and the scene's notice once the battle closes.
  * It names the outcome once, a challenge's in challenge wording, with what it gave or what to do next: where a capture went,
- * what a victory paid, or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message
- * (a floor passed, a stage completed, an essence or a skill gained) stands for its win. The log's last line says only how the
- * battle ended (战斗结束。, the turn cap, the retreat), so it does not name the outcome again; only a wild win's end line names
- * the win (战斗胜利！), since this text then names only the reward.
+ * or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message (a floor passed, a
+ * stage completed, an essence or a skill gained) stands for its win. The settlement's notes follow: what a victory paid. The
+ * log's last line says only how the battle ended (战斗结束。, the turn cap, the retreat), so it does not name the outcome again;
+ * only a wild win's end line names the win (战斗胜利！), since this text then names only the reward.
  */
-function resultText(session: BattleSession): string {
+export function resultText(session: BattleSession): string {
   const result = session.battle.result;
-  if (!result) return '';
+  return result ? outcomeText(session, result) + session.resultNotes.join('') : '';
+}
+
+function outcomeText(session: BattleSession, result: BattleResult): string {
   if (session.resultMessage) return session.resultMessage;
   const challenge = isChallenge(session);
-  if (result.success) return challenge ? '挑战成功，奖励已入账。' : victoryText(victoryReward(null));
+  if (result.success) return challenge ? '挑战成功，奖励已入账。' : '';
   if (result.reason === 'flee') return '本次撤离不发放战斗奖励。';
   const next = challenge ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
   if (result.reason === 'turn_cap') return `本场平局，${next}`;
