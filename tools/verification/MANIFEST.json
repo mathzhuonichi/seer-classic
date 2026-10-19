@@ -148,6 +148,9 @@
     "controller-snapshots.ts": {
       "status": "gate"
     },
+    "css-kit-precedence.mjs": {
+      "status": "gate"
+    },
     "damage-audit.ts": {
       "status": "gate"
     },
