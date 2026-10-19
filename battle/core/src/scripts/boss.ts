@@ -43,12 +43,13 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
       c.battle.heal(c.holder, low ? p.self_heal_low ?? p.self_heal : p.self_heal);
     },
   },
-  // the foe cannot clear the boss's stat boosts (optionally only some stats)
+  // the foe cannot clear the boss's stat boosts (optionally only some stats), except with a sure-hit or a listed skill
   stages_unclearable: {
     on: ['on_stage_incoming'],
     hook: (c) => {
-      const stats: string[] | undefined = c.cond.data.stats;
-      if (c.byFoe && c.clear && (!stats || stats.includes(c.stat))) return false;
+      const p = c.cond.data, stats: string[] | undefined = p.stats;
+      const excepted = !!c.skill && ((p.except_sure_hit && c.skill.accuracy === null) || !!p.except_skills_zh?.includes(c.skill.name.zh));
+      if (c.byFoe && c.clear && (!stats || stats.includes(c.stat)) && !excepted) return false;
     },
   },
   // listed skills (by Chinese name) have no effect on the boss

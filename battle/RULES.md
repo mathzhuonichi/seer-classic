@@ -298,6 +298,13 @@ Boss rule scripts: `drain_each_turn`, `stages_unclearable`,
 `foe_status_each_turn`, `random_priority`, `skill_effect_override`,
 `damage_cap_breaks_on_dot`, `foe_cannot_boost`.
 
+`stages_unclearable {stats?, except_sure_hit?, except_skills_zh?}`: the foe
+cannot clear the boss's stages (only `stats`, when listed). A clear by a
+sure-hit skill (`accuracy: null`) with `except_sure_hit`, or by a skill named
+in `except_skills_zh`, still works. A move's clear, including the critical-hit
+defence clear, passes its skill to `on_stage_incoming`; a clear outside a move
+has none and is blocked.
+
 ### 10.2 Phases
 
 `{ when, do, once }`. `when` uses the condition language of effect ops

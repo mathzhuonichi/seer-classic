@@ -225,7 +225,7 @@ function clearCriticalDefence(b: Battle, target: Mon, skill: Skill): void {
   const defenceStat = skill.category === 'physical' ? 'def' : 'spd';
   const defenceStage = target.stages[defenceStat];
   if (target.fainted || !(defenceStage > 0)) return;
-  const blocked = b.fire(target, 'on_stage_incoming', { stat: defenceStat, delta: -defenceStage, byFoe: true, clear: true }).includes(false);
+  const blocked = b.fire(target, 'on_stage_incoming', { stat: defenceStat, delta: -defenceStage, byFoe: true, clear: true, skill }).includes(false);
   if (blocked) b.emit({ type: 'stage_blocked', side: target.side, stat: defenceStat });
   else {
     target.stages[defenceStat] = 0;

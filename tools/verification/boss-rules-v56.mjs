@@ -18,7 +18,8 @@ const bosses=fs.readdirSync(path.join(root,'data/bosses')).filter(file=>file.end
 const byId=new Map(bosses.map(boss=>[boss.id,boss]));
 const aliases={immune_pct_damage:'immune_percent_damage',infinite_pp:'unlimited_pp',reflect_damage:'reflect_damage'};
 const contracts={
-  drain_each_turn:['foe_loss','self_heal','below_pct','foe_loss_low','self_heal_low'],stages_unclearable:['stats'],immune_skill_list:['skills_zh'],
+  drain_each_turn:['foe_loss','self_heal','below_pct','foe_loss_low','self_heal_low'],stages_unclearable:['stats','except_sure_hit','except_skills_zh'],
+  immune_skill_list:['skills_zh'],
   foe_stage_each_turn:['stats'],copy_foe_boosts_on_switch_in:[],mirror_status_to_attacker:['statuses'],lifesteal:['pct_damage_dealt'],
   escalate_vs_same_foe:['stats','reset_on_foe_switch'],status_on_attacker:['status','chance','categories','turns_min','turns_max'],
   random_heal:['chance','pct_max_hp'],ignore_player_damage_reduction:['skills_zh'],foe_status_each_turn:['status','from_turn'],

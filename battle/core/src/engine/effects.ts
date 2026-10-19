@@ -50,7 +50,8 @@ const OPS: Record<string, OpHandler> = {
   cure_status: (b, op, { tgt }) => {
     for (const c of [...tgt.conditions]) if (c.def.kind === 'status' && (!op.statuses || op.statuses.includes(c.id))) b.removeCondition(tgt, c.id);
   },
-  clear_stages: (b, op, { user, tgt }) => b.clearStages(tgt, op.which ?? 'all', tgt !== user),
+  // a move's context names its user; outside a move (emptyCtx) no skill does the clearing
+  clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, ctx.user ? ctx.skill : undefined),
   heal: (b, op, { ctx, tgt }) => {
     let amt = 0;
     if (op.pct_max_hp) amt = (tgt.maxHp * op.pct_max_hp) / 100;
@@ -184,12 +185,13 @@ export function changeStage(b: Battle, mon: Mon, stat: StageKey, delta: number, 
   b.emit({ type: 'stat_stage', side: mon.side, stat, delta: after - before, stage: after, capped: after - before !== delta });
 }
 
-export function clearStages(b: Battle, mon: Mon, which: 'up' | 'down' | 'all', byFoe: boolean): void {
+/** Clears `mon`'s stages; a move's clear passes its `skill` to `on_stage_incoming`. */
+export function clearStages(b: Battle, mon: Mon, which: 'up' | 'down' | 'all', byFoe: boolean, skill?: Skill): void {
   let changed = false;
   for (const k of STAGES) {
     const v = mon.stages[k];
     if (!((which !== 'down' && v > 0) || (which !== 'up' && v < 0))) continue;
-    if (byFoe && b.fire(mon, 'on_stage_incoming', { stat: k, delta: -v, byFoe, clear: true }).includes(false)) continue;
+    if (byFoe && b.fire(mon, 'on_stage_incoming', { stat: k, delta: -v, byFoe, clear: true, skill }).includes(false)) continue;
     mon.stages[k] = 0;
     changed = true;
   }
