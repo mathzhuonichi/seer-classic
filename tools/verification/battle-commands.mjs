@@ -2,8 +2,8 @@
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
  * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
- * closing notice), a 挣扎 turn that ends a Boss battle (its frames and its settlement), and the hold on turn preparation while a
- * turn plays.
+ * closing notice), a 挣扎 turn that ends a Boss battle (its frames and its settlement), a settlement that outlives a failed
+ * presentation, and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
 import {levelledGames} from './_game-battle.mjs';
@@ -246,10 +246,10 @@ await withSsr('battle-commands', async load => {
     return {cleared: save.progress.bosses_cleared.includes(STRUGGLE_BOSS), won, coins, essence: save.items[STRUGGLE_ESSENCE] ?? 0};
   };
   const settledWin = before => ({cleared: true, won: before.won + 1, coins: before.coins + VICTORY_REWARDS.encounter.coins, essence: before.essence + 1});
-  /** The levelled lead against the Boss, and the engine battle the controller built. */
-  const bossBattle = () => {
+  /** The levelled lead against the Boss, and the engine battle the controller built; `wrap` stands in for that battle. */
+  const bossBattle = (wrap = battle => battle) => {
     let battle;
-    const game = levelledLead({type: 'startBattle', bossId: STRUGGLE_BOSS}, catalog, {createBattle: options => (battle = new Battle(options))});
+    const game = levelledLead({type: 'startBattle', bossId: STRUGGLE_BOSS}, catalog, {createBattle: options => (battle = wrap(new Battle(options)))});
     return {game, battle};
   };
 
@@ -268,6 +268,24 @@ await withSsr('battle-commands', async load => {
     assert.ok(ui.dialogue.includes(`${view.enemy.name}使用了挣扎。`), 'the log names 挣扎');
     assert.deepEqual([view.finished, view.won, ui.dialogue.at(-1)], [true, true, view.result], 'the screen ends on the result text');
     assert.deepEqual(bossRecord(game), settledWin(before), 'cleared, one more battle won, the victory coins and the essence');
+  });
+
+  t.check('A won turn whose presentation fails is still settled, and the screen says the failure, not the win', () => {
+    // The engine's events end with a move the frames cannot resolve: a skill the catalog does not hold.
+    const {game, battle} = bossBattle(battle => {
+      const resolve = battle.resolveTurn.bind(battle);
+      battle.resolveTurn = () => [...resolve(), {type: 'move_used', side: 1, skill: -1, name: ''}];
+      return battle;
+    });
+    battle.active(1).hp = 1;
+    const before = bossRecord(game), {revision} = game.snapshot().battle.animation, ui = screen(game);
+    ui.player.submit({type: 'move', skillId: strongest(game.snapshot().battle).id});
+    const view = game.snapshot().battle, said = ui.player.state().dialogue;
+    assert.deepEqual([view.finished, view.won], [true, true]);
+    assert.deepEqual([said, ui.player.state().busy], [game.snapshot().notices[0], false], 'the failure is reported and the commands unlock');
+    assert.notEqual(said, view.result);
+    assert.equal(view.animation.revision, revision, 'no frames are published, so the last turn is not played again');
+    assert.deepEqual(bossRecord(game), settledWin(before), 'the presentation error does not drop the settlement');
   });
 
   t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {

@@ -35,16 +35,19 @@ export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: Sess
   prepareTurn(rt, setup.battle);
 }
 
-/** Submits the player's action, resolves the turn, then settles a finished battle. */
+/**
+ * Submits the player's action, resolves the turn and settles a finished battle, then presents the turn. The outcome is kept
+ * before the log and the frames are built, so an error in presenting the turn is reported and cannot drop its settlement.
+ */
 export function playTurn(rt: Runtime, action: Action) {
   const session = requireSession(rt), { battle } = session;
   const before = presentationState(rt.ctx, session);
   battle.submit(0, action);
   const events = battle.resolveTurn();
-  logEvents(rt.ctx, session, events, before);
-  recordAnimation(rt, session, events, before);
   rt.save.items = { ...battle.sides[0].items };
   settle(rt);
+  logEvents(rt.ctx, session, events, before);
+  recordAnimation(rt, session, events, before);
   prepareTurn(rt, battle);
 }
 
@@ -75,9 +78,9 @@ function logEvents(ctx: GameContext, session: BattleSession, events: BattleEvent
 /** The line of a turn's closing frame while the battle goes on; a finished battle's closing frame adds none to its `battle_end`. */
 const NEXT_TURN_TEXT = '请选择下一步行动。';
 
+/** Builds the turn's frames, then publishes them under a new revision; frames that fail to build leave the last turn's unplayed. */
 function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEvent[], before: BattlePresentationState) {
   const { ctx, animation } = rt;
-  animation.revision++;
   const frames = eventFrames(events, before, {
     data: ctx.data, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session), transformedSlots: session.transformedSlots,
     nextFrameId: () => ++animation.frameId,
@@ -87,5 +90,6 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
     id: ++animation.frameId, side: 0, kind: 'message', text: session.battle.result ? '' : NEXT_TURN_TEXT, playerHp: now.player.hp, enemyHp: enemy.hp,
     player: now.player, enemy, party: now.party, enemyParty: now.enemyParty.map(mon => foeView(session, mon)),
   });
+  animation.revision++;
   session.frames = frames;
 }
