@@ -1,41 +1,26 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect } from 'react';
 import type { BattleMonsterView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
-/** A modal over the battle; a click on the backdrop or Escape closes it. */
-function BattleModal({ className, label, title, closeLabel, autoFocus = false, onClose, children }: {
-  className: string; label: string; title: string; closeLabel: string; autoFocus?: boolean; onClose: () => void; children: ReactNode;
-}) {
+/** A party member's battle details over the battle; a click on the backdrop or Escape closes them. */
+export function BattleCreatureDetails({ monster, onClose }: { monster: BattleMonsterView; onClose: () => void }) {
   useEffect(() => {
     const close = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
   }, [onClose]);
   return <div className="classic-detail-backdrop" onClick={onClose}>
-    <section className={className} role="dialog" aria-modal="true" aria-label={label} onClick={event => event.stopPropagation()}>
-      <header><strong>{title}</strong><button autoFocus={autoFocus} aria-label={closeLabel} onClick={onClose}>×</button></header>
-      {children}
+    <section className="classic-creature-details" role="dialog" aria-modal="true" aria-label={`${monster.name}战斗详情`}
+      onClick={event => event.stopPropagation()}>
+      <header><strong>{`${monster.name} · Lv.${monster.level}`}</strong><button aria-label="关闭精灵详情" onClick={onClose}>×</button></header>
+      <p><TypeIcon type={monster.types}/> · 体力 {monster.hp}/{monster.maxHp}</p>
+      <p>{monster.statuses.length ? monster.statuses.join(' · ') : '无异常状态'}</p>
+      <div>{monster.skills.map(skill => <article key={skill.id}>
+        <strong>{skill.name}</strong>
+        <span><TypeIcon type={skillIconType(skill)}/> {skill.category} · 威力 {skill.power || '—'} · PP {skill.pp}/{skill.maxPp}</span>
+        <p>{skill.description}</p>
+      </article>)}</div>
     </section>
   </div>;
-}
-
-/** Sources and inferred parameters of a Boss opponent. */
-export function BattleEvidenceDialog({ name, onClose, children }: { name: string; onClose: () => void; children: ReactNode }) {
-  return <BattleModal className="classic-boss-evidence-modal" label={`${name}参数依据`} title={`${name} · 资料依据`} closeLabel="关闭资料依据" autoFocus onClose={onClose}>
-    {children}
-  </BattleModal>;
-}
-
-export function BattleCreatureDetails({ monster, onClose }: { monster: BattleMonsterView; onClose: () => void }) {
-  return <BattleModal className="classic-creature-details" label={`${monster.name}战斗详情`} title={`${monster.name} · Lv.${monster.level}`}
-    closeLabel="关闭精灵详情" onClose={onClose}>
-    <p><TypeIcon type={monster.types}/> · 体力 {monster.hp}/{monster.maxHp}</p>
-    <p>{monster.statuses.length ? monster.statuses.join(' · ') : '无异常状态'}</p>
-    <div>{monster.skills.map(skill => <article key={skill.id}>
-      <strong>{skill.name}</strong>
-      <span><TypeIcon type={skillIconType(skill)}/> {skill.category} · 威力 {skill.power || '—'} · PP {skill.pp}/{skill.maxPp}</span>
-      <p>{skill.description}</p>
-    </article>)}</div>
-  </BattleModal>;
 }

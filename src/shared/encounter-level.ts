@@ -5,11 +5,11 @@ export function encounterLevel(level:number,masked=false):string {
   return !masked&&Number.isFinite(level)&&level>=1&&level<=MAX_LEVEL?String(level):'??';
 }
 
-export function encounterLevelText(level:number,estimated=false,masked=false):string {
-  return `Lv.${encounterLevel(level,masked)}${estimated?' · 推定':''}`;
+export function encounterLevelText(level:number,masked=false):string {
+  return `Lv.${encounterLevel(level,masked)}`;
 }
 
-/** An opponent's level label, marked as estimated by its boss evidence and masked where the original showed ??. */
-export function opponentLevelText(opponent:{level:number;levelMasked?:boolean;evidence?:{hasInferredLevel:boolean}}):string {
-  return encounterLevelText(opponent.level,opponent.evidence?.hasInferredLevel,opponent.levelMasked);
+/** An opponent's level label, masked where the original showed ??. */
+export function opponentLevelText(opponent:{level:number;levelMasked?:boolean}):string {
+  return encounterLevelText(opponent.level,opponent.levelMasked);
 }

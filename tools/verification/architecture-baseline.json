@@ -71,7 +71,7 @@
     },
     "src/features/battle/ui/BattleTeamStrip.tsx": {
       "lines": 0,
-      "long": 5
+      "long": 3
     },
     "src/features/challenges/ui/BattleFacilities.tsx": {
       "lines": 0,
@@ -147,7 +147,7 @@
     },
     "src/shared/views.ts": {
       "lines": 0,
-      "long": 8
+      "long": 5
     },
     "battle/core/src/scripts/seer-tail.ts": {
       "lines": 588,

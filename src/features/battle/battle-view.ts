@@ -16,8 +16,7 @@ export function battleMonsterView(ctx: GameContext, session: BattleSession, mon:
     hp: mon.hp, maxHp: mon.maxHp, fainted: mon.fainted, types: mon.types.map(typeLabel), portrait: portrait(appearance),
     skills: mon.skills.map(id => skillView(ctx.data, id, mon.pp, mon.skillOverrides?.[id])),
     statuses: mon.conditions.filter(c => c.def.kind === 'status').map(c => statusLabel(c.id) ?? c.def.name?.zh ?? c.id),
-    stages: { ...mon.stages }, evidence: mon.side === 1 && session.encounter ? session.hooks.evidence?.(session.encounter, mon.slot) : undefined,
-    levelMasked: mon.side === 1 ? session.encounter?.team[mon.slot]?.level_masked : undefined,
+    stages: { ...mon.stages }, levelMasked: mon.side === 1 ? session.encounter?.team[mon.slot]?.level_masked : undefined,
   };
 }
 

@@ -4,7 +4,7 @@ import { putMon, type Monster, type Save } from '../../raising/core/index.ts';
 import type { GameSave } from './save.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
 import type { Created, GameAction } from './contract.ts';
-import type { BattlePresentationFrame, BossEvidenceView } from '../shared/views.ts';
+import type { BattlePresentationFrame } from '../shared/views.ts';
 import type { GameContext } from './context.ts';
 
 // Kernel types that feature code may use; features import nothing else from the kernel.
@@ -20,8 +20,6 @@ interface VictoryRewards { coins: number; items: readonly (readonly [string, num
 export interface SessionHooks {
   /** A generated team (battle facilities) or a practice fight (盖亚 without a variant): no attempt count, first-clear record or encounter reward items. */
   readonly unrecorded?: boolean;
-  /** The evidence shown for an opposing member of the encounter as fought. */
-  evidence?(encounter: BossEncounter, slot: number): BossEvidenceView | undefined;
   /** A victory's coins and reward items in place of the victory coins and the encounter's items (Brave Tower floors). */
   rewards?(encounter: BossEncounter, firstClear: boolean): VictoryRewards;
   /** After a victory's rewards or after a defeat: the challenge's progress and result message. */

@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
-import { BossEvidenceContent } from '../../../shared/ui/BossEvidence.tsx';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
+import { battleResultTitle, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
-import { BattleCreatureDetails, BattleEvidenceDialog } from './BattleDialogs.tsx';
+import { BattleCreatureDetails } from './BattleDialogs.tsx';
 import BattleHealth from './BattleHealth.tsx';
 import { useBattlePlayback } from './use-battle-playback.ts';
 import './battle.css';
@@ -28,9 +27,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
   const [partySelection, setPartySelection] = useState(b.player.uid);
   const [items, setItems] = useState<BattleItemChoice>({ category: 'recovery', selection: '', target: b.player.uid });
   const [showDetails, setShowDetails] = useState(false);
-  const [showEvidence, setShowEvidence] = useState(false);
   const chooseItems = useCallback((patch: Partial<BattleItemChoice>) => setItems(current => ({ ...current, ...patch })), []);
-  const closeEvidence = useCallback(() => setShowEvidence(false), []);
   const closeDetails = useCallback(() => setShowDetails(false), []);
   const playback = useBattlePlayback(b, c, {
     onStart: () => setShowLog(false),
@@ -48,9 +45,6 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
     <div className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}>
       <div className="classic-battle-caption">
         <span>{b.name} · 第 {b.turn} 回合</span>
-        {enemy.evidence && <button className="classic-boss-evidence-button" onClick={() => setShowEvidence(true)}>
-          {evidenceButtonLabel(enemy.evidence)}
-        </button>}
       </div>
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
@@ -73,9 +67,6 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
-    {showEvidence && enemy.evidence && <BattleEvidenceDialog name={enemy.name} onClose={closeEvidence}>
-      <BossEvidenceContent evidence={enemy.evidence}/>
-    </BattleEvidenceDialog>}
     {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={closeDetails}/>}
   </section>;
 }

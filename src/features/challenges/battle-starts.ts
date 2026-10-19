@@ -11,7 +11,6 @@ import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../do
 import { SEER_BEANS_ITEM_ID } from '../../domain/economy.ts';
 import { notice, type Feature, type GameContext, type GameSave, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { NO_STAMINA_MESSAGE, startSession } from '../battle/index.ts';
-import { buildBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import { chosenVariant } from '../../domain/challenges/encounter-variants.ts';
 import { encounterHooks } from './boss-variants.ts';
 import { campaignProgress, stageRequirement } from './progress-views.ts';
@@ -26,7 +25,7 @@ export type ChallengeStartAction =
   | {type: 'resetCampaign'; campaignId: string};
 
 /** Generated facility teams keep no attempt count or clear record. */
-const FACILITY_HOOKS: SessionHooks = { unrecorded: true, evidence: buildBossEvidence };
+const FACILITY_HOOKS: SessionHooks = { unrecorded: true };
 
 /**
  * A Boss, trainer or recruit encounter, with the chosen variant or as a practice fight where one is offered (boss-variants.ts);
@@ -56,7 +55,6 @@ function startTowerFloor(rt: Runtime, floor: number) {
 
 /** A floor pays its explicit rewards, seer beans as coins and milestones only on a first clear; a victory advances the climb. */
 const towerHooks = (floor: number): SessionHooks => ({
-  evidence: buildBossEvidence,
   rewards: (boss, firstClear) => {
     const items = braveTowerRewards(boss.reward as BraveTowerRewardSource | undefined).filter(item => firstClear || !item.firstClear);
     return {
@@ -84,7 +82,6 @@ const stageClearText = (campaign: Campaign, cleared: readonly string[], advanced
 
 /** A victory clears the stage; a defeat restarts a campaign that resets on loss. */
 const campaignHooks = (campaign: Campaign, stageId: string): SessionHooks => ({
-  evidence: buildBossEvidence,
   settled: (rt, session, result) => {
     if (result.success) {
       const cleared = campaignProgress(rt.save, campaign), advanced = campaign.stages.findIndex(stage => stage.id === stageId) === cleared.length;

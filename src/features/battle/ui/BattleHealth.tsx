@@ -17,7 +17,7 @@ export default function BattleHealth({ monster, team, enemy }: { monster: Battle
     <div className="classic-health-portrait"><img src={getCreatureArt(appearance).src} style={portraitStyle} alt="" draggable={false}/></div>
     <div className="classic-health-type"><TypeIcon type={monster.types}/></div>
     <div className="classic-health-heading"><strong title={monster.name}>{monster.name}</strong></div>
-    <span className="classic-health-level" aria-label={`等级 ${level}${enemy && monster.evidence?.hasInferredLevel ? '，推定' : ''}`}>{level}</span>
+    <span className="classic-health-level" aria-label={`等级 ${level}`}>{level}</span>
     <div className="classic-hp-track" role="progressbar" aria-valuenow={monster.hp} aria-valuemin={0} aria-valuemax={monster.maxHp} aria-label="体力">
       <i style={{ width: `${hpPercent(monster.hp, monster.maxHp)}%` }} />{!monster.hpHidden && <span>{monster.hp} / {monster.maxHp}</span>}
     </div>

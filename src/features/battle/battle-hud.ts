@@ -1,5 +1,5 @@
 // View rules of the battle screen: condition chips, command panes and settled messages.
-import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEvidenceView, ItemView, SkillView } from '../../shared/views.ts';
+import type { BattleMonsterView, BattlePresentationFrame, BattleView, ItemView, SkillView } from '../../shared/views.ts';
 import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from '../../shared/item-categories.ts';
 import { STAGE_LABELS, type StageKey } from '../../shared/labels.ts';
 import { STRUGGLE_VIEW } from '../../shared/view-common.ts';
@@ -14,8 +14,6 @@ export const stageChips = (stages: Record<string, number>): StageChip[] =>
 /** Spoken summary of a combatant's statuses and stage changes. */
 export const conditionSummary = (monster: BattleMonsterView) =>
   [...monster.statuses, ...stageChips(monster.stages).map(chip => `${chip.label}${chip.value > 0 ? '提升' : '下降'} ${Math.abs(chip.value)} 级`)].join('，') || '无异常状态或能力变化';
-
-export const evidenceButtonLabel = (evidence: BossEvidenceView) => evidence.incompleteRules ? '部分机制待还原' : evidence.hasInferredStats ? '含推定参数' : '资料依据';
 
 export const roundStatus = (battle: BattleView, busy: boolean) =>
   busy ? '精灵行动中' : battle.finished ? '战斗结束' : battle.needsSwitch ? '选择出战精灵' : '等待你的指令';

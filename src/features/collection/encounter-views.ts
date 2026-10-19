@@ -4,7 +4,6 @@ import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.
 import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisition.ts';
 import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { braveTowerFloor, braveTowerRewards, isBraveTowerSideChallenge, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
-import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
 import {
   allVariantHonors, encounterCategory, encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel,
 } from '../../domain/challenges/encounter-rows.ts';
@@ -57,7 +56,7 @@ export function encounterView(
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, levelMasked: b.team[0].level_masked, species: b.team[0].species, portrait: portrait(b.team[0].species),
     opponents: opponentViews(ctx, b),
-    evidence: buildBossEncounterEvidence(b), rewardText: floor !== undefined ? towerRewardText(ctx, b) : encounterRewardText(ctx, b),
+    rewardText: floor !== undefined ? towerRewardText(ctx, b) : encounterRewardText(ctx, b),
     ...(isBraveTowerSideChallenge(b) ? { towerSide: true } : {}),
     ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
     ...(honors.length ? { honors } : {}),

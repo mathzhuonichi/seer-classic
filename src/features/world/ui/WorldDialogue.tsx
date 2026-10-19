@@ -1,6 +1,5 @@
 import type { GameController } from '../../../kernel/contract.ts';
 import type { FacilityAction, WorldDialogueView } from '../world-scene.ts';
-import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import BossVariantChoice, { defaultVariant } from '../../../shared/ui/BossVariantChoice.tsx';
 import { CreatureArt } from '../../../shared/ui/CreatureArt.tsx';
 import { FacilityNpc } from './SceneContacts.tsx';
@@ -44,7 +43,6 @@ export function WorldDialogue(props: WorldDialogueProps) {
         <p>{view.text}</p>
         {towerTeam && <ul className="world-tower-opponents" aria-label={`第 ${towerTeam.floor} 层对手队伍`}>{towerTeam.opponents.map((opponent, index) =>
           <li key={`${index}-${opponent.species}`}><span>{index + 1}. {opponent.name}</span><small>{opponent.level}</small></li>)}</ul>}
-        <BossEvidence evidence={view.evidence}/>
         {view.partyRuleTexts && <p className="world-dialogue-detail">挑战条件：{view.partyRuleTexts.join('')}</p>}
         {variantChoice && <BossVariantChoice variants={variantChoice.variants} practice={variantChoice.practice} selected={variant}
           onSelect={id => onChooseVariant?.(id)}/>}
