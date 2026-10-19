@@ -11,6 +11,7 @@ import { npcTrainingScripts } from '../../domain/challenges/npc-training-scripts
 import { traits, traitScripts } from '../../domain/traits.ts';
 import { trainerBattleSupplies } from '../../domain/battle-supplies.ts';
 import { normalizeNpcTrainingEncounter } from '../../domain/challenges/npc-training.ts';
+import { partyRefusalText } from '../../domain/challenges/party-rules.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
 import {engravingLoadout} from '../engravings/index.ts';
 
@@ -43,8 +44,8 @@ export function setupBattle(ctx: GameContext, save: GameSave, rng: Rng, foe: Foe
   const player = playerSide(ctx, save, roster);
   if (!player.team.some(mon => mon.hp! > 0)) throw new Error(NO_STAMINA_MESSAGE);
   if (encounter) {
-    const errors = validateEncounter(encounter, player);
-    if (errors.length) throw new Error(errors.join('；'));
+    const refusals = validateEncounter(encounter, player);
+    if (refusals.length) throw new Error(partyRefusalText(refusals, ctx.speciesName));
   }
   const wild = 'wild' in foe ? createMonster(ctx.dex, foe.wild, foe.level ?? wildLevel(player.team[0].level), rng) : null;
   const opponent: SideInput = wild ? { kind: 'wild', team: [wild] }

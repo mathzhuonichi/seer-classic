@@ -256,7 +256,11 @@ coins and pooled experience. [chosen]
 
 A boss encounter (`data/bosses/*.json`, shape `BossEncounter` in `core/src/types.ts`) builds side 1
 from `team` (`hp_override`, `stat_multipliers` per member) and adds rules,
-phases, objectives and AI. `validateEncounter` checks the player team first.
+phases, objectives and AI. `validateEncounter` checks the player team first: `partyRules`
+reads the encounter's rules on the player's team as `PartyRule`s (`team_max`, `team_min`,
+`level_max`, `level_min`, `species`), and each rule the team breaks comes back as a
+`PartyRefusal` with the team size and the slots of the members that break it. The game words
+both for the player.
 
 ### 10.1 Rules
 
@@ -282,7 +286,7 @@ phases, objectives and AI. `validateEncounter` checks the player team first.
 | `flee_after_skill {skill \| skills, count?}` | the boss leaves after using it `count` times: result `boss_fled`, no winner |
 | `ohko_below_pct {pct}` / `always_crit_below_pct {pct}` | below that HP its attacks KO / always crit |
 | `lives {count}` | on fainting, revive to full HP and PP `count` times (multi-life bosses) |
-| `player_level_cap {level}` / `player_team_size {max}` | checked by `validateEncounter` before the battle |
+| `player_level_cap {level}` / `player_team_size {max?, min?, min_level?}` / `script require_player_species {species}` | checked by `validateEncounter` before the battle |
 | `no_capture` / `no_items` / `no_switch` | disable those actions for the player |
 | `script {id, params}` | a boss rule script (`core/src/scripts/boss.ts`), or an alias of a native rule (`infinite_pp`, `immune_pct_damage`, `reflect_damage`) |
 

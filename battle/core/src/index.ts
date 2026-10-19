@@ -8,4 +8,4 @@ export { BUILTIN_CONDITIONS, CONTROL_STATUSES, DOT_STATUSES } from './builtin-co
 export { buildDataSet, type RawData } from './data.ts';
 export { Battle } from './engine/battle.ts';
 export type { Mon, Side } from './engine/state.ts';
-export { NATIVE_BOSS_RULE_FIELDS, validateEncounter } from './engine/rules.ts';
+export { NATIVE_BOSS_RULE_FIELDS, partyRules, validateEncounter } from './engine/rules.ts';
