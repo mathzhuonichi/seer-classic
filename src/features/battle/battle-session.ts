@@ -17,10 +17,16 @@ interface SessionOptions {
   hooks?: SessionHooks;
 }
 
-/** The word that opens an encounter's first log line, unless its name already says it (a field recruit's 野外挑战：X). */
+/**
+ * The word that opens an encounter's first log line, unless its name already says it (a field recruit's 野外挑战：X). A chosen
+ * variant follows the name: 挑战厄尔塞拉（周一：免疫异常状态，血很厚）。
+ */
 const CHALLENGE_WORD = '挑战';
-const openingLine = (rt: Runtime, { wild, name }: BattleSetup) => wild ? `遭遇野生的${rt.ctx.speciesName(wild.species)}。`
-  : name.includes(CHALLENGE_WORD) ? `${name}。` : `${CHALLENGE_WORD}${name}。`;
+function openingLine(rt: Runtime, { wild, name, battle }: BattleSetup) {
+  if (wild) return `遭遇野生的${rt.ctx.speciesName(wild.species)}。`;
+  const fought = battle.variant ? `${name}（${battle.variant.label.zh}）` : name;
+  return name.includes(CHALLENGE_WORD) ? `${fought}。` : `${CHALLENGE_WORD}${fought}。`;
+}
 
 /** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record. */
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {

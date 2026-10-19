@@ -14,6 +14,7 @@ const MAX_TURNS = 12;
 const KINDS = [
   {kind: 'wild, fleeing on turn 3', start: {type: 'startTraining', level: 100}, fleeAt: 3},
   {kind: 'boss with phases and RNG rules', start: {type: 'startBattle', bossId: 'boss_spt_pulante'}},
+  {kind: 'boss variant with its own rule and phase', start: {type: 'startBattle', bossId: 'boss_spt_eersaila', variant: 'sat'}},
   {kind: 'trainer with the search AI', start: {type: 'startBattle', bossId: 'trainer_trained_core'}},
   {kind: 'campaign stage with rule scripts', start: {type: 'startCampaignStage', campaignId: 'qilin', stageId: 'wheel1'}},
   {kind: 'campaign chain of six', start: {type: 'startCampaignStage', campaignId: 'xuanwu', stageId: 'guardians'}},
@@ -43,10 +44,14 @@ await withSsr('battle-prepare-replay', async load => {
 
   for (const {kind, start, fleeAt} of KINDS) t.check(`${kind}: prepared turns replay the unprepared ones`, () => {
     const options = optionsFor(start), plain = play(options, false, fleeAt), prepared = play(options, true, fleeAt);
+    assert.equal(options.variant, start.variant, 'the start carries its variant');
     assert.equal(prepared.turns.length, plain.turns.length, 'turns played');
     prepared.turns.forEach((turn, k) => assert.equal(turn, plain.turns[k], `turn ${k + 1}`));
     assert(prepared.decided > 0, 'preparation decided at least one turn');
-    t.witness(kind, {encounter: options.encounter?.id ?? 'wild', turns: plain.turns.length, prepared: prepared.decided, result: plain.result?.reason ?? null});
+    t.witness(kind, {
+      encounter: options.encounter?.id ?? 'wild', variant: options.variant ?? null, turns: plain.turns.length, prepared: prepared.decided,
+      result: plain.result?.reason ?? null,
+    });
   });
 
   /**

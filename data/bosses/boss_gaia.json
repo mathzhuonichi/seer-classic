@@ -66,6 +66,7 @@
     }
   },
   "reward_hatches": 260,
+  "practice_fight": true,
   "variants": [
     {
       "id": "within_2_turns",
@@ -128,7 +129,7 @@
     "zh": "2回合规则：先消强化，用克制战斗系的超能/飞行精灵（艾克里桑、闪尼、艾贝多芬）两下或一次暴击打死，或秒杀技；致命一击规则：同上，靠运气或致命能量珠；10回合规则：伊娅丝魔力针刺消强、虚弱光线减攻后加血硬撑，或该隐暗影护盾轮流抵挡，满10回合后再打死。"
   },
   "engine_notes": [
-    "Three weekday objectives become variants the player picks (no real-time clock). The top-level win is plain ko_all for a free practice fight; the 精元 is granted only when a variant's objectives are met.",
+    "Three weekday objectives become variants the player picks (no real-time clock). The top-level win is plain ko_all for a free practice fight (practice_fight), which keeps no attempt or clear record; the 精元 is granted only when a variant's objectives are met.",
     "ko_after_turn {turns:10}: KOing 盖亚 before turn 10 ends the battle as a failure (提前击败无法获得精元). Counts 10 of its turns/attacks.",
     "turn_limit {turns:2} as a win objective = won within 2 turns.",
     "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed.",
