@@ -26,8 +26,9 @@
     "memberFieldStatuses": {
       "level": {
         "authored": 1,
-        "inferred": 171,
-        "observed": 68
+        "inferred": 161,
+        "observed": 75,
+        "official": 3
       },
       "iv": {
         "inferred": 240
@@ -40,12 +41,14 @@
       },
       "hp": {
         "authored": 1,
-        "inferred": 209,
-        "observed": 30
+        "inferred": 196,
+        "observed": 42,
+        "official": 1
       },
       "skills": {
-        "inferred": 229,
-        "observed": 11
+        "inferred": 219,
+        "observed": 19,
+        "official": 2
       }
     },
     "ruleNodes": 324,
@@ -83,6 +86,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-1069fc374622": {
+      "url": "http://news.7k7k.com/content/20100816/12668.html",
+      "scope": "2010-08-16 report: the Friday \u5384\u5c14\u585e\u62c9 revives to its full 3000 HP.",
+      "verification": "verified-period-observation"
+    },
     "src-1129b7cea7d4": {
       "url": "https://www.hly.com/zixun/z-40425.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -95,8 +103,13 @@
     },
     "src-13c16cad6701": {
       "url": "https://news.4399.com/seer/spt/201108-23-111513.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2011-08-23: \u8fea\u7b26\u7279 HP10000, unlimited PP.",
+      "verification": "verified-period-observation"
+    },
+    "src-144f25ec9111": {
+      "url": "http://news.7k7k.com/content/20100809/12297.html",
+      "scope": "2010-08-09 report: the Sunday \u5384\u5c14\u585e\u62c9 has HP 5000.",
+      "verification": "verified-period-observation"
     },
     "src-156d46ed471f": {
       "url": "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
@@ -105,8 +118,8 @@
     },
     "src-17b68f3a3635": {
       "url": "http://news.7k7k.com/content/20110328/82467.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-03-28 report: the 19:00-21:00 limited mode lowers \u5fb7\u62c9\u8428's HP from 10000 to 5000 and weakens its attacks.",
+      "verification": "verified-period-observation"
     },
     "src-17e6067bdbaf": {
       "url": "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
@@ -215,8 +228,8 @@
     },
     "src-31893ebfc3b7": {
       "url": "https://news.4399.com/seer/spt/201211-24-216477.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-11-24 report: \u6d1b\u62c9\u65af\u514b returns to level 100 after a capture; the original lowered its level with each win.",
+      "verification": "verified-period-observation"
     },
     "src-3209e28d96b2": {
       "url": "https://news.7k7k.com/content/20121026/536999.html",
@@ -275,13 +288,13 @@
     },
     "src-4680da5e29de": {
       "url": "http://news.7k7k.com/content/20100816/12649.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-08-16 report: \u8611\u83c7\u602a \u7b49\u7ea7\uff1a10\u7ea7.",
+      "verification": "verified-period-observation"
     },
     "src-46e1fb5c52f4": {
       "url": "https://news.4399.com/seer/spt/201102-28-87994.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-02 report: \u4e9a\u4f26\u65af \u4f53\u529b\u4e3a5000.",
+      "verification": "verified-period-observation"
     },
     "src-47dca663870e": {
       "url": "https://news.7k7k.com/content/20110720/92955.html",
@@ -335,8 +348,8 @@
     },
     "src-58a044281d9c": {
       "url": "https://news.4399.com/seer/spt/201206-02-165052.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-06 report: \u535a\u5361\u7279 \u4f53\u529b12000.",
+      "verification": "verified-period-observation"
     },
     "src-597ff648d1aa": {
       "url": "https://news.4399.com/seer/ahwdc/201008-25-76095.html",
@@ -345,13 +358,13 @@
     },
     "src-59ff752e673f": {
       "url": "https://news.4399.com/seer/spt/201204-07-152582.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-04 report: \u5361\u4f26\u5c3c \u8840\u91cf8000 (\u6709\u5f85\u9a8c\u8bc1).",
+      "verification": "verified-period-observation"
     },
     "src-5a12a82c63b6": {
       "url": "https://news.4399.com/seer/spt/201108-23-111468.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-08 report: the second \u514b\u83b1\u82ac fight is level 80.",
+      "verification": "verified-period-observation"
     },
     "src-5a81b47b164a": {
       "url": "https://news.7k7k.com/content/20110426/84955.html",
@@ -385,8 +398,8 @@
     },
     "src-646673302b67": {
       "url": "https://news.4399.com/seer/spt/201006-05-70393.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-06-05 report: \u63d0\u4e9a\u65af level 45 and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-65a7f6d93887": {
       "url": "https://www.511du.com/p/7130.html",
@@ -410,8 +423,8 @@
     },
     "src-68f895c22ec3": {
       "url": "https://news.4399.com/seer/spt/201201-10-137149.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-01-10: \u963f\u52a0\u838e\uff0c80\u7ea7\uff0c\u8349\u7cfb\uff0c8000\u8840\u5de6\u53f3, and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-69a104e9e186": {
       "url": "https://news.4399.com/seer/spt/201006-05-70390.html",
@@ -460,8 +473,8 @@
     },
     "src-75488350af80": {
       "url": "https://news.4399.com/seer/spt/201209-21-199064.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-09-21: \u65af\u514b\u9c81 \u4f53\u529b8000.",
+      "verification": "verified-period-observation"
     },
     "src-75fe33cde782": {
       "url": "https://news.4399.com/seer/saiergonglue/201011-19-81094.html",
@@ -574,13 +587,13 @@
     },
     "src-97959386957f": {
       "url": "https://news.4399.com/seer/spt/201006-05-70396.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-06-05 report: \u96f7\u7eb3\u591a level 75 and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-97e85756fda9": {
       "url": "https://news.4399.com/seer/spt/201202-08-141904.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-02 report: \u5170\u65af\u7279\uff0c80\u7ea7\uff0c\u6218\u6597\u5730\u9762\u7cfb\uff0c12000\u8840\u5de6\u53f3, and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-987c5fc7f85e": {
       "url": "https://www.weste.net/2010/9-15/72453.html",
@@ -649,13 +662,13 @@
     },
     "src-a8748de5b50e": {
       "url": "https://news.4399.com/seer/spt/201212-31-227044.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-12-31: \u5f17\u5e0c\u65af\uff0c\u8349\u6697\u5f71\u7cfb\uff0c\u4f53\u529b10000.",
+      "verification": "verified-period-observation"
     },
     "src-a96f7ca7fe98": {
       "url": "https://news.4399.com/seer/spt/201205-19-161367.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-05-19 report: 8000\u8840\u91cf; the boss uses \u6df7\u6c8c\u7eff\u5149, \u8680\u68a6\u672f and \u7075\u5149\u7f20\u7ed5.",
+      "verification": "verified-period-observation"
     },
     "src-aad8108194f7": {
       "url": "https://news.4399.com/seer/ahwdc/201105-30-98438.html",
@@ -664,8 +677,8 @@
     },
     "src-aae0af8b8db3": {
       "url": "https://news.4399.com/seer/spt/201109-17-115971.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-09 report: \u53e4\u5c14\u624e\u8fea\uff0c80\u7ea7\uff0c\u5730\u9762\u7cfb\uff0c5000\u8840\u5de6\u53f3, and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-abdb3ac908d1": {
       "url": "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
@@ -679,8 +692,9 @@
     },
     "src-aeb6f86e6b9e": {
       "url": "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Official client config (seer_data a00bcdd): learnsets of the boss-only forms. ID 5012 \u4e9a\u4f26\u65af (RealId 672), used by the SPT row, lists only 11668; ID 5022 \u65af\u666e\u6797\u7279 lists 20933, 11836, 20934 and 11841.",
+      "verification": "verified-client",
+      "sha256": "12d8c059973a9c03560d3739910ecb5a578da3a1235c24260279b723743d7936"
     },
     "src-b063bc1854de": {
       "url": "https://news.4399.com/seer/spt/201108-23-111511.html",
@@ -719,13 +733,13 @@
     },
     "src-bdafa2e87769": {
       "url": "http://news.7k7k.com/content/20110331/82812.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-03-31 report: the daytime \u5fb7\u62c9\u8428 has 10000 HP and strong attacks; the evening one has 5000.",
+      "verification": "verified-period-observation"
     },
     "src-bdb0818a4979": {
       "url": "https://news.4399.com/seer/spt/201112-05-130110.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-12 report: \u6697\u591c\u51b0\u72d0 level 80, HP 8000\u5de6\u53f3 and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-bdbf956c7b75": {
       "url": "https://www.techbang.com/posts/33167-order-spt-boss-raiders-tarklin-review",
@@ -774,8 +788,8 @@
     },
     "src-cbc3a7594f50": {
       "url": "https://news.4399.com/seer/spt/201011-22-81263.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2010-11-22: the first \u514b\u62c9\u5c3c\u7279 form uses \u706b\u9f99\u7ea2\u83b2\u51fb until its PP is drained.",
+      "verification": "verified-period-observation"
     },
     "src-cc19ee680754": {
       "url": "https://news.4399.com/seer/ahwdc/201105-28-98332.html",
@@ -789,8 +803,8 @@
     },
     "src-d008e6583b48": {
       "url": "https://news.4399.com/seer/spt/201208-22-189879.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-08-22: \u5e15\u91cc\u65af \u8840\u91cf\u5927\u698212000 and \u5e15\u91cc\u65af\u8840\u91cf12000.",
+      "verification": "verified-period-observation"
     },
     "src-d0d37d3daffa": {
       "url": "https://news.7k7k.com/content/20101028/18173.html",
@@ -812,10 +826,25 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-dab780d1dd41": {
+      "url": "https://web.archive.org/web/20130706235627id_/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
+      "scope": "Official 2013-07-06 client PetXMLInfo (DefineBinaryData 196): boss-only form 2522 \u65af\u666e\u6797\u7279 lists 20933, 11836, 20934, 11841.",
+      "verification": "verified-client"
+    },
+    "src-dae2abe0f3cb": {
+      "url": "http://news.7k7k.com/content/20100816/12660.html",
+      "scope": "2010-08-16 report: \u54c8\u9ed8\u96f7\u7279\u670910000\u7684\u8840.",
+      "verification": "verified-period-observation"
+    },
     "src-db31ab12ea06": {
       "url": "https://www.9game.cn/news/9481572.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-db5de185dac7": {
+      "url": "https://news.4399.com/seer/spt/200911-23-48480.html",
+      "scope": "Page dated 2009-11-23: \u7b49\u7ea7\uff1a65\u7ea7, \u963f\u514b\u5e0c\u4e9a\u751f\u547d\uff1a1000.",
+      "verification": "verified-period-observation"
     },
     "src-dd4307fdd27e": {
       "url": "https://news.4399.com/seer/zenmezhua/201101-20-85001.html",
@@ -884,8 +913,9 @@
     },
     "src-eeaa852b4697": {
       "url": "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Official client config (seer_data a00bcdd): SPT rows Maps.Map[].Bosses.Boss[] give MonID, Hp and Lv. Its levels agree with every period-stated SPT level checked; several single-player HP values are later reductions.",
+      "verification": "verified-client",
+      "sha256": "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3"
     },
     "src-eebfffd13161": {
       "url": "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
@@ -924,8 +954,8 @@
     },
     "src-fb997f3eabf8": {
       "url": "https://news.4399.com/seer/spt/201203-17-148791.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-03-17: four named \u51ef\u6d1b\u4e9a attacks.",
+      "verification": "verified-period-observation"
     }
   },
   "encounters": {
@@ -16090,9 +16120,9 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states level 80.",
               "sources": [
                 "src-68f895c22ec3"
               ]
@@ -16118,15 +16148,16 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "The report says about 8000 HP.",
               "sources": [
                 "src-68f895c22ec3"
-              ]
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
                 "src-68f895c22ec3"
               ]
@@ -16192,8 +16223,8 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-68f895c22ec3"
@@ -16226,8 +16257,8 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-68f895c22ec3"
@@ -16243,8 +16274,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -16315,13 +16346,13 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The guide says approximately 1000 HP; the exact integer remains an estimate.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The 2009 report states 1000 HP, as does the official SPT table.",
               "sources": [
-                "src-4d890115adad"
-              ],
-              "observationStatus": "observed"
+                "src-db5de185dac7",
+                "src-eeaa852b4697"
+              ]
             },
             "skills": {
               "status": "observed",
@@ -16411,11 +16442,12 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-4d890115adad"
+            "src-db5de185dac7",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -16480,9 +16512,9 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states level 80.",
               "sources": [
                 "src-bdb0818a4979"
               ]
@@ -16508,15 +16540,16 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "The report says about 8000 HP.",
               "sources": [
                 "src-bdb0818a4979"
-              ]
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
                 "src-bdb0818a4979"
               ]
@@ -16662,8 +16695,8 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-bdb0818a4979"
@@ -16696,8 +16729,8 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-bdb0818a4979"
@@ -16713,8 +16746,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -17061,12 +17094,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states 12000 HP; the later single-player 6000 is a reduction.",
               "sources": [
-                "src-58a044281d9c",
-                "src-0564e0290196"
+                "src-58a044281d9c"
               ]
             },
             "skills": {
@@ -17241,11 +17273,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-0564e0290196",
             "src-58a044281d9c"
           ]
         },
@@ -17341,12 +17372,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The daytime fight has 10000 HP. The evening limited mode (5000 HP) is not modelled.",
               "sources": [
-                "src-8eb57901706b",
-                "src-5b88e9a789be",
                 "src-17b68f3a3635",
                 "src-bdafa2e87769"
               ]
@@ -17447,13 +17476,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-17b68f3a3635",
-            "src-5b88e9a789be",
-            "src-8eb57901706b",
             "src-bdafa2e87769"
           ]
         },
@@ -17553,14 +17580,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states HP 10000.",
               "sources": [
-                "src-13c16cad6701",
-                "src-5331d184edb5",
-                "src-f8f7507bd142",
-                "src-8eb57901706b"
+                "src-13c16cad6701"
               ]
             },
             "skills": {
@@ -17681,14 +17705,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-13c16cad6701",
-            "src-5331d184edb5",
-            "src-8eb57901706b",
-            "src-f8f7507bd142"
+            "src-13c16cad6701"
           ]
         },
         "skills": {
@@ -17789,14 +17810,12 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "Friday revives to its full 3000 HP; a Sunday report gives 5000, which no variant carries.",
               "sources": [
-                "src-485d7afb2873",
-                "src-78f2a0b6bdb2",
-                "src-eebfffd13161",
-                "src-9141f541105f",
-                "src-8eb57901706b"
-              ]
+                "src-1069fc374622",
+                "src-144f25ec9111"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
               "status": "inferred",
@@ -18172,11 +18191,8 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-485d7afb2873",
-            "src-78f2a0b6bdb2",
-            "src-8eb57901706b",
-            "src-9141f541105f",
-            "src-eebfffd13161"
+            "src-1069fc374622",
+            "src-144f25ec9111"
           ]
         },
         "skills": {
@@ -18256,14 +18272,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The official SPT table gives level 100 for the single and team fights; no period report states a level.",
               "sources": [
-                "src-c05d14ef8133",
-                "src-eeaa852b4697",
-                "src-a8748de5b50e",
-                "src-27711527c2ff"
+                "src-eeaa852b4697"
               ]
             },
             "iv": {
@@ -18285,14 +18298,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states \u4f53\u529b10000.",
               "sources": [
-                "src-c05d14ef8133",
-                "src-eeaa852b4697",
-                "src-a8748de5b50e",
-                "src-27711527c2ff"
+                "src-a8748de5b50e"
               ]
             },
             "skills": {
@@ -18367,13 +18377,10 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-27711527c2ff",
-            "src-a8748de5b50e",
-            "src-c05d14ef8133",
             "src-eeaa852b4697"
           ]
         },
@@ -18396,14 +18403,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-27711527c2ff",
-            "src-a8748de5b50e",
-            "src-c05d14ef8133",
-            "src-eeaa852b4697"
+            "src-a8748de5b50e"
           ]
         },
         "skills": {
@@ -18427,7 +18431,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -18500,12 +18504,12 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "A 2011 tip implies 200 HP (\u4ece200\u62c9\u523050\u4ee5\u4e0b); the official team-fight row also has 200.",
               "sources": [
-                "src-69a104e9e186",
                 "src-43e1a86b0d39",
                 "src-eeaa852b4697"
-              ]
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
               "status": "observed",
@@ -18583,7 +18587,6 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-43e1a86b0d39",
-            "src-69a104e9e186",
             "src-eeaa852b4697"
           ]
         },
@@ -18647,9 +18650,9 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states level 80.",
               "sources": [
                 "src-aae0af8b8db3"
               ]
@@ -18675,15 +18678,16 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "The report says about 5000 HP.",
               "sources": [
                 "src-aae0af8b8db3"
-              ]
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
                 "src-aae0af8b8db3"
               ]
@@ -18725,8 +18729,8 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-aae0af8b8db3"
@@ -18759,8 +18763,8 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-aae0af8b8db3"
@@ -18776,8 +18780,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -18850,14 +18854,14 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The 2010 guide gives HP 10000 while the 2011 list gives 3000. The selected version remains inferred.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Two 2010 reports and the official map-348 SPT row give 10000; the 3000 copy is a weakened duplicate.",
               "sources": [
                 "src-4d890115adad",
-                "src-43e1a86b0d39"
-              ],
-              "observationStatus": "observed"
+                "src-dae2abe0f3cb",
+                "src-eeaa852b4697"
+              ]
             },
             "skills": {
               "status": "observed",
@@ -19039,12 +19043,13 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-43e1a86b0d39",
-            "src-4d890115adad"
+            "src-4d890115adad",
+            "src-dae2abe0f3cb",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -19146,12 +19151,11 @@
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
-                "src-fb997f3eabf8",
-                "src-48a481cdd8d0"
+                "src-fb997f3eabf8"
               ]
             }
           },
@@ -19316,11 +19320,10 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-48a481cdd8d0",
             "src-fb997f3eabf8"
           ]
         },
@@ -19335,7 +19338,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -19409,11 +19412,11 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "The report gives 8000 HP and marks it unverified.",
               "sources": [
-                "src-59ff752e673f",
-                "src-48a481cdd8d0"
-              ]
+                "src-59ff752e673f"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
               "status": "inferred",
@@ -19569,7 +19572,6 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-48a481cdd8d0",
             "src-59ff752e673f"
           ]
         },
@@ -19905,12 +19907,10 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The official SPT table's 'SPT\u514b\u83b1\u82ac\u96be\u5ea61' row gives level 55.",
               "sources": [
-                "src-5a12a82c63b6",
-                "src-6862e0792570",
                 "src-eeaa852b4697"
               ]
             },
@@ -19989,12 +19989,10 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-5a12a82c63b6",
-            "src-6862e0792570",
             "src-eeaa852b4697"
           ]
         },
@@ -20046,7 +20044,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -20091,12 +20089,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states the rematch is level 80.",
               "sources": [
-                "src-5a12a82c63b6",
-                "src-6862e0792570"
+                "src-5a12a82c63b6"
               ]
             },
             "iv": {
@@ -20174,12 +20171,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-5a12a82c63b6",
-            "src-6862e0792570"
+            "src-5a12a82c63b6"
           ]
         },
         "iv": {
@@ -20228,7 +20224,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -20313,12 +20309,12 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-cbc3a7594f50",
-                "src-35622aef69dc",
-                "src-75fe33cde782",
-                "src-8eb57901706b"
+                "src-cbc3a7594f50"
+              ],
+              "verifiedMoveIds": [
+                11357
               ]
             }
           },
@@ -20472,9 +20468,6 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-35622aef69dc",
-            "src-75fe33cde782",
-            "src-8eb57901706b",
             "src-cbc3a7594f50"
           ]
         },
@@ -21299,12 +21292,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states level 80.",
               "sources": [
-                "src-97e85756fda9",
-                "src-3b4579a0f85a"
+                "src-97e85756fda9"
               ]
             },
             "iv": {
@@ -21327,20 +21319,19 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "basis": "explicit-estimate",
+              "note": "The report says about 12000 HP.",
               "sources": [
-                "src-97e85756fda9",
-                "src-3b4579a0f85a"
-              ]
+                "src-97e85756fda9"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
-                "src-97e85756fda9",
-                "src-3b4579a0f85a"
+                "src-97e85756fda9"
               ]
             }
           },
@@ -21483,11 +21474,10 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-3b4579a0f85a",
             "src-97e85756fda9"
           ]
         },
@@ -21511,19 +21501,17 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-3b4579a0f85a",
             "src-97e85756fda9"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-3b4579a0f85a",
             "src-97e85756fda9"
           ]
         },
@@ -21537,8 +21525,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -21936,21 +21924,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The 2011 list states 1500 HP.",
               "sources": [
-                "src-97959386957f",
                 "src-43e1a86b0d39"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
-                "src-97959386957f",
-                "src-43e1a86b0d39"
+                "src-97959386957f"
               ]
             }
           },
@@ -22038,20 +22024,18 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-43e1a86b0d39",
-            "src-97959386957f"
+            "src-43e1a86b0d39"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-43e1a86b0d39",
             "src-97959386957f"
           ]
         },
@@ -22066,7 +22050,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -22309,9 +22293,9 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The fight starts at level 100; the per-win level decrease is not modelled.",
               "sources": [
                 "src-31893ebfc3b7"
               ]
@@ -22440,8 +22424,8 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-31893ebfc3b7"
@@ -22491,7 +22475,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -22928,14 +22912,16 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 15 in the 2010 source conflicts with level 10 in 2011 summaries; the selected version remains inferred.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Four period reports and the official SPT table give level 10; the 2010-06 report's 15 is the SPT panel's recommended level.",
               "sources": [
-                "src-bb0d8bdb1df6",
-                "src-43e1a86b0d39"
-              ],
-              "observationStatus": "observed"
+                "src-4680da5e29de",
+                "src-43e1a86b0d39",
+                "src-8eb57901706b",
+                "src-eeaa852b4697",
+                "src-bb0d8bdb1df6"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -23012,12 +22998,15 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-43e1a86b0d39",
-            "src-bb0d8bdb1df6"
+            "src-4680da5e29de",
+            "src-8eb57901706b",
+            "src-bb0d8bdb1df6",
+            "src-eeaa852b4697"
           ]
         },
         "iv": {
@@ -23068,7 +23057,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
@@ -23391,13 +23380,12 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The same page states 1400 HP, then quotes an estimate of 2000-3000. Exact selected HP remains unresolved.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states 1400 HP; the same page's later 2000-3000 is a guess.",
               "sources": [
                 "src-333a333b7da2"
-              ],
-              "observationStatus": "observed"
+              ]
             },
             "skills": {
               "status": "observed",
@@ -23472,8 +23460,8 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-333a333b7da2"
@@ -23577,16 +23565,12 @@
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The two reports together name all four attacks.",
               "sources": [
-                "src-4d890115adad"
-              ],
-              "verifiedMoveIds": [
-                20314,
-                10725,
-                10724
+                "src-4d890115adad",
+                "src-43e1a86b0d39"
               ]
             }
           },
@@ -23719,10 +23703,11 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-43e1a86b0d39",
             "src-4d890115adad"
           ]
         },
@@ -23737,7 +23722,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -24067,11 +24052,10 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The official SPT table gives level 100 for the single and team fights; no period report states a level.",
               "sources": [
-                "src-d008e6583b48",
                 "src-eeaa852b4697"
               ]
             },
@@ -24094,12 +24078,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states 12000 HP.",
               "sources": [
-                "src-d008e6583b48",
-                "src-eeaa852b4697"
+                "src-d008e6583b48"
               ]
             },
             "skills": {
@@ -24257,11 +24240,10 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d008e6583b48",
             "src-eeaa852b4697"
           ]
         },
@@ -24284,12 +24266,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d008e6583b48",
-            "src-eeaa852b4697"
+            "src-d008e6583b48"
           ]
         },
         "skills": {
@@ -24311,7 +24292,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -24600,21 +24581,24 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states 8000 HP.",
               "sources": [
-                "src-a96f7ca7fe98",
-                "src-0564e0290196"
+                "src-a96f7ca7fe98"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-a96f7ca7fe98",
-                "src-0564e0290196"
+                "src-a96f7ca7fe98"
+              ],
+              "verifiedMoveIds": [
+                12796,
+                12794,
+                21451
               ]
             }
           },
@@ -24796,11 +24780,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-0564e0290196",
             "src-a96f7ca7fe98"
           ]
         },
@@ -24809,7 +24792,6 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-0564e0290196",
             "src-a96f7ca7fe98"
           ]
         },
@@ -25646,11 +25628,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states \u4f53\u529b8000, as does the official SPT table.",
               "sources": [
-                "src-ca0c4ae41f45",
                 "src-75488350af80",
                 "src-eeaa852b4697"
               ]
@@ -25783,12 +25764,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-75488350af80",
-            "src-ca0c4ae41f45",
             "src-eeaa852b4697"
           ]
         },
@@ -26084,13 +26064,12 @@
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The boss form 5022 (2013: 2522) lists these four.",
               "sources": [
-                "src-eff00d4f038b",
-                "src-7f232bac791f",
-                "src-8eb57901706b"
+                "src-aeb6f86e6b9e",
+                "src-dab780d1dd41"
               ]
             }
           },
@@ -26191,13 +26170,12 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-7f232bac791f",
-            "src-8eb57901706b",
-            "src-eff00d4f038b"
+            "src-aeb6f86e6b9e",
+            "src-dab780d1dd41"
           ]
         },
         "rules": {
@@ -26211,7 +26189,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -27219,23 +27197,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The official SPT table gives 500 HP for the single fight.",
               "sources": [
-                "src-646673302b67",
-                "src-43e1a86b0d39",
-                "src-6eb872b13983"
+                "src-eeaa852b4697"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names all four attacks.",
               "sources": [
-                "src-646673302b67",
-                "src-43e1a86b0d39",
-                "src-6eb872b13983"
+                "src-646673302b67"
               ]
             }
           },
@@ -27346,23 +27320,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-43e1a86b0d39",
-            "src-646673302b67",
-            "src-6eb872b13983"
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-43e1a86b0d39",
-            "src-646673302b67",
-            "src-6eb872b13983"
+            "src-646673302b67"
           ]
         },
         "rules": {
@@ -27376,7 +27346,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -27444,24 +27414,18 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report states \u4f53\u529b\u4e3a5000.",
               "sources": [
-                "src-46e1fb5c52f4",
-                "src-be2ab5f62f83",
-                "src-8eb57901706b",
-                "src-aeb6f86e6b9e"
+                "src-46e1fb5c52f4"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "official",
+              "basis": "official-client-table",
+              "note": "The SPT boss form 5012 has the single move \u4ea4\u9519\u51b0\u67f1.",
               "sources": [
-                "src-46e1fb5c52f4",
-                "src-be2ab5f62f83",
-                "src-8eb57901706b",
                 "src-aeb6f86e6b9e"
               ]
             }
@@ -27590,25 +27554,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-46e1fb5c52f4",
-            "src-8eb57901706b",
-            "src-aeb6f86e6b9e",
-            "src-be2ab5f62f83"
+            "src-46e1fb5c52f4"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-client-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-46e1fb5c52f4",
-            "src-8eb57901706b",
-            "src-aeb6f86e6b9e",
-            "src-be2ab5f62f83"
+            "src-aeb6f86e6b9e"
           ]
         },
         "rules": {
@@ -27622,7 +27580,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
