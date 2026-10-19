@@ -269,6 +269,8 @@
  .classic-command-deck{height:145px;min-height:145px}
  .classic-command-content{margin:0 29% 0 31%;padding:25px 5px 7px}
  .classic-battle-result{padding-left:calc(31% + 5px)}
+ /* The record can be opened on the result screen, and opened it is wider here (41%) than collapsed. */
+ .classic-dialogue.is-expanded~.classic-battle-result{padding-left:calc(42% + 5px)}
  .classic-command-tabs{width:28%;height:100%;right:.5%}
  .classic-dialogue{height:129px;width:30%;padding:27px 16px 7px 9px;left:.5%}
  .classic-dialogue.is-expanded{width:41%;height:46%;min-height:129px}.classic-skill,.classic-empty-skill{height:49px;padding-left:25px!important}

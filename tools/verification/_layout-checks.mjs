@@ -48,15 +48,34 @@ export async function evidenceButton({page, fixture}) {
 
 const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
   * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+/**
+ * Runs in the page: the result title's and the record panel's boxes once the result shows, with the record collapsed as the
+ * result leaves it and once the player opens it. The finished battle closes itself moments later, so the record is opened from
+ * here and measured one frame on.
+ */
+async function resultBoxes(timeout) {
+  const frame = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+  const until = performance.now() + timeout;
+  while (!document.querySelector('.classic-battle-result strong')) {
+    if (performance.now() > until) throw new Error(`no battle result within ${timeout} ms`);
+    await frame();
+  }
+  const boxes = () => Object.fromEntries([['title', '.classic-battle-result strong'], ['panel', '.classic-dialogue']].map(([key, selector]) => {
+    const {left, right, top, bottom} = document.querySelector(selector).getBoundingClientRect();
+    return [key, {left, right, top, bottom}];
+  }));
+  const shown = boxes();
+  document.querySelector('.classic-dialogue .classic-log-toggle:not(.is-collapse)').click();
+  await frame();
+  if (!document.querySelector('.classic-dialogue.is-expanded .classic-battle-history')) throw new Error('the record did not open on the result screen');
+  return {shown, expanded: boxes()};
+}
 export async function resultTitle({page}) {
   await wildBattle(page);
   await strike(page);
-  await page.waitForSelector('.classic-battle-result strong', {timeout: BOOT_TIMEOUT_MS});
-  const [title, panel] = await page.evaluate(() => ['.classic-battle-result strong', '.classic-dialogue'].map(selector => {
-    const {left, right, top, bottom} = document.querySelector(selector).getBoundingClientRect();
-    return {left, right, top, bottom};
-  }));
-  assert.equal(overlap(title, panel), 0, `the result title ${JSON.stringify(title)} overlaps the record panel ${JSON.stringify(panel)}`);
+  for (const [record, {title, panel}] of Object.entries(await page.evaluate(resultBoxes, BOOT_TIMEOUT_MS))) {
+    assert.equal(overlap(title, panel), 0, `the result title ${JSON.stringify(title)} overlaps the ${record} record ${JSON.stringify(panel)}`);
+  }
 }
 
 export async function toastClickThrough({page}) {
