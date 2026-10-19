@@ -20,7 +20,7 @@ const NIAO_SPECIES = 416;
 const JOURNEY_QUEST_LABELS: Record<keyof typeof JOURNEY_QUEST_SPECIES, string> = {
   'first-victory': '船长任务「初次胜利」：赢得一场战斗后领取皮皮',
   'three-victories': '船长任务「成长之路」：赢得三场战斗后领取比比鼠',
-  'first-spt': '船长任务「SPT 挑战者」：完成一次首领挑战后领取巴鲁斯',
+  'first-spt': '船长任务「SPT 挑战者」：击败任意一位 SPT首领后领取巴鲁斯',
 };
 
 interface RouteIndex {

@@ -14,6 +14,7 @@ await withSsr('paid-spt-controller',async load=>{
  const {STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {buildRecruitmentRewards,recruitmentProgress,ACQUISITION_POLICIES}=await load('/src/domain/acquisition/recruitment.ts');
  const {buildPaidSPTRecruitments}=await load('/src/domain/acquisition/spt-recruitment.ts');
+ const {questAlert}=await load('/src/shared/view-helpers.ts');
  const catalog=await loadCatalog(),original=JSON.stringify(catalog),rewards=buildRecruitmentRewards(catalog);
  const parse=g=>JSON.parse(g.exportSave());
  const journey=createGame(catalog,JSON.stringify(newSave(JOURNEY_SEED)));
@@ -78,7 +79,10 @@ await withSsr('paid-spt-controller',async load=>{
  check('Six held+reserved copies; evolution releases a slot',()=>{
   assert(reward,'An unknown, evolving reward is available');
   const repeated=make(fixture(reward));
-  for(let i=0;i<6;i++)repeated.dispatch({type:'claimQuest',questId:reward.questId});
+  // The quest alert marks a reward never taken; a repeatable one taken before stays claimable without it.
+  assert.equal(view(repeated,reward).newReward,true);repeated.dispatch({type:'claimQuest',questId:reward.questId});
+  assert.equal(view(repeated,reward).claimable,true);assert.equal(view(repeated,reward).newReward,false);
+  for(let i=1;i<6;i++)repeated.dispatch({type:'claimQuest',questId:reward.questId});
   assert.equal(parse(repeated).items[reward.itemId],6);assert.equal(parse(repeated).game.recruitmentClaims[reward.questId],6);
   reject(repeated,{type:'claimQuest',questId:reward.questId},'Seventh reserved copy rejected without RNG/resource changes');
   const hatchBefore=parse(repeated);repeated.dispatch({type:'useItem',uid:'unused',itemId:reward.itemId});const hatchAfter=parse(repeated);
@@ -124,6 +128,41 @@ await withSsr('paid-spt-controller',async load=>{
   assert.deepEqual(claimed.storage,won.storage);assert.deepEqual(claimed.rng_state,won.rng_state);assert.equal(claimed.game.coins,won.game.coins);
   assert.equal(claimed.items[battleReward.itemId],(won.items[battleReward.itemId]??0)+1);
   assert.equal(view(createGame(battleCatalog,battleGame.exportSave()),battleReward).complete,true,'Settled named clear survives reload');
+ });
+ check('The toolbar quest alert lights for a reward not taken yet: a journey reward until claimed, never a repeat claim',()=>{
+  const save=structuredClone(starterSave);save.game.battlesWon=1;save.game.quests=[];save.game.recruitmentClaims={};
+  const g=make(save),quests=()=>g.snapshot().quests,alert=()=>questAlert(g.snapshot()),claim=id=>g.dispatch({type:'claimQuest',questId:id});
+  assert.equal(alert(),true,'An unclaimed journey reward lights the alert');
+  // Take each new reward once: 初次胜利 pays 皮皮, which completes a repeatable recruitment.
+  const taken=[];
+  while(alert()){
+   const next=quests().find(q=>q.newReward);assert(next?.claimable,'A lit alert has a new, claimable reward behind it');
+   assert(!taken.includes(next.id),`${next.id} lights the alert again once taken`);
+   assert.equal(claim(next.id).ok,true);taken.push(next.id);
+  }
+  assert(taken.includes('first-victory'));assert.equal(quests().find(q=>q.id==='first-victory').claimed,true);
+  const repeat=quests().find(q=>q.claimable);
+  assert(repeat?.repeatable&&repeat.claimCount>0,'A repeat claim is still offered with the alert off');
+  assert.equal(claim(repeat.id).ok,true);assert.equal(alert(),false,'A repeat claim leaves the alert off');
+  const later=JSON.parse(g.exportSave());later.game.battlesWon=3;g.importSave(JSON.stringify(later));
+  assert.deepEqual(quests().filter(q=>q.newReward).map(q=>q.id),['three-victories']);
+  assert.equal(claim(repeat.id).ok,true);assert.equal(alert(),true,'An unclaimed journey reward keeps the alert on through a repeat claim');
+  assert.equal(claim('three-victories').ok,true);assert.equal(alert(),false,'Claiming it puts the alert out');
+ });
+ check('SPT 挑战者 counts a clear of any encounter the archive lists under SPT首领, and of nothing else',()=>{
+  const probe=make(base),{bosses,campaigns}=probe.snapshot(),stages=new Set(campaigns.flatMap(c=>c.stages.flatMap(s=>s.bossIds)));
+  const listed=bosses.filter(b=>b.category==='spt'&&!stages.has(b.id)),others=bosses.filter(b=>!listed.includes(b));
+  const counts=id=>{
+   const save=structuredClone(base);save.progress.bosses_cleared=[id];probe.importSave(JSON.stringify(save));
+   return probe.snapshot().quests.find(q=>q.id==='first-spt');
+  };
+  // The first fights of two-stage SPTs and 塞维尔 are not recruitment prerequisites; they are SPT challenges all the same.
+  for(const id of ['boss_spt_kelanite1','boss_spt_kelaifen1','boss_spt_saiweier'])assert(listed.some(b=>b.id===id),`${id} is listed under SPT首领`);
+  for(const boss of listed){const quest=counts(boss.id);assert.equal(quest.complete,true,`${boss.id} counts for SPT 挑战者`);assert.equal(quest.claimable,true);}
+  const oneOfEach=new Map(others.map(b=>[stages.has(b.id)?'campaign-stage':b.category,b]));
+  assert.deepEqual([...oneOfEach.keys()].sort(),['campaign-stage','dark','legendary','quest','tower','trainer']);
+  for(const [kind,boss] of oneOfEach)assert.equal(counts(boss.id).complete,false,`A ${kind} clear (${boss.id}) is not an SPT challenge`);
+  assert.match(counts(listed[0].id).description,/SPT首领/,'The quest names the archive tab it counts');
  });
  check('Source catalog unchanged',()=>assert.equal(JSON.stringify(catalog),original,'Source catalog unchanged'));
  t.finish({rewardCount:rewards.length,journeySeed:JOURNEY_SEED,rows,

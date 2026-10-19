@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
+import { challengeDetail, challengeEntries, challengeHonors } from '../../src/features/challenges/challenge-center.ts';
+import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import { suite } from './_harness.mjs';
 
 // Exercise the live encounter view catalog (bosses and trainers) without reading or changing a browser save.
@@ -115,5 +119,37 @@ t.check('travel resolution starts no battle', () => {
   assert.equal(game.snapshot().battle, null, 'Finding travel destinations does not begin combat.');
   assert.deepEqual(WORLD_PLANETS[0].regions.map(region=>region.id),['transport','lab','captain']);
   assert.equal(WORLD_PLANETS[0].regions.filter(region => region.challengeStaging).length,1);
+});
+t.check('Boss titles and achievements follow the cleared record into the archive, without a save field', () => {
+  const save = JSON.parse(game.exportSave());
+  save.progress.bosses_cleared = ['boss_spt_guerzhadi', 'boss_gaia', 'boss_spt_eersaila', 'boss_tower_brave_f050', 'boss_tower_brave_f060'];
+  const cleared = createGame(catalog, JSON.stringify(save)), archive = cleared.snapshot(), entries = challengeEntries(archive);
+  const row = (id: string) => archive.bosses.find(boss => boss.id === id)!;
+  const detail = (id: string) => challengeDetail(entries.find(entry => entry.id === id)!, archive, false);
+  assert.deepEqual(row('boss_spt_guerzhadi').honors, ['击败古尔扎迪', '称号：毁灭者']);
+  assert.deepEqual(row('boss_spt_eersaila').honors, ['称号：七色光羽'], 'Only the base fight is offered, so its clear earns the all-variant title');
+  assert.equal(detail('boss_spt_guerzhadi').honors, '已获得：击败古尔扎迪 · 称号：毁灭者', 'A cleared row shows what it earned');
+  assert.equal(detail('boss_spt_ruiersi').honors, '通关后获得：击败瑞尔斯 · 称号：高傲的狂战者', 'An open row shows what it offers');
+  assert.equal(detail('boss_spt_saiweier').honors, undefined);
+  assert.equal(detail('brave-tower').honors, `已获得：${archive.braveTower.honors.join(' · ')}`);
+  const honors = challengeHonors(archive), tower = honors.filter(honor => honor.source === '勇者之塔');
+  assert.deepEqual(honors.filter(honor => !tower.includes(honor)), [
+    { label: '击败盖亚', source: row('boss_gaia').name }, { label: '称号：七色光羽', source: row('boss_spt_eersaila').name },
+    { label: '击败古尔扎迪', source: row('boss_spt_guerzhadi').name }, { label: '称号：毁灭者', source: row('boss_spt_guerzhadi').name },
+  ]);
+  assert(tower.length > 0);assert.deepEqual(tower.map(honor => honor.label), archive.braveTower.honors, 'The tower honours match the tower view');
+  assert(!cleared.exportSave().includes('毁灭者'), 'Honours are derived, not saved');
+});
+t.check('The archive panel shows a cleared Boss row its 挑战荣誉 and counts the 荣誉档案', () => {
+  const save = JSON.parse(game.exportSave());
+  save.progress.bosses_cleared = ['boss_spt_guerzhadi'];
+  const cleared = createGame(catalog, JSON.stringify(save)), full = cleared.snapshot();
+  // Two SPT Bosses with honours: the tab opens on the lower dex number, the cleared 古尔扎迪, so the render needs no click.
+  const shown = { ...full, bosses: full.bosses.filter(boss => ['boss_spt_guerzhadi', 'boss_spt_ruiersi'].includes(boss.id)) };
+  const store = Object.assign(Object.create(cleared), { snapshot: () => shown });
+  const html = renderToStaticMarkup(React.createElement(ChallengeCenter, { c: store }));
+  assert(html.includes(`<h3>${shown.bosses.find(boss => boss.id === 'boss_spt_guerzhadi')!.name}</h3>`), 'The cleared Boss row is open');
+  assert(html.includes('<strong>挑战荣誉</strong><p>已获得：击败古尔扎迪 · 称号：毁灭者</p>'), 'Its detail shows what the clear earned');
+  assert(html.includes('荣誉档案 · 2'), 'The honour roll button counts the earned honours');
 });
 t.finish({ encounters: bosses.length, spt: spt.length, destinations: WORLD_PLANETS.length, mapped, explicit, metadata, staged });

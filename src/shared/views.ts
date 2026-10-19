@@ -25,9 +25,14 @@ export interface BossEvidenceView {displayLevelUnknown?:boolean;sourceUrls?:stri
 export interface EncounterOpponentView {species:number;name:string;level:number;evidence?:BossEvidenceView}
 /** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */
 export type ChallengeCategoryId = 'spt' | 'legendary' | 'tower' | 'dark' | 'quest' | 'trainer';
-export interface BossView { category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView;
+export interface BossView {
+  category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean;
+  attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView;
   /** The rules on the player's team, stated before the start. */
-  partyRuleTexts?: string[] }
+  partyRuleTexts?: string[];
+  /** The titles (称号：…) and achievements a clear earns; earned once `cleared`. Absent when the encounter grants none. */
+  honors?: string[];
+}
 export interface BattleFacilityGroupView {id:string;name:string;description:string}
 export interface NpcTrainingView {id:string;label:string;description:string;equivalentBaseTotal?:number;statBonus?:Partial<StatBlock>}
 export interface BattleFacilityOpponentView {species:number;name:string;level:number;baseTotal:number;role?:string;training?:NpcTrainingView;skills?:{id:number;name:string;training?:string}[]}
@@ -51,8 +56,10 @@ export interface ShopItemView {id:string;name:string;kind:string;description:str
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView {
   id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
-  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), and within the six-copy allowance. */
+  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), within the six-copy allowance, and a journey monster has a place. */
   complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
+  /** Claimable and never claimed before: what the toolbar's quest alert signals. A repeatable reward claimed before stays claimable without it. */
+  newReward: boolean;
   /** Recruitment quests only; `rewardHeld`: the player holds the reward essence. */
   prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
   repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;

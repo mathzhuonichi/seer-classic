@@ -1,9 +1,10 @@
 // Action handlers that raise and organise owned monsters, including the editor's cheats.
 import {
   addEvs, allocatePoolExp, changeNature, computeStats, deposit, equipSkills, EV_STAT_CAP, EV_TOTAL_CAP, evolutionOptions, evolve, evTotal, findMon, gainLevels,
-  healAll, IV_MAX, IV_MIN, MAX_LEVEL, rename, requiresEvolutionChoice, setIv, setPartyOrder, STAT_KEYS, withdraw, type Monster,
+  healAll, IV_MAX, IV_MIN, MAX_LEVEL, release, rename, requiresEvolutionChoice, setIv, setPartyOrder, STAT_KEYS, withdraw, type Monster,
 } from '../../../raising/core/index.ts';
 import { traits } from '../../domain/traits.ts';
+import { releaseEngravings } from '../engravings/index.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
 import { acquire, boundedAutoEvolve, ensureSpeciesCapacity } from '../../kernel/acquire.ts';
 import { TRAINING_COST_PER_EV } from '../../domain/economy.ts';
@@ -57,6 +58,15 @@ const evolveAction: ActionHandler<'evolve'> = (rt, action) => {
   notice(rt, `${rt.ctx.speciesName(mon.species)}已进化为${rt.ctx.speciesName(target)}！`);
 };
 
+/** 放生: the monster leaves for good with its trait, bead and engraving state; finite engravings return to stock. */
+const releaseMonster: ActionHandler<'release'> = (rt, action) => {
+  const mon = findMon(rt.save, action.uid);
+  commit(rt, release(rt.save, mon.uid));
+  releaseEngravings(rt.save, mon.uid);
+  delete rt.save.game.traits[mon.uid];
+  notice(rt, `已放生${mon.nickname || rt.ctx.speciesName(mon.species)}，图鉴收集记录保留。`);
+};
+
 /** Editor: totals are filled in stat order until the overall cap runs out. */
 function cappedEvs(current: Monster['evs'], requested: Partial<Monster['evs']>): Monster['evs'] {
   const next = { ...current, ...requested };
@@ -98,6 +108,7 @@ export const raisingActions = {
   },
   setEvs,
   rename: (rt, action) => commit(rt, rename(rt.save, action.uid, action.name || null)),
+  release: releaseMonster,
   equip: (rt, action) => replaceMonster(rt, equipSkills(findMon(rt.save, action.uid), action.skills, rt.ctx.dex)),
   train,
   allocateExp: (rt, action) => {

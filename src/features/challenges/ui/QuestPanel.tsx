@@ -49,7 +49,7 @@ export default function QuestPanel({c,focusQuestId,onTravel,onLocateSpecies,onOp
   </div>}
   <div className="quest-console" key={`${group}-${page}-${showFocus}-${search}-${filter}`} tabIndex={0}>{rows.map(quest=>{
    const {claimed,claimable,allowance}=quest,conditions=quest.prerequisites??[];
-   const status=claimed?'✓ 已领取':claimable?'奖励已就绪':quest.complete?'条件已完成':'进行中';
+   const status=claimed?'✓ 已领取':claimable?(quest.newReward?'奖励已就绪':'可再次领取'):quest.complete?'条件已完成':'进行中';
    return <article key={quest.id} aria-label={quest.name}>
     <header className="quest-card-heading"><CreatureArt species={quest.rewardSpecies} name={quest.rewardName} size={42}/><div><h3>{quest.name}</h3><span className={`quest-status ${claimable?'ready':''}`}>{status}</span>{quest.rewardItemId&&<span className="quest-repeat">{quest.repeatable?`可重复 · 已领取 ${quest.claimCount??0} 次`:'限领一次'}</span>}</div></header>
     <p className="quest-description">{quest.rewardItemId?`完成下列条件，领取${quest.rewardName}精元。`:quest.description}</p>

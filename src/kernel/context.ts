@@ -15,7 +15,6 @@ import { conventionalMovesResolver } from '../domain/acquisition/conventional-mo
 import type { RecruitmentReward } from '../domain/acquisition/recruitment.ts';
 import { buildSkinOptions } from '../domain/acquisition/skins.ts';
 import type { LineageSpecies } from '../domain/acquisition/species-graph.ts';
-import { getEligibleRecruitmentSPTs } from '../domain/acquisition/spt-recruitment.ts';
 import type { BattleFacilityView } from '../shared/views.ts';
 import { whenIdle } from '../shared/idle.ts';
 import { enrichCatalog } from '../domain/catalog/enrichment.ts';
@@ -60,7 +59,6 @@ export interface GameContext extends CatalogContext {
   readonly itemDefinitions: ReadonlyMap<string, EssenceDefinition>;
   /** The essence items that reserve a copy of each species. */
   readonly essencesBySpecies: ReadonlyMap<number, readonly EssenceDefinition[]>;
-  readonly ordinarySPTs: ReadonlySet<string>;
   /** Ordinary raising, battle and capsule items: the player uses them without spending stock. */
   readonly unlimitedItemIds: ReadonlySet<string>;
   readonly facilityViews: BattleFacilityView[];
@@ -94,7 +92,6 @@ export function createGameContext(source: CatalogData, dependencies: GameDepende
     availableTraits: traits.filter(trait => trait.implemented),
     itemDefinitions: new Map(definitions.map(item => [item.id, item])),
     essencesBySpecies: essencesBySpecies(definitions),
-    ordinarySPTs: new Set(getEligibleRecruitmentSPTs(catalog as unknown as AcquisitionCatalog).map(boss => boss.id)),
     unlimitedItemIds: new Set(catalog.items.filter(item => UNLIMITED_ITEM_KINDS.includes(String(item.kind))).map(item => String(item.id))),
     facilityViews: buildFacilityViews(catalog),
     // Recruitment rewards do not depend on the enrichment, so the source catalog's routes reuse them.

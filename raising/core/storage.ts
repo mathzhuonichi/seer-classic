@@ -76,11 +76,12 @@ export function setPartyOrder(save: Save, order: string[]): Save {
   return { ...save, party: [...order] };
 }
 
-// 放生. The last party monster can never be released.
+// 放生. The last party monster can never be released; the monster's energy beads leave with it.
 export function release(save: Save, uid: string): Save {
-  if (save.party.includes(uid) && save.party.length <= 1) throw new Error("cannot release the last party monster");
+  if (save.party.includes(uid) && save.party.length <= 1) throw new Error("最后一只出战精灵不能放生");
   findMon(save, uid);
-  return { ...save, storage: save.storage.filter((m) => m.uid !== uid), party: save.party.filter((u) => u !== uid) };
+  const next = { ...save, storage: save.storage.filter((m) => m.uid !== uid), party: save.party.filter((u) => u !== uid) };
+  return save.boosts ? { ...next, boosts: save.boosts.filter((b) => b.kind !== "energy_bead" || b.uid !== uid) } : next;
 }
 
 export function rename(save: Save, uid: string, nickname: string | null): Save {

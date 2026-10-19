@@ -50,16 +50,19 @@ await withSsr('paid-spt-recruitment',async load=>{
     const adult=catalog.species.find(s=>s.evolves_from);assert.deepEqual(build(catalog,[{...quests[0],rewardSpecies:adult.id}]),[]);
   });
   const [{createGame},{newSave},{default:QuestPanel}]=await Promise.all(['/src/kernel/game.ts','/src/kernel/save.ts','/src/features/challenges/ui/QuestPanel.tsx'].map(load));
-  t.check('a claimed essence is held and its quest card links to the bag',()=>{
+  t.check('a claimed essence is held; its quest card reads 可再次领取 and links to the bag',()=>{
     const save=newSave(0x5e7),pending=createGame(catalog,JSON.stringify(save)).snapshot().quests.find(q=>q.id===quests[0].questId);
     for(const condition of pending.prerequisites)if(condition.kind==='species')save.dex.owned.push(condition.species);else save.progress.bosses_cleared.push(condition.bossId);
     const game=createGame(catalog,JSON.stringify(save)),view=()=>game.snapshot().quests.find(q=>q.id===pending.id);
     const card=()=>renderToStaticMarkup(React.createElement(QuestPanel,{c:game,focusQuestId:pending.id,onTravel:()=>{},onOpenBag:()=>{}}));
     assert.equal(view().rewardName,definitions.get(pending.rewardSpecies).name.zh);assert(card().includes(`领取${view().rewardName}精元。`));
     assert.equal(view().claimable,true);assert.equal(view().rewardHeld,false);assert(!card().includes('quest-hatch-link'));
+    assert(card().includes('>奖励已就绪<'),'A reward never taken reads 奖励已就绪');assert(!card().includes('可再次领取'));
     const result=game.dispatch({type:'claimQuest',questId:pending.id});
     assert.equal(result.ok,true);assert.match(result.notice,/^已领取.+精元，可到道具背包孵化。$/,'QuestPanel shows the claim notice');
     assert.equal(view().rewardHeld,true);assert(card().includes('quest-hatch-link'));
+    assert.equal(view().repeatable,true);assert.equal(view().claimable,true);
+    assert(card().includes('>可再次领取<'),'A repeatable reward taken before reads 可再次领取');assert(!card().includes('奖励已就绪'));
   });
   const unsupported=[];
   t.check('source ancestry',()=>{
