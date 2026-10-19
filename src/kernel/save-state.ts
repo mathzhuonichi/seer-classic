@@ -104,7 +104,7 @@ function settle(ctx: GameContext, { save, rng }: Journey) {
 
 /** Keeps the stored save in step with the live journey. */
 export interface JourneyWriter {
-  /** After an action: settles the journey and queues its write, which all the actions dispatched in the same task share. */
+  /** After an action: settles the journey and queues its write, which the actions dispatched before it runs share. */
   changed(): void;
   /** After an import or a new journey, the player's choice to replace the stored save: settles and writes it at once. */
   replaced(): void;
@@ -113,31 +113,48 @@ export interface JourneyWriter {
 }
 
 /**
- * Writes `journey`, the live runtime whose save actions replace, to local storage: at once when it is opened or replaced, and
- * after actions in a microtask, which runs before control returns to the event loop: the actions of one task share a write, and
- * each is stored before the page can paint, run another task or be closed. An export writes a pending change at once. A text
- * equal to the last one written is not written again. While `durable` is false (an unreadable stored save that could not
- * be backed up) nothing is written until the journey is replaced.
+ * The stored save's slot: the last text written and the save whose write is queued. It is built apart from the writer so that
+ * a queued write holds only this slot and that save, not the runtime with its catalog: a controller dropped before its
+ * microtask runs is not kept alive by it.
  */
-export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean): JourneyWriter {
-  let pending = false, written: string | null = null;
+function createSaveSlot(durable: boolean) {
+  let queued: GameSave | null = null, written: string | null = null;
   const write = (text: string) => {
-    pending = false;
+    queued = null;
     if (durable && text !== written) { writeLocalSave(text); written = text; }
   };
-  const writePending = () => { if (pending) write(serialize(journey.save)); };
-  settle(ctx, journey);
-  write(serialize(journey.save));
+  const writeQueued = () => { if (queued) write(serialize(queued)); };
   return {
-    changed: () => {
-      settle(ctx, journey);
-      if (durable && !pending) { pending = true; queueMicrotask(writePending); }
+    write,
+    /** Queues the write of `save`, the latest one, in a microtask unless one is queued already. */
+    queue: (save: GameSave) => {
+      if (!durable) return;
+      if (!queued) queueMicrotask(writeQueued);
+      queued = save;
     },
-    replaced: () => { durable = true; settle(ctx, journey); write(serialize(journey.save)); },
+    pending: () => queued !== null,
+    makeDurable: () => { durable = true; },
+  };
+}
+
+/**
+ * Writes `journey`, the live runtime whose save actions replace, to local storage: at once when it is opened or replaced, and
+ * after actions in a microtask, which runs before control returns to the event loop: the actions dispatched before it runs (one
+ * synchronous run, such as one event handler) share a write, and each is stored before the page can paint, run another task or
+ * be closed. An export writes a pending change at once. A text equal to the last one written is not written again. While
+ * `durable` is false (an unreadable stored save that could not be backed up) nothing is written until the journey is replaced.
+ */
+export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean): JourneyWriter {
+  const slot = createSaveSlot(durable);
+  settle(ctx, journey);
+  slot.write(serialize(journey.save));
+  return {
+    changed: () => { settle(ctx, journey); slot.queue(journey.save); },
+    replaced: () => { slot.makeDurable(); settle(ctx, journey); slot.write(serialize(journey.save)); },
     flush: () => {
       const text = serialize(journey.save);
       // An export carries the progress even when storage refuses it; the next action tries the write again.
-      try { if (pending) write(text); } catch { /* storage full or unavailable */ }
+      try { if (slot.pending()) slot.write(text); } catch { /* storage full or unavailable */ }
       return text;
     },
   };
