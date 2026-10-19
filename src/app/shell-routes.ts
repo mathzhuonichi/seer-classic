@@ -23,8 +23,10 @@ export function shellRoutes({ c, navigation, backdrops, setMessage, setSelected 
   function enterTower(floor: number) {
     if (c.dispatch({ type: 'enterTower', floor }).ok) openTower();
   }
+  /** A Tower floor lands in the Tower and a Tower side challenge also opens its panel; other encounters land at their contact. */
   function travelToChallenge(boss: BossView) {
     if (braveTowerFloor(boss.id) !== undefined) { openTower(); return; }
+    if (boss.towerUnlockFloor !== undefined) { travel(BRAVE_TOWER_LOCATION, 'tower'); return; }
     const { planetId, regionId } = findChallengeLocation(boss);
     travel({ planetId, regionId, bossId: boss.id });
   }

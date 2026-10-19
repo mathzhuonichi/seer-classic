@@ -2,7 +2,7 @@
 import type { GameSnapshot } from '../../kernel/contract.ts';
 import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
+import {braveTowerFloor,braveTowerUnlockText} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
 import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
@@ -88,12 +88,13 @@ const INSTRUCTIONS:Record<ChallengeKind,string>={
   trainer:'前往太空站，与训练师互动开启对战。',boss:'先传送到挑战地点，再与场景中的首领互动开启战斗。',
 };
 const STAGING_INSTRUCTION='先前往飞船传送舱，再与对手互动开启战斗。';
+const towerSideInstruction=(floor:number)=>`进入勇者之塔，在选择起点面板开始挑战；${braveTowerUnlockText(floor)}。`;
 const ACTIONS:Record<ChallengeKind,string>={tower:'进入勇者之塔 →',campaign:'进入挑战场景 →',trainer:'开始挑战 →',boss:'开始挑战 →'};
 
 function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):string {
   if(kind==='tower')return `逐层领取挑战奖励，通过第 ${s.braveTower.totalFloors} 层后可重选起点。`;
   if(kind==='trainer')return '赛尔豆与经验。';
-  if(kind==='boss')return '获得首领精元 → 道具背包 → 确认孵化';
+  if(kind==='boss')return entry.rewardText??'';
   const campaign=entry.campaign!;
   if(campaign.reward==='essence')return '完成全部阶段后获得精元，途中阶段不会重复发放精灵';
   return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
@@ -105,7 +106,7 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
-    instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
+    instruction:entry.towerUnlockFloor?towerSideInstruction(entry.towerUnlockFloor):kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
     reward:rewardNote(entry,kind,s),action:ACTIONS[kind],
   };
 }

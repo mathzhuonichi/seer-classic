@@ -4,7 +4,8 @@ import { Rng, type BossEncounter } from '../../../battle/core/src/index.ts';
 import { findMon } from '../../../raising/core/index.ts';
 import { createFacilityEncounter } from '../../domain/challenges/battle-facilities.ts';
 import {
-  BRAVE_TOWER_FLOORS, braveTowerBossId, braveTowerFloor, braveTowerRewards, canStartBraveTowerFloor, clearBraveTowerFloor, type BraveTowerRewardSource,
+  BRAVE_TOWER_FLOORS, braveTowerBossId, braveTowerFloor, braveTowerRewards, braveTowerUnlockFloor, braveTowerUnlocked, braveTowerUnlockText,
+  canStartBraveTowerFloor, clearBraveTowerFloor, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
 import { SEER_BEANS_ITEM_ID } from '../../domain/economy.ts';
@@ -24,11 +25,15 @@ export type ChallengeStartAction =
 /** Generated facility teams keep no attempt count or clear record. */
 const FACILITY_HOOKS: SessionHooks = { unrecorded: true, evidence: buildBossEvidence };
 
-/** A Boss, trainer or recruit encounter; a Brave Tower floor climbs the tower, and a campaign Boss starts from its stage. */
+/**
+ * A Boss, trainer or recruit encounter; a Brave Tower floor climbs the tower, a campaign Boss starts from its stage,
+ * and a Tower side challenge waits for the floor its record requires.
+ */
 export function startEncounter(rt: Runtime, encounter: BossEncounter) {
-  const campaign = rt.ctx.campaignForBoss(encounter.id), floor = braveTowerFloor(encounter.id);
+  const campaign = rt.ctx.campaignForBoss(encounter.id), floor = braveTowerFloor(encounter.id), unlockFloor = braveTowerUnlockFloor(encounter);
   if (campaign) throw new Error(`请从「${campaign.name}」的阶段场景开始挑战。`);
   if (floor !== undefined) startTowerFloor(rt, floor);
+  else if (!braveTowerUnlocked(rt.save.game.braveTower, unlockFloor)) throw new Error(`${braveTowerUnlockText(unlockFloor)}。`);
   else startSession(rt, { encounter }, { hooks: { evidence: buildBossEvidence } });
 }
 
