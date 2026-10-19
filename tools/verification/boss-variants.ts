@@ -152,6 +152,25 @@ t.check('厄尔塞拉 pays its essence on any variant clear; 周五 only on a st
   assert.deepEqual(parse(game).game.bossVariants,{[EERSAILA]:['mon','fri']});
 });
 
+t.check('厄尔塞拉 pays nothing when a direct knockout sticks after 周五’s revives, nor on a defeat',()=>{
+  const game=journey(),before=parse(game),revives=encounter(EERSAILA).variants.find((entry:any)=>entry.id==='fri').rules[0].params.max_revives;
+  const friday=start(game,EERSAILA,'fri').active(1);shield();
+  let revived=0;
+  for(let turn=0;turn<3*revives&&!game.snapshot().battle!.finished;turn++)if(!knockOut(game).finished&&friday.hp===friday.maxHp)revived++;
+  const view=game.snapshot().battle!,after=parse(game);
+  assert.deepEqual([view.finished,view.won,revived],[true,false,revives],'the knockout after the last revive sticks');
+  assert.equal(view.result,`对手已倒下，但未达成规则「${label(EERSAILA,'fri')}」的目标，本次挑战未通过，请按规则要求重试。`);
+  assert.deepEqual([after.items.essence_eersaila,after.game.bossVariants,after.progress.bosses_cleared,after.game.battlesWon],
+    [undefined,{},before.progress.bosses_cleared,before.game.battlesWon],'no essence, variant, clear or victory');
+  // A lone poisoned member at one HP falls on turn 1.
+  const lost=loseQuickly(journey());start(lost,EERSAILA,'mon');battle.active(0).hp=1;battle.applyStatus(battle.active(0),'poison',{turns:4,fromFoe:true});
+  lost.dispatch({type:'move',skillId:attack(lost)});
+  const defeat=lost.snapshot().battle!;
+  assert.deepEqual([defeat.finished,defeat.won],[true,false]);
+  assert(defeat.result.endsWith(`本次未达成规则「${label(EERSAILA,'mon')}」的目标。`),defeat.result);
+  assert.deepEqual([parse(lost).items.essence_eersaila,parse(lost).game.bossVariants],[undefined,{}]);
+});
+
 t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the missed objective',()=>{
   const game=journey();
   start(game,LAOKE,'energy_field');
