@@ -342,7 +342,7 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
-/** Each check runs in a fresh browser with its save (`journey` by default), in every engine of `engines` (default: all). */
+/** Each check runs in every engine, in a fresh browser with its save (`journey` by default). */
 const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
   {name: 'the arrows do not walk the robot behind a window or the modifier, and walk again after closing', run: arrowsBehindCovers},
@@ -384,7 +384,7 @@ timings.saves = seconds(built);
 const engines = {};
 for (const engine of ENGINES) {
   engines[engine] = 'ran';
-  for (const check of CHECKS.filter(entry => !entry.engines || entry.engines.includes(engine))) {
+  for (const check of CHECKS) {
     const skipped = await runCheck(engine, check);
     if (!skipped) continue;
     engines[engine] = `skipped: ${skipped}`;

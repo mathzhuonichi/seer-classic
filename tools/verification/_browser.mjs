@@ -87,8 +87,8 @@ function seedOnce(entries) {
  * Opens the game in a fresh context and waits for the page load. `silent` holds the mute entries set on every load, `seed` the
  * entries set before the first load. Page errors and console errors are collected in `errors`, failed requests in `failed`.
  */
-export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT, reducedMotion = 'reduce'}) {
-  const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion});
+export async function openGame(browser, {dist, silent, seed}) {
+  const context = await browser.newContext({viewport: VIEWPORT, deviceScaleFactor: 1, reducedMotion: 'reduce'});
   const errors = [], failed = [];
   try {
     await context.route(`${ORIGIN}/**`, async route => {
