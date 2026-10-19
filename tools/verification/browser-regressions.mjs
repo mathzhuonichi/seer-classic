@@ -18,10 +18,11 @@ const CHECK_TIMEOUT_MS = 60_000;
 /** Time for a key press to take effect (or, for a check that nothing happened, to have taken effect). */
 const SETTLE_MS = 250;
 const SAVE_SEED = 20261018;
-/** A repeatable species' essence, so hatching both copies stays within the six-copy allowance. */
-const ESSENCE_ID = 'essence_recruit_14';
-const ESSENCE_COPIES = 2;
-/** Another item of the same pocket, which the bag must not select once the essence runs out. */
+/** The essence that sorts first in its pocket, so the bag shows it before any pick. */
+const SHOWN_ESSENCE = {id: 'essence_recruit_200', copies: 1};
+/** Picked in its content tab once the shown essence hatched; a repeatable species, so both copies stay within the six-copy allowance. */
+const PICKED_ESSENCE = {id: 'essence_recruit_14', copies: 2};
+/** An item of the essences' pocket in another content tab, which the bag must not select once an essence runs out. */
 const NEIGHBOUR_ID = 'fusion_bead_301';
 /** The raised save's lead can equip its owned ability engraving, so the slot picker lists a tile. */
 const RAISED_LEVEL = 100;
@@ -60,16 +61,28 @@ async function fixtures() {
       dispatch(game, {type: 'cheatResources', coins: RAISED_COINS});
       dispatch(game, {type: 'buyEngraving', engravingId: RAISED_ENGRAVING});
     });
-    const hatching = journey({[ESSENCE_ID]: ESSENCE_COPIES, [NEIGHBOUR_ID]: 1}), held = hatching.game.snapshot().items;
-    const essence = held.find(item => item.id === ESSENCE_ID), neighbour = held.find(item => item.id === NEIGHBOUR_ID);
-    assert.equal(essence?.count, ESSENCE_COPIES, `the essence save must hold ${ESSENCE_COPIES} copies of ${ESSENCE_ID}`);
-    const pocket = kind => pockets.ITEM_POCKETS.find(([id]) => id === pockets.itemPocket(kind))[1];
-    assert.equal(neighbour && pocket(neighbour.kind), pocket(essence.kind), `${NEIGHBOUR_ID} must share the essence's pocket`);
+    const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
     const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot};
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
-    return {silent, saves, tools, essence: {name: essence.name, pocket: pocket(essence.kind)}};
+    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets)};
   });
+}
+
+/** The essence save's bag labels: its pocket, the content tab that holds both essences and nothing else, and the essences. */
+function essenceLabels(held, pockets) {
+  const [shown, picked, neighbour] = [SHOWN_ESSENCE.id, PICKED_ESSENCE.id, NEIGHBOUR_ID].map(id => held.find(item => item.id === id));
+  for (const [view, {id, copies}] of [[shown, SHOWN_ESSENCE], [picked, PICKED_ESSENCE]]) assert.equal(view?.count, copies, `the save lacks ${copies} ${id}`);
+  const pocket = pockets.itemPocket(picked.kind), inPocket = held.filter(item => pockets.itemPocket(item.kind) === pocket);
+  assert(neighbour && inPocket.includes(shown) && inPocket.includes(neighbour), `${NEIGHBOUR_ID} must share the essences' pocket`);
+  const content = pockets.itemContentCategory(picked);
+  const inTab = inPocket.filter(item => pockets.itemContentCategory(item) === content).map(item => item.id);
+  assert.deepEqual(inTab.sort(), [SHOWN_ESSENCE.id, PICKED_ESSENCE.id].sort(), `the essences' content tab must hold them only`);
+  const label = (options, id) => options.find(([option]) => option === id)[1];
+  return {
+    pocket: label(pockets.ITEM_POCKETS, pocket), tab: label(pockets.itemCategoryOptions(pocket, inPocket), content),
+    shown: {name: shown.name, copies: shown.count}, picked: {name: picked.name, copies: picked.count},
+  };
 }
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -259,24 +272,44 @@ async function tooltipFocus({page, engine, fixture}) {
   assert.equal(await count(page, '.item-tooltip'), 1, 'keyboard focus did not open the tooltip');
 }
 
-async function lastEssence({page, fixture}) {
-  const {name, pocket} = fixture.essence;
-  await waitWorld(page);
-  await openTool(page, tool(fixture, 'bag'));
-  await page.click(`.inventory-primary-categories button:text-is("${pocket}")`);
-  await page.click(`.inventory-icon-scroll .item-tile[aria-label^="${name}"]`);
-  await awayFromTiles(page);
+const essenceTile = name => `.inventory-icon-scroll .item-tile[aria-label^="${name}"]`;
+const contentTabs = 'nav[aria-label="道具用途"]';
+
+/** Presses 确认孵化 once for each copy of the selected essence `name`, checking that it is enabled each time. */
+async function hatchEvery(page, {name, copies}) {
   const confirm = page.locator('.inventory-detail-scroll button.primary');
-  assert.equal(await confirm.textContent(), '确认孵化');
-  for (let copy = 0; copy < ESSENCE_COPIES; copy++) {
-    assert(await confirm.isEnabled(), `确认孵化 is disabled with ${ESSENCE_COPIES - copy} copies left`);
+  assert.equal(await confirm.textContent(), '确认孵化', `${name} is not ready to hatch`);
+  for (let copy = 0; copy < copies; copy++) {
+    assert(await confirm.isEnabled(), `确认孵化 is disabled with ${copies - copy} copies of ${name} left`);
     await confirm.click();
     await wait(SETTLE_MS);
   }
+}
+
+/** Once the last copy of `name` has hatched (`when`), the pocket lists other items only, selects none, and 确认孵化 is disabled. */
+async function selectsNothing(page, name, when) {
   const left = await page.locator('.inventory-icon-scroll .item-tile').evaluateAll(list => list.map(tile => tile.getAttribute('aria-label')));
-  assert(left.length && !left.some(label => label.startsWith(name)), `the pocket should list only the other item: ${left.join(', ')}`);
-  assert.equal(await count(page, '.inventory-icon-scroll .item-tile[aria-pressed="true"]'), 0, 'the bag selected another item');
-  assert.equal(await count(page, '.inventory-detail-scroll button:text-is("确认孵化"):enabled'), 0, '确认孵化 stays enabled');
+  assert(left.length && !left.some(label => label.startsWith(name)), `${when}, the pocket should list only the other items: ${left.join(', ')}`);
+  assert.equal(await count(page, '.inventory-icon-scroll .item-tile[aria-pressed="true"]'), 0, `${when}, the bag selected another item`);
+  assert.equal(await count(page, '.inventory-detail-scroll button:text-is("确认孵化"):enabled'), 0, `${when}, 确认孵化 stays enabled`);
+}
+
+async function lastEssence({page, fixture}) {
+  const {pocket, tab, shown, picked} = fixture.essence;
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'bag'));
+  await page.click(`.inventory-primary-categories button:text-is("${pocket}")`);
+  // Hatching the essence the bag shows before any pick pins it, so the selection does not move on to the next item.
+  assert.equal(await count(page, `${essenceTile(shown.name)}[aria-pressed="true"]`), 1, `the bag does not show ${shown.name} first`);
+  await hatchEvery(page, shown);
+  await selectsNothing(page, shown.name, `after hatching ${shown.name}, the essence the bag showed`);
+  // The picked essence is the last of its content tab, so the filter falls back to 全部 as it runs out, and keeps the pick.
+  await page.click(`${contentTabs} button:text-is("${tab}")`);
+  await page.click(essenceTile(picked.name));
+  await awayFromTiles(page);
+  await hatchEvery(page, picked);
+  assert.equal(await count(page, contentTabs), 0, `the ${tab} tab is still offered after its last essence hatched`);
+  await selectsNothing(page, picked.name, `after hatching ${picked.name}, picked in the ${tab} tab`);
 }
 
 async function battleDetailsEscape({page}) {
@@ -301,7 +334,8 @@ const CHECKS = [
   {name: 'the world dialogue closes on Escape with the focus on any of its buttons', run: dialogueEscape},
   {name: 'Escape closes an item tooltip, then the engraving slot picker, then the window', save: 'raised', run: nestedEscape},
   {name: 'an item tile opens its tooltip on keyboard focus, not on the focus a click gives', run: tooltipFocus},
-  {name: 'after the last copy of a picked essence hatches, the bag selects nothing and 确认孵化 is disabled', save: 'essence', run: lastEssence},
+  {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
+    run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
 ];
 
