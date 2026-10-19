@@ -18,16 +18,18 @@ const purse = ({ ctx, save }: Runtime): Purse => ({
 });
 
 /**
- * What a victory paid since `before`: its coins, if any, its pooled experience (the victory bonus plus the knockout shares of
- * Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装.
+ * What the battle paid since `before`: a victory's coins, if any, its pooled experience (the victory bonus plus the knockout
+ * shares of Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装. A settled non-win pays only
+ * the knockout shares of its Lv100 participants still standing (an unmet objective, a lose condition), or nothing: then ''.
  */
 function payoutText(ctx: GameContext, before: Purse, after: Purse): string {
   const coins = after.coins - before.coins, exp = after.exp - before.exp;
-  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
   const collectibles = Object.entries(after.collectibles).flatMap(([id, count]) => {
     const gained = count - (before.collectibles[id] ?? 0);
     return gained > 0 ? [`${itemName(ctx, id)}${gained > 1 ? `×${gained}` : ''}`] : [];
   });
+  if (!coins && !exp && !collectibles.length) return '';
+  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
   return collectibles.length ? `${amounts}，另获得${collectibles.join('、')}。` : `${amounts}。`;
 }
 
@@ -94,13 +96,15 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
 }
 
 /**
- * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and which
- * `evolutions` were made or kept back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
+ * A victory's rewards and the challenge's progress. The result then says what the battle paid since `before`, a non-win too
+ * when its knockouts added pooled experience, and which `evolutions` were made or kept back, and a notice repeats it. A capture
+ * is a wild victory: its result also says where the catch went.
  */
 function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, evolutions: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (result.success) session.resultNotes.push(payoutText(rt.ctx, before, purse(rt)));
+  const paid = payoutText(rt.ctx, before, purse(rt));
+  if (paid) session.resultNotes.push(paid);
   session.resultNotes.push(...evolutions);
   if (!session.resultNotes.length) return;
   const text = resultText(session);
@@ -132,6 +136,7 @@ function grantEncounterRewards(rt: Runtime, session: BattleSession) {
     const granted = Math.min(Number(count), allowance(ctx, save, item.hatches).remaining);
     if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essences.push(id); } else essenceBlocked = true;
   }
+  // A skill the participant already knew teaches nothing, so the challenge's own text (本阶段再次通过。) names the outcome.
   if (reward?.learn_skill) session.resultMessage = teachSkill(rt, session, reward.learn_skill);
   else if (essences.length) session.resultMessage = `${essences.map(id => itemName(ctx, id)).join('、')}已入库，到道具背包的精元页即可孵化。`;
   else if (essenceBlocked) session.resultMessage = paid.blocked;
@@ -146,9 +151,11 @@ const encounterItems = (reward: EncounterReward | undefined, firstClear: boolean
 
 const REPEAT_LATER = '挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
 
+/** Teaches the fielded participant of the reward's species its skill and says so, or returns '' when it already knew the skill. */
 function teachSkill(rt: Runtime, session: BattleSession, learned: { species: number; skill: number }): string {
   const participant = session.battle.sides[0].team.find(mon => mon.species.id === learned.species)!;
   const mon = findMon(rt.save, participant.uid!);
-  if (!mon.learned.includes(learned.skill)) replaceMonster(rt, { ...mon, learned: [...mon.learned, learned.skill] });
+  if (mon.learned.includes(learned.skill)) return '';
+  replaceMonster(rt, { ...mon, learned: [...mon.learned, learned.skill] });
   return `${rt.ctx.speciesName(learned.species)}领悟了「${rt.ctx.data.skills.get(learned.skill)!.name.zh}」，可在技能管理中装备。`;
 }

@@ -29,6 +29,11 @@ const fixture=structuredClone(source);
 const first=fixture.bosses.find((boss:any)=>boss.id==='boss_rei_training1');
 first.team[0].hp_override=1;first.team[0].skills=[20006];first.phases=[];
 const game=createGame(fixture,JSON.stringify(newSave(0x71cafe)));
+/** What the battle `g` settled paid since `before` (its exported save), in the result text's words. */
+const paidText=(g:ReturnType<typeof createGame>,before:any)=>{
+  const after=JSON.parse(g.exportSave()),coins=after.game.coins-before.game.coins,exp=after.exp_pool-before.exp_pool;
+  return coins?`获得 ${coins} 赛尔豆及 ${exp} 积累经验。`:`获得 ${exp} 积累经验。`;
+};
 t.check('reward kind and species name drive the stage and archive reward texts',()=>{
   const s=game.snapshot(),entries=challengeEntries(s);
   for(const campaign of s.campaigns) {
@@ -137,13 +142,44 @@ t.check('a replayed stage says it was passed again, and only a new clear says th
     }
     assert(g.snapshot().battle!.won,'the 1-HP guardians fall');
     // After the stage's text, the result states what the win paid: the measured coins and pooled experience.
-    const after=JSON.parse(g.exportSave()),coins=after.game.coins-before.game.coins,exp=after.exp_pool-before.exp_pool;
-    assert(coins>0&&exp>0,'a stage win pays coins and pooled experience');
-    return [g.snapshot().battle!.result,after.game.campaigns.baihu,`获得 ${coins} 赛尔豆及 ${exp} 积累经验。`];
+    const after=JSON.parse(g.exportSave());
+    assert(after.game.coins>before.game.coins&&after.exp_pool>before.exp_pool,'a stage win pays coins and pooled experience');
+    return [g.snapshot().battle!.result,after.game.campaigns.baihu,paidText(g,before)];
   };
   const [first,opened,firstPaid]=play([]),[replayed,unchanged,replayPaid]=play(['guardians']),[finished,,finishedPaid]=play(['guardians','avatars','body']);
   assert.equal(first,`本阶段完成，下一阶段已开启。${firstPaid}`);assert.deepEqual(opened,['guardians']);
   assert.equal(replayed,`本阶段再次通过。${replayPaid}`,'a replay opens nothing');assert.deepEqual(unchanged,['guardians']);
   assert.equal(finished,`白虎试炼已全部完成。${finishedPaid}`,'a finished campaign keeps its text');
+  // 雷伊's training on the 1-HP 里奥斯: the 雷伊 that learns the skill says so; the same 雷伊 replaying it learns nothing more.
+  const training=createGame(structuredClone(fixture),JSON.stringify(save));
+  training.dispatch({type:'cheatAcquire',species:70,level:100});
+  const train=()=>{
+    const before=JSON.parse(training.exportSave());
+    training.dispatch({type:'startCampaignStage',campaignId:'rei-training',stageId:'liaosi'});
+    training.dispatch({type:'move',skillId:10170});
+    const view=training.snapshot().battle!,paid=paidText(training,before),after=JSON.parse(training.exportSave());
+    assert(view.won,'白光刃 finishes the 1-HP 里奥斯');assert.equal(training.snapshot().notices[0],view.result,'the notice repeats the result');
+    training.dispatch({type:'closeBattle'});
+    return [view.result,paid,after.game.campaigns['rei-training']];
+  };
+  const [learned,learnedPaid]=train(),[retrained,retrainedPaid,record]=train();
+  assert.equal(learned,`雷伊领悟了「极光刃」，可在技能管理中装备。${learnedPaid}`);
+  assert.equal(retrained,`本阶段再次通过。${retrainedPaid}`,'a 雷伊 that already knows 极光刃 learns nothing');assert.deepEqual(record,['liaosi']);
+});
+t.check('a training knockout that misses the stage objective names the pooled experience its Lv 100 雷伊 still earned',()=>{
+  // 雷伊 knocks the 1-HP 里奥斯 out with another skill than 白光刃: no clear, no coins and no skill, but the knockout's share.
+  const missed=createGame(structuredClone(fixture),JSON.stringify(newSave(0x71cafe)));
+  missed.dispatch({type:'cheatAcquire',species:70,level:100});
+  const before=JSON.parse(missed.exportSave()),notices=missed.snapshot().notices.length;
+  missed.dispatch({type:'startCampaignStage',campaignId:'rei-training',stageId:'liaosi'});
+  for(let turn=0;turn<5&&!missed.snapshot().battle!.finished;turn++)
+    missed.dispatch({type:'move',skillId:missed.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0&&skill.id!==10170)!.id});
+  const view=missed.snapshot().battle!,after=JSON.parse(missed.exportSave()),exp=after.exp_pool-before.exp_pool;
+  assert.deepEqual([view.finished,view.won,view.resultReason],[true,false,'ko']);
+  assert(exp>0,'the Lv 100 雷伊 passes its knockout share to the pool');
+  assert.deepEqual([after.game.coins,after.game.battlesWon,after.game.campaigns['rei-training']??[]],[before.game.coins,before.game.battlesWon,[]]);
+  assert(!after.storage.find((mon:any)=>mon.species===70).learned.includes(10823),'no skill is taught');
+  assert.equal(view.result,`对手已倒下，但本关的特训条件尚未满足，请按场景中的要求重试。获得 ${exp} 积累经验。`);
+  assert.deepEqual([missed.snapshot().notices.length,missed.snapshot().notices[0]],[notices+1,view.result],'the settlement notice states it');
 });
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});

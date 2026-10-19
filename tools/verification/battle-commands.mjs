@@ -2,8 +2,8 @@
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
  * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
- * closing notice), a 挣扎 turn that ends a Boss battle (its frames and its settlement), a settlement that outlives a failed
- * presentation, and the hold on turn preparation while a turn plays.
+ * closing notice), a wild loss after a knockout that pays no pooled experience, a 挣扎 turn that ends a Boss battle (its frames
+ * and its settlement), a settlement that outlives a failed presentation, and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
 import {levelledGames} from './_game-battle.mjs';
@@ -246,6 +246,23 @@ await withSsr('battle-commands', async load => {
     const challenge = outcomes['challenge loss'][0].snapshot().battle;
     assert.equal(challenge.log[0], `挑战${challenge.name}。`, 'a challenge opens as one');
     t.witness('outcome endings', said);
+  });
+
+  t.check('A wild loss after a knockout adds no pooled experience, since the knockout\'s participant fell, and names only the loss', () => {
+    // The lone Lv 100 lead on 1 HP and out of PP knocks the 1-HP foe out with 挣扎 and falls to the recoil: both fall, a loss.
+    let battle;
+    const game = createGame(catalog, JSON.stringify(lastStand()), {idle: () => {}, createBattle: options => (battle = new Battle(options))});
+    game.dispatch({type: 'cheatMonster', uid: game.snapshot().party[0], level: 100});
+    assert.ok(game.dispatch({type: 'startTraining', species: 22, level: 3}).ok);
+    const [lead, foe] = [battle.active(0), battle.active(1)];
+    for (const mon of [lead, foe]) { for (const id of mon.skills) mon.pp[id] = 0; mon.hp = 1; }
+    lead.stats.spe = foe.stats.spe + 1;
+    const ui = screen(game), before = JSON.parse(game.exportSave()), notices = game.snapshot().notices.length;
+    const view = playOut(game, ui, {action: {type: 'move', skillId: STRUGGLE_SKILL.id}, turns: 1}), after = JSON.parse(game.exportSave());
+    assert.deepEqual([view.finished, view.won, view.resultReason, battle.result.defeated.length], [true, false, 'ko', 1], 'the foe fell first, then the lead');
+    assert.equal(after.exp_pool, before.exp_pool, 'a fallen participant takes no knockout share');
+    assert.deepEqual(ui.dialogue.slice(-2), ['战斗结束。', '战斗失败，可恢复精灵后继续探索。'], 'the result names the loss and no payout');
+    assert.deepEqual([view.result, game.snapshot().notices.length], ['战斗失败，可恢复精灵后继续探索。', notices], 'no settlement notice');
   });
 
   /** An SPT Boss whose win pays its essence; most SPT Bosses run out of PP in a long fight and then use 挣扎. */
