@@ -21,9 +21,12 @@ const VIEWPORT = {width: 1280, height: 800};
 /** How long the page load, the first world scene or a battle's first command may take. */
 export const BOOT_TIMEOUT_MS = 60_000;
 
-/** Builds the app into `outDir` without copying public/, which is served from the checkout. */
+/**
+ * Builds the app with the project's Vite config into `outDir`, without copying public/, which is served from the checkout. The
+ * config is imported natively: the default loader writes a bundled copy into node_modules/, which a worktree links.
+ */
 export async function buildApp(outDir) {
-  await build({root, configFile: false, logLevel: 'error', build: {outDir, emptyOutDir: true, copyPublicDir: false}});
+  await build({root, configLoader: 'native', logLevel: 'error', build: {outDir, emptyOutDir: true, copyPublicDir: false}});
 }
 
 /** Launches an engine, or returns the reason it is skipped. Chrome is required, so a missing Chrome throws. */
