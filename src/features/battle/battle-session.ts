@@ -1,10 +1,10 @@
 // The battle lifecycle: start a session, play turns, and keep the log and animation frames.
 import type { Action, Battle, BattleEvent } from '../../../battle/core/src/index.ts';
 import { findMon, type Monster } from '../../../raising/core/index.ts';
-import { groupedBattleLog } from './battle-log.ts';
+import { groupedBattleLog, openingEvents } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
-import { setupBattle, type Foe } from './battle-setup.ts';
-import { foeView, hidesFoeHp, presentationState } from './battle-view.ts';
+import { setupBattle, type BattleSetup, type Foe } from './battle-setup.ts';
+import { foeView, hidesFoeHp, isChallenge, presentationState } from './battle-view.ts';
 import { battleInProgress, requireSession, type BattleSession, type GameContext, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
 
@@ -17,14 +17,19 @@ interface SessionOptions {
   hooks?: SessionHooks;
 }
 
+/** The word that opens an encounter's first log line, unless its name already says it (a field recruit's 野外挑战：X). */
+const CHALLENGE_WORD = '挑战';
+const openingLine = (rt: Runtime, { wild, name }: BattleSetup) => wild ? `遭遇野生的${rt.ctx.speciesName(wild.species)}。`
+  : name.includes(CHALLENGE_WORD) ? `${name}。` : `${CHALLENGE_WORD}${name}。`;
+
 /** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record. */
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
   const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));
-  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [`挑战${setup.name}。`], frames: [] };
+  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [openingLine(rt, setup)], frames: [] };
   rt.session = session;
   rt.animation.revision++;
-  logEvents(rt.ctx, session, setup.battle.initialEvents);
+  logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));
   const fought = setup.encounter;
   if (fought && !hooks.unrecorded) save.progress.boss_attempts[fought.id] = (save.progress.boss_attempts[fought.id] ?? 0) + 1;
   prepareTurn(rt, setup.battle);
@@ -60,7 +65,9 @@ function prepareTurn(rt: Runtime, battle: Battle) {
 type Shown = Pick<BattlePresentationState, 'player' | 'enemy'>;
 
 function logEvents(ctx: GameContext, session: BattleSession, events: BattleEvent[], before: Shown = presentationState(ctx, session)) {
-  const context = { data: ctx.data, initialPlayer: before.player, initialEnemy: before.enemy, hideEnemyHp: hidesFoeHp(session) };
+  const context = {
+    data: ctx.data, initialPlayer: before.player, initialEnemy: before.enemy, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session),
+  };
   session.logs.push(...groupedBattleLog(events, context));
   session.logs = session.logs.slice(-LOG_LIMIT);
 }
@@ -72,7 +79,8 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
   const { ctx, animation } = rt;
   animation.revision++;
   const frames = eventFrames(events, before, {
-    data: ctx.data, hideEnemyHp: hidesFoeHp(session), transformedSlots: session.transformedSlots, nextFrameId: () => ++animation.frameId,
+    data: ctx.data, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session), transformedSlots: session.transformedSlots,
+    nextFrameId: () => ++animation.frameId,
   });
   const now = presentationState(ctx, session), enemy = foeView(session, now.enemy);
   frames.push({

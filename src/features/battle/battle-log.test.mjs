@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {battleEventText, groupedBattleLog} from './battle-log.ts';
+import {battleEventText, groupedBattleLog, openingEvents} from './battle-log.ts';
 
 const context = {data: {species: new Map(), skills: new Map(), items: new Map()},
   initialPlayer: {name: '巴鲁斯', hp: 100, maxHp: 100}, initialEnemy: {name: '布布花', hp: 100, maxHp: 100}};
@@ -19,6 +19,32 @@ test('condition lines name the condition, and an unnamed one once as 技能效�
 test('Boss rule conditions, named by their rule ids, are not shown by id', () => {
   const rule = at({side: 1, name: '布布花', condition: 'boss_drain_each_turn', conditionName: 'drain_each_turn'});
   assert.equal(text({type: 'condition_added', ...rule, turns: Infinity}), '布布花获得技能效果。');
+});
+
+test('the opening log leaves out the rule conditions installed before the first switch-in and keeps real conditions', () => {
+  const foe = fields => at({side: 1, name: '布布花', ...fields});
+  const opening = [
+    {type: 'battle_start', sides: [{kind: 'player', name: 'player'}, {kind: 'boss', name: 'boss'}]},
+    {type: 'condition_added', ...foe({condition: 'boss_drain_each_turn', conditionName: 'drain_each_turn'}), turns: Infinity},
+    {type: 'condition_refreshed', ...foe({condition: 'campaign_always_moves_first', conditionName: '强制先手'}), turns: Infinity},
+    {type: 'status_applied', ...foe({condition: 'poison'}), status: 'poison', turns: 3},
+    {type: 'switch_in', side: 0, slot: 0, species: 1, types: [], name: '巴鲁斯', level: 50, hp: 100, maxHp: 100},
+    {type: 'switch_in', side: 1, slot: 0, species: 2, types: [], name: '布布花', level: 50, hp: 100, maxHp: 100},
+    {type: 'condition_added', ...at({conditionName: '护盾'}), turns: 5},
+  ];
+  assert.deepEqual(groupedBattleLog(openingEvents(opening), context),
+    ['布布花陷入中毒，持续 3 回合。', '我方派出了巴鲁斯。', '对手派出了布布花。　巴鲁斯获得护盾效果，持续 5 回合。']);
+});
+
+test('a retreat is said once, by the flee line; a turn cap\'s end names the cap, and only a wild win\'s end names the win', () => {
+  const end = fields => ({type: 'battle_end', winner: 1, success: false, defeated: [], turns: 3, ...fields});
+  assert.deepEqual(groupedBattleLog([{type: 'flee', side: 0}, end({reason: 'flee'})], context), ['我方撤离了战斗。']);
+  assert.equal(text(end({reason: 'turn_cap', winner: null})), '已达到 3 回合上限。');
+  assert.equal(text(end({reason: 'ko'})), '战斗结束。');
+  const won = end({reason: 'ko', winner: 0, success: true});
+  assert.equal(text(won), '战斗胜利！');
+  // A challenge's result text names its win as 挑战成功.
+  assert.equal(battleEventText(won, {...context, challenge: true}), '战斗结束。');
 });
 
 test('the side is named when both sides field a monster of the same name', () => {

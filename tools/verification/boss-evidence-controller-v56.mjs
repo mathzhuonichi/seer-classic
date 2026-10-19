@@ -209,6 +209,21 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       const action=chooseAiAction(core,core.sides[1]);assert.deepEqual(lastSearchDecision(core,core.sides[1])?.chosen,action);assert.deepEqual(parse(game).progress.boss_attempts,before);leave(game);
     }
   });
+  check('Real Boss starts log no rule condition before the switch-ins; the evidence dialog shows the rules instead',()=>{
+    // Turn preparation never runs, so the sweep only opens and leaves each battle.
+    const seam=options=>{const battle=createBattle(options);created.push(battle);return battle;};
+    const game=createProductionGame(catalog,JSON.stringify(base),{idle:()=>{},createBattle:seam});
+    const conditionEvents=new Set(['condition_added','condition_refreshed']);let opened=0,installed=0;
+    for(const boss of bosses.values()){
+      if(!game.dispatch({type:'startBattle',bossId:boss.id}).ok||!game.snapshot().battle)continue;
+      const events=captured().initialEvents,log=game.snapshot().battle.log,switched=log.findIndex(line=>line.includes('派出了'));opened++;
+      installed+=events.slice(0,events.findIndex(event=>event.type==='switch_in')).filter(event=>conditionEvents.has(event.type)).length;
+      assert(switched>0&&!log.slice(0,switched).some(line=>/获得|效果更新/.test(line)),`${boss.id}: ${log.join(' / ')}`);
+      leave(game);
+    }
+    assert(installed>40,`the opened encounters install rule conditions (${installed} in ${opened})`);
+    t.witness('boss-openings',{opened,installed});
+  });
   check('Unknown evidence remains explicitly inferred and the entire verification preserves catalog and user state',()=>{
     const unknown={...structuredClone(source),id:'unverified-v56'};const evidence=buildBossEvidence(unknown);assert(evidence.fields.every(row=>row.status==='inferred'));assert(evidence.limitations.some(text=>text.includes('尚未完成核对')));
     assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert(created.length>0);

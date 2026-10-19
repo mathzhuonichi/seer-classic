@@ -89,6 +89,8 @@ export interface FrameOptions {
   data: DataSet;
   /** Trainer battles conceal the opposing HP. */
   hideEnemyHp: boolean;
+  /** Encounters word their outcome as a challenge's (`BattleLogContext.challenge`). */
+  challenge: boolean;
   /** Receives `side:slot` keys of transformed combatants. */
   transformedSlots: Set<string>;
   nextFrameId(): number;
@@ -96,7 +98,7 @@ export interface FrameOptions {
 
 /** Presentation follows the engine's event order; it does not resolve combat a second time. */
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
-  const { data, hideEnemyHp } = options;
+  const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
   const frames: BattlePresentationFrame[] = [];
   let shown = before;
@@ -105,7 +107,7 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     const activeBefore = side === 1 ? shown.enemy : shown.player;
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
     shown = advanceBattlePresentation(shown, e);
-    const text = battleEventText(e, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp });
+    const text = battleEventText(e, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
     const motion = frameMotion(e, side, activeBefore, data);
     if (!text && motion.kind === 'message') continue;
     const { player, party } = shown, enemy = foe(shown.enemy), capture = e.type === 'capture_attempt' ? e : undefined;

@@ -1,6 +1,6 @@
 import type { BattleMonsterView, BattleView, ItemView } from '../../../shared/views.ts';
 import { gameAudio } from '../../../shared/audio/game-audio.ts';
-import type { BattleItemChoice } from '../battle-hud.ts';
+import { OPENED_ITEM_PANE, type BattleItemChoice } from '../battle-hud.ts';
 import BattleItemPane from './BattleItemPane.tsx';
 import BattlePartyPane from './BattlePartyPane.tsx';
 import BattleSkillPane from './BattleSkillPane.tsx';
@@ -44,7 +44,7 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
   const openCapture = () => { gameAudio.playSfx('tab'); chooseItems({ category: 'capsule', selection: '' }); setTab('items'); };
   const openCommand = (command: BattleCommand) => {
     gameAudio.playSfx('tab');
-    if (command === 'items') chooseItems({ category: 'recovery' });
+    if (command === 'items') chooseItems(OPENED_ITEM_PANE);
     setTab(command);
   };
   return <div className="classic-command-deck" aria-busy={busy}>

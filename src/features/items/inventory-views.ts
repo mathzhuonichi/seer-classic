@@ -2,6 +2,7 @@
 import type { DispatchResult, GameAction } from '../../kernel/contract.ts';
 import type { ItemView, MonsterView } from '../../shared/views.ts';
 import {battleSupplyOrder,itemContentCategory,itemPocket,type ItemPocket} from '../../shared/item-categories.ts';
+import {pinnedSelection} from '../../shared/view-helpers.ts';
 
 /** Stock shown on tiles and in details. */
 export const itemStock=(item:{count:number;unlimited?:boolean})=>item.unlimited?'∞' as const:item.count;
@@ -19,7 +20,7 @@ export function bagItems(inPocket:readonly ItemView[],pocket:ItemPocket,content:
  * that has run out selects nothing, so the confirm button cannot use up a different item.
  */
 export function bagSelection(items:readonly ItemView[],pageItems:readonly ItemView[],pickedId:string):ItemView|undefined {
-  return pickedId?items.find(item=>item.id===pickedId):pageItems[0]??items[0];
+  return pinnedSelection(items,pickedId,pageItems[0]??items[0]);
 }
 
 /** What moves the bag's pick: a tile click, a use, opening a pocket (on the item a link names), a list change, the content filter falling back. */

@@ -1,7 +1,8 @@
 /**
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
- * forced replacement, the lines a capture and a wild victory say, each once, and the hold on turn preparation while a turn plays.
+ * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
+ * closing notice), and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
 import {levelledGames} from './_game-battle.mjs';
@@ -30,9 +31,10 @@ function manualClock() {
   };
 }
 await withSsr('battle-commands', async load => {
-  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}, idleSlots] = await Promise.all([
-    '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts',
-    '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts', '/src/shared/idle.ts'].map(load));
+  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}, idleSlots, {MAX_TURNS}] =
+    await Promise.all([
+      '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts',
+      '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts', '/src/shared/idle.ts', '/battle/core/src/constants.ts'].map(load));
   const catalog = await loadCatalog(), t = suite('battle-commands');
   const base = JSON.parse(createGame(catalog, '', {idle: () => {}}).exportSave());
   base.rng_state = [101, 202, 303, 404];
@@ -151,23 +153,101 @@ await withSsr('battle-commands', async load => {
     assert.ok(ui.player.canAct());
   });
 
-  t.check('A wild victory says it once and names what it paid', () => {
-    const game = createGame(catalog, JSON.stringify(base), {idle: () => {}}), lead = game.snapshot().party[0];
-    game.dispatch({type: 'cheatMonster', uid: lead, level: 100});
-    game.dispatch({type: 'startTraining', species: 22, level: 3});
-    const ui = screen(game), foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
-    for (let turn = 0; turn < 5 && !game.snapshot().battle.finished; turn++) {
-      const skill = game.snapshot().battle.player.skills.filter(entry => entry.pp > 0).sort((a, b) => (b.power || 0) - (a.power || 0))[0];
-      ui.player.submit({type: 'move', skillId: skill.id});
+  /** The strongest skill the player's active monster still has PP for. */
+  const strongest = battle => battle.player.skills.filter(skill => skill.pp > 0).sort((a, b) => (b.power || 0) - (a.power || 0))[0];
+  /** Plays `game` on `ui` with `action` (by default the strongest skill) until it ends or `turns` pass; returns the view. */
+  const playOut = (game, ui, {action, turns = 10} = {}) => {
+    for (let turn = 0; turn < turns && !game.snapshot().battle.finished; turn++) {
+      ui.player.submit(action ?? {type: 'move', skillId: strongest(game.snapshot().battle).id});
       ui.rerender();
       ui.clock.runAll();
     }
-    const view = game.snapshot().battle, reward = `获得 ${coins} 赛尔豆及 ${exp} 积累经验。`;
+    return game.snapshot().battle;
+  };
+  /** A controller on the seeded journey with its lead at Lv 100, that has started `start`. */
+  const levelledLead = (start, input = catalog) => {
+    const game = createGame(input, JSON.stringify(base), {idle: () => {}});
+    game.dispatch({type: 'cheatMonster', uid: game.snapshot().party[0], level: 100});
+    assert.ok(game.dispatch(start).ok && game.snapshot().battle, start.type);
+    return game;
+  };
+
+  const isTurnHeader = line => /^第 \d+ 回合$/.test(line);
+  /** The dialogue since the last turn header. */
+  const lastTurn = ui => ui.dialogue.slice(ui.dialogue.findLastIndex(isTurnHeader));
+  /** Words that name a battle's outcome. The player's own flee line is the retreat itself, not a line about it. */
+  const NAMES_OUTCOME = /胜利|成功|失败|平局|撤离/, FLEE_LINE = '我方撤离了战斗。';
+  const outcomeLines = ui => lastTurn(ui).filter(line => NAMES_OUTCOME.test(line) && line !== FLEE_LINE);
+
+  t.check('A wild victory says it once and names what it paid', () => {
+    const game = levelledLead({type: 'startTraining', species: 22, level: 3}), ui = screen(game);
+    const foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
+    const view = playOut(game, ui, {turns: 5}), reward = `获得 ${coins} 赛尔豆及 ${exp} 积累经验。`;
     assert.ok(view.won, 'the levelled lead wins');
     assert.deepEqual(ui.dialogue.slice(-3), [`${foe}失去战斗能力。`, '战斗胜利！', reward]);
     assert.equal(view.result, reward);
+    assert.deepEqual(outcomeLines(ui), ['战斗胜利！'], 'the end line alone names the win; the result text names the reward');
     assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, 'no line twice');
     t.witness('wild victory dialogue', ui.dialogue);
+  });
+
+  /** The seeded journey with a party of one lead on 1 HP. */
+  const lastStand = () => {
+    const save = structuredClone(base);
+    save.party = save.party.slice(0, 1);
+    save.storage.find(mon => mon.uid === save.party[0]).hp = 1;
+    return save;
+  };
+  /** Every skill a self-targeted PP restore: neither side can hurt the other, so a battle runs to the turn cap. */
+  const stalled = {...catalog, skills: catalog.skills.map(skill => ({
+    ...skill, category: 'status', target: 'self', power: 0, accuracy: null, priority: 0, effects: [{op: 'restore_pp', target: 'self', amount: 'all'}],
+  }))};
+  /** A trainer, whose win pays no reward item and so says the challenge's own text, with its team at Lv 1 for the Lv 100 lead. */
+  const PLAIN_TRAINER = 'trainer_attrition';
+  const plain = {...catalog, trainers: catalog.trainers.map(trainer => trainer.id !== PLAIN_TRAINER ? trainer
+    : {...trainer, team: trainer.team.map(mon => ({...mon, level: 1}))})};
+
+  t.check('Each outcome is named once, by the last dialogue line, which the scene repeats once the battle closes; wild and challenge wording', () => {
+    const lost = start => started(start, catalog, lastStand());
+    // [game, its title, the last two dialogue lines (how it ended, then the result text), play options]
+    const outcomes = {
+      'wild retreat': [wild(), '已撤离战斗', [FLEE_LINE, '本次撤离不发放战斗奖励。'], {action: {type: 'flee'}}],
+      'wild loss': [lost({type: 'startTraining', species: 22, level: 100}), '战斗失败', ['战斗结束。', '战斗失败，可恢复精灵后继续探索。']],
+      'wild draw': [wild(stalled), '本场平局', [`已达到 ${MAX_TURNS} 回合上限。`, '本场平局，可恢复精灵后继续探索。'], {turns: MAX_TURNS}],
+      'challenge loss': [lost({type: 'startBattle', bossId: catalog.bosses[0].id}), '挑战失败', ['战斗结束。', '挑战失败，可恢复后再次挑战。']],
+      'challenge win': [levelledLead({type: 'startBattle', bossId: PLAIN_TRAINER}, plain), '战斗胜利！', ['战斗结束。', '挑战成功，奖励已入账。']],
+    };
+    const said = {};
+    for (const [name, [game, title, ending, options]] of Object.entries(outcomes)) {
+      const ui = screen(game), view = playOut(game, ui, options), turn = lastTurn(ui);
+      assert.deepEqual([view.finished, view.challenge, battleResultTitle(view)], [true, name.startsWith('challenge'), title], name);
+      assert.deepEqual(ui.dialogue.slice(-2), ending, `${name}: how it ended, then the outcome`);
+      // App.tsx shows the result text as the scene's notice when the battle closes.
+      assert.equal(view.result, ending[1], `${name}: the closing notice`);
+      assert.deepEqual(outcomeLines(ui), [view.result], `${name}: the result text alone names the outcome in the last turn`);
+      assert.equal(new Set(turn).size, turn.length, `${name}: no line twice in the last turn`);
+      said[name] = ending;
+    }
+    const retreat = outcomes['wild retreat'][0].snapshot().battle;
+    assert.deepEqual([retreat.log[0], retreat.log.at(-1)], [`遭遇野生的${retreat.enemy.name}。`, '我方撤离了战斗。'], 'a wild battle opens as an encounter');
+    const challenge = outcomes['challenge loss'][0].snapshot().battle;
+    assert.equal(challenge.log[0], `挑战${challenge.name}。`, 'a challenge opens as one');
+    t.witness('outcome endings', said);
+  });
+
+  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
+    const game = createGame(catalog, JSON.stringify(base), {idle: () => {}});
+    // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
+    const recruit = catalog.species.find(({id}) => {
+      if (!game.dispatch({type: 'startTraining', species: id, level: 5}).ok || !game.snapshot().battle) return false;
+      if (game.snapshot().battle.name.startsWith('野外挑战')) return true;
+      game.dispatch({type: 'flee'});
+      game.dispatch({type: 'closeBattle'});
+      return false;
+    });
+    assert.ok(recruit, 'the catalog has a recruit-only species');
+    const {name, log} = game.snapshot().battle;
+    assert.deepEqual([name, log[0]], [`野外挑战：${recruit.name.zh}`, `${name}。`]);
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {

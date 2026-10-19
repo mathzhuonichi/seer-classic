@@ -1,5 +1,5 @@
 // Snapshot views of the open battle.
-import { MAX_TURNS, type Mon } from '../../../battle/core/src/index.ts';
+import type { Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
 import { victoryReward } from '../../domain/economy.ts';
@@ -25,6 +25,8 @@ export function battleMonsterView(ctx: GameContext, session: BattleSession, mon:
 /** Trainer foes show only their HP bar ratio. */
 export const hidesFoeHp = (session: BattleSession) => session.encounter?.category === 'trainer';
 export const foeView = (session: BattleSession, mon: BattleMonsterView) => hidesFoeHp(session) ? concealHp(mon) : mon;
+/** An encounter (a Boss, trainer, tower floor, campaign stage or facility), not a wild monster: its outcome is worded as a challenge's. */
+export const isChallenge = (session: BattleSession) => !!session.encounter;
 
 /** The engine's current teams, as the player sees them, before foe HP concealment. */
 export function presentationState(ctx: GameContext, session: BattleSession): BattlePresentationState {
@@ -41,15 +43,24 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
 }
 
-/** The settled outcome's consequence: where a capture went, what a victory paid, or what to do next. The result panel's title names the outcome. */
+/**
+ * The settled outcome as the player reads it: the battle's last dialogue line, and the scene's notice once the battle closes.
+ * It names the outcome once, a challenge's in challenge wording, with what it gave or what to do next: where a capture went,
+ * what a victory paid, or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message
+ * (a floor passed, a stage completed, an essence or a skill gained) stands for its win. The log's last line says only how the
+ * battle ended (战斗结束。, the turn cap, the retreat), so it does not name the outcome again; only a wild win's end line names
+ * the win (战斗胜利！), since this text then names only the reward.
+ */
 function resultText(session: BattleSession): string {
   const result = session.battle.result;
   if (!result) return '';
   if (session.resultMessage) return session.resultMessage;
-  if (result.success) return session.encounter ? '挑战成功，奖励已入账。' : victoryText(victoryReward(null));
-  if (result.reason === 'flee') return '已离开战斗。';
-  if (result.reason === 'turn_cap') return `已达到 ${MAX_TURNS} 回合上限，本场平局。可恢复后再次挑战。`;
-  return '挑战失败，可恢复后再试。';
+  const challenge = isChallenge(session);
+  if (result.success) return challenge ? '挑战成功，奖励已入账。' : victoryText(victoryReward(null));
+  if (result.reason === 'flee') return '本次撤离不发放战斗奖励。';
+  const next = challenge ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
+  if (result.reason === 'turn_cap') return `本场平局，${next}`;
+  return `${challenge ? '挑战失败' : '战斗失败'}，${next}`;
 }
 
 export function battleView(rt: Runtime, session: BattleSession): BattleView {
@@ -57,7 +68,7 @@ export function battleView(rt: Runtime, session: BattleSession): BattleView {
   return {
     name: session.name, turn: battle.turn, player: state.player, enemy: foeView(session, state.enemy), party: state.party,
     enemyParty: state.enemyParty.map(mon => foeView(session, mon)), log: [...session.logs], finished: !!battle.result, won: !!battle.result?.success,
-    resultReason: battle.result?.reason, result: resultText(session), canCapture: !blocked, captureBlockedReason: blocked,
+    resultReason: battle.result?.reason, result: resultText(session), challenge: isChallenge(session), canCapture: !blocked, captureBlockedReason: blocked,
     captured: battle.result?.reason === 'capture', needsSwitch: battle.sides[0].needsReplacement,
     animation: { revision: rt.animation.revision, frames: session.frames },
   };

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import { BossEvidenceContent } from '../../../shared/ui/BossEvidence.tsx';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
+import { battleResultTitle, evidenceButtonLabel, OPENED_ITEM_PANE, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -42,7 +42,9 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
   const { frame, busy } = playback;
 
   useEffect(() => {
-    if (commandRequest) setTab(commandRequest.command);
+    if (!commandRequest) return;
+    if (commandRequest.command === 'items') chooseItems(OPENED_ITEM_PANE);
+    setTab(commandRequest.command);
   }, [commandRequest?.id, commandRequest?.command]);
   useEffect(() => { chooseItems({ target: b.player.uid }); }, [b.player.uid]);
 

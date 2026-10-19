@@ -14,6 +14,7 @@ import { bonusDamageIf, drain, evade, hurtStatus, randomPower, selfStageIf, time
 import { armBench, attach, disarm, hasStatus, hitFoe, landed, moveStages, scriptHooks, stat, status } from './util.ts';
 
 type P = number[];
+let mirroring = false; // seer_eff_91 re-entrancy guard
 
 /** The move landed and knocked the foe out. */
 const landedKo = (c: ApplyCtx) => c.ctx?.hit !== false && c.foe.fainted && c.ctx?.damageDealt > 0;
@@ -102,7 +103,9 @@ const TIMED: Record<string, Timed> = {
     name: '同步', on: ['on_stage_incoming'], foe: true, kind: 'other', data: (c) => ({ mirrorSide: c.user.side }),
     hook: (c) => {
       const mirror = c.battle.active(c.cond.data.mirrorSide);
-      if (mirror && mirror !== c.holder && !mirror.fainted) c.battle.changeStage(mirror, c.stat, c.delta, false);
+      if (mirroring || !mirror || mirror === c.holder || mirror.fainted) return;
+      mirroring = true; // a mirrored change is not mirrored back when both actives carry 同步
+      try { c.battle.changeStage(mirror, c.stat, c.delta, false); } finally { mirroring = false; }
     },
   },
 
