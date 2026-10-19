@@ -27,7 +27,8 @@ Where a value was estimated, the encounter file lists it in `confidence.uncertai
 **Remake progression (V53/V54).** The remake keeps the in-order climb but not the 2010 loss rule. Clearing
 floors 10, 20, … unlocks the starting points 1, 11, …, 61. A loss, retreat or cancelled load keeps the attempted
 floor, and the party may recover between floors. The floor-30 suit and the 60F and 70F essences are granted on the
-first clear. See [station-tower-v53](../../design/notes/station-tower-v53.md) and
+first clear. Floors 61–70 keep their source levels, so 呆呆蛹 also has an ordinary collection recruitment
+(`collection-recruitment-366`), and its line does not depend on clearing floor 70. See [station-tower-v53](../../design/notes/station-tower-v53.md) and
 [tower-floor-flow-v54](../../design/notes/tower-floor-flow-v54.md).
 
 Notable floor rules encoded in the files:

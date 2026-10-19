@@ -7,6 +7,7 @@ import {STARTER_SPECIES} from '../economy.ts';
 import {FUSION_RECIPES} from '../recipes/fusion.ts';
 import {BREEDING_RECIPES} from '../recipes/breeding.ts';
 import {bossEssenceRewards,habitatEntries} from './native-acquisition.ts';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../challenges/brave-tower.ts';
 import {buildPredecessors} from './species-graph.ts';
 import {buildPaidSPTRecruitments,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs} from './spt-recruitment.ts';
 
@@ -36,11 +37,17 @@ export function initialSpecies(catalog:Pick<AcquisitionCatalog,'species'>):Acqui
   return catalog.species.filter(row=>!predecessors.get(row.id)!.size&&!NPC_ONLY_SPECIES.has(row.id)).sort((a,b)=>a.id-b.id);
 }
 
+/**
+ * The top Brave Tower floor's essence ends an in-order climb through floors 61-70, whose source-level opponents stay
+ * untuned, so it is not a simple normal route: its species (呆呆蛹) also receives a collection recruitment reward.
+ */
+const CLIMB_ONLY_ESSENCE_BOSS=braveTowerBossId(BRAVE_TOWER_FLOORS);
+
 /** Direct habitats/rewards and native fusion/breeding retain their own acquisition flows. */
 function nativeInitialRoutes(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]):Set<number> {
   const seeds=new Set<number>([...STARTER_SPECIES,...Object.values(JOURNEY_QUEST_SPECIES)]);
   for(const entry of habitatEntries(catalog,planets))seeds.add(entry.species.id);
-  for(const reward of bossEssenceRewards(catalog))seeds.add(reward.species);
+  for(const reward of bossEssenceRewards(catalog))if(reward.boss.id!==CLIMB_ONLY_ESSENCE_BOSS)seeds.add(reward.species);
   for(const recipe of [...FUSION_RECIPES,...BREEDING_RECIPES])for(const outcome of recipe.outcomes)if(outcome.weight>0)seeds.add(outcome.species);
   return seeds;
 }

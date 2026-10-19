@@ -30,6 +30,14 @@ export async function verifyRecruitmentAcquisition(){
    for(const condition of reward.prerequisites)assert(condition.kind==='species'?available(condition.species):eligible.has(condition.bossId));
   }
  });
+ t.check('the 呆呆蛹 line has an ordinary recruitment route besides the floor-70 climb',()=>{
+  const reward=rewards.find(row=>row.rewardSpecies===366);
+  assert(reward,'呆呆蛹 has a collection recruitment reward');
+  const routes=graph.get(366)!.routes;
+  assert(routes.some(route=>route.kind==='quest'&&route.questId===reward.questId));
+  assert(routes.some(route=>route.bossId==='boss_tower_brave_f070'),'the floor-70 essence remains a route');
+  for(const id of [367,368,369])assert(graph.get(id)!.routes.some(route=>route.kind==='evolution'&&route.questId===reward.questId),`${id} evolves from it`);
+ });
  const baseline=buildAcquisitionIndex(catalog,undefined,undefined,[]);
  t.check('generated recruitment disabled by explicit empty seeds',()=>{
   for(const reward of rewards)assert(!baseline.get(reward.rewardSpecies)?.routes.some(route=>route.questId===reward.questId),'An explicit empty seed array disables all generated recruitment tasks.');

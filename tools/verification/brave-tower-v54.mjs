@@ -148,6 +148,20 @@ await withSsr('brave-tower-v54',async load=>{
     const explicit=original.bosses.find(boss=>boss.id===floorId(60));
     assert(!buildRecruitmentRewards({species,bosses:[explicit],items:[]},[]).some(row=>row.rewardSpecies===141),'explicit Ken reward remains a native acquisition route');
   });
+  check('Daidaiyong also comes from a collection recruitment without a floor-70 clear, and evolves into each branch',()=>{
+    const reward=buildRecruitmentRewards(original).find(row=>row.rewardSpecies===366);assert(reward,'呆呆蛹 has a collection recruitment');
+    const save=fixture();
+    for(const condition of reward.prerequisites)if(condition.kind==='species')save.dex.owned.push(condition.species);else save.progress.bosses_cleared.push(condition.bossId);
+    const game=make(save);assert.equal(game.dispatch({type:'claimQuest',questId:reward.questId}).ok,true);
+    assert.equal(parse(game).items[reward.itemId],1);assert(!parse(game).progress.bosses_cleared.includes(floorId(70)));
+    game.dispatch({type:'useItem',itemId:reward.itemId,uid:game.snapshot().party[0]});
+    const hatched=game.snapshot().monsters.find(mon=>mon.species===366);assert(hatched,'the essence hatches 呆呆蛹');
+    for(const species of [367,368,369]){
+      const branch=make(parse(game));branch.dispatch({type:'cheatMonster',uid:hatched.uid,level:30});
+      assert.equal(branch.dispatch({type:'evolve',uid:hatched.uid,toSpecies:species}).ok,true);
+      assert.equal(branch.snapshot().monsters.find(mon=>mon.uid===hatched.uid).species,species);
+    }
+  });
   check('Ordinary SPT settlement retains its existing 500-bean grant',()=>{
     const game=make(),before=parse(game);win(game,'boss_spt_liaosi');assert.equal(parse(game).game.coins,before.game.coins+500);assert.deepEqual(parse(game).game.braveTower,before.game.braveTower);
   });
