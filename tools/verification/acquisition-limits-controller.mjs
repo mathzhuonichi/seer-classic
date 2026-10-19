@@ -118,6 +118,16 @@ await withSsr('acquisition-limits-controller',async load=>{
   accept(g,{type:'closeBattle'});assert.deepEqual(gained(g,before),[[22,false]],'The caught monster goes to the box');
   persisted(g);
  });
+ check(`A bred infant joins a box of ${LARGE_BOX} monsters while the party is full, and the notice says so`,()=>{
+  const recipe=BREEDING_RECIPES[0],save=largeBox(structuredClone(base),19);
+  const parents=[{...template(recipe.maleSpecies[0],50),uid:'breeding-male'},{...template(recipe.femaleSpecies[0],50),uid:'breeding-female'}];
+  save.storage.push(...parents);const g=make(save),before=parse(g);
+  accept(g,{type:'breed',recipeId:recipe.id,firstUid:parents[0].uid,secondUid:parents[1].uid});
+  const [infant,...others]=gained(g,before);assert.equal(others.length,0,'One infant');
+  assert(recipe.outcomes.some(outcome=>outcome.species===infant[0]),'The infant is one of the recipe outcomes');
+  assert.equal(infant[1],false,'The infant goes to the box');assert.match(g.snapshot().notices[0],/已加入仓库/);
+  persisted(g);
+ });
  check('Direct acquisition allows the sixth and rejects the seventh copy',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'cheatAcquire',species:19,level:1});assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);
   reject(g,{type:'cheatAcquire',species:19,level:1},'Direct acquisition seventh copy');
