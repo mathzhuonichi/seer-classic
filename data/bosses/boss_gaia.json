@@ -65,7 +65,7 @@
       "zh": "击败盖亚"
     }
   },
-  "reward_hatches": 261,
+  "reward_hatches": 260,
   "variants": [
     {
       "id": "within_2_turns",
@@ -133,7 +133,8 @@
     "turn_limit {turns:2} as a win objective = won within 2 turns.",
     "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed.",
     "Level not given in any source found; 70 is an estimate (2010 帕诺星系 legendaries).",
-    "Hourly windows (13:00/20:00 30 min) are dropped per foundation 7.2."
+    "Hourly windows (13:00/20:00 30 min) are dropped per foundation 7.2.",
+    "reward_hatches 260: 盖亚精元 hatches the initial form 提坦 at Lv1, which evolves into 盖亚 at Lv31, as the original 分子转化器 hatched the base form of every essence line (the earlier binding hatched a Lv1 盖亚)."
   ],
   "confidence": {
     "level": "medium",

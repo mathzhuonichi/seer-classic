@@ -78,16 +78,35 @@ await withSsr('boss-essence-targets', async load => {
   const catalogIndex = JSON.parse(fs.readFileSync('data/catalog_index.json', 'utf8'));
   assert.deepEqual(catalogIndex.monsters.find(mon => mon.id === 1220).evolves_to, [1221], 'Catalog index preserves the same forward edge.');
 
-  // Existing explicit bindings and final-enemy fallbacks retain their targets.
+  // Every encounter essence hatches an initial form at Lv1, as the original 分子转化器 did; the line's other forms follow by evolution.
+  const essences = bossEssenceRewards(catalog);
+  const lowerForms = essences.filter(reward => initial.get(reward.species).initialForms.some(form => form.species !== reward.species));
+  assert.deepEqual(lowerForms.map(reward => `${reward.boss.id} -> ${reward.species}`), [], 'no essence hatches a form that evolves from another');
+  // A defeated final form with no bound essence pays its line's initial form; the rematches whose source pays only a title stay paid.
+  const initialOf = species => {
+    const forms = initial.get(species).initialForms;
+    assert.equal(forms.length, 1, `${species}: one initial form`);
+    return forms[0].species;
+  };
+  const authoredFallbacks = { boss_spt_kelaifen2: 854, boss_spt_kelanite2: 536, boss_dark_trial_katesi: 167 };
+  for (const [bossId, species] of Object.entries(authoredFallbacks)) {
+    const boss = catalog.bosses.find(entry => entry.id === bossId);
+    assert.deepEqual(essences.filter(reward => reward.boss.id === bossId).map(reward => [reward.itemId, reward.species, reward.authored]),
+      [[`essence_${bossId}`, initialOf(boss.team.at(-1).species), true]], `${bossId}: the remake essence hatches the initial form`);
+    assert.equal(species, initialOf(boss.team.at(-1).species));
+  }
+  assert.deepEqual(essences.filter(reward => reward.boss.id === 'boss_gaia').map(reward => reward.species), [260], '盖亚精元 hatches 提坦');
+
+  // Existing explicit bindings retain their targets; final-enemy fallbacks hatch the line's initial form.
   const explicit = catalog.bosses.find(boss => boss.id === 'boss_spt_liaosi');
   hatchLegacyEssence(explicit, 'essence_liaosi', explicit.reward_hatches);
   const fallback = catalog.bosses.find(boss => !boss.reward_hatches && !boss.reward?.monster && !boss.reward?.learn_skill
     && !Object.keys(boss.reward?.items ?? {}).some(id => id.startsWith('essence_'))
     && boss.id !== 'boss_tower_brave_mystery' && !CHALLENGE_CAMPAIGNS.some(campaign => campaign.stages.some(stage => stage.bossIds.includes(boss.id))));
   assert.ok(fallback);
-  hatchLegacyEssence(fallback, `essence_${fallback.id}`, fallback.team.at(-1).species);
+  hatchLegacyEssence(fallback, `essence_${fallback.id}`, initialOf(fallback.team.at(-1).species));
   const bound = { id: 'boss_fixture', team: [{ species: 9 }], reward_hatches: 1, reward: { monster: { species: 4 } } };
-  assert.deepEqual(bossEssenceRewards({ bosses: [bound], items: [] }).map(reward => reward.species), [1], 'Explicit hatch binding remains authoritative.');
+  assert.deepEqual(bossEssenceRewards({ species: [], bosses: [bound], items: [] }).map(reward => reward.species), [1], 'Explicit hatch binding remains authoritative.');
 
   // Campaign stages must still withhold synthetic essences until their final stage.
   for (const campaign of CHALLENGE_CAMPAIGNS) {
@@ -118,5 +137,5 @@ await withSsr('boss-essence-targets', async load => {
   restored.dispatch({ type: 'useItem', itemId: 'essence_boss_spt_ajiasha', uid: restored.snapshot().party[0] });
   assert.deepEqual(restored.snapshot().monsters.slice(before).map(mon => [mon.species, mon.level]), [[1060, 1]]);
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
-  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
+  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
 });

@@ -49,13 +49,25 @@ await withSsr('export-acquisition-status', async load => {
     else seed(id, witness);
   }
   const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches]));
+  /** An unbound essence hatches the defeated final form's initial form: its nearest ancestor without a predecessor. */
+  const initialForm = id => {
+    const queue = [id], seen = new Set();
+    for (let index = 0; index < queue.length; index++) {
+      const current = queue[index];
+      if (seen.has(current)) continue;
+      seen.add(current);
+      if (!predecessors.get(current)?.size) return current;
+      queue.push(...predecessors.get(current));
+    }
+    return id;
+  };
   for (const boss of catalog.bosses) {
     const campaign = CHALLENGE_CAMPAIGNS.find(row => row.stages.some(stage => stage.bossIds.includes(boss.id)));
     const intermediate = campaign && !campaign.stages.at(-1).bossIds.includes(boss.id);
     const explicit = Object.keys(boss.reward?.items ?? {}).filter(id => id.startsWith('essence_'));
     const itemIds = explicit.length ? explicit : !intermediate && !boss.reward?.learn_skill && boss.id !== 'boss_tower_brave_mystery' ? [`essence_${boss.id}`] : [];
     for (const itemId of itemIds) {
-      if (!bindings.has(itemId)) bindings.set(itemId, boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1).species);
+      if (!bindings.has(itemId)) bindings.set(itemId, boss.reward_hatches ?? boss.reward?.monster?.species ?? initialForm(boss.team.at(-1).species));
       seed(bindings.get(itemId), { kind: campaign ? 'campaign' : 'boss', bossId: boss.id, itemId });
     }
   }
