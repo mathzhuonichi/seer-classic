@@ -81,6 +81,8 @@ export interface ChallengeDetail {
   instruction:string;
   reward:string;
   action:string;
+  /** The titles and achievements a clear earns, or the tower's earned ones; undefined when there are none. */
+  honors?:string;
 }
 
 const INSTRUCTIONS:Record<ChallengeKind,string>={
@@ -106,6 +108,23 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
     instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
-    reward:rewardNote(entry,kind,s),action:ACTIONS[kind],
+    reward:rewardNote(entry,kind,s),action:ACTIONS[kind],honors:honorNote(entry,s),
   };
+}
+
+function honorNote(entry:ChallengeEntry,s:ArchiveSnapshot):string|undefined {
+  const honors=entry.tower?s.braveTower.honors:entry.honors??[];
+  return honors.length?`${entry.tower||entry.cleared?'已获得':'通关后获得'}：${honors.join(' · ')}`:undefined;
+}
+
+/** An earned honour and the challenge that gave it. */
+export interface HonorRow {label:string;source:string}
+
+/** Every honour earned so far, once each, in catalogue order: derived from the cleared encounters, so it needs no save field. */
+export function challengeHonors(s:ArchiveSnapshot):HonorRow[] {
+  const rows=new Map<string,string>();
+  for(const boss of s.bosses)if(boss.cleared)for(const label of boss.honors??[]){
+    if(!rows.has(label))rows.set(label,isTowerFloor(boss)?CHALLENGE_CATEGORY.tower:boss.name);
+  }
+  return [...rows].map(([label,source])=>({label,source}));
 }

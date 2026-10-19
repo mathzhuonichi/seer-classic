@@ -1,4 +1,4 @@
-// Encounter rows shared by the challenge views and the encounter catalogue: opponents, Brave Tower reward labels and categories.
+// Encounter rows shared by the challenge views and the encounter catalogue: opponents, Brave Tower reward labels, honours and categories.
 import type { BossEncounter } from '../../../battle/core/src/index.ts';
 import type { ChallengeCategoryId, EncounterOpponentView } from '../../shared/views.ts';
 import type { CatalogData } from '../catalog/catalog.ts';
@@ -12,6 +12,17 @@ export function opponentViews(ctx: EncounterCatalog, encounter: BossEncounter): 
   return encounter.team.map((mon, slot) => ({
     species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, evidence: buildBossEvidence(encounter, slot),
   }));
+}
+
+type HonorReward = { achievement?: { zh?: string }; title?: { zh?: string }; title_on_all_variants?: { zh?: string } };
+
+/**
+ * The achievement and title a clear of the encounter earns, as the archive shows them. Honours are read from the cleared record, so they
+ * need no save field. The remake offers only an encounter's base fight (no variant is ever chosen), so its clear stands for every variant.
+ */
+export function encounterHonors(reward: unknown): string[] {
+  const source = reward as HonorReward | undefined, title = source?.title?.zh ?? source?.title_on_all_variants?.zh;
+  return [source?.achievement?.zh, title ? `称号：${title}` : undefined].filter((value): value is string => !!value);
 }
 
 export function towerRewardLabel(ctx: EncounterCatalog, id: string, count: number): string {

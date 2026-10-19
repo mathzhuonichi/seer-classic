@@ -4,7 +4,7 @@ import { bossEncounterForAttempt } from '../../domain/challenges/boss-encounter.
 import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisition.ts';
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
-import { encounterCategory, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { encounterCategory, encounterHonors, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
@@ -19,13 +19,14 @@ function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
 }
 
 export function encounterView(ctx: CatalogContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
-  const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras;
+  const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras, honors = encounterHonors(b.reward);
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
   return {
     id: b.id, category: encounterCategory(b), name: b.name?.zh ?? b.id, location: extra.location?.zh,
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), ...(braveTowerFloor(b.id) !== undefined ? { rewardText: towerRewardText(ctx, b) } : {}),
+    ...(honors.length ? { honors } : {}),
   };
 }
 

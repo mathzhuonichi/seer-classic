@@ -8,7 +8,7 @@ import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../do
 import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import { opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { encounterHonors, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 
 /** Cleared stage ids; a campaign without a record starts from its stages already cleared as Bosses. */
 export function campaignProgress(save: GameSave, campaign: Campaign): string[] {
@@ -68,11 +68,10 @@ export function campaignViews(ctx: GameContext): (save: GameSave) => CampaignVie
   });
 }
 
-type TowerReward = BraveTowerRewardSource & { achievement?: { zh?: string }; title?: { zh?: string } };
-
 export function towerView(ctx: GameContext, save: GameSave): BraveTowerView {
   const cleared = new Set(save.progress.bosses_cleared);
-  const milestones = ctx.towerEncounters.flatMap(boss => braveTowerRewards(boss.reward as TowerReward).filter(reward => reward.firstClear).map(reward => {
+  const milestones = ctx.towerEncounters.flatMap(boss => braveTowerRewards(boss.reward as BraveTowerRewardSource)
+    .filter(reward => reward.firstClear).map(reward => {
     const item = ctx.catalog.items.find(entry => entry.id === reward.id), species = typeof item?.hatches === 'number' ? item.hatches : undefined;
     return {
       floor: braveTowerFloor(boss.id)!, ...(species !== undefined ? { species } : {}),
@@ -80,10 +79,7 @@ export function towerView(ctx: GameContext, save: GameSave): BraveTowerView {
       description: `首次通关：${towerRewardLabel(ctx, reward.id, reward.count)}`, cleared: cleared.has(boss.id),
     };
   }));
-  const honors = [...new Set(ctx.towerEncounters.filter(boss => cleared.has(boss.id)).flatMap(boss => {
-    const reward = boss.reward as TowerReward | undefined;
-    return [reward?.achievement?.zh, reward?.title?.zh ? `称号：${reward.title.zh}` : undefined].filter((value): value is string => !!value);
-  }))];
+  const honors = [...new Set(ctx.towerEncounters.filter(boss => cleared.has(boss.id)).flatMap(boss => encounterHonors(boss.reward)))];
   const progress = save.game.braveTower;
   return {
     ...progress, totalFloors: BRAVE_TOWER_FLOORS, position: braveTowerPosition(progress), checkpoints: braveTowerCheckpoints(progress), milestones, honors,
