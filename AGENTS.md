@@ -24,7 +24,6 @@ All paths are relative, so the workspace folder can be moved to another computer
     public/              runtime assets; large ones are ignored by Git and travel separately
     .cache/              ignored research inputs and HD-generation caches
   analysis/              research data and verification evidence, read as ../analysis
-  seer-classic-transfer/ transfer bundle, original ChatGPT ZIPs, handoff and memory copies
 ```
 
 Never write an absolute or home-directory path into a tracked file, a generated manifest or a symlink. Tools resolve paths from their own location (`import.meta.url`, `Path(__file__)`) and take overrides as arguments.
