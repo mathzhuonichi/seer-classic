@@ -32,8 +32,13 @@ const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
-/** The laboratory save stands where the explorer can use every lab facility. */
+/** The laboratory save holds this essence (so the shop lists it) and stands where the explorer can use every lab facility. */
+const LAB_ESSENCE = 'essence_recruit_14';
 const LAB_POSITION = {x: 48, y: 62};
+/** Copies of each breeding parent species, enough for the pairing to have a male and a female. */
+const BREEDING_COPIES = 4;
+/** The tower save has cleared these floors, so the Brave Tower window offers to resume the next one. */
+const TOWER_CLEARED = 3;
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
@@ -48,12 +53,13 @@ async function fixtures() {
     const silent = entries(() => gameAudio.updateSettings({muted: true, musicVolume: 0, sfxVolume: 0}));
     assert(Object.values(silent).some(value => JSON.parse(value).muted === true), 'the game mute setting must be seeded');
     const dispatch = (game, action) => assert(game.dispatch(action).ok, `${action.type} failed`);
-    /** A journey with the gift starters (and `items`), changed by `build`; returns the game and its save slot. */
-    const journey = (items = {}, build = () => {}) => {
+    /** A journey with the gift starters (and `items`, from a new save changed by `start`), changed by `build`; returns the game and its slot. */
+    const journey = (items = {}, build = () => {}, start = () => {}) => {
       let game;
       const slot = entries(() => {
         const save = newSave(SAVE_SEED);
         Object.assign(save.items, items);
+        start(save);
         game = createGame(structuredClone(catalog), JSON.stringify(save));
         for (const species of economy.STARTER_SPECIES) dispatch(game, {type: 'cheatAcquire', species, level: economy.STARTER_LEVEL});
         build(game);
@@ -67,12 +73,29 @@ async function fixtures() {
       dispatch(game, {type: 'buyEngraving', engravingId: RAISED_ENGRAVING});
     });
     const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
+    const lab = journey({[LAB_ESSENCE]: 1}, game => labParents(game, dispatch));
     const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
-    const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot, lab: {...journey().slot, ...labPlace}};
+    // A new save has no game extras yet; the loader fills in the others.
+    const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
+    const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot};
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
-    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets)};
+    const labEssence = lab.game.snapshot().items.find(item => item.id === LAB_ESSENCE);
+    const shopTab = pockets.ITEM_POCKETS.find(([pocket]) => pocket === pockets.itemPocket(labEssence.kind))[1];
+    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), lab: {essence: labEssence.name, shopTab}};
   });
+}
+
+/** Gives the laboratory save the parents of the first fusion and the first breeding recipe, so both can be confirmed. */
+function labParents(game, dispatch) {
+  const {fusion, breeding} = game.snapshot(), {recipe: fused} = fusion.recipes[0], {recipe: bred} = breeding.recipes[0];
+  dispatch(game, {type: 'cheatAcquire', species: fused.primary[0], level: fused.minPrimaryLevel});
+  dispatch(game, {type: 'cheatAcquire', species: fused.secondary[0], level: fused.minSecondaryLevel});
+  for (let copy = 0; copy < BREEDING_COPIES; copy++) {
+    for (const species of [bred.maleSpecies[0], bred.femaleSpecies[0]]) dispatch(game, {type: 'cheatAcquire', species, level: bred.minLevel});
+  }
+  const ready = game.snapshot();
+  assert(ready.fusion.recipes[0].pairs.length && ready.breeding.recipes[0].pairs.length, 'the laboratory save cannot fuse or breed');
 }
 
 /** The essence save's bag labels: its pocket, the content tab that holds both essences and nothing else, and the essences. */
@@ -340,6 +363,12 @@ const LAYOUT_CHECKS = [
   {name: 'the PetBag 资料 headings, 放生精灵 among them, are legible on their section background', run: layout.profileHeadings},
   {name: 'the engraving shop filter fields are tall enough for their text', save: 'lab', run: layout.engravingFilters},
   {name: 'the battle party buttons, battle item category tabs and the world dialogue × change on hover', run: layout.hoverCues},
+  {name: 'no property on the world, PetBag and battle screens is decided by the stylesheet bundle order', run: layout.journeyCascade},
+  ...layout.NARROW_VIEWPORTS.map(viewport => ({name: `no property on the world, PetBag and battle screens is decided by the bundle order at ${size(viewport)}`,
+    viewport, run: layout.journeyCascade})),
+  {name: 'no property on the essence order form, engraving shop and fusion and breeding result cards is decided by the bundle order', save: 'lab',
+    run: layout.labCascade},
+  {name: 'no property on the SPT window and the Brave Tower resume row is decided by the bundle order', save: 'tower', run: layout.towerCascade},
 ];
 
 /** Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default). */

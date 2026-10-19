@@ -1,9 +1,13 @@
 /**
  * Layout and clickability checks for browser-regressions.mjs: the styling fixes of the wave-3 D-styles unit, each something
- * only a rendered page shows. Every check takes the suite's `{page, fixture}` and throws on failure.
+ * only a rendered page shows, and the bundle-order audit (`_cascade.mjs`) over the screens that unit restyled. Every check
+ * takes the suite's `{page, fixture}` and throws on failure.
  */
 import assert from 'node:assert/strict';
-import {BOOT_TIMEOUT_MS, SETTLE_MS, count, openTool, robot, talkToCreature, tool, wait, waitCommands, waitWorld} from './_browser.mjs';
+import {
+  BOOT_TIMEOUT_MS, SETTLE_MS, closeWindow, count, openTool, robot, talkToCreature, tool, wait, waitCommands, waitWorld,
+} from './_browser.mjs';
+import {orderDecided} from './_cascade.mjs';
 
 /** How long Playwright may look for a control a player can hit before the check fails. */
 const HIT_TIMEOUT_MS = 5_000;
@@ -141,4 +145,83 @@ export async function hoverCues({page}) {
   await page.click('.classic-command-tabs button[aria-label="精灵"]');
   const member = await hoverLooks(page, '.classic-party-grid button:not(.current)');
   assert.notEqual(member.hover, member.rest, 'a battle party button looks the same on hover');
+}
+
+/** Audits each screen that `steps` opens in turn ([name, open]) and fails with every property the bundle order decides. */
+async function auditScreens(page, steps) {
+  const found = [];
+  for (const [screen, open] of steps) {
+    await open();
+    await page.mouse.move(2, 2);
+    await wait(SETTLE_MS);
+    for (const {state, property, element, sources} of await orderDecided(page)) {
+      found.push(`${screen} (${state}) ${property} @ ${element}: ${sources.join(' vs ')}`);
+    }
+  }
+  assert.deepEqual(found, [], 'properties decided by the stylesheet bundle order');
+}
+const tabStep = (page, label) => [`the PetBag ${label} tab`, () => page.click(`.official-petbag .management-tabs button:text-is("${label}")`)];
+const commandStep = (page, label) => [`the battle ${label} commands`, () => page.click(`.classic-command-tabs button[aria-label="${label}"]`)];
+
+/** Steps that open each toolbar window in turn, closing the one before; the PetBag (`last`) stays open. */
+function windowSteps(page, tools, last) {
+  const order = [...tools.filter(entry => entry !== last), last];
+  return order.map((entry, i) => [`the ${entry.title} window`, async () => {
+    if (i) await closeWindow(page, order[i - 1].title);
+    await openTool(page, entry);
+  }]);
+}
+export async function journeyCascade({page, fixture}) {
+  const bag = tool(fixture, 'monsters');
+  await auditScreens(page, [
+    ['the world scene', () => waitWorld(page)],
+    ...windowSteps(page, fixture.tools, bag), ...['能力', '道具', '资料'].map(label => tabStep(page, label)),
+    ['the PetBag skill editor', () => page.click('.petbag-nav-skills')],
+    ['the world dialogue', async () => { await closeWindow(page, bag.title); await talkToCreature(page); }],
+    ['the battle', async () => { await page.click('.world-dialogue button.primary'); await waitCommands(page); }],
+    ...['道具', '精灵', '捕捉', '逃跑'].map(label => commandStep(page, label)),
+  ]);
+}
+
+/** Selects the first recipe whose parents the save holds, picks the first parent of every role and confirms. */
+async function confirmRecipe(page, panel, action) {
+  await page.locator(`${panel} .fusion-recipe-scroll button`).filter({hasText: /可融合|可繁殖/}).first().click();
+  for (const select of await page.locator(`${panel} .fusion-detail-scroll select`).all()) {
+    await select.selectOption(await select.evaluate(element => [...element.options].find(option => option.value).value));
+  }
+  await page.click(`${panel} .fusion-detail-scroll button.primary:text-is("${action}")`);
+  await page.waitForSelector(`${panel} .fusion-obtained`);
+}
+export async function labCascade({page, fixture}) {
+  const {essence, shopTab} = fixture.lab;
+  await auditScreens(page, [
+    ['the essence order form', async () => {
+      await openLabShop(page);
+      await page.click(`.shop-primary-categories button:text-is("${shopTab}")`);
+      await page.click(`.shop-icon-scroll .item-tile[aria-label^="${essence}"]`);
+      await page.waitForSelector('.shop-order input');
+    }],
+    ['the engraving shop', () => page.click('.shop-primary-categories button:text-is("刻印")')],
+    ['the fusion result card', async () => {
+      await page.keyboard.press('Escape');
+      await page.click('.world-scene button.world-lab-fusion');
+      await confirmRecipe(page, '.fusion-panel', '确认融合');
+    }],
+    ['the breeding result card', async () => {
+      await page.keyboard.press('Escape');
+      await page.click('.world-scene button.world-lab-breeding');
+      await confirmRecipe(page, '.breeding-panel', '繁殖并孵化');
+    }],
+  ]);
+}
+
+export async function towerCascade({page, fixture}) {
+  await auditScreens(page, [
+    ['the SPT window', async () => { await waitWorld(page); await openTool(page, tool(fixture, 'challenge')); }],
+    ['the Brave Tower scene', async () => {
+      await page.click('.challenge-category-tabs button:has-text("勇者之塔")');
+      await page.waitForSelector('.world-tower-choose', {timeout: BOOT_TIMEOUT_MS});
+    }],
+    ['the Brave Tower resume row', async () => { await page.click('.world-tower-choose'); await page.waitForSelector('.tower-resume'); }],
+  ]);
 }
