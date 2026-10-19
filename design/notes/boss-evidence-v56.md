@@ -6,12 +6,12 @@ The evidence ledgers cover all 180 production boss records and their 240 members
 
 ## Evidence boundary
 
-The current review has 23 specifically reviewed period-report sources, one verified official-client source, and 141 URLs retained as unverified metadata. It does not claim that every listed URL was reread or that every historical boss was fully reconstructed. Merely listing a URL, having a high confidence label, or matching a species learnset never promotes a field.
+The current review has 26 specifically reviewed period-report sources, one verified official-client source, and 141 URLs retained as unverified metadata. It does not claim that every listed URL was reread or that every historical boss was fully reconstructed. Merely listing a URL, having a high confidence label, or matching a species learnset never promotes a field.
 
 | Member field | Period observation | Inferred | Authored |
 | --- | ---: | ---: | ---: |
 | Level | 68 | 171 | 1 |
-| HP | 30 | 209 | 1 |
+| HP | 54 | 185 | 1 |
 | Complete skill set | 11 | 229 | 0 |
 | IV | 0 | 240 | 0 |
 | EVs | 0 | 240 | 0 |
@@ -23,6 +23,7 @@ The official cached `PetFightDLL.swf` establishes numeric level display through 
 
 ## Verified discrepancies and retained uncertainty
 
+- Brave Tower floors 12-35 use the boss HP from the 2011-01-19 T客邦 tower guides for floors [11-20](https://www.techbang.com/posts/33131), [21-30](https://www.techbang.com/posts/33132) and [31-40](https://www.techbang.com/posts/33133). They are TW-server tables, but their levels and rewards match the CN 2010 report. Floor 31-35 levels stay the inferred 120 estimate, and only 光栅炮 (floor 18) and 零度冰破 (floor 34) are named moves.
 - Akenoya's [dark-door report](https://news.4399.com/seer/ahwdc/201105-30-98372.html) gives 2500 HP and another 2500 after the first KO. The authorized source-data correction uses 2500 per life and one extra revival, making two total lives. The old 1250 split and two-extra-revival interpretation were incorrect. The URL contains a 2011 date, but the current page byline reads 2013-12-03; this audit does not assert an unchanged 2011 publication.
 - Moshi Dilu's [2010 detailed report](https://news.4399.com/seer/spt/201006-05-70398.html) gives a status threshold below 1000000 HP. The authorized correction replaces the approximate 33.4 percent boundary with this absolute threshold. The same report supports level 50, HP 3000000 and all four configured moves. Its lost-HP damage increase has no reported numerical formula; other summaries conflict on the lethal-phase threshold.
 - Difute is explicitly shown as `??` in the [2011 SPT report](https://news.4399.com/seer/jingyanxinde/201107-21-105242.html). Its internal level 80 remains a reconstruction; the runtime ledger sets `members[0].displayLevelUnknown=true`. This is a display exception supported by a report, not a newly recovered hidden level.

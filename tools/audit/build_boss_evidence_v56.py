@@ -57,7 +57,12 @@ def unknown(field: str, row: dict, member: dict, sources: list[str]) -> dict:
 CLIENT = source("https://seer.61.com/dll/PetFightDLL.swf",
     "Cached official BaseFighterPropView.update, ABC method 18723, offsets 75-115: levels <=100 are numeric; larger values use string ??. This later client is not a dated 2009-2013 server-stat snapshot.", "verified-client")
 SOURCES[CLIENT].update({"localPath": ".cache/hd-ui-v44/sources/PetFightDLL.swf", "sha256": "1e6987a4e9bc8a78180f9946b1770afaee54b00959e1861450dcaef729b57970", "xmlPath": ".cache/hd-ui-v44/xml/PetFightDLL.xml", "method": 18723})
-TOWER = source("https://news.4399.com/seer/yzzt/201004-13-66291.html", "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction. No exact internal 120/130 level mapping.", "verified-period-observation")
+TOWER = source("https://news.4399.com/seer/yzzt/201004-13-66291.html", "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction; moves named on floors 18 and 34. No exact internal 120/130 level mapping.", "verified-period-observation")
+TECHBANG = {start: source(f"https://www.techbang.com/posts/{post}",
+    f"2011-01-19 T客邦 tower guide, floors {start}-{start + 9} (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
+    "verified-period-observation") for start, post in {11: "33131", 21: "33132", 31: "33133"}.items()}
+TOWER_HP = dict(zip(range(12, 36), [260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 365, 380, 395, 410, 425, 440, 460, 480, 500,
+                                    520, 540, 560, 580, 600]))
 MOSHI = source("https://news.4399.com/seer/spt/201006-05-70398.html", "2010-06-05 report: level 50, HP 3000000, four named moves, half-HP lethal phase, below-1000000 status threshold, qualitative lost-HP damage growth.", "verified-period-observation")
 EER = source("https://news.4399.com/seer/spt/201008-14-75469.html", "Page dated 2010-08-13: weekday traits. Wednesday reflection threshold >150, Thursday heal 1000, Friday status finish, Saturday qualitative critical increase; no exact reflection ratio or revive count.", "verified-period-observation")
 KEN = source("https://news.4399.com/seer/spt/201101-17-84758.html", "Temporary reflection shield with expiration and approximate one-fifth HP-loss berserk trigger. No 25% ratio or speed override is stated.", "verified-period-observation")
@@ -151,6 +156,11 @@ def curate(entries: dict[str, dict]) -> None:
         entry = entries[f"boss_tower_brave_f{floor:03d}"]
         set_field(entry, "level", level, observed("The floor's displayed level is explicitly listed in the 2010 report.", [TOWER]))
     set_field(entries["boss_tower_brave_f050"], "hp", 900, observed("The floor-50 refill is reported to restore HP to 900.", [TOWER]))
+    for floor, hp in TOWER_HP.items():
+        proof = observed("The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.", [TECHBANG[floor - (floor - 1) % 10]])
+        set_field(entries[f"boss_tower_brave_f{floor:03d}"], "hp", hp, proof)
+    partial_skills(entries["boss_tower_brave_f018"], [10073], TOWER)
+    partial_skills(entries["boss_tower_brave_f034"], [10215], TOWER)
     set_field(entries["boss_tower_brave_f057"], "hp", 750, observed("The report specifically gives the species-79 member 750 HP; this is not extended to its teammates or every later floor.", [TOWER]), slot=1)
     for boss_id, fields, src in [
         ("boss_spt_moshidilu", {"level": 50, "hp": 3000000, "skills": [10540, 10543, 20232, 20231]}, MOSHI),

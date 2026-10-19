@@ -21,7 +21,7 @@
         10038,
         20017
       ],
-      "hp_override": null
+      "hp_override": 290
     }
   ],
   "rules": [],
@@ -64,8 +64,9 @@
   },
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
-    "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters).",
-    "skills: sources name none (except where the tip implies one); the monster's highest pre-2013 learnset skills at or below its level are used."
+    "iv 15 is assumed for these wild-like floor monsters.",
+    "skills: sources name none (except where the tip implies one); the monster's highest pre-2013 learnset skills at or below its level are used.",
+    "HP 290 at Lv58: T客邦 2011-01-19 《挑戰勇者之塔－第11～20層》 floor table (TW server), https://www.techbang.com/posts/33131."
   ],
   "confidence": {
     "level": "medium",
@@ -74,12 +75,12 @@
       "evs",
       "nature",
       "skills",
-      "hp",
       "era"
     ]
   },
   "sources": [
-    "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+    "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+    "https://www.techbang.com/posts/33131"
   ],
-  "source_note": "4399 勇者之塔1-60层攻略 (2010-04-13): floor, monster, level (J) and reward per floor."
+  "source_note": "4399 勇者之塔1-60层攻略 (2010-04-13): floor, monster, level (J) and reward per floor. HP: T客邦 2011-01-19 第11～20層 floor table (TW server)."
 }
