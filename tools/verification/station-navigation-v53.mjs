@@ -14,8 +14,8 @@ await withSsr('station-navigation-v53',async load=>{
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/brave-tower.ts',
   ].map(load));
-  const [{default:BraveTower},{challengeDetail,challengeEntries},{shellRoutes}]=await Promise.all(
-    ['/src/features/challenges/ui/BraveTower.tsx','/src/features/challenges/challenge-center.ts','/src/app/shell-routes.ts'].map(load));
+  const [{default:BraveTower},{challengeDetail,challengeEntries,challengeKind},{shellRoutes},{enrichCatalog}]=await Promise.all(
+    ['/src/features/challenges/ui/BraveTower.tsx','/src/features/challenges/challenge-center.ts','/src/app/shell-routes.ts','/src/domain/catalog/enrichment.ts'].map(load));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
   const ship=WORLD_PLANETS.find(planet=>planet.id==='station'),station=WORLD_PLANETS.find(planet=>planet.id==='space-station');
@@ -144,6 +144,23 @@ await withSsr('station-navigation-v53',async load=>{
       backdrops:{current:{exploration:null,campaign:null}},setMessage(){},setSelected(){}});
     routes.travelToChallenge(mystery);
     assert.deepEqual(travels,[[{planetId:'space-station',regionId:'brave-tower'},'tower']]);
+  });
+  check('Each archive Boss row states what its encounter pays, from the controller\'s own catalog',()=>{
+    const {catalog:enriched}=enrichCatalog(catalog),encounters=new Map(enriched.bosses.map(boss=>[boss.id,boss]));
+    const essences=new Set(enriched.items.filter(item=>item.kind==='essence'&&typeof item.hatches==='number').map(item=>String(item.id)));
+    const ESSENCE='获得首领精元 → 道具背包 → 确认孵化',NOTHING='仅赛尔豆与积累经验，没有精元或道具',lines={essence:0,skill:0,items:0,nothing:0};
+    const reward=id=>challengeDetail(challengeEntries(s).find(entry=>entry.id===id),s,false).reward;
+    for(const entry of challengeEntries(s).filter(entry=>challengeKind(entry)==='boss')){
+      assert(encounters.has(entry.id),entry.id);
+      const paid=encounters.get(entry.id).reward??{},items=Object.keys(paid.items??{}),text=challengeDetail(entry,s,false).reward;
+      if(paid.learn_skill){assert.match(text,/^领悟技能：/,entry.id);assert(!text.includes('undefined'),entry.id);lines.skill++}
+      else if(items.some(id=>essences.has(id))){assert.equal(text,ESSENCE,entry.id);lines.essence++}
+      else if(items.length){assert.match(text,/^获得/,entry.id);assert.notEqual(text,ESSENCE,entry.id);lines.items++}
+      else{assert.equal(text,NOTHING,entry.id);lines.nothing++}
+    }
+    assert.deepEqual([reward('boss_spt_liaosi'),reward('boss_tower_brave_mystery')],[ESSENCE,NOTHING]);
+    assert(lines.essence>0,JSON.stringify(lines));
+    observations.bossRewardLines=lines;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);
