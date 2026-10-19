@@ -9,12 +9,26 @@ import { commit, notice, replaceMonster, type BattleSession, type GameContext, t
 import { resultText } from './battle-view.ts';
 
 type EncounterReward = { items?: Record<string, number>; first_clear_items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
-/** The save's coins and pooled experience: what they grow by over a settlement is what the battle paid. */
-type Purse = { coins: number; exp: number };
-const purse = (rt: Runtime): Purse => ({ coins: rt.save.game.coins, exp: rt.save.exp_pool });
+/** The save's coins, pooled experience and collectibles: what they grow by over a settlement is what the battle paid. */
+type Purse = { coins: number; exp: number; collectibles: Record<string, number> };
+const purse = ({ ctx, save }: Runtime): Purse => ({
+  coins: save.game.coins, exp: save.exp_pool,
+  collectibles: Object.fromEntries(Object.entries(save.items).filter(([id]) => ctx.itemDefinitions.get(id)?.kind === 'collectible')),
+});
 
-/** What a victory paid: its coins, if any, and its pooled experience, the victory bonus plus the knockout shares of Lv100 participants. */
-const payoutText = ({ coins, exp }: Purse) => coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验。` : `获得 ${exp} 积累经验。`;
+/**
+ * What a victory paid since `before`: its coins, if any, its pooled experience (the victory bonus plus the knockout shares of
+ * Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装.
+ */
+function payoutText(ctx: GameContext, before: Purse, after: Purse): string {
+  const coins = after.coins - before.coins, exp = after.exp - before.exp;
+  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
+  const collectibles = Object.entries(after.collectibles).flatMap(([id, count]) => {
+    const gained = count - (before.collectibles[id] ?? 0);
+    return gained > 0 ? [`${itemName(ctx, id)}${gained > 1 ? `×${gained}` : ''}`] : [];
+  });
+  return collectibles.length ? `${amounts}，另获得${collectibles.join('、')}。` : `${amounts}。`;
+}
 
 export function settle(rt: Runtime) {
   const session = rt.session;
@@ -85,8 +99,7 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
 function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, kept: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  const after = purse(rt);
-  if (result.success) session.resultNotes.push(payoutText({ coins: after.coins - before.coins, exp: after.exp - before.exp }));
+  if (result.success) session.resultNotes.push(payoutText(rt.ctx, before, purse(rt)));
   session.resultNotes.push(...kept);
   if (!session.resultNotes.length) return;
   const text = resultText(session);

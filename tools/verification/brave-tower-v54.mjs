@@ -80,9 +80,11 @@ await withSsr('brave-tower-v54',async load=>{
     const game=make(fixture(29,30)),before=parse(game).game.coins;
     assert(!game.snapshot().shopItems.some(item=>['item_suit_flash','item_gacha_coin'].includes(item.id)));
     reject(game,{type:'buyItem',itemId:'item_suit_flash',quantity:1});reject(game,{type:'buyItem',itemId:'item_gacha_coin',quantity:1});
-    win(game,30);assert.equal(parse(game).items.item_suit_flash,1);assert.equal(parse(game).game.coins,before+300);
+    const first=win(game,30);assert.equal(parse(game).items.item_suit_flash,1);assert.equal(parse(game).game.coins,before+300);
+    assert.match(first,/^第 30 层通过，可继续第 31 层。获得 300 赛尔豆及 \d+ 积累经验，另获得闪光套装。$/,'the result names the suit');
     assert(game.snapshot().items.some(item=>item.id==='item_suit_flash'&&item.count===1));
-    const repeat=make(parse(game));for(let floor=21;floor<=30;floor++)win(repeat,floor);
+    const repeat=make(parse(game));let again;for(let floor=21;floor<=30;floor++)again=win(repeat,floor);
+    assert.doesNotMatch(again,/闪光套装/,'a repeat clear pays and names no suit');
     assert.equal(parse(repeat).items.item_suit_flash,1);assert.equal(parse(repeat).game.coins,before+300+2550);
     assert.equal(repeat.snapshot().braveTower.milestones.find(row=>row.floor===30).cleared,true);
     reject(repeat,{type:'buyItem',itemId:'item_suit_flash',quantity:1});

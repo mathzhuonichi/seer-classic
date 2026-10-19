@@ -150,10 +150,12 @@ await withSsr('boss-essence-targets', async load => {
     liaosi.dispatch({ type: 'closeBattle' });
     const after = JSON.parse(liaosi.exportSave()), coins = after.game.coins - before.game.coins, exp = after.exp_pool - before.exp_pool;
     assert.equal(after.items[suit], 1, `${clear} clear: one 蓝武士装 in all`);
-    // The result names the essence by the creature it hatches, then what the win paid: 500 beans and the pooled experience.
+    // The result names the essence by the creature it hatches, then what the win paid: 500 beans, the pooled experience and,
+    // on the first clear only, the suit.
     assert.equal(coins, 500, `${clear} clear: an SPT Boss pays 500 beans`);
     assert.ok(exp > 0, `${clear} clear: the win adds pooled experience`);
-    assert.equal(result, `胡里亚精元已入库，到道具背包的精元页即可孵化。获得 ${coins} 赛尔豆及 ${exp} 积累经验。`, `${clear} clear: result text`);
+    const paid = `获得 ${coins} 赛尔豆及 ${exp} 积累经验${clear === 'first' ? '，另获得蓝武士装' : ''}。`;
+    assert.equal(result, `胡里亚精元已入库，到道具背包的精元页即可孵化。${paid}`, `${clear} clear: result text`);
   }
   assert.deepEqual(liaosi.snapshot().items.filter(item => item.id === suit).map(item => [item.name, item.kind, item.count]), [['蓝武士装', 'collectible', 1]]);
   assert.ok(!liaosi.snapshot().shopItems.some(item => item.id === suit), 'the shop does not list it');
