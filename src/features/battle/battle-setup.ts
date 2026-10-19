@@ -61,10 +61,16 @@ export function setupBattle(ctx: GameContext, save: GameSave, rng: Rng, foe: Foe
   const battle = ctx.createBattle(options);
   attachTraits(battle, save);
   return {
-    battle, encounter, wild, name: wild ? `野外遭遇 · ${ctx.speciesName(wild.species)}` : encounter!.name?.zh ?? encounter!.id,
+    battle, encounter, wild, name: wild ? `野外遭遇 · ${ctx.speciesName(wild.species)}` : encounterName(encounter!, battle),
     appearances: new Map(roster.map((mon, slot) => [slot, { species: mon.species, appearanceSpecies: appearanceSpecies(mon, ctx.skinOptions) }])),
     transformedSlots: initialTransforms(battle),
   };
+}
+
+/** The encounter's name, followed by the chosen variant: 厄尔塞拉（周一：免疫异常状态，血很厚）. */
+function encounterName(encounter: BossEncounter, battle: Battle): string {
+  const name = encounter.name?.zh ?? encounter.id;
+  return battle.variant ? `${name}（${battle.variant.label.zh}）` : name;
 }
 
 /** The encounter at this save's attempt count, with explicit NPC training applied. */

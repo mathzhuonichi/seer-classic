@@ -70,8 +70,9 @@ t.check('Each variant of the three encounters starts through startBattle with it
     assert.deepEqual(b.winList,variant.win??encounter(id).win,`${id}/${variant.id}: its win objectives`);
     const rules=side.rules.map((entry:any)=>JSON.stringify(entry));
     for(const rule of variant.rules??[])assert(rules.includes(JSON.stringify(rule)),`${id}/${variant.id}: ${JSON.stringify(rule)}`);
-    const log=game.snapshot().battle!.log;
-    assert(log[0].includes(`（${variant.label.zh}）`),`${id}/${variant.id}: the opening line names the variant: ${log[0]}`);
+    const {name,log}=game.snapshot().battle!;
+    assert.equal(name,`${encounter(id).name.zh}（${variant.label.zh}）`,`${id}/${variant.id}: the battle caption names the variant`);
+    assert.equal(log[0],`挑战${name}。`,`${id}/${variant.id}: so does the opening line`);
     (opened[id]??=[]).push(variant.id);
     leave(game);
   }

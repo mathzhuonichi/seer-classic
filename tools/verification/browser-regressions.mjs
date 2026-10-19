@@ -1,6 +1,6 @@
 /**
  * Browser regressions: keyboard, focus and clickability behaviours that only a real browser shows, each fixed after the
- * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md). Status `needs-browser`: it needs a local Google Chrome, and
+ * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), and the Boss variant carried from the archive to the dialogue. Status `needs-browser`: it needs a local Google Chrome, and
  * runs every check in Playwright WebKit too when that is installed (otherwise WebKit is reported as skipped).
  *
  * The app is built with Vite and served by request interception (`_browser.mjs`); the saves are built headlessly and seeded into
@@ -31,6 +31,8 @@ const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
+/** A Boss with variants, and the variant picked in the archive: not its first, so the default pick does not stand in for it. */
+const VARIANT_BOSS = {id: 'boss_spt_eersaila', variant: 'thu'};
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
@@ -66,7 +68,9 @@ async function fixtures() {
     const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot};
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
-    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets)};
+    const boss = catalog.bosses.find(entry => entry.id === VARIANT_BOSS.id);
+    const variant = {boss: boss.name.zh, label: boss.variants.find(entry => entry.id === VARIANT_BOSS.variant).label.zh};
+    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), variant};
   });
 }
 
@@ -342,6 +346,25 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
+/** The variant picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
+async function variantChoice({page, fixture}) {
+  const {boss, label} = fixture.variant, picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
+    input => input.closest('label').querySelector('strong').firstChild.textContent);
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'challenge'));
+  await page.fill('input[aria-label="搜索挑战"]', boss);
+  await page.locator('.challenge-index-scroll button', {hasText: boss}).first().click();
+  await page.locator('.challenge-entry-scroll .boss-variant-option', {hasText: label}).click();
+  assert.equal(await picked('.challenge-entry-scroll'), label, 'the archive did not pick the variant');
+  await page.click('.challenge-management .management-confirm-row button.primary');
+  await page.waitForSelector('.world-dialogue .boss-variant-choice');
+  assert.equal(await picked('.world-dialogue'), label, 'the Boss dialogue lost the variant picked in the archive');
+  await page.click('.world-dialogue-actions button.primary');
+  await page.waitForSelector('.classic-battle');
+  const caption = await page.$eval('.classic-battle-caption > span', element => element.textContent);
+  assert(caption.startsWith(`${boss}（${label}）`), `the battle did not start with the variant: ${caption}`);
+}
+
 /** Each check runs in every engine, in a fresh browser with its save (`journey` by default). */
 const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
@@ -354,6 +377,7 @@ const CHECKS = [
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
     run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
+  {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle', run: variantChoice},
 ];
 
 function within(ms, promise) {
