@@ -126,7 +126,7 @@ await withSsr('station-navigation-v53',async load=>{
     assert(complete.includes(`已通过全部 ${totalFloors} 层`));assert(complete.includes(`data-boss="boss_tower_brave_f${String(totalFloors).padStart(3,'0')}"`));
     observations.towerSceneStates=totalFloors+1;
   });
-  check('The Mystery Realm 谱尼 is offered on the Tower panel, open from the start like every Boss, and its archive row leads to that panel',()=>{
+  check('The Mystery Realm 谱尼 is offered on the Tower panel with its party rules, open from the start like every Boss, and its archive row leads there',()=>{
     const mystery=s.bosses.find(boss=>boss.id==='boss_tower_brave_mystery'),climb=highestCleared=>{
       const progress={highestCleared,resumeFloor:highestCleared+1};return {...s,braveTower:{...s.braveTower,...progress,position:braveTowerPosition(progress)}};
     };
@@ -136,7 +136,8 @@ await withSsr('station-navigation-v53',async load=>{
     };
     assert.deepEqual(s.bosses.filter(boss=>boss.towerSide).map(boss=>boss.id),[mystery.id],'the one Tower side challenge, never a floor');
     const open=`<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery"><div><strong>${mystery.name}</strong>`
-      +'<span>通关奖励：仅赛尔豆与积累经验，没有精元或道具</span></div><button class="primary">开始挑战</button></div>';
+      +'<span>通关奖励：仅赛尔豆与积累经验，没有精元或道具</span><span>挑战条件：至少要派 6 只精灵出战。出战精灵等级至少 100 级。</span></div>'
+      +'<button class="primary">开始挑战</button></div>';
     for(const floor of [0,59,60])assert.equal(row(floor),open,`highest cleared floor ${floor}`);
     const entry=challengeEntries(s).find(entry=>entry.id===mystery.id),detail=challengeDetail(entry,s,false);
     assert.equal(detail.reward,'仅赛尔豆与积累经验，没有精元或道具','The encounter pays no essence or item.');

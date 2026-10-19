@@ -9,13 +9,14 @@ import {STARTER_LEVEL,STARTER_SPECIES} from '../../src/domain/economy.ts';
 import {findChallengeLocation,resolveWorldLocation} from '../../src/domain/world/world.ts';
 import {newSave} from '../../src/kernel/save.ts';
 import {challengeDetail,challengeEntries,challengeRows} from '../../src/features/challenges/challenge-center.ts';
+import BraveTower from '../../src/features/challenges/ui/BraveTower.tsx';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import {buildWorldDialogue,buildWorldScene} from '../../src/features/world/world-scene.ts';
 import {WorldDialogue} from '../../src/features/world/ui/WorldDialogue.tsx';
 import {suite} from './_harness.mjs';
 
 // Boss party rules through the real controller: the refusal notice of each rule kind, and the rules stated in the
-// challenge archive and the Boss world dialogue before the start.
+// challenge archive, the Boss world dialogue and the Brave Tower panel before the start.
 const t=suite('boss-party-rules');
 const SEED=0x9a27e,REI=70,FIXTURE_BOSS='boss_spt_saiweier',FIXTURE_LEVEL_CAP=50;
 const ADJUST='请在精灵背包中调整出战精灵后再挑战。';
@@ -93,5 +94,11 @@ t.check('The Boss world dialogue states the party rule before the start',()=>{
     const markup=renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,onClose(){},onToggleDetails(){},onChooseStart(){}}));
     assert(markup.includes('挑战条件：只能派 1 只精灵出战。'),`${id}: the dialogue shows the rule`);
   }
+});
+t.check('The Brave Tower panel states the Mystery Realm 谱尼 party rules on the row that starts it',()=>{
+  const id='boss_tower_brave_mystery',html=renderToStaticMarkup(createElement(BraveTower,{c:game,onEnter(){}}));
+  const row=html.match(new RegExp(`<div class="tower-resume tower-side-challenge" data-tower-side="${id}">.*?</button></div>`))?.[0];
+  assert(row?.includes('开始挑战'),'the panel offers the row that starts the fight');
+  assert(row.includes(`<span>挑战条件：${stated[id].join('')}</span>`),row);
 });
 t.finish({stated});
