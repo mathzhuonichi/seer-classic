@@ -175,6 +175,7 @@
 .classic-item-category-tabs{gap:5px;margin:0 0 7px}
 .classic-item-category-tabs button{font-size:10px;padding:4px 7px;background:#064e95;color:#c8efff;border-color:#0da7e9}
 .classic-item-category-tabs button.active{background:#138cdb;border-color:#62f6ff;color:#fff}
+.classic-party-grid button:hover:not(:disabled),.classic-item-category-tabs button:hover:not(:disabled){filter:brightness(1.2)}
 .classic-item-workspace{height:104px;grid-template-columns:minmax(0,1fr) minmax(180px,.9fr);gap:9px}
 .classic-item-grid{height:104px;gap:4px}
 .classic-item-grid button{padding:6px;background:#064886;color:#fff;border-color:#0c9eda}
