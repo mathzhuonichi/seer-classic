@@ -78,7 +78,10 @@ await withSsr('paid-spt-controller',async load=>{
  check('Six held+reserved copies; evolution releases a slot',()=>{
   assert(reward,'An unknown, evolving reward is available');
   const repeated=make(fixture(reward));
-  for(let i=0;i<6;i++)repeated.dispatch({type:'claimQuest',questId:reward.questId});
+  // The quest alert marks a reward never taken; a repeatable one taken before stays claimable without it.
+  assert.equal(view(repeated,reward).newReward,true);repeated.dispatch({type:'claimQuest',questId:reward.questId});
+  assert.equal(view(repeated,reward).claimable,true);assert.equal(view(repeated,reward).newReward,false);
+  for(let i=1;i<6;i++)repeated.dispatch({type:'claimQuest',questId:reward.questId});
   assert.equal(parse(repeated).items[reward.itemId],6);assert.equal(parse(repeated).game.recruitmentClaims[reward.questId],6);
   reject(repeated,{type:'claimQuest',questId:reward.questId},'Seventh reserved copy rejected without RNG/resource changes');
   const hatchBefore=parse(repeated);repeated.dispatch({type:'useItem',uid:'unused',itemId:reward.itemId});const hatchAfter=parse(repeated);
@@ -125,10 +128,19 @@ await withSsr('paid-spt-controller',async load=>{
   assert.equal(claimed.items[battleReward.itemId],(won.items[battleReward.itemId]??0)+1);
   assert.equal(view(createGame(battleCatalog,battleGame.exportSave()),battleReward).complete,true,'Settled named clear survives reload');
  });
+ check('A journey reward alerts until it is claimed',()=>{
+  const save=structuredClone(starterSave);save.game.battlesWon=1;save.game.quests=[];save.game.recruitmentClaims={};
+  const g=make(save),row=()=>g.snapshot().quests.find(q=>q.id==='first-victory');
+  assert.equal(row().newReward,true);g.dispatch({type:'claimQuest',questId:'first-victory'});
+  assert.equal(row().claimed,true);assert.equal(row().newReward,false);
+ });
  check('SPT 挑战者 counts a clear of any encounter the archive lists under SPT首领, and of nothing else',()=>{
   const probe=make(base),{bosses,campaigns}=probe.snapshot(),stages=new Set(campaigns.flatMap(c=>c.stages.flatMap(s=>s.bossIds)));
   const listed=bosses.filter(b=>b.category==='spt'&&!stages.has(b.id)),others=bosses.filter(b=>!listed.includes(b));
-  const counts=id=>{const save=structuredClone(base);save.progress.bosses_cleared=[id];probe.importSave(JSON.stringify(save));return probe.snapshot().quests.find(q=>q.id==='first-spt');};
+  const counts=id=>{
+   const save=structuredClone(base);save.progress.bosses_cleared=[id];probe.importSave(JSON.stringify(save));
+   return probe.snapshot().quests.find(q=>q.id==='first-spt');
+  };
   // The first fights of two-stage SPTs and 塞维尔 are not recruitment prerequisites; they are SPT challenges all the same.
   for(const id of ['boss_spt_kelanite1','boss_spt_kelaifen1','boss_spt_saiweier'])assert(listed.some(b=>b.id===id),`${id} is listed under SPT首领`);
   for(const boss of listed){const quest=counts(boss.id);assert.equal(quest.complete,true,`${boss.id} counts for SPT 挑战者`);assert.equal(quest.claimable,true);}

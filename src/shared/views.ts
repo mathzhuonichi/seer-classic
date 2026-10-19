@@ -51,6 +51,8 @@ export interface QuestView {
   id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
   /** `claimable` is the one claim rule: complete, not claimed (or repeatable), within the six-copy allowance, and a journey monster has a place. */
   complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
+  /** Claimable and never claimed before: what the toolbar's quest alert signals. A repeatable reward claimed before stays claimable without it. */
+  newReward: boolean;
   /** Recruitment quests only; `rewardHeld`: the player holds the reward essence. */
   prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
   repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;

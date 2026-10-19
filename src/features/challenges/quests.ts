@@ -46,9 +46,10 @@ const records = (save: GameSave): Records => ({ owned: new Set(save.dex.owned), 
 function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): QuestView {
   const blockedReason = storageFull(save) ? STORAGE_FULL_REASON : capacityReason(ctx, save, quest.species);
   const claimed = save.game.quests.includes(quest.id), complete = ready(ctx, save, quest);
+  const claimable = complete && !claimed && !blockedReason;
   return {
     id: quest.id, name: quest.name, description: quest.description, rewardSpecies: quest.species, rewardName: ctx.speciesName(quest.species), complete, claimed,
-    claimable: complete && !claimed && !blockedReason, blockedReason,
+    claimable, newReward: claimable, blockedReason,
     progress: `${Math.min(quest.goal, quest.count(ctx, save))}/${quest.goal}`, group: 'journey',
   };
 }
@@ -56,13 +57,14 @@ function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): Que
 function recruitmentView(ctx: GameContext, save: GameSave, reward: RecruitmentReward, { owned, cleared }: Records): QuestView {
   const progress = recruitmentProgress(reward, owned, cleared), claimCount = save.game.recruitmentClaims[reward.questId] ?? 0;
   const claimed = !reward.repeatable && claimCount > 0, blockedReason = claimed ? '此奖励已领取。' : capacityReason(ctx, save, reward.rewardSpecies);
+  const claimable = progress.complete && !claimed && !blockedReason;
   return {
     id: reward.questId, name: `${reward.name} · 精灵招募`,
     description: `完成以下收集与挑战条件，领取${reward.name}精元。已收集记录永久有效，前置精灵不会被消耗。`,
     rewardSpecies: reward.rewardSpecies, rewardName: ctx.speciesName(reward.rewardSpecies), group: 'spt-recruitment', complete: progress.complete, claimed,
     rewardItemId: reward.itemId, rewardHeld: (save.items[reward.itemId] ?? 0) > 0,
     progress: `${progress.completed}/${progress.total}`, repeatable: reward.repeatable, claimCount,
-    claimable: progress.complete && !claimed && !blockedReason, blockedReason, allowance: allowance(ctx, save, reward.rewardSpecies),
+    claimable, newReward: claimable && !claimCount, blockedReason, allowance: allowance(ctx, save, reward.rewardSpecies),
     prerequisites: reward.prerequisites.map((condition, index) => condition.kind === 'species'
       ? { kind: 'species' as const, species: condition.species, name: ctx.speciesName(condition.species), complete: progress.conditions[index] }
       : {

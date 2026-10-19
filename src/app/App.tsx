@@ -38,7 +38,7 @@ function downloadSave(json:string){
 }
 
 const NOTICE_MS=3500;
-const questAlert=(s:Pick<GameSnapshot,'quests'>)=>s.quests.some(quest=>quest.claimable);
+const questAlert=(s:Pick<GameSnapshot,'quests'>)=>s.quests.some(quest=>quest.newReward);
 
 /** The shell's own state and the snapshot selections it renders: navigation, selections, the modifier and the toast. */
 function useShellState(c:GameController){
