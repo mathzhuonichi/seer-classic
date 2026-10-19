@@ -1,12 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  addMonster, BOX_MAX, boxOf, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, release, rename, setPartyOrder, withdraw,
+  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, release, rename, setPartyOrder, withdraw,
 } from './index.ts';
 import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
 const mon = (uid, species = 3) => ({...createMonster(dex, species, 10, rng(uid.length), {uid, nature: 'hardy'})});
 const saveWith = (count) => Array.from({length: count}, (_, i) => mon(`m${i}`)).reduce((s, m) => addMonster(s, m), emptySave());
+/** More monsters than the box's former 1000 places: the box has no limit. */
+const LARGE_BOX = 1200;
+const boxOf = (save) => save.storage.filter((m) => !save.party.includes(m.uid));
 
 test('new monsters fill the party up to 6, then the box; the dex records them', () => {
   const s = saveWith(PARTY_MAX + 2);
@@ -14,7 +17,12 @@ test('new monsters fill the party up to 6, then the box; the dex records them', 
   assert.deepEqual(boxOf(s).map((m) => m.uid), ['m6', 'm7']);
   assert.deepEqual([s.dex.owned, s.dex.seen], [[3], [3]]);
   assert.throws(() => addMonster(s, mon('m0')), /duplicate uid/);
-  assert.throws(() => addMonster({...s, storage: [...s.storage, ...Array.from({length: BOX_MAX}, (_, i) => ({uid: `b${i}`}))]}, mon('x')), /仓库已满/);
+});
+
+test('the box takes any number of monsters once the party is full', () => {
+  const s = saveWith(PARTY_MAX), crowded = {...s, storage: [...s.storage, ...Array.from({length: LARGE_BOX}, (_, i) => ({...s.storage[0], uid: `b${i}`}))]};
+  const added = addMonster(crowded, mon('x'));
+  assert.deepEqual([boxOf(added).length, boxOf(added).at(-1).uid, added.party], [LARGE_BOX + 1, 'x', s.party]);
 });
 
 test('deposit, withdraw and release keep at least one party monster and at most six', () => {

@@ -4,7 +4,7 @@ import { SPECIES_COPY_LIMIT, acquisitionLimitReason, isHatchingEssence } from '.
 import { isShopItemAvailable } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import type { GameAction } from '../../kernel/contract.ts';
-import { allowance, boundedAutoEvolve, ensureAcquisitionCapacity, rollTrait } from '../../kernel/acquire.ts';
+import { allowance, boundedAutoEvolve, rollTrait } from '../../kernel/acquire.ts';
 import { REWARD_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
@@ -42,7 +42,6 @@ const buyItem: ActionHandler<'buyItem'> = (rt, action) => {
 function hatch(rt: Runtime, item: CatalogItem, itemId: string) {
   const { ctx } = rt;
   if ((rt.save.items[itemId] ?? 0) < 1) throw new Error('没有可孵化的精元。');
-  ensureAcquisitionCapacity(rt.save);
   const species = Number(item.hatches), stock = allowance(ctx, rt.save, species);
   if (stock.owned >= SPECIES_COPY_LIMIT) throw new Error(acquisitionLimitReason(ctx.speciesName(species), stock));
   const hatched = hatchEssence(rt.save, item as { id: string; kind: 'essence'; hatches: number }, ctx.dex, rt.rng, new Date().toISOString());

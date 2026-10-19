@@ -1,7 +1,7 @@
-// Gaining monsters: storage and six-copy capacity, trait rolls and capacity-aware evolution.
+// Gaining monsters: the six-copy capacity, storing, trait rolls and capacity-aware evolution.
 import type { Rng } from '../../battle/core/src/index.ts';
 import {
-  addMonster, BOX_MAX, createMonster, evolve, findMon, levelEvolutions, PARTY_MAX, requiresEvolutionChoice, type Monster, type Save,
+  addMonster, createMonster, evolve, findMon, levelEvolutions, requiresEvolutionChoice, type Monster,
 } from '../../raising/core/index.ts';
 import type { GameSave } from './save.ts';
 import { acquisitionAllowance, acquisitionLimitReason } from '../domain/acquisition/acquisition-limits.ts';
@@ -17,15 +17,6 @@ export function capacityReason(ctx: GameContext, save: GameSave, species: number
   return stock.remaining < 1 ? acquisitionLimitReason(ctx.speciesName(species), stock) : undefined;
 }
 
-export const storageFull = (save: Save) => save.party.length >= PARTY_MAX && save.storage.length - save.party.length >= BOX_MAX;
-/** Why no monster can be obtained while the party and the box are full; 放生 in the bag frees a place. */
-export const STORAGE_FULL_REASON = '仓库已满，请先在精灵背包的「资料」页放生精灵，腾出空间。';
-
-/** Reject before generating a monster, so a full box does not consume reward RNG. */
-export function ensureAcquisitionCapacity(save: Save) {
-  if (storageFull(save)) throw new Error(STORAGE_FULL_REASON);
-}
-
 export function ensureSpeciesCapacity(ctx: GameContext, save: GameSave, species: number, excludeUid?: string) {
   const reason = capacityReason(ctx, save, species, excludeUid);
   if (reason) throw new Error(reason);
@@ -37,7 +28,7 @@ export function rollTrait(ctx: GameContext, save: GameSave, rng: Rng, uid: strin
   save.game.traits[uid] = traits[rng.int(0, traits.length - 1)].id;
 }
 
-/** Stores a new monster and rolls its trait. */
+/** Stores a new monster, in the party or else the box, and rolls its trait. */
 export function storeMonster(rt: Runtime, mon: Monster) {
   commit(rt, addMonster(rt.save, mon));
   rollTrait(rt.ctx, rt.save, rt.rng, mon.uid);
@@ -45,7 +36,6 @@ export function storeMonster(rt: Runtime, mon: Monster) {
 
 export function acquire(rt: Runtime, species: number, level = 1, how = 'quest', generation?: number): Monster {
   const { ctx } = rt;
-  ensureAcquisitionCapacity(rt.save);
   ensureSpeciesCapacity(ctx, rt.save, species);
   const mon = createMonster(ctx.dex, species, level, rt.rng, { how, at: new Date().toISOString() });
   storeMonster(rt, mon);

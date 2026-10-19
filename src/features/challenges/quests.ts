@@ -4,7 +4,7 @@ import { JOURNEY_QUESTS, type JourneyQuest } from '../../domain/acquisition/acqu
 import { recruitmentProgress, type RecruitmentReward } from '../../domain/acquisition/recruitment.ts';
 import { encounterCategory } from '../../domain/challenges/encounter-rows.ts';
 import type { QuestView } from '../../shared/views.ts';
-import { acquire, allowance, capacityReason, STORAGE_FULL_REASON, storageFull } from '../../kernel/acquire.ts';
+import { acquire, allowance, capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import { notice, type Runtime } from '../../kernel/api.ts';
 
@@ -25,9 +25,9 @@ const ready = (ctx: GameContext, save: GameSave, quest: JourneyQuest) => count(c
 interface Records { owned: ReadonlySet<number>; cleared: ReadonlySet<string> }
 const records = (save: GameSave): Records => ({ owned: new Set(save.dex.owned), cleared: new Set(save.progress.bosses_cleared) });
 
-/** A journey reward is a monster, so it needs a place in the party or the box as well as the six-copy allowance. */
+/** A journey reward is a monster, so it needs the six-copy allowance; it joins the party, or else the box. */
 function journeyView(ctx: GameContext, save: GameSave, quest: JourneyQuest): QuestView {
-  const blockedReason = storageFull(save) ? STORAGE_FULL_REASON : capacityReason(ctx, save, quest.species);
+  const blockedReason = capacityReason(ctx, save, quest.species);
   const claimed = save.game.quests.includes(quest.id), complete = ready(ctx, save, quest);
   const claimable = complete && !claimed && !blockedReason;
   const rewardName = ctx.speciesName(quest.species);

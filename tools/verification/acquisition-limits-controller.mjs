@@ -20,8 +20,8 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
  const {engravings}=await load('/src/domain/engravings/engravings.ts');
  const {engravingAccess}=await load('/src/domain/engravings/engraving-access.ts');
- const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
- const {STORAGE_FULL_REASON}=await load('/src/kernel/acquire.ts');
+ const {PARTY_MAX}=await load('/raising/core/storage.ts');
+ const {readLocalSave}=await load('/src/kernel/persistence.ts');
  const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
  const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {expToNext}=await load('/raising/core/growth.ts');
@@ -44,6 +44,22 @@ await withSsr('acquisition-limits-controller',async load=>{
  const copies=(save,species,count,level=1)=>{save.storage=save.storage.filter(m=>m.species!==species);save.party=save.party.filter(uid=>save.storage.some(m=>m.uid===uid));for(let i=0;i<count;i++)save.storage.push({...template(species,level),uid:`fixture-${species}-${level}-${i}`});if(!save.party.length&&save.storage.length)save.party=[save.storage[0].uid];return save;};
  const readySave=()=>{const save=structuredClone(base);for(const p of reward.prerequisites){if(p.kind==='species')save.dex.owned.push(p.species);else save.progress.bosses_cleared.push(p.bossId)}return save;};
  const seedStock=(held=0,reserved=0)=>{const save=copies(readySave(),reward.rewardSpecies,held);save.items[aliasA]=reserved;save.game.shopUnlocked=[aliasA,aliasB,reward.itemId];return save;};
+ /** More monsters than the box's former 1000 places: the box has no limit. */
+ const LARGE_BOX=1200;
+ /** `save` with a full party and LARGE_BOX more monsters in the box, every one a `species`. */
+ const largeBox=(save,species)=>{
+  const filler=template(species);save.storage=[];save.game.traits={};
+  for(let i=0;i<PARTY_MAX+LARGE_BOX;i++)save.storage.push({...structuredClone(filler),uid:`large-box-${i}`});
+  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);return save;
+ };
+ const accept=(g,action)=>{const result=g.dispatch(action);assert(result.ok,`${action.type}: ${result.notice}`);};
+ /** Each monster `g` gained since the `before` save, as [species, whether it joined the party]. */
+ const gained=(g,before)=>{const after=parse(g),old=new Set(before.storage.map(m=>m.uid));return after.storage.filter(m=>!old.has(m.uid)).map(m=>[m.species,after.party.includes(m.uid)]);};
+ /** The game writes its save as it exports it, and that save loads again with every monster. */
+ const persisted=g=>{
+  const saved=g.exportSave(),count=JSON.parse(saved).storage.length;assert.equal(readLocalSave(),saved,'The large save is written');
+  assert.equal(parse(make(JSON.parse(saved))).storage.length,count,`A save of ${count} monsters loads with every one`);
+ };
  check('Recruitment counts held creatures and all essence aliases',()=>{
   const g=make(seedStock(2,3));g.dispatch({type:'claimQuest',questId:reward.questId});assert.equal(parse(g).items[reward.itemId],1);
   reject(g,{type:'claimQuest',questId:reward.questId},'2 held + 3 old aliases + 1 new essence must block a seventh copy');
@@ -64,12 +80,13 @@ await withSsr('acquisition-limits-controller',async load=>{
   reject(g,{type:'useItem',uid:g.snapshot().party[0],itemId:aliasA},'Seventh hatch preserves essence, storage and RNG');
   assert.equal(parse(make(parse(g))).items[aliasA],14,'Overflow survives reload');
  });
- check('Full storage can claim essence but cannot hatch it or advance RNG',()=>{
-  const save=readySave(),filler=template(10);save.storage=[];
-  for(let i=0;i<PARTY_MAX+BOX_MAX;i++)save.storage.push({...structuredClone(filler),uid:`full-box-${i}`});
-  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);const g=make(save),before=parse(g);
-  g.dispatch({type:'claimQuest',questId:reward.questId});assert.equal(parse(g).items[reward.itemId],1);assert.deepEqual(parse(g).storage,before.storage);assert.deepEqual(parse(g).rng_state,before.rng_state);
-  reject(g,{type:'useItem',uid:g.snapshot().party[0],itemId:reward.itemId},'Full box hatch consumes no essence or RNG');
+ check(`An essence claimed or bought in the shop hatches into a box of ${LARGE_BOX} monsters while the party is full`,()=>{
+  const save=largeBox(readySave(),10);save.game.shopUnlocked=[aliasB];const g=make(save),before=parse(g),lead=g.snapshot().party[0];
+  accept(g,{type:'claimQuest',questId:reward.questId});assert.equal(parse(g).items[reward.itemId],1);
+  accept(g,{type:'useItem',uid:lead,itemId:reward.itemId});
+  accept(g,{type:'buyItem',itemId:aliasB,quantity:1});accept(g,{type:'useItem',uid:lead,itemId:aliasB});
+  assert.deepEqual(gained(g,before),[[reward.rewardSpecies,false],[reward.rewardSpecies,false]],'Both hatch into the box');
+  persisted(g);
  });
  check('放生 takes a stored or party monster with its trait, bead and engravings, never the last party monster',()=>{
   const save=structuredClone(base),[lead,second,third]=save.party,finite=engravings.find(def=>!engravingAccess(def).unlimited);assert(finite);
@@ -95,15 +112,14 @@ await withSsr('acquisition-limits-controller',async load=>{
   assert(releaseSection(lead).includes(`<p>${refusal}</p>`),'The bag states that refusal');
   assert.match(releaseButton(lead),/^<button disabled="">放生/,'The bag disables 放生 for the last party monster');
  });
- check('A full box blocks a journey reward in its row until 放生 frees a place',()=>{
-  const save=structuredClone(base),filler=template(19);save.game.battlesWon=1;save.storage=[];save.game.traits={};
-  for(let i=0;i<PARTY_MAX+BOX_MAX;i++)save.storage.push({...structuredClone(filler),uid:`full-box-${i}`});
-  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);const g=make(save),row=()=>g.snapshot().quests.find(q=>q.id==='first-victory');
-  assert.equal(row().complete,true);assert.equal(row().claimable,false,'The row, its button and the quest alert agree with the claim');
-  assert.match(row().blockedReason??'',/仓库已满.*放生/);reject(g,{type:'claimQuest',questId:'first-victory'},'A full box refuses the journey monster');
-  g.dispatch({type:'release',uid:`full-box-${PARTY_MAX}`});assert.equal(parse(g).storage.length,PARTY_MAX+BOX_MAX-1);
-  assert.equal(row().claimable,true);assert.equal(row().blockedReason,undefined);
-  g.dispatch({type:'claimQuest',questId:'first-victory'});assert(parse(g).game.quests.includes('first-victory'));assert.equal(row().claimed,true);
+ check(`A journey reward joins a box of ${LARGE_BOX} monsters while the party is full`,()=>{
+  const save=largeBox(structuredClone(base),19);save.game.battlesWon=1;
+  const g=make(save),before=parse(g),row=()=>g.snapshot().quests.find(q=>q.id==='first-victory');
+  assert.equal(row().complete,true);assert.equal(row().claimable,true,'The row, its button and the quest alert offer the claim');
+  assert.equal(row().blockedReason,undefined);
+  accept(g,{type:'claimQuest',questId:'first-victory'});assert(parse(g).game.quests.includes('first-victory'));assert.equal(row().claimed,true);
+  assert.deepEqual(gained(g,before),[[10,false]],'The journey monster goes to the box');
+  persisted(g);
  });
  check('Each journey quest\'s acquisition route words its name and task as its quest row does',()=>{
   const index=buildAcquisitionIndex(source),quests=make(base).snapshot().quests.filter(row=>row.group==='journey');
@@ -114,13 +130,12 @@ await withSsr('acquisition-limits-controller',async load=>{
    assert.deepEqual(labels,[`船长任务「${quest.name}」：${task}后领取${quest.rewardName}`],quest.id);
   }
  });
- check('A full box refuses a capture with the journey row\'s text, which points to 放生',()=>{
-  const save=structuredClone(base),filler=template(19);save.storage=[];save.game.traits={};
-  for(let i=0;i<PARTY_MAX+BOX_MAX;i++)save.storage.push({...structuredClone(filler),uid:`full-box-${i}`});
-  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);const g=make(save);g.dispatch({type:'startTraining',species:22,level:3});
-  const view=g.snapshot().battle;assert.equal(view.canCapture,false);assert.equal(view.captureBlockedReason,STORAGE_FULL_REASON);
-  assert.match(view.captureBlockedReason,/放生/);const before=g.exportSave();
-  assert.deepEqual(g.dispatch({type:'capture',itemId:'item_capsule_master'}),{ok:false,notice:STORAGE_FULL_REASON});assert.equal(g.exportSave(),before);
+ check(`A capture joins a box of ${LARGE_BOX} monsters while the party is full, and the result says so`,()=>{
+  const g=make(largeBox(structuredClone(base),19)),before=parse(g);accept(g,{type:'startTraining',species:22,level:3});
+  const view=g.snapshot().battle;assert.equal(view.canCapture,true);assert.equal(view.captureBlockedReason,undefined);
+  accept(g,{type:'capture',itemId:'item_capsule_master'});assert.match(g.snapshot().battle.result,/^.+已加入仓库。/);
+  accept(g,{type:'closeBattle'});assert.deepEqual(gained(g,before),[[22,false]],'The caught monster goes to the box');
+  persisted(g);
  });
  check('Direct acquisition allows the sixth and rejects the seventh copy',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'cheatAcquire',species:19,level:1});assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);
@@ -216,5 +231,5 @@ await withSsr('acquisition-limits-controller',async load=>{
   assert.match(last.view.result,new RegExp(`^获得 \\d+ 赛尔豆及 \\d+ 积累经验。布布种子进化为布布草。${KEPT_BACK}$`));
  });
  check('Shared input catalog remains immutable',()=>{assert.equal(JSON.stringify(source),sourceBytes);assert.equal(JSON.stringify(catalog),catalogBytes)});
- t.finish({limit:6,storageCapacity:PARTY_MAX+BOX_MAX});
+ t.finish({limit:6,largeStorage:PARTY_MAX+LARGE_BOX});
 });
