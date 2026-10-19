@@ -107,14 +107,18 @@ t.check('a replayed stage says it was passed again, and only a new clear says th
     g.dispatch({type:'cheatAcquire',species:501,level:100});
     const lead=g.snapshot().monsters.find(monster=>monster.species===501)!;
     g.dispatch({type:'reorderParty',uids:[lead.uid,...g.snapshot().party.filter(uid=>uid!==lead.uid)]});
+    const before=JSON.parse(g.exportSave());
     g.dispatch({type:'startCampaignStage',campaignId:'baihu',stageId:'guardians'});
     for(let turn=0;turn<20&&!g.snapshot().battle!.finished;turn++)g.dispatch({type:'move',skillId:g.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0)!.id});
     assert(g.snapshot().battle!.won,'the 1-HP guardians fall');
-    return [g.snapshot().battle!.result,JSON.parse(g.exportSave()).game.campaigns.baihu];
+    // After the stage's text, the result states what the win paid: the measured coins and pooled experience.
+    const after=JSON.parse(g.exportSave()),coins=after.game.coins-before.game.coins,exp=after.exp_pool-before.exp_pool;
+    assert(coins>0&&exp>0,'a stage win pays coins and pooled experience');
+    return [g.snapshot().battle!.result,after.game.campaigns.baihu,`获得 ${coins} 赛尔豆及 ${exp} 积累经验。`];
   };
-  const [first,opened]=play([]),[replayed,unchanged]=play(['guardians']),[finished]=play(['guardians','avatars','body']);
-  assert.match(first,/^本阶段完成，下一阶段已开启。/);assert.deepEqual(opened,['guardians']);
-  assert.match(replayed,/^本阶段再次通过。/,'a replay opens nothing');assert.deepEqual(unchanged,['guardians']);
-  assert.match(finished,/^白虎试炼已全部完成。/,'a finished campaign keeps its text');
+  const [first,opened,firstPaid]=play([]),[replayed,unchanged,replayPaid]=play(['guardians']),[finished,,finishedPaid]=play(['guardians','avatars','body']);
+  assert.equal(first,`本阶段完成，下一阶段已开启。${firstPaid}`);assert.deepEqual(opened,['guardians']);
+  assert.equal(replayed,`本阶段再次通过。${replayPaid}`,'a replay opens nothing');assert.deepEqual(unchanged,['guardians']);
+  assert.equal(finished,`白虎试炼已全部完成。${finishedPaid}`,'a finished campaign keeps its text');
 });
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});
