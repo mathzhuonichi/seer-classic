@@ -125,6 +125,18 @@ await withSsr('paid-spt-controller',async load=>{
   assert.equal(claimed.items[battleReward.itemId],(won.items[battleReward.itemId]??0)+1);
   assert.equal(view(createGame(battleCatalog,battleGame.exportSave()),battleReward).complete,true,'Settled named clear survives reload');
  });
+ check('SPT 挑战者 counts a clear of any encounter the archive lists under SPT首领, and of nothing else',()=>{
+  const probe=make(base),{bosses,campaigns}=probe.snapshot(),stages=new Set(campaigns.flatMap(c=>c.stages.flatMap(s=>s.bossIds)));
+  const listed=bosses.filter(b=>b.category==='spt'&&!stages.has(b.id)),others=bosses.filter(b=>!listed.includes(b));
+  const counts=id=>{const save=structuredClone(base);save.progress.bosses_cleared=[id];probe.importSave(JSON.stringify(save));return probe.snapshot().quests.find(q=>q.id==='first-spt');};
+  // The first fights of two-stage SPTs and 塞维尔 are not recruitment prerequisites; they are SPT challenges all the same.
+  for(const id of ['boss_spt_kelanite1','boss_spt_kelaifen1','boss_spt_saiweier'])assert(listed.some(b=>b.id===id),`${id} is listed under SPT首领`);
+  for(const boss of listed){const quest=counts(boss.id);assert.equal(quest.complete,true,`${boss.id} counts for SPT 挑战者`);assert.equal(quest.claimable,true);}
+  const oneOfEach=new Map(others.map(b=>[stages.has(b.id)?'campaign-stage':b.category,b]));
+  assert.deepEqual([...oneOfEach.keys()].sort(),['campaign-stage','dark','legendary','quest','tower','trainer']);
+  for(const [kind,boss] of oneOfEach)assert.equal(counts(boss.id).complete,false,`A ${kind} clear (${boss.id}) is not an SPT challenge`);
+  assert.match(counts(listed[0].id).description,/SPT首领/,'The quest names the archive tab it counts');
+ });
  check('Source catalog unchanged',()=>assert.equal(JSON.stringify(catalog),original,'Source catalog unchanged'));
  t.finish({rewardCount:rewards.length,journeySeed:JOURNEY_SEED,rows,
   controlledBattle:{bossId:'boss_spt_delasa',questId:battleReward?.questId,testOnlySkillOverride:{id:10001,power:1000000,accuracy:null,priority:20}}});

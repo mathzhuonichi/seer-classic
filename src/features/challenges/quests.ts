@@ -2,6 +2,7 @@
 import type { GameSave } from '../../kernel/api.ts';
 import { JOURNEY_QUEST_SPECIES } from '../../domain/acquisition/acquisition-model.ts';
 import { recruitmentProgress, type RecruitmentReward } from '../../domain/acquisition/recruitment.ts';
+import { encounterCategory } from '../../domain/challenges/encounter-rows.ts';
 import type { QuestView } from '../../shared/views.ts';
 import { acquire, allowance, capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/api.ts';
@@ -15,6 +16,11 @@ interface JourneyQuest {
 
 /** Won battles; a successful capture is one. */
 const wins = (_ctx: GameContext, save: GameSave) => save.game.battlesWon;
+/** An encounter the challenge archive lists under SPT首领: an SPT-category Boss of its own, not a campaign stage. */
+function sptChallenge(ctx: GameContext, id: string): boolean {
+  const boss = ctx.encounterById.get(id);
+  return !!boss && encounterCategory(boss) === 'spt' && !ctx.campaignForBoss(id);
+}
 const JOURNEY_QUESTS: readonly JourneyQuest[] = [
   {
     id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战（捕捉成功也算），领取皮皮。', species: JOURNEY_QUEST_SPECIES['first-victory'],
@@ -25,8 +31,8 @@ const JOURNEY_QUESTS: readonly JourneyQuest[] = [
     goal: 3, count: wins,
   },
   {
-    id: 'first-spt', name: 'SPT 挑战者', description: '完成任意一个 SPT 挑战，领取巴鲁斯。', species: JOURNEY_QUEST_SPECIES['first-spt'], goal: 1,
-    count: (ctx, save) => Number(save.progress.bosses_cleared.some(id => ctx.ordinarySPTs.has(id))),
+    id: 'first-spt', name: 'SPT 挑战者', description: '击败星际挑战档案「SPT首领」中的任意一位首领，领取巴鲁斯。', species: JOURNEY_QUEST_SPECIES['first-spt'],
+    goal: 1, count: (ctx, save) => Number(save.progress.bosses_cleared.some(id => sptChallenge(ctx, id))),
   },
 ];
 
