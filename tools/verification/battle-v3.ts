@@ -18,7 +18,10 @@ const data = buildDataSet({
     },
   ],
   conditions: [{ id: 'test_shield', name: { zh: '护盾' }, hooks: [] }],
-  items: [{ id: 'potion', name: { zh: '测试体力药' }, battle_effects: [{ op: 'heal', target: 'self', amount: 40 }] }],
+  items: [
+    { id: 'potion', name: { zh: '测试体力药' }, battle_effects: [{ op: 'heal', target: 'self', amount: 40 }] },
+    { id: 'capsule', name: { zh: '测试胶囊' }, capture_multiplier: null },
+  ],
   types: { chart: { normal: { normal: 1 } } },
 });
 const player = (extra: Partial<MonsterInput> = {}): MonsterInput => ({ species: 1, uid: 'player', nickname: '伙伴', level: 50, skills: [1, 2], stats, ...extra });
@@ -61,6 +64,11 @@ assert.equal(itemBattle.sides[0].team[1].hp, 90); assert.equal(itemBattle.active
 assert(itemEvents.some(event => event.type === 'heal' && event.slot === 1 && event.name === '替补'));
 assert.equal(itemBattle.sides[0].items.potion, 1);
 
+// A capture ends a wild battle as the player's win; the caught foe was not knocked out, so it has no defeated entry.
+const caught = createBattle({ data, seed: 13, sides: [{ kind: 'player', items: { capsule: 1 }, team: [player()] }, { kind: 'wild', team: [foe()] }] });
+caught.submit(0, { kind: 'capture', item: 'capsule' }); caught.resolveTurn();
+assert.deepEqual([caught.result?.winner, caught.result?.reason, caught.result?.success, caught.result?.defeated], [0, 'capture', true, []]);
+
 let critSeed = 0;
 for (let seed = 1; seed <= 64; seed++) {
   const battle = createBattle({ data, seed, sides: [{ kind: 'player', team: [player()] }, { kind: 'wild', team: [foe()] }] });
@@ -102,4 +110,7 @@ calibrated.active(1).conditions.push({ id: resistance.id, def: { id: resistance.
 for (let draw = 0; draw < 24; draw++) assert.equal(calibrated.calcAttack(calibrated.active(0), calibrated.active(1), data.skills.get(1)!).crit, false);
 calibrated.active(0).conditions.push({ id: precision.id, def: { id: precision.id, hooks: precision.hooks }, turns: Infinity, appliedTurn: 0 });
 assert.equal(precision.hooks[0].add, 1);
-console.log(JSON.stringify({ passed: ['forced-replacement retreat', 'normal retreat without opposing input', 'empty-party defeat', 'validated bench item target', 'ordinary RNG critical hit and multiplier', 'grouped critical and residual logs', 'explicit critical-trait calibration'], ordinaryCriticalSeed: critSeed }));
+console.log(JSON.stringify({ passed: [
+  'forced-replacement retreat', 'normal retreat without opposing input', 'empty-party defeat', 'validated bench item target', 'a capture is a successful win',
+  'ordinary RNG critical hit and multiplier', 'grouped critical and residual logs', 'explicit critical-trait calibration',
+], ordinaryCriticalSeed: critSeed }));

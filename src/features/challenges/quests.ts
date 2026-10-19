@@ -13,10 +13,17 @@ interface JourneyQuest {
   count(ctx: GameContext, save: GameSave): number;
 }
 
+/** Won battles; a successful capture is one. */
 const wins = (_ctx: GameContext, save: GameSave) => save.game.battlesWon;
 const JOURNEY_QUESTS: readonly JourneyQuest[] = [
-  { id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战，领取皮皮。', species: JOURNEY_QUEST_SPECIES['first-victory'], goal: 1, count: wins },
-  { id: 'three-victories', name: '成长之路', description: '赢得三场战斗，领取比比鼠。', species: JOURNEY_QUEST_SPECIES['three-victories'], goal: 3, count: wins },
+  {
+    id: 'first-victory', name: '初次胜利', description: '赢得一次野外遭遇或首领挑战（捕捉成功也算），领取皮皮。', species: JOURNEY_QUEST_SPECIES['first-victory'],
+    goal: 1, count: wins,
+  },
+  {
+    id: 'three-victories', name: '成长之路', description: '赢得三场战斗（捕捉成功也算），领取比比鼠。', species: JOURNEY_QUEST_SPECIES['three-victories'],
+    goal: 3, count: wins,
+  },
   {
     id: 'first-spt', name: 'SPT 挑战者', description: '完成任意一个 SPT 挑战，领取巴鲁斯。', species: JOURNEY_QUEST_SPECIES['first-spt'], goal: 1,
     count: (ctx, save) => Number(save.progress.bosses_cleared.some(id => ctx.ordinarySPTs.has(id))),

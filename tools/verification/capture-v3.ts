@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {createGame} from '../../src/kernel/game.ts';
 import type {CatalogData} from '../../src/domain/catalog/catalog.ts';
+import {VICTORY_REWARDS} from '../../src/domain/economy.ts';
 import {loadCatalogNode} from '../catalog.mjs';
 // Ordinary capsules and supplies are unlimited (V50): a use spends the turn and leaves the finite stock as it was.
 const source=loadCatalogNode();
@@ -10,6 +11,11 @@ const journey=JSON.parse(createGame(structuredClone(source) as CatalogData).expo
 const start=(catalog:CatalogData)=>createGame(catalog,JSON.stringify(journey));
 const fresh=()=>start(structuredClone(source) as CatalogData);
 const count=(snapshot:{items:readonly {id:string;count:number}[]},id:string)=>snapshot.items.find(i=>i.id===id)!.count;
+/** What settling a battle paid between two exported saves: won battles, coins and pooled experience. */
+const paid=(before:string,after:string)=>{
+  const [was,now]=[before,after].map(text=>JSON.parse(text));
+  return {won:now.game.battlesWon-was.game.battlesWon,coins:now.game.coins-was.game.coins,exp:now.exp_pool-was.exp_pool};
+};
 const game=fresh(), initial=game.snapshot(), capsule='item_capsule_master';
 /** An item's stock at the start of the pinned journey, which an unlimited use leaves as it was. */
 const stock=(id:string)=>count(initial,id);
@@ -28,7 +34,9 @@ const added=caught.monsters.find(m=>!initial.monsters.some(old=>old.uid===m.uid)
 assert.equal(added.species,22);assert.equal(added.level,enemy.level);assert.equal(added.hp,enemy.hp);assert(caught.party.includes(added.uid));
 assert(caught.battle!.animation.frames.some(f=>f.kind==='capture'&&f.side===1&&f.captureSuccess));
 assert(caught.battle!.log.some(line=>line.includes('毛毛')&&line.includes('成功捕捉')));
-assert.equal(caught.coins,initial.coins);assert.equal(caught.expPool,initial.expPool);
+// A capture is a wild victory: one more won battle, the wild victory's coins and pooled experience, and the victory quests advance.
+const capturePaid=paid(before,game.exportSave());assert.deepEqual(capturePaid,{won:1,...VICTORY_REWARDS.wild});
+const quest=(id:string)=>caught.quests.find(q=>q.id===id)!;assert(quest('first-victory').claimable);assert.equal(quest('three-victories').progress,'1/3');
 const reloaded=createGame(structuredClone(source),game.exportSave());assert(reloaded.snapshot().monsters.some(m=>m.uid===added.uid));
 assert.equal(count(reloaded.snapshot(),capsule),stock(capsule));
 const full=createGame(structuredClone(source),before);
@@ -39,8 +47,10 @@ assert(full.snapshot().monsters.some(m=>!oldUids.includes(m.uid)&&m.species===22
 const boss=fresh();boss.dispatch({type:'startBattle',bossId:source.bosses.find((b:any)=>b.name.zh==='蘑菇怪').id});
 assert.equal(boss.snapshot().battle!.canCapture,false);const bossItems=boss.snapshot().items.find(i=>i.id===capsule)!.count;
 boss.dispatch({type:'capture',itemId:capsule});assert.equal(boss.snapshot().items.find(i=>i.id===capsule)!.count,bossItems);assert(boss.snapshot().notices[0].includes('不可捕捉'));
-const ko=fresh();ko.dispatch({type:'cheatMonster',uid:ko.snapshot().party[0],level:100,traitId:null});ko.dispatch({type:'startTraining',species:22,level:3});
-const attack=ko.snapshot().battle!.player.skills.find(s=>s.category!=='属性')!;ko.dispatch({type:'move',skillId:attack.id});assert(ko.snapshot().battle!.finished);assert.equal(ko.snapshot().monsters.length,3);
+// Below level 100 the knockout's EXP goes to the lead, so the pool shows only the victory's payout, which a capture equals.
+const ko=fresh();ko.dispatch({type:'cheatMonster',uid:ko.snapshot().party[0],level:50,traitId:null});ko.dispatch({type:'startTraining',species:22,level:3});
+const koStart=ko.exportSave(),attack=ko.snapshot().battle!.player.skills.find(s=>s.category!=='属性')!;ko.dispatch({type:'move',skillId:attack.id});
+assert(ko.snapshot().battle!.won);assert.equal(ko.snapshot().monsters.length,3);assert.deepEqual(paid(koStart,ko.exportSave()),capturePaid);
 // Zero catch rate yields a deterministic failed capsule attempt and real opponent action.
 const failureData=structuredClone(source);failureData.species.find((s:any)=>s.id===22).catch_rate=0;
 const failure=start(failureData);failure.dispatch({type:'startTraining',species:22,level:3});failure.dispatch({type:'capture',itemId:'item_capsule_basic'});
@@ -61,6 +71,7 @@ assert.equal(count(statusGame.snapshot(),'item_status_cure'),stock('item_status_
 assert(statusGame.snapshot().battle!.log.some(l=>l.includes('中毒')&&l.includes('已解除')));
 console.log(JSON.stringify({passed:[
   'three item categories','capture transfers level/HP and party placement','unlimited capsule keeps its stock across a save roundtrip',
+  'a capture is a victory: it pays what a knockout of the same contact pays and advances the victory quests',
   'full-party storage placement','boss capture rejection without consumption','ordinary knockout does not acquire',
   'failed capture spends the turn without ending the battle or consuming stock','status-cure item removes actual poison',
 ],species:22}));

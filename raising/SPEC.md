@@ -117,6 +117,9 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 ### 5.3 积累经验 and the 经验分配器 [sourced concept, chosen details]
 - EXP earned by a level-100 monster, and EXP past level 100, goes into the
   save's `exp_pool` instead of being lost.
+- Each victory, a capture included, also pays the game's pooled experience
+  into it (`VICTORY_REWARDS` in `src/domain/economy.ts`). A captured monster
+  was not defeated, so it yields no EXP or 学习力 of its own [chosen].
 - The 经验分配器 moves pool EXP into any monster. Only what the monster absorbs
   leaves the pool.
 - Items: `exp {amount}` and `levels {amount}` (升级秘药). They refuse a level-100

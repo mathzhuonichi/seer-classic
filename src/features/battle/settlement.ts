@@ -23,7 +23,7 @@ export function settle(rt: Runtime) {
   commit(rt, applyBattleRewards(rt.save, result.defeated, rt.ctx.dex, { autoEvolve: false }).save);
   for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, uid)));
   if (result.reason === 'capture' && battle.capturedMon && session.wild) storeCapture(rt, session, battle.capturedMon);
-  else settleOutcome(rt, session, result);
+  settleOutcome(rt, session, result);
   commit(rt, tickBoosts(rt.save));
 }
 
@@ -49,6 +49,7 @@ function settleTeam(rt: Runtime, battle: Battle) {
   }
 }
 
+/** Stores the caught wild monster; where it went heads the result message. */
 function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
   const wild = session.wild!;
   const captured = {
@@ -57,15 +58,18 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
   };
   storeMonster(rt, captured);
   session.resultMessage = `${rt.ctx.speciesName(captured.species)}已加入${rt.save.party.includes(captured.uid) ? '背包' : '仓库'}。`;
-  notice(rt, `捕捉成功：${session.resultMessage}`);
 }
 
-/** A victory's rewards and the challenge's progress, then a victory's notice. */
+/** A victory's rewards and the challenge's progress, then a victory's notice. A capture is a wild victory: it also says where the catch went. */
 function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult) {
   const reward = victoryReward(session.encounter);
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (result.success) notice(rt, session.resultMessage || victoryText(reward));
+  if (!result.success) return;
+  if (result.reason === 'capture') {
+    session.resultMessage += victoryText(reward);
+    notice(rt, `捕捉成功：${session.resultMessage}`);
+  } else notice(rt, session.resultMessage || victoryText(reward));
 }
 
 function grantVictory(rt: Runtime, session: BattleSession) {

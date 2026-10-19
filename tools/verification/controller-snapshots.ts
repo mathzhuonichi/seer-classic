@@ -99,6 +99,9 @@ export async function verifySnapshotInputs(){
   step('bead used',act({type:'useItem',uid:c,itemId:'item_bead_reduce_damage'}),[c]);
   step('bead ended',act({type:'startTraining',species:10,level:3},{type:'flee'},{type:'closeBattle'}),[c],game.snapshot().party);
   assert.deepEqual(row(c).boosts,[],'The one-battle bead has ended.');
+  const capture:GameAction[]=[{type:'startTraining',species:22,level:3},{type:'capture',itemId:'item_capsule_master'},{type:'closeBattle'}];
+  step('capture won',act(...capture),[],game.snapshot().party);
+  assert.equal(game.snapshot().quests.find(quest=>quest.id==='first-victory')!.progress,'1/1','A capture is a victory: the quest rows follow it.');
   step('capacity reached',act({type:'cheatAcquire',species:20,level:100}),[m]);
   assert(row(m).evolutionChoices[0].blockedReason,'Six copies block the evolution.');
   step('evolution frees capacity',act({type:'evolve',uid:c}),[c,m]);
