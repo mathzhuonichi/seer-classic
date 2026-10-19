@@ -258,27 +258,26 @@ export async function verifyControllerSaveRecovery(){
 }
 
 /**
- * Saves are written before the task that changed them ends: the actions dispatched in one task share one write, of the latest
- * state, an action that changes nothing writes nothing, and an export or a new journey writes at once. An export still returns
- * the latest state when storage refuses the write.
+ * Saves are written before the task that changed them ends: the actions dispatched in one synchronous run share one write, of
+ * the latest state, an action that changes nothing writes nothing, and an export, an import or a new journey writes at once. An
+ * export still returns the latest state when storage refuses the write.
  */
 export async function verifyCoalescedSaveWrites(){
   const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
   memoryStorage();
   const storage=globalThis.localStorage,setItem=storage.setItem;
-  let writes=0,full=false,nextTask=false;
+  let writes=0,full=false;
   storage.setItem=(key:string,value:string)=>{if(full)throw new Error('QuotaExceededError');writes++;setItem(key,value);};
   try{
     const game=createGame(catalog,''),uid=game.snapshot().party[0];
     const stored=()=>JSON.parse(readLocalSave()!),nicknameIn=(text:string)=>JSON.parse(text).storage.find((mon:{uid:string})=>mon.uid===uid).nickname;
     const nickname=()=>nicknameIn(readLocalSave()!);
     assert.equal(writes,1,'A new journey is written at once.');
-    setImmediate(()=>{nextTask=true;});
     for(let i=0;i<10;i++)game.dispatch({type:'rename',uid,name:`Burst${i}`});
     game.dispatch({type:'cheatResources',coins:4321});
     assert.equal(writes,1,'A burst of actions is not written action by action.');
+    // One microtask hop resumes within the same task, so the write it finds was made before the task ended.
     await microtasks();
-    assert(!nextTask,'No other task has run since the burst.');
     assert.equal(writes,2,'The burst is written once before its task ends.');assert.equal(nickname(),'Burst9');assert.equal(stored().game.coins,4321);
     game.dispatch({type:'dismissNotice'});await microtasks();
     assert.equal(writes,2,'An action that changes nothing writes nothing.');
@@ -294,8 +293,11 @@ export async function verifyCoalescedSaveWrites(){
     game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
     assert.equal(writes,5,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
     await microtasks();assert.equal(writes,5,'The end of the task writes nothing more.');
+    game.dispatch({type:'rename',uid:game.snapshot().party[0],name:'Import'});game.importSave(exported);
+    assert.equal(writes,6,'An import replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());assert.equal(nickname(),'Export');
+    await microtasks();assert.equal(writes,6,'The end of the import\'s task writes nothing more.');
     return {checks:['burst writes once before its task ends','burst writes the latest state','unchanged save not written','export writes the latest state',
-      'export returns the latest state when storage refuses it','reset writes at once']};
+      'export returns the latest state when storage refuses it','reset writes at once','import writes at once']};
   }finally{
     if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }
