@@ -246,6 +246,12 @@ species 77, 78, 79, 310, 311 or 312 before any capsule can be used; this gate is
 source-verified. The official server's separate `catchType` field is not modeled.
 See `design/notes/capture-official-v25.md` for table/protocol evidence and limits.
 
+A successful capture ends the battle as the player's win: `winner: 0`,
+`reason: capture` and `success` (a wild battle has no objectives). The caught
+monster was not knocked out, so it is not in `defeated`. The game settles a
+capture as a victory: it counts as a won battle and pays the wild victory's
+coins and pooled experience. [chosen]
+
 ## 10. PvE bosses
 
 A boss encounter (`data/bosses/*.json`, shape `BossEncounter` in `core/src/types.ts`) builds side 1

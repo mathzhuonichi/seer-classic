@@ -94,7 +94,7 @@ await withSsr('battle-commands', async load => {
 
   t.check('A capsule that catches: one dispatch, the capsule frames, then a finished battle that takes no command', () => {
     const game = wild(), ui = screen(game), capture = {type: 'capture', itemId: 'item_capsule_master'};
-    const foe = game.snapshot().battle.enemy.name;
+    const foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
     assert.ok(ui.player.canAct());
     ui.player.submit(capture);
     ui.player.submit(capture);
@@ -114,7 +114,7 @@ await withSsr('battle-commands', async load => {
     const thrown = ui.saidAt.get(`正在使用无敌精灵胶囊捕捉${foe}…`), caught = ui.saidAt.get(`我方使用了无敌精灵胶囊，成功捕捉${foe}！`);
     assert.equal(caught - thrown, CAPTURE_OUTCOME_MS, 'the outcome shows once the capsule has flown');
     assert.deepEqual(ui.dialogue, [`对手派出了${foe}。`, '第 1 回合', `正在使用无敌精灵胶囊捕捉${foe}…`, `我方使用了无敌精灵胶囊，成功捕捉${foe}！`,
-      `${foe}已加入背包。`], 'each line once: the capsule, its outcome, where the catch went');
+      `${foe}已加入背包。获得 ${coins} 赛尔豆及 ${exp} 积累经验。`], 'each line once: the capsule, its outcome, where the catch went and what the victory paid');
     assert.equal(view.result, ui.dialogue.at(-1));
     assert.equal(battleResultTitle(view), '捕捉成功！');
     assert.equal(view.log.at(-1), `我方使用了无敌精灵胶囊，成功捕捉${foe}！`, 'the log ends on the capsule line');
