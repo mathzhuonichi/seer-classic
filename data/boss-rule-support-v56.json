@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 590,
+    "handledEntries": 637,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 116,
+    "approximatedEntries": 118,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -116,7 +116,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate attack boost (攻击天生强化), magnitude not stated; atk+1 assumed (clearable)."
+          "reason": "Innate attack boost (攻击天生强化), magnitude not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (clearable)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -149,6 +149,21 @@
         {
           "rule": "phase:stat_stage",
           "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/1/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/1/member_phases/0/do/0",
           "fields": [
             "target",
             "stats"
@@ -1285,6 +1300,12 @@
       "id": "boss_dark_door6_aieryiluo",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -1310,7 +1331,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+1/spa+1 assumed, clearable."
+          "reason": "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19); clearable."
         }
       ],
       "waived": [],
@@ -1366,7 +1387,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/3",
-          "reason": "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+1/spe+1 assumed. Level not published (等级未知), 100 assumed."
+          "reason": "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). Level not published (等级未知), 100 assumed."
         }
       ],
       "waived": [],
@@ -1393,10 +1414,31 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Innate boost (天生强化), stat and size not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -1415,10 +1457,31 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Innate boost (天然自带强化; one player comment says 2 stages), stat not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -1478,7 +1541,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "4399 says '消除强化后直接强攻', implying an innate boost; atk+1 assumed. Level not given; 100 assumed."
+          "reason": "4399 says '消除强化后直接强攻', implying an innate boost; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). Level not given; 100 assumed."
         }
       ],
       "waived": [],
@@ -1521,7 +1584,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate special-attack boost (自身带有特攻强化), +1 assumed."
+          "reason": "Innate special-attack boost (自身带有特攻强化), size not stated; +2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (the source names special attack)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -1555,6 +1618,21 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -1588,6 +1666,21 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -1602,6 +1695,21 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -1712,7 +1820,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/3",
-          "reason": "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed."
+          "reason": "Innate boost (天生强化，需消除) — stat and amount not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         }
       ],
       "waived": [],
@@ -1721,6 +1829,12 @@
     {
       "id": "boss_kaxiusi",
       "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -2208,7 +2322,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/5",
-          "reason": "Innate boost stats not stated; atk+1 spe+1 assumed (it must be cleared with 叶绿光束 / 日月皆伤 style moves)."
+          "reason": "Innate boost stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (it must be cleared with 叶绿光束 / 日月皆伤 style moves)."
         }
       ],
       "waived": [],
@@ -2504,6 +2618,23 @@
             "below_pct",
             "foe_loss_low",
             "self_heal_low"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
           ],
           "implementation": "install"
         },
@@ -3050,6 +3181,12 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_percent_damage",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -3135,6 +3272,21 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_ohko",
+          "scope": "root/rules/6",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/7",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -3198,7 +3350,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed. Frequently uses 水之结界 (all foe stats -1)."
+          "reason": "Innate boost (天生强化) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). Frequently uses 水之结界 (all foe stats -1)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -3323,7 +3475,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed from its 冰雷幻阵."
+          "reason": "Innate boost (天生强化) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         }
       ],
       "waived": [],
@@ -3514,7 +3666,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost (先消强化) — stat not stated; atk+1 assumed."
+          "reason": "Innate boost (先消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -3537,14 +3689,12 @@
       "id": "boss_spt_kuli",
       "handled": [
         {
-          "rule": "script",
-          "id": "random_heal",
+          "rule": "immune_status_list",
           "scope": "root/rules/0",
           "fields": [
-            "chance",
-            "pct_max_hp"
+            "statuses"
           ],
-          "implementation": "install"
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3754,7 +3904,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+1/spe+1 assumed (matches its 规则掌控)."
+          "reason": "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -3980,6 +4130,12 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_ohko",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -4055,6 +4211,21 @@
           "scope": "root/rules/1",
           "fields": [],
           "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_ohko",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4279,7 +4450,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/0",
-          "reason": "Innate special-attack boost (天生特攻强化); magnitude not stated, +1 assumed."
+          "reason": "Innate special-attack boost (天生特攻强化); magnitude not stated; +2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (the source names special attack)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -4394,9 +4565,47 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/3",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/4",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -4404,7 +4613,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "攻击力超高，基本可秒杀大部分精灵 — encoded as stat_multipliers atk 2.0 (estimate) on top of its ~2000 HP."
+          "reason": "攻击力超高，基本可秒杀大部分精灵 — its innate boost (天生强化, size not stated) is atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         }
       ],
       "waived": [],
@@ -4538,7 +4747,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost exists (天生有强化，可消掉) but which stat is not stated; spa+1 is a guess. It CAN be cleared."
+          "reason": "Innate boost exists (天生有强化，可消掉) but which stat is not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). It CAN be cleared."
         }
       ],
       "waived": [],
@@ -4557,6 +4766,18 @@
         {
           "rule": "immune_status",
           "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -4641,7 +4862,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate boost implied by '先用盖亚消强化'; spa+1 assumed. HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate."
+          "reason": "Innate boost implied by '先用盖亚消强化'; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate."
         }
       ],
       "waived": [],
@@ -4736,6 +4957,12 @@
             "skills_zh"
           ],
           "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -4955,6 +5182,15 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -4980,7 +5216,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost (先上来消强化) — stat not stated; spa+1 assumed. 速度非常慢 (spe x0.5 estimate), 攻击很弱."
+          "reason": "Innate boost (先上来消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). 速度非常慢 (spe x0.5 estimate), 攻击很弱."
         },
         {
           "rule": "catalog_reconstruction",
@@ -6205,6 +6441,21 @@
       "id": "boss_tower_brave_f063",
       "handled": [
         {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6218,6 +6469,21 @@
     {
       "id": "boss_tower_brave_f064",
       "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
         {
           "rule": "script",
           "id": "always_crit_after_turn",
@@ -6243,6 +6509,21 @@
       "id": "boss_tower_brave_f065",
       "handled": [
         {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
           "rule": "heal_full_below",
           "scope": "root/rules/0",
           "fields": [
@@ -6266,6 +6547,21 @@
       "id": "boss_tower_brave_f066",
       "handled": [
         {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6279,6 +6575,21 @@
     {
       "id": "boss_tower_brave_f067",
       "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6294,6 +6605,21 @@
       "id": "boss_tower_brave_f068",
       "handled": [
         {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6307,6 +6633,21 @@
     {
       "id": "boss_tower_brave_f069",
       "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6327,6 +6668,21 @@
     {
       "id": "boss_tower_brave_f070",
       "handled": [
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
         {
           "rule": "heal_full_below",
           "scope": "root/rules/0",

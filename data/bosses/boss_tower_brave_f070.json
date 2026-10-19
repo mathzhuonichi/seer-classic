@@ -21,7 +21,24 @@
         10897,
         20409
       ],
-      "hp_override": 1600
+      "hp_override": 1600,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
     },
     {
       "species": 367,
@@ -135,7 +152,8 @@
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "heal_full_below {pct:20, member}: 61层以上的草系1/5血以下的时候会回满Hp (聚侠). Applies only to the grass-type member(s) listed by index; the engine's heal_full_below needs a per-member form.",
-    "橡木蝶 (team[3]) heals 200 HP each turn (4399: 橡木比较恶心，技能回800+每次回200); per-member flat heal."
+    "橡木蝶 (team[3]) heals 200 HP each turn (4399: 橡木比较恶心，技能回800+每次回200); per-member flat heal.",
+    "呆呆蛹 (team[0]) starts boosted: from floor 63 the first monster of each floor carries an innate boost (4399 guides; floors 66 and 68 state 攻击+2); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "medium",

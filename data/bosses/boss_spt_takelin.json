@@ -44,6 +44,9 @@
           "极度冰点"
         ]
       }
+    },
+    {
+      "rule": "unlimited_pp"
     }
   ],
   "win": [
@@ -78,7 +81,7 @@
           "id": "crit_rate_up",
           "params": {
             "target": "self",
-            "stages": 2
+            "stages": 3
           }
         }
       ],
@@ -135,7 +138,8 @@
     "Cosmetic: 每次攻击后位置会前移 (sprite moves forward) — not modelled.",
     "Speed below 180. 灰飞烟灭 hit 3 of the player's pets in the 3v3 team battle version; single-target here.",
     "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Every skill crits at 1/4: the opening crit_rate_up of 3 stages raises the base 1/16 to 4/16. Unlimited PP."
   ],
   "confidence": {
     "level": "medium",

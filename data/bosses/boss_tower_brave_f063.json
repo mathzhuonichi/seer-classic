@@ -21,7 +21,24 @@
         10325,
         20355
       ],
-      "hp_override": 1250
+      "hp_override": 1250,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
     },
     {
       "species": 160,
@@ -98,7 +115,8 @@
   },
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
-    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step."
+    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
+    "约凡撒 (team[0]) starts boosted: from floor 63 the first monster of each floor carries an innate boost (4399 guides; floors 66 and 68 state 攻击+2); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "medium",

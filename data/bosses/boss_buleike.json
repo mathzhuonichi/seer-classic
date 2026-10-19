@@ -50,7 +50,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1
+            "atk": 2
           }
         }
       ],
@@ -90,7 +90,7 @@
   },
   "engine_notes": [
     "always_moves_first: '速度无限，必定先出招' — 布莱克 acts first every turn regardless of speed or priority.",
-    "Innate attack boost (攻击天生强化), magnitude not stated; atk+1 assumed (clearable).",
+    "Innate attack boost (攻击天生强化), magnitude not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (clearable).",
     "Single-pet battle (单挑战) → player_team_size 1.",
     "Location not stated in the 2011 guides (the encounter was reached from the 战神联盟 storyline / SPT panel).",
     "Not covered here: the 暗黑武斗场 '暗黑布莱克' (beat 9 布莱克 with different natures for 暗黑布莱克的精元) — date and gate details not found."

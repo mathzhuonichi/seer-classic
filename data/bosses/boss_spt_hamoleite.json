@@ -60,6 +60,21 @@
     },
     {
       "rule": "no_struggle"
+    },
+    {
+      "rule": "immune_ohko"
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "寄生种子",
+          "镇魂歌",
+          "同生共死",
+          "极度冰点"
+        ]
+      }
     }
   ],
   "win": [
@@ -107,7 +122,8 @@
     "no_struggle: the classic plan was to drain its attack PP (龙王波/龙爪闪空破/龙王灭碎阵) and then rotate safely.",
     "HP conflict: 7k7k 2011 says 3000; 4399 (2010-06-01) and weste (2010-09) say 10000. 10000 used (two 2010 sources, and the 10-20 minute fights).",
     "龙之意志 (20269) raises its atk/def/spa by 1; clearing boosts first was standard.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "寄生种子、镇魂歌、海洋之心、同生共死 and 极度冰点 have no effect; 极度冰点 does nothing even when it hits (T客邦 2011-01-20, 4399 2010-07)."
   ],
   "confidence": {
     "level": "medium",

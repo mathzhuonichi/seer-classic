@@ -36,7 +36,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -71,7 +87,8 @@
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
     "The 4399 guide explicitly says the first HP bar is 2500 and the boss gains another 2500 after it is depleted: two lives of 2500 HP each. The core's lives.count counts additional revivals, so count 1 represents two total lives. The URL contains 2011-05-30, while the currently displayed page date is 2013-12-03; this is period-guide evidence, not official server data.",
-    "Level not given; 100 assumed."
+    "Level not given; 100 assumed.",
+    "Innate attack boost +2 (天生强化攻击等级+2)."
   ],
   "confidence": {
     "level": "medium",

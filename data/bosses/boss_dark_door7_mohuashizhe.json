@@ -36,7 +36,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -71,7 +87,8 @@
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
     "heal_each_turn: 每回合自动回300血 — flat 300 (≈16.7% of 1800); the vocabulary's pct_max_hp form would be 16.67.",
-    "Its skills lower accuracy and speed (技能能减命中和速度)."
+    "Its skills lower accuracy and speed (技能能减命中和速度).",
+    "Innate boost (天然自带强化; one player comment says 2 stages), stat not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "high",

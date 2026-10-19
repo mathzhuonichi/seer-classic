@@ -69,8 +69,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "spa": 1,
-            "spe": 1
+            "atk": 2
           }
         }
       ],
@@ -107,7 +106,7 @@
   },
   "engine_notes": [
     "status_on_attacker: whenever the player's pet successfully attacks 卡沃尔, the attacker is paralysed (100%).",
-    "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed from its 冰雷幻阵.",
+    "Innate boost (天生强化) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "Immune to control skills such as 灵魂干涉. 4399: 'this boss is weak: low attack, not fast'.",
     "HP not published; 8000 estimated (contemporary 螺旋星系 SPT bosses had 8000-12000).",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."

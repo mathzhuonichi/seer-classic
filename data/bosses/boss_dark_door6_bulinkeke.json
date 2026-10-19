@@ -57,8 +57,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1,
-            "spe": 1
+            "atk": 2
           }
         }
       ],
@@ -100,7 +99,7 @@
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
     "heal_full_below: 4399 2011: 血量低于200自动回满; 4399 2010-06: 血少于100的时候会回满血. 200 used (later, more specific source).",
     "immune_status_list: '免疫多种异常状态' without a list; the listed set is an assumption.",
-    "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+1/spe+1 assumed. Level not published (等级未知), 100 assumed."
+    "Innate boost, high attack and speed (天生携带强化效果，高攻高速); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). Level not published (等级未知), 100 assumed."
   ],
   "confidence": {
     "level": "medium",

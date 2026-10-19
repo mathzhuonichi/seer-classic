@@ -31,6 +31,12 @@
     },
     {
       "rule": "immune_status"
+    },
+    {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -88,7 +94,8 @@
     "Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified.",
     "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "HP 8000: 4399 2012-09-21 (体力8000，天生攻击强化+2) and the official SPT table (maps.json map 780)."
+    "HP 8000: 4399 2012-09-21 (体力8000，天生攻击强化+2) and the official SPT table (maps.json map 780).",
+    "Unlimited PP (no PP stalling) and stage-downs have no effect."
   ],
   "confidence": {
     "level": "low",

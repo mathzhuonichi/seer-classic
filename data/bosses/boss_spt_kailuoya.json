@@ -72,8 +72,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "spa": 1,
-            "spe": 1
+            "atk": 2
           }
         }
       ],
@@ -111,7 +110,7 @@
   "engine_notes": [
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
     "Immune to DoT statuses (烧伤、冻伤、中毒) and control skills (灵魂干涉); 同生共死、寄生种子 ineffective. Stage-downs on it DO work (塔克林 strategy).",
-    "Innate boost (天生强化) — stats not stated; spa+1/spe+1 assumed. Frequently uses 水之结界 (all foe stats -1).",
+    "Innate boost (天生强化) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). Frequently uses 水之结界 (all foe stats -1).",
     "断流怒啸: 10% chance of +150 fixed damage (matches skill 12660).",
     "Level/HP not published; 80 / 10000 are estimates.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."

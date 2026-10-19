@@ -24,7 +24,11 @@
       "hp_override": 5000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "unlimited_pp"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -81,7 +85,8 @@
     "融入黑暗 makes the player's skill fail if 卡修斯 moves first that turn (1 turn); 量子绝灭波 30% to add 50 fixed damage per turn for 3 turns.",
     "Reward essence is 卡茨的精元 (base form #796), so the item slug is essence_kaci.",
     "A later guide (9游) says it only appears 12:00-13:00 and 19:00-20:00 and that 'it reverses your boosts (它会翻转)'. Time windows are dropped; the reversal is not in the 2011 4399 page and is not encoded.",
-    "4399 files this page under its SPT section (2011-08 compilation); it was assigned here as a 战神联盟 legendary."
+    "4399 files this page under its SPT section (2011-08 compilation); it was assigned here as a 战神联盟 legendary.",
+    "Unlimited PP (single source; user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "medium",
