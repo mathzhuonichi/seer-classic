@@ -149,18 +149,23 @@ await withSsr('station-navigation-v53',async load=>{
   check('Each archive Boss row states what its encounter pays, from the controller\'s own catalog',()=>{
     const {catalog:enriched}=enrichCatalog(catalog),encounters=new Map(enriched.bosses.map(boss=>[boss.id,boss]));
     const essences=new Set(enriched.items.filter(item=>item.kind==='essence'&&typeof item.hatches==='number').map(item=>String(item.id)));
-    const ESSENCE='获得首领精元 → 道具背包 → 确认孵化',NOTHING='仅赛尔豆与积累经验，没有精元或道具',lines={essence:0,skill:0,items:0,nothing:0};
+    const ESSENCE='获得首领精元 → 道具背包 → 确认孵化',NOTHING='仅赛尔豆与积累经验，没有精元或道具',lines={essence:0,skill:0,items:0,nothing:0,firstClear:0};
+    const names=new Map(enriched.items.map(item=>[String(item.id),item.name.zh]));
     const reward=id=>challengeDetail(challengeEntries(s).find(entry=>entry.id===id),s,false).reward;
     for(const entry of challengeEntries(s).filter(entry=>challengeKind(entry)==='boss')){
       assert(encounters.has(entry.id),entry.id);
-      const paid=encounters.get(entry.id).reward??{},items=Object.keys(paid.items??{}),text=challengeDetail(entry,s,false).reward;
+      const paid=encounters.get(entry.id).reward??{},items=Object.keys(paid.items??{}),line=challengeDetail(entry,s,false).reward;
+      // A first clear's own items close the line, after what every clear pays.
+      const once=Object.entries(paid.first_clear_items??{}).map(([id,count])=>`${names.get(id)} ×${count}`).join('、'),suffix=once&&`首次通关：${once}`;
+      assert(line.endsWith(suffix),entry.id);if(once)lines.firstClear++;
+      const text=line.slice(0,line.length-suffix.length).replace(/；$/,'');
       if(paid.learn_skill){assert.match(text,/^领悟技能：/,entry.id);assert(!text.includes('undefined'),entry.id);lines.skill++}
       else if(items.some(id=>essences.has(id))){assert.equal(text,ESSENCE,entry.id);lines.essence++}
       else if(items.length){assert.match(text,/^获得/,entry.id);assert.notEqual(text,ESSENCE,entry.id);lines.items++}
-      else{assert.equal(text,NOTHING,entry.id);lines.nothing++}
+      else{assert.equal(text,once?'':NOTHING,entry.id);lines.nothing++}
     }
-    assert.deepEqual([reward('boss_spt_liaosi'),reward('boss_tower_brave_mystery')],[ESSENCE,NOTHING]);
-    assert(lines.essence>0,JSON.stringify(lines));
+    assert.deepEqual([reward('boss_spt_liaosi'),reward('boss_tower_brave_mystery')],[`${ESSENCE}；首次通关：蓝武士装 ×1`,NOTHING]);
+    assert(lines.essence>0&&lines.firstClear>0,JSON.stringify(lines));
     observations.bossRewardLines=lines;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{

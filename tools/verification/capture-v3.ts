@@ -36,14 +36,20 @@ assert(caught.battle!.animation.frames.some(f=>f.kind==='capture'&&f.side===1&&f
 assert(caught.battle!.log.some(line=>line.includes('毛毛')&&line.includes('成功捕捉')));
 // A capture is a wild victory: one more won battle, the wild victory's coins and pooled experience, and the victory quests advance.
 const capturePaid=paid(before,game.exportSave());assert.deepEqual(capturePaid,{won:1,...VICTORY_REWARDS.wild});
+/** The result text of a capture: where the catch went, then what the victory paid. */
+const captureResult=(place:string)=>`毛毛已加入${place}。获得 ${capturePaid.coins} 赛尔豆及 ${capturePaid.exp} 积累经验。`;
+assert.equal(caught.battle!.result,captureResult('背包'));
 const quest=(id:string)=>caught.quests.find(q=>q.id===id)!;assert(quest('first-victory').claimable);assert.equal(quest('three-victories').progress,'1/3');
 const reloaded=createGame(structuredClone(source),game.exportSave());assert(reloaded.snapshot().monsters.some(m=>m.uid===added.uid));
 assert.equal(count(reloaded.snapshot(),capsule),stock(capsule));
 const full=createGame(structuredClone(source),before);
 for(const species of [13,16,19])full.dispatch({type:'cheatAcquire',species,level:3});
 assert.equal(full.snapshot().party.length,6);const oldUids=full.snapshot().monsters.map(m=>m.uid);
-full.dispatch({type:'startTraining',species:22,level:3});full.dispatch({type:'capture',itemId:capsule});
+full.dispatch({type:'startTraining',species:22,level:3});const fullBefore=full.exportSave();full.dispatch({type:'capture',itemId:capsule});
 assert(full.snapshot().monsters.some(m=>!oldUids.includes(m.uid)&&m.species===22&&!m.inParty));
+// A full party sends the catch to storage, and the result says so before the same payout; the closing notice repeats it.
+assert.deepEqual(paid(fullBefore,full.exportSave()),capturePaid);assert.equal(full.snapshot().battle!.result,captureResult('仓库'));
+assert.equal(full.snapshot().notices[0],`捕捉成功：${captureResult('仓库')}`);
 const boss=fresh();boss.dispatch({type:'startBattle',bossId:source.bosses.find((b:any)=>b.name.zh==='蘑菇怪').id});
 assert.equal(boss.snapshot().battle!.canCapture,false);const bossItems=boss.snapshot().items.find(i=>i.id===capsule)!.count;
 boss.dispatch({type:'capture',itemId:capsule});assert.equal(boss.snapshot().items.find(i=>i.id===capsule)!.count,bossItems);assert(boss.snapshot().notices[0].includes('不可捕捉'));
@@ -72,6 +78,6 @@ assert(statusGame.snapshot().battle!.log.some(l=>l.includes('中毒')&&l.include
 console.log(JSON.stringify({passed:[
   'three item categories','capture transfers level/HP and party placement','unlimited capsule keeps its stock across a save roundtrip',
   'a capture is a victory: it pays what a knockout of the same contact pays and advances the victory quests',
-  'full-party storage placement','boss capture rejection without consumption','ordinary knockout does not acquire',
+  'full-party storage placement, worded before the payout','boss capture rejection without consumption','ordinary knockout does not acquire',
   'failed capture spends the turn without ending the battle or consuming stock','status-cure item removes actual poison',
 ],species:22}));

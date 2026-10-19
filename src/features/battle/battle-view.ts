@@ -2,7 +2,7 @@
 import type { BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
-import { capacityReason, storageFull } from '../../kernel/acquire.ts';
+import { capacityReason, STORAGE_FULL_REASON, storageFull } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
 import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
 import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
@@ -37,7 +37,7 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
   const { battle, encounter } = session;
   if (encounter) return encounter.category === 'trainer' ? '训练师的精灵不可捕捉。' : '首领与招募挑战不可捕捉，胜利后通过精元或任务获取。';
   if (!meetsWildCapturePrerequisite(battle.active(1).species.id, battle.active(0).species.id)) return '捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。';
-  if (storageFull(rt.save)) return '仓库已满';
+  if (storageFull(rt.save)) return STORAGE_FULL_REASON;
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
 }
 
@@ -46,7 +46,7 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
  * It names the outcome once, a challenge's in challenge wording, with what it gave or what to do next: where a capture went,
  * or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message (a floor passed, a
  * stage completed, an essence or a skill gained) stands for its win. The settlement's notes follow: what a victory paid, and
- * why an automatic evolution was kept back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the
+ * the automatic evolutions made or kept back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the
  * retreat), so it does not name the outcome again; only a wild win's end line names the win (战斗胜利！), since this text then
  * names only the reward.
  */

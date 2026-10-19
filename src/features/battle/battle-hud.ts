@@ -1,8 +1,8 @@
 // View rules of the battle screen: condition chips, command panes and settled messages.
 import type { BattleMonsterView, BattlePresentationFrame, BattleView, BossEvidenceView, ItemView, SkillView } from '../../shared/views.ts';
-import { STRUGGLE } from '../../../battle/core/src/constants.ts';
 import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from '../../shared/item-categories.ts';
-import { SKILL_CATEGORY_LABELS, STAGE_LABELS, TYPE_LABELS, type StageKey } from '../../shared/labels.ts';
+import { STAGE_LABELS, type StageKey } from '../../shared/labels.ts';
+import { STRUGGLE_VIEW } from '../../shared/view-common.ts';
 import { pinnedSelection } from '../../shared/view-helpers.ts';
 
 export interface StageChip { stat: string; label: string; value: number }
@@ -48,12 +48,8 @@ export function recentBattleLog(log: string[]): string[] {
   return log.slice(header + 1).slice(-2);
 }
 
-/** Shown in place of the skills once every one is out of PP. */
-const STRUGGLE_VIEW: SkillView = {
-  id: STRUGGLE.id, name: '挣扎', type: TYPE_LABELS.normal, category: SKILL_CATEGORY_LABELS.physical, power: STRUGGLE.power, pp: 0, maxPp: 0,
-  description: '技能 PP 全部耗尽时使用，会受到反作用伤害。',
-};
 export const BATTLE_SKILL_SLOTS = 4;
+/** The skills, or 挣扎 in their place once every one is out of PP. */
 export const battleSkills = (player: BattleMonsterView): SkillView[] => player.skills.some(skill => skill.pp > 0) ? player.skills : [STRUGGLE_VIEW];
 
 const EMPTY_SUPPLIES: Record<BattleSupplyCategory, string> = {

@@ -20,15 +20,24 @@ function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
   return rewards.map(reward => `${reward.firstClear ? '首次通关' : '每次通关'}：${towerRewardLabel(ctx, reward.id, reward.count)}`).join('；') || '本层无额外通关道具';
 }
 
-type EncounterReward = { items?: Record<string, number>; learn_skill?: { skill: number } };
+type EncounterReward = { items?: Record<string, number>; first_clear_items?: Record<string, number>; learn_skill?: { skill: number } };
 
-/** What any other won encounter pays besides the victory coins and pooled experience. */
+/**
+ * What any other won encounter pays besides the victory coins and pooled experience, then the items only its first clear
+ * pays (里奥斯's 蓝武士装).
+ */
 function encounterRewardText(ctx: GameContext, boss: BossEncounter): string {
-  const reward = boss.reward as EncounterReward | undefined, items = Object.entries(reward?.items ?? {});
+  const reward = boss.reward as EncounterReward | undefined, firstClear = Object.entries(reward?.first_clear_items ?? {});
+  const once = firstClear.length ? `首次通关：${firstClear.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}` : '';
+  return [winRewardText(ctx, reward), once].filter(Boolean).join('；') || '仅赛尔豆与积累经验，没有精元或道具';
+}
+
+/** What a win pays besides coins and experience: a taught skill, an essence or other items; '' when it pays none. */
+function winRewardText(ctx: GameContext, reward: EncounterReward | undefined): string {
+  const items = Object.entries(reward?.items ?? {});
   if (reward?.learn_skill) return learnSkillLabel(ctx, reward.learn_skill.skill);
   if (items.some(([id]) => isHatchingEssence(ctx.itemDefinitions.get(id)))) return '获得首领精元 → 道具背包 → 确认孵化';
-  if (items.length) return `获得${items.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}`;
-  return '仅赛尔豆与积累经验，没有精元或道具';
+  return items.length ? `获得${items.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}` : '';
 }
 
 export function encounterView(ctx: GameContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {

@@ -11,7 +11,7 @@ export const isHatchingEssence=(item:EssenceDefinition|undefined):item is Essenc
 /** Party members already belong to storage; every essence alias reserves one copy. */
 export function acquisitionAllowance(stock:AcquisitionStock, items:readonly EssenceDefinition[], species:number, excludeUid?:string):AcquisitionAllowance {
   const owned=stock.storage.filter(mon=>mon.species===species&&mon.uid!==excludeUid).length;
-  const reserved=items.reduce((sum,item)=>sum+(item.kind==='essence'&&item.hatches===species?(stock.items[item.id]??0):0),0);
+  const reserved=items.reduce((sum,item)=>sum+(isHatchingEssence(item)&&item.hatches===species?(stock.items[item.id]??0):0),0);
   return {owned,reserved,remaining:Math.max(0,SPECIES_COPY_LIMIT-owned-reserved),limit:SPECIES_COPY_LIMIT};
 }
 
