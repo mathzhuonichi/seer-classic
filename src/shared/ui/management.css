@@ -19,7 +19,10 @@
 /* Revision 26: official UI.swf white wells, cyan rails and deep-blue bevels.
    Layout and command handling remain the compact remake's existing ones. */
 .management-panel{--mg-ink:#103d69;background:#c4e9fa;color:var(--mg-ink);font-family:Arial,"Microsoft YaHei",sans-serif}
-.management-panel button{border-color:#0b5c9f;background:linear-gradient(#eefbff 0%,#d1efff 48%,#b4dff7 49%,#c6e9fb 100%);box-shadow:inset 0 1px #fff,inset 0 -2px #76afd4;color:#123f68;transition:background .12s,border-color .12s}
+.management-panel button{
+ border-color:#0b5c9f;background:linear-gradient(#eefbff 0%,#d1efff 48%,#b4dff7 49%,#c6e9fb 100%);box-shadow:inset 0 1px #fff,inset 0 -2px #76afd4;
+ color:#123f68;transition:background .12s,border-color .12s;
+}
 .management-panel button:hover{background:linear-gradient(#fff,#d7f7ff 47%,#9ddbf9 48%,#c1efff);border-color:#008bdb}
 .management-panel button:active:not(:disabled),.management-panel button.item-tile.item-tile.selected:active:not(:disabled){box-shadow:inset 0 2px 3px #075eaa4d}
 .management-panel button:disabled{opacity:.52;box-shadow:none}
@@ -30,7 +33,10 @@
 .management-panel-heading strong{font-size:16px;letter-spacing:1px}
 .management-panel-heading>span{color:#f1fcff;font-size:10px;text-shadow:0 1px #2172a1}
 .management-tabs{background:#2b9dde;border-color:#0a5a9e;gap:5px;padding-top:6px;box-shadow:inset 0 1px #96e4ff}
-.management-tabs>button{color:#fff;text-shadow:0 1px #07518f;background:linear-gradient(#45c7fc,#069feb 48%,#087acb 49%,#1166ad);border:2px solid #0b5f9e;border-bottom:0;box-shadow:inset 0 0 0 1px #7de8ff;padding-top:7px;padding-bottom:7px;font-weight:700}
+.management-tabs>button{
+ color:#fff;text-shadow:0 1px #07518f;background:linear-gradient(#45c7fc,#069feb 48%,#087acb 49%,#1166ad);border:2px solid #0b5f9e;border-bottom:0;
+ box-shadow:inset 0 0 0 1px #7de8ff;padding-top:7px;padding-bottom:7px;font-weight:700;
+}
 .management-tabs>button.active{color:#114672;text-shadow:none;background:linear-gradient(#fff,#e6f8ff);border-color:#075a9c;box-shadow:inset 0 3px #73e5ff}
 .management-tabs>button:hover{color:#fff;background:linear-gradient(#71ddff,#05a5ee 48%,#0587d7 49%,#176ebb)}
 .management-tabs>button.active:hover{color:#114672;background:#f5fcff}
@@ -75,7 +81,11 @@
 @media(max-width:620px){.dex-entry-art{height:135px}}
 
 /* PetBagPanel_UI #812 layout: navigation, projector, detail well, party strip. */
-.management-panel.official-petbag{position:relative;display:grid;grid-template-columns:13% 28% minmax(0,1fr);grid-template-rows:9% minmax(0,65%) 4% minmax(0,22%);gap:0 12px;padding:8px 22px 12px;background:#2da3e8 url('/ui/classic/hd/panel-background.svg') center/100% 100% no-repeat;color:#e9f8ff;container-type:inline-size;overflow:hidden}
+.management-panel.official-petbag{
+ position:relative;display:grid;grid-template-columns:13% 28% minmax(0,1fr);grid-template-rows:9% minmax(0,65%) 4% minmax(0,22%);gap:0 12px;
+ padding:8px 22px 12px;background:#2da3e8 url('/ui/classic/hd/panel-background.svg') center/100% 100% no-repeat;color:#e9f8ff;container-type:inline-size;
+ overflow:hidden;
+}
 .official-petbag .petbag-navigation{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1px;min-width:0}
 .official-petbag button.petbag-nav{position:relative;width:clamp(40px,7cqw,68px);height:clamp(42px,7.2cqw,70px);flex-shrink:0;border:0;padding:0;border-radius:0;background:transparent;box-shadow:none;color:#fff;text-shadow:0 1px 2px #003366}
 .official-petbag button.petbag-nav:nth-child(even){align-self:flex-end}

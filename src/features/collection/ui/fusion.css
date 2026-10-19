@@ -103,7 +103,9 @@ div.fusion-obtained>button{white-space:nowrap;font-size:11px}
 .fusion-index-heading>span{color:#416e8e}
 .management-panel .fusion-ready-filter{border-color:#347aac;background:linear-gradient(#f0fbff,#c5e7fa);color:#235f87}
 .management-panel .fusion-ready-filter.active{background:#e6fff4;border-color:#3f998c;color:#206c60}
-.management-panel div.fusion-recipe-scroll>button{border-color:#397bad;border-radius:4px;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69}
+.management-panel div.fusion-recipe-scroll>button{
+ border-color:#397bad;border-radius:4px;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69;
+}
 .management-panel div.fusion-recipe-scroll>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);box-shadow:inset 0 0 0 1px #67dcff}
 .fusion-detail-scroll{background:#f5fbff;scrollbar-color:#2c93cd #d6edf9}
 .window-body .fusion-heading h3{color:#07549b;font-size:22px}
