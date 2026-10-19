@@ -1,7 +1,7 @@
 {
   "id": "boss_tower_brave_f068",
   "name": {
-    "zh": "勇者之塔 第68层 嘟噜噜王"
+    "zh": "勇者之塔 第68层 嘟噜噜王、嘟咕噜王、帕格尼尼、夏洛犬"
   },
   "category": "tower",
   "location": {
@@ -22,6 +22,48 @@
         20300
       ],
       "hp_override": 1500
+    },
+    {
+      "species": 256,
+      "level": 300,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10704,
+        10700,
+        10695,
+        20304
+      ],
+      "hp_override": 1500
+    },
+    {
+      "species": 266,
+      "level": 300,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10726,
+        10729,
+        10730,
+        20319
+      ],
+      "hp_override": 1500
+    },
+    {
+      "species": 350,
+      "level": 300,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10852,
+        10855,
+        10851,
+        20380
+      ],
+      "hp_override": 1500
     }
   ],
   "rules": [],
@@ -38,7 +80,19 @@
       10693,
       10695,
       10694,
-      20300
+      20300,
+      10704,
+      10700,
+      10695,
+      20304,
+      10726,
+      10729,
+      10730,
+      20319,
+      10852,
+      10855,
+      10851,
+      20380
     ]
   },
   "reward": {
@@ -55,7 +109,7 @@
     ]
   },
   "capture": {
-    "zh": "勇者之塔第68层：嘟噜噜王，Lv300，每只约1500血。"
+    "zh": "勇者之塔第68层：嘟噜噜王、嘟咕噜王、帕格尼尼、夏洛犬，Lv300，每只约1500血。"
   },
   "strategy_notes": {
     "zh": "先用两个精灵把嘟噜噜王的攻击减掉再上丽莎，最后1V4"
@@ -63,7 +117,8 @@
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
-    "Identification: four enemies; only 嘟噜噜王 (嘟噜鲁) is named, the other three are unidentified."
+    "Identification: four normal-type enemies 嘟噜噜王 (253), 嘟咕噜王 (256), 帕格尼尼 (266) and 夏洛犬 (350) (4399 2010-06-30; T客邦 2011-01-19 第68層). The 2010-06-18 list writes 卡鲁克斯 for the fourth.",
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
   ],
   "confidence": {
     "level": "low",
@@ -73,13 +128,14 @@
       "nature",
       "skills",
       "level",
-      "hp",
-      "team"
+      "hp"
     ]
   },
   "sources": [
     "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-    "https://www.juxia.com/news/2011-9-23/15944.html"
+    "https://www.juxia.com/news/2011-9-23/15944.html",
+    "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+    "https://www.techbang.com/posts/33169"
   ],
   "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
 }

@@ -7,7 +7,7 @@
     "scope": "Four declined mechanics and one user-adopted replacement; no other boss behavior is removed."
   },
   "sourceBoundary": {
-    "scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.",
+    "scope": "All 180 production boss records and 247 members; excludes ten authored trainer encounters.",
     "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.",
     "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.",
     "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.",
@@ -15,7 +15,7 @@
   },
   "summary": {
     "encounters": 180,
-    "members": 240,
+    "members": 247,
     "categories": {
       "event": 1,
       "legendary": 31,
@@ -26,25 +26,25 @@
     "memberFieldStatuses": {
       "level": {
         "authored": 1,
-        "inferred": 171,
+        "inferred": 178,
         "observed": 68
       },
       "iv": {
-        "inferred": 240
+        "inferred": 247
       },
       "evs": {
-        "inferred": 240
+        "inferred": 247
       },
       "nature": {
-        "inferred": 240
+        "inferred": 247
       },
       "hp": {
         "authored": 1,
-        "inferred": 185,
-        "observed": 54
+        "inferred": 139,
+        "observed": 107
       },
       "skills": {
-        "inferred": 229,
+        "inferred": 236,
         "observed": 11
       }
     },
@@ -77,6 +77,11 @@
       "url": "https://news.4399.com/seer/pngl/201010-16-78980.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-0815706b5684": {
+      "url": "https://news.7k7k.com/content/20100622/9177.html",
+      "scope": "7k7k 2010-06-22 run of floors 61-70: named moves of floors 65, 66, 67 and 69.",
+      "verification": "verified-period-observation"
     },
     "src-0d9c326b84bc": {
       "url": "https://www.juxia.com/news/2012-9-28/61488.html",
@@ -183,6 +188,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-2fcf6ffdfc14": {
+      "url": "https://www.techbang.com/posts/33166",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 65-66 (TW server): fight order and named moves.",
+      "verification": "verified-period-observation"
+    },
     "src-3001a0750760": {
       "url": "https://news.4399.com/gonglue/seer/jingyanxinde/305908.html",
       "scope": "2013-10-04 report lists the six body HP values and the final 15000-HP recovery. The same article conflicts between +12 and +6 revival boosts.",
@@ -215,8 +225,8 @@
     },
     "src-3395fabe3e97": {
       "url": "https://news.4399.com/seer/yzzt/201006-23-71411.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "4399 2010-06-23 run of floors 49-66: fight orders, line-ups and named moves.",
+      "verification": "verified-period-observation"
     },
     "src-35622aef69dc": {
       "url": "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
@@ -225,8 +235,8 @@
     },
     "src-364a7108cad4": {
       "url": "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "4399 2010-10-10 floors 61-70: 63F \u72d9\u51fb and 66F psychic-only \u95ea\u5c3c.",
+      "verification": "verified-period-observation"
     },
     "src-37f05b4c78ca": {
       "url": "https://news.4399.com/news/seerwenda/156097.html",
@@ -248,9 +258,14 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-3efc1e10aaf7": {
+      "url": "https://www.techbang.com/posts/33135",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 41-50 (TW server): one table per floor with name, HP and type.",
+      "verification": "verified-period-observation"
+    },
     "src-42684d291f7c": {
       "url": "https://www.techbang.com/posts/33133",
-      "scope": "2011-01-19 T\u5ba2\u90a6 tower guide, floors 31-40 (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 31-40 (TW server): one table per floor with name, HP and type.",
       "verification": "verified-period-observation"
     },
     "src-43e1a86b0d39": {
@@ -288,6 +303,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-4a4f05f41a98": {
+      "url": "https://www.techbang.com/posts/33139",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 54-56 (TW server): one table per floor with name, HP and type.",
+      "verification": "verified-period-observation"
+    },
     "src-4d890115adad": {
       "url": "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
       "scope": "2010-06-01 report: selected classic levels, HP and named moves. HP and lethal thresholds conflict with some later guides; approximate values remain inferred.",
@@ -297,6 +317,11 @@
       "url": "https://news.4399.com/seer/spt/201112-26-134340.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-50a4036ea18b": {
+      "url": "https://news.4399.com/seer/jingyanxinde/201006-18-71186.html",
+      "scope": "4399 2010-06-18 release-day floor 61-70 list: line-ups and 70F \u51ac\u7720.",
+      "verification": "verified-period-observation"
     },
     "src-5331d184edb5": {
       "url": "https://news.4399.com/seer/zenmezhua/201106-10-99559.html",
@@ -363,10 +388,20 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-5f20e9c56741": {
+      "url": "https://www.techbang.com/posts/33162",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
     "src-62140cde1cae": {
       "url": "https://wenda.4399.com/question/2/24032.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-62cb54d1b47b": {
+      "url": "https://news.4399.com/seer/yzzt/201005-26-69566.html",
+      "scope": "4399 2010-05-26 repost: 52F \u5df4\u62c9\u9f9f's \u5149\u6805\u70ae and \u9ad8\u538b\u6c34\u67aa.",
+      "verification": "verified-period-observation"
     },
     "src-646673302b67": {
       "url": "https://news.4399.com/seer/spt/201006-05-70393.html",
@@ -407,6 +442,11 @@
       "url": "https://news.4399.com/seer/ahwdc/201105-30-98436.html",
       "scope": "Dark-door report: displayed levels, HP and explicitly named attacks only; unnamed loadout slots remain inferred. Page bylines for doors 1-7 read 2011-05-26, not the date embedded in the URL.",
       "verification": "verified-period-observation"
+    },
+    "src-6bbc876f5a7b": {
+      "url": "https://www.techbang.com/posts/33169",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
     },
     "src-6ddeb6dd31ac": {
       "url": "https://news.7k7k.com/content/20100608/8511.html",
@@ -473,6 +513,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-7c372bee06bc": {
+      "url": "https://news.4399.com/seer/yzzt/201006-02-70107.html",
+      "scope": "4399 2010-06-02 floors 51-60 tips: 55F \u6816\u606f and 59F \u6d74\u706b\u91cd\u751f.",
+      "verification": "verified-period-observation"
+    },
     "src-7caa81a509d3": {
       "url": "https://news.7k7k.com/content/20110120/60932.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -490,8 +535,8 @@
     },
     "src-7fc022040bb1": {
       "url": "https://www.juxia.com/news/2011-9-23/15944.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "\u805a\u4fa0 2011-09-23 floors 61-65 headings: Lv and HP, the HP stated for each monster.",
+      "verification": "verified-period-observation"
     },
     "src-81e8c86bc37e": {
       "url": "https://news.7k7k.com/content/20110426/84954.html",
@@ -522,6 +567,11 @@
       "scope": "2011-01-19 T\u5ba2\u90a6 tower guide, floors 21-30 (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
       "verification": "verified-period-observation"
     },
+    "src-8be2facca665": {
+      "url": "https://news.7k7k.com/content/20100729/11741.html",
+      "scope": "7k7k 2010-07-29 floor-60 solo: \u827e\u8fea\u5e0c\u6d1b uses one normal physical attack against light.",
+      "verification": "verified-period-observation"
+    },
     "src-8ca19c7c3247": {
       "url": "https://news.4399.com/seer/zenmezhua/201204-25-156108.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -547,6 +597,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-91fe6ec3928b": {
+      "url": "https://zhidao.baidu.com/question/185752745.html",
+      "scope": "Baidu Zhidao 2010-09/10: 70F \u6a61\u6728\u8776's \u6728\u4e4b\u632f\u594b has 30 uses. Weak forum support.",
+      "verification": "verified-period-observation"
+    },
     "src-93b91e308025": {
       "url": "https://news.4399.com/seer/tujian/84569.htm",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -571,6 +626,11 @@
       "url": "https://www.weste.net/2010/9-15/72453.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-98bac59e107a": {
+      "url": "https://zhidao.baidu.com/question/167247201.html",
+      "scope": "Baidu Zhidao 2010-07: 58F \u8760\u8fea's \u97f3\u6ce2\u5e72\u6270 and 66F \u6ce2\u514b\u5c14's \u7a81\u8fdb. Weak forum support.",
+      "verification": "verified-period-observation"
     },
     "src-991a880cde58": {
       "url": "https://wap.zol.com.cn/ask/x_26551746.html",
@@ -637,6 +697,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-aa1111e0d99e": {
+      "url": "https://news.4399.com/seer/yzzt/201001-10-62507.html",
+      "scope": "4399 2010-01-10 floors 41-50: named moves of floors 41, 46, 48 and 50.",
+      "verification": "verified-period-observation"
+    },
     "src-aad8108194f7": {
       "url": "https://news.4399.com/seer/ahwdc/201105-30-98438.html",
       "scope": "Dark-door report: displayed levels, HP and explicitly named attacks only; unnamed loadout slots remain inferred. Page bylines for doors 1-7 read 2011-05-26, not the date embedded in the URL.",
@@ -677,6 +742,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-b57f6de51a99": {
+      "url": "https://news.7k7k.com/content/20100708/10242.html",
+      "scope": "7k7k 2010-07-08 floor-70 run: \u70bd\u7ffc\u8776's \u71c3\u70e7\u4e4b\u7ffc and \u6a61\u6728\u8776's \u6a61\u6728\u8d24\u8005.",
+      "verification": "verified-period-observation"
+    },
     "src-b8ca5527a755": {
       "url": "https://news.4399.com/seer/ahwdc/201105-30-98440.html",
       "scope": "Dark-door report: displayed levels, HP and explicitly named attacks only; unnamed loadout slots remain inferred. Page bylines for doors 1-7 read 2011-05-26, not the date embedded in the URL.",
@@ -696,6 +766,11 @@
       "url": "https://news.7k7k.com/content/20100412/6704.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-bce9c32e8204": {
+      "url": "https://www.techbang.com/posts/33136",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 51-53 (TW server): one table per floor with name, HP and type.",
+      "verification": "verified-period-observation"
     },
     "src-bdb0818a4979": {
       "url": "https://news.4399.com/seer/spt/201112-05-130110.html",
@@ -762,6 +837,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-cf9f4f720bcf": {
+      "url": "https://www.techbang.com/posts/33171",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
     "src-d008e6583b48": {
       "url": "https://news.4399.com/seer/spt/201208-22-189879.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -791,6 +871,16 @@
       "url": "https://www.9game.cn/news/9481572.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-dcbeeeccc977": {
+      "url": "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-dceb72521b50": {
+      "url": "https://www.techbang.com/posts/33146",
+      "scope": "T\u5ba2\u90a6 2011-01-19 Brave Tower floors 57-60 (TW server): one table per floor with name, HP and type.",
+      "verification": "verified-period-observation"
     },
     "src-dd4307fdd27e": {
       "url": "https://news.4399.com/seer/zenmezhua/201101-20-85001.html",
@@ -825,6 +915,11 @@
     "src-e428e3f498f4": {
       "url": "https://news.4399.com/seer/yzzt/201004-13-66291.html",
       "scope": "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction; moves named on floors 18 and 34. No exact internal 120/130 level mapping.",
+      "verification": "verified-period-observation"
+    },
+    "src-e57bdde45eef": {
+      "url": "https://news.4399.com/seer/yzzt/201001-18-63641.html",
+      "scope": "4399 2010-01-18 floors 55-60: 60F attack-use counts and \u6d1b\u6bd4\u7279's \u6697\u9ed1\u52a0\u6301.",
       "verification": "verified-period-observation"
     },
     "src-e7c448832720": {
@@ -866,6 +961,11 @@
       "url": "https://news.4399.com/seer/tujian/94787.htm",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-f31d925c409b": {
+      "url": "https://news.4399.com/seer/yzzt/201001-18-63642.html",
+      "scope": "4399 2010-01-18 floors 41-45: named moves of floors 42 and 44.",
+      "verification": "verified-period-observation"
     },
     "src-f776f7eae3b7": {
       "url": "https://wenda.4399.com/question/4/42732.html",
@@ -34238,10 +34338,11 @@
       "id": "boss_tower_brave_f036",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f036.json",
-      "sourceSha256": "bc7b8582884788630fbc1d26591f29d4d791473c4787b4392de3b5e07025ac63",
+      "sourceSha256": "2c570ee8e83a931b74041d5b62a2d7907bfcb18da634433dd7d0eca7cda7265c",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34264,7 +34365,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 620,
             "skills": [
               10073,
               10027,
@@ -34300,11 +34401,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -34312,7 +34413,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -34380,11 +34482,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -34392,6 +34494,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -34414,10 +34517,11 @@
       "id": "boss_tower_brave_f037",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f037.json",
-      "sourceSha256": "46be3164812ab8ca3e4d6bf22eff0b4f93d612bbae8a69339ba3a90d365f91e5",
+      "sourceSha256": "68c5c4c1ea521e01f23cdb64c84a74c2d4e02a4d3184807949986f756cd0f148",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34440,7 +34544,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 640,
             "skills": [
               10084,
               10035,
@@ -34476,11 +34580,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -34488,7 +34592,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -34556,11 +34661,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -34568,6 +34673,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -34590,10 +34696,11 @@
       "id": "boss_tower_brave_f038",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f038.json",
-      "sourceSha256": "6a52d486db420949abf1b6c5d6b12c899931c20b739b1f5164b2fcbb3f81c54a",
+      "sourceSha256": "1347d932172e22d2ad3ffd454c83189d5b659d22d470187f392b38e0e01015e6",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34616,7 +34723,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 660,
             "skills": [
               10045,
               10044,
@@ -34652,19 +34759,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10043
               ]
             }
           },
@@ -34732,11 +34842,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -34766,10 +34876,11 @@
       "id": "boss_tower_brave_f039",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f039.json",
-      "sourceSha256": "f84f3534c222b5ddf12f0e83fc3a18c22a850cf6211ccbd181d2c0a59fdbf711",
+      "sourceSha256": "7868e616f8ab6eaa4dabcc85b11e4665d17098af28be00f2366f4636052b68d7",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34792,7 +34903,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 680,
             "skills": [
               10149,
               10148,
@@ -34828,11 +34939,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -34840,7 +34951,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -34908,11 +35020,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -34920,6 +35032,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -34942,10 +35055,11 @@
       "id": "boss_tower_brave_f040",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f040.json",
-      "sourceSha256": "a8f9c2b6d68ee1f2a7ffd6076a394f5eea91fb1966001b2d41eb94e18f2b4eab",
+      "sourceSha256": "f7376250a4e0c6402fc1ab2cee09761f62b2baca11fe0ba0bf52768957e9d778",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34968,7 +35082,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 700,
             "skills": [
               10153,
               10156,
@@ -35004,19 +35118,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10153
               ]
             }
           },
@@ -35084,11 +35201,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -35118,10 +35235,11 @@
       "id": "boss_tower_brave_f041",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f041.json",
-      "sourceSha256": "b1672b7a9c916430b353201b052b8b2dd8603434b393a3ce4ab018fd9a326617",
+      "sourceSha256": "0a6a57754c18cee19e872c23c03a15e7f0ffe0ed0a939c538658bb52abc3e157",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -35144,7 +35262,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 720,
             "skills": [
               10181,
               10138,
@@ -35180,19 +35298,25 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
+                "src-aa1111e0d99e",
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                20091,
+                10180,
+                10181
               ]
             }
           },
@@ -35260,11 +35384,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -35272,6 +35396,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-aa1111e0d99e",
             "src-e428e3f498f4"
           ]
         },
@@ -35294,10 +35419,11 @@
       "id": "boss_tower_brave_f042",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f042.json",
-      "sourceSha256": "9ea34b5ef3cff08b1dd1213ebcefe9c27ed71bbd16ffcdb7cf4e5aeda1a333ed",
+      "sourceSha256": "1fd454b28777406d8c4d3459cb83bc9e5e86fa78c7eeac234f4e13367d6b3673",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -35320,7 +35446,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 740,
             "skills": [
               10315,
               10310,
@@ -35356,19 +35482,23 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-f31d925c409b"
+              ],
+              "verifiedMoveIds": [
+                10315,
+                10310
               ]
             }
           },
@@ -35436,11 +35566,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -35448,7 +35578,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-f31d925c409b"
           ]
         },
         "rules": {
@@ -35470,10 +35600,11 @@
       "id": "boss_tower_brave_f043",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f043.json",
-      "sourceSha256": "fd5cd5f8414857db964c20a7abd9cff717772a883c0cc37c3800c1ceb376f9e8",
+      "sourceSha256": "04a92159d7df4773b91c3293d996e9cb4d354519fbf5a9d519b955568363f585",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -35496,7 +35627,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 760,
             "skills": [
               10056,
               10009,
@@ -35532,11 +35663,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
@@ -35544,7 +35675,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-3efc1e10aaf7"
               ]
             }
           },
@@ -35612,11 +35744,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -35624,6 +35756,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3efc1e10aaf7",
             "src-e428e3f498f4"
           ]
         },
@@ -35646,10 +35779,11 @@
       "id": "boss_tower_brave_f044",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f044.json",
-      "sourceSha256": "dfb034a0af3d05c79b4c95ad61de792400e02b2a2402a1f4a50319e83ca03f35",
+      "sourceSha256": "e59a98b2413ac22da7af7201c693c27a0b365b1830822b643a8bd9985cf8e58c",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -35672,7 +35806,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 780,
             "skills": [
               10299,
               10301,
@@ -35708,19 +35842,24 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-f31d925c409b"
+              ],
+              "verifiedMoveIds": [
+                10299,
+                10301,
+                20134
               ]
             }
           },
@@ -35788,11 +35927,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -35800,7 +35939,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-f31d925c409b"
           ]
         },
         "rules": {
@@ -35822,10 +35961,11 @@
       "id": "boss_tower_brave_f045",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f045.json",
-      "sourceSha256": "5c389bbbe723b1f79e36b86b8d2d2c4cea5eeb12f862e5432378fa5322de8da6",
+      "sourceSha256": "c7cf9b7d24fd1ff2d27f43d7b0d0a1f18eb0fd8d4cda82c941427028be56092a",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -35848,7 +35988,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 800,
             "skills": [
               10294,
               10291,
@@ -35884,11 +36024,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
@@ -35896,7 +36036,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-3efc1e10aaf7"
               ]
             }
           },
@@ -35964,11 +36105,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -35976,6 +36117,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3efc1e10aaf7",
             "src-e428e3f498f4"
           ]
         },
@@ -35998,10 +36140,11 @@
       "id": "boss_tower_brave_f046",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f046.json",
-      "sourceSha256": "378005f5ab8d047a18a136391aa682ae8acd17ff7b72a3fef5e702eed93fcfdf",
+      "sourceSha256": "d9b8620a72eb43a392442ba7b6cbfa420597c9c2eaac57584e723f31e1a0c604",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36024,7 +36167,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 820,
             "skills": [
               10326,
               10322,
@@ -36060,19 +36203,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-aa1111e0d99e"
+              ],
+              "verifiedMoveIds": [
+                10326
               ]
             }
           },
@@ -36140,11 +36286,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -36152,7 +36298,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-aa1111e0d99e"
           ]
         },
         "rules": {
@@ -36174,10 +36320,11 @@
       "id": "boss_tower_brave_f047",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f047.json",
-      "sourceSha256": "9538fe3f36df04a83ed4d787cb88a834d5618a437bf823919300bb0d31a573d3",
+      "sourceSha256": "3f30c3251551368fff66ddd9e47bf40faa1b32de2fe3c5822d278f44abfa17a3",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36200,7 +36347,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 840,
             "skills": [
               10304,
               10306,
@@ -36236,11 +36383,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
@@ -36248,7 +36395,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-3efc1e10aaf7"
               ]
             }
           },
@@ -36316,11 +36464,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -36328,6 +36476,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3efc1e10aaf7",
             "src-e428e3f498f4"
           ]
         },
@@ -36350,10 +36499,11 @@
       "id": "boss_tower_brave_f048",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f048.json",
-      "sourceSha256": "fce40a3719cc3f89ab31cc820a61f8b10caf7e8c42ed5c97c9209291ecaa5374",
+      "sourceSha256": "1c5dff5a4bed8d81a2868f7dbe5a485fcf9b64f25d454e25c27e24c021d5af09",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36376,7 +36526,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 860,
             "skills": [
               20116,
               10256,
@@ -36412,19 +36562,24 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
+                "src-aa1111e0d99e",
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10256,
+                20116
               ]
             }
           },
@@ -36492,11 +36647,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -36504,6 +36659,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-aa1111e0d99e",
             "src-e428e3f498f4"
           ]
         },
@@ -36526,10 +36682,11 @@
       "id": "boss_tower_brave_f049",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f049.json",
-      "sourceSha256": "8d3c564683a79573463f37aaf7b3b2bbf6b434775fd2385a2bf4f4409dcf176f",
+      "sourceSha256": "add2d5ca843377df20ae47355a89fb5b18981d6ae71309be8729c597ae1f608e",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36552,7 +36709,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 880,
             "skills": [
               10239,
               10241,
@@ -36588,11 +36745,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-3efc1e10aaf7"
               ]
             },
             "skills": {
@@ -36600,7 +36757,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-3efc1e10aaf7"
               ]
             }
           },
@@ -36668,11 +36826,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-3efc1e10aaf7"
           ]
         },
         "skills": {
@@ -36680,6 +36838,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3efc1e10aaf7",
             "src-e428e3f498f4"
           ]
         },
@@ -36702,10 +36861,11 @@
       "id": "boss_tower_brave_f050",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f050.json",
-      "sourceSha256": "1ceb9cccd558fb1662151ac51554c2d11685f92f788287437b2c1408c35cb663",
+      "sourceSha256": "70498b514956d6348e668bb65f4917eca71912a204f1288176d67b257d9c45fa",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36774,9 +36934,13 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-aa1111e0d99e"
+              ],
+              "verifiedMoveIds": [
+                10188,
+                10189
               ]
             }
           },
@@ -36873,7 +37037,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-aa1111e0d99e"
           ]
         },
         "rules": {
@@ -36895,11 +37059,12 @@
       "id": "boss_tower_brave_f051",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f051.json",
-      "sourceSha256": "fdd277d071434b95501073df8685494e18085b7984b0f54e5cfadfc7a1dbc97b",
+      "sourceSha256": "02f3c7f3672c28265fac74846937694fe5498e3a15cefb5e42944a9989a2bde2",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33136"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -36922,7 +37087,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 920,
             "skills": [
               10017,
               10064,
@@ -36958,21 +37123,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10064
               ]
             }
           },
@@ -36987,7 +37153,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 920,
             "skills": [
               10045,
               10044,
@@ -37023,12 +37189,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
@@ -37037,7 +37202,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-bce9c32e8204"
               ]
             }
           },
@@ -37109,12 +37275,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-bce9c32e8204"
           ]
         },
         "skills": {
@@ -37122,6 +37287,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-bce9c32e8204",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -37145,11 +37311,12 @@
       "id": "boss_tower_brave_f052",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f052.json",
-      "sourceSha256": "43a9c82c21c0d33ce62a84726fd2cbe1aeacce3f4b96a3382abc3f8c5292ea1f",
+      "sourceSha256": "8af71f1cc621e349f91031aceb165a98d5e7addcca695576533e6d5ad771698f",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33136"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -37172,7 +37339,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 940,
             "skills": [
               10073,
               10027,
@@ -37208,21 +37375,23 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-62cb54d1b47b"
+              ],
+              "verifiedMoveIds": [
+                10073,
+                10027
               ]
             }
           },
@@ -37237,7 +37406,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 940,
             "skills": [
               10189,
               10192,
@@ -37273,12 +37442,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
@@ -37287,7 +37455,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-bce9c32e8204"
               ]
             }
           },
@@ -37359,12 +37528,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-bce9c32e8204"
           ]
         },
         "skills": {
@@ -37372,6 +37540,8 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-62cb54d1b47b",
+            "src-bce9c32e8204",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -37395,11 +37565,12 @@
       "id": "boss_tower_brave_f053",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f053.json",
-      "sourceSha256": "e8db8d85b3f26bb5eb0fb187db193f41af8c17b02886388f11e89b830cdc343c",
+      "sourceSha256": "853a00ffcc6e5d24f6d27e51b174a85bd0b5eda23109107c2eb28ff6745ef247",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33136"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -37422,7 +37593,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 960,
             "skills": [
               10095,
               10093,
@@ -37458,12 +37629,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
@@ -37472,7 +37642,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-bce9c32e8204"
               ]
             }
           },
@@ -37487,7 +37658,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 960,
             "skills": [
               10084,
               10035,
@@ -37523,12 +37694,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-bce9c32e8204"
               ]
             },
             "skills": {
@@ -37537,7 +37707,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-bce9c32e8204"
               ]
             }
           },
@@ -37609,12 +37780,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-bce9c32e8204"
           ]
         },
         "skills": {
@@ -37622,6 +37792,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-bce9c32e8204",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -37645,11 +37816,12 @@
       "id": "boss_tower_brave_f054",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f054.json",
-      "sourceSha256": "2dc4c617d933e0a7814abd3ae63c9d255d0582a66df7631062971380cb50359b",
+      "sourceSha256": "133057edd9a04aa7b246ec4bfa500ee0f41715e2490794381851857271e2e95b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33139"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -37672,7 +37844,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 980,
             "skills": [
               10111,
               10110,
@@ -37708,12 +37880,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -37722,7 +37893,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -37737,7 +37909,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 980,
             "skills": [
               10053,
               10052,
@@ -37773,12 +37945,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -37787,7 +37958,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -37859,12 +38031,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-4a4f05f41a98"
           ]
         },
         "skills": {
@@ -37872,6 +38043,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-4a4f05f41a98",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -37895,11 +38067,12 @@
       "id": "boss_tower_brave_f055",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f055.json",
-      "sourceSha256": "80a6d186ed97f30a5145a709cc6b37d4d337c305f9400e186a44d6ae17e18dc7",
+      "sourceSha256": "a775969ff7bcf707c191035429683a8c3f506aa4020c5efc27f7e70baad78b24",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33139"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -37922,7 +38095,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1000,
             "skills": [
               10026,
               10060,
@@ -37958,21 +38131,26 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-3395fabe3e97",
+                "src-7c372bee06bc"
+              ],
+              "verifiedMoveIds": [
+                10026,
+                10060,
+                20027
               ]
             }
           },
@@ -37987,7 +38165,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1000,
             "skills": [
               10056,
               10009,
@@ -38023,12 +38201,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -38037,7 +38214,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -38109,12 +38287,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-4a4f05f41a98"
           ]
         },
         "skills": {
@@ -38122,6 +38299,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3395fabe3e97",
+            "src-4a4f05f41a98",
+            "src-7c372bee06bc",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -38145,11 +38325,12 @@
       "id": "boss_tower_brave_f056",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f056.json",
-      "sourceSha256": "317247a0c20058e6425d6f16a076cdb4673412f659e7479400a93d560bf19e49",
+      "sourceSha256": "0ce04c25640a330caeb1b09330e37137d8b7502fa7d72dbb3ac5270b63c01230",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33139"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -38172,7 +38353,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1020,
             "skills": [
               10349,
               10352,
@@ -38208,12 +38389,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -38222,7 +38402,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -38237,7 +38418,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1020,
             "skills": [
               10315,
               10310,
@@ -38273,12 +38454,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -38287,7 +38467,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -38302,7 +38483,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1020,
             "skills": [
               10304,
               10306,
@@ -38338,12 +38519,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-4a4f05f41a98"
               ]
             },
             "skills": {
@@ -38352,7 +38532,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-4a4f05f41a98"
               ]
             }
           },
@@ -38428,12 +38609,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-4a4f05f41a98"
           ]
         },
         "skills": {
@@ -38441,6 +38621,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-4a4f05f41a98",
             "src-cc52f589e028",
             "src-e428e3f498f4"
           ]
@@ -38464,11 +38645,12 @@
       "id": "boss_tower_brave_f057",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f057.json",
-      "sourceSha256": "613e335323ace0c94ce9caf2abba52afeaba6dbc132459aa660b56630546201f",
+      "sourceSha256": "66d9ff630a4ca1629aa381177c89cf46d4aa6929024790390b0bbdfb9aa17726",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33146"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -38491,7 +38673,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1040,
             "skills": [
               10385,
               10388,
@@ -38527,12 +38709,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
@@ -38541,7 +38722,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50"
               ]
             }
           },
@@ -38605,7 +38787,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50"
               ]
             }
           },
@@ -38620,7 +38803,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1040,
             "skills": [
               10357,
               10360,
@@ -38656,12 +38839,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
@@ -38670,7 +38852,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50"
               ]
             }
           },
@@ -38746,11 +38929,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
+            "src-dceb72521b50",
             "src-e428e3f498f4"
           ]
         },
@@ -38760,6 +38943,7 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-cc52f589e028",
+            "src-dceb72521b50",
             "src-e428e3f498f4"
           ]
         },
@@ -38782,11 +38966,13 @@
       "id": "boss_tower_brave_f058",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f058.json",
-      "sourceSha256": "b50b0abb40b817b4f7d83cf861330e8392cc3114c750d73d4c1a965c33574bad",
+      "sourceSha256": "de2714f3d8f2f3cebdae9040725e2797ff6a17f0d51428172b96e8fb6cf72cf4",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33146",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -38809,7 +38995,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1060,
             "skills": [
               10271,
               10266,
@@ -38845,12 +39031,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
@@ -38859,7 +39044,9 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50",
+                "src-3395fabe3e97"
               ]
             }
           },
@@ -38868,78 +39055,13 @@
         },
         {
           "slot": 1,
-          "species": 92,
-          "configured": {
-            "level": 130,
-            "iv": 31,
-            "evs": {},
-            "nature": null,
-            "hp": 750,
-            "skills": [
-              10261,
-              10164,
-              10260,
-              20119
-            ]
-          },
-          "fields": {
-            "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
-              "sources": [
-                "src-83f59fbb444c"
-              ]
-            },
-            "iv": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
-              "sources": []
-            },
-            "evs": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
-              "sources": []
-            },
-            "nature": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
-              "sources": []
-            },
-            "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
-              "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
-              ]
-            },
-            "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
-              "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
-              ]
-            }
-          },
-          "computedCombatStats": "inferred",
-          "statMultipliers": {}
-        },
-        {
-          "slot": 2,
           "species": 94,
           "configured": {
             "level": 130,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1060,
             "skills": [
               10274,
               10277,
@@ -38975,21 +39097,91 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-3395fabe3e97"
+              ],
+              "verifiedMoveIds": [
+                10274
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 2,
+          "species": 92,
+          "configured": {
+            "level": 130,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1060,
+            "skills": [
+              10261,
+              10164,
+              10260,
+              20119
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
+              "sources": [
+                "src-dceb72521b50"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
+              "sources": [
+                "src-3395fabe3e97",
+                "src-98bac59e107a"
+              ],
+              "verifiedMoveIds": [
+                10261,
+                10164,
+                20119
               ]
             }
           },
@@ -39020,14 +39212,14 @@
             10266,
             10270,
             20122,
-            10261,
-            10164,
-            10260,
-            20119,
             10274,
             10277,
             10276,
-            20124
+            20124,
+            10261,
+            10164,
+            10260,
+            20119
           ]
         }
       },
@@ -39065,12 +39257,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-dceb72521b50"
           ]
         },
         "skills": {
@@ -39078,7 +39269,10 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3395fabe3e97",
+            "src-98bac59e107a",
             "src-cc52f589e028",
+            "src-dceb72521b50",
             "src-e428e3f498f4"
           ]
         },
@@ -39101,11 +39295,12 @@
       "id": "boss_tower_brave_f059",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f059.json",
-      "sourceSha256": "5f000ccd41b5e1b6a696a825e650c73e61926765bc15a34a05f7370e5c9e9d66",
+      "sourceSha256": "b941bdf45f18415d77a44fce2f6ed55f769865cccce0c619b0d7ce8ba26c3f61",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33146"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -39128,7 +39323,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1080,
             "skills": [
               10256,
               10257,
@@ -39164,21 +39359,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-7c372bee06bc"
+              ],
+              "verifiedMoveIds": [
+                20116
               ]
             }
           },
@@ -39193,7 +39389,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1080,
             "skills": [
               10239,
               10241,
@@ -39229,12 +39425,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
@@ -39243,7 +39438,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50"
               ]
             }
           },
@@ -39258,7 +39454,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1080,
             "skills": [
               10326,
               10322,
@@ -39294,12 +39490,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
@@ -39308,7 +39503,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-cc52f589e028",
+                "src-dceb72521b50"
               ]
             }
           },
@@ -39384,12 +39580,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-dceb72521b50"
           ]
         },
         "skills": {
@@ -39397,7 +39592,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-7c372bee06bc",
             "src-cc52f589e028",
+            "src-dceb72521b50",
             "src-e428e3f498f4"
           ]
         },
@@ -39420,11 +39617,12 @@
       "id": "boss_tower_brave_f060",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f060.json",
-      "sourceSha256": "df504d4169712dd257821e2dccb0dc47551a6b12f47a6bc457f0368498c11a9b",
+      "sourceSha256": "4934203281f3a89138df6def277b5244b4debb05c23bd6b37ad453211a2766fb",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+        "https://www.techbang.com/posts/33146"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -39447,7 +39645,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1100,
             "skills": [
               10423,
               10426,
@@ -39483,21 +39681,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-e57bdde45eef"
+              ],
+              "verifiedMoveIds": [
+                20184
               ]
             }
           },
@@ -39512,7 +39711,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1100,
             "skills": [
               10436,
               10432,
@@ -39548,21 +39747,24 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-8be2facca665",
+                "src-3395fabe3e97"
+              ],
+              "verifiedMoveIds": [
+                10432,
+                10436
               ]
             }
           },
@@ -39577,7 +39779,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 750,
+            "hp": 1100,
             "skills": [
               10445,
               10447,
@@ -39613,21 +39815,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "This member's HP is listed in the floor's table; TW server, not the mainland server.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-dceb72521b50"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-e428e3f498f4",
-                "src-cc52f589e028"
+                "src-3395fabe3e97"
+              ],
+              "verifiedMoveIds": [
+                10445
               ]
             }
           },
@@ -39724,12 +39927,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-dceb72521b50"
           ]
         },
         "skills": {
@@ -39737,8 +39939,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc52f589e028",
-            "src-e428e3f498f4"
+            "src-3395fabe3e97",
+            "src-8be2facca665",
+            "src-e57bdde45eef"
           ]
         },
         "rules": {
@@ -39823,23 +40026,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1",
-                "src-3395fabe3e97"
+                "src-7fc022040bb1"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1",
                 "src-3395fabe3e97"
+              ],
+              "verifiedMoveIds": [
+                20330
               ]
             }
           },
@@ -39890,13 +40092,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1",
-                "src-3395fabe3e97"
+                "src-7fc022040bb1"
               ]
             },
             "skills": {
@@ -39957,13 +40157,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1",
-                "src-3395fabe3e97"
+                "src-7fc022040bb1"
               ]
             },
             "skills": {
@@ -40049,12 +40247,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-3395fabe3e97",
-            "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
         },
@@ -40087,11 +40283,13 @@
       "id": "boss_tower_brave_f062",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f062.json",
-      "sourceSha256": "d4266fa7eabbce343c85b49b06d2084287d125fd4fea6bdef351c4ac28e72186",
+      "sourceSha256": "913c16867f33fce13e000d44ac275c022f1517dab409c90cd41afca6bc440d6c",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://www.techbang.com/posts/33162"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -40099,8 +40297,7 @@
           "iv",
           "evs",
           "nature",
-          "skills",
-          "team"
+          "skills"
         ]
       },
       "members": [
@@ -40148,21 +40345,24 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
+                "src-3395fabe3e97",
                 "src-7fc022040bb1"
+              ],
+              "verifiedMoveIds": [
+                10670,
+                10671
               ]
             }
           },
@@ -40213,11 +40413,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40227,7 +40426,9 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-5f20e9c56741"
               ]
             }
           },
@@ -40236,7 +40437,7 @@
         },
         {
           "slot": 2,
-          "species": 418,
+          "species": 361,
           "configured": {
             "level": 240,
             "iv": 31,
@@ -40244,10 +40445,10 @@
             "nature": null,
             "hp": 1200,
             "skills": [
-              11133,
-              11129,
-              11132,
-              20560
+              10872,
+              10868,
+              10871,
+              20392
             ]
           },
           "fields": {
@@ -40278,11 +40479,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40292,7 +40492,9 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-5f20e9c56741"
               ]
             }
           },
@@ -40345,10 +40547,10 @@
             10840,
             10838,
             20371,
-            11133,
-            11129,
-            11132,
-            20560
+            10872,
+            10868,
+            10871,
+            20392
           ]
         }
       },
@@ -40386,11 +40588,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
         },
@@ -40399,7 +40600,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-3395fabe3e97",
             "src-364a7108cad4",
+            "src-5f20e9c56741",
             "src-7fc022040bb1"
           ]
         },
@@ -40482,21 +40685,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-364a7108cad4"
+              ],
+              "verifiedMoveIds": [
+                20355
               ]
             }
           },
@@ -40547,11 +40751,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40612,11 +40815,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40702,11 +40904,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
         },
@@ -40799,11 +41000,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40864,11 +41064,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -40929,11 +41128,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -41040,11 +41238,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
         },
@@ -41137,11 +41334,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -41202,11 +41398,10 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
@@ -41267,21 +41462,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor heading states this HP for each of its monsters.",
               "sources": [
-                "src-364a7108cad4",
                 "src-7fc022040bb1"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-0815706b5684"
+              ],
+              "verifiedMoveIds": [
+                10654
               ]
             }
           },
@@ -41375,11 +41571,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
         },
@@ -41388,6 +41583,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-0815706b5684",
             "src-364a7108cad4",
             "src-7fc022040bb1"
           ]
@@ -41411,11 +41607,14 @@
       "id": "boss_tower_brave_f066",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f066.json",
-      "sourceSha256": "3d7860bff44803de38fbc2594131d24ff40fda9d96c456d21753e41d3752905f",
+      "sourceSha256": "6c373534dbbe1613fbd3836b183e9eda5627b7beae1cf32f558efc2c3e62f1bf",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+        "https://www.techbang.com/posts/33166"
       ],
       "originalConfidence": {
         "level": "low",
@@ -41425,8 +41624,7 @@
           "nature",
           "skills",
           "level",
-          "hp",
-          "team"
+          "hp"
         ]
       },
       "members": [
@@ -41479,16 +41677,23 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-dcbeeeccc977",
+                "src-2fcf6ffdfc14"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-98bac59e107a",
+                "src-3395fabe3e97"
+              ],
+              "verifiedMoveIds": [
+                10038,
+                10039
               ]
             }
           },
@@ -41497,7 +41702,7 @@
         },
         {
           "slot": 1,
-          "species": 164,
+          "species": 79,
           "configured": {
             "level": 280,
             "iv": 31,
@@ -41505,10 +41710,10 @@
             "nature": null,
             "hp": 1400,
             "skills": [
-              10009,
-              10008,
-              10001,
-              20209
+              10222,
+              10219,
+              10221,
+              20101
             ]
           },
           "fields": {
@@ -41544,16 +41749,21 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-dcbeeeccc977",
+                "src-2fcf6ffdfc14"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-2fcf6ffdfc14"
+              ],
+              "verifiedMoveIds": [
+                10219
               ]
             }
           },
@@ -41562,7 +41772,7 @@
         },
         {
           "slot": 2,
-          "species": 310,
+          "species": 166,
           "configured": {
             "level": 280,
             "iv": 31,
@@ -41570,7 +41780,10 @@
             "nature": null,
             "hp": 1400,
             "skills": [
-              10194
+              10486,
+              10039,
+              10485,
+              20210
             ]
           },
           "fields": {
@@ -41606,7 +41819,80 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-dcbeeeccc977",
+                "src-2fcf6ffdfc14"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
+              "sources": [
+                "src-2fcf6ffdfc14"
+              ],
+              "verifiedMoveIds": [
+                10039
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 3,
+          "species": 312,
+          "configured": {
+            "level": 280,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1400,
+            "skills": [
+              11026,
+              10222,
+              10221,
+              10220
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-dcbeeeccc977",
+                "src-2fcf6ffdfc14"
               ]
             },
             "skills": {
@@ -41615,7 +41901,10 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-3395fabe3e97",
+                "src-dcbeeeccc977",
+                "src-2fcf6ffdfc14"
               ]
             }
           },
@@ -41646,11 +41935,18 @@
             10033,
             10038,
             20017,
-            10009,
-            10008,
-            10001,
-            20209,
-            10194
+            10222,
+            10219,
+            10221,
+            20101,
+            10486,
+            10039,
+            10485,
+            20210,
+            11026,
+            10222,
+            10221,
+            10220
           ]
         }
       },
@@ -41692,8 +41988,11 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-2fcf6ffdfc14",
+            "src-3395fabe3e97",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-7fc022040bb1",
+            "src-dcbeeeccc977"
           ]
         },
         "skills": {
@@ -41701,8 +42000,12 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-2fcf6ffdfc14",
+            "src-3395fabe3e97",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-7fc022040bb1",
+            "src-98bac59e107a",
+            "src-dcbeeeccc977"
           ]
         },
         "rules": {
@@ -41724,11 +42027,14 @@
       "id": "boss_tower_brave_f067",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f067.json",
-      "sourceSha256": "bb037e954a53921b987497506007590329d3efd99a113ec6b8a48c6a99931cea",
+      "sourceSha256": "ae0819ea6e940ac59fb1827dc02e87b2c62219b6082f0e81e60066f582e23497",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+        "https://www.techbang.com/posts/33169",
+        "https://news.7k7k.com/content/20100622/9177.html"
       ],
       "originalConfidence": {
         "level": "low",
@@ -41738,8 +42044,7 @@
           "nature",
           "skills",
           "level",
-          "hp",
-          "team"
+          "hp"
         ]
       },
       "members": [
@@ -41792,7 +42097,10 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
               ]
             },
             "skills": {
@@ -41801,7 +42109,222 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 1,
+          "species": 214,
+          "configured": {
+            "level": 290,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1450,
+            "skills": [
+              10610,
+              10607,
+              10609,
+              20264
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
+              "sources": [
+                "src-0815706b5684"
+              ],
+              "verifiedMoveIds": [
+                20264
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 2,
+          "species": 224,
+          "configured": {
+            "level": 290,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1450,
+            "skills": [
+              10641,
+              10450,
+              10453,
+              20279
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 3,
+          "species": 363,
+          "configured": {
+            "level": 290,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1450,
+            "skills": [
+              10891,
+              10886,
+              10890,
+              20401
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b",
+                "src-0815706b5684"
               ]
             }
           },
@@ -41831,7 +42354,19 @@
             10582,
             10581,
             10578,
-            20255
+            20255,
+            10610,
+            10607,
+            10609,
+            20264,
+            10641,
+            10450,
+            10453,
+            20279,
+            10891,
+            10886,
+            10890,
+            20401
           ]
         }
       },
@@ -41873,8 +42408,11 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-0815706b5684",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-6bbc876f5a7b",
+            "src-7fc022040bb1",
+            "src-dcbeeeccc977"
           ]
         },
         "skills": {
@@ -41882,8 +42420,11 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-0815706b5684",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-6bbc876f5a7b",
+            "src-7fc022040bb1",
+            "src-dcbeeeccc977"
           ]
         },
         "rules": {
@@ -41905,11 +42446,13 @@
       "id": "boss_tower_brave_f068",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f068.json",
-      "sourceSha256": "9c8eaec6eabbb40532b37721f3a8e4bd417fa1b3d002505811f461c988e3b9c3",
+      "sourceSha256": "ef31e870a3e5f6cd091e353c66095bfacd435eef2bf75370b5dfd5fd9bacd459",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+        "https://www.techbang.com/posts/33169"
       ],
       "originalConfidence": {
         "level": "low",
@@ -41919,8 +42462,7 @@
           "nature",
           "skills",
           "level",
-          "hp",
-          "team"
+          "hp"
         ]
       },
       "members": [
@@ -41973,7 +42515,9 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
               ]
             },
             "skills": {
@@ -41982,7 +42526,216 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 1,
+          "species": 256,
+          "configured": {
+            "level": 300,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1500,
+            "skills": [
+              10704,
+              10700,
+              10695,
+              20304
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 2,
+          "species": 266,
+          "configured": {
+            "level": 300,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1500,
+            "skills": [
+              10726,
+              10729,
+              10730,
+              20319
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            }
+          },
+          "computedCombatStats": "inferred",
+          "statMultipliers": {}
+        },
+        {
+          "slot": 3,
+          "species": 350,
+          "configured": {
+            "level": 300,
+            "iv": 31,
+            "evs": {},
+            "nature": null,
+            "hp": 1500,
+            "skills": [
+              10852,
+              10855,
+              10851,
+              20380
+            ]
+          },
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The internal over-cap level is an estimate. The recovered client displays ?? above 100; hidden display does not reveal an exact server level.",
+              "sources": [
+                "src-83f59fbb444c"
+              ]
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "The assigned boss IV, EVs and nature are remake calibration. Official species bases and nature multipliers do not establish this server encounter's assignment.",
+              "sources": []
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
+              ]
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate",
+              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "sources": [
+                "src-364a7108cad4",
+                "src-7fc022040bb1",
+                "src-dcbeeeccc977",
+                "src-6bbc876f5a7b"
               ]
             }
           },
@@ -42012,7 +42765,19 @@
             10693,
             10695,
             10694,
-            20300
+            20300,
+            10704,
+            10700,
+            10695,
+            20304,
+            10726,
+            10729,
+            10730,
+            20319,
+            10852,
+            10855,
+            10851,
+            20380
           ]
         }
       },
@@ -42055,7 +42820,9 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-6bbc876f5a7b",
+            "src-7fc022040bb1",
+            "src-dcbeeeccc977"
           ]
         },
         "skills": {
@@ -42064,7 +42831,9 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-6bbc876f5a7b",
+            "src-7fc022040bb1",
+            "src-dcbeeeccc977"
           ]
         },
         "rules": {
@@ -42086,11 +42855,14 @@
       "id": "boss_tower_brave_f069",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f069.json",
-      "sourceSha256": "d588dbf9b028bb69e846c21e58268de223f1d6403a45378493b2d48d27d52f42",
+      "sourceSha256": "b76c0acae2e61748d29585926f31202d1637177f9c8b77d0200a14a3b9b0d445",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/jingyanxinde/201006-18-71186.html",
+        "https://www.techbang.com/posts/33171",
+        "https://news.7k7k.com/content/20100622/9177.html"
       ],
       "originalConfidence": {
         "level": "low",
@@ -42100,14 +42872,13 @@
           "nature",
           "skills",
           "level",
-          "hp",
-          "team"
+          "hp"
         ]
       },
       "members": [
         {
           "slot": 0,
-          "species": 366,
+          "species": 239,
           "configured": {
             "level": 310,
             "iv": 31,
@@ -42115,10 +42886,10 @@
             "nature": null,
             "hp": 1550,
             "skills": [
-              10898,
-              10901,
-              10897,
-              20409
+              10773,
+              10772,
+              10771,
+              20289
             ]
           },
           "fields": {
@@ -42154,16 +42925,21 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-0815706b5684"
+              ],
+              "verifiedMoveIds": [
+                20289
               ]
             }
           },
@@ -42172,7 +42948,7 @@
         },
         {
           "slot": 1,
-          "species": 367,
+          "species": 277,
           "configured": {
             "level": 310,
             "iv": 31,
@@ -42180,10 +42956,10 @@
             "nature": null,
             "hp": 1550,
             "skills": [
-              10906,
-              10902,
-              10905,
-              20412
+              10766,
+              10768,
+              10765,
+              20341
             ]
           },
           "fields": {
@@ -42219,7 +42995,10 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             },
             "skills": {
@@ -42228,7 +43007,10 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             }
           },
@@ -42237,7 +43019,7 @@
         },
         {
           "slot": 2,
-          "species": 368,
+          "species": 353,
           "configured": {
             "level": 310,
             "iv": 31,
@@ -42245,10 +43027,10 @@
             "nature": null,
             "hp": 1550,
             "skills": [
-              10911,
-              10907,
-              10910,
-              20415
+              10861,
+              10856,
+              10860,
+              20382
             ]
           },
           "fields": {
@@ -42284,7 +43066,10 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             },
             "skills": {
@@ -42293,7 +43078,10 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             }
           },
@@ -42302,7 +43090,7 @@
         },
         {
           "slot": 3,
-          "species": 369,
+          "species": 280,
           "configured": {
             "level": 310,
             "iv": 31,
@@ -42310,10 +43098,10 @@
             "nature": null,
             "hp": 1550,
             "skills": [
-              10915,
-              10918,
-              10914,
-              20416
+              10785,
+              10781,
+              10784,
+              20344
             ]
           },
           "fields": {
@@ -42349,7 +43137,10 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             },
             "skills": {
@@ -42358,7 +43149,10 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-7fc022040bb1",
+                "src-50a4036ea18b",
+                "src-cf9f4f720bcf",
+                "src-0815706b5684"
               ]
             }
           },
@@ -42443,8 +43237,11 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-0815706b5684",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-50a4036ea18b",
+            "src-7fc022040bb1",
+            "src-cf9f4f720bcf"
           ]
         },
         "skills": {
@@ -42452,8 +43249,11 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-0815706b5684",
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-50a4036ea18b",
+            "src-7fc022040bb1",
+            "src-cf9f4f720bcf"
           ]
         },
         "rules": {
@@ -42548,10 +43348,12 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-50a4036ea18b"
+              ],
+              "verifiedMoveIds": [
+                20409
               ]
             }
           },
@@ -42678,10 +43480,12 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-b57f6de51a99"
+              ],
+              "verifiedMoveIds": [
+                20415
               ]
             }
           },
@@ -42743,10 +43547,14 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-364a7108cad4",
-                "src-7fc022040bb1"
+                "src-b57f6de51a99",
+                "src-91fe6ec3928b"
+              ],
+              "verifiedMoveIds": [
+                10918,
+                20416
               ]
             }
           },
@@ -42875,7 +43683,10 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-364a7108cad4",
-            "src-7fc022040bb1"
+            "src-50a4036ea18b",
+            "src-7fc022040bb1",
+            "src-91fe6ec3928b",
+            "src-b57f6de51a99"
           ]
         },
         "rules": {
