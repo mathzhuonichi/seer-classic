@@ -44,10 +44,7 @@
       "evs": {},
       "nature": null,
       "skills": [
-        11024,
-        10194,
-        10193,
-        20097
+        10194
       ],
       "hp_override": 1400
     }
@@ -71,10 +68,7 @@
       10008,
       10001,
       20209,
-      11024,
-      10194,
-      10193,
-      20097
+      10194
     ]
   },
   "reward": {
@@ -97,10 +91,11 @@
     "zh": "1级精灵首发让它被波克尔秒掉，高防血的打掉波克尔后换光系打超能；闪皮先减攻、寄生、护体；闪尼只会超能技能，换光系"
   },
   "engine_notes": [
-    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "Identification: four enemies; the second (an unnamed 超能系) is unidentified and omitted.",
-    "Identification: 闪皮/闪尼 read as 闪光皮皮 (164) / 闪光尼尔 (310)."
+    "Identification: 闪皮/闪尼 read as 闪光皮皮 (164) / 闪光尼尔 (310).",
+    "skills: 闪光尼尔 (team[2]) knows only 念力射线 (10194), the one psychic move in the species 310 learnset (4399: 闪尼只会超能技能)."
   ],
   "confidence": {
     "level": "low",

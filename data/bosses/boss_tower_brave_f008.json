@@ -63,7 +63,7 @@
     "zh": "44级的天雷鼠用雷之牙"
   },
   "engine_notes": [
-    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "hp_override null: no source gives floor HP for 1-30; use the normal stat formula at the listed level (iv 15 assumed for these wild-like floor monsters).",
     "skills: sources name none (except where the tip implies one); the monster's highest pre-2013 learnset skills at or below its level are used."
   ],

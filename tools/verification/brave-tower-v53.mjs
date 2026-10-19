@@ -1,6 +1,8 @@
 /** V53 tower progression through public controller actions and real battle settlement. */
 import assert from 'node:assert/strict';
-import {sha256File,suite,withSsr} from './_harness.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import {root,sha256File,suite,withSsr} from './_harness.mjs';
 
 const limits=[
   'Numbered tower enemies have 1 HP in the in-memory catalog to isolate progression; their teams, skills, rules, AI and rewards remain intact.',
@@ -142,6 +144,15 @@ await withSsr('brave-tower-v53',async load=>{
       const before=progress(game),battle=start(game,{type:'startBattle',bossId});assert.equal(battle.name,catalog.bosses.find(boss=>boss.id===bossId).name.zh);assert.deepEqual(progress(game),before);leave(game);assert.deepEqual(progress(game),before);
       assert.equal(parse(game).progress.boss_attempts[bossId],1);assert(!parse(game).progress.bosses_cleared.includes(bossId));
     }
+  });
+  check('Floor notes and the tower mode note describe this progression and cite only files that exist',()=>{
+    const floors=original.bosses.filter(boss=>/^boss_tower_brave_f\d{3}$/.test(boss.id));assert.equal(floors.length,70);
+    for(const boss of floors)for(const note of boss.engine_notes){
+      assert.doesNotMatch(note,/restart_on_loss/,`${boss.id}: a loss keeps the attempted floor`);
+      for(const file of note.match(/data\/[\w./-]+\.json/g)??[])assert(fs.existsSync(path.join(root,file)),`${boss.id} cites ${file}`);
+    }
+    const modes=fs.readFileSync(path.join(root,'data/bosses/_modes_tower.md'),'utf8');
+    for(const file of modes.match(/chains\/[\w.-]*/g)??[])assert(fs.existsSync(path.join(root,'data/bosses',file)),`the mode note cites ${file}`);
   });
   check('The verification stays offline, uses explicit saves, and preserves both catalog inputs',()=>{
     assert.equal(storageReads,0,'no controller reads any original local save');assert(storageWrites>0,'save writes reached only the installed no-op adapter');assert.equal(networkRequests,0,'no HTTP or remote save requests');

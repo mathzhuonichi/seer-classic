@@ -7,6 +7,7 @@ import {STARTER_SPECIES} from '../economy.ts';
 import {FUSION_RECIPES} from '../recipes/fusion.ts';
 import {BREEDING_RECIPES} from '../recipes/breeding.ts';
 import {bossEssenceRewards,habitatEntries} from './native-acquisition.ts';
+import {BRAVE_TOWER_FLOORS,braveTowerBossId} from '../challenges/brave-tower.ts';
 import {buildPredecessors} from './species-graph.ts';
 import {buildPaidSPTRecruitments,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs} from './spt-recruitment.ts';
 
@@ -26,8 +27,12 @@ export interface RecruitmentReward {
 export const ACQUISITION_POLICIES=policyData.species as readonly AcquisitionPolicy[];
 const policies=new Map(ACQUISITION_POLICIES.map(row=>[row.species,row]));
 
-/** Unknown historical limits use the bounded-repeat remake rule, without historical claims. */
-export function isSpeciesRepeatable(species:number):boolean {return policies.get(species)?.repeatability!=='once';}
+/**
+ * Claims, repeat Boss essences and shop restocks repeat within the six-copy allowance unless the source registry marks the
+ * species `once`. `unknown` historical repeatability repeats too: the v32 remake rule, which makes no historical claim.
+ */
+const repeatsUnder=(repeatability:AcquisitionPolicy['repeatability'])=>repeatability!=='once';
+export function isSpeciesRepeatable(species:number):boolean {return repeatsUnder(policies.get(species)?.repeatability??'unknown');}
 export function recruitmentItemId(species:number):string {return `essence_collection_${species}`;}
 
 /** Forms without a predecessor in the catalog, excluding the NPC partners, by ID. */
@@ -36,11 +41,17 @@ export function initialSpecies(catalog:Pick<AcquisitionCatalog,'species'>):Acqui
   return catalog.species.filter(row=>!predecessors.get(row.id)!.size&&!NPC_ONLY_SPECIES.has(row.id)).sort((a,b)=>a.id-b.id);
 }
 
+/**
+ * The top Brave Tower floor's essence ends an in-order climb through floors 61-70, whose source-level opponents stay
+ * untuned, so it is not a simple normal route: its species (呆呆蛹) also receives a collection recruitment reward.
+ */
+const CLIMB_ONLY_ESSENCE_BOSS=braveTowerBossId(BRAVE_TOWER_FLOORS);
+
 /** Direct habitats/rewards and native fusion/breeding retain their own acquisition flows. */
 function nativeInitialRoutes(catalog:AcquisitionCatalog,planets:readonly WorldPlanet[]):Set<number> {
   const seeds=new Set<number>([...STARTER_SPECIES,...Object.values(JOURNEY_QUEST_SPECIES)]);
   for(const entry of habitatEntries(catalog,planets))seeds.add(entry.species.id);
-  for(const reward of bossEssenceRewards(catalog))seeds.add(reward.species);
+  for(const reward of bossEssenceRewards(catalog))if(reward.boss.id!==CLIMB_ONLY_ESSENCE_BOSS)seeds.add(reward.species);
   for(const recipe of [...FUSION_RECIPES,...BREEDING_RECIPES])for(const outcome of recipe.outcomes)if(outcome.weight>0)seeds.add(outcome.species);
   return seeds;
 }
@@ -64,7 +75,7 @@ export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:reado
     const prerequisites:RecruitmentPrerequisite[]=[...selected.map(candidate=>({kind:'species' as const,species:candidate.id})),...requiredBosses.map(boss=>({kind:'boss' as const,bossId:boss.id}))];
     if(prerequisites.length>MAX_RECRUITMENT_PREREQUISITES)throw new Error(`Too many recruitment prerequisites for ${row.id}`);
     const repeatability=policy?.repeatability??'unknown';
-    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatability!=='once',repeatability,categories:policy?.categories??[]}];
+    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[]}];
   });
 }
 

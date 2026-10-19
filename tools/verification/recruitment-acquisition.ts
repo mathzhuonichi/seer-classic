@@ -3,7 +3,7 @@ import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {buildAcquisitionIndex} from '../../src/domain/acquisition/acquisition.ts';
 import type {AcquisitionCatalog,AcquisitionSeed,RecruitmentPrerequisite} from '../../src/domain/acquisition/acquisition-model.ts';
 import {buildInitialFormAcquisitionIndex} from '../../src/domain/acquisition/initial-acquisition.ts';
-import {buildRecruitmentRewards,initialSpecies} from '../../src/domain/acquisition/recruitment.ts';
+import {ACQUISITION_POLICIES,buildRecruitmentRewards,initialSpecies,isSpeciesRepeatable} from '../../src/domain/acquisition/recruitment.ts';
 import {getEligibleRecruitmentSPTs} from '../../src/domain/acquisition/spt-recruitment.ts';
 import {FUSION_RECIPES,type FusionRecipe} from '../../src/domain/recipes/fusion.ts';
 import {BREEDING_RECIPES,getBreedingGender} from '../../src/domain/recipes/breeding.ts';
@@ -29,6 +29,22 @@ export async function verifyRecruitmentAcquisition(){
    assert.equal(route.entrySpecies,reward.rewardSpecies);
    for(const condition of reward.prerequisites)assert(condition.kind==='species'?available(condition.species):eligible.has(condition.bossId));
   }
+ });
+ t.check('the 呆呆蛹 line has an ordinary recruitment route besides the floor-70 climb',()=>{
+  const reward=rewards.find(row=>row.rewardSpecies===366);
+  assert(reward,'呆呆蛹 has a collection recruitment reward');
+  const routes=graph.get(366)!.routes;
+  assert(routes.some(route=>route.kind==='quest'&&route.questId===reward.questId));
+  assert(routes.some(route=>route.bossId==='boss_tower_brave_f070'),'the floor-70 essence remains a route');
+  for(const id of [367,368,369])assert(graph.get(id)!.routes.some(route=>route.kind==='evolution'&&route.questId===reward.questId),`${id} evolves from it`);
+ });
+ t.check('unknown historical repeatability stays repeatable; only a once row makes a reward one-time',()=>{
+  const unknown=rewards.filter(reward=>reward.repeatability==='unknown');
+  assert(unknown.length>0);
+  for(const reward of unknown){assert.equal(reward.repeatable,true);assert.equal(isSpeciesRepeatable(reward.rewardSpecies),true);}
+  const species=unknown[0].rewardSpecies;
+  const once=buildRecruitmentRewards(catalog,undefined,ACQUISITION_POLICIES.map(row=>row.species===species?{...row,repeatability:'once' as const}:row));
+  assert.equal(once.find(reward=>reward.rewardSpecies===species)!.repeatable,false);
  });
  const baseline=buildAcquisitionIndex(catalog,undefined,undefined,[]);
  t.check('generated recruitment disabled by explicit empty seeds',()=>{

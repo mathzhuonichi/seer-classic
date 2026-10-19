@@ -48,7 +48,7 @@
         "observed": 11
       }
     },
-    "ruleNodes": 323,
+    "ruleNodes": 324,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -28045,7 +28045,7 @@
       "id": "boss_tower_brave_f001",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f001.json",
-      "sourceSha256": "445376edc3b7e855613bbddff439b11de7a679e842118b285b2fc6f22eff78dd",
+      "sourceSha256": "5031904234dd23aa79372be98935710d06bb1b79c3cae6c5130966e1cc397645",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -28218,7 +28218,7 @@
       "id": "boss_tower_brave_f002",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f002.json",
-      "sourceSha256": "132774f03be428590b0cb62063b7bd995341b71ea587ee997d1a9e6a60621578",
+      "sourceSha256": "3dbb9ef17a3f198041220c024336c2388ec3a7117753010efc68b89e34dc2d5e",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -28393,7 +28393,7 @@
       "id": "boss_tower_brave_f003",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f003.json",
-      "sourceSha256": "905742a867042bf0ec43447e71050f2b84cc64a3fc7d40d3e2930811bf00640a",
+      "sourceSha256": "2e911079441bd7123f365ed8d74d0269fcc3351fda6f798e250b81f35618db78",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -28568,7 +28568,7 @@
       "id": "boss_tower_brave_f004",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f004.json",
-      "sourceSha256": "a74bd180113c66aa612a0dd2a2b87d36cd424cfbd2d4279ac1e8b74dbb8d959e",
+      "sourceSha256": "b99069b7207a5c4fbe91b1209f3fb8531afef974c9d0ec4ad0d6467cb8dd3aaf",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -28743,7 +28743,7 @@
       "id": "boss_tower_brave_f005",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f005.json",
-      "sourceSha256": "e8f5c5bac66f76cf5cf32d8696c959150c7ca55b58f2bdd4ab7643ae02588d96",
+      "sourceSha256": "574bf799eea03ef60727c293d9a0cb165b9579aa7d4686ac8a57ac92aa62024d",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -28918,7 +28918,7 @@
       "id": "boss_tower_brave_f006",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f006.json",
-      "sourceSha256": "a9e267347c3e4e63ab488e23f3b3946fda3d19d655b8c838cc09eece7e2b5d6e",
+      "sourceSha256": "551c3e0b54ebb18095e8fe1e84af6817d4f64f74e5492aee72c2759274a67493",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29093,7 +29093,7 @@
       "id": "boss_tower_brave_f007",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f007.json",
-      "sourceSha256": "d0cd1509afbd1cc3e650739918acc81536514ad027182a48d0d50b2485f25f55",
+      "sourceSha256": "1d4b075bf70a33cf6062df6bf638d9c177d7c519ae5b1c366c645c5aba177c80",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29268,7 +29268,7 @@
       "id": "boss_tower_brave_f008",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f008.json",
-      "sourceSha256": "b1d846b672542e8fe4be1747a286cc0d7f46fb58bc2af2d4b6277bfe052cb84e",
+      "sourceSha256": "63d9473dc20c5a4310da01527a5edbb7c4f764f36b2d0f7524c78d9509f0bee0",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29443,7 +29443,7 @@
       "id": "boss_tower_brave_f009",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f009.json",
-      "sourceSha256": "73608f4a895a286cd626230439829189502021955866fbe605b9fb77930b8f7c",
+      "sourceSha256": "d1634e9804c0b873bdf6127114759e296842211b0bc984e4dff09fe430aff16d",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29618,7 +29618,7 @@
       "id": "boss_tower_brave_f010",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f010.json",
-      "sourceSha256": "5487439ef5ba604d53e13264ad827231215649c737bc105b2af07122ff9bb7d7",
+      "sourceSha256": "57eb5f848aea8d9dfbccdd1d83d2a38e20ef51576b18f4c1c2fbba650e83ba5c",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29793,7 +29793,7 @@
       "id": "boss_tower_brave_f011",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f011.json",
-      "sourceSha256": "6fc6e3916bc3e4d27fa43c7cdb7fd6df21d54bcae60f05348ea5a1ec31269814",
+      "sourceSha256": "d8d5ad5cad15329fcc821a076a217cafa909b38fcf368fc5caf3654ba4f2c078",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -29968,7 +29968,7 @@
       "id": "boss_tower_brave_f012",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f012.json",
-      "sourceSha256": "9917e93fa64e3fe16ab536da9e3ce78894c4e83a8eea021ffd533803bdc7ef18",
+      "sourceSha256": "23801d1ad5ea3878b57203b09d38cf9dbcbad3d084999c82c8c2972839a3d1bf",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -30143,7 +30143,7 @@
       "id": "boss_tower_brave_f013",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f013.json",
-      "sourceSha256": "c333c8c5d4d5ca07646bd768cb8ade84a7bcd4b84d271e74c9180fe576f518ac",
+      "sourceSha256": "cbbe2ee400645685593d2958f2b958b39bc3a1b9cfa7136e7dada16b097a1db9",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -30318,7 +30318,7 @@
       "id": "boss_tower_brave_f014",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f014.json",
-      "sourceSha256": "470ce31537e15b21f0158a19be4fca14c4f366307172d545f72f259767d2a69f",
+      "sourceSha256": "ee7b33d4252e0cb9d37a343f68540071505f26fb93497a6af2d43393c3bc5b64",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -30493,7 +30493,7 @@
       "id": "boss_tower_brave_f015",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f015.json",
-      "sourceSha256": "f65b1ff400c8ec755166337799ba02fa2e920955598f35fe7f8665b3ed2ca199",
+      "sourceSha256": "4995fe1c3c25ee14722b0813566032a3e18f0749fa5bd684e84a68e51270dc0b",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -30668,7 +30668,7 @@
       "id": "boss_tower_brave_f016",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f016.json",
-      "sourceSha256": "41f71c6218fd5c163c13e4c574f65853ca920cf034e84aae11218715515c76f8",
+      "sourceSha256": "7220fbe0f8e65a6b693c68a75c50e6248b3723196d4de5c0727e74c0ccb6311f",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -30843,7 +30843,7 @@
       "id": "boss_tower_brave_f017",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f017.json",
-      "sourceSha256": "978a7ed037da72198a68ea6803615ab13f827c9b118da0b06ad2e739c527b0a5",
+      "sourceSha256": "a21095e6c4fb2b9cf14597f66ee76f44113c76220c24c3d7b54e147f598c556b",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31018,7 +31018,7 @@
       "id": "boss_tower_brave_f018",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f018.json",
-      "sourceSha256": "52410bd8f1dee8d8c299a8099e171a0cffb3378c7f62ca089e9a3e88856eba78",
+      "sourceSha256": "4b6034b1cff69fb4b73e494ded872c3f850831b883212b04f74c34603a60b1bd",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31193,7 +31193,7 @@
       "id": "boss_tower_brave_f019",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f019.json",
-      "sourceSha256": "a46b36778b472d4a807135bb3878f01271013348c4d808872d2254799121f5c1",
+      "sourceSha256": "b2b025219ffc18068339952b000da984dfe877924018a4ed9beaedc683d0604b",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31368,7 +31368,7 @@
       "id": "boss_tower_brave_f020",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f020.json",
-      "sourceSha256": "e44ed2332b1ec4c01aa5a5a4568ba70f9dd286ad778c8c7555e8d9a39c824188",
+      "sourceSha256": "65a6560b2618d71ec863c8bf092f43a10da10fd7373587418ecff42fb1e1b5af",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31543,7 +31543,7 @@
       "id": "boss_tower_brave_f021",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f021.json",
-      "sourceSha256": "47a489bd5908de106f76a351c5d3282f1282a3b940655f47a358fbbfa3a63d79",
+      "sourceSha256": "140c568cf68544c77a547d9f6409ad376d16ec56161d010cc8415606075043c6",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31718,7 +31718,7 @@
       "id": "boss_tower_brave_f022",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f022.json",
-      "sourceSha256": "d7842e242cadf35a74dc11101b1a8e654426dd145b6d3e4ee0e6e0bae8eb6d50",
+      "sourceSha256": "c493353d00a7fea3da18a40e08cdb30100a92562c049bbc0e720c605f094a247",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -31893,7 +31893,7 @@
       "id": "boss_tower_brave_f023",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f023.json",
-      "sourceSha256": "9c495f1032150c60d32325942461ae6c37ae784ddde28d04424ca540a1c91dfa",
+      "sourceSha256": "8a8c896958d91eb4adc77c4026d77916669d4a87ba1e9a04e6170c4ff45e0e21",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32068,7 +32068,7 @@
       "id": "boss_tower_brave_f024",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f024.json",
-      "sourceSha256": "fa8d624dab6af2d8c544914cdc5ba83e1460a73a29d15f19a68346da4ae3db90",
+      "sourceSha256": "7e0ac255b8e7313efd5e4797c523902bbc3fa6cf57ebeb0be648477ddd394dc6",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32243,7 +32243,7 @@
       "id": "boss_tower_brave_f025",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f025.json",
-      "sourceSha256": "2fcb4f2581111e337b2a391230b3442cc72cba099e7f8a0c7d9b79ddf27fa25e",
+      "sourceSha256": "4d8a4cf9fdb7b9942acfe400ff4c94936c3e9a494db48c850617f348e535234d",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32418,7 +32418,7 @@
       "id": "boss_tower_brave_f026",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f026.json",
-      "sourceSha256": "5ca3d760cbeddb3cc8573dd3664cfe8f6f404ecf510506501335995b86e72686",
+      "sourceSha256": "e65ff0ac663d707d1aaff0c1a4e89a7573b1102e886c7d7633c717d6d48bb8f1",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32593,7 +32593,7 @@
       "id": "boss_tower_brave_f027",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f027.json",
-      "sourceSha256": "6d479acc6da0d0adb713da210cdb272961341fe1ac5b749248072b489b869545",
+      "sourceSha256": "2bbdcba72785c86e99596222e36819fd3fa03591bec44b6781e937a2d9d981e4",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32768,7 +32768,7 @@
       "id": "boss_tower_brave_f028",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f028.json",
-      "sourceSha256": "2ff7efa8eb508d56cd1914846de4554d9a31614f19c785c3bba7fa1dba28a1be",
+      "sourceSha256": "e68520cbbcf0eda1b34ef9599b341816b4841afef02723af639a82f9a4fbb520",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -32943,7 +32943,7 @@
       "id": "boss_tower_brave_f029",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f029.json",
-      "sourceSha256": "0385df4831a014c32948ebb9e6c0a249ca6b35dc67ef0c1c85bd8a0d97ed3303",
+      "sourceSha256": "e8c250ae5e146c7c8a491e757f38aa4c1866238113f673a6c73f87783dca22e7",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33118,7 +33118,7 @@
       "id": "boss_tower_brave_f030",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f030.json",
-      "sourceSha256": "8f42f3ce58b9cf2c000deb4fa782e0c6d594e0969c2a97d1fdeb77c124322ecc",
+      "sourceSha256": "909d63f4850f948c4cb5f1dd8bcf6881f8def5d5ef89ad9fbf60a84ff5b24c8d",
       "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33293,7 +33293,7 @@
       "id": "boss_tower_brave_f031",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f031.json",
-      "sourceSha256": "47b16ba5caf0d90b9dbc08b1ad18e18c25e47c06c020df7821366e709722a702",
+      "sourceSha256": "9958305f8415226049bef4ede97be8f0b55460904dca109dbdcea74cba33830a",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33469,7 +33469,7 @@
       "id": "boss_tower_brave_f032",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f032.json",
-      "sourceSha256": "7c23a025d08efd7391d61ae8c14017b88501833f9dd560bc2c1e92252c96f62a",
+      "sourceSha256": "2af54813d51f78432339769cc5816675dfcb32b4e2d7260bef1266d248f6f601",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33645,7 +33645,7 @@
       "id": "boss_tower_brave_f033",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f033.json",
-      "sourceSha256": "eb95ae84b3ba0dd7bfab14f503e0e4cec6361d702cc276915eb149744534ba5a",
+      "sourceSha256": "1ab0b2a81b3060341de80473e4280cf46de6f92cf0457da7f3befc68b926faf9",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33821,7 +33821,7 @@
       "id": "boss_tower_brave_f034",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f034.json",
-      "sourceSha256": "9a2edbb7bc8b588e5778f415dc10767de0efdd8358b42177eaff7e8880fae8a0",
+      "sourceSha256": "f6fbef2944bd9f253f1fdc4bb29a37bed5f33dc23f9f8ad0049d3c73b5b4bb07",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -33997,7 +33997,7 @@
       "id": "boss_tower_brave_f035",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f035.json",
-      "sourceSha256": "597e494dae8185b06d2f0f71c6683beaee7e3c8534820581b5efeaab33f68510",
+      "sourceSha256": "88c14ee2f0ce98e31beba91ed5c7a755937c4000c2f02715041c2faa3df5d446",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -34173,7 +34173,7 @@
       "id": "boss_tower_brave_f036",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f036.json",
-      "sourceSha256": "0fcc9b61202108e3a5d7a39421752ee2d775c982b7bd668225190e5b478e3424",
+      "sourceSha256": "bc7b8582884788630fbc1d26591f29d4d791473c4787b4392de3b5e07025ac63",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -34349,7 +34349,7 @@
       "id": "boss_tower_brave_f037",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f037.json",
-      "sourceSha256": "260625e5b070ca111500b94ede2249b34bdc7445d0dd0d0fab1e04bca229d8b5",
+      "sourceSha256": "46be3164812ab8ca3e4d6bf22eff0b4f93d612bbae8a69339ba3a90d365f91e5",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -34525,7 +34525,7 @@
       "id": "boss_tower_brave_f038",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f038.json",
-      "sourceSha256": "bb15f5c97301c74e448aba75c6cb6604e3824dc2cc65ee67d1e6515d3de7a4f1",
+      "sourceSha256": "6a52d486db420949abf1b6c5d6b12c899931c20b739b1f5164b2fcbb3f81c54a",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -34701,7 +34701,7 @@
       "id": "boss_tower_brave_f039",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f039.json",
-      "sourceSha256": "62ee4b71e801acbc58560ec8b0c5c3415d12434d2bfb3a9a1f405476368daded",
+      "sourceSha256": "f84f3534c222b5ddf12f0e83fc3a18c22a850cf6211ccbd181d2c0a59fdbf711",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -34877,7 +34877,7 @@
       "id": "boss_tower_brave_f040",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f040.json",
-      "sourceSha256": "62d16e6a752de6958863be6ebf8e29c511ca29e0205c6b4d53bc07b4881ee523",
+      "sourceSha256": "a8f9c2b6d68ee1f2a7ffd6076a394f5eea91fb1966001b2d41eb94e18f2b4eab",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35053,7 +35053,7 @@
       "id": "boss_tower_brave_f041",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f041.json",
-      "sourceSha256": "dad2632b509553cac8ca87f1ec7461e576a78a41377b9f6d27a7092fbd81d607",
+      "sourceSha256": "b1672b7a9c916430b353201b052b8b2dd8603434b393a3ce4ab018fd9a326617",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35229,7 +35229,7 @@
       "id": "boss_tower_brave_f042",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f042.json",
-      "sourceSha256": "162bf487f17d913e100b21560b66ed8e0d3a8b6fc7849a2a791f8f5bb0b4367f",
+      "sourceSha256": "9ea34b5ef3cff08b1dd1213ebcefe9c27ed71bbd16ffcdb7cf4e5aeda1a333ed",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35405,7 +35405,7 @@
       "id": "boss_tower_brave_f043",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f043.json",
-      "sourceSha256": "0797c9d6497960696d80fef450b0b47436276f8195945e1aba8308219bf49538",
+      "sourceSha256": "fd5cd5f8414857db964c20a7abd9cff717772a883c0cc37c3800c1ceb376f9e8",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35581,7 +35581,7 @@
       "id": "boss_tower_brave_f044",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f044.json",
-      "sourceSha256": "9728d828b248f299aa385cf5e05149d6c752408598ca31d11e5d301449311322",
+      "sourceSha256": "dfb034a0af3d05c79b4c95ad61de792400e02b2a2402a1f4a50319e83ca03f35",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35757,7 +35757,7 @@
       "id": "boss_tower_brave_f045",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f045.json",
-      "sourceSha256": "2cac5ff25ed1ce60974c998aeb6a781b3771174b91bf34c319fa3c9ecf665c5e",
+      "sourceSha256": "5c389bbbe723b1f79e36b86b8d2d2c4cea5eeb12f862e5432378fa5322de8da6",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -35933,7 +35933,7 @@
       "id": "boss_tower_brave_f046",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f046.json",
-      "sourceSha256": "496ec40dee5697c313c4310bb577f4d3bfcf56468e66afa3b27c109089a53aca",
+      "sourceSha256": "378005f5ab8d047a18a136391aa682ae8acd17ff7b72a3fef5e702eed93fcfdf",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -36109,7 +36109,7 @@
       "id": "boss_tower_brave_f047",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f047.json",
-      "sourceSha256": "7fd357f6388837257d3620c21f99c6cc6aeace996906005ecfa736ed52924a28",
+      "sourceSha256": "9538fe3f36df04a83ed4d787cb88a834d5618a437bf823919300bb0d31a573d3",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -36285,7 +36285,7 @@
       "id": "boss_tower_brave_f048",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f048.json",
-      "sourceSha256": "0c537f70eb09160545c729823fcbec1392f569a992f0a3445ebe48eea3947d27",
+      "sourceSha256": "fce40a3719cc3f89ab31cc820a61f8b10caf7e8c42ed5c97c9209291ecaa5374",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -36461,7 +36461,7 @@
       "id": "boss_tower_brave_f049",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f049.json",
-      "sourceSha256": "b499c4f9163e71e8942faa06361a20029007a7722487a40ef6159137ddeb31e4",
+      "sourceSha256": "8d3c564683a79573463f37aaf7b3b2bbf6b434775fd2385a2bf4f4409dcf176f",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -36637,7 +36637,7 @@
       "id": "boss_tower_brave_f050",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f050.json",
-      "sourceSha256": "dfda39f8c14e6cce4142e482b405af3e5a36e1f1d73eeb7e1cc1cad1c0b64461",
+      "sourceSha256": "1ceb9cccd558fb1662151ac51554c2d11685f92f788287437b2c1408c35cb663",
       "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
@@ -36830,7 +36830,7 @@
       "id": "boss_tower_brave_f051",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f051.json",
-      "sourceSha256": "7f9155b828b6afc6ac1b0401ab52ebdea8458d5e5980ed3098df39f7639a5f7a",
+      "sourceSha256": "fdd277d071434b95501073df8685494e18085b7984b0f54e5cfadfc7a1dbc97b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37080,7 +37080,7 @@
       "id": "boss_tower_brave_f052",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f052.json",
-      "sourceSha256": "c001b71ddc885a6e4e25ba1fc6905ab28bcb9fb0ebd695e68bd260741ff9f466",
+      "sourceSha256": "43a9c82c21c0d33ce62a84726fd2cbe1aeacce3f4b96a3382abc3f8c5292ea1f",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37330,7 +37330,7 @@
       "id": "boss_tower_brave_f053",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f053.json",
-      "sourceSha256": "4fe0cec63e73d8e587d4d8cece252921e6dee1b3a838c3a232b516e05263f8f9",
+      "sourceSha256": "e8db8d85b3f26bb5eb0fb187db193f41af8c17b02886388f11e89b830cdc343c",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37580,7 +37580,7 @@
       "id": "boss_tower_brave_f054",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f054.json",
-      "sourceSha256": "0e52b8aad724e1ac487f11ca61de8db7380e3c5b393b5785688c4527e80fe540",
+      "sourceSha256": "2dc4c617d933e0a7814abd3ae63c9d255d0582a66df7631062971380cb50359b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -37830,7 +37830,7 @@
       "id": "boss_tower_brave_f055",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f055.json",
-      "sourceSha256": "da35c047fa4c3af8ece1a93e004fa71cb97a2c6860a2f2c5a64de763072d739c",
+      "sourceSha256": "80a6d186ed97f30a5145a709cc6b37d4d337c305f9400e186a44d6ae17e18dc7",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38080,7 +38080,7 @@
       "id": "boss_tower_brave_f056",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f056.json",
-      "sourceSha256": "bad6be5a213f0f44f35bf80771292963608f8612d7a912bf04cff88ca95e6898",
+      "sourceSha256": "317247a0c20058e6425d6f16a076cdb4673412f659e7479400a93d560bf19e49",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38399,7 +38399,7 @@
       "id": "boss_tower_brave_f057",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f057.json",
-      "sourceSha256": "0b7d0745b958f60adb7855767efe80f0b3b2a7b0536154c23df27ceb8c69182c",
+      "sourceSha256": "613e335323ace0c94ce9caf2abba52afeaba6dbc132459aa660b56630546201f",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -38717,7 +38717,7 @@
       "id": "boss_tower_brave_f058",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f058.json",
-      "sourceSha256": "22c12f71b490749d4505152b57d7ba91cd5bada4dad55ead005103dbb05514e3",
+      "sourceSha256": "b50b0abb40b817b4f7d83cf861330e8392cc3114c750d73d4c1a965c33574bad",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39036,7 +39036,7 @@
       "id": "boss_tower_brave_f059",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f059.json",
-      "sourceSha256": "5ed436e9e7b6dab90a94b7a10e3ac9e3511f5e406f594cb6e45aecbee40e9aba",
+      "sourceSha256": "5f000ccd41b5e1b6a696a825e650c73e61926765bc15a34a05f7370e5c9e9d66",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39355,7 +39355,7 @@
       "id": "boss_tower_brave_f060",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f060.json",
-      "sourceSha256": "5fd1f40eac3e0d0cd36508a13c1ffb4d06fcb40f4f9cc6c202dc96aa5b8b325d",
+      "sourceSha256": "df504d4169712dd257821e2dccb0dc47551a6b12f47a6bc457f0368498c11a9b",
       "sourceNoteSha256": "d5c2403210793e7d6661a377cf176485834a82ce4328c867d2b52356b60789bd",
       "sourceUrls": [
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
@@ -39697,7 +39697,7 @@
       "id": "boss_tower_brave_f061",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f061.json",
-      "sourceSha256": "24ccdd0b258be9cf007a8a007c5deb4e5c94ae4503bbbfea6ca30fd64504db1d",
+      "sourceSha256": "6858eb76b6cc21eb7ee2d47118c1ddb20b4d0b708badb46ae25fdd6f7cf13a05",
       "sourceNoteSha256": "88f5527bfa59c4cb48962a7358a5125168e55f74741670c71d2f0b64905a4d92",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -40022,7 +40022,7 @@
       "id": "boss_tower_brave_f062",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f062.json",
-      "sourceSha256": "466e6459551341ad9af9d85b8e2a923b361317db8fcafda0643dc389c7fccd77",
+      "sourceSha256": "d4266fa7eabbce343c85b49b06d2084287d125fd4fea6bdef351c4ac28e72186",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -40357,7 +40357,7 @@
       "id": "boss_tower_brave_f063",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f063.json",
-      "sourceSha256": "bd9c056d0c43b96d41fed392322ac0af5552468723694d194ddef476b1d443b0",
+      "sourceSha256": "80783c63bbb65fa20be7fbdfbc19c93de2ab6cc43365c58412f7e3b4551c6394",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -40673,7 +40673,7 @@
       "id": "boss_tower_brave_f064",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f064.json",
-      "sourceSha256": "7ae9b77ef57a2af321149e5107dc6758a543108fd635775c6f418541652100b7",
+      "sourceSha256": "25f4e0e9b7bb386e8e468b0ff9ef63375c1366a6b7a6fc9e73b182af0ef24f5f",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -41011,7 +41011,7 @@
       "id": "boss_tower_brave_f065",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f065.json",
-      "sourceSha256": "dd4a3a87928fc90b9914414f2a530e09f919ca4a7a31892123070014c194bbb5",
+      "sourceSha256": "89943317098c3ff2460b3318a1f5fe3a9f60515dcf7cf2c190094a0efda0be94",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -41346,7 +41346,7 @@
       "id": "boss_tower_brave_f066",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f066.json",
-      "sourceSha256": "26b452d0a3d169f644964a951c60358723f93d667468ac701a6e935dfcd38d62",
+      "sourceSha256": "3d7860bff44803de38fbc2594131d24ff40fda9d96c456d21753e41d3752905f",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -41505,10 +41505,7 @@
             "nature": null,
             "hp": 1400,
             "skills": [
-              11024,
-              10194,
-              10193,
-              20097
+              10194
             ]
           },
           "fields": {
@@ -41588,10 +41585,7 @@
             10008,
             10001,
             20209,
-            11024,
-            10194,
-            10193,
-            20097
+            10194
           ]
         }
       },
@@ -41665,7 +41659,7 @@
       "id": "boss_tower_brave_f067",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f067.json",
-      "sourceSha256": "2b5c3450734e7e0b057e5ea8f3878f65794d1c59f316a1b28b0aa8ccdf86164c",
+      "sourceSha256": "bb037e954a53921b987497506007590329d3efd99a113ec6b8a48c6a99931cea",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -41846,7 +41840,7 @@
       "id": "boss_tower_brave_f068",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f068.json",
-      "sourceSha256": "7c4c9c0dc81a01aadf62efa4cc5854d8f15bb05973535e6d91b455829fd56adb",
+      "sourceSha256": "9c8eaec6eabbb40532b37721f3a8e4bd417fa1b3d002505811f461c988e3b9c3",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -42027,7 +42021,7 @@
       "id": "boss_tower_brave_f069",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f069.json",
-      "sourceSha256": "648e3b860c4e87e07e7f28b0f6aa4fb8d87479368cf541fd7638c0775566ebd7",
+      "sourceSha256": "d588dbf9b028bb69e846c21e58268de223f1d6403a45378493b2d48d27d52f42",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -42307,7 +42301,25 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [],
+      "rules": [
+        {
+          "index": 0,
+          "path": "rules[0]",
+          "rule": "heal_full_below",
+          "configuration": {
+            "rule": "heal_full_below",
+            "pct": 20,
+            "member": 3
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        }
+      ],
       "additionalConfiguration": {
         "win": [
           {
@@ -42382,7 +42394,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
+          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": []
         }
       },
@@ -42398,7 +42410,7 @@
       "id": "boss_tower_brave_f070",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f070.json",
-      "sourceSha256": "093861e5d81c138c0c52246c0e87b324ea1831aaae92e73ccb0845088be69b3b",
+      "sourceSha256": "bc196b852b917082a833e02df9f11de268426742b3afa4ce34229f35605800a7",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
