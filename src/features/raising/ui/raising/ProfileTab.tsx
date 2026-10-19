@@ -6,7 +6,7 @@ import {CreatureArt} from '../../../../shared/ui/CreatureArt.tsx';
 import {useGame} from '../../../../shared/ui/use-game.ts';
 import {feedbackFor,type TabProps} from './dispatch-feedback.ts';
 
-/** 资料: nickname, the 经验分配器 and evolution. */
+/** 资料: nickname, the 经验分配器, evolution and 放生. */
 export default function ProfileTab({m,c,feedback,say}:TabProps) {
   const expPool=useGame(c,s=>s.expPool),[nickname,setNickname]=useState(m.name),[amount,setAmount]=useState('1000');
   useEffect(()=>setNickname(m.name),[m.uid,m.name]);
@@ -23,8 +23,22 @@ export default function ProfileTab({m,c,feedback,say}:TabProps) {
       <button className="primary" disabled={!canAllocate} onClick={allocate}>分配经验</button>
     </div></section>
     <EvolutionSection key={m.species} {...{m,c,feedback,say}}/>
+    <ReleaseSection {...{m,c,feedback,say}}/>
     <p className="management-feedback" role="status">{feedback}</p>
   </div>;
+}
+
+/** 放生 after a confirmation; the last party monster stays. The bag then selects another monster, so the result is a notice. */
+function ReleaseSection({m,c,say}:TabProps) {
+  const partySize=useGame(c,s=>s.party.length),[confirming,setConfirming]=useState(false),last=m.inParty&&partySize<=1;
+  const release=()=>{setConfirming(false);say(feedbackFor(c.dispatch({type:'release',uid:m.uid}),`已放生${m.name}。`))};
+  return <section className="raising-release"><h4>放生精灵</h4>
+    <p>{last?'出战背包至少保留一只精灵，最后一只出战精灵不能放生。':'放生后这只精灵会永久离开，刻印退回库存；图鉴收集记录保留。'}</p>
+    {confirming?<div className="management-inline-form" role="group" aria-label={`确认放生${m.name}`}>
+      <span>确定放生{m.name}吗？</span><button className="primary" onClick={release}>确认放生</button>
+      <button autoFocus onClick={()=>setConfirming(false)}>取消</button>
+    </div>:<button disabled={last} onClick={()=>setConfirming(true)}>放生{m.name}</button>}
+  </section>;
 }
 
 const selectable=(choice:EvolutionChoiceView)=>!choice.blockedReason;

@@ -26,9 +26,21 @@ test('deposit, withdraw and release keep at least one party monster and at most 
   assert.throws(() => withdraw(fewer, 'm1'), /already in the party/);
   const one = saveWith(1);
   assert.throws(() => deposit(one, 'm0'), /at least one/);
-  assert.throws(() => release(one, 'm0'), /last party monster/);
+  assert.throws(() => release(one, 'm0'), /最后一只出战精灵/);
   assert.deepEqual(release(s, 'm6').storage.length, PARTY_MAX);
   assert.throws(() => release(s, 'nope'), /no monster nope/);
+});
+
+test('release takes a party or box monster with its energy beads and keeps every other boost', () => {
+  const bead = (uid) => ({kind: 'energy_bead', item: 'bead', uid, battles_left: 2, stats: {atk: 10}});
+  const s = {...saveWith(PARTY_MAX + 1), boosts: [{kind: 'exp', item: 'exp', multiplier: 2, battles_left: 3}, bead('m6'), bead('m0')]};
+  const boxed = release(s, 'm6'), member = release(s, 'm0');
+  assert.deepEqual(boxed.boosts, [s.boosts[0], s.boosts[2]]);
+  assert.deepEqual([member.party, member.boosts], [['m1', 'm2', 'm3', 'm4', 'm5'], [s.boosts[0], s.boosts[1]]]);
+  const unboosted = saveWith(PARTY_MAX + 1);
+  delete unboosted.boosts;
+  assert.equal('boosts' in release(unboosted, 'm6'), false, 'a save without boosts gains no boost list');
+  assert.equal(s.boosts.length, 3, 'the input save is never changed');
 });
 
 test('setPartyOrder takes only a permutation of the party', () => {
