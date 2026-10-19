@@ -1,11 +1,10 @@
-// 背包 (party, max 6) and 精灵仓库 (box) over Save. Pure: each call returns a new Save and never changes its input. The new
+// 背包 (party, max 6) and 精灵仓库 (box, no limit) over Save. Pure: each call returns a new Save and never changes its input. The new
 // Save copies only the parts the call changes and shares the rest with the input, every unchanged monster record included.
 import type { Dex, Monster, Rng, Save } from "./types.ts";
 import { computeStats } from "./stats.ts";
 import { createMonster } from "./monster.ts";
 
 export const PARTY_MAX = 6;
-export const BOX_MAX = 1000; // the remake's box size; Seer's 仓库 grew over time
 export const NICKNAME_MAX = 12; // characters (code points)
 
 export function findMon(save: Save, uid: string): Monster {
@@ -38,15 +37,10 @@ export function spendItem(save: Save, id: string): Save["items"] {
   return items;
 }
 
-export function boxOf(save: Save): Monster[] {
-  return save.storage.filter((m) => !save.party.includes(m.uid));
-}
-
-// A newly obtained monster joins the party if there is room, otherwise the box.
+// A newly obtained monster joins the party if there is room, otherwise the box, which takes any number.
 export function addMonster(save: Save, mon: Monster): Save {
   if (save.storage.some((m) => m.uid === mon.uid)) throw new Error(`duplicate uid ${mon.uid}`);
   const toParty = save.party.length < PARTY_MAX;
-  if (!toParty && boxOf(save).length >= BOX_MAX) throw new Error("仓库已满");
   const listed = (ids: number[]) => (ids.includes(mon.species) ? ids : [...ids, mon.species]);
   return {
     ...save,
@@ -74,20 +68,6 @@ export function setPartyOrder(save: Save, order: string[]): Save {
   const same = order.length === save.party.length && order.every((u) => save.party.includes(u));
   if (!same || new Set(order).size !== order.length) throw new Error("order must be a permutation of the party");
   return { ...save, party: [...order] };
-}
-
-// Why 放生 refuses `uid`, or undefined when it may leave: the last party monster can never be released.
-export function releaseRefusal(save: Pick<Save, "party">, uid: string): string | undefined {
-  return save.party.includes(uid) && save.party.length <= 1 ? "出战背包至少保留一只精灵，最后一只出战精灵不能放生。" : undefined;
-}
-
-// 放生, unless releaseRefusal refuses it; the monster's energy beads leave with it.
-export function release(save: Save, uid: string): Save {
-  const refusal = releaseRefusal(save, uid);
-  if (refusal) throw new Error(refusal);
-  findMon(save, uid);
-  const next = { ...save, storage: save.storage.filter((m) => m.uid !== uid), party: save.party.filter((u) => u !== uid) };
-  return save.boosts ? { ...next, boosts: save.boosts.filter((b) => b.kind !== "energy_bead" || b.uid !== uid) } : next;
 }
 
 export function rename(save: Save, uid: string, nickname: string | null): Save {

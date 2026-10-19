@@ -2,9 +2,8 @@
 import type { DataSet } from '../../../battle/core/src/index.ts';
 import type { Monster } from '../../../raising/core/index.ts';
 import type { GameSave } from '../../kernel/api.ts';
-import { engravingAccess } from '../../domain/engravings/engraving-access.ts';
 import {
-  activeEngravings, engravingById, engravingSkillOverrides, engravingStatBonus, type EngravingHolder,
+  activeEngravings, engravingSkillOverrides, engravingStatBonus, type EngravingHolder,
 } from '../../domain/engravings/engravings.ts';
 
 export const engravingHolder = (mon: Monster): EngravingHolder => ({ species: mon.species, level: mon.level, skills: mon.skills, learned: mon.learned });
@@ -38,16 +37,6 @@ export function settleEngravingResource(current: number, baseMax: number, bonus:
   // engraving's dormant shortfall; otherwise settlement would lose healed HP/PP.
   const dormant = base < current ? 0 : Math.max(0, deficit - bonus);
   return { base, deficit: Math.max(0, base + bonus - current) + dormant };
-}
-
-/** A released monster's engravings: finite copies go back to stock (ownership is unchanged), and its engraving state is dropped. */
-export function releaseEngravings(save: GameSave, uid: string) {
-  const stock = save.game.engravingStock;
-  for (const id of equippedEngravings(save, uid)) {
-    const def = engravingById(id);
-    if (def && !engravingAccess(def).unlimited) stock[id] = (stock[id] ?? 0) + 1;
-  }
-  delete save.game.modules[uid];
 }
 
 export function clearEngravingDeficit(save: GameSave, uid: string) {

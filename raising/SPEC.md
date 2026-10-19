@@ -171,10 +171,10 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 ## 8. Party, box and healing
 
 - 背包 (party): 1–6 ordered monsters, the first is sent out first. 精灵仓库 (box):
-  everything else, up to 1000 [chosen].
+  everything else, with no limit [chosen].
 - A newly obtained monster joins the party if there is room, else the box.
-- Deposit, withdraw, reorder, rename (≤12 characters), 放生 (release). The last
-  party monster can't be deposited or released.
+- Deposit, withdraw, reorder, rename (≤12 characters). The last party monster
+  can't be deposited. A monster is never released: there is no 放生 [chosen].
 - 精灵恢复舱: `healAll` restores HP, PP and status for free [chosen; Seer charged
   赛尔豆 without 超能NoNo, which has no meaning here].
 
@@ -221,7 +221,7 @@ core/stats.ts          stat formula and caps (also used by battle core)
 core/growth.ts         4 EXP curves
 core/monster.ts        create, 学习力, 个体, 性格, EXP/levels, skills, evolution
 core/rewards.ts        after-battle EXP/学习力 split, exp pool, 经验分配器
-core/storage.ts        party/box, release, rename, heal, item counts, 精元 hatching
+core/storage.ts        party/box, rename, heal, item counts, 精元 hatching
 core/items.ts          raising items, boosters, 能量珠, tickBoosts
 core/dex.ts            Dex from parsed data files
 core/index.ts          the barrel

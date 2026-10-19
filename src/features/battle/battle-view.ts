@@ -2,7 +2,7 @@
 import type { BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
 import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
-import { capacityReason, STORAGE_FULL_REASON, storageFull } from '../../kernel/acquire.ts';
+import { capacityReason } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
 import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
 import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
@@ -37,7 +37,6 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
   const { battle, encounter } = session;
   if (encounter) return encounter.category === 'trainer' ? '训练师的精灵不可捕捉。' : '首领与招募挑战不可捕捉，胜利后通过精元或任务获取。';
   if (!meetsWildCapturePrerequisite(battle.active(1).species.id, battle.active(0).species.id)) return '捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。';
-  if (storageFull(rt.save)) return STORAGE_FULL_REASON;
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
 }
 

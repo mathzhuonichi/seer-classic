@@ -2,7 +2,7 @@
 import { findMon } from '../../../raising/core/index.ts';
 import { BREEDING_RECIPES, canBreedParents, chooseBreedingOutcome } from '../../domain/recipes/breeding.ts';
 import { FUSION_RECIPES, canFuseParents, chooseFusionOutcome, fusionBeadItemId } from '../../domain/recipes/fusion.ts';
-import { acquire, allowance, capacityReason, ensureAcquisitionCapacity } from '../../kernel/acquire.ts';
+import { acquire, allowance, capacityReason } from '../../kernel/acquire.ts';
 import { notice, type ActionHandler, type Feature } from '../../kernel/api.ts';
 import type { CollectionAction } from './feature.ts';
 
@@ -32,8 +32,7 @@ const breed: ActionHandler<'breed'> = (rt, action) => {
   if (!recipe) throw new Error('繁殖配方不存在。');
   const first = findMon(save, action.firstUid), second = findMon(save, action.secondUid);
   if (!canBreedParents(recipe, first, second)) throw new Error('双亲不符合配对条件：请选择两只指定成熟形态、至少50级的精灵，雄性必须为第一代。');
-  // Validate capacity and every catalog outcome before consuming the selection RNG.
-  ensureAcquisitionCapacity(save);
+  // Validate every catalog outcome and the six-copy capacity before consuming the selection RNG.
   for (const outcome of recipe.outcomes) ctx.dex.species(outcome.species);
   if (recipe.outcomes.filter(outcome => outcome.weight > 0).every(outcome => allowance(ctx, save, outcome.species).remaining < 1)) {
     throw new Error('本配方所有结果均已达到六份上限。');

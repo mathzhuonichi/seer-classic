@@ -2,5 +2,5 @@
 export { type EngravingsAction, engravingsFeature, type EngravingsSlice } from './feature.ts';
 export { engravingLedger, type EngravingLedger, engravingOptions, engravingView } from './options.ts';
 export {
-  clearEngravingDeficit, engravingHolder, engravingLoadout, equippedEngravingCounts, equippedEngravings, releaseEngravings, settleEngravingResource,
+  clearEngravingDeficit, engravingHolder, engravingLoadout, equippedEngravingCounts, equippedEngravings, settleEngravingResource,
 } from './loadout.ts';
