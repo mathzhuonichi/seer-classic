@@ -56,7 +56,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | `battle/ai/` | The `BattlePolicy` the game injects (`src/ai.ts`, `AI_POLICY`): `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
 | `raising/core/` | Pure raising rules: stats, growth curves, monsters, storage, items, rewards and the dex. They draw from the `Rng` they are given; the game passes the battle core's. `types.ts` defines the save shapes. |
 | `data/` | The catalog and remake data; see [data/README.md](data/README.md). |
-| `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `refactor/move-files.mjs` (file moves with import rewriting, kept until wave 2 ends); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate). |
+| `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate). |
 | `public/` | Runtime assets. Large ones are ignored by Git and travel in a separate asset archive. |
 | `src-tauri/`, `distribution/` | The Tauri desktop shell; files copied into the portable browser package (`start.py`, `PLAYTEST.md`). |
 | `design/` | Design notes ([index](design/notes/INDEX.md)) and preserved source snapshots. |
