@@ -3,8 +3,20 @@
 .world-scene:focus-visible{outline:2px solid #c4fcff;outline-offset:-2px}
 .world-background{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
 .world-authored-light{position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#ffefd60c,transparent 55%,#12304a16)}
-.world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;height:36px;padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/hd/map-nameplate.svg') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
+.world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;--plate-height:36px;height:var(--plate-height);padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/hd/map-nameplate.svg') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
 .world-location-hud strong{font-size:12px;font-weight:700;line-height:1.4;text-shadow:0 1px 2px #002656;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* A name wider than the fixed plate's straight middle (nameplate.ts) gets a plate of three overlapping pieces: the slanted ends keep the
+   art's scale, and the straight middle (viewBox units 36 to 197 of the art's 233 by 53, as an SVG view) stretches to the name. An end
+   is 36 units wide. The middle is clipped to the content box, which runs 1px under each end; its tile overhangs that clip, so the
+   clip rather than an anti-aliased tile edge ends it and no gap can open between pieces (a 3-slice border-image left a seam in WebKit).
+   The text keeps the 6px gap a seven-character name has on the 160px fixed plate, and the 3px lift, as its own padding. */
+.world-location-hud.world-location-hud-wide{--plate-cap:calc(var(--plate-height)*36/53);width:max-content;padding:0 calc(var(--plate-cap) - 1px);
+  background:url('/ui/classic/hd/map-nameplate.svg#svgView(viewBox(36,0,161,53);preserveAspectRatio(none))') center/calc(100% + 8px) 100% no-repeat content-box}
+.world-location-hud.world-location-hud-wide strong{box-sizing:border-box;padding:0 7px 3px}
+.world-location-hud-wide::before,.world-location-hud-wide::after{content:'';position:absolute;top:0;bottom:0;width:var(--plate-cap);
+  background:url('/ui/classic/hd/map-nameplate.svg') left/auto 100% no-repeat}
+.world-location-hud-wide::before{left:0}
+.world-location-hud-wide::after{right:0;background-position:right}
 .world-gate{position:absolute;display:grid;place-items:center;padding:6px;min-width:52px;min-height:52px;background:none;border:0;border-radius:50%;box-shadow:none;z-index:3;color:#fff9df;text-shadow:0 1px 3px #142c40;transform:translate(-50%,-50%)}
 .world-gate:hover{transform:translate(-50%,-50%);background:none;border:0;box-shadow:none}
 .world-gate:focus-visible{outline:2px solid #fff7bc;outline-offset:2px}
@@ -83,7 +95,7 @@
 .world-roamer[data-motion=walking] .world-roaming-footsteps i{animation-play-state:running}
 @keyframes world-creature-stride{0%,50%,100%{transform:translateY(0)}25%,75%{transform:translateY(-2px)}}
 @keyframes world-creature-footfall{0%{opacity:.75;scale:.7}100%{opacity:0;scale:1.25}}
-@media(max-width:760px){.world-location-hud{top:6px;width:140px;height:32px;padding:0 16px 3px}.world-location-hud strong{font-size:11px}.world-gate{min-width:40px;min-height:40px;padding:4px}.world-gate-caption{max-width:120px}.world-gate-caption strong{font-size:10px}.world-gate-caption small{font-size:8px}.world-gate-arrow{font-size:34px;line-height:34px}.world-character-name{font-size:9px}.world-character-name small{font-size:7px}.world-dialogue{bottom:12px;padding:13px}.world-dialogue-copy h3{font-size:17px}.world-ground-hint{font-size:9px;bottom:7px;left:9px}}
+@media(max-width:760px){.world-location-hud{top:6px;width:140px;--plate-height:32px;padding:0 16px 3px}.world-location-hud strong{font-size:11px}.world-gate{min-width:40px;min-height:40px;padding:4px}.world-gate-caption{max-width:120px}.world-gate-caption strong{font-size:10px}.world-gate-caption small{font-size:8px}.world-gate-arrow{font-size:34px;line-height:34px}.world-character-name{font-size:9px}.world-character-name small{font-size:7px}.world-dialogue{bottom:12px;padding:13px}.world-dialogue-copy h3{font-size:17px}.world-ground-hint{font-size:9px;bottom:7px;left:9px}}
 @media(max-height:500px){.world-dialogue{bottom:10px;padding:12px 15px}.world-dialogue-portrait{width:66px;height:66px}.world-dialogue-actions{margin-top:10px}.world-dialogue-copy h3{font-size:16px}.world-character-name{font-size:8px;padding:1px 4px}.world-character-name small{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.world-player{transition:none}.world-arrival .world-scene{animation:none}.world-roaming-step,.world-roaming-footsteps i,.world-gate-arrow{animation:none}.world-roaming-footsteps{display:none}}
 
@@ -137,7 +149,6 @@
 
 /* A keyed floor keeps one opponent on the existing central tower platform. */
 .world-tower-scene{animation:world-arrive .25s ease-out}
-.world-tower-scene .world-location-hud{width:224px}
 .world-tower-choose{position:absolute;top:9px;right:12px;z-index:12;min-height:28px;padding:4px 12px;border:1px solid #8ac9e8;border-radius:4px;background:#103b60e8;color:#effaff;font-size:12px;line-height:18px;box-shadow:0 1px 3px #05234266}
 .world-tower-choose:hover{background:#1c5278;border-color:#c0efff;transform:none}
 .world-tower-choose:focus-visible{outline:2px solid #ffe47b;outline-offset:2px}
@@ -145,5 +156,5 @@
 .world-tower-opponents{display:grid;gap:3px;list-style:none;margin:8px 0 0;padding:0;font-size:12px;line-height:1.5;color:#effaff}
 .world-tower-opponents li{display:flex;align-items:baseline;gap:12px}
 .world-tower-opponents small{font-size:10px;color:#bdd3de}
-@container(max-width:480px){.world-tower-scene .world-location-hud{left:8px;transform:none;width:calc(100% - 108px)}.world-tower-choose{right:8px;padding:3px 9px}}
+@container(max-width:480px){.world-tower-scene .world-location-hud{left:8px;transform:none;max-width:calc(100% - 108px)}.world-tower-choose{right:8px;padding:3px 9px}}
 @media(prefers-reduced-motion:reduce){.world-tower-scene{animation:none}}

@@ -10,6 +10,7 @@ import { ARROW_STEPS, visiblePlayerPoint } from '../world-walk.ts';
 import { BRAVE_TOWER_LOCATION, findChallengeLocation, isWorldLocation, resolveWorldLocation, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
 import ClassicRobot from './ClassicRobot.tsx';
+import { nameplateClass } from './nameplate.ts';
 import { SceneContacts, at } from './SceneContacts.tsx';
 import { TowerHud } from './TowerHud.tsx';
 import { sceneCovered } from './scene-cover.ts';
@@ -100,7 +101,7 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
       aria-label={`${scene.name}。点击地面或方向键移动，点击精灵、设施或出口走过去互动。`} onClick={walkClick} onKeyDown={walkKey}>
       <img className="world-background" src={scene.background} alt="" draggable={false} onLoad={onLoad}/>
       {!scene.official&&<div className="world-authored-light" aria-hidden="true"/>}
-      <div className="world-location-hud" title={sceneTitle(scene)}><strong>{scene.name}</strong></div>
+      <div className={nameplateClass(scene.name)} title={sceneTitle(scene)}><strong>{scene.name}</strong></div>
       {tower&&<TowerHud tower={tower} onChooseStart={chooseTowerStart}/>}
       <SceneContacts scene={scene} layout={layout} exits={exits} creatures={creatures} battle={battle} frozen={frozen}
         onGate={gate} onApproach={approach} onOperate={operate}/>

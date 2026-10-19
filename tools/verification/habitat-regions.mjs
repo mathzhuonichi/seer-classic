@@ -51,7 +51,7 @@ await withSsr('habitat-regions',async load=>{
       }
     }
   });
-  check('The nameplate tooltip gives each subregion\'s full name, which the plate may cut off',()=>{
+  check('The nameplate tooltip starts with each subregion\'s full name',()=>{
     const slices=createGame(catalog,'').snapshot();
     for(const definition of definitions.regions){
       const {planet,region}=locate({planetId:definition.planetId,regionId:definition.id});
