@@ -8,7 +8,7 @@ import { expToNext, MAX_LEVEL } from "../../raising/core/growth.ts";
 import { MAX_EQUIPPED } from "../../raising/core/monster.ts";
 import { PARTY_MAX } from "../../raising/core/storage.ts";
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 
 /** Per-monster later-era mechanics state: equipped engravings and spent engraving resources. */
 export interface SavedModules {
@@ -33,6 +33,8 @@ export interface GameExtras {
   shopUnlocked: string[];
   recruitmentClaims: Record<string, number>;
   braveTower: { highestCleared: number; resumeFloor: number | null };
+  /** Cleared variant ids per encounter (the weekday objectives and fields the player picks before a Boss fight). */
+  bossVariants: Record<string, string[]>;
 }
 
 export type GameSave = Save & { game: GameExtras };
@@ -106,8 +108,14 @@ function fromVersion2(s: any, context: MigrationContext | undefined): any {
   return s;
 }
 
+// Version 4 records the variants cleared per encounter; earlier versions never offered a variant, so the record starts empty.
+function fromVersion3(s: any): any {
+  if (isRecord(s.game)) s.game.bossVariants ??= {};
+  return s;
+}
+
 // Each entry upgrades a save from version k to k + 1.
-const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1, 2: fromVersion2 };
+const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1, 2: fromVersion2, 3: fromVersion3 };
 
 export function migrate(raw: any, context?: MigrationContext): Save {
   let s = raw;
