@@ -3,10 +3,17 @@ import { isRegularEncounter } from '../challenges/boss-encounter.ts';
 import { braveTowerFloor } from '../challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign } from '../challenges/challenge-campaigns.ts';
 import type { AcquisitionCatalog, AcquisitionEncounter, AcquisitionSpecies } from './acquisition-model.ts';
+import { buildPredecessors, initialFormOf } from './species-graph.ts';
 
 type EssenceSource = Pick<AcquisitionEncounter, 'reward_hatches' | 'reward' | 'team'>;
-/** Original infant reward bindings take precedence over the defeated final form; undefined only for an empty team. */
-const encounterEssenceSpecies = (boss: EssenceSource) => boss.reward_hatches ?? boss.reward?.monster?.species ?? boss.team.at(-1)?.species;
+/**
+ * Original infant reward bindings take precedence; otherwise the essence hatches the initial form of the defeated final form's
+ * line at Lv1, as the original 分子转化器 did. Undefined only for an empty team.
+ */
+function encounterEssenceSpecies(boss: EssenceSource, predecessors: ReadonlyMap<number, ReadonlySet<number>>) {
+  const final = boss.team.at(-1)?.species;
+  return boss.reward_hatches ?? boss.reward?.monster?.species ?? (final === undefined ? undefined : initialFormOf(final, predecessors));
+}
 
 /** The controller redirects a field species that appears in a regular boss team. */
 export function interceptedFieldSpecies(bosses: readonly Pick<AcquisitionEncounter, 'id' | 'team'>[]): Set<number> {
@@ -53,6 +60,7 @@ export interface BossEssenceReward {
  */
 export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceReward[] {
   const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches!]));
+  const predecessors = buildPredecessors(catalog.species);
   return catalog.bosses.flatMap(boss => {
     const campaign = CHALLENGE_CAMPAIGNS.find(candidate => candidate.stages.some(stage => stage.bossIds.includes(boss.id)));
     const intermediate = !!campaign && !campaign.stages.at(-1)!.bossIds.includes(boss.id);
@@ -60,7 +68,7 @@ export function bossEssenceRewards(catalog: AcquisitionCatalog): BossEssenceRewa
     const authored = !explicit.length && !intermediate && !boss.reward?.learn_skill
       && boss.id !== 'boss_tower_brave_mystery' && braveTowerFloor(boss.id) === undefined;
     return (authored ? [`essence_${boss.id}`] : explicit).flatMap(itemId => {
-      const species = bindings.get(itemId) ?? encounterEssenceSpecies(boss);
+      const species = bindings.get(itemId) ?? encounterEssenceSpecies(boss, predecessors);
       if (species === undefined) return [];
       bindings.set(itemId, species);
       return [{ boss, campaign, itemId, species, authored }];

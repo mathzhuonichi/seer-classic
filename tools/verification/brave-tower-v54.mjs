@@ -80,9 +80,11 @@ await withSsr('brave-tower-v54',async load=>{
     const game=make(fixture(29,30)),before=parse(game).game.coins;
     assert(!game.snapshot().shopItems.some(item=>['item_suit_flash','item_gacha_coin'].includes(item.id)));
     reject(game,{type:'buyItem',itemId:'item_suit_flash',quantity:1});reject(game,{type:'buyItem',itemId:'item_gacha_coin',quantity:1});
-    win(game,30);assert.equal(parse(game).items.item_suit_flash,1);assert.equal(parse(game).game.coins,before+300);
+    const first=win(game,30);assert.equal(parse(game).items.item_suit_flash,1);assert.equal(parse(game).game.coins,before+300);
+    assert.match(first,/^第 30 层通过，可继续第 31 层。获得 300 赛尔豆及 \d+ 积累经验，另获得闪光套装。$/,'the result names the suit');
     assert(game.snapshot().items.some(item=>item.id==='item_suit_flash'&&item.count===1));
-    const repeat=make(parse(game));for(let floor=21;floor<=30;floor++)win(repeat,floor);
+    const repeat=make(parse(game));let again;for(let floor=21;floor<=30;floor++)again=win(repeat,floor);
+    assert.doesNotMatch(again,/闪光套装/,'a repeat clear pays and names no suit');
     assert.equal(parse(repeat).items.item_suit_flash,1);assert.equal(parse(repeat).game.coins,before+300+2550);
     assert.equal(repeat.snapshot().braveTower.milestones.find(row=>row.floor===30).cleared,true);
     reject(repeat,{type:'buyItem',itemId:'item_suit_flash',quantity:1});
@@ -113,8 +115,10 @@ await withSsr('brave-tower-v54',async load=>{
     assert.equal(parse(game).items.item_potion_hp_100,(before.items.item_potion_hp_100??0)+2);assert.equal(parse(game).game.coins,before.game.coins);
     const six=make(fixture(5,6)),coins=parse(six).game.coins;win(six,6);
     assert.equal(parse(six).items.item_gacha_coin,1);assert.equal(parse(six).game.coins,coins+60);assert(six.snapshot().items.some(item=>item.id==='item_gacha_coin'));
-    const noReward=make(fixture(50,51)),emptyBefore=parse(noReward);win(noReward,51);
+    const noReward=make(fixture(50,51)),emptyBefore=parse(noReward),passed=win(noReward,51),exp=parse(noReward).exp_pool-emptyBefore.exp_pool;
     assert.equal(parse(noReward).game.coins,emptyBefore.game.coins);assert.deepEqual(parse(noReward).items,emptyBefore.items);
+    assert(exp>0,'the win adds pooled experience');
+    assert.equal(passed,`第 51 层通过，可继续第 52 层。获得 ${exp} 积累经验。`,'a floor without beans states its experience alone');
   });
   check('A full six-copy allowance records the clear without promising another first-clear claim',()=>{
     for(const [floor,item] of [[60,'essence_ken'],[70,'essence_daidaiyong']]){

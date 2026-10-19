@@ -1080,7 +1080,7 @@
       "id": "boss_aluobisi",
       "category": "story",
       "sourceFile": "data/bosses/boss_aluobisi.json",
-      "sourceSha256": "3e52e67f6dc5eda41400ca5a000e4aa70b4147734df39dc5879c39bb11d3903a",
+      "sourceSha256": "a898ad93abdb7cc12ec35119c9b158c0e27b7b2bfdf7d8cee40ba7c5f0d2ce8b",
       "sourceNoteSha256": "f2a20bedd64d705e58bd2c51cc89d6b6deec0a4819a4c4904f271f586f686e07",
       "sourceUrls": [
         "https://news.4399.com/seer/tujian/146022.htm"
@@ -11276,7 +11276,7 @@
       "id": "boss_gaia",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_gaia.json",
-      "sourceSha256": "85ef8e0447824c9ee8e68c67a97622348b16b0c393598e920526825a9657d624",
+      "sourceSha256": "da1b482e3dd4ec8baf4b44131469b6ecb4a97730433c472405a5f51be5d53676",
       "sourceNoteSha256": "043a5cb61b48ae7486336c2511a9e083e6b392cc6197249812ba5435f82a8da9",
       "sourceUrls": [
         "https://news.7k7k.com/content/20100412/6704.html",

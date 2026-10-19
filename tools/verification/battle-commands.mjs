@@ -181,13 +181,22 @@ await withSsr('battle-commands', async load => {
   const NAMES_OUTCOME = /胜利|成功|失败|平局|撤离/, FLEE_LINE = '我方撤离了战斗。';
   const outcomeLines = ui => lastTurn(ui).filter(line => NAMES_OUTCOME.test(line) && line !== FLEE_LINE);
 
-  t.check('A wild victory says it once and names what it paid', () => {
-    const game = levelledLead({type: 'startTraining', species: 22, level: 3}), ui = screen(game);
+  /** What the settled battle in `game` paid since `before` (its exported save), in the result text's words. */
+  const paidText = (game, before) => {
+    const after = JSON.parse(game.exportSave()), coins = after.game.coins - before.game.coins, exp = after.exp_pool - before.exp_pool;
+    return coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验。` : `获得 ${exp} 积累经验。`;
+  };
+
+  t.check('A wild victory says it once and names what it paid: the coins, and the pooled experience with the Lv 100 lead\'s knockout share', () => {
+    const game = levelledLead({type: 'startTraining', species: 22, level: 3}), ui = screen(game), before = JSON.parse(game.exportSave());
     const foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
-    const view = playOut(game, ui, {turns: 5}), reward = `获得 ${coins} 赛尔豆及 ${exp} 积累经验。`;
+    const view = playOut(game, ui, {turns: 5}), reward = paidText(game, before), after = JSON.parse(game.exportSave());
     assert.ok(view.won, 'the levelled lead wins');
+    assert.equal(after.game.coins - before.game.coins, coins);
+    assert.ok(after.exp_pool - before.exp_pool > exp, 'the Lv 100 lead passes its knockout experience to the pool');
     assert.deepEqual(ui.dialogue.slice(-3), [`${foe}失去战斗能力。`, '战斗胜利！', reward]);
     assert.equal(view.result, reward);
+    assert.equal(game.snapshot().notices[0], reward, 'the settlement notice states the same payout');
     assert.deepEqual(outcomeLines(ui), ['战斗胜利！'], 'the end line alone names the win; the result text names the reward');
     assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, 'no line twice');
     t.witness('wild victory dialogue', ui.dialogue);
@@ -211,7 +220,8 @@ await withSsr('battle-commands', async load => {
 
   t.check('Each outcome is named once, by the last dialogue line, which the scene repeats once the battle closes; wild and challenge wording', () => {
     const lost = start => started(start, catalog, lastStand());
-    // [game, its title, the last two dialogue lines (how it ended, then the result text), play options]
+    // [game, its title, the last two dialogue lines (how it ended, then the result text), play options]; a win's result text
+    // ends with what it paid, which the save shows once it has settled.
     const outcomes = {
       'wild retreat': [wild(), '已撤离战斗', [FLEE_LINE, '本次撤离不发放战斗奖励。'], {action: {type: 'flee'}}],
       'wild loss': [lost({type: 'startTraining', species: 22, level: 100}), '战斗失败', ['战斗结束。', '战斗失败，可恢复精灵后继续探索。']],
@@ -220,8 +230,9 @@ await withSsr('battle-commands', async load => {
       'challenge win': [levelledLead({type: 'startBattle', bossId: PLAIN_TRAINER}, plain), '战斗胜利！', ['战斗结束。', '挑战成功，奖励已入账。']],
     };
     const said = {};
-    for (const [name, [game, title, ending, options]] of Object.entries(outcomes)) {
-      const ui = screen(game), view = playOut(game, ui, options), turn = lastTurn(ui);
+    for (const [name, [game, title, outcome, options]] of Object.entries(outcomes)) {
+      const ui = screen(game), before = JSON.parse(game.exportSave()), view = playOut(game, ui, options), turn = lastTurn(ui);
+      const ending = view.won ? [outcome[0], outcome[1] + paidText(game, before)] : outcome;
       assert.deepEqual([view.finished, view.challenge, battleResultTitle(view)], [true, name.startsWith('challenge'), title], name);
       assert.deepEqual(ui.dialogue.slice(-2), ending, `${name}: how it ended, then the outcome`);
       // App.tsx shows the result text as the scene's notice when the battle closes.
@@ -288,19 +299,31 @@ await withSsr('battle-commands', async load => {
     assert.deepEqual(bossRecord(game), settledWin(before), 'the presentation error does not drop the settlement');
   });
 
-  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
+  // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
+  const recruit = (() => {
     const game = createGame(catalog, JSON.stringify(base), {idle: () => {}});
-    // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
-    const recruit = catalog.species.find(({id}) => {
+    return catalog.species.find(({id}) => {
       if (!game.dispatch({type: 'startTraining', species: id, level: 5}).ok || !game.snapshot().battle) return false;
       if (game.snapshot().battle.name.startsWith('野外挑战')) return true;
       game.dispatch({type: 'flee'});
       game.dispatch({type: 'closeBattle'});
       return false;
     });
+  })();
+
+  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
     assert.ok(recruit, 'the catalog has a recruit-only species');
-    const {name, log} = game.snapshot().battle;
+    const {name, log} = started({type: 'startTraining', species: recruit.id, level: 5}).snapshot().battle;
     assert.deepEqual([name, log[0]], [`野外挑战：${recruit.name.zh}`, `${name}。`]);
+  });
+
+  t.check('A won field recruit names the essence it paid as its creature\'s, not a Boss\'s, then what the win paid', () => {
+    const game = levelledLead({type: 'startTraining', species: recruit.id, level: 5}), ui = screen(game), before = JSON.parse(game.exportSave());
+    const view = playOut(game, ui), essence = game.snapshot().items.find(item => item.id === `essence_recruit_${recruit.id}`);
+    assert.ok(view.won && essence?.count === 1, 'the levelled lead wins the essence');
+    assert.equal(essence.name, `${recruit.name.zh}精元`);
+    assert.equal(view.result, `${essence.name}已入库，到道具背包的精元页即可孵化。${paidText(game, before)}`);
+    assert.ok(!view.result.includes('首领'));
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {

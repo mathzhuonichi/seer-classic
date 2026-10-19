@@ -1,4 +1,4 @@
-/** Source-declared infant rewards, legacy essence inventories, and route consistency. */
+/** Source-declared infant rewards, legacy essence inventories, route consistency, and first-clear reward items. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { memoryStorage, withSsr } from './_harness.mjs';
@@ -78,16 +78,35 @@ await withSsr('boss-essence-targets', async load => {
   const catalogIndex = JSON.parse(fs.readFileSync('data/catalog_index.json', 'utf8'));
   assert.deepEqual(catalogIndex.monsters.find(mon => mon.id === 1220).evolves_to, [1221], 'Catalog index preserves the same forward edge.');
 
-  // Existing explicit bindings and final-enemy fallbacks retain their targets.
+  // Every encounter essence hatches an initial form at Lv1, as the original 分子转化器 did; the line's other forms follow by evolution.
+  const essences = bossEssenceRewards(catalog);
+  const lowerForms = essences.filter(reward => initial.get(reward.species).initialForms.some(form => form.species !== reward.species));
+  assert.deepEqual(lowerForms.map(reward => `${reward.boss.id} -> ${reward.species}`), [], 'no essence hatches a form that evolves from another');
+  // A defeated final form with no bound essence pays its line's initial form; the rematches whose source pays only a title stay paid.
+  const initialOf = species => {
+    const forms = initial.get(species).initialForms;
+    assert.equal(forms.length, 1, `${species}: one initial form`);
+    return forms[0].species;
+  };
+  const authoredFallbacks = { boss_spt_kelaifen2: 854, boss_spt_kelanite2: 536, boss_dark_trial_katesi: 167 };
+  for (const [bossId, species] of Object.entries(authoredFallbacks)) {
+    const boss = catalog.bosses.find(entry => entry.id === bossId);
+    assert.deepEqual(essences.filter(reward => reward.boss.id === bossId).map(reward => [reward.itemId, reward.species, reward.authored]),
+      [[`essence_${bossId}`, initialOf(boss.team.at(-1).species), true]], `${bossId}: the remake essence hatches the initial form`);
+    assert.equal(species, initialOf(boss.team.at(-1).species));
+  }
+  assert.deepEqual(essences.filter(reward => reward.boss.id === 'boss_gaia').map(reward => reward.species), [260], '盖亚精元 hatches 提坦');
+
+  // Existing explicit bindings retain their targets; final-enemy fallbacks hatch the line's initial form.
   const explicit = catalog.bosses.find(boss => boss.id === 'boss_spt_liaosi');
   hatchLegacyEssence(explicit, 'essence_liaosi', explicit.reward_hatches);
   const fallback = catalog.bosses.find(boss => !boss.reward_hatches && !boss.reward?.monster && !boss.reward?.learn_skill
     && !Object.keys(boss.reward?.items ?? {}).some(id => id.startsWith('essence_'))
     && boss.id !== 'boss_tower_brave_mystery' && !CHALLENGE_CAMPAIGNS.some(campaign => campaign.stages.some(stage => stage.bossIds.includes(boss.id))));
   assert.ok(fallback);
-  hatchLegacyEssence(fallback, `essence_${fallback.id}`, fallback.team.at(-1).species);
+  hatchLegacyEssence(fallback, `essence_${fallback.id}`, initialOf(fallback.team.at(-1).species));
   const bound = { id: 'boss_fixture', team: [{ species: 9 }], reward_hatches: 1, reward: { monster: { species: 4 } } };
-  assert.deepEqual(bossEssenceRewards({ bosses: [bound], items: [] }).map(reward => reward.species), [1], 'Explicit hatch binding remains authoritative.');
+  assert.deepEqual(bossEssenceRewards({ species: [], bosses: [bound], items: [] }).map(reward => reward.species), [1], 'Explicit hatch binding remains authoritative.');
 
   // Campaign stages must still withhold synthetic essences until their final stage.
   for (const campaign of CHALLENGE_CAMPAIGNS) {
@@ -117,6 +136,46 @@ await withSsr('boss-essence-targets', async load => {
   const before = restored.snapshot().monsters.length;
   restored.dispatch({ type: 'useItem', itemId: 'essence_boss_spt_ajiasha', uid: restored.snapshot().party[0] });
   assert.deepEqual(restored.snapshot().monsters.slice(before).map(mon => [mon.species, mon.level]), [[1060, 1]]);
+
+  // 里奥斯's first clear pays the 蓝武士装 once, as a collectible that only the clear gives, like Brave Tower's 闪光套装.
+  const suit = 'suit_blue_warrior', liaosi = createGame(battleCatalog, JSON.stringify(battleSave));
+  liaosi.dispatch({ type: 'cheatMonster', uid: liaosi.snapshot().party[0], level: 100 });
+  for (const clear of ['first', 'repeat']) {
+    liaosi.dispatch({ type: 'heal' });
+    const before = JSON.parse(liaosi.exportSave());
+    liaosi.dispatch({ type: 'startBattle', bossId: 'boss_spt_liaosi' });
+    liaosi.dispatch({ type: 'move', skillId: 10001 });
+    const { won, result } = liaosi.snapshot().battle ?? {};
+    assert.equal(won, true, `${clear} 里奥斯 clear`);
+    liaosi.dispatch({ type: 'closeBattle' });
+    const after = JSON.parse(liaosi.exportSave()), coins = after.game.coins - before.game.coins, exp = after.exp_pool - before.exp_pool;
+    assert.equal(after.items[suit], 1, `${clear} clear: one 蓝武士装 in all`);
+    // The result names the essence by the creature it hatches, then what the win paid: 500 beans, the pooled experience and,
+    // on the first clear only, the suit.
+    assert.equal(coins, 500, `${clear} clear: an SPT Boss pays 500 beans`);
+    assert.ok(exp > 0, `${clear} clear: the win adds pooled experience`);
+    const paid = `获得 ${coins} 赛尔豆及 ${exp} 积累经验${clear === 'first' ? '，另获得蓝武士装' : ''}。`;
+    assert.equal(result, `胡里亚精元已入库，到道具背包的精元页即可孵化。${paid}`, `${clear} clear: result text`);
+  }
+  assert.deepEqual(liaosi.snapshot().items.filter(item => item.id === suit).map(item => [item.name, item.kind, item.count]), [['蓝武士装', 'collectible', 1]]);
+  assert.ok(!liaosi.snapshot().shopItems.some(item => item.id === suit), 'the shop does not list it');
+  const unsold = liaosi.exportSave();
+  assert.equal(liaosi.dispatch({ type: 'buyItem', itemId: suit, quantity: 1 }).ok, false);
+  assert.equal(liaosi.exportSave(), unsold, 'nor sell it');
+
+  // A version-2 save keeps what version 3 retired or newly pays: 黑刺球's collection essence, whose recruitment retired when
+  // 卡特斯's essence began to hatch 黑刺球, becomes 卡特斯's essence, and an earlier 里奥斯 clear receives the 蓝武士装 once.
+  const version2 = { ...structuredClone(base), version: 2 }, katesi = 'essence_boss_dark_trial_katesi';
+  version2.items.essence_collection_167 = 1;
+  version2.game.shopUnlocked = ['essence_collection_167'];
+  version2.progress.bosses_cleared = ['boss_spt_liaosi'];
+  const upgraded = createGame(catalog, JSON.stringify(version2)), held = id => upgraded.snapshot().items.find(item => item.id === id);
+  assert.deepEqual([held(katesi)?.name, held(katesi)?.count, held('essence_collection_167')], ['黑刺球精元', 1, undefined], 'the essence moves');
+  assert.equal(held(suit)?.count, 1, 'an earlier 里奥斯 clear receives the suit');
+  const owned = upgraded.snapshot().monsters.length;
+  upgraded.dispatch({ type: 'useItem', itemId: katesi, uid: upgraded.snapshot().party[0] });
+  assert.deepEqual(upgraded.snapshot().monsters.slice(owned).map(mon => [mon.species, mon.level]), [[167, 1]], 'it hatches 黑刺球');
+  assert.ok(upgraded.snapshot().shopItems.some(item => item.id === katesi), 'its shop listing moves with it');
   assert.equal(JSON.stringify(catalog), originalCatalog, 'Controllers and fixture preserve the caller catalog.');
-  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'catalog immutability'] }));
+  console.log(JSON.stringify({ declaredInfantRewards: declaredRewards.length, checks: ['encyclopedia initial routes', 'legacy earned essence hatch and reload', 'inventory and replenishable shop targets', 'Bojiesi level-40 automatic evolution through normal training and reload', 'three catalog outputs agree', 'every essence hatches an initial form', 'existing explicit and fallback bindings', 'campaign intermediate and final rewards', 'actual victory settlement', 'first-clear collectible', 'version-2 retired essence and suit', 'catalog immutability'] }));
 });

@@ -22,6 +22,7 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
  const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
  const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
+ const {expToNext}=await load('/raising/core/growth.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
  // Two distinct inventory aliases deliberately hatch the same species. This catches
@@ -164,6 +165,19 @@ await withSsr('acquisition-limits-controller',async load=>{
    g.dispatch({type:'evolve',uid:mon.uid});assert.equal(parse(g).storage.find(m=>m.uid===mon.uid).species,target);
    assert.equal(parse(g).storage.filter(m=>m.species===target).length,6);
   }
+ });
+ check('A battle win whose experience reaches a capped evolution keeps the form and says why in the result text, once per line',()=>{
+  // Two 布布种子 one point short of Lv18 both take part: the lead, then the one switched in to win.
+  const save=copies(structuredClone(base),2,6),seeds=['lead','relief'].map(role=>({...template(1,17),uid:`battle-evolution-${role}`}));
+  for(const mon of seeds)mon.exp=expToNext(source.species.find(species=>species.id===1).growth,17)-1;
+  save.storage=save.storage.filter(m=>m.species!==1);save.storage.push(...seeds);save.party=seeds.map(mon=>mon.uid);
+  const g=make(save);g.dispatch({type:'startTraining',species:22,level:3});g.dispatch({type:'switch',uid:seeds[1].uid});
+  for(let turn=0;turn<10&&!g.snapshot().battle.finished;turn++)g.dispatch({type:'move',skillId:g.snapshot().battle.player.skills.find(skill=>skill.power>0&&skill.pp>0).id});
+  const view=g.snapshot().battle,trained=seeds.map(mon=>parse(g).storage.find(m=>m.uid===mon.uid));
+  assert(view.won,'a Lv17 布布种子 beats a Lv3 wild monster');assert.deepEqual(trained.map(m=>[m.species,m.level]),[[1,18],[1,18]]);
+  assert.match(view.result,/^获得 \d+ 赛尔豆及 \d+ 积累经验。布布草最多保留 6 份（已有 6 只、待孵化 0 份）。本次保留当前形态与已获得的经验，腾出额度后可手动进化。$/,
+   'the shared reason is given once');
+  assert.equal(g.snapshot().notices[0],view.result,'the settlement notice carries the same reason');
  });
  check('Shared input catalog remains immutable',()=>{assert.equal(JSON.stringify(source),sourceBytes);assert.equal(JSON.stringify(catalog),catalogBytes)});
  t.finish({limit:6,storageCapacity:PARTY_MAX+BOX_MAX});

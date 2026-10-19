@@ -47,8 +47,18 @@ export function startJourney(ctx: GameContext): Journey {
   return { save, rng };
 }
 
+/**
+ * Items version 3 retired, with their replacements. 卡特斯's essence now hatches 黑刺球, as the original's 暗黑武斗场 task paid
+ * it, so 黑刺球 has a native route and its collection recruitment and essence were retired.
+ */
+const VERSION_3_REPLACED_ITEMS: Readonly<Record<string, string>> = { essence_collection_167: 'essence_boss_dark_trial_katesi' };
+
 const migrationContext = (ctx: GameContext): MigrationContext => ({
-  recruitments: ctx.recruitments, introducedItems: { [CURE_ITEM_ID]: CURE_ITEM_STOCK },
+  recruitments: ctx.recruitments, introducedItems: { [CURE_ITEM_ID]: CURE_ITEM_STOCK }, replacedItems: VERSION_3_REPLACED_ITEMS,
+  firstClearItems: Object.fromEntries(ctx.encounters.flatMap(encounter => {
+    const items = (encounter.reward as { first_clear_items?: Record<string, number> } | undefined)?.first_clear_items;
+    return items ? [[encounter.id, items]] : [];
+  })),
 });
 
 /** Parses, migrates and validates a save; throws when it cannot be read. */

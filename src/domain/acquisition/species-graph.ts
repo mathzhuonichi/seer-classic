@@ -20,3 +20,8 @@ export function ancestorsOf(id:number,predecessors:ReadonlyMap<number,ReadonlySe
   }
   return ancestors;
 }
+
+/** The initial form of `id`'s line: its nearest ancestor without a predecessor, or `id` itself when it has none. */
+export function initialFormOf(id:number,predecessors:ReadonlyMap<number,ReadonlySet<number>>):number {
+  return ancestorsOf(id,predecessors).find(ancestor=>!predecessors.get(ancestor)!.size)??id;
+}

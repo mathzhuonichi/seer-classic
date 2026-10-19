@@ -2,29 +2,61 @@
 import type { Battle, BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { applyBattleRewards, computeStats, findMon, tickBoosts } from '../../../raising/core/index.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
-import { allowance, boundedAutoEvolve, storeMonster } from '../../kernel/acquire.ts';
+import { allowance, autoEvolution, storeMonster } from '../../kernel/acquire.ts';
 import { victoryReward } from '../../domain/economy.ts';
 import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
-import { commit, notice, replaceMonster, type BattleSession, type Runtime } from '../../kernel/api.ts';
+import { commit, notice, replaceMonster, type BattleSession, type GameContext, type Runtime } from '../../kernel/api.ts';
+import { resultText } from './battle-view.ts';
 
-type EncounterReward = { items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
+type EncounterReward = { items?: Record<string, number>; first_clear_items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
+/** The save's coins, pooled experience and collectibles: what they grow by over a settlement is what the battle paid. */
+type Purse = { coins: number; exp: number; collectibles: Record<string, number> };
+const purse = ({ ctx, save }: Runtime): Purse => ({
+  coins: save.game.coins, exp: save.exp_pool,
+  collectibles: Object.fromEntries(Object.entries(save.items).filter(([id]) => ctx.itemDefinitions.get(id)?.kind === 'collectible')),
+});
 
-/** What a victory paid in coins and pooled experience. */
-export const victoryText = (reward: { coins: number; exp: number }) => `获得 ${reward.coins} 赛尔豆及 ${reward.exp} 积累经验。`;
+/**
+ * What a victory paid since `before`: its coins, if any, its pooled experience (the victory bonus plus the knockout shares of
+ * Lv100 participants), and the collectibles only a clear pays, such as 里奥斯's 蓝武士装.
+ */
+function payoutText(ctx: GameContext, before: Purse, after: Purse): string {
+  const coins = after.coins - before.coins, exp = after.exp - before.exp;
+  const amounts = coins ? `获得 ${coins} 赛尔豆及 ${exp} 积累经验` : `获得 ${exp} 积累经验`;
+  const collectibles = Object.entries(after.collectibles).flatMap(([id, count]) => {
+    const gained = count - (before.collectibles[id] ?? 0);
+    return gained > 0 ? [`${itemName(ctx, id)}${gained > 1 ? `×${gained}` : ''}`] : [];
+  });
+  return collectibles.length ? `${amounts}，另获得${collectibles.join('、')}。` : `${amounts}。`;
+}
 
 export function settle(rt: Runtime) {
   const session = rt.session;
   if (!session?.battle.result || session.settled) return;
   session.settled = true;
-  const { battle } = session, result = battle.result!;
+  const { battle } = session, result = battle.result!, before = purse(rt);
   settleTeam(rt, battle);
   rt.save.items = { ...battle.sides[0].items };
   rt.rng.s = [...battle.rng.s];
   commit(rt, applyBattleRewards(rt.save, result.defeated, rt.ctx.dex, { autoEvolve: false }).save);
-  for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, uid)));
+  const kept = evolveParticipants(rt, result);
   if (result.reason === 'capture' && battle.capturedMon && session.wild) storeCapture(rt, session, battle.capturedMon);
-  settleOutcome(rt, session, result);
+  settleOutcome(rt, session, result, before, kept);
   commit(rt, tickBoosts(rt.save));
+}
+
+/**
+ * Each participant follows its automatic evolutions; returns why the six-copy allowance kept any of them back, each reason
+ * once: participants of one line held back by the same allowance share it.
+ */
+function evolveParticipants(rt: Runtime, result: BattleResult): string[] {
+  const kept = new Set<string>();
+  for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) {
+    const evolution = autoEvolution(rt, findMon(rt.save, uid));
+    replaceMonster(rt, evolution.mon);
+    if (evolution.blocked) kept.add(evolution.blocked);
+  }
+  return [...kept];
 }
 
 /** Saved HP/PP return to the unengraved scale; spent engraving bonus is kept as a deficit. */
@@ -60,16 +92,18 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
   session.resultMessage = `${rt.ctx.speciesName(captured.species)}已加入${rt.save.party.includes(captured.uid) ? '背包' : '仓库'}。`;
 }
 
-/** A victory's rewards and the challenge's progress, then a victory's notice. A capture is a wild victory: it also says where the catch went. */
-function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult) {
-  const reward = victoryReward(session.encounter);
+/**
+ * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and why evolutions
+ * were `kept` back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
+ */
+function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, kept: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
-  if (!result.success) return;
-  if (result.reason === 'capture') {
-    session.resultMessage += victoryText(reward);
-    notice(rt, `捕捉成功：${session.resultMessage}`);
-  } else notice(rt, session.resultMessage || victoryText(reward));
+  if (result.success) session.resultNotes.push(payoutText(rt.ctx, before, purse(rt)));
+  session.resultNotes.push(...kept);
+  if (!session.resultNotes.length) return;
+  const text = resultText(session);
+  notice(rt, result.reason === 'capture' ? `捕捉成功：${text}` : text);
 }
 
 function grantVictory(rt: Runtime, session: BattleSession) {
@@ -80,26 +114,34 @@ function grantVictory(rt: Runtime, session: BattleSession) {
   else game.coins += reward.coins;
 }
 
-/** Victory coins, first clears, reward items within the six-copy allowance and taught skills. */
+/** Victory coins, first clears and their items, reward items within the six-copy allowance, and taught skills. */
 function grantEncounterRewards(rt: Runtime, session: BattleSession) {
   const { save, ctx } = rt, boss = session.encounter!, reward = boss.reward as EncounterReward | undefined;
   const firstClear = !save.progress.bosses_cleared.includes(boss.id);
   const paid = session.hooks.rewards?.(boss, firstClear)
-    ?? { coins: victoryReward(boss).coins, items: Object.entries(reward?.items ?? {}), blocked: REPEAT_LATER };
+    ?? { coins: victoryReward(boss).coins, items: encounterItems(reward, firstClear), blocked: REPEAT_LATER };
   save.game.coins += paid.coins;
   if (firstClear) save.progress.bosses_cleared.push(boss.id);
-  let essenceGranted = false, essenceBlocked = false;
+  const essences: string[] = [];
+  let essenceBlocked = false;
   for (const [id, count] of paid.items) {
     const item = ctx.itemDefinitions.get(id);
     if (item?.kind !== 'essence' || item.hatches === undefined) { save.items[id] = (save.items[id] ?? 0) + Number(count); continue; }
     if (!firstClear && !isSpeciesRepeatable(item.hatches)) continue;
     const granted = Math.min(Number(count), allowance(ctx, save, item.hatches).remaining);
-    if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essenceGranted = true; } else essenceBlocked = true;
+    if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essences.push(id); } else essenceBlocked = true;
   }
   if (reward?.learn_skill) session.resultMessage = teachSkill(rt, session, reward.learn_skill);
-  else if (essenceGranted) session.resultMessage = '首领精元已入库，到道具背包的精元页即可孵化。';
+  else if (essences.length) session.resultMessage = `${essences.map(id => itemName(ctx, id)).join('、')}已入库，到道具背包的精元页即可孵化。`;
   else if (essenceBlocked) session.resultMessage = paid.blocked;
 }
+
+/** A catalogue item's name, as the bag shows it: an essence is named after the creature it hatches. */
+const itemName = (ctx: GameContext, id: string) => (ctx.catalog.items.find(item => String(item.id) === id)!.name as { zh: string }).zh;
+
+/** An encounter's reward items, and on its first clear its first-clear items too (里奥斯's 蓝武士装). */
+const encounterItems = (reward: EncounterReward | undefined, firstClear: boolean) =>
+  [...Object.entries(reward?.items ?? {}), ...firstClear ? Object.entries(reward?.first_clear_items ?? {}) : []];
 
 const REPEAT_LATER = '挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
 

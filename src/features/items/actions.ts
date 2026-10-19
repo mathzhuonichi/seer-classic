@@ -5,7 +5,7 @@ import { isShopItemAvailable } from '../../domain/item-shop.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import type { GameAction } from '../../kernel/contract.ts';
 import { allowance, boundedAutoEvolve, ensureAcquisitionCapacity, rollTrait } from '../../kernel/acquire.ts';
-import { TOWER_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
+import { REWARD_COLLECTIBLE_IDS } from '../../domain/catalog/enrichment.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import { SHOP_MAX_QUANTITY } from '../../domain/economy.ts';
 import {clearEngravingDeficit} from '../engravings/index.ts';
@@ -19,7 +19,7 @@ const itemName = (item: CatalogItem) => (item.name as { zh: string }).zh;
 
 const buyItem: ActionHandler<'buyItem'> = (rt, action) => {
   const { ctx, save } = rt, { itemId, quantity } = action;
-  if (TOWER_COLLECTIBLE_IDS.has(itemId)) throw new Error('此奖励需要通过对应的勇者之塔楼层获得。');
+  if (REWARD_COLLECTIBLE_IDS.has(itemId)) throw new Error('此奖励只能通过对应的挑战获得。');
   const item = findItem(ctx, itemId);
   const listed = item && (!item.trainer_supply_only || ctx.unlimitedItemIds.has(itemId))
     && isShopItemAvailable({ id: itemId, kind: String(item.kind) }, new Set(save.game.shopUnlocked));

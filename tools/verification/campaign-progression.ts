@@ -119,4 +119,29 @@ t.check('a last stage won on the player\'s 挣扎 completes the campaign and pay
   assert.deepEqual([after.game.battlesWon,after.game.coins,after.items[essence]],[save.game.battlesWon+1,save.game.coins+coins,(save.items[essence]??0)+1]);
   assert(after.exp_pool>=save.exp_pool+exp,'the pool gains the victory\'s experience besides the experience of the Boss the Lv 100 lead cannot take');
 });
+t.check('a replayed stage says it was passed again, and only a new clear says the next stage opened',()=>{
+  // White Tiger's guardians on 1 HP, whose clear pays no essence: the stage's own text is the outcome the player reads.
+  const weak=structuredClone(source),guardians=weak.bosses.find((boss:any)=>boss.id==='boss_campaign_baihu_guardians');
+  for(const member of guardians.team)Object.assign(member,{hp_override:1,member_rules:[],member_phases:[],skills:[20006]});
+  Object.assign(guardians,{phases:[],ai:{kind:'sequence',skills:[20006]}});
+  const save=JSON.parse(createGame(structuredClone(source),JSON.stringify(newSave(0x71cafe))).exportSave());
+  const play=(baihu:string[])=>{
+    const g=createGame(weak,JSON.stringify({...save,game:{...save.game,campaigns:{baihu}}}));
+    g.dispatch({type:'cheatAcquire',species:501,level:100});
+    const lead=g.snapshot().monsters.find(monster=>monster.species===501)!;
+    g.dispatch({type:'reorderParty',uids:[lead.uid,...g.snapshot().party.filter(uid=>uid!==lead.uid)]});
+    const before=JSON.parse(g.exportSave());
+    g.dispatch({type:'startCampaignStage',campaignId:'baihu',stageId:'guardians'});
+    for(let turn=0;turn<20&&!g.snapshot().battle!.finished;turn++)g.dispatch({type:'move',skillId:g.snapshot().battle!.player.skills.find(skill=>skill.power>0&&skill.pp>0)!.id});
+    assert(g.snapshot().battle!.won,'the 1-HP guardians fall');
+    // After the stage's text, the result states what the win paid: the measured coins and pooled experience.
+    const after=JSON.parse(g.exportSave()),coins=after.game.coins-before.game.coins,exp=after.exp_pool-before.exp_pool;
+    assert(coins>0&&exp>0,'a stage win pays coins and pooled experience');
+    return [g.snapshot().battle!.result,after.game.campaigns.baihu,`获得 ${coins} 赛尔豆及 ${exp} 积累经验。`];
+  };
+  const [first,opened,firstPaid]=play([]),[replayed,unchanged,replayPaid]=play(['guardians']),[finished,,finishedPaid]=play(['guardians','avatars','body']);
+  assert.equal(first,`本阶段完成，下一阶段已开启。${firstPaid}`);assert.deepEqual(opened,['guardians']);
+  assert.equal(replayed,`本阶段再次通过。${replayPaid}`,'a replay opens nothing');assert.deepEqual(unchanged,['guardians']);
+  assert.equal(finished,`白虎试炼已全部完成。${finishedPaid}`,'a finished campaign keeps its text');
+});
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});
