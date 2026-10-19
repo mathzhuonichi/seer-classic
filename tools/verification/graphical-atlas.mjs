@@ -55,6 +55,14 @@ await withSsr('graphical-atlas',async load=>{
     const missing=WORLD_PLANETS.flatMap(p=>p.regions.map(r=>`${p.id}/${r.id}`)).filter(id=>!landings.has(id));
     assert.deepEqual(missing,[],`Unreachable landing regions: ${missing.join(', ')}`);
   });
+  check('The overview offers 麒麟空间 beside the bases, and its one hotspot lands in the 麒麟六道轮回 scene',()=>{
+    const current=resolveWorldLocation('klose','plain'),view={kind:'overview'};
+    const offers=pages.overview.nodes.map(node=>atlas.atlasNodeAction(node,view,undefined,current))
+      .filter(action=>action?.target.kind==='travel'&&action.target.destination.planetId==='qilin');
+    assert.deepEqual(offers.map(action=>[action.label,action.target.destination]),[['前往麒麟空间',{planetId:'qilin',regionId:'space'}]]);
+    const {planet,region}=resolveWorldLocation('qilin','space');
+    assert.deepEqual([planet.galaxyId,region.campaignId],['ship','qilin'],'Outside every galaxy, like the bases; hosts its campaign');
+  });
   check('Galaxy, planet and region names and texts have no stray spaces at either end or before punctuation',()=>{
     const stray=(owner,id,keys)=>keys.filter(key=>/^\s|\s$|\s[，。、：]/.test(owner[key]??'')).map(key=>`${id}.${key}`);
     const found=[...WORLD_GALAXIES.flatMap(galaxy=>stray(galaxy,galaxy.id,['name','subtitle'])),...WORLD_PLANETS.flatMap(planet=>[

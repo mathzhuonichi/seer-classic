@@ -12,6 +12,7 @@ export interface EngravingDefinition {
   /** Bound species; empty = any species. */
   species: number[];
   levelMin: number;
+  /** The original CountermarkXMLInfo Max, kept as source metadata; `engravingAccess` sets the remake's cap. */
   maxOwned: number;
   /** Skill engravings: the engraved move. */
   moveIds?: number[];

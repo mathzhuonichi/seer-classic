@@ -5,6 +5,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
+import { campaignBackdrop } from '../../src/features/battle/index.ts';
+import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
 import { challengeDetail, challengeEntries, challengeHonors } from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
 import { suite } from './_harness.mjs';
@@ -77,6 +79,20 @@ t.check('five Helka training stages land at the lake, whose one contact opens �
     assert.equal(findSceneChallenges('helka', 'training-lake', bosses, boss.id).length, 0, 'A stage opens from the campaign contact, not as its own actor.');
   }
 });
+t.check('seven 麒麟 stages land at 麒麟空间 (map 73), whose one contact opens 麒麟六道轮回 in front of that scene', () => {
+  const { planet, region } = resolveWorldLocation('qilin', 'space');
+  assert.deepEqual([planet.id, region.id, region.campaignId, region.originalMapId], ['qilin', 'space', 'qilin', 73]);
+  const stages = game.snapshot().campaigns.find(campaign => campaign.id === 'qilin')!.stages.flatMap(stage => stage.bossIds);
+  assert.equal(stages.length, 7);
+  for (const id of stages) {
+    const boss = bosses.find(boss => boss.id === id)!;
+    assert.equal(boss.location, '麒麟空间');
+    assert.deepEqual(findChallengeLocation(boss), { planetId: 'qilin', regionId: 'space', staging: false }, id);
+    assert.equal(findSceneChallenges('qilin', 'space', bosses, id).length, 0, 'A stage opens from the campaign contact, not as its own actor.');
+  }
+  assert(region.background && ['official', 'remastered'].includes(region.backgroundKind!), 'The scene shows recovered map art.');
+  assert.deepEqual(campaignBackdrop(game.snapshot(), 'qilin'), { src: region.background, name: '麒麟空间' });
+});
 const spt = bosses.filter(boss => boss.category === 'spt');
 t.check('all SPT encounters use mapped habitats', () => {
   assert.equal(spt.length, catalog.bosses.filter((boss: any) => boss.category === 'spt').length);
@@ -114,6 +130,26 @@ t.check('actual space-station tower and dark-arena routes', () => {
   const hamo = findSceneChallenges('hamo', 'dragon-temple', bosses, 'boss_spt_hamoleite');
   assert.equal(hamo.length, resolveWorldLocation('hamo', 'dragon-temple').region.bossIds!.length, 'The selected mapped boss must not duplicate its existing scene actor.');
   assert.equal(findSceneChallenges('station', 'challenge-dock', bosses, 'missing-id').length, 0);
+});
+t.check('every Boss opens from the start: clearing its source prerequisites changes neither its start nor its archive status', () => {
+  const fresh = JSON.parse(game.exportSave()), campaignBosses = new Set(game.snapshot().campaigns.flatMap(row => row.stages.flatMap(stage => stage.bossIds)));
+  // Only a campaign's stage order and the Tower's floor order gate a fight; the other source chains are history.
+  const chained = encounters.filter((record: any) =>
+    record.unlock?.requires?.length && !campaignBosses.has(record.id) && braveTowerFloor(record.id) === undefined);
+  const attempt = (id: string, cleared: string[]) => {
+    const journey = createGame(catalog, JSON.stringify({ ...fresh, progress: { ...fresh.progress, bosses_cleared: cleared } }));
+    const result = journey.dispatch({ type: 'startBattle', bossId: id }), s = journey.snapshot();
+    return { ...result, battle: s.battle?.name ?? null, status: challengeDetail(challengeEntries(s).find(entry => entry.id === id)!, s, false).status };
+  };
+  let started = 0;
+  for (const record of chained) {
+    const open = attempt(record.id, []);
+    assert.deepEqual(attempt(record.id, [...record.unlock.requires]), open, record.id);
+    assert.equal(open.status, '可挑战', record.id);
+    if (open.ok) started++;
+  }
+  assert.equal(chained.length, 24, 'the 21 dark-arena doors, the second 克莱芬 and 克拉尼特 fights and the Mystery Realm 谱尼');
+  assert(started > 0, 'A fresh party starts some of them');
 });
 t.check('travel resolution starts no battle', () => {
   assert.equal(game.snapshot().battle, null, 'Finding travel destinations does not begin combat.');
