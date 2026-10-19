@@ -7,6 +7,7 @@ import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {migrate,newSave} from '../../src/kernel/save.ts';
+import {shellRoutes} from '../../src/app/shell-routes.ts';
 import {findChallengeLocation,resolveWorldLocation,WORLD_PLANETS} from '../../src/domain/world/world.ts';
 import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
@@ -269,6 +270,13 @@ function only(game:GameController,id:string):GameController{
   return Object.assign(Object.create(game),{snapshot:()=>({...full,bosses:full.bosses.filter(boss=>boss.id===id)})});
 }
 const checkedLabel=(html:string)=>html.match(/checked=""\/><span><strong>([^<]*)/)?.[1];
+/** The Boss world dialogue at the contact of `id`, opened with `variant` as WorldMap passes it (a travel request's pick). */
+function dialogueMarkup(game:GameController,id:string,variant?:string|null){
+  const s=game.snapshot(),destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!);
+  const {planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
+  const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
+  return renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,variant,onClose(){},onToggleDetails(){},onChooseStart(){}}));
+}
 
 t.check('The challenge archive lists every variant with its rules and objectives, picks the first not cleared, and offers 盖亚’s practice fight',()=>{
   const save=parse(journey());save.game.bossVariants={[EERSAILA]:['mon','tue']};
@@ -291,12 +299,7 @@ t.check('The challenge archive lists every variant with its rules and objectives
 });
 
 t.check('The Boss world dialogue offers the variant choice and states the picked variant’s rules and objectives',()=>{
-  const game=journey(),s=game.snapshot();
-  const dialogue=(id:string,variant?:string|null)=>{
-    const destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
-    const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
-    return renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,variant,onClose(){},onToggleDetails(){},onChooseStart(){}}));
-  };
+  const game=journey(),dialogue=(id:string,variant?:string|null)=>dialogueMarkup(game,id,variant);
   const plain=dialogue(EERSAILA);
   assert(plain.includes('<legend>挑战规则 · 已通过 0/7</legend>'));assert.equal(checkedLabel(plain),label(EERSAILA,'mon'));
   for(const variant of encounter(EERSAILA).variants)assert(plain.includes(variant.label.zh),variant.id);
@@ -308,6 +311,16 @@ t.check('The Boss world dialogue offers the variant choice and states the picked
   assert.equal(checkedLabel(practice),'练习战');assert(practice.includes('不计入挑战记录，也不发放精元'));
   const field=dialogue(LAOKE,'healing_field');
   assert(field.includes('规则：双方每回合结束时回复 10% 体力。'));assert(field.includes('失败条件：我方精灵全部倒下。'));
+});
+
+t.check('The archive’s pick travels to the Boss dialogue: 盖亚’s 练习战 stays the practice fight, and no pick takes the default',()=>{
+  const game=journey(),gaia=game.snapshot().bosses.find(boss=>boss.id===GAIA)!,travels:any[]=[];
+  const navigation={show(){},enterCampaign(){},travel:(destination:any)=>travels.push(destination)} as any;
+  const routes=shellRoutes({c:game,navigation,backdrops:{current:{} as any},setMessage(){},setSelected(){}});
+  routes.travelToChallenge(gaia,null);routes.travelToChallenge(gaia,'finish_with_crit');routes.travelToChallenge(gaia);
+  assert.deepEqual(travels.map(destination=>'variant' in destination),[true,true,false],'only a pick is carried');
+  const checked=travels.map(destination=>checkedLabel(dialogueMarkup(game,GAIA,destination.variant)));
+  assert.deepEqual(checked,['练习战',label(GAIA,'finish_with_crit'),label(GAIA,'within_2_turns')]);
 });
 
 t.finish();

@@ -32,15 +32,20 @@ const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
-/** A Boss with variants, and the variant picked in the archive: not its first, so the default pick does not stand in for it. */
-const VARIANT_BOSS = {id: 'boss_spt_eersaila', variant: 'thu'};
+/**
+ * Bosses with variants, and the pick made in the archive: 厄尔塞拉's 周四, not its first, so the default pick does not stand in for it,
+ * and 盖亚's practice fight (null), which the dialogue must not replace with a variant.
+ */
+const VARIANT_PICKS = [{id: 'boss_spt_eersaila', variant: 'thu'}, {id: 'boss_gaia', variant: null}];
+const PRACTICE_LABEL = '练习战';
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, economy, {writeLocalSave}, {gameAudio}, shell, pockets] = await Promise.all([
+    const [{createGame}, {loadCatalog}, {newSave}, economy, {writeLocalSave}, {gameAudio}, shell, pockets, archive] = await Promise.all([
       '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/domain/economy.ts', '/src/kernel/persistence.ts',
-      '/src/shared/audio/game-audio.ts', '/src/app/shell-navigation.ts', '/src/shared/item-categories.ts'].map(load));
+      '/src/shared/audio/game-audio.ts', '/src/app/shell-navigation.ts', '/src/shared/item-categories.ts', '/src/features/challenges/challenge-center.ts',
+    ].map(load));
     const catalog = await loadCatalog();
     /** The storage entries that `fill` writes. */
     const entries = fill => { const memory = memoryStorage(); fill(); return Object.fromEntries(memory); };
@@ -69,9 +74,12 @@ async function fixtures() {
     const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot};
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
-    const boss = catalog.bosses.find(entry => entry.id === VARIANT_BOSS.id);
-    const variant = {boss: boss.name.zh, label: boss.variants.find(entry => entry.id === VARIANT_BOSS.variant).label.zh};
-    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), variant};
+    const variants = VARIANT_PICKS.map(({id, variant}) => {
+      const boss = catalog.bosses.find(entry => entry.id === id), picked = variant && boss.variants.find(entry => entry.id === variant).label.zh;
+      return {boss: boss.name.zh, label: picked ?? PRACTICE_LABEL, caption: picked ? `${boss.name.zh}（${picked}）` : boss.name.zh};
+    });
+    const allChallenges = archive.CHALLENGE_TABS.find(([tab]) => tab === 'all')[1];
+    return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), variants, allChallenges};
   });
 }
 
@@ -347,14 +355,15 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
-/** The variant picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
-async function variantChoice({page, fixture}) {
-  const {boss, label} = fixture.variant, picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
+/** The variant (or practice fight) picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
+async function variantChoice({page, fixture}, {boss, label, caption: named}) {
+  const picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
     input => input.closest('label').querySelector('strong').firstChild.textContent);
   await waitWorld(page);
   await openTool(page, tool(fixture, 'challenge'));
+  await page.click(`.challenge-category-tabs button:text-is("${fixture.allChallenges}")`);
   await page.fill('input[aria-label="搜索挑战"]', boss);
-  await page.locator('.challenge-index-scroll button', {hasText: boss}).first().click();
+  await page.click(`.challenge-index-scroll button:has(strong:text-is("${boss}"))`);
   await page.locator('.challenge-entry-scroll .boss-variant-option', {hasText: label}).click();
   assert.equal(await picked('.challenge-entry-scroll'), label, 'the archive did not pick the variant');
   await page.click('.challenge-management .management-confirm-row button.primary');
@@ -363,7 +372,7 @@ async function variantChoice({page, fixture}) {
   await page.click('.world-dialogue-actions button.primary');
   await page.waitForSelector('.classic-battle');
   const caption = await page.$eval('.classic-battle-caption > span', element => element.textContent);
-  assert(caption.startsWith(`${boss}（${label}）`), `the battle did not start with the variant: ${caption}`);
+  assert(caption.startsWith(`${named} `), `the battle did not start with the pick: ${caption}`);
 }
 
 /** Each check runs in every engine, in a fresh browser with its save (`journey` by default). */
@@ -378,7 +387,10 @@ const CHECKS = [
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
     run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
-  {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle', run: variantChoice},
+  {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle',
+    run: session => variantChoice(session, session.fixture.variants[0])},
+  {name: 'the practice fight picked in the challenge archive is preselected in the Boss dialogue and starts the battle',
+    run: session => variantChoice(session, session.fixture.variants[1])},
 ];
 
 function within(ms, promise) {
