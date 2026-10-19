@@ -12,9 +12,12 @@ const context = {
 const version1 = (game, items = {}) => ({ ...newSave(1), version: 1, items, game });
 const version2 = (game, items = {}, cleared = []) => ({ ...newSave(1), version: 2, items, game, progress: { bosses_cleared: cleared, boss_attempts: {} } });
 const version3 = (game, cleared = []) => ({ ...newSave(1), version: 3, game, progress: { bosses_cleared: cleared, boss_attempts: {} } });
+const version4 = (cleared = [], attempts = {}) => ({
+  ...newSave(1), version: 4, game: { quests: [] }, progress: { bosses_cleared: cleared, boss_attempts: attempts },
+});
 
 test('new saves are written at the current version', () => {
-  assert.equal(SAVE_VERSION, 4);
+  assert.equal(SAVE_VERSION, 5);
   assert.equal(newSave(7).version, SAVE_VERSION);
   assert.equal(deserialize(serialize(newSave(7))).version, SAVE_VERSION);
 });
@@ -75,9 +78,23 @@ test('a version-3 clear of an encounter with an all-variant title records every 
   const migrated = migrate(version3({ quests: [] }, ['boss_gaia', 'boss_titled']), context);
   assert.deepEqual(migrated.game.bossVariants, { boss_titled: ['mon', 'tue'] });
   assert.deepEqual(migrate(version3({ quests: [] }, ['boss_gaia']), context).game.bossVariants, {}, 'only a cleared encounter records them');
-  assert.deepEqual(migrate(structuredClone(migrated), context), migrated, 'a version-4 save is not migrated again');
+  assert.deepEqual(migrate(structuredClone(migrated), context), migrated, 'a current save is not migrated again');
   const odd = migrate(version3({ quests: [], bossVariants: 'x' }, ['boss_titled']), context);
   assert.equal(odd.game.bossVariants, 'x', 'a malformed record is left as it is');
+});
+
+test('version 4 saves start a win record: none without a clear, and one win for each cleared encounter', () => {
+  const fresh = migrate(version4(), context);
+  assert.deepEqual([fresh.version, fresh.progress.boss_wins], [SAVE_VERSION, {}]);
+  const attempted = migrate(version4([], { boss_spt_luolasike: 3 }));
+  assert.deepEqual([attempted.progress.boss_wins, attempted.progress.boss_attempts], [{}, { boss_spt_luolasike: 3 }], 'attempts alone count no win');
+  const cleared = migrate(version4(['boss_spt_luolasike', 'boss_gaia'], { boss_spt_luolasike: 3, boss_gaia: 1 }));
+  assert.deepEqual(cleared.progress.boss_wins, { boss_spt_luolasike: 1, boss_gaia: 1 }, 'a clear is known to be a win; later ones were not recorded');
+  assert.deepEqual(cleared.progress.boss_attempts, { boss_spt_luolasike: 3, boss_gaia: 1 }, 'the attempts are kept');
+  assert.deepEqual(migrate(structuredClone(cleared)), cleared, 'a version-5 save is not migrated again and needs no context');
+  assert.deepEqual(migrate(version3({ quests: [] }, ['boss_gaia']), context).progress.boss_wins, { boss_gaia: 1 }, 'a version-3 save passes through');
+  const odd = migrate({ ...version4(['boss_gaia']), progress: { bosses_cleared: ['boss_gaia'], boss_attempts: {}, boss_wins: 'x' } });
+  assert.equal(odd.progress.boss_wins, 'x', 'a malformed record is left as it is');
 });
 
 test('malformed version-1 fields are left for validation to report', () => {

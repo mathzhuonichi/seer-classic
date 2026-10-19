@@ -42,11 +42,11 @@ function winRewardText(ctx: GameContext, reward: EncounterReward | undefined): s
   return items.length ? `获得${items.map(([id, count]) => towerRewardLabel(ctx, id, count)).join('、')}` : '';
 }
 
-/** The encounter's row at `attempts` attempts, with the ids of its `variantsCleared`. */
+/** The encounter's row at `attempts` attempts of which `wins` were won, with the ids of its `variantsCleared`. */
 export function encounterView(
-  ctx: GameContext, source: BossEncounter, attempts = 0, variantsCleared: readonly string[] = [],
+  ctx: GameContext, source: BossEncounter, attempts = 0, wins = 0, variantsCleared: readonly string[] = [],
 ): Omit<BossView, 'cleared' | 'attempts'> {
-  const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras, honors = encounterHonors(b.reward);
+  const b = bossEncounterForAttempt(source, attempts, wins), extra = b as BossEncounter & EncounterExtras, honors = encounterHonors(b.reward);
   const variants = variantViews(b, variantsCleared), variantHonors = allVariantHonors(b.reward);
   const floor = braveTowerFloor(b.id);
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
@@ -78,6 +78,6 @@ export function catalogViews(ctx: GameContext) {
   return createCatalogViews(
     species,
     ctx.encounters.map(boss => encounterView(ctx, boss)),
-    (view, attempts, variantsCleared) => ({ ...view, ...encounterView(ctx, ctx.encounterById.get(view.id)!, attempts, variantsCleared) }),
+    (view, attempts, wins, variantsCleared) => ({ ...view, ...encounterView(ctx, ctx.encounterById.get(view.id)!, attempts, wins, variantsCleared) }),
   );
 }

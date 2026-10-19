@@ -127,12 +127,13 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   check('Attempt adapter yields 100, 90, 70 and an explicitly inferred floor of 50 while retaining 5000 HP',()=>{
     assert(source);const before=JSON.stringify(source);
     for(const [attempts,level] of [[0,100],[1,90],[3,70],[5,50],[6,50],[100,50],[-1,100],[NaN,100],[1.5,100]]){
-      const adapted=bossEncounterForAttempt(source,attempts);assert.notEqual(adapted,source);assert.notEqual(adapted.team,source.team);assert.equal(adapted.team[0].level,level);assert.equal(adapted.team[0].hp_override,5000);
+      assert.equal(bossEncounterForAttempt(source,attempts,attempts).team[0].level,level,'阿洛比斯 falls by one step per attempt, won or lost');
+      const adapted=bossEncounterForAttempt(source,attempts,0);assert.notEqual(adapted,source);assert.notEqual(adapted.team,source.team);assert.equal(adapted.team[0].level,level);assert.equal(adapted.team[0].hp_override,5000);
       const {level:_old,...originalMember}=source.team[0],{level:_new,...adaptedMember}=adapted.team[0];assert.deepEqual(adaptedMember,originalMember);
     }
     assert.equal(JSON.stringify(source),before);assert.equal(source.team[0].level,100);
     const ledger=runtime.encounters[attemptId].members[0].fields;assert.equal(ledger.level.status,'inferred');assert.equal(ledger.hp.status,'inferred');
-    const ordinary=bosses.get('boss_spt_liaosi');assert.equal(bossEncounterForAttempt(ordinary,100),ordinary);
+    const ordinary=bosses.get('boss_spt_liaosi');assert.equal(bossEncounterForAttempt(ordinary,100,50),ordinary);
   });
   check('Successful controller starts increment attempts exactly once and preserve the current battle level',()=>{
     const game=make();
@@ -153,6 +154,57 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       const beforeRng=parse(game).rng_state,core=start(game,{type:'startBattle',bossId:attemptId});assert.equal(core.active(1).level,level);assert.equal(core.active(1).maxHp,5000);assert.equal(parse(game).progress.boss_attempts[attemptId],attempts+1);assert.notDeepEqual(parse(game).rng_state,beforeRng);
       leave(game);const restored=make(parse(game));assert.equal(restored.snapshot().bosses.find(row=>row.id===attemptId).level,Math.max(50,level-10));
     }
+  });
+  const ladderId='boss_spt_luolasike',ladder=bosses.get(ladderId);
+  check('洛拉斯克’s adapter starts at 100 and falls 5 per win and 1 per other attempt, never below 1',()=>{
+    for(const [attempts,wins,level] of [[0,0,100],[1,1,95],[2,1,94],[1,0,99],[4,2,88],[3,9,85],[23,19,1],[24,19,1],[200,0,1],[NaN,NaN,100],[-2,1,100]]){
+      const adapted=bossEncounterForAttempt(ladder,attempts,wins);assert.equal(adapted.team[0].level,level,`${attempts} attempts, ${wins} wins`);
+      assert.equal(adapted.team[0].hp_override,10000);
+    }
+    assert.equal(ladder.team[0].level,100);
+  });
+  /** A save whose party is one Lv100 巴鲁斯 (water hits the ground-type Boss). */
+  const ladderSave=()=>{
+    const save=structuredClone(base),mon=createMonster(dex,6,100,new Rng(57),{uid:'evidence-v56-ladder',iv:31,nature:'hardy'});
+    save.storage=[mon];save.party=[mon.uid];return save;
+  };
+  /** The player's active member takes no damage, as a condition on the controller's engine battle. */
+  const shield=core=>{
+    const id='evidence-v56-shield';
+    core.active(0).conditions.push({id,def:{id,removed_on_switch:false,hooks:[{on:'modify_damage_taken',multiplier:0}]},turns:Infinity,appliedTurn:0});
+  };
+  const attack=game=>game.dispatch({type:'move',skillId:game.snapshot().battle.player.skills.find(skill=>skill.power>0&&skill.pp>0).id});
+  /** Plays real turns until the battle ends, with the Boss held at one HP and the player shielded; asserts the win. */
+  function win(game,core){
+    shield(core);for(let turn=0;turn<10&&!game.snapshot().battle.finished;turn++){core.active(1).hp=1;attack(game);}
+    assert.equal(game.snapshot().battle.won,true,game.snapshot().battle.result);game.dispatch({type:'closeBattle'});
+  }
+  /** Plays real turns until the battle ends, with the lone player member held at one HP; asserts the loss. */
+  function lose(game,core){
+    for(let turn=0;turn<10&&!game.snapshot().battle.finished;turn++){core.active(0).hp=1;attack(game);}
+    const battle=game.snapshot().battle;assert.deepEqual([battle.finished,battle.won],[true,false],battle.result);game.dispatch({type:'closeBattle'});
+  }
+  check('洛拉斯克 through the controller: 100, then 95 after a win, 94 after a loss, 93 after a retreat; the view and the battle agree',()=>{
+    const game=make(ladderSave()),row=id=>game.snapshot().bosses.find(entry=>entry.id===id);
+    const record=id=>{const {boss_attempts:attempts,boss_wins:wins}=parse(game).progress;return [attempts[id]??0,wins[id]??0];};
+    const fight=(id,level,finish)=>{
+      game.dispatch({type:'heal'});assert.equal(row(id).level,level,`${id}: the challenge view`);
+      const core=start(game,{type:'startBattle',bossId:id});assert.equal(core.active(1).level,level,`${id}: the battle`);finish(core);
+    };
+    fight(ladderId,100,core=>win(game,core));assert.deepEqual(record(ladderId),[1,1]);
+    fight(ladderId,95,core=>lose(game,core));assert.deepEqual(record(ladderId),[2,1]);
+    fight(ladderId,94,()=>leave(game));assert.deepEqual(record(ladderId),[3,1],'a retreat is a fight not won');
+    fight(ladderId,93,core=>win(game,core));assert.deepEqual(record(ladderId),[4,2]);
+    assert.equal(row(ladderId).level,88);assert.equal(make(parse(game)).snapshot().bosses.find(entry=>entry.id===ladderId).level,88,'the record survives a reload');
+    fight(attemptId,100,core=>win(game,core));assert.deepEqual(record(attemptId),[1,1]);
+    fight(attemptId,90,()=>leave(game));assert.equal(row(attemptId).level,80,'阿洛比斯 falls by 10 per attempt, won or lost');
+    t.witness('luolasike-ladder',{levels:[100,95,94,93,88],record:record(ladderId),aluobisi:record(attemptId)});
+  });
+  check('洛拉斯克 stops at level 1, and a win there keeps it at 1',()=>{
+    const save=ladderSave();save.progress.boss_attempts[ladderId]=30;save.progress.boss_wins[ladderId]=19;
+    const game=make(save),row=()=>game.snapshot().bosses.find(entry=>entry.id===ladderId);assert.equal(row().level,1);
+    const core=start(game,{type:'startBattle',bossId:ladderId});assert.equal(core.active(1).level,1);assert.equal(core.active(1).maxHp,10000);
+    win(game,core);assert.deepEqual([parse(game).progress.boss_wins[ladderId],row().level],[20,1]);
   });
   check('Rejected unknown, locked, active and exhausted starts preserve save, RNG and current battle atomically',()=>{
     const game=make();reject(game,{type:'startBattle',bossId:'missing-v56'},'unknown challenge');reject(game,{type:'startTower',floor:31},'locked floor');

@@ -338,7 +338,7 @@ SPT_CLAIMS = [
     ("lansite", "skills", [12563, 12562, 12564, 21333], "observed", [LANSITE], "The report names all four attacks."),
     ("leinaduo", "hp", 1500, "observed", [LIST2011], "The 2011 list states 1500 HP."),
     ("leinaduo", "skills", [20145, 10331, 10336, 10335], "observed", [LEINADUO], "The report names all four attacks."),
-    ("luolasike", "level", 100, "observed", [LUOLA], "The fight starts at level 100; the per-win level decrease is not modelled."),
+    ("luolasike", "level", 100, "observed", [LUOLA], "The fight starts at level 100; each win lowers it by 5 and each lost fight by 1, down to level 1."),
     ("moguguai", "level", 10, "observed", [MUSH7K, LIST2011, SPT2011, MAPS, MUSHROOM],
      "Four period reports and the official SPT table give level 10; the 2010-06 report's 15 is the SPT panel's recommended level."),
     ("naduolei", "hp", 1400, "observed", [NADUO], "The report states 1400 HP; the same page's later 2000-3000 is a guess."),

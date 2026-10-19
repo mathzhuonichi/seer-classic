@@ -194,6 +194,16 @@ species, nature and skill exists. `rng_state` is the sfc32 four-word state
 shared with the battle core. The app only moves strings; the medium (file,
 IndexedDB, Tauri fs) is the app's choice.
 
+`progress` records encounters by id: `bosses_cleared` (first clears),
+`boss_attempts` (recorded fights, counted when one starts) and `boss_wins`
+(recorded fights won, counted when the victory is settled; a capture is a
+victory). A fight with no record (a practice fight, a battle facility) counts
+none of them, and every recorded fight not won, a retreat too, counts as lost.
+The attempt-based Boss level rule reads both counts (`bossEncounterForAttempt`):
+阿洛比斯 drops 10 levels per fight, 洛拉斯克 5 per win and 1 per loss, down to
+level 1. Version 5 added `boss_wins`: an older save starts at one win for each
+cleared encounter, since only the first clear was recorded.
+
 ## 10. Raising items (`kind: "raising"`, `raising_effect`)
 
 | op | fields | effect |

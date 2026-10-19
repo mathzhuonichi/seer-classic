@@ -3,7 +3,7 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 685,
+    "handledEntries": 686,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
     "approximatedEntries": 121,
@@ -4245,6 +4245,18 @@
           "scope": "root/rules/1",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "level_drops_per_attempt",
+          "scope": "root/rules/2",
+          "fields": [
+            "start",
+            "step_win",
+            "step_loss",
+            "floor"
+          ],
+          "implementation": "game adapter before battle construction"
         },
         {
           "rule": "objective:ko_all",

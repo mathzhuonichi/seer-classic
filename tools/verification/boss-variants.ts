@@ -6,7 +6,7 @@ import {Battle} from '../../battle/core/src/index.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
-import {migrate,newSave} from '../../src/kernel/save.ts';
+import {migrate,newSave,SAVE_VERSION} from '../../src/kernel/save.ts';
 import {shellRoutes} from '../../src/app/shell-routes.ts';
 import {findChallengeLocation,resolveWorldLocation,WORLD_PLANETS} from '../../src/domain/world/world.ts';
 import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
@@ -117,6 +117,7 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   assert.equal(view.won,true);assert.equal(essences(),1,'2 回合内 met: the essence');
   assert(view.result.startsWith(`已达成规则「${label(GAIA,'within_2_turns')}」的目标。提坦精元已入库`),view.result);
   assert.deepEqual(parse(game).game.bossVariants,{[GAIA]:['within_2_turns']});assert(parse(game).progress.bosses_cleared.includes(GAIA));
+  assert.equal(parse(game).progress.boss_wins[GAIA],1,'the win is counted');
   game.dispatch({type:'closeBattle'});
   const missed=parse(game);
   start(game,GAIA,'survive_10_then_ko');view=knockOut(game);
@@ -125,6 +126,7 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   const pool=poolText(game,missed);
   assert(pool,'the knockout pays pooled experience');
   assert.deepEqual([parse(game).game.coins,parse(game).game.battlesWon],[missed.game.coins,missed.game.battlesWon]);
+  assert.deepEqual([parse(game).progress.boss_attempts[GAIA],parse(game).progress.boss_wins[GAIA]],[2,1],'an unmet objective is a lost attempt');
   assert.equal(view.result,`对手已倒下，但未达成规则「${label(GAIA,'survive_10_then_ko')}」的目标，本次挑战未通过，请按规则要求重试。${pool}`);
   assert.equal(game.snapshot().notices[0],view.result,'the settlement notice states it');
   game.dispatch({type:'closeBattle'});
@@ -150,6 +152,7 @@ t.check('盖亚 without a variant is a practice fight: no attempt, clear record 
   const view=knockOut(game),after=parse(game);
   assert.equal(view.won,true);assert(view.result.startsWith('练习战胜利：未选择挑战规则，不计入挑战记录，也不发放精元。获得 '),view.result);
   assert.equal(after.items.essence_gaia,undefined);assert(!after.progress.bosses_cleared.includes(GAIA));assert.deepEqual(after.game.bossVariants,{});
+  assert.deepEqual(after.progress.boss_wins,before.progress.boss_wins,'no win');
   assert(after.game.coins>before.game.coins&&after.exp_pool>before.exp_pool,'the victory pays coins and pooled experience');
 });
 
@@ -203,10 +206,10 @@ t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the 
 
 const variantIds=(id:string)=>encounter(id).variants.map((variant:any)=>variant.id);
 
-t.check('A version-3 save opens at version 4 and keeps its clears; a 厄尔塞拉 clear stands for all its variants, a 盖亚 clear for none',()=>{
+t.check('A version-3 save opens at the current version and keeps its clears; a 厄尔塞拉 clear stands for all its variants, a 盖亚 clear for none',()=>{
   const v3=parse(journey());v3.version=3;delete v3.game.bossVariants;v3.progress.bosses_cleared=[GAIA,EERSAILA];
   const game=journey(v3),opened=parse(game);
-  assert.equal(opened.version,4);assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
+  assert.equal(opened.version,SAVE_VERSION);assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
   assert.deepEqual(opened.game.bossVariants,{[EERSAILA]:variantIds(EERSAILA)},'version 3 never showed 完胜盖亚, so 盖亚 records none');
   start(game,GAIA,'within_2_turns');knockOut(game);
   const reopened=parse(journey(parse(game)));
@@ -221,16 +224,17 @@ t.check('A version-3 save opens at version 4 and keeps its clears; a 厄尔塞�
 const VERSION_3_SAVE=readFileSync(new URL('./fixtures/save-version-3-boss-clears.json',import.meta.url),'utf8');
 const VERSION_3_HONORS=[{label:'击败盖亚',source:'盖亚'},{label:'称号：七色光羽',source:'厄尔塞拉'}];
 
-t.check('A save written by the version-3 game keeps the honour roll it showed at version 4, and opening it again changes nothing',()=>{
+t.check('A save written by the version-3 game keeps the honour roll it showed at the current version, and opening it again changes nothing',()=>{
   assert.equal(JSON.parse(VERSION_3_SAVE).version,3);
   const game=createGame(source,VERSION_3_SAVE,{createBattle:(options:any)=>(battle=new Battle(options)),idle:()=>{}}),opened=parse(game);
   const detail=()=>challengeDetail(challengeEntries(game.snapshot()).find(entry=>entry.id===EERSAILA)!,game.snapshot(),false);
-  assert.deepEqual([opened.version,opened.game.bossVariants],[4,{[EERSAILA]:variantIds(EERSAILA)}]);
+  assert.deepEqual([opened.version,opened.game.bossVariants],[SAVE_VERSION,{[EERSAILA]:variantIds(EERSAILA)}]);
+  assert.deepEqual(opened.progress.boss_wins,{[GAIA]:1,[EERSAILA]:1},'each clear it recorded counts as one win');
   assert.deepEqual(challengeHonors(game.snapshot()),VERSION_3_HONORS);
   assert.deepEqual([detail().status,detail().honors],['✓ 已通过 7/7','已获得：称号：七色光羽']);
   const again=journey(opened);
   assert.equal(again.exportSave(),game.exportSave(),'reopening the upgraded save changes nothing');
-  assert.deepEqual(migrate(structuredClone(opened)),opened,'a version-4 save is not migrated again');
+  assert.deepEqual(migrate(structuredClone(opened)),opened,'a current save is not migrated again');
   assert.deepEqual(challengeHonors(again.snapshot()),VERSION_3_HONORS);
   start(game,EERSAILA,'mon');
   assert(!knockOut(game).result.includes('荣誉档案'),'a later clear does not announce the title again');

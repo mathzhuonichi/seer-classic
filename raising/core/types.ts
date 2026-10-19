@@ -82,7 +82,8 @@ export interface Save {
   exp_pool: number; // 积累经验, spent through 经验分配器
   boosts?: Boost[]; // active 经验加速器 / 学习力双倍仪 / 能量珠, counted down per battle
   items: Record<string, number>;
-  progress: { bosses_cleared: string[]; boss_attempts: Record<string, number> };
+  // Per encounter: cleared ids, recorded fights, and how many of those fights were won.
+  progress: { bosses_cleared: string[]; boss_attempts: Record<string, number>; boss_wins: Record<string, number> };
   dex: { seen: number[]; owned: number[] };
 }
 
