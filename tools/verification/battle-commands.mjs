@@ -2,7 +2,8 @@
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
  * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
- * closing notice), and the hold on turn preparation while a turn plays.
+ * closing notice), a 挣扎 turn that ends a Boss battle (its frames and its settlement), and the hold on turn preparation while a
+ * turn plays.
  */
 import assert from 'node:assert/strict';
 import {levelledGames} from './_game-battle.mjs';
@@ -31,10 +32,11 @@ function manualClock() {
   };
 }
 await withSsr('battle-commands', async load => {
-  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}, idleSlots, {MAX_TURNS}] =
+  const [{createGame}, {loadCatalog}, {createBattlePlayer}, {CAPTURE_OUTCOME_MS}, {battleResultTitle}, {VICTORY_REWARDS}, idleSlots, core] =
     await Promise.all([
       '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/features/battle/battle-player.ts', '/src/features/battle/battle-playback.ts',
-      '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts', '/src/shared/idle.ts', '/battle/core/src/constants.ts'].map(load));
+      '/src/features/battle/battle-hud.ts', '/src/domain/economy.ts', '/src/shared/idle.ts', '/battle/core/src/index.ts'].map(load));
+  const {Battle, MAX_TURNS, STRUGGLE_SKILL} = core;
   const catalog = await loadCatalog(), t = suite('battle-commands');
   const base = JSON.parse(createGame(catalog, '', {idle: () => {}}).exportSave());
   base.rng_state = [101, 202, 303, 404];
@@ -164,9 +166,9 @@ await withSsr('battle-commands', async load => {
     }
     return game.snapshot().battle;
   };
-  /** A controller on the seeded journey with its lead at Lv 100, that has started `start`. */
-  const levelledLead = (start, input = catalog) => {
-    const game = createGame(input, JSON.stringify(base), {idle: () => {}});
+  /** A controller (createGame with `dependencies`) on the seeded journey with its lead at Lv 100, that has started `start`. */
+  const levelledLead = (start, input = catalog, dependencies = {}) => {
+    const game = createGame(input, JSON.stringify(base), {idle: () => {}, ...dependencies});
     game.dispatch({type: 'cheatMonster', uid: game.snapshot().party[0], level: 100});
     assert.ok(game.dispatch(start).ok && game.snapshot().battle, start.type);
     return game;
@@ -233,6 +235,39 @@ await withSsr('battle-commands', async load => {
     const challenge = outcomes['challenge loss'][0].snapshot().battle;
     assert.equal(challenge.log[0], `挑战${challenge.name}。`, 'a challenge opens as one');
     t.witness('outcome endings', said);
+  });
+
+  /** An SPT Boss whose win pays its essence; most SPT Bosses run out of PP in a long fight and then use 挣扎. */
+  const STRUGGLE_BOSS = 'boss_spt_silipu', STRUGGLE_ESSENCE = 'essence_boss_spt_silipu';
+  /** What the save holds of a win over the Boss: its clear, the battles won, the coins and its essence. */
+  const bossRecord = game => {
+    const save = JSON.parse(game.exportSave());
+    const {battlesWon: won, coins} = save.game;
+    return {cleared: save.progress.bosses_cleared.includes(STRUGGLE_BOSS), won, coins, essence: save.items[STRUGGLE_ESSENCE] ?? 0};
+  };
+  const settledWin = before => ({cleared: true, won: before.won + 1, coins: before.coins + VICTORY_REWARDS.encounter.coins, essence: before.essence + 1});
+  /** The levelled lead against the Boss, and the engine battle the controller built. */
+  const bossBattle = () => {
+    let battle;
+    const game = levelledLead({type: 'startBattle', bossId: STRUGGLE_BOSS}, catalog, {createBattle: options => (battle = new Battle(options))});
+    return {game, battle};
+  };
+
+  t.check('A Boss out of PP falls to its own 挣扎 recoil: the turn plays like any move, and the win is settled', () => {
+    const {game, battle} = bossBattle(), boss = battle.active(1);
+    // The Boss has spent its PP and has 1 HP left; it acts first, so its recoil ends the battle before the lead's command.
+    for (const id of boss.skills) boss.pp[id] = 0;
+    boss.hp = 1;
+    battle.active(0).stats.spe = 1;
+    const before = bossRecord(game), ui = screen(game);
+    ui.player.submit({type: 'move', skillId: strongest(game.snapshot().battle).id});
+    ui.rerender();
+    ui.clock.runAll();
+    const view = game.snapshot().battle, moves = view.animation.frames.filter(frame => frame.skillId !== undefined);
+    assert.deepEqual(moves.map(frame => [frame.side, frame.kind, frame.skillId]), [[1, 'physical', STRUGGLE_SKILL.id]], 'the Boss\'s 挣扎 is the only move');
+    assert.ok(ui.dialogue.includes(`${view.enemy.name}使用了挣扎。`), 'the log names 挣扎');
+    assert.deepEqual([view.finished, view.won, ui.dialogue.at(-1)], [true, true, view.result], 'the screen ends on the result text');
+    assert.deepEqual(bossRecord(game), settledWin(before), 'cleared, one more battle won, the victory coins and the essence');
   });
 
   t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {

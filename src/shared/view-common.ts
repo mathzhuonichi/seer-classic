@@ -13,6 +13,10 @@ const STRUGGLE_VIEW = {
   power: STRUGGLE_SKILL.power, pp: STRUGGLE_SKILL.pp, maxPp: STRUGGLE_SKILL.pp, description: '技能耗尽时使用。',
 };
 
+/** The skill a battle event names: a catalog skill, or 挣扎, which only the engine defines. */
+export const moveSkill = (data: Pick<DataSet, 'skills'>, id: number): BattleSkill | undefined =>
+  id === STRUGGLE_SKILL.id ? STRUGGLE_SKILL : data.skills.get(id);
+
 export function skillView(data: DataSet, id: number, pp?: Record<string, number>, engraved?: BattleSkill): SkillView {
   const skill = engraved ?? data.skills.get(id);
   if (!skill) return { id, ...STRUGGLE_VIEW };

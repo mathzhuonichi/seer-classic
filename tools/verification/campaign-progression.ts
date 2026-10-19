@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {STRUGGLE_SKILL} from '../../battle/core/src/index.ts';
+import {VICTORY_REWARDS} from '../../src/domain/economy.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
 import {CHALLENGE_CAMPAIGNS} from '../../src/domain/challenges/challenge-campaigns.ts';
@@ -95,5 +97,26 @@ t.check('a finished campaign shows its last stage\'s instruction',()=>{
   save.game.campaigns.xuanwu=xuanwu.stages.map(stage=>stage.id);
   const finished=createGame(structuredClone(source),JSON.stringify(save)).snapshot().campaigns.find(campaign=>campaign.id==='xuanwu')!;
   assert.deepEqual([finished.finished,finished.description],[true,xuanwu.stages.at(-1)!.description]);
+});
+t.check('a last stage won on the player\'s 挣扎 completes the campaign and pays the victory and the essence',()=>{
+  // 玄武真身 on 1 HP with only a harmless move; the lead has spent all its PP, so 挣扎 is its one command.
+  const input=structuredClone(source),body=input.bosses.find((boss:any)=>boss.id==='boss_campaign_xuanwu_body');
+  body.team[0].hp_override=1;body.team[0].skills=[20001];
+  const journey=createGame(structuredClone(source),JSON.stringify(newSave(0x5eed)));
+  journey.dispatch({type:'cheatAcquire',species:70,level:100});
+  const save=JSON.parse(journey.exportSave());
+  save.game.campaigns.xuanwu=['guardians'];
+  for(const mon of save.storage)mon.pp=Object.fromEntries(mon.skills.map((id:number)=>[id,0]));
+  const game=createGame(input,JSON.stringify(save));
+  assert(game.dispatch({type:'startCampaignStage',campaignId:'xuanwu',stageId:'body'}).ok&&game.snapshot().battle);
+  const result=game.dispatch({type:'move',skillId:STRUGGLE_SKILL.id}),view=game.snapshot().battle!,after=JSON.parse(game.exportSave());
+  assert.equal(result.ok,true,result.notice);
+  assert(view.won&&view.log.some(line=>line.includes(`使用了${STRUGGLE_SKILL.name.zh}。`)),'the 挣扎 turn wins and the log names it');
+  const essence='essence_boss_campaign_xuanwu_body',{coins,exp}=VICTORY_REWARDS.encounter;
+  assert.deepEqual(after.game.campaigns.xuanwu,['guardians','body']);
+  assert(game.snapshot().campaigns.find(campaign=>campaign.id==='xuanwu')!.finished);
+  assert(after.progress.bosses_cleared.includes(body.id));
+  assert.deepEqual([after.game.battlesWon,after.game.coins,after.items[essence]],[save.game.battlesWon+1,save.game.coins+coins,(save.items[essence]??0)+1]);
+  assert(after.exp_pool>=save.exp_pool+exp,'the pool gains the victory\'s experience besides the experience of the Boss the Lv 100 lead cannot take');
 });
 t.finish({stages:CHALLENGE_CAMPAIGNS.reduce((count,campaign)=>count+campaign.stages.length,0)});

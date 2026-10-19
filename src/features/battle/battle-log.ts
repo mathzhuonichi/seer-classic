@@ -1,5 +1,6 @@
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { STAGE_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
+import { moveSkill } from '../../shared/view-common.ts';
 
 export type EventOf<T extends BattleEvent['type']> = Extract<BattleEvent, { type: T }>;
 
@@ -65,7 +66,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   const bare = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
   // Both sides can field the same species: then the side tells them apart.
   const name = 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
-  const skill = (id: number) => context.data.skills.get(id)?.name.zh || '技能';
+  const skill = (id: number) => moveSkill(context.data, id)?.name.zh || '技能';
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
     case 'move_used': return `${name}使用了${skill(event.skill)}。`;
