@@ -2,7 +2,7 @@
 import type { Battle, BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { applyBattleRewards, computeStats, findMon, tickBoosts } from '../../../raising/core/index.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
-import { allowance, boundedAutoEvolve, storeMonster } from '../../kernel/acquire.ts';
+import { allowance, autoEvolution, storeMonster } from '../../kernel/acquire.ts';
 import { victoryReward } from '../../domain/economy.ts';
 import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
 import { commit, notice, replaceMonster, type BattleSession, type GameContext, type Runtime } from '../../kernel/api.ts';
@@ -25,10 +25,21 @@ export function settle(rt: Runtime) {
   rt.save.items = { ...battle.sides[0].items };
   rt.rng.s = [...battle.rng.s];
   commit(rt, applyBattleRewards(rt.save, result.defeated, rt.ctx.dex, { autoEvolve: false }).save);
-  for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) replaceMonster(rt, boundedAutoEvolve(rt, findMon(rt.save, uid)));
+  const kept = evolveParticipants(rt, result);
   if (result.reason === 'capture' && battle.capturedMon && session.wild) storeCapture(rt, session, battle.capturedMon);
-  settleOutcome(rt, session, result, before);
+  settleOutcome(rt, session, result, before, kept);
   commit(rt, tickBoosts(rt.save));
+}
+
+/** Each participant follows its automatic evolutions; returns why the six-copy allowance kept any of them back. */
+function evolveParticipants(rt: Runtime, result: BattleResult): string[] {
+  const kept: string[] = [];
+  for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) {
+    const evolution = autoEvolution(rt, findMon(rt.save, uid));
+    replaceMonster(rt, evolution.mon);
+    if (evolution.blocked) kept.push(evolution.blocked);
+  }
+  return kept;
 }
 
 /** Saved HP/PP return to the unengraved scale; spent engraving bonus is kept as a deficit. */
@@ -65,14 +76,15 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
 }
 
 /**
- * A victory's rewards and the challenge's progress. A victory's result then says what it paid since `before`, and a notice
- * repeats it. A capture is a wild victory: its result also says where the catch went.
+ * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and why evolutions
+ * were `kept` back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
  */
-function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse) {
+function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, kept: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
   const after = purse(rt);
   if (result.success) session.resultNotes.push(payoutText({ coins: after.coins - before.coins, exp: after.exp - before.exp }));
+  session.resultNotes.push(...kept);
   if (!session.resultNotes.length) return;
   const text = resultText(session);
   notice(rt, result.reason === 'capture' ? `捕捉成功：${text}` : text);

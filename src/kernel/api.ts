@@ -42,7 +42,7 @@ export interface BattleSession {
   /** `side:slot` keys whose appearance follows a battle transform. */
   readonly transformedSlots: Set<string>;
   resultMessage: string;
-  /** What the settlement adds after the outcome: what a victory paid. */
+  /** What the settlement adds after the outcome: what a victory paid, then why the six-copy allowance kept back an automatic evolution. */
   resultNotes: string[];
   settled: boolean;
   logs: string[];
