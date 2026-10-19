@@ -7,7 +7,7 @@
  * default is every `gate` suite, and `all` is every suite except `tool` scripts. Naming suites runs exactly those. `.ts` suites
  * load through Vite SSR so extensionless imports resolve like the app, and every
  * exported `verify*`/`run*` function is called. A suite with `shards: N` runs through
- * parallel-shards.mjs on N cores. Logs and SUMMARY.json are written
+ * parallel-shards.mjs on at most N cores, and never more than --jobs. Logs and SUMMARY.json are written
  * to artifacts/verification/. Exits non-zero if any suite fails.
  */
 import fs from 'node:fs';
@@ -55,7 +55,7 @@ const timeoutMs = 900_000;
 const run = file => new Promise(resolve => {
   const {shards} = manifest[file];
   const args = file.endsWith('.ts') ? ['--input-type=module', '-e', tsRunner, file]
-    : shards ? [path.join(here, 'parallel-shards.mjs'), '--jobs', String(shards), path.join(here, file)] : [path.join(here, file)];
+    : shards ? [path.join(here, 'parallel-shards.mjs'), '--jobs', String(Math.min(shards, jobs)), path.join(here, file)] : [path.join(here, file)];
   const log = path.join(logDir, `${file}.log`), out = fs.openSync(log, 'w');
   const started = performance.now();
   const child = spawn(process.execPath, args, {cwd: root, stdio: ['ignore', out, out]});
