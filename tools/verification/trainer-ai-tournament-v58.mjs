@@ -202,7 +202,7 @@ await withSsr('trainer-ai-tournament-v58', async load => {
   function facilityEncounter(facility, rng, teamId) {
     const encounter = createFacilityEncounter(catalog, facility, rng, teamId);
     // start(): attempt scaling (facility encounters never count attempts) and normalization.
-    return normalizeNpcTrainingEncounter(catalog, bossEncounterForAttempt(encounter, 0));
+    return normalizeNpcTrainingEncounter(catalog, bossEncounterForAttempt(encounter, 0, 0));
   }
   const aiFor = encounter => ({kind: 'smart', allow_switch: true, style: encounter.ai?.style ?? 'balanced'});
 
