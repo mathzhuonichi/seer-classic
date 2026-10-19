@@ -172,6 +172,13 @@ await withSsr('battle-commands', async load => {
     return game;
   };
 
+  const isTurnHeader = line => /^第 \d+ 回合$/.test(line);
+  /** The dialogue since the last turn header. */
+  const lastTurn = ui => ui.dialogue.slice(ui.dialogue.findLastIndex(isTurnHeader));
+  /** Words that name a battle's outcome. The player's own flee line is the retreat itself, not a line about it. */
+  const NAMES_OUTCOME = /胜利|成功|失败|平局|撤离/, FLEE_LINE = '我方撤离了战斗。';
+  const outcomeLines = ui => lastTurn(ui).filter(line => NAMES_OUTCOME.test(line) && line !== FLEE_LINE);
+
   t.check('A wild victory says it once and names what it paid', () => {
     const game = levelledLead({type: 'startTraining', species: 22, level: 3}), ui = screen(game);
     const foe = game.snapshot().battle.enemy.name, {coins, exp} = VICTORY_REWARDS.wild;
@@ -179,6 +186,7 @@ await withSsr('battle-commands', async load => {
     assert.ok(view.won, 'the levelled lead wins');
     assert.deepEqual(ui.dialogue.slice(-3), [`${foe}失去战斗能力。`, '战斗胜利！', reward]);
     assert.equal(view.result, reward);
+    assert.deepEqual(outcomeLines(ui), ['战斗胜利！'], 'the end line alone names the win; the result text names the reward');
     assert.equal(new Set(ui.dialogue).size, ui.dialogue.length, 'no line twice');
     t.witness('wild victory dialogue', ui.dialogue);
   });
@@ -198,27 +206,26 @@ await withSsr('battle-commands', async load => {
   const PLAIN_TRAINER = 'trainer_attrition';
   const plain = {...catalog, trainers: catalog.trainers.map(trainer => trainer.id !== PLAIN_TRAINER ? trainer
     : {...trainer, team: trainer.team.map(mon => ({...mon, level: 1}))})};
-  const isTurnHeader = line => /^第 \d+ 回合$/.test(line);
 
   t.check('Each outcome is named once, by the last dialogue line, which the scene repeats once the battle closes; wild and challenge wording', () => {
     const lost = start => started(start, catalog, lastStand());
-    // [game, its title, the last two dialogue lines (how it ended, then the result text), the words that name the outcome, play options]
+    // [game, its title, the last two dialogue lines (how it ended, then the result text), play options]
     const outcomes = {
-      'wild retreat': [wild(), '已撤离战斗', ['我方撤离了战斗。', '本次撤离不发放战斗奖励。'], '本次撤离', {action: {type: 'flee'}}],
-      'wild loss': [lost({type: 'startTraining', species: 22, level: 100}), '战斗失败', ['战斗结束。', '战斗失败，可恢复精灵后继续探索。'], '战斗失败'],
-      'wild draw': [wild(stalled), '本场平局', [`已达到 ${MAX_TURNS} 回合上限。`, '本场平局，可恢复精灵后继续探索。'], '平局', {turns: MAX_TURNS}],
-      'challenge loss': [lost({type: 'startBattle', bossId: catalog.bosses[0].id}), '挑战失败', ['战斗结束。', '挑战失败，可恢复后再次挑战。'], '挑战失败'],
-      'challenge win': [levelledLead({type: 'startBattle', bossId: PLAIN_TRAINER}, plain), '战斗胜利！', ['战斗胜利！', '挑战成功，奖励已入账。'], '挑战成功'],
+      'wild retreat': [wild(), '已撤离战斗', [FLEE_LINE, '本次撤离不发放战斗奖励。'], {action: {type: 'flee'}}],
+      'wild loss': [lost({type: 'startTraining', species: 22, level: 100}), '战斗失败', ['战斗结束。', '战斗失败，可恢复精灵后继续探索。']],
+      'wild draw': [wild(stalled), '本场平局', [`已达到 ${MAX_TURNS} 回合上限。`, '本场平局，可恢复精灵后继续探索。'], {turns: MAX_TURNS}],
+      'challenge loss': [lost({type: 'startBattle', bossId: catalog.bosses[0].id}), '挑战失败', ['战斗结束。', '挑战失败，可恢复后再次挑战。']],
+      'challenge win': [levelledLead({type: 'startBattle', bossId: PLAIN_TRAINER}, plain), '战斗胜利！', ['战斗结束。', '挑战成功，奖励已入账。']],
     };
     const said = {};
-    for (const [name, [game, title, ending, named, options]] of Object.entries(outcomes)) {
-      const ui = screen(game), view = playOut(game, ui, options), lastTurn = ui.dialogue.slice(ui.dialogue.findLastIndex(isTurnHeader));
+    for (const [name, [game, title, ending, options]] of Object.entries(outcomes)) {
+      const ui = screen(game), view = playOut(game, ui, options), turn = lastTurn(ui);
       assert.deepEqual([view.finished, view.challenge, battleResultTitle(view)], [true, name.startsWith('challenge'), title], name);
       assert.deepEqual(ui.dialogue.slice(-2), ending, `${name}: how it ended, then the outcome`);
       // App.tsx shows the result text as the scene's notice when the battle closes.
       assert.equal(view.result, ending[1], `${name}: the closing notice`);
-      assert.deepEqual(ui.dialogue.filter(line => line.includes(named)), [view.result], `${name}: the outcome is named once`);
-      assert.equal(new Set(lastTurn).size, lastTurn.length, `${name}: no line twice in the last turn`);
+      assert.deepEqual(outcomeLines(ui), [view.result], `${name}: the result text alone names the outcome in the last turn`);
+      assert.equal(new Set(turn).size, turn.length, `${name}: no line twice in the last turn`);
       said[name] = ending;
     }
     const retreat = outcomes['wild retreat'][0].snapshot().battle;

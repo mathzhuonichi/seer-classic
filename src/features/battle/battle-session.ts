@@ -4,7 +4,7 @@ import { findMon, type Monster } from '../../../raising/core/index.ts';
 import { groupedBattleLog, openingEvents } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
 import { setupBattle, type Foe } from './battle-setup.ts';
-import { foeView, hidesFoeHp, presentationState } from './battle-view.ts';
+import { foeView, hidesFoeHp, isChallenge, presentationState } from './battle-view.ts';
 import { battleInProgress, requireSession, type BattleSession, type GameContext, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
 
@@ -61,7 +61,9 @@ function prepareTurn(rt: Runtime, battle: Battle) {
 type Shown = Pick<BattlePresentationState, 'player' | 'enemy'>;
 
 function logEvents(ctx: GameContext, session: BattleSession, events: BattleEvent[], before: Shown = presentationState(ctx, session)) {
-  const context = { data: ctx.data, initialPlayer: before.player, initialEnemy: before.enemy, hideEnemyHp: hidesFoeHp(session) };
+  const context = {
+    data: ctx.data, initialPlayer: before.player, initialEnemy: before.enemy, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session),
+  };
   session.logs.push(...groupedBattleLog(events, context));
   session.logs = session.logs.slice(-LOG_LIMIT);
 }
@@ -73,7 +75,8 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
   const { ctx, animation } = rt;
   animation.revision++;
   const frames = eventFrames(events, before, {
-    data: ctx.data, hideEnemyHp: hidesFoeHp(session), transformedSlots: session.transformedSlots, nextFrameId: () => ++animation.frameId,
+    data: ctx.data, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session), transformedSlots: session.transformedSlots,
+    nextFrameId: () => ++animation.frameId,
   });
   const now = presentationState(ctx, session), enemy = foeView(session, now.enemy);
   frames.push({

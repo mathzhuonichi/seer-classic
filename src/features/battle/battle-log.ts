@@ -10,6 +10,8 @@ export interface BattleLogContext {
   initialEnemy: BattleLogCreature;
   /** Trainer battles: lines about the opponent omit its remaining HP; amounts stay. */
   hideEnemyHp?: boolean;
+  /** Challenges (encounters): the result text names a win as 挑战成功, so a won battle's end line does not name it too. */
+  challenge?: boolean;
 }
 type Sided = { side: 0 | 1 };
 const CHINESE = /[一-鿿]/;
@@ -46,13 +48,14 @@ function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContex
 }
 
 /**
- * How the battle ended; the result text after it names a loss or a draw. A capture's or a retreat's end needs no line: the
- * capsule's or the flee's line already says how the battle ended. A turn cap ends on the turn the cap allows.
+ * How the battle ended. The result text after it names a loss, a draw or a challenge's win; a wild win's names only the reward,
+ * so this line names that win. A capture's or a retreat's end needs no line: the capsule's or the flee's line already says how
+ * the battle ended. A turn cap ends on the turn the cap allows.
  */
-function battleEndText(event: EventOf<'battle_end'>): string {
+function battleEndText(event: EventOf<'battle_end'>, context: BattleLogContext): string {
   if (event.reason === 'capture' || event.reason === 'flee') return '';
   if (event.reason === 'turn_cap') return `已达到 ${event.turns} 回合上限。`;
-  return event.success ? '战斗胜利！' : '战斗结束。';
+  return event.success && !context.challenge ? '战斗胜利！' : '战斗结束。';
 }
 
 /** Format one event for the centered dialogue; pass current displayed creature names. */
@@ -96,7 +99,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'capture_attempt': return captureText(event, context);
     case 'flee': return `${sideLabel(event)}撤离了战斗。`;
     case 'boss_fled': return '对手撤离了战斗。';
-    case 'battle_end': return battleEndText(event);
+    case 'battle_end': return battleEndText(event, context);
     case 'say': return event.text.zh;
     default: return '';
   }

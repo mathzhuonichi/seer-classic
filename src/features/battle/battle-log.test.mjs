@@ -36,11 +36,15 @@ test('the opening log leaves out the rule conditions installed before the first 
     ['布布花陷入中毒，持续 3 回合。', '我方派出了巴鲁斯。', '对手派出了布布花。　巴鲁斯获得护盾效果，持续 5 回合。']);
 });
 
-test('a retreat is said once, by the flee line; a turn cap\'s end names the cap, and the result text the draw', () => {
+test('a retreat is said once, by the flee line; a turn cap\'s end names the cap, and only a wild win\'s end names the win', () => {
   const end = fields => ({type: 'battle_end', winner: 1, success: false, defeated: [], turns: 3, ...fields});
   assert.deepEqual(groupedBattleLog([{type: 'flee', side: 0}, end({reason: 'flee'})], context), ['我方撤离了战斗。']);
   assert.equal(text(end({reason: 'turn_cap', winner: null})), '已达到 3 回合上限。');
   assert.equal(text(end({reason: 'ko'})), '战斗结束。');
+  const won = end({reason: 'ko', winner: 0, success: true});
+  assert.equal(text(won), '战斗胜利！');
+  // A challenge's result text names its win as 挑战成功.
+  assert.equal(battleEventText(won, {...context, challenge: true}), '战斗结束。');
 });
 
 test('the side is named when both sides field a monster of the same name', () => {
