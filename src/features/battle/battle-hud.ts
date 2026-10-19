@@ -66,7 +66,7 @@ const EMPTY_SUPPLIES: Record<BattleSupplyCategory, string> = {
  */
 export interface BattleItemChoice { category: BattleSupplyCategory; selection: string; target: string }
 
-/** The 道具 command, from the command deck or the toolbar's 背包, opens the recovery supplies with nothing picked. */
+/** The command deck's 道具 command opens the recovery supplies with nothing picked. */
 export const OPENED_ITEM_PANE: Readonly<Pick<BattleItemChoice, 'category' | 'selection'>> = { category: 'recovery', selection: '' };
 
 export const hasStock = (item: ItemView) => item.unlimited || item.count > 0;

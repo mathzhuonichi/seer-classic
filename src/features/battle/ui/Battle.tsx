@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import { BossEvidenceContent } from '../../../shared/ui/BossEvidence.tsx';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, evidenceButtonLabel, OPENED_ITEM_PANE, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
+import { battleResultTitle, evidenceButtonLabel, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -17,13 +17,11 @@ const ArenaLandscape = () => <div className="classic-arena-landscape" aria-hidde
 
 interface BattleProps {
   c: GameController;
-  /** A command tab opened from outside the battle screen; `id` distinguishes repeated requests. */
-  commandRequest?: { command: 'party' | 'items'; id: number };
   background?: string;
   onSettings?: () => void;
 }
 
-export default function Battle({ c, commandRequest, background, onSettings }: BattleProps) {
+export default function Battle({ c, background, onSettings }: BattleProps) {
   const b = useGame(c, s => s.battle)!, inventory = useGame(c, s => s.items);
   const [tab, setTab] = useState<BattleCommand>(b.needsSwitch ? 'party' : 'battle');
   const [showLog, setShowLog] = useState(false);
@@ -41,11 +39,6 @@ export default function Battle({ c, commandRequest, background, onSettings }: Ba
   });
   const { frame, busy } = playback;
 
-  useEffect(() => {
-    if (!commandRequest) return;
-    if (commandRequest.command === 'items') chooseItems(OPENED_ITEM_PANE);
-    setTab(commandRequest.command);
-  }, [commandRequest?.id, commandRequest?.command]);
   useEffect(() => { chooseItems({ target: b.player.uid }); }, [b.player.uid]);
 
   const player = frame?.player ?? b.player;
