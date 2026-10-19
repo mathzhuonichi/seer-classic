@@ -1,5 +1,7 @@
 /** Transaction boundaries for the six-copy rule across every acquisition entry point. */
 import assert from 'node:assert/strict';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 import {memoryStorage,suite,withSsr} from './_harness.mjs';
 
 /** The seed of the fixture's journey; a new journey would seed itself from the clock. */
@@ -18,6 +20,7 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {engravings}=await load('/src/domain/engravings/engravings.ts');
  const {engravingAccess}=await load('/src/domain/engravings/engraving-access.ts');
  const {PARTY_MAX,BOX_MAX}=await load('/raising/core/storage.ts');
+ const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
  const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const source=await loadCatalog(),sourceBytes=JSON.stringify(source),rewards=buildRecruitmentRewards(source),reward=rewards.find(r=>r.rewardSpecies===143);
  assert(reward);
@@ -70,6 +73,10 @@ await withSsr('acquisition-limits-controller',async load=>{
   save.game.modules[second]={engravings:[finite.id]};save.game.engravingStock={};
   save.boosts=[{kind:'energy_bead',item:'bead',uid:second,battles_left:3,stats:{atk:10}},{kind:'exp',item:'exp',multiplier:2,battles_left:3}];
   const g=make(save);assert(parse(g).game.traits[second],'Fixture monster has a trait');
+  // The pet bag's 资料 tab offers 放生 for any monster but the last one in the party.
+  const releaseButton=uid=>renderToStaticMarkup(React.createElement(ProfileTab,{m:g.snapshot().monsters.find(m=>m.uid===uid),c:g,feedback:'',say(){}}))
+   .match(/<button[^>]*>放生[^<]*<\/button>/)?.[0]??'';
+  assert.match(releaseButton(second),/^<button>放生/,'A party monster with company can be released');
   g.dispatch({type:'release',uid:second});const after=parse(g);
   assert.deepEqual(after.party,[lead,third]);assert(!after.storage.some(m=>m.uid===second));assert.equal(after.game.traits[second],undefined);
   assert.equal(after.game.modules[second],undefined);assert.equal(after.game.engravingStock[finite.id],1,'A finite engraving returns to stock');
@@ -78,6 +85,7 @@ await withSsr('acquisition-limits-controller',async load=>{
   assert.deepEqual(parse(make(after)).storage,after.storage,'The released save reloads as is');
   g.dispatch({type:'release',uid:third});reject(g,{type:'release',uid:lead},'The last party monster stays');
   assert.match(g.snapshot().notices[0],/最后一只出战精灵不能放生/);
+  assert.match(releaseButton(lead),/^<button disabled="">放生/,'The bag disables 放生 for the last party monster');
  });
  check('A full box blocks a journey reward in its row until 放生 frees a place',()=>{
   const save=structuredClone(base),filler=template(19);save.game.battlesWon=1;save.storage=[];save.game.traits={};
