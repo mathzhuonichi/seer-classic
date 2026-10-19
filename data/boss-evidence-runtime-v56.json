@@ -10325,8 +10325,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10359,8 +10359,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10370,7 +10370,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10403,8 +10404,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10437,8 +10438,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10448,7 +10449,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10481,8 +10483,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10515,8 +10517,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10526,7 +10528,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10559,8 +10562,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10593,8 +10596,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10604,7 +10607,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10637,8 +10641,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10671,8 +10675,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10682,7 +10686,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10715,8 +10720,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10749,8 +10754,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10760,7 +10765,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10793,8 +10799,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10827,8 +10833,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10838,7 +10844,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10871,8 +10878,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10905,8 +10912,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10916,7 +10923,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -10949,8 +10957,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -10983,8 +10991,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -10994,7 +11002,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11027,8 +11036,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11061,8 +11070,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11072,7 +11081,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11105,8 +11115,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11139,8 +11149,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11150,7 +11160,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11183,8 +11194,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11217,8 +11228,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11228,7 +11239,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11261,8 +11273,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11295,8 +11307,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11306,7 +11318,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11339,8 +11352,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11373,8 +11386,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11384,7 +11397,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11417,8 +11431,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11451,8 +11465,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11462,7 +11476,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11495,8 +11510,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11529,8 +11544,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11540,7 +11555,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11573,8 +11589,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11607,8 +11623,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11618,7 +11634,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11651,8 +11668,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11685,8 +11702,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11696,7 +11713,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11729,8 +11747,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11763,8 +11781,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11774,7 +11792,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -11807,8 +11826,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11841,8 +11860,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11853,6 +11872,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -11886,8 +11906,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11920,8 +11940,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -11932,6 +11952,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -11965,8 +11986,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -11999,8 +12020,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12011,6 +12032,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12044,8 +12066,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12078,8 +12100,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12090,6 +12112,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12123,8 +12146,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12157,8 +12180,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12169,6 +12192,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {

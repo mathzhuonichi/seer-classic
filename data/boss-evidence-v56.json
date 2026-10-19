@@ -40,8 +40,8 @@
       },
       "hp": {
         "authored": 1,
-        "inferred": 209,
-        "observed": 30
+        "inferred": 185,
+        "observed": 54
       },
       "skills": {
         "inferred": 229,
@@ -247,6 +247,11 @@
       "url": "https://www.taptap.cn/moment/15207740754364428",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-42684d291f7c": {
+      "url": "https://www.techbang.com/posts/33133",
+      "scope": "2011-01-19 T\u5ba2\u90a6 tower guide, floors 31-40 (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
+      "verification": "verified-period-observation"
     },
     "src-43e1a86b0d39": {
       "url": "https://news.7k7k.com/content/20110316/76862.html",
@@ -512,6 +517,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-8b499f870d2f": {
+      "url": "https://www.techbang.com/posts/33132",
+      "scope": "2011-01-19 T\u5ba2\u90a6 tower guide, floors 21-30 (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
+      "verification": "verified-period-observation"
+    },
     "src-8ca19c7c3247": {
       "url": "https://news.4399.com/seer/zenmezhua/201204-25-156108.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -656,6 +666,11 @@
       "url": "https://news.4399.com/seer/spt/201111-21-127453.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-b26abf80e6eb": {
+      "url": "https://www.techbang.com/posts/33131",
+      "scope": "2011-01-19 T\u5ba2\u90a6 tower guide, floors 11-20 (TW server): per-floor boss HP table; listed levels and rewards match the CN 2010 report.",
+      "verification": "verified-period-observation"
     },
     "src-b4b652e5879f": {
       "url": "https://seer.61.com/main/spirit/165.html",
@@ -809,7 +824,7 @@
     },
     "src-e428e3f498f4": {
       "url": "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-      "scope": "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction. No exact internal 120/130 level mapping.",
+      "scope": "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction; moves named on floors 18 and 34. No exact internal 120/130 level mapping.",
       "verification": "verified-period-observation"
     },
     "src-e7c448832720": {
@@ -29968,10 +29983,11 @@
       "id": "boss_tower_brave_f012",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f012.json",
-      "sourceSha256": "23801d1ad5ea3878b57203b09d38cf9dbcbad3d084999c82c8c2972839a3d1bf",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "8fb93bd9c790aa4f7a7742138cd363b8aa7d0a048f27aa8ce92e3fa44bee8107",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -29980,7 +29996,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -29993,7 +30008,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 260,
             "skills": [
               10072,
               10071,
@@ -30029,11 +30044,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30041,7 +30056,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30109,11 +30125,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30121,6 +30137,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -30143,10 +30160,11 @@
       "id": "boss_tower_brave_f013",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f013.json",
-      "sourceSha256": "cbbe2ee400645685593d2958f2b958b39bc3a1b9cfa7136e7dada16b097a1db9",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "2c65b7952c236047bdd7820ff542addc8adb8f1ed4103f5ae48da0476c5cddd1",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -30155,7 +30173,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -30168,7 +30185,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 270,
             "skills": [
               10095,
               10093,
@@ -30204,11 +30221,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30216,7 +30233,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30284,11 +30302,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30296,6 +30314,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -30318,10 +30337,11 @@
       "id": "boss_tower_brave_f014",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f014.json",
-      "sourceSha256": "ee7b33d4252e0cb9d37a343f68540071505f26fb93497a6af2d43393c3bc5b64",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "bbed24081b1ca772deee44b4eb1fab6fb65e58155c989aa2a7d9eb70523eff54",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -30330,7 +30350,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -30343,7 +30362,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 280,
             "skills": [
               10010,
               10015,
@@ -30379,11 +30398,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30391,7 +30410,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30459,11 +30479,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30471,6 +30491,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -30493,10 +30514,11 @@
       "id": "boss_tower_brave_f015",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f015.json",
-      "sourceSha256": "4995fe1c3c25ee14722b0813566032a3e18f0749fa5bd684e84a68e51270dc0b",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "4c71f38240fef919cafc4cc544a86a1468d3e2c707ef9b32a0c61c3601416a7d",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -30505,7 +30527,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -30518,7 +30539,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 290,
             "skills": [
               10039,
               10033,
@@ -30554,11 +30575,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30566,7 +30587,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30634,11 +30656,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30646,6 +30668,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -30668,10 +30691,11 @@
       "id": "boss_tower_brave_f016",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f016.json",
-      "sourceSha256": "7220fbe0f8e65a6b693c68a75c50e6248b3723196d4de5c0727e74c0ccb6311f",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "24e28ed5fde46c37146cead66ad7097573bd31d5cd6942b988cf98844b4c3e06",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -30680,7 +30704,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -30693,7 +30716,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 300,
             "skills": [
               10139,
               10137,
@@ -30729,11 +30752,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30741,7 +30764,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30809,11 +30833,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30821,6 +30845,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -30843,10 +30868,11 @@
       "id": "boss_tower_brave_f017",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f017.json",
-      "sourceSha256": "a21095e6c4fb2b9cf14597f66ee76f44113c76220c24c3d7b54e147f598c556b",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "1444f2c29fc0e34409a38b39253a2323190f3064c56d5e4d90112fb956b3f1a9",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -30855,7 +30881,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -30868,7 +30893,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 310,
             "skills": [
               10133,
               10132,
@@ -30904,11 +30929,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -30916,7 +30941,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -30984,11 +31010,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -30996,6 +31022,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -31018,10 +31045,11 @@
       "id": "boss_tower_brave_f018",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f018.json",
-      "sourceSha256": "4b6034b1cff69fb4b73e494ded872c3f850831b883212b04f74c34603a60b1bd",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "8e6bb4672885270ccfcacffade580897d6ce29790179ee60560ad2d1f51404c1",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31030,7 +31058,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31043,7 +31070,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 320,
             "skills": [
               10073,
               10027,
@@ -31079,19 +31106,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10073
               ]
             }
           },
@@ -31159,11 +31189,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -31193,10 +31223,11 @@
       "id": "boss_tower_brave_f019",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f019.json",
-      "sourceSha256": "b2b025219ffc18068339952b000da984dfe877924018a4ed9beaedc683d0604b",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "af8b9566dc263d9d3267bd97368c0bd0e2ac01ac6fcf48bb2b498ec2e145dcaf",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31205,7 +31236,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31218,7 +31248,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 330,
             "skills": [
               10026,
               10060,
@@ -31254,11 +31284,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -31266,7 +31296,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -31334,11 +31365,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -31346,6 +31377,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -31368,10 +31400,11 @@
       "id": "boss_tower_brave_f020",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f020.json",
-      "sourceSha256": "65a6560b2618d71ec863c8bf092f43a10da10fd7373587418ecff42fb1e1b5af",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "36233f04aabb8e0054a8eba9824d06a20a126f4ce0086c9fdcebe7b4e4c7179c",
+      "sourceNoteSha256": "1f87186673a4ed7a402517dcc35fdfe8e6f9ba83d1848b329d72b5b513e6c9cb",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33131"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31380,7 +31413,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31393,7 +31425,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 340,
             "skills": [
               10084,
               10035,
@@ -31429,11 +31461,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-b26abf80e6eb"
               ]
             },
             "skills": {
@@ -31441,7 +31473,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-b26abf80e6eb"
               ]
             }
           },
@@ -31509,11 +31542,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-b26abf80e6eb"
           ]
         },
         "skills": {
@@ -31521,6 +31554,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-b26abf80e6eb",
             "src-e428e3f498f4"
           ]
         },
@@ -31543,10 +31577,11 @@
       "id": "boss_tower_brave_f021",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f021.json",
-      "sourceSha256": "140c568cf68544c77a547d9f6409ad376d16ec56161d010cc8415606075043c6",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "9cc255ca03370ed044e9469c546888215b1d25a4b59b78a597bf19884b0639e7",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31555,7 +31590,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31568,7 +31602,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 350,
             "skills": [
               10056,
               10009,
@@ -31604,11 +31638,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -31616,7 +31650,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -31684,11 +31719,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -31696,6 +31731,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -31718,10 +31754,11 @@
       "id": "boss_tower_brave_f022",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f022.json",
-      "sourceSha256": "c493353d00a7fea3da18a40e08cdb30100a92562c049bbc0e720c605f094a247",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "2c421de9e0305d7279fa3e3f7bffb913de17e46a425c3bdff4117f37b109ce0e",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31730,7 +31767,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31743,7 +31779,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 365,
             "skills": [
               10111,
               10110,
@@ -31779,11 +31815,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -31791,7 +31827,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -31859,11 +31896,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -31871,6 +31908,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -31893,10 +31931,11 @@
       "id": "boss_tower_brave_f023",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f023.json",
-      "sourceSha256": "8a8c896958d91eb4adc77c4026d77916669d4a87ba1e9a04e6170c4ff45e0e21",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "5f3697a0ec7cfcec1ede29203929e736e34909d032b33bd5557fc21cbbd01dbb",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -31905,7 +31944,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -31918,7 +31956,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 380,
             "skills": [
               10124,
               10126,
@@ -31954,11 +31992,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -31966,7 +32004,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32034,11 +32073,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32046,6 +32085,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32068,10 +32108,11 @@
       "id": "boss_tower_brave_f024",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f024.json",
-      "sourceSha256": "7e0ac255b8e7313efd5e4797c523902bbc3fa6cf57ebeb0be648477ddd394dc6",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "bb8f1ad6c4bc71d9eb619a4422009cf320776397a9d726fa4e8555012a030ef8",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32080,7 +32121,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32093,7 +32133,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 395,
             "skills": [
               10017,
               10064,
@@ -32129,11 +32169,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -32141,7 +32181,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32209,11 +32250,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32221,6 +32262,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32243,10 +32285,11 @@
       "id": "boss_tower_brave_f025",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f025.json",
-      "sourceSha256": "4d8a4cf9fdb7b9942acfe400ff4c94936c3e9a494db48c850617f348e535234d",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "d23a93ef60620325517a430f59fdec7e1f95f5300b010ab02426196a9629b740",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32255,7 +32298,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32268,7 +32310,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 410,
             "skills": [
               10053,
               10052,
@@ -32304,11 +32346,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -32316,7 +32358,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32384,11 +32427,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32396,6 +32439,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32418,10 +32462,11 @@
       "id": "boss_tower_brave_f026",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f026.json",
-      "sourceSha256": "e65ff0ac663d707d1aaff0c1a4e89a7573b1102e886c7d7633c717d6d48bb8f1",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "9d956837c59bcc5ea6f1487e640231b4bc5cc8ec7601f5fa7d61f2e11d17de87",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32430,7 +32475,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32443,7 +32487,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 425,
             "skills": [
               10140,
               10139,
@@ -32479,11 +32523,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -32491,7 +32535,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32559,11 +32604,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32571,6 +32616,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32593,10 +32639,11 @@
       "id": "boss_tower_brave_f027",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f027.json",
-      "sourceSha256": "2bbdcba72785c86e99596222e36819fd3fa03591bec44b6781e937a2d9d981e4",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "2c66f91017acf407663bcaf4b7e3b894c1495b92160e399e6a8edfb839d0e739",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32605,7 +32652,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32618,7 +32664,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 440,
             "skills": [
               10017,
               10016,
@@ -32654,11 +32700,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -32666,7 +32712,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32734,11 +32781,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32746,6 +32793,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32768,10 +32816,11 @@
       "id": "boss_tower_brave_f028",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f028.json",
-      "sourceSha256": "e68520cbbcf0eda1b34ef9599b341816b4841afef02723af639a82f9a4fbb520",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "8404577c9ab9090adc5b9b6f0cbb144419cac62a5a0aee461ab4ca6faecdee4b",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32780,7 +32829,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32793,7 +32841,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 460,
             "skills": [
               10027,
               10046,
@@ -32829,11 +32877,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -32841,7 +32889,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -32909,11 +32958,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -32921,6 +32970,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -32943,10 +32993,11 @@
       "id": "boss_tower_brave_f029",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f029.json",
-      "sourceSha256": "e8c250ae5e146c7c8a491e757f38aa4c1866238113f673a6c73f87783dca22e7",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "0a1168da23408648f2e88ca3b2d245942eb95e554961d8d88e5979f909c43c3b",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -32955,7 +33006,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -32968,7 +33018,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 480,
             "skills": [
               10035,
               10034,
@@ -33004,11 +33054,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -33016,7 +33066,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -33084,11 +33135,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -33096,6 +33147,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -33118,10 +33170,11 @@
       "id": "boss_tower_brave_f030",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f030.json",
-      "sourceSha256": "909d63f4850f948c4cb5f1dd8bcf6881f8def5d5ef89ad9fbf60a84ff5b24c8d",
-      "sourceNoteSha256": "2bc9683e3c473d355bb08f3e29bf839f50f4784ab677916fa7e6c4156ef3bc2b",
+      "sourceSha256": "5216d3e8e5ae6f4fdbbdc5e45cb8a1ab79f3d626a7cd4bca367a82882a211ffa",
+      "sourceNoteSha256": "02585780f3575c3f143854e44f3034793e751c52fc8175543c9146a57058717a",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33132"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -33130,7 +33183,6 @@
           "evs",
           "nature",
           "skills",
-          "hp",
           "era"
         ]
       },
@@ -33143,7 +33195,7 @@
             "iv": 15,
             "evs": {},
             "nature": null,
-            "hp": null,
+            "hp": 500,
             "skills": [
               10133,
               10132,
@@ -33179,11 +33231,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-8b499f870d2f"
               ]
             },
             "skills": {
@@ -33191,7 +33243,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-8b499f870d2f"
               ]
             }
           },
@@ -33259,11 +33312,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-8b499f870d2f"
           ]
         },
         "skills": {
@@ -33271,6 +33324,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-8b499f870d2f",
             "src-e428e3f498f4"
           ]
         },
@@ -33293,10 +33347,11 @@
       "id": "boss_tower_brave_f031",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f031.json",
-      "sourceSha256": "9958305f8415226049bef4ede97be8f0b55460904dca109dbdcea74cba33830a",
-      "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
+      "sourceSha256": "e9ebf946e5905a037a2bd7e27605fef791241148b16d85d2bdc276ebdfc9bc10",
+      "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -33306,7 +33361,6 @@
           "nature",
           "skills",
           "level",
-          "hp",
           "era"
         ]
       },
@@ -33319,7 +33373,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 520,
             "skills": [
               10095,
               10093,
@@ -33355,11 +33409,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -33367,7 +33421,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -33435,11 +33490,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -33447,6 +33502,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -33469,10 +33525,11 @@
       "id": "boss_tower_brave_f032",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f032.json",
-      "sourceSha256": "2af54813d51f78432339769cc5816675dfcb32b4e2d7260bef1266d248f6f601",
-      "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
+      "sourceSha256": "9df718f5f17abb40fedd477278f61af56717ba25a764ff0f2234ef427393acae",
+      "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -33482,7 +33539,6 @@
           "nature",
           "skills",
           "level",
-          "hp",
           "era"
         ]
       },
@@ -33495,7 +33551,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 540,
             "skills": [
               10026,
               10060,
@@ -33531,11 +33587,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -33543,7 +33599,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -33611,11 +33668,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -33623,6 +33680,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -33645,10 +33703,11 @@
       "id": "boss_tower_brave_f033",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f033.json",
-      "sourceSha256": "1ab0b2a81b3060341de80473e4280cf46de6f92cf0457da7f3befc68b926faf9",
-      "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
+      "sourceSha256": "c2ab539c4f362da8d212f41529eb24141cafa4534ba3c6bec72156120d09a2e8",
+      "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -33658,7 +33717,6 @@
           "nature",
           "skills",
           "level",
-          "hp",
           "era"
         ]
       },
@@ -33671,7 +33729,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 560,
             "skills": [
               10111,
               10110,
@@ -33707,11 +33765,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -33719,7 +33777,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -33787,11 +33846,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -33799,6 +33858,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
@@ -33821,10 +33881,11 @@
       "id": "boss_tower_brave_f034",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f034.json",
-      "sourceSha256": "f6fbef2944bd9f253f1fdc4bb29a37bed5f33dc23f9f8ad0049d3c73b5b4bb07",
-      "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
+      "sourceSha256": "c82c7ac5b27a1b8950245665db57045e0005c4699577e0db75f0580867b6441c",
+      "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -33834,7 +33895,6 @@
           "nature",
           "skills",
           "level",
-          "hp",
           "era"
         ]
       },
@@ -33847,7 +33907,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 600,
+            "hp": 580,
             "skills": [
               10215,
               10208,
@@ -33883,19 +33943,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-e428e3f498f4"
+              ],
+              "verifiedMoveIds": [
+                10215
               ]
             }
           },
@@ -33963,11 +34026,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -33997,10 +34060,11 @@
       "id": "boss_tower_brave_f035",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f035.json",
-      "sourceSha256": "88c14ee2f0ce98e31beba91ed5c7a755937c4000c2f02715041c2faa3df5d446",
-      "sourceNoteSha256": "0da406102937ce06bd15721775aa65020d14692a70edc54a3ad51e5d39c91cbd",
+      "sourceSha256": "dfa13769d686258e8c3bbc6285e117806286feaef2300c28c4e9bf92243a03bf",
+      "sourceNoteSha256": "4c63e7a07cfb12991e16a24745ec1342ef5dc42c5e6d2bab23b64a0da9f30e62",
       "sourceUrls": [
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://www.techbang.com/posts/33133"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -34010,7 +34074,6 @@
           "nature",
           "skills",
           "level",
-          "hp",
           "era"
         ]
       },
@@ -34059,11 +34122,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The floor's boss HP is explicitly listed in the 2011 TW-server tower guide.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-42684d291f7c"
               ]
             },
             "skills": {
@@ -34071,7 +34134,8 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-e428e3f498f4"
+                "src-e428e3f498f4",
+                "src-42684d291f7c"
               ]
             }
           },
@@ -34139,11 +34203,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-e428e3f498f4"
+            "src-42684d291f7c"
           ]
         },
         "skills": {
@@ -34151,6 +34215,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-42684d291f7c",
             "src-e428e3f498f4"
           ]
         },
