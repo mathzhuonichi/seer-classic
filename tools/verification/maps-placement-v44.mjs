@@ -19,6 +19,7 @@ await withSsr('maps-placement-v44',async load=>{
   const [{WORLD_PLANETS},presentation,{buildWorldDialogue,buildWorldScene},{WorldMap},{createGame}]=await Promise.all(
     ['/src/domain/world/world.ts','/src/features/world/map-presentation.ts','/src/features/world/world-scene.ts','/src/features/world/ui/WorldMap.tsx','/src/kernel/game.ts'].map(load));
   const {loadCatalog}=await load('/src/domain/catalog/catalog.ts');
+  const {CHALLENGE_CAMPAIGNS,campaignContactWording}=await load('/src/domain/challenges/challenge-campaigns.ts');
   const {getSceneLayout,creatureSceneHome,constrainHabitatPoint,constrainScenePoint,getSceneBossHome,getSceneBossActor}=presentation;
   const regions=WORLD_PLANETS.flatMap(planet=>planet.regions.map(region=>({planet,region,layout:getSceneLayout(planet,region),mapId:region.backgroundAssetMapId??Number((region.background??planet.background).match(/\/maps\/original\/(\d+)\./)?.[1])})));
   const bossAreas=regions.filter(row=>row.region.bossIds?.length);let homeSamples=0,projectionSamples=0;
@@ -104,9 +105,20 @@ await withSsr('maps-placement-v44',async load=>{
     assert(wide.every(plate=>plate.className==='world-location-hud world-location-hud-wide'),JSON.stringify(wide));
     assert.deepEqual(wide.map(plate=>plate.id).sort(),['eddy/habitat-505','space-station/brave-tower']);
   });
-  check('A campaign contact opens its saved campaign rather than a stage',()=>{
-    const row=regions.find(row=>row.region.campaignId==='puni'),scene=buildWorldScene(s,row.planet,row.region);
-    assert.deepEqual(buildWorldDialogue(s,scene,{kind:'campaign',id:'puni'}).challenge.run,{kind:'campaign',campaignId:'puni'});
+  check('Every campaign host draws one contact that opens its saved campaign in the campaign\'s own wording',()=>{
+    const stated={puni:['封印挑战','查看封印进度'],'rei-training':['技能特训','查看特训进度']},hosts=regions.filter(row=>row.region.campaignId);
+    const opened=(row,region=row.region)=>buildWorldDialogue(s,buildWorldScene(s,row.planet,region),{kind:'campaign',id:region.campaignId});
+    assert.deepEqual(Object.keys(stated).filter(id=>hosts.some(row=>row.region.campaignId===id)),Object.keys(stated),'the stated contacts are hosted');
+    for(const row of hosts){
+      const id=row.region.campaignId,dialogue=opened(row),{kicker,action}=campaignContactWording(id);
+      assert.deepEqual(dialogue.challenge.run,{kind:'campaign',campaignId:id});
+      assert.deepEqual([dialogue.kicker,dialogue.challenge.label],stated[id]??[kicker,action],id);
+      const actor=getSceneBossActor(row.layout,`campaign:${id}`),html=markup(row);
+      assert.equal(html.split('data-campaign=').length-1,1,`${id}: one contact`);
+      assert(html.includes(`data-campaign="${id}" ${placed(actor?.anchor??row.layout.boss,actor)}`),`${id}: contact placement`);
+    }
+    const bare=CHALLENGE_CAMPAIGNS.find(campaign=>!campaign.contact),neutral=opened(hosts[0],{...hosts[0].region,campaignId:bare.id});
+    assert.deepEqual([neutral.kicker,neutral.challenge.label,neutral.challenge.run],['挑战','查看挑战进度',{kind:'campaign',campaignId:bare.id}],bare.id);
   });
   report.inventory={regions:regions.length,populatedRegions:regions.filter(row=>row.region.creatures.length).length,bossAreas:bossAreas.length,contacts:Object.keys(manifest.contacts).length,nativeActors:Object.keys(manifest.actors).length,homeSamples,projectionSamples};
   t.finish(report);

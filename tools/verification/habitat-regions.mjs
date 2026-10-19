@@ -84,6 +84,14 @@ await withSsr('habitat-regions',async load=>{
       assert(index.get(id).routes.some(route=>route.kind==='quest'&&route.questId===reward.questId),`${id}: quest route`);
     }
   });
+  check('A source spawn keeps its habitat beside a collection quest: 西塔, 奇塔 and 卡塔 at 机械王国 (map 675)',()=>{
+    const {planet,region}=locate({planetId:'helka',regionId:'habitat-675'});
+    for(const id of [59,102,143]){
+      assert.deepEqual(region.creatureLevels[id],[15,15],`${id}: Lv15 BossCatchable record`);
+      assert(wildRoute(id,planet,region),`${id}: encyclopedia capture route at 机械王国`);
+      assert(index.get(id).routes.some(route=>route.kind==='quest'),`${id}: the collection quest stays a second route`);
+    }
+  });
   function acquireRecruitment(habitat,planet,region){
     const id=habitat.species,reward=rewards.find(entry=>entry.rewardSpecies===id);
     const incomplete=createGame(catalog,JSON.stringify(baseline));

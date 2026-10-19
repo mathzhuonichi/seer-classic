@@ -26,8 +26,12 @@ export interface EncounterOpponentView {species:number;name:string;level:number;
 /** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */
 export type ChallengeCategoryId = 'spt' | 'legendary' | 'tower' | 'dark' | 'quest' | 'trainer';
 export interface BossView {
-  category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number; cleared: boolean;
-  attempts: number; portrait: string; opponents?: EncounterOpponentView[]; rewardText?:string; evidence?:BossEvidenceView;
+  category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number;
+  cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; evidence?: BossEvidenceView;
+  /** What a win pays besides the victory coins and pooled experience, derived from the encounter's reward. */
+  rewardText?: string;
+  /** A Brave Tower side challenge, offered on the Tower panel: it opens once this floor is cleared. */
+  towerUnlockFloor?: number;
   /** The rules on the player's team, stated before the start. */
   partyRuleTexts?: string[];
   /** The titles (称号：…) and achievements a clear earns; earned once `cleared`. Absent when the encounter grants none. */

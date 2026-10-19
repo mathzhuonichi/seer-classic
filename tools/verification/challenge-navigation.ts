@@ -68,14 +68,14 @@ t.check('all encounters have valid landings and local targets; no unrelated or d
     assert(!elsewhere.some(local => local.id === boss.id), 'A travel target must not appear in an unrelated scene.');
   }
 });
-t.check('five Helka training routes', () => {
+t.check('five Helka training stages land at the lake, whose one contact opens 雷伊技能特训', () => {
+  assert.equal(resolveWorldLocation('helka', 'training-lake').region.campaignId, 'rei-training');
   for (let index = 1; index <= 5; index++) {
     const boss = bosses.find(boss => boss.id === `boss_rei_training${index}`)!;
     assert.equal(boss.location, '赫尔卡星 雷伊特训（湖边）');
     assert.deepEqual(findChallengeLocation(boss), { planetId: 'helka', regionId: 'training-lake', staging: false });
-    assert.deepEqual(findSceneChallenges('helka', 'training-lake', bosses, boss.id).map(local => local.id), [boss.id]);
+    assert.equal(findSceneChallenges('helka', 'training-lake', bosses, boss.id).length, 0, 'A stage opens from the campaign contact, not as its own actor.');
   }
-  assert.equal(findSceneChallenges('helka', 'training-lake', bosses).length, 0, 'The five alternate training challenges must not appear simultaneously.');
 });
 const spt = bosses.filter(boss => boss.category === 'spt');
 t.check('all SPT encounters use mapped habitats', () => {

@@ -2,6 +2,7 @@
 import type { Battle, BattleResult, Mon } from '../../../battle/core/src/index.ts';
 import { applyBattleRewards, computeStats, findMon, tickBoosts } from '../../../raising/core/index.ts';
 import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
+import { isHatchingEssence } from '../../domain/acquisition/acquisition-limits.ts';
 import { allowance, autoEvolution, storeMonster } from '../../kernel/acquire.ts';
 import { victoryReward } from '../../domain/economy.ts';
 import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
@@ -126,7 +127,7 @@ function grantEncounterRewards(rt: Runtime, session: BattleSession) {
   let essenceBlocked = false;
   for (const [id, count] of paid.items) {
     const item = ctx.itemDefinitions.get(id);
-    if (item?.kind !== 'essence' || item.hatches === undefined) { save.items[id] = (save.items[id] ?? 0) + Number(count); continue; }
+    if (!isHatchingEssence(item)) { save.items[id] = (save.items[id] ?? 0) + Number(count); continue; }
     if (!firstClear && !isSpeciesRepeatable(item.hatches)) continue;
     const granted = Math.min(Number(count), allowance(ctx, save, item.hatches).remaining);
     if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essences.push(id); } else essenceBlocked = true;

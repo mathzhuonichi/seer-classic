@@ -8,7 +8,7 @@ import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../do
 import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
-import { encounterHonors, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
 
 /** Cleared stage ids; a campaign without a record starts from its stages already cleared as Bosses. */
 export function campaignProgress(save: GameSave, campaign: Campaign): string[] {
@@ -40,7 +40,7 @@ type StageParts = Omit<CampaignStageView, 'cleared' | 'available' | 'blockedReas
 function stageParts(ctx: GameContext, campaign: Campaign, index: number): StageParts {
   const stage = campaign.stages[index], encounters = stage.bossIds.map(id => ctx.bosses.find(boss => boss.id === id));
   const reward = encounters[0]?.reward as { learn_skill?: { species: number; skill: number } } | undefined;
-  const rewardText = reward?.learn_skill ? `领悟技能：${ctx.data.skills.get(reward.learn_skill.skill)?.name.zh}`
+  const rewardText = reward?.learn_skill ? learnSkillLabel(ctx, reward.learn_skill.skill)
     : index === campaign.stages.length - 1 && campaign.reward === 'essence' ? `获得${ctx.speciesName(campaign.species)}精元`
       : '完成本阶段，开启下一项挑战';
   return {

@@ -10,9 +10,13 @@ const observations={};
 const memory=memoryStorage({'seer-classic-save':'Player save sentinel'});
 await withSsr('station-navigation-v53',async load=>{
   const t=suite('station-navigation-v53'),{check}=t;
-  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame},{loadCatalog},{braveTowerPosition}]=await Promise.all([
+  const [world,{getSceneExits},{WorldMap},{default:BattleFacilities},{createGame},{loadCatalog},{braveTowerFloor,braveTowerPosition}]=await Promise.all([
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/brave-tower.ts',
+  ].map(load));
+  const [{default:BraveTower},{challengeDetail,challengeEntries,challengeKind},{shellRoutes},{enrichCatalog}]=await Promise.all([
+    '/src/features/challenges/ui/BraveTower.tsx','/src/features/challenges/challenge-center.ts','/src/app/shell-routes.ts',
+    '/src/domain/catalog/enrichment.ts',
   ].map(load));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
@@ -70,8 +74,14 @@ await withSsr('station-navigation-v53',async load=>{
       const destination=findChallengeLocation(boss),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
       assert.deepEqual([planet.id,region.id],[destination.planetId,destination.regionId],boss.id);
       const contacts=findSceneChallenges(planet.id,region.id,s.bosses,boss.id);
-      if(region.campaignId){assert.equal(contacts.length,0);assert(region.bossIds.includes(boss.id));counts.campaign++}
-      else if(planet.id==='space-station'&&region.id==='brave-tower'){assert.equal(contacts.length,0);counts.tower++}
+      if(region.campaignId){
+        assert.equal(contacts.length,0);counts.campaign++;
+        assert(s.campaigns.find(row=>row.id===region.campaignId).stages.some(stage=>stage.bossIds.includes(boss.id)),`${boss.id}: a stage of the region's campaign`);
+      }
+      else if(planet.id==='space-station'&&region.id==='brave-tower'){
+        assert.equal(contacts.length,0);counts.tower++;
+        assert(braveTowerFloor(boss.id)!==undefined||boss.towerUnlockFloor!==undefined,`${boss.id}: a Tower floor or a Tower panel entry`);
+      }
       else{assert(contacts.some(contact=>contact.id===boss.id),boss.id);assert.equal(new Set(contacts.map(contact=>contact.id)).size,contacts.length);counts.ordinary++}
       if(destination.staging){assert.deepEqual([planet.id,region.id],['station','transport']);assert(region.challengeStaging);counts.transport++}
     }
@@ -114,6 +124,45 @@ await withSsr('station-navigation-v53',async load=>{
     assert(complete.includes(`data-tower-floor="${totalFloors}"`));assert(complete.includes('data-tower-complete="true"'));
     assert(complete.includes(`已通过全部 ${totalFloors} 层`));assert(complete.includes(`data-boss="boss_tower_brave_f${String(totalFloors).padStart(3,'0')}"`));
     observations.towerSceneStates=totalFloors+1;
+  });
+  check('The Mystery Realm 谱尼 waits on the Tower panel until floor 60, and its archive row leads to that panel',()=>{
+    const mystery=s.bosses.find(boss=>boss.id==='boss_tower_brave_mystery'),climb=highestCleared=>{
+      const progress={highestCleared,resumeFloor:highestCleared+1};return {...s,braveTower:{...s.braveTower,...progress,position:braveTowerPosition(progress)}};
+    };
+    const row=highestCleared=>{
+      const snapshot=climb(highestCleared),html=renderToStaticMarkup(React.createElement(BraveTower,{c:{...game,snapshot:()=>snapshot},onEnter:()=>{}}));
+      return html.match(/<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery">.*?<\/button><\/div>/)?.[0];
+    };
+    assert.equal(mystery.towerUnlockFloor,60);
+    assert.equal(row(59),`<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery"><div><strong>${mystery.name}</strong>`
+      +'<span>通过勇者之塔第 60 层后开放</span></div><button class="primary" disabled="">开始挑战</button></div>');
+    assert.equal(row(60),`<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery"><div><strong>${mystery.name}</strong>`
+      +'<span>通关奖励：仅赛尔豆与积累经验，没有精元或道具</span></div><button class="primary">开始挑战</button></div>');
+    const entry=challengeEntries(s).find(entry=>entry.id===mystery.id),detail=challengeDetail(entry,s,false);
+    assert.equal(detail.reward,'仅赛尔豆与积累经验，没有精元或道具','The encounter pays no essence or item.');
+    assert.equal(detail.instruction,'进入勇者之塔，在选择起点面板开始挑战；通过勇者之塔第 60 层后开放。');
+    assert.deepEqual([0,59,60].map(floor=>challengeDetail(entry,climb(floor),false).status),['通过勇者之塔第 60 层后开放','通过勇者之塔第 60 层后开放','可挑战']);
+    const travels=[],routes=shellRoutes({c:game,navigation:{show(){},travel:(...args)=>travels.push(args),enterCampaign(){}},
+      backdrops:{current:{exploration:null,campaign:null}},setMessage(){},setSelected(){}});
+    routes.travelToChallenge(mystery);
+    assert.deepEqual(travels,[[{planetId:'space-station',regionId:'brave-tower'},'tower']]);
+  });
+  check('Each archive Boss row states what its encounter pays, from the controller\'s own catalog',()=>{
+    const {catalog:enriched}=enrichCatalog(catalog),encounters=new Map(enriched.bosses.map(boss=>[boss.id,boss]));
+    const essences=new Set(enriched.items.filter(item=>item.kind==='essence'&&typeof item.hatches==='number').map(item=>String(item.id)));
+    const ESSENCE='获得首领精元 → 道具背包 → 确认孵化',NOTHING='仅赛尔豆与积累经验，没有精元或道具',lines={essence:0,skill:0,items:0,nothing:0};
+    const reward=id=>challengeDetail(challengeEntries(s).find(entry=>entry.id===id),s,false).reward;
+    for(const entry of challengeEntries(s).filter(entry=>challengeKind(entry)==='boss')){
+      assert(encounters.has(entry.id),entry.id);
+      const paid=encounters.get(entry.id).reward??{},items=Object.keys(paid.items??{}),text=challengeDetail(entry,s,false).reward;
+      if(paid.learn_skill){assert.match(text,/^领悟技能：/,entry.id);assert(!text.includes('undefined'),entry.id);lines.skill++}
+      else if(items.some(id=>essences.has(id))){assert.equal(text,ESSENCE,entry.id);lines.essence++}
+      else if(items.length){assert.match(text,/^获得/,entry.id);assert.notEqual(text,ESSENCE,entry.id);lines.items++}
+      else{assert.equal(text,NOTHING,entry.id);lines.nothing++}
+    }
+    assert.deepEqual([reward('boss_spt_liaosi'),reward('boss_tower_brave_mystery')],[ESSENCE,NOTHING]);
+    assert(lines.essence>0,JSON.stringify(lines));
+    observations.bossRewardLines=lines;
   });
   check('One battle terminal retains all three existing facility modes and fixed teams',()=>{
     assert.deepEqual(s.facilities.map(facility=>facility.id),['random','elite','classic']);

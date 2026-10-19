@@ -172,6 +172,19 @@
    "evidence": "maps.json Map 1063 降世山巅 Monsters"
   },
   {
+   "species": 143,
+   "name": "卡塔",
+   "planetId": "helka",
+   "regionId": "habitat-675",
+   "levels": [
+    15,
+    15
+   ],
+   "scarce": true,
+   "route": "capture",
+   "evidence": "maps.json Map 675 机械王国 BossCatchable"
+  },
+  {
    "species": 156,
    "name": "迪度",
    "planetId": "snow",

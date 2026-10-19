@@ -1,5 +1,5 @@
-// Encounter rows shared by the challenge views and the encounter catalogue: opponents, Brave Tower reward labels, honours and categories.
-import type { BossEncounter } from '../../../battle/core/src/index.ts';
+// Encounter rows shared by the challenge views and the encounter catalogue: opponents, reward labels, honours and categories.
+import type { BossEncounter, DataSet } from '../../../battle/core/src/index.ts';
 import type { ChallengeCategoryId, EncounterOpponentView } from '../../shared/views.ts';
 import type { CatalogData } from '../catalog/catalog.ts';
 import { SEER_BEANS_ITEM_ID } from '../economy.ts';
@@ -23,6 +23,11 @@ type HonorReward = { achievement?: { zh?: string }; title?: { zh?: string }; tit
 export function encounterHonors(reward: unknown): string[] {
   const source = reward as HonorReward | undefined, title = source?.title?.zh ?? source?.title_on_all_variants?.zh;
   return [source?.achievement?.zh, title ? `称号：${title}` : undefined].filter((value): value is string => !!value);
+}
+
+/** The reward line of an encounter that teaches a skill. */
+export function learnSkillLabel(ctx: { readonly data: DataSet }, skill: number): string {
+  return `领悟技能：${ctx.data.skills.get(skill)?.name.zh}`;
 }
 
 export function towerRewardLabel(ctx: EncounterCatalog, id: string, count: number): string {

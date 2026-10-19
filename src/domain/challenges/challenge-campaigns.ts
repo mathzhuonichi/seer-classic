@@ -16,6 +16,8 @@ export interface CampaignStage {
   minLevel?: number;
   carry?: boolean;
 }
+/** A campaign contact's dialogue: the kicker above the name and the button that opens the stages. */
+export interface CampaignContactWording { kicker: string; action: string }
 export interface Campaign {
   id: string;
   name: string;
@@ -24,6 +26,8 @@ export interface Campaign {
   /** `essence`: the last stage grants the campaign species' essence. `skills`: each stage teaches one skill instead. */
   reward: 'essence' | 'skills';
   stages: CampaignStage[];
+  /** The wording of the world contact that a hosting region shows; `campaignContactWording` supplies neutral wording when omitted. */
+  contact?: CampaignContactWording;
   continuity: 'continuous' | 'checkpoint';
   /** Omitted when historical campaign-wide failure persistence is unverified. */
   resetOnLoss?: boolean;
@@ -95,6 +99,7 @@ export const CHALLENGE_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'rei-training', name: '雷伊技能特训', species: REI, location: '赫尔卡星 · 雷伊特训湖边', reward: 'skills', continuity: 'checkpoint',
+    contact: { kicker: '技能特训', action: '查看特训进度' },
     sources: ['https://news.7k7k.com/content/20111103/103132.html', 'https://news.7k7k.com/content/20120417/167700.html'],
     stages: [
       reiTraining('liaosi', '里奥斯 · 极光刃', 'boss_rei_training1', '只派自己的雷伊，用白光刃击败里奥斯，领悟极光刃。'),
@@ -106,6 +111,7 @@ export const CHALLENGE_CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'puni', name: '谱尼封印与真身', species: 300, location: '精灵太空站 · 勇者之塔神秘领域', reward: 'essence', continuity: 'checkpoint',
+    contact: { kicker: '封印挑战', action: '查看封印进度' },
     sources: ['https://news.4399.com/seer/zenmezhua/201103-16-89473.html', 'https://news.7k7k.com/content/20101028/18173.html'],
     stages: [
       ...['虚无', '元素', '能量', '生命', '轮回', '永恒', '圣洁'].map((name, index) =>
@@ -114,3 +120,8 @@ export const CHALLENGE_CAMPAIGNS: Campaign[] = [
     ],
   },
 ];
+
+/** A hosting region still offers the stages of a campaign that states no wording of its own. */
+const NEUTRAL_CAMPAIGN_CONTACT: CampaignContactWording = { kicker: '挑战', action: '查看挑战进度' };
+export const campaignContactWording = (id: string): CampaignContactWording =>
+  CHALLENGE_CAMPAIGNS.find(campaign => campaign.id === id)?.contact ?? NEUTRAL_CAMPAIGN_CONTACT;

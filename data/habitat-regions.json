@@ -441,6 +441,14 @@
       15,
       15
      ]
+    },
+    {
+     "id": 143,
+     "source": "BossCatchable",
+     "levels": [
+      15,
+      15
+     ]
     }
    ]
   },
