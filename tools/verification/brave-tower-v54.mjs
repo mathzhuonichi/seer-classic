@@ -113,8 +113,9 @@ await withSsr('brave-tower-v54',async load=>{
     assert.equal(parse(game).items.item_potion_hp_100,(before.items.item_potion_hp_100??0)+2);assert.equal(parse(game).game.coins,before.game.coins);
     const six=make(fixture(5,6)),coins=parse(six).game.coins;win(six,6);
     assert.equal(parse(six).items.item_gacha_coin,1);assert.equal(parse(six).game.coins,coins+60);assert(six.snapshot().items.some(item=>item.id==='item_gacha_coin'));
-    const noReward=make(fixture(50,51)),emptyBefore=parse(noReward);win(noReward,51);
+    const noReward=make(fixture(50,51)),emptyBefore=parse(noReward),passed=win(noReward,51),exp=parse(noReward).exp_pool-emptyBefore.exp_pool;
     assert.equal(parse(noReward).game.coins,emptyBefore.game.coins);assert.deepEqual(parse(noReward).items,emptyBefore.items);
+    assert(exp>0,'the win adds pooled experience');assert.equal(passed,`第 51 层通过，可继续第 52 层。获得 ${exp} 积累经验。`,'a floor without beans states its experience alone');
   });
   check('A full six-copy allowance records the clear without promising another first-clear claim',()=>{
     for(const [floor,item] of [[60,'essence_ken'],[70,'essence_daidaiyong']]){
