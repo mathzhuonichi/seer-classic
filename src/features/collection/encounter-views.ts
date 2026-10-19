@@ -55,7 +55,8 @@ export function encounterView(
   return {
     id: b.id, category: encounterCategory(b), name: b.name?.zh ?? b.id, location: extra.location?.zh,
     description: String(notes).replace(/\[object Object\]/g, ''),
-    level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
+    level: b.team[0].level, levelMasked: b.team[0].level_masked, species: b.team[0].species, portrait: portrait(b.team[0].species),
+    opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), rewardText: floor !== undefined ? towerRewardText(ctx, b) : encounterRewardText(ctx, b),
     ...(isBraveTowerSideChallenge(b) ? { towerSide: true } : {}),
     ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),

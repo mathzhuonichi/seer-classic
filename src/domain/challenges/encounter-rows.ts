@@ -10,7 +10,7 @@ export interface EncounterCatalog { readonly catalog: CatalogData; speciesName(i
 
 export function opponentViews(ctx: EncounterCatalog, encounter: BossEncounter): EncounterOpponentView[] {
   return encounter.team.map((mon, slot) => ({
-    species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, evidence: buildBossEvidence(encounter, slot),
+    species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, levelMasked: mon.level_masked, evidence: buildBossEvidence(encounter, slot),
   }));
 }
 

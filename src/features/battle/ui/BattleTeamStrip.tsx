@@ -19,7 +19,7 @@ export default function BattleTeamStrip({ team, activeUid, enemy = false }: Batt
       {team.map((creature, index) => {
         const fainted = creature.hp <= 0;
         const active = creature.uid === activeUid;
-        const level=encounterLevelText(creature.level,enemy&&creature.evidence?.hasInferredLevel,enemy&&creature.evidence?.displayLevelUnknown);
+        const level=encounterLevelText(creature.level,enemy&&creature.evidence?.hasInferredLevel,creature.levelMasked);
         const description = `${creature.name}，${level}，${enemy&&creature.evidence?.hasInferredStats?'含推定参数，':''}${active ? '当前出战，' : ''}${fainted ? '已失去战斗能力' : creature.hpHidden ? `体力 ${creature.hp}%` : `体力 ${creature.hp} / ${creature.maxHp}`}`;
         const appearance = appearanceOf(creature);
         return <li key={`${creature.uid}-${index}`} className={`battle-team-member${active ? ' is-active' : ''}${fainted ? ' is-fainted' : ''}`}

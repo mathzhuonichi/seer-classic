@@ -59,6 +59,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       assert.equal(new Set(runtimeEntry.sourceUrls).size,runtimeEntry.sourceUrls.length);
       for(const url of runtimeEntry.sourceUrls)assert(allowedUrls.has(url),`${boss.id}: runtime URL is supported by an encounter or field citation`);
       for(const row of runtimeEntry.members){const source=boss.team[row.slot],detailed=detail.members.find(member=>member.slot===row.slot);assert.equal(row.species,source.species);assert.equal(detailed.species,source.species);members++;
+        assert.equal(!!source.level_masked,!!row.displayLevelUnknown,`${boss.id}/${row.slot}: the encounter masks the level the ledger records as shown ??`);
         for(const key of statsKeys){assert(statuses.has(row.fields[key]?.status));assert.equal(row.fields[key].status,detailed.fields[key].status);}
         assert.equal(detailed.configured.level,source.level);assert.deepEqual(detailed.configured.skills,source.skills);assert.equal(detailed.configured.hp,source.hp_override??null);
       }
@@ -149,7 +150,9 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   check('Difuert masks its documented unknown display level without replacing its internal estimate of 80',()=>{
     const boss=bosses.get('boss_spt_difute');assert.equal(boss.team[0].level,80);const evidence=buildBossEvidence(boss);
     assert.equal(evidence.displayLevelUnknown,true);assert.equal(field(evidence,'level').value,'??');assert.equal(field(evidence,'level').status,'inferred');assert.equal(encounterLevelText(80,true,evidence.displayLevelUnknown),'Lv.?? · 推定');
-    const game=make(),core=start(game,{type:'startBattle',bossId:boss.id});assert.equal(core.active(1).level,80);assert.equal(game.snapshot().battle.enemy.level,80);assert.equal(game.snapshot().battle.enemy.evidence.displayLevelUnknown,true);leave(game);
+    const game=make(),view=game.snapshot().bosses.find(row=>row.id===boss.id);assert.equal(view.levelMasked,true);assert.equal(view.opponents[0].levelMasked,true);
+    const core=start(game,{type:'startBattle',bossId:boss.id}),enemy=game.snapshot().battle.enemy;assert.equal(core.active(1).level,80);assert.equal(enemy.level,80);assert.equal(enemy.levelMasked,true);
+    assert(game.snapshot().battle.player.levelMasked===undefined);leave(game);
   });
   const attemptId='boss_aluobisi',source=bosses.get(attemptId);
   check('Attempt adapter yields 100, 90, 70 and an explicitly inferred floor of 50 while retaining 5000 HP',()=>{

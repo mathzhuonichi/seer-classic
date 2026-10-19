@@ -65,7 +65,7 @@ function CaptureNote({battle,item}:{battle:BattleView|null;item:ItemView}) {
     <p>进入普通野外对战，在对方仍有体力时使用胶囊。降低体力、附加异常状态可以提高捕捉机会。</p><p>捕捉成功后，精灵会加入背包；背包已满时进入仓库。</p></div>
     {battle&&enemy&&<div className="inventory-capture-preview">
       <div className="capture-target-art"><CreatureArt species={enemy.species} name={enemy.name}/></div>
-      <div><small>捕捉对象</small><strong>{enemy.name} · {encounterLevelText(enemy.level,evidence?.hasInferredLevel,evidence?.displayLevelUnknown)}</strong>
+      <div><small>捕捉对象</small><strong>{enemy.name} · {encounterLevelText(enemy.level,evidence?.hasInferredLevel,enemy.levelMasked)}</strong>
         <span>体力 {enemy.hp} / {enemy.maxHp}</span>
         <p>{battle.canCapture?`${item.name} → ${enemy.name}`:battle.captureBlockedReason||'当前对手无法捕捉。'}</p></div></div>}</>;
 }

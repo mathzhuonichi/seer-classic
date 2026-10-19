@@ -9,7 +9,7 @@ export function encounterLevelText(level:number,estimated=false,masked=false):st
   return `Lv.${encounterLevel(level,masked)}${estimated?' · 推定':''}`;
 }
 
-/** An opponent's level label, marked as estimated or masked by its boss evidence. */
-export function opponentLevelText(opponent:{level:number;evidence?:{hasInferredLevel:boolean;displayLevelUnknown?:boolean}}):string {
-  return encounterLevelText(opponent.level,opponent.evidence?.hasInferredLevel,opponent.evidence?.displayLevelUnknown);
+/** An opponent's level label, marked as estimated by its boss evidence and masked where the original showed ??. */
+export function opponentLevelText(opponent:{level:number;levelMasked?:boolean;evidence?:{hasInferredLevel:boolean}}):string {
+  return encounterLevelText(opponent.level,opponent.evidence?.hasInferredLevel,opponent.levelMasked);
 }

@@ -11,7 +11,7 @@ import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 export default function BattleHealth({ monster, team, enemy }: { monster: BattleMonsterView; team: BattleMonsterView[]; enemy?: boolean }) {
   const appearance = appearanceOf(monster);
   const summary = conditionSummary(monster);
-  const level = encounterLevel(monster.level, enemy && monster.evidence?.displayLevelUnknown);
+  const level = encounterLevel(monster.level, monster.levelMasked);
   const portraitStyle = creatureArtStyle(appearance, undefined, { scaleByStage: false, fill: .9, verticalAlign: 'center' });
   return <section className={`classic-health ${enemy ? 'foe' : 'ally'}`} aria-label={`${enemy ? '对手' : '我方'}${monster.name}体力`}>
     <div className="classic-health-portrait"><img src={getCreatureArt(appearance).src} style={portraitStyle} alt="" draggable={false}/></div>
