@@ -56,7 +56,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | `battle/ai/` | The `BattlePolicy` the game injects (`src/ai.ts`, `AI_POLICY`): `legacy-ai.ts`, the search planner (`search-ai.ts`, `search/`) with its battle clone and opponent model (`clone.ts`, `observe.ts`). |
 | `raising/core/` | Pure raising rules: stats, growth curves, monsters, storage, items, rewards and the dex. They draw from the `Rng` they are given; the game passes the battle core's. `types.ts` defines the save shapes. |
 | `data/` | The catalog and remake data; see [data/README.md](data/README.md). |
-| `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `refactor/move-files.mjs` (file moves with import rewriting, kept until wave 2 ends); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, the architecture gate). |
+| `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers); `distribution/` (packagers); `refactor/move-files.mjs` (file moves with import rewriting, kept until wave 2 ends); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate). |
 | `public/` | Runtime assets. Large ones are ignored by Git and travel in a separate asset archive. |
 | `src-tauri/`, `distribution/` | The Tauri desktop shell; files copied into the portable browser package (`start.py`, `PLAYTEST.md`). |
 | `design/` | Design notes ([index](design/notes/INDEX.md)) and preserved source snapshots. |
@@ -127,8 +127,9 @@ The game extends the engine when it sets up a battle (`features/battle/battle-se
 ## Verification
 
 - `npm run typecheck` runs `tsc --noEmit`. `npm test` runs the `node --test` unit tests (`*.test.mjs` under `src/`, `battle/` and `raising/`).
-- `npm run verify` runs `tools/verification/run.mjs`, which runs every suite whose status in `MANIFEST.json` is `gate`. The other statuses say why a suite does not gate: `needs-assets`, `needs-cache`, `known-failure` and `tool`. `--status all` runs every registered suite except `tool` scripts, `--jobs N` limits parallelism, and suites can also be named. Logs and `SUMMARY.json` go to `artifacts/verification/`.
+- `npm run verify` runs `tools/verification/run.mjs`, which runs every suite whose status in `MANIFEST.json` is `gate`. The other statuses say why a suite does not gate: `needs-assets`, `needs-cache`, `needs-browser`, `known-failure` and `tool`. `--status all` runs every registered suite except `tool` scripts, `--jobs N` limits parallelism, and suites can also be named. Logs and `SUMMARY.json` go to `artifacts/verification/`.
 - `.ts` suites load through Vite SSR. Suites marked `shards: N` run on N cores through `parallel-shards.mjs`.
+- `needs-browser` suites drive the built game in real browsers through Playwright (`playwright-core`, a dev dependency) and `_browser.mjs`: the app is built with Vite into `artifacts/` and served by request interception from that build and `public/`, with no server; every page is muted. `browser-regressions.mjs` checks the keyboard, focus and clickability fixes of the 2026-10-18 playtest in the system Google Chrome (`SEER_CHROME` names another executable) and, when it is installed (`npx playwright-core install webkit`), in Playwright WebKit as a stand-in for the Tauri web view. Its checks are a list of named entries.
 - `_harness.mjs` provides Vite SSR loading, a check-and-report `suite()`, memory storage, an offline `fetch` and file hashing. New suites must be registered in `MANIFEST.json`. A behaviour change updates or deletes the old assertions in the same commit.
 
 ## Assets
