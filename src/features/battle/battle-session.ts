@@ -22,7 +22,7 @@ const CHALLENGE_WORD = '挑战';
 const openingLine = (rt: Runtime, { wild, name }: BattleSetup) => wild ? `遭遇野生的${rt.ctx.speciesName(wild.species)}。`
   : name.includes(CHALLENGE_WORD) ? `${name}。` : `${CHALLENGE_WORD}${name}。`;
 
-/** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record. */
+/** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record (its win counts at settlement). */
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
   const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));

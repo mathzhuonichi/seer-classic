@@ -18,7 +18,10 @@ interface VictoryRewards { coins: number; items: readonly (readonly [string, num
 
 /** A challenge's part in one battle session: features/challenges passes them when it starts the session. */
 export interface SessionHooks {
-  /** A generated team (battle facilities) or a practice fight (盖亚 without a variant): no attempt count, first-clear record or encounter reward items. */
+  /**
+   * A generated team (battle facilities) or a practice fight (盖亚 without a variant): no attempt or win count, first-clear record or
+   * encounter reward items.
+   */
   readonly unrecorded?: boolean;
   /** A victory's coins and reward items in place of the victory coins and the encounter's items (Brave Tower floors). */
   rewards?(encounter: BossEncounter, firstClear: boolean): VictoryRewards;

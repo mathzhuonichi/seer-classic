@@ -73,9 +73,10 @@ function encounterName(encounter: BossEncounter, battle: Battle): string {
   return battle.variant ? `${name}（${battle.variant.label.zh}）` : name;
 }
 
-/** The encounter at this save's attempt count, with explicit NPC training applied. */
+/** The encounter at this save's attempt and win counts, with explicit NPC training applied. */
 function prepareEncounter(ctx: GameContext, save: GameSave, boss: BossEncounter): BossEncounter {
-  return normalizeNpcTrainingEncounter(ctx.catalog, bossEncounterForAttempt(boss, save.progress.boss_attempts[boss.id] ?? 0));
+  const { boss_attempts: attempts, boss_wins: wins } = save.progress;
+  return normalizeNpcTrainingEncounter(ctx.catalog, bossEncounterForAttempt(boss, attempts[boss.id] ?? 0, wins[boss.id] ?? 0));
 }
 
 /** Saved HP/PP plus the unspent part of each engraving bonus, with active energy beads. */

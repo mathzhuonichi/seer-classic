@@ -30,7 +30,7 @@ const contracts={
   alternating_immunity:['on','order'],vs_type_use_only:['type','skill'],copy_foe_boosts:[],finish_while_foe_status:['status'],
   campaign_qilin_damage_filter:['mode','allowFixed'],campaign_qilin_low_damage_crit:['threshold','turns'],
   campaign_qilin_hurt_stage_down:['threshold','stats'],campaign_counter_type_extra_damage:['amount'],
-  level_drops_per_attempt:['start','step'],always_move_first:[],always_crit_after_turn:['turn'],crit_rate_bonus:['stages'],
+  level_drops_per_attempt:['start','step','step_win','step_loss','floor'],always_move_first:[],always_crit_after_turn:['turn'],crit_rate_bonus:['stages'],
   hp_multiplier:['multiplier'],evasion_bonus:['stages'],unlimited_pp_skill:['skill'],damage_only_from_own_type_normal_or_status:[],
   type_rotation:['order'],field_heal_each_turn:['pct_max_hp','sides'],field_damage_each_turn:['amount','sides'],
   field_damage_multiplier:['multiplier','sides'],revive_unless_status_ko:['max_revives','through_turn'],ohko_attacks:['ignore_speed'],

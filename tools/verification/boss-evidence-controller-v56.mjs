@@ -127,12 +127,13 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   check('Attempt adapter yields 100, 90, 70 and an explicitly inferred floor of 50 while retaining 5000 HP',()=>{
     assert(source);const before=JSON.stringify(source);
     for(const [attempts,level] of [[0,100],[1,90],[3,70],[5,50],[6,50],[100,50],[-1,100],[NaN,100],[1.5,100]]){
-      const adapted=bossEncounterForAttempt(source,attempts);assert.notEqual(adapted,source);assert.notEqual(adapted.team,source.team);assert.equal(adapted.team[0].level,level);assert.equal(adapted.team[0].hp_override,5000);
+      assert.equal(bossEncounterForAttempt(source,attempts,attempts).team[0].level,level,'阿洛比斯 falls by one step per attempt, won or lost');
+      const adapted=bossEncounterForAttempt(source,attempts,0);assert.notEqual(adapted,source);assert.notEqual(adapted.team,source.team);assert.equal(adapted.team[0].level,level);assert.equal(adapted.team[0].hp_override,5000);
       const {level:_old,...originalMember}=source.team[0],{level:_new,...adaptedMember}=adapted.team[0];assert.deepEqual(adaptedMember,originalMember);
     }
     assert.equal(JSON.stringify(source),before);assert.equal(source.team[0].level,100);
     const ledger=runtime.encounters[attemptId].members[0].fields;assert.equal(ledger.level.status,'inferred');assert.equal(ledger.hp.status,'inferred');
-    const ordinary=bosses.get('boss_spt_liaosi');assert.equal(bossEncounterForAttempt(ordinary,100),ordinary);
+    const ordinary=bosses.get('boss_spt_liaosi');assert.equal(bossEncounterForAttempt(ordinary,100,50),ordinary);
   });
   check('Successful controller starts increment attempts exactly once and preserve the current battle level',()=>{
     const game=make();

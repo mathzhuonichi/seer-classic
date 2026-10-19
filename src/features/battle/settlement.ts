@@ -119,13 +119,14 @@ function grantVictory(rt: Runtime, session: BattleSession) {
   else game.coins += reward.coins;
 }
 
-/** Victory coins, first clears and their items, reward items within the six-copy allowance, and taught skills. */
+/** Victory coins, the win count, first clears and their items, reward items within the six-copy allowance, and taught skills. */
 function grantEncounterRewards(rt: Runtime, session: BattleSession) {
   const { save, ctx } = rt, boss = session.encounter!, reward = boss.reward as EncounterReward | undefined;
   const firstClear = !save.progress.bosses_cleared.includes(boss.id);
   const paid = session.hooks.rewards?.(boss, firstClear)
     ?? { coins: victoryReward(boss).coins, items: encounterItems(reward, firstClear), blocked: REPEAT_LATER };
   save.game.coins += paid.coins;
+  save.progress.boss_wins[boss.id] = (save.progress.boss_wins[boss.id] ?? 0) + 1;
   if (firstClear) save.progress.bosses_cleared.push(boss.id);
   const essences: string[] = [];
   let essenceBlocked = false;

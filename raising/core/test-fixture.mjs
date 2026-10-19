@@ -36,7 +36,7 @@ export const rng = (seed = 1) => new Rng(seed);
 export function emptySave(extra = {}) {
   return {
     version: 1, seed: 1, rng_state: null, party: [], storage: [], exp_pool: 0, boosts: [], items: {},
-    progress: {bosses_cleared: [], boss_attempts: {}}, dex: {seen: [], owned: []}, ...extra,
+    progress: {bosses_cleared: [], boss_attempts: {}, boss_wins: {}}, dex: {seen: [], owned: []}, ...extra,
   };
 }
 

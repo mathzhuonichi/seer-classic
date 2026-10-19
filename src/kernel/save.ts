@@ -8,7 +8,7 @@ import { expToNext, MAX_LEVEL } from "../../raising/core/growth.ts";
 import { MAX_EQUIPPED } from "../../raising/core/monster.ts";
 import { PARTY_MAX } from "../../raising/core/storage.ts";
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 
 /** Per-monster later-era mechanics state: equipped engravings and spent engraving resources. */
 export interface SavedModules {
@@ -48,7 +48,7 @@ export function newSave(seed: number): Save {
     storage: [],
     exp_pool: 0,
     items: {},
-    progress: { bosses_cleared: [], boss_attempts: {} },
+    progress: { bosses_cleared: [], boss_attempts: {}, boss_wins: {} },
     dex: { seen: [], owned: [] },
   };
 }
@@ -124,8 +124,20 @@ function fromVersion3(s: any, context: MigrationContext | undefined): any {
   return s;
 }
 
+// Version 5 counts the wins per encounter beside its attempts (洛拉斯克's level falls by one step per win and another per loss).
+// Earlier versions kept only the first clear, so a cleared encounter starts at one win. Malformed fields are left for validateSave.
+function fromVersion4(s: any): any {
+  if (!isRecord(s.progress)) return s;
+  const wins = s.progress.boss_wins ??= {}, cleared: unknown = s.progress.bosses_cleared;
+  if (!isRecord(wins) || !Array.isArray(cleared)) return s;
+  for (const encounterId of cleared) wins[encounterId] ??= 1;
+  return s;
+}
+
 // Each entry upgrades a save from version k to k + 1.
-const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = { 1: fromVersion1, 2: fromVersion2, 3: fromVersion3 };
+const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined) => any> = {
+  1: fromVersion1, 2: fromVersion2, 3: fromVersion3, 4: fromVersion4,
+};
 
 export function migrate(raw: any, context?: MigrationContext): Save {
   let s = raw;
