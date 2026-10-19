@@ -134,7 +134,8 @@ t.check('actual space-station tower and dark-arena routes', () => {
 t.check('every Boss opens from the start: clearing its source prerequisites changes neither its start nor its archive status', () => {
   const fresh = JSON.parse(game.exportSave()), campaignBosses = new Set(game.snapshot().campaigns.flatMap(row => row.stages.flatMap(stage => stage.bossIds)));
   // Only a campaign's stage order and the Tower's floor order gate a fight; the other source chains are history.
-  const chained = encounters.filter((record: any) => record.unlock?.requires?.length && !campaignBosses.has(record.id) && braveTowerFloor(record.id) === undefined);
+  const chained = encounters.filter((record: any) =>
+    record.unlock?.requires?.length && !campaignBosses.has(record.id) && braveTowerFloor(record.id) === undefined);
   const attempt = (id: string, cleared: string[]) => {
     const journey = createGame(catalog, JSON.stringify({ ...fresh, progress: { ...fresh.progress, bosses_cleared: cleared } }));
     const result = journey.dispatch({ type: 'startBattle', bossId: id }), s = journey.snapshot();
