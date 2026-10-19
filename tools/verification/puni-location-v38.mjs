@@ -74,6 +74,13 @@ await withSsr('puni-location-v38',async load=>{
     const complete=structuredClone(base);complete.game.campaigns.puni=[...stageIds];complete.progress.bosses_cleared=[...bossIds];const reset=make(complete);reset.dispatch({type:'resetCampaign',campaignId:'puni'});
     const reloaded=make(parse(reset));assert.equal(view(reloaded).completed,0);assert.equal(view(reloaded).nextStageId,'seal1');assert.deepEqual(parse(reloaded).progress.bosses_cleared,bossIds);reject(reloaded,{type:'startCampaignStage',campaignId:'puni',stageId:'body'});
   });
+  check('The engine notes of every Puni stage cite only files that exist',()=>{
+    for(const id of bossIds){
+      const notes=(catalog.bosses.find(row=>row.id===id).engine_notes??[]).join('\n');
+      for(const file of notes.match(/\b(?:chains|data|src)\/[\w./-]+\.\w+/g)??[])
+        assert(fs.existsSync(file.startsWith('chains/')?`data/bosses/${file}`:file),`${id} cites ${file}`);
+    }
+  });
   check('Verification does not mutate shared source definitions',()=>assert.equal(JSON.stringify(catalog),catalogBytes));
   t.finish({progressCases,location});
 });
