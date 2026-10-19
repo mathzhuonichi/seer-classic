@@ -14,8 +14,10 @@ await withSsr('station-navigation-v53',async load=>{
     '/src/domain/world/world.ts','/src/features/world/scene-exits.ts','/src/features/world/ui/WorldMap.tsx','/src/features/challenges/ui/BattleFacilities.tsx','/src/kernel/game.ts',
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/brave-tower.ts',
   ].map(load));
-  const [{default:BraveTower},{challengeDetail,challengeEntries,challengeKind},{shellRoutes},{enrichCatalog}]=await Promise.all(
-    ['/src/features/challenges/ui/BraveTower.tsx','/src/features/challenges/challenge-center.ts','/src/app/shell-routes.ts','/src/domain/catalog/enrichment.ts'].map(load));
+  const [{default:BraveTower},{challengeDetail,challengeEntries,challengeKind},{shellRoutes},{enrichCatalog}]=await Promise.all([
+    '/src/features/challenges/ui/BraveTower.tsx','/src/features/challenges/challenge-center.ts','/src/app/shell-routes.ts',
+    '/src/domain/catalog/enrichment.ts',
+  ].map(load));
   const {WORLD_PLANETS,findChallengeLocation,findSceneChallenges,resolveWorldLocation,readWorldPreference}=world;
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),game=createGame(catalog,''),saveBefore=game.exportSave(),s=game.snapshot();
   const ship=WORLD_PLANETS.find(planet=>planet.id==='station'),station=WORLD_PLANETS.find(planet=>planet.id==='space-station');
