@@ -1,4 +1,4 @@
-/** Source contacts, original vector registration, and independent wildlife terrain. */
+/** Source contacts, original vector registration, independent wildlife terrain, and the scene nameplate each scene renders. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -96,6 +96,13 @@ await withSsr('maps-placement-v44',async load=>{
       }
     }
     report.renderedContacts=contacts;
+  });
+  check('Every scene keeps the fixed nameplate except the one long subregion name and the Brave Tower floors',()=>{
+    const plates=regions.map(row=>({id:`${row.planet.id}/${row.region.id}`,className:markup(row).match(/<div class="(world-location-hud[^"]*)"/)?.[1]}));
+    assert(plates.every(plate=>plate.className),'every scene shows its nameplate');
+    const wide=plates.filter(plate=>plate.className!=='world-location-hud');
+    assert(wide.every(plate=>plate.className==='world-location-hud world-location-hud-wide'),JSON.stringify(wide));
+    assert.deepEqual(wide.map(plate=>plate.id).sort(),['eddy/habitat-505','space-station/brave-tower']);
   });
   check('A campaign contact opens its saved campaign rather than a stage',()=>{
     const row=regions.find(row=>row.region.campaignId==='puni'),scene=buildWorldScene(s,row.planet,row.region);
