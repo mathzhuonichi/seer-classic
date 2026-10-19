@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 407,
+    "ruleNodes": 414,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -1775,12 +1775,14 @@
       "id": "boss_campaign_baihu_avatars",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_avatars.json",
-      "sourceSha256": "bd47e368ac094b324414bbf09ff4a76f173bdf3c0dbf311dc1ca3462e5b2fdfe",
+      "sourceSha256": "35844ff9948fd456c8ed4c92649e77b98f62df16dbe257c421a252a4cfc7fc37",
       "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110426/84954.html",
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-        "https://news.7k7k.com/content/20110328/82522.html"
+        "https://news.7k7k.com/content/20110328/82522.html",
+        "https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
+        "https://news.7k7k.com/content/20130106/555761.html"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -1922,13 +1924,11 @@
         {
           "index": 0,
           "path": "team[0].member_rules[0]",
-          "rule": "priority_add",
+          "rule": "always_moves_first",
           "configuration": {
             "rule": "script",
-            "id": "priority_add",
-            "params": {
-              "amount": 1
-            }
+            "id": "always_moves_first",
+            "params": {}
           },
           "condition": null,
           "evidence": {
@@ -1940,6 +1940,92 @@
         },
         {
           "index": 1,
+          "path": "team[0].member_rules[1]",
+          "rule": "status_on_attacker",
+          "configuration": {
+            "rule": "script",
+            "id": "status_on_attacker",
+            "params": {
+              "status": "fear",
+              "chance": 100,
+              "turns_min": 1,
+              "turns_max": 2
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 2,
+          "path": "team[0].member_rules[2]",
+          "rule": "immune_skill_list",
+          "configuration": {
+            "rule": "script",
+            "id": "immune_skill_list",
+            "params": {
+              "skills_zh": [
+                "\u601d\u7ef4\u5e72\u6d89"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 3,
+          "path": "team[0].member_rules[3]",
+          "rule": "ignore_player_damage_reduction",
+          "configuration": {
+            "rule": "script",
+            "id": "ignore_player_damage_reduction",
+            "params": {
+              "skills_zh": [
+                "\u6697\u5f71\u62a4\u76fe"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 4,
+          "path": "team[0].member_rules[4]",
+          "rule": "stages_unclearable",
+          "configuration": {
+            "rule": "script",
+            "id": "stages_unclearable",
+            "params": {
+              "except_sure_hit": true,
+              "except_skills_zh": [
+                "\u65e5\u6708\u7686\u4f24"
+              ]
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 5,
           "path": "team[0].member_phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -1960,7 +2046,59 @@
           }
         },
         {
-          "index": 2,
+          "index": 6,
+          "path": "team[1].member_rules[0]",
+          "rule": "immune_percent_damage",
+          "configuration": {
+            "rule": "immune_percent_damage"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 7,
+          "path": "team[1].member_rules[1]",
+          "rule": "immune_status",
+          "configuration": {
+            "rule": "immune_status"
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 8,
+          "path": "team[1].member_rules[2]",
+          "rule": "status_on_attacker",
+          "configuration": {
+            "rule": "script",
+            "id": "status_on_attacker",
+            "params": {
+              "status": "paralysis",
+              "chance": 100,
+              "turns_min": 1,
+              "turns_max": 2
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 9,
           "path": "team[1].member_phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {

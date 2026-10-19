@@ -31,9 +31,45 @@
       "member_rules": [
         {
           "rule": "script",
-          "id": "priority_add",
+          "id": "always_moves_first",
+          "params": {}
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
           "params": {
-            "amount": 1
+            "status": "fear",
+            "chance": 100,
+            "turns_min": 1,
+            "turns_max": 2
+          }
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "params": {
+            "skills_zh": [
+              "思维干涉"
+            ]
+          }
+        },
+        {
+          "rule": "script",
+          "id": "ignore_player_damage_reduction",
+          "params": {
+            "skills_zh": [
+              "暗影护盾"
+            ]
+          }
+        },
+        {
+          "rule": "script",
+          "id": "stages_unclearable",
+          "params": {
+            "except_sure_hit": true,
+            "except_skills_zh": [
+              "日月皆伤"
+            ]
           }
         }
       ],
@@ -74,7 +110,24 @@
       "label": {
         "zh": "电系分身"
       },
-      "member_rules": [],
+      "member_rules": [
+        {
+          "rule": "immune_percent_damage"
+        },
+        {
+          "rule": "immune_status"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "params": {
+            "status": "paralysis",
+            "chance": 100,
+            "turns_min": 1,
+            "turns_max": 2
+          }
+        }
+      ],
       "member_phases": [
         {
           "when": {
@@ -118,9 +171,12 @@
     "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
   },
   "engine_notes": [
-    "Avatar HP 3000 (fighting) and 2500 (electric) are from 4399 2011-03-11. Lv105 and both four-move loadouts are the official boss forms 2513-2516 (2013 PetXMLInfo, seer_data monsters.json). Fighting then electric order is source-backed. The fighting avatar adds one priority step, as the March 2011 guide states, rather than using an absolute-first override.",
+    "Avatar HP 3000 (fighting) and 2500 (electric) are from 4399 2011-03-11. Lv105 and both four-move loadouts are the official boss forms 2513-2516 (2013 PetXMLInfo, seer_data monsters.json). Fighting then electric order is source-backed.",
     "The original fought each avatar as a separate single-boss battle (first stage, then the strengthened second stage); the remake keeps one two-member team.",
-    "电虎 starts with an innate atk+2 (天生攻击+2, 2013 retrospective)."
+    "Both avatars start with an innate atk+2 (天生攻击+2, 2013 retrospective) and keep finite PP (PP有限可耗).",
+    "战虎 always moves first (强制先手: inferred by 4399 2011-03-11, stated by the 7k7k 2013-01-06 retrospective). Attacking it makes the attacker afraid for 1-2 turns; 思维干涉 has no effect on it and the player's 暗影护盾 does not protect against it.",
+    "战虎's boosts cannot be cleared, except by sure-hit skills (百科) and 盖亚's 日月皆伤 (7k7k). Guides say other clearing skills MISS; the remake blocks their clear and keeps their damage.",
+    "电虎 takes nothing from 海洋之心 or other percentage damage and is immune to statuses; 绝命火焰 still works, as its instant kill is not a status. Attacking it paralyses the attacker for 1-2 turns."
   ],
   "confidence": {
     "level": "medium",
@@ -131,7 +187,9 @@
   "sources": [
     "https://news.7k7k.com/content/20110426/84954.html",
     "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-    "https://news.7k7k.com/content/20110328/82522.html"
+    "https://news.7k7k.com/content/20110328/82522.html",
+    "https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
+    "https://news.7k7k.com/content/20130106/555761.html"
   ],
   "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level 105 is the official map-table level; IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
 }
