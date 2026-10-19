@@ -31,7 +31,7 @@ export function shellRoutes({ c, navigation, backdrops, setMessage, setSelected 
     if (braveTowerFloor(boss.id) !== undefined) { openTower(); return; }
     if (boss.towerSideFloor !== undefined) { travel(BRAVE_TOWER_LOCATION, 'tower'); return; }
     const { planetId, regionId } = findChallengeLocation(boss);
-    travel({ planetId, regionId, bossId: boss.id, variant });
+    travel({ planetId, regionId, bossId: boss.id, ...(variant ? { variant } : {}) });
   }
   /** A page requested by a scene contact or terminal. */
   function navigate(page: string) {
