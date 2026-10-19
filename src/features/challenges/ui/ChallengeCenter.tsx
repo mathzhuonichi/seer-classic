@@ -36,10 +36,16 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
   const pick=(id:string)=>{setSelected(id);setHonorsOpen(false)};
   return <section className="management-panel challenge-management" aria-label="星际挑战面板">
     <div className="management-panel-heading"><strong>星际挑战档案</strong><span>已完成 {entries.filter(entry=>entry.cleared).length} / {entries.length}</span></div>
-    <nav className="management-tabs challenge-category-tabs" aria-label="挑战分类">{CHALLENGE_TABS.map(([tab,label])=><button key={tab} aria-pressed={category===tab} className={category===tab?'active':''} onClick={()=>{if(tab==='tower'&&onTower){onTower();return}setCategory(tab);setPage(0);pick('')}}>{label}</button>)}</nav>
+    <nav className="management-tabs challenge-category-tabs" aria-label="挑战分类">{CHALLENGE_TABS.map(([tab,label])=>
+      <button key={tab} aria-pressed={category===tab} className={category===tab?'active':''}
+        onClick={()=>{if(tab==='tower'&&onTower){onTower();return}setCategory(tab);setPage(0);pick('')}}>{label}</button>)}</nav>
     <div className="challenge-inner"><aside className="challenge-index">
       <div className="management-filter"><input aria-label="搜索挑战" placeholder="对手名称 / 挑战提示" value={search} onChange={event=>{setSearch(event.target.value);setPage(0);setSelected('')}}/></div>
-      <div className="challenge-index-scroll">{rows.slice(start,end).map(entry=><button key={entry.id} className={entry.id===boss?.id?'active':''} aria-pressed={entry.id===boss?.id} onClick={()=>pick(entry.id)}><div className="challenge-mini-art"><CreatureArt species={entry.species} name={entry.name}/></div><span><strong>{entry.name}</strong><small>{challengeCaption(entry,braveTower)}</small></span><b>{entry.cleared?'✓':'›'}</b></button>)}{!rows.length&&<div className="management-empty">没有匹配的挑战。</div>}</div>
+      <div className="challenge-index-scroll">{rows.slice(start,end).map(entry=>
+        <button key={entry.id} className={entry.id===boss?.id?'active':''} aria-pressed={entry.id===boss?.id} onClick={()=>pick(entry.id)}>
+          <div className="challenge-mini-art"><CreatureArt species={entry.species} name={entry.name}/></div>
+          <span><strong>{entry.name}</strong><small>{challengeCaption(entry,braveTower)}</small></span><b>{entry.cleared?'✓':'›'}</b>
+        </button>)}{!rows.length&&<div className="management-empty">没有匹配的挑战。</div>}</div>
       <div className="management-pagination"><button aria-label="上一页挑战" disabled={!page} onClick={()=>turnPage(-1)}>‹</button><span>{page+1} / {pages} · {rows.length} 个</span><button aria-label="下一页挑战" disabled={page+1>=pages} onClick={()=>turnPage(1)}>›</button></div>
     </aside><div className="challenge-entry-scroll">{honorsOpen?<HonorRoll honors={honors} onClose={()=>setHonorsOpen(false)}/>:boss&&detail?<>
       <div className="challenge-entry-hero"><div className="challenge-entry-art"><CreatureArt species={boss.species} name={boss.name}/></div>

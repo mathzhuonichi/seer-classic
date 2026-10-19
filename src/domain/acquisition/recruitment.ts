@@ -75,7 +75,10 @@ export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:reado
     const prerequisites:RecruitmentPrerequisite[]=[...selected.map(candidate=>({kind:'species' as const,species:candidate.id})),...requiredBosses.map(boss=>({kind:'boss' as const,bossId:boss.id}))];
     if(prerequisites.length>MAX_RECRUITMENT_PREREQUISITES)throw new Error(`Too many recruitment prerequisites for ${row.id}`);
     const repeatability=policy?.repeatability??'unknown';
-    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[]}];
+    return [{
+      questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,
+      repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[],
+    }];
   });
 }
 
