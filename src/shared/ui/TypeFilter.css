@@ -1,4 +1,8 @@
-.game-shell button.icon-type-filter{display:flex;align-items:center;gap:6px;padding:7px 8px;min-width:0;background:#effaff;color:#174663;border:1px solid #4384ac;border-radius:4px;font-size:12px;text-align:left;box-shadow:inset 0 1px #fff;transform:none}
+/* html adds one element: above .management-panel button:hover (0,2,1), below its :active (0,3,1). */
+html .game-shell button.icon-type-filter{
+ display:flex;align-items:center;gap:6px;padding:7px 8px;min-width:0;background:#effaff;color:#174663;border:1px solid #4384ac;border-radius:4px;font-size:12px;
+ text-align:left;box-shadow:inset 0 1px #fff;transform:none;
+}
 .icon-type-filter>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .icon-type-filter>i{font-style:normal;font-size:10px;margin-left:auto;color:#1c6790}
 .icon-type-filter .battle-type-icon{width:19px;height:19px;flex-basis:19px}

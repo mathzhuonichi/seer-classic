@@ -2,19 +2,20 @@
 .raising-ability-panel{min-width:0}
 .raising-ability-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:0 0 3px;font-size:10px;line-height:18px}
 .raising-ability-heading b{font-weight:400}
-.raising-ability-heading>button{padding:2px 6px;font-size:10px;line-height:16px;white-space:nowrap}
-.raising-ability-table{border:0;border-radius:0;border-collapse:collapse;background:transparent;font-size:11px}
-.raising-ability-table th,.raising-ability-table td{padding:1px 4px!important;line-height:18px;border-bottom:1px solid #8fbad0}
-.raising-ability-table td+td,.raising-ability-table th+td{border-left:0}
-.raising-ability-table thead th{font-weight:400;font-size:10px}
-.raising-ability-table tbody th{font-size:11px;font-weight:400;padding-left:6px}
-.raising-ability-table tbody td:last-child strong{font-size:12px;font-weight:400}
+div.raising-ability-heading>button{padding:2px 6px;font-size:10px;line-height:16px;white-space:nowrap}
+/* Element qualifiers (table., div.) outrank the kit's equal stat-table and button rules without passing its :active (0,3,1). */
+table.raising-ability-table{border:0;border-radius:0;border-collapse:collapse;background:transparent;font-size:11px}
+table.raising-ability-table th,table.raising-ability-table td{padding:1px 4px!important;line-height:18px;border-bottom:1px solid #8fbad0}
+table.raising-ability-table td+td,table.raising-ability-table th+td{border-left:0}
+table.raising-ability-table thead th{font-weight:400;font-size:10px}
+table.raising-ability-table tbody th{font-size:11px;font-weight:400;padding-left:6px}
+table.raising-ability-table tbody td:last-child strong{font-size:12px;font-weight:400}
 .raising-stat-bonus{margin-left:3px;color:#a16c00;font-size:9px;white-space:nowrap}
 .raising-ability-footnote{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:3px 0;font-size:9px;line-height:15px}
 .raising-ability-footnote.invalid{color:#d76f51}
 .raising-ev-editor{padding-top:2px}
 .raising-ev-editor .ev-controls{gap:4px}
-.raising-ev-editor .ev-controls select{min-width:120px;padding:4px;font-size:10px}
+.window-body .raising-ev-editor .ev-controls select{min-width:120px;padding:4px;font-size:10px}
 .raising-ev-editor .ev-controls button{padding:3px 6px;font-size:10px}
 .raising-ev-editor .ev-save-row{margin-top:5px;padding:5px 0;position:static;box-shadow:none}
 .raising-ability-panel>.management-feedback{font-size:10px;margin:2px 0}
@@ -26,29 +27,33 @@
 .raising-ability-panel .engraving-picker{margin-top:4px;padding-top:4px}
 .raising-ability-panel .engraving-picker-heading{margin-bottom:3px;font-size:10px}
 .raising-ability-panel .engraving-picker-heading>strong{font-weight:400}
-.raising-ability-panel .engraving-picker-heading>button{padding:1px 4px;background:none;border:0;box-shadow:none;text-decoration:underline}
-.raising-ability-panel .engraving-picker-grid{max-height:112px;gap:5px;padding:6px 1px;min-height:47px}
+.raising-ability-panel div.engraving-picker-heading>button{padding:1px 4px;background:none;border:0;box-shadow:none;text-decoration:underline}
+.raising-ability-panel .engraving-picker-grid.item-icon-grid{max-height:112px;gap:5px;padding:6px 1px;min-height:47px}
 .raising-ability-panel .engraving-selection-detail{padding-top:4px;border-top:1px solid #568db2}
 .raising-items-panel{display:flex;flex-direction:column;min-height:0;height:100%}
 .raising-items-panel .raising-item-grid{flex:1;min-height:55px;max-height:none;align-content:start;padding:7px 1px;gap:6px}
-.raising-items-panel .raising-item-confirm{position:static;flex-shrink:0;margin:0;padding:5px 0;gap:5px;box-shadow:none}
-.raising-items-panel .raising-item-confirm .primary{padding:4px 8px;font-size:10px}
-.raising-items-panel .raising-item-confirm .management-feedback{font-size:10px;line-height:1.5}
-.official-petbag .raising-ability-table{background:none;color:#e7f6ff}
-.official-petbag .raising-ability-table thead th{background:#0b4c7d;color:#bce7fc;border-color:#397caa}
-.official-petbag .raising-ability-table tbody tr:nth-child(odd){background:none}
-.official-petbag .raising-ability-table th,.official-petbag .raising-ability-table td{padding:1px 4px!important;border-bottom-color:#2b648f;line-height:18px}
-.official-petbag .raising-ability-table td+td,.official-petbag .raising-ability-table th+td{border-left:0}
-.official-petbag .raising-ability-table tbody td:last-child strong{font-size:12px;font-weight:400;color:#fff}
+.raising-scroll .raising-items-panel .raising-item-confirm{position:static;flex-shrink:0;margin:0;padding:5px 0;gap:5px;box-shadow:none}
+.raising-scroll .raising-items-panel .raising-item-confirm .primary{padding:4px 8px;font-size:10px}
+.raising-scroll .raising-items-panel .raising-item-confirm .management-feedback{font-size:10px;line-height:1.5}
+.official-petbag table.raising-ability-table{background:none;color:#e7f6ff}
+.official-petbag table.raising-ability-table thead th{background:#0b4c7d;color:#bce7fc;border-color:#397caa}
+.official-petbag table.raising-ability-table tbody tr:nth-child(odd){background:none}
+.official-petbag table.raising-ability-table th,.official-petbag table.raising-ability-table td{
+ padding:1px 4px!important;border-bottom-color:#2b648f;line-height:18px;
+}
+.official-petbag table.raising-ability-table td+td,.official-petbag table.raising-ability-table th+td{border-left:0}
+.official-petbag table.raising-ability-table tbody td:last-child strong{font-size:12px;font-weight:400;color:#fff}
 .official-petbag .raising-stat-bonus{color:#ffe49a}
 .official-petbag .raising-ability-heading{color:#bce7fc}
-.official-petbag .raising-ability-heading>button{background:none;border:1px solid #428cb6;border-radius:2px;box-shadow:none;color:#d7f1ff;text-shadow:none}
+.official-petbag div.raising-ability-heading>button{background:none;border:1px solid #428cb6;border-radius:2px;box-shadow:none;color:#d7f1ff;text-shadow:none}
 .official-petbag .raising-ability-footnote{color:#b4d9ec}
 .official-petbag .raising-ability-footnote.invalid{color:#ffb397}
 .official-petbag .raising-ability-panel>.raising-engravings{background:none;border-color:#3479a6}
 .official-petbag .engraving-slot-caption{color:#d7f1ff}
 .official-petbag .engraving-slot-caption>.engraving-inactive-mark{color:#ffb397}
-.official-petbag .raising-ability-panel .engraving-unload,.official-petbag .raising-ability-panel .engraving-picker-heading>button{color:#bce7fc;text-shadow:none}
+.official-petbag .raising-ability-panel .engraving-unload,.official-petbag .raising-ability-panel div.engraving-picker-heading>button{
+ color:#bce7fc;text-shadow:none;
+}
 .official-petbag .raising-ability-panel.is-editing .ev-cell input{width:42px!important;height:22px!important;padding:2px 3px!important;font-size:11px!important}
 .official-petbag .raising-ability-panel.is-editing .ev-cell button{padding:2px 4px;font-size:9px}
 .official-petbag .raising-ability-panel .item-category-tabs,.official-petbag .raising-items-panel .item-category-tabs{background:none;border-bottom:1px solid #3479a6;padding:0;scrollbar-color:#3479a6 transparent}

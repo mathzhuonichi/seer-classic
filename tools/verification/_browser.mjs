@@ -88,10 +88,11 @@ function seedOnce(entries) {
 
 /**
  * Opens the game in a fresh context and waits for the page load. `silent` holds the mute entries set on every load, `seed` the
- * entries set before the first load. Page errors and console errors are collected in `errors`, failed requests in `failed`.
+ * entries set before the first load, `viewport` the page size (1280x800 by default). Page errors and console errors are
+ * collected in `errors`, failed requests in `failed`.
  */
-export async function openGame(browser, {dist, silent, seed}) {
-  const context = await browser.newContext({viewport: VIEWPORT, deviceScaleFactor: 1, reducedMotion: 'reduce'});
+export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT}) {
+  const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion: 'reduce'});
   const errors = [], failed = [];
   try {
     await context.route(`${ORIGIN}/**`, async route => {
@@ -111,4 +112,31 @@ export async function openGame(browser, {dist, silent, seed}) {
     await context.close().catch(() => {});
     throw error;
   }
+}
+
+/** Time for a key press or a click to take effect (or, for a check that nothing happened, to have taken effect). */
+export const SETTLE_MS = 250;
+export const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+export const count = (page, selector) => page.locator(selector).count();
+/** The explorer robot's position in the scene. */
+export const robot = page => page.$eval('.world-player', element => `${element.style.left} ${element.style.top}`);
+export const waitWorld = page => page.waitForSelector('.world-scene .world-player', {timeout: BOOT_TIMEOUT_MS});
+/** Waits until a battle has loaded and takes a command. */
+export const waitCommands = page => page.waitForFunction(() => !document.querySelector('.battle-loading')
+  && document.querySelector('.classic-command-deck')?.getAttribute('aria-busy') === 'false', null, {timeout: BOOT_TIMEOUT_MS});
+/** A toolbar tool of the fixture (`{id, label, title}`). */
+export const tool = (fixture, id) => fixture.tools.find(entry => entry.id === id);
+
+export async function openTool(page, {label, title}) {
+  await page.click(`.game-toolbar button[aria-label="${label}"]`);
+  await page.waitForSelector(`.scene-window[aria-label="${title}"]`);
+}
+export async function closeWindow(page, title) {
+  await page.keyboard.press('Escape');
+  await page.waitForSelector(`.scene-window[aria-label="${title}"]`, {state: 'detached'});
+}
+/** Opens the world dialogue of the first wild creature (the robot walks up to it). */
+export async function talkToCreature(page) {
+  await page.locator('.world-roamer').first().evaluate(element => element.click());
+  await page.waitForSelector('.world-dialogue');
 }

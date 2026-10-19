@@ -55,13 +55,13 @@ function useShellState(c:GameController){
   const key=(event:KeyboardEvent)=>{if(event.key==='Escape'){navigation.close();setModifier(false)}};
   window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
  },[]);
- // The toast shows the shell's own message, else the newest notice, and dismisses itself.
+ // The toast shows the shell's own message, else the newest notice, and dismisses itself; clicks pass through it.
  const toast=message||notice;
  const dismiss=()=>{setMessage('');c.dispatch({type:'dismissNotice'})};
  useEffect(()=>{if(!toast)return;const timer=setTimeout(dismiss,NOTICE_MS);return()=>clearTimeout(timer)},[toast,c]);
  return {
   navigation,selected,setSelected,modifier,setModifier,setMessage,
-  battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,dismiss,
+  battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,
  };
 }
 
@@ -74,7 +74,7 @@ export default function App(){
 export function Game({controller:c}:{controller:GameController}){
  const shell=useRef<HTMLDivElement>(null),display=useGameDisplay(shell),file=useRef<HTMLInputElement>(null);
  const {navigation,selected,setSelected,modifier,setModifier,setMessage,
-  battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast,dismiss}=useShellState(c);
+  battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast}=useShellState(c);
  const {nav,show,close,toggle,leaveCampaign}=navigation;
  const battle=useBattlePreparation(c,backdrops,battleOpen,{onStart(){close();setMessage('')},onBattle:started=>audio.track(started)});
  const audio=useShellAudio(c,!!battle.preparation);
@@ -120,7 +120,7 @@ export function Game({controller:c}:{controller:GameController}){
      onSettings={()=>openTool('settings')}/>
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
-   {toast&&!preparation&&!battleOpen&&<button className="game-toast" aria-label="关闭提示" onClick={dismiss}>{toast}<span>×</span></button>}
+   {toast&&!preparation&&!battleOpen&&<div className="game-toast" role="status">{toast}</div>}
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={close}/>}
    {windowKind&&<GameWindow key={windowKind} title={WINDOW_TITLES[windowKind]} compact={COMPACT_WINDOWS.has(windowKind)} onClose={close}>
     <ShellWindowContent kind={windowKind} c={uiController} focus={nav.focus} selected={selected} inBattle={inBattle} navigation={navigation} routes={routes}

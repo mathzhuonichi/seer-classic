@@ -117,6 +117,7 @@
     },
     {
       "name": "battle-skill-outline",
+      "preserveAspectRatio": "none",
       "baselinePath": "/ui/classic/battle-skill-outline.png",
       "baselineSha256": "4a91e1350b6872426383cb2b8dae72350f014b8568949b59497dae2839a63961",
       "sourceGroup": "ui",

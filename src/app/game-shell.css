@@ -37,7 +37,10 @@ html,body,#root{height:100%;overflow:hidden}
 .game-toolbar .toolbar-atlas{position:absolute;top:0;left:calc(var(--map-center) - var(--map-width)/2);width:var(--map-width);height:100%}
 /* The circular body is at 48.166% of the map art; its ribbon is asymmetric. */
 .game-toolbar .toolbar-atlas>img{transform:translate(1.834%,-.171%)}
-.game-toolbar .toolbar-dex,.game-toolbar .toolbar-recovery,.game-toolbar .toolbar-settings{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:2px;padding:0 4px}
+/* The explicit column keeps WebKit from shrinking the labelled icons into an auto-sized implicit column. */
+.game-toolbar .toolbar-dex,.game-toolbar .toolbar-recovery,.game-toolbar .toolbar-settings{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:2px;padding:0 4px;
+}
 .game-toolbar button:hover:not(:disabled){transform:none;filter:brightness(1.18) drop-shadow(0 0 3px #fff)}
 .game-toolbar button.active{filter:brightness(1.2) drop-shadow(0 0 4px #fff887)}
 .game-toolbar button:focus-visible{outline:2px solid #ffe26a;outline-offset:1px}
@@ -72,9 +75,11 @@ html,body,#root{height:100%;overflow:hidden}
 .window-body .primary,.game-shell .primary{background:linear-gradient(#ffe977,#f6bd2a);color:#613e00;text-shadow:none;border-color:#b17914;box-shadow:inset 0 1px #fff4aa}
 .window-body .primary:hover,.game-shell .primary:hover{background:linear-gradient(#fff0a1,#ffd04d);border-color:#99650c}
 .scene-window-shield{position:absolute;inset:0;z-index:19;background:transparent}
-.game-toast{position:absolute;z-index:30;left:50%;bottom:12px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;max-width:min(700px,94%);background:#07366df2!important;color:#fff;border:2px solid #15d4ff;padding:9px 13px;font-size:12px;box-shadow:0 3px 6px #00172f66}
-.game-toast:hover{transform:translateX(-50%)}
-.game-toast>span{margin-left:auto;opacity:.7}
+/* A notice over the scene never takes a click: whatever control lies beneath it stays usable while it shows. */
+.game-toast{
+  position:absolute;z-index:30;left:50%;bottom:12px;transform:translateX(-50%);max-width:min(700px,94%);pointer-events:none;
+  background:#07366df2;color:#fff;border:2px solid #15d4ff;border-radius:5px;padding:9px 13px;font-size:12px;box-shadow:0 3px 6px #00172f66;
+}
 .inventory-resources{display:flex;align-items:center;justify-content:flex-end;gap:22px;flex-shrink:0;padding:8px 14px;color:#fff;font-size:11px;border-bottom:1px solid #00baff}
 .inventory-resources b{margin-left:7px;color:#ffe267;font-variant-numeric:tabular-nums}
 

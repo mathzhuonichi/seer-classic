@@ -2,11 +2,12 @@
 .fusion-recipe-index{display:flex;flex-direction:column;min-height:0}
 .fusion-index-heading{display:flex;justify-content:space-between;align-items:center;padding:13px 12px 0}
 .fusion-index-heading>span{font-size:10px}
-.fusion-recipe-index .management-filter input{width:100%}
+.window-body .fusion-recipe-index .management-filter input{width:100%}
 .management-panel .fusion-ready-filter{margin:0 10px 9px;padding:6px;font-size:10px}
 .fusion-recipe-scroll{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:5px;padding:0 9px 10px}
-.management-panel .fusion-recipe-scroll>button{display:flex;align-items:center;gap:9px;flex-shrink:0;min-height:61px;text-align:left;padding:7px}
-.management-panel .fusion-recipe-scroll>button.active{border:2px solid #4d8fa5;padding:6px}
+/* div. outranks the kit's .management-panel button:hover (0,2,1) and stays below its :active (0,3,1). */
+.management-panel div.fusion-recipe-scroll>button{display:flex;align-items:center;gap:9px;flex-shrink:0;min-height:61px;text-align:left;padding:7px}
+.management-panel div.fusion-recipe-scroll>button.active{border:2px solid #4d8fa5;padding:6px}
 .fusion-recipe-art{width:43px;height:43px;flex-shrink:0}
 .fusion-recipe-scroll>button>span{flex:1;min-width:0}
 .fusion-recipe-scroll strong{font-size:11px;display:block;line-height:1.5}
@@ -29,7 +30,7 @@
 .fusion-parent-card label>small{font-size:9px;color:#708a99}
 .fusion-parent-art{width:99px;height:99px;margin:4px auto 8px;display:flex;align-items:center;justify-content:center}
 .fusion-parent-art>span{font-size:50px;color:#acc4d0}
-.window-body .fusion-parent-card select{width:100%;font-size:10px;padding:7px 5px}
+.window-body .management-panel .fusion-parent-card select{width:100%;font-size:10px;padding:7px 5px}
 .fusion-parent-requirement{font-size:10px;line-height:1.8;color:#5f7c8d;margin:8px 0 0;overflow-wrap:anywhere}
 .fusion-parent-location{display:block;font-size:9px;color:#467e76;margin-top:5px}
 .fusion-plus{font-size:23px;text-align:center}
@@ -48,7 +49,7 @@
 .fusion-hatch-note{font-size:10px;line-height:1.8;color:#6a8899;margin:12px 0}
 .fusion-confirm{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #b8d0da}
 .fusion-confirm>span{font-size:10px;color:#608395;line-height:1.7}
-.fusion-confirm>button{white-space:nowrap;min-width:100px}
+div.fusion-confirm>button{white-space:nowrap;min-width:100px}
 .fusion-feedback{font-size:11px;line-height:1.8;color:#3d7783;margin:5px 0 10px}
 .fusion-obtained{display:flex;align-items:center;gap:11px;border:1px solid #b4cda8;padding:12px}
 .fusion-bead-symbol{font-size:36px;color:#74a891;line-height:1}
@@ -57,17 +58,17 @@
 .fusion-obtained small{font-size:9px;color:#64846c}
 .fusion-obtained strong{font-size:12px;margin:5px 0}
 .fusion-obtained>div>span{font-size:10px;color:#6c8574;line-height:1.6}
-.fusion-obtained>button{white-space:nowrap;font-size:11px}
+div.fusion-obtained>button{white-space:nowrap;font-size:11px}
 @media(max-width:900px){.fusion-panel{grid-template-columns:220px minmax(0,1fr)}.fusion-detail-scroll{padding:14px}.fusion-recipe-scroll>button{gap:6px}.fusion-recipe-art{width:36px;height:36px}.fusion-recipe-scroll b{font-size:8px}.fusion-parent-grid{gap:5px;grid-template-columns:minmax(0,1fr) 19px minmax(0,1fr)}.fusion-parent-card{padding:8px}.fusion-parent-art{width:82px;height:82px}.fusion-parent-card label>small{display:none}}
 @media(max-width:620px){
  .fusion-panel{grid-template-columns:160px minmax(0,1fr)}
  .fusion-index-heading{padding:10px 7px 0;font-size:11px}
  .fusion-recipe-index .management-filter{padding:7px}
- .fusion-recipe-index .management-filter input{font-size:10px}
+ .window-body .fusion-recipe-index .management-filter input{font-size:10px}
  .management-panel .fusion-ready-filter{margin:0 7px 7px;font-size:9px}
  .fusion-recipe-scroll{padding:0 5px 7px}
- .management-panel .fusion-recipe-scroll>button{gap:5px;padding:6px 4px;min-height:64px;flex-wrap:wrap}
- .management-panel .fusion-recipe-scroll>button.active{padding:5px 3px}
+ .management-panel div.fusion-recipe-scroll>button{gap:5px;padding:6px 4px;min-height:64px;flex-wrap:wrap}
+ .management-panel div.fusion-recipe-scroll>button.active{padding:5px 3px}
  .fusion-recipe-art{width:28px;height:32px}
  .fusion-recipe-scroll strong{font-size:10px}
  .fusion-recipe-scroll small{font-size:8px;line-height:1.6}
@@ -89,10 +90,10 @@
  .fusion-outcomes small{font-size:8px;line-height:1.5}
  .fusion-outcomes article>b{font-size:15px}
  .fusion-confirm{flex-wrap:wrap;gap:7px}
- .fusion-confirm>button{margin-left:auto;font-size:10px;min-width:85px}
+ div.fusion-confirm>button{margin-left:auto;font-size:10px;min-width:85px}
  .fusion-obtained{flex-wrap:wrap;gap:8px;padding:9px}
  .fusion-bead-symbol{font-size:29px}
- .fusion-obtained>button{margin-left:auto;font-size:10px}
+ div.fusion-obtained>button{margin-left:auto;font-size:10px}
  .fusion-obtained strong{font-size:10px}
 }
 
@@ -102,8 +103,10 @@
 .fusion-index-heading>span{color:#416e8e}
 .management-panel .fusion-ready-filter{border-color:#347aac;background:linear-gradient(#f0fbff,#c5e7fa);color:#235f87}
 .management-panel .fusion-ready-filter.active{background:#e6fff4;border-color:#3f998c;color:#206c60}
-.management-panel .fusion-recipe-scroll>button{border-color:#397bad;border-radius:4px;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69}
-.management-panel .fusion-recipe-scroll>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);box-shadow:inset 0 0 0 1px #67dcff}
+.management-panel div.fusion-recipe-scroll>button{
+ border-color:#397bad;border-radius:4px;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69;
+}
+.management-panel div.fusion-recipe-scroll>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);box-shadow:inset 0 0 0 1px #67dcff}
 .fusion-detail-scroll{background:#f5fbff;scrollbar-color:#2c93cd #d6edf9}
 .window-body .fusion-heading h3{color:#07549b;font-size:22px}
 .fusion-heading small{color:#4c7899}

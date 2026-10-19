@@ -1,9 +1,9 @@
-.breeding-management{height:100%;min-height:0;flex:1;padding:0!important;display:flex;flex-direction:column}
+.management-panel.breeding-management{height:100%;min-height:0;flex:1;padding:0!important;display:flex;flex-direction:column}
 .breeding-panel .fusion-index-heading{margin-bottom:12px}
-.breeding-panel .fusion-recipe-scroll>button{min-height:69px}
+.management-panel .breeding-panel div.fusion-recipe-scroll>button{min-height:69px}
 .management-panel .breeding-dex-link{display:block;padding:5px 0!important;background:transparent!important;border:0!important;font-size:10px;text-align:left}
 .breeding-parent-warning{color:#9c6039;font-size:10px;line-height:1.6}
-@media(max-width:620px){.breeding-panel .fusion-recipe-scroll>button{min-height:76px}}
+@media(max-width:620px){.management-panel .breeding-panel div.fusion-recipe-scroll>button{min-height:76px}}
 
 /* Use the window content height so the paired index has a bounded scroll track. */
 .breeding-management>.management-panel-heading{flex-shrink:0}
@@ -13,14 +13,18 @@
 .breeding-panel .fusion-recipe-scroll{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 
 /* PetBreedPanel.swf sprite 66: navy grid, cyan rails and paired blue wells. */
-.breeding-management{background:#073563}
+.management-panel.breeding-management{background:#073563}
 .breeding-management>.management-panel-heading strong{color:#074f91}
 .breeding-panel .fusion-recipe-index{background:#123d6b;border-right:3px solid #00b1ed;box-shadow:inset -1px 0 #0756a3}
 .breeding-panel .fusion-index-heading{color:#e1faff;padding-bottom:9px}
 .breeding-panel .fusion-index-heading>span{color:#9ed9f6}
 .breeding-panel .fusion-recipe-scroll{scrollbar-color:#21b7ee #123d6b}
-.management-panel .breeding-panel .fusion-recipe-scroll>button{background:linear-gradient(#125fa5,#0b4283);border-color:#2688c5;box-shadow:inset 0 1px #3197d0;color:#f4fcff}
-.management-panel .breeding-panel .fusion-recipe-scroll>button.active{background:linear-gradient(#0d88d6,#0756a6);border-color:#36e4ff;box-shadow:inset 0 0 0 1px #0ba1ea}
+.management-panel .breeding-panel div.fusion-recipe-scroll>button{
+ background:linear-gradient(#125fa5,#0b4283);border-color:#2688c5;box-shadow:inset 0 1px #3197d0;color:#f4fcff;
+}
+.management-panel .breeding-panel div.fusion-recipe-scroll>button.active{
+ background:linear-gradient(#0d88d6,#0756a6);border-color:#36e4ff;box-shadow:inset 0 0 0 1px #0ba1ea;
+}
 .breeding-panel .fusion-recipe-scroll small{color:#b4d8ee}
 .breeding-panel .fusion-recipe-scroll b{color:#aac8dd}
 .breeding-panel .fusion-recipe-scroll b.ready{color:#a9ffd1}
@@ -50,11 +54,14 @@
 .breeding-panel .fusion-route-note{color:#775421;background:#fff0cb;border-color:#d5b05a}
 .breeding-panel .fusion-obtained{color:#18555c}
 @media(max-width:620px){.breeding-panel .fusion-parent-art{width:65px;height:65px}}
-.breeding-management{padding:7px 9px 9px!important;background-color:#073563}
-@media(max-width:620px){.breeding-management{padding:4px 5px 5px!important}}
+.management-panel.breeding-management{padding:7px 9px 9px!important;background-color:#073563}
+@media(max-width:620px){.management-panel.breeding-management{padding:4px 5px 5px!important}}
 
 /* Recovered branding and machinery stay decorative around live controls. */
-.breeding-management{background-image:url('/ui/classic/hd/breeding-bottom-rail-4x.png'),url('/ui/classic/hd/breeding-grid-4x.png');background-position:center bottom,left top;background-size:100% 30px,21.5px 153px;background-repeat:no-repeat,repeat;padding-bottom:30px!important}
+.management-panel.breeding-management{
+ background-image:url('/ui/classic/hd/breeding-bottom-rail-4x.png'),url('/ui/classic/hd/breeding-grid-4x.png');background-position:center bottom,left top;
+ background-size:100% 30px,21.5px 153px;background-repeat:no-repeat,repeat;padding-bottom:30px!important;
+}
 .breeding-management>.management-panel-heading{min-height:75px;background:transparent;border-bottom:2px solid #0cafef;box-shadow:none;padding:4px 12px}
 .breeding-management>.management-panel-heading strong{display:block;width:min(332px,65%);height:67px;background:url('/ui/classic/hd/breeding-title-4x.png') left center/contain no-repeat;font-size:0;text-shadow:none;flex-shrink:0}
 .breeding-management>.management-panel-heading>span{color:#bae3ff;text-shadow:none}

@@ -3,7 +3,8 @@
 .facility-training{display:grid;gap:3px;margin:7px 0;padding:7px 9px;border-left:3px solid #2689b3;background:#d6edf8;border-radius:4px;font-size:11px;line-height:1.5}
 .facility-training>strong{color:#164e78}
 .facility-training>span{color:#24516d}
-.facility-training>p{margin:0;color:#355f78}
+/* Qualified past the member detail's own paragraph rule (management.css), so the bundle order does not decide it. */
+.facility-member-detail .facility-training>p{margin:0;color:#355f78}
 @container battle-facilities-panel (max-height:400px){
  .battle-facilities .facility-content-classic{display:block;overflow:auto;overscroll-behavior:contain;padding:10px 12px}
  .battle-facilities .facility-content-classic .facility-team-layout{display:block;flex:none;overflow:visible}
