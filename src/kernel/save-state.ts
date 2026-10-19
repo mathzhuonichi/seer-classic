@@ -59,6 +59,10 @@ const migrationContext = (ctx: GameContext): MigrationContext => ({
     const items = (encounter.reward as { first_clear_items?: Record<string, number> } | undefined)?.first_clear_items;
     return items ? [[encounter.id, items]] : [];
   })),
+  allVariantTitles: Object.fromEntries(ctx.encounters.flatMap(encounter => {
+    const titled = (encounter.reward as { title_on_all_variants?: unknown } | undefined)?.title_on_all_variants;
+    return titled && encounter.variants?.length ? [[encounter.id, encounter.variants.map(variant => variant.id)]] : [];
+  })),
 });
 
 /** Parses, migrates and validates a save; throws when it cannot be read. */

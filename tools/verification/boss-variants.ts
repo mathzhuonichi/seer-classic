@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {createElement} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {Battle} from '../../battle/core/src/index.ts';
 import {createGame} from '../../src/kernel/game.ts';
 import type {GameController} from '../../src/kernel/contract.ts';
 import {loadCatalog} from '../../src/domain/catalog/catalog.ts';
-import {newSave} from '../../src/kernel/save.ts';
+import {migrate,newSave} from '../../src/kernel/save.ts';
 import {findChallengeLocation,resolveWorldLocation,WORLD_PLANETS} from '../../src/domain/world/world.ts';
 import {challengeDetail,challengeEntries,challengeHonors} from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
@@ -197,13 +198,39 @@ t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the 
   assert.deepEqual(parse(lost).game.bossVariants,{});
 });
 
-t.check('A version-3 save opens at version 4 with an empty variant record and keeps its clears',()=>{
+const variantIds=(id:string)=>encounter(id).variants.map((variant:any)=>variant.id);
+
+t.check('A version-3 save opens at version 4 and keeps its clears; a 厄尔塞拉 clear stands for all its variants, a 盖亚 clear for none',()=>{
   const v3=parse(journey());v3.version=3;delete v3.game.bossVariants;v3.progress.bosses_cleared=[GAIA,EERSAILA];
   const game=journey(v3),opened=parse(game);
-  assert.equal(opened.version,4);assert.deepEqual(opened.game.bossVariants,{});assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
-  start(game,EERSAILA,'thu');knockOut(game);
+  assert.equal(opened.version,4);assert.deepEqual(opened.progress.bosses_cleared,[GAIA,EERSAILA]);
+  assert.deepEqual(opened.game.bossVariants,{[EERSAILA]:variantIds(EERSAILA)},'version 3 never showed 完胜盖亚, so 盖亚 records none');
+  start(game,GAIA,'within_2_turns');knockOut(game);
   const reopened=parse(journey(parse(game)));
-  assert.deepEqual(reopened.game.bossVariants,{[EERSAILA]:['thu']},'the record survives a reload');
+  assert.deepEqual(reopened.game.bossVariants,{[EERSAILA]:variantIds(EERSAILA),[GAIA]:['within_2_turns']},'the record survives a reload');
+});
+
+/**
+ * A save the version-3 game wrote (a8a2c328c0347b176ee53d14f09efb0411b4c63d: createGame, the three starters at Lv.100, 盖亚 and
+ * 厄尔塞拉 cleared without a variant in real battles whose opponents were held at 1 HP, exportSave). That game's honour roll for it
+ * listed 击败盖亚 and 称号：七色光羽, and its 厄尔塞拉 entry read 已获得：称号：七色光羽.
+ */
+const VERSION_3_SAVE=readFileSync(new URL('./fixtures/save-version-3-boss-clears.json',import.meta.url),'utf8');
+const VERSION_3_HONORS=[{label:'击败盖亚',source:'盖亚'},{label:'称号：七色光羽',source:'厄尔塞拉'}];
+
+t.check('A save written by the version-3 game keeps the honour roll it showed at version 4, and opening it again changes nothing',()=>{
+  assert.equal(JSON.parse(VERSION_3_SAVE).version,3);
+  const game=createGame(source,VERSION_3_SAVE,{createBattle:(options:any)=>(battle=new Battle(options)),idle:()=>{}}),opened=parse(game);
+  const detail=()=>challengeDetail(challengeEntries(game.snapshot()).find(entry=>entry.id===EERSAILA)!,game.snapshot(),false);
+  assert.deepEqual([opened.version,opened.game.bossVariants],[4,{[EERSAILA]:variantIds(EERSAILA)}]);
+  assert.deepEqual(challengeHonors(game.snapshot()),VERSION_3_HONORS);
+  assert.deepEqual([detail().status,detail().honors],['✓ 已通过 7/7','已获得：称号：七色光羽']);
+  const again=journey(opened);
+  assert.equal(again.exportSave(),game.exportSave(),'reopening the upgraded save changes nothing');
+  assert.deepEqual(migrate(structuredClone(opened)),opened,'a version-4 save is not migrated again');
+  assert.deepEqual(challengeHonors(again.snapshot()),VERSION_3_HONORS);
+  start(game,EERSAILA,'mon');
+  assert(!knockOut(game).result.includes('荣誉档案'),'a later clear does not announce the title again');
 });
 
 t.check('Clearing the last of 厄尔塞拉’s seven variants earns 七色光羽; its clear alone and a repeat earn nothing',()=>{

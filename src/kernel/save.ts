@@ -63,6 +63,11 @@ export interface MigrationContext {
   replacedItems: Readonly<Record<string, string>>;
   /** First-clear items per encounter, which version 2 never paid: a save that cleared the encounter receives them once. */
   firstClearItems: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  /**
+   * The variant ids of each encounter with a title for clearing every variant (厄尔塞拉's 七色光羽). Version 3 showed that title after
+   * a plain clear, so a version-3 save that cleared the encounter records every variant and keeps it.
+   */
+  allVariantTitles: Readonly<Record<string, readonly string[]>>;
 }
 
 const isRecord = (x: unknown): x is Record<string, any> => typeof x === "object" && x !== null && !Array.isArray(x);
@@ -108,9 +113,14 @@ function fromVersion2(s: any, context: MigrationContext | undefined): any {
   return s;
 }
 
-// Version 4 records the variants cleared per encounter; earlier versions never offered a variant, so the record starts empty.
-function fromVersion3(s: any): any {
-  if (isRecord(s.game)) s.game.bossVariants ??= {};
+// Version 4 records the variants cleared per encounter. Version 3 offered none: a clear stood for every variant and showed the title
+// for clearing them all, so such a clear records every variant. Malformed fields are left for validateSave to report.
+function fromVersion3(s: any, context: MigrationContext | undefined): any {
+  if (!context) throw new Error("version 3 saves need the game's migration context");
+  if (!isRecord(s.game)) return s;
+  const record = s.game.bossVariants ??= {}, cleared: unknown = s.progress?.bosses_cleared;
+  if (!isRecord(record) || !Array.isArray(cleared)) return s;
+  for (const [encounterId, variants] of Object.entries(context.allVariantTitles)) if (cleared.includes(encounterId)) record[encounterId] = [...variants];
   return s;
 }
 

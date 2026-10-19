@@ -7,6 +7,7 @@ const context = {
   introducedItems: { item_status_cure: 5 },
   replacedItems: { essence_retired: 'essence_kept' },
   firstClearItems: { boss_a: { suit_a: 1 } },
+  allVariantTitles: { boss_titled: ['mon', 'tue'] },
 };
 const version1 = (game, items = {}) => ({ ...newSave(1), version: 1, items, game });
 const version2 = (game, items = {}, cleared = []) => ({ ...newSave(1), version: 2, items, game, progress: { bosses_cleared: cleared, boss_attempts: {} } });
@@ -65,8 +66,18 @@ test('version 2 saves that cleared an encounter receive its first-clear items on
 test('version 3 saves start an empty variant record and keep their clears', () => {
   const migrated = migrate(version3({ quests: [] }, ['boss_gaia']), context);
   assert.deepEqual([migrated.version, migrated.game.bossVariants, migrated.progress.bosses_cleared], [SAVE_VERSION, {}, ['boss_gaia']]);
-  assert.equal(migrate(version3(undefined)).game, undefined, 'a save without game extras is left for the game to complete');
+  assert.equal(migrate(version3(undefined), context).game, undefined, 'a save without game extras is left for the game to complete');
   assert.deepEqual(migrate(version1({ quests: [] }), context).game.bossVariants, {}, 'a version-1 save passes through every step');
+  assert.throws(() => migrate(version3({ quests: [] })), /version 3 saves need/);
+});
+
+test('a version-3 clear of an encounter with an all-variant title records every variant, so the title it showed stays', () => {
+  const migrated = migrate(version3({ quests: [] }, ['boss_gaia', 'boss_titled']), context);
+  assert.deepEqual(migrated.game.bossVariants, { boss_titled: ['mon', 'tue'] });
+  assert.deepEqual(migrate(version3({ quests: [] }, ['boss_gaia']), context).game.bossVariants, {}, 'only a cleared encounter records them');
+  assert.deepEqual(migrate(structuredClone(migrated), context), migrated, 'a version-4 save is not migrated again');
+  const odd = migrate(version3({ quests: [], bossVariants: 'x' }, ['boss_titled']), context);
+  assert.equal(odd.game.bossVariants, 'x', 'a malformed record is left as it is');
 });
 
 test('malformed version-1 fields are left for validation to report', () => {
