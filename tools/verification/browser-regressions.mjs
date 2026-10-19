@@ -13,6 +13,7 @@ import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
 import {
   BOOT_TIMEOUT_MS, SETTLE_MS, buildApp, closeWindow, count, openGame, openTool, robot, talkToCreature, tool, wait, waitWorld, withBrowser,
 } from './_browser.mjs';
+import * as layout from './_layout-checks.mjs';
 
 const NAME = 'browser-regressions';
 const DIST = path.join(root, 'artifacts', NAME, 'dist');
@@ -31,13 +32,16 @@ const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
+/** The laboratory save stands where the explorer can use every lab facility. */
+const LAB_POSITION = {x: 48, y: 62};
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, economy, {writeLocalSave}, {gameAudio}, shell, pockets] = await Promise.all([
-      '/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/domain/economy.ts', '/src/kernel/persistence.ts',
-      '/src/shared/audio/game-audio.ts', '/src/app/shell-navigation.ts', '/src/shared/item-categories.ts'].map(load));
+    const [{createGame}, {loadCatalog}, {newSave}, economy, {writeLocalSave}, {gameAudio}, shell, pockets, {writeWorldPreference}, locations]
+      = await Promise.all(['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/domain/economy.ts',
+        '/src/kernel/persistence.ts', '/src/shared/audio/game-audio.ts', '/src/app/shell-navigation.ts', '/src/shared/item-categories.ts',
+        '/src/domain/world/preference.ts', '/src/domain/world/locations.ts'].map(load));
     const catalog = await loadCatalog();
     /** The storage entries that `fill` writes. */
     const entries = fill => { const memory = memoryStorage(); fill(); return Object.fromEntries(memory); };
@@ -63,7 +67,8 @@ async function fixtures() {
       dispatch(game, {type: 'buyEngraving', engravingId: RAISED_ENGRAVING});
     });
     const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
-    const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot};
+    const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
+    const saves = {journey: journey().slot, raised: raised.slot, essence: hatching.slot, lab: {...journey().slot, ...labPlace}};
     const {left, center, right} = shell.TOOLBAR;
     const tools = [...left, center, ...right].map(tool => ({id: tool.id, label: tool.label, title: shell.WINDOW_TITLES[tool.id]}));
     return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets)};
@@ -323,6 +328,20 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
+const size = ({width, height}) => `${width}x${height}`;
+/** The styling fixes of the 2026-10-18 D-styles unit (_layout-checks.mjs); the narrow ones run at both container layouts. */
+const LAYOUT_CHECKS = [
+  {name: 'the Boss evidence button in the battle caption is the hit target at its centre and opens the evidence dialog', run: layout.evidenceButton},
+  {name: 'the battle result title is clear of the record panel', save: 'raised', run: layout.resultTitle},
+  ...layout.NARROW_VIEWPORTS.slice(0, 1).map(viewport => ({name: `the battle result title is clear of the record panel at ${size(viewport)}`,
+    save: 'raised', viewport, run: layout.resultTitle})),
+  {name: 'a click on the notice toast reaches the scene under it, and the toast stays', save: 'raised', run: layout.toastClickThrough},
+  {name: 'the labelled toolbar icons (图鉴, 恢复, 设置) fill their buttons', run: layout.toolbarIcons},
+  {name: 'the PetBag 资料 headings, 放生精灵 among them, are legible on their section background', run: layout.profileHeadings},
+  {name: 'the engraving shop filter fields are tall enough for their text', save: 'lab', run: layout.engravingFilters},
+  {name: 'the battle party buttons, battle item category tabs and the world dialogue × change on hover', run: layout.hoverCues},
+];
+
 /** Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default). */
 const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
@@ -335,6 +354,7 @@ const CHECKS = [
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
     run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
+  ...LAYOUT_CHECKS,
 ];
 
 function within(ms, promise) {
