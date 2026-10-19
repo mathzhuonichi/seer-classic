@@ -107,7 +107,7 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
-    instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],rules:entry.partyRules??[],
+    instruction:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],rules:entry.partyRuleTexts??[],
     reward:rewardNote(entry,kind,s),action:ACTIONS[kind],
   };
 }

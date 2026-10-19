@@ -259,7 +259,8 @@ check('Entry validation returns one structured refusal per broken party rule: te
   }
   const mystery=byId.get('boss_tower_brave_mystery'),low=player([20001],6);low.team[5].level=99;
   assert.deepEqual(validateEncounter(mystery,player([20001],5)),[{kind:'team_min',count:6,size:5,slots:[]}]);
-  assert.deepEqual(validateEncounter(mystery,player([20001],6)),[]);assert.deepEqual(validateEncounter(mystery,low),[{kind:'level_min',level:100,size:6,slots:[5]}]);
+  assert.deepEqual(validateEncounter(mystery,player([20001],6)),[]);
+  assert.deepEqual(validateEncounter(mystery,low),[{kind:'level_min',level:100,size:6,slots:[5]}]);
   const capped={rules:[{rule:'player_level_cap',level:50}]};
   assert.deepEqual(validateEncounter(capped,player([20001],2)),[{kind:'level_max',level:50,size:2,slots:[0,1]}]);
 });

@@ -40,7 +40,7 @@ export function WorldDialogue({ view, showDetails, c, onNavigate, onInteract, on
         {towerTeam && <ul className="world-tower-opponents" aria-label={`第 ${towerTeam.floor} 层对手队伍`}>{towerTeam.opponents.map((opponent, index) =>
           <li key={`${index}-${opponent.species}`}><span>{index + 1}. {opponent.name}</span><small>{opponent.level}</small></li>)}</ul>}
         <BossEvidence evidence={view.evidence}/>
-        {view.partyRules && <p className="world-dialogue-detail">挑战条件：{view.partyRules.join('')}</p>}
+        {view.partyRuleTexts && <p className="world-dialogue-detail">挑战条件：{view.partyRuleTexts.join('')}</p>}
         {view.reward && <p className="world-dialogue-detail">通关奖励：{view.reward}</p>}
         {showDetails && <p className="world-dialogue-detail">{view.detail}</p>}
       </div>

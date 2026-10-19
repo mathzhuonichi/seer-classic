@@ -286,7 +286,8 @@ both for the player.
 | `flee_after_skill {skill \| skills, count?}` | the boss leaves after using it `count` times: result `boss_fled`, no winner |
 | `ohko_below_pct {pct}` / `always_crit_below_pct {pct}` | below that HP its attacks KO / always crit |
 | `lives {count}` | on fainting, revive to full HP and PP `count` times (multi-life bosses) |
-| `player_level_cap {level}` / `player_team_size {max?, min?, min_level?}` / `script require_player_species {species}` | checked by `validateEncounter` before the battle |
+| `player_level_cap {level}` / `player_team_size {max?, min?, min_level?}` | checked by `validateEncounter` before the battle |
+| `script require_player_species {species}` | only those species may fight; checked by `validateEncounter` before the battle |
 | `no_capture` / `no_items` / `no_switch` | disable those actions for the player |
 | `script {id, params}` | a boss rule script (`core/src/scripts/boss.ts`), or an alias of a native rule (`infinite_pp`, `immune_pct_damage`, `reflect_damage`) |
 

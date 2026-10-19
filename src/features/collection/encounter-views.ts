@@ -22,13 +22,13 @@ function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
 export function encounterView(ctx: CatalogContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
   const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras;
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
-  const partyRules = partyRuleTexts(b, ctx.speciesName);
+  const ruleTexts = partyRuleTexts(b, ctx.speciesName);
   return {
     id: b.id, category: encounterCategory(b), name: b.name?.zh ?? b.id, location: extra.location?.zh,
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), ...(braveTowerFloor(b.id) !== undefined ? { rewardText: towerRewardText(ctx, b) } : {}),
-    ...(partyRules.length ? { partyRules } : {}),
+    ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
   };
 }
 

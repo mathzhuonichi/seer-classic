@@ -129,7 +129,7 @@ export interface WorldDialogueView {
   towerTeam?: { floor: number; opponents: { species: number; name: string; level: string }[] };
   evidence?: BossEvidenceView;
   /** A Boss's rules on the player's team, stated before the start. */
-  partyRules?: string[];
+  partyRuleTexts?: string[];
   reward?: string;
   /** Set for a creature, boss or campaign contact; facilities use `facilityActions`. */
   challenge?: { label: string; disabled: boolean; chooseStart: boolean; run: DialogueChallenge };
@@ -200,7 +200,7 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
     detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
     towerTeam: tower && { floor: tower.floor,
       opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
-    partyRules: boss.partyRules, reward: tower ? boss.rewardText : undefined,
+    partyRuleTexts: boss.partyRuleTexts, reward: tower ? boss.rewardText : undefined,
     challenge: { label: tower?.complete ? '本轮已通关' : tower ? `挑战第 ${tower.floor} 层` : '挑战', disabled: !!tower?.complete, chooseStart: !!tower?.complete, run },
   };
 }

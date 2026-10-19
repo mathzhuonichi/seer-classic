@@ -63,14 +63,14 @@ const stated:Record<string,string[]>={
 t.check('The challenge archive detail states each Boss party rule before the start',()=>{
   for(const [id,rules] of Object.entries(stated))assert.deepEqual(challengeDetail(entries.find(entry=>entry.id===id)!,s,false).rules,rules,id);
   const ruled=source.bosses.filter((boss:any)=>partyRules(boss).length);
-  for(const boss of ruled)assert.equal(s.bosses.find(view=>view.id===boss.id)!.partyRules?.length,partyRules(boss).length,boss.id);
+  for(const boss of ruled)assert.equal(s.bosses.find(view=>view.id===boss.id)!.partyRuleTexts?.length,partyRules(boss).length,boss.id);
   assert.equal(ruled.length,8,'Bulaike, Ruiersi, the five Rei trainings and the Mystery Realm carry party rules');
 });
 t.check('The Boss world dialogue states the party rule before the start',()=>{
   for(const id of ['boss_buleike','boss_spt_ruiersi']){
     const destination=findChallengeLocation(s.bosses.find(boss=>boss.id===id)!),{planet,region}=resolveWorldLocation(destination.planetId,destination.regionId);
     const view=buildWorldDialogue(s,buildWorldScene(s,planet,region,id),{kind:'boss',id})!;
-    assert.deepEqual(view.partyRules,stated[id],id);
+    assert.deepEqual(view.partyRuleTexts,stated[id],id);
     const markup=renderToStaticMarkup(createElement(WorldDialogue,{view,showDetails:false,c:game,onClose(){},onToggleDetails(){},onChooseStart(){}}));
     assert(markup.includes('挑战条件：只能派 1 只精灵出战。'),`${id}: the dialogue shows the rule`);
   }
