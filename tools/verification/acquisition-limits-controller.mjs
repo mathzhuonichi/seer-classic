@@ -73,10 +73,21 @@ await withSsr('acquisition-limits-controller',async load=>{
   g.dispatch({type:'release',uid:second});const after=parse(g);
   assert.deepEqual(after.party,[lead,third]);assert(!after.storage.some(m=>m.uid===second));assert.equal(after.game.traits[second],undefined);
   assert.equal(after.game.modules[second],undefined);assert.equal(after.game.engravingStock[finite.id],1,'A finite engraving returns to stock');
-  assert.deepEqual(after.boosts,[save.boosts[1]],'The bead of the released monster goes with it');assert.deepEqual(after.dex,save.dex,'The collection record stays');
+  assert.deepEqual(after.boosts,[save.boosts[1]],'The bead of the released monster goes with it');
+  assert.deepEqual(after.dex,save.dex,'The collection record stays');
   assert.deepEqual(parse(make(after)).storage,after.storage,'The released save reloads as is');
   g.dispatch({type:'release',uid:third});reject(g,{type:'release',uid:lead},'The last party monster stays');
   assert.match(g.snapshot().notices[0],/最后一只出战精灵不能放生/);
+ });
+ check('A full box blocks a journey reward in its row until 放生 frees a place',()=>{
+  const save=structuredClone(base),filler=template(19);save.game.battlesWon=1;save.storage=[];save.game.traits={};
+  for(let i=0;i<PARTY_MAX+BOX_MAX;i++)save.storage.push({...structuredClone(filler),uid:`full-box-${i}`});
+  save.party=save.storage.slice(0,PARTY_MAX).map(m=>m.uid);const g=make(save),row=()=>g.snapshot().quests.find(q=>q.id==='first-victory');
+  assert.equal(row().complete,true);assert.equal(row().claimable,false,'The row, its button and the quest alert agree with the claim');
+  assert.match(row().blockedReason??'',/仓库已满.*放生/);reject(g,{type:'claimQuest',questId:'first-victory'},'A full box refuses the journey monster');
+  g.dispatch({type:'release',uid:`full-box-${PARTY_MAX}`});assert.equal(parse(g).storage.length,PARTY_MAX+BOX_MAX-1);
+  assert.equal(row().claimable,true);assert.equal(row().blockedReason,undefined);
+  g.dispatch({type:'claimQuest',questId:'first-victory'});assert(parse(g).game.quests.includes('first-victory'));assert.equal(row().claimed,true);
  });
  check('Direct acquisition allows the sixth and rejects the seventh copy',()=>{
   const g=make(copies(structuredClone(base),19,5));g.dispatch({type:'cheatAcquire',species:19,level:1});assert.equal(parse(g).storage.filter(m=>m.species===19).length,6);

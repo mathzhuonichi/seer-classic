@@ -18,10 +18,12 @@ export function capacityReason(ctx: GameContext, save: GameSave, species: number
 }
 
 export const storageFull = (save: Save) => save.party.length >= PARTY_MAX && save.storage.length - save.party.length >= BOX_MAX;
+/** Why no monster can be obtained while the party and the box are full; 放生 in the bag frees a place. */
+export const STORAGE_FULL_REASON = '仓库已满，请先在精灵背包的「资料」页放生精灵，腾出空间。';
 
 /** Reject before generating a monster, so a full box does not consume reward RNG. */
 export function ensureAcquisitionCapacity(save: Save) {
-  if (storageFull(save)) throw new Error('仓库已满');
+  if (storageFull(save)) throw new Error(STORAGE_FULL_REASON);
 }
 
 export function ensureSpeciesCapacity(ctx: GameContext, save: GameSave, species: number, excludeUid?: string) {

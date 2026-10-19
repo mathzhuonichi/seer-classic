@@ -49,7 +49,7 @@ export interface ShopItemView {id:string;name:string;kind:string;description:str
 export interface QuestPrerequisiteView {kind:'species'|'boss';species?:number;bossId?:string;name:string;complete:boolean}
 export interface QuestView {
   id: string; name: string; description: string; rewardSpecies: number; rewardName: string; progress: string; group: 'journey' | 'spt-recruitment';
-  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), and within the six-copy allowance. */
+  /** `claimable` is the one claim rule: complete, not claimed (or repeatable), within the six-copy allowance, and a journey monster has a place. */
   complete: boolean; claimed: boolean; claimable: boolean; blockedReason?: string;
   /** Recruitment quests only; `rewardHeld`: the player holds the reward essence. */
   prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
