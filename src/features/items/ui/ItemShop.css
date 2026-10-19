@@ -19,7 +19,7 @@
 .shop-order{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid #b8d3e4;font-size:11px}
 .shop-order strong{color:#377b6b;margin-left:4px}
 .shop-order label{display:flex;align-items:center;gap:6px;font-size:11px}
-.shop-order input{width:66px;padding:4px 6px;font-size:11px}
+.shop-order input{width:66px}
 .item-shop-management .shop-order input:disabled{color:#617d8e;background:#e6eef3;box-shadow:none;cursor:default}
 .shop-quantity-presets{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap;margin-bottom:8px}
 .item-shop-management .shop-quantity-presets button{padding:3px 8px;font-size:11px}
@@ -50,7 +50,7 @@
 .engraving-shop-facts dd{margin:0;color:#103d69}
 .engraving-equipped-line{margin:6px 0;color:#53798c;font-size:10px;line-height:1.6}
 .engraving-transfer-source{display:flex;gap:6px;align-items:center;font-size:11px;line-height:1.6}
-.engraving-transfer-source>select{flex:1;min-width:0;font-size:11px;padding:4px 6px}
+.engraving-transfer-source>select{flex:1;min-width:0}
 @container item-shop (max-width:520px){
  .item-shop-inner{grid-template-columns:minmax(165px,1fr) minmax(180px,1fr)}
  .shop-detail-scroll{padding:8px}
