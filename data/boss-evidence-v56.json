@@ -48,7 +48,7 @@
         "observed": 11
       }
     },
-    "ruleNodes": 323,
+    "ruleNodes": 324,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -42027,7 +42027,7 @@
       "id": "boss_tower_brave_f069",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f069.json",
-      "sourceSha256": "648e3b860c4e87e07e7f28b0f6aa4fb8d87479368cf541fd7638c0775566ebd7",
+      "sourceSha256": "12c8af10965280d0657a109fb741e894f67113c092149b8efe0b8eb5f1f6c4a8",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -42307,7 +42307,25 @@
           "statMultipliers": {}
         }
       ],
-      "rules": [],
+      "rules": [
+        {
+          "index": 0,
+          "path": "rules[0]",
+          "rule": "heal_full_below",
+          "configuration": {
+            "rule": "heal_full_below",
+            "pct": 20,
+            "member": 3
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        }
+      ],
       "additionalConfiguration": {
         "win": [
           {
@@ -42382,7 +42400,7 @@
         "rules": {
           "status": "inferred",
           "basis": "unverified",
-          "note": "No configured rule rows does not prove that the original encounter had no special mechanic.",
+          "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": []
         }
       },

@@ -140,6 +140,20 @@ check('All percentage member thresholds and the dark-door flat 300 heal use thei
   for(const floor of [62,65]){const battle=make(`boss_tower_brave_f0${floor}`),rule=battle.sides[1].rules.find(rule=>rule.rule==='heal_full_below'),mon=battle.sides[1].team[rule.member];mon.hp=mon.maxHp*.2;hit(battle,mon,1);assert.equal(mon.hp,mon.maxHp);for(const other of battle.sides[1].team.filter(value=>value!==mon)){other.hp=100;hit(battle,other,1);assert.equal(other.hp,99);}}
   const dark=make('boss_dark_door7_mohuashizhe');dark.active(1).hp=100;dark.endOfTurn();assert.equal(dark.active(1).hp,400);
 });
+check('Every grass opponent on floors 61-70 fully heals below one fifth of its HP, substitute floor 69 included',()=>{
+  // 聚侠 2011-09-23: 61层以上的草系1/5血以下的时候会回满Hp.
+  const GRASS_HEAL_PCT=20,healers=[];
+  for(let floor=61;floor<=70;floor++){
+    const battle=make(`boss_tower_brave_f0${floor}`);
+    for(const mon of battle.sides[1].team.filter(value=>value.types.includes('grass'))){
+      const rule=battle.sides[1].rules.find(rule=>rule.rule==='heal_full_below'&&rule.member===mon.slot);
+      assert.equal(rule?.pct,GRASS_HEAL_PCT,`floor ${floor} member ${mon.slot} carries the grass rule`);
+      mon.hp=mon.maxHp*GRASS_HEAL_PCT/100;hit(battle,mon,1);assert.equal(mon.hp,mon.maxHp,`floor ${floor} member ${mon.slot} heals to full`);
+      healers.push(`${floor}/${mon.slot}`);
+    }
+  }
+  assert.deepEqual(healers,['62/0','65/1','69/3','70/3']);
+});
 check('Floor 64 critical trigger starts after turn 8 and installs only on the designated member',()=>{
   const battle=make('boss_tower_brave_f064');
   for(const turn of [8,9]){battle.turn=turn;for(const mon of battle.sides[1].team){const forced=battle.fire(mon,'modify_crit_rate',{skill:data.skills.get(mon.skills[0])}).some(value=>value?.force);assert.equal(forced,turn===9&&mon.slot===1);}}

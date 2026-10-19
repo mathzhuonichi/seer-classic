@@ -3,7 +3,7 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 590,
+    "handledEntries": 591,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
     "approximatedEntries": 118,
@@ -6324,6 +6324,15 @@
     {
       "id": "boss_tower_brave_f069",
       "handled": [
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
