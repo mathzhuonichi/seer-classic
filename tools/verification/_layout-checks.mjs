@@ -122,6 +122,22 @@ export async function engravingFilters({page}) {
   assert.deepEqual(fields.filter(({content, line}) => content < line), [], 'engraving filter fields lower than their text line');
 }
 
+export async function skillEditorRow({page, fixture}) {
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'monsters'));
+  await page.click('.petbag-nav-skills');
+  await page.waitForSelector('.learned-skill-list>button');
+  const shown = await page.evaluate(() => {
+    const rect = selector => document.querySelector(`.official-petbag .raising-scroll ${selector}`).getBoundingClientRect();
+    const panel = document.querySelector('.official-petbag .raising-scroll'), {top, bottom} = panel.getBoundingClientRect();
+    const list = rect('.learned-skill-list'), row = rect('.learned-skill-list>button'), confirm = rect('.management-confirm-row');
+    const visible = Math.min(row.bottom, list.bottom, confirm.top, bottom) - Math.max(row.top, list.top, top);
+    return {scrolled: panel.scrollTop, visible, row: row.height};
+  });
+  assert.equal(shown.scrolled, 0, 'the bag panel opened scrolled');
+  assert(shown.visible >= shown.row - 1, `the first learned skill shows ${shown.visible.toFixed(1)} of ${shown.row.toFixed(1)} px above the confirm row`);
+}
+
 /** The control's computed filter and background, at rest and under the pointer (a 1px lift alone is no visible cue). */
 async function hoverLooks(page, selector) {
   const look = () => page.$eval(selector, element => ['filter', 'backgroundColor'].map(key => getComputedStyle(element)[key]).join(' '));

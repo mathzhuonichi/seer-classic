@@ -148,8 +148,16 @@
 .official-petbag .ev-cell button{padding:3px;font-size:9px}
 .official-petbag .ev-cell input{width:45px!important;height:24px!important;font-size:11px!important}
 .official-petbag .equipped-skill-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:6px}
-@container (max-width:620px){.official-petbag .equipped-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .official-petbag .equipped-skill-grid>button{min-height:0;font-size:10px;padding:4px 6px;gap:2px}
+/* In the narrow bag the four slots keep one row and show the skill name only; the slot number, PP and the editor heading stay
+   for screen readers. A learned skill then shows in full above the sticky confirm row without scrolling the panel. */
+@container (max-width:620px){
+ .official-petbag .equipped-skill-grid>button{padding:4px 3px}
+ .official-petbag .equipped-skill-grid>button>span,.official-petbag .equipped-skill-grid>button>small,
+ .official-petbag .raising-scroll:has(>.learned-skill-list)>.stat-table-heading{
+  position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .official-petbag .equipped-skill-grid>button>strong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+}
 /* The skill editor fits the well: the learned list takes the height left under the slots and scrolls by itself. */
 .official-petbag .raising-scroll:has(>.learned-skill-list){display:flex;flex-direction:column}
 .official-petbag .raising-scroll:has(>.learned-skill-list)>*{flex-shrink:0}

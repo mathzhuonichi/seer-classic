@@ -362,6 +362,8 @@ const LAYOUT_CHECKS = [
   {name: 'the labelled toolbar icons (图鉴, 恢复, 设置) fill their buttons', run: layout.toolbarIcons},
   {name: 'the PetBag 资料 headings, 放生精灵 among them, are legible on their section background', run: layout.profileHeadings},
   {name: 'the engraving shop filter fields are tall enough for their text', save: 'lab', run: layout.engravingFilters},
+  ...layout.NARROW_VIEWPORTS.map(viewport => ({name: `the PetBag skill editor shows a learned skill without scrolling the panel at ${size(viewport)}`,
+    viewport, run: layout.skillEditorRow})),
   {name: 'the battle party buttons, battle item category tabs and the world dialogue × change on hover', run: layout.hoverCues},
   {name: 'no property on the world, PetBag and battle screens is decided by the stylesheet bundle order', run: layout.journeyCascade},
   ...layout.NARROW_VIEWPORTS.map(viewport => ({name: `no property on the world, PetBag and battle screens is decided by the bundle order at ${size(viewport)}`,
