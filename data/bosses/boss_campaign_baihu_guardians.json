@@ -21,7 +21,7 @@
         11280,
         11277
       ],
-      "hp_override": 5000,
+      "hp_override": 10000,
       "member_rules": [
         {
           "rule": "unlimited_pp"
@@ -192,7 +192,8 @@
     "zh": "依照试炼顺序挑战，战斗中的对手会连续出战。"
   },
   "engine_notes": [
-    "Guardian order follows the numbered April 2011 walkthrough, not an unordered launch announcement list. Numeric/loadout/rule calibration reuses current SPT records; guardian-specific divergence remains possible."
+    "Guardian order follows the numbered April 2011 walkthrough, not an unordered launch announcement list. Numeric/loadout/rule calibration reuses current SPT records; guardian-specific divergence remains possible.",
+    "劳克蒙德's HP 10000 is from 4399 2011-03-12 and 7k7k 2011-03-28."
   ],
   "confidence": {
     "level": "medium",

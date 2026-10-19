@@ -6,16 +6,18 @@ The evidence ledgers cover all 180 production boss records and their 240 members
 
 ## Evidence boundary
 
-The current review has 23 specifically reviewed period-report sources, one verified official-client source, and 141 URLs retained as unverified metadata. It does not claim that every listed URL was reread or that every historical boss was fully reconstructed. Merely listing a URL, having a high confidence label, or matching a species learnset never promotes a field.
+The current review has 47 specifically reviewed period-report sources, three verified secondary sources (two wiki sections and one Q&A repost), two verified official-client sources, two official config tables, and 127 URLs retained as unverified metadata. It does not claim that every listed URL was reread or that every historical boss was fully reconstructed. Merely listing a URL, having a high confidence label, or matching a species learnset never promotes a field.
 
-| Member field | Period observation | Inferred | Authored |
-| --- | ---: | ---: | ---: |
-| Level | 68 | 171 | 1 |
-| HP | 30 | 209 | 1 |
-| Complete skill set | 11 | 229 | 0 |
-| IV | 0 | 240 | 0 |
-| EVs | 0 | 240 | 0 |
-| Nature | 0 | 240 | 0 |
+| Member field | Official table | Period observation | Inferred | Authored |
+| --- | ---: | ---: | ---: | ---: |
+| Level | 29 | 72 | 138 | 1 |
+| HP | 17 | 44 | 178 | 1 |
+| Complete skill set | 3 | 24 | 213 | 0 |
+| IV | 0 | 0 | 240 | 0 |
+| EVs | 0 | 0 | 240 | 0 |
+| Nature | 0 | 0 | 240 | 0 |
+
+Official-table fields (basis `official-data-table`) come from the official H5 copy of the server map and monster config ([seer_data](https://github.com/Nattsu39/seer_data) commit a00bcdd, local copy `../analysis/seer-data-a00bcdd/`) or from the 2013-07-06 client's PetXMLInfo. The tables are later than the 2009-2013 target, so a field is marked official only where the entry was matched to the encounter by map, region index, task id and name. The legendary, story, event and dark-door fidelity pass applied these values: Puni seals Lv101/105 and seal 5-6 HP 10000/13000; Puni body Lv105 with life HP 7000/8000/9000/12000/20000/65000 (life 4 stays 12000 from both 2010 sources against the table's 10000); the Rei training opponents' table levels and HP; Ailike's first-tier 6000 HP; the campaign bodies' and avatars' Lv105; and the boss-form loadouts of the Baihu avatars and the Rei shadow. Period guides supplied Rei's Lv70 loadout, Paluodiya's Lv30 essence fight, the Baihu avatar HP 3000/2500, Laokemengde's guardian HP 10000, Katesi's Lv45 and Yilanluoni's 纯净能量.
 
 All derived combat stats remain inferred because exact server IVs, EVs, nature and scaling were not recovered. All executable AI policies are remake policies. Approximate HP reports, conflicting versions and partially named move lists remain inferred; the full ledger preserves narrow positive observations separately. A complete period move list is evidence for its membership, not proof of exact selection probabilities or server implementation.
 

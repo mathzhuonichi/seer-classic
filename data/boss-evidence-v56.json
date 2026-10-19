@@ -9,7 +9,7 @@
   "sourceBoundary": {
     "scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.",
     "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.",
-    "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.",
+    "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions. Official map and monster config tables (a later H5 copy) and the 2013 client's monster table establish the levels, HP and boss-form move lists marked official-data-table. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.",
     "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.",
     "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."
   },
@@ -26,8 +26,9 @@
     "memberFieldStatuses": {
       "level": {
         "authored": 1,
-        "inferred": 171,
-        "observed": 68
+        "inferred": 138,
+        "observed": 72,
+        "official": 29
       },
       "iv": {
         "inferred": 240
@@ -40,12 +41,14 @@
       },
       "hp": {
         "authored": 1,
-        "inferred": 209,
-        "observed": 30
+        "inferred": 178,
+        "observed": 44,
+        "official": 17
       },
       "skills": {
-        "inferred": 229,
-        "observed": 11
+        "inferred": 213,
+        "observed": 24,
+        "official": 3
       }
     },
     "ruleNodes": 324,
@@ -57,6 +60,14 @@
       "url": "https://news.4399.com/seer/jingyanxinde/201210-26-207406.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-01c260c31bc4": {
+      "url": "https://web.archive.org/web/20130706235627/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
+      "scope": "2013-07-06 official client PetXMLInfo: boss forms 2505 (\u96f7\u4f0a\u7684\u5e7b\u5f71) and 2513-2516 (\u767d\u864e avatars) with their complete move lists.",
+      "verification": "verified-client",
+      "sha256": "ad513c3aa7c36c0a19cc58ab7a20fa8960b2f1efc489f8c0a05aa3b5d16a5df0",
+      "decodedSha256": "6b1fc3dad932939e163c471ede28f6305e10d6fd71d0586f26fcf436f6be5288",
+      "xmlSha256": "782e1f0a60fa3f6aa6d811da9a1c75396635c76cee04bb554dac169da1f91f9a"
     },
     "src-02f6442a6eba": {
       "url": "https://news.4399.com/seer/spt/201110-22-122129.html",
@@ -75,8 +86,15 @@
     },
     "src-079a999409b8": {
       "url": "https://news.4399.com/seer/pngl/201010-16-78980.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-10 seal-4 guide: the four attacks and their PP, 35 in total.",
+      "verification": "verified-period-observation"
+    },
+    "src-0982e1a51877": {
+      "url": "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+      "scope": "Official H5 copy of the server map config: Boss entries with MonID, Hp and Lv, matched to encounters by map, region index, task id and name. A later table, not a dated 2009-2013 snapshot.",
+      "verification": "verified-official-table",
+      "localPath": "../analysis/seer-data-a00bcdd/maps.json",
+      "sha256": "a913f0085b9a3908749dcbe88b0d6f488825af6804039289d76a655e11faf7e3"
     },
     "src-0d9c326b84bc": {
       "url": "https://www.juxia.com/news/2012-9-28/61488.html",
@@ -90,8 +108,8 @@
     },
     "src-11af4561e37e": {
       "url": "https://news.4399.com/seer/pngl/201010-16-78979.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-10 seal-3 guide: the four attacks and their PP, 35 in total.",
+      "verification": "verified-period-observation"
     },
     "src-13c16cad6701": {
       "url": "https://news.4399.com/seer/spt/201108-23-111513.html",
@@ -102,6 +120,11 @@
       "url": "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-16ab58a7c26b": {
+      "url": "https://news.4399.com/gonglue/seer/jingyanxinde/243814.html",
+      "scope": "Qilin wheel-1 report: HP and four named attacks.",
+      "verification": "verified-period-observation"
     },
     "src-17e6067bdbaf": {
       "url": "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
@@ -115,8 +138,8 @@
     },
     "src-19f6aa1eb5da": {
       "url": "https://news.7k7k.com/content/20110815/95405.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-08-15 report: Buleike Lv70, about 2000 HP, four commonly used attacks.",
+      "verification": "verified-period-observation"
     },
     "src-1c9882d7604e": {
       "url": "http://wenda.4399.com/question/24/242348.html",
@@ -190,8 +213,13 @@
     },
     "src-3050194e79ef": {
       "url": "https://news.4399.com/seer/jingyanxinde/201210-18-204899.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2012-10-18 report: the Puni body's six lives have 7000/8000/9000/10000/20000/65000 HP.",
+      "verification": "verified-period-observation"
+    },
+    "src-30c0c968689d": {
+      "url": "https://news.4399.com/gonglue/seer/saiergonglue/201204-25-156091.html",
+      "scope": "Live report dated 2012-04-29: round one Lv100; the essence fights from the 40th minute are Lv30.",
+      "verification": "verified-period-observation"
     },
     "src-30e26b3f9313": {
       "url": "https://news.4399.com/seer/pngl/201010-16-78983.html",
@@ -218,6 +246,13 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-343d1887534e": {
+      "url": "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
+      "scope": "Official H5 monster table: boss-only forms and their complete LearnableMoves lists.",
+      "verification": "verified-official-table",
+      "localPath": "../analysis/seer-data-a00bcdd/monsters.json",
+      "sha256": "12d8c059973a9c03560d3739910ecb5a578da3a1235c24260279b723743d7936"
+    },
     "src-35622aef69dc": {
       "url": "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -227,6 +262,11 @@
       "url": "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-36707d6d2b58": {
+      "url": "https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
+      "scope": "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000.",
+      "verification": "verified-period-observation"
     },
     "src-37f05b4c78ca": {
       "url": "https://news.4399.com/news/seerwenda/156097.html",
@@ -248,6 +288,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-40cc71438293": {
+      "url": "https://news.4399.com/seer/jingyanxinde/201108-10-108989.html",
+      "scope": "2011-08-10 report: all three Zhuque shadows have 2000 HP and the same four attacks.",
+      "verification": "verified-period-observation"
+    },
     "src-43e1a86b0d39": {
       "url": "https://news.7k7k.com/content/20110316/76862.html",
       "scope": "2011-03-16 classic boss observations; selected complete named move lists and levels. Reports differ across versions, including Mushroom level and Hamo HP.",
@@ -255,8 +300,8 @@
     },
     "src-44a17fccbee6": {
       "url": "https://news.4399.com/seer/pngl/201010-14-78876.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-10 seal-1 guide: the four attacks and their PP, 35 in total.",
+      "verification": "verified-period-observation"
     },
     "src-46e1fb5c52f4": {
       "url": "https://news.4399.com/seer/spt/201102-28-87994.html",
@@ -358,6 +403,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-5fa0f45d5d55": {
+      "url": "https://wapbaike.baidu.com/item/%E6%9A%97%E9%BB%91%E6%AD%A6%E6%96%97%E5%9C%BA/9200029",
+      "scope": "Undated wiki door-8 section attributed to the 4399 2013-08-19 guide: Paduoni and Jialuode are Lv100.",
+      "verification": "verified-secondary"
+    },
     "src-62140cde1cae": {
       "url": "https://wenda.4399.com/question/2/24032.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -377,6 +427,11 @@
       "url": "https://news.7k7k.com/content/20100519/7615.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-6773bff157f8": {
+      "url": "https://news.4399.com/seer/ahwdc/200912-04-54186.html",
+      "scope": "Opening-day 2009-12-04 report: the trial-door Katesi is Lv45.",
+      "verification": "verified-period-observation"
     },
     "src-6862e0792570": {
       "url": "https://news.4399.com/jdseer/xinde/m/808365.html",
@@ -415,8 +470,8 @@
     },
     "src-6eb872b13983": {
       "url": "https://news.7k7k.com/content/20100602/8159.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-06-02 report: Yilanluoni used \u7eaf\u51c0\u80fd\u91cf (special attack +2); Katesi used \u820d\u8eab\u649e\u51fb.",
+      "verification": "verified-period-observation"
     },
     "src-6f0c2e38800e": {
       "url": "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html",
@@ -427,6 +482,16 @@
       "url": "https://www.8090.com/srh/article_81086.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-725265bbcac9": {
+      "url": "https://news.4399.com/gonglue/seer/jingyanxinde/272923.html",
+      "scope": "Qilin wheel-3 report: HP.",
+      "verification": "verified-period-observation"
+    },
+    "src-72a5ff4dbc3c": {
+      "url": "https://www.511du.com/p/7432.html",
+      "scope": "Undated Q&A repost: the Zhuque body has 50000 HP. Weak secondary evidence.",
+      "verification": "verified-secondary"
     },
     "src-73820e1027cb": {
       "url": "https://www.511du.com/p/6868.html",
@@ -490,8 +555,8 @@
     },
     "src-81e8c86bc37e": {
       "url": "https://news.7k7k.com/content/20110426/84954.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-04-26 report: the Baihu body has 50000 HP.",
+      "verification": "verified-period-observation"
     },
     "src-83f59fbb444c": {
       "url": "https://seer.61.com/dll/PetFightDLL.swf",
@@ -537,6 +602,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-92a4a6973ac0": {
+      "url": "https://news.4399.com/seer/jingyanxinde/201109-28-117631.html",
+      "scope": "2011-09-28 report: Lv70 Rei with about 2000-2200 HP and four named attacks.",
+      "verification": "verified-period-observation"
+    },
     "src-93b91e308025": {
       "url": "https://news.4399.com/seer/tujian/84569.htm",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -556,6 +626,11 @@
       "url": "https://news.4399.com/seer/spt/201202-08-141904.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-97e8bdf1997c": {
+      "url": "https://news.7k7k.com/content/20130106/555761.html",
+      "scope": "2013 report: the Baihu body's four commonly used attacks.",
+      "verification": "verified-period-observation"
     },
     "src-987c5fc7f85e": {
       "url": "https://www.weste.net/2010/9-15/72453.html",
@@ -637,10 +712,20 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-ab30a60259a5": {
+      "url": "https://wapbaike.baidu.com/item/%E5%8D%A1%E7%89%B9%E6%96%AF/10553470",
+      "scope": "Undated wiki boss section: Lv45 and four named attacks; only \u820d\u8eab\u649e\u51fb is corroborated by period reports.",
+      "verification": "verified-secondary"
+    },
+    "src-ab6a9cc6cbe2": {
+      "url": "https://news.7k7k.com/51seer/20140924-673219.html",
+      "scope": "Qilin wheel-5 report: HP.",
+      "verification": "verified-period-observation"
+    },
     "src-abdb3ac908d1": {
       "url": "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2011-08-18: the Xuanwu and Qinglong bodies have 50000 HP after the 2011-08-05 update.",
+      "verification": "verified-period-observation"
     },
     "src-ad96fefe5190": {
       "url": "https://news.7k7k.com/content/20121112/541577.html",
@@ -649,8 +734,8 @@
     },
     "src-b063bc1854de": {
       "url": "https://news.4399.com/seer/spt/201108-23-111511.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2011-08-23: Kaxiusi Lv70, about 5000 HP, four commonly used attacks.",
+      "verification": "verified-period-observation"
     },
     "src-b126935b08d0": {
       "url": "https://news.4399.com/seer/spt/201111-21-127453.html",
@@ -759,8 +844,8 @@
     },
     "src-d3d68af4c57a": {
       "url": "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Qilin wheel-6 report: HP.",
+      "verification": "verified-period-observation"
     },
     "src-d7142088c8c0": {
       "url": "https://news.4399.com/seer/ahwdc/201006-04-70264.html",
@@ -784,8 +869,8 @@
     },
     "src-dfe1e2bececd": {
       "url": "https://news.4399.com/gonglue/seer/saiergonglue/201305-03-262154.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Qilin wheel-2 report: HP.",
+      "verification": "verified-period-observation"
     },
     "src-e0f325229249": {
       "url": "https://news.7k7k.com/content/20100225/5898.html",
@@ -794,8 +879,8 @@
     },
     "src-e1543d969b0f": {
       "url": "https://news.7k7k.com/content/20110316/76887.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-03-16 Rei training report: the final shadow is Lv100 with 1200 HP under a four-round limit.",
+      "verification": "verified-period-observation"
     },
     "src-e16c2093765b": {
       "url": "https://news.5068.com/z/seer/gonglue/25651.html",
@@ -812,6 +897,11 @@
       "scope": "2010 tower report: floor 1-30 displayed levels; hidden levels above 30; specific floor 50/57 HP observations; floor 60 damage restriction. No exact internal 120/130 level mapping.",
       "verification": "verified-period-observation"
     },
+    "src-e7022a07e17a": {
+      "url": "https://news.4399.com/seer/jingyanxinde/201103-12-89181.html",
+      "scope": "2011-03-12 report: the Baihu guardian Laokemengde has 10000 HP.",
+      "verification": "verified-period-observation"
+    },
     "src-e7c448832720": {
       "url": "https://news.4399.com/seer/tujian/203231.htm",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -824,8 +914,8 @@
     },
     "src-ea70b85609f3": {
       "url": "https://news.4399.com/seer/pngl/201010-16-78982.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-10 seal-5 guide: the four attacks and their PP, 35 in total.",
+      "verification": "verified-period-observation"
     },
     "src-eaa8e59c4508": {
       "url": "https://www.techbang.com/posts/33165-order-spt-boss-raiders-fantasia-review",
@@ -869,8 +959,8 @@
     },
     "src-fab3d0c9bc80": {
       "url": "https://news.4399.com/seer/pngl/201010-16-78978.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2010-10 seal-2 guide: the four attacks and their PP, 35 in total.",
+      "verification": "verified-period-observation"
     },
     "src-faf912617aa0": {
       "url": "https://news.7k7k.com/content/20110328/82522.html",
@@ -888,7 +978,7 @@
       "id": "boss_ailike",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_ailike.json",
-      "sourceSha256": "fb17cb2cc5836aea28aa3f3f05a6752442fbca2b5e1afa89e56db351c990a23d",
+      "sourceSha256": "4afc84dd95d46b84be2e5c9c8714bd6c9e6f8114f36691733a810bd147b9e922",
       "sourceNoteSha256": "640c5ea6dbbb540a09dc321924d37d9071a0feb677ce3c3b293ba7a7eaa629c6",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201209-10-195837.html",
@@ -901,8 +991,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
           "skills",
           "rules",
           "location"
@@ -917,7 +1005,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 10000,
+            "hp": 6000,
             "skills": [
               13203,
               13200,
@@ -927,13 +1015,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 782 event table, first (13:00-13:08) tier.",
               "sources": [
-                "src-7de817548a6b",
-                "src-993924b73d66",
-                "src-0d9c326b84bc"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -955,13 +1041,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 782 event table, first (13:00-13:08) tier.",
               "sources": [
-                "src-7de817548a6b",
-                "src-993924b73d66",
-                "src-0d9c326b84bc"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -1014,13 +1098,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-0d9c326b84bc",
-            "src-7de817548a6b",
-            "src-993924b73d66"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -1042,13 +1124,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-0d9c326b84bc",
-            "src-7de817548a6b",
-            "src-993924b73d66"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -1071,7 +1151,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -1312,12 +1392,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 693 entry; the 2011 report agrees.",
               "sources": [
-                "src-19f6aa1eb5da",
-                "src-991a880cde58"
+                "src-0982e1a51877",
+                "src-19f6aa1eb5da"
               ]
             },
             "iv": {
@@ -1339,21 +1419,20 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 693 entry; the 2011 report says about 2000.",
               "sources": [
-                "src-19f6aa1eb5da",
-                "src-991a880cde58"
+                "src-0982e1a51877",
+                "src-19f6aa1eb5da"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names four commonly used attacks.",
               "sources": [
-                "src-19f6aa1eb5da",
-                "src-991a880cde58"
+                "src-19f6aa1eb5da"
               ]
             }
           },
@@ -1447,12 +1526,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-19f6aa1eb5da",
-            "src-991a880cde58"
+            "src-0982e1a51877",
+            "src-19f6aa1eb5da"
           ]
         },
         "iv": {
@@ -1474,21 +1553,20 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-19f6aa1eb5da",
-            "src-991a880cde58"
+            "src-0982e1a51877",
+            "src-19f6aa1eb5da"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-19f6aa1eb5da",
-            "src-991a880cde58"
+            "src-19f6aa1eb5da"
           ]
         },
         "rules": {
@@ -1501,8 +1579,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -1510,8 +1588,8 @@
       "id": "boss_campaign_baihu_avatars",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_avatars.json",
-      "sourceSha256": "54c6d5f960d5f91f8e225105eafc681b4eb282f5657512b361be24d6a286a28e",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "05bcdb07646c50a7b3ba8c561da0ac646b143fb2cdc8cfa9f03f5d5aa11b9a67",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110426/84954.html",
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
@@ -1528,11 +1606,11 @@
           "slot": 0,
           "species": 503,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
-            "hp": 10000,
+            "hp": 3000,
             "skills": [
               11710,
               11714,
@@ -1542,10 +1620,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -1566,23 +1646,20 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The fighting avatar has 3000 HP.",
               "sources": [
-                "src-81e8c86bc37e",
-                "src-8eb57901706b",
-                "src-faf912617aa0"
+                "src-36707d6d2b58"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Boss forms 2513-2516 list exactly these four moves.",
               "sources": [
-                "src-81e8c86bc37e",
-                "src-8eb57901706b",
-                "src-faf912617aa0"
+                "src-01c260c31bc4",
+                "src-343d1887534e"
               ]
             }
           },
@@ -1593,24 +1670,26 @@
           "slot": 1,
           "species": 503,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
-            "hp": 10000,
+            "hp": 2500,
             "skills": [
-              11713,
-              11712,
-              20854,
-              20853
+              20475,
+              11711,
+              20853,
+              11713
             ]
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -1631,23 +1710,20 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The electric avatar has 2500 HP.",
               "sources": [
-                "src-81e8c86bc37e",
-                "src-8eb57901706b",
-                "src-faf912617aa0"
+                "src-36707d6d2b58"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Boss forms 2513-2516 list exactly these four moves.",
               "sources": [
-                "src-81e8c86bc37e",
-                "src-8eb57901706b",
-                "src-faf912617aa0"
+                "src-01c260c31bc4",
+                "src-343d1887534e"
               ]
             }
           },
@@ -1718,10 +1794,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -1742,23 +1820,20 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-81e8c86bc37e",
-            "src-8eb57901706b",
-            "src-faf912617aa0"
+            "src-36707d6d2b58"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-81e8c86bc37e",
-            "src-8eb57901706b",
-            "src-faf912617aa0"
+            "src-01c260c31bc4",
+            "src-343d1887534e"
           ]
         },
         "rules": {
@@ -1771,8 +1846,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -1780,8 +1855,8 @@
       "id": "boss_campaign_baihu_body",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_body.json",
-      "sourceSha256": "742dff2da6fb1eb53d06f7b6473096df6e78f946985d5928fafd48634b557f77",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "18e18ed1380e0f062bca297dbfff2bec80352a9041b620f10ba456f230b0ca86",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
         "https://news.7k7k.com/content/20110426/84954.html"
@@ -1797,7 +1872,7 @@
           "slot": 0,
           "species": 503,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -1811,10 +1886,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -1835,21 +1912,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The body has 50000 HP.",
               "sources": [
-                "src-abdb3ac908d1",
                 "src-81e8c86bc37e"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names the body's four commonly used attacks.",
               "sources": [
-                "src-abdb3ac908d1",
-                "src-81e8c86bc37e"
+                "src-97e8bdf1997c"
               ]
             }
           },
@@ -1949,10 +2024,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -1973,21 +2050,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-81e8c86bc37e",
-            "src-abdb3ac908d1"
+            "src-81e8c86bc37e"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-81e8c86bc37e",
-            "src-abdb3ac908d1"
+            "src-97e8bdf1997c"
           ]
         },
         "rules": {
@@ -2000,8 +2075,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -2009,7 +2084,7 @@
       "id": "boss_campaign_baihu_guardians",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_guardians.json",
-      "sourceSha256": "3308cd724d4e51bada4a45ff1cac2f76d1a46c4b92c6b40083d5b33669a4f337",
+      "sourceSha256": "9815bc0f56f11545971f0111311a085b703d841a2e2048a0b77d6f06e52e26e3",
       "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110426/84954.html",
@@ -2030,7 +2105,7 @@
             "iv": 31,
             "evs": {},
             "nature": "hardy",
-            "hp": 5000,
+            "hp": 10000,
             "skills": [
               11278,
               20617,
@@ -2064,12 +2139,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "\u52b3\u514b\u8499\u5fb7 has 10000 HP as the Baihu guardian.",
               "sources": [
-                "src-81e8c86bc37e",
-                "src-faf912617aa0"
+                "src-e7022a07e17a"
               ]
             },
             "skills": {
@@ -2594,6 +2668,7 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-81e8c86bc37e",
+            "src-e7022a07e17a",
             "src-faf912617aa0"
           ]
         },
@@ -3438,19 +3513,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wheel report states this HP.",
               "sources": [
-                "src-6e8176ec7012"
+                "src-16ab58a7c26b"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report lists the four attacks used in this wheel.",
               "sources": [
-                "src-6e8176ec7012"
+                "src-16ab58a7c26b"
               ]
             }
           },
@@ -3578,19 +3653,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6e8176ec7012"
+            "src-16ab58a7c26b"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6e8176ec7012"
+            "src-16ab58a7c26b"
           ]
         },
         "rules": {
@@ -3604,7 +3679,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -3666,9 +3741,9 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wheel report states this HP.",
               "sources": [
                 "src-dfe1e2bececd"
               ]
@@ -3840,8 +3915,8 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-dfe1e2bececd"
@@ -3928,11 +4003,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wheel report states this HP.",
               "sources": [
-                "src-3001a0750760"
+                "src-725265bbcac9"
               ]
             },
             "skills": {
@@ -4102,11 +4177,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-3001a0750760"
+            "src-725265bbcac9"
           ]
         },
         "skills": {
@@ -4453,11 +4528,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wheel report states this HP.",
               "sources": [
-                "src-d3d68af4c57a"
+                "src-ab6a9cc6cbe2"
               ]
             },
             "skills": {
@@ -4541,11 +4616,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d3d68af4c57a"
+            "src-ab6a9cc6cbe2"
           ]
         },
         "skills": {
@@ -4629,9 +4704,9 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wheel report states this HP.",
               "sources": [
                 "src-d3d68af4c57a"
               ]
@@ -4761,8 +4836,8 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-d3d68af4c57a"
@@ -4795,8 +4870,8 @@
       "id": "boss_campaign_qinglong_body",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_qinglong_body.json",
-      "sourceSha256": "8e66893ca3601cb4e206e22c8aedbca87fea7949a63ff9ff61a003439f36de15",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "009372f3e89b896fee5523f9381135652bb86f0a56fe41adb4458434328783b8",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
         "https://news.7k7k.com/content/20100807/12290.html"
@@ -4812,7 +4887,7 @@
           "slot": 0,
           "species": 502,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -4826,10 +4901,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -4850,12 +4927,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The body has 50000 HP.",
               "sources": [
-                "src-abdb3ac908d1",
-                "src-561eacb7f7c4"
+                "src-abdb3ac908d1"
               ]
             },
             "skills": {
@@ -4987,10 +5063,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -5011,11 +5089,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-561eacb7f7c4",
             "src-abdb3ac908d1"
           ]
         },
@@ -5038,7 +5115,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -5507,8 +5584,8 @@
       "id": "boss_campaign_xuanwu_body",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_xuanwu_body.json",
-      "sourceSha256": "b8081cb594dc69b0e8970b84da9954f49651bdd94e57fcd3232b0d2734f72e1e",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "e6d6e5551aec0aa4bfde6859e1c7fd09f3f8cbd13c2dbadc9b74ce4a21e10e69",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
         "https://news.7k7k.com/content/20100807/12290.html"
@@ -5524,7 +5601,7 @@
           "slot": 0,
           "species": 501,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -5538,10 +5615,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -5562,12 +5641,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The body has 50000 HP.",
               "sources": [
-                "src-abdb3ac908d1",
-                "src-561eacb7f7c4"
+                "src-abdb3ac908d1"
               ]
             },
             "skills": {
@@ -5680,10 +5758,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -5704,11 +5784,10 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-561eacb7f7c4",
             "src-abdb3ac908d1"
           ]
         },
@@ -5731,7 +5810,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -6297,8 +6376,8 @@
       "id": "boss_campaign_zhuque_avatars",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_zhuque_avatars.json",
-      "sourceSha256": "d3be1eacefab6401fe6c27575a712860430b4d6cef2086f0becd68842f42c15b",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "08147b30f6fe22aeb5d35a026ce0935200ef2181f77315ad58fabc051d926375",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110806/94759.html",
         "https://news.7k7k.com/content/20110805/94666.html"
@@ -6314,7 +6393,7 @@
           "slot": 0,
           "species": 504,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -6328,10 +6407,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -6352,21 +6433,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Each shadow has 2000 HP (two lives for the rebirth shadow).",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "All three shadows use the same four named attacks.",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             }
           },
@@ -6377,7 +6456,7 @@
           "slot": 1,
           "species": 504,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -6391,10 +6470,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -6415,21 +6496,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Each shadow has 2000 HP (two lives for the rebirth shadow).",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "All three shadows use the same four named attacks.",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             }
           },
@@ -6440,7 +6519,7 @@
           "slot": 2,
           "species": 504,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -6454,10 +6533,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -6478,21 +6559,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Each shadow has 2000 HP (two lives for the rebirth shadow).",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "All three shadows use the same four named attacks.",
               "sources": [
-                "src-22d8f3a53b05",
-                "src-256d9a5c02ce"
+                "src-40cc71438293"
               ]
             }
           },
@@ -6592,10 +6671,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -6616,21 +6697,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-22d8f3a53b05",
-            "src-256d9a5c02ce"
+            "src-40cc71438293"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-22d8f3a53b05",
-            "src-256d9a5c02ce"
+            "src-40cc71438293"
           ]
         },
         "rules": {
@@ -6643,8 +6722,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -6652,8 +6731,8 @@
       "id": "boss_campaign_zhuque_body",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_zhuque_body.json",
-      "sourceSha256": "6e332f251e9ca2f09bf5814db5e678fe50db6e339896f7a26ff33adc19f73e8c",
-      "sourceNoteSha256": "ba43fb61d91de28750f335229ea98744b599b925fe4c29cc7ebf5e9991b1d3b6",
+      "sourceSha256": "dbd24f7714ac7eb8e8cd392ab4e2112476da03ac0c17ca9722daadfea64a8ee4",
+      "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
         "https://news.7k7k.com/content/20110806/94759.html"
@@ -6669,7 +6748,7 @@
           "slot": 0,
           "species": 504,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": "hardy",
@@ -6683,10 +6762,12 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Level 100 is an explicit campaign calibration; this opponent's exact server level was not recovered.",
-              "sources": []
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The campaign map entry gives Lv105.",
+              "sources": [
+                "src-0982e1a51877"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -6708,12 +6789,12 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "basis": "explicit-estimate",
+              "note": "Only an undated Q&A repost gives 50000 HP.",
               "sources": [
-                "src-abdb3ac908d1",
-                "src-22d8f3a53b05"
-              ]
+                "src-72a5ff4dbc3c"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
               "status": "inferred",
@@ -6774,10 +6855,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-0982e1a51877"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -6799,11 +6882,10 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-22d8f3a53b05",
-            "src-abdb3ac908d1"
+            "src-72a5ff4dbc3c"
           ]
         },
         "skills": {
@@ -6825,7 +6907,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -8548,7 +8630,7 @@
       "id": "boss_dark_door5_yilanluoni",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door5_yilanluoni.json",
-      "sourceSha256": "d90ba9c311a0a72859e2beaafc991d78166e81de0a5422c7007d457a77be8b34",
+      "sourceSha256": "d8bee12cd82a1b30cda6f2c9608332fb3d22c8d8391d0ecef33655999df93767",
       "sourceNoteSha256": "3f20d8ef08eec9c65916a63781764bab0f2c50396f55f0f31e96c2966d886e2d",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98439.html",
@@ -8576,7 +8658,7 @@
               10357,
               10644,
               10360,
-              10643
+              20281
             ]
           },
           "fields": {
@@ -8617,10 +8699,15 @@
             "skills": {
               "status": "inferred",
               "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-9a668cf6d02d",
                 "src-6eb872b13983"
+              ],
+              "verifiedMoveIds": [
+                10357,
+                10644,
+                20281
               ]
             }
           },
@@ -8650,7 +8737,7 @@
             10357,
             10644,
             10360,
-            10643
+            20281
           ]
         }
       },
@@ -9936,11 +10023,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wiki door-8 section gives Lv100; it is the only level source.",
               "sources": [
-                "src-cc19ee680754"
+                "src-5fa0f45d5d55"
               ]
             },
             "iv": {
@@ -10039,11 +10126,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cc19ee680754"
+            "src-5fa0f45d5d55"
           ]
         },
         "iv": {
@@ -10090,7 +10177,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -10135,12 +10222,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The wiki door-8 section gives Lv100; it is the only level source.",
               "sources": [
-                "src-cc19ee680754",
-                "src-27918067811a"
+                "src-5fa0f45d5d55"
               ]
             },
             "iv": {
@@ -10256,12 +10342,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-27918067811a",
-            "src-cc19ee680754"
+            "src-5fa0f45d5d55"
           ]
         },
         "iv": {
@@ -10309,7 +10394,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -11088,7 +11173,7 @@
       "id": "boss_dark_trial_katesi",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_trial_katesi.json",
-      "sourceSha256": "47b0c7be3c0b3501e3d04f80db128bb3b5c26836b6efc8201ba24dd0490b4bbe",
+      "sourceSha256": "2f7694eb0505bcedeb72adbe42afad7c9680023defdb6174e8ac4e49a3b85085",
       "sourceNoteSha256": "b300035fd70d07384775329ec359f6070425dac68ec04295d0808082e73aca7b",
       "sourceUrls": [
         "https://news.7k7k.com/content/20100602/8159.html",
@@ -11101,9 +11186,7 @@
           "iv",
           "evs",
           "nature",
-          "level",
           "hp",
-          "skills",
           "reward"
         ]
       },
@@ -11112,27 +11195,26 @@
           "slot": 0,
           "species": 169,
           "configured": {
-            "level": 60,
+            "level": 45,
             "iv": 31,
             "evs": {},
             "nature": null,
             "hp": 600,
             "skills": [
-              10045,
+              10043,
               10044,
-              10490,
-              20009
+              20022,
+              20211
             ]
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The opening-day report gives the trial-door boss Lv45.",
               "sources": [
-                "src-6eb872b13983",
-                "src-b4b652e5879f",
-                "src-1129b7cea7d4"
+                "src-6773bff157f8",
+                "src-ab30a60259a5"
               ]
             },
             "iv": {
@@ -11165,12 +11247,14 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "basis": "unverified",
+              "note": "The loadout is an undated wiki list; only \u820d\u8eab\u649e\u51fb is corroborated by period reports.",
               "sources": [
-                "src-6eb872b13983",
-                "src-b4b652e5879f",
-                "src-1129b7cea7d4"
+                "src-ab30a60259a5",
+                "src-6eb872b13983"
+              ],
+              "verifiedMoveIds": [
+                10043
               ]
             }
           },
@@ -11195,10 +11279,10 @@
         "ai": {
           "kind": "smart",
           "skills": [
-            10045,
+            10043,
             10044,
-            10490,
-            20009
+            20022,
+            20211
           ]
         }
       },
@@ -11210,13 +11294,12 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-1129b7cea7d4",
-            "src-6eb872b13983",
-            "src-b4b652e5879f"
+            "src-6773bff157f8",
+            "src-ab30a60259a5"
           ]
         },
         "iv": {
@@ -11249,12 +11332,11 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-1129b7cea7d4",
             "src-6eb872b13983",
-            "src-b4b652e5879f"
+            "src-ab30a60259a5"
           ]
         },
         "rules": {
@@ -11267,7 +11349,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -11339,13 +11421,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 66 entry \u76d6\u4e9a; period reports also give 2000 HP.",
               "sources": [
-                "src-bc9af6925951",
-                "src-78c3980ebc74",
-                "src-62140cde1cae"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -11443,13 +11523,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-62140cde1cae",
-            "src-78c3980ebc74",
-            "src-bc9af6925951"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -11544,22 +11622,19 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "unverified",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "basis": "explicit-estimate",
+              "note": "The report says about 5000 HP; a later undated wiki says it was weakened to 2500.",
               "sources": [
-                "src-b063bc1854de",
-                "src-6f5e8f5a19c5",
-                "src-f7ac17c66b8b"
-              ]
+                "src-b063bc1854de"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The report names four commonly used attacks.",
               "sources": [
-                "src-b063bc1854de",
-                "src-6f5e8f5a19c5",
-                "src-f7ac17c66b8b"
+                "src-b063bc1854de"
               ]
             }
           },
@@ -11648,22 +11723,18 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6f5e8f5a19c5",
-            "src-b063bc1854de",
-            "src-f7ac17c66b8b"
+            "src-b063bc1854de"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6f5e8f5a19c5",
-            "src-b063bc1854de",
-            "src-f7ac17c66b8b"
+            "src-b063bc1854de"
           ]
         },
         "rules": {
@@ -11677,7 +11748,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -11685,7 +11756,7 @@
       "id": "boss_paluodiya",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_paluodiya.json",
-      "sourceSha256": "28e516eaf7d8c3ef843ddd5c9c31ebffa3e3984e093695ebe97270ba0dd6a658",
+      "sourceSha256": "6f484e26b1186a04c90b788619196ec785463f6f6aca5f45dedbb93f9e050ff1",
       "sourceNoteSha256": "3f4d327b7f297265250f98a26fe0f4cf8a1b14557792300fa9fc84f3d6e03e40",
       "sourceUrls": [
         "https://news.4399.com/seer/tujian/156454.htm",
@@ -11697,7 +11768,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
           "hp",
           "skills",
           "rules",
@@ -11709,7 +11779,7 @@
           "slot": 0,
           "species": 1167,
           "configured": {
-            "level": 80,
+            "level": 30,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -11723,12 +11793,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The essence-granting fights from the 40th minute are Lv30.",
               "sources": [
-                "src-ee47d1070429",
-                "src-cae5e3afc761"
+                "src-30c0c968689d"
               ]
             },
             "iv": {
@@ -11804,12 +11873,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-cae5e3afc761",
-            "src-ee47d1070429"
+            "src-30c0c968689d"
           ]
         },
         "iv": {
@@ -11858,7 +11926,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -11867,7 +11935,7 @@
       "id": "boss_puni_seal1",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal1.json",
-      "sourceSha256": "9d8036cb5af3a82858e2f6fda11627b1eb169431c99fb1c0c4155c7fd751ddb7",
+      "sourceSha256": "34b092e9cbd6d2fb87249b5ed0f9044c1672687c782557320d5bc5662e411e3b",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-14-78876.html",
@@ -11880,8 +11948,7 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level"
+          "hp"
         ]
       },
       "members": [
@@ -11889,7 +11956,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 101,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -11903,13 +11970,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-1 seal entry.",
               "sources": [
-                "src-44a17fccbee6",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -11941,13 +12006,11 @@
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The guide lists all four attacks with PP summing to 35.",
               "sources": [
-                "src-44a17fccbee6",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-44a17fccbee6"
               ]
             }
           },
@@ -12035,13 +12098,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-44a17fccbee6",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -12073,13 +12134,11 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-44a17fccbee6",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-44a17fccbee6"
           ]
         },
         "rules": {
@@ -12092,8 +12151,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -12101,7 +12160,7 @@
       "id": "boss_puni_seal2",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal2.json",
-      "sourceSha256": "00953e2342adaaec12026e313994abafae45fafa4d6423217f2ab1d9ded278db",
+      "sourceSha256": "6595705ae3adeb82ef92fe2719c1ba9027d31ab6a827c221d6a3e962876cd834",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78978.html",
@@ -12113,9 +12172,7 @@
         "uncertain": [
           "iv",
           "evs",
-          "nature",
-          "hp",
-          "level"
+          "nature"
         ]
       },
       "members": [
@@ -12123,7 +12180,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -12137,13 +12194,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-2 seal entry.",
               "sources": [
-                "src-fab3d0c9bc80",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -12165,23 +12220,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-2 seal entry.",
               "sources": [
-                "src-fab3d0c9bc80",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The guide lists all four attacks with PP summing to 35.",
               "sources": [
-                "src-fab3d0c9bc80",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-fab3d0c9bc80"
               ]
             }
           },
@@ -12282,13 +12333,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e",
-            "src-fab3d0c9bc80"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -12310,22 +12359,18 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e",
-            "src-fab3d0c9bc80"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e",
             "src-fab3d0c9bc80"
           ]
         },
@@ -12339,8 +12384,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -12348,7 +12393,7 @@
       "id": "boss_puni_seal3",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal3.json",
-      "sourceSha256": "89bc9d88a6d1a1122be963f43182d98621e94dc779beabf563fd914c8344c738",
+      "sourceSha256": "2b61e717c7e48d19e85876c8f59eb488f06abf27de95bade24e62cc699691cdf",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78979.html",
@@ -12361,8 +12406,6 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level",
           "threshold"
         ]
       },
@@ -12371,7 +12414,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -12385,13 +12428,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-3 seal entry.",
               "sources": [
-                "src-11af4561e37e",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -12413,23 +12454,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-3 seal entry.",
               "sources": [
-                "src-11af4561e37e",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The guide lists all four attacks with PP summing to 35.",
               "sources": [
-                "src-11af4561e37e",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-11af4561e37e"
               ]
             }
           },
@@ -12509,13 +12546,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-11af4561e37e",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -12537,23 +12572,19 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-11af4561e37e",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-11af4561e37e",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-11af4561e37e"
           ]
         },
         "rules": {
@@ -12566,8 +12597,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -12575,7 +12606,7 @@
       "id": "boss_puni_seal4",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal4.json",
-      "sourceSha256": "14ebed9dcc649569ef0d5d99f41c6f423b6ebd9f9427cc0a8f5494be1b1c7d81",
+      "sourceSha256": "c46ba7358ef50f557c7ea4dda1132426625ef0a4bca2a24f9b0576f47952f208",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78980.html",
@@ -12588,8 +12619,7 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level"
+          "hp"
         ]
       },
       "members": [
@@ -12597,7 +12627,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -12611,13 +12641,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-4 seal entry.",
               "sources": [
-                "src-079a999409b8",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -12649,13 +12677,11 @@
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The guide lists all four attacks with PP summing to 35.",
               "sources": [
-                "src-079a999409b8",
-                "src-6720350ff8eb",
-                "src-6f0c2e38800e"
+                "src-079a999409b8"
               ]
             }
           },
@@ -12732,13 +12758,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-079a999409b8",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -12770,13 +12794,11 @@
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-079a999409b8",
-            "src-6720350ff8eb",
-            "src-6f0c2e38800e"
+            "src-079a999409b8"
           ]
         },
         "rules": {
@@ -12789,8 +12811,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -12798,7 +12820,7 @@
       "id": "boss_puni_seal5",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal5.json",
-      "sourceSha256": "1b2988deabb0fb4b21f2336c984bc3d2b6ebadef4c9715cae69906763c22aef5",
+      "sourceSha256": "1a1a9827b5750d1b8e28e00c2013712a2ebd99168d6f958b0278ed13fdf49898",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78982.html",
@@ -12811,8 +12833,6 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level",
           "era"
         ]
       },
@@ -12821,11 +12841,11 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 9000,
+            "hp": 10000,
             "skills": [
               20500,
               10995,
@@ -12835,13 +12855,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-5 seal entry.",
               "sources": [
-                "src-ea70b85609f3",
-                "src-8e0789d941e5",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -12863,23 +12881,19 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-5 seal entry.",
               "sources": [
-                "src-ea70b85609f3",
-                "src-8e0789d941e5",
-                "src-6f0c2e38800e"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "The guide lists all four attacks with PP summing to 35.",
               "sources": [
-                "src-ea70b85609f3",
-                "src-8e0789d941e5",
-                "src-6f0c2e38800e"
+                "src-ea70b85609f3"
               ]
             }
           },
@@ -12969,13 +12983,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6f0c2e38800e",
-            "src-8e0789d941e5",
-            "src-ea70b85609f3"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -12997,22 +13009,18 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6f0c2e38800e",
-            "src-8e0789d941e5",
-            "src-ea70b85609f3"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-6f0c2e38800e",
-            "src-8e0789d941e5",
             "src-ea70b85609f3"
           ]
         },
@@ -13026,8 +13034,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -13035,7 +13043,7 @@
       "id": "boss_puni_seal6",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal6.json",
-      "sourceSha256": "3d304acdcf9e8628a0d6e978a1b66bc3ad848649c7f368c8b4e73340e4524be2",
+      "sourceSha256": "d58273f02a2d4b34115525a825c28b0a9afdd1cdd36cfd0f7ab992b3a006a179",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78983.html",
@@ -13047,8 +13055,6 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level",
           "era"
         ]
       },
@@ -13057,11 +13063,11 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 10000,
+            "hp": 13000,
             "skills": [
               20500,
               10995,
@@ -13071,12 +13077,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-6 seal entry.",
               "sources": [
-                "src-30e26b3f9313",
-                "src-8e0789d941e5"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13098,12 +13103,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-6 seal entry.",
               "sources": [
-                "src-30e26b3f9313",
-                "src-8e0789d941e5"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -13170,12 +13174,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-30e26b3f9313",
-            "src-8e0789d941e5"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -13197,12 +13200,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-30e26b3f9313",
-            "src-8e0789d941e5"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -13224,7 +13226,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -13233,7 +13235,7 @@
       "id": "boss_puni_seal7",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal7.json",
-      "sourceSha256": "9f1364c0c2ffd4040f16e7fb13205f16e3747e7de18c7397f40453d8e4132ddc",
+      "sourceSha256": "2a94c299802f3446bd5545684b41b268bd72cddce2320e70d988a3afd1afe93a",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78984.html",
@@ -13247,8 +13249,6 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "level",
           "damage_rule"
         ]
       },
@@ -13257,7 +13257,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -13271,14 +13271,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-7 seal entry.",
               "sources": [
-                "src-497a4c0ad976",
-                "src-5d2df7bc5f85",
-                "src-27a3b8dfb204",
-                "src-a1979bcf4999"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13300,14 +13297,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 region-7 seal entry.",
               "sources": [
-                "src-497a4c0ad976",
-                "src-5d2df7bc5f85",
-                "src-27a3b8dfb204",
-                "src-a1979bcf4999"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -13392,14 +13386,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-27a3b8dfb204",
-            "src-497a4c0ad976",
-            "src-5d2df7bc5f85",
-            "src-a1979bcf4999"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -13421,14 +13412,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-27a3b8dfb204",
-            "src-497a4c0ad976",
-            "src-5d2df7bc5f85",
-            "src-a1979bcf4999"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -13460,7 +13448,7 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -13469,7 +13457,7 @@
       "id": "boss_puni_zhenshen",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_zhenshen.json",
-      "sourceSha256": "5bc49ad8abdc831e9fe76448677b7312eb9a8d4daa26f365bf714014ea9cdaed",
+      "sourceSha256": "7839b35632d176d7be0522f95186fd962cd0deeb029640fd6339a545533fc5c5",
       "sourceNoteSha256": "5f206eb1dda1976ba43829b66e88591b8f4cab093eb8998518926dbc1bfb7d03",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78986.html",
@@ -13486,7 +13474,6 @@
           "evs",
           "nature",
           "hp",
-          "level",
           "life_traits_2_to_4",
           "era"
         ]
@@ -13496,7 +13483,7 @@
           "slot": 0,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -13510,16 +13497,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13569,11 +13551,11 @@
           "slot": 1,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 10000,
+            "hp": 8000,
             "skills": [
               20500,
               10995,
@@ -13583,16 +13565,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13614,16 +13591,13 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab; the 7k7k 2010-10-28 per-life table and the 4399 2012-10-18 guide agree.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
+                "src-0982e1a51877",
                 "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-3050194e79ef"
               ]
             },
             "skills": {
@@ -13647,11 +13621,11 @@
           "slot": 2,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 10000,
+            "hp": 9000,
             "skills": [
               20500,
               10995,
@@ -13661,16 +13635,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13692,16 +13661,13 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab; the 7k7k 2010-10-28 per-life table and the 4399 2012-10-18 guide agree.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
+                "src-0982e1a51877",
                 "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-3050194e79ef"
               ]
             },
             "skills": {
@@ -13725,7 +13691,7 @@
           "slot": 3,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -13739,16 +13705,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13772,15 +13733,13 @@
             "hp": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "note": "Both 2010 sources give life 4 12000 HP; the map table and the 2012 guide give 10000. 12000 is kept.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
                 "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
-              ]
+                "src-3050194e79ef",
+                "src-0982e1a51877"
+              ],
+              "observationStatus": "observed"
             },
             "skills": {
               "status": "inferred",
@@ -13803,11 +13762,11 @@
           "slot": 4,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 60000,
+            "hp": 20000,
             "skills": [
               20500,
               10995,
@@ -13817,16 +13776,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -13848,16 +13802,13 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab; the 7k7k 2010-10-28 per-life table and the 4399 2012-10-18 guide agree.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
+                "src-0982e1a51877",
                 "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-3050194e79ef"
               ]
             },
             "skills": {
@@ -13881,7 +13832,7 @@
           "slot": 5,
           "species": 300,
           "configured": {
-            "level": 100,
+            "level": 105,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -13895,16 +13846,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 108 entry \u666e\u5c3c\u771f\u8eab: all six lives Lv105.",
               "sources": [
-                "src-24d4d9142aa9",
-                "src-8e0789d941e5",
-                "src-3050194e79ef",
-                "src-3e5d01417299",
-                "src-d0d37d3daffa",
-                "src-2eb72132a2a4"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -14286,16 +14232,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-24d4d9142aa9",
-            "src-2eb72132a2a4",
-            "src-3050194e79ef",
-            "src-3e5d01417299",
-            "src-8e0789d941e5",
-            "src-d0d37d3daffa"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -14321,11 +14262,8 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-24d4d9142aa9",
-            "src-2eb72132a2a4",
+            "src-0982e1a51877",
             "src-3050194e79ef",
-            "src-3e5d01417299",
-            "src-8e0789d941e5",
             "src-d0d37d3daffa"
           ]
         },
@@ -14360,7 +14298,7 @@
       ],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -14369,7 +14307,7 @@
       "id": "boss_rei",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_rei.json",
-      "sourceSha256": "22ccc605eb84dc3b24c268e120b4a51e95e4b4f5347a1b6e6d7e77327a7d1260",
+      "sourceSha256": "ea370c5ca8e5cdf84b79f2969a939aa301a618b1b3f21dc3c5c3dee448da4270",
       "sourceNoteSha256": "414916f71d8e58758b4c86e48660b269d25a7735e0dcf0dfbdc0d46c51479134",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -14385,7 +14323,6 @@
           "evs",
           "nature",
           "innate_boost",
-          "skills",
           "era"
         ]
       },
@@ -14400,10 +14337,10 @@
             "nature": null,
             "hp": 2000,
             "skills": [
-              10170,
               10176,
+              10175,
               20087,
-              20086
+              10170
             ]
           },
           "fields": {
@@ -14434,24 +14371,22 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The 2010 guide reports 2800 HP; the configured 2000 is from a different 2011 source. Version consistency remains unresolved.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Map 32 entry SPT\u96f7\u4f0a (Hp 2000, Lv70). The 2010 guide's 2800 is an early report; 2011 sources give about 2000.",
               "sources": [
+                "src-0982e1a51877",
+                "src-92a4a6973ac0",
                 "src-4d890115adad"
-              ],
-              "observationStatus": "observed"
+              ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "observed",
+              "basis": "verified-period-observation",
+              "note": "Two 2011 reports name the same four attacks for the Lv70 Rei.",
               "sources": [
-                "src-47dca663870e",
                 "src-43e1a86b0d39",
-                "src-29feab917e4b",
-                "src-65a7f6d93887",
-                "src-d9cc2d153855"
+                "src-92a4a6973ac0"
               ]
             }
           },
@@ -14546,10 +14481,10 @@
         "ai": {
           "kind": "smart",
           "skills": [
-            10170,
             10176,
+            10175,
             20087,
-            20086
+            10170
           ]
         }
       },
@@ -14587,23 +14522,22 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-4d890115adad"
+            "src-0982e1a51877",
+            "src-4d890115adad",
+            "src-92a4a6973ac0"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "observed",
+          "basis": "verified-period-observation",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-29feab917e4b",
             "src-43e1a86b0d39",
-            "src-47dca663870e",
-            "src-65a7f6d93887",
-            "src-d9cc2d153855"
+            "src-92a4a6973ac0"
           ]
         },
         "rules": {
@@ -14617,7 +14551,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },
@@ -14625,7 +14559,7 @@
       "id": "boss_rei_training1",
       "category": "story",
       "sourceFile": "data/bosses/boss_rei_training1.json",
-      "sourceSha256": "32fdaebc8520f171688d39dd17e72a7a807d30e486f68fdfafb872d9615d5a34",
+      "sourceSha256": "c1e6e53e4ed82026d17e098a32bf9a5866f26b1e20e8990824b992fe5ff8038d",
       "sourceNoteSha256": "e44c38e791e29737a019a81c68c76c865072ae6933c405132935ef5f5aabfa1c",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -14641,8 +14575,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
           "skills",
           "era"
         ]
@@ -14652,11 +14584,11 @@
           "slot": 0,
           "species": 42,
           "configured": {
-            "level": 50,
+            "level": 35,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 1000,
+            "hp": 350,
             "skills": [
               10102,
               10100,
@@ -14666,16 +14598,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 17 region 1 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -14697,16 +14624,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 17 region 1 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -14801,16 +14723,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -14832,16 +14749,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -14867,7 +14779,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -14876,7 +14788,7 @@
       "id": "boss_rei_training2",
       "category": "story",
       "sourceFile": "data/bosses/boss_rei_training2.json",
-      "sourceSha256": "35752fd8ecca9170fdc61902939ab76997e3f4adc37210b0c597a30ccfbef511",
+      "sourceSha256": "57c2f4ddb6b8b976e9805d8576fef06b17384b963b17f8360f560a79612fb1d5",
       "sourceNoteSha256": "e44c38e791e29737a019a81c68c76c865072ae6933c405132935ef5f5aabfa1c",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -14892,8 +14804,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
           "skills",
           "reward_skill",
           "rules",
@@ -14905,11 +14815,11 @@
           "slot": 0,
           "species": 69,
           "configured": {
-            "level": 55,
+            "level": 45,
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 1200,
+            "hp": 500,
             "skills": [
               10161,
               20082,
@@ -14919,16 +14829,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 27 region 1 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -14950,16 +14855,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 27 region 1 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -15056,16 +14956,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -15087,16 +14982,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -15122,7 +15012,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -15173,16 +15063,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 49 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u96f7\u7eb3\u591a entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -15204,16 +15089,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 49 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u96f7\u7eb3\u591a entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -15331,16 +15211,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -15362,16 +15237,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -15397,7 +15267,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -15406,7 +15276,7 @@
       "id": "boss_rei_training4",
       "category": "story",
       "sourceFile": "data/bosses/boss_rei_training4.json",
-      "sourceSha256": "6ee4a04717eaf88c13aa8b5277b7b3970ff833e75013c872ecf3fb256ff9c759",
+      "sourceSha256": "b01579647a6c4bb655b1986f0d8d1d595b8698cbee41748e707e7d34a1a38f78",
       "sourceNoteSha256": "e44c38e791e29737a019a81c68c76c865072ae6933c405132935ef5f5aabfa1c",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -15423,8 +15293,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
           "skills",
           "era"
         ]
@@ -15438,7 +15306,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 1500,
+            "hp": 1000,
             "skills": [
               10209,
               10208,
@@ -15448,17 +15316,11 @@
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 40 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u963f\u514b\u5e0c\u4e9a entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-db31ab12ea06",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "iv": {
@@ -15480,17 +15342,11 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 40 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u963f\u514b\u5e0c\u4e9a entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-db31ab12ea06",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877"
               ]
             },
             "skills": {
@@ -15614,17 +15470,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0",
-            "src-db31ab12ea06"
+            "src-0982e1a51877"
           ]
         },
         "iv": {
@@ -15646,17 +15496,11 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0",
-            "src-db31ab12ea06"
+            "src-0982e1a51877"
           ]
         },
         "skills": {
@@ -15683,7 +15527,7 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
+        "hasInferredLevel": false,
         "hasUnverifiedSkills": true,
         "aiIsRemake": true
       }
@@ -15692,7 +15536,7 @@
       "id": "boss_rei_training5",
       "category": "story",
       "sourceFile": "data/bosses/boss_rei_training5.json",
-      "sourceSha256": "bd986afe0cf8a010ce9565e69f69690b53fad36d03e41e8b218acb11351438fb",
+      "sourceSha256": "a09578c23d46682634a1eabc229c53abb12b7fd6284b9ac6bec54df1d044bd7c",
       "sourceNoteSha256": "e44c38e791e29737a019a81c68c76c865072ae6933c405132935ef5f5aabfa1c",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110720/92955.html",
@@ -15709,9 +15553,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
-          "skills",
           "innate_boost",
           "era"
         ]
@@ -15727,25 +15568,17 @@
             "nature": null,
             "hp": 1200,
             "skills": [
-              10825,
-              10823,
-              20364,
-              10170
+              10825
             ]
           },
           "fields": {
             "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "The configured level has not been verified by the curated field claims below.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 32 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u96f7\u4f0a\u5e7b\u5f71 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-e1543d969b0f",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877",
+                "src-e1543d969b0f"
               ]
             },
             "iv": {
@@ -15767,31 +15600,21 @@
               "sources": []
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "The training opponent is the map 32 entry \u96f7\u4f0a\u6280\u80fd\u7279\u8bad\u4e4b\u96f7\u4f0a\u5e7b\u5f71 entry fought by LeiyiTrainController.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-e1543d969b0f",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-0982e1a51877",
+                "src-e1543d969b0f"
               ]
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "status": "official",
+              "basis": "official-data-table",
+              "note": "Boss form \u96f7\u4f0a\u7684\u5e7b\u5f71 (2013 id 2505, modern 5005) knows only \u96f7\u795e\u5929\u660e\u95ea.",
               "sources": [
-                "src-47dca663870e",
-                "src-30e422357a52",
-                "src-17e6067bdbaf",
-                "src-799373d174d0",
-                "src-e1543d969b0f",
-                "src-2162f7a9d279",
-                "src-5f005229c6e5"
+                "src-343d1887534e",
+                "src-01c260c31bc4"
               ]
             }
           },
@@ -15933,16 +15756,11 @@
           "sources": []
         },
         "level": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0",
+            "src-0982e1a51877",
             "src-e1543d969b0f"
           ]
         },
@@ -15965,31 +15783,21 @@
           "sources": []
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0",
+            "src-0982e1a51877",
             "src-e1543d969b0f"
           ]
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate",
+          "status": "official",
+          "basis": "official-data-table",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-17e6067bdbaf",
-            "src-2162f7a9d279",
-            "src-30e422357a52",
-            "src-47dca663870e",
-            "src-5f005229c6e5",
-            "src-799373d174d0",
-            "src-e1543d969b0f"
+            "src-01c260c31bc4",
+            "src-343d1887534e"
           ]
         },
         "rules": {
@@ -16002,8 +15810,8 @@
       "userPolicies": [],
       "summary": {
         "hasInferredStats": true,
-        "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasInferredLevel": false,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       }
     },

@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 300,
-      "level": 100,
+      "level": 105,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -71,9 +71,9 @@
     "status_moves_always_miss blocks status moves targeting Puni. Self-targeted boosts, healing and protection remain usable; direct status application must come from secondary effects of damaging skills.",
     "4399/7k7k 2010: '谱尼容易MISS' — its own accuracy seems low; not encoded.",
     "Conflicting later claims: 'takes only 1/4 of damage' (baidu jingyan) and 'must solo' (sohu, spinoff). Not encoded.",
-    "HP 16000 is from a later summary (kmw.com); unverified.",
+    "HP 16000 is the official map-108 table; the later kmw.com summary agrees.",
     "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
-    "Level is not given by any source; 100 assumed (the battle showed ??? for seal bosses in some recollections).",
+    "Level 105 (seal 1: 101) is the official map-108 boss table (seer_data maps.json); the client displays ?? above 100.",
     "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",
     "Reward: none for the seal itself; clearing it unlocks the next stage of the 'puni' campaign (src/domain/challenges/challenge-campaigns.ts)."
   ],
@@ -83,8 +83,6 @@
       "iv",
       "evs",
       "nature",
-      "hp",
-      "level",
       "damage_rule"
     ]
   },

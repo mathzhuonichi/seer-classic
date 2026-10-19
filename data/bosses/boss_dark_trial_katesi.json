@@ -11,15 +11,15 @@
   "team": [
     {
       "species": 169,
-      "level": 60,
+      "level": 45,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10045,
+        10043,
         10044,
-        10490,
-        20009
+        20022,
+        20211
       ],
       "hp_override": 600
     }
@@ -35,10 +35,10 @@
   "ai": {
     "kind": "smart",
     "skills": [
-      10045,
+      10043,
       10044,
-      10490,
-      20009
+      20022,
+      20211
     ]
   },
   "reward": {
@@ -60,7 +60,7 @@
   },
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
-    "Level and HP are not published (difficulty ★ per 7k7k); Lv60 / 600 HP follow the door-1..5 pattern of HP ≈ 10×level and are estimates."
+    "600 HP is an estimate. Level 45 is from the 4399 2009-12-04 opening-day article (Baike 卡特斯 agrees). Skills 舍身撞击/花瓣舞/生长/硬化 are Baike 卡特斯's BOSS攻略 list; only 舍身撞击 is independently corroborated."
   ],
   "confidence": {
     "level": "low",
@@ -68,9 +68,7 @@
       "iv",
       "evs",
       "nature",
-      "level",
       "hp",
-      "skills",
       "reward"
     ]
   },

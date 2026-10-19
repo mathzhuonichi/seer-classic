@@ -21,7 +21,7 @@
         10207,
         20060
       ],
-      "hp_override": 1500
+      "hp_override": 1000
     }
   ],
   "rules": [
@@ -104,7 +104,7 @@
     "Player 雷伊 level ≥ 80 required to challenge (unlock note).",
     "雷伊特训 is a story line for the player's own 雷伊: only 雷伊 may fight (player_team_size 1 + require_player_species 70). The reward of each stage is a special skill learned by that 雷伊 (reward.learn_skill), not an essence; the engine needs a reward kind 'learn_skill {species, skill}' that adds the skill to the player's 雷伊's learnable list.",
     "Skill ids 10823-10825 / 20363-20364 sit right after the 2009 skill range, so the training dates from late 2009 / early 2010.",
-    "Opponent levels and HP are not given by any source found; values are estimates.",
+    "Level 65 and HP 1000 are the official map-40 entry 雷伊技能特训之阿克希亚 (seer_data maps.json).",
     "skills: no source lists this opponent's skills; the species' top learnset skills are used.",
     "Campaign audit correction: source-backed skill success requirement/reward mapping checked against official LeiyiTrainController.as and the period skill-training guide. The training 3/4 reward swap in the previous reconstruction is corrected."
   ],
@@ -114,8 +114,6 @@
       "iv",
       "evs",
       "nature",
-      "level",
-      "hp",
       "skills",
       "era"
     ]
