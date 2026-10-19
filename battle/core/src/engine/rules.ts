@@ -1,10 +1,10 @@
 // Boss rules, phases, objectives and the battle outcome (RULES.md section 10).
 
 import type {
-  BattleResult, BossEncounter, BossRule, EncounterVariant, MonsterInput, Objective, PartyRefusal, PartyRule, Phase, SideInput, Skill,
+  BattleResult, BossEncounter, BossRule, EncounterVariant, Hook, MonsterInput, Objective, PartyRefusal, PartyRule, Phase, SideInput, Skill,
 } from '../types.ts';
 import type { Battle } from './battle.ts';
-import { emptyCtx, type DamageInfo, type Mon, type Side } from './state.ts';
+import { emptyCtx, type ActiveCondition, type DamageInfo, type Mon, type Side } from './state.ts';
 import { hasAttackType, typeIdentity } from '../typechart.ts';
 import { DOT_STATUSES } from '../builtin-conditions.ts';
 
@@ -129,6 +129,15 @@ export function ruleBlocks(b: Battle, side: Side, info: DamageInfo, target: Mon)
     if (!hasAttackType(types, info.skill.type, expected)) return 'type_rotation';
   }
   return null;
+}
+
+/**
+ * `ignore_player_damage_reduction`: whether `attacker` ignores this protection of its target (damage reduction, evasion
+ * or block): all of them, or those of the conditions its listed skills attach, by condition or script id.
+ */
+export function ignoresProtection(attacker: Mon | undefined, cond: ActiveCondition, hook: Hook): boolean {
+  const ignored = attacker?.persist.ignoreReduction as true | string[] | undefined;
+  return ignored === true || !!ignored?.some((id) => id === cond.id || id === hook.script);
 }
 
 /** `revive_unless_status_ko`: a knockout not dealt by a damaging status revives the boss. */

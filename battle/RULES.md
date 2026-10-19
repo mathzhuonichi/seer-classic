@@ -305,6 +305,13 @@ in `except_skills_zh`, still works. A move's clear, including the critical-hit
 defence clear, passes its skill to `on_stage_incoming`; a clear outside a move
 has none and is blocked.
 
+`ignore_player_damage_reduction {skills_zh?}`: the boss's moves ignore the
+player's protections: damage reductions (`modify_damage_taken` below 1),
+evasion and blocks (`before_hit`, `block_move`). With `skills_zh` it ignores
+only the conditions that the effects of the player's skills with those names
+attach. A condition that negates the boss's move (`on_foe_move`, such as
+虚无) is not a protection here and still works.
+
 ### 10.2 Phases
 
 `{ when, do, once }`. `when` uses the condition language of effect ops

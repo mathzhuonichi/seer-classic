@@ -6,10 +6,10 @@ import type { Battle } from './battle.ts';
 import type { Mon, MoveCtx } from './state.ts';
 import * as C from '../constants.ts';
 import { STRUGGLE_SKILL } from '../constants.ts';
-import { runHookEffects, skillScripts } from './conditions.ts';
+import { fire, runHookEffects, skillScripts } from './conditions.ts';
 import { inferTarget } from './effects.ts';
 import { beginHitTrace, recordHit } from './journal.ts';
-import { checkEnd, hasRule } from './rules.ts';
+import { checkEnd, hasRule, ignoresProtection } from './rules.ts';
 
 export function priority(b: Battle, mon: Mon, skill: Skill): number {
   let p = skill.priority ?? 0;
@@ -132,13 +132,13 @@ function reachesTarget(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Mov
     if (r === 'miss') { missed(b, user, target, skill, ctx); return false; }
   }
   if (!targetsFoe) return true;
-  if (b.hooks(target, 'block_move').length) {
+  if (b.hooksWithCond(target, 'block_move').some(({ cond, hook }) => !ignoresProtection(user, cond, hook))) {
     b.emit({ type: 'protected', side: target.side });
     return false;
   }
   let hit = rollAccuracy(b, user, target, skill, ctx);
   if (hit) {
-    for (const r of b.fire(target, 'before_hit', { foe: user, skill, ctx })) {
+    for (const r of fire(b, target, 'before_hit', { foe: user, skill, ctx }, (cond, hook) => ignoresProtection(user, cond, hook))) {
       if (r === 'evade') hit = false;
       if (r === 'block') { b.emit({ type: 'protected', side: target.side }); return false; }
     }

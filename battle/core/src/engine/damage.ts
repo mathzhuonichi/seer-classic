@@ -7,7 +7,7 @@ import { emptyCtx, zeroStages, type DamageInfo, type Mon, type MoveCtx } from '.
 import * as C from '../constants.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from '../typechart.ts';
 import { hookCtx, levelMult, runHookEffects, skillScripts } from './conditions.ts';
-import { checkEnd, findRule, hasRule, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
+import { checkEnd, findRule, hasRule, ignoresProtection, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
 import { traceHit } from './journal.ts';
 import { dealsDamage } from './move.ts';
 
@@ -196,13 +196,11 @@ function conditionMultipliers(b: Battle, target: Mon, raw: number, info: DamageI
       if (hook.consume_charge && !probe) b.useCharge(src, cond);
     }
   }
-  const ignore = src?.persist.ignoreReduction;
-  const ignoring = !!ignore && (ignore === true || (!!info.skill && (ignore as string[]).includes(info.skill.name.zh)));
   for (const { cond, hook } of b.hooksWithCond(target, 'modify_damage_taken')) {
     if (!(hook.kinds ?? ['attack']).includes(info.kind)) continue;
     if (hook.when && !b.evalWhen(hook.when, { self: target, foe: src, skill: info.skill, kind: info.kind })) continue;
-    if (ignoring && levelMult(hook, cond) < 1) { trace('ignore_reduction'); continue; }
     const multiplier = levelMult(hook, cond);
+    if (multiplier < 1 && ignoresProtection(src, cond, hook)) { trace('ignore_reduction'); continue; }
     if (multiplier === 0) zeroed = true;
     dmg *= multiplier;
     if (hook.consume_charge && !probe) b.useCharge(target, cond);
