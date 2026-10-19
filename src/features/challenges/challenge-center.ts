@@ -2,7 +2,7 @@
 import type { GameSnapshot } from '../../kernel/contract.ts';
 import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import {braveTowerFloor,braveTowerUnlockText} from '../../domain/challenges/brave-tower.ts';
+import {braveTowerFloor,braveTowerUnlocked,braveTowerUnlockText} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
 import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
@@ -100,12 +100,21 @@ function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):s
   return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
 }
 
+/** The progress tag: a Tower side challenge names its floor until that floor is cleared. */
+function challengeStatus(entry:ChallengeEntry,s:ArchiveSnapshot):string {
+  if(entry.tower)return towerRecord(s.braveTower);
+  if(entry.cleared)return '✓ 已完成';
+  if(entry.campaign)return `${entry.campaign.completed} / ${entry.campaign.stages.length} 阶段`;
+  const floor=entry.towerUnlockFloor;
+  return floor&&!braveTowerUnlocked(s.braveTower,floor)?braveTowerUnlockText(floor):'可挑战';
+}
+
 /** The detail pane texts; `staging` means the challenge is reached through the ship's transfer dock. */
 export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:boolean):ChallengeDetail {
   const kind=challengeKind(entry),campaign=entry.campaign;
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
-    status:entry.tower?towerRecord(s.braveTower):entry.cleared?'✓ 已完成':campaign?`${campaign.completed} / ${campaign.stages.length} 阶段`:'可挑战',
+    status:challengeStatus(entry,s),
     instruction:entry.towerUnlockFloor?towerSideInstruction(entry.towerUnlockFloor):kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
     reward:rewardNote(entry,kind,s),action:ACTIONS[kind],
   };

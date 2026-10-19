@@ -136,9 +136,10 @@ await withSsr('station-navigation-v53',async load=>{
       +'<span>通过勇者之塔第 60 层后开放</span></div><button class="primary" disabled="">开始挑战</button></div>');
     assert.equal(row(60),`<div class="tower-resume tower-side-challenge" data-tower-side="boss_tower_brave_mystery"><div><strong>${mystery.name}</strong>`
       +'<span>通关奖励：仅赛尔豆与积累经验，没有精元或道具</span></div><button class="primary">开始挑战</button></div>');
-    const detail=challengeDetail(challengeEntries(s).find(entry=>entry.id===mystery.id),s,false);
+    const entry=challengeEntries(s).find(entry=>entry.id===mystery.id),detail=challengeDetail(entry,s,false);
     assert.equal(detail.reward,'仅赛尔豆与积累经验，没有精元或道具','The encounter pays no essence or item.');
     assert.equal(detail.instruction,'进入勇者之塔，在选择起点面板开始挑战；通过勇者之塔第 60 层后开放。');
+    assert.deepEqual([0,59,60].map(floor=>challengeDetail(entry,climb(floor),false).status),['通过勇者之塔第 60 层后开放','通过勇者之塔第 60 层后开放','可挑战']);
     const travels=[],routes=shellRoutes({c:game,navigation:{show(){},travel:(...args)=>travels.push(args),enterCampaign(){}},
       backdrops:{current:{exploration:null,campaign:null}},setMessage(){},setSelected(){}});
     routes.travelToChallenge(mystery);
