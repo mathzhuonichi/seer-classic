@@ -1,6 +1,6 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
 import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, QuestView, SpeciesView } from '../../shared/views.ts';
-import { CHALLENGE_CAMPAIGNS, CHALLENGE_CATEGORY } from '../../domain/challenges/challenge-campaigns.ts';
+import { CHALLENGE_CATEGORY, campaignContactWording } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
 import type { ScenePoint } from './scene-geometry.ts';
@@ -76,11 +76,10 @@ function towerScene(s: WorldSlices): TowerScene {
 
 function campaignContact(s: WorldSlices, region: WorldRegion): CampaignContact | undefined {
   const campaign = s.campaigns.find(entry => entry.id === region.campaignId);
-  const wording = CHALLENGE_CAMPAIGNS.find(entry => entry.id === region.campaignId)?.contact;
-  if (!campaign || !wording) return undefined;
+  if (!campaign) return undefined;
   const next = campaign.stages.find(stage => stage.id === campaign.nextStageId);
   const progress = campaign.finished ? '全部挑战已完成' : next ? `当前挑战：${next.name}` : '查看挑战进度';
-  return { campaign, name: campaign.speciesName, progress, ...wording };
+  return { campaign, name: campaign.speciesName, progress, ...campaignContactWording(campaign.id) };
 }
 
 function groundHint(tower: TowerScene | undefined) {

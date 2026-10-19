@@ -16,6 +16,8 @@ export interface CampaignStage {
   minLevel?: number;
   carry?: boolean;
 }
+/** A campaign contact's dialogue: the kicker above the name and the button that opens the stages. */
+export interface CampaignContactWording { kicker: string; action: string }
 export interface Campaign {
   id: string;
   name: string;
@@ -24,8 +26,8 @@ export interface Campaign {
   /** `essence`: the last stage grants the campaign species' essence. `skills`: each stage teaches one skill instead. */
   reward: 'essence' | 'skills';
   stages: CampaignStage[];
-  /** The world contact's dialogue wording, for a campaign whose region hosts one: the kicker and the button that opens the stages. */
-  contact?: { kicker: string; action: string };
+  /** The wording of the world contact that a hosting region shows; `campaignContactWording` supplies neutral wording when omitted. */
+  contact?: CampaignContactWording;
   continuity: 'continuous' | 'checkpoint';
   /** Omitted when historical campaign-wide failure persistence is unverified. */
   resetOnLoss?: boolean;
@@ -118,3 +120,8 @@ export const CHALLENGE_CAMPAIGNS: Campaign[] = [
     ],
   },
 ];
+
+/** A hosting region still offers the stages of a campaign that states no wording of its own. */
+const NEUTRAL_CAMPAIGN_CONTACT: CampaignContactWording = { kicker: '挑战', action: '查看挑战进度' };
+export const campaignContactWording = (id: string): CampaignContactWording =>
+  CHALLENGE_CAMPAIGNS.find(campaign => campaign.id === id)?.contact ?? NEUTRAL_CAMPAIGN_CONTACT;
