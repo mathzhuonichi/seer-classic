@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { createGame } from '../../src/kernel/game.ts';
 import { loadCatalog } from '../../src/domain/catalog/catalog.ts';
 import { WORLD_GALAXIES, WORLD_PLANETS, findChallengeLocation, findSceneChallenges, resolveWorldLocation } from '../../src/domain/world/world.ts';
-import { campaignBackdrop } from '../../src/features/battle/index.ts';
+import { campaignBackdrop } from '../../src/features/challenges/index.ts';
 import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
 import { challengeDetail, challengeEntries, challengeHonors } from '../../src/features/challenges/challenge-center.ts';
 import ChallengeCenter from '../../src/features/challenges/ui/ChallengeCenter.tsx';
