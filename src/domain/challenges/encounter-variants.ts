@@ -45,7 +45,7 @@ const RULE_TEXTS: Record<string, (p: Params) => string> = {
 };
 const WHEN_TEXTS: Record<string, (value: any) => string> = {
   first_turn: () => '开场时',
-  self_hp_below_pct: value => `体力低于 ${value}% 后`,
+  self_hp_below_pct: value => `首领体力低于 ${value}% 后`,
 };
 const OP_TEXTS: Record<string, (op: Params) => string> = {
   stat_stage: op => `首领${stages(op.stats)}`,

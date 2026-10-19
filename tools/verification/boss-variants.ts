@@ -216,6 +216,7 @@ t.check('The challenge archive lists every variant with its rules and objectives
     for(const text of [variant.label,...variant.rules,`胜利条件：${variant.win}。`,`失败条件：${variant.lose}。`])assert(html.includes(text),`${variant.id}: ${text}`);
   }
   assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='thu')!.rules,['首领每回合结束时回复 1000 体力']);
+  assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='sun')!.rules,['首领总是先手行动','首领体力低于 20% 后，首领的攻击直接击倒对手'],'the phase names whose HP');
   assert.equal(eersaila.variants!.find(variant=>variant.id==='fri')!.win,'击败全部对手，最后一击须为中毒、烧伤、冻伤的异常状态伤害');
   assert.equal(checkedLabel(html),label(EERSAILA,'wed'),'the first variant not cleared is picked');
   const gaia=archive(GAIA,'legendary');
