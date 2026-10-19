@@ -21,7 +21,7 @@
 .management-panel{--mg-ink:#103d69;background:#c4e9fa;color:var(--mg-ink);font-family:Arial,"Microsoft YaHei",sans-serif}
 .management-panel button{border-color:#0b5c9f;background:linear-gradient(#eefbff 0%,#d1efff 48%,#b4dff7 49%,#c6e9fb 100%);box-shadow:inset 0 1px #fff,inset 0 -2px #76afd4;color:#123f68;transition:background .12s,border-color .12s}
 .management-panel button:hover{background:linear-gradient(#fff,#d7f7ff 47%,#9ddbf9 48%,#c1efff);border-color:#008bdb}
-.management-panel button:active:not(:disabled){box-shadow:inset 0 2px 3px #075eaa4d}
+.management-panel button:active:not(:disabled),.management-panel button.item-tile.item-tile.selected:active:not(:disabled){box-shadow:inset 0 2px 3px #075eaa4d}
 .management-panel button:disabled{opacity:.52;box-shadow:none}
 .management-panel input,.management-panel select,.window-body .management-panel input,.window-body .management-panel select{background:#fff;color:#103d69;border-color:#6499bd;border-radius:3px;box-shadow:inset 0 1px 3px #174b7f2e}
 .management-panel input::placeholder{color:#6887a2}
@@ -278,7 +278,7 @@ button.item-tile.item-tile.engraving-inactive>.item-tile-art{opacity:.45;filter:
 .engraving-picker{margin-top:6px;padding-top:5px;border-top:1px solid #4b9bca}
 .engraving-picker-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px}
 .engraving-picker-heading>button{font-size:9px;padding:2px 6px}
-.engraving-picker-grid{grid-template-columns:repeat(auto-fill,minmax(43px,1fr));max-height:116px;min-height:50px;gap:5px;padding:6px 2px}
+.engraving-picker-grid.item-icon-grid{grid-template-columns:repeat(auto-fill,minmax(43px,1fr));max-height:116px;min-height:50px;gap:5px;padding:6px 2px}
 .engraving-selection-detail{display:grid;gap:4px;font-size:10px;line-height:1.5}
 .engraving-selection-detail>strong{font-size:11px}
 .engraving-selection-detail>label{display:flex;gap:6px;align-items:center}

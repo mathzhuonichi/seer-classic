@@ -6,9 +6,9 @@
 .inventory-management .inventory-inner{grid-template-columns:minmax(225px,1.1fr) minmax(225px,1fr);gap:0}
 .inventory-management .inventory-item-list{min-width:0;border-right:1px solid #76a9c8;background:#eaf5fc;box-shadow:none}
 .inventory-management .management-filter{padding:5px 7px}
-.inventory-management .management-filter input{padding:4px 7px;height:27px;font-size:11px;border:1px solid #85afc9;border-radius:2px;background:#fff}
+.window-body .inventory-management .management-filter input{padding:4px 7px;height:27px;font-size:11px;border:1px solid #85afc9;border-radius:2px;background:#fff}
 .inventory-management .inventory-icon-scroll{padding:6px 7px;gap:6px;background:#f8fcff;border-top:1px solid #bbd5e6;align-content:start}
-.inventory-management .inventory-detail-scroll{padding:10px 12px;border:0;border-radius:0;background:#fff;box-shadow:none}
+.management-panel.inventory-management .inventory-detail-scroll{padding:10px 12px;border:0;border-radius:0;background:#fff;box-shadow:none}
 .inventory-management .inventory-detail-heading{gap:8px;padding-bottom:7px}
 .inventory-management .inventory-detail-heading h3{font-size:16px;margin:3px 0 0;line-height:1.4;color:#155c8c}
 .inventory-management .inventory-detail-heading small{font-size:10px}
@@ -22,17 +22,18 @@
 .inventory-management .inventory-target-grid small{font-size:9px;line-height:12px}
 .inventory-management .stat-table-heading{margin:6px 0 4px}
 .inventory-management .inventory-storage-target{display:flex;align-items:center;margin:6px 0;gap:6px;white-space:nowrap}
-.inventory-management .inventory-storage-target>select{flex:1;min-width:0;width:auto;height:26px;margin:0;padding:3px 5px;font-size:11px}
+.window-body .inventory-management .inventory-storage-target>select{flex:1;min-width:0;width:auto;height:26px;margin:0;padding:3px 5px;font-size:11px}
 .inventory-management .inventory-use-preview{margin:8px 0;padding:6px 8px;gap:8px;font-size:11px;border-radius:2px}
 .inventory-management .inventory-capture-note,.inventory-management .inventory-capture-preview{margin:8px 0;padding:8px;border-radius:2px}
 .inventory-management .inventory-battle-hint{padding:3px 8px;font-size:10px}
 .inventory-management .management-pagination{padding:3px 7px;font-size:10px;min-height:24px}
 .inventory-management .management-pagination button{padding:2px 7px;font-size:16px}
 .inventory-management .inventory-save-strip{padding:3px 7px;justify-content:flex-end;border-top:1px solid #92bbd3}
-.inventory-management .inventory-save-strip button{padding:2px 5px;border:0;background:none;box-shadow:none;color:#2a688d;font-size:10px}
+/* div. outranks the kit's .management-panel button:hover (0,2,1) and stays below its :active (0,3,1). */
+.inventory-management div.inventory-save-strip button{padding:2px 5px;border:0;background:none;box-shadow:none;color:#2a688d;font-size:10px}
 .inventory-management .management-confirm-row{margin-top:8px;padding-top:8px;gap:6px;flex-wrap:wrap}
 .inventory-management .management-confirm-row>button{margin-left:auto;padding:5px 10px;font-size:11px}
 @container item-inventory (max-width:520px){
   .inventory-management .inventory-inner{grid-template-columns:minmax(165px,1fr) minmax(180px,1fr)}
-  .inventory-management .inventory-detail-scroll{padding:8px}
+  .management-panel.inventory-management .inventory-detail-scroll{padding:8px}
 }

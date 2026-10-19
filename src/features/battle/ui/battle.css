@@ -304,7 +304,7 @@
 .classic-command-tabs .command-battle{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .classic-skill.category-属性,.classic-skill.category-特殊{background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;border:0}
 .classic-skill.category-属性:hover:not(:disabled),.classic-skill.category-特殊:hover:not(:disabled){background:#0754a5 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat}
-.classic-health .battle-team-count,.classic-health .battle-team-count i{color:#c8ecff}
+.classic-health .battle-team-strip>.battle-team-count,.classic-health .battle-team-strip>.battle-team-count i{color:#c8ecff}
 
 
 /* Keep all four moves inside their original SVG frames, including narrow and zoomed views.

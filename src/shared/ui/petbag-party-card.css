@@ -1,10 +1,11 @@
 /* Dedicated party-slot presentation; other MonsterCard callers keep their layout. */
-.official-petbag .petbag-party-strip button.petbag-party-card{position:relative;isolation:isolate;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:2px;width:100%;height:100%;min-width:0;min-height:0;padding:7px 6px 5px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:hidden;color:#fff;text-align:center;transform:none}
+/* div. keeps the cards above the kit's pressed .management-panel button:active (0,3,1). */
+.official-petbag div.petbag-party-strip button.petbag-party-card{position:relative;isolation:isolate;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:2px;width:100%;height:100%;min-width:0;min-height:0;padding:7px 6px 5px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:hidden;color:#fff;text-align:center;transform:none}
 /* Stretch the source window's center, keeping the existing portrait stage unchanged. */
 .official-petbag .petbag-party-card::before,.official-petbag .petbag-empty-slot::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:5px 4px 3px;border-image:url('/ui/classic/hd/petbag-slot.svg') 18.867925% 16.315789% 22.641509% 18.421053% fill / 5px 4px 3px 4px / 0 stretch}
-.official-petbag .petbag-party-strip .petbag-empty-slot{position:relative;isolation:isolate;background:transparent}
-.official-petbag .petbag-party-strip button.petbag-party-card:is(:hover,:focus-visible,.selected){background:transparent;border:0;box-shadow:none;transform:none;filter:drop-shadow(0 0 3px #ffe36c)}
-.official-petbag .petbag-party-strip button.petbag-party-card:focus-visible{outline:2px solid #ffe36c;outline-offset:-2px}
+.official-petbag div.petbag-party-strip .petbag-empty-slot{position:relative;isolation:isolate;background:transparent}
+.official-petbag div.petbag-party-strip button.petbag-party-card:is(:hover,:focus-visible,.selected){background:transparent;border:0;box-shadow:none;transform:none;filter:drop-shadow(0 0 3px #ffe36c)}
+.official-petbag div.petbag-party-strip button.petbag-party-card:focus-visible{outline:2px solid #ffe36c;outline-offset:-2px}
 .petbag-party-card .petbag-party-number{position:absolute;top:5px;left:7px;z-index:1;font-size:9px;line-height:1;color:#b6eaff;text-shadow:0 1px #083464}
 .petbag-party-card .petbag-party-level{position:absolute;top:5px;right:7px;z-index:1;font-size:9px;line-height:1;color:#dff4ff;text-shadow:0 1px #083464}
 .petbag-party-card .petbag-party-art{position:relative;container-type:size;width:100%;height:100%;min-height:0;overflow:visible}
