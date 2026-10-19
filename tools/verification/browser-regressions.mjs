@@ -8,6 +8,7 @@
  */
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
 import {BOOT_TIMEOUT_MS, buildApp, openGame, withBrowser} from './_browser.mjs';
 
@@ -119,6 +120,12 @@ async function walks(page) {
   }
   return false;
 }
+/** Opens the modifier from the settings window, which closes as the modifier opens. */
+async function openModifier(page, fixture) {
+  await openTool(page, tool(fixture, 'settings'));
+  await page.click('.scene-window button:text-is("修改器")');
+  await page.waitForSelector('.modifier-dialog');
+}
 /** Opens the world dialogue of the first wild creature (the robot walks up to it). */
 async function talkToCreature(page) {
   await page.locator('.world-roamer').first().evaluate(element => element.click());
@@ -150,9 +157,7 @@ async function arrowsBehindCovers({page, fixture}) {
     assert.deepEqual(await arrowTrail(page), Array(4).fill(before), `the arrows walked the robot behind ${entry.title}`);
     await closeWindow(page, entry.title);
   }
-  await openTool(page, tool(fixture, 'settings'));
-  await page.click('.scene-window button:text-is("修改器")');
-  await page.waitForSelector('.modifier-dialog');
+  await openModifier(page, fixture);
   const before = await robot(page);
   assert.deepEqual(await arrowTrail(page), Array(4).fill(before), 'the arrows walked the robot behind the modifier');
   // The dialog itself takes the focus when its body is clicked; its form fields swallow the arrows anyway.
@@ -181,16 +186,19 @@ async function arrowsBehindCampaign({page, fixture}) {
   assert(await walks(page), 'the arrows do not walk the robot after leaving the campaign stage scene');
 }
 
-async function inertScene({page, fixture}) {
-  await waitWorld(page);
-  const layer = '.exploration-layer';
-  assert(await tabStopsInside(page, layer, 'Tab', 12) > 0, 'without a window, Tab must reach the scene (the control case)');
-  const quests = tool(fixture, 'quests');
-  await openTool(page, quests);
-  const reached = await tabStopsInside(page, layer, 'Tab', 30) + await tabStopsInside(page, layer, 'Shift+Tab', 30);
-  assert.equal(reached, 0, `Tab reached the scene behind the window ${reached} times`);
+const EXPLORATION_LAYER = '.exploration-layer';
+/** What Enter on an exit or a creature would change: an open dialogue, the scene, the robot, the windows or the modifier. */
+const sceneState = async page => ({
+  dialogues: await count(page, '.world-dialogue'), scene: await page.$eval('.world-scene', element => element.getAttribute('aria-label')),
+  robot: await robot(page), windows: await windows(page), modifier: await count(page, '.modifier-dialog'),
+});
+
+/** Behind the open `cover`, Tab cannot reach the scene, and Enter on an exit or a creature focused from script changes nothing. */
+async function assertInertBehind(page, cover) {
+  const reached = await tabStopsInside(page, EXPLORATION_LAYER, 'Tab', 30) + await tabStopsInside(page, EXPLORATION_LAYER, 'Shift+Tab', 30);
+  assert.equal(reached, 0, `Tab reached the scene behind ${cover} ${reached} times`);
   for (const contact of ['.world-gate', '.world-roamer']) {
-    const scene = await page.$eval('.world-scene', element => element.getAttribute('aria-label')), before = await robot(page);
+    const before = await sceneState(page);
     // Focus the contact from script, as the keyboard would if it could reach it, and press Enter.
     const focused = await page.evaluate(selector => {
       document.activeElement?.blur?.();
@@ -200,12 +208,21 @@ async function inertScene({page, fixture}) {
     }, contact);
     assert.notEqual(focused, null, `the scene has no ${contact}`);
     await press(page, ['Enter']);
-    assert.equal(await count(page, '.world-dialogue'), 0, `Enter on ${contact} opened a dialogue behind the window`);
-    assert.equal(await page.$eval('.world-scene', element => element.getAttribute('aria-label')), scene, `Enter on ${contact} left the scene`);
-    assert.equal(await robot(page), before, `Enter on ${contact} walked the robot`);
-    assert.deepEqual(await windows(page), [quests.title], `Enter on ${contact} changed the window`);
-    assert.equal(focused, false, `${contact} took the focus behind the window`);
+    const after = await sceneState(page), changed = Object.keys(before).filter(key => !isDeepStrictEqual(after[key], before[key]));
+    assert.deepEqual(changed, [], `Enter on ${contact} behind ${cover} changed the ${changed.join(', ')}`);
+    assert.equal(focused, false, `${contact} took the focus behind ${cover}`);
   }
+}
+
+async function inertScene({page, fixture}) {
+  await waitWorld(page);
+  assert(await tabStopsInside(page, EXPLORATION_LAYER, 'Tab', 12) > 0, 'without a window, Tab must reach the scene (the control case)');
+  const quests = tool(fixture, 'quests');
+  await openTool(page, quests);
+  await assertInertBehind(page, `the ${quests.title} window`);
+  await closeWindow(page, quests.title);
+  await openModifier(page, fixture);
+  await assertInertBehind(page, 'the modifier');
 }
 
 async function dialogueEscape({page}) {
@@ -330,7 +347,7 @@ const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
   {name: 'the arrows do not walk the robot behind a window or the modifier, and walk again after closing', run: arrowsBehindCovers},
   {name: 'the arrows do not walk the hidden robot during a campaign stage scene, and walk again after leaving it', run: arrowsBehindCampaign},
-  {name: 'the scene is inert behind a window: Tab cannot reach exits or creatures, and Enter does not use them', run: inertScene},
+  {name: 'the scene is inert behind a window and the modifier: Tab cannot reach exits or creatures, and Enter does not use them', run: inertScene},
   {name: 'the world dialogue closes on Escape with the focus on any of its buttons', run: dialogueEscape},
   {name: 'Escape closes an item tooltip, then the engraving slot picker, then the window', save: 'raised', run: nestedEscape},
   {name: 'an item tile opens its tooltip on keyboard focus, not on the focus a click gives', run: tooltipFocus},
