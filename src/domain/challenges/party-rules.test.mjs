@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {validateEncounter} from '../../../battle/core/src/index.ts';
-import {partyRefusalText, partyRuleTexts} from './party-rules.ts';
+import {partyRefusalText, partyRuleTexts, teamRuleText} from './party-rules.ts';
 
 const names = {70: '雷伊', 72: '盖亚'};
 const speciesName = id => names[id];
@@ -16,6 +16,7 @@ test('every party rule kind is stated before the start', () => {
     '只能派 2 只精灵出战。', '至少要派 1 只精灵出战。', '出战精灵等级至少 30 级。', '出战精灵等级不超过 60 级。', '只能派雷伊或盖亚出战。',
   ]);
   assert.deepEqual(partyRuleTexts({rules: [{rule: 'no_items'}]}, speciesName), []);
+  assert.equal(teamRuleText({kind: 'level_min', level: 30}), '出战精灵等级至少 30 级。', 'campaign stages word their minimum level the same way');
 });
 
 test('the refusal names each broken rule with what the team has against it, then where to adjust it', () => {

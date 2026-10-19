@@ -4,6 +4,7 @@ import type { CampaignStageView, CampaignView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
+import {teamRuleText} from '../../../domain/challenges/party-rules.ts';
 import './challenge-campaign-scene.css';
 
 export interface ChallengeCampaignSceneProps {
@@ -35,7 +36,11 @@ export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, 
         {stage ? <><div className="campaign-detail-title"><span>第 {stageIndex + 1} 关{stage.kind === 'chain' ? ' · 连续挑战' : ''}</span><h3>{stage.name}</h3><p>{stage.description}</p></div>
           <div className="campaign-opponents"><h4>{stage.opponents.length > 1 ? '依次迎战' : '本关对手'}</h4><ol>{stage.opponents.map((opponent, index) => <li key={`${index}-${opponent.species}`}><span className="campaign-opponent-order">{index + 1}</span><div className="campaign-opponent-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></li>)}</ol></div>
           <BossEvidence evidence={stage.evidence}/>
-          {(requirement || stage.minLevel || stage.carry || campaign.resetOnLoss) && <div className="campaign-stage-rules"><h4>挑战条件</h4>{requirement && <div className="campaign-required-creature"><div><CreatureArt species={requirement} name="指定出战精灵"/></div><span>只派自己的{stage.requiredSpeciesName}出战</span></div>}{stage.minLevel && <p>出战精灵等级至少 {stage.minLevel} 级。</p>}{stage.carry && <p>本关连续战斗保留体力、PP 与异常状态。</p>}{campaign.resetOnLoss && <p>挑战失败后需要从第一关重新开始。</p>}</div>}
+          {(requirement || stage.minLevel || stage.carry || campaign.resetOnLoss) && <div className="campaign-stage-rules"><h4>挑战条件</h4>
+            {requirement && <div className="campaign-required-creature"><div><CreatureArt species={requirement} name="指定出战精灵"/></div>
+              <span>只派自己的{stage.requiredSpeciesName}出战</span></div>}
+            {stage.minLevel && <p>{teamRuleText({kind: 'level_min', level: stage.minLevel})}</p>}
+            {stage.carry && <p>本关连续战斗保留体力、PP 与异常状态。</p>}{campaign.resetOnLoss && <p>挑战失败后需要从第一关重新开始。</p>}</div>}
           <div className="campaign-stage-reward"><span aria-hidden="true">✦</span><div><h4>关卡奖励</h4><p>{stage.rewardText || '完成本关，继续挑战后续关卡。'}</p></div></div>
           {stage.blockedReason && <p className="campaign-blocked-reason" role="status">{stage.blockedReason}</p>}
           {!stage.available && !stage.blockedReason && !stage.cleared && <p className="campaign-blocked-reason">先完成前面的关卡，才能开启本关。</p>}
