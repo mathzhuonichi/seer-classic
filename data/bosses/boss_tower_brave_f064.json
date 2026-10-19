@@ -106,7 +106,7 @@
     "zh": "寄生+护体先，能量+金光后，丽莎单过；绝对不可以跟第二只耗，它回合数超过8以后次次暴击"
   },
   "engine_notes": [
-    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "always_crit_after_turn: 查尔顿 (team[1]) crits on every hit once the battle passes 8 turns (它回合数超过8以后次次暴击).",
     "Identification: team[2] 米洛隆 is not a known species name; 米洛尼 (236, 地面) is a guess."

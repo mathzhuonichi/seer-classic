@@ -103,7 +103,7 @@
     "zh": "魔焰猩猩觉醒后打宾尼纳拉，镰鸟靠雷伊，最后丽莎"
   },
   "engine_notes": [
-    "Part of chain data/bosses/chains/tower_brave.json: floors are fought in order with no healing between floors; a lost battle sends the player back to floor 1 (restart_on_loss). Fleeing a floor did not reset progress (4399: 只剩一只精灵时除非胜券在握，最好逃跑).",
+    "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "heal_full_below {pct:20, member}: 61层以上的草系1/5血以下的时候会回满Hp (聚侠). Applies only to the grass-type member(s) listed by index; the engine's heal_full_below needs a per-member form.",
     "Identification: team[2] 艾斯帕 is not a known species name; 艾斯菲格 (418, 超能) is a guess."

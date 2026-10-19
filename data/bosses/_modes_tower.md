@@ -1,7 +1,8 @@
 # Pre-2013 repeatable PvE ladders (category `tower`)
 
 These are the original rules of the Flash-era (2009–2012) challenge ladders, gathered for the remake's tower
-and arena encounters. Encounter files are in `data/bosses/`. Chains are in `data/bosses/chains/`.
+and arena encounters. Encounter files are in `data/bosses/`; the remake's tower progression rules are in
+`src/domain/challenges/brave-tower.ts`.
 
 Sources were read through a summarising web fetcher, so short Chinese quotes may be slightly paraphrased.
 Where a value was estimated, the encounter file lists it in `confidence.uncertain` and explains it in
@@ -9,7 +10,7 @@ Where a value was estimated, the encounter file lists it in `confidence.uncertai
 
 ## 1. 勇者之塔 (Tower of the Brave)
 
-**Files:** `boss_tower_brave_f001` … `f070`, `boss_tower_brave_mystery`, `chains/tower_brave.json`
+**Files:** `boss_tower_brave_f001` … `f070`, `boss_tower_brave_mystery`
 
 | item | original rule | source |
 |---|---|---|
@@ -23,23 +24,33 @@ Where a value was estimated, the encounter file lists it in `confidence.uncertai
 | Reset | No daily limit or weekly reset is recorded for the Flash tower. The only reset rule found is that a loss sends you back to 1F. Whether floor rewards could be collected again on a second climb is not stated. | — |
 | 神秘领域 | You need six Lv100 pets to enter (需要带上6只100级精灵才能进入). The enemy is a ???-level 谱尼 (圣光系), and there is **no reward**. This is the early 神秘领域 fight. The 谱尼 seal and capture line written by another worker starts from the same place. | 4399 2010-04-13 |
 
+**Remake progression (V53/V54).** The remake keeps the in-order climb but not the 2010 loss rule. Clearing
+floors 10, 20, … unlocks the starting points 1, 11, …, 61. A loss, retreat or cancelled load keeps the attempted
+floor, and the party may recover between floors. The floor-30 suit and the 60F and 70F essences are granted on the
+first clear. See [station-tower-v53](../../design/notes/station-tower-v53.md) and
+[tower-floor-flow-v54](../../design/notes/tower-floor-flow-v54.md).
+
 Notable floor rules encoded in the files:
 - **50F 水晶鸭**: below 100 HP it refills to 900 (`heal_full_below {hp:100}`).
 - **60F 洛比特/艾迪希洛/肯扎特**: each takes damage only from its own type, 普通系 skills and 属性 skills (classic answer: 同生共死). Encoded as script `damage_only_from_own_type_normal_or_status`.
-- **61F+ grass types** fully heal once below 1/5 HP. Encoded as per-member `heal_full_below {pct:20, member}`.
+- **61F+ grass types** fully heal whenever they drop below 1/5 HP; the source sets no limit. Encoded as per-member
+  `heal_full_below {pct:20, member}` without `times`, on 62F, 65F, 69F and 70F.
 - **64F 查尔顿** crits every hit after turn 8. Encoded as script `always_crit_after_turn`.
+- **66F 闪光尼尔** knows only 念力射线, the one psychic move of its learnset (闪尼只会超能技能).
 - **70F 橡木蝶** heals 200 per turn. Encoded as per-member `heal_each_turn {amount:200}`.
 - Several floors were classically won by draining the boss's PP (34F 急冻兽, 40F 布林克斯 月光闪, 41F 派鲁基达). PP is finite on every floor.
 
 Gaps:
 - HP is unpublished for floors 1–60, except 50F (900) and 57F 艾斯菲亚 (750). Floors 1–30 use the stat formula. Floors 31–49 are estimated at 600, and floors 51–60 at 750.
-- Floors 66–68 are only partly named.
-- 69F is a **placeholder** (`"placeholder": true`, empty team), because no source names its monsters.
+- Floors 66–68 are only partly named, and their unidentified opponents are omitted: 66F fields three of its four
+  enemies, and 67F (SRX) and 68F (嘟噜噜王) one each.
+- No source names the monsters of 69F. The remake fields the four floor-70 species at Lv310 with 1550 HP as a
+  labelled substitute (`remake_note`), including 橡木蝶's 61F+ grass heal.
 - In 62F/64F/65F, the names 艾斯帕/米洛隆/利爪蟹 don't match any species. They are mapped to 艾斯菲格 (418), 米洛尼 (236) and 刺爪蟹 (231) as guesses.
 
 ## 2. 暗黑武斗场 — 试炼之门 and 暗黑之门
 
-**Files:** `boss_dark_trial_katesi`, `boss_dark_door1_*` … `boss_dark_door9_*` (21 bosses), `chains/dark_arena.json`
+**Files:** `boss_dark_trial_katesi`, `boss_dark_door1_*` … `boss_dark_door9_*` (21 bosses)
 
 | item | original rule | source |
 |---|---|---|
@@ -49,7 +60,7 @@ Gaps:
 | Line-up | 1: 魔牙鲨 L50 300HP · 2: 贝鲁基德 L60 500 · 3: 巴弗洛 L70 700, 奇拉塔顿 L75 750 · 4: 西萨拉斯 L80 800, 克林卡修 L85 800 · 5: 卡库 L90 900, 赫德卡 L95 950, 伊兰罗尼 L100 1000 · 6: 斯加尔卡 L100 1200, 艾尔伊洛 L100 1500, 布林克克 2000 · 7: 魔花使者 1800, 莫尔加斯 2000, 萨诺拉斯 2000 (all L100) · 8: 帕多尼 ~1600, 加洛德 ~1700, 萨多拉尼 ~1500 · 9: 迪普利德 ~1500, 拜洛亚斯 ~1200, 阿克诺亚 2500 (two lives) | 4399 暗黑武斗场 第1–9门攻略 (2011-05-28/30) |
 | Opened | Gates 1–5 and the 试炼之门 by 2010-02-25. Door 6 on 2010-06-04. Door 7 by 2010-08-25. Door 8 on 2011-02-18. Door 9 around May 2011. Doors 10–12 came later (12 = 暗黑布莱克, nine natures → 暗黑布莱克 精元); they are not in this set, and 布莱克 belongs to the legendary worker. | 7k7k 2010-02-25, 2011-02-17; 4399 2010-06-04, 2010-08-25, 2011-05-30; hly.com z-51403 |
 | Rewards | Each beaten door boss gives its 暗黑精灵's 精元 (通关后获得精元), which hatches the line's first stage, e.g. 魔牙鲨 → 利齿鱼. No reward is recorded for the 试炼之门. | 4399 2010-06-04 |
-| Team / healing | Normal six-pet bag, and switching was allowed (strategies rotate several pets). Sources don't say whether HP carries between a door's layers. The chain leaves `no_heal_between` false and keeps per-boss progress. | 4399 door guides |
+| Team / healing | Normal six-pet bag, and switching was allowed (strategies rotate several pets). Sources don't say whether HP carries between a door's layers. The remake fights each door boss as its own encounter and keeps per-boss progress. | 4399 door guides |
 | Reset | Beaten bosses stay beaten (each 精元 once). No daily cap is recorded. | — |
 
 Notable boss rules encoded in the files:
