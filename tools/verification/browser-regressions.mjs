@@ -1,7 +1,8 @@
 /**
  * Browser regressions: keyboard, focus and clickability behaviours that only a real browser shows, each fixed after the
- * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), and the Boss variant carried from the archive to the dialogue. Status `needs-browser`: it needs a local Google Chrome, and
- * runs every check in Playwright WebKit too when that is installed (otherwise WebKit is reported as skipped).
+ * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), and the Boss variant carried from the archive to the dialogue.
+ * Status `needs-browser`: it needs a local Google Chrome, and runs every check in Playwright WebKit too when that is installed
+ * (otherwise WebKit is reported as skipped).
  *
  * The app is built with Vite and served by request interception (`_browser.mjs`); the saves are built headlessly and seeded into
  * localStorage. Every page is silent. Each entry of CHECKS is one named check in a fresh browser; add new ones there.
