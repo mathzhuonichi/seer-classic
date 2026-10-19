@@ -31,6 +31,9 @@
     {
       "rule": "forced_execution_below_pct",
       "pct": 25
+    },
+    {
+      "rule": "immune_ohko"
     }
   ],
   "win": [
@@ -92,7 +95,8 @@
     "V57 replaces the unquantified damage_scales_with_hp_lost declaration with the explicit below-25% execution policy. No gradual damage multiplier is inferred. All four unrelated waived mechanics are recorded in data/boss-user-policies-v57.json.",
     "Not immune to ohko ops: 极度冰点 and 绝命火焰 were standard answers.",
     "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "One-hit-KO skills (极度冰点) stopped working on it in the 2009-12-30 patch; its own forced execution below 25% is unaffected."
   ],
   "confidence": {
     "level": "medium",

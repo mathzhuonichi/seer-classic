@@ -50,7 +50,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1
+            "atk": 2
           }
         }
       ],
@@ -112,7 +112,7 @@
   "engine_notes": [
     "Berserk: after losing 1/5 of its HP (below 80%) it enters 狂暴状态 and each attack one-shots any pet (ohko_attacks).",
     "Reflect: '有反弹伤害的招式' / '反射盾' — damage reflection; whether always-on or a skill-triggered shield, and the percentage, are not given (always-on 25% assumed).",
-    "Innate boost (先消强化) — stat not stated; atk+1 assumed.",
+    "Innate boost (先消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "Skills not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],

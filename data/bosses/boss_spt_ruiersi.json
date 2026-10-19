@@ -21,10 +21,7 @@
         12453,
         12455
       ],
-      "hp_override": 2000,
-      "stat_multipliers": {
-        "atk": 2.0
-      }
+      "hp_override": 2000
     }
   ],
   "rules": [
@@ -35,6 +32,28 @@
     {
       "rule": "script",
       "id": "ignore_player_damage_reduction"
+    },
+    {
+      "rule": "immune_stage_down"
+    },
+    {
+      "rule": "immune_status_list",
+      "statuses": [
+        "fear",
+        "sleep",
+        "paralysis",
+        "petrify",
+        "confusion"
+      ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "灵魂干涉"
+        ]
+      }
     }
   ],
   "win": [
@@ -43,7 +62,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -81,9 +116,10 @@
   "engine_notes": [
     "Single-pet challenge (仅能使用一只精灵).",
     "ignore_player_damage_reduction: the player's protect/damage-reduction effects (谱尼虚无、希莉娅摇曳、该隐暗影护盾…) do nothing against it.",
-    "攻击力超高，基本可秒杀大部分精灵 — encoded as stat_multipliers atk 2.0 (estimate) on top of its ~2000 HP.",
+    "攻击力超高，基本可秒杀大部分精灵 — its innate boost (天生强化, size not stated) is atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "风林火山 clears its own stat drops, so weakening is pointless.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Control skills (灵魂干涉 and the like) and stage-downs have no effect (its 风林火山 also clears them)."
   ],
   "confidence": {
     "level": "medium",

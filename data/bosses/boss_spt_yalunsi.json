@@ -38,6 +38,18 @@
       "statuses": [
         "leech"
       ]
+    },
+    {
+      "rule": "script",
+      "id": "immune_skill_list",
+      "params": {
+        "skills_zh": [
+          "咆哮震九天",
+          "怨念",
+          "寄生种子",
+          "灵魂干涉"
+        ]
+      }
     }
   ],
   "win": [
@@ -56,7 +68,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "spa": 1
+            "atk": 2
           }
         }
       ],
@@ -94,9 +106,10 @@
   "engine_notes": [
     "drain_each_turn: every turn the player's active pet loses 100 HP and 亚伦斯 heals 100 (每回合从对方吸取100血，回复自身100血).",
     "海洋之心 (percent damage) works; 寄生种子 does not.",
-    "Innate boost (先上来消强化) — stat not stated; spa+1 assumed. 速度非常慢 (spe x0.5 estimate), 攻击很弱.",
+    "Innate boost (先上来消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). 速度非常慢 (spe x0.5 estimate), 攻击很弱.",
     "Skills: the SPT boss form (official monsters.json ID 5012, used by maps.json map 430 'SPT亚伦斯') has the single move 交错冰柱; sina 2011 lists 交错冰柱 and three unknown slots.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Of the stage-down skills only 龙之威仪 works; 咆哮震九天、怨念、寄生种子 and 灵魂干涉 have no effect (one player test)."
   ],
   "confidence": {
     "level": "medium",

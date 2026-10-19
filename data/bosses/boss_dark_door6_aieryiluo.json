@@ -24,7 +24,11 @@
       "hp_override": 1500
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -41,8 +45,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1,
-            "spa": 1
+            "atk": 2
           }
         }
       ],
@@ -82,7 +85,8 @@
   },
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
-    "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+1/spa+1 assumed, clearable."
+    "Innate boost (天生带强化效果, 本来就强化过) — stat and size not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19); clearable.",
+    "Stage-downs have no effect (减攻击、减防御无效; user decision 2026-10-19); its innate boost can still be cleared."
   ],
   "confidence": {
     "level": "high",

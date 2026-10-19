@@ -21,7 +21,24 @@
         10771,
         20289
       ],
-      "hp_override": 1550
+      "hp_override": 1550,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
     },
     {
       "species": 277,
@@ -102,7 +119,8 @@
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "No 61F+ grass full heal here: the sourced line-up (吉娜斯, 尹泰拉多, 迪斯凯特, 沙罗希瓦) has no grass member, so the rule (61层以上的草系1/5血以下的时候会回满Hp, 聚侠) does not apply to this floor.",
     "Identification: four enemies 吉娜斯 (239), 尹泰拉多 (277), 迪斯凯特 (353) and 沙罗希瓦 (280) (4399 2010-06-18 and 2011-06-30; T客邦 2011-01-19 第69層).",
-    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move.",
+    "吉娜斯 (team[0]) starts boosted: from floor 63 the first monster of each floor carries an innate boost (4399 guides; floors 66 and 68 state 攻击+2); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "low",

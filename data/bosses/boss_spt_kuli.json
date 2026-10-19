@@ -26,12 +26,12 @@
   ],
   "rules": [
     {
-      "rule": "script",
-      "id": "random_heal",
-      "params": {
-        "chance": 20,
-        "pct_max_hp": 10
-      }
+      "rule": "immune_status_list",
+      "statuses": [
+        "burn",
+        "freeze",
+        "poison"
+      ]
     }
   ],
   "win": [
@@ -88,7 +88,8 @@
   "engine_notes": [
     "random_heal: 'has a chance to heal' (有几率回血) — chance and amount not given (20% / 10% max HP are placeholders). Its 星光奔腾击 already has 15% to heal 1/4 HP; the 'chance to heal' may simply be that effect.",
     "海洋之心 works (used in the reference strategy).",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to 烧伤、冻伤、中毒; 海洋之心 and 惩戒之光 work. Its healing is the 15% quarter-HP heal of 星光奔腾击 (13292), not a separate trait (4399 2012-11-07)."
   ],
   "confidence": {
     "level": "medium",

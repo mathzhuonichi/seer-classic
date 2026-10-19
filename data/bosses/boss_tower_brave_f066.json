@@ -21,7 +21,24 @@
         10038,
         20017
       ],
-      "hp_override": 1400
+      "hp_override": 1400,
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
     },
     {
       "species": 79,
@@ -119,7 +136,8 @@
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "Identification: four enemies 波克尔 (12), 艾斯菲亚 (79), 闪光波克尔 (166) and 闪光艾菲亚 (312) (4399 2010-06-23 and 2010-06-30; T客邦 2011-01-19 第66層); the guides' 皮皮/尼尔/闪P/闪尼 are nicknames for them.",
     "skills: 闪光艾菲亚 (team[3]) knows only psychic moves, its four highest-level psychic attacks (4399 2010-10-10: 闪尼只会超能技能).",
-    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move.",
+    "波克尔 (team[0]) starts boosted: from floor 63 the first monster of each floor carries an innate boost (4399 guides; floors 66 and 68 state 攻击+2); atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
   ],
   "confidence": {
     "level": "low",

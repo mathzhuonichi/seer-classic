@@ -75,7 +75,23 @@
         "zh": "电系分身"
       },
       "member_rules": [],
-      "member_phases": []
+      "member_phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
+        }
+      ]
     }
   ],
   "rules": [],
@@ -103,7 +119,8 @@
   },
   "engine_notes": [
     "Avatar HP 3000 (fighting) and 2500 (electric) are from 4399 2011-03-11. Lv105 and both four-move loadouts are the official boss forms 2513-2516 (2013 PetXMLInfo, seer_data monsters.json). Fighting then electric order is source-backed. The fighting avatar adds one priority step, as the March 2011 guide states, rather than using an absolute-first override.",
-    "The original fought each avatar as a separate single-boss battle (first stage, then the strengthened second stage); the remake keeps one two-member team."
+    "The original fought each avatar as a separate single-boss battle (first stage, then the strengthened second stage); the remake keeps one two-member team.",
+    "电虎 starts with an innate atk+2 (天生攻击+2, 2013 retrospective)."
   ],
   "confidence": {
     "level": "medium",

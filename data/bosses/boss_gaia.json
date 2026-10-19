@@ -41,7 +41,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1
+            "atk": 2
           }
         }
       ],
@@ -135,7 +135,7 @@
     "Three weekday objectives become variants the player picks (no real-time clock). The top-level win is plain ko_all for a free practice fight (practice_fight), which keeps no attempt or clear record; the 精元 is granted only when a variant's objectives are met.",
     "ko_after_turn {turns:10}: KOing 盖亚 before turn 10 ends the battle as a failure (提前击败无法获得精元). Counts 10 of its turns/attacks.",
     "turn_limit {turns:2} as a win objective = won within 2 turns.",
-    "Innate boost (天生强化，需消除) — stat and amount not stated; atk+1 assumed.",
+    "Innate boost (天生强化，需消除) — stat and amount not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "Level not given in any source found; 70 is an estimate (2010 帕诺星系 legendaries).",
     "Hourly windows (13:00/20:00 30 min) are dropped per foundation 7.2.",
     "reward_hatches 260: 盖亚精元 hatches the initial form 提坦 at Lv1, which evolves into 盖亚 at Lv31, as the original 分子转化器 hatched the base form of every essence line (the earlier binding hatched a Lv1 盖亚)."

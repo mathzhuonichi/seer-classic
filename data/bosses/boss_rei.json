@@ -53,8 +53,7 @@
           "op": "stat_stage",
           "target": "self",
           "stats": {
-            "atk": 1,
-            "spe": 1
+            "atk": 2
           }
         }
       ],
@@ -95,7 +94,7 @@
     "高miss率 comes from its 电闪光 (speed -1, accuracy -1) — no separate rule.",
     "heal_full_below 100: 7k7k 2011 boss guide says '血低于100会补满血' — the last hit must take it from ≥100 HP to 0.",
     "Level: 7k7k 2011 says it started at 55 and was raised by 5 each time it returned, 70 at the time of writing; 70 used.",
-    "Innate boost stats not stated; atk+1 spe+1 assumed (it must be cleared with 叶绿光束 / 日月皆伤 style moves).",
+    "Innate boost stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (it must be cleared with 叶绿光束 / 日月皆伤 style moves).",
     "Weekday-only reward (Fri–Sun, 2011) dropped per foundation 7.2.",
     "Skills 瞬雷天闪/极电千鸟/电闪光/白光刃 are the Lv70 list named by 7k7k 2011-03-16 and 4399 2011-09-28; they replace 雷雨天, which only a 2022 list of the Lv55 boss gave."
   ],
