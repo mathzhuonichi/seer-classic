@@ -1,6 +1,6 @@
 /* Keep task navigation visible while a bounded set of cards scrolls. */
 .scene-window.compact:has(.quest-panel){height:min(650px,calc(100% - 24px))}
-.scene-window:has(.quest-panel) .window-body{overflow:hidden;display:flex;flex-direction:column}
+.scene-window:has(.quest-panel) .window-body{display:flex;flex-direction:column}
 .quest-panel{display:flex;flex-direction:column;height:100%;min-height:0;flex:1}
 .quest-tabs{display:flex;align-items:center;flex-wrap:wrap;flex-shrink:0;gap:6px;margin:0 0 9px}
 .quest-tabs button{padding:6px 10px;font-size:12px}
