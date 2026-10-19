@@ -5,7 +5,6 @@ import {
   BRAVE_TOWER_FLOORS, braveTowerCheckpoints, braveTowerFloor, braveTowerPosition, braveTowerRewards, type BraveTowerRewardSource,
 } from '../../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS, type Campaign, type CampaignStage } from '../../domain/challenges/challenge-campaigns.ts';
-import { buildBossEncounterEvidence, mergeBossEvidence } from '../../domain/challenges/boss-evidence.ts';
 import type { BraveTowerView, CampaignStageView, CampaignView } from '../../shared/views.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import { encounterHonors, learnSkillLabel, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
@@ -36,7 +35,7 @@ export function stageRequirement(ctx: GameContext, save: GameSave, stage: Campai
 
 type StageParts = Omit<CampaignStageView, 'cleared' | 'available' | 'blockedReason'>;
 
-/** The parts of a stage view that only the catalogue decides: its opponents, their evidence and the reward. */
+/** The parts of a stage view that only the catalogue decides: its opponents and the reward. */
 function stageParts(ctx: GameContext, campaign: Campaign, index: number): StageParts {
   const stage = campaign.stages[index], encounters = stage.bossIds.map(id => ctx.bosses.find(boss => boss.id === id));
   const reward = encounters[0]?.reward as { learn_skill?: { species: number; skill: number } } | undefined;
@@ -45,7 +44,6 @@ function stageParts(ctx: GameContext, campaign: Campaign, index: number): StageP
       : '完成本阶段，开启下一项挑战';
   return {
     ...stage, requiredSpeciesName: stage.requiredSpecies ? ctx.speciesName(stage.requiredSpecies) : undefined, rewardText,
-    evidence: mergeBossEvidence(encounters.map(encounter => encounter ? buildBossEncounterEvidence(encounter) : undefined)),
     opponents: encounters.flatMap(encounter => encounter ? opponentViews(ctx, encounter) : []),
   };
 }

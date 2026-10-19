@@ -147,6 +147,8 @@ export interface AiSpec {
 export interface BossTeamMember extends MonsterInput {
   hp_override?: number;
   stat_multipliers?: Partial<Record<StatKey, number>>;
+  /** Display only: the original battle showed this member's level as ?? although it is within the level cap (迪符特). */
+  level_masked?: boolean;
 }
 
 /** An encounter variant chosen by the player: extra rules, extra phases, and its own objectives. */

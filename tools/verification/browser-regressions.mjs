@@ -394,7 +394,6 @@ async function variantChoice({page, fixture}, {boss, label, caption: named}) {
 const size = ({width, height}) => `${width}x${height}`;
 /** The styling fixes of the 2026-10-18 D-styles unit (_layout-checks.mjs); the narrow ones run at both container layouts. */
 const LAYOUT_CHECKS = [
-  {name: 'the Boss evidence button in the battle caption is the hit target at its centre and opens the evidence dialog', run: layout.evidenceButton},
   {name: 'the battle result title is clear of the record panel, also once the record is opened', save: 'raised', run: layout.resultTitle},
   ...layout.NARROW_VIEWPORTS.slice(0, 1).map(viewport => ({
     name: `the battle result title is clear of the record panel, also once the record is opened, at ${size(viewport)}`,

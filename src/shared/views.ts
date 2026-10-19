@@ -20,14 +20,15 @@ export interface EngravingView {
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }
 export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices:EvolutionChoiceView[]; gender: 0 | 1 | 2; generation: number; boosts: BoostView[] }
-export type BossEvidenceStatus='official'|'observed'|'inferred'|'authored';
-export interface BossEvidenceView {displayLevelUnknown?:boolean;sourceUrls?:string[];hasInferredStats:boolean;hasInferredLevel:boolean;incompleteRules?:number;fields:{key:string;label:string;value:string;status:BossEvidenceStatus}[];limitations:string[]}
-export interface EncounterOpponentView {species:number;name:string;level:number;evidence?:BossEvidenceView}
+/** `levelMasked`: the original showed this opponent's level as ?? although it is within the level cap. */
+export interface EncounterOpponentView {species:number;name:string;level:number;levelMasked?:boolean}
 /** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */
 export type ChallengeCategoryId = 'spt' | 'legendary' | 'tower' | 'dark' | 'quest' | 'trainer';
 export interface BossView {
   category: ChallengeCategoryId; id: string; name: string; description: string; location?: string; level: number; species: number;
-  cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; evidence?: BossEvidenceView;
+  cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[];
+  /** The original showed `level`, the first opponent's, as ?? although it is within the level cap. */
+  levelMasked?: boolean;
   /** What a win pays besides the victory coins and pooled experience, derived from the encounter's reward. */
   rewardText?: string;
   /** A Brave Tower side challenge, offered on the Tower panel beside the climb (it is open from the start). */
@@ -60,7 +61,14 @@ export interface BattleFacilityOpponentView {species:number;name:string;level:nu
 export interface BattleFacilityTeamView {id:string;name:string;description:string;groupId?:string;opponents:BattleFacilityOpponentView[]}
 export interface BattleFacilityView { id: string; name: string; description: string; opponentCount: 6; level: 100; poolSize?: number; groups?:BattleFacilityGroupView[];teams?:BattleFacilityTeamView[] }
 export interface SpeciesView { id: number; name: string; types: string[]; baseStats: StatBlock; portrait: string; owned: boolean; wildCapture?: boolean }
-export interface BattleMonsterView { uid: string; slot?: number; name: string; species: number; appearanceSpecies?:number; level: number; hp: number; maxHp: number; fainted: boolean; types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number>; evidence?:BossEvidenceView; /** Trainer foes: hp and maxHp hold only the bar ratio on a 0–100 scale. */ hpHidden?: boolean }
+export interface BattleMonsterView {
+  uid: string; slot?: number; name: string; species: number; appearanceSpecies?:number; level: number; hp: number; maxHp: number; fainted: boolean;
+  types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number>;
+  /** An encounter opponent whose level the original showed as ?? although it is within the level cap. */
+  levelMasked?: boolean;
+  /** Trainer foes: hp and maxHp hold only the bar ratio on a 0–100 scale. */
+  hpHidden?: boolean;
+}
 export interface BattlePresentationFrame {
   id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
@@ -89,7 +97,11 @@ export interface QuestView {
   prerequisites?: readonly QuestPrerequisiteView[]; rewardItemId?: string; rewardHeld?: boolean;
   repeatable?: boolean; claimCount?: number; allowance?: AcquisitionAllowance;
 }
-export interface CampaignStageView { id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean; requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string; blockedReason?: string; evidence?:BossEvidenceView }
+export interface CampaignStageView {
+  id: string; name: string; bossIds: string[]; description: string; kind: 'battle' | 'chain'; cleared: boolean; available: boolean;
+  requiredSpecies?: number; requiredSpeciesName?: string; minLevel?: number; carry?: boolean; opponents: EncounterOpponentView[]; rewardText: string;
+  blockedReason?: string;
+}
 export interface CampaignView {
   id: string; name: string; species: number; speciesName: string; location: string; stages: CampaignStageView[];
   /** The current stage's instruction: the next stage's, or the last stage's once every stage is cleared. */

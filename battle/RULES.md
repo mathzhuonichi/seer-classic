@@ -255,7 +255,7 @@ coins and pooled experience. [chosen]
 ## 10. PvE bosses
 
 A boss encounter (`data/bosses/*.json`, shape `BossEncounter` in `core/src/types.ts`) builds side 1
-from `team` (`hp_override`, `stat_multipliers` per member) and adds rules,
+from `team` (`hp_override`, `stat_multipliers` per member; `level_masked` only shows the level as ??) and adds rules,
 phases, objectives and AI. `validateEncounter` checks the player team first: `partyRules`
 reads the encounter's rules on the player's team as `PartyRule`s (`team_max`, `team_min`,
 `level_max`, `level_min`, `species`), and each rule the team breaks comes back as a

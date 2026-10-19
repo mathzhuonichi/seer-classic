@@ -4,7 +4,6 @@ import type { BossView, ChallengeCategoryId } from '../../../shared/views.ts';
 import {findChallengeLocation,resolveWorldLocation} from '../../../domain/world/world.ts';
 import {PARTY_MAX} from '../../../../raising/core/storage.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
-import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import BossVariantChoice,{defaultVariant} from '../../../shared/ui/BossVariantChoice.tsx';
 import {usePager} from '../../../shared/ui/use-pager.ts';
 import {useGame} from '../../../shared/ui/use-game.ts';
@@ -57,7 +56,6 @@ export default function ChallengeCenter({c,initialCategory,onExplore,onTravel,on
     </aside><div className="challenge-entry-scroll">{honorsOpen?<HonorRoll honors={honors} onClose={()=>setHonorsOpen(false)}/>:boss&&detail?<>
       <div className="challenge-entry-hero"><div className="challenge-entry-art"><CreatureArt species={boss.species} name={boss.name}/></div>
       <div className="dex-entry-title"><small>{detail.subtitle}</small><h3>{boss.name}</h3><span className="type-tag">{detail.status}</span></div></div>
-      {!boss.tower&&<BossEvidence evidence={boss.evidence}/>}
       {boss.category==='trainer'&&!!boss.opponents?.length&&<section className="trainer-roster" aria-label="训练师队伍"><strong>对方阵容 · {boss.opponents.length} 只精灵</strong><div>{boss.opponents.map((opponent,index)=><article key={`${index}-${opponent.species}`}><div className="trainer-roster-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></article>)}</div></section>}
       <div className="challenge-description"><strong>挑战地点</strong><p>{campaign?.location??landingName}</p><p>{detail.instruction}</p></div>
       {!!detail.rules.length&&<div className="challenge-description"><strong>挑战条件</strong>{detail.rules.map(rule=><p key={rule}>{rule}</p>)}</div>}

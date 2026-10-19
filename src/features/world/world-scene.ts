@@ -1,5 +1,5 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
-import type { BossEvidenceView, BossView, CampaignView, EncounterOpponentView, EncounterVariantView, QuestView, SpeciesView } from '../../shared/views.ts';
+import type { BossView, CampaignView, EncounterOpponentView, EncounterVariantView, QuestView, SpeciesView } from '../../shared/views.ts';
 import { CHALLENGE_CATEGORY, campaignContactWording } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
@@ -128,7 +128,6 @@ export interface WorldDialogueView {
   /** The 详情 button opens this species' encyclopedia entry instead of toggling the detail. */
   dexSpecies?: number;
   towerTeam?: { floor: number; opponents: { species: number; name: string; level: string }[] };
-  evidence?: BossEvidenceView;
   /** A Boss's rules on the player's team, stated before the start. */
   partyRuleTexts?: string[];
   /** A Boss's variants, one of which the player picks before the start, and whether a practice fight is offered without one. */
@@ -200,7 +199,7 @@ function bossDialogue(scene: WorldSceneView, boss: BossView): WorldDialogueView 
   return {
     label: `与${name}交谈`, portrait: { species: boss.species, name }, title: name, text,
     kicker: tower ? scene.name : `${CHALLENGE_CATEGORY[boss.category]}${staging ? ' · 挑战接驳' : ''}`,
-    detail: boss.description, dexSpecies: boss.species, evidence: boss.evidence, facilityActions: [],
+    detail: boss.description, dexSpecies: boss.species, facilityActions: [],
     towerTeam: tower && { floor: tower.floor,
       opponents: tower.opponents.map(opponent => ({ species: opponent.species, name: opponent.name, level: opponentLevelText(opponent) })) },
     partyRuleTexts: boss.partyRuleTexts, reward: tower ? boss.rewardText : undefined,

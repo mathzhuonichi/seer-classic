@@ -3,15 +3,12 @@ import type { BossEncounter, DataSet } from '../../../battle/core/src/index.ts';
 import type { ChallengeCategoryId, EncounterOpponentView } from '../../shared/views.ts';
 import type { CatalogData } from '../catalog/catalog.ts';
 import { SEER_BEANS_ITEM_ID } from '../economy.ts';
-import { buildBossEvidence } from './boss-evidence.ts';
 
 /** The catalogue lookups these rows need; the controller's context is one. */
 export interface EncounterCatalog { readonly catalog: CatalogData; speciesName(id: number): string }
 
 export function opponentViews(ctx: EncounterCatalog, encounter: BossEncounter): EncounterOpponentView[] {
-  return encounter.team.map((mon, slot) => ({
-    species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, evidence: buildBossEvidence(encounter, slot),
-  }));
+  return encounter.team.map(mon => ({ species: mon.species, name: ctx.speciesName(mon.species), level: mon.level, levelMasked: mon.level_masked }));
 }
 
 type Honor = { zh?: string } | undefined;

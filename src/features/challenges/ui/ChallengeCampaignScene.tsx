@@ -2,7 +2,6 @@ import {useEffect, useRef, useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { CampaignStageView, CampaignView } from '../../../shared/views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
-import BossEvidence from '../../../shared/ui/BossEvidence.tsx';
 import {opponentLevelText} from '../../../shared/encounter-level.ts';
 import {teamRuleText} from '../../../domain/challenges/party-rules.ts';
 import './challenge-campaign-scene.css';
@@ -35,7 +34,6 @@ export default function ChallengeCampaignScene({campaign, c, onLeave, onManage, 
       <div className="campaign-stage-detail" aria-label="当前关卡详情" tabIndex={0}>
         {stage ? <><div className="campaign-detail-title"><span>第 {stageIndex + 1} 关{stage.kind === 'chain' ? ' · 连续挑战' : ''}</span><h3>{stage.name}</h3><p>{stage.description}</p></div>
           <div className="campaign-opponents"><h4>{stage.opponents.length > 1 ? '依次迎战' : '本关对手'}</h4><ol>{stage.opponents.map((opponent, index) => <li key={`${index}-${opponent.species}`}><span className="campaign-opponent-order">{index + 1}</span><div className="campaign-opponent-art"><CreatureArt species={opponent.species} name={opponent.name}/></div><strong>{opponent.name}</strong><small>{opponentLevelText(opponent)}</small></li>)}</ol></div>
-          <BossEvidence evidence={stage.evidence}/>
           {(requirement || stage.minLevel || stage.carry || campaign.resetOnLoss) && <div className="campaign-stage-rules"><h4>挑战条件</h4>
             {requirement && <div className="campaign-required-creature"><div><CreatureArt species={requirement} name="指定出战精灵"/></div>
               <span>只派自己的{stage.requiredSpeciesName}出战</span></div>}

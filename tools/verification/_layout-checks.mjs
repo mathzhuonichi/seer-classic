@@ -27,24 +27,6 @@ async function wildBattle(page) {
 }
 /** Uses the lead's first damaging skill; the raised save's Lv.100 lead wins with it. */
 const strike = page => page.locator('.classic-skill:not(:disabled):not(.category-属性)').first().click();
-/** Starts the Boss battle of the challenge the SPT window offers first. */
-async function sptBattle(page, fixture) {
-  await waitWorld(page);
-  await openTool(page, tool(fixture, 'challenge'));
-  await page.click('.scene-window .management-confirm-row button.primary');
-  await page.locator('.world-scene .world-boss').first().evaluate(element => element.click());
-  await page.click('.world-dialogue button.primary');
-  await waitCommands(page);
-}
-
-export async function evidenceButton({page, fixture}) {
-  await sptBattle(page, fixture);
-  const button = page.locator('.classic-boss-evidence-button');
-  // Playwright's actionability check hit-tests the button's centre and fails while another element takes the click there.
-  await button.click({trial: true, timeout: HIT_TIMEOUT_MS});
-  await button.click({timeout: HIT_TIMEOUT_MS});
-  await page.waitForSelector('.classic-boss-evidence-modal', {timeout: HIT_TIMEOUT_MS});
-}
 
 const overlap = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
   * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));

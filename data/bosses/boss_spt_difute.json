@@ -21,7 +21,8 @@
         11938,
         11942
       ],
-      "hp_override": 10000
+      "hp_override": 10000,
+      "level_masked": true
     }
   ],
   "rules": [

@@ -4,7 +4,6 @@ import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId, Encou
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
 import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
-import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
 
 /** An archive tab: one category, or `all`. */
@@ -29,7 +28,7 @@ function campaignEntry(s:ArchiveSnapshot,campaign:CampaignView):ChallengeEntry {
     category:campaign.reward==='skills'?'quest':'legendary',
     description:campaign.stages.map(stage=>`${stage.name} ${stage.description}`).join(' '),location:campaign.location,
     level:s.bosses.find(boss=>boss.id===campaign.stages.at(-1)!.bossIds[0])?.level??MAX_LEVEL,portrait:`/portraits/${campaign.species}.png`,
-    cleared:campaign.finished,attempts:0,evidence:mergeBossEvidence(campaign.stages.map(stage=>stage.evidence)),campaign,
+    cleared:campaign.finished,attempts:0,campaign,
   };
 }
 

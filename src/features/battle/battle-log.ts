@@ -108,9 +108,9 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
 
 /**
  * A battle's opening events as the log shows them. The Battle constructor installs the encounter rules between `battle_start`
- * and the first switch-in; the conditions they attach are encounter mechanics, so they get no line: a Boss's rules, shown in
- * the evidence dialog, and an NPC trainer's passives (嗜血之力, 邪气凛然), shown on the facility roster. A rule's real effect keeps
- * its line: a status, or a stage change such as 厄尔塞拉 周二's evasion.
+ * and the first switch-in; the conditions they attach are encounter mechanics, so they get no line: a Boss's rules, and an NPC
+ * trainer's passives (嗜血之力, 邪气凛然), shown on the facility roster. A rule's real effect keeps its line: a status, or a stage
+ * change such as 厄尔塞拉 周二's evasion.
  */
 export function openingEvents(events: BattleEvent[]): BattleEvent[] {
   const fielded = events.findIndex(event => event.type === 'switch_in');
