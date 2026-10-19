@@ -106,7 +106,7 @@ export async function profileHeadings({page, fixture}) {
   await openTool(page, tool(fixture, 'monsters'));
   await page.click('.official-petbag .management-tabs button:text-is("资料")');
   const headings = await page.$$eval('.official-petbag .raising-forms h4', textContrast);
-  assert(headings.some(({text}) => text === '放生精灵'), `the 资料 tab lacks the 放生精灵 heading: ${headings.map(({text}) => text).join(', ')}`);
+  assert(headings.some(({text}) => text === '精灵进化'), `the 资料 tab lacks the 精灵进化 heading: ${headings.map(({text}) => text).join(', ')}`);
   assert.deepEqual(headings.filter(({contrast}) => contrast < MIN_TEXT_CONTRAST), [], '资料 headings below the text contrast minimum');
 }
 

@@ -401,7 +401,7 @@ const LAYOUT_CHECKS = [
   })),
   {name: 'a click on the notice toast reaches the scene under it, and the toast stays', save: 'raised', run: layout.toastClickThrough},
   {name: 'the labelled toolbar icons (图鉴, 恢复, 设置) fill their buttons', run: layout.toolbarIcons},
-  {name: 'the PetBag 资料 headings, 放生精灵 among them, are legible on their section background', run: layout.profileHeadings},
+  {name: 'the PetBag 资料 headings (精灵昵称, 经验分配器, 精灵进化) are legible on their section background', run: layout.profileHeadings},
   {name: 'the engraving shop filter fields are tall enough for their text', save: 'lab', run: layout.engravingFilters},
   ...layout.NARROW_VIEWPORTS.map(viewport => ({name: `the PetBag skill editor shows a learned skill without scrolling the panel at ${size(viewport)}`,
     viewport, run: layout.skillEditorRow})),

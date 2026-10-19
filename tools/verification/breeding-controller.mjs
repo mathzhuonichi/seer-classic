@@ -73,9 +73,11 @@ await withSsr('breeding-controller',async load=>{
   const advancedGame=createGame(catalog,JSON.stringify(advancedSave));reject(advancedGame,{...action(recipe,pair),firstUid:advanced.uid},'Evolved level50 descendant male is still excluded');
   const full=fixture(recipe);full.game.dispatch({type:'cheatAcquire',species:10,level:5});assert.equal(full.game.snapshot().party.length,6);
   const fullBefore=parse(full.game);full.game.dispatch(action(recipe,full));const fullAfter=parse(full.game),boxed=added(fullBefore,fullAfter)[0];assert.ok(boxed);assert.deepEqual(fullAfter.party,fullBefore.party);assert.ok(!fullAfter.party.includes(boxed.uid));
-  const capacity=structuredClone(fullBefore);
-  for(let i=0;i<1000;i++)capacity.storage.push({...structuredClone(capacity.storage[0]),uid:`breeding-box-${i}`});
-  reject(createGame(catalog,JSON.stringify(capacity)),action(recipe,full),'Full storage preserves full save/RNG');
+  // The box has no limit (user decision, 2026-10-19): a breed with a thousand more monsters stored still lands in the box.
+  const crowded=structuredClone(fullBefore);
+  for(let i=0;i<1000;i++)crowded.storage.push({...structuredClone(crowded.storage[0]),uid:`breeding-box-${i}`});
+  const crowdedGame=createGame(catalog,JSON.stringify(crowded)),crowdedBefore=parse(crowdedGame);crowdedGame.dispatch(action(recipe,full));
+  assert.equal(added(crowdedBefore,parse(crowdedGame)).length,1,'A crowded box still takes the offspring');
   const fighting=fixture(recipe);const boss=catalog.bosses.find(b=>b.id.startsWith('boss_spt_'));assert.ok(boss);
   fighting.game.dispatch({type:'startBattle',bossId:boss.id});assert.ok(fighting.game.snapshot().battle);assert.equal(fighting.game.snapshot().battle.finished,false);
   reject(fighting.game,action(recipe,fighting),'Active battle rejection preserves full save/RNG');
