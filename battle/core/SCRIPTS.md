@@ -111,7 +111,7 @@ ones your points pass. `source`, `skill`, `turns` and `clear` can be unset even 
 | `on_hit` (holder's move hit) | `skill, ctx` | |
 | `on_ko` (holder knocked out its target) | `target, info, skill` | |
 | `on_status_incoming` | `status, source, fromFoe, turns` | `false` blocks |
-| `on_stage_incoming` | `stat, delta, byFoe` | `false` blocks, number replaces delta |
+| `on_stage_incoming` | `stat, delta, byFoe`; `clear` for a clear, with the clearing `skill` when a move clears | `false` blocks, number replaces delta |
 | `on_heal_incoming` | `amount, item` | number (negative = damage instead) |
 | `turn_start`, `turn_end`, `on_switch_in`, `on_faint` | | |
 

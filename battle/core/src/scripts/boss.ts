@@ -19,6 +19,20 @@ const attachRule = (b: Battle, mon: Mon, id: string, on: HookPoint[], data: Reco
 
 const foeId = (m: Mon) => m.uid ?? `slot${m.slot}`;
 
+/** The ids of the conditions the named skills' effects attach; a timed script's condition is named after its script (builders.ts). */
+function conditionSources(b: Battle, names: string[]): string[] {
+  const ids = new Set<string>();
+  for (const skill of b.data.skills.values()) {
+    if (!names.includes(skill.name.zh)) continue;
+    for (const op of skill.effects ?? []) {
+      if (op.op === 'script') ids.add(op.id);
+      else if (op.op === 'add_condition') ids.add(op.condition);
+      else if (op.op === 'protect') ids.add('protect');
+    }
+  }
+  return [...ids];
+}
+
 function fieldMembers(b: Battle, owner: Mon, sides: string): Mon[] {
   return (sides === 'both' ? b.sides : [b.sides[owner.side]]).flatMap((side) => side.team);
 }
@@ -43,12 +57,13 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
       c.battle.heal(c.holder, low ? p.self_heal_low ?? p.self_heal : p.self_heal);
     },
   },
-  // the foe cannot clear the boss's stat boosts (optionally only some stats)
+  // the foe cannot clear the boss's stat boosts (optionally only some stats), except with a sure-hit or a listed skill
   stages_unclearable: {
     on: ['on_stage_incoming'],
     hook: (c) => {
-      const stats: string[] | undefined = c.cond.data.stats;
-      if (c.byFoe && c.clear && (!stats || stats.includes(c.stat))) return false;
+      const p = c.cond.data, stats: string[] | undefined = p.stats;
+      const excepted = !!c.skill && ((p.except_sure_hit && c.skill.accuracy === null) || !!p.except_skills_zh?.includes(c.skill.name.zh));
+      if (c.byFoe && c.clear && (!stats || stats.includes(c.stat)) && !excepted) return false;
     },
   },
   // listed skills (by Chinese name) have no effect on the boss
@@ -135,8 +150,10 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
 
 /** Rules with their own install: one-off changes, plain conditions, and conditions on every field member. */
 const INSTALL_RULES: Record<string, ScriptEntry> = {
-  // the boss's attacks ignore the player's damage reductions (all, or listed skills)
-  ignore_player_damage_reduction: { install: (c, p) => { c.mon.persist.ignoreReduction = p.skills_zh ?? true; } },
+  // the boss's moves ignore the player's protections (all, or those the player's listed skills give; engine/rules.ts)
+  ignore_player_damage_reduction: {
+    install: (c, p) => { c.mon.persist.ignoreReduction = p.skills_zh ? conditionSources(c.battle, p.skills_zh) : true; },
+  },
   // the boss's per-hit damage cap may fail while it has one of these statuses
   damage_cap_breaks_on_dot: {
     install: (c, p) => { c.mon.persist.capBreak = { statuses: p.statuses ?? ['burn', 'freeze', 'poison'], chance: p.chance ?? 100 }; },

@@ -3,7 +3,7 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 678,
+    "handledEntries": 685,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
     "approximatedEntries": 121,
@@ -132,10 +132,48 @@
       "handled": [
         {
           "rule": "script",
-          "id": "priority_add",
+          "id": "always_moves_first",
           "scope": "root/team/0/member_rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/team/0/member_rules/1",
           "fields": [
-            "amount"
+            "status",
+            "chance",
+            "turns_min",
+            "turns_max"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "immune_skill_list",
+          "scope": "root/team/0/member_rules/2",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "ignore_player_damage_reduction",
+          "scope": "root/team/0/member_rules/3",
+          "fields": [
+            "skills_zh"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "stages_unclearable",
+          "scope": "root/team/0/member_rules/4",
+          "fields": [
+            "except_sure_hit",
+            "except_skills_zh"
           ],
           "implementation": "install"
         },
@@ -153,6 +191,30 @@
             "target",
             "stats"
           ]
+        },
+        {
+          "rule": "immune_percent_damage",
+          "scope": "root/team/1/member_rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/team/1/member_rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/team/1/member_rules/2",
+          "fields": [
+            "status",
+            "chance",
+            "turns_min",
+            "turns_max"
+          ],
+          "implementation": "install"
         },
         {
           "rule": "condition:first_turn",

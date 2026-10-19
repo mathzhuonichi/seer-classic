@@ -18,7 +18,8 @@ const bosses=fs.readdirSync(path.join(root,'data/bosses')).filter(file=>file.end
 const byId=new Map(bosses.map(boss=>[boss.id,boss]));
 const aliases={immune_pct_damage:'immune_percent_damage',infinite_pp:'unlimited_pp',reflect_damage:'reflect_damage'};
 const contracts={
-  drain_each_turn:['foe_loss','self_heal','below_pct','foe_loss_low','self_heal_low'],stages_unclearable:['stats'],immune_skill_list:['skills_zh'],
+  drain_each_turn:['foe_loss','self_heal','below_pct','foe_loss_low','self_heal_low'],stages_unclearable:['stats','except_sure_hit','except_skills_zh'],
+  immune_skill_list:['skills_zh'],
   foe_stage_each_turn:['stats'],copy_foe_boosts_on_switch_in:[],mirror_status_to_attacker:['statuses'],lifesteal:['pct_damage_dealt'],
   escalate_vs_same_foe:['stats','reset_on_foe_switch'],status_on_attacker:['status','chance','categories','turns_min','turns_max'],
   random_heal:['chance','pct_max_hp'],ignore_player_damage_reduction:['skills_zh'],foe_status_each_turn:['status','from_turn'],
@@ -281,6 +282,33 @@ check('Akenoya has two total lives of 2500 HP, as the period guide explicitly de
   const battle=make('boss_dark_door9_akenuoya'),mon=battle.active(1);assert.equal(mon.maxHp,2500);assert.equal(mon.hp,2500);assert.equal(mon.livesLeft,1);
   hit(battle,mon,2500);assert.equal(mon.hp,2500);assert.equal(mon.livesLeft,0);assert.equal(mon.fainted,false);assert.equal(battle.result,null);
   hit(battle,mon,2500);assert.equal(mon.hp,0);assert.equal(mon.fainted,true);assert.equal(battle.result.success,true);
+});
+check('Baihu avatars: 战虎 moves first and keeps its boost except against sure-hit clears and 日月皆伤; each avatar afflicts its attacker',()=>{
+  // 4399 2011-03-11, 7k7k 2013-01-06 and 百科: 强制先手; 消强化技能MISS, 必中技能与盖亚日月皆伤除外; 思维干涉、暗影护盾无效;
+  // attacking 战虎 frightens and attacking 电虎 paralyses for 1-2 turns; 电虎 不吃海洋之心与异常状态, 绝命火焰有效.
+  const avatars=skills=>make('boss_campaign_baihu_avatars',undefined,{sides:[player(skills)]});
+  const turn=(battle,boss,mine)=>{battle.submit(1,{kind:'move',skill:boss});battle.submit(0,{kind:'move',skill:mine});return battle.resolveTurn();};
+  const afflicted=(battle,id)=>battle.active(0).conditions.find(condition=>condition.id===id);
+  for(const [clear,kept] of [[10632,true],[10377,false],[10714,false]]){
+    const battle=avatars([clear]),tiger=battle.active(1),moves=turn(battle,20854,clear).filter(event=>event.type==='move_used');
+    assert.deepEqual(moves.map(event=>event.side),[1,0]);assert.equal(tiger.stages.atk,kept?2:0,`clear ${clear}`);
+    assert(afflicted(battle,'fear'),`clear ${clear} frightens its user`);
+  }
+  const first=avatars(),tiger=first.active(1);
+  assert.equal(first.priority(tiger,data.skills.get(11710)),Number.MAX_SAFE_INTEGER);assert.equal(first.applyStatus(tiger,'poison',{turns:3}),true);
+  for(const [slot,status] of [[0,'fear'],[1,'paralysis']]){
+    const battle=avatars();if(slot)battle.switchIn(battle.sides[1],slot);hit(battle,battle.active(1),10);
+    const turns=afflicted(battle,status)?.turns;assert(turns>=1&&turns<=2,`${status} lasts ${turns} turns`);
+  }
+  assert(turn(avatars([20560]),20854,20560).some(event=>event.type==='move_failed'&&event.side===0&&event.reason==='negated'),'思维干涉');
+  for(const ignored of [true,false]){
+    const battle=avatars([20484,20001]);if(!ignored)delete battle.active(1).persist.ignoreReduction;turn(battle,20854,20484);
+    assert(afflicted(battle,'seer_eff_78'));assert.equal(turn(battle,11710,20001).some(event=>event.type==='miss'&&event.side===1),!ignored,'暗影护盾');
+  }
+  const volt=avatars(),electric=volt.sides[1].team[1];volt.switchIn(volt.sides[1],1);
+  assert.equal(hit(volt,electric,25,'normal','status','percent'),0);assert.equal(volt.applyStatus(electric,'poison',{turns:3}),false);
+  const kill={kind:'true',ohko:true,source:volt.active(0),skill:data.skills.get(11022)};
+  assert.equal(volt.dealDamage(electric,electric.hp,kill),2500);assert(electric.fainted);assert.deepEqual(volt.warnings,[]);
 });
 check('Entry validation returns one structured refusal per broken party rule: team size, member level and required species',()=>{
   for(let n=1;n<=5;n++){
