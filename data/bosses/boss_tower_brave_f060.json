@@ -56,6 +56,9 @@
     {
       "rule": "script",
       "id": "damage_only_from_own_type_normal_or_status"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -115,7 +118,8 @@
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
     "HP 1100 per monster from the T客邦 2011-01-19 floor table (TW server).",
     "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
-    "damage_only_from_own_type_normal_or_status: each of the three takes damage only from skills of its own type (洛比特 暗影 / 艾迪希洛 超能 / 肯扎特 战斗), from 普通系 skills, and from 属性 (status-category) skills such as 同生共死 (4399: 这三只精灵只受同系、普通和属性攻击伤害). This is damage_only_from with a per-member type list."
+    "damage_only_from_own_type_normal_or_status: each of the three takes damage only from skills of its own type (洛比特 暗影 / 艾迪希洛 超能 / 肯扎特 战斗), from 普通系 skills, and from 属性 (status-category) skills such as 同生共死 (4399: 这三只精灵只受同系、普通和属性攻击伤害). This is damage_only_from with a per-member type list.",
+    "The three guardians ignore stage-downs (4399 2009-11 and 2010-01, TW 2011)."
   ],
   "confidence": {
     "level": "medium",

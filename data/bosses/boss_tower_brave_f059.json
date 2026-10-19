@@ -52,7 +52,29 @@
       "hp_override": 1080
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "unlimited_pp",
+      "member": 0
+    },
+    {
+      "rule": "heal_full_below",
+      "hp": 100,
+      "member": 0
+    },
+    {
+      "rule": "script",
+      "id": "crit_rate_bonus",
+      "params": {
+        "stages": 7,
+        "member": 1
+      }
+    },
+    {
+      "rule": "immune_status",
+      "member": 2
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -100,7 +122,10 @@
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
     "HP 1080 per monster from the T客邦 2011-01-19 floor table (TW server).",
-    "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all."
+    "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
+    "迪尔克 (team[0]): unlimited PP; heals to full below 100 HP (TW 2011, 4399 2009).",
+    "依卡莱恩 (team[1]): crit rate 50% (TW 2011, 4399).",
+    "布鲁克克 (team[2]): immune to status (TW 2011)."
   ],
   "confidence": {
     "level": "medium",

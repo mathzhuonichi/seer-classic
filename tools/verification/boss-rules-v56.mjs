@@ -39,7 +39,7 @@ const contracts={
 const policyLedger=read('data/boss-user-policies-v57.json');
 const policyFor=(bossId,mechanic)=>policyLedger.policies.find(policy=>policy.bossId===bossId&&policy.mechanic===mechanic);
 const phaseOps={stat_stage:['target','stats'],revive:['pct_max_hp'],set_ai:['ai']};
-const whenKeys=new Set(['first_turn','on_faint','self_hp_below_pct','self_hp_below','turn_ge']);
+const whenKeys=new Set(['first_turn','on_faint','self_hp_below_pct','self_hp_below','turn_ge','lives_left']);
 const objectiveKinds=new Set(['ko_all','turn_limit','finish_with_crit','ko_after_turn','finish_with_skill','use_skill','finish_with_status_damage']);
 const support={schemaVersion:1,scope:'Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.',summary:{},bosses:[]};
 const unexpected=[];
@@ -129,10 +129,10 @@ check('Floor 60 allows each defender own type, normal and status moves, and reje
   }
   assert.deepEqual(battle.warnings,[]);
 });
-check('Floor 70 regeneration and below-20-percent full heal affect only member 3, with strict thresholds',()=>{
+check('Floor 70 regeneration affects only member 3, which does not heal to full below 20 percent',()=>{
   const battle=make('boss_tower_brave_f070');
   for(const mon of battle.sides[1].team.slice(0,3)){mon.hp=300;hit(battle,mon,1);assert.equal(mon.hp,299);battle.switchIn(battle.sides[1],mon.slot);battle.endOfTurn();assert.equal(mon.hp,299);}
-  const grass=battle.sides[1].team[3];battle.switchIn(battle.sides[1],3);grass.hp=321;hit(battle,grass,1);assert.equal(grass.hp,320);hit(battle,grass,1);assert.equal(grass.hp,1600);
+  const grass=battle.sides[1].team[3];battle.switchIn(battle.sides[1],3);grass.hp=321;hit(battle,grass,1);assert.equal(grass.hp,320);hit(battle,grass,1);assert.equal(grass.hp,319);
   grass.hp=1000;battle.endOfTurn();assert.equal(grass.hp,1200);
   grass.hp=1550;battle.endOfTurn();assert.equal(grass.hp,1600);
 });
@@ -140,19 +140,20 @@ check('All percentage member thresholds and the dark-door flat 300 heal use thei
   for(const floor of [62,65]){const battle=make(`boss_tower_brave_f0${floor}`),rule=battle.sides[1].rules.find(rule=>rule.rule==='heal_full_below'),mon=battle.sides[1].team[rule.member];mon.hp=mon.maxHp*.2;hit(battle,mon,1);assert.equal(mon.hp,mon.maxHp);for(const other of battle.sides[1].team.filter(value=>value!==mon)){other.hp=100;hit(battle,other,1);assert.equal(other.hp,99);}}
   const dark=make('boss_dark_door7_mohuashizhe');dark.active(1).hp=100;dark.endOfTurn();assert.equal(dark.active(1).hp,400);
 });
-check('Every grass opponent on floors 61-70 fully heals below one fifth of its HP',()=>{
-  // 聚侠 2011-09-23: 61层以上的草系1/5血以下的时候会回满Hp.
+check('Every grass opponent on floors 61-70 but the floor-70 oak butterfly fully heals below one fifth of its HP',()=>{
+  // 聚侠 2011-09-23: 61层以上的草系1/5血以下的时候会回满Hp (70层橡木蝶除外).
   const GRASS_HEAL_PCT=20,healers=[];
   for(let floor=61;floor<=70;floor++){
     const battle=make(`boss_tower_brave_f0${floor}`);
     for(const mon of battle.sides[1].team.filter(value=>value.types.includes('grass'))){
       const rule=battle.sides[1].rules.find(rule=>rule.rule==='heal_full_below'&&rule.member===mon.slot);
+      if(floor===70&&mon.slot===3){assert.equal(rule,undefined);continue;}
       assert.equal(rule?.pct,GRASS_HEAL_PCT,`floor ${floor} member ${mon.slot} carries the grass rule`);
       mon.hp=mon.maxHp*GRASS_HEAL_PCT/100;hit(battle,mon,1);assert.equal(mon.hp,mon.maxHp,`floor ${floor} member ${mon.slot} heals to full`);
       healers.push(`${floor}/${mon.slot}`);
     }
   }
-  assert.deepEqual(healers,['62/0','65/1','70/3']);
+  assert.deepEqual(healers,['62/0','65/1']);
 });
 check('Floor 66 闪光艾菲亚 knows only psychic moves, and the encounter AI lists only moves its team knows',()=>{
   // 4399 2010-10-10: 闪尼只会超能技能，换光系 (闪尼 is the guides' nickname for 闪光艾菲亚).
@@ -170,6 +171,16 @@ check('Member-limited native aliases and lives apply to the designated slot with
   const before=JSON.stringify(encounter),battle=createBattle({data,scripts,encounter,seed:56,sides:[player()]});
   const source=battle.active(0),hp=source.hp;hit(battle,battle.sides[1].team[0],10);assert.equal(source.hp,hp);hit(battle,battle.sides[1].team[1],10);assert.equal(source.hp,hp-10);
   assert.deepEqual(battle.sides[1].team.map(mon=>mon.livesLeft),[0,0,1]);assert.equal(JSON.stringify(encounter),before);
+});
+check('Dishuyan reflects a quarter of each hit except the one that knocks it out',()=>{
+  const battle=make('boss_tower_brave_f061'),mon=battle.sides[1].team[1],source=battle.active(0),hp=source.hp;
+  hit(battle,mon,100);assert.equal(source.hp,hp-25);hit(battle,mon,mon.hp);assert(mon.fainted);assert.equal(source.hp,hp-25);
+});
+check('Oak butterfly revives once and restores its opening boost',()=>{
+  const battle=make('boss_tower_brave_f070'),mon=battle.sides[1].team[3];
+  assert.deepEqual(battle.sides[1].team.map(member=>member.livesLeft),[0,1,1,1]);
+  battle.checkPhases(mon);assert.equal(mon.stages.atk,2);
+  hit(battle,mon,mon.hp);assert(!mon.fainted);assert.equal(mon.livesLeft,0);assert.equal(mon.stages.atk,0);battle.checkPhases(mon);assert.equal(mon.stages.atk,2);
 });
 check('Damage-cap categories protect powered attacks while status-category fixed damage remains uncapped',()=>{
   const battle=make('boss_spt_sibinsai'),mon=battle.active(1);assert.equal(hit(battle,mon,100),1);assert.equal(hit(battle,mon,100,'normal','status','fixed'),100);

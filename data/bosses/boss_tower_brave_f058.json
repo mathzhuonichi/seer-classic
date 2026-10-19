@@ -52,7 +52,34 @@
       "hp_override": 1060
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "status_on_attacker",
+      "params": {
+        "status": "paralysis",
+        "chance": 90,
+        "categories": [
+          "physical"
+        ],
+        "member": 0
+      }
+    },
+    {
+      "rule": "script",
+      "id": "always_hit",
+      "params": {
+        "member": 2
+      }
+    },
+    {
+      "rule": "script",
+      "id": "always_moves_first",
+      "params": {
+        "member": 2
+      }
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -101,7 +128,9 @@
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
     "HP 1060 per monster from the T客邦 2011-01-19 floor table (TW server).",
     "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
-    "Fight order 希拉 → 柯蓝 → 蝠迪 (4399 2010-06-23 and 2010-06-02; T客邦 2011-01-19 第58層)."
+    "Fight order 希拉 → 柯蓝 → 蝠迪 (4399 2010-06-23 and 2010-06-02; T客邦 2011-01-19 第58層).",
+    "希拉 (team[0]): a physical attack on it paralyses the attacker 90% of the time (TW 2011).",
+    "蝠迪 (team[2]): every skill hits and moves first (TW 2011, 4399)."
   ],
   "confidence": {
     "level": "medium",
