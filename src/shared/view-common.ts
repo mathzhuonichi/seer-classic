@@ -8,9 +8,10 @@ export const portrait = (species: number) => `/portraits/${species}.png`;
 export const typeLabel = (type: string) => TYPE_LABELS[type] ?? type;
 export const statusLabel = (id: string) => STATUS_LABELS[id];
 
-const STRUGGLE_VIEW = {
-  name: STRUGGLE_SKILL.name.zh, type: '无', category: SKILL_CATEGORY_LABELS[STRUGGLE_SKILL.category],
-  power: STRUGGLE_SKILL.power, pp: STRUGGLE_SKILL.pp, maxPp: STRUGGLE_SKILL.pp, description: '技能耗尽时使用。',
+/** 挣扎, which only the engine defines; the command deck offers it once every skill is out of PP. Its damage has no type; it is labelled 普通. */
+export const STRUGGLE_VIEW: SkillView = {
+  id: STRUGGLE_SKILL.id, name: STRUGGLE_SKILL.name.zh, type: TYPE_LABELS.normal, category: SKILL_CATEGORY_LABELS[STRUGGLE_SKILL.category],
+  power: STRUGGLE_SKILL.power, pp: STRUGGLE_SKILL.pp, maxPp: STRUGGLE_SKILL.pp, description: '技能 PP 全部耗尽时使用，会受到反作用伤害。',
 };
 
 /** The skill a battle event names: a catalog skill, or 挣扎, which only the engine defines. */
@@ -19,7 +20,7 @@ export const moveSkill = (data: Pick<DataSet, 'skills'>, id: number): BattleSkil
 
 export function skillView(data: DataSet, id: number, pp?: Record<string, number>, engraved?: BattleSkill): SkillView {
   const skill = engraved ?? data.skills.get(id);
-  if (!skill) return { id, ...STRUGGLE_VIEW };
+  if (!skill) return { ...STRUGGLE_VIEW, id };
   return {
     id, name: skill.name.zh, type: attackTypes(data.types, skill.type).map(typeLabel).join('·'),
     category: SKILL_CATEGORY_LABELS[skill.category as keyof typeof SKILL_CATEGORY_LABELS] ?? SKILL_CATEGORY_LABELS.status,

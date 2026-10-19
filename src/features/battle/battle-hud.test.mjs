@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, stageChips,
 } from './battle-hud.ts';
+import {skillView} from '../../shared/view-common.ts';
 
 const mon = (uid, hp, extra = {}) => ({uid, name: uid, hp, maxHp: 100, statuses: [], stages: {}, skills: [], ...extra});
 const battle = (extra = {}) => ({player: mon('a', 50), party: [mon('a', 50), mon('b', 0), mon('c', 80)], canCapture: true, finished: false, needsSwitch: false,
@@ -20,6 +21,7 @@ test('Struggle replaces the skills only when every one is out of PP', () => {
   assert.equal(battleSkills(mon('a', 1, {skills})), skills);
   const [struggle] = battleSkills(mon('a', 1, {skills: [{id: 1, pp: 0}]}));
   assert.deepEqual([struggle.id, struggle.name, struggle.power, struggle.type, struggle.category], [0, '挣扎', 50, '普通', '物理']);
+  assert.deepEqual(skillView({skills: new Map()}, struggle.id), struggle, 'a snapshot names 挣扎 as the command deck does');
 });
 
 test('the item pane falls back to recovery without capture and resolves its target', () => {
