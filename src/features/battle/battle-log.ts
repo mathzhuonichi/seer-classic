@@ -45,10 +45,13 @@ function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContex
   return `${sideLabel(event)}使用了${capsule}，${event.success ? `成功捕捉${target}！` : `${target}挣脱了胶囊，捕捉失败。`}`;
 }
 
-/** A capture's or a retreat's end needs no line: the capsule's or the flee's line already says how the battle ended. */
+/**
+ * How the battle ended; the result text after it names a loss or a draw. A capture's or a retreat's end needs no line: the
+ * capsule's or the flee's line already says how the battle ended. A turn cap ends on the turn the cap allows.
+ */
 function battleEndText(event: EventOf<'battle_end'>): string {
   if (event.reason === 'capture' || event.reason === 'flee') return '';
-  if (event.reason === 'turn_cap') return '达到回合上限，本场平局。';
+  if (event.reason === 'turn_cap') return `已达到 ${event.turns} 回合上限。`;
   return event.success ? '战斗胜利！' : '战斗结束。';
 }
 

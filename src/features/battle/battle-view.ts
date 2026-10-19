@@ -42,17 +42,20 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
 }
 
 /**
- * The settled outcome's consequence: where a capture went, what a victory paid, or what to do next. The result panel's title
- * names the outcome and the log's last line says how the battle ended, so this text restates neither; a challenge's next step
- * is another attempt, a wild battle's is going on exploring.
+ * The settled outcome as the player reads it: the battle's last dialogue line, and the scene's notice once the battle closes.
+ * It names the outcome once, a challenge's in challenge wording, with what it gave or what to do next: where a capture went,
+ * what a victory paid, or another attempt for a challenge and going on exploring for a wild battle. The log's last line says
+ * only how the battle ended (战斗结束。, the turn cap, the retreat), so it does not name a loss or a draw again.
  */
 function resultText(session: BattleSession): string {
   const result = session.battle.result;
   if (!result) return '';
   if (session.resultMessage) return session.resultMessage;
-  if (result.success) return session.encounter ? '奖励已入账。' : victoryText(victoryReward(null));
-  if (result.reason === 'flee') return '本次不发放战斗奖励。';
-  return session.encounter ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
+  if (result.success) return session.encounter ? '挑战成功，奖励已入账。' : victoryText(victoryReward(null));
+  if (result.reason === 'flee') return '本次撤离不发放战斗奖励。';
+  const next = session.encounter ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
+  if (result.reason === 'turn_cap') return `本场平局，${next}`;
+  return `${session.encounter ? '挑战失败' : '战斗失败'}，${next}`;
 }
 
 export function battleView(rt: Runtime, session: BattleSession): BattleView {

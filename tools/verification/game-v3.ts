@@ -53,8 +53,9 @@ t.check('live battle inventory count',()=>{
 });
 t.check('retreat without rewards and close',()=>{
   const coins=restored.snapshot().coins,exp=restored.snapshot().expPool;
-  restored.dispatch({type:'flee'});assert.equal(restored.snapshot().battle!.won,false);assert.equal(restored.snapshot().coins,coins);assert.equal(restored.snapshot().expPool,exp);
-  assert.equal(restored.snapshot().battle!.log.at(-1),'我方撤离了战斗。');assert.equal(restored.snapshot().battle!.result,'本次不发放战斗奖励。');
+  restored.dispatch({type:'flee'});assert.equal(restored.snapshot().battle!.won,false);
+  assert.equal(restored.snapshot().coins,coins);assert.equal(restored.snapshot().expPool,exp);
+  assert.equal(restored.snapshot().battle!.log.at(-1),'我方撤离了战斗。');assert.equal(restored.snapshot().battle!.result,'本次撤离不发放战斗奖励。');
   restored.dispatch({type:'closeBattle'});assert.equal(restored.snapshot().battle,null);
 });
 // Find one ordinary random critical hit through the actual game adapter.
