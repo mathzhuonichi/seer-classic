@@ -5,7 +5,7 @@ import { isSpeciesRepeatable } from '../../domain/acquisition/recruitment.ts';
 import { allowance, boundedAutoEvolve, storeMonster } from '../../kernel/acquire.ts';
 import { victoryReward } from '../../domain/economy.ts';
 import {engravingLoadout, settleEngravingResource} from '../engravings/index.ts';
-import { commit, notice, replaceMonster, type BattleSession, type Runtime } from '../../kernel/api.ts';
+import { commit, notice, replaceMonster, type BattleSession, type GameContext, type Runtime } from '../../kernel/api.ts';
 
 type EncounterReward = { items?: Record<string, number>; learn_skill?: { species: number; skill: number } };
 
@@ -88,18 +88,22 @@ function grantEncounterRewards(rt: Runtime, session: BattleSession) {
     ?? { coins: victoryReward(boss).coins, items: Object.entries(reward?.items ?? {}), blocked: REPEAT_LATER };
   save.game.coins += paid.coins;
   if (firstClear) save.progress.bosses_cleared.push(boss.id);
-  let essenceGranted = false, essenceBlocked = false;
+  const essences: string[] = [];
+  let essenceBlocked = false;
   for (const [id, count] of paid.items) {
     const item = ctx.itemDefinitions.get(id);
     if (item?.kind !== 'essence' || item.hatches === undefined) { save.items[id] = (save.items[id] ?? 0) + Number(count); continue; }
     if (!firstClear && !isSpeciesRepeatable(item.hatches)) continue;
     const granted = Math.min(Number(count), allowance(ctx, save, item.hatches).remaining);
-    if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essenceGranted = true; } else essenceBlocked = true;
+    if (granted > 0) { save.items[id] = (save.items[id] ?? 0) + granted; essences.push(id); } else essenceBlocked = true;
   }
   if (reward?.learn_skill) session.resultMessage = teachSkill(rt, session, reward.learn_skill);
-  else if (essenceGranted) session.resultMessage = '首领精元已入库，到道具背包的精元页即可孵化。';
+  else if (essences.length) session.resultMessage = `${essences.map(id => itemName(ctx, id)).join('、')}已入库，到道具背包的精元页即可孵化。`;
   else if (essenceBlocked) session.resultMessage = paid.blocked;
 }
+
+/** A catalogue item's name, as the bag shows it: an essence is named after the creature it hatches. */
+const itemName = (ctx: GameContext, id: string) => (ctx.catalog.items.find(item => String(item.id) === id)!.name as { zh: string }).zh;
 
 const REPEAT_LATER = '挑战已完成；同种精灵与待孵化精元已达六份。腾出额度后可再次挑战或到商城领取。';
 

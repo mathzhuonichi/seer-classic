@@ -235,19 +235,31 @@ await withSsr('battle-commands', async load => {
     t.witness('outcome endings', said);
   });
 
-  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
+  // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
+  const recruit = (() => {
     const game = createGame(catalog, JSON.stringify(base), {idle: () => {}});
-    // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
-    const recruit = catalog.species.find(({id}) => {
+    return catalog.species.find(({id}) => {
       if (!game.dispatch({type: 'startTraining', species: id, level: 5}).ok || !game.snapshot().battle) return false;
       if (game.snapshot().battle.name.startsWith('野外挑战')) return true;
       game.dispatch({type: 'flee'});
       game.dispatch({type: 'closeBattle'});
       return false;
     });
+  })();
+
+  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
     assert.ok(recruit, 'the catalog has a recruit-only species');
-    const {name, log} = game.snapshot().battle;
+    const {name, log} = started({type: 'startTraining', species: recruit.id, level: 5}).snapshot().battle;
     assert.deepEqual([name, log[0]], [`野外挑战：${recruit.name.zh}`, `${name}。`]);
+  });
+
+  t.check('A won field recruit names the essence it paid as its creature\'s, not a Boss\'s', () => {
+    const game = levelledLead({type: 'startTraining', species: recruit.id, level: 5}), ui = screen(game);
+    const view = playOut(game, ui), essence = game.snapshot().items.find(item => item.id === `essence_recruit_${recruit.id}`);
+    assert.ok(view.won && essence?.count === 1, 'the levelled lead wins the essence');
+    assert.equal(essence.name, `${recruit.name.zh}精元`);
+    assert.equal(view.result, `${essence.name}已入库，到道具背包的精元页即可孵化。`);
+    assert.ok(!view.result.includes('首领'));
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {
