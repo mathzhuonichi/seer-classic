@@ -52,7 +52,21 @@
       "hp_override": 1150
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "reflect_damage",
+      "pct": 25,
+      "not_on_ko": true,
+      "member": 1
+    },
+    {
+      "rule": "script",
+      "id": "always_moves_first",
+      "params": {
+        "member": 2
+      }
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -98,7 +112,9 @@
   },
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
-    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step."
+    "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
+    "迪修眼 (team[1]): reflects 1/4 of the damage unless the hit knocks it out (聚侠).",
+    "詹士眼 (team[2]): always moves first, even against priority skills (7k7k 2010-07-28)."
   ],
   "confidence": {
     "level": "medium",

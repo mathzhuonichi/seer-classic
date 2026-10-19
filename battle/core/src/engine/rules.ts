@@ -21,7 +21,7 @@ export const NATIVE_BOSS_RULE_FIELDS:Record<string,readonly string[]> = {
   ignore_type_chart:[], immune_crit:[], immune_ohko:[], immune_fixed_damage:[], immune_percent_damage:[],
   immune_status:[], immune_status_list:['statuses'], immune_stage_down:[], immune_force_switch:[],
   block_heal:[], clear_debuffs_each_turn:[], strip_player_boosts_each_turn:[], no_repeat_type:[],
-  damage_cap_per_hit:['amount','categories'], hp_floor_until:['skill','skills'], reflect_damage:['pct','min_damage'],
+  damage_cap_per_hit:['amount','categories'], hp_floor_until:['skill','skills'], reflect_damage:['pct','min_damage','not_on_ko'],
   heal_full_below:['hp','pct','times'], heal_each_turn:['amount','pct_max_hp'],
   require_statuses:['count'], invulnerable_turns:['turns'],
   damage_only_from:['types','skills','categories','allow_categories','crit','super_effective','sure_hit','kinds'],

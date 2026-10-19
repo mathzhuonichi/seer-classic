@@ -8,6 +8,7 @@ Newest first. Each entry links the design note with its details and checks; [des
 - **User decisions.** Every Boss is open from the start; 盖亚, 厄尔塞拉 and 劳克蒙德 offer their variants; 麒麟空间 is on the atlas with map 73's art; engraving caps stay the V50 tiers; there is no 放生 and no box limit; Boss evidence is no longer shown to players.
 - **Boss fidelity.** Verified original HP, levels, skills and teams replace estimates: sourced HP for 151 Boss members (30 before), sourced levels for 111 (68 before).
 - **Boss rules, first batch.** Ten SPT Bosses gain their sourced immunities and unlimited PP (塔克林 crits at 1/4); innate boosts the sources leave unstated are atk+2 on 28 Bosses; 卡修斯 has unlimited PP and 艾尔伊洛 ignores stage-downs.
+- **Boss rules, second batch.** Brave Tower floors 32-61 gain the traits of the 2011 tower tables that existing rules express (accuracy penalties, paralysis or 冻伤 on physical attackers, crit rates, reflection, sure hits, moving first, unlimited PP, stage-down and status immunity); floor 70's last three monsters revive once.
 - **Saves.** Version 3 (first-clear collectibles, retargeted remake essences) and version 4 (cleared Boss variants). Writes happen before the task ends, so closing the window loses nothing.
 - **Battle and UI.** Capture counts as a victory; the styling no longer depends on bundle order; long scene names fit; a silent Chrome and WebKit regression suite (`needs-browser`) checks the playtest fixes.
 - **Checks.** `npm run verify` gates 73 suites (70 before); `npm test` 132 tests.

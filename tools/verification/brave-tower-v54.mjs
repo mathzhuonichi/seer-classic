@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {suite,withSsr} from './_harness.mjs';
 
 const limits=[
-  'Tower opponents and Rios have 1 HP in an in-memory fixture; actual moves, rules, AI and settlement run unchanged.',
+  'Tower opponents and Rios have 1 HP and level 1 in an in-memory fixture, so a fighter survives the opponents that always move first; actual moves, rules, AI and settlement run unchanged.',
   'First-clear essence and suit limits are the V54 remake contract. Historical repeatability of the two pet rewards remains unverified.',
   'No browser storage or network is read. Persistence writes are discarded; no game build or package is produced.',
 ];
@@ -21,7 +21,7 @@ await withSsr('brave-tower-v54',async load=>{
     load('/src/domain/acquisition/acquisition.ts'),load('/src/domain/acquisition/recruitment.ts'),load('/battle/core/src/rng.ts'),
   ]);
   const original=await loadCatalog(),originalBytes=JSON.stringify(original),catalog=structuredClone(original);
-  for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id)||boss.id==='boss_spt_liaosi')for(const mon of boss.team)mon.hp_override=1;
+  for(const boss of catalog.bosses)if(/^boss_tower_brave_f\d{3}$/.test(boss.id)||boss.id==='boss_spt_liaosi')for(const mon of boss.team){mon.hp_override=1;mon.level=1;}
   const catalogBytes=JSON.stringify(catalog),dex=makeDex(catalog),rng=new Rng(54),FAST=10166;
   const base=parse(createGame(catalog,''));
   base.storage=Array.from({length:6},(_,index)=>{

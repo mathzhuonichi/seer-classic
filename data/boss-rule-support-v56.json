@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 637,
+    "handledEntries": 693,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 118,
+    "approximatedEntries": 119,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -5977,6 +5977,15 @@
       "id": "boss_tower_brave_f032",
       "handled": [
         {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -5990,6 +5999,17 @@
     {
       "id": "boss_tower_brave_f033",
       "handled": [
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6005,6 +6025,17 @@
       "id": "boss_tower_brave_f034",
       "handled": [
         {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6018,6 +6049,15 @@
     {
       "id": "boss_tower_brave_f035",
       "handled": [
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/0",
+          "fields": [
+            "stages"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6061,6 +6101,14 @@
       "id": "boss_tower_brave_f038",
       "handled": [
         {
+          "rule": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6074,6 +6122,12 @@
     {
       "id": "boss_tower_brave_f039",
       "handled": [
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6089,6 +6143,17 @@
       "id": "boss_tower_brave_f040",
       "handled": [
         {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6102,6 +6167,12 @@
     {
       "id": "boss_tower_brave_f041",
       "handled": [
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6117,6 +6188,12 @@
       "id": "boss_tower_brave_f042",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6131,6 +6208,22 @@
       "id": "boss_tower_brave_f043",
       "handled": [
         {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/0",
+          "fields": [
+            "stages"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6144,6 +6237,22 @@
     {
       "id": "boss_tower_brave_f044",
       "handled": [
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6187,6 +6296,22 @@
       "id": "boss_tower_brave_f047",
       "handled": [
         {
+          "rule": "condition:self_hp_below",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "self_hp_below"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6214,6 +6339,15 @@
     {
       "id": "boss_tower_brave_f049",
       "handled": [
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/0",
+          "fields": [
+            "stages"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6257,6 +6391,43 @@
       "id": "boss_tower_brave_f051",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/2",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "reflect_damage",
+          "scope": "root/rules/3",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6270,6 +6441,16 @@
     {
       "id": "boss_tower_brave_f052",
       "handled": [
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/0",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6285,6 +6466,24 @@
       "id": "boss_tower_brave_f053",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6298,6 +6497,37 @@
     {
       "id": "boss_tower_brave_f054",
       "handled": [
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/1",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/2",
+          "fields": [
+            "status",
+            "chance",
+            "categories",
+            "member"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6313,6 +6543,43 @@
       "id": "boss_tower_brave_f055",
       "handled": [
         {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/2",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/3",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6326,6 +6593,52 @@
     {
       "id": "boss_tower_brave_f056",
       "handled": [
+        {
+          "rule": "condition:self_hp_below",
+          "scope": "root/team/2/member_phases/0/when",
+          "fields": [
+            "self_hp_below"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "always_crit",
+          "scope": "root/team/2/member_phases/0/do/0",
+          "fields": [
+            "target"
+          ],
+          "implementation": "apply"
+        },
+        {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_accuracy_penalty",
+          "scope": "root/rules/1",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6341,6 +6654,51 @@
       "id": "boss_tower_brave_f057",
       "handled": [
         {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/1",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/2",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "reflect_damage",
+          "scope": "root/rules/3",
+          "fields": [
+            "pct",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/4",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6355,6 +6713,36 @@
       "id": "boss_tower_brave_f058",
       "handled": [
         {
+          "rule": "script",
+          "id": "status_on_attacker",
+          "scope": "root/rules/0",
+          "fields": [
+            "status",
+            "chance",
+            "categories",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/1",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/2",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6368,6 +6756,41 @@
     {
       "id": "boss_tower_brave_f059",
       "handled": [
+        {
+          "rule": "unlimited_pp",
+          "scope": "root/rules/0",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "heal_full_below",
+          "scope": "root/rules/1",
+          "fields": [
+            "hp",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "crit_rate_bonus",
+          "scope": "root/rules/2",
+          "fields": [
+            "stages",
+            "member"
+          ],
+          "implementation": "install"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/3",
+          "fields": [
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6390,6 +6813,12 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -6403,6 +6832,25 @@
     {
       "id": "boss_tower_brave_f061",
       "handled": [
+        {
+          "rule": "reflect_damage",
+          "scope": "root/rules/0",
+          "fields": [
+            "pct",
+            "not_on_ko",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_moves_first",
+          "scope": "root/rules/1",
+          "fields": [
+            "member"
+          ],
+          "implementation": "install"
+        },
         {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
@@ -6684,19 +7132,67 @@
           ]
         },
         {
-          "rule": "heal_full_below",
+          "rule": "condition:first_turn",
+          "scope": "root/team/3/member_phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/3/member_phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:lives_left",
+          "scope": "root/team/3/member_phases/1/when",
+          "fields": [
+            "lives_left"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/team/3/member_phases/1/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "heal_each_turn",
           "scope": "root/rules/0",
           "fields": [
-            "pct",
+            "amount",
             "member"
           ],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
-          "rule": "heal_each_turn",
+          "rule": "lives",
           "scope": "root/rules/1",
           "fields": [
-            "amount",
+            "count",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "lives",
+          "scope": "root/rules/2",
+          "fields": [
+            "count",
+            "member"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "lives",
+          "scope": "root/rules/3",
+          "fields": [
+            "count",
             "member"
           ],
           "implementation": "battle/core/src/engine/rules.ts"
@@ -6708,7 +7204,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "橡木蝶 (team[3]) does not use the floor-61+ grass rule of healing to full at 1/5 HP (聚侠). It starts boosted and returns to that boost after its revival (4399 71697); the size is not stated, so atk+2 (unstated innate boosts are atk+2, user decision 2026-10-19)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },

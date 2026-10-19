@@ -292,7 +292,8 @@ function applyDamage(b: Battle, target: Mon, raw: number, info: DamageInfo): num
 
   if (dealt > 0) hurtReactions(b, target, dealt, info);
   const reflect = findRule(side, target, (r) => r.rule === 'reflect_damage');
-  if (reflect && foe && !info.noReflect && dealt > 0 && dealt >= (reflect.min_damage ?? 0)) {
+  const reflects = reflect && dealt > 0 && dealt >= (reflect.min_damage ?? 0) && !(reflect.not_on_ko && target.hp <= 0);
+  if (reflects && foe && !info.noReflect) {
     b.dealDamage(foe, Math.floor((dealt * reflect.pct) / 100), { kind: 'fixed', source: target, noReflect: true });
   }
   if (target.hp > 0) healFullBelow(b, target);

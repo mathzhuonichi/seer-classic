@@ -277,7 +277,7 @@ both for the player.
 | `hp_floor_until {skill \| skills}` | cannot drop below 1 HP until hit by one of those skills |
 | `heal_full_below {hp, times?}` | heals to full when HP drops below `hp` (up to `times`) |
 | `heal_each_turn {pct_max_hp}` | turn end heal |
-| `reflect_damage {pct, min_damage?}` | attacker takes pct of each hit of at least `min_damage` |
+| `reflect_damage {pct, min_damage?, not_on_ko?}` | attacker takes pct of each hit of at least `min_damage`; with `not_on_ko`, not of the hit that knocks the boss out |
 | `invulnerable_turns {turns}` | takes 0 damage for the first N turns |
 | `clear_debuffs_each_turn` | removes its own negative stages at turn end |
 | `strip_player_boosts_each_turn` | removes the foe's positive stages at turn end |
