@@ -30,8 +30,8 @@ export interface BossView {
   cleared: boolean; attempts: number; portrait: string; opponents?: EncounterOpponentView[]; evidence?: BossEvidenceView;
   /** What a win pays besides the victory coins and pooled experience, derived from the encounter's reward. */
   rewardText?: string;
-  /** A Brave Tower side challenge, offered on the Tower panel: it opens once this floor is cleared. */
-  towerUnlockFloor?: number;
+  /** A Brave Tower side challenge, offered on the Tower panel; the floor its source record follows (it is open from the start). */
+  towerSideFloor?: number;
   /** The rules on the player's team, stated before the start. */
   partyRuleTexts?: string[];
   /** The titles (称号：…) and achievements a clear earns; earned once `cleared`. Absent when the encounter grants none. */

@@ -138,10 +138,9 @@ await withSsr('brave-tower-v53',async load=>{
     reject(game,{type:'startTower',floor:11},'exhausted team new action');reject(game,{type:'startBattle',bossId:floorId(11)},'exhausted team legacy action');
     assert.deepEqual(progress(game),{highestCleared:45,resumeFloor:46});assert.deepEqual(parse(game).progress.boss_attempts,{});
   });
-  check('Ordinary bosses bypass the checkpoint gate; the unnumbered Mystery Realm opens after floor 60 and leaves the climb unchanged',()=>{
+  check('Ordinary bosses bypass the checkpoint gate; the unnumbered Mystery Realm is open before and after floor 60 and leaves the climb unchanged',()=>{
     const mystery='boss_tower_brave_mystery';
-    reject(make(withProgress(59,60)),{type:'startBattle',bossId:mystery},'Mystery Realm before floor 60');
-    for(const [bossId,save] of [['boss_spt_liaosi',base],[mystery,withProgress(60,61)]]){
+    for(const [bossId,save] of [['boss_spt_liaosi',base],[mystery,withProgress(59,60)],[mystery,withProgress(60,61)]]){
       const game=make(save),before=progress(game),battle=start(game,{type:'startBattle',bossId});assert.equal(battle.name,catalog.bosses.find(boss=>boss.id===bossId).name.zh);assert.deepEqual(progress(game),before);leave(game);assert.deepEqual(progress(game),before);
       assert.equal(parse(game).progress.boss_attempts[bossId],1);assert(!parse(game).progress.bosses_cleared.includes(bossId));
     }

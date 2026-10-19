@@ -36,14 +36,13 @@ export function braveTowerFloor(id:string):number|undefined {
 
 /**
  * The highest floor an encounter record's `unlock.requires` names, or 0. A side challenge that is not a floor
- * (the Mystery Realm's 谱尼 after floor 60) is offered on the Tower panel and opens once that floor is cleared.
+ * (the Mystery Realm's 谱尼, floor 60 in the source) is offered on the Tower panel. The remake opens every Boss from the start
+ * (user decision, 2026-10-19), so the floor only places the challenge.
  */
 export function braveTowerUnlockFloor(record:{readonly [field:string]:unknown}):number {
   const requires=(record.unlock as {requires?:unknown}|undefined)?.requires;
   return Math.max(0,...(Array.isArray(requires)?requires:[]).map(id=>typeof id==='string'?braveTowerFloor(id)??0:0));
 }
-export const braveTowerUnlocked=(progress:Pick<BraveTowerProgress,'highestCleared'>,floor:number)=>progress.highestCleared>=floor;
-export const braveTowerUnlockText=(floor:number)=>`通过勇者之塔第 ${floor} 层后开放`;
 
 export function braveTowerBossId(floor:number):string {
   if(!isFloor(floor))throw floorError();

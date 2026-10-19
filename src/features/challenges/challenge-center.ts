@@ -2,7 +2,7 @@
 import type { GameSnapshot } from '../../kernel/contract.ts';
 import type { BossView, BraveTowerView, CampaignView, ChallengeCategoryId } from '../../shared/views.ts';
 import {MAX_LEVEL} from '../../../raising/core/growth.ts';
-import {braveTowerFloor,braveTowerUnlocked,braveTowerUnlockText} from '../../domain/challenges/brave-tower.ts';
+import {braveTowerFloor} from '../../domain/challenges/brave-tower.ts';
 import {CHALLENGE_CATEGORY} from '../../domain/challenges/challenge-campaigns.ts';
 import {mergeBossEvidence} from '../../domain/challenges/boss-evidence.ts';
 import {opponentLevelText} from '../../shared/encounter-level.ts';
@@ -92,7 +92,7 @@ const INSTRUCTIONS:Record<ChallengeKind,string>={
   trainer:'前往太空站，与训练师互动开启对战。',boss:'先传送到挑战地点，再与场景中的首领互动开启战斗。',
 };
 const STAGING_INSTRUCTION='先前往飞船传送舱，再与对手互动开启战斗。';
-const towerSideInstruction=(floor:number)=>`进入勇者之塔，在选择起点面板开始挑战；${braveTowerUnlockText(floor)}。`;
+const TOWER_SIDE_INSTRUCTION='进入勇者之塔，在选择起点面板开始挑战。';
 const ACTIONS:Record<ChallengeKind,string>={tower:'进入勇者之塔 →',campaign:'进入挑战场景 →',trainer:'开始挑战 →',boss:'开始挑战 →'};
 
 function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):string {
@@ -104,13 +104,12 @@ function rewardNote(entry:ChallengeEntry,kind:ChallengeKind,s:ArchiveSnapshot):s
   return `通过每项特训，领悟对应的${campaign.speciesName}技能`;
 }
 
-/** The progress tag: a Tower side challenge names its floor until that floor is cleared. */
+/** The progress tag. */
 function challengeStatus(entry:ChallengeEntry,s:ArchiveSnapshot):string {
   if(entry.tower)return towerRecord(s.braveTower);
   if(entry.cleared)return '✓ 已完成';
   if(entry.campaign)return `${entry.campaign.completed} / ${entry.campaign.stages.length} 阶段`;
-  const floor=entry.towerUnlockFloor;
-  return floor&&!braveTowerUnlocked(s.braveTower,floor)?braveTowerUnlockText(floor):'可挑战';
+  return '可挑战';
 }
 
 /** The detail pane texts; `staging` means the challenge is reached through the ship's transfer dock. */
@@ -119,7 +118,7 @@ export function challengeDetail(entry:ChallengeEntry,s:ArchiveSnapshot,staging:b
   return {
     subtitle:entry.tower?'十层起点 · 进度保存':`${dexNumber(entry.species)} · ${CHALLENGE_CATEGORY[entry.category]}${campaign?'':` · ${opponentLevelText(entry)}`}`,
     status:challengeStatus(entry,s),
-    instruction:entry.towerUnlockFloor?towerSideInstruction(entry.towerUnlockFloor):kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
+    instruction:entry.towerSideFloor!==undefined?TOWER_SIDE_INSTRUCTION:kind==='boss'&&staging?STAGING_INSTRUCTION:INSTRUCTIONS[kind],
     rules:entry.partyRuleTexts??[],reward:rewardNote(entry,kind,s),action:ACTIONS[kind],honors:honorNote(entry,s),
   };
 }

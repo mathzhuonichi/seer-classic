@@ -41,7 +41,7 @@ export function encounterView(ctx: GameContext, source: BossEncounter, attempts 
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), rewardText: floor !== undefined ? towerRewardText(ctx, b) : encounterRewardText(ctx, b),
-    ...(floor === undefined && unlockFloor ? { towerUnlockFloor: unlockFloor } : {}),
+    ...(floor === undefined && unlockFloor ? { towerSideFloor: unlockFloor } : {}),
     ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
     ...(honors.length ? { honors } : {}),
   };

@@ -50,6 +50,13 @@ t.check('Each party rule kind refuses the start through the controller with its 
   const mixed=journey(fixture,[REI]),rei=source.species.find((species:any)=>species.id===REI).name.zh;
   assert.equal(refused(mixed,FIXTURE_BOSS),`本挑战出战精灵等级不超过 ${FIXTURE_LEVEL_CAP} 级（1 只超过）；只能派${rei}出战（3 只不符合）。${ADJUST}`);
 });
+t.check('The Mystery Realm 谱尼 starts on a fresh journey once the party meets its rule: no Tower floor is required',()=>{
+  const ready=journey(source,[300,503,1000]);
+  for(const uid of ready.snapshot().party)ready.dispatch({type:'cheatMonster',uid,level:100});
+  assert.equal(ready.snapshot().braveTower.highestCleared,0);
+  const result=ready.dispatch({type:'startBattle',bossId:'boss_tower_brave_mystery'});
+  assert.equal(result.ok,true,result.notice);assert.equal(ready.snapshot().battle?.party.length,6);
+});
 t.check('A party that meets the rule starts the battle',()=>{
   const single=journey(source);
   for(const uid of single.snapshot().party.slice(1))single.dispatch({type:'party',uid,add:false});
