@@ -154,6 +154,13 @@ check('Every grass opponent on floors 61-70 fully heals below one fifth of its H
   }
   assert.deepEqual(healers,['62/0','65/1','69/3','70/3']);
 });
+check('Floor 66 闪光尼尔 knows only psychic moves, and the encounter AI lists only moves its team knows',()=>{
+  // 4399 2010-10-10: 闪尼只会超能技能，换光系.
+  const battle=make('boss_tower_brave_f066'),nier=battle.sides[1].team.find(mon=>mon.species.id===310);
+  assert(nier.skills.length>0);for(const id of nier.skills)assert.equal(data.skills.get(id).type,'psychic',`skill ${id}`);
+  const known=new Set(battle.sides[1].team.flatMap(mon=>mon.skills));
+  for(const id of byId.get('boss_tower_brave_f066').ai.skills)assert(known.has(id),`AI skill ${id} is on the team`);
+});
 check('Floor 64 critical trigger starts after turn 8 and installs only on the designated member',()=>{
   const battle=make('boss_tower_brave_f064');
   for(const turn of [8,9]){battle.turn=turn;for(const mon of battle.sides[1].team){const forced=battle.fire(mon,'modify_crit_rate',{skill:data.skills.get(mon.skills[0])}).some(value=>value?.force);assert.equal(forced,turn===9&&mon.slot===1);}}

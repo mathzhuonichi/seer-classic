@@ -41346,7 +41346,7 @@
       "id": "boss_tower_brave_f066",
       "category": "tower",
       "sourceFile": "data/bosses/boss_tower_brave_f066.json",
-      "sourceSha256": "26b452d0a3d169f644964a951c60358723f93d667468ac701a6e935dfcd38d62",
+      "sourceSha256": "a59c7392e5ad48533412c4de1df2c85b00a65ce3149272d34cf07c1e3a3dc417",
       "sourceNoteSha256": "381cf7ef93628247c09007953a061f87e03d23d4b71f0156f4d43be9819b23e4",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
@@ -41505,10 +41505,7 @@
             "nature": null,
             "hp": 1400,
             "skills": [
-              11024,
-              10194,
-              10193,
-              20097
+              10194
             ]
           },
           "fields": {
@@ -41588,10 +41585,7 @@
             10008,
             10001,
             20209,
-            11024,
-            10194,
-            10193,
-            20097
+            10194
           ]
         }
       },
