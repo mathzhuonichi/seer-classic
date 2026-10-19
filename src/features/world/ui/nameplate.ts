@@ -6,7 +6,7 @@ const FIXED_PLATE_EMS = 7;
 /** Ems a text takes in the plate's Song face: ASCII is half width, every other character full width. */
 const textEms = (text: string) => [...text].reduce((ems, char) => ems + (char.charCodeAt(0) < 0x80 ? .5 : 1), 0);
 
-/** A name the fixed plate cannot hold takes the 3-slice plate, which stretches its straight middle to the name. */
+/** A name the fixed plate cannot hold takes the stretching plate, whose straight middle grows with the name. */
 export const wideNameplate = (name: string) => textEms(name) > FIXED_PLATE_EMS;
 
 /** The location HUD's classes for a scene name. */

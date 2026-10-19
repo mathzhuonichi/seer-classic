@@ -5,11 +5,18 @@
 .world-authored-light{position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#ffefd60c,transparent 55%,#12304a16)}
 .world-location-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:160px;--plate-height:36px;height:var(--plate-height);padding:0 18px 3px;box-sizing:border-box;background:url('/ui/classic/hd/map-nameplate.svg') center/100% 100% no-repeat;color:#effbff;z-index:12;pointer-events:none;max-width:calc(100% - 28px)}
 .world-location-hud strong{font-size:12px;font-weight:700;line-height:1.4;text-shadow:0 1px 2px #002656;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-/* A name wider than the fixed plate's straight middle (nameplate.ts) gets a 3-slice plate: the slanted ends keep the art's scale and
-   the straight middle stretches to the name. An end is 36 viewBox units wide of the art's 53-unit height, 18 of its intrinsic pixels;
-   the 6px gap is the margin a seven-character name has on the 160px fixed plate. */
-.world-location-hud.world-location-hud-wide{--plate-cap:calc(var(--plate-height)*36/53);width:max-content;padding-inline:calc(var(--plate-cap) + 6px);
-  background:none;border:0 solid transparent;border-image:url('/ui/classic/hd/map-nameplate.svg') 0 18 fill/0 var(--plate-cap)/0 stretch}
+/* A name wider than the fixed plate's straight middle (nameplate.ts) gets a plate of three overlapping pieces: the slanted ends keep the
+   art's scale, and the straight middle (viewBox units 36 to 197 of the art's 233 by 53, as an SVG view) stretches to the name. An end
+   is 36 units wide. The middle is clipped to the content box, which runs 1px under each end; its tile overhangs that clip, so the
+   clip rather than an anti-aliased tile edge ends it and no gap can open between pieces (a 3-slice border-image left a seam in WebKit).
+   The text keeps the 6px gap a seven-character name has on the 160px fixed plate, and the 3px lift, as its own padding. */
+.world-location-hud.world-location-hud-wide{--plate-cap:calc(var(--plate-height)*36/53);width:max-content;padding:0 calc(var(--plate-cap) - 1px);
+  background:url('/ui/classic/hd/map-nameplate.svg#svgView(viewBox(36,0,161,53);preserveAspectRatio(none))') center/calc(100% + 8px) 100% no-repeat content-box}
+.world-location-hud.world-location-hud-wide strong{box-sizing:border-box;padding:0 7px 3px}
+.world-location-hud-wide::before,.world-location-hud-wide::after{content:'';position:absolute;top:0;bottom:0;width:var(--plate-cap);
+  background:url('/ui/classic/hd/map-nameplate.svg') left/auto 100% no-repeat}
+.world-location-hud-wide::before{left:0}
+.world-location-hud-wide::after{right:0;background-position:right}
 .world-gate{position:absolute;display:grid;place-items:center;padding:6px;min-width:52px;min-height:52px;background:none;border:0;border-radius:50%;box-shadow:none;z-index:3;color:#fff9df;text-shadow:0 1px 3px #142c40;transform:translate(-50%,-50%)}
 .world-gate:hover{transform:translate(-50%,-50%);background:none;border:0;box-shadow:none}
 .world-gate:focus-visible{outline:2px solid #fff7bc;outline-offset:2px}
