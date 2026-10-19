@@ -54,20 +54,24 @@ export function acquire(rt: Runtime, species: number, level = 1, how = 'quest', 
   return mon;
 }
 
-/** Follows single automatic level evolutions while the six-copy capacity allows; `blocked` says why one was kept back. */
-export function autoEvolution(rt: Runtime, mon: Monster): { mon: Monster; blocked?: string } {
+/**
+ * Follows single automatic level evolutions while the six-copy capacity allows. `evolved` names the evolution made, from the
+ * monster to its final form (布布种子进化为布布草。), and `blocked` says why one was kept back.
+ */
+export function autoEvolution(rt: Runtime, mon: Monster): { mon: Monster; evolved?: string; blocked?: string } {
   const { ctx } = rt;
-  let current = mon;
+  let current = mon, blocked: string | undefined;
   for (const visited = new Set<number>(); !visited.has(current.species);) {
     visited.add(current.species);
     if (requiresEvolutionChoice(current, ctx.dex)) break;
     const options = levelEvolutions(current, ctx.dex);
     if (options.length !== 1) break;
     const reason = capacityReason(ctx, rt.save, options[0], mon.uid);
-    if (reason) return { mon: current, blocked: `${reason}本次保留当前形态与已获得的经验，腾出额度后可手动进化。` };
+    if (reason) { blocked = `${reason}本次保留当前形态与已获得的经验，腾出额度后可手动进化。`; break; }
     current = evolve(current, options[0], ctx.dex).mon;
   }
-  return { mon: current };
+  const evolved = current.species === mon.species ? undefined : `${mon.nickname || ctx.speciesName(mon.species)}进化为${ctx.speciesName(current.species)}。`;
+  return { mon: current, evolved, blocked };
 }
 
 /** `autoEvolution` after a raising action, whose notice says why an evolution was kept back. */

@@ -40,24 +40,24 @@ export function settle(rt: Runtime) {
   rt.save.items = { ...battle.sides[0].items };
   rt.rng.s = [...battle.rng.s];
   commit(rt, applyBattleRewards(rt.save, result.defeated, rt.ctx.dex, { autoEvolve: false }).save);
-  const kept = evolveParticipants(rt, result);
+  const evolutions = evolveParticipants(rt, result);
   if (result.reason === 'capture' && battle.capturedMon && session.wild) storeCapture(rt, session, battle.capturedMon);
-  settleOutcome(rt, session, result, before, kept);
+  settleOutcome(rt, session, result, before, evolutions);
   commit(rt, tickBoosts(rt.save));
 }
 
 /**
- * Each participant follows its automatic evolutions; returns why the six-copy allowance kept any of them back, each reason
- * once: participants of one line held back by the same allowance share it.
+ * Each participant follows its automatic evolutions; returns, in participant order, the evolutions made and why the six-copy
+ * allowance kept any back, each note once: participants of one line that evolve alike, or that one allowance holds back, share it.
  */
 function evolveParticipants(rt: Runtime, result: BattleResult): string[] {
-  const kept = new Set<string>();
+  const notes = new Set<string>();
   for (const uid of new Set(result.defeated.flatMap(entry => entry.participants))) {
-    const evolution = autoEvolution(rt, findMon(rt.save, uid));
-    replaceMonster(rt, evolution.mon);
-    if (evolution.blocked) kept.add(evolution.blocked);
+    const { mon, evolved, blocked } = autoEvolution(rt, findMon(rt.save, uid));
+    replaceMonster(rt, mon);
+    for (const note of [evolved, blocked]) if (note) notes.add(note);
   }
-  return [...kept];
+  return [...notes];
 }
 
 /** Saved HP/PP return to the unengraved scale; spent engraving bonus is kept as a deficit. */
@@ -94,14 +94,14 @@ function storeCapture(rt: Runtime, session: BattleSession, capturedMon: Mon) {
 }
 
 /**
- * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and why evolutions
- * were `kept` back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
+ * A victory's rewards and the challenge's progress. The result then says what a victory paid since `before` and which
+ * `evolutions` were made or kept back, and a notice repeats it. A capture is a wild victory: its result also says where the catch went.
  */
-function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, kept: readonly string[]) {
+function settleOutcome(rt: Runtime, session: BattleSession, result: BattleResult, before: Purse, evolutions: readonly string[]) {
   if (result.success) grantVictory(rt, session);
   session.hooks.settled?.(rt, session, result);
   if (result.success) session.resultNotes.push(payoutText(rt.ctx, before, purse(rt)));
-  session.resultNotes.push(...kept);
+  session.resultNotes.push(...evolutions);
   if (!session.resultNotes.length) return;
   const text = resultText(session);
   notice(rt, result.reason === 'capture' ? `捕捉成功：${text}` : text);
