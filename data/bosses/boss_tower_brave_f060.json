@@ -21,7 +21,7 @@
         10422,
         20184
       ],
-      "hp_override": 750
+      "hp_override": 1100
     },
     {
       "species": 140,
@@ -35,7 +35,7 @@
         10435,
         20187
       ],
-      "hp_override": 750
+      "hp_override": 1100
     },
     {
       "species": 142,
@@ -49,7 +49,7 @@
         10444,
         20191
       ],
-      "hp_override": 750
+      "hp_override": 1100
     }
   ],
   "rules": [
@@ -113,7 +113,7 @@
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Level shown as '??' (4399: 31~60层…等级都是能力高于100的??、???级，比玩家精灵高二十、三十级). Encoded as Lv120 for 31-50 and Lv130 for 51-60 (20-30 above the Lv100 cap).",
-    "HP is not published per floor. Two data points: 50F 水晶鸭 refills to 900; 57F 艾斯菲亚 has 750 HP. Estimates: 600 for 31-49, 750 for every 51-60 monster.",
+    "HP 1100 per monster from the T客邦 2011-01-19 floor table (TW server).",
     "Multi-monster floor: the enemy fields its team one at a time (51-60层的怪都是两只以上一起上); win = KO all.",
     "damage_only_from_own_type_normal_or_status: each of the three takes damage only from skills of its own type (洛比特 暗影 / 艾迪希洛 超能 / 肯扎特 战斗), from 普通系 skills, and from 属性 (status-category) skills such as 同生共死 (4399: 这三只精灵只受同系、普通和属性攻击伤害). This is damage_only_from with a per-member type list."
   ],
@@ -131,7 +131,8 @@
   },
   "sources": [
     "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-    "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+    "https://news.4399.com/seer/yzzt/200912-28-59900.html",
+    "https://www.techbang.com/posts/33146"
   ],
   "source_note": "4399 勇者之塔1-60层 (2010-04) and 51-60层精灵大揭秘 (2009-12-28): line-ups, 60F rule and 肯 reward."
 }

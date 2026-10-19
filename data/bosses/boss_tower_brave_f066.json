@@ -1,7 +1,7 @@
 {
   "id": "boss_tower_brave_f066",
   "name": {
-    "zh": "勇者之塔 第66层 波克尔、闪光皮皮、闪光尼尔"
+    "zh": "勇者之塔 第66层 波克尔、艾斯菲亚、闪光波克尔、闪光艾菲亚"
   },
   "category": "tower",
   "location": {
@@ -24,27 +24,44 @@
       "hp_override": 1400
     },
     {
-      "species": 164,
+      "species": 79,
       "level": 280,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10009,
-        10008,
-        10001,
-        20209
+        10222,
+        10219,
+        10221,
+        20101
       ],
       "hp_override": 1400
     },
     {
-      "species": 310,
+      "species": 166,
       "level": 280,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10194
+        10486,
+        10039,
+        10485,
+        20210
+      ],
+      "hp_override": 1400
+    },
+    {
+      "species": 312,
+      "level": 280,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        11026,
+        10222,
+        10221,
+        10220
       ],
       "hp_override": 1400
     }
@@ -64,11 +81,18 @@
       10033,
       10038,
       20017,
-      10009,
-      10008,
-      10001,
-      20209,
-      10194
+      10222,
+      10219,
+      10221,
+      20101,
+      10486,
+      10039,
+      10485,
+      20210,
+      11026,
+      10222,
+      10221,
+      10220
     ]
   },
   "reward": {
@@ -85,7 +109,7 @@
     ]
   },
   "capture": {
-    "zh": "勇者之塔第66层：波克尔、闪光皮皮、闪光尼尔，Lv280，每只约1400血。"
+    "zh": "勇者之塔第66层：波克尔、艾斯菲亚、闪光波克尔、闪光艾菲亚，Lv280，每只约1400血。"
   },
   "strategy_notes": {
     "zh": "1级精灵首发让它被波克尔秒掉，高防血的打掉波克尔后换光系打超能；闪皮先减攻、寄生、护体；闪尼只会超能技能，换光系"
@@ -93,9 +117,9 @@
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
-    "Identification: four enemies; the second (an unnamed 超能系) is unidentified and omitted.",
-    "Identification: 闪皮/闪尼 read as 闪光皮皮 (164) / 闪光尼尔 (310).",
-    "skills: 闪光尼尔 (team[2]) knows only 念力射线 (10194), the one psychic move in the species 310 learnset (4399: 闪尼只会超能技能)."
+    "Identification: four enemies 波克尔 (12), 艾斯菲亚 (79), 闪光波克尔 (166) and 闪光艾菲亚 (312) (4399 2010-06-23 and 2010-06-30; T客邦 2011-01-19 第66層); the guides' 皮皮/尼尔/闪P/闪尼 are nicknames for them.",
+    "skills: 闪光艾菲亚 (team[3]) knows only psychic moves, its four highest-level psychic attacks (4399 2010-10-10: 闪尼只会超能技能).",
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
   ],
   "confidence": {
     "level": "low",
@@ -105,13 +129,15 @@
       "nature",
       "skills",
       "level",
-      "hp",
-      "team"
+      "hp"
     ]
   },
   "sources": [
     "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-    "https://www.juxia.com/news/2011-9-23/15944.html"
+    "https://www.juxia.com/news/2011-9-23/15944.html",
+    "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+    "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+    "https://www.techbang.com/posts/33166"
   ],
   "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
 }

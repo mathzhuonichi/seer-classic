@@ -47,7 +47,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     .flatMap(([key,child])=>key==='evidence'?[`${at}/${key}`]:evidencePaths(child,`${at}/${key}`));
   function reject(game,action,label){const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle),rngBefore=parse(game).rng_state,count=created.length;game.dispatch(action);assert.equal(game.exportSave(),before,`${label}: save`);assert.deepEqual(parse(game).rng_state,rngBefore,`${label}: RNG`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle`);assert.equal(created.length,count,`${label}: no battle constructed`);}
 
-  check('The runtime and detailed evidence ledgers cover exactly the 180 encounters and 240 unique members they describe',()=>{
+  check('The runtime and detailed evidence ledgers cover exactly the 180 encounters and 247 unique members they describe',()=>{
     assert.equal(bosses.size,180);assert.deepEqual(Object.keys(runtime.encounters).sort(),[...bosses.keys()].sort());assert.deepEqual(Object.keys(audit.encounters).sort(),[...bosses.keys()].sort());
     let members=0;
     for(const boss of bosses.values()){
@@ -64,7 +64,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       }
       for(const key of fieldKeys){assert(statuses.has(runtimeEntry.fields[key]?.status));assert.equal(runtimeEntry.fields[key].status,detail.fields[key].status);}
     }
-    assert.equal(members,240);t.witness('evidence-index',{encounters:bosses.size,members});
+    assert.equal(members,247);t.witness('evidence-index',{encounters:bosses.size,members});
   });
   check('Both ledgers record the four waivers and the strict-quarter replacement of the user policy ledger',()=>{
     const expected=['boss_puni_seal7','boss_puni_zhenshen','boss_spt_eersaila','boss_spt_kenpeide','boss_spt_moshidilu'];

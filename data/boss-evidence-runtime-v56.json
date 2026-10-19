@@ -12202,8 +12202,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12236,8 +12236,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12248,6 +12248,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12281,8 +12282,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12315,8 +12316,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12327,6 +12328,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12360,8 +12362,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12394,8 +12396,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12406,6 +12408,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12439,8 +12442,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12473,8 +12476,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12485,6 +12488,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12518,8 +12522,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12552,8 +12556,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12564,6 +12568,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33133",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12597,8 +12602,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12631,8 +12636,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12643,6 +12648,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
+        "https://news.4399.com/seer/yzzt/201001-10-62507.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12676,8 +12683,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12710,8 +12717,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12722,6 +12729,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
+        "https://news.4399.com/seer/yzzt/201001-18-63642.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12755,8 +12764,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12789,8 +12798,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12801,6 +12810,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12834,8 +12844,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12868,8 +12878,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12880,6 +12890,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
+        "https://news.4399.com/seer/yzzt/201001-18-63642.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12913,8 +12925,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -12947,8 +12959,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -12959,6 +12971,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -12992,8 +13005,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13026,8 +13039,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13038,6 +13051,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
+        "https://news.4399.com/seer/yzzt/201001-10-62507.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -13071,8 +13086,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13105,8 +13120,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13117,6 +13132,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -13150,8 +13166,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13184,8 +13200,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13196,6 +13212,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
+        "https://news.4399.com/seer/yzzt/201001-10-62507.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -13229,8 +13247,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13263,8 +13281,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13275,6 +13293,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33135",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html"
       ],
       "summary": {
@@ -13354,7 +13373,9 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html"
+        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
+        "https://news.4399.com/seer/yzzt/201001-10-62507.html",
+        "https://www.techbang.com/posts/33135"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -13387,8 +13408,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13421,8 +13442,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13451,8 +13472,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13463,6 +13484,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33136",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -13497,8 +13519,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13531,8 +13553,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13561,8 +13583,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13573,6 +13595,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33136",
+        "https://news.4399.com/seer/yzzt/201005-26-69566.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -13607,8 +13631,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13641,8 +13665,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13671,8 +13695,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13683,6 +13707,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33136",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -13717,8 +13742,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13751,8 +13776,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13781,8 +13806,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13793,6 +13818,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33139",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -13827,8 +13853,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13861,8 +13887,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13891,8 +13917,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -13903,8 +13929,10 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33139",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://news.4399.com/seer/yzzt/201006-02-70107.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -13937,8 +13965,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -13971,8 +13999,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14001,8 +14029,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14031,8 +14059,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14043,6 +14071,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33139",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -14077,8 +14106,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14111,8 +14140,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14171,8 +14200,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14183,6 +14212,7 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33146",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -14217,8 +14247,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14251,8 +14281,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14262,36 +14292,6 @@
         },
         {
           "slot": 1,
-          "species": 92,
-          "fields": {
-            "level": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            },
-            "iv": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            },
-            "evs": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            },
-            "nature": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            },
-            "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            },
-            "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
-            }
-          }
-        },
-        {
-          "slot": 2,
           "species": 94,
           "fields": {
             "level": {
@@ -14311,8 +14311,38 @@
               "basis": "explicit-estimate"
             },
             "hp": {
+              "status": "observed",
+              "basis": "verified-period-observation"
+            },
+            "skills": {
               "status": "inferred",
               "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 2,
+          "species": 92,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14323,8 +14353,10 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33146",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://zhidao.baidu.com/question/167247201.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -14357,8 +14389,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14391,8 +14423,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14421,8 +14453,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14451,8 +14483,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14463,6 +14495,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.techbang.com/posts/33146",
+        "https://news.4399.com/seer/yzzt/201006-02-70107.html",
         "https://news.4399.com/seer/yzzt/201004-13-66291.html",
         "https://news.4399.com/seer/yzzt/200912-28-59900.html"
       ],
@@ -14497,8 +14531,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14531,8 +14565,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14561,8 +14595,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14591,8 +14625,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14603,8 +14637,10 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
-        "https://news.4399.com/seer/yzzt/201004-13-66291.html",
-        "https://news.4399.com/seer/yzzt/200912-28-59900.html"
+        "https://www.techbang.com/posts/33146",
+        "https://news.4399.com/seer/yzzt/201001-18-63641.html",
+        "https://news.7k7k.com/content/20100729/11741.html",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -14637,8 +14673,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14671,8 +14707,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14701,8 +14737,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14731,8 +14767,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14743,9 +14779,9 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
-        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
         "https://www.juxia.com/news/2011-9-23/15944.html",
-        "https://news.4399.com/seer/yzzt/201006-23-71411.html"
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -14778,8 +14814,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14812,8 +14848,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14842,8 +14878,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14853,7 +14889,7 @@
         },
         {
           "slot": 2,
-          "species": 418,
+          "species": 361,
           "fields": {
             "level": {
               "status": "inferred",
@@ -14872,8 +14908,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14884,8 +14920,10 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.techbang.com/posts/33162"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -14918,8 +14956,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -14952,8 +14990,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -14982,8 +15020,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15012,8 +15050,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15024,8 +15062,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
-        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15058,8 +15096,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -15092,8 +15130,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15122,8 +15160,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15152,8 +15190,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15164,8 +15202,8 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
-        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15198,8 +15236,8 @@
           "basis": "explicit-estimate"
         },
         "hp": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "skills": {
           "status": "inferred",
@@ -15232,8 +15270,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15262,8 +15300,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15292,8 +15330,8 @@
               "basis": "explicit-estimate"
             },
             "hp": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             },
             "skills": {
               "status": "inferred",
@@ -15304,8 +15342,9 @@
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
+        "https://www.juxia.com/news/2011-9-23/15944.html",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://news.7k7k.com/content/20100622/9177.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15383,7 +15422,7 @@
         },
         {
           "slot": 1,
-          "species": 164,
+          "species": 79,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15413,7 +15452,37 @@
         },
         {
           "slot": 2,
-          "species": 310,
+          "species": 166,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 3,
+          "species": 312,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15445,7 +15514,9 @@
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-23-71411.html",
+        "https://www.techbang.com/posts/33166"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15520,12 +15591,104 @@
               "basis": "explicit-estimate"
             }
           }
+        },
+        {
+          "slot": 1,
+          "species": 214,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 2,
+          "species": 224,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 3,
+          "species": 363,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
         }
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.7k7k.com/content/20100622/9177.html",
+        "https://news.4399.com/seer/yzzt/201006-30-71816.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15600,12 +15763,104 @@
               "basis": "explicit-estimate"
             }
           }
+        },
+        {
+          "slot": 1,
+          "species": 256,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 2,
+          "species": 266,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
+        },
+        {
+          "slot": 3,
+          "species": 350,
+          "fields": {
+            "level": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "iv": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "evs": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "nature": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "hp": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            },
+            "skills": {
+              "status": "inferred",
+              "basis": "explicit-estimate"
+            }
+          }
         }
       ],
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+        "https://www.techbang.com/posts/33169"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15653,7 +15908,7 @@
       "members": [
         {
           "slot": 0,
-          "species": 366,
+          "species": 239,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15683,7 +15938,7 @@
         },
         {
           "slot": 1,
-          "species": 367,
+          "species": 277,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15713,7 +15968,7 @@
         },
         {
           "slot": 2,
-          "species": 368,
+          "species": 353,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15743,7 +15998,7 @@
         },
         {
           "slot": 3,
-          "species": 369,
+          "species": 280,
           "fields": {
             "level": {
               "status": "inferred",
@@ -15775,7 +16030,9 @@
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/jingyanxinde/201006-18-71186.html",
+        "https://news.7k7k.com/content/20100622/9177.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -15945,7 +16202,9 @@
       "sourceUrls": [
         "https://seer.61.com/dll/PetFightDLL.swf",
         "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-        "https://www.juxia.com/news/2011-9-23/15944.html"
+        "https://www.juxia.com/news/2011-9-23/15944.html",
+        "https://news.4399.com/seer/jingyanxinde/201006-18-71186.html",
+        "https://news.7k7k.com/content/20100708/10242.html"
       ],
       "summary": {
         "hasInferredStats": true,

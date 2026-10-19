@@ -84,11 +84,12 @@ def set_field(entry: dict, field: str, expected, proof: dict, slot: int = 0) -> 
     entry["members"][slot]["fields"][field] = deepcopy(proof)
 
 
-def partial_skills(entry: dict, ids: list[int], src: str, slot: int = 0) -> None:
+def partial_skills(entry: dict, ids: list[int], src: str | list[str], slot: int = 0) -> None:
     member = entry["members"][slot]
     if not set(ids).issubset(member["configured"]["skills"]):
         raise ValueError(f"Named move no longer configured: {entry['id']}")
-    member["fields"]["skills"].update({"verifiedMoveIds": ids, "sources": [src], "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred."})
+    srcs = [src] if isinstance(src, str) else src
+    member["fields"]["skills"].update({"verifiedMoveIds": ids, "sources": srcs, "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred."})
 
 
 def rule_nodes(value, path: str = "", condition: dict | None = None):
@@ -152,6 +153,7 @@ def curate(entries: dict[str, dict]) -> None:
         set_field(entry, "level", level, observed("The floor's displayed level is explicitly listed in the 2010 report.", [TOWER]))
     set_field(entries["boss_tower_brave_f050"], "hp", 900, observed("The floor-50 refill is reported to restore HP to 900.", [TOWER]))
     set_field(entries["boss_tower_brave_f057"], "hp", 750, observed("The report specifically gives the species-79 member 750 HP; this is not extended to its teammates or every later floor.", [TOWER]), slot=1)
+    curate_tower_high(entries)
     for boss_id, fields, src in [
         ("boss_spt_moshidilu", {"level": 50, "hp": 3000000, "skills": [10540, 10543, 20232, 20231]}, MOSHI),
         ("boss_spt_younasi", {"level": 70, "hp": 2800, "skills": [10410, 20176, 10406, 10409]}, CLASSIC),
@@ -213,6 +215,57 @@ def curate(entries: dict[str, dict]) -> None:
         entries["boss_spt_saiweier"]["members"][0]["fields"][key] = evidence("authored", "remake-policy", "The solo Seville encounter deliberately uses authored difficulty values; cooperative-era parameters are not substituted.")
 
 
+def period(url: str, scope: str) -> str:
+    return source(url, scope, "verified-period-observation")
+
+
+TW_TABLES = {start: period(f"https://www.techbang.com/posts/{post}",
+                           f"T客邦 2011-01-19 Brave Tower floors {start}-{end} (TW server): one table per floor with name, HP and type.")
+             for start, end, post in [(31, 40, 33133), (41, 50, 33135), (51, 53, 33136), (54, 56, 33139), (57, 60, 33146)]}
+TW6566 = period("https://www.techbang.com/posts/33166", "T客邦 2011-01-19 Brave Tower floors 65-66 (TW server): fight order and named moves.")
+T41 = period("https://news.4399.com/seer/yzzt/201001-10-62507.html", "4399 2010-01-10 floors 41-50: named moves of floors 41, 46, 48 and 50.")
+T4145 = period("https://news.4399.com/seer/yzzt/201001-18-63642.html", "4399 2010-01-18 floors 41-45: named moves of floors 42 and 44.")
+T5560 = period("https://news.4399.com/seer/yzzt/201001-18-63641.html", "4399 2010-01-18 floors 55-60: 60F attack-use counts and 洛比特's 暗黑加持.")
+T52 = period("https://news.4399.com/seer/yzzt/201005-26-69566.html", "4399 2010-05-26 repost: 52F 巴拉龟's 光栅炮 and 高压水枪.")
+T5160 = period("https://news.4399.com/seer/yzzt/201006-02-70107.html", "4399 2010-06-02 floors 51-60 tips: 55F 栖息 and 59F 浴火重生.")
+RUN4966 = period("https://news.4399.com/seer/yzzt/201006-23-71411.html", "4399 2010-06-23 run of floors 49-66: fight orders, line-ups and named moves.")
+SPEED6170 = period("https://news.7k7k.com/content/20100622/9177.html", "7k7k 2010-06-22 run of floors 61-70: named moves of floors 65, 66, 67 and 69.")
+LIST6170 = period("https://news.4399.com/seer/jingyanxinde/201006-18-71186.html", "4399 2010-06-18 release-day floor 61-70 list: line-ups and 70F 冬眠.")
+EASY6170 = period("https://news.4399.com/seer/jingyanxinde/201010-10-78575.html", "4399 2010-10-10 floors 61-70: 63F 狙击 and 66F psychic-only 闪尼.")
+JUXIA = period("https://www.juxia.com/news/2011-9-23/15944.html", "聚侠 2011-09-23 floors 61-65 headings: Lv and HP, the HP stated for each monster.")
+RUN70 = period("https://news.7k7k.com/content/20100708/10242.html", "7k7k 2010-07-08 floor-70 run: 炽翼蝶's 燃烧之翼 and 橡木蝶's 橡木贤者.")
+SOLO60 = period("https://news.7k7k.com/content/20100729/11741.html", "7k7k 2010-07-29 floor-60 solo: 艾迪希洛 uses one normal physical attack against light.")
+ZHIDAO58 = period("https://zhidao.baidu.com/question/167247201.html", "Baidu Zhidao 2010-07: 58F 蝠迪's 音波干扰 and 66F 波克尔's 突进. Weak forum support.")
+ZHIDAO70 = period("https://zhidao.baidu.com/question/185752745.html", "Baidu Zhidao 2010-09/10: 70F 橡木蝶's 木之振奋 has 30 uses. Weak forum support.")
+TOWER_HIGH_MOVES = [
+    (38, 0, [10043], TOWER), (40, 0, [10153], TOWER), (41, 0, [20091, 10180, 10181], [T41, TOWER]), (42, 0, [10315, 10310], T4145),
+    (44, 0, [10299, 10301, 20134], T4145), (46, 0, [10326], T41), (48, 0, [10256, 20116], [T41, TOWER]), (50, 0, [10188, 10189], T41),
+    (51, 0, [10064], TOWER), (52, 0, [10073, 10027], T52), (55, 0, [10026, 10060, 20027], [TOWER, RUN4966, T5160]),
+    (58, 1, [10274], RUN4966), (58, 2, [10261, 10164, 20119], [RUN4966, ZHIDAO58]), (59, 0, [20116], T5160), (60, 0, [20184], T5560),
+    (60, 1, [10432, 10436], [SOLO60, RUN4966]), (60, 2, [10445], RUN4966), (61, 0, [20330], RUN4966), (62, 0, [10670, 10671], [RUN4966, JUXIA]),
+    (63, 0, [20355], EASY6170), (65, 2, [10654], SPEED6170), (66, 0, [10038, 10039], [ZHIDAO58, RUN4966]), (66, 1, [10219], TW6566),
+    (66, 2, [10039], TW6566), (67, 1, [20264], SPEED6170), (69, 0, [20289], SPEED6170), (70, 0, [20409], LIST6170),
+    (70, 2, [20415], RUN70), (70, 3, [10918, 20416], [RUN70, ZHIDAO70]),
+]
+
+
+def curate_tower_high(entries: dict[str, dict]) -> None:
+    """Brave Tower floors 36-70: per-floor HP tables and individually named moves."""
+    tower = lambda floor: entries[f"boss_tower_brave_f{floor:03d}"]
+    table_note = "This member's HP is listed in the floor's table; TW server, not the mainland server."
+    for floor in range(36, 61):
+        table = TW_TABLES[max(start for start in TW_TABLES if start <= floor)]
+        for slot in range(len(tower(floor)["members"])):
+            if (floor, slot) in ((50, 0), (57, 1)):
+                continue  # Already curated from the 2010 report.
+            set_field(tower(floor), "hp", 20 * floor - 100, observed(table_note, [table]), slot=slot)
+    for floor in range(61, 66):
+        for slot in range(len(tower(floor)["members"])):
+            set_field(tower(floor), "hp", 50 * floor - 1900, observed("The floor heading states this HP for each of its monsters.", [JUXIA]), slot=slot)
+    for floor, slot, ids, srcs in TOWER_HIGH_MOVES:
+        partial_skills(tower(floor), ids, srcs, slot=slot)
+
+
 def aggregate(fields: list[dict]) -> dict:
     least = max(fields, key=lambda field: RANK[field["status"]])
     return evidence(least["status"], least["basis"], "Aggregate retains the least certain member; inspect member records for exact field claims.", sorted({src for field in fields for src in field.get("sources", [])}))
@@ -232,8 +285,8 @@ def build() -> tuple[dict, dict]:
             members.append({"slot": slot, "species": member["species"], "configured": configured, "fields": {field: unknown(field, row, member, refs) for field in FIELDS}, "computedCombatStats": "inferred", "statMultipliers": member.get("stat_multipliers", {})})
         rules = [{"index": index, "path": loc, "rule": node.get("id", node.get("rule", node.get("op"))), "configuration": node, "condition": condition, "evidence": rule_proof(row["id"], loc, node)} for index, (loc, node, condition) in enumerate(rule_nodes(row))]
         entries[row["id"]] = {"id": row["id"], "category": row["category"], "sourceFile": str(path.relative_to(ROOT)), "sourceSha256": sha256(raw).hexdigest(), "sourceNoteSha256": sha256(row.get("source_note", "").encode()).hexdigest(), "sourceUrls": row.get("sources", []), "originalConfidence": row.get("confidence", {}), "members": members, "rules": rules, "additionalConfiguration": {key: row.get(key) for key in ("win", "lose", "limits", "unlock", "ai")}, "fields": {"ai": evidence("authored", "remake-policy", "The executable choice policy is a remake. Named tendencies do not certify exact weights, random seeds, branch order or hidden server AI.")}}
-    if len(entries) != 180 or sum(len(e["members"]) for e in entries.values()) != 240:
-        raise ValueError("Encounter scope changed; review the expected 180 encounters / 240 members before regenerating.")
+    if len(entries) != 180 or sum(len(e["members"]) for e in entries.values()) != 247:
+        raise ValueError("Encounter scope changed; review the expected 180 encounters / 247 members before regenerating.")
     curate(entries)
     for entry in entries.values():
         entry["userPolicies"] = [deepcopy(policy) for policy in USER_POLICY_LEDGER["policies"] if policy["bossId"] == entry["id"]]
@@ -245,7 +298,7 @@ def build() -> tuple[dict, dict]:
     summary = {"encounters": len(entries), "members": sum(len(e["members"]) for e in entries.values()), "categories": dict(sorted(Counter(e["category"] for e in entries.values()).items())), "memberFieldStatuses": {key: dict(sorted(Counter(m["fields"][key]["status"] for e in entries.values() for m in e["members"]).items())) for key in FIELDS}, "ruleNodes": sum(len(e["rules"]) for e in entries.values())}
     summary["waivedMechanics"] = sum(policy["disposition"] == "waived" for policy in USER_POLICY_LEDGER["policies"])
     summary["userReplacementPolicies"] = sum(policy["disposition"] == "replaced" for policy in USER_POLICY_LEDGER["policies"])
-    full = {"schemaVersion": 1, "userPolicyAuthority": {key: value for key, value in USER_POLICY_LEDGER.items() if key != "policies"}, "sourceBoundary": {"scope": "All 180 production boss records and 240 members; excludes ten authored trainer encounters.", "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.", "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.", "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.", "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."}, "summary": summary, "sources": dict(sorted(SOURCES.items())), "encounters": entries}
+    full = {"schemaVersion": 1, "userPolicyAuthority": {key: value for key, value in USER_POLICY_LEDGER.items() if key != "policies"}, "sourceBoundary": {"scope": "All 180 production boss records and 247 members; excludes ten authored trainer encounters.", "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.", "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.", "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.", "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."}, "summary": summary, "sources": dict(sorted(SOURCES.items())), "encounters": entries}
     compact = lambda field: {"status": field["status"], "basis": field["basis"]}
     def source_urls(entry: dict) -> list[str]:
         refs = [src for member in entry["members"] for field in member["fields"].values() for src in field["sources"]]

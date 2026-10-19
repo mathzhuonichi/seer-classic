@@ -1,7 +1,7 @@
 {
   "id": "boss_tower_brave_f067",
   "name": {
-    "zh": "勇者之塔 第67层 SRX"
+    "zh": "勇者之塔 第67层 SRX、TOH、赫德卡、鲁比克"
   },
   "category": "tower",
   "location": {
@@ -22,6 +22,48 @@
         20255
       ],
       "hp_override": 1450
+    },
+    {
+      "species": 214,
+      "level": 290,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10610,
+        10607,
+        10609,
+        20264
+      ],
+      "hp_override": 1450
+    },
+    {
+      "species": 224,
+      "level": 290,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10641,
+        10450,
+        10453,
+        20279
+      ],
+      "hp_override": 1450
+    },
+    {
+      "species": 363,
+      "level": 290,
+      "iv": 31,
+      "evs": {},
+      "nature": null,
+      "skills": [
+        10891,
+        10886,
+        10890,
+        20401
+      ],
+      "hp_override": 1450
     }
   ],
   "rules": [],
@@ -38,7 +80,19 @@
       10582,
       10581,
       10578,
-      20255
+      20255,
+      10610,
+      10607,
+      10609,
+      20264,
+      10641,
+      10450,
+      10453,
+      20279,
+      10891,
+      10886,
+      10890,
+      20401
     ]
   },
   "reward": {
@@ -55,7 +109,7 @@
     ]
   },
   "capture": {
-    "zh": "勇者之塔第67层：SRX，Lv290，每只约1450血。"
+    "zh": "勇者之塔第67层：SRX、TOH、赫德卡、鲁比克，Lv290，每只约1450血。"
   },
   "strategy_notes": {
     "zh": "丽莎在SRX这里完成护体和攻击强化，起手寄生，之后1V4"
@@ -63,7 +117,8 @@
   "engine_notes": [
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
-    "Identification: four enemies; only SRX is named, the other three are unidentified."
+    "Identification: four enemies SRX (202), TOH (214), 赫德卡 (224) and 鲁比克 (363) (4399 2010-06-30; T客邦 2011-01-19 第67層). Some lists write TOE; the second boss uses 能量灌注, a TOH move (7k7k 2010-06-22).",
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
   ],
   "confidence": {
     "level": "low",
@@ -73,13 +128,15 @@
       "nature",
       "skills",
       "level",
-      "hp",
-      "team"
+      "hp"
     ]
   },
   "sources": [
     "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-    "https://www.juxia.com/news/2011-9-23/15944.html"
+    "https://www.juxia.com/news/2011-9-23/15944.html",
+    "https://news.4399.com/seer/yzzt/201006-30-71816.html",
+    "https://www.techbang.com/posts/33169",
+    "https://news.7k7k.com/content/20100622/9177.html"
   ],
   "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP)."
 }

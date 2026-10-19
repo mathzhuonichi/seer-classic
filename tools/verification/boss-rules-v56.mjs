@@ -140,7 +140,7 @@ check('All percentage member thresholds and the dark-door flat 300 heal use thei
   for(const floor of [62,65]){const battle=make(`boss_tower_brave_f0${floor}`),rule=battle.sides[1].rules.find(rule=>rule.rule==='heal_full_below'),mon=battle.sides[1].team[rule.member];mon.hp=mon.maxHp*.2;hit(battle,mon,1);assert.equal(mon.hp,mon.maxHp);for(const other of battle.sides[1].team.filter(value=>value!==mon)){other.hp=100;hit(battle,other,1);assert.equal(other.hp,99);}}
   const dark=make('boss_dark_door7_mohuashizhe');dark.active(1).hp=100;dark.endOfTurn();assert.equal(dark.active(1).hp,400);
 });
-check('Every grass opponent on floors 61-70 fully heals below one fifth of its HP, substitute floor 69 included',()=>{
+check('Every grass opponent on floors 61-70 fully heals below one fifth of its HP',()=>{
   // 聚侠 2011-09-23: 61层以上的草系1/5血以下的时候会回满Hp.
   const GRASS_HEAL_PCT=20,healers=[];
   for(let floor=61;floor<=70;floor++){
@@ -152,11 +152,11 @@ check('Every grass opponent on floors 61-70 fully heals below one fifth of its H
       healers.push(`${floor}/${mon.slot}`);
     }
   }
-  assert.deepEqual(healers,['62/0','65/1','69/3','70/3']);
+  assert.deepEqual(healers,['62/0','65/1','70/3']);
 });
-check('Floor 66 闪光尼尔 knows only psychic moves, and the encounter AI lists only moves its team knows',()=>{
-  // 4399 2010-10-10: 闪尼只会超能技能，换光系.
-  const battle=make('boss_tower_brave_f066'),nier=battle.sides[1].team.find(mon=>mon.species.id===310);
+check('Floor 66 闪光艾菲亚 knows only psychic moves, and the encounter AI lists only moves its team knows',()=>{
+  // 4399 2010-10-10: 闪尼只会超能技能，换光系 (闪尼 is the guides' nickname for 闪光艾菲亚).
+  const battle=make('boss_tower_brave_f066'),nier=battle.sides[1].team.find(mon=>mon.species.id===312);
   assert(nier.skills.length>0);for(const id of nier.skills)assert.equal(data.skills.get(id).type,'psychic',`skill ${id}`);
   const known=new Set(battle.sides[1].team.flatMap(mon=>mon.skills));
   for(const id of byId.get('boss_tower_brave_f066').ai.skills)assert(known.has(id),`AI skill ${id} is on the team`);

@@ -1,7 +1,7 @@
 {
   "id": "boss_tower_brave_f069",
   "name": {
-    "zh": "勇者之塔 第69层 四重试炼"
+    "zh": "勇者之塔 第69层 吉娜斯、尹泰拉多、迪斯凯特、沙罗希瓦"
   },
   "category": "tower",
   "location": {
@@ -10,58 +10,58 @@
   "era": "2010-10",
   "team": [
     {
-      "species": 366,
+      "species": 239,
       "level": 310,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10898,
-        10901,
-        10897,
-        20409
+        10773,
+        10772,
+        10771,
+        20289
       ],
       "hp_override": 1550
     },
     {
-      "species": 367,
+      "species": 277,
       "level": 310,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10906,
-        10902,
-        10905,
-        20412
+        10766,
+        10768,
+        10765,
+        20341
       ],
       "hp_override": 1550
     },
     {
-      "species": 368,
+      "species": 353,
       "level": 310,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10911,
-        10907,
-        10910,
-        20415
+        10861,
+        10856,
+        10860,
+        20382
       ],
       "hp_override": 1550
     },
     {
-      "species": 369,
+      "species": 280,
       "level": 310,
       "iv": 31,
       "evs": {},
       "nature": null,
       "skills": [
-        10915,
-        10918,
-        10914,
-        20416
+        10785,
+        10781,
+        10784,
+        20344
       ],
       "hp_override": 1550
     }
@@ -98,7 +98,7 @@
     ]
   },
   "capture": {
-    "zh": "连续击败呆呆蛹、海纹蝶、炽翼蝶、橡木蝶，通过四重试炼。"
+    "zh": "勇者之塔第69层：吉娜斯、尹泰拉多、迪斯凯特、沙罗希瓦，Lv310，每只约1550血。"
   },
   "strategy_notes": {
     "zh": "四只精灵连续出战。合理安排恢复道具与技能 PP，保存主力体力迎接终层。"
@@ -107,7 +107,8 @@
     "Remake progression (V53/V54): floors are climbed in order from the ten-floor starting points 1, 11, …, 61; a loss, retreat or cancelled load keeps the attempted floor, and the party may recover between floors. The 2010 tower allowed no healing between floors and sent a loser back to floor 1 (4399 2010-04-13: 如果挑战失败，要重新从一层开打); fleeing kept progress (只剩一只精灵时除非胜券在握，最好逃跑).",
     "Lv/HP from 聚侠 (61F Lv230 Hp1150 … 65F Lv270 Hp1350, i.e. +10 Lv per floor and HP = 5×Lv per monster); 66-70 are extrapolated on the same step.",
     "heal_full_below {pct:20, member}: 61层以上的草系1/5血以下的时候会回满Hp (聚侠). Applies only to the grass-type member(s) listed by index; the engine's heal_full_below needs a per-member form.",
-    "Identification: four enemies; none is named in the sources."
+    "Identification: four enemies 吉娜斯 (239), 尹泰拉多 (277), 迪斯凯特 (353) and 沙罗希瓦 (280) (4399 2010-06-18 and 2011-06-30; T客邦 2011-01-19 第69層).",
+    "Unnamed skill slots of the members added from the line-up sources follow the tower's existing convention: the three highest-level learnset attacks and the highest-level status move."
   ],
   "confidence": {
     "level": "low",
@@ -117,13 +118,15 @@
       "nature",
       "skills",
       "level",
-      "hp",
-      "team"
+      "hp"
     ]
   },
   "sources": [
     "https://news.4399.com/seer/jingyanxinde/201010-10-78575.html",
-    "https://www.juxia.com/news/2011-9-23/15944.html"
+    "https://www.juxia.com/news/2011-9-23/15944.html",
+    "https://news.4399.com/seer/jingyanxinde/201006-18-71186.html",
+    "https://www.techbang.com/posts/33171",
+    "https://news.7k7k.com/content/20100622/9177.html"
   ],
   "source_note": "4399 勇者之塔61-70层简单攻略 (2010-10-10) and 聚侠 61-70层攻略 (61-65 line-ups with Lv/HP).",
   "placeholder": false,

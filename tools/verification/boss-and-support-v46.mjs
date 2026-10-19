@@ -27,7 +27,9 @@ await withSsr('boss-and-support-v46',async load=>{
   check('All 180 original boss loadouts, AI choices, variants and phase references are scanned',()=>{
     assert.equal(catalog.bosses.length,180);report.selfKoSkills=[...banned].sort((a,b)=>a-b).map(id=>({id,name:skills.get(id).name.zh}));
     report.originalReferences=catalog.bosses.flatMap(boss=>references(boss,boss.id));
-    assert.deepEqual(report.originalReferences,[{path:'boss_tower_brave_f061.team[0].skills',id:20330},{path:'boss_tower_brave_f061.ai.skills',id:20330}]);
+    // Both sacrifices are period-attested: 61F 眼球的掌控 (4399 2010-06-23) and 67F TOH's 能量灌注 (7k7k 2010-06-22).
+    const attested=[['f061','team[0]',20330],['f061','ai',20330],['f067','team[1]',20264],['f067','ai',20264]];
+    assert.deepEqual(report.originalReferences,attested.map(([floor,at,id])=>({path:`boss_tower_brave_${floor}.${at}.skills`,id})));
     for(const boss of catalog.bosses){
       const next=normalize(catalog,boss);assert.deepEqual(next,boss);assert.deepEqual(references(next),references(boss));assert.deepEqual(normalize(catalog,next),next);
       if(JSON.stringify(next)!==JSON.stringify(boss))report.bossChanges.push(boss.id);
