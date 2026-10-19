@@ -230,7 +230,24 @@ await withSsr('battle-commands', async load => {
     }
     const retreat = outcomes['wild retreat'][0].snapshot().battle;
     assert.deepEqual([retreat.log[0], retreat.log.at(-1)], [`遭遇野生的${retreat.enemy.name}。`, '我方撤离了战斗。'], 'a wild battle opens as an encounter');
+    const challenge = outcomes['challenge loss'][0].snapshot().battle;
+    assert.equal(challenge.log[0], `挑战${challenge.name}。`, 'a challenge opens as one');
     t.witness('outcome endings', said);
+  });
+
+  t.check('A field recruit, whose name already says 野外挑战, opens with its name alone', () => {
+    const game = createGame(catalog, JSON.stringify(base), {idle: () => {}});
+    // The first catalog species met as a recruit; the contacts before it open a wild battle or a Boss, which the player leaves.
+    const recruit = catalog.species.find(({id}) => {
+      if (!game.dispatch({type: 'startTraining', species: id, level: 5}).ok || !game.snapshot().battle) return false;
+      if (game.snapshot().battle.name.startsWith('野外挑战')) return true;
+      game.dispatch({type: 'flee'});
+      game.dispatch({type: 'closeBattle'});
+      return false;
+    });
+    assert.ok(recruit, 'the catalog has a recruit-only species');
+    const {name, log} = game.snapshot().battle;
+    assert.deepEqual([name, log[0]], [`野外挑战：${recruit.name.zh}`, `${name}。`]);
   });
 
   t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {

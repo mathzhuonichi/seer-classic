@@ -3,7 +3,7 @@ import type { Action, Battle, BattleEvent } from '../../../battle/core/src/index
 import { findMon, type Monster } from '../../../raising/core/index.ts';
 import { groupedBattleLog, openingEvents } from './battle-log.ts';
 import { eventFrames, type BattlePresentationState } from './battle-presentation.ts';
-import { setupBattle, type Foe } from './battle-setup.ts';
+import { setupBattle, type BattleSetup, type Foe } from './battle-setup.ts';
 import { foeView, hidesFoeHp, isChallenge, presentationState } from './battle-view.ts';
 import { battleInProgress, requireSession, type BattleSession, type GameContext, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
@@ -17,12 +17,16 @@ interface SessionOptions {
   hooks?: SessionHooks;
 }
 
+/** The word that opens an encounter's first log line, unless its name already says it (a field recruit's 野外挑战：X). */
+const CHALLENGE_WORD = '挑战';
+const openingLine = (rt: Runtime, { wild, name }: BattleSetup) => wild ? `遭遇野生的${rt.ctx.speciesName(wild.species)}。`
+  : name.includes(CHALLENGE_WORD) ? `${name}。` : `${CHALLENGE_WORD}${name}。`;
+
 /** Opens the battle session against `foe`; an encounter counts as an attempt unless the hooks keep no record. */
 export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: SessionOptions = {}) {
   if (battleInProgress(rt)) throw new Error('请先完成当前战斗。');
   const { save } = rt, setup = setupBattle(rt.ctx, save, rt.rng, foe, roster ?? save.party.map(uid => findMon(save, uid)));
-  const opening = setup.wild ? `遭遇野生的${rt.ctx.speciesName(setup.wild.species)}。` : `挑战${setup.name}。`;
-  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [opening], frames: [] };
+  const session: BattleSession = { ...setup, hooks, resultMessage: '', settled: false, logs: [openingLine(rt, setup)], frames: [] };
   rt.session = session;
   rt.animation.revision++;
   logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));
