@@ -6,7 +6,9 @@
 .inventory-management .inventory-inner{grid-template-columns:minmax(225px,1.1fr) minmax(225px,1fr);gap:0}
 .inventory-management .inventory-item-list{min-width:0;border-right:1px solid #76a9c8;background:#eaf5fc;box-shadow:none}
 .inventory-management .management-filter{padding:5px 7px}
-.window-body .inventory-management .management-filter input{padding:4px 7px;height:27px;font-size:11px;border:1px solid #85afc9;border-radius:2px;background:#fff}
+.window-body .inventory-management .management-filter input{
+ padding:4px 7px;height:27px;font-size:11px;border:1px solid #85afc9;border-radius:2px;background:#fff;
+}
 .inventory-management .inventory-icon-scroll{padding:6px 7px;gap:6px;background:#f8fcff;border-top:1px solid #bbd5e6;align-content:start}
 .management-panel.inventory-management .inventory-detail-scroll{padding:10px 12px;border:0;border-radius:0;background:#fff;box-shadow:none}
 .inventory-management .inventory-detail-heading{gap:8px;padding-bottom:7px}

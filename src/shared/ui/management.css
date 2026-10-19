@@ -37,7 +37,10 @@
 .management-tabs small{color:inherit;opacity:.85}
 .inventory-item-list,.dex-index,.challenge-index{background:#b9dff3;border-right:3px solid #0b659e;box-shadow:inset -1px 0 #c3f6ff}
 .raising-scroll,.inventory-detail-scroll,.dex-entry-scroll,.challenge-entry-scroll{background:#f5fbff}
-.management-panel .monster-card{border-radius:4px}.management-panel .monster-card,.challenge-index-scroll>button{border-color:#397bad;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69}
+.management-panel .monster-card{border-radius:4px}
+.management-panel .monster-card,.challenge-index-scroll>button{
+ border-color:#397bad;background:linear-gradient(#fff,#e1f2fd);box-shadow:inset 0 0 0 1px #f5fcff;color:#103d69;
+}
 .management-panel .monster-card.selected,.challenge-index-scroll>button.active{border-color:#0068b5;background:linear-gradient(#e5fcff,#b9eafc);box-shadow:inset 0 0 0 1px #67dcff}
 .management-pagination,.inventory-save-strip{background:linear-gradient(#d7f3ff,#acd9f0);border-color:#4386b5;color:#225d87}
 .management-panel .management-card-art{border-radius:3px}
@@ -49,7 +52,10 @@
 .management-stat-table th,.management-stat-table td{border-color:#bdd7e9}
 .raising-scroll .management-confirm-row{background:#f5fbff;box-shadow:0 -5px 10px #f5fbff}
 .raising-forms section,.inventory-use-preview,.inventory-capture-note,.inventory-capture-preview,.challenge-description{border-radius:4px;border-color:#5b96bf;background:#e9f4fc;box-shadow:inset 0 0 0 1px #fff}
-.management-panel .equipped-skill-grid>button,.management-panel .learned-skill-list>button{border-radius:4px}.management-panel .equipped-skill-grid>button,.management-panel .learned-skill-list>button,.inventory-target-grid>button{background:#edf7fd;border-color:#5692bc}
+.management-panel .equipped-skill-grid>button,.management-panel .learned-skill-list>button{border-radius:4px}
+.management-panel .equipped-skill-grid>button,.management-panel .learned-skill-list>button,.inventory-target-grid>button{
+ background:#edf7fd;border-color:#5692bc;
+}
 .management-panel .equipped-skill-grid>button.active,.management-panel .learned-skill-list>button.active,.inventory-target-grid>button.active{background:#cef2ff;border-color:#0073bd;box-shadow:inset 0 0 0 1px #76e6ff}
 .management-item-symbol{border-radius:6px;border-color:#156eae;background:linear-gradient(#eaffff,#a7d7f2);box-shadow:inset 0 0 0 3px #e8f9ff;color:#12659e}
 .management-panel :is(.raising-scroll,.inventory-detail-scroll,.dex-entry-scroll,.dex-index-grid,.challenge-entry-scroll,.challenge-index-scroll){scrollbar-color:#2c93cd #d6edf9;scrollbar-width:thin}

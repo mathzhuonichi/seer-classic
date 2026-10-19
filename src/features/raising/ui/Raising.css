@@ -38,7 +38,9 @@ table.raising-ability-table tbody td:last-child strong{font-size:12px;font-weigh
 .official-petbag table.raising-ability-table{background:none;color:#e7f6ff}
 .official-petbag table.raising-ability-table thead th{background:#0b4c7d;color:#bce7fc;border-color:#397caa}
 .official-petbag table.raising-ability-table tbody tr:nth-child(odd){background:none}
-.official-petbag table.raising-ability-table th,.official-petbag table.raising-ability-table td{padding:1px 4px!important;border-bottom-color:#2b648f;line-height:18px}
+.official-petbag table.raising-ability-table th,.official-petbag table.raising-ability-table td{
+ padding:1px 4px!important;border-bottom-color:#2b648f;line-height:18px;
+}
 .official-petbag table.raising-ability-table td+td,.official-petbag table.raising-ability-table th+td{border-left:0}
 .official-petbag table.raising-ability-table tbody td:last-child strong{font-size:12px;font-weight:400;color:#fff}
 .official-petbag .raising-stat-bonus{color:#ffe49a}
@@ -49,7 +51,9 @@ table.raising-ability-table tbody td:last-child strong{font-size:12px;font-weigh
 .official-petbag .raising-ability-panel>.raising-engravings{background:none;border-color:#3479a6}
 .official-petbag .engraving-slot-caption{color:#d7f1ff}
 .official-petbag .engraving-slot-caption>.engraving-inactive-mark{color:#ffb397}
-.official-petbag .raising-ability-panel .engraving-unload,.official-petbag .raising-ability-panel div.engraving-picker-heading>button{color:#bce7fc;text-shadow:none}
+.official-petbag .raising-ability-panel .engraving-unload,.official-petbag .raising-ability-panel div.engraving-picker-heading>button{
+ color:#bce7fc;text-shadow:none;
+}
 .official-petbag .raising-ability-panel.is-editing .ev-cell input{width:42px!important;height:22px!important;padding:2px 3px!important;font-size:11px!important}
 .official-petbag .raising-ability-panel.is-editing .ev-cell button{padding:2px 4px;font-size:9px}
 .official-petbag .raising-ability-panel .item-category-tabs,.official-petbag .raising-items-panel .item-category-tabs{background:none;border-bottom:1px solid #3479a6;padding:0;scrollbar-color:#3479a6 transparent}
