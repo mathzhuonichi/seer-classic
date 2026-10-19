@@ -1184,6 +1184,33 @@
         "x": 0
       }
     },
+    "73": {
+      "mapId": 73,
+      "path": "/maps/original/73.svg",
+      "width": 960.0,
+      "height": 560.0,
+      "sha256": "ebe507ff7616b33c88bda9a449ce0e25aeff18c5c43ec3b3635c177325bfca18",
+      "bytes": 441367,
+      "url": "https://seer.61.com/resource/map/73.swf",
+      "swfSha256": "c73263bc5c54a5b114d11a2c0b0c5a2874e1d8bda7b3fd3591880bdaac500a49",
+      "source": "Official Flash bg_mc first frame, statically exported with FFDec 26.3.0; original viewport registration retained.",
+      "format": "SVG",
+      "sourceSymbol": 29,
+      "sourceFrame": 1,
+      "sourceXmlSha256": "c30842a87f91853ae4f5ae97aead2b548133b82efe42724ab903dd9b12404180",
+      "exportedSvgSha256": "7a03ae6b727be5405df7c96cf41b465287124429c4682c7bc272454f4e74b0a0",
+      "originalStage": {
+        "width": 960.0,
+        "height": 560.0
+      },
+      "viewBox": [
+        0.0,
+        -0.45,
+        960.0,
+        560.0
+      ],
+      "viewportMethod": "FFDec normalization offset and original root placement matrix, clipped to the original SWF stage."
+    },
     "74": {
       "mapId": 74,
       "path": "/maps/original/74.jpg",

@@ -602,5 +602,9 @@
   "10032": {
     "path": "/maps/original/10032.svg",
     "sha256": "5076e708ffc8f1f491c64859f1438d6a43833308e5f5fb68d2574c6fe250cb32"
+  },
+  "73": {
+    "path": "/maps/original/73.svg",
+    "sha256": "ebe507ff7616b33c88bda9a449ce0e25aeff18c5c43ec3b3635c177325bfca18"
   }
 }

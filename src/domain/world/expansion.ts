@@ -193,10 +193,9 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
   ]),
   // 麒麟空间 (map 73) has no parent planet, galaxy or doorway in the source tables; the March 2013 guide enters it from a
   // 麒麟 icon on the star map, so the atlas offers it beside the bases. Its stages land here by the campaign's location text.
-  // Map 73's art is not recovered yet (the H5 table lacks it): the region shows 封印之境 (map 677) as a stand-in until it is.
   {id:"qilin",galaxyId:"ship",name:"麒麟空间",originalMapId:73,subtitle:"麒麟六道轮回",theme:"station",color:"#f2b75c",
     background:"/maps/station.svg",sources:["https://news.7k7k.com/51seer/20130304-566003.html"],regions:[
-      {id:"space",name:"麒麟空间",originalMapId:73,backgroundMapId:677,campaignId:"qilin",x:50,y:65,creatures:[],levels:[100,100],
+      {id:"space",name:"麒麟空间",originalMapId:73,campaignId:"qilin",x:50,y:65,creatures:[],levels:[100,100],
         description:"麒麟阿瑞斯守候在空间中央。与它交谈，依次突破六道轮回，再挑战麒麟真身。"},
     ]},
 ];
