@@ -3,6 +3,7 @@
     "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
     "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
     "needs-cache": "Needs the ignored research inputs under .cache/.",
+    "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check."
   },
@@ -106,6 +107,9 @@
     "breeding.mjs": {
       "status": "needs-cache",
       "note": "Needs .cache/breeding-v24/, which was not transferred."
+    },
+    "browser-regressions.mjs": {
+      "status": "needs-browser"
     },
     "calculator-parity.ts": {
       "status": "needs-cache",
