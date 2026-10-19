@@ -27,8 +27,12 @@ export interface RecruitmentReward {
 export const ACQUISITION_POLICIES=policyData.species as readonly AcquisitionPolicy[];
 const policies=new Map(ACQUISITION_POLICIES.map(row=>[row.species,row]));
 
-/** Unknown historical limits use the bounded-repeat remake rule, without historical claims. */
-export function isSpeciesRepeatable(species:number):boolean {return policies.get(species)?.repeatability!=='once';}
+/**
+ * Claims, repeat Boss essences and shop restocks repeat within the six-copy allowance unless the source registry marks the
+ * species `once`. `unknown` historical repeatability repeats too: the v32 remake rule, which makes no historical claim.
+ */
+const repeatsUnder=(repeatability:AcquisitionPolicy['repeatability'])=>repeatability!=='once';
+export function isSpeciesRepeatable(species:number):boolean {return repeatsUnder(policies.get(species)?.repeatability??'unknown');}
 export function recruitmentItemId(species:number):string {return `essence_collection_${species}`;}
 
 /** Forms without a predecessor in the catalog, excluding the NPC partners, by ID. */
@@ -71,7 +75,7 @@ export function buildRecruitmentRewards(catalog:AcquisitionCatalog,planets:reado
     const prerequisites:RecruitmentPrerequisite[]=[...selected.map(candidate=>({kind:'species' as const,species:candidate.id})),...requiredBosses.map(boss=>({kind:'boss' as const,bossId:boss.id}))];
     if(prerequisites.length>MAX_RECRUITMENT_PREREQUISITES)throw new Error(`Too many recruitment prerequisites for ${row.id}`);
     const repeatability=policy?.repeatability??'unknown';
-    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatability!=='once',repeatability,categories:policy?.categories??[]}];
+    return [{questId:legacy.get(row.id)??`collection-recruitment-${row.id}`,rewardSpecies:row.id,name:row.name.zh,itemId:recruitmentItemId(row.id),prerequisites,repeatable:repeatsUnder(repeatability),repeatability,categories:policy?.categories??[]}];
   });
 }
 
