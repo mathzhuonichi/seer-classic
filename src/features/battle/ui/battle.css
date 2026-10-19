@@ -227,7 +227,10 @@
 }
 /* The frame art fills the panel on both axes, also when the record expands: a border image with fill stretches the
  * SVG to its box, where a background would keep the art's aspect ratio. */
-.classic-dialogue::before{content:'';position:absolute;inset:0;z-index:-1;border-image:url('/ui/classic/hd/battle-log-panel-v44.svg') 0 fill / 0 stretch;pointer-events:none}
+.classic-dialogue::before{
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ border-image:url('/ui/classic/hd/battle-log-panel-v44.svg') 0 fill / 0 stretch;
+}
 .classic-dialogue.is-expanded{height:46%;min-height:140px;max-height:46%;width:29%;flex:none}
 .classic-dialogue-header{position:relative;gap:4px;flex:1;min-height:0}
 .classic-dialogue-signal{display:none}
@@ -357,8 +360,17 @@
 /* Boss evidence: the caption button and the dialog it opens. */
 .classic-battle-caption:has(.classic-boss-evidence-button){display:flex;align-items:center;gap:8px}
 .classic-battle-caption>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.classic-boss-evidence-button{flex-shrink:0;padding:1px 5px!important;border:1px solid #70bddb!important;background:#063365!important;color:#fff0af!important;font-size:9px!important;line-height:16px!important;min-height:0!important}
-.classic-boss-evidence-modal{width:min(520px,100%);max-height:100%;overflow:auto;background:#eff7fb;color:#17466b;border:2px solid #52a4d7;border-radius:8px;box-shadow:0 8px 28px #001c4d99}
-.classic-boss-evidence-modal>header{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;background:#156da8;color:#fff;z-index:1}
+.classic-boss-evidence-button{
+ flex-shrink:0;padding:1px 5px!important;border:1px solid #70bddb!important;background:#063365!important;color:#fff0af!important;
+ font-size:9px!important;line-height:16px!important;min-height:0!important;
+}
+.classic-boss-evidence-modal{
+ width:min(520px,100%);max-height:100%;overflow:auto;background:#eff7fb;color:#17466b;
+ border:2px solid #52a4d7;border-radius:8px;box-shadow:0 8px 28px #001c4d99;
+}
+.classic-boss-evidence-modal>header{
+ position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;
+ background:#156da8;color:#fff;z-index:1;
+}
 .classic-boss-evidence-modal>header>strong{font-size:13px;font-weight:400}
 .classic-boss-evidence-modal>header>button{padding:1px 7px;border:0;background:#0d4e80;color:#fff;font-size:18px}
