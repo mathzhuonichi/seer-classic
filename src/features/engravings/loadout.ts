@@ -10,7 +10,7 @@ import {
 export const engravingHolder = (mon: Monster): EngravingHolder => ({ species: mon.species, level: mon.level, skills: mon.skills, learned: mon.learned });
 export const equippedEngravings = (save: GameSave, uid: string) => save.game.modules[uid]?.engravings ?? [];
 
-/** Equipped copies per engraving across every monster; owned = stock + equipped, capped by the original Max. */
+/** Equipped copies per engraving across every monster; owned = stock + equipped, capped by `engravingAccess` (the V50 tiers). */
 export function equippedEngravingCounts(save: GameSave): Record<string, number> {
   const counts: Record<string, number> = {};
   for (const mods of Object.values(save.game.modules)) for (const id of mods.engravings ?? []) counts[id] = (counts[id] ?? 0) + 1;
