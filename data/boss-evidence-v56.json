@@ -103,6 +103,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-17b68f3a3635": {
+      "url": "http://news.7k7k.com/content/20110328/82467.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
     "src-17e6067bdbaf": {
       "url": "https://news.4399.com/seer/jingyanxinde/201207-18-177899.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -163,6 +168,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-27711527c2ff": {
+      "url": "https://news.4399.com/gonglue/seer/saiergonglue/201212-26-225737.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
     "src-27918067811a": {
       "url": "https://news.7k7k.com/content/20110217/62678.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -200,6 +210,11 @@
     },
     "src-30e422357a52": {
       "url": "https://jingyan.baidu.com/article/afd8f4deb9f7f034e286e98c.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-31893ebfc3b7": {
+      "url": "https://news.4399.com/seer/spt/201211-24-216477.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -255,6 +270,11 @@
     },
     "src-44a17fccbee6": {
       "url": "https://news.4399.com/seer/pngl/201010-14-78876.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-4680da5e29de": {
+      "url": "http://news.7k7k.com/content/20100816/12649.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -435,6 +455,11 @@
     },
     "src-74fa551281cc": {
       "url": "https://seer.61.com/dll/RobotCoreDLL.swf",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-75488350af80": {
+      "url": "https://news.4399.com/seer/spt/201209-21-199064.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -622,6 +647,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-a8748de5b50e": {
+      "url": "https://news.4399.com/seer/spt/201212-31-227044.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
     "src-a96f7ca7fe98": {
       "url": "https://news.4399.com/seer/spt/201205-19-161367.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
@@ -644,6 +674,11 @@
     },
     "src-ad96fefe5190": {
       "url": "https://news.7k7k.com/content/20121112/541577.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-aeb6f86e6b9e": {
+      "url": "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -679,6 +714,11 @@
     },
     "src-bc9af6925951": {
       "url": "https://news.7k7k.com/content/20100412/6704.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-bdafa2e87769": {
+      "url": "http://news.7k7k.com/content/20110331/82812.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -839,6 +879,11 @@
     },
     "src-ee5dbedd57ee": {
       "url": "https://news.4399.com/seer/spt/201009-26-78028.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-eeaa852b4697": {
+      "url": "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -17232,11 +17277,13 @@
       "id": "boss_spt_delasa",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_delasa.json",
-      "sourceSha256": "23a23a79adbbb31794240b00ddf3d137d2657914aa504480a909c7a2818cdb7a",
+      "sourceSha256": "b78fd3a2d01e16a88f2c3c3f8a841fd066dfde3d9c92e4532265f582ae6b9161",
       "sourceNoteSha256": "1ba45c0fa4baf1eab0f60c5a83f8c1371da67eb1b33e82573f1e645be9fb3e15",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-        "http://wenda.4399.com/question/6/64186.html"
+        "http://wenda.4399.com/question/6/64186.html",
+        "http://news.7k7k.com/content/20110328/82467.html",
+        "http://news.7k7k.com/content/20110331/82812.html"
       ],
       "originalConfidence": {
         "level": "low",
@@ -17244,7 +17291,6 @@
           "iv",
           "evs",
           "nature",
-          "hp",
           "skills",
           "innate_stage_stats",
           "rules"
@@ -17259,7 +17305,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 5000,
+            "hp": 10000,
             "skills": [
               11752,
               20879,
@@ -17296,11 +17342,13 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-8eb57901706b",
-                "src-5b88e9a789be"
+                "src-5b88e9a789be",
+                "src-17b68f3a3635",
+                "src-bdafa2e87769"
               ]
             },
             "skills": {
@@ -17309,7 +17357,9 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-8eb57901706b",
-                "src-5b88e9a789be"
+                "src-5b88e9a789be",
+                "src-17b68f3a3635",
+                "src-bdafa2e87769"
               ]
             }
           },
@@ -17398,11 +17448,13 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-17b68f3a3635",
             "src-5b88e9a789be",
-            "src-8eb57901706b"
+            "src-8eb57901706b",
+            "src-bdafa2e87769"
           ]
         },
         "skills": {
@@ -17410,8 +17462,10 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
+            "src-17b68f3a3635",
             "src-5b88e9a789be",
-            "src-8eb57901706b"
+            "src-8eb57901706b",
+            "src-bdafa2e87769"
           ]
         },
         "rules": {
@@ -18166,10 +18220,13 @@
       "id": "boss_spt_fuxisi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_fuxisi.json",
-      "sourceSha256": "c96b32c7cc7de24190dca1e3710d69cf8442d2cdf5c131422fb22fc2ee69b5b9",
+      "sourceSha256": "2152279f47543461fa79181b42f686563ad1161272ff63ec5a983c3b57babfdb",
       "sourceNoteSha256": "84477f197ab146ccbf5bbc72ee54b2403ea99138cd5e9e5fae4b61a5ced1128c",
       "sourceUrls": [
-        "https://www.juxia.com/news/2012-12-28/73290.html"
+        "https://www.juxia.com/news/2012-12-28/73290.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+        "https://news.4399.com/seer/spt/201212-31-227044.html",
+        "https://news.4399.com/gonglue/seer/saiergonglue/201212-26-225737.html"
       ],
       "originalConfidence": {
         "level": "low",
@@ -18177,8 +18234,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
-          "hp",
           "skills"
         ]
       },
@@ -18187,7 +18242,7 @@
           "slot": 0,
           "species": 1477,
           "configured": {
-            "level": 80,
+            "level": 100,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -18202,10 +18257,13 @@
           "fields": {
             "level": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "The configured level has not been verified by the curated field claims below.",
               "sources": [
-                "src-c05d14ef8133"
+                "src-c05d14ef8133",
+                "src-eeaa852b4697",
+                "src-a8748de5b50e",
+                "src-27711527c2ff"
               ]
             },
             "iv": {
@@ -18228,10 +18286,13 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
-                "src-c05d14ef8133"
+                "src-c05d14ef8133",
+                "src-eeaa852b4697",
+                "src-a8748de5b50e",
+                "src-27711527c2ff"
               ]
             },
             "skills": {
@@ -18239,7 +18300,10 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-c05d14ef8133"
+                "src-c05d14ef8133",
+                "src-eeaa852b4697",
+                "src-a8748de5b50e",
+                "src-27711527c2ff"
               ]
             }
           },
@@ -18304,10 +18368,13 @@
         },
         "level": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-c05d14ef8133"
+            "src-27711527c2ff",
+            "src-a8748de5b50e",
+            "src-c05d14ef8133",
+            "src-eeaa852b4697"
           ]
         },
         "iv": {
@@ -18330,10 +18397,13 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-c05d14ef8133"
+            "src-27711527c2ff",
+            "src-a8748de5b50e",
+            "src-c05d14ef8133",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -18341,7 +18411,10 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-c05d14ef8133"
+            "src-27711527c2ff",
+            "src-a8748de5b50e",
+            "src-c05d14ef8133",
+            "src-eeaa852b4697"
           ]
         },
         "rules": {
@@ -18363,11 +18436,12 @@
       "id": "boss_spt_gangyasha",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_gangyasha.json",
-      "sourceSha256": "38c33ef5d6d0c35ad3a5a526dc45e28acc60fcace3c88109094205e170adf419",
+      "sourceSha256": "cdfd83a0f033140fa7a00a96b399c3230601abb6cd90565103eae41e29211be5",
       "sourceNoteSha256": "23439462df02943141570077ecae532d27d4acc14d42975dedf590a0162f5c5f",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70390.html",
-        "https://news.7k7k.com/content/20110316/76862.html"
+        "https://news.7k7k.com/content/20110316/76862.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -18388,7 +18462,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 250,
+            "hp": 200,
             "skills": [
               10075,
               20011,
@@ -18429,7 +18503,8 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-69a104e9e186",
-                "src-43e1a86b0d39"
+                "src-43e1a86b0d39",
+                "src-eeaa852b4697"
               ]
             },
             "skills": {
@@ -18508,7 +18583,8 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-43e1a86b0d39",
-            "src-69a104e9e186"
+            "src-69a104e9e186",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -19792,11 +19868,12 @@
       "id": "boss_spt_kelaifen1",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kelaifen1.json",
-      "sourceSha256": "1fe65c7b9e465447a44d7635686d282c5be8bacfa741818e686b19ad73fde43c",
+      "sourceSha256": "293f042972b34fe651a107a1f7c90e384b3119e7dcbb95a3908efa460464810b",
       "sourceNoteSha256": "70b7acb902a51b19093a96e7801ef6872b6ca11d4b759a3e0f40c62a2685e6fe",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111468.html",
-        "https://news.4399.com/jdseer/xinde/m/808365.html"
+        "https://news.4399.com/jdseer/xinde/m/808365.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
       ],
       "originalConfidence": {
         "level": "low",
@@ -19804,7 +19881,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
           "hp",
           "skills",
           "era"
@@ -19815,7 +19891,7 @@
           "slot": 0,
           "species": 855,
           "configured": {
-            "level": 60,
+            "level": 55,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -19830,11 +19906,12 @@
           "fields": {
             "level": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "The configured level has not been verified by the curated field claims below.",
               "sources": [
                 "src-5a12a82c63b6",
-                "src-6862e0792570"
+                "src-6862e0792570",
+                "src-eeaa852b4697"
               ]
             },
             "iv": {
@@ -19861,7 +19938,8 @@
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
                 "src-5a12a82c63b6",
-                "src-6862e0792570"
+                "src-6862e0792570",
+                "src-eeaa852b4697"
               ]
             },
             "skills": {
@@ -19870,7 +19948,8 @@
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-5a12a82c63b6",
-                "src-6862e0792570"
+                "src-6862e0792570",
+                "src-eeaa852b4697"
               ]
             }
           },
@@ -19911,11 +19990,12 @@
         },
         "level": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-5a12a82c63b6",
-            "src-6862e0792570"
+            "src-6862e0792570",
+            "src-eeaa852b4697"
           ]
         },
         "iv": {
@@ -19942,7 +20022,8 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-5a12a82c63b6",
-            "src-6862e0792570"
+            "src-6862e0792570",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -19951,7 +20032,8 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-5a12a82c63b6",
-            "src-6862e0792570"
+            "src-6862e0792570",
+            "src-eeaa852b4697"
           ]
         },
         "rules": {
@@ -20155,7 +20237,7 @@
       "id": "boss_spt_kelanite1",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kelanite1.json",
-      "sourceSha256": "764ebd7a06c75528489e75cc1718eafeef16d794ee315bee81f21a992ee42f40",
+      "sourceSha256": "5af17c0287f44940905fcac7c1f81d9602bf78e4249a89720bb2ea671e581447",
       "sourceNoteSha256": "4e337f64239fdb17c861517775f406f426dcb1376c76364e500c938233d7bd2b",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201011-22-81263.html",
@@ -20186,7 +20268,7 @@
             "skills": [
               11358,
               20457,
-              11356,
+              11357,
               20528
             ]
           },
@@ -20336,7 +20418,7 @@
           "skills": [
             11358,
             20457,
-            11356,
+            11357,
             20528
           ]
         }
@@ -22190,16 +22272,17 @@
       "id": "boss_spt_luolasike",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_luolasike.json",
-      "sourceSha256": "97783eb95a9f949533778ec3c987f396647752fb6bf16dbec811173e3c80b182",
+      "sourceSha256": "61b87ca8e8fe17caca5d1112ef6c0304c0880147e3969785cd88286df3bbb316",
       "sourceNoteSha256": "0ab6ea547cb518ce2eeacc7411130a9fc68b57aeebe3b1df7521531f3d5edb16",
-      "sourceUrls": [],
+      "sourceUrls": [
+        "https://news.4399.com/seer/spt/201211-24-216477.html"
+      ],
       "originalConfidence": {
         "level": "low",
         "uncertain": [
           "iv",
           "evs",
           "nature",
-          "level",
           "hp",
           "skills",
           "rules",
@@ -22212,7 +22295,7 @@
           "slot": 0,
           "species": 1431,
           "configured": {
-            "level": 80,
+            "level": 100,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -22227,9 +22310,11 @@
           "fields": {
             "level": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "The configured level has not been verified by the curated field claims below.",
-              "sources": []
+              "sources": [
+                "src-31893ebfc3b7"
+              ]
             },
             "iv": {
               "status": "inferred",
@@ -22253,13 +22338,17 @@
               "status": "inferred",
               "basis": "explicit-estimate",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
-              "sources": []
+              "sources": [
+                "src-31893ebfc3b7"
+              ]
             },
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
-              "sources": []
+              "sources": [
+                "src-31893ebfc3b7"
+              ]
             }
           },
           "computedCombatStats": "inferred",
@@ -22352,9 +22441,11 @@
         },
         "level": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-31893ebfc3b7"
+          ]
         },
         "iv": {
           "status": "inferred",
@@ -22378,13 +22469,17 @@
           "status": "inferred",
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-31893ebfc3b7"
+          ]
         },
         "skills": {
           "status": "inferred",
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-31893ebfc3b7"
+          ]
         },
         "rules": {
           "status": "inferred",
@@ -22795,12 +22890,14 @@
       "id": "boss_spt_moguguai",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_moguguai.json",
-      "sourceSha256": "4168140b5dff49d2b760b73ebc736c4610c48efe5a0c3fca07aaa656d2ff3d0f",
-      "sourceNoteSha256": "968a1c29631f2c4864fa67619f4f6acd5c6e5b0d5b1e9b01243def7ae8895608",
+      "sourceSha256": "14f66cdf5dbd5f3bcdc13256004c99e354091af55fb6dc23a0ef2bdf38b504df",
+      "sourceNoteSha256": "5f80208be951976d9e4a847c605d62db5674afe8c07ea150c016c3fd88a45df4",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70388.html",
         "https://news.7k7k.com/content/20110316/76862.html",
-        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+        "http://news.7k7k.com/content/20100816/12649.html"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -22809,7 +22906,6 @@
           "evs",
           "nature",
           "hp",
-          "level",
           "era"
         ]
       },
@@ -22818,7 +22914,7 @@
           "slot": 0,
           "species": 47,
           "configured": {
-            "level": 15,
+            "level": 10,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -22866,7 +22962,9 @@
               "sources": [
                 "src-bb0d8bdb1df6",
                 "src-43e1a86b0d39",
-                "src-8eb57901706b"
+                "src-8eb57901706b",
+                "src-eeaa852b4697",
+                "src-4680da5e29de"
               ]
             },
             "skills": {
@@ -22946,8 +23044,10 @@
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-43e1a86b0d39",
+            "src-4680da5e29de",
             "src-8eb57901706b",
-            "src-bb0d8bdb1df6"
+            "src-bb0d8bdb1df6",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -23933,10 +24033,11 @@
       "id": "boss_spt_palisi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_palisi.json",
-      "sourceSha256": "16efb2aadf8774e36bb261b6eefcc16322ec8e194cc26f1bdffce48b7a56941a",
+      "sourceSha256": "a8748f2b05fd5ec2e862e153e5662aaa6423d3051896964f68b0a6a3c122b974",
       "sourceNoteSha256": "860292ddedd99198e35bbdf033dfe368f55f25633526276ba06b561f3a37f4ae",
       "sourceUrls": [
-        "https://news.4399.com/seer/spt/201208-22-189879.html"
+        "https://news.4399.com/seer/spt/201208-22-189879.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -23944,7 +24045,6 @@
           "iv",
           "evs",
           "nature",
-          "level",
           "hp"
         ]
       },
@@ -23953,7 +24053,7 @@
           "slot": 0,
           "species": 1304,
           "configured": {
-            "level": 80,
+            "level": 100,
             "iv": 31,
             "evs": {},
             "nature": null,
@@ -23968,10 +24068,11 @@
           "fields": {
             "level": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "The configured level has not been verified by the curated field claims below.",
               "sources": [
-                "src-d008e6583b48"
+                "src-d008e6583b48",
+                "src-eeaa852b4697"
               ]
             },
             "iv": {
@@ -23997,7 +24098,8 @@
               "basis": "explicit-estimate",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
-                "src-d008e6583b48"
+                "src-d008e6583b48",
+                "src-eeaa852b4697"
               ]
             },
             "skills": {
@@ -24005,7 +24107,8 @@
               "basis": "unverified",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-d008e6583b48"
+                "src-d008e6583b48",
+                "src-eeaa852b4697"
               ]
             }
           },
@@ -24155,10 +24258,11 @@
         },
         "level": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d008e6583b48"
+            "src-d008e6583b48",
+            "src-eeaa852b4697"
           ]
         },
         "iv": {
@@ -24184,7 +24288,8 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d008e6583b48"
+            "src-d008e6583b48",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -24192,7 +24297,8 @@
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-d008e6583b48"
+            "src-d008e6583b48",
+            "src-eeaa852b4697"
           ]
         },
         "rules": {
@@ -24430,7 +24536,7 @@
       "id": "boss_spt_pulante",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_pulante.json",
-      "sourceSha256": "13339b65bc438161b31fd4360611855463d5963c0c81a1f8fb11330e693ae2fb",
+      "sourceSha256": "c446ac3f4d7ea57f24013d170ecc822eca9ce56e1c578406a6d29fecab0dd2e3",
       "sourceNoteSha256": "e7f4f50933eb0446b1bc798bad85457000bf38d8149abb7f8c9b6478bb933ae0",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201205-19-161367.html",
@@ -24460,7 +24566,7 @@
             "hp": 8000,
             "skills": [
               12796,
-              12795,
+              12794,
               12793,
               21451
             ]
@@ -24649,7 +24755,7 @@
           "kind": "smart",
           "skills": [
             12796,
-            12795,
+            12794,
             12793,
             21451
           ]
@@ -25473,10 +25579,12 @@
       "id": "boss_spt_sikelu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_sikelu.json",
-      "sourceSha256": "308e41622a393a7f19e109bc91a68b9b547997d71aa7407c669fde2c54fd8ad1",
+      "sourceSha256": "7dbea613233d6d49906b09a87f7c86599af3be0cbc5bf09a9cc65e334fe1e3be",
       "sourceNoteSha256": "abb2c1bc2d3c4e2cfe0e5d81449f23bfe17696594dcf5d875906b32d4fbd37b2",
       "sourceUrls": [
-        "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81"
+        "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81",
+        "https://news.4399.com/seer/spt/201209-21-199064.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
       ],
       "originalConfidence": {
         "level": "low",
@@ -25485,7 +25593,6 @@
           "evs",
           "nature",
           "level",
-          "hp",
           "skills",
           "rules",
           "phases",
@@ -25501,7 +25608,7 @@
             "iv": 31,
             "evs": {},
             "nature": null,
-            "hp": 10000,
+            "hp": 8000,
             "skills": [
               13156,
               13158,
@@ -25515,7 +25622,9 @@
               "basis": "explicit-estimate",
               "note": "The configured level has not been verified by the curated field claims below.",
               "sources": [
-                "src-ca0c4ae41f45"
+                "src-ca0c4ae41f45",
+                "src-75488350af80",
+                "src-eeaa852b4697"
               ]
             },
             "iv": {
@@ -25538,10 +25647,12 @@
             },
             "hp": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
-                "src-ca0c4ae41f45"
+                "src-ca0c4ae41f45",
+                "src-75488350af80",
+                "src-eeaa852b4697"
               ]
             },
             "skills": {
@@ -25549,7 +25660,9 @@
               "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
-                "src-ca0c4ae41f45"
+                "src-ca0c4ae41f45",
+                "src-75488350af80",
+                "src-eeaa852b4697"
               ]
             }
           },
@@ -25646,7 +25759,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-ca0c4ae41f45"
+            "src-75488350af80",
+            "src-ca0c4ae41f45",
+            "src-eeaa852b4697"
           ]
         },
         "iv": {
@@ -25669,10 +25784,12 @@
         },
         "hp": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-ca0c4ae41f45"
+            "src-75488350af80",
+            "src-ca0c4ae41f45",
+            "src-eeaa852b4697"
           ]
         },
         "skills": {
@@ -25680,7 +25797,9 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-ca0c4ae41f45"
+            "src-75488350af80",
+            "src-ca0c4ae41f45",
+            "src-eeaa852b4697"
           ]
         },
         "rules": {
@@ -27265,12 +27384,13 @@
       "id": "boss_spt_yalunsi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_yalunsi.json",
-      "sourceSha256": "d01be6bd857ad314561596e93786d6d1aaab30eaa2f69c45c41b6908c20e2ce7",
+      "sourceSha256": "7331a4616f7cf955502c18632b87f764bd07e7923a6a062afa9f2d3fe3e56806",
       "sourceNoteSha256": "6dd1662891f6f9031194c5e45d76eb82846a7d38dd8c1b0d6fdd6e86e7d7d7f3",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201102-28-87994.html",
         "https://blog.sina.com.cn/s/blog_752dd1260100orml.html",
-        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -27279,8 +27399,7 @@
           "evs",
           "nature",
           "innate_stage_stats",
-          "stat_multipliers",
-          "skills"
+          "stat_multipliers"
         ]
       },
       "members": [
@@ -27294,10 +27413,7 @@
             "nature": null,
             "hp": 5000,
             "skills": [
-              11668,
-              11669,
-              11665,
-              20826
+              11668
             ]
           },
           "fields": {
@@ -27334,17 +27450,19 @@
               "sources": [
                 "src-46e1fb5c52f4",
                 "src-be2ab5f62f83",
-                "src-8eb57901706b"
+                "src-8eb57901706b",
+                "src-aeb6f86e6b9e"
               ]
             },
             "skills": {
               "status": "inferred",
-              "basis": "explicit-estimate",
+              "basis": "unverified",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-46e1fb5c52f4",
                 "src-be2ab5f62f83",
-                "src-8eb57901706b"
+                "src-8eb57901706b",
+                "src-aeb6f86e6b9e"
               ]
             }
           },
@@ -27434,10 +27552,7 @@
         "ai": {
           "kind": "smart",
           "skills": [
-            11668,
-            11669,
-            11665,
-            20826
+            11668
           ]
         }
       },
@@ -27481,16 +27596,18 @@
           "sources": [
             "src-46e1fb5c52f4",
             "src-8eb57901706b",
+            "src-aeb6f86e6b9e",
             "src-be2ab5f62f83"
           ]
         },
         "skills": {
           "status": "inferred",
-          "basis": "explicit-estimate",
+          "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-46e1fb5c52f4",
             "src-8eb57901706b",
+            "src-aeb6f86e6b9e",
             "src-be2ab5f62f83"
           ]
         },

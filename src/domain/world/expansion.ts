@@ -21,7 +21,7 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
     {"id":"surface","name":"贝塔星荒原","originalMapId":49,"description":"丁格在贝塔星荒原活动，可以直接使用胶囊捕捉。雷纳多在这里等待挑战。","x":50,"y":65,"creatures":[105],"levels":[15,18],"bossIds":["boss_spt_leinaduo"]}
   ]),
   destination("lucio","pano","露希欧星",54,"grass","#a5d087",[
-    {"id":"surface","name":"露希欧星","originalMapId":54,"description":"来到露希欧星，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[60,80],"bossIds":["boss_spt_kelaifen1","boss_spt_kelaifen2"]},
+    {"id":"surface","name":"露希欧星","originalMapId":54,"description":"来到露希欧星，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[55,80],"bossIds":["boss_spt_kelaifen1","boss_spt_kelaifen2"]},
     {"id":"marsh","name":"露希欧泥潭","originalMapId":55,"description":"探索露希欧泥潭，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]},
     {"id":"sea","name":"露希欧之洋","originalMapId":56,"description":"探索露希欧之洋，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}
   ],["露西欧星"]),
@@ -160,7 +160,7 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
   ]),
   destination("demon","helix","恶魔星",748,"volcano","#efa675",[
     {"id":"gate","name":"天空之门","originalMapId":748,"description":"探索天空之门，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]},
-    {"id":"falls","name":"兽神瀑布","originalMapId":762,"description":"来到兽神瀑布，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[80,80],"bossIds":["boss_spt_palisi"]}
+    {"id":"falls","name":"兽神瀑布","originalMapId":762,"description":"来到兽神瀑布，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[100,100],"bossIds":["boss_spt_palisi"]}
   ],["天空之门"]),
   destination("devil","helix","魔神星",775,"helka","#d7c69b",[
     {"id":"tomb","name":"魔神陵墓","originalMapId":775,"description":"探索魔神陵墓，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]},
@@ -174,9 +174,9 @@ export const ADDITIONAL_WORLD_PLANETS:WorldPlanet[]=[
   ],["南瓜山谷"]),
   destination("pegasus","helix","天马星",795,"cloud","#c6d6ed",[
     {"id":"island","name":"浮空仙岛","originalMapId":795,"description":"来到浮空仙岛，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[80,80],"bossIds":["boss_spt_kuli"]},
-    {"id":"crystal-cave","name":"晶蛇魔窟","originalMapId":799,"description":"来到晶蛇魔窟，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[80,80],"bossIds":["boss_spt_luolasike"]},
+    {"id":"crystal-cave","name":"晶蛇魔窟","originalMapId":799,"description":"来到晶蛇魔窟，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[100,100],"bossIds":["boss_spt_luolasike"]},
     {"id":"ice-palace","name":"冰晶奇宫","originalMapId":803,"description":"来到冰晶奇宫，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[100,100],"bossIds":["boss_spt_yisuoli"]},
-    {"id":"tree","name":"神树之巅","originalMapId":810,"description":"来到神树之巅，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[80,80],"bossIds":["boss_spt_fuxisi"]}
+    {"id":"tree","name":"神树之巅","originalMapId":810,"description":"来到神树之巅，与场景中的首领互动开启挑战。","x":50,"y":65,"creatures":[],"levels":[100,100],"bossIds":["boss_spt_fuxisi"]}
   ],["浮空仙岛"]),
   destination("planet-74","helix","帕索尔星",74,"helka","#d7c69b",[
     {"id":"landing","name":"谜域之门","originalMapId":74,"description":"探索谜域之门，通过区域出口继续前进。","x":50,"y":65,"creatures":[],"levels":[1,100]}

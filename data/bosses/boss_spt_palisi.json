@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 1304,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -105,7 +105,7 @@
     "zh": "电系强攻（水暗影被电4倍）：盖亚石破天惊消强化，雷伊雷神觉醒后雷神天明闪致命一击；光、草系也较有效。"
   },
   "engine_notes": [
-    "foe_status_each_turn: from the 2nd turn on, the player's active pet is always poisoned (必有中毒状态).",
+    "foe_status_each_turn: from the 2nd turn on, the player's active pet is always poisoned (必有中毒状态). Level 100 is the official SPT table value (maps.json map 762, single and team entries).",
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
     "immune_status / immune_stage_down: 不受异常状态影响, 不吃属性消弱技能.",
     "谱尼虚无 (damage immunity skill) is ineffective against it.",
@@ -117,12 +117,12 @@
       "iv",
       "evs",
       "nature",
-      "level",
       "hp"
     ]
   },
   "sources": [
-    "https://news.4399.com/seer/spt/201208-22-189879.html"
+    "https://news.4399.com/seer/spt/201208-22-189879.html",
+    "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
   ],
   "source_note": "4399 SPT page 2012-08-22: 血量大概12000, 天生攻击+2."
 }

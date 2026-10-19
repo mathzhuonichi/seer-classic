@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 47,
-      "level": 15,
+      "level": 10,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -62,7 +62,7 @@
   },
   "engine_notes": [
     "Original reward was the item 退化小蘑菇, not a 精元; the brief standardises SPT rewards to essences (essence_moguguai → 小蘑菇 #46).",
-    "Level conflict: 4399 (2010-06) says 15级, 7k7k/4399 summaries (2011) say 10级. 15 used (older source).",
+    "Level 10: the official SPT table (maps.json map 12), 7k7k 2010-03-29, 2010-08-16 and 2011-03-16, and 4399 2011-07-21. Only 4399 2010-06 says 15级, the official SPT panel's recommended level.",
     "HP never published; 120 is an estimate (~2x its natural Lv15 HP, in line with 里奥斯 Lv35 = 340).",
     "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
@@ -74,14 +74,15 @@
       "evs",
       "nature",
       "hp",
-      "level",
       "era"
     ]
   },
   "sources": [
     "https://news.4399.com/seer/spt/201006-05-70388.html",
     "https://news.7k7k.com/content/20110316/76862.html",
-    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+    "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+    "http://news.7k7k.com/content/20100816/12649.html"
   ],
-  "source_note": "4399 BOSS series (2010-06-05): 克洛斯星林间 15级, 针刺/撞击/毒粉/瞪眼, reward 退化小蘑菇."
+  "source_note": "7k7k 2010-08-16 and 4399 2011-07-21: 10级 (4399 2010-06-05 alone says 15级); 针刺/撞击/毒粉/瞪眼, reward 退化小蘑菇."
 }

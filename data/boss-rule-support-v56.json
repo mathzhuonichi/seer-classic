@@ -6,7 +6,7 @@
     "handledEntries": 591,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 118,
+    "approximatedEntries": 117,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -2797,7 +2797,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
-          "reason": "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 5000 is an estimate."
+          "reason": "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 10000 is the daytime fight (7k7k 2011-03-28 and 2011-03-31); the 19:00-21:00 limited mode (HP 5000, weaker attacks) is not modelled."
         }
       ],
       "waived": [],
@@ -3067,13 +3067,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
-          "reason": "Level/HP not published; 80 / 10000 estimates."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -3416,7 +3410,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/3",
-          "reason": "Skills: the Lv50 learnset top four (火光四溅/火龙的咆哮/龙族之力/进攻意识); HP not published (1500 estimate)."
+          "reason": "Skills: 火龙红莲击 is reported (4399 2010-11-22: the first five pets drain its PP) and takes the slot of 龙族之力; 火光四溅/火龙的咆哮/进攻意识 remain the Lv50 learnset top moves. HP not published (1500 estimate)."
         }
       ],
       "waived": [],
@@ -3893,7 +3887,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/0",
-          "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
+          "reason": "Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
         }
       ],
       "waived": [],
@@ -4603,7 +4597,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/0",
-          "reason": "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified."
+          "reason": "Rules (immune_pct_damage, immune_status, innate atk+2) are a placeholder modelled on the neighbouring 螺旋星系 SPT bosses (帕里斯 2012-08, 纳特 2012-10) and must be verified."
         }
       ],
       "waived": [],
@@ -5002,7 +4996,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/3",
-          "reason": "Only 交错冰柱 is named (sina 2011); other slots from the learnset. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+          "reason": "Skills: the SPT boss form (official monsters.json ID 5012, used by maps.json map 430 'SPT亚伦斯') has the single move 交错冰柱; sina 2011 lists 交错冰柱 and three unknown slots."
         }
       ],
       "waived": [],

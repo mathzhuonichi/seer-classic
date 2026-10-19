@@ -21,7 +21,7 @@
         10076,
         20040
       ],
-      "hp_override": 250
+      "hp_override": 200
     }
   ],
   "rules": [],
@@ -63,7 +63,7 @@
   "engine_notes": [
     "Pre-battle requirement: 潜水套装 to enter 海洋星三层 (map gate, not a battle rule).",
     "Original reward was 黑矿石/黑晶矿 (a mining item); standardised to essence_gangyasha → 利牙鱼 #33.",
-    "HP never published; 250 is an estimate.",
+    "HP about 200: a 7k7k 2011 tip (把钢牙鲨的血从200拉到50以下) and the official team-fight table entry (maps.json map 22, 200).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {
@@ -78,7 +78,8 @@
   },
   "sources": [
     "https://news.4399.com/seer/spt/201006-05-70390.html",
-    "https://news.7k7k.com/content/20110316/76862.html"
+    "https://news.7k7k.com/content/20110316/76862.html",
+    "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
   ],
   "source_note": "4399 BOSS series (2010-06-05): 水系, 海洋星三层, 25级; 7k7k 2011: 冰之牙/虚张声势/猛击/噪音, reward 黑矿石."
 }

@@ -11,7 +11,7 @@
   "team": [
     {
       "species": 1431,
-      "level": 80,
+      "level": 100,
       "iv": 31,
       "evs": {},
       "nature": null,
@@ -85,9 +85,10 @@
     "zh": "未找到同期攻略；地面系，草、水、冰、飞行（免疫地面技能）系有利。"
   },
   "engine_notes": [
-    "No 2012 source for this fight was found. Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified.",
+    "Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified.",
     "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Level 100: the fight starts at level 100 (4399 2012-11-24: 当我方成功捕捉洛拉斯克后，洛拉斯克变回100级); the original lowered the level with each win, which is not modelled."
   ],
   "confidence": {
     "level": "low",
@@ -95,7 +96,6 @@
       "iv",
       "evs",
       "nature",
-      "level",
       "hp",
       "skills",
       "rules",
@@ -103,6 +103,8 @@
       "era"
     ]
   },
-  "sources": [],
+  "sources": [
+    "https://news.4399.com/seer/spt/201211-24-216477.html"
+  ],
   "source_note": "Only species data and the game's SPT list (habitat 晶蛇魔窟) were available; era inferred from species id between 库里 and 伊索里."
 }
