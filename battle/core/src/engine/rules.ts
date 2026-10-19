@@ -1,6 +1,8 @@
 // Boss rules, phases, objectives and the battle outcome (RULES.md section 10).
 
-import type { BattleResult, BossEncounter, BossRule, EncounterVariant, Objective, Phase, SideInput, Skill } from '../types.ts';
+import type {
+  BattleResult, BossEncounter, BossRule, EncounterVariant, MonsterInput, Objective, PartyRefusal, PartyRule, Phase, SideInput, Skill,
+} from '../types.ts';
 import type { Battle } from './battle.ts';
 import { emptyCtx, type DamageInfo, type Mon, type Side } from './state.ts';
 import { hasAttackType, typeIdentity } from '../typechart.ts';
@@ -258,22 +260,37 @@ export function finish(b: Battle, winner: 0 | 1 | null, reason: BattleResult['re
   b.emit({ type: 'battle_end', ...b.result });
 }
 
-/** Pre-battle checks for boss rules that limit the player's team. */
-export function validateEncounter(encounter: BossEncounter, player: SideInput): string[] {
-  const errors: string[] = [];
+/** The encounter's rules on the player's team, in catalogue order. */
+export function partyRules(encounter: Pick<BossEncounter, 'rules'>): PartyRule[] {
+  const out: PartyRule[] = [];
   for (const r of encounter.rules ?? []) {
-    if (r.rule === 'player_level_cap') {
-      for (const m of player.team) if (m.level > r.level) errors.push(`level ${m.level} exceeds cap ${r.level}`);
-    }
+    if (r.rule === 'player_level_cap') out.push({ kind: 'level_max', level: r.level });
     if (r.rule === 'player_team_size') {
-      if (r.max !== undefined && player.team.length > r.max) errors.push(`team size ${player.team.length} exceeds ${r.max}`);
-      if (r.min !== undefined && player.team.length < r.min) errors.push(`team size ${player.team.length} is below ${r.min}`);
-      if (r.min_level !== undefined) for (const m of player.team) if (m.level < r.min_level) errors.push(`level ${m.level} is below ${r.min_level}`);
+      if (r.max !== undefined) out.push({ kind: 'team_max', count: r.max });
+      if (r.min !== undefined) out.push({ kind: 'team_min', count: r.min });
+      if (r.min_level !== undefined) out.push({ kind: 'level_min', level: r.min_level });
     }
-    if (r.rule === 'script' && r.id === 'require_player_species') {
-      const allowed = r.params?.species ?? [];
-      for (const m of player.team) if (!allowed.includes(m.species)) errors.push(`species ${m.species} is not allowed; required ${allowed.join(',')}`);
-    }
+    if (r.rule === 'script' && r.id === 'require_player_species') out.push({ kind: 'species', species: r.params?.species ?? [] });
   }
-  return errors;
+  return out;
+}
+
+/** Whether `member` breaks a member rule; the team-size rules judge the whole team. */
+function breaksMemberRule(rule: PartyRule, member: MonsterInput): boolean {
+  switch (rule.kind) {
+    case 'level_max': return member.level > rule.level;
+    case 'level_min': return member.level < rule.level;
+    case 'species': return !rule.species.includes(member.species);
+    default: return false;
+  }
+}
+
+/** Pre-battle check of the player's team: each party rule it breaks, with the members that break it. */
+export function validateEncounter(encounter: BossEncounter, player: SideInput): PartyRefusal[] {
+  const size = player.team.length;
+  return partyRules(encounter).flatMap(rule => {
+    const slots = player.team.flatMap((member, slot) => breaksMemberRule(rule, member) ? [slot] : []);
+    const broken = rule.kind === 'team_max' ? size > rule.count : rule.kind === 'team_min' ? size < rule.count : slots.length > 0;
+    return broken ? [{ ...rule, size, slots }] : [];
+  });
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
+import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,partyRules,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
 import {createBattle} from './_battle.ts';
 import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
@@ -271,9 +271,19 @@ check('Akenoya has two total lives of 2500 HP, as the period guide explicitly de
   hit(battle,mon,2500);assert.equal(mon.hp,2500);assert.equal(mon.livesLeft,0);assert.equal(mon.fainted,false);assert.equal(battle.result,null);
   hit(battle,mon,2500);assert.equal(mon.hp,0);assert.equal(mon.fainted,true);assert.equal(battle.result.success,true);
 });
-check('Entry validation enforces required species, minimum party size and every member minimum level',()=>{
-  for(let n=1;n<=5;n++){const boss=byId.get(`boss_rei_training${n}`);assert.deepEqual(validateEncounter(boss,player()),[]);const wrong=player();wrong.team[0].species=1;assert(validateEncounter(boss,wrong).length);assert(validateEncounter(boss,player([20001],2)).length);}
-  const mystery=byId.get('boss_tower_brave_mystery');assert(validateEncounter(mystery,player([20001],5)).length);assert.deepEqual(validateEncounter(mystery,player([20001],6)),[]);const low=player([20001],6);low.team[5].level=99;assert(validateEncounter(mystery,low).length);
+check('Entry validation returns one structured refusal per broken party rule: team size, member level and required species',()=>{
+  for(let n=1;n<=5;n++){
+    const boss=byId.get(`boss_rei_training${n}`),wrong=player();wrong.team[0].species=1;
+    assert.deepEqual(partyRules(boss),[{kind:'team_max',count:1},{kind:'species',species:[70]}]);assert.deepEqual(validateEncounter(boss,player()),[]);
+    assert.deepEqual(validateEncounter(boss,wrong),[{kind:'species',species:[70],size:1,slots:[0]}]);
+    assert.deepEqual(validateEncounter(boss,player([20001],2)),[{kind:'team_max',count:1,size:2,slots:[]}]);
+  }
+  const mystery=byId.get('boss_tower_brave_mystery'),low=player([20001],6);low.team[5].level=99;
+  assert.deepEqual(validateEncounter(mystery,player([20001],5)),[{kind:'team_min',count:6,size:5,slots:[]}]);
+  assert.deepEqual(validateEncounter(mystery,player([20001],6)),[]);
+  assert.deepEqual(validateEncounter(mystery,low),[{kind:'level_min',level:100,size:6,slots:[5]}]);
+  const capped={rules:[{rule:'player_level_cap',level:50}]};
+  assert.deepEqual(validateEncounter(capped,player([20001],2)),[{kind:'level_max',level:50,size:2,slots:[0,1]}]);
 });
 check('Four declined mechanics and one authored replacement are explicit; defensive healing cannot propagate NaN',()=>{
   assert.equal(support.summary.unsupportedEntries,0);assert.equal(support.summary.waivedEntries,4);assert.equal(support.summary.replacementPolicies,1);

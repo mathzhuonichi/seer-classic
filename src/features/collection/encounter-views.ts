@@ -5,6 +5,7 @@ import { interceptedFieldSpecies } from '../../domain/acquisition/native-acquisi
 import { braveTowerFloor, braveTowerRewards, type BraveTowerRewardSource } from '../../domain/challenges/brave-tower.ts';
 import { buildBossEncounterEvidence } from '../../domain/challenges/boss-evidence.ts';
 import { encounterCategory, opponentViews, towerRewardLabel } from '../../domain/challenges/encounter-rows.ts';
+import { partyRuleTexts } from '../../domain/challenges/party-rules.ts';
 import { createCatalogViews } from './catalog-views.ts';
 import type { BossView } from '../../shared/views.ts';
 import type { CatalogContext, GameContext } from '../../kernel/api.ts';
@@ -21,11 +22,13 @@ function towerRewardText(ctx: CatalogContext, boss: BossEncounter): string {
 export function encounterView(ctx: CatalogContext, source: BossEncounter, attempts = 0): Omit<BossView, 'cleared' | 'attempts'> {
   const b = bossEncounterForAttempt(source, attempts), extra = b as BossEncounter & EncounterExtras;
   const notes = (extra.strategy_notes as { zh?: string } | undefined)?.zh ?? extra.strategy_notes ?? '';
+  const ruleTexts = partyRuleTexts(b, ctx.speciesName);
   return {
     id: b.id, category: encounterCategory(b), name: b.name?.zh ?? b.id, location: extra.location?.zh,
     description: String(notes).replace(/\[object Object\]/g, ''),
     level: b.team[0].level, species: b.team[0].species, portrait: portrait(b.team[0].species), opponents: opponentViews(ctx, b),
     evidence: buildBossEncounterEvidence(b), ...(braveTowerFloor(b.id) !== undefined ? { rewardText: towerRewardText(ctx, b) } : {}),
+    ...(ruleTexts.length ? { partyRuleTexts: ruleTexts } : {}),
   };
 }
 

@@ -125,6 +125,15 @@ export type EffectOp = { op: string; chance?: number; when?: When; [k: string]: 
 // ---------- bosses ----------
 
 export interface BossRule { rule: string; [k: string]: any }
+/** A Boss rule on the player's team, read from `player_team_size`, `player_level_cap` and `require_player_species` (RULES.md 10.1). */
+export type PartyRule =
+  | { kind: 'team_max'; count: number }
+  | { kind: 'team_min'; count: number }
+  | { kind: 'level_max'; level: number }
+  | { kind: 'level_min'; level: number }
+  | { kind: 'species'; species: number[] };
+/** A party rule the player's team breaks: the team size, and the slots of the members that break a member rule. */
+export type PartyRefusal = PartyRule & { size: number; slots: number[] };
 export interface Objective { kind: string; [k: string]: any }
 export interface Phase { when: When; do: EffectOp[]; once?: boolean; target?: number }
 export interface AiSpec {
