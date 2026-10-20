@@ -40,5 +40,5 @@ test('one monster\'s stage changes at once are one frame that changes every chip
     ['message', 1, {atk: 1, def: 1, spa: 1, spd: 1, spe: 1}, {}]);
   const [line] = groupedBattleLog(events, {data, initialPlayer: player, initialEnemy: enemy});
   assert.equal(line, `${shown[0].text}　${stages.text}`);
-  assert.equal(stages.text, '布布花的全部能力提升 1 级，当前均为 +1 级。');
+  assert.equal(stages.text, '布布花的所有能力提升 1 级，当前均为 +1 级。');
 });

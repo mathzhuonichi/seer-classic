@@ -86,13 +86,13 @@ const each = (side, stats, delta, reached) => stats.map(stat => stage(side, stat
 const FIVE = ['atk', 'def', 'spa', 'spd', 'spe'];
 const used = side => ({type: 'move_used', side, skill: 1, name: '光芒附体'});
 
-test('one monster\'s stage changes at once are one line: the five battle stats alike are 全部能力', () => {
-  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 1, 1)], context), ['布布花使用了技能。　布布花的全部能力提升 1 级，当前均为 +1 级。']);
+test('one monster\'s stage changes at once are one line: the five battle stats alike are 所有能力, as in the original texts', () => {
+  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 1, 1)], context), ['布布花使用了技能。　布布花的所有能力提升 1 级，当前均为 +1 级。']);
   // The stage reached is said only when it is the same for all.
   assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 1, 2).map((event, index) => index ? event : {...event, stage: 3})], context),
-    ['布布花使用了技能。　布布花的全部能力提升 1 级。']);
-  assert.deepEqual(groupedBattleLog([used(0), ...each(1, [...FIVE, 'acc'], -1, -1)], context), ['巴鲁斯使用了技能。　布布花的全部能力和命中下降 1 级，当前均为 -1 级。']);
-  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 0, 6)], context), ['布布花使用了技能。　布布花的全部能力不变，当前均为 +6 级。']);
+    ['布布花使用了技能。　布布花的所有能力提升 1 级。']);
+  assert.deepEqual(groupedBattleLog([used(0), ...each(1, [...FIVE, 'acc'], -1, -1)], context), ['巴鲁斯使用了技能。　布布花的所有能力下降 1 级，当前均为 -1 级。']);
+  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 0, 6)], context), ['布布花使用了技能。　布布花的所有能力不变，当前均为 +6 级。']);
 });
 
 test('other stage changes at once name their stats per change, and each monster has its own line', () => {

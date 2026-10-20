@@ -44,13 +44,14 @@ function stageText(event: EventOf<'stat_stage'>, name: string): string {
   return `${name}的${stageLabel(event.stat)}${changeText(event.delta)}，当前 ${signed(event.stage)} 级。`;
 }
 
-/** The five battle stats; changed alike, they are named together, as the skill texts' 所有能力. */
+/** The five battle stats; changed alike, they are named together as the original skill texts do, with 命中 included. */
 const BATTLE_STATS: readonly StageKey[] = ['atk', 'def', 'spa', 'spd', 'spe'];
-const ALL_STATS_LABEL = '全部能力';
+const ALL_STATS: readonly StageKey[] = [...BATTLE_STATS, 'acc'];
+const ALL_STATS_LABEL = '所有能力';
 
 function statNames(stats: readonly StageKey[]): string {
   if (!BATTLE_STATS.every(stat => stats.includes(stat))) return stats.map(stageLabel).join('、');
-  const others = stats.filter(stat => !BATTLE_STATS.includes(stat)).map(stageLabel);
+  const others = stats.filter(stat => !ALL_STATS.includes(stat)).map(stageLabel);
   return others.length ? `${ALL_STATS_LABEL}和${others.join('、')}` : ALL_STATS_LABEL;
 }
 
