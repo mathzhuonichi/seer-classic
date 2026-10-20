@@ -9,7 +9,7 @@ Newest first. Each entry links the design note with its details and checks; [des
 - **Details on hover.** Skill cards show multi-hit and priority, and a shared hover card gives every skill fact and effect; 性格 and 特性 explain themselves.
 - **Skills.** The 94 AtkNum-only multi-hits were an import error and hit once again (雷伊's 极电千鸟 included).
 - **Bosses.** The Boss AI ranks attacks by expected damage, uses status moves that still change something, and renews a boost or status once it is undone. 厄尔塞拉 has 时空裂痕 again, and five more SPT movesets follow their period sources.
-- **HD art.** Battle creatures load their HD atlases again (the index import broke in the refactor); V59 re-renders vector cells at the density the display needs and V60 upscales retained raster cells with a local AI model.
+- **HD art.** Battle creatures load their HD atlases again (the index import broke in the refactor); V59 re-renders vector cells at the density the display needs V60 upscales retained raster cells with a local AI model, and V61 redraws locally the cells V60 left soft.
 - **Checks.** `npm run verify` gates 74 suites; `npm test` 178 tests; new `needs-browser` suites `battle-hd-display` and `battle-attack-reach`.
 
 See [design/notes/handoff-2026-10-20.md](design/notes/handoff-2026-10-20.md).
