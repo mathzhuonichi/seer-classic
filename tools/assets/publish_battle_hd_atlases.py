@@ -332,7 +332,7 @@ def validate_redraw_species(sid, cache, runtime):
             if cell['mode'] == rd.REDRAW_MODE:
                 tile = redrawn_tile(sid, cell, native[cid], base[cid], base_mode, scratch)
             elif 'aiReduction' in cell:
-                if base_mode != ai.AI_MODE or cell.get('baseMode', ai.AI_MODE) != ai.AI_MODE:
+                if base_mode != ai.AI_MODE or (cell['mode'] != ai.AI_MODE and cell.get('baseMode') != ai.AI_MODE):
                     raise ValueError(f'{sid}: cell {cid} reduction does not start from an AI tile')
                 tile = reduced_ai_tile(sid, cell, native[cid], base[cid])
             elif cell['mode'] != base_mode:
