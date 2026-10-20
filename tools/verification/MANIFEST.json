@@ -39,6 +39,9 @@
       "status": "needs-cache",
       "note": "Needs .cache/unity-swf-audit/, which was not transferred."
     },
+    "battle-attack-reach.mjs": {
+      "status": "needs-browser"
+    },
     "battle-clone-fidelity-v58.mjs": {
       "status": "gate",
       "shards": 8
