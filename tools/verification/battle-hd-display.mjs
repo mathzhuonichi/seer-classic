@@ -151,7 +151,8 @@ async function measure(browser, fixture, species, viewport) {
     await page.waitForSelector('.classic-combatant.side-0 .original-battle-creature.is-ready', {timeout: BOOT_TIMEOUT_MS});
     await wait(500);
     const lead = await page.evaluate(leadCanvas, VISIBLE_ALPHA);
-    const atlas = requests.find(url => /\/battle-animations\/(hd\/)?\d+(-v\d+)?\.(png|webp)$/.test(url) && url.includes(`/${species}`));
+    // A named override such as 910-ai-v44 sits between the species and its revision.
+    const atlas = requests.find(url => /\/battle-animations\/(hd\/)?\d+(-[a-z]+)?(-v\d+)?\.(png|webp)$/.test(url) && url.includes(`/${species}`));
     const meta = atlas && requests.find(url => url.endsWith('.json.gz') && url.includes(`/${species}`) && url.includes('/hd/') === atlas.includes('/hd/'));
     const pose = await page.evaluate(standbyPose, {meta, atlas, visibleAlpha: VISIBLE_ALPHA});
     const crop = await cdp.send('Page.captureScreenshot', {format: 'png', clip: {x: lead.rect[0], y: lead.rect[1], width: lead.rect[2], height: lead.rect[3], scale: 1}});
