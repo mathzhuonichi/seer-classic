@@ -37,6 +37,13 @@ export function runEffects(b: Battle, ops: EffectOp[], user: Mon, foe: Mon, ctx:
   }
 }
 
+/** What a `heal` op restores to `tgt` before the cap at its max HP. */
+export function healAmount(op: EffectOp, tgt: Mon, damageDealt: number): number {
+  if (op.pct_max_hp) return (tgt.maxHp * op.pct_max_hp) / 100;
+  if (op.pct_damage_dealt) return (damageDealt * op.pct_damage_dealt) / 100;
+  return op.amount || 0;
+}
+
 interface OpArgs { user: Mon; foe: Mon; ctx: MoveCtx; tgt: Mon }
 type OpHandler = (b: Battle, op: EffectOp, a: OpArgs) => void;
 
@@ -52,13 +59,7 @@ const OPS: Record<string, OpHandler> = {
   },
   // a move's context names its user; outside a move (emptyCtx) no skill does the clearing
   clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, ctx.user ? ctx.skill : undefined),
-  heal: (b, op, { ctx, tgt }) => {
-    let amt = 0;
-    if (op.pct_max_hp) amt = (tgt.maxHp * op.pct_max_hp) / 100;
-    else if (op.pct_damage_dealt) amt = (ctx.damageDealt * op.pct_damage_dealt) / 100;
-    else if (op.amount) amt = op.amount;
-    b.heal(tgt, amt, { item: b.usingItem });
-  },
+  heal: (b, op, { ctx, tgt }) => { b.heal(tgt, healAmount(op, tgt, ctx.damageDealt), { item: b.usingItem }); },
   restore_pp: (b, op, { tgt }) => {
     const ids = op.skill ? [op.skill] : tgt.skills;
     const amount = typeof op.amount === 'number' && Number.isFinite(op.amount) ? Math.max(0, op.amount) : null;
