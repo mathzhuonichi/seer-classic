@@ -83,12 +83,14 @@ async function fixtures() {
     });
     const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
     const plain = journey(), lab = journey({[LAB_ESSENCE]: 1}, game => labParents(game, dispatch));
+    // 盖亚 takes one monster (team_max 1), so the practice fight is entered with the other starters deposited.
+    const solo = journey({}, game => { for (const uid of game.snapshot().party.slice(1)) dispatch(game, {type: 'party', uid, add: false}); });
     const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
     const hallPlace = entries(() => writeWorldPreference({...FACILITY_HALL, visited: []}));
     // A new save has no game extras yet; the loader fills in the others.
     const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
     const saves = {
-      journey: plain.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
+      journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
       facilities: {...plain.slot, ...hallPlace},
     };
     const facilities = plain.game.snapshot().facilities.map(({name, teams}) => ({name, teams: !!teams?.length}));
@@ -471,7 +473,7 @@ const CHECKS = [
   {name: 'battle skills, 性格, 特性 and disabled learned skills show their detail cards inside the window', run: detailCards},
   {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle',
     run: session => variantChoice(session, session.fixture.variants[0])},
-  {name: 'the practice fight picked in the challenge archive is preselected in the Boss dialogue and starts the battle',
+  {name: 'the practice fight picked in the challenge archive is preselected in the Boss dialogue and starts the battle', save: 'solo',
     run: session => variantChoice(session, session.fixture.variants[1])},
   ...LAYOUT_CHECKS,
 ];
