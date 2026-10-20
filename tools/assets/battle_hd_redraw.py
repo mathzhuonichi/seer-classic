@@ -413,11 +413,11 @@ def refine(path, weight):
 
 
 def resample(points, spacing):
-    """A polyline resampled at about `spacing` native pixels (a single point stays one point)."""
+    """A polyline resampled at about `spacing` native pixels; one shorter than `spacing` is a single point (a dot)."""
     lengths = np.linalg.norm(np.diff(points, axis=0), axis=1)
     total = float(lengths.sum())
-    if len(points) < 2 or total == 0:
-        return points[:1]
+    if len(points) < 2 or total < spacing:
+        return points.mean(axis=0, keepdims=True)
     along = np.concatenate(([0], np.cumsum(lengths)))
     steps = np.linspace(0, total, max(2, int(np.ceil(total/spacing))+1))
     return np.stack((np.interp(steps, along, points[:, 0]), np.interp(steps, along, points[:, 1])), axis=1)
