@@ -31,7 +31,12 @@
     },
     {
       "rule": "script",
-      "id": "ignore_player_damage_reduction"
+      "id": "ignore_player_damage_reduction",
+      "params": {
+        "except_skills_zh": [
+          "群影乱舞"
+        ]
+      }
     },
     {
       "rule": "immune_stage_down"
@@ -115,7 +120,8 @@
   },
   "engine_notes": [
     "Single-pet challenge (仅能使用一只精灵).",
-    "ignore_player_damage_reduction: the player's protect/damage-reduction effects (谱尼虚无、希莉娅摇曳、该隐暗影护盾…) do nothing against it.",
+    "ignore_player_damage_reduction: the player's protections do nothing against it: damage reductions, evasion (该隐暗影护盾) and the full-evasion skills that make its move fail, such as 闪光艾菲亚空间跳跃, 谱尼虚无 and 希莉娅摇曳 (4399 133584 特性3: 完全闪避技能无效).",
+    "except_skills_zh 群影乱舞: only 盖亚's skill still blocks it (只有盖亚的群魔乱舞能挡五回合). The guide's 群魔乱舞 is read as 盖亚's 群影乱舞, its only protective skill (抵挡下1次对手的攻击); the data's 群魔乱舞 is 比恩特's four-hit grass attack. The five turns are read as its 5 PP of one blocked attack each; the skill is unchanged. The exception goes by the condition the skill attaches, so the other skills that block the next attack with it (保护, 防护罩…) also block.",
     "攻击力超高，基本可秒杀大部分精灵 — its innate boost (天生强化, size not stated) is atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "风林火山 clears its own stat drops, so weakening is pointless.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",

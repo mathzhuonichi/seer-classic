@@ -113,17 +113,17 @@ export function skillScripts(b: Battle, skill: Skill): { entry: ScriptEntry; op:
   return out;
 }
 
-/** Call every `script` hook at this point, except those `skip` names; returns their non-undefined results. */
-export function fire(b: Battle, mon: Mon, point: HookPoint, extra: HookExtras, skip?: (cond: ActiveCondition, hook: Hook) => boolean): unknown[] {
+/** Call every `script` hook at this point; returns their non-undefined results, except those of the hooks `ignore` names. */
+export function fire(b: Battle, mon: Mon, point: HookPoint, extra: HookExtras, ignore?: (cond: ActiveCondition, hook: Hook) => boolean): unknown[] {
   const out: unknown[] = [];
   if (b.probing) return out;
   for (const { cond, hook } of b.hooksWithCond(mon, point)) {
-    if (!hook.script || skip?.(cond, hook)) continue;
+    if (!hook.script) continue;
     if (hook.when && !b.evalWhen(hook.when, { self: mon, foe: b.foeOf(mon), skill: extra.skill })) continue;
     const fn = b.script(hook.script)?.hook;
     if (!fn) { b.warn(`unknown script ${hook.script}`); continue; }
     const r = fn(hookCtx(b, point, mon, cond, hook, extra), hook.params);
-    if (r !== undefined) out.push(r);
+    if (r !== undefined && !ignore?.(cond, hook)) out.push(r);
   }
   return out;
 }
