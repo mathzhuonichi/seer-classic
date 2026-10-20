@@ -352,8 +352,8 @@ DIFUTE_WIKI = source("https://wapbaike.baidu.com/item/%E8%BF%AA%E7%AC%A6%E7%89%B
                      "verified-secondary")
 KEN_NOTE = ("The only list (2011-01-18) names all four. The same page reports fear, which only 黯然一击 can cause in this learnset, "
             "so one slot is in doubt and the loadout stays inferred.")
-PULANTE_NOTE = ("All four configured moves appear in 2012 battle logs (破魂射线 in one low-resolution screenshot). The 2012-05-19 guide "
-                "also names 蚀梦术, which no log shows, so the loadout stays inferred.")
+PULANTE_NOTE = ("The 2012-05-19 guide names 蚀梦术 and 2012 battle logs show 混沌绿光, 灵光缠绕 and 虚空魔刺. One low-resolution "
+                "screenshot shows 破魂射线, which is not kept because the guide comes first (user, 2026-10-20).")
 # The V58 SPT fidelity pass: (boss suffix, field, value, kind, sources, note). observed = a period report states it; official = an
 # official client table states it; estimate = an approximate or single-tip report; partial = only the listed moves are named.
 SPT_CLAIMS = [
@@ -395,7 +395,7 @@ SPT_CLAIMS = [
     ("palisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
     ("palisi", "hp", 12000, "observed", [PALISI], "The report states 12000 HP."),
     ("pulante", "hp", 8000, "observed", [PULANTE], "The report states 8000 HP."),
-    ("pulante", "skills", [12796, 21451, 12793, 12795], "partial", [PULANTE_SHOTS, PULANTE_XIYE, PULANTE_VIDEO, PULANTE], PULANTE_NOTE),
+    ("pulante", "skills", [12796, 21451, 12793, 12794], "partial", [PULANTE, PULANTE_XIYE, PULANTE_VIDEO, PULANTE_SHOTS], PULANTE_NOTE),
     ("sikelu", "hp", 8000, "observed", [SIKELU, MAPS], "The report states 体力8000, as does the official SPT table."),
     ("sipulinte", "skills", [20933, 11836, 20934, 11841], "official", [MONSTERS, ROBOT2013], "The boss form 5022 (2013: 2522) lists these four."),
     ("tiyasi", "hp", 500, "official", [MAPS], "The official SPT table gives 500 HP for the single fight."),

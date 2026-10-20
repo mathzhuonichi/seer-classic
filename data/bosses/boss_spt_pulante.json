@@ -16,7 +16,7 @@
       "evs": {},
       "nature": null,
       "skills": [
-        12795,
+        12794,
         21451,
         12793,
         12796
@@ -91,7 +91,7 @@
   "ai": {
     "kind": "smart",
     "skills": [
-      12795,
+      12794,
       21451,
       12793,
       12796
@@ -122,7 +122,7 @@
     "Innate 攻击等级+2 (sic; the 4399 text says attack even though the species is a special attacker) — boost can be cleared (雷伊消强).",
     "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated).",
     "Boss version of 混沌绿光 puts the player to sleep at least 50% of the time (learnset version: 10%).",
-    "skills: 破魂射线, 灵光缠绕, 虚空魔刺, 混沌绿光 = species 1191's last four at or below Lv80. Period battle logs show all four: 4399 screenshots (2012-05-18/19) and three 2012 fight videos show 混沌绿光, 灵光缠绕 and 虚空魔刺, and one 4399 screenshot (2012-05-19) shows 破魂射线. The 4399 SPT guide of 2012-05-19 says it uses 蚀梦术 on a sleeping pet, but that sentence restates the move's description and no log shows 蚀梦术, including the guide's own linked videos, so 蚀梦术 is not kept.",
+    "skills: 蚀梦术, 灵光缠绕, 虚空魔刺, 混沌绿光. The 4399 SPT guide of 2012-05-19 names 蚀梦术 (普兰特使用蚀梦术，25%致命一击), and 4399 screenshots (2012-05-18/19) and three 2012 fight videos show 混沌绿光, 灵光缠绕 and 虚空魔刺. One low-resolution 4399 screenshot (2012-05-19) shows 破魂射线, which is not kept: the user's rule (2026-10-20) puts the guide first.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

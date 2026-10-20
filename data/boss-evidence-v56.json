@@ -25478,7 +25478,7 @@
       "id": "boss_spt_pulante",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_pulante.json",
-      "sourceSha256": "d6f251edf936de4cd2f4ee7650d71aeb1d65ad9daf1d8cc1d8f53db67e250ee0",
+      "sourceSha256": "776b1994e50f6badc90a7563853be9a742e963a93dd76d4759df78452b230e20",
       "sourceNoteSha256": "e7f4f50933eb0446b1bc798bad85457000bf38d8149abb7f8c9b6478bb933ae0",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201205-19-161367.html",
@@ -25509,7 +25509,7 @@
             "nature": null,
             "hp": 8000,
             "skills": [
-              12795,
+              12794,
               21451,
               12793,
               12796
@@ -25556,18 +25556,18 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "All four configured moves appear in 2012 battle logs (\u7834\u9b42\u5c04\u7ebf in one low-resolution screenshot). The 2012-05-19 guide also names \u8680\u68a6\u672f, which no log shows, so the loadout stays inferred.",
+              "note": "The 2012-05-19 guide names \u8680\u68a6\u672f and 2012 battle logs show \u6df7\u6c8c\u7eff\u5149, \u7075\u5149\u7f20\u7ed5 and \u865a\u7a7a\u9b54\u523a. One low-resolution screenshot shows \u7834\u9b42\u5c04\u7ebf, which is not kept because the guide comes first (user, 2026-10-20).",
               "sources": [
-                "src-28ebf4a612ae",
+                "src-a96f7ca7fe98",
                 "src-dac14509dd98",
                 "src-4cc03a3a5d43",
-                "src-a96f7ca7fe98"
+                "src-28ebf4a612ae"
               ],
               "verifiedMoveIds": [
                 12796,
                 21451,
                 12793,
-                12795
+                12794
               ]
             }
           },
@@ -25707,7 +25707,7 @@
         "ai": {
           "kind": "smart",
           "skills": [
-            12795,
+            12794,
             21451,
             12793,
             12796

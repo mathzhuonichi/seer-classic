@@ -35,7 +35,6 @@ catalog has no 时空裂隙), 黑色旋涡 = 黑色漩涡 (11544), 狂暴裂袭 
 | 塔克林 | 潜龙伏地啸 / 灰飞烟灭 / 龙之威仪 / 猛龙陷地步 | 龙之威仪 / 猛龙陷地步 / 咆哮震九天 / 潜龙伏地啸 | Solo fight = species 274 Lv80. Screenshots show 潜龙伏地啸 and 咆哮震九天 (4399, 7k7k 2010). 灰飞烟灭 is the team-fight form 5001's only move. |
 | 克莱芬（酒醉） | 酒火回体 / 醉酒燃烧 / 暴火焚烧 / 怒火咆哮 | 魔火邪力 / 致命漏洞 / 酒火回体 / 醉酒燃烧 | Form 5029 at Lv55. A 2011-07-22 screenshot of the Lv55 fight shows 醉酒燃烧 and 致命漏洞; the old 暴火焚烧@57 and 怒火咆哮@61 are above the level. |
 | 克拉尼特（第一战） | 火光四溅 / 火龙的咆哮 / 火龙红莲击 / 进攻意识 | 火龙的咆哮 / 龙族之力 / 进攻意识 / 火龙红莲击 | The release-day video's Lv50 log shows 龙族之力 and 火龙的咆哮; 4399 2010-11-22 names 火龙红莲击 for this fight. |
-| 普兰特 | 混沌绿光 / 蚀梦术 / 虚空魔刺 / 灵光缠绕 | 破魂射线 / 灵光缠绕 / 虚空魔刺 / 混沌绿光 | 2012 battle logs show all four. One guide sentence names 蚀梦术, but no log does, including that guide's own videos. |
 | 厄尔塞拉 (proposal; another unit edits the file) | 奇幻光芒 / 光芒附体 / 光能聚合 / 金光闪烁 | 时空裂痕 / 光能聚合 / 光芒附体 / 奇幻光芒 | Weekday fights use species 421 at Lv80, so the set is its last four. 百度知道 2010-09-26 (copying the 2010 百科 entry): against grass 「它只会用光芒附体与时空裂痕」 and 「对于草系只会用属性和100攻击的普通」. 金光闪烁 belongs to the 盖亚特训 form 2519. |
 
 Changed sets are listed in learn order; no source gives the order inside a set.
@@ -83,7 +82,7 @@ set is the last four and N of its moves appear in period battle logs; "named" me
 | 纳特 (`nate`) | 80 | 爆裂岩浆拳 / 岩浆喷射 / 巨石飞掷 / 火之神力 | same | rule; 3 seen |
 | 帕里斯 (`palisi`) | 100 | 深渊之爪 / 兽神之怒 / 狂暴冲击 / 暗流涌动 | same | rule; 3 seen |
 | 皮特萨罗 (`pitesaluo`) | 65 | 破空长鸣 / 羽翼利刃 / 怒鸣 / 绝灭射线 | same | guide (all four) |
-| 普兰特 (`pulante`) | 80 | 破魂射线 / 灵光缠绕 / 虚空魔刺 / 混沌绿光 | 混沌绿光 / 蚀梦术 / 虚空魔刺 / 灵光缠绕 | logs (all four); guide names 蚀梦术 |
+| 普兰特 (`pulante`) | 80 | 蚀梦术 / 灵光缠绕 / 虚空魔刺 / 混沌绿光 | same set | guide names 蚀梦术; logs show the other three |
 | 瑞尔斯 (`ruiersi`) | 80 | 风林火山 / 势如破竹 / 撼地震击 / 气贯长虹 | same | guide (all four) |
 | 塞维尔 (`saiweier`) | 80 | 龙翔天驱 / 不灭意志 / 龙腾裂天震 / 紫光龙鳞镜 | same | rule; 2 named |
 | 斯宾塞 (`sibinsai`) | 80 | 暗黑撕裂 / 黑暗迷雾 / 湮灭之球 / 生命汲取 | same | guide (all four) |
@@ -122,9 +121,16 @@ because a period source conflicts with part of the set. Member skill statuses: 2
   fear, so 黯然一击 may have held the 黑色漩涡 slot.
 - 克拉尼特（第一战）: the fourth slot (进攻意识 kept, 火光四溅 dropped) is not attested. 4399's 火龙红莲击 sentence could be a
   mix-up with the Lv80 PP drain, but the video does not contradict it (the Boss faced only a water pet at Lv50).
-- 普兰特: the 4399 guide's 蚀梦术 sentence conflicts with the logs. 破魂射线 is read from one low-resolution screenshot.
+- 普兰特: 破魂射线, read from one low-resolution screenshot, is not kept (the guide comes first; see the user's rules below).
 - 塔克林: 猛龙陷地步 is named only for the Lv80 story fight; 龙之威仪 is described, not named, by mainland sources.
 - 斯利普 and 普兰特 put the player's pet to sleep through a Boss effect (server effect index 107), not a move. Only 普兰特's
   混沌绿光 sleep is modelled.
 - 厄尔塞拉: no source says whether the weekday variants had different moves.
 - `maps.json` is a post-2013 table; period guides confirm the levels used here wherever they state one.
+
+## The user's rules (2026-10-20)
+
+- The period guide comes first. Where a guide and a battle log disagree, the guide's move stays: 普兰特 keeps 蚀梦术 and drops 破魂射线;
+  肯佩德 keeps the guide's list (黑色漩涡 rather than 黯然一击).
+- A slot no source settles takes the newest move the species learns at or below the fight level that is not already in the set:
+  克拉尼特's first fight keeps 进攻意识 (Lv49).
