@@ -118,16 +118,37 @@ def targets(base, scope):
     return result
 
 
-def redraw_cells(base, scope, work):
-    """Redraw every target: (accepted {id: record}, rejected {id: record}, skipped {id: record})."""
+def planned_scales(base, candidates, max_bytes):
+    """The multiplier each target can have within the budget if every redraw passed, so a cell is redrawn once at the
+    size it can keep (1: no room). Packed as the final atlas is: soft cells and cells outside the first pose give way."""
+    plan = {item['id']: {'requested': requested, 'class': cell_class} for item, _, requested, cell_class in candidates}
+    soft = soft_cells(base, plan)
+    pool = ladders(base, plan, soft)
+    _, position = fewest_steps(base, pool, reduction_steps(base, pool, soft), dict.fromkeys(pool, 0), max_bytes)
+    return {cid: pool[cid][position[cid]][0] if pool[cid][position[cid]][1] == 'redrawn' else 1 for cid in plan}
+
+
+def redraw_cells(base, scope, work, max_bytes):
+    """Redraw every target at its planned multiplier: (accepted {id: record}, rejected {id: record}, skipped {id: record})."""
     accepted, rejected, skipped = {}, {}, {}
+    candidates, complex_cells = [], []
     for item, density, requested in targets(base, scope):
+        cell_class, features, _ = rd.classify(item['native'])
+        (complex_cells if cell_class == 'complex' else candidates).append((item, density, requested, cell_class, features))
+    for item, density, requested, cell_class, features in complex_cells:
+        skipped[item['id']] = {'item': item, 'density': density, 'requested': requested, 'class': cell_class, 'features': features,
+                               'reason': 'Complex many-coloured art: no local redraw; the published tile is kept.'}
+    plan = planned_scales(base, [row[:4] for row in candidates], max_bytes) if candidates else {}
+    for item, density, needed, cell_class, features in candidates:
+        requested = plan[item['id']]
+        record = {'item': item, 'density': density, 'needed': needed, 'requested': requested, 'class': cell_class, 'features': features}
+        if requested < 2:
+            skipped[item['id']] = {**record, 'reason': 'The decoded budget left no room above the base multiplier.'}
+            continue
         result = rd.redraw(item['native'], requested, work/item['id'])
-        record = {'item': item, 'density': density, 'requested': requested, 'scale': requested,
-                  'class': result['class'] if result else None, 'features': result['features'] if result else {}}
+        record.update(features=result['features'] if result else features)
         if result is None or result['tile'] is None:
-            skipped[item['id']] = {**record, 'reason': 'Complex many-coloured art: no local redraw; the published tile is kept.'
-                                   if result else 'Nothing could be traced; the published tile is kept.'}
+            skipped[item['id']] = {**record, 'reason': 'Nothing could be traced; the published tile is kept.'}
             continue
         metrics = ai.gate_metrics(item['native'], result['tile'], requested)
         record.update(full=result['tile'], tile=result['tile'], gate=metrics, method=result['method'], svg=result.get('svg'),
@@ -330,7 +351,8 @@ def redraw_provenance(item, record, scale, metrics, work):
         svg_path.parent.mkdir(parents=True, exist_ok=True)
         svg_path.write_text(record['svg'])
     return {'class': record['class'], 'method': record['method'], 'features': record['features'],
-            'inputRgbaSha256': sha(item['native'].tobytes()), 'baseTileRgbaSha256': sha(flip(item['tile']).tobytes()),
+            'neededScale': record['needed'], 'inputRgbaSha256': sha(item['native'].tobytes()),
+            'baseTileRgbaSha256': sha(flip(item['tile']).tobytes()),
             'redrawRgbaSha256': sha(record['full'].tobytes()), 'reducedFrom': record['requested'] if scale < record['requested'] else None,
             'svgPath': os.path.relpath(svg_path, ROOT) if svg_path else None,
             'svgSha256': sha(svg_path.read_bytes()) if svg_path else None, 'layers': record['layers'],
@@ -345,7 +367,7 @@ def build(sid, entry, report_path, args):
         raise ValueError(f'{sid}: the published atlas already uses an original-size budget exception')
     work = args.cache/'species'/sid
     shutil.rmtree(work/'redraw', ignore_errors=True)
-    accepted, rejected, skipped = redraw_cells(base, args.scope, work/'render')
+    accepted, rejected, skipped = redraw_cells(base, args.scope, work/'render', args.max_rgba_mib*1024**2)
     shutil.rmtree(work/'render', ignore_errors=True)
     if not accepted:
         raise ValueError(f'{sid}: no redraw passed its gate' + (f' ({len(rejected)} rejected, {len(skipped)} skipped)'))
