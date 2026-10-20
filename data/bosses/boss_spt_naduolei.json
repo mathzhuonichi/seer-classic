@@ -66,6 +66,7 @@
   "engine_notes": [
     "属性反转 (skill 20113): for 5 turns its type and the foe's type are swapped, flipping the player's type advantage; handled by the skill's own effect.",
     "防御极高 (4399: 'extremely high defence', authors guessed 2000-3000 HP from how long it took). HP 1400 per 4399 and 7k7k; def x1.5 encodes the high-defence remark (estimate).",
+    "skills: all four are named by period guides (4399 2010-06-05, 7k7k 2011-03-16; 风沙尘暴 = catalog 风尘沙暴) and equal species 88's last four at or below Lv70 (属性反转 at Lv70 is included).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

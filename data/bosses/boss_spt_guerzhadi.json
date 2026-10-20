@@ -67,7 +67,8 @@
     "zh": "没有天生强化、速度不快、PP有限，可以耗招：鲁比克斜转耗光技能后丽莎布布收尾；或高个体丽莎布布花草能量强化两次，硬吃大地之怒，究极吸取回血，金光绿叶/叶绿光束收尾。"
   },
   "engine_notes": [
-    "Normal finite PP (the classic tactic was 耗PP), high crit rate on its attacks per 4399; no extra rules."
+    "Normal finite PP (the classic tactic was 耗PP), high crit rate on its attacks per 4399; no extra rules.",
+    "skills: all four are named by a period guide (4399 2011-09-17) and equal species 925's last four at or below Lv80."
   ],
   "confidence": {
     "level": "high",

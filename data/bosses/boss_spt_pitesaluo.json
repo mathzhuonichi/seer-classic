@@ -95,6 +95,7 @@
     "Innate special-attack boost (天生特攻强化); magnitude not stated; +2, as unstated innate boosts are atk+2 (user decision 2026-10-19) (the source names special attack).",
     "Below half HP the player's pets' accuracy drops (血量降至一半时我方精灵命中率下降); encoded as a one-time foe acc -1, magnitude/repeat unknown.",
     "Weakening works but its skill 绝灭射线 removes its own stat drops; often uses 怒鸣.",
+    "skills: all four are named by a period guide (4399 2011-11-21) and equal species 997's last four at or below Lv65.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

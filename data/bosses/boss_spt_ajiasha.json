@@ -97,6 +97,7 @@
   "engine_notes": [
     "drain_each_turn: every turn the player's active pet loses a flat 100 HP and the boss heals 100 HP; once the boss is below 50% HP this becomes 200/200.",
     "No innate boost; 绿光冲击 clears the player's boosts; 藤蔓抽打 15% fear.",
+    "skills: all four are named by a period guide (4399 2012-01-10, 常用技能) and equal species 1061's last four learnt at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
     "Immune to 烧伤、冻伤、中毒 and control (灵魂干涉 and the like); 海洋之心 works (7k7k 2012-01-06)."
   ],

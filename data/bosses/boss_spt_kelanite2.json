@@ -93,7 +93,7 @@
   },
   "engine_notes": [
     "Lv80 rematch: 强制先攻 (always_moves_first).",
-    "Skill set reconstructed from 4399's '两个攻击招（共10PP），两个属性招': 火龙红莲击 (PP5) + 赤色龙息 (PP5) + 进攻意识 + 自我暗示.",
+    "skills: all four appear in the Lv80 rematch battle log of 4399's release-day fight video (id 21622): 火龙红莲击, 进攻意识, 赤色龙息, 自我暗示. They equal species 538's last four at or below Lv80 and fit 4399 2010-11-22 (两个攻击招(共十pp)，两个属性招).",
     "Reward is an achievement/title only; reward_hatches null.",
     "HP not published (3000 estimate; 4399 rates the fight only 三星).",
     "no_struggle matters: once both attack skills are at 0 PP it can only use status moves.",
@@ -105,8 +105,7 @@
       "iv",
       "evs",
       "nature",
-      "hp",
-      "skills"
+      "hp"
     ]
   },
   "sources": [

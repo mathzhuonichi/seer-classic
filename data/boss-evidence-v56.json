@@ -16838,7 +16838,7 @@
       "id": "boss_spt_ajiasha",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_ajiasha.json",
-      "sourceSha256": "7070e3958300bf7763d07c5c7e5c17fac51bbf00fd13a518f4b9204edfd862be",
+      "sourceSha256": "a84053625b2ed1b7a8a909585f79d41d946eaee132171c9d9de354c0f980b392",
       "sourceNoteSha256": "5a3a6c63015ac957997a264864b84b3ad30b95c1c8c548afe54d671eb46f28e0",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201201-10-137149.html"
@@ -17081,7 +17081,7 @@
       "id": "boss_spt_akexiya",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_akexiya.json",
-      "sourceSha256": "e7a7558fdd07896be6182014b2671380b43558a68517b89e1152aec74ebaaab4",
+      "sourceSha256": "0f4051db4316450c3d317d0a20c115aa112dcd5b52b310892ea4222f95c4733b",
       "sourceNoteSha256": "e308746013deba1616f9a17663bc4bfa318d5b40d8f2a659a02516cd0462a5de",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70394.html",
@@ -17275,7 +17275,7 @@
       "id": "boss_spt_anyebinghu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_anyebinghu.json",
-      "sourceSha256": "b4ffc95e7455a7782bc864ecf418e8f9e422badcf74c9e6b5f25b4c0a39acec2",
+      "sourceSha256": "812baabcb587a07b424838ec9d55ddaa03cb126d8169f85037c70269e000bb1e",
       "sourceNoteSha256": "4f3fad22ac126c0bbc662038faf3e560cc37470a57268a6f8172e16a42b15692",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201112-05-130110.html"
@@ -17553,7 +17553,7 @@
       "id": "boss_spt_basuoer",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_basuoer.json",
-      "sourceSha256": "ef41632c4e8d776f44194bee5ca4467b0e5ed0210fc6f24c5dc4f0605e3cbb66",
+      "sourceSha256": "0a238d4a96420aa0c0a037d662c18327ef2e4b116accb0a95eb84596a9e41257",
       "sourceNoteSha256": "ea82b01b5a30ce909b1bed05f1f84104203a63c19065f40ab3ac5a5b0d8e36bf",
       "sourceUrls": [
         "https://news.4399.com/gonglue/seer/saiergonglue/201207-06-174139.html",
@@ -17567,7 +17567,8 @@
           "evs",
           "nature",
           "level",
-          "hp"
+          "hp",
+          "skills"
         ]
       },
       "members": [
@@ -17628,7 +17629,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified",
+              "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-68c4609ffc8a",
@@ -17802,7 +17803,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-1c9882d7604e",
@@ -17829,7 +17830,7 @@
       "id": "boss_spt_bokate",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_bokate.json",
-      "sourceSha256": "66184e53330435447807e90e1d5e79f399c50bfa0eb32aeb6fdcb11aa7fae2d5",
+      "sourceSha256": "90155dfc424bb758edc671813d944982737d8dbb93122513a84c853173d7e930",
       "sourceNoteSha256": "433127caa5d7bbba18f22bef30598173858e2a0d035780d3112520f6c6e0ff05",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201206-02-165052.html",
@@ -17843,7 +17844,8 @@
           "nature",
           "level",
           "reflect_applies_to_pct_damage",
-          "stat_multipliers"
+          "stat_multipliers",
+          "skills"
         ]
       },
       "members": [
@@ -17901,7 +17903,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified",
+              "basis": "explicit-estimate",
               "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
               "sources": [
                 "src-58a044281d9c",
@@ -18080,7 +18082,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-0564e0290196",
@@ -18106,7 +18108,7 @@
       "id": "boss_spt_delasa",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_delasa.json",
-      "sourceSha256": "b78fd3a2d01e16a88f2c3c3f8a841fd066dfde3d9c92e4532265f582ae6b9161",
+      "sourceSha256": "6d62d19094177d0ce5e6bc248ca48be546acc8bfd4f6c4da5f3d6d76d96be00d",
       "sourceNoteSha256": "1ba45c0fa4baf1eab0f60c5a83f8c1371da67eb1b33e82573f1e645be9fb3e15",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
@@ -18309,7 +18311,7 @@
       "id": "boss_spt_difute",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_difute.json",
-      "sourceSha256": "2c3218699e39e61105c476c14fbdf0f55c695db09925dbe6b7cc4689f37ffd12",
+      "sourceSha256": "750e868492fc4e4d5020b0cff2c97427acbab30e90b735adf234e4d114b7c9b7",
       "sourceNoteSha256": "d29d9a29091dc602da8fdae3d2ba8419a184fbba8c562cd7c57985f97822a994",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111513.html",
@@ -19028,7 +19030,7 @@
       "id": "boss_spt_fuxisi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_fuxisi.json",
-      "sourceSha256": "ce4eda039df76743499faaea87bd1b9b42657d6f2735c0a2bc559ce9d03681f8",
+      "sourceSha256": "cc5977b8d3e2f498a0a05fd3c1bebc9b2d58331f948c5eba7607857402f61882",
       "sourceNoteSha256": "84477f197ab146ccbf5bbc72ee54b2403ea99138cd5e9e5fae4b61a5ced1128c",
       "sourceUrls": [
         "https://www.juxia.com/news/2012-12-28/73290.html",
@@ -19247,7 +19249,7 @@
       "id": "boss_spt_gangyasha",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_gangyasha.json",
-      "sourceSha256": "cdfd83a0f033140fa7a00a96b399c3230601abb6cd90565103eae41e29211be5",
+      "sourceSha256": "4fae832a7004b7a9f3ccbe1619eae010cdafd297552285c704d8e30ec53cb70b",
       "sourceNoteSha256": "23439462df02943141570077ecae532d27d4acc14d42975dedf590a0162f5c5f",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70390.html",
@@ -19424,7 +19426,7 @@
       "id": "boss_spt_guerzhadi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_guerzhadi.json",
-      "sourceSha256": "9e7a9b92ec140c6927e330c6d30ba8a3c5aad965a8935dfdb629c4fe15eafc48",
+      "sourceSha256": "782252b11a2ec1071e8344fbfd3f966d9e51cb86581bc503b9cb3406c1a1017e",
       "sourceNoteSha256": "54dbdef4242aa81ae6bbe9d681ddc22844fe6923ceb9fb1cc5e83f916bcbd4a5",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201109-17-115971.html"
@@ -19596,7 +19598,7 @@
       "id": "boss_spt_hamoleite",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_hamoleite.json",
-      "sourceSha256": "9b967ce6e946e3cae0ba05b6954e6fa8b12c1d419d6b500063acf01c6fad7331",
+      "sourceSha256": "99ded7ee344f02c5a8f01cb2c209035ae62879ae89b39150a326aa3b5dd301ce",
       "sourceNoteSha256": "84e6d146353d2a68d1e0ed480561e2d323343496dbb167d05b064993eb0df48f",
       "sourceUrls": [
         "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
@@ -19925,7 +19927,7 @@
       "id": "boss_spt_kailuoya",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kailuoya.json",
-      "sourceSha256": "00734b01a105e43ba0d188a5dac9e62b899719f87b24f0647cee7488be855550",
+      "sourceSha256": "c2623c97706ba13a8c0a9ddbd0053325d6ed6266fe85fe6ac3d7d5d9011ab6c7",
       "sourceNoteSha256": "d576b65646ed1627260a85414c3b93e98dac6d6c4ef6f8d98fbb593eae0e4e8a",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201203-17-148791.html",
@@ -20191,7 +20193,7 @@
       "id": "boss_spt_kalunni",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kalunni.json",
-      "sourceSha256": "b5dfaed03b18aae207b7c35b15640a75651ba71f5e11bcb35ea3455bacad620a",
+      "sourceSha256": "d73964bcad12141f7e12fda0d16360f2d0c243fcfc024d56bec21e99581d3828",
       "sourceNoteSha256": "54b5b5d1bec784f91fc77bf11e9ed3525646c3e4b7d0edbec299cc76d44887c3",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201204-07-152582.html",
@@ -20448,7 +20450,7 @@
       "id": "boss_spt_kawoer",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kawoer.json",
-      "sourceSha256": "114ccb9689be0d8037316a1381ef8c3b510df6947903e2fc1ce4df642f26d2b1",
+      "sourceSha256": "f9b17ca377c813edb3a9fb6cb541f09736487ed737b2bb5318d142cec1b9438c",
       "sourceNoteSha256": "be8b5c11a7c159f2a8332fa1de6950bf5cde3404d58ec77934aa4ecaf3d4a7cb",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201203-05-146475.html",
@@ -20905,7 +20907,7 @@
       "id": "boss_spt_kelaifen2",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kelaifen2.json",
-      "sourceSha256": "64c48103cfae6f8310db350b33ed88039c1f55e4f54d33174c2bd6118d86074a",
+      "sourceSha256": "cdec439eda854b5aad389a0da35bc35c7258564eb16083eac5758c30d3a66f1f",
       "sourceNoteSha256": "8733dac725a10c902b5ce1ec5641d0c3d6b4620949c81037085f90eb1fa71103",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111468.html",
@@ -21351,7 +21353,7 @@
       "id": "boss_spt_kelanite2",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kelanite2.json",
-      "sourceSha256": "c5c20e66595266818da83216049ce70a00c9f704bbf384aa3766f57f509261e3",
+      "sourceSha256": "2618f11f6ba31398468d4f67d32fbd690b83f7ddb40310be1ea1b9eb8f4bcddf",
       "sourceNoteSha256": "df0548d49b6e9726ce5bf91baea3cc766655d63453fb50ebcdc371eb5f27a47b",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201011-22-81263.html",
@@ -21365,8 +21367,7 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "skills"
+          "hp"
         ]
       },
       "members": [
@@ -21904,7 +21905,7 @@
       "id": "boss_spt_kuli",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_kuli.json",
-      "sourceSha256": "fb28f970fbbc14ce055f1d6146e7bbd07fb4a322b7115ff16b1ad8ed261eac5a",
+      "sourceSha256": "8b264999efcae66bb418f8cb18cacfd262f820d9eb21da513a6dd67908ca7b95",
       "sourceNoteSha256": "68543d9462536d3cf77bb7c0a3a1192e988e458bb68f8d6ffedce69b0e38eb16",
       "sourceUrls": [
         "https://news.7k7k.com/content/20121112/541577.html"
@@ -22122,7 +22123,7 @@
       "id": "boss_spt_lansite",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_lansite.json",
-      "sourceSha256": "1deb5b98d366a0d239843110edd60a1b446d64546ae128219da07309a53cfbc6",
+      "sourceSha256": "c808d08248a3e14b759512b4dc109543442096027b733cb135809c9520fb7431",
       "sourceNoteSha256": "145811ed88452710d04f9817dd2ecd2a2aee53c213627572099b0b2368c24647",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201202-08-141904.html",
@@ -22398,7 +22399,7 @@
       "id": "boss_spt_laokemengde",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_laokemengde.json",
-      "sourceSha256": "92915dfb84166272aeab9938a3d253dba364c58af278a9b3b01a81035ea187bd",
+      "sourceSha256": "2f39542d43036554fd4935cc69d1df15419309959c6712f615a3cf2b9dd90236",
       "sourceNoteSha256": "eec5125787e4ad78a0dae0fa819e5daed5bfa252b0038114fc02b3eb42266580",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201010-16-78995.html",
@@ -22726,7 +22727,7 @@
       "id": "boss_spt_leinaduo",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_leinaduo.json",
-      "sourceSha256": "cd4017c7c018237d2d3d4972f76c252b90da7a92986065320f4f7a22a44643ee",
+      "sourceSha256": "b707f10c4cca100448fa306c8cc479a9d0d5bccdbd070bc9d6cda8cdf94f4a75",
       "sourceNoteSha256": "ba0ffa7d786e6d9d24f495560b34936d1e0e3497042876b8fb0646939f37f469",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70396.html",
@@ -22921,7 +22922,7 @@
       "id": "boss_spt_liaosi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_liaosi.json",
-      "sourceSha256": "01d5d115f1700acf95e7b862840b24c790344ed744ae9a8c50b4189fe6dead6f",
+      "sourceSha256": "47aae93d2106826a467b9c6937b95a9f1eb012b3b94f164f005c65ffce197c74",
       "sourceNoteSha256": "7e9fd87adf4f9a41c7f15162347584cb6d4185fa05f801aece69fe6980a08005",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70392.html",
@@ -23119,7 +23120,7 @@
       "id": "boss_spt_luolasike",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_luolasike.json",
-      "sourceSha256": "fd1c2058c1a51558faeb426e03f71b29b41dc914715ccbfbf53d3377f9e187d3",
+      "sourceSha256": "7924888a3b70e0e88455bf1cf7dc46057f621daaa7c941c806f0cf33c6f045ae",
       "sourceNoteSha256": "0ab6ea547cb518ce2eeacc7411130a9fc68b57aeebe3b1df7521531f3d5edb16",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201211-24-216477.html"
@@ -23369,7 +23370,7 @@
       "id": "boss_spt_minuosi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_minuosi.json",
-      "sourceSha256": "922f9c56bb893a94f9306f4ac8b20ebcb4832ff5a6ae4d95e0e55c1fa9fb4eb5",
+      "sourceSha256": "c64620b81d3dd316a49126e44fb96f79860a7689f2e6682c72b3af776ab7631d",
       "sourceNoteSha256": "62f11caab3821a57cd983ae82e42532a904952cea142dadc257e1c59f0c9cde9",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201110-22-122129.html"
@@ -23380,8 +23381,7 @@
           "iv",
           "evs",
           "nature",
-          "hp",
-          "skills"
+          "hp"
         ]
       },
       "members": [
@@ -23543,7 +23543,7 @@
       "id": "boss_spt_moduosa",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_moduosa.json",
-      "sourceSha256": "935185ccb2536bbcd815835ad7af0735ba17144be2937e4042e95d71654c494a",
+      "sourceSha256": "7798a35320303ee39f488284799d3451049fb3d90cc8849214a91bd2fa89e1a4",
       "sourceNoteSha256": "02d116e69f1ce2ec3364b97fc2f78fb4910c9ff0958dd586df86e2f4c924e01e",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201101-12-84389.html",
@@ -23763,7 +23763,7 @@
       "id": "boss_spt_moguguai",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_moguguai.json",
-      "sourceSha256": "14f66cdf5dbd5f3bcdc13256004c99e354091af55fb6dc23a0ef2bdf38b504df",
+      "sourceSha256": "3911207d5917b2726b9a2e57f3931d201f20d0326bf66b54e5039b5baafd5da4",
       "sourceNoteSha256": "5f80208be951976d9e4a847c605d62db5674afe8c07ea150c016c3fd88a45df4",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70388.html",
@@ -23955,7 +23955,7 @@
       "id": "boss_spt_moshidilu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_moshidilu.json",
-      "sourceSha256": "cfa0cecf696661dc6470536824081fc57d08e27f407f5d0867e72e4b99af896c",
+      "sourceSha256": "72f5cdd01acd151ec61df7945c72638dd2e243866cdf97d48e716d65bf0cd2d3",
       "sourceNoteSha256": "aaeb9d2f6951e062cdc261b85aca8f00da3ae31cceec6a9b4e2e39145b50932e",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70398.html",
@@ -24223,7 +24223,7 @@
       "id": "boss_spt_naduolei",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_naduolei.json",
-      "sourceSha256": "8c5c46bc629122e251d108b141e7b852164fa39cabd1315618c50a7886a8b3f8",
+      "sourceSha256": "c7f3f51193420ddf77dc1e2658ad971775bd0a8a466af6a79d05bbc537065bee",
       "sourceNoteSha256": "3cf5fc6c8c3612ba4cce45f1515e9cbc08ea0fea58e4eb0a03185bd8c2b60a61",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70395.html",
@@ -24398,7 +24398,7 @@
       "id": "boss_spt_nainifenduo",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_nainifenduo.json",
-      "sourceSha256": "bb341104a8c3a6e049fc4765a05721d19326667073e7b35f8ddf54a111b8eef5",
+      "sourceSha256": "adef181cd16276d52c1ad90db158fcff32dafa94fe2ebc146bb6b6b9a9792ffe",
       "sourceNoteSha256": "85ea805e571eca22471626a7c217628326675a44f7c621727c2b72ce52b289c7",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70399.html",
@@ -24671,7 +24671,7 @@
       "id": "boss_spt_nate",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_nate.json",
-      "sourceSha256": "9ba8b6a9fd73a6cc4d9b1333e1afc3b4bb83f266f804abb9caa84c1192f43aee",
+      "sourceSha256": "cb3fad5d5a77fb404531a734cfe78821b6aaa75a4216ab0180f2503b99856918",
       "sourceNoteSha256": "176790bd4548db1396fb941be9c0a7e64f1f5c53755f06d46c09f8250f0dc0c3",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
@@ -24964,7 +24964,7 @@
       "id": "boss_spt_palisi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_palisi.json",
-      "sourceSha256": "a8748f2b05fd5ec2e862e153e5662aaa6423d3051896964f68b0a6a3c122b974",
+      "sourceSha256": "7832be6d9c3ebaa7fda294a5f6745d289438584fc3e29c95bf046caacf22281d",
       "sourceNoteSha256": "860292ddedd99198e35bbdf033dfe368f55f25633526276ba06b561f3a37f4ae",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201208-22-189879.html",
@@ -24976,7 +24976,8 @@
           "iv",
           "evs",
           "nature",
-          "hp"
+          "hp",
+          "skills"
         ]
       },
       "members": [
@@ -25033,7 +25034,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified",
+              "basis": "explicit-estimate",
               "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-ebaf4b6482c0",
@@ -25226,7 +25227,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-6c809cee62a4",
@@ -25252,7 +25253,7 @@
       "id": "boss_spt_pitesaluo",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_pitesaluo.json",
-      "sourceSha256": "073b112615ce07820134e777d07075b82497259d7266c87aa03076fd1cfa136f",
+      "sourceSha256": "07342394faf5fca95031bd5718f83742b8b597a9f996ed81d23d1c255ebde317",
       "sourceNoteSha256": "ea8465688a713495969312e2e320c9a2627f40cb816f4efbfaa97b7e103fdec0",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201111-21-127453.html"
@@ -25778,7 +25779,7 @@
       "id": "boss_spt_ruiersi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_ruiersi.json",
-      "sourceSha256": "7aebc913ea4045cc5e976095abc6f6c17518a1ae26a8a30ec1099835fafa5eee",
+      "sourceSha256": "8bf4e37509e69628856f7c630a2cd3297e1509930a2f3670a77f38a49afd8935",
       "sourceNoteSha256": "643103baed6d74064b744d487c0cec51c50a9436e1bfe3250c4d5da6e959f630",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201112-26-134340.html"
@@ -26067,7 +26068,7 @@
       "id": "boss_spt_saiweier",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_saiweier.json",
-      "sourceSha256": "06b99fab4fe6e9a2c9fdbf9c263a492eb6b8db9b0939938b54c9f1f58beaa3c9",
+      "sourceSha256": "31bb149d45a989d6bb6c0d3f27ea93e04023086bcb9154ac01465d8e1f15a579",
       "sourceNoteSha256": "3ffb4a004680019efb4a6d97980181499288371615ad367a04775f86ab515ede",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201009-26-78033.html",
@@ -26084,7 +26085,8 @@
           "level",
           "hp",
           "original_healing_amount",
-          "original_hook_timing"
+          "original_hook_timing",
+          "skills"
         ]
       },
       "members": [
@@ -26137,7 +26139,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified",
+              "basis": "explicit-estimate",
               "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
                 "src-5482e86b2061",
@@ -26254,7 +26256,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified",
+          "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
             "src-5482e86b2061",
@@ -26280,7 +26282,7 @@
       "id": "boss_spt_sibinsai",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_sibinsai.json",
-      "sourceSha256": "aba3e3402dea4fb13462298edb25cadadcc5733133cabae84cc118631a935899",
+      "sourceSha256": "b119c2e4356cf3fd7eb30feaaa11412746b1616ee9388554dc4fffae089e76bc",
       "sourceNoteSha256": "8adace901df8ea1ffa5422fa66914a4266ab33fd3ecf741d8725e25d64bad9b6",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201110-08-119108.html",
@@ -26605,7 +26607,7 @@
       "id": "boss_spt_sikelu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_sikelu.json",
-      "sourceSha256": "69140f7e75c873030870905395c40326b538696b81f0e38fbb3e3e2746c91974",
+      "sourceSha256": "8942c06f15df3b263fa40da627fdf00719bd5b43c7af4e55d2854ef226f350e1",
       "sourceNoteSha256": "abb2c1bc2d3c4e2cfe0e5d81449f23bfe17696594dcf5d875906b32d4fbd37b2",
       "sourceUrls": [
         "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81",
@@ -27066,7 +27068,7 @@
       "id": "boss_spt_sipulinte",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_sipulinte.json",
-      "sourceSha256": "be442330db26c8200c68e9d9328cd546482073063191d3152b2c955f922d858d",
+      "sourceSha256": "4a258a75dcd5993a6c5c998359094a6cd79957b25d8bb7e3da562413c1910114",
       "sourceNoteSha256": "83704c9f369c0aa741246a180f120bb07be2295a246afad2bb9264a3f98ccfa8",
       "sourceUrls": [
         "https://news.4399.com/seer/tujian/94787.htm",
@@ -27080,7 +27082,6 @@
           "evs",
           "nature",
           "hp",
-          "skills",
           "innate_stage_stats"
         ]
       },
@@ -27272,7 +27273,7 @@
       "id": "boss_spt_situerte",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_situerte.json",
-      "sourceSha256": "df1eb27c3be4b348e983326b55b66430747db5270db89a9ca25053f8cac3ac7a",
+      "sourceSha256": "07f1e3a848effa725cfd37f1589fc5fea76f2ff4e3fddc1432d9782e6ebb8b7e",
       "sourceNoteSha256": "29153ceb7aa0eccdaa2be7d15b1a00a3b8f1f25481c1353b94de8e0d64fd720f",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201210-26-207406.html",
@@ -27893,7 +27894,7 @@
       "id": "boss_spt_taxiya",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_taxiya.json",
-      "sourceSha256": "64b94e35af888c879c224390100496e4729206fc15010935c677888ba79c2ad7",
+      "sourceSha256": "93ea20795522c41509967d0c90e8d094bbc506fd67ac020f9b3982df6dd39ab6",
       "sourceNoteSha256": "0945bf00788d1017c18c35acf7d3736d5dd511a0783ee4060d108d7982326c8a",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201009-26-78028.html",
@@ -28228,7 +28229,7 @@
       "id": "boss_spt_tiyasi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_tiyasi.json",
-      "sourceSha256": "3123f3a7628ad4f89d72037b486f436640a886e61a04fd0a258750f54b763762",
+      "sourceSha256": "13e2401a531cc2e234ae6dad4043dacfe9f224e54f225eae7f902f9b2c33fda2",
       "sourceNoteSha256": "c06e7a35e5b054d76517dbc3078be5229c09e18c4b37b2d2844c524fc1a135bb",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70393.html",
@@ -28448,7 +28449,7 @@
       "id": "boss_spt_yalunsi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_yalunsi.json",
-      "sourceSha256": "35e86788c74e8f1501bcc43e1fbb27c663f9d700210e9c088bb2a9f4730787c2",
+      "sourceSha256": "88639555b3864812cc92d380d86030e53315310d8fbdd676f68a0a2fa0cfdd85",
       "sourceNoteSha256": "6dd1662891f6f9031194c5e45d76eb82846a7d38dd8c1b0d6fdd6e86e7d7d7f3",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201102-28-87994.html",
@@ -28706,7 +28707,7 @@
       "id": "boss_spt_yisuoli",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_yisuoli.json",
-      "sourceSha256": "0e55a6ecee58279ca132ccba30bd7fc07baa2ff94d7a61296d35148cd6ae29e3",
+      "sourceSha256": "68c32b54c457c7987d55c6cbfe90997edc0b019ea41705476abdee7f6d3f81ee",
       "sourceNoteSha256": "1354b16b05e5f7ed66067105365f795af81c199aa8865d8d57e702fef80fe5de",
       "sourceUrls": [
         "https://m.juxia.com/news/2012-12-7/70413.html"
@@ -29011,7 +29012,7 @@
       "id": "boss_spt_younasi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_younasi.json",
-      "sourceSha256": "6bdd2fbe22c940954683ce1d9ffaaf37b1a43c1d5c1c562d6c95d709c62b1269",
+      "sourceSha256": "cf9d3350b324094b8eba3205dad95661c5f7e6ceea3727d09960704acb19817b",
       "sourceNoteSha256": "ac281fbd41b4cddb56a831e4d663f4b6bfdf0e5147ad6ca085fc24c6dec787c6",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70397.html",

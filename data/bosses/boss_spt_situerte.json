@@ -105,6 +105,7 @@
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
     "infinite_pp: the boss's skills never run out of PP (players could not win by 耗PP).",
     "HP conflict: 4399 pet page says 10000体力, the detailed 4399 guide says 12000体力 (used here).",
+    "skills: species 1391's last four at or below Lv80. 4399 battle screenshots (2012-10-26) show 混元归气斩, 震慑之光 and 金刚罩; 幻舞天尊 is not seen.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

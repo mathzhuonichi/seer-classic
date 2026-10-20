@@ -83,7 +83,7 @@
     "同生共死 works (the cheapest classic strategy), so it is not immune to it.",
     "Innate boost implied by '先用盖亚消强化'; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate.",
     "Its 虚空之身/黑暗遮蔽 make physical/special attacks miss for 2 turns — skill effects.",
-    "skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "skills: the fight uses the Boss-only form 5022 (2013 client: 2522), whose list is exactly these four (黑暗遮蔽, 黑冰, 虚空之身, 紫雾霜冻 = species 755's last four at Lv80). Battle screenshots of 2011-04-29 (7k7k, 4399) show 紫雾霜冻 and 黑冰.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {
@@ -93,7 +93,6 @@
       "evs",
       "nature",
       "hp",
-      "skills",
       "innate_stage_stats"
     ]
   },

@@ -124,6 +124,7 @@
     "except_skills_zh 群影乱舞: only 盖亚's skill still blocks it (只有盖亚的群魔乱舞能挡五回合). The guide's 群魔乱舞 is read as 盖亚's 群影乱舞, its only protective skill (抵挡下1次对手的攻击); the data's 群魔乱舞 is 比恩特's four-hit grass attack. The five turns are read as its 5 PP of one blocked attack each; the skill is unchanged. The exception goes by the condition the skill attaches, so the other skills that block the next attack with it (保护, 防护罩…) also block.",
     "攻击力超高，基本可秒杀大部分精灵 — its innate boost (天生强化, size not stated) is atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "风林火山 clears its own stat drops, so weakening is pointless.",
+    "skills: all four are named by a period guide (4399 2011-12-26) and equal species 1045's last four at or below Lv80. The single-move form 5039 (风林火山 only) belongs to other fights.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
     "Control skills (灵魂干涉 and the like) and stage-downs have no effect (its 风林火山 also clears them)."
   ],

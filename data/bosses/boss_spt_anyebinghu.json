@@ -128,6 +128,7 @@
     "Innate double-defence boost (天生强化双防并且不可消去); +2 each is an estimate.",
     "Immune to control skills, not 同生共死; susceptible to 海洋之心、圣灵魔闪光、魑魅魍魉、静电场.",
     "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown).",
+    "skills: all four are named by a period guide (4399 2011-12-05) and equal species 1012's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

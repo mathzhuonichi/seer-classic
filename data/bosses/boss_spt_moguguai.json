@@ -64,7 +64,8 @@
     "Original reward was the item 退化小蘑菇, not a 精元; the brief standardises SPT rewards to essences (essence_moguguai → 小蘑菇 #46).",
     "Level 10: the official SPT table (maps.json map 12), 7k7k 2010-03-29, 2010-08-16 and 2011-03-16, and 4399 2011-07-21. Only 4399 2010-06 says 15级, the official SPT panel's recommended level.",
     "HP never published; 120 is an estimate (~2x its natural Lv15 HP, in line with 里奥斯 Lv35 = 340).",
-    "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source.",
+    "No special rules.",
+    "skills: all four are named by period guides (4399 2010-06-05, 7k7k 2011-03-16) and equal species 47's last four at or below Lv10; 弹跳踢 (Lv13) is above the boss level.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

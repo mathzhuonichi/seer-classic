@@ -5814,7 +5814,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -5848,7 +5848,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
@@ -5894,7 +5894,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -5928,7 +5928,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
@@ -8257,7 +8257,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -8291,7 +8291,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
@@ -8576,7 +8576,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -8610,7 +8610,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }

@@ -109,6 +109,7 @@
     "status_on_attacker: after the player's pet attacks it, the attacker is burned for 2-3 turns (必出现2-3回合烧伤).",
     "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first.",
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
+    "skills: species 1377's last four at or below Lv80. 4399 battle screenshots (2012-10-12) and 2012 fight videos show 爆裂岩浆拳, 火之神力 and 巨石飞掷; 岩浆喷射 is not seen.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

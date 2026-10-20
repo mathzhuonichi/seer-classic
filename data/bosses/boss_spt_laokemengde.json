@@ -171,7 +171,7 @@
     "alternating_immunity: on even turns it becomes immune to one damage class, cycling 特殊攻击无效 → 物理攻击无效 → 属性攻击无效 (techbang: 每个领域时段偶数回合会依照顺序出现…).",
     "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "unlimited_pp and 100% accuracy per techbang. Very high crit damage noted; no number.",
-    "Skills not named by sources; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "skills: no period source names the Boss's moves; the set is species 490's last four at or below Lv80, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights. A debut-day report that it boosted itself twice (7k7k 2010-10-15) fits 规则掌控, its only self-boost.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

@@ -65,7 +65,7 @@
   "engine_notes": [
     "Rematch reward is an achievement only; reward.monster is null.",
     "HP not published; 5000 estimated from contemporary 80级 SPT bosses (古尔扎迪/米诺斯 ~5000).",
-    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four."
+    "skills: species 855 (form 5029) last four at or below Lv80. A 4399 battle screenshot of the Lv80 rematch (2011-07-22) shows 怒火咆哮 and 醉酒燃烧; later recordings of the Flash client show all four."
   ],
   "confidence": {
     "level": "low",

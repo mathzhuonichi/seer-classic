@@ -80,6 +80,7 @@
     "Below 1/8 HP every attack it makes is a critical hit (体力低于1/8时每次攻击都是致命一击) — phase at 12.5% → always_crit.",
     "属性复制 (20145): for 5 turns its type becomes the foe's type; handled by the skill.",
     "HP not given by the sources found (1500 is from earlier research notes citing 7k7k; not re-verified).",
+    "skills: all four are named by a period guide (4399 2010-06-05) and equal species 113's last four at or below Lv75.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {
