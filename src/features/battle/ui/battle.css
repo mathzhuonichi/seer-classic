@@ -125,6 +125,8 @@
  * both creatures; the creature acting a move is in front of the other while its clip travels to it. */
 .classic-combatant-stage{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;container-type:size}
 .classic-combatant-stage.is-acting{z-index:1}
+/* WebKit clips a filtered element's content to the overflow it had before the clip's canvas widened for the move. */
+.classic-combatant-stage.is-acting .classic-creature-motion{filter:none}
 .classic-creature-motion{width:min(280px,100cqw,100cqh);height:min(280px,100cqw,100cqh);max-height:none;max-width:none;aspect-ratio:1}
 .classic-creature-facing,.classic-art-box{aspect-ratio:1}
 .classic-ground-shadow{top:var(--ground-y);bottom:auto;width:60%;height:10%;transform:translate(-50%,-30%)}
