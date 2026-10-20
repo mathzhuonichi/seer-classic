@@ -8,7 +8,8 @@ selected atlas's texels per device pixel at the cell's largest on-screen size (f
 
 Cells below the threshold are split by cause: an original-vector cell rendered at too low a multiplier (fixable by a
 higher source render), a retained raster cell (original pixels; no source vector was accepted), or an AI cell (an
-AI-upscaled raster still short of the target: capped at 8x or reduced by the budget, or the species 910 AI bitmap). The WebGL backing
+AI-upscaled raster still short of the target: capped at 8x or reduced by the budget, or the species 910 AI bitmap), or a
+redrawn cell (a V61 local redraw still short of the target: capped at 32x or reduced by the budget). The WebGL backing
 store is not a per-species cause; tools/verification/battle-hd-display.mjs measures it in the running game.
 Writes a JSON report; read-only for every published asset.
 """
@@ -39,6 +40,7 @@ TARGET_DENSITY = 1.0
 VECTOR_MODES = {'original-vector', 'original-vector-with-native-bitmap', 'original-bitmap-source-recovery'}
 RASTER_MODES = {'retained-original-cell', 'retained-native-microstrip'}
 AI_MODES = {'ai-upscaled', 'ai-source-bitmap'}
+REDRAWN_MODES = {'redrawn'}
 NO_DETAIL_MODES = {'constant-original-rgba'}
 MULTIPLIERS = (1, 2, 4, 8, 16)
 
@@ -146,8 +148,8 @@ def low_cells(densities, threshold):
             row['multiplierNeeded'] = next((m for m in MULTIPLIERS if m >= needed-1e-9), None)
     return {'lowest': rows[0]['density'] if rows else None, 'cells': len(rows),
             'below': {'vector': [r for r in low if r['mode'] in VECTOR_MODES], 'raster': [r for r in low if r['mode'] in RASTER_MODES],
-                      'ai': [r for r in low if r['mode'] in AI_MODES],
-                      'other': [r for r in low if r['mode'] not in VECTOR_MODES | RASTER_MODES | AI_MODES]}}
+                      'ai': [r for r in low if r['mode'] in AI_MODES], 'redrawn': [r for r in low if r['mode'] in REDRAWN_MODES],
+                      'other': [r for r in low if r['mode'] not in VECTOR_MODES | RASTER_MODES | AI_MODES | REDRAWN_MODES]}}
 
 
 def audit_species(sid, original, report_path, physical_scale, box_device_pixels, threshold):
@@ -176,11 +178,12 @@ def attempt(args):
 
 
 def causes(results, scope):
-    split = {'vector-multiplier': [], 'retained-raster': [], 'ai-cell': [], 'other': []}
+    split = {'vector-multiplier': [], 'retained-raster': [], 'ai-cell': [], 'redrawn-cell': [], 'other': []}
     cells = dict.fromkeys(split, 0)
     for row in results:
         below = row[scope]['below']
-        for cause, key in (('vector-multiplier', 'vector'), ('retained-raster', 'raster'), ('ai-cell', 'ai'), ('other', 'other')):
+        for cause, key in (('vector-multiplier', 'vector'), ('retained-raster', 'raster'), ('ai-cell', 'ai'), ('redrawn-cell', 'redrawn'),
+                           ('other', 'other')):
             if below[key]:
                 split[cause].append(int(row['species']))
                 cells[cause] += len(below[key])

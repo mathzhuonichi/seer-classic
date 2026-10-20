@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Before/after device-pixel crops of V60 AI-upscaled battle cells, rendered in software.
+"""Before/after device-pixel crops of V60 AI-upscaled or V61 redrawn battle cells, rendered in software.
 
-Usage: battle-hd-ai-crops.py <species>[,<species>...] [--frames standby:0,attack:auto]
+Usage: battle-hd-ai-crops.py <species>[,<species>...] [--frames standby:0,attack:auto] [--version v60|v61]
 
 For each species it renders the same frame from the published base atlas (before) and the V60 atlas (after) at the
 reference display of audit_battle_hd_density.py (280 CSS px box x zoom 1.5 x DPR 2), one output pixel per device
 pixel. The renderer follows the battle shader (swf-renderer): straight bilinear texel fetch at UV x (size - 1), then
 the vertex multiply and add colours, premultiply, and premultiplied "over" compositing in quad order. Only normal
 blending is supported; other materials are drawn as normal and reported. `attack:auto` picks the attack frame that
-shows the most AI-upscaled cell area. Writes artifacts/battle-hd-ai-v60/crops/. Status `tool`: a diagnostic, not a
-gate; browser evidence is battle-hd-display.mjs.
+shows the most changed (AI-upscaled or redrawn) cell area. Writes artifacts/battle-hd-ai-v60/crops/ or
+artifacts/battle-hd-redraw-v61/crops/. Status `tool`: a diagnostic, not a gate; browser evidence is battle-hd-display.mjs.
 """
 from __future__ import annotations
 
@@ -27,7 +27,8 @@ sys.path.insert(0, str(ROOT/'tools/assets'))
 from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, original_magnification, physical_scales,  # noqa: E402
                                      reference_box_device_pixels, uv_key)
 
-OUT = ROOT/'artifacts/battle-hd-ai-v60/crops'
+VERSIONS = {'v60': (ROOT/'.cache/battle-hd-v60', ROOT/'artifacts/battle-hd-ai-v60/crops', 'aiUpscaledCellIds'),
+            'v61': (ROOT/'.cache/battle-hd-v61', ROOT/'artifacts/battle-hd-redraw-v61/crops', 'redrawnCellIds')}
 
 
 def load_meta(url):
@@ -103,8 +104,9 @@ def ai_area(frame, cells):
     return total
 
 
-def species_crops(sid, frames):
-    report = json.loads((ROOT/'.cache/battle-hd-v60/species'/sid/'report.json').read_text())
+def species_crops(sid, frames, version):
+    cache, out, changed = VERSIONS[version]
+    report = json.loads((cache/'species'/sid/'report.json').read_text())
     before_meta, after_meta = load_meta(report['base']['meta']), load_meta(report['meta'])
     before_atlas, after_atlas = load_atlas(report['base']['atlas']), load_atlas(report['atlas'])
     original = json.loads((ROOT/'public/battle-animations/runtime-index.json').read_text())['species'][sid]
@@ -114,7 +116,7 @@ def species_crops(sid, frames):
     scale, box, _ = original_magnification(original_meta, alpha, physical_scales().get(sid, DEFAULT_PHYSICAL_SCALE),
                                            reference_box_device_pixels())
     placements = {p['id']: p for p in report['layout']['placements']}
-    ai_cells = {uv_key(placements[c]['sourceUvBounds']) for c in report['aiUpscaledCellIds']}
+    ai_cells = {uv_key(placements[c]['sourceUvBounds']) for c in report[changed]}
     sequences = {s['name']: s for s in after_meta['sequences']}
     originals = {s['name']: s for s in original_meta['sequences']}
     results = []
@@ -134,14 +136,14 @@ def species_crops(sid, frames):
             canvas = render(atlas, meta_frame, scale, origin, size)
             for background, colour in (('dark', (32, 34, 52)), ('light', (236, 236, 236))):
                 image = to_image(canvas, colour)
-                path = OUT/f'{sid}-{name}-{number}-{label}-{background}.png'
+                path = out/f'{sid}-{name}-{number}-{label}-{background}.png'
                 image.save(path)
                 images[(label, background)] = image
         sheet = Image.new('RGB', (size[0]*2+12, size[1]*2+12), (255, 255, 255))
         for col, label in enumerate(('before', 'after')):
             for row, background in enumerate(('dark', 'light')):
                 sheet.paste(images[(label, background)], (col*(size[0]+12), row*(size[1]+12)))
-        sheet_path = OUT/f'{sid}-{name}-{number}-sheet.png'
+        sheet_path = out/f'{sid}-{name}-{number}-sheet.png'
         sheet.save(sheet_path)
         results.append({'species': int(sid), 'sequence': name, 'frame': number, 'devicePixelsPerClipUnit': scale,
                         'size': list(size), 'sheet': str(sheet_path.relative_to(ROOT)),
@@ -153,11 +155,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('ids')
     parser.add_argument('--frames', default='standby:0,attack:auto')
+    parser.add_argument('--version', choices=sorted(VERSIONS), default='v60')
     args = parser.parse_args()
-    OUT.mkdir(parents=True, exist_ok=True)
+    out = VERSIONS[args.version][1]
+    out.mkdir(parents=True, exist_ok=True)
     frames = [tuple(item.split(':')) for item in args.frames.split(',')]
-    results = [row for sid in args.ids.split(',') for row in species_crops(sid, frames)]
-    (OUT/'crops.json').write_text(json.dumps(results, indent=1)+'\n')
+    results = [row for sid in args.ids.split(',') for row in species_crops(sid, frames, args.version)]
+    (out/'crops.json').write_text(json.dumps(results, indent=1)+'\n')
     print(json.dumps(results))
 
 
