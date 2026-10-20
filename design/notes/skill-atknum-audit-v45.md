@@ -1,6 +1,31 @@
 # V45 skill AtkNum audit
 
-The documented conversion of `AtkNum > 1` into repeated full-power hits against one opponent is an import error. `AtkNum` belongs to group-fight targeting metadata; it is not independent evidence for a single-target multi-hit effect. This audit records the finding without changing production data or the battle engine.
+The documented conversion of `AtkNum > 1` into repeated full-power hits against one opponent is an import error. `AtkNum` belongs to group-fight targeting metadata; it is not independent evidence for a single-target multi-hit effect. The audit below recorded the finding without changing production data or the battle engine. The repair section records how it was closed.
+
+## Repair (2026-10-19)
+
+**Source.** The pinned moves table was recovered: `resource/config/xml/moves.json` of `Nattsu39/seer_data` at `a00bcdd5800e3bae5df881b4994a170a87541115`, Git blob `03f89e417f0cb114baa6d92372fc79de5ab3ffd8`, SHA-256 `855526c92a09b0fd1b07a8c76cd56c134ae7623bb08523d038fc0e550d3b3268`, cached in the ignored `.cache/seer-data-a00bcdd/`. Of its 26,467 records, 116 carry `AtkNum` (values 2 to 6), 94 of them in the retained skill windows, and 303 carry `SideEffect` 31. No record carries both.
+
+**Classification.** Every one of the 305 retained `multi_hit` ops has exactly one origin:
+
+- 211 come from `SideEffect` 31, and each op's `min`/`max` equals the effect's two arguments. This includes the fixed two-hit 10774, 10802 and 10818 and ranges such as 10238 `[2, 3]`.
+- 94 come from `AtkNum` alone (`AtkNum > 1`, no `SideEffect` 31, op `min = max = AtkNum`). They are exactly the 94 suspects counted below. Four of them (20432, 20434, 20440, 20444) are status moves, on which the op never ran.
+
+The source shows none of the 94 as a genuine multi-hit move: none has effect 31, and no effect text or `info` field names a hit count. Names such as 左右开弓 or 群魔乱舞 describe the animation; the table gives them no repeat. No skill outside the 94 needs a change: no retained skill has `AtkNum > 1` without an op, and no effect-31 skill lacks its op.
+
+**Changes.**
+
+- `data/skills.json`: the `multi_hit` op is removed from the 94 skills. Power, accuracy, PP and the other effects are unchanged, so 10175 is power 120 with a 5% paralysis chance, 10961 power 100 with a 10% special-defence drop, and 11657 and 13219 single hits of 105 and 110. The skill importer is still missing, so the data was edited directly. `data/README.md` now states the rule: `multi_hit` comes only from effect 31, and `AtkNum` is not imported.
+- Removed workarounds: `unsourcedMultiHits` in `src/domain/challenges/battle-facilities.ts` (elite automatic loadouts now exclude only recovery-only moves), its fixture check and per-build assertions in `elite-roster-v46`, and the multi-hit exclusions of `elite-sub600-audit`. That audit's 12-opponent panel now samples every elite species, so it differs from the panel recorded in [elite-candidates-v45](elite-candidates-v45.md).
+- `tools/verification/skill-atknum-v45.mjs` (gate) checks that every `multi_hit` op matches an effect 31 and the reverse, the dealt hits of the four examples (one), the three fixed two-hit skills (two) and 10238 (two or three), and that the Boss AI ranks each of them at power times mean hit count. All its checks fail on the old data.
+
+**Consequences.** The damage probe was already one hit; only the hit count changed, which the Boss policy multiplies in and the trainer planner simulates.
+
+- Boss AI (local scoring), with all status moves used, against a 20000-HP neutral fixture or an ordinary Lv.100 雷伊: 雷伊 (`boss_rei`) leads with 瞬雷天闪 instead of 极电千鸟; 塔克林 (`boss_spt_takelin`, and the third 青龙 guardian) with 潜龙伏地啸 instead of 灰飞烟灭; 巴索尔 with 螺旋光裂斩 instead of 金光迸射; 帕里斯 with 深渊之爪 instead of 兽神之怒; 瑞尔斯 with 风林火山 instead of 撼地震击; 帕罗狄亚 with 无界念光波 instead of 幻刃冲撞; 奇格萨 (Brave trial) with 奔雷 or 幻雷冰袭 instead of 霜寒落雷; 塔西亚 (`boss_spt_taxiya`, and the second 青龙 guardian) with 真龙灭世咒 instead of 魔龙咒. 兰斯特 still prefers 陨石坠落. No Boss file was changed.
+- `boss_rei_training3` still requires the final knockout by 极电千鸟, which is now one 120-power hit.
+- `trainer_dragon_sanctuary` keeps 真龙灭世咒, now one 150-power hit instead of two.
+- Elite automatic loadouts of five original elite species return to their ordinary selection: 塔克林 (274) takes 灰飞烟灭 instead of 锋利之牙; 塔西亚 (391) 真龙灭世咒 and 魔龙咒 instead of 元素喷吐 and 百万吨拳击; 加鲁德 (622) 无影拳 instead of 黑月极闪; 卡迪达克 (886) 螺旋双臂转 instead of 绝地突击; 纳斯琪 (1480) 水流波动 instead of 念光破. Authored elite builds, NPC training profiles and ordinary random loadouts are unchanged. Two authored builds avoided a suspect import ([classic-pvp-sources-v46](classic-pvp-sources-v46.md)): 加布 (826) omits 目空一切 (11907) and 杰西卡 (432) omits 开天辟地 (11084). Both are now ordinary single hits; the builds were not revisited.
+- Engravings 20031, 20077, 20160, 20207 and 20307 apply to repaired skills; none of them edits a hit count.
 
 ## Evidence and limits
 

@@ -108,19 +108,6 @@ function ordinaryMember(species:Species,skills:Map<number,Skill>,types:TypeData,
   return {species:species.id,level:LEVEL,iv:IV_MAX,evs:{hp:EV_STAT_CAP,[attackStat]:EV_STAT_CAP},nature:'hardy',skills:chosen.map(skill=>skill.id)};
 }
 
-/** The engine's hit count when a multi-hit effect omits it. */
-const DEFAULT_HITS=2;
-
-/** Engine multi-hit ranges that the source effect 31 does not confirm. */
-function unsourcedMultiHits(skill:Skill):{min:number;max:number}[] {
-  const source=skill.seer_effects as {eff:number;args:number[]}[]|undefined;
-  return (skill.effects??[]).flatMap(effect=>{
-    if(effect.op!=='multi_hit')return [];
-    const min=effect.min??DEFAULT_HITS,max=effect.max??min;
-    return source?.some(row=>row.eff===31&&row.args[0]===min&&row.args[1]===max)?[]:[{min,max}];
-  });
-}
-
 /** Chosen elite roster policy, not a claim that every heal loses to a 250-HP item.
  * Keep drain attacks, regeneration and healing with an additional positive effect.
  */
@@ -134,9 +121,9 @@ function pureRecovery(skill:Skill):boolean {
   })&&heals;
 }
 
-/** Generated elite builds skip unsourced fixed multi-hit moves and recovery-only moves. */
+/** Generated elite builds skip recovery-only moves. */
 export function eliteSkillEligible(skill:Skill):boolean {
-  return !unsourcedMultiHits(skill).some(hits=>hits.min===hits.max)&&!pureRecovery(skill);
+  return !pureRecovery(skill);
 }
 
 export function eliteMember(catalog:CatalogData,species:Species,skills:Map<number,Skill>,types:TypeData):BossTeamMember {
@@ -144,7 +131,7 @@ export function eliteMember(catalog:CatalogData,species:Species,skills:Map<numbe
   if(!build)return ordinaryMember(species,skills,types,eliteSkillEligible);
   const invalid=(id:number)=>{
     const skill=skills.get(id);
-    return !trainerSkillOrigin(catalog,species.id,id)||!skill||pureRecovery(skill)||unsourcedMultiHits(skill).length>0;
+    return !trainerSkillOrigin(catalog,species.id,id)||!skill||pureRecovery(skill);
   };
   if(build.skills.length!==MAX_EQUIPPED||new Set(build.skills).size!==MAX_EQUIPPED||build.skills.some(invalid))
     throw new Error(`${species.name.zh}的巅峰配招与当前技能资料不一致。`);

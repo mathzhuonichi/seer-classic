@@ -49,7 +49,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [official-game-feel-resources](official-game-feel-resources.md) | Source discovery for motion, skill effects and audio; the fighting-vs-evil 0.5 correction. | historical |
 | [capture-official-v25](capture-official-v25.md) | Capsule factors and CatchRate checked against the official client; the capture equation stays a remake calibration. | current |
 | [critical-traits](critical-traits.md) | Remake calibration for the 会心 and 免爆 critical-rate traits, whose original probabilities are unknown. | current |
-| [skill-atknum-audit-v45](skill-atknum-audit-v45.md) | `AtkNum > 1` was imported as multi-hit by mistake; finding and repair plan. The data is not repaired yet. | plan (open finding) |
+| [skill-atknum-audit-v45](skill-atknum-audit-v45.md) | `AtkNum > 1` was imported as multi-hit by mistake; finding, and the 2026-10-19 repair of 94 skills against the pinned moves table. | done |
 | [status-skills-and-playtest-v19](status-skills-and-playtest-v19.md) | Six-point status-skill symbol and fixes from the revision 18 playtest (leech, recoil, Puni immunity, potions). | historical |
 | [core-performance-v22](core-performance-v22.md) | Battle-core rule-lookup performance (`findRule`) without rule changes. | historical |
 

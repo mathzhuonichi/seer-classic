@@ -54,7 +54,7 @@ At the controller's encounter entry, non-trainer Boss loadouts remove literal al
 
 Scanning all 180 existing Boss definitions finds one affected encounter: Tower 61's Chaloyan (270). Its all-HP transfer `眼球的掌控` (20330) becomes its naturally learned dual-offense debuff `失神之视` (20328), including the matching AI entry. The three-member team, HP 1150, phases and rewards stay intact. Existing Sgalka/Sprint bosses and all Puni seals/lives are unchanged.
 
-Elite automatic loadouts omit unsupported fixed multi-hit imports identified by the earlier AtkNum audit. This changes five of the original 103 species' four-move selections, without changing their membership or ordinary stats. Genuine effect-31 multi-hit moves remain legal, including Jessica's three-to-five-hit priority. The broader skill-data import issue is not globally repaired here; ordinary random loadouts remain unchanged.
+Elite automatic loadouts omit unsupported fixed multi-hit imports identified by the earlier AtkNum audit. This changes five of the original 103 species' four-move selections, without changing their membership or ordinary stats. Genuine effect-31 multi-hit moves remain legal, including Jessica's three-to-five-hit priority. The broader skill-data import issue is not globally repaired here; ordinary random loadouts remain unchanged. The 2026-10-19 catalog repair removed those imports, and the exclusion with them ([AtkNum audit](skill-atknum-audit-v45.md)).
 
 ## Verification
 
