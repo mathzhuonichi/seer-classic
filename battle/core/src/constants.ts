@@ -1,6 +1,6 @@
 // Every tunable rule number lives here. See battle/RULES.md for sources.
 
-import type { Skill } from './types.ts';
+import type { EffectOp, Skill } from './types.ts';
 
 // Damage formula (RULES.md section 5):
 // base = floor((DAMAGE_LEVEL_FACTOR * level + DAMAGE_LEVEL_OFFSET) * power * A / D / DAMAGE_DIVISOR) + DAMAGE_BASE_OFFSET
@@ -18,6 +18,11 @@ export const RANDOM_MAX = 255;
 export const MEAN_ROLL = Math.round((RANDOM_MIN + RANDOM_MAX) / 2);
 /** Hits of a `multi_hit` op without `min`. */
 export const MULTI_HIT_DEFAULT = 2;
+/** The hit counts a `multi_hit` op rolls between: `min`..`max`, where `max` defaults to `min`. */
+export function multiHitRange(op: EffectOp): { min: number; max: number } {
+  const min = op.min ?? MULTI_HIT_DEFAULT;
+  return { min, max: op.max ?? min };
+}
 export const BURN_DAMAGE_MULTIPLIER = 0.5;
 export const STAGE_MIN = -6;
 export const STAGE_MAX = 6;

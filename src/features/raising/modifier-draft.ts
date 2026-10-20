@@ -6,7 +6,7 @@ import {checkEvDraft,draftEvs,evDraft,wholeNumber,type EvDraft} from './ev-draft
 
 export interface MonsterDraft {level:string;iv:string;nature:string;trait:string;evs:EvDraft}
 
-export const monsterDraft=(m:MonsterView):MonsterDraft=>({level:String(m.level),iv:String(m.iv),nature:m.natureId,trait:m.traitId??'',evs:evDraft(m.evs)});
+export const monsterDraft=(m:MonsterView):MonsterDraft=>({level:String(m.level),iv:String(m.iv),nature:m.nature.id,trait:m.trait?.id??'',evs:evDraft(m.evs)});
 
 /** The typed 学习力 total (undefined while a 学习力 field is blank or invalid), and the monster edit when every field is valid. */
 export function monsterEdit(draft:MonsterDraft) {

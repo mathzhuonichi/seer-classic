@@ -1,0 +1,13 @@
+.skill-detail{min-width:0;text-align:left}
+.skill-detail>header{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:7px}
+.skill-detail>header>.battle-type-icon{grid-row:1 / 3;width:24px;height:24px;flex-basis:24px}
+.skill-detail>header>strong{font-size:13px;line-height:1.3}
+.skill-detail>header>span{font-size:11px;line-height:1.3;opacity:.8}
+.skill-detail>dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 10px;margin:7px 0 0;font-size:11px;line-height:1.5}
+.skill-detail>dl>div{display:flex;gap:4px;min-width:0;white-space:nowrap}
+.skill-detail dt{opacity:.75}
+.skill-detail dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+.skill-detail>p{margin:6px 0 0;font-size:11px;line-height:1.6}
+.hover-card.skill-hover-card{width:260px}
+.skill-hover-card .skill-detail>header>strong{color:#fff3aa}
+.skill-hover-card .skill-detail dt{color:#8fcef3;opacity:1}

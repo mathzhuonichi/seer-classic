@@ -12,7 +12,7 @@ import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
 import {
-  BOOT_TIMEOUT_MS, SETTLE_MS, buildApp, closeWindow, count, openGame, openTool, robot, talkToCreature, tool, wait, waitWorld, withBrowser,
+  BOOT_TIMEOUT_MS, SETTLE_MS, buildApp, closeWindow, count, openGame, openTool, robot, talkToCreature, tool, wait, waitCommands, waitWorld, withBrowser,
 } from './_browser.mjs';
 import * as layout from './_layout-checks.mjs';
 
@@ -371,6 +371,44 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
+/** Waits for the open detail card `selector` and checks that it lies inside the window. */
+async function cardInWindow(page, selector, what) {
+  await page.waitForSelector(selector);
+  const {box, width, height} = await page.$eval(selector, card => ({box: card.getBoundingClientRect().toJSON(), width: innerWidth, height: innerHeight}));
+  const inside = box.left >= 0 && box.top >= 0 && box.right <= width && box.bottom <= height;
+  assert(inside, `${what}'s card ${JSON.stringify(box)} leaves the ${width}x${height} window`);
+}
+
+/** Battle skills, the PetBag's 性格 and 特性 and a disabled (equipped) learned skill show their detail cards inside the window. */
+async function detailCards({page, fixture}) {
+  await waitWorld(page);
+  await talkToCreature(page);
+  await page.click('.world-dialogue button.primary');
+  await waitCommands(page);
+  const skills = page.locator('.classic-skill-grid > .classic-skill');
+  for (let index = 0; index < await skills.count(); index++) {
+    await skills.nth(index).hover();
+    await cardInWindow(page, '.skill-hover-card', `battle skill ${index + 1}`);
+  }
+  // A press closes the card; released off the skill, it uses no skill.
+  await page.mouse.down();
+  assert.equal(await count(page, '.skill-hover-card'), 0, 'a press on a skill left its card open');
+  await page.mouse.move(2, 2);
+  await page.mouse.up();
+  await page.click('.classic-command-tabs button[aria-label="逃跑"]');
+  await page.click('.classic-escape-panel button');
+  await page.waitForSelector('.classic-battle', {state: 'detached', timeout: BOOT_TIMEOUT_MS});
+  await openTool(page, tool(fixture, 'monsters'));
+  await page.locator('.petbag-party-strip > *').first().click();
+  for (const [index, what] of [[0, '性格'], [1, '特性']]) {
+    await page.locator('.petbag-information .hover-term').nth(index).hover();
+    await cardInWindow(page, '.hover-card', what);
+  }
+  await page.click('.petbag-nav-skills');
+  await page.locator('.learned-skill-list > button:disabled').first().hover();
+  await cardInWindow(page, '.skill-hover-card', 'an equipped learned skill');
+}
+
 /** The variant (or practice fight) picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
 async function variantChoice({page, fixture}, {boss, label, caption: named}) {
   const picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
@@ -430,6 +468,7 @@ const CHECKS = [
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
     run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
+  {name: 'battle skills, 性格, 特性 and disabled learned skills show their detail cards inside the window', run: detailCards},
   {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle',
     run: session => variantChoice(session, session.fixture.variants[0])},
   {name: 'the practice fight picked in the challenge archive is preselected in the Boss dialogue and starts the battle',

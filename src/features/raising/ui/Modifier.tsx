@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
+import {useEffect,useId,useRef,useState,type KeyboardEvent} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import type { MonsterView } from '../../../shared/views.ts';
 import {STAT_KEYS} from '../../../../raising/core/types.ts';
@@ -13,11 +13,13 @@ import {appearanceOf,speciesNamer} from '../../../shared/monster-views.ts';
 import {feedbackFor} from './raising/dispatch-feedback.ts';
 import './Modifier.css';
 
+/** What the 特性 select's 无特性 does. */
+const NO_TRAIT_TEXT='不附加特性效果。';
 const location=(m:MonsterView,party:readonly string[])=>m.inParty?`背包第 ${party.indexOf(m.uid)+1} 位`:'精灵仓库';
 
 /** Sets one monster's level, 个体值, 性格, 特性 and 学习力 directly. */
 function MonsterEditor({m,c}:{m:MonsterView;c:GameController}){
- const natures=useGame(c,s=>s.natures),traits=useGame(c,s=>s.traits);
+ const natures=useGame(c,s=>s.natures),traits=useGame(c,s=>s.traits),detail=useId();
  const [draft,setDraft]=useState(()=>monsterDraft(m)),[feedback,setFeedback]=useState('');
  // The saved values replace the draft: an edit may clamp 学习力 or evolve the monster.
  useEffect(()=>setDraft(monsterDraft(m)),[m]);
@@ -38,12 +40,12 @@ function MonsterEditor({m,c}:{m:MonsterView;c:GameController}){
     <input aria-label="修改目标个体值" type="number" required min={IV_MIN} max={IV_MAX} step="1" value={draft.iv}
      onChange={event=>set({iv:event.target.value})}/>
    </label>
-   <label>性格<select aria-label="修改目标性格" value={draft.nature} onChange={event=>set({nature:event.target.value})}>
+   <label>性格<select aria-label="修改目标性格" aria-describedby={`${detail}-nature`} value={draft.nature} onChange={event=>set({nature:event.target.value})}>
     {natures.map(n=><option key={n.id} value={n.id}>{n.name}</option>)}
-   </select></label>
-   <label>特性<select aria-label="修改目标特性" value={draft.trait} onChange={event=>set({trait:event.target.value})}>
+   </select><small id={`${detail}-nature`} className="modifier-option-detail">{natures.find(n=>n.id===draft.nature)?.effect}</small></label>
+   <label>特性<select aria-label="修改目标特性" aria-describedby={`${detail}-trait`} value={draft.trait} onChange={event=>set({trait:event.target.value})}>
     <option value="">无特性</option>{traits.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
-   </select></label>
+   </select><small id={`${detail}-trait`} className="modifier-option-detail">{traits.find(t=>t.id===draft.trait)?.description??NO_TRAIT_TEXT}</small></label>
   </div>
   <div className="modifier-ev-heading"><h3>学习力</h3><output>{total??'—'} / {EV_TOTAL_CAP}</output></div>
   <div className="modifier-ev-grid">{STAT_KEYS.map(key=><label key={key}>{STAT_LABELS[key]}

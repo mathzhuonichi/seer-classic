@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {monsterDraft,monsterEdit} from './modifier-draft.ts';
 
-const monster={level:45,iv:31,natureId:'bold',traitId:undefined,evs:{hp:4,atk:252,def:0,spa:0,spd:0,spe:252}};
+const monster={level:45,iv:31,nature:{id:'bold',name:'大胆',effect:''},trait:null,evs:{hp:4,atk:252,def:0,spa:0,spd:0,spe:252}};
 
 test('the modifier keeps number fields as typed and converts them on apply',()=>{
   const draft=monsterDraft(monster);

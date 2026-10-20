@@ -68,6 +68,6 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
-    {showDetails && <BattleCreatureDetails monster={selectedParty} onClose={closeDetails}/>}
+    {showDetails && <BattleCreatureDetails c={c} monster={selectedParty} onClose={closeDetails}/>}
   </section>;
 }

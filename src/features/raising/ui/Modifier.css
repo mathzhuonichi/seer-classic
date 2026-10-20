@@ -19,6 +19,7 @@
 .modifier-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px}
 .modifier-fields label{display:grid;grid-template-columns:minmax(75px,1fr) minmax(85px,1fr);align-items:center;gap:7px;font-size:12px;min-width:0}
 .modifier-fields input,.modifier-fields select{width:100%}
+.modifier-fields .modifier-option-detail{grid-column:1 / -1;font-size:11px;line-height:1.6;color:#1e5574}
 .modifier-ev-heading{display:flex;align-items:center;justify-content:space-between;margin:14px 0 8px;gap:10px}
 .modifier-dialog h3{margin:0;font-size:14px;font-weight:400;color:#073d6a}
 .modifier-ev-heading output{font-size:11px;color:#1e5979;font-variant-numeric:tabular-nums}
