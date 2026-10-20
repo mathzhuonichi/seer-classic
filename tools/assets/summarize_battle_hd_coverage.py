@@ -15,6 +15,7 @@ import json
 import os
 from pathlib import Path
 
+from battle_hd_ai_upscale import AI_MODE, GATE as AI_GATE, method as ai_method
 from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, MAX_VECTOR_SCALE, bounds, sha
 from audit_battle_hd_density import TARGET_DENSITY, reference_box_device_pixels
 from recover_battle_shapes import save
@@ -71,7 +72,8 @@ def kept_totals(item):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', help='Comma-separated species to summarize again; the existing manifest keeps every other entry')
-    parser.add_argument('--caches', type=Path, nargs='+', default=[ROOT/'.cache/battle-hd-v59', ROOT/'.cache/battle-hd-v44'],
+    parser.add_argument('--caches', type=Path, nargs='+',
+                        default=[ROOT/'.cache/battle-hd-v60', ROOT/'.cache/battle-hd-v59', ROOT/'.cache/battle-hd-v44'],
                         help='Generation caches, newest first; the last one also holds the source recovery and override records')
     parser.add_argument('--output', type=Path, default=ROOT/'public/battle-animations/hd/manifest.json')
     parser.add_argument('--verify-hashes', action='store_true', help='Read every pinned source and generated atlas before writing')
@@ -120,7 +122,9 @@ def main():
         prototype = sid == '346' and not report_path.exists()
         if prototype:
             report_path = ROOT/'.cache/battle-vector-prototype-346/prototype-report.json'
-        override = overrides.get(sid) if sid in published else None
+        # An independent override applies only while its own atlas is the published one (not a later V60 composition).
+        own = report_path.exists() and sid in published and json.loads(report_path.read_bytes()).get('atlas') == published[sid]['atlas']
+        override = overrides.get(sid) if sid in published and not own else None
         override_validation = None
         if override:
             report_path = ROOT/override['reportPath']
@@ -142,6 +146,7 @@ def main():
             improved = sum(c['mode'] in VECTOR_MODES and c['scale'] > 1 for c in cells)
             improved_bitmaps = sum(c['mode'] == 'original-bitmap-source-recovery' and c['scale'] > 1 for c in cells)
             reconstructed_bitmaps = sum(c['mode'] == 'ai-source-bitmap' for c in cells)
+            ai_upscaled = sum(c['mode'] == AI_MODE for c in cells)
             retained = [c for c in cells if c['mode'].startswith('retained-')]
             reasons = Counter(reason_group(c.get('reason', 'Native microstrip has insufficient source detail for a reliable match')) for c in retained)
             output = published[sid] if prototype else report
@@ -154,13 +159,15 @@ def main():
                 state='candidate-awaiting-publication' if improved+improved_bitmaps else 'original-runtime-no-resolution-gain',
                 counts=dict(counts), resolutionCounts=dict(resolutions), improvedVectorCells=improved,
                 improvedSourceBitmapCells=improved_bitmaps,
-                reconstructedBitmapCells=reconstructed_bitmaps,
+                reconstructedBitmapCells=reconstructed_bitmaps, aiUpscaledCells=ai_upscaled,
                 sourceAlternativeRecoveredCells=len(report.get('nativeGateRescuedCells', [])),
                 nativeRetainedCells=len(retained), retainedReasonCounts=dict(reasons),
                 firstPoseCells=len(first_all), firstPoseConstantCells=len(first_all)-len(first),
                 firstPoseNonconstantCells=len(first), firstPoseVectorCells=sum(c['mode'] == 'original-vector' for c in first),
                 firstPoseHigherResolutionCells=sum(c['mode'] in SOURCE_RENDER_MODES and c['scale'] > 1 for c in first),
                 firstPoseAiReconstructedCells=sum(c['mode'] == 'ai-source-bitmap' for c in first),
+                firstPoseAiUpscaledCells=sum(c['mode'] == AI_MODE for c in first),
+                firstPoseNonconstantFullyAboveNative=bool(first) and all(c['scale'] > 1 for c in first),
                 firstPoseNonconstantFullyPureVector=bool(first) and all(c['mode'] == 'original-vector' for c in first),
                 firstPoseNonconstantFullyHigherResolution=bool(first) and all(c['mode'] in SOURCE_RENDER_MODES and c['scale'] > 1 for c in first),
                 atlasWidth=report['layout']['width'], atlasHeight=report['layout']['height'],
@@ -175,6 +182,8 @@ def main():
                 reportPath=override['reportPath'] if override else ('.cache/battle-vector-prototype-346/prototype-report.json' if prototype else os.path.relpath(report_path, ROOT)),
                 reportSha256=sha(report_bytes), reportRevision=report.get('revision', 'reviewed-prototype'),
             )
+            if report.get('kind'):
+                item['reportKind'] = report['kind']
             mode_counts.update(counts)
             if report.get('sourceSizedBudgetException'):
                 item['sourceSizedBudgetException'] = report['sourceSizedBudgetException']
@@ -240,6 +249,13 @@ def main():
         'states': dict(status_counts), 'cellModes': dict(mode_counts), 'cellResolutions': dict(resolution_counts),
         'retainedReasonCounts': dict(native_reasons), 'generatedAssetBytes': generated_bytes,
         'firstPoseNonconstantFullyHigherResolutionSpecies': sum(v.get('firstPoseNonconstantFullyHigherResolution', False) for v in species.values()),
+        'firstPoseNonconstantFullyAboveNativeSpecies': sum(v.get('firstPoseNonconstantFullyAboveNative', False) for v in species.values()),
+        'aiUpscaled': {'cells': sum(v.get('aiUpscaledCells', 0) for v in species.values()),
+                       'firstPoseCells': sum(v.get('firstPoseAiUpscaledCells', 0) for v in species.values()),
+                       'species': sum(v.get('aiUpscaledCells', 0) > 0 for v in species.values()),
+                       'method': {key: ai_method()[key] for key in ('tool', 'release', 'archiveSha256', 'binarySha256', 'model',
+                                                                    'modelParamSha256', 'modelBinSha256', 'alphaMode', 'eightTimesMode')},
+                       'gate': AI_GATE},
         'fullyImprovedNonconstantSpecies': sum(v.get('improvedVectorCells', 0)+v.get('improvedSourceBitmapCells', 0) == sum(n for k,n in v.get('counts', {}).items() if k != 'constant-original-rgba') and v.get('improvedVectorCells', 0)+v.get('improvedSourceBitmapCells', 0) > 0 for v in species.values()),
         'limits': {'maxAtlasSide': 8192, 'standardDecodedAtlasBytes': 128*1024**2,
                    'sourceSizedExceptionMaximumBytes': 256*1024**2,
@@ -255,7 +271,9 @@ def main():
     if original_index_path.read_bytes() != original_index_bytes:
         raise ValueError('Original index changed during summary')
     save(args.output, result)
-    print(json.dumps({key: result[key] for key in ('originalSpeciesCount', 'states', 'cellModes', 'firstPoseNonconstantFullyHigherResolutionSpecies', 'generatedAssetBytes')}))
+    keys = ('originalSpeciesCount', 'states', 'cellModes', 'firstPoseNonconstantFullyHigherResolutionSpecies',
+            'firstPoseNonconstantFullyAboveNativeSpecies', 'generatedAssetBytes')
+    print(json.dumps({key: result[key] for key in keys} | {'aiUpscaledCells': result['aiUpscaled']['cells']}))
 
 
 if __name__ == '__main__':

@@ -301,6 +301,31 @@ def requested_scales(cell):
     return fitted(cell, default), fitted(cell, scale)
 
 
+def pack_rows(rows, max_bytes):
+    """Pack {id, width, height, sourceUvBounds} rows on one page within `max_bytes`; ValueError when they do not fit."""
+    area = sum((r['width']+4)*(r['height']+4) for r in rows)
+    pixels = max_bytes//4
+    if area > pixels:
+        raise ValueError('Padded content exceeds budget before packing')
+    min_width = max(r['width']+4 for r in rows)
+    min_height = max(r['height']+4 for r in rows)
+    side = math.ceil(math.sqrt(area)/256)*256
+    widths = list(dict.fromkeys(max(min_width, min(8192, w)) for w in (side, 4096, 8192, 2048, math.ceil(min_width/256)*256)))
+    attempted = []
+    for order in [sorted(rows, key=lambda r: (-max(r['width'], r['height']), -r['width']*r['height'], r['id'])),
+                  sorted(rows, key=lambda r: (-r['width']*r['height'], -max(r['width'], r['height']), r['id']))]:
+        for width in widths:
+            height = min(8192, pixels//width)
+            if min_height > height or width > 8192:
+                continue
+            attempted.append([width, height])
+            fast = _pack(order, width, height, 2)
+            if fast is not None and fast['rgbaBytes'] <= max_bytes:
+                fast.update(packingStrategy='Budget-bounded MaxRects first successful candidate', attemptedCanvasSizes=attempted)
+                return fast
+    return layout_atlas(rows, max_side=8192, max_rgba_bytes=max_bytes)
+
+
 def pack_with_budget(cells, max_bytes):
     for cell in cells:
         cell['defaultScale'], cell['scale'] = requested_scales(cell)
@@ -309,27 +334,7 @@ def pack_with_budget(cells, max_bytes):
     while True:
         rows = [{'id': c['id'], 'width': c['nativeSize'][0]*c['scale'], 'height': c['nativeSize'][1]*c['scale'], 'sourceUvBounds': c['sourceUvBounds']} for c in cells]
         try:
-            area = sum((r['width']+4)*(r['height']+4) for r in rows)
-            pixels = max_bytes//4
-            if area > pixels:
-                raise ValueError('Padded content exceeds budget before packing')
-            min_width = max(r['width']+4 for r in rows)
-            min_height = max(r['height']+4 for r in rows)
-            side = math.ceil(math.sqrt(area)/256)*256
-            widths = list(dict.fromkeys(max(min_width, min(8192, w)) for w in (side, 4096, 8192, 2048, math.ceil(min_width/256)*256)))
-            attempted = []
-            for order in [sorted(rows, key=lambda r: (-max(r['width'], r['height']), -r['width']*r['height'], r['id'])),
-                          sorted(rows, key=lambda r: (-r['width']*r['height'], -max(r['width'], r['height']), r['id']))]:
-                for width in widths:
-                    height = min(8192, pixels//width)
-                    if min_height > height or width > 8192:
-                        continue
-                    attempted.append([width, height])
-                    fast = _pack(order, width, height, 2)
-                    if fast is not None and fast['rgbaBytes'] <= max_bytes:
-                        fast.update(packingStrategy='Budget-bounded MaxRects first successful candidate', attemptedCanvasSizes=attempted)
-                        return fast, reductions
-            return layout_atlas(rows, max_side=8192, max_rgba_bytes=max_bytes), reductions
+            return pack_rows(rows, max_bytes), reductions
         except ValueError:
             available = [c for c in cells if c['scale'] > 1]
             if not available:
