@@ -17,6 +17,8 @@ from pathlib import Path
 
 from battle_hd_ai_upscale import AI_MODE, GATE as AI_GATE, method as ai_method
 import battle_hd_redraw as rd
+import battle_hd_stroke_gate as sg
+import build_battle_hd_priority_atlases as pr
 from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, MAX_VECTOR_SCALE, bounds, sha
 from audit_battle_hd_density import TARGET_DENSITY, reference_box_device_pixels
 from recover_battle_shapes import save
@@ -74,7 +76,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', help='Comma-separated species to summarize again; the existing manifest keeps every other entry')
     parser.add_argument('--caches', type=Path, nargs='+',
-                        default=[ROOT/'.cache/battle-hd-v61', ROOT/'.cache/battle-hd-v60', ROOT/'.cache/battle-hd-v59',
+                        default=[ROOT/'.cache/battle-hd-v62', ROOT/'.cache/battle-hd-v61', ROOT/'.cache/battle-hd-v60', ROOT/'.cache/battle-hd-v59',
                                  ROOT/'.cache/battle-hd-v44'],
                         help='Generation caches, newest first; the last one also holds the source recovery and override records')
     parser.add_argument('--output', type=Path, default=ROOT/'public/battle-animations/hd/manifest.json')
@@ -265,7 +267,11 @@ def main():
         'redrawn': {'cells': sum(v.get('redrawnCells', 0) for v in species.values()),
                     'firstPoseCells': sum(v.get('firstPoseRedrawnCells', 0) for v in species.values()),
                     'species': sum(v.get('redrawnCells', 0) > 0 for v in species.values()),
-                    'method': {key: rd.method()[key] for key in ('tool', 'libraries', 'renderer')}, 'gate': rd.GATE},
+                    'method': {key: rd.method()[key] for key in ('tool', 'libraries', 'renderer')}, 'gate': rd.GATE,
+                    'strokeGate': {'appliesTo': f'thin-stroke cells (flat or shaded, thin parts >= {sg.STROKE_SHARE_MINIMUM} of the coverage), V62',
+                                   'gate': sg.GATE}},
+        'firstPosePriority': {'species': sum(v.get('reportKind') == pr.KIND for v in species.values()),
+                              'firstPoseVectorMaximumScale': pr.VECTOR_SCALES[-1]},
         'fullyImprovedNonconstantSpecies': sum(v.get('improvedVectorCells', 0)+v.get('improvedSourceBitmapCells', 0) == sum(n for k,n in v.get('counts', {}).items() if k != 'constant-original-rgba') and v.get('improvedVectorCells', 0)+v.get('improvedSourceBitmapCells', 0) > 0 for v in species.values()),
         'limits': {'maxAtlasSide': 8192, 'standardDecodedAtlasBytes': 128*1024**2,
                    'sourceSizedExceptionMaximumBytes': 256*1024**2,

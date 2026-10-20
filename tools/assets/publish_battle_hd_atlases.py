@@ -10,6 +10,12 @@ and every AI tile must replace an original raster and pass its recomputed gate.
 A V61 report (build_battle_hd_redraw_atlases.py) is validated the same way, and every
 redrawn tile is recomputed from the native pixels with the pinned redraw method and
 must equal the published pixels, its SVG digest and its recomputed class gate.
+A V62 report (build_battle_hd_priority_atlases.py) has its first-pose budget plan
+derived again from its base (ladders, reduction order, layout, and no first-pose cell
+held back while another cell keeps a raise); every changed tile is recomputed by its
+method (vector renders rendered again, redraws redrawn, reductions reduced, AI tiles
+re-gated) and held to its recorded gate (V60's, or the stroke gate for thin strokes,
+which also needs an accepting visual review of exactly its pixels).
 """
 from __future__ import annotations
 
@@ -25,13 +31,17 @@ from PIL import Image, ImageOps
 
 import battle_hd_ai_upscale as ai
 import battle_hd_redraw as rd
+import battle_hd_stroke_gate as sg
 from battle_hd_atlas_layout import remap_clip, _verify
+import build_battle_hd_priority_atlases as pr
+import build_battle_hd_redraw_atlases as rda
 from battle_hd_local_fidelity import local_color_comparison
 from build_battle_hd_redraw_atlases import SCALES as REDRAW_SCALES
 from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, sha, native_cells, additional_candidates, bitmap_rectangle_proof
 from recover_battle_shapes import save
 
 ORIGINAL_BUDGET_EXCEPTIONS = {'375', '382', '431', '498', '502', '811', '1202'}
+RASTER = ('retained-original-cell', 'retained-native-microstrip')
 
 
 def atlas_budget_policy(sid, original):
@@ -361,6 +371,170 @@ def validate_redraw_species(sid, cache, runtime):
     return entry, audit
 
 
+def priority_base(sid, report):
+    """The published base of a V62 report, proven by digests and layout (build_battle_hd_redraw_atlases.load_base)."""
+    base = report['base']
+    if sha((ROOT/base['reportPath']).read_bytes()) != base['reportSha256']:
+        raise ValueError(f'{sid}: base report changed')
+    try:
+        return rda.load_base(sid, {key: base[key] for key in ('meta', 'atlas', 'metaSha256', 'atlasSha256')}, base['reportPath'])
+    except ValueError as error:
+        raise ValueError(f'{sid}: {error}') from None
+
+
+def check_plan(sid, report, base, infos, classes):
+    """The V62 plan derived again: every ladder is the rule's ladder less levels that recorded a failed attempt, the
+    packing of those ladders gives the same steps, layout and levels, and a first-pose cell held below its ladder top
+    means that every cell of an earlier tier gave back all it may."""
+    expected = pr.ladders(base, infos, classes)
+    recorded = {cid: (e['tier'], e['methods'], [tuple(level) for level in e['levels']]) for cid, e in report['plan']['ladders'].items()}
+    cells = {c['id']: c for c in report['cells']}
+    if set(expected) != set(recorded):
+        raise ValueError(f'{sid}: the planned cells differ from the V62 rules')
+    for cid, (tier, methods, levels) in recorded.items():
+        rule_tier, rule_methods, rule_levels = expected[cid]
+        attempted = {attempt['scale'] for attempt in cells[cid]['priority']['attempts']}
+        if (tier, methods) != (rule_tier, rule_methods) or levels != [level for level in rule_levels if level in levels] \
+                or levels[-1] != rule_levels[-1] or any(level[0] not in attempted for level in rule_levels if level not in levels):
+            raise ValueError(f'{sid}: cell {cid} ladder differs from its V62 rule')
+    layout, position, steps = pr.plan_layout(base, infos, recorded, pr.Soft(base), 128*1024**2)
+    if layout != report['layout'] or steps != report['plan']['steps'] or sum(position.values()) != report['plan']['appliedSteps']:
+        raise ValueError(f'{sid}: the V62 plan does not recompute to the recorded steps and layout')
+    for cid, index in position.items():
+        if list(recorded[cid][2][index]) != cells[cid]['priority']['level'] or cells[cid]['scale'] != recorded[cid][2][index][0]:
+            raise ValueError(f'{sid}: cell {cid} level differs from the recomputed plan')
+    _, first, _ = pr.fit(base, infos, recorded, pr.Soft(base), 128*1024**2)
+    held = any(recorded[cid][0] == 'first-pose' and index > 0 for cid, index in first.items())
+    if held and any(recorded[cid][0] != 'first-pose' and index != len(recorded[cid][2])-1 for cid, index in first.items()):
+        raise ValueError(f'{sid}: a first-pose cell gave up budget while another cell could still give back')
+
+
+def stroke_reviewed(sid, cell, item, review):
+    """A tile accepted under the stroke gate must carry an accepting visual review of the redraw of its native pixels."""
+    if (cell['priority'].get('gate') or {}).get('name') != 'stroke':
+        return
+    verdict = review.get(cell['id'], {})
+    if verdict.get('verdict') != 'accepted' or verdict.get('inputRgbaSha256') != sha(item['native'].tobytes()):
+        raise ValueError(f'{sid}: stroke-gate cell {cell["id"]} has no accepting visual review of its redraw')
+
+
+def gated(sid, cell, native, tile, scale, gate_name):
+    """Recompute a tile's native gate and require the recorded measurements and a pass of the recorded gate."""
+    metrics = ai.gate_metrics(native, tile, scale)
+    recorded = cell['priority']['gate']
+    if recorded['name'] != gate_name or metrics != recorded['metrics'] or not ai.gate_passes(metrics, sg.GATE if gate_name == 'stroke' else ai.GATE):
+        raise ValueError(f'{sid}: cell {cell["id"]} fails or differs from its recorded {gate_name} gate')
+    return metrics
+
+
+def priority_tile(sid, cell, item, gate_class, renders, published, scratch):
+    """The image-orientation tile of a changed V62 cell, recomputed by its recorded method."""
+    plan, native, base_mode, cid = cell['priority'], item['native'], item['cell']['mode'], cell['id']
+    method, scale = plan['method'], plan['scale']
+    gate_name = 'stroke' if gate_class == sg.STROKE_CLASS else 'v60'
+    allowed = {'render': ('original-vector', ('original-vector',)), 'model': (ai.AI_MODE, (ai.AI_MODE, *RASTER)),
+               'redraw': (rd.REDRAW_MODE, (rd.REDRAW_MODE, *RASTER)), 'ai-reduce': (ai.AI_MODE, (ai.AI_MODE,)),
+               'redraw-reduce': (rd.REDRAW_MODE, (rd.REDRAW_MODE,)), 'native': ('retained-original-cell', (ai.AI_MODE, rd.REDRAW_MODE))}
+    if method not in allowed or cell['mode'] != allowed[method][0] or base_mode not in allowed[method][1]:
+        raise ValueError(f'{sid}: cell {cid} method {method} does not fit its modes')
+    if method == 'native':
+        return native
+    if method == 'render':
+        if cell.get('selected') != item['cell'].get('selected'):
+            raise ValueError(f'{sid}: cell {cid} selected source changed')
+        return renders[(cid, scale)]
+    if method == 'model':
+        # The pinned model is deterministic on the machine that built the atlas: run it again (a fresh cache) and
+        # require the published tile; on another GPU or driver this fails and the cell must be rebuilt.
+        if scale not in ai.SCALES:
+            raise ValueError(f'{sid}: AI cell {cid} has an unsupported multiplier')
+        output = ai.model_outputs({cid: native}, {cid: scale}, scratch/'model')[cid]
+        if output['names'] != cell['aiUpscale']['modelOutputs'] or not np.array_equal(ai.tile_at(output, scale), published):
+            raise ValueError(f'{sid}: AI cell {cid} does not recompute to its published tile with the pinned model')
+        gated(sid, cell, native, published, scale, 'v60')
+        return published
+    if method == 'ai-reduce':
+        tile = ai.reduce_premultiplied(rda.flip(item['tile']), item['scale']//scale)
+        gated(sid, cell, native, tile, scale, 'v60')
+        return tile
+    requested = scale if method == 'redraw' else item['cell']['requestedScale']
+    result = rd.redraw(native, requested, scratch/cid)
+    if method == 'redraw-reduce':
+        if not np.array_equal(ai.reduce_premultiplied(result['tile'], requested//item['scale']), rda.flip(item['tile'])):
+            raise ValueError(f'{sid}: cell {cid} V61 redraw does not recompute to its base tile')
+        tile = ai.reduce_premultiplied(result['tile'], requested//scale)
+    else:
+        record, tile = cell['redraw'], result['tile']
+        svg = sha(result['svg'].encode()) if result.get('svg') else None
+        if (result['class'] != record['class'] or result['method'] != record['method'] or record['gateClass'] != gate_class
+                or sha(tile.tobytes()) != record['redrawRgbaSha256'] or svg != record['svgSha256']
+                or (record['svgPath'] and sha((ROOT/record['svgPath']).read_bytes()) != svg)):
+            raise ValueError(f'{sid}: redrawn cell {cid} does not recompute to its recorded class, pixels or SVG')
+    gated(sid, cell, native, tile, scale, gate_name)
+    return tile
+
+
+def validate_priority_species(sid, cache, runtime):
+    """A V62 report over its published base: the plan derived again, every changed tile recomputed by its method (a
+    vector rendered again, a redraw redrawn, a reduction reduced, an AI tile re-gated), the stroke review, every other
+    tile the base tile, and every atlas pixel and padding byte."""
+    work = cache/'species'/sid
+    report_bytes = (work/'report.json').read_bytes()
+    report = json.loads(report_bytes)
+    if (report['policy'] != pr.policy() or report['redraw'] != rd.method() or report['upscaler'] != ai.method()
+            or report['gates'] != {'v60': ai.GATE, 'stroke': sg.GATE}):
+        raise ValueError(f'{sid}: V62 policy, method or gate differs from the pinned one')
+    _, layout, verification, budget = checked_outputs(sid, report, runtime)
+    base = priority_base(sid, report)
+    infos = pr.cell_infos(base)
+    classes = pr.classify_targets(base, infos)
+    check_plan(sid, report, base, infos, classes)
+    review = pr.load_review().get(sid, {})
+    with Image.open(ROOT/'public'/report['atlas'].lstrip('/')) as image:
+        atlas = np.asarray(image.convert('RGBA'))
+    cells, by_id = {c['id']: c for c in report['cells']}, {item['id']: item for item in base['cells']}
+    if atlas.shape[1::-1] != (layout['width'], layout['height']) or set(cells) != {p['id'] for p in layout['placements']} or set(cells) != set(by_id):
+        raise ValueError(f'{sid}: atlas size or cell coverage is not exact')
+    scratch = Path(tempfile.mkdtemp(prefix=f'priority-{sid}-', dir=work))
+    try:
+        renders = {}
+        wanted = sorted((cid, c['scale']) for cid, c in cells.items() if c.get('priority', {}).get('method') == 'render')
+        if wanted:
+            renders = pr.render_vectors(base, wanted, scratch/'source')
+        for placement in layout['placements']:
+            cell, item = cells[placement['id']], by_id[placement['id']]
+            x, y, width, height = placement['x'], placement['y'], placement['width'], placement['height']
+            if cell.get('priority', {}).get('method', 'base') == 'base':
+                if cell['mode'] != item['cell']['mode']:
+                    raise ValueError(f'{sid}: cell {cell["id"]} mode differs from its base report')
+                tile = item['tile']
+            else:
+                published = rda.flip(atlas[y:y+height, x:x+width])
+                tile = rda.flip(priority_tile(sid, cell, item, classes.get(cell['id'], (None, None, None))[2], renders, published, scratch))
+                stroke_reviewed(sid, cell, item, review)
+            if tile.shape[1::-1] != (width, height) or sha(tile.tobytes()) != cell['outputRgbaSha256']:
+                raise ValueError(f'{sid}: expected cell pixels changed')
+            if not np.array_equal(np.pad(tile, ((2, 2), (2, 2), (0, 0)), mode='edge'), atlas[y-2:y+height+2, x-2:x+width+2]):
+                raise ValueError(f'{sid}: atlas content or transparent RGBA padding differs')
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+    if not report['raised']:
+        raise ValueError(f'{sid}: no raised cell')
+    verification['actualAtlasContentAndRgbaPaddingExact'] = True
+    entry = {key: report[key] for key in ('meta', 'atlas', 'atlasWidth', 'atlasHeight', 'metaSha256', 'atlasSha256')}
+    audit = {'species': int(sid), 'kind': report['kind'], 'sourceSha256': report['sourceSha256'], 'counts': report['counts'],
+             'reportSha256': sha(report_bytes), 'metaSha256': report['metaSha256'], 'atlasSha256': report['atlasSha256'],
+             'base': {key: report['base'][key] for key in ('atlas', 'atlasSha256', 'reportSha256')},
+             'atlasRgbaBytes': layout['rgbaBytes'], 'verification': verification, 'planRecomputed': True,
+             'budgetPolicy': {**budget, 'actualDimensions': [layout['width'], layout['height']],
+                              'actualDecodedBytes': layout['rgbaBytes'], 'sourceSizedExceptionUsed': False},
+             'raised': sorted(report['raised'], key=int), 'givenBack': sorted(report['givenBack'], key=int),
+             'strokeGateCells': report['strokeGateCells'],
+             'gates': {c['id']: c['priority']['gate'] for c in cells.values() if (c.get('priority') or {}).get('gate')},
+             'scaleCounts': {str(scale): sum(c['scale'] == scale for c in cells.values()) for scale in (1, 2, 4, 8, 16, 32)}}
+    return entry, audit
+
+
 def checked_outputs(sid, report, runtime):
     """Original inputs and outputs by digest, the exact UV-only metadata change, and the standard budget."""
     original_meta_bytes = (ROOT/'public'/runtime['meta'].lstrip('/')).read_bytes()
@@ -399,7 +573,7 @@ def main():
     cache = args.cache.resolve()
     for sid in sorted(set(args.ids.split(',')), key=int):
         kind = json.loads((cache/'species'/sid/'report.json').read_text()).get('kind')
-        validate = {ai.KIND: validate_ai_species, rd.KIND: validate_redraw_species}.get(kind, validate_species)
+        validate = {ai.KIND: validate_ai_species, rd.KIND: validate_redraw_species, pr.KIND: validate_priority_species}.get(kind, validate_species)
         entry, item = validate(sid, cache, runtime[sid])
         staged.append((sid, entry, item))
         print(json.dumps({'species': sid, 'validated': True, 'counts': item['counts'], 'rgbaMiB': item['atlasRgbaBytes']/1024**2}), flush=True)
