@@ -81,8 +81,13 @@
 .classic-heal-sparks{position:absolute;inset:0;color:#c5ffe0;text-shadow:0 0 6px #59b974;font-size:32px;animation:classicHeal .53s ease-out both;pointer-events:none}
 .classic-heal-sparks>span{position:absolute;right:20%;top:35%;font-size:28px}
 .classic-heal-sparks>i{position:absolute;left:30%;top:66%;font-size:24px;font-style:normal}
-.classic-damage-number{position:absolute;top:21%;left:50%;z-index:8;color:#fff7d1;font-size:32px;font-weight:900;-webkit-text-stroke:1px #b65d35;text-shadow:0 2px 2px #312016;animation:classicNumber .49s ease-out both;pointer-events:none}
-.classic-damage-number.healing{color:#d5ffce;-webkit-text-stroke:1px #3b8457;text-shadow:0 2px 2px #194831}
+/* Numbers stay DAMAGE_NUMBER_MS (the component sets the animation's duration) and stack in rows (--number-row) down from the head. */
+.classic-damage-number{
+ --number-size:clamp(30px,3.4cqw,48px);position:absolute;top:calc(15% + var(--number-row) * var(--number-size) * 1.12);left:50%;z-index:8;
+ color:#fff6cf;font-size:var(--number-size);line-height:1;font-weight:900;letter-spacing:1px;white-space:nowrap;font-variant-numeric:tabular-nums;
+ -webkit-text-stroke:6px #6e1d0a;paint-order:stroke fill;text-shadow:0 3px 0 #3b0e04,0 0 12px #000a;animation:classicNumber ease-out both;pointer-events:none;
+}
+.classic-damage-number.healing{color:#dcffd3;-webkit-text-stroke-color:#17592f;text-shadow:0 3px 0 #0b3119,0 0 12px #0009}
 .classic-combatant.is-fainted .classic-creature-facing{opacity:.35;filter:grayscale(1)}
 .motion-physical{animation:classicPhysical .68s cubic-bezier(.2,.7,.25,1) both}
 .motion-special{animation:classicSpecial .7s ease-in-out both}
@@ -100,10 +105,13 @@
 @keyframes classicImpact{0%{opacity:0;transform:scale(.3) rotate(-12deg)}18%{opacity:1;transform:scale(1.2) rotate(0)}75%,100%{opacity:0;transform:scale(1.45) rotate(12deg)}}
 @keyframes classicStatus{0%{opacity:0;transform:translateX(-50%) scale(.4)}40%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(1.25)}}
 @keyframes classicHeal{from{opacity:0;transform:translateY(18px)}30%{opacity:1}to{opacity:0;transform:translateY(-35px)}}
-@keyframes classicNumber{0%{opacity:0;transform:translate(-50%,12px) scale(.6)}22%{opacity:1;transform:translate(-50%,-5px) scale(1.1)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-30px) scale(1)}}
+@keyframes classicNumber{
+ 0%{opacity:0;transform:translate(-50%,14px) scale(.5)}5%{opacity:1;transform:translate(-50%,-4px) scale(1.18)}10%{transform:translate(-50%,0) scale(1)}
+ 86%{opacity:1;transform:translate(-50%,-8px)}100%{opacity:0;transform:translate(-50%,-18px)}
+}
 @keyframes classicSignal{50%{opacity:.35;box-shadow:0 0 6px #469d85}}
 @media(max-width:1050px){.classic-creatures{left:4%;right:4%}.classic-combatant{width:43%}}
-@media(max-width:620px){.classic-versus{letter-spacing:0}.classic-round-status{font-size:9px}.classic-dialogue p{line-height:1.65}.classic-command-tabs button{gap:4px;letter-spacing:1px}.classic-battle-result{padding:18px 12px}.classic-battle-result strong{font-size:17px}.classic-battle-result button{font-size:11px;padding:9px}.classic-damage-number{font-size:25px}@keyframes classicPhysical{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(calc(var(--direction)*-10px)) rotate(calc(var(--direction)*-5deg))}49%,65%{transform:translateX(calc(var(--direction)*60px)) rotate(calc(var(--direction)*9deg))}}@keyframes classicProjectile{0%,22%{opacity:0;transform:translateX(0) scale(.2)}35%{opacity:1;transform:translateX(0) scale(1)}85%{opacity:1;transform:translateX(calc(var(--direction)*160px)) scale(1.1)}100%{opacity:0;transform:translateX(calc(var(--direction)*175px)) scale(1.4)}}}
+@media(max-width:620px){.classic-versus{letter-spacing:0}.classic-round-status{font-size:9px}.classic-dialogue p{line-height:1.65}.classic-command-tabs button{gap:4px;letter-spacing:1px}.classic-battle-result{padding:18px 12px}.classic-battle-result strong{font-size:17px}.classic-battle-result button{font-size:11px;padding:9px}@keyframes classicPhysical{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(calc(var(--direction)*-10px)) rotate(calc(var(--direction)*-5deg))}49%,65%{transform:translateX(calc(var(--direction)*60px)) rotate(calc(var(--direction)*9deg))}}@keyframes classicProjectile{0%,22%{opacity:0;transform:translateX(0) scale(.2)}35%{opacity:1;transform:translateX(0) scale(1)}85%{opacity:1;transform:translateX(calc(var(--direction)*160px)) scale(1.1)}100%{opacity:0;transform:translateX(calc(var(--direction)*175px)) scale(1.4)}}}
 @media(prefers-reduced-motion:reduce){.classic-battle *{animation:none!important;transition:none!important}.classic-damage-number{transform:translateX(-50%)}.classic-energy-projectile{display:none}.classic-impact{opacity:.5}.classic-status-ring{opacity:.65}}
 
 /* Battle occupies the game viewport; each command panel scrolls internally. */
@@ -156,12 +164,14 @@
 .classic-creature-details article span{display:block;margin-top:5px;font-size:10px;color:#527382}
 .classic-creature-details article p{font-size:10px;line-height:1.7;margin:6px 0 0;color:#527382}
 .classic-critical-popup{position:absolute;top:5%;left:50%;transform:translateX(-50%);z-index:8;white-space:nowrap;color:#ffe159;font-size:22px;font-weight:900;font-style:italic;text-shadow:2px 2px 0 #a94127,-1px -1px #863c25,0 0 11px #fff59a;animation:classicCritical .72s ease-out both;pointer-events:none}
-.classic-damage-number.critical-number{font-size:42px;color:#ffe361;-webkit-text-stroke:1px #a24426;text-shadow:2px 3px #8c2d21,0 0 12px #ffe592}
+.classic-damage-number.critical-number{
+ font-size:calc(var(--number-size) * 1.3);color:#ffe14a;-webkit-text-stroke-color:#8f1f0c;text-shadow:0 3px 0 #4a0d04,0 0 16px #ffb347;
+}
 .classic-impact.critical-impact{fill:#ffd94f;filter:drop-shadow(0 0 12px #ff9860);width:70%;height:70%;inset:18% 15% auto}
 .classic-combatant.is-critical .motion-hit{animation:classicCriticalHit .72s ease-out both}
 @keyframes classicCritical{0%{opacity:0;transform:translate(-50%,9px) scale(.6)}22%{opacity:1;transform:translate(-50%,-2px) scale(1.15)}65%{opacity:1;transform:translate(-50%,-7px) scale(1)}100%{opacity:0;transform:translate(-50%,-20px) scale(1)}}
 @keyframes classicCriticalHit{0%,100%{transform:translateX(0)}12%,35%{transform:translateX(calc(var(--direction)*-18px)) rotate(-4deg);filter:brightness(2.4) drop-shadow(0 0 12px #ff974d)}23%,47%{transform:translateX(calc(var(--direction)*12px)) rotate(3deg)}65%{transform:translateX(calc(var(--direction)*-8px))}82%{transform:translateX(3px)}}
-@media(max-width:620px){.classic-creatures{padding:0}.classic-combatant{width:46%;max-height:200px}.classic-battle-caption{max-width:86%;top:6px;font-size:9px}.classic-skill{min-height:82px;padding:7px 9px!important}.classic-command-caption small{font-size:8px}.classic-party-actions{flex-wrap:wrap}.classic-party-actions>span{flex:1}.classic-item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.classic-item-actions{grid-template-columns:minmax(0,1fr) 66px;gap:5px}.classic-item-actions>p{max-height:29px;font-size:9px}.classic-escape-panel{height:150px;min-height:150px;flex-direction:column;text-align:center;justify-content:center;gap:8px}.classic-battle-history{inset:40px 10px 274px;font-size:10px;padding:10px 14px}.classic-dialogue p{font-size:10px}.classic-critical-popup{font-size:17px}.classic-damage-number.critical-number{font-size:33px}}
+@media(max-width:620px){.classic-creatures{padding:0}.classic-combatant{width:46%;max-height:200px}.classic-battle-caption{max-width:86%;top:6px;font-size:9px}.classic-skill{min-height:82px;padding:7px 9px!important}.classic-command-caption small{font-size:8px}.classic-party-actions{flex-wrap:wrap}.classic-party-actions>span{flex:1}.classic-item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.classic-item-actions{grid-template-columns:minmax(0,1fr) 66px;gap:5px}.classic-item-actions>p{max-height:29px;font-size:9px}.classic-escape-panel{height:150px;min-height:150px;flex-direction:column;text-align:center;justify-content:center;gap:8px}.classic-battle-history{inset:40px 10px 274px;font-size:10px;padding:10px 14px}.classic-dialogue p{font-size:10px}.classic-critical-popup{font-size:17px}}
 .classic-dialogue-lines{flex:1;min-width:0}.classic-dialogue-lines>p{text-align:left}.classic-recent-log{font-size:11px;color:#37586d;margin-top:6px;line-height:1.55}.classic-dialogue .classic-recent-log p{font-size:11px;font-weight:400;text-align:left;margin:3px 0;line-height:1.55}.classic-battle-history p{text-align:left;line-height:1.65}.classic-dialogue-signal{margin-top:7px}
 
 /* Capture uses the actual capture-attempt event; outcome changes only after playback. */

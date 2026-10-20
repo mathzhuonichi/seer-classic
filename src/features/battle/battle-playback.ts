@@ -11,6 +11,10 @@ export const CRITICAL_HIT_MS = 800;
 export const REDUCED_MOTION_MS = 160;
 /** The capture dialogue reveals the outcome this long into the capsule animation. */
 export const CAPTURE_OUTCOME_MS = 1700;
+/** A damage or healing number stays on screen this long from when it appears, however fast the frames and turns move on. */
+export const DAMAGE_NUMBER_MS = 3000;
+/** Numbers shown at once on one side stack in this many rows; a further one replaces the oldest. */
+export const DAMAGE_NUMBER_ROWS = 5;
 
 export interface FramePlan {
   /** Minimum time before the next frame. */
