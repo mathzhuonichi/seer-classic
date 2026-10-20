@@ -1,24 +1,24 @@
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 export type AnimationBounds={minX:number;maxX:number;minY:number;maxY:number};
-type Sequence=SwfClipData['sequences'][number];
+type Frame=Pick<SwfClipData['sequences'][number]['frames'][number],'mesh'>;
 /** Margins in host pixels by which a canvas reaches beyond its host on each side. */
 export type CanvasMargins={left:number;right:number;top:number;bottom:number};
-/** Vertex extent of every frame of a sequence. */
-function extentOf(sequence:Sequence):AnimationBounds{
+/** No extent: the union's identity, and what a frame without vertices covers. */
+export const EMPTY_BOUNDS:AnimationBounds={minX:Infinity,maxX:-Infinity,minY:Infinity,maxY:-Infinity};
+export const unionBounds=(a:AnimationBounds,b:AnimationBounds):AnimationBounds=>
+  ({minX:Math.min(a.minX,b.minX),maxX:Math.max(a.maxX,b.maxX),minY:Math.min(a.minY,b.minY),maxY:Math.max(a.maxY,b.maxY)});
+/** Vertex extent of one frame. */
+export function frameMeshBounds({mesh:{positions}}:Frame):AnimationBounds{
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
-  for(const {mesh:{positions}} of sequence.frames)for(let i=0;i<positions.length;i+=2){
+  for(let i=0;i<positions.length;i+=2){
     minX=Math.min(minX,positions[i]);maxX=Math.max(maxX,positions[i]);minY=Math.min(minY,positions[i+1]);maxY=Math.max(maxY,positions[i+1]);
   }
   return {minX,maxX,minY,maxY};
 }
 /** Vertex extent of every standby frame (or the first sequence when a clip has no standby). */
 export function standbyMeshBounds(clip:Pick<SwfClipData,'sequences'>):AnimationBounds{
-  return extentOf(clip.sequences.find(s=>s.name==='standby')||clip.sequences[0]);
-}
-/** Vertex extent of every frame of each sequence, by sequence name: how far the clip's own movement and effects travel. */
-export function sequenceMeshBounds(clip:Pick<SwfClipData,'sequences'>):Map<string,AnimationBounds>{
-  return new Map(clip.sequences.filter(s=>s.frames.length).map(s=>[s.name,extentOf(s)]));
+  return (clip.sequences.find(s=>s.name==='standby')||clip.sequences[0]).frames.map(frameMeshBounds).reduce(unionBounds,EMPTY_BOUNDS);
 }
 /**
  * The margins a canvas needs beyond its width x height host to draw `bounds` under `transform`, each at most `limit`

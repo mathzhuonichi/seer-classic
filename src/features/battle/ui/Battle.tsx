@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
+import { battleResultTitle, roundStatus, shownTurn, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -28,6 +28,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
   const [partySelection, setPartySelection] = useState(b.player.uid);
   const [items, setItems] = useState<BattleItemChoice>({ category: 'recovery', selection: '', target: b.player.uid });
   const [showDetails, setShowDetails] = useState(false);
+  const arena = useRef<HTMLDivElement>(null);
   const chooseItems = useCallback((patch: Partial<BattleItemChoice>) => setItems(current => ({ ...current, ...patch })), []);
   const closeDetails = useCallback(() => setShowDetails(false), []);
   const playback = useBattlePlayback(b, c, {
@@ -43,9 +44,9 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
   const enemy = frame?.enemy ?? b.enemy;
   const selectedParty = b.party.find(mon => mon.uid === partySelection) || b.player;
   return <section className="classic-battle" aria-label="精灵对战">
-    <div className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}>
+    <div ref={arena} className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}>
       <div className="classic-battle-caption">
-        <span>{b.name} · 第 {b.turn} 回合</span>
+        <span>{b.name} · 第 {shownTurn(b, busy)} 回合</span>
       </div>
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
@@ -55,9 +56,9 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       </div>
       <div className="classic-creatures">
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={player} side={0} frame={frame} busy={busy}
-          numbers={playback.numbers}/>
+          numbers={playback.numbers} arena={arena}/>
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={enemy} side={1} frame={frame}
-          captured={playback.captureResolved} busy={busy} numbers={playback.numbers}/>
+          captured={playback.captureResolved} busy={busy} numbers={playback.numbers} arena={arena}/>
       </div>
       <div className="classic-round-status">{roundStatus(b, busy)}</div>
     </div>

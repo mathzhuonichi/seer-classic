@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createBattlePlayer} from './battle-player.ts';
-import {CRITICAL_HIT_MS, DAMAGE_NUMBER_MS, DAMAGE_NUMBER_ROWS, FRAME_MS, REDUCED_MOTION_MS} from './battle-playback.ts';
+import {DAMAGE_NUMBER_MS, DAMAGE_NUMBER_ROWS, FOLLOW_UP_HIT_MS, FRAME_MS, REDUCED_MOTION_MS} from './battle-playback.ts';
 
 /** Timers that run only when the test advances the time, in due order. */
 function manualClock() {
@@ -31,11 +31,12 @@ const frame = (id, kind, side, extra = {}) => ({id, side, kind, text: '', player
 const hit = (id, side, amount, extra) => frame(id, 'hit', side, {amount, ...extra});
 const view = frames => ({log: [], finished: false, needsSwitch: false, animation: {revision: 1, frames}});
 
-/** A player on a manual clock over the battle in `shown.battle`, which a test replaces for the next turn. */
-function screen(frames, {reducedMotion = false} = {}) {
+/** A player on a manual clock over the battle in `shown.battle`, which a test replaces for the next turn; `timing` is every move's clip. */
+function screen(frames, {reducedMotion = false, timing} = {}) {
   const clock = manualClock(), shown = {battle: view(frames)};
   const player = createBattlePlayer({
-    battle: () => shown.battle, dispatch: () => ({ok: true}), sound() {}, motion: () => ({reducedMotion}), clock,
+    battle: () => shown.battle, dispatch: () => ({ok: true}), sound() {}, clock,
+    motion: shownFrame => ({reducedMotion, timing: ['physical', 'special', 'status'].includes(shownFrame.kind) ? timing : undefined}),
     onStart() {}, onNeedsSwitch() {}, onReplaced() {}, holdIdle: () => () => {},
   });
   const numbers = () => player.state().numbers.map(({id, side, row}) => ({id, side, row}));
@@ -61,8 +62,8 @@ test('numbers stack in rows per side, heals and critical hits among them, and on
   const hits = Array.from({length: DAMAGE_NUMBER_ROWS + 1}, (_, index) => hit(index + 1, 1, 10 + index, {critical: index === 1}));
   const ui = screen([...hits, frame(99, 'heal', 0, {amount: 12})]);
   ui.player.play(ui.shown.battle);
-  // The critical second hit stays longer than the others.
-  const lastHitAt = FRAME_MS.hit * (DAMAGE_NUMBER_ROWS - 1) + CRITICAL_HIT_MS;
+  // One run of hits on one creature: each follows the one before quickly.
+  const lastHitAt = FOLLOW_UP_HIT_MS * DAMAGE_NUMBER_ROWS;
   assert.ok(lastHitAt < DAMAGE_NUMBER_MS, 'the first number is still due when the last hit shows');
   ui.clock.advance(lastHitAt);
   const rows = ui.numbers().filter(number => number.side === 1);
@@ -72,6 +73,17 @@ test('numbers stack in rows per side, heals and critical hits among them, and on
   assert.equal(ui.player.state().numbers.find(number => number.id === 2).critical, true);
   ui.clock.advance(FRAME_MS.hit);
   assert.deepEqual(ui.player.state().numbers.find(number => number.side === 0), {id: 99, side: 0, amount: 12, healing: true, critical: false, row: 0});
+});
+
+test('a move\'s hits land in quick succession at the target, and the turn goes on once its clip has ended', () => {
+  // The attacker's clip hits at 600 ms and walks home until 2000 ms; its move lands three hits, then the turn says one more line.
+  const frames = [frame(1, 'physical', 0, {targetSide: 1}), hit(2, 1, 30), hit(3, 1, 31), hit(4, 1, 32), frame(5, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 2000, hitMs: 600}}), shownAt = {};
+  ui.player.subscribe(() => { const id = ui.player.state().frame?.id; if (id && !(id in shownAt)) shownAt[id] = ui.clock.now(); });
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(3000);
+  assert.deepEqual(shownAt, {1: 0, 2: 600, 3: 600 + FOLLOW_UP_HIT_MS, 4: 600 + 2 * FOLLOW_UP_HIT_MS, 5: 2000});
+  assert.deepEqual(ui.numbers().map(number => number.row), [0, 1, 2], 'each hit has its own number');
 });
 
 test('under reduced motion the frames hurry but the numbers keep their time', () => {

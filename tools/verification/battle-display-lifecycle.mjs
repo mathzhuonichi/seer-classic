@@ -55,9 +55,12 @@ function scenario(options = {}) {
     destroy() { h.rendererDestroys++; if (h.failRendererDestroy) throw Error('renderer destroy failed'); }
   }
   class Container { destroy() { h.stageDestroys++; if (h.failStageDestroy) throw Error('stage destroy failed'); } }
-  const sequence = (name, positions) => ({name, frames: [{mesh: {positions}}]});
-  // `attack` gives the clip an attack sequence with these vertices; without it the attack falls back to the standby extent.
-  const clip = {atlasWidth: 512, atlasHeight: 512, sequences: [sequence('standby', [-1, -1, 1, 1]), ...h.attack ? [sequence('attack', h.attack)] : []]};
+  // A frame draws one opaque quad [minX, maxX, minY, maxY] (clip units, y up) as two triangles.
+  const quad = ([minX, maxX, minY, maxY]) => ({labels: [],
+    mesh: {positions: [minX, minY, maxX, minY, maxX, maxY, minX, maxY], indices: [0, 1, 2, 0, 2, 3], mulColors: Array(16).fill(1)}});
+  const sequence = (name, quads) => ({name, frames: quads.map(quad)});
+  // `attack` gives the clip an attack sequence of these frame quads; without it the attack falls back to the standby extent.
+  const clip = {atlasWidth: 512, atlasHeight: 512, sequences: [sequence('standby', [[-1, 1, -1, 1]]), ...h.attack ? [sequence('attack', h.attack)] : []]};
   h.deps = {
     loadRenderer: async () => ({SwfPlayer, WebGLRenderer, Container}),
     retain() {
@@ -108,6 +111,7 @@ try {
       const animation = h.animation = mountCreatureAnimation(h.host, {
         species: 6, extent: .9, motion: () => h.motion ?? {kind: 'physical', resting: true}, onReady: ready => h.ready.push(ready),
         allowRecovery: () => { h.recoverRequests++; return !!h.grantRecovery; }, remount: () => { h.remounts++; },
+        room: h.room && (() => h.room), mirrored: h.mirrored,
       }, h.deps);
       return () => animation.dispose();
     };
@@ -134,7 +138,7 @@ try {
     });
     await t.checkAsync('An attack that travels past the host widens the canvas toward it, as far as the viewport, and standby restores it', async () => {
       // The host sits 100 px from the viewport's left edge and 730 px from its right one; the attack reaches 11 units forward.
-      const h = scenario({attack: [-1, -1, 11, 1]});
+      const h = scenario({attack: [[-1, 11, -1, 1]]});
       Object.assign(h.window, {innerWidth: 1000, innerHeight: 600});
       h.host.getBoundingClientRect = () => ({left: 100, right: 270, top: 300, bottom: 470, width: 170, height: 170});
       const cleanup = start(h);
@@ -147,6 +151,36 @@ try {
       assert.deepEqual([renderer.screen.width, renderer.screen.height, canvas.style.width], [170, 170, '170px'], 'standby fits the host again');
       assert.deepEqual(h.players[0].position, attacking, 'the creature keeps its place on screen');
       cleanup(); assertReleased(h);
+    });
+    await t.checkAsync('A move that would carry the creature out of the arena keeps every frame inside it, on either side', async () => {
+      // Frames (clip units; standby -1..1): home, a climb far above, a lunge behind, a landing ahead, home again.
+      const attack = [[-1, 1, -1, 1], [-1, 1, 3, 5], [-1, 1, 7, 9], [-6, -4, -1, 1], [5, 7, -1, 1], [-1, 1, -1, 1]];
+      const room = {left: 0, right: 1000, top: 180, bottom: 560};
+      for (const mirrored of [false, true]) {
+        const host = mirrored ? {left: 730, right: 900} : {left: 100, right: 270};
+        const h = scenario({attack, room, mirrored});
+        Object.assign(h.window, {innerWidth: 1000, innerHeight: 600});
+        h.host.getBoundingClientRect = () => ({...host, top: 300, bottom: 470, width: 170, height: 170});
+        const cleanup = start(h);
+        await waitFor(() => h.plays === 1);
+        const player = h.players[0], canvas = h.canvases[0], side = mirrored ? 'mirrored' : 'facing right';
+        // Each frame as drawn: its quad through the frame's transform, the canvas offset around the host and the host's place.
+        const drawn = attack.map(([minX, maxX, minY, maxY], index) => {
+          player.frame = index; player.draw();
+          const {position, scale} = player, local = x => position.x + x * scale.x + parseFloat(canvas.style.left);
+          const xs = [minX, maxX].map(x => mirrored ? host.right - local(x) : host.left + local(x));
+          const ys = [minY, maxY].map(y => 300 + position.y + y * scale.y + parseFloat(canvas.style.top));
+          return {left: Math.min(...xs), right: Math.max(...xs), top: Math.min(...ys), bottom: Math.max(...ys), position};
+        });
+        drawn.forEach((box, index) => {
+          for (const [edge, inside] of [['left', box.left >= room.left - .5], ['right', box.right <= room.right + .5], ['top', box.top >= room.top - .5],
+            ['bottom', box.bottom <= room.bottom + .5]]) assert(inside, `${side}: frame ${index} crosses the arena's ${edge} edge: ${JSON.stringify(box)}`);
+        });
+        assert(Math.abs(drawn[2].top - room.top) < 1, `${side}: the highest frame touches the top instead of stopping short`);
+        assert(drawn[1].top < drawn[0].top && drawn[2].top < drawn[1].top, `${side}: the climb still rises`);
+        for (const index of [4, 5]) assert.deepEqual(drawn[index].position, drawn[0].position, `${side}: frame ${index} is where the clip puts it`);
+        cleanup(); assertReleased(h);
+      }
     });
     await t.checkAsync('Initialization failure releases graphics before a player exists', async () => {
       const h = scenario({failInit: true}), cleanup = start(h);

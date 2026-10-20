@@ -15,6 +15,13 @@ export const stageChips = (stages: Record<string, number>): StageChip[] =>
 export const conditionSummary = (monster: BattleMonsterView) =>
   [...monster.statuses, ...stageChips(monster.stages).map(chip => `${chip.label}${chip.value > 0 ? '提升' : '下降'} ${Math.abs(chip.value)} 级`)].join('，') || '无异常状态或能力变化';
 
+/**
+ * The turn the caption names. `battle.turn` counts the turns played so far: while commands are open the caption names the turn
+ * being chosen (第 1 回合 before the first move), while a turn plays that turn, and once the battle is over its last turn.
+ */
+export const shownTurn = (battle: Pick<BattleView, 'turn' | 'finished'>, busy: boolean) =>
+  busy || battle.finished ? Math.max(1, battle.turn) : battle.turn + 1;
+
 export const roundStatus = (battle: BattleView, busy: boolean) =>
   busy ? '精灵行动中' : battle.finished ? '战斗结束' : battle.needsSwitch ? '选择出战精灵' : '等待你的指令';
 

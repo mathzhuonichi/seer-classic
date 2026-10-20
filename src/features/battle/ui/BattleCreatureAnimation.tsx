@@ -1,11 +1,14 @@
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useRef,useState,type RefObject} from 'react';
 import {getCreatureArt,creatureArtStyle} from '../../../shared/creature-art.ts';
 import {mountCreatureAnimation,RecoveryBudget,type CreatureAnimation} from './creature-animation-mount.ts';
 import './BattleCreatureAnimation.css';
 
-/** The original clip over the portrait; the portrait shows until the clip is ready. */
-export default function BattleCreatureAnimation({species,name,kind,eventKey,resting}:{
-  species:number;name:string;kind:string;eventKey:number|string;resting:boolean;
+/**
+ * The original clip over the portrait; the portrait shows until the clip is ready. A move keeps the creature inside `arena`;
+ * `mirrored` says the creature is drawn facing left.
+ */
+export default function BattleCreatureAnimation({species,name,kind,eventKey,resting,arena,mirrored}:{
+  species:number;name:string;kind:string;eventKey:number|string;resting:boolean;arena:RefObject<HTMLElement|null>;mirrored:boolean;
 }){
   const host=useRef<HTMLDivElement>(null),animation=useRef<CreatureAnimation|null>(null),recoveries=useRef<RecoveryBudget|null>(null);
   const budget=recoveries.current??=new RecoveryBudget();
@@ -15,10 +18,10 @@ export default function BattleCreatureAnimation({species,name,kind,eventKey,rest
   useEffect(()=>{
     if(!host.current)return;
     const mounted=mountCreatureAnimation(host.current,{species,extent:getCreatureArt(species).physicalScale*.9,motion:()=>motion.current,onReady:setReady,
-      allowRecovery:()=>budget.take(species),remount:()=>setRecovery(value=>value+1)});
+      room:()=>arena.current?.getBoundingClientRect()??null,mirrored,allowRecovery:()=>budget.take(species),remount:()=>setRecovery(value=>value+1)});
     animation.current=mounted;
     return()=>{animation.current=null;mounted.dispose();};
-  },[species,recovery]);
+  },[species,recovery,arena,mirrored]);
   useEffect(()=>animation.current?.play(),[kind,eventKey,resting]);
   const art=getCreatureArt(species);
   return <div className={`original-battle-creature ${ready?'is-ready':''}`} data-original-animation={ready?'ready':'fallback'} aria-label={name}>

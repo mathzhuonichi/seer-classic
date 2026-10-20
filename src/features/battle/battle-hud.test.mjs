@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, stageChips,
+  battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, shownTurn,
+  stageChips,
 } from './battle-hud.ts';
 import {skillView} from '../../shared/view-common.ts';
 
@@ -83,4 +84,12 @@ test('an item card throws a capsule at once, selects other items, and ignores em
   assert.equal(itemCardAction(battle({canCapture: false}), capsule), null);
   assert.equal(itemCardAction(battle({needsSwitch: true}), potion), null);
   assert.equal(itemCardAction(battle(), {...capsule, count: 0}), null);
+});
+
+test('the caption names the turn being chosen, the turn playing, and the last turn once the battle is over', () => {
+  assert.equal(shownTurn({turn: 0, finished: false}, false), 1, 'before the first move');
+  assert.equal(shownTurn({turn: 0, finished: false}, true), 1, 'the opening switch-in plays before any turn');
+  assert.equal(shownTurn({turn: 1, finished: false}, true), 1, 'the first turn plays');
+  assert.equal(shownTurn({turn: 1, finished: false}, false), 2, 'the second turn is being chosen');
+  assert.equal(shownTurn({turn: 4, finished: true}, false), 4, 'the result names the last turn');
 });
