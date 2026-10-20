@@ -176,6 +176,7 @@ await withBrowser('chrome', async browser => {
       results.push(result);
       assert.equal(result.atlas, HD_INDEX[species].atlas, `${label} loaded ${result.atlas}`);
       assert(!result.requests.some(url => url.startsWith(`/battle-animations/${species}.`)), `${label} also fetched the original clip`);
+      assert.deepEqual(result.errors, [], `${label}: page or console errors`);
       const ratio = result.lead.backing[0] / result.lead.displayed[0];
       assert(Math.abs(ratio - 1) <= BACKING_TOLERANCE, `${label}: ${ratio.toFixed(3)} backing pixels per device pixel`);
     });
