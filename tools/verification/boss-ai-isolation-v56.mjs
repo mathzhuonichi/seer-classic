@@ -1,7 +1,7 @@
 /**
- * Hold every Boss to the pre-tactical policy of d7e87e9, apart from its two 2026-10-19 refinements (attacks ranked by expected
- * damage; no turn wasted on an attack that cannot hurt while a move that changes something is left), and test the Boss/trainer
- * category boundaries.
+ * Hold every Boss to the pre-tactical policy of d7e87e9, apart from its three 2026-10-19 refinements (attacks ranked by expected
+ * damage; a status move used again once its effect has been undone; no turn wasted on an attack that cannot hurt while a move
+ * that changes something is left), and test the Boss/trainer category boundaries.
  */
 import assert from 'node:assert/strict';
 import {sha256File,suite,withSsr} from './_harness.mjs';
@@ -103,11 +103,11 @@ function d7e87e9SmartPick(battle, mon, usable) {
 const t=suite('boss-ai-isolation-v56'),{check}=t,bossCases=[],facilityCases=[];
 await withSsr('boss-ai-isolation-v56',async load=>{
   const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{loadCatalog},{SEER_SCRIPTS},{traitScripts},
-    {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision},{dealsDamage}]=await Promise.all([
+    {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision},{dealsDamage},{effectUndone}]=await Promise.all([
     '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',
     '/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
     '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
-    '/battle/core/src/engine/move.ts',
+    '/battle/core/src/engine/move.ts','/battle/ai/src/idle-moves.ts',
   ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -137,11 +137,16 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     partialPP:b=>{b.active(1).skills.forEach((id,i)=>{if(i%2===0)b.active(1).pp[id]=0;});},
     exhausted:b=>{b.active(1).skills.forEach(id=>{b.active(1).pp[id]=0;});},
   };
+  /** The 2026-10-19 status refinement: where the oracle had spent a status move, the policy uses it again once its effect has been undone. */
+  function statusReuse(b,id){
+    const mon=b.active(1),skill=b.skill(id);
+    return mon.usedSkills.has(id)&&skill.category==='status'&&effectUndone(b,mon,b.active(0),skill);
+  }
   /**
-   * The 2026-10-19 refinement that explains a decision differing from the frozen oracle's, or undefined. Where no usable skill
-   * had a positive estimate, the oracle drew any move; the policy draws, with the same one RNG value, among moves that are not
-   * attacks. Where the oracle took the highest raw damage, the policy takes the highest expected damage, and a knockout of
-   * the oracle's is never replaced by a slower move.
+   * The other 2026-10-19 refinements that explain a decision differing from the frozen oracle's, or undefined. Where no usable
+   * skill had a positive estimate, the oracle drew any move; the policy draws, with the same one RNG value, among moves that
+   * are not attacks. Where the oracle took the highest raw damage, the policy takes the highest expected damage, and a
+   * knockout of the oracle's is never replaced by a slower move.
    */
   function refinement(b,expected,actual){
     const mon=b.active(1),foe=b.active(0),skill=id=>b.skill(id),estimate=id=>b.estimateDamage(mon,foe,skill(id));
@@ -152,13 +157,16 @@ await withSsr('boss-ai-isolation-v56',async load=>{
   }
   /**
    * The current policy decides as the frozen oracle on an identical battle, or as one of its refinements: same RNG draws and
-   * decision state, and no planner.
+   * decision state, and no planner. A reused status move ends the decision before any draw the oracle made for its fallback,
+   * so that decision leaves the battle as it found it, even where the oracle's draw happened to pick the same move.
    */
   function matchOracle(current,reference,label){
-    const actual=decide(current),expected=decideAsD7e87e9(reference);
+    const mon=current.active(1),smart=(mon.ai??current.sides[1].ai??{kind:'smart'}).kind==='smart'&&mon.vol.forcedSkill===undefined;
+    const before=structuredClone(observed(current)),actual=decide(current),expected=decideAsD7e87e9(reference);
     assert.equal(lastSearchDecision(current,current.sides[1]),undefined,`${label}: no planner`);
-    assert.deepEqual(observed(current),observed(reference),`${label}: RNG and decision side effects`);
-    const reason=JSON.stringify(actual)===JSON.stringify(expected)?'same':refinement(reference,expected.skill,actual.skill);
+    const reused=smart&&statusReuse(current,actual.skill);
+    assert.deepEqual(observed(current),reused?before:observed(reference),`${label}: RNG and decision side effects`);
+    const reason=reused?'status reuse':JSON.stringify(actual)===JSON.stringify(expected)?'same':refinement(reference,expected.skill,actual.skill);
     assert(reason,`${label}: ${JSON.stringify(actual)} differs from the oracle's ${JSON.stringify(expected)} without a refinement`);
     return {action:actual,oracle:expected,reason};
   }
@@ -173,6 +181,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       reasons[reason]=(reasons[reason]??0)+1;
       bossCases.push({boss:encounter.id,category:encounter.category,member:lead,state,action,...(reason==='same'?{}:{oracle,reason})});
     }
+    assert(reasons['status reuse']>0,'members whose spent self-boosts, heals or conditions are gone use them again');
     t.witness('oracleComparison',reasons);
   });
 
@@ -205,6 +214,75 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       assert.deepEqual(used.slice(0,6),Array(6).fill(20564),`seed ${seed}: 光芒附体 raises five stats by one up to +6`);
     }
   });
+  /** A sturdy foe that only heals itself (木之振奋): it undoes none of a Boss's boosts, statuses or conditions. */
+  const PASSIVE_SKILL=20416,SWEEP_TURNS=30,passiveFoe={species:6,level:100,iv:31,skills:[PASSIVE_SKILL],hp_override:20000};
+  // 「强化就叶绿光束」「他马上强化，你下一次就叶绿」: the period guides fought a 厄尔塞拉 that boosted again after each clear.
+  check('After 丽莎布布 clears its boosts with 叶绿光束, 厄尔塞拉 boosts again on its next turn, and never while a boost stands',()=>{
+    const raised=data.skills.get(20564).effects.flatMap(op=>Object.keys(op.stats)),counts={reboosts:0,boostedTurns:0};
+    assert.deepEqual(raised,['atk','def','spa','spd','spe']);
+    for(const variant of eersaila.variants)for(let seed=1;seed<=8;seed++){
+      const b=createBattle({data,scripts,seed,variant:variant.id,encounter:structuredClone(eersaila),sides:[{kind:'player',team:[structuredClone(lisa)]}]});
+      for(let turn=0;turn<20&&!b.result;turn++){
+        const boss=b.active(1),spent=boss.usedSkills.has(20564),standing=raised.some(stat=>boss.stages[stat]>0);
+        b.submit(0,move(turn%4===3?11006:20503));
+        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${variant.id}/${seed}/turn ${turn}`;
+        if(!spent||used===undefined)continue;
+        if(standing)assert.notEqual(used,20564,`${label}: a boost still stands`);
+        else assert.equal(used,20564,`${label}: its boosts were cleared`);
+        counts[standing?'boostedTurns':'reboosts']++;
+      }
+    }
+    assert(counts.reboosts>=eersaila.variants.length*8,JSON.stringify(counts));
+    t.witness('eersailaReboosts',counts);
+  });
+  check('蘑菇怪 poisons again once the poison is gone, by expiry or by a switch, and never while it stands',()=>{
+    const moguguai=catalog.bosses.find(row=>row.id==='boss_spt_moguguai'),POISON_POWDER=20020,counts={repoisons:0,afterSwitch:0};
+    assert(moguguai.team[0].skills.includes(POISON_POWDER));
+    for(let seed=1;seed<=8;seed++){
+      const b=createBattle({data,scripts,seed,encounter:structuredClone(moguguai),sides:[{kind:'player',team:[structuredClone(passiveFoe),structuredClone(passiveFoe)]}]});
+      let switched=false;
+      for(let turn=0;turn<24&&!b.result;turn++){
+        const poisoned=b.active(0).conditions.some(c=>c.id==='poison'),spent=b.active(1).usedSkills.has(POISON_POWDER),label=`${seed}/turn ${turn}`;
+        b.submit(0,turn%6===5?{kind:'switch',slot:1-b.sides[0].active}:move(PASSIVE_SKILL));
+        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill;
+        if(spent&&used!==undefined){
+          assert.equal(used===POISON_POWDER,!poisoned,`${label}: ${poisoned?'still poisoned':'the poison is gone'}`);
+          if(!poisoned){counts.repoisons++;if(switched)counts.afterSwitch++;}
+        }
+        switched=turn%6===5;
+      }
+    }
+    assert(counts.afterSwitch>0&&counts.repoisons>counts.afterSwitch,JSON.stringify(counts));
+    t.witness('moguguaiRepoisons',counts);
+  });
+  check('No Boss loops on status moves: against a foe that only heals itself, every Boss and variant attacks before one lands twice',()=>{
+    const totals={runs:0,decisions:0,attacks:0,reuses:0};
+    for(const encounter of catalog.bosses)for(const variant of encounter.variants?.length?encounter.variants.map(row=>row.id):[undefined]){
+      const b=createBattle({data,scripts,seed:5701,variant,encounter:structuredClone(encounter),sides:[{kind:'player',team:[structuredClone(passiveFoe)]}]});
+      const run={decisions:0,attacks:0,missed:0},label=`${encounter.id}/${variant??'-'}`;
+      let landed=new Set();
+      for(let turn=0;turn<SWEEP_TURNS&&!b.result;turn++){
+        const mon=b.active(1),foe=b.active(0),smart=(mon.ai??b.sides[1].ai??{kind:'smart'}).kind==='smart',spent=new Set(mon.usedSkills);
+        const canHurt=mon.skills.some(id=>mon.pp[id]>0&&b.estimateDamage(mon,foe,b.skill(id,mon))>0),legal=b.legalActions(0);
+        b.submit(0,legal.find(a=>a.kind==='move'&&a.skill===PASSIVE_SKILL)??legal[0]);
+        const events=b.resolveTurn(),used=events.find(e=>e.type==='move_used'&&e.side===1)?.skill;
+        if(used===undefined)continue;
+        if(!smart||!canHurt||b.active(1)!==mon){landed=new Set();continue;}
+        run.decisions++;
+        if(b.skill(used,mon).category!=='status'){run.attacks++;landed=new Set();continue;}
+        if(spent.has(used))totals.reuses++;
+        // A missed status move is tried again; that is the accuracy roll, not a loop.
+        if(events.some(e=>e.side===1&&(e.type==='miss'||e.type==='move_failed'))){run.missed++;continue;}
+        assert(!landed.has(used),`${label}/turn ${turn}: ${b.skill(used,mon).name.zh} landed twice without an attack between`);
+        landed.add(used);
+      }
+      const statusMoves=new Set(b.sides[1].team.flatMap(m=>m.skills.filter(id=>b.skill(id,m).category==='status'))).size;
+      assert(run.attacks>0||run.decisions<=statusMoves+run.missed,`${label}: no attack in ${JSON.stringify(run)}`);
+      totals.runs++;totals.decisions+=run.decisions;totals.attacks+=run.attacks;
+    }
+    assert(totals.reuses>0,JSON.stringify(totals));
+    t.witness('statusLoopSweep',totals);
+  });
   check('As a trainer, the planner does not pick 厄尔塞拉\'s light attacks against 丽莎布布 either',()=>{
     for(let seed=1;seed<=2;seed++){
       const b=createBattle({data,scripts,seed,sides:[{kind:'player',team:[structuredClone(lisa)]},
@@ -230,14 +308,15 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       {kind:options.kind??'boss',team:options.team??[member(1,options.skills??[S.attack,S.heal])],ai:options.ai??{kind:'smart'},items:options.items??{},rules:options.rules??[]},
     ]});
   }
-  check('Legacy setup, repeat-heal avoidance, KO priority and raw-damage order are distinct from trainer heuristics',()=>{
+  check('Legacy setup, a heal reused only once its whole amount is missing, KO priority and raw-damage order are distinct from trainer heuristics',()=>{
     assert.deepEqual(decide(fixture()),move(S.heal));
     assert.deepEqual(decide(fixture({skills:[S.attack,S.wait,S.heal]})),move(S.wait),'the first unused status move');
     assert.deepEqual(decide(fixture({skills:[S.attack,S.strong,S.fire]})),move(S.strong),'the highest raw damage');
     assert.deepEqual(decide(fixture({kind:'trainer'})),move(S.attack));
-    for(const kind of ['boss','trainer']){
-      const b=fixture({kind});b.active(1).hp=120;b.active(1).stats.spe=300;b.active(1).usedSkills.add(S.heal);
-      assert.deepEqual(decide(b),move(kind==='boss'?S.attack:S.heal));
+    // The fixture heal restores half of 400 HP.
+    for(const [kind,hp,expected] of [['boss',120,S.heal],['trainer',120,S.heal],['boss',200,S.heal],['boss',201,S.attack]]){
+      const b=fixture({kind});b.active(1).hp=hp;b.active(1).stats.spe=300;b.active(1).usedSkills.add(S.heal);
+      assert.deepEqual(decide(b),move(expected),`${kind} at ${hp} HP`);
     }
     const knockout=fixture({skills:[S.heal,S.strong,S.quick]});knockout.active(0).hp=1;
     assert.deepEqual(decide(knockout),move(S.quick));
@@ -328,6 +407,6 @@ await withSsr('boss-ai-isolation-v56',async load=>{
   const sourceHashes=Object.fromEntries(hashed.map(file=>[file,sha256File(file)]));
   t.finish({bosses:new Set(bossCases.map(row=>row.boss)).size,bossCases,facilityCases,sourceHashes,
     scope:'Boss decisions are held to a frozen copy of the d7e87e9 policy on current mechanics and encounter data, except where '+
-      'expected-damage ranking or the no-damage fallback of 2026-10-19 refines it; both reproduce the decisions recorded from d7e87e9 on synthetic fixtures. '+
+      'expected-damage ranking, status-move reuse or the no-damage fallback of 2026-10-19 refines it; both reproduce the decisions recorded from d7e87e9 on synthetic fixtures. '+
       'This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'});
 });

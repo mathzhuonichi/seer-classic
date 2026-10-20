@@ -1,11 +1,13 @@
-// The Boss policy's ranking and no-damage fallback (RULES.md 10.4), and the trainer planner against an immune foe.
+// The Boss policy's ranking, status-move reuse and no-damage fallback (RULES.md 10.4), and the trainer planner against an
+// immune foe.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {Battle} from '../../core/src/engine/battle.ts';
 import {buildDataSet} from '../../core/src/data.ts';
 import {AI_POLICY, chooseAiAction} from './ai.ts';
 
-const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11};
+const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11, clear: 12, guard: 13,
+  shield: 14, scripted: 15, growl: 16};
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const skill = (id, extra = {}) => ({id, name: {zh: `fixture ${id}`}, type: 'normal', category: 'special', power: 0, accuracy: null, pp: 20, priority: 0,
   effects: [], ...extra});
@@ -19,12 +21,18 @@ const data = () => buildDataSet({
     status(S.boost, [{op: 'stat_stage', target: 'self', stats: boosts}], 'self'), status(S.heal, [{op: 'heal', target: 'self', pct_max_hp: 50}], 'self'),
     status(S.poison, [{op: 'status', target: 'foe', status: 'poison'}]), status(S.leech, [{op: 'status', target: 'foe', status: 'leech'}]),
     status(S.wait, [], 'self'), skill(S.sure, {power: 70, accuracy: 100}), skill(S.wild, {power: 100, accuracy: 50}),
-    skill(S.multi, {power: 40, effects: [{op: 'multi_hit', min: 3, max: 3}]}), skill(S.big, {power: 200, accuracy: 50})],
+    skill(S.multi, {power: 40, effects: [{op: 'multi_hit', min: 3, max: 3}]}), skill(S.big, {power: 200, accuracy: 50}),
+    status(S.clear, [{op: 'clear_stages', target: 'foe', which: 'up'}]),
+    status(S.guard, [{op: 'add_condition', target: 'self', condition: 'fixture_guard', turns: 2}], 'self'),
+    status(S.shield, [{op: 'add_condition', target: 'self', condition: 'fixture_guard', charges: 1}], 'self'),
+    status(S.scripted, [{op: 'stat_stage', target: 'self', stats: {atk: 1}}, {op: 'script', id: 'fixture_unmodeled'}], 'self'),
+    status(S.growl, [{op: 'stat_stage', target: 'foe', stats: {atk: -1}}])],
+  conditions: [{id: 'fixture_guard', name: {zh: 'fixture guard'}, kind: 'buff', hooks: []}],
 });
 const mon = (species, skills) => ({species, level: 50, skills, stats: {...base, hp: 5000}});
-function battle({kind = 'boss', skills, foe = 2, seed = 7}) {
+function battle({kind = 'boss', skills, foe = 2, seed = 7, playerSkills = [S.wait]}) {
   return new Battle({data: data(), seed, policy: AI_POLICY, sides: [
-    {kind: 'player', team: [mon(foe, [S.wait])]},
+    {kind: 'player', team: [mon(foe, playerSkills)]},
     {kind, team: [mon(1, skills)], ai: {kind: 'smart'}},
   ]});
 }
@@ -83,6 +91,58 @@ test('a Boss ranks attacks by expected damage: accuracy, every hit and no more t
     usedAll(b);
     assert.equal(decide(b), S.normal, 'the grass foe takes nothing from light');
   }
+});
+
+test('a Boss boosts again on its next turn after the foe clears its boosts, and attacks while they stand', () => {
+  for (let seed = 1; seed <= 4; seed++) {
+    const b = battle({skills: [S.normal, S.boost], foe: 3, seed, playerSkills: [S.wait, S.clear]}), used = [];
+    for (let turn = 0; turn < 8; turn++) {
+      b.submit(0, {kind: 'move', skill: turn === 2 ? S.clear : S.wait});
+      used.push(...b.resolveTurn().filter(e => e.type === 'move_used' && e.side === 1).map(e => e.skill));
+    }
+    assert.deepEqual(used, [S.boost, S.normal, S.normal, S.boost, S.normal, S.normal, S.normal, S.normal], `seed ${seed}`);
+  }
+});
+
+test('a self-boost counts as undone only when none of the stats it raises is above 0', () => {
+  const b = battle({skills: [S.normal, S.boost], foe: 3}), boss = b.active(1);
+  usedAll(b);
+  boss.stages.spe = 1;
+  assert.equal(decide(b), S.normal, 'one raised stat still stands');
+  Object.assign(boss.stages, {spe: 0, atk: -2, eva: 3});
+  assert.equal(decide(b), S.boost, 'reversed, and evasion is not a stat it raises');
+  assert.equal(b.rng.draws, 0, 'the reuse draws nothing');
+});
+
+test('a Boss re-applies a status once the foe is rid of it, unless the foe is immune', () => {
+  const b = battle({skills: [S.normal, S.poison], foe: 3}), foe = b.active(0);
+  usedAll(b);
+  b.applyStatus(foe, 'poison', {turns: 3});
+  assert.equal(decide(b), S.normal, 'still poisoned');
+  b.removeCondition(foe, 'poison');
+  assert.equal(decide(b), S.poison, 'cured');
+  b.sides[0].rules.push({rule: 'immune_status'});
+  assert.equal(decide(b), S.normal, 'an immune foe is attacked instead');
+  assert.equal(b.rng.draws, 0);
+});
+
+test('a Boss renews a condition on itself once it has expired and heals once it is missing the whole amount', () => {
+  const b = battle({skills: [S.normal, S.guard, S.heal], foe: 3}), boss = b.active(1);
+  usedAll(b);
+  assert.equal(decide(b), S.guard, 'the condition has expired');
+  b.addCondition(boss, b.data.conditions.get('fixture_guard'), 2);
+  assert.equal(decide(b), S.normal, 'the condition stands and the Boss is unhurt');
+  boss.hp = boss.maxHp / 2 + 1;
+  assert.equal(decide(b), S.normal, 'part of what the heal restores is still there');
+  boss.hp = boss.maxHp / 2;
+  assert.equal(decide(b), S.heal, 'the heal restores half of its HP, all of it missing');
+});
+
+test('a status move whose effect the reuse rule does not renew stays used once', () => {
+  const b = battle({skills: [S.normal, S.scripted, S.growl, S.shield], foe: 3});
+  assert.equal(decide(b), S.scripted, 'each status move is used once first');
+  usedAll(b);
+  assert.equal(decide(b), S.normal, 'a script, a stage drop on the foe and a condition spent by charges are not renewed');
 });
 
 test('the trainer planner never picks an attack the foe is immune to while one that hurts is left', () => {

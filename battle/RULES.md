@@ -399,8 +399,20 @@ first and may restore PP with an item instead.
   stages, and never more than the foe's HP. A skill whose estimate times its
   fewest hits knocks the foe out wins, highest priority first, then highest
   expected damage; otherwise the first status skill this monster has not used
-  yet; otherwise the highest expected damage. Remaining ties go to the higher
-  single-hit estimate, then to skill order. When no skill has a positive
+  yet or whose effect has been undone; otherwise the highest expected damage.
+  Remaining ties go to the higher single-hit estimate, then to skill order.
+  A used status skill's effect counts as undone (`idle-moves.ts`
+  `effectUndone`) when no part of it is in place and using it again would put
+  it back: a self-boost none of whose raised stats is above 0 (cleared or
+  reversed), a status or condition its target no longer has and is not immune
+  to, a condition on the user that has expired, a heal whose whole amount the
+  user is missing (so a full heal is not repeated). The user's own stage drops
+  and statuses are the skill's cost, not its effect. A skill with any other
+  effect (a script, a stage drop on the foe, a condition spent by charges, a
+  conditional op, a heal by damage dealt) is not renewed and stays used once.
+  A reuse draws no random number. [chosen; the period guides fought a
+  厄尔塞拉 that boosted again after 叶绿光束 cleared it: 「强化就叶绿光束」
+  「他马上强化，你下一次就叶绿」] When no skill has a positive
   estimate, it draws with one RNG value among the non-attacking skills that
   still change something (`idle-moves.ts`: a stage not yet at its cap and not
   refused, a heal when hurt, a status the target neither has nor is immune
