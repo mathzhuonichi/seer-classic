@@ -88,14 +88,19 @@ def main():
     paths = {'originalIndex': ROOT/'public/battle-animations/runtime-index.json',
              'hdIndex': ROOT/'public/battle-animations/hd/runtime-index.json',
              'manifest': ROOT/'public/battle-animations/hd/manifest.json',
-             'overrides': ROOT/'.cache/battle-hd-v44/runtime-overrides.json',
-             'publicationValidation': ROOT/'.cache/battle-hd-v44/publication-validation.json'}
+             'overrides': ROOT/'.cache/battle-hd-v44/runtime-overrides.json'}
     raw = {key: path.read_bytes() for key, path in paths.items()}
     original = json.loads(raw['originalIndex'])['species']
     hd = json.loads(raw['hdIndex'])['species']
     manifest = json.loads(raw['manifest'])
     overrides = json.loads(raw['overrides'])['species']
-    validation = json.loads(raw['publicationValidation'])['species']
+    # Each generation cache (.cache/battle-hd-v44, -v59, ...) holds the publication validation of its own reports.
+    validations = {}
+    def validation(report_path):
+        cache = (ROOT/report_path).parents[2]
+        if cache not in validations:
+            validations[cache] = (cache/'publication-validation.json').read_bytes()
+        return json.loads(validations[cache])['species']
     baseline = subprocess.check_output(['git', 'show', args.baseline+':public/battle-animations/runtime-index.json'], cwd=ROOT)
     require(raw['originalIndex'] == baseline, 'Original runtime index changed from the restoration baseline')
     require(len(original) == 1483, 'Expected the complete 1483-species original catalog')
@@ -224,7 +229,7 @@ def main():
                     and report['verification'].get('nonUvMetadataUnchanged') is True,
                     '346: reviewed prototype lacks its exact padding/metadata verification')
         else:
-            check = validation.get(sid, {})
+            check = validation(item['reportPath']).get(sid, {})
             require(all(check.get(key) == item[key] for key in ('reportSha256', 'metaSha256', 'atlasSha256')),
                     f'{sid}: publication-validation record differs')
             require(check.get('verification', {}).get('actualAtlasContentAndRgbaPaddingExact') is True, f'{sid}: pixel validation is missing')
@@ -238,6 +243,8 @@ def main():
     require({str(item['species']) for item in exception_rows} == EXCEPTIONS, 'Not all seven exception species were verified')
     for key, path in paths.items():
         require(path.read_bytes() == raw[key], f'{key} changed during the final audit')
+    for cache, data in validations.items():
+        require((cache/'publication-validation.json').read_bytes() == data, f'{cache.name} validation changed during the final audit')
     source_paths = ['src/features/battle/battle-animation.ts', 'src/features/battle/battle-animation-loader.ts',
                     'src/features/battle/battle-clip-pool.ts', 'src/features/battle/ui/creature-animation-mount.ts']
     result = {'passed': True, 'scope': 'Final frozen catalog/index/manifest/assets/loader-input audit; no repeated pixel reconstruction or browser pose review.',

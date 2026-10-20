@@ -1,7 +1,8 @@
 // Original battle clips: which species have one, the shared clip pool, and its diagnostics.
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import index from '../../../public/battle-animations/runtime-index.json';
-import {loadBattleAnimation,type BattleAnimationHdIndex} from './battle-animation-loader.ts';
+import hdIndex from '../../../public/battle-animations/hd/runtime-index.json';
+import {loadBattleAnimation,type BattleAnimationAssetEntry} from './battle-animation-loader.ts';
 import {createBattleClipPool,waitForClipLease} from './battle-clip-pool.ts';
 import {clipAtlasBytes,clipGeometryBytes,disposeOfflineBattleClip} from './battle-offline-clip.ts';
 import {battleRuntimeClock} from './battle-runtime-clock.ts';
@@ -21,10 +22,9 @@ type Entry={meta:string;atlas:string;frameRate:number;atlasWidth:number;atlasHei
 type Asset={clip:SwfClipData;atlasBlob:Blob;geometryBytes:number;rehydrating?:Promise<void>};
 
 const entries:Record<string,Entry>=index.species;
-// Published entries pass source/atlas validation, with representative GPU and
-// browser review. The optional manifest keeps source-only checkouts usable.
-const hdIndexes=import.meta.glob<BattleAnimationHdIndex>('../../public/battle-animations/hd/runtime-index.json',{eager:true,import:'default'});
-const hdEntries=hdIndexes['../../public/battle-animations/hd/runtime-index.json']?.species??{};
+// Published entries pass source/atlas validation, with representative GPU and browser review. The index is tracked, so a
+// static import turns a wrong path into a build error; the loader still falls back to the original clip per missing asset.
+const hdEntries:Record<string,BattleAnimationAssetEntry>=hdIndex.species;
 /** Atlases this large are copied per mount and give up their CPU pixels once every owner has uploaded them. */
 const LARGE_ATLAS_BYTES=16*1024*1024;
 /** Species warmed by one preload: the two opening combatants. */

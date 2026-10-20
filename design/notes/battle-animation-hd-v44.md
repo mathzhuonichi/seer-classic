@@ -1,5 +1,7 @@
 # Original-source HD battle animation
 
+V59 renders matched vector cells at the multiplier the battle display needs, up to 8x, from its own cache; see [battle-animation-hd-density-v59](battle-animation-hd-density-v59.md). The rest of this note still describes the pipeline.
+
 The V44 battle upgrade replaces matched texture cells with fresh renders of the original Flash vector geometry. It retains the official Unity animation metadata: frame count, frame rate, sequence names, labels, vertex positions, transforms, colors, materials, and action timing. Only atlas dimensions and UV coordinates change. The general recovery pipeline uses the original sources. A separately reviewed exception reconstructs one original bitmap body cell of species 910 with AI, as described below.
 
 The original runtime catalog contains 1,483 species. All 1,483 corresponding official combat SWFs were recovered and hashed; static inspection exported 49,634 shapes without running Flash or ActionScript. Sixty-three source files contain morph characters, and 23 contain bitmap definitions. A bitmap definition does not imply that the creature body is a bitmap: many are shared glow or particle effects. Species 910 does have original bitmap body parts, so a static portrait reconstruction cannot be substituted into its moving animation.

@@ -11,7 +11,6 @@ export interface BattleAnimationAssetEntry {
   metaSha256?:string;
   atlasSha256?:string;
 }
-export interface BattleAnimationHdIndex {species:Record<string,BattleAnimationAssetEntry>}
 type Loaded={clip:SwfClipData;atlasBlob:Blob;usedHd:boolean;fellBack:boolean};
 
 /** Fetch already decodes Content-Encoding; static portable servers may send raw gzip.
