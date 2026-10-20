@@ -1,4 +1,8 @@
-/** Hold every Boss to the pre-tactical policy of d7e87e9 and test the Boss/trainer category boundaries. */
+/**
+ * Hold every Boss to the pre-tactical policy of d7e87e9, apart from its two 2026-10-19 refinements (attacks ranked by expected
+ * damage; no turn wasted on an attack that cannot hurt while a move that changes something is left), and test the Boss/trainer
+ * category boundaries.
+ */
 import assert from 'node:assert/strict';
 import {sha256File,suite,withSsr} from './_harness.mjs';
 
@@ -99,10 +103,11 @@ function d7e87e9SmartPick(battle, mon, usable) {
 const t=suite('boss-ai-isolation-v56'),{check}=t,bossCases=[],facilityCases=[];
 await withSsr('boss-ai-isolation-v56',async load=>{
   const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{loadCatalog},{SEER_SCRIPTS},{traitScripts},
-    {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision}]=await Promise.all([
+    {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision},{dealsDamage}]=await Promise.all([
     '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',
     '/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
     '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
+    '/battle/core/src/engine/move.ts',
   ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -132,22 +137,83 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     partialPP:b=>{b.active(1).skills.forEach((id,i)=>{if(i%2===0)b.active(1).pp[id]=0;});},
     exhausted:b=>{b.active(1).skills.forEach(id=>{b.active(1).pp[id]=0;});},
   };
-  /** The current policy decides as the frozen oracle on an identical battle: same action, RNG draws and decision state, no planner. */
+  /**
+   * The 2026-10-19 refinement that explains a decision differing from the frozen oracle's, or undefined. Where no usable skill
+   * had a positive estimate, the oracle drew any move; the policy draws, with the same one RNG value, among moves that are not
+   * attacks. Where the oracle took the highest raw damage, the policy takes the highest expected damage, and a knockout of
+   * the oracle's is never replaced by a slower move.
+   */
+  function refinement(b,expected,actual){
+    const mon=b.active(1),foe=b.active(0),skill=id=>b.skill(id),estimate=id=>b.estimateDamage(mon,foe,skill(id));
+    if(!mon.skills.some(id=>mon.pp[id]>0&&estimate(id)>0))return dealsDamage(b,skill(actual))?undefined:'no-damage fallback';
+    if(!(estimate(expected)>0&&estimate(actual)>0))return undefined;
+    const slower=estimate(expected)>=foe.hp&&b.priority(mon,skill(actual))<b.priority(mon,skill(expected));
+    return slower?undefined:'expected-damage ranking';
+  }
+  /**
+   * The current policy decides as the frozen oracle on an identical battle, or as one of its refinements: same RNG draws and
+   * decision state, and no planner.
+   */
   function matchOracle(current,reference,label){
     const actual=decide(current),expected=decideAsD7e87e9(reference);
     assert.equal(lastSearchDecision(current,current.sides[1]),undefined,`${label}: no planner`);
-    assert.deepEqual(actual,expected,`${label}: action`);
     assert.deepEqual(observed(current),observed(reference),`${label}: RNG and decision side effects`);
-    return actual;
+    const reason=JSON.stringify(actual)===JSON.stringify(expected)?'same':refinement(reference,expected.skill,actual.skill);
+    assert(reason,`${label}: ${JSON.stringify(actual)} differs from the oracle's ${JSON.stringify(expected)} without a refinement`);
+    return {action:actual,oracle:expected,reason};
   }
-  check('Every catalog Boss member, whatever its policy, decides as the frozen d7e87e9 policy across six battle states',()=>{
+  check('Every catalog Boss member, whatever its policy, decides as the frozen d7e87e9 policy or its refinements across six battle states',()=>{
     assert.equal(catalog.bosses.length,180);
+    const reasons={};
     for(const encounter of catalog.bosses)for(let lead=0;lead<encounter.team.length;lead++)for(const [state,prepare] of Object.entries(states)){
       const current=bossBattle(encounter,lead,5617+lead),reference=bossBattle(encounter,lead,5617+lead);prepare(current);prepare(reference);
       assert.equal(current.sides[1].kind,'boss');
-      const action=matchOracle(current,reference,`${encounter.id}/${lead}/${state}`);
+      const {action,oracle,reason}=matchOracle(current,reference,`${encounter.id}/${lead}/${state}`);
       assert.equal(action.kind,'move');
-      bossCases.push({boss:encounter.id,category:encounter.category,member:lead,state,action});
+      reasons[reason]=(reasons[reason]??0)+1;
+      bossCases.push({boss:encounter.id,category:encounter.category,member:lead,state,action,...(reason==='same'?{}:{oracle,reason})});
+    }
+    t.witness('oracleComparison',reasons);
+  });
+
+  // The 2026-10-19 playtest: 丽莎布布 (grass, which light cannot hurt) against 厄尔塞拉, as the period guides fought it.
+  const eersaila=catalog.bosses.find(row=>row.id==='boss_spt_eersaila'),lisa={species:303,level:100,iv:31,skills:[20503,20504,11006,11007],hp_override:20000};
+  const isLight=id=>data.skills.get(id).type==='light';
+  /** Boss moves over `turns` turns in which 丽莎布布 uses 花草护体, and 叶绿光束 every fourth turn when `clear` is set. */
+  function bossMoves(encounter,variant,seed,turns,clear=true){
+    const b=createBattle({data,scripts,seed,variant,encounter:structuredClone(encounter),sides:[{kind:'player',team:[structuredClone(lisa)]}]}),used=[];
+    for(let turn=0;turn<turns&&!b.result;turn++){
+      b.submit(0,move(clear&&turn%4===3?11006:20503));
+      used.push(...b.resolveTurn().filter(e=>e.type==='move_used'&&e.side===1).map(e=>e.skill));
+    }
+    return used;
+  }
+  check('厄尔塞拉 fights 丽莎布布 with 时空裂痕 and 光芒附体 in every variant, never with a light attack',()=>{
+    assert.deepEqual(eersaila.team[0].skills,[11140,20564,11136,11139]);
+    const counts={};
+    for(const variant of eersaila.variants)for(let seed=1;seed<=8;seed++)for(const [turn,id] of bossMoves(eersaila,variant.id,seed,20).entries()){
+      assert(!isLight(id),`${variant.id}/${seed}/turn ${turn}: ${data.skills.get(id).name.zh}`);
+      counts[id]=(counts[id]??0)+1;
+    }
+    assert(counts[11139]>counts[20564]&&counts[20564]>0,JSON.stringify(counts));
+    t.witness('eersailaAgainstLisa',counts);
+  });
+  check('With only light attacks left, 厄尔塞拉 boosts until its stages are capped before it wastes a turn on one',()=>{
+    const lightOnly=[11140,20564,11136,10632],encounter=structuredClone(eersaila);encounter.team[0].skills=lightOnly;encounter.ai.skills=lightOnly;
+    for(let seed=1;seed<=8;seed++){
+      const used=bossMoves(encounter,'mon',seed,12,false);
+      assert.deepEqual(used.slice(0,6),Array(6).fill(20564),`seed ${seed}: 光芒附体 raises five stats by one up to +6`);
+    }
+  });
+  check('As a trainer, the planner does not pick 厄尔塞拉\'s light attacks against 丽莎布布 either',()=>{
+    for(let seed=1;seed<=2;seed++){
+      const b=createBattle({data,scripts,seed,sides:[{kind:'player',team:[structuredClone(lisa)]},
+        {kind:'trainer',team:[{species:421,level:80,skills:eersaila.team[0].skills}],ai:{kind:'smart'}}]});
+      for(let turn=0;turn<6&&!b.result;turn++){
+        const action=decide(b);
+        assert(action.kind!=='move'||!isLight(action.skill),`${seed}/turn ${turn}: ${JSON.stringify(action)}`);
+        b.submit(0,move(20503));b.submit(1,action);b.resolveTurn();
+      }
     }
   });
 
@@ -258,10 +324,10 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       facilityCases.push({encounter:encounter.id,facility:encounter.facility,member:lead,action:actual});
     }
   });
-  const hashed=['battle/ai/src/ai.ts','battle/ai/src/legacy-ai.ts','battle/core/src/engine/battle.ts'];
+  const hashed=['battle/ai/src/ai.ts','battle/ai/src/legacy-ai.ts','battle/ai/src/idle-moves.ts','battle/core/src/engine/battle.ts'];
   const sourceHashes=Object.fromEntries(hashed.map(file=>[file,sha256File(file)]));
   t.finish({bosses:new Set(bossCases.map(row=>row.boss)).size,bossCases,facilityCases,sourceHashes,
-    scope:'Boss decisions are held to a frozen copy of the d7e87e9 policy on current mechanics and encounter data; '+
-      'both reproduce the decisions recorded from d7e87e9 on synthetic fixtures. '+
+    scope:'Boss decisions are held to a frozen copy of the d7e87e9 policy on current mechanics and encounter data, except where '+
+      'expected-damage ranking or the no-damage fallback of 2026-10-19 refines it; both reproduce the decisions recorded from d7e87e9 on synthetic fixtures. '+
       'This verifies project-policy restoration, not official server AI or historical battle-engine equivalence.'});
 });

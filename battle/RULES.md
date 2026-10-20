@@ -392,14 +392,22 @@ first and may restore PP with an item instead.
 `smart` has two implementations, chosen by side kind:
 
 - **Boss and other non-trainer sides: local scoring** (`legacy-ai.ts`, the
-  project's historical Boss policy). Each usable skill is scored by its
-  priority and by the damage probe (5.1) against the live foe. A skill whose
-  estimate knocks the foe out wins, highest priority first, then highest
-  damage; otherwise the first status skill this monster has not used yet;
-  otherwise the highest estimated damage. Ties keep skill order. Only when no
-  skill has a positive estimate does it pick at random, with one RNG draw. It
-  never switches voluntarily, and a fainted active is replaced by the first
-  living team member.
+  project's historical Boss policy, refined after the 2026-10-19 playtest).
+  Each usable skill is scored by its priority and by its expected damage
+  against the live foe: the damage probe (5.1) times the mean hit count of a
+  `multi_hit` op, times the hit chance from accuracy and accuracy/evasion
+  stages, and never more than the foe's HP. A skill whose estimate times its
+  fewest hits knocks the foe out wins, highest priority first, then highest
+  expected damage; otherwise the first status skill this monster has not used
+  yet; otherwise the highest expected damage. Remaining ties go to the higher
+  single-hit estimate, then to skill order. When no skill has a positive
+  estimate, it draws with one RNG value among the non-attacking skills that
+  still change something (`idle-moves.ts`: a stage not yet at its cap and not
+  refused, a heal when hurt, a status the target neither has nor is immune
+  to, something to clear or cure, a condition that can be added again; any
+  other effect counts as a change), and among all usable skills only when
+  none is left. It never switches voluntarily, and a fainted active is
+  replaced by the first living team member.
 - **Trainer sides: the engine-simulated search planner** (`search-ai.ts`,
   `search/`; [trainer-search-ai-v58](../design/notes/trainer-search-ai-v58.md)).
   Every legal move, item and voluntary switch (after two active turns; HP

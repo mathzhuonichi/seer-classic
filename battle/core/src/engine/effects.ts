@@ -15,7 +15,7 @@ export const MODIFIER_OPS = new Set(['multi_hit', 'power_if', 'priority_if', 'cr
 
 const SELF_OPS = new Set(['heal', 'restore_pp', 'protect', 'cure_status', 'transform', 'set_skills', 'set_ai', 'revive', 'say']);
 
-function defaultTarget(op: string): 'self' | 'foe' {
+export function defaultTarget(op: string): 'self' | 'foe' {
   return SELF_OPS.has(op) ? 'self' : 'foe';
 }
 
