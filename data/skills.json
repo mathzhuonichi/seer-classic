@@ -4672,11 +4672,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      },
-      {
         "op": "status",
         "target": "foe",
         "status": "paralysis",
@@ -21633,13 +21628,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -26257,13 +26246,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -26965,11 +26948,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
-      {
         "op": "stat_stage",
         "target": "foe",
         "stats": {
@@ -27025,11 +27003,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "stat_stage",
         "target": "foe",
@@ -27262,13 +27235,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -27427,11 +27394,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
       {
         "op": "status",
         "target": "foe",
@@ -27643,13 +27605,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -27669,11 +27625,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
       {
         "op": "stat_stage",
         "target": "foe",
@@ -27835,11 +27786,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "stat_stage",
         "target": "foe",
         "stats": {
@@ -27910,13 +27856,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -28081,11 +28021,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
       {
         "op": "power_if",
         "when": {
@@ -28372,13 +28307,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -28539,13 +28468,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -31483,13 +31406,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -31527,13 +31444,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -31866,11 +31777,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      },
       {
         "op": "status",
         "target": "foe",
@@ -32578,11 +32484,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "status",
         "target": "foe",
         "status": "fear",
@@ -33170,13 +33071,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -33644,13 +33539,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -34282,13 +34171,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -34849,13 +34732,7 @@
     "priority": 0,
     "crit_rate": 4,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -35119,13 +34996,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -35229,13 +35100,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -35255,11 +35120,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "status",
         "target": "foe",
@@ -35378,13 +35238,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -36095,13 +35949,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -38362,13 +38210,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -39281,13 +39123,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -39484,13 +39320,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -39814,13 +39644,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -40552,13 +40376,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -40714,13 +40532,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -40947,13 +40759,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -41061,13 +40867,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -41418,13 +41218,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -42135,13 +41929,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -42620,13 +42408,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -43197,13 +42979,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -43254,13 +43030,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -43765,13 +43535,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -44152,13 +43916,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -44977,13 +44735,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -45275,11 +45027,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
-      {
         "op": "status",
         "target": "foe",
         "status": "fear",
@@ -45501,13 +45248,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -45935,13 +45676,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -46347,13 +46082,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -46984,11 +46713,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
       {
         "op": "stat_stage",
         "target": "foe",
@@ -49502,13 +49226,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -50267,13 +49985,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -51040,13 +50752,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -51787,13 +51493,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -52231,13 +51931,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -53934,13 +53628,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -54356,13 +54044,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -55533,13 +55215,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -56320,13 +55996,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -57392,13 +57062,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -58100,13 +57764,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -59116,13 +58774,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -59283,13 +58935,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -60404,13 +60050,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -61279,13 +60919,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -61955,13 +61589,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -62403,13 +62031,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -63256,13 +62878,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -64162,13 +63778,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -64530,11 +64140,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
       {
         "op": "add_condition",
         "target": "self",
@@ -66534,13 +66139,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -74642,11 +74241,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "status",
         "target": "foe",
         "status": "freeze",
@@ -75047,11 +74641,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "stat_stage",
         "target": "self",
@@ -75857,11 +75446,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "status",
         "target": "foe",
@@ -77769,11 +77353,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "stat_stage",
         "target": "self",
         "stats": {
@@ -78727,13 +78306,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -80349,13 +79922,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -82269,11 +81836,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "stat_stage",
         "target": "foe",
@@ -84791,13 +84353,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -85698,11 +85254,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "stat_stage",
         "target": "foe",
@@ -89889,11 +89440,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "power_if",
         "when": {
           "foe_status": "sleep"
@@ -89925,11 +89471,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "status",
         "target": "foe",
@@ -91701,11 +91242,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "stat_stage",
         "target": "foe",
         "stats": {
@@ -92396,13 +91932,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -94631,11 +94161,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
-      {
         "op": "status",
         "target": "foe",
         "status": "fear",
@@ -96281,13 +95806,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -98546,13 +98065,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 4,
-        "max": 4
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -100682,13 +100195,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -100744,13 +100251,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -100910,13 +100411,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -101938,13 +101433,7 @@
     "priority": 0,
     "crit_rate": 1,
     "target": "foe",
-    "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      }
-    ],
+    "effects": [],
     "desc": {
       "zh": ""
     },
@@ -103189,11 +102678,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "script",
         "id": "seer_eff_411",
@@ -126503,11 +125987,6 @@
     "target": "self",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 5,
-        "max": 5
-      },
-      {
         "op": "stat_stage",
         "target": "self",
         "stats": {
@@ -126579,11 +126058,6 @@
     "crit_rate": 1,
     "target": "foe",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "status",
         "target": "foe",
@@ -126820,11 +126294,6 @@
     "target": "foe",
     "effects": [
       {
-        "op": "multi_hit",
-        "min": 2,
-        "max": 2
-      },
-      {
         "op": "stat_stage",
         "target": "foe",
         "stats": {
@@ -127028,11 +126497,6 @@
     "crit_rate": 1,
     "target": "self",
     "effects": [
-      {
-        "op": "multi_hit",
-        "min": 3,
-        "max": 3
-      },
       {
         "op": "stat_stage",
         "target": "self",

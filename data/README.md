@@ -53,7 +53,10 @@ id or any later id, i.e. a month by which the monster certainly existed. All 1,4
   4 medium, 5 slow). `growth_type` keeps the raw value; GrowthType 4 is Pokémon's "fast"
   slot, which raising has no curve for yet.
 - `crit_rate` = original CritRate (x/16, default 1). `accuracy: null` = original 必中.
-  Fixed hit counts (AtkNum) become `multi_hit {min=max}`.
+- Effect 31 (`[min, max]` hits) becomes `multi_hit {min, max}`; it is the only source of `multi_hit`.
+  `AtkNum` is not imported: it is the group-fight target count (`SkillXMLInfo.getGpFtSkillAtkNum`),
+  not a hit count. The first import turned `AtkNum > 1` into a fixed `multi_hit` on 94 skills; that
+  was removed in 2026-10 ([AtkNum audit](../design/notes/skill-atknum-audit-v45.md)).
 - Every skill keeps `seer_effects` (original effect id + args) next to the converted
   `effects`, so any op mapping can be re-derived. 490 ops (on 484 skills) are
   `script` ops named `seer_eff_<n>`, implemented in `battle/core/src/scripts/` under their quoted template text.

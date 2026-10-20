@@ -248,6 +248,9 @@
     "recruitment-acquisition.ts": {
       "status": "gate"
     },
+    "skill-atknum-v45.mjs": {
+      "status": "gate"
+    },
     "skill-effects-hd-v44.mjs": {
       "status": "needs-assets"
     },
