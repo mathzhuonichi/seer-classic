@@ -4,8 +4,9 @@ import type {Container, WebGLRenderer} from 'pixi.js';
 import {originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation} from '../battle-animation.ts';
 import {battleRuntimeClock} from '../battle-runtime-clock.ts';
 import {
-  canvasMargins, fixedAnimationTransform, sequenceMeshBounds, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds, type CanvasMargins,
+  canvasMargins, fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds, type CanvasMargins,
 } from '../battle-animation-registration.ts';
+import {OPEN_ROOM, containPath, sequencePaths, type SequencePath} from '../battle-animation-path.ts';
 import {clipAtlasBytes} from '../battle-offline-clip.ts';
 import {getDisplayResolution, observeDisplayResolution} from '../../../shared/display-resolution.ts';
 import {prefersReducedMotion} from '../../../shared/ui/reduced-motion.ts';
@@ -22,10 +23,17 @@ export interface CreatureAnimationDeps {
   loadRenderer: () => Promise<Renderer>;
 }
 
+/** A box in viewport pixels. */
+export interface ViewportBox {left: number; right: number; top: number; bottom: number}
+
 export interface CreatureAnimationOptions {
   species: number;
   /** Silhouette extent of the creature's portrait, so the clip matches its size. */
   extent: number;
+  /** The box a move must keep the creature inside (the arena, which clips it), read at each layout; null: no limit. */
+  room?: () => ViewportBox | null;
+  /** The host is drawn mirrored (the opponent's side), so the clip's forward points left on screen. */
+  mirrored?: boolean;
   /** The motion to show, read whenever playback restarts. */
   motion: () => {kind: string; resting: boolean};
   onReady: (ready: boolean) => void;
@@ -115,13 +123,17 @@ function createGraphics(runtime: Renderer, host: HTMLElement) {
   return {renderer, stage, canvas, init, release};
 }
 
-/** A player that draws through the shared graphics and releases them with itself. */
-function createPlayer(runtime: Renderer, graphics: Graphics): SwfPlayer {
+/** A player that draws through the shared graphics, places each frame first, and releases the graphics with itself. */
+function createPlayer(runtime: Renderer, graphics: Graphics, place: () => void): SwfPlayer {
   // The public embedding API keeps the source player and uploaded atlas alive on density changes.
   class BattlePlayer extends runtime.SwfPlayer {
     private hostDisposed = false;
     override getCanvas() { return graphics.canvas; }
-    override draw() { if (!this.hostDisposed) graphics.renderer.render({container: graphics.stage}); }
+    override draw() {
+      if (this.hostDisposed) return;
+      place();
+      graphics.renderer.render({container: graphics.stage});
+    }
     override destroy() {
       if (this.hostDisposed) return;
       this.hostDisposed = true;
@@ -154,21 +166,42 @@ function sequenceMargins(host: HTMLElement, reach: AnimationBounds | undefined, 
   return canvasMargins(reach, transform, width, height, visibleReach(host));
 }
 
+/** The playing sequence's path, the standby extent it travels from, and the room it must stay in. */
+interface Travel {path: SequencePath; home: AnimationBounds; room: ViewportBox | null; mirrored: boolean}
+/** The clip's place in its canvas: the fixed registration, and each frame's offset from it (canvas pixels). */
+interface Placement {position: {x: number; y: number}; scale: {x: number; y: number}; offsets: readonly {x: number; y: number}[]}
+
+/** `room`, as far as it lies in the viewport, in the clip's mesh units (x forward, y up) under `transform`. */
+function roomInMesh(host: HTMLElement, room: ViewportBox, mirrored: boolean, transform: ReturnType<typeof fixedAnimationTransform>): AnimationBounds {
+  const rect = host.getBoundingClientRect(), zoom = rect.width / host.clientWidth || 1;
+  const left = Math.max(room.left, 0), right = Math.min(room.right, window.innerWidth);
+  const top = Math.max(room.top, 0), bottom = Math.min(room.bottom, window.innerHeight);
+  const meshX = (x: number) => ((mirrored ? rect.right - x : x - rect.left) / zoom - transform.position.x) / transform.scale.x;
+  const meshY = (y: number) => ((y - rect.top) / zoom - transform.position.y) / transform.scale.y;
+  const xs = [meshX(left), meshX(right)], ys = [meshY(top), meshY(bottom)];
+  return {minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys)};
+}
+
 /**
  * Match the renderer to the host's layout size and density, widened by the margins the playing sequence reaches into (a
- * move travels to the opponent), then place the clip at its fixed registration. The canvas is positioned around the host.
+ * move travels to the opponent) once its travel is kept inside the room, and place the clip at its fixed registration. The
+ * canvas is positioned around the host. Returns the placement, or null while the host has no size.
  */
-function fitToHost(host: HTMLElement, renderer: WebGLRenderer, player: SwfPlayer, bounds: AnimationBounds, extent: number, reach?: AnimationBounds) {
+function fitToHost(host: HTMLElement, renderer: WebGLRenderer, player: SwfPlayer, bounds: AnimationBounds, extent: number,
+  travel?: Travel): Placement | null {
   const {width, height} = hostSize(host);
-  if (width <= 0 || height <= 0) return;
+  if (width <= 0 || height <= 0) return null;
   const resolution = getDisplayResolution(host);
-  const transform = fixedAnimationTransform(bounds, width, height, extent), margins = sequenceMargins(host, reach, transform);
+  const transform = fixedAnimationTransform(bounds, width, height, extent);
+  const room = travel?.room ? roomInMesh(host, travel.room, travel.mirrored, transform) : OPEN_ROOM;
+  const contained = travel && containPath(travel.path, travel.home, room), margins = sequenceMargins(host, contained?.bounds, transform);
   const canvasWidth = width + margins.left + margins.right, canvasHeight = height + margins.top + margins.bottom;
   if (renderer.screen.width !== canvasWidth || renderer.screen.height !== canvasHeight || renderer.resolution !== resolution) {
     renderer.resize(canvasWidth, canvasHeight, resolution);
   }
   Object.assign(player.getCanvas().style, {left: `${-margins.left}px`, top: `${-margins.top}px`, width: `${canvasWidth}px`, height: `${canvasHeight}px`});
-  player.setFixedTransform({x: transform.position.x + margins.left, y: transform.position.y + margins.top}, transform.scale);
+  const {scale} = transform, offsets = contained?.offsets.map(offset => ({x: offset.x * scale.x, y: offset.y * scale.y})) ?? [];
+  return {position: {x: transform.position.x + margins.left, y: transform.position.y + margins.top}, scale, offsets};
 }
 
 class CreatureAnimationMount implements CreatureAnimation {
@@ -182,9 +215,10 @@ class CreatureAnimationMount implements CreatureAnimation {
   private owned: SwfPlayer | null = null;
   private ownedDriver: ClockDriver | null = null;
   private live: {player: SwfPlayer; driver: ClockDriver} | null = null;
-  /** Each sequence's extent, and the playing one's, which the canvas must hold. */
-  private reaches = new Map<string, AnimationBounds>();
-  private reach: AnimationBounds | undefined;
+  /** Each sequence's path, the playing one, and where the clip and each of its frames sit in the canvas. */
+  private paths = new Map<string, SequencePath>();
+  private sequence: string | undefined;
+  private placement: Placement | null = null;
   private layout = () => {};
   private canvas: HTMLCanvasElement | undefined;
   private observer: ResizeObserver | undefined;
@@ -210,7 +244,7 @@ class CreatureAnimationMount implements CreatureAnimation {
     player.playSequence(selected, {loop: selected === 'standby'});
     if (!active) player.pause();
     driver.running(active);
-    this.reach = this.reaches.get(selected);
+    this.sequence = selected;
     this.layout();
   }
 
@@ -243,6 +277,14 @@ class CreatureAnimationMount implements CreatureAnimation {
 
   private readonly restored = () => this.retry();
 
+  /** Before each draw: the playing frame at the registration plus its own offset. */
+  private readonly place = () => {
+    const placement = this.placement, player = this.live?.player;
+    if (!placement || !player) return;
+    const offset = placement.offsets[player.getFrameIndex()], {position} = placement;
+    player.setFixedTransform(offset ? {x: position.x + offset.x, y: position.y + offset.y} : position, placement.scale);
+  };
+
   private detach() {
     this.observer?.disconnect();
     this.stopResolution();
@@ -266,7 +308,7 @@ class CreatureAnimationMount implements CreatureAnimation {
     const graphics = createGraphics(runtime, this.host);
     this.releaseGraphics = graphics.release;
     if (!await graphics.init() || this.cancelled) { graphics.release(); return; }
-    const player = this.owned = createPlayer(runtime, graphics);
+    const player = this.owned = createPlayer(runtime, graphics, this.place);
     this.host.appendChild(player.getCanvas());
     // mountInto is always manual/fixed; only the runtime clock advances and draws it.
     await player.mountInto(graphics.stage, graphics.renderer, prepared.clip, {transparent: true, signal: this.abort.signal,
@@ -285,11 +327,12 @@ class CreatureAnimationMount implements CreatureAnimation {
     canvas.addEventListener('webglcontextrestored', this.restored);
     const onDrawError = () => this.lost(new Event('webglcontextlost', {cancelable: true}));
     const driver = this.ownedDriver = this.deps.clock.attach(player, onDrawError, clipAtlasBytes(prepared.clip));
-    const bounds = registrationBounds(player, host, standbyMeshBounds(prepared.clip));
-    this.reaches = sequenceMeshBounds(prepared.clip);
+    const home = standbyMeshBounds(prepared.clip), bounds = registrationBounds(player, host, home);
+    this.paths = sequencePaths(prepared.clip, home);
     const layout = this.layout = () => {
       if (!this.live || this.contextLost) return;
-      fitToHost(host, graphics.renderer, player, bounds, this.options.extent, this.reach);
+      const {room, mirrored = false, extent} = this.options, path = this.sequence === undefined ? undefined : this.paths.get(this.sequence);
+      this.placement = fitToHost(host, graphics.renderer, player, bounds, extent, path && {path, home, room: room?.() ?? null, mirrored});
       driver.draw();
     };
     this.live = {player, driver};

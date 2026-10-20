@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../../shared/views.ts';
 import { getCreatureArt } from '../../../shared/creature-art.ts';
 import { STATUS_LABELS } from '../../../shared/labels.ts';
@@ -39,9 +39,11 @@ function DamageNumber({ number }: { number: FloatingNumber }) {
  * retain their registration; unavailable clips use the portrait. The creature acting a move is drawn in front of the other,
  * since its original clip travels to the opponent; numbers and effects stay in front of both.
  */
-export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue, numbers }: {
+export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue, numbers, arena }: {
   monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; busy?: boolean;
   action?: BattlePresentationFrame | null; effectCue?: SkillEffectCue | null; numbers: readonly FloatingNumber[];
+  /** The arena, which clips the creatures: a move keeps its creature inside it. */
+  arena: RefObject<HTMLElement | null>;
 }) {
   const effect = frame?.side === side ? frame.kind : 'idle';
   const originalFrame = action?.side === side ? action : frame?.side === side ? frame : null;
@@ -62,7 +64,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
         <div className={`classic-creature-facing ${side === 1 ? 'mirrored' : ''}`}>
           <div className="classic-art-box">
             <BattleCreatureAnimation species={appearance} name={monster.name} kind={originalFrame?.kind || 'idle'}
-              eventKey={originalFrame?.id || 'idle'} resting={resting}/>
+              eventKey={originalFrame?.id || 'idle'} resting={resting} arena={arena} mirrored={side === 1}/>
           </div>
         </div>
         {effect === 'status' && !effectActor && <div className="classic-status-ring" aria-hidden="true"><i /><i /><i /></div>}
