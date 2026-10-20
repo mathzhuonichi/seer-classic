@@ -54,9 +54,10 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
         <BattleHealth monster={frame ? { ...enemy, hp: frame.enemyHp } : enemy} team={frame?.enemyParty ?? b.enemyParty} enemy />
       </div>
       <div className="classic-creatures">
-        <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={player} side={0} frame={frame} busy={busy}/>
+        <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={player} side={0} frame={frame} busy={busy}
+          numbers={playback.numbers}/>
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={enemy} side={1} frame={frame}
-          captured={playback.captureResolved} busy={busy}/>
+          captured={playback.captureResolved} busy={busy} numbers={playback.numbers}/>
       </div>
       <div className="classic-round-status">{roundStatus(b, busy)}</div>
     </div>

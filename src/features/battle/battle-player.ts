@@ -4,9 +4,21 @@ import type { GameSound } from '../../shared/audio/game-audio.ts';
 import type { BattlePresentationFrame, BattleView } from '../../shared/views.ts';
 import type { MoveTiming } from './battle-animation.ts';
 import { battleEndSound, settledDialogue } from './battle-hud.ts';
-import { CAPTURE_OUTCOME_MS, captureDialogue, planBattleFrame } from './battle-playback.ts';
+import { CAPTURE_OUTCOME_MS, DAMAGE_NUMBER_MS, DAMAGE_NUMBER_ROWS, captureDialogue, planBattleFrame } from './battle-playback.ts';
 
 export interface SkillEffectCue { move: BattlePresentationFrame; delay: number; duration: number }
+
+/** A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS). */
+export interface FloatingNumber {
+  /** The frame's id. */
+  id: number;
+  side: 0 | 1;
+  amount: number;
+  healing: boolean;
+  critical: boolean;
+  /** Its row among its side's numbers on screen, from 0 (DAMAGE_NUMBER_ROWS rows), so a run of hits stacks instead of overlapping. */
+  row: number;
+}
 
 /** What the battle screen shows of the playback. */
 export interface PlaybackState {
@@ -20,6 +32,8 @@ export interface PlaybackState {
   dialogue: string;
   /** The last capsule in this battle caught its target. */
   captureResolved: boolean;
+  /** Damage and healing numbers on screen, oldest first. */
+  numbers: FloatingNumber[];
 }
 
 export interface PlaybackEvents {
@@ -60,7 +74,7 @@ export interface BattlePlayer {
   canAct(): boolean;
   /** Sends a battle command; a command the controller rejects shows its notice and unlocks. */
   submit(action: GameAction): void;
-  /** Lets go of the idle work it holds; the screen calls it when it unmounts. */
+  /** Lets go of the idle work it holds and clears the numbers; the screen calls it when it unmounts. */
   dispose(): void;
 }
 
@@ -72,6 +86,7 @@ type TimerName = 'advance' | 'outcome' | 'action' | 'effect';
 export function createBattlePlayer(host: PlayerHost): BattlePlayer {
   let state: PlaybackState = {
     frame: null, sourceAction: null, skillEffect: null, busy: false, captureResolved: false, dialogue: host.battle().log.at(-1) || OPENING_DIALOGUE,
+    numbers: [],
   };
   const listeners = new Set<() => void>();
   const set: Patch = patch => {
@@ -87,6 +102,7 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
     releaseIdle?.();
     releaseIdle = null;
   };
+  const numbers = floatingNumbers(host.clock, () => state, set);
   return {
     state: () => state,
     subscribe(listener) {
@@ -109,7 +125,7 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
         if (sound) host.sound(sound);
         if (settled.needsSwitch) host.onNeedsSwitch(settled);
       };
-      const cancel = playFrames(batch, host, set, { last: releaseHeldIdle, settle });
+      const cancel = playFrames(batch, host, set, { last: releaseHeldIdle, settle, shown: numbers.show });
       return () => {
         cancel();
         set({ sourceAction: null, skillEffect: null });
@@ -130,19 +146,55 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
       releaseHeldIdle();
       set({ busy: false, dialogue: result.notice || REJECTED_DIALOGUE });
     },
-    dispose: releaseHeldIdle,
+    dispose() {
+      releaseHeldIdle();
+      numbers.clear();
+    },
   };
 }
 
 /**
- * Shows `batch` frame by frame on the host's clock, calls `last` once the last frame is on screen and `settle` once it has played;
- * the returned function cancels whatever is still pending.
+ * Shows each hit or heal frame's number for DAMAGE_NUMBER_MS on its own timer, in the lowest free row of its side. A frame
+ * shown again (a replayed turn) keeps the number it has.
  */
-function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Patch, { last, settle }: { last(): void; settle(): void }) {
+function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set: Patch) {
+  const timers = new Map<number, number>();
+  const remove = (id: number) => {
+    clock.clearTimeout(timers.get(id));
+    timers.delete(id);
+    set({ numbers: current().numbers.filter(number => number.id !== id) });
+  };
+  return {
+    show(frame: BattlePresentationFrame) {
+      if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined || timers.has(frame.id)) return;
+      const sideNumbers = () => current().numbers.filter(number => number.side === frame.side);
+      if (sideNumbers().length >= DAMAGE_NUMBER_ROWS) remove(sideNumbers()[0].id);
+      const taken = new Set(sideNumbers().map(number => number.row));
+      let row = 0;
+      while (taken.has(row)) row++;
+      const shown: FloatingNumber = { id: frame.id, side: frame.side, amount: frame.amount, healing: frame.kind === 'heal', critical: !!frame.critical, row };
+      set({ numbers: [...current().numbers, shown] });
+      timers.set(frame.id, clock.setTimeout(() => remove(frame.id), DAMAGE_NUMBER_MS));
+    },
+    clear() {
+      for (const timer of timers.values()) clock.clearTimeout(timer);
+      timers.clear();
+      if (current().numbers.length) set({ numbers: [] });
+    },
+  };
+}
+
+/**
+ * Shows `batch` frame by frame on the host's clock, calls `shown` with each frame as it shows, `last` once the last frame is on
+ * screen and `settle` once it has played; the returned function cancels whatever is still pending.
+ */
+function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Patch,
+  { last, settle, shown }: { last(): void; settle(): void; shown(frame: BattlePresentationFrame): void }) {
   const { clock } = host, timers: Partial<Record<TimerName, number>> = {};
   const schedule = (name: TimerName, run: () => void, ms: number) => { clock.clearTimeout(timers[name]); timers[name] = clock.setTimeout(run, ms); };
   let cursor = 0, actionEndsAt = 0, effectEndsAt = 0;
   const show = (next: BattlePresentationFrame) => {
+    shown(next);
     if (next.kind !== 'capture') {
       if (next.kind === 'heal') host.sound('heal');
       // A frame without a line keeps the one on screen.

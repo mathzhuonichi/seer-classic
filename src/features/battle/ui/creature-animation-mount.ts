@@ -3,7 +3,9 @@ import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 import type {Container, WebGLRenderer} from 'pixi.js';
 import {originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation} from '../battle-animation.ts';
 import {battleRuntimeClock} from '../battle-runtime-clock.ts';
-import {fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds} from '../battle-animation-registration.ts';
+import {
+  canvasMargins, fixedAnimationTransform, sequenceMeshBounds, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds, type CanvasMargins,
+} from '../battle-animation-registration.ts';
 import {clipAtlasBytes} from '../battle-offline-clip.ts';
 import {getDisplayResolution, observeDisplayResolution} from '../../../shared/display-resolution.ts';
 import {prefersReducedMotion} from '../../../shared/ui/reduced-motion.ts';
@@ -80,6 +82,8 @@ function runEach(...steps: (() => void)[]) {
 }
 
 const hostSize = (host: HTMLElement) => ({width: host.clientWidth, height: host.clientHeight});
+const NO_MARGINS: CanvasMargins = {left: 0, right: 0, top: 0, bottom: 0};
+const UNLIMITED = {x: Infinity, y: Infinity};
 
 /** A transparent renderer on its own canvas. A release requested during `init` waits for it to settle. */
 function createGraphics(runtime: Renderer, host: HTMLElement) {
@@ -136,15 +140,35 @@ function registrationBounds(player: SwfPlayer, host: HTMLElement, mesh: Animatio
   return visible ?? mesh;
 }
 
-/** Match the renderer to the host's layout size and density, then place the clip at its fixed registration. */
-function fitToHost(host: HTMLElement, renderer: WebGLRenderer, player: SwfPlayer, driver: ClockDriver, bounds: AnimationBounds, extent: number) {
+/** How far beyond the host a canvas can still be seen: the host's largest distance to a viewport edge on each axis, in host pixels. */
+function visibleReach(host: HTMLElement) {
+  const rect = host.getBoundingClientRect(), zoom = rect.width / host.clientWidth || 1;
+  return {x: Math.max(rect.left, window.innerWidth - rect.right, 0) / zoom, y: Math.max(rect.top, window.innerHeight - rect.bottom, 0) / zoom};
+}
+
+/** The margins the playing sequence's extent `reach` needs beyond the host, within what can be seen; none while it stays inside. */
+function sequenceMargins(host: HTMLElement, reach: AnimationBounds | undefined, transform: ReturnType<typeof fixedAnimationTransform>) {
+  if (!reach) return NO_MARGINS;
+  const {width, height} = hostSize(host), needed = canvasMargins(reach, transform, width, height, UNLIMITED);
+  if (!needed.left && !needed.right && !needed.top && !needed.bottom) return NO_MARGINS;
+  return canvasMargins(reach, transform, width, height, visibleReach(host));
+}
+
+/**
+ * Match the renderer to the host's layout size and density, widened by the margins the playing sequence reaches into (a
+ * move travels to the opponent), then place the clip at its fixed registration. The canvas is positioned around the host.
+ */
+function fitToHost(host: HTMLElement, renderer: WebGLRenderer, player: SwfPlayer, bounds: AnimationBounds, extent: number, reach?: AnimationBounds) {
   const {width, height} = hostSize(host);
   if (width <= 0 || height <= 0) return;
   const resolution = getDisplayResolution(host);
-  if (renderer.screen.width !== width || renderer.screen.height !== height || renderer.resolution !== resolution) renderer.resize(width, height, resolution);
-  const transform = fixedAnimationTransform(bounds, width, height, extent);
-  player.setFixedTransform(transform.position, transform.scale);
-  driver.draw();
+  const transform = fixedAnimationTransform(bounds, width, height, extent), margins = sequenceMargins(host, reach, transform);
+  const canvasWidth = width + margins.left + margins.right, canvasHeight = height + margins.top + margins.bottom;
+  if (renderer.screen.width !== canvasWidth || renderer.screen.height !== canvasHeight || renderer.resolution !== resolution) {
+    renderer.resize(canvasWidth, canvasHeight, resolution);
+  }
+  Object.assign(player.getCanvas().style, {left: `${-margins.left}px`, top: `${-margins.top}px`, width: `${canvasWidth}px`, height: `${canvasHeight}px`});
+  player.setFixedTransform({x: transform.position.x + margins.left, y: transform.position.y + margins.top}, transform.scale);
 }
 
 class CreatureAnimationMount implements CreatureAnimation {
@@ -158,6 +182,10 @@ class CreatureAnimationMount implements CreatureAnimation {
   private owned: SwfPlayer | null = null;
   private ownedDriver: ClockDriver | null = null;
   private live: {player: SwfPlayer; driver: ClockDriver} | null = null;
+  /** Each sequence's extent, and the playing one's, which the canvas must hold. */
+  private reaches = new Map<string, AnimationBounds>();
+  private reach: AnimationBounds | undefined;
+  private layout = () => {};
   private canvas: HTMLCanvasElement | undefined;
   private observer: ResizeObserver | undefined;
   private recoveryTimer: ReturnType<typeof setTimeout> | undefined;
@@ -182,7 +210,8 @@ class CreatureAnimationMount implements CreatureAnimation {
     player.playSequence(selected, {loop: selected === 'standby'});
     if (!active) player.pause();
     driver.running(active);
-    driver.draw();
+    this.reach = this.reaches.get(selected);
+    this.layout();
   }
 
   dispose() {
@@ -257,7 +286,12 @@ class CreatureAnimationMount implements CreatureAnimation {
     const onDrawError = () => this.lost(new Event('webglcontextlost', {cancelable: true}));
     const driver = this.ownedDriver = this.deps.clock.attach(player, onDrawError, clipAtlasBytes(prepared.clip));
     const bounds = registrationBounds(player, host, standbyMeshBounds(prepared.clip));
-    const layout = () => { if (this.live && !this.contextLost) fitToHost(host, graphics.renderer, player, driver, bounds, this.options.extent); };
+    this.reaches = sequenceMeshBounds(prepared.clip);
+    const layout = this.layout = () => {
+      if (!this.live || this.contextLost) return;
+      fitToHost(host, graphics.renderer, player, bounds, this.options.extent, this.reach);
+      driver.draw();
+    };
     this.live = {player, driver};
     layout();
     this.observer = new ResizeObserver(layout);

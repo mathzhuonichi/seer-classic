@@ -1,7 +1,8 @@
 .original-battle-creature{position:absolute;inset:0;overflow:visible}
 .original-battle-creature>img{position:absolute}
 .original-battle-canvas{position:absolute;inset:-35%;width:170%;height:170%;pointer-events:none;visibility:hidden}
-.original-battle-canvas canvas{display:block;width:100%!important;height:100%!important}
+/* The mount sizes and places the canvas: the host's box, widened while a move travels beyond it. */
+.original-battle-canvas canvas{position:absolute;left:0;top:0;display:block}
 .original-battle-creature.is-ready>img{visibility:hidden}
 .original-battle-creature.is-ready .original-battle-canvas{visibility:visible}
 .classic-creature-motion:has(.original-battle-creature.is-ready).motion-physical,
