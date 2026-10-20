@@ -57,6 +57,8 @@ THRESHOLD_RANGE = (.2, .8)
 STROKE_MIN_WIDTH = 1.0
 # Stroke centrelines are resampled every STROKE_SPACING native pixels; widths are smoothed along them (Gaussian sigma).
 STROKE_SPACING, STROKE_SMOOTHING = .5, 1.5
+# Native pixels at each end of a stroke whose width is capped by the middle of the line.
+ENDS_LENGTH = 1.5
 # Centreline simplification tolerance and region-boundary smoothing (Gaussian sigma), in native pixels; traced loops
 # smaller than MINIMUM_LOOP_AREA (native px^2) are dropped, and palette colours with less membership than
 # MINIMUM_COLOUR_PIXELS are merged into the others.
@@ -101,7 +103,7 @@ def method():
             'libraries': libraries, 'renderer': f'@resvg/resvg-js {renderer}', 'parameters': {
                 'pad': PAD, 'analysisScale': ANALYSIS_SCALE, 'analysisPixelLimit': ANALYSIS_PIXEL_LIMIT,
                 'palette': [PALETTE_STABLE, PALETTE_PEAK, PALETTE_MERGE, PALETTE_SIZE], 'thresholdRange': list(THRESHOLD_RANGE),
-                'strokeMinimumWidth': STROKE_MIN_WIDTH, 'strokeSpacing': STROKE_SPACING, 'strokeSmoothing': STROKE_SMOOTHING,
+                'strokeMinimumWidth': STROKE_MIN_WIDTH, 'strokeSpacing': STROKE_SPACING, 'strokeSmoothing': STROKE_SMOOTHING, 'strokeEnds': ENDS_LENGTH,
                 'strokeTolerance': STROKE_TOLERANCE, 'boundarySigma': BOUNDARY_SIGMA, 'minimumLoopArea': MINIMUM_LOOP_AREA,
                 'minimumColourPixels': MINIMUM_COLOUR_PIXELS, 'smallSide': SMALL_SIDE, 'smallBoundarySigma': SMALL_BOUNDARY_SIGMA,
                 'opacitySigma': OPACITY_SIGMA, 'remainderMinimum': REMAINDER_MINIMUM, 'glow': [GLOW_SIGMA, GLOW_ROUNDS],
@@ -424,8 +426,10 @@ def resample(points, spacing):
 def width_profiles(polylines, weight):
     """Per resampled centreline, its width: the native coverage of the pixels nearest to each sample per unit length.
 
-    End samples take their neighbour's width (their pixels beyond the end belong to the round cap); the profile is
-    smoothed along the line and is at least STROKE_MIN_WIDTH. A single point is a dot of the part's area."""
+    The coverage is averaged over one native pixel of line (samples at and between pixel centres collect unevenly)
+    and smoothed along the line. Within ENDS_LENGTH of an end the width is at most the median of the line's middle,
+    because the pixels at and beyond an end also hold the round cap: an end is never wider than its line. The width is
+    at least STROKE_MIN_WIDTH. A single point is a dot of the part's area."""
     lines = [resample(line, STROKE_SPACING) for line in polylines]
     samples = np.vstack(lines)
     rows, cols = np.nonzero(weight > 0)
@@ -438,9 +442,15 @@ def width_profiles(polylines, weight):
         if len(line) == 1:
             profiles.append(np.array([max(STROKE_MIN_WIDTH, 2*np.sqrt(values[0]/np.pi))]))
             continue
-        widths = values/np.linalg.norm(np.diff(line, axis=0), axis=1).mean()
-        widths[0], widths[-1] = widths[min(1, len(widths)-1)], widths[max(len(widths)-2, 0)]
-        profiles.append(np.maximum(STROKE_MIN_WIDTH, ndimage.gaussian_filter1d(widths, STROKE_SMOOTHING/STROKE_SPACING, mode='nearest')))
+        spacing = np.linalg.norm(np.diff(line, axis=0), axis=1).mean()
+        window = np.ones(max(1, int(round(1/spacing))))
+        widths = np.convolve(values, window, 'same')/np.convolve(np.ones(len(values)), window, 'same')/spacing
+        widths = ndimage.gaussian_filter1d(widths, STROKE_SMOOTHING/spacing, mode='nearest')
+        along = np.concatenate(([0], np.cumsum(np.linalg.norm(np.diff(line, axis=0), axis=1))))
+        ends = (along < ENDS_LENGTH) | (along > along[-1]-ENDS_LENGTH)
+        if (~ends).any():
+            widths = np.where(ends, np.minimum(widths, np.median(widths[~ends])), widths)
+        profiles.append(np.maximum(STROKE_MIN_WIDTH, widths))
     return lines, profiles
 
 
