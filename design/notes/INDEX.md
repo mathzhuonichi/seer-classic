@@ -153,6 +153,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [battle-animation-hd-v44](battle-animation-hd-v44.md) | HD battle atlases re-rendered from original Flash vectors, keeping the Unity metadata. | current |
 | [battle-animation-hd-density-v59](battle-animation-hd-density-v59.md) | Why the HD atlases stopped loading, a catalog texel-density audit, and vector cells re-rendered up to 8x. | current |
 | [battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md) | Retained raster battle cells upscaled by a local AI model, gated against the original pixels; `<id>-v60` atlases. | current |
+| [battle-animation-hd-redraw-v61](battle-animation-hd-redraw-v61.md) | Raster battle cells V60 left soft, redrawn locally as vector traces, strokes and smooth fields, gated against the original pixels; `<id>-v61` atlases. | current |
 | [full-dex-motion-v22](full-dex-motion-v22.md) | Offline battle motion for all 1,483 species: source and export process. | current; HD atlases in [battle-animation-hd-v44](battle-animation-hd-v44.md) |
 | [battle-runtime-v22](battle-runtime-v22.md) | Shared animation clock, resource pool and canvas recovery for battle timelines. | current |
 | [original-skill-effects](original-skill-effects.md) | 67 original skill effects from the official CDN, with provenance. | current; HD frames in [skill-effects-hd-v44](skill-effects-hd-v44.md) |
