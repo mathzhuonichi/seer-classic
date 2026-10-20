@@ -83,11 +83,12 @@
 .classic-heal-sparks>i{position:absolute;left:30%;top:66%;font-size:24px;font-style:normal}
 /* Numbers stay DAMAGE_NUMBER_MS (the component sets the animation's duration) and stack in rows (--number-row) down from the head. */
 .classic-damage-number{
- --number-size:clamp(30px,3.4cqw,48px);position:absolute;top:calc(15% + var(--number-row) * var(--number-size) * 1.12);left:50%;z-index:8;
- color:#fff6cf;font-size:var(--number-size);line-height:1;font-weight:900;letter-spacing:1px;white-space:nowrap;font-variant-numeric:tabular-nums;
- -webkit-text-stroke:6px #6e1d0a;paint-order:stroke fill;text-shadow:0 3px 0 #3b0e04,0 0 12px #000a;animation:classicNumber ease-out both;pointer-events:none;
+ --number-size:clamp(36px,4cqw,56px);position:absolute;top:calc(10% + var(--number-row) * var(--number-size) * 1.35);left:50%;z-index:8;
+ color:#fff2b8;font:900 var(--number-size)/1 'Arial Black','Helvetica Neue',Arial,sans-serif;font-variant-numeric:tabular-nums;
+ letter-spacing:1px;white-space:nowrap;
+ -webkit-text-stroke:8px #5a1205;paint-order:stroke fill;text-shadow:0 4px 0 #2e0800,0 0 14px #000c;animation:classicNumber ease-out both;pointer-events:none;
 }
-.classic-damage-number.healing{color:#dcffd3;-webkit-text-stroke-color:#17592f;text-shadow:0 3px 0 #0b3119,0 0 12px #0009}
+.classic-damage-number.healing{color:#d4ffc8;-webkit-text-stroke-color:#11522a;text-shadow:0 4px 0 #062c14,0 0 14px #000c}
 .classic-combatant.is-fainted .classic-creature-facing{opacity:.35;filter:grayscale(1)}
 .motion-physical{animation:classicPhysical .68s cubic-bezier(.2,.7,.25,1) both}
 .motion-special{animation:classicSpecial .7s ease-in-out both}
@@ -165,7 +166,7 @@
 .classic-creature-details article p{font-size:10px;line-height:1.7;margin:6px 0 0;color:#527382}
 .classic-critical-popup{position:absolute;top:5%;left:50%;transform:translateX(-50%);z-index:8;white-space:nowrap;color:#ffe159;font-size:22px;font-weight:900;font-style:italic;text-shadow:2px 2px 0 #a94127,-1px -1px #863c25,0 0 11px #fff59a;animation:classicCritical .72s ease-out both;pointer-events:none}
 .classic-damage-number.critical-number{
- font-size:calc(var(--number-size) * 1.3);color:#ffe14a;-webkit-text-stroke-color:#8f1f0c;text-shadow:0 3px 0 #4a0d04,0 0 16px #ffb347;
+ font-size:calc(var(--number-size) * 1.3);color:#ffd84a;-webkit-text-stroke-color:#9a1a08;text-shadow:0 4px 0 #4a0d04,0 0 18px #ff9a3c;
 }
 .classic-impact.critical-impact{fill:#ffd94f;filter:drop-shadow(0 0 12px #ff9860);width:70%;height:70%;inset:18% 15% auto}
 .classic-combatant.is-critical .motion-hit{animation:classicCriticalHit .72s ease-out both}
