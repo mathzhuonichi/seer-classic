@@ -494,5 +494,5 @@
       ]
     }
   ],
-  "originalPoolSkillPolicy": "Only elite automatic loadouts exclude fixed multi_hit operations lacking original seer_effects 31 evidence. Genuine effect-31 multi-hit skills remain eligible. Ordinary random loadouts and catalog skill data are unchanged. An eligible four-move set is required; no fallback reintroduces excluded moves."
+  "originalPoolSkillPolicy": "Only elite automatic loadouts exclude direct-recovery-only moves. Ordinary random loadouts are unchanged. An eligible four-move set is required; no fallback reintroduces excluded moves."
 }

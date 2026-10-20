@@ -34,7 +34,7 @@ await withSsr('elite-sub600-audit',async load=>{
     assert(member);autoCache.set(mon.id,member);return member;
   };
   const scan=low.map(mon=>{
-    const moves=natural(mon).filter(skill=>!multi(skill)),preferred=mon.base.atk>=mon.base.spa?'atk':'spa';
+    const moves=natural(mon),preferred=mon.base.atk>=mon.base.spa?'atk':'spa';
     const ids=test=>moves.filter(test).map(skill=>skill.id);
     const attackCategory=preferred==='atk'?'physical':'special';
     return {species:mon.id,name:mon.name.zh,bst:bst(mon),base:mon.base,types:mon.types,
@@ -78,12 +78,11 @@ await withSsr('elite-sub600-audit',async load=>{
   const shortlist=planned.map(plan=>{
     const mon=species.get(plan.id),automatic=auto(mon);
     assert(bst(mon)<600&&collectible.some(row=>row.id===mon.id));
-    for(const id of plan.moves){assert(trainerSkillOrigin(catalog,mon.id,id),`${mon.id}/${id} is legal`);assert(!multi(skills.get(id)),`${mon.id}/${id} has no multi_hit`);}
+    for(const id of plan.moves)assert(trainerSkillOrigin(catalog,mon.id,id),`${mon.id}/${id} is legal`);
     return {...plan,species:plan.id,name:mon.name.zh,bst:bst(mon),base:mon.base,types:mon.types,
       legalMoves:plan.moves.map(id=>({...pick(skills.get(id)),origin:trainerSkillOrigin(catalog,mon.id,id)})),
       automaticBuild:automatic,automaticMoveDetails:automatic.skills.map(id=>pick(skills.get(id))),
       missingPlannedMoves:plan.moves.filter(id=>!automatic.skills.includes(id)),
-      automaticMultiHitMoves:automatic.skills.filter(id=>multi(skills.get(id))),
       authoredBuildRequiredForThisPlan:plan.moves.some(id=>!automatic.skills.includes(id)),
     };
   });
@@ -98,16 +97,16 @@ await withSsr('elite-sub600-audit',async load=>{
     sourceHashes,counts:{species:catalog.species.length,rawBelow600:catalog.species.filter(mon=>bst(mon)<600).length,rawEqual600:catalog.species.filter(mon=>bst(mon)===600).length,rawAbove600:catalog.species.filter(mon=>bst(mon)>600).length,collectible:collectible.length,collectibleBelow600:low.length,elitePool:elite.length,screened:scan.filter(row=>row.screenedTags.length).length,strictPrioritySpecies:shortlist.length,strictDistinctBuilds:shortlist.filter(row=>!row.equivalentTo).length,conditionalPrioritySpecies:conditional.length,classicTeams:classic.length,classicSlots:classic.reduce((sum,row)=>sum+row.members.length,0),classicUniqueSpecies:classicIds.size,classicUniqueBelow600:[...classicIds].filter(id=>bst(species.get(id))<600).length},
     criteria:{scan:'Every collectible species below 600 is inspected; only integer level 1-100 natural moves enter automatic feature screening. Exact reward skills are separately checked for shortlisted Rei.',
       thresholds:'Tags screen ordinary aligned offense >=110, speed >=100, power >=140, priority >=45, guaranteed direct stat setup, >=85-accuracy guaranteed control, healing >=33%, boost removal, and specific specialist scripts. Tags nominate review, not admission.',
-      prioritySelection:'Twelve species were prioritized for complementary explicit four-move plans and non-multi-hit mechanisms. Five specialists require script-aware team plans. The remaining screened species are retained in the full scan and are not claimed weaker.',
-      exclusions:'All multi_hit moves are excluded from shortlisted four-move plans. OHKO lottery, script-only utility, evolution/terminal-form status, temporary stages and permanent training are not conflated with raw BST.',
+      prioritySelection:'Twelve species were prioritized for complementary explicit four-move plans. Five specialists require script-aware team plans. The remaining screened species are retained in the full scan and are not claimed weaker.',
+      exclusions:'OHKO lottery, script-only utility, evolution/terminal-form status, temporary stages and permanent training are not conflated with raw BST.',
       currentFactory:'Natural level moves only; ranks attacks by base power, accuracy, STAB and priority; takes one direct-effect support. It does not add reward moves or optimize four-move combinations.',
       currentAi:'Trainers use the engine-simulated search planner (design/notes/trainer-search-ai-v58.md); move effects, including scripts, are valued through simulated battle turns.'},
     shortlist,conditional,classic,fullScan:scan,
   };
   fs.mkdirSync(output,{recursive:true});fs.writeFileSync(`${output}/catalog-scan.json`,JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({counts:report.counts,shortlist:shortlist.map(row=>({id:row.id,name:row.name,bst:row.bst,automatic:row.automaticBuild.skills,missing:row.missingPlannedMoves,multiHit:row.automaticMultiHitMoves}))},null,2));
+  console.log(JSON.stringify({counts:report.counts,shortlist:shortlist.map(row=>({id:row.id,name:row.name,bst:row.bst,automatic:row.automaticBuild.skills,missing:row.missingPlannedMoves}))},null,2));
   // The sample is frozen before playing any matchup. No data or live save mutation.
-  const cleanElite=elite.filter(mon=>auto(mon).skills.every(id=>!multi(skills.get(id)))).sort((a,b)=>a.id-b.id),pool=[...cleanElite],sampleRng=new Rng(4515);
+  const pool=[...elite].sort((a,b)=>a.id-b.id),sampleRng=new Rng(4515);
   for(let index=0;index<12;index++){const swap=sampleRng.int(index,pool.length-1);[pool[index],pool[swap]]=[pool[swap],pool[index]];}
   const opponents=pool.slice(0,12).map(mon=>({species:mon.id,name:mon.name.zh,bst:bst(mon),build:auto(mon)}));
   const scenarios=shortlist.filter(row=>!row.equivalentTo).map(row=>({id:`${row.id}-ordinary`,species:row.id,moves:row.moves}));
@@ -127,7 +126,7 @@ await withSsr('elite-sub600-audit',async load=>{
   }
   assert.equal(JSON.stringify(catalog),snapshot,'Catalog was not mutated');
   const changedSources=files.filter(path=>sha256File(path)!==sourceHashes[path]);
-  const benchmark={method:'Frozen 12-opponent seeded panel from current >=600 factory builds with no multi_hit moves; 3 seeds per matchup, 1v1, current smart AI both sides, same ordinary level 100/IV31/neutral nature/HP255+main-offense255 EVs, finite PP, no player items/boss phases. Curated candidate skill combinations differ from default factory. One explicit trained Rei scenario is separately labeled.',sampleSeed:4515,seeds:[7,29,101],cleanElitePopulation:cleanElite.length,fullElitePopulation:elite.length,excludedEliteWithMultiHit:elite.filter(mon=>!cleanElite.some(row=>row.id===mon.id)).map(mon=>mon.id),opponents,results,duels:results.reduce((sum,row)=>sum+row.matches.length,0),catalogImmutable:true,changedSourceFilesDuringAudit:changedSources,limitations:['A small asymmetric matchup panel is a sanity check, not a tier ranking or proof of overall competitiveness.','No full-team switch or sacrifice synergy is measured.','Script utility omitted by the current AI can depress results even when implemented correctly.','No result relies on multi_hit candidate or opponent moves.','Identical Toruk and Golden Toruk builds are simulated once.','Gaia seals are not included in these ordinary-stat comparisons.']};
+  const benchmark={method:'Frozen 12-opponent seeded panel from current >=600 factory builds; 3 seeds per matchup, 1v1, current smart AI both sides, same ordinary level 100/IV31/neutral nature/HP255+main-offense255 EVs, finite PP, no player items/boss phases. Curated candidate skill combinations differ from default factory. One explicit trained Rei scenario is separately labeled.',sampleSeed:4515,seeds:[7,29,101],elitePopulation:elite.length,opponents,results,duels:results.reduce((sum,row)=>sum+row.matches.length,0),catalogImmutable:true,changedSourceFilesDuringAudit:changedSources,limitations:['A small asymmetric matchup panel is a sanity check, not a tier ranking or proof of overall competitiveness.','No full-team switch or sacrifice synergy is measured.','Script utility omitted by the current AI can depress results even when implemented correctly.','Identical Toruk and Golden Toruk builds are simulated once.','Gaia seals are not included in these ordinary-stat comparisons.']};
   fs.writeFileSync(`${output}/benchmark.json`,JSON.stringify(benchmark,null,2)+'\n');
-  console.log(JSON.stringify({duels:benchmark.duels,cleanElite:cleanElite.length,opponents:opponents.map(row=>row.species),results:results.map(({matches,...row})=>row),changedSources},null,2));
+  console.log(JSON.stringify({duels:benchmark.duels,elite:elite.length,opponents:opponents.map(row=>row.species),results:results.map(({matches,...row})=>row),changedSources},null,2));
 });
