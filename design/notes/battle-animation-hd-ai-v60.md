@@ -1,5 +1,7 @@
 # AI-upscaled battle raster cells (V60)
 
+V61 redraws the raster cells this note leaves soft (gate failures, budget drops, cells too small); see [battle-animation-hd-redraw-v61](battle-animation-hd-redraw-v61.md).
+
 After V59 ([battle-animation-hd-density-v59](battle-animation-hd-density-v59.md)) the soft parts of the battle art are the retained original raster cells: Unity bitmaps that no original vector or larger source bitmap can replace. On 2026-10-19 the user approved AI redraws where no original source can sharpen a part ("高清素材如果没有的话可以ai重绘"). V60 upscales those cells with a local super-resolution model, keeps only results that reduce back to the original pixels, and publishes `<id>-v60` atlases. Original-vector cells, constant cells and the species 910 AI bitmap keep their published pixels and multipliers. AI cells are counted apart from original-source cells everywhere (mode `ai-upscaled`), as the [species 910 exception](battle-animation-hd-v44.md#species-910-bitmap-exception) is.
 
 ## Tool

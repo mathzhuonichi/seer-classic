@@ -1,6 +1,6 @@
 # Original-source HD battle animation
 
-V59 renders matched vector cells at the multiplier the battle display needs, up to 8x, from its own cache; see [battle-animation-hd-density-v59](battle-animation-hd-density-v59.md). V60 upscales retained raster cells with a local AI model over those atlases; see [battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md). The rest of this note still describes the pipeline.
+V59 renders matched vector cells at the multiplier the battle display needs, up to 8x, from its own cache; see [battle-animation-hd-density-v59](battle-animation-hd-density-v59.md). V60 upscales retained raster cells with a local AI model over those atlases; see [battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md). V61 redraws the raster cells V60 left soft with local vector traces and smooth fields; see [battle-animation-hd-redraw-v61](battle-animation-hd-redraw-v61.md). The rest of this note still describes the pipeline.
 
 The V44 battle upgrade replaces matched texture cells with fresh renders of the original Flash vector geometry. It retains the official Unity animation metadata: frame count, frame rate, sequence names, labels, vertex positions, transforms, colors, materials, and action timing. Only atlas dimensions and UV coordinates change. The general recovery pipeline uses the original sources. A separately reviewed exception reconstructs one original bitmap body cell of species 910 with AI, as described below.
 
