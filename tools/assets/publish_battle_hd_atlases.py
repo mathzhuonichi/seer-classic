@@ -4,7 +4,9 @@
 This verifies actual output pixels, source/render hashes, unchanged animation
 data, and memory limits. It does not replace browser inspection or claim that a
 retained bitmap contains newly recovered vector detail. Original assets and the
-original runtime index remain unchanged.
+original runtime index remain unchanged. A V60 report (build_battle_hd_ai_atlases.py)
+is validated against its published base: every non-AI tile must be the base tile,
+and every AI tile must replace an original raster and pass its recomputed gate.
 """
 from __future__ import annotations
 
@@ -16,6 +18,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
+import battle_hd_ai_upscale as ai
 from battle_hd_atlas_layout import remap_clip, _verify
 from battle_hd_local_fidelity import local_color_comparison
 from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, sha, native_cells, additional_candidates, bitmap_rectangle_proof
@@ -147,6 +150,110 @@ def validate_species(sid, cache, runtime):
     return entry, audit
 
 
+def base_tiles(report, original):
+    """Tiles and modes of the published base atlas a V60 report was composed over, proven by its layout and metadata."""
+    base = report['base']
+    report_bytes = (ROOT/base['reportPath']).read_bytes()
+    if sha(report_bytes) != base['reportSha256']:
+        raise ValueError('base report changed')
+    base_report = json.loads(report_bytes)
+    layout = base_report['layout']
+    meta_bytes = (ROOT/'public'/base['meta'].lstrip('/')).read_bytes()
+    atlas_bytes = (ROOT/'public'/base['atlas'].lstrip('/')).read_bytes()
+    if sha(meta_bytes) != base['metaSha256'] or sha(atlas_bytes) != base['atlasSha256']:
+        raise ValueError('published base files changed')
+    if json.loads(gzip.decompress(meta_bytes)) != remap_clip(original, layout):
+        raise ValueError('base layout does not produce the base metadata')
+    with Image.open(ROOT/'public'/base['atlas'].lstrip('/')) as image:
+        atlas = image.convert('RGBA')
+    tiles = {}
+    for p in layout['placements']:
+        tiles[p['id']] = np.asarray(atlas.crop((p['x'], p['y'], p['x']+p['width'], p['y']+p['height'])))
+    return tiles, {c['id']: c['mode'] for c in base_report['cells']}
+
+
+def ai_tile(sid, cell, native, base_tile, published):
+    """An AI-upscaled cell's published tile, after proving it replaced an original raster and recomputing its gate."""
+    if cell.get('baseMode') not in ('retained-original-cell', 'retained-native-microstrip'):
+        raise ValueError(f'{sid}: AI cell {cell["id"]} did not replace a retained raster')
+    if base_tile.shape[:2] != native.size[::-1] or not np.array_equal(base_tile, np.asarray(ImageOps.flip(native))):
+        raise ValueError(f'{sid}: AI cell {cell["id"]} replaced published pixels that are not the original raster')
+    scale = cell['scale']
+    if scale not in ai.SCALES or list(published.size) != [v*scale for v in native.size]:
+        raise ValueError(f'{sid}: AI cell {cell["id"]} has an unsupported multiplier or size')
+    tile = ImageOps.flip(published)
+    metrics = ai.gate_metrics(np.asarray(native), np.asarray(tile), scale)
+    if metrics != cell['aiUpscale']['gate'] or not ai.gate_passes(metrics):
+        raise ValueError(f'{sid}: AI cell {cell["id"]} fails or differs from its recorded native gate')
+    return published
+
+
+def validate_ai_species(sid, cache, runtime):
+    """A V60 report: AI tiles over its published base; every other tile is the base tile, unchanged."""
+    work = cache/'species'/sid
+    report_bytes = (work/'report.json').read_bytes()
+    report = json.loads(report_bytes)
+    if report['upscaler'] != ai.method() or report['gate'] != ai.GATE:
+        raise ValueError(f'{sid}: AI method or gate differs from the pinned one')
+    ai.verify_upscaler()
+    original_meta_bytes = (ROOT/'public'/runtime['meta'].lstrip('/')).read_bytes()
+    original_atlas_path = ROOT/'public'/runtime['atlas'].lstrip('/')
+    if (sha(original_meta_bytes) != report['originalMetadataSha256']
+            or sha(original_atlas_path.read_bytes()) != report['originalAtlasSha256']):
+        raise ValueError(f'{sid}: original runtime inputs changed')
+    for key in ('meta', 'atlas'):
+        if sha((ROOT/'public'/report[key].lstrip('/')).read_bytes()) != report[key+'Sha256']:
+            raise ValueError(f'{sid}: output {key} digest changed')
+    original = json.loads(gzip.decompress(original_meta_bytes))
+    layout = report['layout']
+    if json.loads(gzip.decompress((ROOT/'public'/report['meta'].lstrip('/')).read_bytes())) != remap_clip(original, layout):
+        raise ValueError(f'{sid}: output contains changes beyond the exact UV remapping')
+    verification = _verify(original, layout)
+    budget = atlas_budget_policy(sid, original)
+    if (layout['rgbaBytes'] != layout['width']*layout['height']*4 or max(layout['width'], layout['height']) > 8192
+            or layout['rgbaBytes'] > budget['standardDecodedBytes']):
+        raise ValueError(f'{sid}: output exceeds the standard memory/side budget')
+    with Image.open(original_atlas_path) as image:
+        _, native = native_cells(original, image.convert('RGBA'))
+    try:
+        base, base_modes = base_tiles(report, original)
+    except ValueError as error:
+        raise ValueError(f'{sid}: {error}') from None
+    with Image.open(ROOT/'public'/report['atlas'].lstrip('/')) as image:
+        atlas = image.convert('RGBA')
+    cells = {c['id']: c for c in report['cells']}
+    if atlas.size != (layout['width'], layout['height']) or set(cells) != {p['id'] for p in layout['placements']} or set(cells) != set(base):
+        raise ValueError(f'{sid}: atlas size or cell coverage is not exact')
+    for placement in layout['placements']:
+        cell, width, height = cells[placement['id']], placement['width'], placement['height']
+        if (cell['baseMode'] if cell['mode'] == ai.AI_MODE else cell['mode']) != base_modes[cell['id']]:
+            raise ValueError(f'{sid}: cell {cell["id"]} mode differs from its base report')
+        if cell['mode'] == ai.AI_MODE:
+            published = atlas.crop((placement['x'], placement['y'], placement['x']+width, placement['y']+height))
+            tile = ai_tile(sid, cell, native[cell['id']], base[cell['id']], published)
+        else:
+            tile = Image.fromarray(base[cell['id']])
+        if tile.size != (width, height) or sha(tile.tobytes()) != cell['outputRgbaSha256']:
+            raise ValueError(f'{sid}: expected cell pixels changed')
+        expected = np.pad(np.asarray(tile), ((2, 2), (2, 2), (0, 0)), mode='edge')
+        x, y = placement['x']-2, placement['y']-2
+        if not np.array_equal(expected, np.asarray(atlas.crop((x, y, x+width+4, y+height+4)))):
+            raise ValueError(f'{sid}: atlas content or transparent RGBA padding differs')
+    if not any(c['mode'] == ai.AI_MODE for c in cells.values()):
+        raise ValueError(f'{sid}: no AI-upscaled cell')
+    verification['actualAtlasContentAndRgbaPaddingExact'] = True
+    entry = {key: report[key] for key in ('meta', 'atlas', 'atlasWidth', 'atlasHeight', 'metaSha256', 'atlasSha256')}
+    audit = {'species': int(sid), 'kind': report['kind'], 'sourceSha256': report['sourceSha256'], 'counts': report['counts'],
+             'reportSha256': sha(report_bytes), 'metaSha256': report['metaSha256'], 'atlasSha256': report['atlasSha256'],
+             'base': {key: report['base'][key] for key in ('atlas', 'atlasSha256', 'reportSha256')},
+             'atlasRgbaBytes': layout['rgbaBytes'], 'verification': verification,
+             'budgetPolicy': {**budget, 'actualDimensions': [layout['width'], layout['height']],
+                              'actualDecodedBytes': layout['rgbaBytes'], 'sourceSizedExceptionUsed': False},
+             'aiUpscaledCells': report['aiUpscaledCellIds'],
+             'scaleCounts': {str(scale): sum(c['scale'] == scale for c in cells.values()) for scale in (1, 2, 4, 8)}}
+    return entry, audit
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', required=True, help='Explicit comma-separated reviewed candidate IDs')
@@ -161,8 +268,11 @@ def main():
     audit_path = args.cache/'publication-validation.json'
     audit = json.loads(audit_path.read_text()) if audit_path.exists() else {'species': {}}
     staged = []
+    cache = args.cache.resolve()
     for sid in sorted(set(args.ids.split(',')), key=int):
-        entry, item = validate_species(sid, args.cache.resolve(), runtime[sid])
+        kind = json.loads((cache/'species'/sid/'report.json').read_text()).get('kind')
+        validate = validate_ai_species if kind == ai.KIND else validate_species
+        entry, item = validate(sid, cache, runtime[sid])
         staged.append((sid, entry, item))
         print(json.dumps({'species': sid, 'validated': True, 'counts': item['counts'], 'rgbaMiB': item['atlasRgbaBytes']/1024**2}), flush=True)
     for sid, entry, item in staged:
