@@ -1,0 +1,3616 @@
+{
+  "revision": 1,
+  "kind": "first-pose-priority-override",
+  "policy": {
+    "revision": 1,
+    "tiers": [
+      "stroke",
+      "v59-raise",
+      "ai-or-redraw",
+      "first-pose"
+    ],
+    "vectorScales": [
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "redrawScales": [
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "aiScales": [
+      2,
+      4,
+      8
+    ],
+    "targetTexelsPerDevicePixel": 1.0,
+    "referenceBoxDevicePixels": 840.0,
+    "maxRgbaBytes": 134217728,
+    "code": {
+      "build_battle_hd_priority_atlases.py": "0d4a3989a63bcddaa225543af18062d94e92ff879373a42367ca45f136721a5c",
+      "battle_hd_stroke_gate.py": "be68c571e6fdcbc273ffdad6693a57ad6ce708b5c9037c2804a6ca04dc58461f",
+      "build_battle_hd_redraw_atlases.py": "1b8333f951ba13fba36ef7d6f11907eed0e75e36fe4c960436ff88dea264f05a",
+      "render_battle_shape_candidates.mjs": "a62a0a614c49ad9eda7c0bcdb8259cfb1616bb8b686bb160a558ac34d0092d76"
+    }
+  },
+  "gates": {
+    "v60": {
+      "alphaIoU16Minimum": 0.8664,
+      "premultipliedRgbaMaeMaximum": 21.5582,
+      "blockErrorMaximum": 74.4794,
+      "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+    },
+    "stroke": {
+      "alphaIoU16Minimum": 0.7001,
+      "premultipliedRgbaMaeMaximum": 46.3354,
+      "blockErrorMaximum": 70.4406,
+      "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+    }
+  },
+  "strokeShareMinimum": 0.5,
+  "calibration": {
+    "path": "artifacts/battle-hd-v62/stroke-calibration.json",
+    "sha256": "14f90c9517b7529906a3537161a8692d0d6da511389a45987da2b856c175ddb0"
+  },
+  "review": {
+    "path": "tools/assets/battle_hd_stroke_review_v62.json",
+    "sha256": "582f6101fdbc7f2a363eb677ef4fbfc9d812980d78609f1310aceadfb20e3791"
+  },
+  "scope": "Within the 128 MiB decoded budget, first standby pose cells reach one texel per device pixel at the reference display before any other cell keeps a raise above its V44 multiplier; thin-stroke redraws are held to the stroke gate and a visual review.",
+  "totals": {
+    "species": 52,
+    "firstPoseCells": 24,
+    "firstPoseReached": 22,
+    "raisedCells": 65,
+    "givenBackCells": 7,
+    "strokeGateCells": 46
+  },
+  "species": {
+    "9": {
+      "reportPath": ".cache/battle-hd-v62/species/9/report.json",
+      "reportSha256": "0c2c48ab56b6ac49155b5662dcfc98bbeeab33de0e1b43385fc23971190cd7e0",
+      "base": {
+        "atlas": "/battle-animations/hd/9-v60.webp",
+        "atlasSha256": "ce421190f25bd1a9539383d988fd3c7aaaf44e7ed875898c4f2e2cb8864a00d5"
+      },
+      "firstPose": {},
+      "raised": {
+        "7": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.5271
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.0542
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "7": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.776471,
+              "premultipliedRgbaMae": 10.933403,
+              "blockError": 22.329521,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "12": {
+      "reportPath": ".cache/battle-hd-v62/species/12/report.json",
+      "reportSha256": "2ba11115f02fb5f66db93e69671cb1c27de6341d1719bb20fc0337817d6bedd8",
+      "base": {
+        "atlas": "/battle-animations/hd/12-v61.webp",
+        "atlasSha256": "a4abb5cf1ba9d1c7e4ead8cd71d6b3608534e0e2bae450f7f68b9bcda602e555"
+      },
+      "firstPose": {
+        "48": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.5636,
+            "anyFrame": 0.5636
+          },
+          "after": {
+            "firstPose": 1.1272,
+            "anyFrame": 1.1272
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "48": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.5636,
+            "anyFrame": 0.5636
+          },
+          "after": {
+            "firstPose": 1.1272,
+            "anyFrame": 1.1272
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {
+        "4": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 4,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.1305
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.5653
+          },
+          "method": "render"
+        }
+      },
+      "gates": {
+        "48": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 4,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.995897,
+              "premultipliedRgbaMae": 2.102878,
+              "blockError": 21.897277,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 9475
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "34": {
+      "reportPath": ".cache/battle-hd-v62/species/34/report.json",
+      "reportSha256": "a9bf5de03b9235ce805bed5038ef47a1642ef9afed21da1c0c5b4d159430b2e7",
+      "base": {
+        "atlas": "/battle-animations/hd/34-v60.webp",
+        "atlasSha256": "fe6f23662dd17427008d9a5d733d8481a58f7b2278719a4c31559873c052d4d8"
+      },
+      "firstPose": {},
+      "raised": {
+        "1": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1615
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.3231
+          },
+          "method": "redraw"
+        },
+        "150": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1616
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.3232
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "1": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.767241,
+              "premultipliedRgbaMae": 17.90104,
+              "blockError": 29.016013,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "150": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.724242,
+              "premultipliedRgbaMae": 21.04967,
+              "blockError": 33.410893,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "74": {
+      "reportPath": ".cache/battle-hd-v62/species/74/report.json",
+      "reportSha256": "d0ed1eb10ae55ac0b6f519159341dcfabd746e322767aa5515f002dbd796f6a4",
+      "base": {
+        "atlas": "/battle-animations/hd/74-v61.webp",
+        "atlasSha256": "239baf922003aedee74b9655cac0a4e61f5add37e751ec6e4b58ecc1aa44bb58"
+      },
+      "firstPose": {
+        "17": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8243,
+            "anyFrame": 0.7404
+          },
+          "after": {
+            "firstPose": 1.6486,
+            "anyFrame": 1.4808
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "17": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8243,
+            "anyFrame": 0.7404
+          },
+          "after": {
+            "firstPose": 1.6486,
+            "anyFrame": 1.4808
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "86": {
+      "reportPath": ".cache/battle-hd-v62/species/86/report.json",
+      "reportSha256": "8a0fad4627e392cc05b77654b87b09eb915c19419e43ead85849d8eb30619e19",
+      "base": {
+        "atlas": "/battle-animations/hd/86-v44.png",
+        "atlasSha256": "f4f75eccb2834bb7c3e4ec5df352f4b3fa59c6ff9fbe48e61ee7433f1dfeec5e"
+      },
+      "firstPose": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.5258,
+            "anyFrame": 0.5258
+          },
+          "after": {
+            "firstPose": 1.0516,
+            "anyFrame": 1.0515
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.5258,
+            "anyFrame": 0.5258
+          },
+          "after": {
+            "firstPose": 1.0516,
+            "anyFrame": 1.0515
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "24": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 2,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.994448,
+              "premultipliedRgbaMae": 1.907018,
+              "blockError": 20.222222,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 11449
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "87": {
+      "reportPath": ".cache/battle-hd-v62/species/87/report.json",
+      "reportSha256": "86b3c548cbb8b998756ee368e89b9079e583c4351748605538e411ef2d13bfe0",
+      "base": {
+        "atlas": "/battle-animations/hd/87-v60.webp",
+        "atlasSha256": "ff18f3012eb1927785fbbe2b622076ee87e512c073cf04c675410be78273d297"
+      },
+      "firstPose": {
+        "20": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.8043,
+            "anyFrame": 0.8043
+          },
+          "after": {
+            "firstPose": 1.6087,
+            "anyFrame": 1.6086
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "20": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.8043,
+            "anyFrame": 0.8043
+          },
+          "after": {
+            "firstPose": 1.6087,
+            "anyFrame": 1.6086
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "20": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 4,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.994178,
+              "premultipliedRgbaMae": 2.060923,
+              "blockError": 24.8939,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 16117
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "90": {
+      "reportPath": ".cache/battle-hd-v62/species/90/report.json",
+      "reportSha256": "6944a62072e54e44eaaf9849c80748c53c7945c84d47c37a03402f175207320a",
+      "base": {
+        "atlas": "/battle-animations/hd/90-v60.webp",
+        "atlasSha256": "0bcbead4a1de7ab23c6acac5c082cf131be80592781ca41cdbcd8a950064e536"
+      },
+      "firstPose": {
+        "32": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 4,
+          "to": 8,
+          "before": {
+            "firstPose": 0.8653,
+            "anyFrame": 0.8652
+          },
+          "after": {
+            "firstPose": 1.7306,
+            "anyFrame": 1.7305
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "32": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 4,
+          "to": 8,
+          "before": {
+            "firstPose": 0.8653,
+            "anyFrame": 0.8652
+          },
+          "after": {
+            "firstPose": 1.7306,
+            "anyFrame": 1.7305
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "32": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 8,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.996886,
+              "premultipliedRgbaMae": 2.066532,
+              "blockError": 18.665468,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 6826
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "96": {
+      "reportPath": ".cache/battle-hd-v62/species/96/report.json",
+      "reportSha256": "24bf010432b90902e3923ca8f6df15e43064ffe70f867675083fbfaa4b34a054",
+      "base": {
+        "atlas": "/battle-animations/hd/96-v60.webp",
+        "atlasSha256": "c9777cab9461509c0ea7373e8ff675e675a2841b4283546707837ad2f8bb6a78"
+      },
+      "firstPose": {},
+      "raised": {
+        "41": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1066
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.2131
+          },
+          "method": "redraw"
+        },
+        "62": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1066
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.2131
+          },
+          "method": "redraw"
+        },
+        "66": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1066
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.2131
+          },
+          "method": "redraw"
+        },
+        "77": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1066
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.2131
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "41": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.772074,
+              "premultipliedRgbaMae": 17.829768,
+              "blockError": 33.262745,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 7
+            },
+            "passed": true
+          }
+        },
+        "62": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.713031,
+              "premultipliedRgbaMae": 19.927856,
+              "blockError": 42.216013,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 10
+            },
+            "passed": true
+          }
+        },
+        "66": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.799283,
+              "premultipliedRgbaMae": 16.026892,
+              "blockError": 38.443246,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 3
+            },
+            "passed": true
+          }
+        },
+        "77": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.766454,
+              "premultipliedRgbaMae": 17.103969,
+              "blockError": 34.690414,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 4
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "99": {
+      "reportPath": ".cache/battle-hd-v62/species/99/report.json",
+      "reportSha256": "3e41a53c13ba47bdb8b9b8db44b9b20b677537ae331b01292d55100f2ae84902",
+      "base": {
+        "atlas": "/battle-animations/hd/99-v60.webp",
+        "atlasSha256": "bdf36bb2cb632ef64e0606c59ec7f5eeb0dfc94ae9e660cc9cf21c19e0bae6fd"
+      },
+      "firstPose": {
+        "377": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.3343,
+            "anyFrame": 0.3343
+          },
+          "after": {
+            "firstPose": 0.6686,
+            "anyFrame": 0.6686
+          },
+          "method": "model",
+          "reached": false,
+          "shortfall": "Decoded budget: every give-back allowed before the first pose was applied and the page still does not fit."
+        }
+      },
+      "raised": {
+        "377": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.3343,
+            "anyFrame": 0.3343
+          },
+          "after": {
+            "firstPose": 0.6686,
+            "anyFrame": 0.6686
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "377": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 2,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.992846,
+              "premultipliedRgbaMae": 2.019429,
+              "blockError": 14.620479,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 2610
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "107": {
+      "reportPath": ".cache/battle-hd-v62/species/107/report.json",
+      "reportSha256": "d3c9d48fd43032e17610b13694e7bf906afa08790971e8f3c87c15303585364a",
+      "base": {
+        "atlas": "/battle-animations/hd/107-v60.webp",
+        "atlasSha256": "e8a1f40784325348ac9c4839abf2eb7b52ca384ddc34743e04bbed9b32f09cff"
+      },
+      "firstPose": {
+        "46": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 8,
+          "before": {
+            "firstPose": 0.4933,
+            "anyFrame": 0.4932
+          },
+          "after": {
+            "firstPose": 1.9731,
+            "anyFrame": 1.973
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "46": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 8,
+          "before": {
+            "firstPose": 0.4933,
+            "anyFrame": 0.4932
+          },
+          "after": {
+            "firstPose": 1.9731,
+            "anyFrame": 1.973
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {
+        "54": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.9665
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.9833
+          },
+          "method": "render"
+        },
+        "61": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.9671
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.9836
+          },
+          "method": "render"
+        }
+      },
+      "gates": {
+        "46": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 8,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.997811,
+              "premultipliedRgbaMae": 2.791936,
+              "blockError": 17.668519,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 8184
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "129": {
+      "reportPath": ".cache/battle-hd-v62/species/129/report.json",
+      "reportSha256": "48dac5775b21ddc2a0b180c1c7e7ee9f9a256c04f52c732b5b0a3508627b1b19",
+      "base": {
+        "atlas": "/battle-animations/hd/129-v61.webp",
+        "atlasSha256": "9f1ec15a4b2c985fd18d2b99bd13eb7903ad347b9ab486d937e7f2da1d50738e"
+      },
+      "firstPose": {},
+      "raised": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3106
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.2424
+          },
+          "method": "redraw"
+        },
+        "25": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3099
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.2397
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "24": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.703259,
+              "premultipliedRgbaMae": 24.776561,
+              "blockError": 52.384096,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 2
+            },
+            "passed": true
+          }
+        },
+        "25": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.719595,
+              "premultipliedRgbaMae": 24.643997,
+              "blockError": 53.441612,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 2
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "144": {
+      "reportPath": ".cache/battle-hd-v62/species/144/report.json",
+      "reportSha256": "9fc5d498d0813786df09b68b88c326d66d9e651a3063d03dcc15704efda4025e",
+      "base": {
+        "atlas": "/battle-animations/hd/144-v61.webp",
+        "atlasSha256": "219d2ee4a9c9adcfd4fcb5306da182f7df0d42759b894c9cebba0c8bfcc0f3aa"
+      },
+      "firstPose": {
+        "134": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 8,
+          "before": {
+            "firstPose": 0.4051,
+            "anyFrame": 0.4051
+          },
+          "after": {
+            "firstPose": 1.6205,
+            "anyFrame": 1.6205
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "134": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 8,
+          "before": {
+            "firstPose": 0.4051,
+            "anyFrame": 0.4051
+          },
+          "after": {
+            "firstPose": 1.6205,
+            "anyFrame": 1.6205
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {
+        "125": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.6312
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.8156
+          },
+          "method": "render"
+        },
+        "141": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.62
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.81
+          },
+          "method": "render"
+        }
+      },
+      "gates": {
+        "134": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 8,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.995825,
+              "premultipliedRgbaMae": 3.198159,
+              "blockError": 22.060458,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 4393
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "149": {
+      "reportPath": ".cache/battle-hd-v62/species/149/report.json",
+      "reportSha256": "50316479ac81e503d19d280bf84658ed16b9e0ed5c945e8edb659875da5f7cf4",
+      "base": {
+        "atlas": "/battle-animations/hd/149-v61.webp",
+        "atlasSha256": "8c35971c1cade433d5bd64b2b59bd9d2221623ef7c5a25d5d8b74d3360eb66ef"
+      },
+      "firstPose": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 4,
+          "to": 8,
+          "before": {
+            "firstPose": 0.9866,
+            "anyFrame": 0.9865
+          },
+          "after": {
+            "firstPose": 1.9731,
+            "anyFrame": 1.973
+          },
+          "method": "model",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "first-pose",
+          "from": 4,
+          "to": 8,
+          "before": {
+            "firstPose": 0.9866,
+            "anyFrame": 0.9865
+          },
+          "after": {
+            "firstPose": 1.9731,
+            "anyFrame": 1.973
+          },
+          "method": "model"
+        }
+      },
+      "givenBack": {
+        "47": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "v59-raise",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.9803
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.9902
+          },
+          "method": "render"
+        }
+      },
+      "gates": {
+        "24": {
+          "tier": "first-pose",
+          "method": "model",
+          "scale": 8,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.996545,
+              "premultipliedRgbaMae": 2.093623,
+              "blockError": 20.170153,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 7505
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "171": {
+      "reportPath": ".cache/battle-hd-v62/species/171/report.json",
+      "reportSha256": "b43e3c701c44bdafa5bfe9e5542ae2837ec7789702e785a832a8df6b74e8164f",
+      "base": {
+        "atlas": "/battle-animations/hd/171-v60.webp",
+        "atlasSha256": "84b91089e0d3d89b6b8a846cc8d7e4b589ac7986f2fb3d2a43cc954e4ab3ab5b"
+      },
+      "firstPose": {
+        "1": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.7324,
+            "anyFrame": 0.7323
+          },
+          "after": {
+            "firstPose": 1.4647,
+            "anyFrame": 1.4646
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "1": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 2,
+          "to": 4,
+          "before": {
+            "firstPose": 0.7324,
+            "anyFrame": 0.7323
+          },
+          "after": {
+            "firstPose": 1.4647,
+            "anyFrame": 1.4646
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {
+        "129": {
+          "baseMode": "retained-original-cell",
+          "mode": "ai-upscaled",
+          "tier": "ai-or-redraw",
+          "from": 8,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 1.1881
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.5941
+          },
+          "method": "ai-reduce"
+        }
+      },
+      "gates": {
+        "129": {
+          "tier": "ai-or-redraw",
+          "method": "ai-reduce",
+          "scale": 4,
+          "gate": {
+            "name": "v60",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.8664,
+              "premultipliedRgbaMaeMaximum": 21.5582,
+              "blockErrorMaximum": 74.4794
+            },
+            "metrics": {
+              "alphaIoU16": 0.880711,
+              "premultipliedRgbaMae": 11.640495,
+              "blockError": 23.160022,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "192": {
+      "reportPath": ".cache/battle-hd-v62/species/192/report.json",
+      "reportSha256": "9fedbaf2fb782541da9a2f8f93d20a7663aebbede0169c29b8783c71f8fcbfc6",
+      "base": {
+        "atlas": "/battle-animations/hd/192-v60.webp",
+        "atlasSha256": "0bf2960a6471e11b0460c7789f8ffb64596fed467d8c7da4e2f27f73e126fbe8"
+      },
+      "firstPose": {},
+      "raised": {
+        "37": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3425
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.37
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "37": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.81,
+              "premultipliedRgbaMae": 17.160137,
+              "blockError": 34.12963,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "199": {
+      "reportPath": ".cache/battle-hd-v62/species/199/report.json",
+      "reportSha256": "e4c3d6066bae869bd96747abb95593c88d7f4a6855a2fb2c41756d7eabdf485c",
+      "base": {
+        "atlas": "/battle-animations/hd/199-v61.webp",
+        "atlasSha256": "905b41fddf84b5e679508e3a7cf1eab1a0c8381981989de7a334a4cf8c6542c3"
+      },
+      "firstPose": {},
+      "raised": {
+        "22": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3726
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.7451
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "22": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.763387,
+              "premultipliedRgbaMae": 19.539324,
+              "blockError": 60.40512,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "340": {
+      "reportPath": ".cache/battle-hd-v62/species/340/report.json",
+      "reportSha256": "e16a9a95ef21c7a72611f78efccfce6c34bd75360a552d029aa74738e41e2ade",
+      "base": {
+        "atlas": "/battle-animations/hd/340-v60.webp",
+        "atlasSha256": "fa0c8f6b4ae6c9d7669a4b767e980b98b82e8d7bf8d11199d76aab6369104f50"
+      },
+      "firstPose": {},
+      "raised": {
+        "24": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1802
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.4419
+          },
+          "method": "redraw"
+        },
+        "64": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1688
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.3502
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "24": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.85443,
+              "premultipliedRgbaMae": 25.886076,
+              "blockError": 48.333333,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "64": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.872881,
+              "premultipliedRgbaMae": 22.321203,
+              "blockError": 33.0,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "354": {
+      "reportPath": ".cache/battle-hd-v62/species/354/report.json",
+      "reportSha256": "e4d7f9efa847376556bd473e26049d12974a5999e8d9764622b279329c693b6c",
+      "base": {
+        "atlas": "/battle-animations/hd/354-v60.webp",
+        "atlasSha256": "48902af803d165f9e77726305054cd2c349892bfd89ef0a2c65c8743176a0da2"
+      },
+      "firstPose": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.9612,
+            "anyFrame": 0.9612
+          },
+          "after": {
+            "firstPose": 1.9224,
+            "anyFrame": 1.9223
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.9612,
+            "anyFrame": 0.9612
+          },
+          "after": {
+            "firstPose": 1.9224,
+            "anyFrame": 1.9223
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "355": {
+      "reportPath": ".cache/battle-hd-v62/species/355/report.json",
+      "reportSha256": "68f96707b597a37451baffe07a8b1818ae229ba4e742520cc238f703ceae9ec9",
+      "base": {
+        "atlas": "/battle-animations/hd/355-v59.png",
+        "atlasSha256": "67b4fc70ee52dfcddb53f77745800e7fb8492147f1765d901e941b45a94ba75f"
+      },
+      "firstPose": {
+        "13": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 32,
+          "before": {
+            "firstPose": 0.3688,
+            "anyFrame": 0.2942
+          },
+          "after": {
+            "firstPose": 1.475,
+            "anyFrame": 1.1768
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "13": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 32,
+          "before": {
+            "firstPose": 0.3688,
+            "anyFrame": 0.2942
+          },
+          "after": {
+            "firstPose": 1.475,
+            "anyFrame": 1.1768
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "359": {
+      "reportPath": ".cache/battle-hd-v62/species/359/report.json",
+      "reportSha256": "ee2523bb2729f500ca379da846413245585602d277e5a34741dd8a8f5dcf3466",
+      "base": {
+        "atlas": "/battle-animations/hd/359-v60.webp",
+        "atlasSha256": "4e28b0f329592e7407649d503a62554a80e265edbde6e41a7b219b3335b8ac18"
+      },
+      "firstPose": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8598,
+            "anyFrame": 0.8598
+          },
+          "after": {
+            "firstPose": 1.7197,
+            "anyFrame": 1.7196
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8598,
+            "anyFrame": 0.8598
+          },
+          "after": {
+            "firstPose": 1.7197,
+            "anyFrame": 1.7196
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "362": {
+      "reportPath": ".cache/battle-hd-v62/species/362/report.json",
+      "reportSha256": "c3c663a72cfff3114bb2c06faad9aeaf6977b71d3bcc4bf14a8b4052a41179e6",
+      "base": {
+        "atlas": "/battle-animations/hd/362-v61.webp",
+        "atlasSha256": "2d739ab37363c548f57a8bc76e73d6e3a395ccb1105b6d9a55e7709f9fc6b089"
+      },
+      "firstPose": {},
+      "raised": {
+        "43": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 32,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0529
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.6915
+          },
+          "method": "redraw"
+        },
+        "44": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 32,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0529
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.6915
+          },
+          "method": "redraw"
+        },
+        "48": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0958
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.5329
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "43": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 32,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.711864,
+              "premultipliedRgbaMae": 35.147358,
+              "blockError": 58.111111,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "44": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 32,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.701754,
+              "premultipliedRgbaMae": 32.631579,
+              "blockError": 41.444444,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "48": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.897436,
+              "premultipliedRgbaMae": 21.564103,
+              "blockError": 32.222222,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "371": {
+      "reportPath": ".cache/battle-hd-v62/species/371/report.json",
+      "reportSha256": "fe17a914bd310d6026eea20e3114c989d10ef309e84fd435d6d4b49b0d1d8998",
+      "base": {
+        "atlas": "/battle-animations/hd/371-v44.png",
+        "atlasSha256": "a9a418f1ee379d421a7cb117b08049962f840706d283712f128b09b110b3eaeb"
+      },
+      "firstPose": {},
+      "raised": {
+        "30": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.4932
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.973
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "30": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.89,
+              "premultipliedRgbaMae": 22.665,
+              "blockError": 44.555556,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "381": {
+      "reportPath": ".cache/battle-hd-v62/species/381/report.json",
+      "reportSha256": "ff90a49aa023a14270b8df508afe7073b0e30db5435f359acacde1c2ad38442d",
+      "base": {
+        "atlas": "/battle-animations/hd/381-v61.webp",
+        "atlasSha256": "829cb353cc085b8dd3aa1897d2f9aef86d61394b37e08d7506abf5fff0e21251"
+      },
+      "firstPose": {},
+      "raised": {
+        "57": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1825
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.4602
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "57": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.717391,
+              "premultipliedRgbaMae": 22.629604,
+              "blockError": 31.303922,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "402": {
+      "reportPath": ".cache/battle-hd-v62/species/402/report.json",
+      "reportSha256": "ca19aa19d83adcf137957656541578093e166c4239e34d1405bc46e3d48bae03",
+      "base": {
+        "atlas": "/battle-animations/hd/402-v61.webp",
+        "atlasSha256": "4f073ba51767eb7f9a6e7afd7aceccf1b734d29a9f88a27d37ffc028cbfd6cad"
+      },
+      "firstPose": {},
+      "raised": {
+        "49": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3567
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.4269
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "49": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.866029,
+              "premultipliedRgbaMae": 14.900849,
+              "blockError": 26.122004,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "403": {
+      "reportPath": ".cache/battle-hd-v62/species/403/report.json",
+      "reportSha256": "a97bc15ab0fbda6d02ea63e7a49ed650d6a7fd0660291104d484de75ea5a24bc",
+      "base": {
+        "atlas": "/battle-animations/hd/403-v60.webp",
+        "atlasSha256": "c22d49221b3b973ba0c1eb8d0c5f243bd9700edcf0f6b88534346a569494473d"
+      },
+      "firstPose": {},
+      "raised": {
+        "0": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3598
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.4391
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "0": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.761194,
+              "premultipliedRgbaMae": 22.100578,
+              "blockError": 34.102832,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "430": {
+      "reportPath": ".cache/battle-hd-v62/species/430/report.json",
+      "reportSha256": "b8ffc31589d76a4311b1ae8c3df3636551845d6887dc073622407cf2f7438c03",
+      "base": {
+        "atlas": "/battle-animations/hd/430-v61.webp",
+        "atlasSha256": "483dd32fb153fe1ff43acb285c7c6f5f70c5b67a51f17d5676df70b96db3fca8"
+      },
+      "firstPose": {},
+      "raised": {
+        "100": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0857
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.3429
+          },
+          "method": "redraw"
+        },
+        "123": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0589
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.4709
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "100": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.702128,
+              "premultipliedRgbaMae": 17.805111,
+              "blockError": 30.881373,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "123": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.772727,
+              "premultipliedRgbaMae": 15.712389,
+              "blockError": 15.502832,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "455": {
+      "reportPath": ".cache/battle-hd-v62/species/455/report.json",
+      "reportSha256": "7df103e715240ef1bedc0ec5165e74db2bd540662aef1c345d2937703f62e10f",
+      "base": {
+        "atlas": "/battle-animations/hd/455-v60.webp",
+        "atlasSha256": "c622e7a04748dbefe1c94f465c81f73f91f63ff9357b5c93b2275f79dd557713"
+      },
+      "firstPose": {},
+      "raised": {
+        "22": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0547
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.8755
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "22": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.871795,
+              "premultipliedRgbaMae": 27.105964,
+              "blockError": 49.474074,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "501": {
+      "reportPath": ".cache/battle-hd-v62/species/501/report.json",
+      "reportSha256": "b32a594eba6041b731842dbaddbba60ca9d9c76c1854a7c09b4a88a343019f00",
+      "base": {
+        "atlas": "/battle-animations/hd/501-v60.webp",
+        "atlasSha256": "2515e99a5f9124afb88292749a111e1d1b67394beab3ec558e75bc7de5649f6d"
+      },
+      "firstPose": {},
+      "raised": {
+        "101": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3999
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.7998
+          },
+          "method": "redraw"
+        },
+        "66": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.402
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 0.804
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "101": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.79845,
+              "premultipliedRgbaMae": 21.96004,
+              "blockError": 35.343028,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "66": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.817857,
+              "premultipliedRgbaMae": 17.500105,
+              "blockError": 33.627233,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "546": {
+      "reportPath": ".cache/battle-hd-v62/species/546/report.json",
+      "reportSha256": "5e3da2574354c7857e4f3ee006e121b4086b8cd56755daf2e90e67757c96dff6",
+      "base": {
+        "atlas": "/battle-animations/hd/546-v59.png",
+        "atlasSha256": "1f2f92693d66e0ac4229ad0dac2c3ee06ebe8cf5222fa8560e42ff1ab7f42ce6"
+      },
+      "firstPose": {
+        "1": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.5172,
+            "anyFrame": 0.5172
+          },
+          "after": {
+            "firstPose": 1.0344,
+            "anyFrame": 1.0344
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        },
+        "7": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": 0.4215,
+            "anyFrame": 0.34
+          },
+          "after": {
+            "firstPose": 1.6862,
+            "anyFrame": 1.3602
+          },
+          "method": "redraw",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "1": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.5172,
+            "anyFrame": 0.5172
+          },
+          "after": {
+            "firstPose": 1.0344,
+            "anyFrame": 1.0344
+          },
+          "method": "render"
+        },
+        "7": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": 0.4215,
+            "anyFrame": 0.34
+          },
+          "after": {
+            "firstPose": 1.6862,
+            "anyFrame": 1.3602
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "7": {
+          "tier": "first-pose",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.911765,
+              "premultipliedRgbaMae": 29.107843,
+              "blockError": 57.888889,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "579": {
+      "reportPath": ".cache/battle-hd-v62/species/579/report.json",
+      "reportSha256": "754b977647115c2a5cff3569436615b37800d5ab03c218c1c495572ed58b4c3d",
+      "base": {
+        "atlas": "/battle-animations/hd/579-v61.webp",
+        "atlasSha256": "4b3451e2115fa612e29c2b53ceeb1a5ce00e90f232723fd315d767270283375f"
+      },
+      "firstPose": {},
+      "raised": {
+        "123": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.321
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.2839
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "123": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.775,
+              "premultipliedRgbaMae": 19.358775,
+              "blockError": 25.17756,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "592": {
+      "reportPath": ".cache/battle-hd-v62/species/592/report.json",
+      "reportSha256": "39eca7e25a10c5e2765c34a65f857b99f6208dde3873d5b257f25e74754456d5",
+      "base": {
+        "atlas": "/battle-animations/hd/592-v61.webp",
+        "atlasSha256": "4b2ad3346f016f606899ffb0105106bafb66207ec16f01bab59b782192ad4b78"
+      },
+      "firstPose": {
+        "0": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.6925,
+            "anyFrame": 0.6924
+          },
+          "after": {
+            "firstPose": 1.385,
+            "anyFrame": 1.3849
+          },
+          "method": "redraw",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "0": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.6925,
+            "anyFrame": 0.6924
+          },
+          "after": {
+            "firstPose": 1.385,
+            "anyFrame": 1.3849
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "0": {
+          "tier": "first-pose",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.756032,
+              "premultipliedRgbaMae": 13.213011,
+              "blockError": 25.700218,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 8
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "593": {
+      "reportPath": ".cache/battle-hd-v62/species/593/report.json",
+      "reportSha256": "5fec82726d105513752674f6100598cd67697e7171f41d043c76e88db2337af1",
+      "base": {
+        "atlas": "/battle-animations/hd/593-v61.webp",
+        "atlasSha256": "e26cab4e88851adc06ce0254d9fb02bbf6bb8c9f0b85897719af457d19e99e6d"
+      },
+      "firstPose": {},
+      "raised": {
+        "17": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.3361
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.3442
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "17": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.794872,
+              "premultipliedRgbaMae": 17.299095,
+              "blockError": 26.108824,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "603": {
+      "reportPath": ".cache/battle-hd-v62/species/603/report.json",
+      "reportSha256": "e3ef22f8ab60b310498270c0c8f0c49f8a6a59526b5db5f764398c483014d58c",
+      "base": {
+        "atlas": "/battle-animations/hd/603-v60.webp",
+        "atlasSha256": "c05d4c679efcf0ff70c49fab5d6561cda5ca574284c852f04fe5f233b6ddd14a"
+      },
+      "firstPose": {
+        "32": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": 0.4817,
+            "anyFrame": 0.4817
+          },
+          "after": {
+            "firstPose": 1.9268,
+            "anyFrame": 1.9266
+          },
+          "method": "redraw",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "32": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": 0.4817,
+            "anyFrame": 0.4817
+          },
+          "after": {
+            "firstPose": 1.9268,
+            "anyFrame": 1.9266
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "32": {
+          "tier": "first-pose",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.803279,
+              "premultipliedRgbaMae": 23.622806,
+              "blockError": 38.444444,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "614": {
+      "reportPath": ".cache/battle-hd-v62/species/614/report.json",
+      "reportSha256": "a17f46bd386a3c7ecf8e4800c917a8e91f19cf527a31c75ef3f5508dcf73ee35",
+      "base": {
+        "atlas": "/battle-animations/hd/614-v61.webp",
+        "atlasSha256": "6f87f2f264b6e0a9287c4a0571028f0a134e2dc9f4045b035539835d602de00c"
+      },
+      "firstPose": {},
+      "raised": {
+        "30": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.2157
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7253
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "30": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.794872,
+              "premultipliedRgbaMae": 17.085696,
+              "blockError": 23.389651,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "616": {
+      "reportPath": ".cache/battle-hd-v62/species/616/report.json",
+      "reportSha256": "ad9d093fb1bf60111cf80e4e236144bd5091095edb8d39e855789ecd559f8681",
+      "base": {
+        "atlas": "/battle-animations/hd/616-v61.webp",
+        "atlasSha256": "04b5fde99fbb6854efe9fd0b22ffdade36adcd75e7cdda8363f1f9eca9df04cf"
+      },
+      "firstPose": {},
+      "raised": {
+        "105": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1779
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.423
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "105": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.794872,
+              "premultipliedRgbaMae": 17.6819,
+              "blockError": 24.433333,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "675": {
+      "reportPath": ".cache/battle-hd-v62/species/675/report.json",
+      "reportSha256": "9e5fdc6ee579333fd3a9ad7f33cb012b6b7094917f7778eb874828e791b63632",
+      "base": {
+        "atlas": "/battle-animations/hd/675-v60.webp",
+        "atlasSha256": "f1ffec3c1a4ae64950edf6b63d1c6f14cc831390fb3d7ccb001d39194570a0c8"
+      },
+      "firstPose": {},
+      "raised": {
+        "28": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1548
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.2381
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "28": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.802752,
+              "premultipliedRgbaMae": 11.796985,
+              "blockError": 18.004466,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "681": {
+      "reportPath": ".cache/battle-hd-v62/species/681/report.json",
+      "reportSha256": "d3be82e5f4e544dba6aa0da0d98792571952300c3a967898821555ebfcc16ec0",
+      "base": {
+        "atlas": "/battle-animations/hd/681-v59.png",
+        "atlasSha256": "ca6ce6a3e4f6a6a750b72b1133d8175b981ff73a0b72cc89c53bce498ac247a8"
+      },
+      "firstPose": {},
+      "raised": {
+        "29": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1112
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7798
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "29": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.89,
+              "premultipliedRgbaMae": 24.01,
+              "blockError": 43.666667,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "714": {
+      "reportPath": ".cache/battle-hd-v62/species/714/report.json",
+      "reportSha256": "4ce0369725d74e2bd9d29f5fe25fd40fdd43e64b1b13c09fdff60728a880e786",
+      "base": {
+        "atlas": "/battle-animations/hd/714-v60.webp",
+        "atlasSha256": "014940607ae44e136b1a105aa04ed18e5e97f1344696bb3c3071b39c715c3b40"
+      },
+      "firstPose": {},
+      "raised": {
+        "5": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1041
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.6658
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "5": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.880597,
+              "premultipliedRgbaMae": 23.383085,
+              "blockError": 45.444444,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "717": {
+      "reportPath": ".cache/battle-hd-v62/species/717/report.json",
+      "reportSha256": "d3b51437ad2b7145c6c460d99098ee928c2ed8d3868f362496f8427267b736d8",
+      "base": {
+        "atlas": "/battle-animations/hd/717-v59.png",
+        "atlasSha256": "e91a93844034a9e1d81093ab2ce58b0910ec957093d022270140414845ee870c"
+      },
+      "firstPose": {},
+      "raised": {
+        "14": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1097
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7551
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "14": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.875622,
+              "premultipliedRgbaMae": 23.696517,
+              "blockError": 43.444444,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "780": {
+      "reportPath": ".cache/battle-hd-v62/species/780/report.json",
+      "reportSha256": "f9d88b2d7ab1fda7b7459b7ac6e719662c63d0bf3058a36f5aa99cdfe64f44c6",
+      "base": {
+        "atlas": "/battle-animations/hd/780-v61.webp",
+        "atlasSha256": "1b1459071d94a29ad22938098ced0f742b6e0f28683e12b13f4c10b9b4f9f2e2"
+      },
+      "firstPose": {
+        "36": {
+          "baseMode": "retained-original-cell",
+          "mode": "retained-original-cell",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 1,
+          "before": {
+            "firstPose": 0.4278,
+            "anyFrame": 0.4278
+          },
+          "after": {
+            "firstPose": 0.4278,
+            "anyFrame": 0.4278
+          },
+          "method": "base",
+          "reached": false,
+          "shortfall": "Every higher multiplier failed its gate or the visual review (attempts recorded)."
+        }
+      },
+      "raised": {
+        "13": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.4357
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7429
+          },
+          "method": "redraw"
+        },
+        "29": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.4321
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7284
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "13": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.76,
+              "premultipliedRgbaMae": 5.37,
+              "blockError": 6.666667,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "29": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.740741,
+              "premultipliedRgbaMae": 6.722222,
+              "blockError": 7.388889,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "819": {
+      "reportPath": ".cache/battle-hd-v62/species/819/report.json",
+      "reportSha256": "f9384d6647f9f9dad782283530612b40e6534d64b167150e9dbf2de98bd2d692",
+      "base": {
+        "atlas": "/battle-animations/hd/819-v60.webp",
+        "atlasSha256": "b61fe18422c14f8bc91123ae48a7a87e418057f18e68d6d692537e967e7a2e9a"
+      },
+      "firstPose": {
+        "11": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.7011,
+            "anyFrame": 0.701
+          },
+          "after": {
+            "firstPose": 1.4022,
+            "anyFrame": 1.402
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "11": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.7011,
+            "anyFrame": 0.701
+          },
+          "after": {
+            "firstPose": 1.4022,
+            "anyFrame": 1.402
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "821": {
+      "reportPath": ".cache/battle-hd-v62/species/821/report.json",
+      "reportSha256": "f7af6bc15ee4a2b42b96b33d1f628c42fecfb212eda0c338898f5c8970adc5e4",
+      "base": {
+        "atlas": "/battle-animations/hd/821-v60.webp",
+        "atlasSha256": "16f94d636eab99be7ca686d4fd0a39c78f161a578580a4267bd904c29b0885b0"
+      },
+      "firstPose": {},
+      "raised": {
+        "25": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.4311
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7242
+          },
+          "method": "redraw"
+        },
+        "28": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.4354
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.7415
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "25": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.76129,
+              "premultipliedRgbaMae": 24.050291,
+              "blockError": 32.541503,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        },
+        "28": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.854839,
+              "premultipliedRgbaMae": 17.764635,
+              "blockError": 27.835185,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "948": {
+      "reportPath": ".cache/battle-hd-v62/species/948/report.json",
+      "reportSha256": "4b644551547fa726638f74aefe50210d51f69b0b776fde5fe30af123327b51ec",
+      "base": {
+        "atlas": "/battle-animations/hd/948-v61.webp",
+        "atlasSha256": "de9d92effca380fb7c53e611a18771213273a79522be51c97afcf3c0fdd82387"
+      },
+      "firstPose": {},
+      "raised": {
+        "67": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 4,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.336
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.3439
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "67": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 4,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.775,
+              "premultipliedRgbaMae": 18.047377,
+              "blockError": 23.278867,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "1064": {
+      "reportPath": ".cache/battle-hd-v62/species/1064/report.json",
+      "reportSha256": "454667d414578700311f8f32445ada83c4c2dad2a491db495121d6723985ee4e",
+      "base": {
+        "atlas": "/battle-animations/hd/1064-v60.webp",
+        "atlasSha256": "d0e1077ca040aab8ef40a7e87e8ad5f1d01eb9d8d44f91aefe83f8fcfcb1e816"
+      },
+      "firstPose": {},
+      "raised": {
+        "40": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.1169
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.8705
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "40": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.754386,
+              "premultipliedRgbaMae": 22.256295,
+              "blockError": 46.700545,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "1147": {
+      "reportPath": ".cache/battle-hd-v62/species/1147/report.json",
+      "reportSha256": "5dae406916e2fee012eae2b90eeca8a1545d27dfa96fbf599f600718b3e59144",
+      "base": {
+        "atlas": "/battle-animations/hd/1147-v59.png",
+        "atlasSha256": "c3e1cdaba75239ca09f844acd1ff3b29f3001f6b4a39bd15093a6627f6b3e651"
+      },
+      "firstPose": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8893,
+            "anyFrame": 0.8892
+          },
+          "after": {
+            "firstPose": 1.7786,
+            "anyFrame": 1.7784
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "7": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.8893,
+            "anyFrame": 0.8892
+          },
+          "after": {
+            "firstPose": 1.7786,
+            "anyFrame": 1.7784
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "1185": {
+      "reportPath": ".cache/battle-hd-v62/species/1185/report.json",
+      "reportSha256": "9384b6dfd9fb5da3d0e3c8c82726e7d468483da9fde18383bf6bf35799953a77",
+      "base": {
+        "atlas": "/battle-animations/hd/1185-v60.webp",
+        "atlasSha256": "33808b9b8b9ad25d4135b628a6ce1919639e38fa81fe64bbf9f60db1c6df83bb"
+      },
+      "firstPose": {
+        "33": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.951,
+            "anyFrame": 0.7487
+          },
+          "after": {
+            "firstPose": 1.9021,
+            "anyFrame": 1.4973
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "33": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.951,
+            "anyFrame": 0.7487
+          },
+          "after": {
+            "firstPose": 1.9021,
+            "anyFrame": 1.4973
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "1193": {
+      "reportPath": ".cache/battle-hd-v62/species/1193/report.json",
+      "reportSha256": "b2071fbaf7a823a16e1377d3d2dfb5086c7cd17e9a916962311cd775147bb2b4",
+      "base": {
+        "atlas": "/battle-animations/hd/1193-v59.png",
+        "atlasSha256": "9931adeb21c099d3a6226051fbeeadc3d11c7068c1dd70efcc361465b480ed5f"
+      },
+      "firstPose": {},
+      "raised": {
+        "13": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 8,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.2476
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.9809
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "13": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 8,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.89,
+              "premultipliedRgbaMae": 23.825,
+              "blockError": 43.222222,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "1264": {
+      "reportPath": ".cache/battle-hd-v62/species/1264/report.json",
+      "reportSha256": "ab3041d591e8478e71dea0921d6d3569fdb62f88f7b1ad65d776d86dc0a0573f",
+      "base": {
+        "atlas": "/battle-animations/hd/1264-v60.webp",
+        "atlasSha256": "9992b14d55148fa964ac1bd884ecc0b7590f723aed9232c7ca7932e7c51e0def"
+      },
+      "firstPose": {
+        "3": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.535,
+            "anyFrame": 0.4494
+          },
+          "after": {
+            "firstPose": 1.0699,
+            "anyFrame": 0.8987
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "3": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 16,
+          "before": {
+            "firstPose": 0.535,
+            "anyFrame": 0.4494
+          },
+          "after": {
+            "firstPose": 1.0699,
+            "anyFrame": 0.8987
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "1265": {
+      "reportPath": ".cache/battle-hd-v62/species/1265/report.json",
+      "reportSha256": "aa9ba804ce2b64474d027be33c81987e49313eedcf1bf48cdfaed120d8f656ae",
+      "base": {
+        "atlas": "/battle-animations/hd/1265-v60.webp",
+        "atlasSha256": "bcd3f6a6f6bf4f4a039d3b13c1a4928ba6dd486a79273f5d4f2704e4df4e22be"
+      },
+      "firstPose": {
+        "16": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 32,
+          "before": {
+            "firstPose": 0.3439,
+            "anyFrame": 0.3438
+          },
+          "after": {
+            "firstPose": 1.3755,
+            "anyFrame": 1.3754
+          },
+          "method": "render",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "16": {
+          "baseMode": "original-vector",
+          "mode": "original-vector",
+          "tier": "first-pose",
+          "from": 8,
+          "to": 32,
+          "before": {
+            "firstPose": 0.3439,
+            "anyFrame": 0.3438
+          },
+          "after": {
+            "firstPose": 1.3755,
+            "anyFrame": 1.3754
+          },
+          "method": "render"
+        }
+      },
+      "givenBack": {},
+      "gates": {}
+    },
+    "1287": {
+      "reportPath": ".cache/battle-hd-v62/species/1287/report.json",
+      "reportSha256": "25f886842e41f5ab7ccfbbd4d3f4301ff7444dab126e0875aca90aa127097e27",
+      "base": {
+        "atlas": "/battle-animations/hd/1287-v61.webp",
+        "atlasSha256": "d7b5cb54b41e69a52ac2a00c5731b6d3c4a8ee521b56f44e91d844c80ad1829d"
+      },
+      "firstPose": {},
+      "raised": {
+        "2": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0785
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.2567
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "2": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.774775,
+              "premultipliedRgbaMae": 21.329641,
+              "blockError": 43.787473,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "1353": {
+      "reportPath": ".cache/battle-hd-v62/species/1353/report.json",
+      "reportSha256": "b55e1b5eb9fcd9e1b8daf9793fa45216493941240070e29f30cb6d84f31e8292",
+      "base": {
+        "atlas": "/battle-animations/hd/1353-v44.png",
+        "atlasSha256": "032a67874675afffb49d45a1c338682c238becb677b6c540b01e677c955c1513"
+      },
+      "firstPose": {
+        "4": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.5991,
+            "anyFrame": 0.599
+          },
+          "after": {
+            "firstPose": 1.1981,
+            "anyFrame": 1.198
+          },
+          "method": "redraw",
+          "reached": true,
+          "shortfall": null
+        }
+      },
+      "raised": {
+        "4": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "first-pose",
+          "from": 1,
+          "to": 2,
+          "before": {
+            "firstPose": 0.5991,
+            "anyFrame": 0.599
+          },
+          "after": {
+            "firstPose": 1.1981,
+            "anyFrame": 1.198
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "4": {
+          "tier": "first-pose",
+          "method": "redraw",
+          "scale": 2,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.73913,
+              "premultipliedRgbaMae": 7.271739,
+              "blockError": 10.444444,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    },
+    "1363": {
+      "reportPath": ".cache/battle-hd-v62/species/1363/report.json",
+      "reportSha256": "7324bf240b491b820902e7ac6ab0f1d09bbd8915f037ad069b5237d758562c2f",
+      "base": {
+        "atlas": "/battle-animations/hd/1363-v61.webp",
+        "atlasSha256": "6acec9fd9068123abb071b30dc4ab858e63a487e795c990c29d49ca472a639af"
+      },
+      "firstPose": {},
+      "raised": {
+        "6": {
+          "baseMode": "retained-original-cell",
+          "mode": "redrawn",
+          "tier": "stroke",
+          "from": 1,
+          "to": 16,
+          "before": {
+            "firstPose": null,
+            "anyFrame": 0.0902
+          },
+          "after": {
+            "firstPose": null,
+            "anyFrame": 1.4436
+          },
+          "method": "redraw"
+        }
+      },
+      "givenBack": {},
+      "gates": {
+        "6": {
+          "tier": "stroke",
+          "method": "redraw",
+          "scale": 16,
+          "gate": {
+            "name": "stroke",
+            "thresholds": {
+              "alphaIoU16Minimum": 0.7001,
+              "premultipliedRgbaMaeMaximum": 46.3354,
+              "blockErrorMaximum": 70.4406
+            },
+            "metrics": {
+              "alphaIoU16": 0.774775,
+              "premultipliedRgbaMae": 22.417674,
+              "blockError": 46.799237,
+              "localColorPassed": true,
+              "localLargestBadRegionPixels": 0,
+              "localStablePixels": 0
+            },
+            "passed": true
+          }
+        }
+      }
+    }
+  }
+}

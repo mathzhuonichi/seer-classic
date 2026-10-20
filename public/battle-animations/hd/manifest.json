@@ -1,60 +1,62 @@
 {
   "revision": 2,
-  "generatedAt": "2026-10-20T13:30:50.971991+00:00",
+  "generatedAt": "2026-10-20T17:02:39.229169+00:00",
   "originalSpeciesCount": 1483,
   "originalRuntimeIndexSha256": "0c67d42dea3f224c6b160a03798f2f33ab1f9b8bf6a3d84a7292e3b7ddd3d546",
-  "hdRuntimeIndexSha256": "016787a1bbc772b0ec1ff30b9bf8cae6e41674239342811b134e9565c2e74851",
+  "hdRuntimeIndexSha256": "050cf90e5be1bdfba9e1f5dc91e3c6c7dd63096c90871e6ad0ce231771c6aa63",
   "sourceManifestSha256": "f53a1d52b622017ba29ead055ba3b6e6ec1467b166bf8410bb29dc30b8110357",
   "states": {
     "published-hd": 1483
   },
   "cellModes": {
     "original-vector": 37638,
-    "ai-upscaled": 6244,
-    "retained-original-cell": 1833,
-    "redrawn": 372,
+    "ai-upscaled": 6246,
+    "redrawn": 418,
+    "retained-original-cell": 1785,
     "constant-original-rgba": 92,
     "retained-native-microstrip": 2,
     "ai-source-bitmap": 1
   },
   "cellResolutions": {
-    "original-vector:4x": 27317,
+    "original-vector:4x": 27322,
     "original-vector:2x": 5463,
-    "ai-upscaled:4x": 3197,
-    "original-vector:8x": 4404,
-    "ai-upscaled:2x": 2051,
-    "ai-upscaled:8x": 996,
-    "retained-original-cell:1x": 1833,
-    "redrawn:4x": 100,
-    "redrawn:2x": 99,
+    "ai-upscaled:4x": 3198,
+    "original-vector:8x": 4389,
+    "ai-upscaled:2x": 2049,
+    "ai-upscaled:8x": 999,
+    "redrawn:2x": 111,
+    "redrawn:4x": 116,
+    "retained-original-cell:1x": 1785,
     "constant-original-rgba:4x": 91,
     "original-vector:1x": 454,
-    "redrawn:16x": 99,
-    "redrawn:8x": 69,
-    "redrawn:32x": 5,
+    "original-vector:16x": 8,
+    "redrawn:16x": 107,
+    "redrawn:8x": 77,
+    "redrawn:32x": 7,
     "retained-native-microstrip:1x": 2,
+    "original-vector:32x": 2,
     "constant-original-rgba:1x": 1,
     "ai-source-bitmap:2x": 1
   },
   "retainedReasonCounts": {
-    "Source RGBA comparison exceeded its limit": 803,
-    "Native-size source render changed a connected stable interior color region.": 311,
-    "Native-resolution source fidelity check failed": 270,
-    "Distinct original candidates could not be distinguished": 265,
-    "No compatible original vector bounds": 162,
+    "Native-size source render changed a connected stable interior color region.": 309,
+    "Native-resolution source fidelity check failed": 242,
+    "Distinct original candidates could not be distinguished": 262,
+    "Source RGBA comparison exceeded its limit": 790,
+    "No compatible original vector bounds": 160,
     "Original bitmap has no additional native pixels above the Unity cell resolution.": 19,
     "Distinct source alternatives pass local checks but cannot be safely distinguished.": 1,
     "Native microstrip has insufficient source detail for a reliable match": 2,
     "The V61 decoded budget left no room above 1x for this AI cell; original pixels kept.": 1,
     "Embedded bitmap composition has no proven higher native detail; preserve original pixels.": 1
   },
-  "generatedAssetBytes": 1668942045,
+  "generatedAssetBytes": 1670593519,
   "firstPoseNonconstantFullyHigherResolutionSpecies": 981,
-  "firstPoseNonconstantFullyAboveNativeSpecies": 1422,
+  "firstPoseNonconstantFullyAboveNativeSpecies": 1427,
   "aiUpscaled": {
-    "cells": 6244,
-    "firstPoseCells": 980,
-    "species": 878,
+    "cells": 6246,
+    "firstPoseCells": 982,
+    "species": 879,
     "method": {
       "tool": "realesrgan-ncnn-vulkan",
       "release": "xinntao/Real-ESRGAN v0.2.5.0, ncnn-Vulkan build 20220424 (macOS universal)",
@@ -74,9 +76,9 @@
     }
   },
   "redrawn": {
-    "cells": 372,
-    "firstPoseCells": 47,
-    "species": 106,
+    "cells": 418,
+    "firstPoseCells": 51,
+    "species": 125,
     "method": {
       "tool": "battle_hd_redraw.py",
       "libraries": {
@@ -94,7 +96,20 @@
         "blockErrorMaximum": 74.4794,
         "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
       }
+    },
+    "strokeGate": {
+      "appliesTo": "thin-stroke cells (flat or shaded, thin parts >= 0.5 of the coverage), V62",
+      "gate": {
+        "alphaIoU16Minimum": 0.7001,
+        "premultipliedRgbaMaeMaximum": 46.3354,
+        "blockErrorMaximum": 70.4406,
+        "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+      }
     }
+  },
+  "firstPosePriority": {
+    "species": 52,
+    "firstPoseVectorMaximumScale": 32
   },
   "fullyImprovedNonconstantSpecies": 524,
   "limits": {
@@ -615,23 +630,22 @@
       "counts": {
         "original-vector": 23,
         "ai-upscaled": 1,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 17,
         "original-vector:2x": 6,
         "ai-upscaled:2x": 1,
-        "retained-original-cell:1x": 1
+        "redrawn:2x": 1
       },
       "improvedVectorCells": 23,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 8,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 8,
@@ -639,12 +653,13 @@
       "firstPoseHigherResolutionCells": 7,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 2304,
-      "atlasHeight": 2484,
-      "atlasRgbaBytes": 22892544,
+      "atlasWidth": 900,
+      "atlasHeight": 5666,
+      "atlasRgbaBytes": 20397600,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -655,22 +670,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2304,
-          2484
+          900,
+          5666
         ],
-        "actualDecodedBytes": 22892544,
+        "actualDecodedBytes": 20397600,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "2d6a25d371a59f96c157c0cff934416cd3ca3e94f7b850635a36cd9e07936b12",
       "originalAtlasSha256": "cec85c6a7685ca0315a3e736e442fea4e050bc92315ebe48d3fd535fad633621",
-      "meta": "/battle-animations/hd/9-v60.json.gz",
-      "atlas": "/battle-animations/hd/9-v60.webp",
-      "metaSha256": "3b7304b09d020521d6af5bb5abc9f6cb96eb2253ecf740808f29d26a50ed6574",
-      "atlasSha256": "ce421190f25bd1a9539383d988fd3c7aaaf44e7ed875898c4f2e2cb8864a00d5",
-      "reportPath": ".cache/battle-hd-v60/species/9/report.json",
-      "reportSha256": "31d01128561c127c82ce40fe2a8c33704066628ab5aa571732b3c5b544ff9b69",
+      "meta": "/battle-animations/hd/9-v62.json.gz",
+      "atlas": "/battle-animations/hd/9-v62.webp",
+      "metaSha256": "96597f753abd3b07234e778008dcea060d193390ddad138bb3f59c60d8b99d59",
+      "atlasSha256": "5827e33f6620ada1a723316ed92e1e6c69ee4277899b2d9c68bd4fee043b727c",
+      "reportPath": ".cache/battle-hd-v62/species/9/report.json",
+      "reportSha256": "0c2c48ab56b6ac49155b5662dcfc98bbeeab33de0e1b43385fc23971190cd7e0",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "10": {
@@ -816,10 +831,10 @@
         "retained-original-cell": 4
       },
       "resolutionCounts": {
-        "original-vector:4x": 64,
+        "original-vector:4x": 63,
         "redrawn:4x": 1,
-        "original-vector:2x": 17,
-        "ai-upscaled:2x": 1,
+        "original-vector:2x": 18,
+        "ai-upscaled:4x": 1,
         "retained-original-cell:1x": 4,
         "redrawn:2x": 1
       },
@@ -845,9 +860,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5632,
-      "atlasHeight": 5956,
-      "atlasRgbaBytes": 134176768,
+      "atlasWidth": 7924,
+      "atlasHeight": 4228,
+      "atlasRgbaBytes": 134010688,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -858,22 +873,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5632,
-          5956
+          7924,
+          4228
         ],
-        "actualDecodedBytes": 134176768,
+        "actualDecodedBytes": 134010688,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "1d3e762e921bcc4f32d4845aa166aaab413763db7e1623d32c677dee35311742",
       "originalAtlasSha256": "566b57ea29238db28125fb17ca1dd8f140d671cbf4c1d66df23d1e959fcae5fe",
-      "meta": "/battle-animations/hd/12-v61.json.gz",
-      "atlas": "/battle-animations/hd/12-v61.webp",
-      "metaSha256": "697de15a1024fd2240fed3e7e9d1f8a332c38644d7bbf93aa0bd7aaf27f54bd6",
-      "atlasSha256": "a4abb5cf1ba9d1c7e4ead8cd71d6b3608534e0e2bae450f7f68b9bcda602e555",
-      "reportPath": ".cache/battle-hd-v61/species/12/report.json",
-      "reportSha256": "0549a72881e5870c89a7b6adc3ccffab52a671944d208faf3c42b0b1f0041016",
+      "meta": "/battle-animations/hd/12-v62.json.gz",
+      "atlas": "/battle-animations/hd/12-v62.webp",
+      "metaSha256": "e941c67b896f3883598382cf757e8ea6883a780721d4ddd4294df45462b84b04",
+      "atlasSha256": "b7cd4f708302dc20f0c8b63003f2f8874a349d59ad18bc0f0334879d09e4ba67",
+      "reportPath": ".cache/battle-hd-v62/species/12/report.json",
+      "reportSha256": "2ba11115f02fb5f66db93e69671cb1c27de6341d1719bb20fc0337817d6bedd8",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "13": {
@@ -2229,13 +2244,15 @@
       "sourceBitmapCount": 0,
       "counts": {
         "ai-upscaled": 2,
-        "retained-original-cell": 48,
-        "original-vector": 101
+        "redrawn": 2,
+        "original-vector": 101,
+        "retained-original-cell": 46
       },
       "resolutionCounts": {
         "ai-upscaled:4x": 2,
-        "retained-original-cell:1x": 48,
+        "redrawn:2x": 2,
         "original-vector:1x": 5,
+        "retained-original-cell:1x": 46,
         "original-vector:4x": 78,
         "original-vector:2x": 18
       },
@@ -2243,10 +2260,11 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 48,
+      "nativeRetainedCells": 46,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 8,
+        "Native-resolution source fidelity check failed": 6,
         "Source RGBA comparison exceeded its limit": 26,
         "Native-size source render changed a connected stable interior color region.": 13,
         "Distinct original candidates could not be distinguished": 1
@@ -2258,6 +2276,7 @@
       "firstPoseHigherResolutionCells": 1,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
@@ -2282,14 +2301,14 @@
       },
       "originalMetadataSha256": "6da9c7655f743c43b28fbb38db11bc495ad2c6a18c825a4d124659d79cd09b24",
       "originalAtlasSha256": "6ccba92d2acdb3c5ad15a102c57d5e1ff2b0a62f2aec42f005f6d9f2302f7bdf",
-      "meta": "/battle-animations/hd/34-v60.json.gz",
-      "atlas": "/battle-animations/hd/34-v60.webp",
-      "metaSha256": "0359ab8cfc06ff08248e90577ff8c62d768bbe7f5b00329fd71428a238c2b3c5",
-      "atlasSha256": "fe6f23662dd17427008d9a5d733d8481a58f7b2278719a4c31559873c052d4d8",
-      "reportPath": ".cache/battle-hd-v60/species/34/report.json",
-      "reportSha256": "4972326ec4ef282f3f0d45ac3a6b1a8d59b91bb2f61bd67f8a4da9f08cc75e83",
+      "meta": "/battle-animations/hd/34-v62.json.gz",
+      "atlas": "/battle-animations/hd/34-v62.webp",
+      "metaSha256": "ed842f10bdfaff71d2aa95dae391c870b0c48c294e22ca8191d9b7eb46e6ffe2",
+      "atlasSha256": "0655712fb9bbdd66156791722fd8fcc6ea2aadf2ffa7bb6d6385e4f36ff9dcd5",
+      "reportPath": ".cache/battle-hd-v62/species/34/report.json",
+      "reportSha256": "a9bf5de03b9235ce805bed5038ef47a1642ef9afed21da1c0c5b4d159430b2e7",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "35": {
@@ -4734,7 +4753,8 @@
       },
       "resolutionCounts": {
         "original-vector:4x": 104,
-        "original-vector:8x": 3,
+        "original-vector:8x": 2,
+        "original-vector:16x": 1,
         "redrawn:16x": 1,
         "ai-upscaled:4x": 3
       },
@@ -4757,9 +4777,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 2816,
-      "atlasHeight": 3124,
-      "atlasRgbaBytes": 35188736,
+      "atlasWidth": 1536,
+      "atlasHeight": 5416,
+      "atlasRgbaBytes": 33275904,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -4770,22 +4790,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2816,
-          3124
+          1536,
+          5416
         ],
-        "actualDecodedBytes": 35188736,
+        "actualDecodedBytes": 33275904,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "f62779330edefb619875f9451480648c9d73ec30bca56915267d4ec6a3e1cffd",
       "originalAtlasSha256": "c5dd5c5a7c28102ccba3aaadaeb99d4e5470035da9ca0a33074b4ce2db029bbf",
-      "meta": "/battle-animations/hd/74-v61.json.gz",
-      "atlas": "/battle-animations/hd/74-v61.webp",
-      "metaSha256": "f4b5a786603b143446b4dcf87a13d88f9e0de0eb6e5f8222a762a2860e89355f",
-      "atlasSha256": "239baf922003aedee74b9655cac0a4e61f5add37e751ec6e4b58ecc1aa44bb58",
-      "reportPath": ".cache/battle-hd-v61/species/74/report.json",
-      "reportSha256": "bd257b71dbf69c8155a814e61b5384031a41a89e63adc927fa38863c602f3d9f",
+      "meta": "/battle-animations/hd/74-v62.json.gz",
+      "atlas": "/battle-animations/hd/74-v62.webp",
+      "metaSha256": "e4bf3cfc1a674ed731ab180ca3723f404c6f4169f866c7325958a94b8565b608",
+      "atlasSha256": "97ae17d4fb0855bc7050ba00be4e26ea3c5e7e333a9f25c6f8a5b979233694f9",
+      "reportPath": ".cache/battle-hd-v62/species/74/report.json",
+      "reportSha256": "d0ed1eb10ae55ac0b6f519159341dcfabd746e322767aa5515f002dbd796f6a4",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "75": {
@@ -5483,20 +5503,24 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 70,
-        "retained-original-cell": 9
+        "retained-original-cell": 8,
+        "ai-upscaled": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 56,
         "original-vector:2x": 14,
-        "retained-original-cell:1x": 9
+        "retained-original-cell:1x": 8,
+        "ai-upscaled:2x": 1
       },
       "improvedVectorCells": 70,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 1,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 9,
+      "nativeRetainedCells": 8,
       "retainedReasonCounts": {
-        "Distinct original candidates could not be distinguished": 9
+        "Distinct original candidates could not be distinguished": 8
       },
       "firstPoseCells": 1,
       "firstPoseConstantCells": 0,
@@ -5504,11 +5528,14 @@
       "firstPoseVectorCells": 0,
       "firstPoseHigherResolutionCells": 0,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4096,
-      "atlasHeight": 8188,
-      "atlasRgbaBytes": 134152192,
+      "atlasWidth": 6908,
+      "atlasHeight": 4852,
+      "atlasRgbaBytes": 134070464,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -5519,21 +5546,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8188
+          6908,
+          4852
         ],
-        "actualDecodedBytes": 134152192,
+        "actualDecodedBytes": 134070464,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "36622447f055de5591b17e0d1c8d52e2c23035b70ad1029f17c7afeca0de4423",
       "originalAtlasSha256": "e2830e7174088f8b17c5d9c5ea905ddd13ec966c3b413cebcb22068c7b06dc13",
-      "meta": "/battle-animations/hd/86-v44.json.gz",
-      "atlas": "/battle-animations/hd/86-v44.png",
-      "metaSha256": "85fa0b3f39d5bbf3a3612a6290966217a277c09924851c5c14929d356fa92351",
-      "atlasSha256": "f4f75eccb2834bb7c3e4ec5df352f4b3fa59c6ff9fbe48e61ee7433f1dfeec5e",
-      "reportPath": ".cache/battle-hd-v44/species/86/report.json",
-      "reportSha256": "a9605942a212c7ace33df4af9b0a11d503cb66513dfb2aa8f14ea939d3ba6111",
-      "reportRevision": 6,
+      "meta": "/battle-animations/hd/86-v62.json.gz",
+      "atlas": "/battle-animations/hd/86-v62.webp",
+      "metaSha256": "1eae84a15d4bb5c9b5f50351614456b02e586d2174833b01bd7c285e22e591a8",
+      "atlasSha256": "1aef4490f28f4f8260929881453d64a1ec8e2df1abe651e8227c2bc039b81c13",
+      "reportPath": ".cache/battle-hd-v62/species/86/report.json",
+      "reportSha256": "8a0fad4627e392cc05b77654b87b09eb915c19419e43ead85849d8eb30619e19",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "87": {
@@ -5550,7 +5578,7 @@
       "resolutionCounts": {
         "original-vector:2x": 23,
         "original-vector:4x": 39,
-        "ai-upscaled:2x": 1,
+        "ai-upscaled:4x": 1,
         "retained-original-cell:1x": 1,
         "original-vector:1x": 3
       },
@@ -5558,6 +5586,7 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 1,
       "retainedReasonCounts": {
@@ -5570,12 +5599,13 @@
       "firstPoseHigherResolutionCells": 0,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 8174,
-      "atlasHeight": 4092,
-      "atlasRgbaBytes": 133792032,
+      "atlasWidth": 4854,
+      "atlasHeight": 6875,
+      "atlasRgbaBytes": 133485000,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -5586,22 +5616,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          8174,
-          4092
+          4854,
+          6875
         ],
-        "actualDecodedBytes": 133792032,
+        "actualDecodedBytes": 133485000,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "f5fb52880d244d69f994de5d359df09c084215e37db6df3e63bfaa950ca73c22",
       "originalAtlasSha256": "d40c507ae7acbc3f0471703e6d777dac2d90851e92753543151f14c39fbace9e",
-      "meta": "/battle-animations/hd/87-v60.json.gz",
-      "atlas": "/battle-animations/hd/87-v60.webp",
-      "metaSha256": "9d0ff1ac100f1ee1993d04d8d17af8645b42d8d9a69976e9cc9c3cc4953b132f",
-      "atlasSha256": "ff18f3012eb1927785fbbe2b622076ee87e512c073cf04c675410be78273d297",
-      "reportPath": ".cache/battle-hd-v60/species/87/report.json",
-      "reportSha256": "ffc594a765202a67d238dbb945d95c1fbacf6904b0aee76ae0cf71c5a4712b7d",
+      "meta": "/battle-animations/hd/87-v62.json.gz",
+      "atlas": "/battle-animations/hd/87-v62.webp",
+      "metaSha256": "8656474434b42aad143ae51dbd9dfa35026a342e741e79481d8d28da3984d091",
+      "atlasSha256": "bb137f724d96e5a9716ae2da2490804527ba5d51ba3bfde28aa2e7b5b52e84d8",
+      "reportPath": ".cache/battle-hd-v62/species/87/report.json",
+      "reportSha256": "86b3c548cbb8b998756ee368e89b9079e583c4351748605538e411ef2d13bfe0",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "88": {
@@ -5750,12 +5780,13 @@
         "original-vector:2x": 14,
         "retained-original-cell:1x": 4,
         "original-vector:8x": 6,
-        "ai-upscaled:4x": 1
+        "ai-upscaled:8x": 1
       },
       "improvedVectorCells": 76,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 4,
       "retainedReasonCounts": {
@@ -5768,12 +5799,13 @@
       "firstPoseHigherResolutionCells": 0,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4094,
-      "atlasHeight": 8192,
-      "atlasRgbaBytes": 134152192,
+      "atlasWidth": 4608,
+      "atlasHeight": 7249,
+      "atlasRgbaBytes": 133613568,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -5784,22 +5816,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4094,
-          8192
+          4608,
+          7249
         ],
-        "actualDecodedBytes": 134152192,
+        "actualDecodedBytes": 133613568,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "2189d2d14cd5d02435b08237b3a50b817be97d12ca77ac6e7a79038bcadf462e",
       "originalAtlasSha256": "35b8cd0826c23639e48951577bbfc1b6c4e7ced7ad84747f0e34298f78dcd4f2",
-      "meta": "/battle-animations/hd/90-v60.json.gz",
-      "atlas": "/battle-animations/hd/90-v60.webp",
-      "metaSha256": "c61aa10d2ce88adadcb78f3a5135dc2ac30054d87f3a10b3a4fe407d61a2bbe9",
-      "atlasSha256": "0bcbead4a1de7ab23c6acac5c082cf131be80592781ca41cdbcd8a950064e536",
-      "reportPath": ".cache/battle-hd-v60/species/90/report.json",
-      "reportSha256": "4f9729b72ef2204a13b04ea2c4ac1e14bfeb2c22db5293768f5a1ce357686e31",
+      "meta": "/battle-animations/hd/90-v62.json.gz",
+      "atlas": "/battle-animations/hd/90-v62.webp",
+      "metaSha256": "4aad40da8c89920dd9c7e1fe7acfaf1e921c85d50dcf52085d6ab1c1f329dcc9",
+      "atlasSha256": "7464a835ff7405dfd5be7db1518a5880fb818e8b87396e0135149efded4985a3",
+      "reportPath": ".cache/battle-hd-v62/species/90/report.json",
+      "reportSha256": "6944a62072e54e44eaaf9849c80748c53c7945c84d47c37a03402f175207320a",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "91": {
@@ -6102,25 +6134,28 @@
       "counts": {
         "ai-upscaled": 9,
         "original-vector": 86,
-        "retained-original-cell": 10
+        "retained-original-cell": 6,
+        "redrawn": 4
       },
       "resolutionCounts": {
         "ai-upscaled:8x": 1,
         "original-vector:4x": 79,
         "original-vector:8x": 7,
         "ai-upscaled:2x": 8,
-        "retained-original-cell:1x": 10
+        "retained-original-cell:1x": 6,
+        "redrawn:2x": 4
       },
       "improvedVectorCells": 86,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 9,
+      "redrawnCells": 4,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 10,
+      "nativeRetainedCells": 6,
       "retainedReasonCounts": {
         "Source RGBA comparison exceeded its limit": 1,
-        "Native-size source render changed a connected stable interior color region.": 4,
-        "Native-resolution source fidelity check failed": 5
+        "Native-resolution source fidelity check failed": 3,
+        "Native-size source render changed a connected stable interior color region.": 2
       },
       "firstPoseCells": 1,
       "firstPoseConstantCells": 0,
@@ -6129,12 +6164,13 @@
       "firstPoseHigherResolutionCells": 1,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 5624,
-      "atlasHeight": 5956,
-      "atlasRgbaBytes": 133986176,
+      "atlasWidth": 5626,
+      "atlasHeight": 5954,
+      "atlasRgbaBytes": 133988816,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -6145,22 +6181,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5624,
-          5956
+          5626,
+          5954
         ],
-        "actualDecodedBytes": 133986176,
+        "actualDecodedBytes": 133988816,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "acc5d7cb6ff4882d3ea8504351129fa0f1653c6ae744b6c2def6a3abe44053a7",
       "originalAtlasSha256": "359a55ce11c9f645f822dc37b764ec3f17c1acb878442911cc443e1eb0fd6b28",
-      "meta": "/battle-animations/hd/96-v60.json.gz",
-      "atlas": "/battle-animations/hd/96-v60.webp",
-      "metaSha256": "53a487555876ee17c27454861408107b3be9727b94fc9349facab55f4f89fccc",
-      "atlasSha256": "c9777cab9461509c0ea7373e8ff675e675a2841b4283546707837ad2f8bb6a78",
-      "reportPath": ".cache/battle-hd-v60/species/96/report.json",
-      "reportSha256": "9cefe31a2dc692fbbfcb7a4b6b91a137eee3ee4f0b483054a4e28a192c3ba723",
+      "meta": "/battle-animations/hd/96-v62.json.gz",
+      "atlas": "/battle-animations/hd/96-v62.webp",
+      "metaSha256": "49734a04a500a18f8cad373e89192468c01e34594ed74eee129a2f803a664a2f",
+      "atlasSha256": "74a8e567a4912c8e546050a85849f27c3ba33d04d8b5247f2ea78471b058050b",
+      "reportPath": ".cache/battle-hd-v62/species/96/report.json",
+      "reportSha256": "24bf010432b90902e3923ca8f6df15e43064ffe70f867675083fbfaa4b34a054",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "97": {
@@ -6296,23 +6332,25 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 299,
-        "retained-original-cell": 105,
-        "ai-upscaled": 3
+        "retained-original-cell": 104,
+        "ai-upscaled": 4
       },
       "resolutionCounts": {
         "original-vector:4x": 277,
         "original-vector:2x": 22,
-        "retained-original-cell:1x": 105,
-        "ai-upscaled:4x": 3
+        "retained-original-cell:1x": 104,
+        "ai-upscaled:4x": 3,
+        "ai-upscaled:2x": 1
       },
       "improvedVectorCells": 299,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
-      "aiUpscaledCells": 3,
+      "aiUpscaledCells": 4,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 105,
+      "nativeRetainedCells": 104,
       "retainedReasonCounts": {
-        "Distinct original candidates could not be distinguished": 105
+        "Distinct original candidates could not be distinguished": 104
       },
       "firstPoseCells": 10,
       "firstPoseConstantCells": 0,
@@ -6320,13 +6358,14 @@
       "firstPoseVectorCells": 6,
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
-      "firstPoseAiUpscaledCells": 3,
-      "firstPoseNonconstantFullyAboveNative": false,
+      "firstPoseAiUpscaledCells": 4,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5888,
-      "atlasHeight": 5698,
-      "atlasRgbaBytes": 134199296,
+      "atlasWidth": 6144,
+      "atlasHeight": 5461,
+      "atlasRgbaBytes": 134209536,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -6337,22 +6376,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5888,
-          5698
+          6144,
+          5461
         ],
-        "actualDecodedBytes": 134199296,
+        "actualDecodedBytes": 134209536,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "aa75d8a1cbee35d9aa26e08da68d58f22d08d46a6be8ab3f9924ee83675e9885",
       "originalAtlasSha256": "e33734ba1cfcc05e85d90dacfd5cfadd57e50a82a6f2612739c6a14005343ccf",
-      "meta": "/battle-animations/hd/99-v60.json.gz",
-      "atlas": "/battle-animations/hd/99-v60.webp",
-      "metaSha256": "351e0102eb285115c6290373712f6d3817db5f71e65c2f300b4ce121cf12362f",
-      "atlasSha256": "bdf36bb2cb632ef64e0606c59ec7f5eeb0dfc94ae9e660cc9cf21c19e0bae6fd",
-      "reportPath": ".cache/battle-hd-v60/species/99/report.json",
-      "reportSha256": "63be7c8f84595f7d662380be40a1cb9a86eeee0d9a9a795d8373ad0e4c6a706f",
+      "meta": "/battle-animations/hd/99-v62.json.gz",
+      "atlas": "/battle-animations/hd/99-v62.webp",
+      "metaSha256": "3806fe2078d95cf36a2bc28cc71ab4b75b0cc2be1d0d53176264e058ec035762",
+      "atlasSha256": "f989cc109085a0379a816b601da5fe869f70fd9ed0099d87f8035fc85c5c17ab",
+      "reportPath": ".cache/battle-hd-v62/species/99/report.json",
+      "reportSha256": "3e41a53c13ba47bdb8b9b8db44b9b20b677537ae331b01292d55100f2ae84902",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "100": {
@@ -6821,16 +6860,17 @@
         "constant-original-rgba": 1
       },
       "resolutionCounts": {
-        "original-vector:4x": 39,
-        "original-vector:8x": 10,
+        "original-vector:4x": 41,
+        "original-vector:8x": 8,
         "retained-original-cell:1x": 13,
-        "ai-upscaled:2x": 1,
+        "ai-upscaled:8x": 1,
         "constant-original-rgba:4x": 1
       },
       "improvedVectorCells": 49,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 13,
       "retainedReasonCounts": {
@@ -6844,12 +6884,13 @@
       "firstPoseHigherResolutionCells": 0,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4096,
-      "atlasHeight": 8167,
-      "atlasRgbaBytes": 133808128,
+      "atlasWidth": 4608,
+      "atlasHeight": 7268,
+      "atlasRgbaBytes": 133963776,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -6860,22 +6901,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8167
+          4608,
+          7268
         ],
-        "actualDecodedBytes": 133808128,
+        "actualDecodedBytes": 133963776,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "0bba1518d42bff424067153dd3ca9c640f30476ed0c1941c7d98af4aaacb40bd",
       "originalAtlasSha256": "ce7a178faeca862cce4d577b64809ac8a388b5f8d48670dbd0c43ffcf45bb52e",
-      "meta": "/battle-animations/hd/107-v60.json.gz",
-      "atlas": "/battle-animations/hd/107-v60.webp",
-      "metaSha256": "1cc344da2f1a347de25c0a0e7f22c90be2fc7ad63f606145a45c3e3dbc8a48c8",
-      "atlasSha256": "e8a1f40784325348ac9c4839abf2eb7b52ca384ddc34743e04bbed9b32f09cff",
-      "reportPath": ".cache/battle-hd-v60/species/107/report.json",
-      "reportSha256": "bf9eae211fa6ad7be2acfb0e37d98614c1b5c343b1341f3aecf6dd9268df08c0",
+      "meta": "/battle-animations/hd/107-v62.json.gz",
+      "atlas": "/battle-animations/hd/107-v62.webp",
+      "metaSha256": "00acc9820eb9a449ae82d96e4b18582eff4fb9504b3abab6a1e18f2e9b9c7b06",
+      "atlasSha256": "bcdf93702acc1c50f7c4feac42b814dc79e34251e745f6ddd1d2e50f42b7f9e3",
+      "reportPath": ".cache/battle-hd-v62/species/107/report.json",
+      "reportSha256": "d3c9d48fd43032e17610b13694e7bf906afa08790971e8f3c87c15303585364a",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "108": {
@@ -8210,29 +8251,28 @@
       "counts": {
         "original-vector": 41,
         "ai-upscaled": 18,
-        "retained-original-cell": 5,
-        "redrawn": 5
+        "redrawn": 7,
+        "retained-original-cell": 3
       },
       "resolutionCounts": {
         "original-vector:4x": 38,
         "ai-upscaled:4x": 13,
         "original-vector:8x": 2,
         "ai-upscaled:8x": 3,
-        "retained-original-cell:1x": 5,
+        "redrawn:4x": 6,
         "ai-upscaled:2x": 2,
+        "retained-original-cell:1x": 3,
         "original-vector:2x": 1,
-        "redrawn:4x": 4,
         "redrawn:8x": 1
       },
       "improvedVectorCells": 41,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 18,
-      "redrawnCells": 5,
+      "redrawnCells": 7,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 5,
+      "nativeRetainedCells": 3,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 2,
         "Source RGBA comparison exceeded its limit": 3
       },
       "firstPoseCells": 6,
@@ -8246,9 +8286,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5628,
-      "atlasHeight": 5954,
-      "atlasRgbaBytes": 134036448,
+      "atlasWidth": 5120,
+      "atlasHeight": 6392,
+      "atlasRgbaBytes": 130908160,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -8259,22 +8299,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5628,
-          5954
+          5120,
+          6392
         ],
-        "actualDecodedBytes": 134036448,
+        "actualDecodedBytes": 130908160,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "31aa2ff3a43cea7bf45285511741c09a0378ef69d88b63fb4dca277572da5510",
       "originalAtlasSha256": "7d2234cb121b0f667f98e0f90d6018f4684e0373000a676b2baafca9749869da",
-      "meta": "/battle-animations/hd/129-v61.json.gz",
-      "atlas": "/battle-animations/hd/129-v61.webp",
-      "metaSha256": "427429440ca7f1e060673378a48bb101a81ab1704edf890f0102ab201dc90006",
-      "atlasSha256": "9f1ec15a4b2c985fd18d2b99bd13eb7903ad347b9ab486d937e7f2da1d50738e",
-      "reportPath": ".cache/battle-hd-v61/species/129/report.json",
-      "reportSha256": "3c2c46974fa71a0396c182e233bf90ee99719fdbc8e40e017f440c26d43c8d73",
+      "meta": "/battle-animations/hd/129-v62.json.gz",
+      "atlas": "/battle-animations/hd/129-v62.webp",
+      "metaSha256": "0590daf3dc17f8ccd621489c31df10d71632fe233ffda1a03847d0fd06461545",
+      "atlasSha256": "01211a6f94d1a355eb407df208e19dccad96567a7c7ef5cb71a20ad57a95fe3e",
+      "reportPath": ".cache/battle-hd-v62/species/129/report.json",
+      "reportSha256": "48dac5775b21ddc2a0b180c1c7e7ee9f9a256c04f52c732b5b0a3508627b1b19",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "130": {
@@ -9203,14 +9243,14 @@
         "ai-upscaled": 1
       },
       "resolutionCounts": {
-        "original-vector:4x": 44,
+        "original-vector:4x": 46,
         "original-vector:2x": 32,
         "redrawn:8x": 6,
         "redrawn:16x": 1,
-        "original-vector:8x": 40,
+        "original-vector:8x": 38,
         "retained-original-cell:1x": 15,
         "redrawn:2x": 8,
-        "ai-upscaled:2x": 1
+        "ai-upscaled:8x": 1
       },
       "improvedVectorCells": 116,
       "improvedSourceBitmapCells": 0,
@@ -9236,9 +9276,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5628,
-      "atlasHeight": 5949,
-      "atlasRgbaBytes": 133923888,
+      "atlasWidth": 6398,
+      "atlasHeight": 5242,
+      "atlasRgbaBytes": 134153264,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -9249,22 +9289,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5628,
-          5949
+          6398,
+          5242
         ],
-        "actualDecodedBytes": 133923888,
+        "actualDecodedBytes": 134153264,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "1bfec20bc0ad10f48225b36a216c2717dc51cf2e1f0d0bf625506bae64da82c4",
       "originalAtlasSha256": "61211bd4c515f0ea9a14120d13bfefff6006ea432b9d65bcae397e27bcf38c30",
-      "meta": "/battle-animations/hd/144-v61.json.gz",
-      "atlas": "/battle-animations/hd/144-v61.webp",
-      "metaSha256": "1e939adb858f6a5aed11a02109fe8cae55273001dae50fc12954d3bb94c4c3eb",
-      "atlasSha256": "219d2ee4a9c9adcfd4fcb5306da182f7df0d42759b894c9cebba0c8bfcc0f3aa",
-      "reportPath": ".cache/battle-hd-v61/species/144/report.json",
-      "reportSha256": "2159efc5d7913205e58df297b5fb94e1a226ce0ee9f3e6f5df3c3205eb039ef5",
+      "meta": "/battle-animations/hd/144-v62.json.gz",
+      "atlas": "/battle-animations/hd/144-v62.webp",
+      "metaSha256": "0cdbc0e587504917947a60d82b19a2ddb1ff2d4f8fdf54ff0540e428124d87d7",
+      "atlasSha256": "af9de6554b2b41f264169149c7d1a277e6fccb6700b33eafd79e079b39afcba2",
+      "reportPath": ".cache/battle-hd-v62/species/144/report.json",
+      "reportSha256": "9fc5d498d0813786df09b68b88c326d66d9e651a3063d03dcc15704efda4025e",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "145": {
@@ -9539,10 +9579,10 @@
         "ai-upscaled": 1
       },
       "resolutionCounts": {
-        "original-vector:4x": 23,
-        "original-vector:8x": 18,
+        "original-vector:4x": 24,
+        "original-vector:8x": 17,
         "redrawn:2x": 7,
-        "ai-upscaled:4x": 1
+        "ai-upscaled:8x": 1
       },
       "improvedVectorCells": 41,
       "improvedSourceBitmapCells": 0,
@@ -9563,9 +9603,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5622,
-      "atlasHeight": 5952,
-      "atlasRgbaBytes": 133848576,
+      "atlasWidth": 5500,
+      "atlasHeight": 5932,
+      "atlasRgbaBytes": 130504000,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -9576,22 +9616,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5622,
-          5952
+          5500,
+          5932
         ],
-        "actualDecodedBytes": 133848576,
+        "actualDecodedBytes": 130504000,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "0f16cb70dc8e5c422e282ad8beec54e7818edcb5703bed52f769ffbf7ab44404",
       "originalAtlasSha256": "9be59b997140acfe669e735314f64c6bc4c5d012faf0ba0318fa4c1dae9d8c00",
-      "meta": "/battle-animations/hd/149-v61.json.gz",
-      "atlas": "/battle-animations/hd/149-v61.webp",
-      "metaSha256": "a487a5e59772dbfca53f22c5b870b0eb3a91d077b04a03a475bb15cbd7a91d9a",
-      "atlasSha256": "8c35971c1cade433d5bd64b2b59bd9d2221623ef7c5a25d5d8b74d3360eb66ef",
-      "reportPath": ".cache/battle-hd-v61/species/149/report.json",
-      "reportSha256": "07a66a5df76e825d7953eb1d4d193477e35eb696cdb6f895d9a3d285b5b4e464",
+      "meta": "/battle-animations/hd/149-v62.json.gz",
+      "atlas": "/battle-animations/hd/149-v62.webp",
+      "metaSha256": "e83492dedd341096efe41217cc7cc66fcf23b01118228b24933f99377af0a275",
+      "atlasSha256": "e2dffe338525be2a44d008a40b3c2f6b3be1e581839a2909d0012c888a6f9e99",
+      "reportPath": ".cache/battle-hd-v62/species/149/report.json",
+      "reportSha256": "50316479ac81e503d19d280bf84658ed16b9e0ed5c945e8edb659875da5f7cf4",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "150": {
@@ -10942,18 +10982,18 @@
         "ai-upscaled": 5
       },
       "resolutionCounts": {
-        "original-vector:4x": 77,
-        "original-vector:2x": 14,
+        "original-vector:4x": 78,
         "retained-original-cell:1x": 44,
+        "original-vector:2x": 13,
         "original-vector:1x": 6,
-        "ai-upscaled:8x": 1,
-        "ai-upscaled:2x": 3,
-        "ai-upscaled:4x": 1
+        "ai-upscaled:4x": 2,
+        "ai-upscaled:2x": 3
       },
       "improvedVectorCells": 91,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 5,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 1,
       "nativeRetainedCells": 44,
       "retainedReasonCounts": {
@@ -10969,12 +11009,13 @@
       "firstPoseHigherResolutionCells": 3,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 5888,
-      "atlasHeight": 5698,
-      "atlasRgbaBytes": 134199296,
+      "atlasWidth": 7424,
+      "atlasHeight": 4519,
+      "atlasRgbaBytes": 134196224,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -10985,22 +11026,22 @@
         "originalDecodedBytes": 33554432,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5888,
-          5698
+          7424,
+          4519
         ],
-        "actualDecodedBytes": 134199296,
+        "actualDecodedBytes": 134196224,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "fc9db7d15d44bd440f9d757d33ceb06fda57981bebeb0c271f45f87c9f429bc3",
       "originalAtlasSha256": "81dbe8ca7377de1d2068d15607295f7db161d76dc5a1e4112295013367f8547b",
-      "meta": "/battle-animations/hd/171-v60.json.gz",
-      "atlas": "/battle-animations/hd/171-v60.webp",
-      "metaSha256": "a94a891396f190dc90a50683ecd6c38c0e3e74bf84a91e3f3cff12d8744b0513",
-      "atlasSha256": "84b91089e0d3d89b6b8a846cc8d7e4b589ac7986f2fb3d2a43cc954e4ab3ab5b",
-      "reportPath": ".cache/battle-hd-v60/species/171/report.json",
-      "reportSha256": "4e6966dbd45cdb0870b4d3efc65dd0f2f02a522bcff7e13f2a39d4651d9d9443",
+      "meta": "/battle-animations/hd/171-v62.json.gz",
+      "atlas": "/battle-animations/hd/171-v62.webp",
+      "metaSha256": "cedf45a7bd177e71e6bcdfccfb3456fa7ce4487cdaa5c1f0cbeaeb506348c174",
+      "atlasSha256": "a27d6c3e5ea82d765c4fe5638d4ceb1621a5508aacd4f412240d113c52193e78",
+      "reportPath": ".cache/battle-hd-v62/species/171/report.json",
+      "reportSha256": "b43e3c701c44bdafa5bfe9e5542ae2837ec7789702e785a832a8df6b74e8164f",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "172": {
@@ -12272,23 +12313,22 @@
       "counts": {
         "original-vector": 61,
         "ai-upscaled": 5,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 59,
         "ai-upscaled:4x": 5,
         "original-vector:8x": 2,
-        "retained-original-cell:1x": 1
+        "redrawn:4x": 1
       },
       "improvedVectorCells": 61,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 5,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 14,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 14,
@@ -12296,6 +12336,7 @@
       "firstPoseHigherResolutionCells": 13,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
@@ -12320,14 +12361,14 @@
       },
       "originalMetadataSha256": "27fd5bd0cdd520e91bfcd21f9e395b716f340b451a810c68fa077bcad643f5b2",
       "originalAtlasSha256": "2e88e79398062430134e51203b51aaa73f41f01b5013ecde3590135ce3c38273",
-      "meta": "/battle-animations/hd/192-v60.json.gz",
-      "atlas": "/battle-animations/hd/192-v60.webp",
-      "metaSha256": "016948285373c41a755771993d56facd073eaaf131268e4a8aed0eebbb4dd6b1",
-      "atlasSha256": "0bf2960a6471e11b0460c7789f8ffb64596fed467d8c7da4e2f27f73e126fbe8",
-      "reportPath": ".cache/battle-hd-v60/species/192/report.json",
-      "reportSha256": "a6b65c5b6334f3addcc460bd3d3df840b22278c6696f4a705311aefcc3c62e0f",
+      "meta": "/battle-animations/hd/192-v62.json.gz",
+      "atlas": "/battle-animations/hd/192-v62.webp",
+      "metaSha256": "3a38bd3f45b6a1c2df468f5a6def6722dbf41fad2bb12b6578c41240bc00c78d",
+      "atlasSha256": "21c0d3549ae4b362dcea70015e67f946224e34f5f960c1b73dc9f6edd00eba45",
+      "reportPath": ".cache/battle-hd-v62/species/192/report.json",
+      "reportSha256": "9fedbaf2fb782541da9a2f8f93d20a7663aebbede0169c29b8783c71f8fcbfc6",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "193": {
@@ -12712,8 +12753,8 @@
       "counts": {
         "original-vector": 36,
         "ai-upscaled": 9,
-        "retained-original-cell": 2,
-        "redrawn": 1
+        "redrawn": 2,
+        "retained-original-cell": 1
       },
       "resolutionCounts": {
         "original-vector:2x": 11,
@@ -12722,18 +12763,19 @@
         "original-vector:8x": 16,
         "ai-upscaled:4x": 4,
         "ai-upscaled:8x": 3,
-        "retained-original-cell:1x": 2,
+        "redrawn:2x": 1,
+        "retained-original-cell:1x": 1,
         "redrawn:4x": 1
       },
       "improvedVectorCells": 36,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 9,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 2,
+      "nativeRetainedCells": 1,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 2
+        "Native-resolution source fidelity check failed": 1
       },
       "firstPoseCells": 5,
       "firstPoseConstantCells": 0,
@@ -12746,9 +12788,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4096,
-      "atlasHeight": 8192,
-      "atlasRgbaBytes": 134217728,
+      "atlasWidth": 4606,
+      "atlasHeight": 7266,
+      "atlasRgbaBytes": 133868784,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -12759,22 +12801,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8192
+          4606,
+          7266
         ],
-        "actualDecodedBytes": 134217728,
+        "actualDecodedBytes": 133868784,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "241070c56cf6cf7841e9a11121ce4872e08d5566636a6dcba04429323c7b578f",
       "originalAtlasSha256": "4425e7fbbb89d111bc92f1d3d66120c3be5026bd308257fa02dc9c84a7b967d6",
-      "meta": "/battle-animations/hd/199-v61.json.gz",
-      "atlas": "/battle-animations/hd/199-v61.webp",
-      "metaSha256": "8a41bf205baf127cf96540633db8c5028c6d86b42fc737d17f537479ee8a7cf4",
-      "atlasSha256": "905b41fddf84b5e679508e3a7cf1eab1a0c8381981989de7a334a4cf8c6542c3",
-      "reportPath": ".cache/battle-hd-v61/species/199/report.json",
-      "reportSha256": "9d4621fa19de15f3eda11dd331956a8704dea647c469847cd32255562b21302f",
+      "meta": "/battle-animations/hd/199-v62.json.gz",
+      "atlas": "/battle-animations/hd/199-v62.webp",
+      "metaSha256": "9e02d16d28fcc62bf6e7171da6d595ea2b55da3597ccf4ed0ea715b9f2a0f3c8",
+      "atlasSha256": "15ce5fe1b26778b94bc44cac5bba676815ba4c47e438da8e4927610fec9bf414",
+      "reportPath": ".cache/battle-hd-v62/species/199/report.json",
+      "reportSha256": "e4c3d6066bae869bd96747abb95593c88d7f4a6855a2fb2c41756d7eabdf485c",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "200": {
@@ -21480,13 +21522,15 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 60,
-        "retained-original-cell": 4,
+        "retained-original-cell": 2,
+        "redrawn": 2,
         "ai-upscaled": 1
       },
       "resolutionCounts": {
         "original-vector:8x": 21,
         "original-vector:2x": 11,
-        "retained-original-cell:1x": 4,
+        "retained-original-cell:1x": 2,
+        "redrawn:8x": 2,
         "original-vector:4x": 28,
         "ai-upscaled:4x": 1
       },
@@ -21494,10 +21538,11 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 4,
+      "nativeRetainedCells": 2,
       "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 3,
+        "Source RGBA comparison exceeded its limit": 1,
         "No compatible original vector bounds": 1
       },
       "firstPoseCells": 9,
@@ -21507,12 +21552,13 @@
       "firstPoseHigherResolutionCells": 9,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 4608,
-      "atlasHeight": 4762,
-      "atlasRgbaBytes": 87773184,
+      "atlasWidth": 2560,
+      "atlasHeight": 8186,
+      "atlasRgbaBytes": 83824640,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -21523,22 +21569,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4608,
-          4762
+          2560,
+          8186
         ],
-        "actualDecodedBytes": 87773184,
+        "actualDecodedBytes": 83824640,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "7088f91475c38afba670ea98c52901d7b32fcffa4faf04d037ef2320bc25d7c1",
       "originalAtlasSha256": "2cf1de252f898b26f1abc07a024cb5c750274e5391cb844b9705cc58d999c861",
-      "meta": "/battle-animations/hd/340-v60.json.gz",
-      "atlas": "/battle-animations/hd/340-v60.webp",
-      "metaSha256": "3e86da4cb1c0e14edc2951bd650d0d839221473042600469141dd9a87a45be39",
-      "atlasSha256": "fa0c8f6b4ae6c9d7669a4b767e980b98b82e8d7bf8d11199d76aab6369104f50",
-      "reportPath": ".cache/battle-hd-v60/species/340/report.json",
-      "reportSha256": "3aed0b306703e17f50cf4e1b0e1509b077d68bfa49720ab8d391b991423379b8",
+      "meta": "/battle-animations/hd/340-v62.json.gz",
+      "atlas": "/battle-animations/hd/340-v62.webp",
+      "metaSha256": "ab60f18ccb962567c514c56e9288aad05ffce280ab571c9538d02924a2d2b058",
+      "atlasSha256": "6d06beee2f46158dab0f96fe23dc76bcd70b0dce68cc5543b10c44d0f9a03dfd",
+      "reportPath": ".cache/battle-hd-v62/species/340/report.json",
+      "reportSha256": "e16a9a95ef21c7a72611f78efccfce6c34bd75360a552d029aa74738e41e2ade",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "341": {
@@ -22400,13 +22446,15 @@
       "resolutionCounts": {
         "original-vector:4x": 16,
         "original-vector:2x": 3,
-        "original-vector:8x": 4,
+        "original-vector:8x": 3,
+        "original-vector:16x": 1,
         "ai-upscaled:2x": 1
       },
       "improvedVectorCells": 23,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -22417,12 +22465,13 @@
       "firstPoseHigherResolutionCells": 7,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 2042,
-      "atlasHeight": 2588,
-      "atlasRgbaBytes": 21138784,
+      "atlasWidth": 1536,
+      "atlasHeight": 2728,
+      "atlasRgbaBytes": 16760832,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -22433,22 +22482,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2042,
-          2588
+          1536,
+          2728
         ],
-        "actualDecodedBytes": 21138784,
+        "actualDecodedBytes": 16760832,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "a95209974ee5e97fcc4be24eaa06cfa2692740871b239db3a63db148fff3bcb9",
       "originalAtlasSha256": "47084a68345785638d1e52d26727b18d86ec7ca829769f85f312459150251885",
-      "meta": "/battle-animations/hd/354-v60.json.gz",
-      "atlas": "/battle-animations/hd/354-v60.webp",
-      "metaSha256": "7599557bf16603391831be0043767c3bd302db466011a14c5168a419774ce179",
-      "atlasSha256": "48902af803d165f9e77726305054cd2c349892bfd89ef0a2c65c8743176a0da2",
-      "reportPath": ".cache/battle-hd-v60/species/354/report.json",
-      "reportSha256": "acd04a0baec7106f1d7be2ff561d1188f8bf7293d492925df2f56dbd3d734bc0",
+      "meta": "/battle-animations/hd/354-v62.json.gz",
+      "atlas": "/battle-animations/hd/354-v62.webp",
+      "metaSha256": "7eafe678a905180c99dbde63a83657bba7e38b910ba0c3573b909d064365f58d",
+      "atlasSha256": "bdb99af06efb4c5a60972bcd65e2940ffd551c7a670c62a908d4db2a2141f167",
+      "reportPath": ".cache/battle-hd-v62/species/354/report.json",
+      "reportSha256": "e4d7f9efa847376556bd473e26049d12974a5999e8d9764622b279329c693b6c",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "355": {
@@ -22461,12 +22510,15 @@
         "original-vector": 14
       },
       "resolutionCounts": {
-        "original-vector:8x": 9,
-        "original-vector:4x": 5
+        "original-vector:8x": 8,
+        "original-vector:4x": 5,
+        "original-vector:32x": 1
       },
       "improvedVectorCells": 14,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -22476,11 +22528,14 @@
       "firstPoseVectorCells": 9,
       "firstPoseHigherResolutionCells": 9,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 2892,
-      "atlasHeight": 1704,
-      "atlasRgbaBytes": 19711872,
+      "atlasWidth": 5360,
+      "atlasHeight": 900,
+      "atlasRgbaBytes": 19296000,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -22491,21 +22546,22 @@
         "originalDecodedBytes": 1048576,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2892,
-          1704
+          5360,
+          900
         ],
-        "actualDecodedBytes": 19711872,
+        "actualDecodedBytes": 19296000,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "97c35c32c41825688b0e64963ba9995d91f2b8455af0b6943abcaec57bb9cf7f",
       "originalAtlasSha256": "fd6fe09bcdc7aea829d03934a66ab15c8fd682be6a8274e8607524c7f45d3d09",
-      "meta": "/battle-animations/hd/355-v59.json.gz",
-      "atlas": "/battle-animations/hd/355-v59.png",
-      "metaSha256": "d0c0c8f6203f893a8340ef1d91ef4161f1da360ba5b2ae47dae6a1192a15d004",
-      "atlasSha256": "67b4fc70ee52dfcddb53f77745800e7fb8492147f1765d901e941b45a94ba75f",
-      "reportPath": ".cache/battle-hd-v59/species/355/report.json",
-      "reportSha256": "4d5e9aae71b2c8aad15cee1180d362a80efe3c919596802b7676b3695348b19f",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/355-v62.json.gz",
+      "atlas": "/battle-animations/hd/355-v62.webp",
+      "metaSha256": "44b00a20887ae25a432bd58062e1acb40957dd557779bc9ea7605e3312a884b4",
+      "atlasSha256": "f738176793e0dc1d8b76e4ed47578662a90d84525ef889862b9f3e6a6d6a53dd",
+      "reportPath": ".cache/battle-hd-v62/species/355/report.json",
+      "reportSha256": "68f96707b597a37451baffe07a8b1818ae229ba4e742520cc238f703ceae9ec9",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "356": {
@@ -22702,15 +22758,17 @@
         "ai-upscaled": 2
       },
       "resolutionCounts": {
-        "original-vector:8x": 17,
+        "original-vector:8x": 16,
         "ai-upscaled:2x": 1,
         "original-vector:4x": 11,
-        "ai-upscaled:4x": 1
+        "ai-upscaled:4x": 1,
+        "original-vector:16x": 1
       },
       "improvedVectorCells": 28,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -22721,12 +22779,13 @@
       "firstPoseHigherResolutionCells": 10,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 3544,
-      "atlasHeight": 3796,
-      "atlasRgbaBytes": 53812096,
+      "atlasWidth": 2892,
+      "atlasHeight": 4608,
+      "atlasRgbaBytes": 53305344,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -22737,22 +22796,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3544,
-          3796
+          2892,
+          4608
         ],
-        "actualDecodedBytes": 53812096,
+        "actualDecodedBytes": 53305344,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "03f513e3b6bf3e69572f5ee58f82dbe388ba5c8ee49b0a4fbc344e91f3b04e75",
       "originalAtlasSha256": "4a1be74e54e8411bd42a946dd501b8348ce7bdf403c96615f91bd448b8d9c8f6",
-      "meta": "/battle-animations/hd/359-v60.json.gz",
-      "atlas": "/battle-animations/hd/359-v60.webp",
-      "metaSha256": "7aa9318fcf27a3c10a8b829ecb0efb7a28c5a188bf9dd70dd8ab429c6ce8cccb",
-      "atlasSha256": "4e28b0f329592e7407649d503a62554a80e265edbde6e41a7b219b3335b8ac18",
-      "reportPath": ".cache/battle-hd-v60/species/359/report.json",
-      "reportSha256": "55357513ad9d199d07d269e904fd96e323bff6e8841220e1caa50c161731655f",
+      "meta": "/battle-animations/hd/359-v62.json.gz",
+      "atlas": "/battle-animations/hd/359-v62.webp",
+      "metaSha256": "b19f6d466c4f83a82702c8b930334605801e131a4363e69aa621e36ae1c968d1",
+      "atlasSha256": "26fe8f6b5b679f60520131d007ff79ba4ddca2badaf464f0027ca6445323aa2e",
+      "reportPath": ".cache/battle-hd-v62/species/359/report.json",
+      "reportSha256": "ee2523bb2729f500ca379da846413245585602d277e5a34741dd8a8f5dcf3466",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "360": {
@@ -22904,29 +22963,29 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 105,
-        "retained-original-cell": 19,
+        "retained-original-cell": 16,
         "ai-upscaled": 11,
-        "redrawn": 2
+        "redrawn": 5
       },
       "resolutionCounts": {
         "original-vector:4x": 55,
         "original-vector:2x": 7,
-        "retained-original-cell:1x": 19,
+        "retained-original-cell:1x": 16,
         "original-vector:8x": 43,
         "ai-upscaled:2x": 8,
         "ai-upscaled:8x": 3,
-        "redrawn:16x": 1,
-        "redrawn:32x": 1
+        "redrawn:32x": 3,
+        "redrawn:16x": 2
       },
       "improvedVectorCells": 105,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 11,
-      "redrawnCells": 2,
+      "redrawnCells": 5,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 19,
+      "nativeRetainedCells": 16,
       "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 19
+        "Source RGBA comparison exceeded its limit": 16
       },
       "firstPoseCells": 3,
       "firstPoseConstantCells": 0,
@@ -22939,9 +22998,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4608,
-      "atlasHeight": 4836,
-      "atlasRgbaBytes": 89137152,
+      "atlasWidth": 2560,
+      "atlasHeight": 8192,
+      "atlasRgbaBytes": 83886080,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -22952,22 +23011,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4608,
-          4836
+          2560,
+          8192
         ],
-        "actualDecodedBytes": 89137152,
+        "actualDecodedBytes": 83886080,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "e1395b45e2223d7245767993af0ca8c1df9cb4fce78f0bc3030165aae85cef2c",
       "originalAtlasSha256": "c90b05d6cc6d1c514f25df0d3a631642455d7bcf2da2305480b01030dfe11c16",
-      "meta": "/battle-animations/hd/362-v61.json.gz",
-      "atlas": "/battle-animations/hd/362-v61.webp",
-      "metaSha256": "ca103145fc6959fd1e447cccf24015c081bcf3358cf47225c0c4a3c3f0eb5962",
-      "atlasSha256": "2d739ab37363c548f57a8bc76e73d6e3a395ccb1105b6d9a55e7709f9fc6b089",
-      "reportPath": ".cache/battle-hd-v61/species/362/report.json",
-      "reportSha256": "dafcdd1f5ee9fa51ccd9a5031eaef64f874bb1630212f1fadbab8ab759e0f6d4",
+      "meta": "/battle-animations/hd/362-v62.json.gz",
+      "atlas": "/battle-animations/hd/362-v62.webp",
+      "metaSha256": "fe7b92f12b4daef912aef43a7beb702a6a0e3fa0e4d053c0fa07319ce8d6342e",
+      "atlasSha256": "29e99ed5e6b17ff6c84cdbe5be2696a1031ab3bbbb1b5c0f329f1df09511d7c8",
+      "reportPath": ".cache/battle-hd-v62/species/362/report.json",
+      "reportSha256": "c3c663a72cfff3114bb2c06faad9aeaf6977b71d3bcc4bf14a8b4052a41179e6",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "363": {
@@ -23502,31 +23561,34 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 38,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 38,
-        "retained-original-cell:1x": 1
+        "redrawn:4x": 1
       },
       "improvedVectorCells": 38,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 7,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 7,
       "firstPoseVectorCells": 7,
       "firstPoseHigherResolutionCells": 7,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 2048,
-      "atlasHeight": 2492,
-      "atlasRgbaBytes": 20414464,
+      "atlasWidth": 1280,
+      "atlasHeight": 3496,
+      "atlasRgbaBytes": 17899520,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -23537,21 +23599,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2048,
-          2492
+          1280,
+          3496
         ],
-        "actualDecodedBytes": 20414464,
+        "actualDecodedBytes": 17899520,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "293f24d3c313269dbd1fc52fce46c5b9dcff4f54dffe8b9288979dd5ad92b1e2",
       "originalAtlasSha256": "04e0481e2f8b5942adc187c16a7bf67d0b236c1678eb1e51b8a07b7b18932ba6",
-      "meta": "/battle-animations/hd/371-v44.json.gz",
-      "atlas": "/battle-animations/hd/371-v44.png",
-      "metaSha256": "d885dbf957e4ea7e2de44ca4a08e75764ba024047617e036051ffb24eba56ea3",
-      "atlasSha256": "a9a418f1ee379d421a7cb117b08049962f840706d283712f128b09b110b3eaeb",
-      "reportPath": ".cache/battle-hd-v44/species/371/report.json",
-      "reportSha256": "14834d6496828d8e8ca1ff94a0f243f5b149c4a87f2791c267e122d57f787eaa",
-      "reportRevision": 6,
+      "meta": "/battle-animations/hd/371-v62.json.gz",
+      "atlas": "/battle-animations/hd/371-v62.webp",
+      "metaSha256": "953a1f3ea39da0d97fd0a922b2f33a0576a153808a14f606ea6af22e074753de",
+      "atlasSha256": "484abd4203108c1f74359daf929c25852e05d771db188730242f045292bf8a36",
+      "reportPath": ".cache/battle-hd-v62/species/371/report.json",
+      "reportSha256": "fe17a914bd310d6026eea20e3114c989d10ef309e84fd435d6d4b49b0d1d8998",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "372": {
@@ -24183,13 +24246,13 @@
       "sourceMorphCount": 10,
       "sourceBitmapCount": 0,
       "counts": {
-        "retained-original-cell": 13,
+        "retained-original-cell": 12,
         "original-vector": 23,
         "ai-upscaled": 74,
-        "redrawn": 2
+        "redrawn": 3
       },
       "resolutionCounts": {
-        "retained-original-cell:1x": 13,
+        "retained-original-cell:1x": 12,
         "original-vector:8x": 8,
         "ai-upscaled:8x": 27,
         "original-vector:4x": 12,
@@ -24197,17 +24260,17 @@
         "original-vector:2x": 3,
         "redrawn:4x": 1,
         "ai-upscaled:2x": 1,
-        "redrawn:8x": 1
+        "redrawn:8x": 2
       },
       "improvedVectorCells": 23,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 74,
-      "redrawnCells": 2,
+      "redrawnCells": 3,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 13,
+      "nativeRetainedCells": 12,
       "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 5,
+        "Source RGBA comparison exceeded its limit": 4,
         "Native-size source render changed a connected stable interior color region.": 7,
         "No compatible original vector bounds": 1
       },
@@ -24222,9 +24285,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 4096,
-      "atlasHeight": 8190,
-      "atlasRgbaBytes": 134184960,
+      "atlasWidth": 5884,
+      "atlasHeight": 5696,
+      "atlasRgbaBytes": 134061056,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -24235,22 +24298,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8190
+          5884,
+          5696
         ],
-        "actualDecodedBytes": 134184960,
+        "actualDecodedBytes": 134061056,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "249de3532aaf1f8833c89d70339107f2cb419516f7d9b2055c7b6aad0544986c",
       "originalAtlasSha256": "927ec073de509d1b08e6ea96ae94340210c9ac1ccc1f8ba6307e4deba4dff9dc",
-      "meta": "/battle-animations/hd/381-v61.json.gz",
-      "atlas": "/battle-animations/hd/381-v61.webp",
-      "metaSha256": "12c3c2683fc97067a22b073a72c974e4781e3f7f8a7bd9bd40c1f426390dcf6f",
-      "atlasSha256": "829cb353cc085b8dd3aa1897d2f9aef86d61394b37e08d7506abf5fff0e21251",
-      "reportPath": ".cache/battle-hd-v61/species/381/report.json",
-      "reportSha256": "bf313fd6720fed3a0d3f1be3d19af9694b2ff930d560584a6eb4b4afcd613d22",
+      "meta": "/battle-animations/hd/381-v62.json.gz",
+      "atlas": "/battle-animations/hd/381-v62.webp",
+      "metaSha256": "b1a13cec46a1d6d56c5d0a24b8bb2ca810cd8ded37cf4b6e22620685b97443a4",
+      "atlasSha256": "de105c676f9255ac816008f9b0c7c16c5581875a50b22cc65d2256fbe3eed059",
+      "reportPath": ".cache/battle-hd-v62/species/381/report.json",
+      "reportSha256": "ff90a49aa023a14270b8df508afe7073b0e30db5435f359acacde1c2ad38442d",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "382": {
@@ -25566,8 +25629,7 @@
       "counts": {
         "original-vector": 48,
         "ai-upscaled": 8,
-        "redrawn": 1,
-        "retained-original-cell": 1
+        "redrawn": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 36,
@@ -25575,19 +25637,16 @@
         "ai-upscaled:4x": 6,
         "ai-upscaled:2x": 2,
         "original-vector:8x": 7,
-        "redrawn:4x": 1,
-        "retained-original-cell:1x": 1
+        "redrawn:4x": 2
       },
       "improvedVectorCells": 48,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 8,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 4,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 4,
@@ -25599,9 +25658,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 5374,
-      "atlasHeight": 6238,
-      "atlasRgbaBytes": 134092048,
+      "atlasWidth": 6054,
+      "atlasHeight": 5460,
+      "atlasRgbaBytes": 132219360,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -25612,22 +25671,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5374,
-          6238
+          6054,
+          5460
         ],
-        "actualDecodedBytes": 134092048,
+        "actualDecodedBytes": 132219360,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "2c88274ff2a68bb593c0700a5f16688c7a3cc5566d68650f86704dd3c46d1f90",
       "originalAtlasSha256": "b0e6d90ded57d6d33f649c62bfcd541494597c9eb3c73d5080d3d44659839c6d",
-      "meta": "/battle-animations/hd/402-v61.json.gz",
-      "atlas": "/battle-animations/hd/402-v61.webp",
-      "metaSha256": "ed28b872d5160e802700f08677864003599339778feaf936cd074b4038b69ff6",
-      "atlasSha256": "4f073ba51767eb7f9a6e7afd7aceccf1b734d29a9f88a27d37ffc028cbfd6cad",
-      "reportPath": ".cache/battle-hd-v61/species/402/report.json",
-      "reportSha256": "555a438a7a709b8c4b8fd71a1cfa71a54192439810cab99a7eb287c4d6ffca11",
+      "meta": "/battle-animations/hd/402-v62.json.gz",
+      "atlas": "/battle-animations/hd/402-v62.webp",
+      "metaSha256": "04bc6c21ef9a6679ae0dab4db43bd701107e9f219d7c3b8292ec34bf7cff7168",
+      "atlasSha256": "3437d057265e2776e509ed99f30dd7b212274dbbcedfc10d1b250883344742cf",
+      "reportPath": ".cache/battle-hd-v62/species/402/report.json",
+      "reportSha256": "ca19aa19d83adcf137957656541578093e166c4239e34d1405bc46e3d48bae03",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "403": {
@@ -25637,12 +25696,12 @@
       "sourceMorphCount": 0,
       "sourceBitmapCount": 0,
       "counts": {
-        "retained-original-cell": 1,
+        "redrawn": 1,
         "original-vector": 82,
         "ai-upscaled": 10
       },
       "resolutionCounts": {
-        "retained-original-cell:1x": 1,
+        "redrawn:4x": 1,
         "original-vector:2x": 3,
         "original-vector:4x": 46,
         "original-vector:8x": 33,
@@ -25653,11 +25712,10 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 10,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 10,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 10,
@@ -25665,12 +25723,13 @@
       "firstPoseHigherResolutionCells": 10,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 5376,
-      "atlasHeight": 6226,
-      "atlasRgbaBytes": 133883904,
+      "atlasWidth": 3584,
+      "atlasHeight": 8190,
+      "atlasRgbaBytes": 117411840,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -25681,22 +25740,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5376,
-          6226
+          3584,
+          8190
         ],
-        "actualDecodedBytes": 133883904,
+        "actualDecodedBytes": 117411840,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "e9e3a7f9289f9365f786dd440cf49496085784d4246750dee9f5936aab3c1954",
       "originalAtlasSha256": "fa5493bb5c1d0a1219348f30d807e399ed388b041c0a9c09c3a3dc92ae5e9c19",
-      "meta": "/battle-animations/hd/403-v60.json.gz",
-      "atlas": "/battle-animations/hd/403-v60.webp",
-      "metaSha256": "b7b2a45f2cde8aeeafd94da74fecd800decff5f9d1e1afbcea076d2598bf09b7",
-      "atlasSha256": "c22d49221b3b973ba0c1eb8d0c5f243bd9700edcf0f6b88534346a569494473d",
-      "reportPath": ".cache/battle-hd-v60/species/403/report.json",
-      "reportSha256": "3d47ef6e3cc991ff6a7fddf2179d1404c3e5d594fee8ab0b419ff1537668ba1a",
+      "meta": "/battle-animations/hd/403-v62.json.gz",
+      "atlas": "/battle-animations/hd/403-v62.webp",
+      "metaSha256": "caff237d3f6ef2d92eaf2efb9ccf3be9cd1f80502e7393e724cadd6667dbf920",
+      "atlasSha256": "a42b3b641a0604bb07782155d29374dc985f087d107f2aab7a17ebf71c5de86e",
+      "reportPath": ".cache/battle-hd-v62/species/403/report.json",
+      "reportSha256": "a97bc15ab0fbda6d02ea63e7a49ed650d6a7fd0660291104d484de75ea5a24bc",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "404": {
@@ -27377,19 +27436,19 @@
       "counts": {
         "original-vector": 123,
         "ai-upscaled": 19,
-        "retained-original-cell": 45,
-        "redrawn": 3,
+        "redrawn": 5,
+        "retained-original-cell": 43,
         "constant-original-rgba": 6
       },
       "resolutionCounts": {
         "original-vector:4x": 60,
         "original-vector:2x": 30,
         "ai-upscaled:2x": 5,
-        "retained-original-cell:1x": 45,
+        "redrawn:4x": 2,
+        "retained-original-cell:1x": 43,
         "original-vector:8x": 33,
+        "redrawn:8x": 3,
         "ai-upscaled:4x": 7,
-        "redrawn:8x": 2,
-        "redrawn:4x": 1,
         "constant-original-rgba:4x": 6,
         "ai-upscaled:8x": 7
       },
@@ -27397,12 +27456,12 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 19,
-      "redrawnCells": 3,
+      "redrawnCells": 5,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 45,
+      "nativeRetainedCells": 43,
       "retainedReasonCounts": {
-        "Distinct original candidates could not be distinguished": 10,
-        "Native-resolution source fidelity check failed": 30,
+        "Native-resolution source fidelity check failed": 29,
+        "Distinct original candidates could not be distinguished": 9,
         "Source RGBA comparison exceeded its limit": 5
       },
       "firstPoseCells": 6,
@@ -27416,9 +27475,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 8192,
-      "atlasHeight": 4096,
-      "atlasRgbaBytes": 134217728,
+      "atlasWidth": 4864,
+      "atlasHeight": 6898,
+      "atlasRgbaBytes": 134207488,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -27429,22 +27488,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          8192,
-          4096
+          4864,
+          6898
         ],
-        "actualDecodedBytes": 134217728,
+        "actualDecodedBytes": 134207488,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "b5f5f5d7e68f5a4ec25e06a813bdcb54589a79a0c6b5a8d56371236d1f477ec3",
       "originalAtlasSha256": "b902de597d2d7cfa97787386a8f6717c076c70ab7d7b0a0ec7df0306689f1d86",
-      "meta": "/battle-animations/hd/430-v61.json.gz",
-      "atlas": "/battle-animations/hd/430-v61.webp",
-      "metaSha256": "ffef71a089a62eeba43cf307516cb6f32b674c1fcd6985dba266ebf4425f61b6",
-      "atlasSha256": "483dd32fb153fe1ff43acb285c7c6f5f70c5b67a51f17d5676df70b96db3fca8",
-      "reportPath": ".cache/battle-hd-v61/species/430/report.json",
-      "reportSha256": "bcb7ae8575622e6427ecc612c89356fc8c35c5f1f2f8d1f45b4a5f6978273d51",
+      "meta": "/battle-animations/hd/430-v62.json.gz",
+      "atlas": "/battle-animations/hd/430-v62.webp",
+      "metaSha256": "da233164eb409c60e65175d8272bd86154a2926a33c151e814595b583e692b7f",
+      "atlasSha256": "dd9a1981b6fa73738418d9e8497acb143fdf9057171556d311055f141008a8cb",
+      "reportPath": ".cache/battle-hd-v62/species/430/report.json",
+      "reportSha256": "b8ffc31589d76a4311b1ae8c3df3636551845d6887dc073622407cf2f7438c03",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "431": {
@@ -28998,13 +29057,13 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 91,
-        "retained-original-cell": 1,
+        "redrawn": 1,
         "ai-upscaled": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 49,
         "original-vector:8x": 20,
-        "retained-original-cell:1x": 1,
+        "redrawn:16x": 1,
         "original-vector:2x": 22,
         "ai-upscaled:4x": 1
       },
@@ -29012,11 +29071,10 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 6,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 6,
@@ -29024,12 +29082,13 @@
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 8180,
-      "atlasHeight": 4096,
-      "atlasRgbaBytes": 134021120,
+      "atlasWidth": 6910,
+      "atlasHeight": 4844,
+      "atlasRgbaBytes": 133888160,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -29040,22 +29099,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          8180,
-          4096
+          6910,
+          4844
         ],
-        "actualDecodedBytes": 134021120,
+        "actualDecodedBytes": 133888160,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "c2083bc6f188b916e680757cebbfd1ed369d99af2796fd6af7e77c26dfa83628",
       "originalAtlasSha256": "dfdbf1fec7543247c5b69c45c1595082920c9ce2bd390c54cd3f5e74aede2c4c",
-      "meta": "/battle-animations/hd/455-v60.json.gz",
-      "atlas": "/battle-animations/hd/455-v60.webp",
-      "metaSha256": "b0c20461dd67a64a4bd0521ae7e63717478e1d41695db6db8bba88913033ceb9",
-      "atlasSha256": "c622e7a04748dbefe1c94f465c81f73f91f63ff9357b5c93b2275f79dd557713",
-      "reportPath": ".cache/battle-hd-v60/species/455/report.json",
-      "reportSha256": "9a327e89f2c1280e43ec4bc0f058cb3b9ad531296227ef9c9fec2fec31d7824c",
+      "meta": "/battle-animations/hd/455-v62.json.gz",
+      "atlas": "/battle-animations/hd/455-v62.webp",
+      "metaSha256": "0da12de51d638ff0d7d310726683caf8e0008fcf40bdb43eb1933b4d3ee15135",
+      "atlasSha256": "1f7722758996348245b23f0bbc562d10827508b3cda0f1c4c3e4975c9483bde6",
+      "reportPath": ".cache/battle-hd-v62/species/455/report.json",
+      "reportSha256": "7df103e715240ef1bedc0ec5165e74db2bd540662aef1c345d2937703f62e10f",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "456": {
@@ -31876,25 +31935,28 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 107,
-        "retained-original-cell": 4,
-        "ai-upscaled": 4
+        "redrawn": 2,
+        "ai-upscaled": 4,
+        "retained-original-cell": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 85,
-        "retained-original-cell:1x": 4,
+        "redrawn:2x": 2,
         "ai-upscaled:4x": 2,
         "original-vector:8x": 2,
         "original-vector:2x": 20,
-        "ai-upscaled:2x": 2
+        "ai-upscaled:2x": 2,
+        "retained-original-cell:1x": 2
       },
       "improvedVectorCells": 107,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 4,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 4,
+      "nativeRetainedCells": 2,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 3,
+        "Native-resolution source fidelity check failed": 1,
         "Source RGBA comparison exceeded its limit": 1
       },
       "firstPoseCells": 17,
@@ -31904,12 +31966,13 @@
       "firstPoseHigherResolutionCells": 15,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 2,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4096,
-      "atlasHeight": 8192,
-      "atlasRgbaBytes": 134217728,
+      "atlasWidth": 6144,
+      "atlasHeight": 5460,
+      "atlasRgbaBytes": 134184960,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -31920,22 +31983,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8192
+          6144,
+          5460
         ],
-        "actualDecodedBytes": 134217728,
+        "actualDecodedBytes": 134184960,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "657384bd16ef9a22672449deb1417946ef212ede826e3c6c8100d530bb2286fd",
       "originalAtlasSha256": "c344efa532ab2bf3a51480bfcc2ae873fed8e9c192ac6f2bf027ffd45f0549c7",
-      "meta": "/battle-animations/hd/501-v60.json.gz",
-      "atlas": "/battle-animations/hd/501-v60.webp",
-      "metaSha256": "2a981911c3b98144f21fa88a5145b1a8ef3aba57df3fe21dd6396dd480322cf3",
-      "atlasSha256": "2515e99a5f9124afb88292749a111e1d1b67394beab3ec558e75bc7de5649f6d",
-      "reportPath": ".cache/battle-hd-v60/species/501/report.json",
-      "reportSha256": "dda4f1ca780904fbc712d5e5b2ca40ad98d9de6a2b95b18e818f3f51b5f98a0e",
+      "meta": "/battle-animations/hd/501-v62.json.gz",
+      "atlas": "/battle-animations/hd/501-v62.webp",
+      "metaSha256": "f491601e44cbe4ddefed9e2edaa7fc1236260914c74c8f9146161132f9660827",
+      "atlasSha256": "f8a9d6d8b5ee4891d9fc984a7857096b5e7e6ce01f8e92eb066cde0a79726c68",
+      "reportPath": ".cache/battle-hd-v62/species/501/report.json",
+      "reportSha256": "b32a594eba6041b731842dbaddbba60ca9d9c76c1854a7c09b4a88a343019f00",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "502": {
@@ -34702,22 +34765,27 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 39,
-        "retained-original-cell": 39
+        "retained-original-cell": 38,
+        "redrawn": 1
       },
       "resolutionCounts": {
-        "original-vector:8x": 13,
+        "original-vector:8x": 12,
+        "original-vector:16x": 1,
         "original-vector:4x": 16,
-        "retained-original-cell:1x": 39,
-        "original-vector:2x": 10
+        "retained-original-cell:1x": 38,
+        "original-vector:2x": 10,
+        "redrawn:4x": 1
       },
       "improvedVectorCells": 39,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 39,
+      "nativeRetainedCells": 38,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 5,
         "Source RGBA comparison exceeded its limit": 30,
+        "Native-resolution source fidelity check failed": 4,
         "Distinct original candidates could not be distinguished": 1,
         "Native-size source render changed a connected stable interior color region.": 3
       },
@@ -34727,11 +34795,14 @@
       "firstPoseVectorCells": 7,
       "firstPoseHigherResolutionCells": 7,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 1,
+      "firstPoseNonconstantFullyAboveNative": false,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5353,
-      "atlasHeight": 6240,
-      "atlasRgbaBytes": 133610880,
+      "atlasWidth": 3837,
+      "atlasHeight": 8187,
+      "atlasRgbaBytes": 125654076,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -34742,21 +34813,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5353,
-          6240
+          3837,
+          8187
         ],
-        "actualDecodedBytes": 133610880,
+        "actualDecodedBytes": 125654076,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "6c17761bb26a707de78aafb85bff0fcd267c8fad19357597dd9832e9299da3a6",
       "originalAtlasSha256": "88f1d0d17d4f5e559f2784bdd414487229fd60fa976da5f3751df5560330fdc6",
-      "meta": "/battle-animations/hd/546-v59.json.gz",
-      "atlas": "/battle-animations/hd/546-v59.png",
-      "metaSha256": "a90f613e1a4b48f1f09117e01450badbeb275b43d1e9ac5c734f0e64d2252bbe",
-      "atlasSha256": "1f2f92693d66e0ac4229ad0dac2c3ee06ebe8cf5222fa8560e42ff1ab7f42ce6",
-      "reportPath": ".cache/battle-hd-v59/species/546/report.json",
-      "reportSha256": "e47af28dd713d8c1bf2ae1c1fb89c2f100f54357fab4a006b2874fe314f6c9e1",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/546-v62.json.gz",
+      "atlas": "/battle-animations/hd/546-v62.webp",
+      "metaSha256": "891f9155e6db1ba28a622040f43b7a5632187eaee92b115842722c596a5c457d",
+      "atlasSha256": "e7ac094bf32c82bf8d1e7d3eba941fecd00bb4b1dc7756b821fbf537ec053f1e",
+      "reportPath": ".cache/battle-hd-v62/species/546/report.json",
+      "reportSha256": "5e3da2574354c7857e4f3ee006e121b4086b8cd56755daf2e90e67757c96dff6",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "547": {
@@ -36691,25 +36763,21 @@
       "counts": {
         "original-vector": 8,
         "ai-upscaled": 126,
-        "retained-original-cell": 1,
-        "redrawn": 3
+        "redrawn": 4
       },
       "resolutionCounts": {
         "original-vector:4x": 8,
         "ai-upscaled:4x": 126,
-        "retained-original-cell:1x": 1,
-        "redrawn:4x": 3
+        "redrawn:4x": 4
       },
       "improvedVectorCells": 8,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 126,
-      "redrawnCells": 3,
+      "redrawnCells": 4,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "No compatible original vector bounds": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 9,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 9,
@@ -36721,9 +36789,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 2560,
-      "atlasHeight": 3564,
-      "atlasRgbaBytes": 36495360,
+      "atlasWidth": 1024,
+      "atlasHeight": 6016,
+      "atlasRgbaBytes": 24641536,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -36734,22 +36802,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2560,
-          3564
+          1024,
+          6016
         ],
-        "actualDecodedBytes": 36495360,
+        "actualDecodedBytes": 24641536,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "5a74b8d0cd2294d0707f553c577962579ee043f836d325fbd3dae3503c9d4cfa",
       "originalAtlasSha256": "73a63fdae77d3af0e9aab50c58382d107aeb359a900b2521e1f183af85ae5113",
-      "meta": "/battle-animations/hd/579-v61.json.gz",
-      "atlas": "/battle-animations/hd/579-v61.webp",
-      "metaSha256": "45e9aca49e31698d4f6404024a2fa5a91f0fc909244e72eef648c5e3e38a676b",
-      "atlasSha256": "4b3451e2115fa612e29c2b53ceeb1a5ce00e90f232723fd315d767270283375f",
-      "reportPath": ".cache/battle-hd-v61/species/579/report.json",
-      "reportSha256": "a5ef9ba913ff0260b0f6d4b55c2df4024374a562e90ebf99feccc313ac3e1365",
+      "meta": "/battle-animations/hd/579-v62.json.gz",
+      "atlas": "/battle-animations/hd/579-v62.webp",
+      "metaSha256": "3f2b66542d1ade7611080c71f5b58af9de99e94d71a6f357912834a94fb0e651",
+      "atlasSha256": "c36b67be303b4a1b2b45d81f94a8730ee59f25a4221a9c9ad4f288b272a85199",
+      "reportPath": ".cache/battle-hd-v62/species/579/report.json",
+      "reportSha256": "754b977647115c2a5cff3569436615b37800d5ab03c218c1c495572ed58b4c3d",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "580": {
@@ -37515,15 +37583,13 @@
       "sourceMorphCount": 0,
       "sourceBitmapCount": 0,
       "counts": {
-        "retained-original-cell": 1,
+        "redrawn": 2,
         "original-vector": 17,
-        "redrawn": 1,
         "ai-upscaled": 1
       },
       "resolutionCounts": {
-        "retained-original-cell:1x": 1,
+        "redrawn:2x": 2,
         "original-vector:4x": 14,
-        "redrawn:2x": 1,
         "original-vector:8x": 3,
         "ai-upscaled:4x": 1
       },
@@ -37531,12 +37597,10 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 8,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 8,
@@ -37544,13 +37608,13 @@
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
-      "firstPoseRedrawnCells": 0,
-      "firstPoseNonconstantFullyAboveNative": false,
+      "firstPoseRedrawnCells": 1,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 3328,
-      "atlasHeight": 3604,
-      "atlasRgbaBytes": 47976448,
+      "atlasWidth": 2042,
+      "atlasHeight": 4936,
+      "atlasRgbaBytes": 40317248,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -37561,22 +37625,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3328,
-          3604
+          2042,
+          4936
         ],
-        "actualDecodedBytes": 47976448,
+        "actualDecodedBytes": 40317248,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "179efeeebaf810ffd59158007ae6ea6a1fbfa04074f38efc802da4ae4bdbb5b6",
       "originalAtlasSha256": "98b27d86b916e8449beec173f9e2032ec552f468ab2675f96c81a046e95f1bd8",
-      "meta": "/battle-animations/hd/592-v61.json.gz",
-      "atlas": "/battle-animations/hd/592-v61.webp",
-      "metaSha256": "798ae50116ed4bebbba7f18fef90dac8048c167a879254a4fde628ef690c38e1",
-      "atlasSha256": "4b2ad3346f016f606899ffb0105106bafb66207ec16f01bab59b782192ad4b78",
-      "reportPath": ".cache/battle-hd-v61/species/592/report.json",
-      "reportSha256": "74715742111d6ca494994935374cfd662c3e0a2838466b09ab126b05f7820d38",
+      "meta": "/battle-animations/hd/592-v62.json.gz",
+      "atlas": "/battle-animations/hd/592-v62.webp",
+      "metaSha256": "c52f05c74e8c9dc0ac74efe0ee3f52bed8ae7b616d5ac8d27659dd0a5d109c3a",
+      "atlasSha256": "e52f6816b45ca82273829c968d3796072b58ad149191ffb72eb4d2945c488433",
+      "reportPath": ".cache/battle-hd-v62/species/592/report.json",
+      "reportSha256": "39eca7e25a10c5e2765c34a65f857b99f6208dde3873d5b257f25e74754456d5",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "593": {
@@ -37588,29 +37652,29 @@
       "counts": {
         "original-vector": 15,
         "ai-upscaled": 132,
-        "retained-original-cell": 2,
-        "redrawn": 5
+        "retained-original-cell": 1,
+        "redrawn": 6
       },
       "resolutionCounts": {
         "original-vector:2x": 4,
         "ai-upscaled:2x": 7,
-        "retained-original-cell:1x": 2,
+        "retained-original-cell:1x": 1,
         "ai-upscaled:4x": 122,
         "original-vector:8x": 4,
         "original-vector:4x": 7,
         "ai-upscaled:8x": 3,
-        "redrawn:4x": 4,
+        "redrawn:4x": 5,
         "redrawn:2x": 1
       },
       "improvedVectorCells": 15,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 132,
-      "redrawnCells": 5,
+      "redrawnCells": 6,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 2,
+      "nativeRetainedCells": 1,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 2
+        "Native-resolution source fidelity check failed": 1
       },
       "firstPoseCells": 12,
       "firstPoseConstantCells": 0,
@@ -37623,9 +37687,9 @@
       "firstPoseNonconstantFullyAboveNative": false,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 2814,
-      "atlasHeight": 3740,
-      "atlasRgbaBytes": 42097440,
+      "atlasWidth": 1734,
+      "atlasHeight": 4516,
+      "atlasRgbaBytes": 31322976,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -37636,22 +37700,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2814,
-          3740
+          1734,
+          4516
         ],
-        "actualDecodedBytes": 42097440,
+        "actualDecodedBytes": 31322976,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "a180fd23f5b6afaf8856bc1fc8a414ab6e1055fcb81d0fbda76af0301c527d05",
       "originalAtlasSha256": "e83a144fe9bc04e24cb63f6f69e93c7e0bf41faac3c3541ce17dee6f95e65048",
-      "meta": "/battle-animations/hd/593-v61.json.gz",
-      "atlas": "/battle-animations/hd/593-v61.webp",
-      "metaSha256": "216385e577a052c9ce5136b1ff5a16bde2c19c78748ab2e1d66e892dfa5fc07e",
-      "atlasSha256": "e26cab4e88851adc06ce0254d9fb02bbf6bb8c9f0b85897719af457d19e99e6d",
-      "reportPath": ".cache/battle-hd-v61/species/593/report.json",
-      "reportSha256": "c203ade8f9460b23800ae6f3d4641b4eae1581fac98a60dc986b137f2842b8d6",
+      "meta": "/battle-animations/hd/593-v62.json.gz",
+      "atlas": "/battle-animations/hd/593-v62.webp",
+      "metaSha256": "991b4d060daa3bccfd406563bd8b612fefb7103491b6963da81bfd0fec1d05ec",
+      "atlasSha256": "e2a58feb931f47423561af1bc679d22e7670fee3f936fdf3344d7fb92e70bdd4",
+      "reportPath": ".cache/battle-hd-v62/species/593/report.json",
+      "reportSha256": "5fec82726d105513752674f6100598cd67697e7171f41d043c76e88db2337af1",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "594": {
@@ -38205,24 +38269,23 @@
       "counts": {
         "ai-upscaled": 9,
         "original-vector": 45,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "ai-upscaled:4x": 8,
         "original-vector:4x": 43,
         "original-vector:2x": 2,
         "ai-upscaled:2x": 1,
-        "retained-original-cell:1x": 1
+        "redrawn:4x": 1
       },
       "improvedVectorCells": 45,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 9,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 16,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 16,
@@ -38230,12 +38293,13 @@
       "firstPoseHigherResolutionCells": 9,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 6,
-      "firstPoseNonconstantFullyAboveNative": false,
+      "firstPoseRedrawnCells": 1,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 3324,
-      "atlasHeight": 3592,
-      "atlasRgbaBytes": 47759232,
+      "atlasWidth": 2048,
+      "atlasHeight": 5588,
+      "atlasRgbaBytes": 45776896,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -38246,22 +38310,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3324,
-          3592
+          2048,
+          5588
         ],
-        "actualDecodedBytes": 47759232,
+        "actualDecodedBytes": 45776896,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "138efb880c64748784461438681be52ff0d7c2759f4d7d35574d560066a13e1f",
       "originalAtlasSha256": "4f7644e723c7c53c0a73f1a7d020d87488d84e8fe56ea80afbc916a08c06ead6",
-      "meta": "/battle-animations/hd/603-v60.json.gz",
-      "atlas": "/battle-animations/hd/603-v60.webp",
-      "metaSha256": "57659ed638c2ea61ce53f45f8b07b6418799b42f289cf4e898a1f003880d1f1c",
-      "atlasSha256": "c05d4c679efcf0ff70c49fab5d6561cda5ca574284c852f04fe5f233b6ddd14a",
-      "reportPath": ".cache/battle-hd-v60/species/603/report.json",
-      "reportSha256": "87479d73aba4f0093033bf4e12d95a40f23f6f0ebd3d04052ffe1015229018a6",
+      "meta": "/battle-animations/hd/603-v62.json.gz",
+      "atlas": "/battle-animations/hd/603-v62.webp",
+      "metaSha256": "4c6d54a342ae9c77b6c4496a3de3d7780efba52a963f1c60c133c478d60927ca",
+      "atlasSha256": "7b63618f7df56d2e9c81fa07322a595ad85495c40817e36728b1fafb4b8e472a",
+      "reportPath": ".cache/battle-hd-v62/species/603/report.json",
+      "reportSha256": "e3ef22f8ab60b310498270c0c8f0c49f8a6a59526b5db5f764398c483014d58c",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "604": {
@@ -38892,29 +38956,25 @@
       "counts": {
         "original-vector": 35,
         "ai-upscaled": 70,
-        "redrawn": 1,
-        "retained-original-cell": 1
+        "redrawn": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 21,
         "ai-upscaled:2x": 9,
         "ai-upscaled:8x": 59,
-        "redrawn:8x": 1,
+        "redrawn:8x": 2,
         "original-vector:8x": 6,
         "original-vector:2x": 8,
-        "retained-original-cell:1x": 1,
         "ai-upscaled:4x": 2
       },
       "improvedVectorCells": 35,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 70,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 15,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 15,
@@ -38926,9 +38986,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5120,
-      "atlasHeight": 6534,
-      "atlasRgbaBytes": 133816320,
+      "atlasWidth": 6386,
+      "atlasHeight": 4226,
+      "atlasRgbaBytes": 107948944,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -38939,22 +38999,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5120,
-          6534
+          6386,
+          4226
         ],
-        "actualDecodedBytes": 133816320,
+        "actualDecodedBytes": 107948944,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "6c2a4f9452f7658ca4bc258f6c65ba381977cbbcef36337f6a16efb9b28617b2",
       "originalAtlasSha256": "63c336431310dd4d7875d54cf18e4e9fd6f8ae7ef440790d71b3f91c4c8d6248",
-      "meta": "/battle-animations/hd/614-v61.json.gz",
-      "atlas": "/battle-animations/hd/614-v61.webp",
-      "metaSha256": "466612e2dd6fa210beaed6faf5d42185bb2cb94d168e9027b727fa11dd8f63da",
-      "atlasSha256": "6f87f2f264b6e0a9287c4a0571028f0a134e2dc9f4045b035539835d602de00c",
-      "reportPath": ".cache/battle-hd-v61/species/614/report.json",
-      "reportSha256": "6de283c1b15228b20e31a6d1ecd0f879d05e6fc4c3fe18a666d8d1a404236d5e",
+      "meta": "/battle-animations/hd/614-v62.json.gz",
+      "atlas": "/battle-animations/hd/614-v62.webp",
+      "metaSha256": "e37f98ff990d0e7b04684c19ffec21137df8eefd9b357380994e51ef1cd0b402",
+      "atlasSha256": "5af8fcc10594c727a5aa5732f8a38fd88799a0461501fee0e376e1f851be1984",
+      "reportPath": ".cache/battle-hd-v62/species/614/report.json",
+      "reportSha256": "a17f46bd386a3c7ecf8e4800c917a8e91f19cf527a31c75ef3f5508dcf73ee35",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "615": {
@@ -39028,26 +39088,22 @@
       "counts": {
         "original-vector": 7,
         "ai-upscaled": 130,
-        "retained-original-cell": 1,
-        "redrawn": 3
+        "redrawn": 4
       },
       "resolutionCounts": {
         "original-vector:4x": 7,
         "ai-upscaled:2x": 7,
         "ai-upscaled:8x": 123,
-        "retained-original-cell:1x": 1,
-        "redrawn:8x": 3
+        "redrawn:8x": 4
       },
       "improvedVectorCells": 7,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 130,
-      "redrawnCells": 3,
+      "redrawnCells": 4,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 12,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 12,
@@ -39059,9 +39115,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 3072,
-      "atlasHeight": 4808,
-      "atlasRgbaBytes": 59080704,
+      "atlasWidth": 2180,
+      "atlasHeight": 4680,
+      "atlasRgbaBytes": 40809600,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -39072,22 +39128,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3072,
-          4808
+          2180,
+          4680
         ],
-        "actualDecodedBytes": 59080704,
+        "actualDecodedBytes": 40809600,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "a0e1d6c2cfe9e0e5700fb19ca1aa73815f859f9ab7dde03944eea83f9097834e",
       "originalAtlasSha256": "0e43981d649abf1a087fa92c0f12db433e84b3637bddd1f91ea8399e9efd0f1a",
-      "meta": "/battle-animations/hd/616-v61.json.gz",
-      "atlas": "/battle-animations/hd/616-v61.webp",
-      "metaSha256": "acef9861ac9a84e7565ae5ce7b74ac4dfc721c23f5b08efc099a16fce3adce47",
-      "atlasSha256": "04b5fde99fbb6854efe9fd0b22ffdade36adcd75e7cdda8363f1f9eca9df04cf",
-      "reportPath": ".cache/battle-hd-v61/species/616/report.json",
-      "reportSha256": "28c33ecb71c65ae1175a2d6aeac9cad4cb29530e26bb5d5e2f13f6fb3cbc41f4",
+      "meta": "/battle-animations/hd/616-v62.json.gz",
+      "atlas": "/battle-animations/hd/616-v62.webp",
+      "metaSha256": "79c87a659799728bb65fe67f568aae4b7fd206c4094840cdee83a5d2f1a0e313",
+      "atlasSha256": "c12d3c145957d375317922c80fe7e5f605a8f807fbdb13ad709f53dd9249cf1d",
+      "reportPath": ".cache/battle-hd-v62/species/616/report.json",
+      "reportSha256": "ad9d093fb1bf60111cf80e4e236144bd5091095edb8d39e855789ecd559f8681",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "617": {
@@ -42644,24 +42700,23 @@
       "counts": {
         "original-vector": 27,
         "ai-upscaled": 6,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 16,
         "original-vector:2x": 11,
         "ai-upscaled:2x": 1,
         "ai-upscaled:8x": 5,
-        "retained-original-cell:1x": 1
+        "redrawn:8x": 1
       },
       "improvedVectorCells": 27,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 6,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 1,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 8,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 8,
@@ -42669,12 +42724,13 @@
       "firstPoseHigherResolutionCells": 8,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 3584,
-      "atlasHeight": 4084,
-      "atlasRgbaBytes": 58548224,
+      "atlasWidth": 1792,
+      "atlasHeight": 8176,
+      "atlasRgbaBytes": 58605568,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -42685,22 +42741,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3584,
-          4084
+          1792,
+          8176
         ],
-        "actualDecodedBytes": 58548224,
+        "actualDecodedBytes": 58605568,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "fff6cc64f4cec6cd4687dd8f9194e8b2183e9885f4bc00c16292ced58d45d4a0",
       "originalAtlasSha256": "d33d71d135c1b167d3f94196696be79435e310706129cd05e56d4363f5978130",
-      "meta": "/battle-animations/hd/675-v60.json.gz",
-      "atlas": "/battle-animations/hd/675-v60.webp",
-      "metaSha256": "a3ebb61b90bd62e927d28c50055f4f06e1abaab29017c958951bead15537470a",
-      "atlasSha256": "f1ffec3c1a4ae64950edf6b63d1c6f14cc831390fb3d7ccb001d39194570a0c8",
-      "reportPath": ".cache/battle-hd-v60/species/675/report.json",
-      "reportSha256": "784ac2b783dc4f412741f325ddf88bf279501a04f6036a5c889c0837a356b46d",
+      "meta": "/battle-animations/hd/675-v62.json.gz",
+      "atlas": "/battle-animations/hd/675-v62.webp",
+      "metaSha256": "b8e3e863ca3217a031460b8ff0b98636d879d50682241cec7149738b862f10d8",
+      "atlasSha256": "cdf02da3d9d6f2aef7c7e3fdcdb51b2bc832585fe74cbeb1e30dbd78a803a922",
+      "reportPath": ".cache/battle-hd-v62/species/675/report.json",
+      "reportSha256": "9e5fdc6ee579333fd3a9ad7f33cb012b6b7094917f7778eb874828e791b63632",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "676": {
@@ -43008,33 +43064,36 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 37,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 15,
-        "original-vector:2x": 1,
         "original-vector:8x": 21,
-        "retained-original-cell:1x": 1
+        "redrawn:16x": 1,
+        "original-vector:2x": 1
       },
       "improvedVectorCells": 37,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 11,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 11,
       "firstPoseVectorCells": 11,
       "firstPoseHigherResolutionCells": 11,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 2268,
-      "atlasHeight": 2854,
-      "atlasRgbaBytes": 25891488,
+      "atlasWidth": 1280,
+      "atlasHeight": 4474,
+      "atlasRgbaBytes": 22906880,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -43045,21 +43104,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2268,
-          2854
+          1280,
+          4474
         ],
-        "actualDecodedBytes": 25891488,
+        "actualDecodedBytes": 22906880,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "dcd3e759f17d617770e2d3bc2aab74ed08cb5fd390435e23db8b4149770a62d1",
       "originalAtlasSha256": "9c4a9b01e1b0d38627c8c8d39c53d5697c83914241ec6553cf84d8523ac2e230",
-      "meta": "/battle-animations/hd/681-v59.json.gz",
-      "atlas": "/battle-animations/hd/681-v59.png",
-      "metaSha256": "24ffbc7e6df017e39436847a8774baaa93b2a7842292e3f90b35eb16a26cb470",
-      "atlasSha256": "ca6ce6a3e4f6a6a750b72b1133d8175b981ff73a0b72cc89c53bce498ac247a8",
-      "reportPath": ".cache/battle-hd-v59/species/681/report.json",
-      "reportSha256": "e9febb037549fa2f6b8f3ff0d1ff5e508e29512de068e459ad334166f00cc093",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/681-v62.json.gz",
+      "atlas": "/battle-animations/hd/681-v62.webp",
+      "metaSha256": "8a37327d9e2ebedcbf3430a97686ad9ca87c02c9ab795e7edf296a20c2fd07e3",
+      "atlasSha256": "f04cc530f79803d37ad8ce8797a0e07d0c16ea03ff9d6bd65cb12c5ede7f4a86",
+      "reportPath": ".cache/battle-hd-v62/species/681/report.json",
+      "reportSha256": "d3be82e5f4e544dba6aa0da0d98792571952300c3a967898821555ebfcc16ec0",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "682": {
@@ -45075,23 +45135,22 @@
       "counts": {
         "original-vector": 35,
         "ai-upscaled": 1,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 14,
         "ai-upscaled:4x": 1,
         "original-vector:8x": 21,
-        "retained-original-cell:1x": 1
+        "redrawn:16x": 1
       },
       "improvedVectorCells": 35,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 7,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 7,
@@ -45099,12 +45158,13 @@
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 3324,
-      "atlasHeight": 3392,
-      "atlasRgbaBytes": 45100032,
+      "atlasWidth": 2304,
+      "atlasHeight": 4788,
+      "atlasRgbaBytes": 44126208,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -45115,22 +45175,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3324,
-          3392
+          2304,
+          4788
         ],
-        "actualDecodedBytes": 45100032,
+        "actualDecodedBytes": 44126208,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "fc1949492307049232fee251b5b5277d8f8a40f02813691116dcf81c8f57d47f",
       "originalAtlasSha256": "8ebcfc608bb3fd72861995a2bec4be67e5631245669acb835993ec7a8421de06",
-      "meta": "/battle-animations/hd/714-v60.json.gz",
-      "atlas": "/battle-animations/hd/714-v60.webp",
-      "metaSha256": "99151f3405524671f0a622a71b68d3274a1ac4c0dc3d6b790d35f708b8cdb4f1",
-      "atlasSha256": "014940607ae44e136b1a105aa04ed18e5e97f1344696bb3c3071b39c715c3b40",
-      "reportPath": ".cache/battle-hd-v60/species/714/report.json",
-      "reportSha256": "069cf108a77ff034af85377c51440568a732ca3a92a2b1027f65db3721333fea",
+      "meta": "/battle-animations/hd/714-v62.json.gz",
+      "atlas": "/battle-animations/hd/714-v62.webp",
+      "metaSha256": "644fa00fcadc1cf4699bcd13149d4a3cce3a256255a87ffbcae73f358183ff47",
+      "atlasSha256": "200e98be8d0dccecc7785b02981ebfa8f87b6ad608fdd51a4ca31a5a549baee1",
+      "reportPath": ".cache/battle-hd-v62/species/714/report.json",
+      "reportSha256": "4ce0369725d74e2bd9d29f5fe25fd40fdd43e64b1b13c09fdff60728a880e786",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "715": {
@@ -45263,33 +45323,36 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 31,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:2x": 3,
-        "original-vector:4x": 7,
         "original-vector:8x": 21,
-        "retained-original-cell:1x": 1
+        "redrawn:16x": 1,
+        "original-vector:4x": 7
       },
       "improvedVectorCells": 31,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 4,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 4,
       "firstPoseVectorCells": 4,
       "firstPoseHigherResolutionCells": 4,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 3004,
-      "atlasHeight": 2976,
-      "atlasRgbaBytes": 35759616,
+      "atlasWidth": 3580,
+      "atlasHeight": 2208,
+      "atlasRgbaBytes": 31618560,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -45300,21 +45363,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3004,
-          2976
+          3580,
+          2208
         ],
-        "actualDecodedBytes": 35759616,
+        "actualDecodedBytes": 31618560,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "235ff05912cce134c022411b857a098e60127e0b5bd288835e4a011ade1ac118",
       "originalAtlasSha256": "61136651e2ad35e3e807482ea69cddb0518a1050e852c1487e5f843feb141cf5",
-      "meta": "/battle-animations/hd/717-v59.json.gz",
-      "atlas": "/battle-animations/hd/717-v59.png",
-      "metaSha256": "584b557be57124df0d62f5713905678b0bf521bbc7e3c20cc9a51cd55a58b3a9",
-      "atlasSha256": "e91a93844034a9e1d81093ab2ce58b0910ec957093d022270140414845ee870c",
-      "reportPath": ".cache/battle-hd-v59/species/717/report.json",
-      "reportSha256": "bf3accecd645558009b6e43fe5c691854d084a624d7ffc582f9b24906e640413",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/717-v62.json.gz",
+      "atlas": "/battle-animations/hd/717-v62.webp",
+      "metaSha256": "987fbc327b79aeaea5d070764fd057aa5ef6002f7906503968a797472669c272",
+      "atlasSha256": "50617c972b1377e559dbf722c29948637f6b8332b2a33d918d76ea4dbaa53ff1",
+      "reportPath": ".cache/battle-hd-v62/species/717/report.json",
+      "reportSha256": "d3b51437ad2b7145c6c460d99098ee928c2ed8d3868f362496f8427267b736d8",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "718": {
@@ -49057,27 +49121,27 @@
       "counts": {
         "original-vector": 24,
         "ai-upscaled": 15,
-        "retained-original-cell": 13,
-        "redrawn": 1
+        "redrawn": 3,
+        "retained-original-cell": 11
       },
       "resolutionCounts": {
         "original-vector:8x": 8,
         "original-vector:2x": 8,
         "ai-upscaled:4x": 12,
         "ai-upscaled:8x": 3,
-        "retained-original-cell:1x": 13,
-        "original-vector:4x": 8,
-        "redrawn:4x": 1
+        "redrawn:4x": 3,
+        "retained-original-cell:1x": 11,
+        "original-vector:4x": 8
       },
       "improvedVectorCells": 24,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 15,
-      "redrawnCells": 1,
+      "redrawnCells": 3,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 13,
+      "nativeRetainedCells": 11,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 11,
+        "Native-resolution source fidelity check failed": 9,
         "Source RGBA comparison exceeded its limit": 2
       },
       "firstPoseCells": 12,
@@ -49091,9 +49155,9 @@
       "firstPoseNonconstantFullyAboveNative": false,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 3071,
-      "atlasHeight": 3530,
-      "atlasRgbaBytes": 43362520,
+      "atlasWidth": 4096,
+      "atlasHeight": 2416,
+      "atlasRgbaBytes": 39583744,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -49104,22 +49168,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3071,
-          3530
+          4096,
+          2416
         ],
-        "actualDecodedBytes": 43362520,
+        "actualDecodedBytes": 39583744,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "4d9ff9cff3fa33d1faa0aa25dd27383936833ba75ca93afae6d65075db140424",
       "originalAtlasSha256": "fc5b39a8b8eab0e7709854483f923597e55d71e1b37aa95a12f9ec6d163abce3",
-      "meta": "/battle-animations/hd/780-v61.json.gz",
-      "atlas": "/battle-animations/hd/780-v61.webp",
-      "metaSha256": "bf6cc9dcdaf9f77a344b5a4a2a9f836bde8bc5445a4926493e6ec1b582a10175",
-      "atlasSha256": "1b1459071d94a29ad22938098ced0f742b6e0f28683e12b13f4c10b9b4f9f2e2",
-      "reportPath": ".cache/battle-hd-v61/species/780/report.json",
-      "reportSha256": "832f7ed90b0ed61ddb8f74b82394f158668c85435005dbec5d51e0c7bf34d2cc",
+      "meta": "/battle-animations/hd/780-v62.json.gz",
+      "atlas": "/battle-animations/hd/780-v62.webp",
+      "metaSha256": "9de35674f545dc4b750caaf2711fd8215a6b69cdb754e2d39cf55ecd08c13220",
+      "atlasSha256": "b29f86534114c4680b9be1a4f9de105ecc6d104fe51aa5b69dfd44de87ee0edd",
+      "reportPath": ".cache/battle-hd-v62/species/780/report.json",
+      "reportSha256": "f9d88b2d7ab1fda7b7459b7ac6e719662c63d0bf3058a36f5aa99cdfe64f44c6",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "781": {
@@ -51451,7 +51515,8 @@
       },
       "resolutionCounts": {
         "original-vector:2x": 6,
-        "original-vector:8x": 14,
+        "original-vector:8x": 13,
+        "original-vector:16x": 1,
         "original-vector:4x": 27,
         "ai-upscaled:8x": 2
       },
@@ -51459,6 +51524,7 @@
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -51469,12 +51535,13 @@
       "firstPoseHigherResolutionCells": 12,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 4076,
-      "atlasHeight": 4542,
-      "atlasRgbaBytes": 74052768,
+      "atlasWidth": 3044,
+      "atlasHeight": 5728,
+      "atlasRgbaBytes": 69744128,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -51485,22 +51552,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4076,
-          4542
+          3044,
+          5728
         ],
-        "actualDecodedBytes": 74052768,
+        "actualDecodedBytes": 69744128,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "ce56297b8f87e07c54155ec5a634272992cdb197c264cafb54e5ce4904238890",
       "originalAtlasSha256": "5bbfa5a3eaacd1d2adeee1710ec30a580a2076821e6ee3125eb1866aac2a3099",
-      "meta": "/battle-animations/hd/819-v60.json.gz",
-      "atlas": "/battle-animations/hd/819-v60.webp",
-      "metaSha256": "868efc2041f9e1edb19ca8872f97cb97ee45a5c674d587dac5c12dcc98dab0e1",
-      "atlasSha256": "b61fe18422c14f8bc91123ae48a7a87e418057f18e68d6d692537e967e7a2e9a",
-      "reportPath": ".cache/battle-hd-v60/species/819/report.json",
-      "reportSha256": "7d3498105f5af6a60ce0d619568ff35e788a514712ffc2424263e158f4df4f3e",
+      "meta": "/battle-animations/hd/819-v62.json.gz",
+      "atlas": "/battle-animations/hd/819-v62.webp",
+      "metaSha256": "5f02b52e41bd7a00abbf7c54f87adc0289dcd828afa93f65ca974dc60a254cb2",
+      "atlasSha256": "4ef6a89dbbebb99b3678432dda3633c717e07c747a8fc2c381a9e1ae8f1c679d",
+      "reportPath": ".cache/battle-hd-v62/species/819/report.json",
+      "reportSha256": "f9384d6647f9f9dad782283530612b40e6534d64b167150e9dbf2de98bd2d692",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "820": {
@@ -51569,25 +51636,28 @@
       "counts": {
         "original-vector": 31,
         "ai-upscaled": 18,
-        "retained-original-cell": 4
+        "redrawn": 2,
+        "retained-original-cell": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 29,
         "ai-upscaled:4x": 13,
         "original-vector:8x": 1,
         "ai-upscaled:8x": 5,
-        "retained-original-cell:1x": 4,
+        "redrawn:4x": 2,
+        "retained-original-cell:1x": 2,
         "original-vector:2x": 1
       },
       "improvedVectorCells": 31,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 18,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 4,
+      "nativeRetainedCells": 2,
       "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 2,
-        "Source RGBA comparison exceeded its limit": 2
+        "Source RGBA comparison exceeded its limit": 1,
+        "Native-resolution source fidelity check failed": 1
       },
       "firstPoseCells": 10,
       "firstPoseConstantCells": 0,
@@ -51596,12 +51666,13 @@
       "firstPoseHigherResolutionCells": 10,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 3326,
-      "atlasHeight": 3612,
-      "atlasRgbaBytes": 48054048,
+      "atlasWidth": 1792,
+      "atlasHeight": 6712,
+      "atlasRgbaBytes": 48111616,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -51612,22 +51683,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3326,
-          3612
+          1792,
+          6712
         ],
-        "actualDecodedBytes": 48054048,
+        "actualDecodedBytes": 48111616,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "91b78973c4346c785efa294fc1be5b7e80e430c2ef6ed273d53d5185559d312a",
       "originalAtlasSha256": "9938d9af585f266f9979570dc97c560c84a621b0e06c0ed5863ad9b0a744891b",
-      "meta": "/battle-animations/hd/821-v60.json.gz",
-      "atlas": "/battle-animations/hd/821-v60.webp",
-      "metaSha256": "4a9b39073a7b679630f32cf170d757d9e70f3dc29cde1ea1287f4532923b06ae",
-      "atlasSha256": "16f94d636eab99be7ca686d4fd0a39c78f161a578580a4267bd904c29b0885b0",
-      "reportPath": ".cache/battle-hd-v60/species/821/report.json",
-      "reportSha256": "30be70fccff0a71f3fdea87c8463a18bc9b29ec10a98ca8fbb465dd25e9f56b4",
+      "meta": "/battle-animations/hd/821-v62.json.gz",
+      "atlas": "/battle-animations/hd/821-v62.webp",
+      "metaSha256": "3604e6023574181e58e756d8eb3a60ba3d35a49b0fef71d6e2f41ace5571d79e",
+      "atlasSha256": "3cbf343c0a6e7627b2add562beeace5c9a6f4e03ca8bb2531bb90a74d3a62bdf",
+      "reportPath": ".cache/battle-hd-v62/species/821/report.json",
+      "reportSha256": "f7af6bc15ee4a2b42b96b33d1f628c42fecfb212eda0c338898f5c8970adc5e4",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "822": {
@@ -59146,26 +59217,25 @@
       "counts": {
         "ai-upscaled": 63,
         "original-vector": 8,
-        "redrawn": 2,
-        "retained-original-cell": 2
+        "redrawn": 3,
+        "retained-original-cell": 1
       },
       "resolutionCounts": {
         "ai-upscaled:4x": 58,
         "original-vector:4x": 8,
         "ai-upscaled:2x": 5,
-        "redrawn:4x": 2,
-        "retained-original-cell:1x": 2
+        "redrawn:4x": 3,
+        "retained-original-cell:1x": 1
       },
       "improvedVectorCells": 8,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 63,
-      "redrawnCells": 2,
+      "redrawnCells": 3,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 2,
+      "nativeRetainedCells": 1,
       "retainedReasonCounts": {
-        "Native-size source render changed a connected stable interior color region.": 1,
-        "No compatible original vector bounds": 1
+        "Native-size source render changed a connected stable interior color region.": 1
       },
       "firstPoseCells": 8,
       "firstPoseConstantCells": 0,
@@ -59178,9 +59248,9 @@
       "firstPoseNonconstantFullyAboveNative": false,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 1792,
-      "atlasHeight": 2412,
-      "atlasRgbaBytes": 17289216,
+      "atlasWidth": 644,
+      "atlasHeight": 5180,
+      "atlasRgbaBytes": 13343680,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -59191,22 +59261,22 @@
         "originalDecodedBytes": 4194304,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          1792,
-          2412
+          644,
+          5180
         ],
-        "actualDecodedBytes": 17289216,
+        "actualDecodedBytes": 13343680,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "19db8657449850f57c75e4356cea94118163be68a4793d53432c0e785d328e78",
       "originalAtlasSha256": "d29b541f29694854304ae0810a82ce75deaacaaf8de0b7e9c5388c798d607412",
-      "meta": "/battle-animations/hd/948-v61.json.gz",
-      "atlas": "/battle-animations/hd/948-v61.webp",
-      "metaSha256": "92e559ab252e22ccf81d5f5cdfca297113f171ed1d9315559563611f7bd8dcf1",
-      "atlasSha256": "de9d92effca380fb7c53e611a18771213273a79522be51c97afcf3c0fdd82387",
-      "reportPath": ".cache/battle-hd-v61/species/948/report.json",
-      "reportSha256": "a9bb2ba8abf19fecc3fbd833647e32f6b2e33ab1ba3b3df92f17447b2a97e495",
+      "meta": "/battle-animations/hd/948-v62.json.gz",
+      "atlas": "/battle-animations/hd/948-v62.webp",
+      "metaSha256": "f96f2185f4b331089e1a3e523c951cf0a900a4439eec997428ace28fa732d01c",
+      "atlasSha256": "b40a3eb7c3e896a23b816b76269f0d64ca4836139e96b0f0afa7038a5c21650c",
+      "reportPath": ".cache/battle-hd-v62/species/948/report.json",
+      "reportSha256": "4b644551547fa726638f74aefe50210d51f69b0b776fde5fe30af123327b51ec",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "949": {
@@ -66090,7 +66160,7 @@
         "original-vector": 53,
         "constant-original-rgba": 1,
         "ai-upscaled": 2,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 26,
@@ -66098,18 +66168,17 @@
         "original-vector:8x": 9,
         "constant-original-rgba:4x": 1,
         "ai-upscaled:8x": 1,
-        "retained-original-cell:1x": 1,
+        "redrawn:16x": 1,
         "ai-upscaled:2x": 1
       },
       "improvedVectorCells": 53,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 18,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 18,
@@ -66117,12 +66186,13 @@
       "firstPoseHigherResolutionCells": 18,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 4572,
-      "atlasHeight": 4876,
-      "atlasRgbaBytes": 89172288,
+      "atlasWidth": 3834,
+      "atlasHeight": 5652,
+      "atlasRgbaBytes": 86679072,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -66133,22 +66203,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4572,
-          4876
+          3834,
+          5652
         ],
-        "actualDecodedBytes": 89172288,
+        "actualDecodedBytes": 86679072,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "8ec3e0b0a5b1eced5bb44da3c5bd971a8869cb2b416ea280e38003f36581934a",
       "originalAtlasSha256": "60ac1a50f0e2d4fc364916d639b24f454081fe37443c79817934afd4e6f6adcf",
-      "meta": "/battle-animations/hd/1064-v60.json.gz",
-      "atlas": "/battle-animations/hd/1064-v60.webp",
-      "metaSha256": "bfbbd63a47cd0ff22482d465cd08e7cada141d4ee25cf1025f8bfdd3a4b85818",
-      "atlasSha256": "d0e1077ca040aab8ef40a7e87e8ad5f1d01eb9d8d44f91aefe83f8fcfcb1e816",
-      "reportPath": ".cache/battle-hd-v60/species/1064/report.json",
-      "reportSha256": "0fff18a8a7af039dc1e6d32c71529022c47487013d7841f91c22863f2a054f4e",
+      "meta": "/battle-animations/hd/1064-v62.json.gz",
+      "atlas": "/battle-animations/hd/1064-v62.webp",
+      "metaSha256": "4a7731bec1493c42e40782813b97901f80ccf1df011cfc02e60b2038976f5fb1",
+      "atlasSha256": "5d36e299dde83cfc64ac955115c8335c482dbd6a927c3b3f2a2df3acb6c06d6a",
+      "reportPath": ".cache/battle-hd-v62/species/1064/report.json",
+      "reportSha256": "454667d414578700311f8f32445ada83c4c2dad2a491db495121d6723985ee4e",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1065": {
@@ -71184,11 +71254,14 @@
       "resolutionCounts": {
         "original-vector:4x": 20,
         "original-vector:2x": 7,
-        "original-vector:8x": 5
+        "original-vector:8x": 4,
+        "original-vector:16x": 1
       },
       "improvedVectorCells": 32,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -71198,11 +71271,14 @@
       "firstPoseVectorCells": 10,
       "firstPoseHigherResolutionCells": 10,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 3310,
-      "atlasHeight": 3510,
-      "atlasRgbaBytes": 46472400,
+      "atlasWidth": 1792,
+      "atlasHeight": 6318,
+      "atlasRgbaBytes": 45287424,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -71213,21 +71289,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          3310,
-          3510
+          1792,
+          6318
         ],
-        "actualDecodedBytes": 46472400,
+        "actualDecodedBytes": 45287424,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "fd926d0255d86e3374ef404e711c16f7c983d6d6833bd775431e16ad669e1635",
       "originalAtlasSha256": "3b06ce6a22dd7e7b9ccc14dda2339a190d81dc79c90c7a68ac72efb37a5a84a9",
-      "meta": "/battle-animations/hd/1147-v59.json.gz",
-      "atlas": "/battle-animations/hd/1147-v59.png",
-      "metaSha256": "53b8b97bc60b1bfea2e583f94b5a04f64f4858f1e2b0dc447bbfcb6753d70870",
-      "atlasSha256": "c3e1cdaba75239ca09f844acd1ff3b29f3001f6b4a39bd15093a6627f6b3e651",
-      "reportPath": ".cache/battle-hd-v59/species/1147/report.json",
-      "reportSha256": "40d2a2c752eb857516d4189d1d94a9ed6cbf14173c5a8d75b097f65e47cfebf2",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/1147-v62.json.gz",
+      "atlas": "/battle-animations/hd/1147-v62.webp",
+      "metaSha256": "8474ac47c638317a1b85e830dbab06557158d01d4fe2126f74346c7ccbba5b29",
+      "atlasSha256": "9b594286070bb0f4cf18a1c3979b6f60eda9ced06e7d8cb295b9660c44fff00f",
+      "reportPath": ".cache/battle-hd-v62/species/1147/report.json",
+      "reportSha256": "5dae406916e2fee012eae2b90eeca8a1545d27dfa96fbf599f600718b3e59144",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1148": {
@@ -73493,13 +73570,15 @@
         "original-vector:2x": 20,
         "original-vector:4x": 24,
         "ai-upscaled:4x": 1,
-        "original-vector:8x": 18,
+        "original-vector:8x": 17,
+        "original-vector:16x": 1,
         "ai-upscaled:2x": 1
       },
       "improvedVectorCells": 62,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -73510,12 +73589,13 @@
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 1,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 4096,
-      "atlasHeight": 8190,
-      "atlasRgbaBytes": 134184960,
+      "atlasWidth": 4608,
+      "atlasHeight": 7218,
+      "atlasRgbaBytes": 133042176,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -73526,22 +73606,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          4096,
-          8190
+          4608,
+          7218
         ],
-        "actualDecodedBytes": 134184960,
+        "actualDecodedBytes": 133042176,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "a1985c71032f680b3012810eaf7985184d80996dfd94f71ad86c1105708b920e",
       "originalAtlasSha256": "75c660e23160dbce0788644bb57293ab710f50acf5feb52fb961d24ea7b7475e",
-      "meta": "/battle-animations/hd/1185-v60.json.gz",
-      "atlas": "/battle-animations/hd/1185-v60.webp",
-      "metaSha256": "aa11e23a7feda824dee78acbcdc786046c26c77a8540ce63cfb466b3c0357673",
-      "atlasSha256": "33808b9b8b9ad25d4135b628a6ce1919639e38fa81fe64bbf9f60db1c6df83bb",
-      "reportPath": ".cache/battle-hd-v60/species/1185/report.json",
-      "reportSha256": "4e80abb7343d48c97ae75c39059631bb8efd6b2a305c3ee690bd88164fcf8b88",
+      "meta": "/battle-animations/hd/1185-v62.json.gz",
+      "atlas": "/battle-animations/hd/1185-v62.webp",
+      "metaSha256": "7e274788432bccdb28aef03a842751fdc2768774f12ed2cc3a6bd72bfb168ebe",
+      "atlasSha256": "92397644ce7b1d81a9f9bbd83089673d4dc09a16bcb04c18f63994e93d207c9c",
+      "reportPath": ".cache/battle-hd-v62/species/1185/report.json",
+      "reportSha256": "9384b6dfd9fb5da3d0e3c8c82726e7d468483da9fde18383bf6bf35799953a77",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1186": {
@@ -73982,32 +74062,35 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 28,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 12,
         "original-vector:8x": 16,
-        "retained-original-cell:1x": 1
+        "redrawn:8x": 1
       },
       "improvedVectorCells": 28,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 4,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 4,
       "firstPoseVectorCells": 4,
       "firstPoseHigherResolutionCells": 4,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 1792,
-      "atlasHeight": 2240,
-      "atlasRgbaBytes": 16056320,
+      "atlasWidth": 1024,
+      "atlasHeight": 3104,
+      "atlasRgbaBytes": 12713984,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -74018,21 +74101,22 @@
         "originalDecodedBytes": 1048576,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          1792,
-          2240
+          1024,
+          3104
         ],
-        "actualDecodedBytes": 16056320,
+        "actualDecodedBytes": 12713984,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "c00f6d3abcb5b8e2159783658b5bbf6a98e181b3a7214d89b48c930ed774cb97",
       "originalAtlasSha256": "8dae9b39ce4f378b4e7c4836aba1dc60adfa9082154a1c73c3ebe33c4570131a",
-      "meta": "/battle-animations/hd/1193-v59.json.gz",
-      "atlas": "/battle-animations/hd/1193-v59.png",
-      "metaSha256": "f700070b37e884a5c9f55420e35bd3b8b6bfd8125e5e369cf496f9d6c86e2a26",
-      "atlasSha256": "9931adeb21c099d3a6226051fbeeadc3d11c7068c1dd70efcc361465b480ed5f",
-      "reportPath": ".cache/battle-hd-v59/species/1193/report.json",
-      "reportSha256": "ab4f0acf5f06ef35bb99e92cb199e50e885658b7d87a613476bcf3c65b393192",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/1193-v62.json.gz",
+      "atlas": "/battle-animations/hd/1193-v62.webp",
+      "metaSha256": "64b0ad31827fd2021e06cf3de224afd1400520befd85223d33e89acab08fb755",
+      "atlasSha256": "25e6fd56da3b1d3ee8ba004f62a048f98e1460dfdee0149df53b28bf17f7408d",
+      "reportPath": ".cache/battle-hd-v62/species/1193/report.json",
+      "reportSha256": "b2071fbaf7a823a16e1377d3d2dfb5086c7cd17e9a916962311cd775147bb2b4",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1194": {
@@ -78365,12 +78449,14 @@
         "original-vector:2x": 2,
         "ai-upscaled:2x": 1,
         "ai-upscaled:8x": 1,
-        "original-vector:8x": 4
+        "original-vector:16x": 1,
+        "original-vector:8x": 3
       },
       "improvedVectorCells": 11,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -78381,6 +78467,7 @@
       "firstPoseHigherResolutionCells": 6,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
@@ -78405,14 +78492,14 @@
       },
       "originalMetadataSha256": "bd07b684b9f5cbaaf6aa1ef636fd5f7d24e7c4bd5684675cd23f9a5bbb70b1a6",
       "originalAtlasSha256": "8d623b7bcb967a4e7878f6bd8f2c5a2d91ccb4592af412a5b59c14b9aefa3b3d",
-      "meta": "/battle-animations/hd/1264-v60.json.gz",
-      "atlas": "/battle-animations/hd/1264-v60.webp",
-      "metaSha256": "982d52e2506b70e2c2ab62d373bf82f438421b48f5074c1293657ef303c4e7c9",
-      "atlasSha256": "9992b14d55148fa964ac1bd884ecc0b7590f723aed9232c7ca7932e7c51e0def",
-      "reportPath": ".cache/battle-hd-v60/species/1264/report.json",
-      "reportSha256": "bd0df2c746090e8912f46a1abebd6c8722f411a3ac62dc4c2425b6db35ea110b",
+      "meta": "/battle-animations/hd/1264-v62.json.gz",
+      "atlas": "/battle-animations/hd/1264-v62.webp",
+      "metaSha256": "b30a8dc69db3fb9baae9e85fbd32bb4e52d5d3b86545ee4f0621fe02c020fc81",
+      "atlasSha256": "8de5a13f910d5da472ca895a64d5e08a59b4128a7fab0c62889ae037e084d7db",
+      "reportPath": ".cache/battle-hd-v62/species/1264/report.json",
+      "reportSha256": "ab3041d591e8478e71dea0921d6d3569fdb62f88f7b1ad65d776d86dc0a0573f",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1265": {
@@ -78430,12 +78517,14 @@
         "ai-upscaled:4x": 1,
         "original-vector:2x": 2,
         "ai-upscaled:8x": 1,
-        "original-vector:8x": 4
+        "original-vector:32x": 1,
+        "original-vector:8x": 3
       },
       "improvedVectorCells": 18,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 2,
+      "redrawnCells": 0,
       "sourceAlternativeRecoveredCells": 0,
       "nativeRetainedCells": 0,
       "retainedReasonCounts": {},
@@ -78446,12 +78535,13 @@
       "firstPoseHigherResolutionCells": 8,
       "firstPoseAiReconstructedCells": 0,
       "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 0,
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
-      "atlasWidth": 5044,
-      "atlasHeight": 6118,
-      "atlasRgbaBytes": 123436768,
+      "atlasWidth": 4092,
+      "atlasHeight": 6570,
+      "atlasRgbaBytes": 107537760,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -78462,22 +78552,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5044,
-          6118
+          4092,
+          6570
         ],
-        "actualDecodedBytes": 123436768,
+        "actualDecodedBytes": 107537760,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "0c58ce8d7c310236d63d8944fe912375ed164c4761eadb6af5205522b0765064",
       "originalAtlasSha256": "bacef1c5ca2ee5c26c2bfc80b778467c028dfc01504799d55447f7bfcccfc568",
-      "meta": "/battle-animations/hd/1265-v60.json.gz",
-      "atlas": "/battle-animations/hd/1265-v60.webp",
-      "metaSha256": "ca8bb7dc8deed086180e7cc84a15127d2c6c89f7eea6e79df1c8db3fa49d55ca",
-      "atlasSha256": "bcd3f6a6f6bf4f4a039d3b13c1a4928ba6dd486a79273f5d4f2704e4df4e22be",
-      "reportPath": ".cache/battle-hd-v60/species/1265/report.json",
-      "reportSha256": "78ea26654d69523f33ad8a998fcb089b42c47eabb20c35563d66e76de0290e12",
+      "meta": "/battle-animations/hd/1265-v62.json.gz",
+      "atlas": "/battle-animations/hd/1265-v62.webp",
+      "metaSha256": "4d31dd69a7700e64e17852114b31c0fff77b3a3dc04d5a539e18ce54e6bf0d82",
+      "atlasSha256": "59f9466f85e871545c7832a9edaad5b8f01c07a4f89c648579f60926b7b68c63",
+      "reportPath": ".cache/battle-hd-v62/species/1265/report.json",
+      "reportSha256": "aa9ba804ce2b64474d027be33c81987e49313eedcf1bf48cdfaed120d8f656ae",
       "reportRevision": 1,
-      "reportKind": "ai-upscaled-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1266": {
@@ -79773,25 +79863,21 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 13,
-        "retained-original-cell": 1,
-        "redrawn": 1
+        "redrawn": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 9,
         "original-vector:8x": 4,
-        "retained-original-cell:1x": 1,
-        "redrawn:16x": 1
+        "redrawn:16x": 2
       },
       "improvedVectorCells": 13,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 0,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 9,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 9,
@@ -79804,8 +79890,8 @@
       "firstPoseNonconstantFullyPureVector": true,
       "firstPoseNonconstantFullyHigherResolution": true,
       "atlasWidth": 1280,
-      "atlasHeight": 1188,
-      "atlasRgbaBytes": 6082560,
+      "atlasHeight": 1248,
+      "atlasRgbaBytes": 6389760,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -79817,21 +79903,21 @@
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
           1280,
-          1188
+          1248
         ],
-        "actualDecodedBytes": 6082560,
+        "actualDecodedBytes": 6389760,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "649aec2ddc5b994d1420005312df52d1094f6162707b7ea5fa248bab8569ed1e",
       "originalAtlasSha256": "ca294ea1f155885946c17c44e6b2eb3330ef390f02aba4202f4ac4260ab66703",
-      "meta": "/battle-animations/hd/1287-v61.json.gz",
-      "atlas": "/battle-animations/hd/1287-v61.webp",
-      "metaSha256": "ad7bc8abc5b606aa6882393ab5c89cef2467c9b8bcb034c9a1fd6a3acebff9bf",
-      "atlasSha256": "d7b5cb54b41e69a52ac2a00c5731b6d3c4a8ee521b56f44e91d844c80ad1829d",
-      "reportPath": ".cache/battle-hd-v61/species/1287/report.json",
-      "reportSha256": "7b021ed286823ede7350c18c691456b4cec12c3afe29d3020cefaa3d4dbecbad",
+      "meta": "/battle-animations/hd/1287-v62.json.gz",
+      "atlas": "/battle-animations/hd/1287-v62.webp",
+      "metaSha256": "acdabeb8260c43813c3ab16f1d565fa4030b90336e86c9626a24c3eff86ec4d9",
+      "atlasSha256": "819c27924077d6fbb095c879f7f7ab6e39f2e93cf389b950baa988cdd2731506",
+      "reportPath": ".cache/battle-hd-v62/species/1287/report.json",
+      "reportSha256": "25f886842e41f5ab7ccfbbd4d3f4301ff7444dab126e0875aca90aa127097e27",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1288": {
@@ -83717,31 +83803,34 @@
       "sourceBitmapCount": 0,
       "counts": {
         "original-vector": 12,
-        "retained-original-cell": 1
+        "redrawn": 1
       },
       "resolutionCounts": {
         "original-vector:4x": 12,
-        "retained-original-cell:1x": 1
+        "redrawn:2x": 1
       },
       "improvedVectorCells": 12,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 0,
+      "redrawnCells": 1,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Native-resolution source fidelity check failed": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 9,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 9,
       "firstPoseVectorCells": 8,
       "firstPoseHigherResolutionCells": 8,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 0,
+      "firstPoseRedrawnCells": 1,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 1756,
-      "atlasHeight": 1824,
-      "atlasRgbaBytes": 12811776,
+      "atlasWidth": 684,
+      "atlasHeight": 4460,
+      "atlasRgbaBytes": 12202560,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -83752,21 +83841,22 @@
         "originalDecodedBytes": 1048576,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          1756,
-          1824
+          684,
+          4460
         ],
-        "actualDecodedBytes": 12811776,
+        "actualDecodedBytes": 12202560,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "4833b12df6c8190d5cd7ae5959505316bdceaff4dcf94e9315c1724c2d75a939",
       "originalAtlasSha256": "197b7d7212efc1d7123a92505f05f18454cab2c0d1a853fd9c1d7f288ca680eb",
-      "meta": "/battle-animations/hd/1353-v44.json.gz",
-      "atlas": "/battle-animations/hd/1353-v44.png",
-      "metaSha256": "6c25042b857d69b5893a52d5184fa848584f091fa5b7c195191f6606fb1e929e",
-      "atlasSha256": "032a67874675afffb49d45a1c338682c238becb677b6c540b01e677c955c1513",
-      "reportPath": ".cache/battle-hd-v44/species/1353/report.json",
-      "reportSha256": "8296b45a7beaaf78c8438591708a86762d45167d9d424379cf5b65d33f2cf798",
-      "reportRevision": 6,
+      "meta": "/battle-animations/hd/1353-v62.json.gz",
+      "atlas": "/battle-animations/hd/1353-v62.webp",
+      "metaSha256": "37cdb5ed35c67f847ed6a889f7d5396eaf11d3b23b204b62758a8c85eefb1dd5",
+      "atlasSha256": "be8b3a65393dd5d0671420083b6763503d24e718e62111833ee167906fe23f74",
+      "reportPath": ".cache/battle-hd-v62/species/1353/report.json",
+      "reportSha256": "b55e1b5eb9fcd9e1b8daf9793fa45216493941240070e29f30cb6d84f31e8292",
+      "reportRevision": 1,
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1354": {
@@ -84319,8 +84409,7 @@
         "original-vector": 23,
         "ai-upscaled": 1,
         "constant-original-rgba": 1,
-        "redrawn": 1,
-        "retained-original-cell": 1
+        "redrawn": 2
       },
       "resolutionCounts": {
         "original-vector:4x": 14,
@@ -84328,19 +84417,16 @@
         "original-vector:8x": 4,
         "ai-upscaled:2x": 1,
         "constant-original-rgba:4x": 1,
-        "redrawn:16x": 1,
-        "retained-original-cell:1x": 1
+        "redrawn:16x": 2
       },
       "improvedVectorCells": 23,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
       "aiUpscaledCells": 1,
-      "redrawnCells": 1,
+      "redrawnCells": 2,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 1,
-      "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 1
-      },
+      "nativeRetainedCells": 0,
+      "retainedReasonCounts": {},
       "firstPoseCells": 14,
       "firstPoseConstantCells": 0,
       "firstPoseNonconstantCells": 14,
@@ -84352,9 +84438,9 @@
       "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 2816,
-      "atlasHeight": 2780,
-      "atlasRgbaBytes": 31313920,
+      "atlasWidth": 1788,
+      "atlasHeight": 4070,
+      "atlasRgbaBytes": 29108640,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -84365,22 +84451,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          2816,
-          2780
+          1788,
+          4070
         ],
-        "actualDecodedBytes": 31313920,
+        "actualDecodedBytes": 29108640,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "34307b8ae3ba5604a1870671f92d96f9c3075bdc44f1d248a052e3313965e0d5",
       "originalAtlasSha256": "a5b4583c9d4d7683b23de0d63a4fe68465c64b437abdd9fd2b5a75bd045fee19",
-      "meta": "/battle-animations/hd/1363-v61.json.gz",
-      "atlas": "/battle-animations/hd/1363-v61.webp",
-      "metaSha256": "c115746b62317b9e3fb84258e3aee96dc85fee18e13464e0c5d633cf5be1c696",
-      "atlasSha256": "6acec9fd9068123abb071b30dc4ab858e63a487e795c990c29d49ca472a639af",
-      "reportPath": ".cache/battle-hd-v61/species/1363/report.json",
-      "reportSha256": "968f46fe4cd8b209108ab83976248673cde72783178114790bc0ce779da9af68",
+      "meta": "/battle-animations/hd/1363-v62.json.gz",
+      "atlas": "/battle-animations/hd/1363-v62.webp",
+      "metaSha256": "84f1daff8e82882604cd4c66cb6ea665f8257b88fdafff7262ba1601cd1c62d9",
+      "atlasSha256": "1a4de4db1912cef13323a0dd1028b1d36d74f55fb8f4a2948eeee133b2085009",
+      "reportPath": ".cache/battle-hd-v62/species/1363/report.json",
+      "reportSha256": "7324bf240b491b820902e7ac6ab0f1d09bbd8915f037ad069b5237d758562c2f",
       "reportRevision": 1,
-      "reportKind": "redrawn-raster-override",
+      "reportKind": "first-pose-priority-override",
       "validatedPixelsAndMetadata": true
     },
     "1364": {
