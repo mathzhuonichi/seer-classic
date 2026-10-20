@@ -7,6 +7,11 @@ type FrameKind = BattlePresentationFrame['kind'];
 /** Default on-screen time per frame kind. */
 export const FRAME_MS: Record<FrameKind, number> = { physical: 680, special: 700, status: 620, hit: 490, heal: 530, switch: 620, capture: 2200, message: 480 };
 export const CRITICAL_HIT_MS = 800;
+/**
+ * A hit followed straight away by another on the same creature is one of a move's several hits: the next one lands this long
+ * after it, while the attacker is still at the target. Only the last hit waits for the attacker's clip to end.
+ */
+export const FOLLOW_UP_HIT_MS = 250;
 /** Under reduced motion every frame except a capture, and every skill effect, takes this long. */
 export const REDUCED_MOTION_MS = 160;
 /** The capture dialogue reveals the outcome this long into the capsule animation. */
@@ -40,6 +45,9 @@ export function planBattleFrame(frame: BattlePresentationFrame, following: Battl
     : frame.kind === 'hit' && frame.critical ? CRITICAL_HIT_MS
     : FRAME_MS[frame.kind];
   const move = isMoveFrame(frame);
+  if (frame.kind === 'hit' && following?.kind === 'hit' && following.side === frame.side) {
+    return { delayMs: reducedMotion ? REDUCED_MOTION_MS : FOLLOW_UP_HIT_MS, effect: 'keep', actionMs: null, awaitRunning: false };
+  }
   if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: frame.kind === 'hit' };
   const effect = effectMs ? { delayMs: reducedMotion ? 0 : timing?.hitMs ?? 0, durationMs: reducedMotion ? REDUCED_MOTION_MS : effectMs } : 'clear';
   const clip = reducedMotion ? null : timing ?? null;
