@@ -1043,6 +1043,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-df9a24e28a7e": {
+      "url": "http://news.7k7k.com/content/20100809/12295.html",
+      "scope": "2010-08-09 report: the Saturday \u5384\u5c14\u585e\u62c9 hits \u4e3d\u838e\u5e03\u5e03 with \u65f6\u7a7a\u88c2\u75d5 for 30-40 HP.",
+      "verification": "verified-period-observation"
+    },
     "src-dfe1e2bececd": {
       "url": "https://news.4399.com/gonglue/seer/saiergonglue/201305-03-262154.html",
       "scope": "Qilin wheel-2 report: HP.",
@@ -18400,14 +18405,15 @@
       "id": "boss_spt_eersaila",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_eersaila.json",
-      "sourceSha256": "6b3bb270ab8c05e91067a3fbf9e9f812a3292f667508c5236c0443a164124d9a",
-      "sourceNoteSha256": "1e67234e49dc2c3ed37dae146d626e091d296e26e144367cc4bc0cc2851c5d89",
+      "sourceSha256": "0395a03dbaa9bd02790023263d9960a87dc2b04b8e821dd02f5f42f277a54632",
+      "sourceNoteSha256": "763b1b6fbeffb6037f1effc1a72194e3f1afe88dfdd83d341f7f9cb714ea0a55",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201008-14-75469.html",
         "https://wenda.4399.com/question/2/28746.html",
         "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
         "https://news.4399.com/seer/tujian/74884.htm",
-        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+        "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "http://news.7k7k.com/content/20100809/12295.html"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -18435,7 +18441,7 @@
               11140,
               20564,
               11136,
-              10632
+              11139
             ]
           },
           "fields": {
@@ -18478,13 +18484,12 @@
             "skills": {
               "status": "inferred",
               "basis": "explicit-estimate",
-              "note": "A species learnset or a report naming some attacks does not certify the complete four-slot boss loadout.",
+              "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-485d7afb2873",
-                "src-78f2a0b6bdb2",
-                "src-eebfffd13161",
-                "src-9141f541105f",
-                "src-8eb57901706b"
+                "src-df9a24e28a7e"
+              ],
+              "verifiedMoveIds": [
+                11139
               ]
             }
           },
@@ -18807,7 +18812,7 @@
             11140,
             20564,
             11136,
-            10632
+            11139
           ]
         }
       },
@@ -18858,11 +18863,7 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-485d7afb2873",
-            "src-78f2a0b6bdb2",
-            "src-8eb57901706b",
-            "src-9141f541105f",
-            "src-eebfffd13161"
+            "src-df9a24e28a7e"
           ]
         },
         "rules": {
