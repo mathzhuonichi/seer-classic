@@ -57,6 +57,8 @@ EIGHT_MODE = 'lanczos'
 # 'blend': the model's alpha where the interpolated alpha is at least BLEND_HIGH, the interpolated alpha below
 # BLEND_LOW (faint glows the model would round to zero), linear between.
 BLEND_LOW, BLEND_HIGH = 16, 64
+# Clamp each output channel to the native 3x3 neighbourhood range (tile_at).
+CLAMP = True
 # 'edge': the model's alpha where the native alpha changes by at least EDGE_HIGH within a 3x3 neighbourhood (a
 # silhouette edge), the interpolated alpha where it changes by at most EDGE_LOW (glows and soft gradients, which the
 # model would harden), linear between.
@@ -78,6 +80,7 @@ def method():
     """Everything that determines an AI tile besides the cell's own pixels."""
     return {**UPSCALER, 'padding': PAD, 'colourAlphaMinimum': COLOUR_ALPHA, 'alphaMode': ALPHA_MODE,
             'alphaBlend': [BLEND_LOW, BLEND_HIGH], 'alphaEdge': [EDGE_LOW, EDGE_HIGH], 'eightTimesMode': EIGHT_MODE,
+            'sourceRangeClamp': '3x3 native neighbourhood, every channel' if CLAMP else None,
             'reduction': 'premultiplied box filter'}
 
 
@@ -263,9 +266,25 @@ def edge_weight(alpha, factor):
     return np.asarray(Image.fromarray(weight, 'F').resize((width*factor, height*factor), Image.Resampling.BILINEAR), dtype=np.float64)
 
 
-def tile_at(output, scale, alpha_mode=None, eight_mode=None):
-    """Straight RGBA tile at `scale` from a cell's model outputs."""
+def source_range(output, factor):
+    """Per-channel minimum and maximum of each native pixel's 3x3 neighbourhood (bled colour and alpha), repeated to
+    `factor` times the native size."""
+    native = np.concatenate((output['inputs']['rgb'], output['inputs']['alpha'][:, :, :1]), axis=2)[PAD-1:-PAD+1, PAD-1:-PAD+1]
+    height, width = native.shape[0]-2, native.shape[1]-2
+    windows = [native[dy:dy+height, dx:dx+width] for dy in range(3) for dx in range(3)]
+    def enlarge(values):
+        return np.repeat(np.repeat(values, factor, axis=0), factor, axis=1)
+    return enlarge(np.min(windows, axis=0)), enlarge(np.max(windows, axis=0))
+
+
+def tile_at(output, scale, alpha_mode=None, eight_mode=None, clamp=None):
+    """Straight RGBA tile at `scale` from a cell's model outputs.
+
+    With CLAMP every channel stays within the range of the native pixel's 3x3 neighbourhood: the model may sharpen a
+    transition but not overshoot it, so it cannot draw a new dark line, ring or halo beside an edge.
+    """
     alpha_mode, eight_mode = alpha_mode or ALPHA_MODE, eight_mode or EIGHT_MODE
+    clamp = CLAMP if clamp is None else clamp
     factor = 8 if scale == 8 and eight_mode == 'second-pass' else 4
     crop = PAD*factor
     # The model's colour stays under transparent texels too: it continues the bled colour, so no dark fringe.
@@ -276,7 +295,10 @@ def tile_at(output, scale, alpha_mode=None, eight_mode=None):
         size = (tile.shape[1]*2, tile.shape[0]*2)
         channels = [np.asarray(Image.fromarray(tile[:, :, c].astype(np.float32), 'F').resize(size, Image.Resampling.LANCZOS))
                     for c in range(4)]
-        return np.clip(np.rint(np.stack(channels, axis=2)), 0, 255).astype(np.uint8)
+        tile, factor = np.clip(np.rint(np.stack(channels, axis=2)), 0, 255).astype(np.uint8), 8
+    if clamp:
+        low, high = source_range(output, factor)
+        tile = np.clip(tile, low, high)
     return reduce_premultiplied(tile, factor//scale) if factor > scale else tile
 
 

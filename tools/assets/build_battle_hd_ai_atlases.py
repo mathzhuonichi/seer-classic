@@ -274,9 +274,11 @@ def build(sid, entry, report_path, args):
         raise ValueError(f'{sid}: the published atlas already uses an original-size budget exception')
     chosen, small = selection(base, args.scope)
     if not chosen:
-        raise ValueError(f'{sid}: no eligible raster cell')
+        raise ValueError(f'{sid}: no eligible raster cell' + (' above the minimum size' if small else ''))
     accepted, rejected, outputs = upscale(base, chosen, args.model_cache)
     layout, reductions = pack_ai(base, accepted, outputs, args.max_rgba_mib*1024**2)
+    if not accepted:
+        raise ValueError(f'{sid}: no AI cell passed the gate within the budget')
     rejected.update(base.pop('dropped', {}))
     canvas, tiles = compose(base, accepted, layout)
     meta = base['meta']

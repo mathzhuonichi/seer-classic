@@ -23,7 +23,7 @@ import numpy as np
 from PIL import Image, ImageOps
 
 import battle_hd_ai_upscale as ai
-from build_battle_hd_ai_atlases import ROOT, HD_INDEX, HD_MANIFEST, base_species, load_base, read_json
+from build_battle_hd_ai_atlases import ROOT, HD_INDEX, HD_MANIFEST, OUTPUT_TAG, base_species, load_base, read_json
 
 PERCENTILES = (1, 5, 50, 95, 99)
 
@@ -78,15 +78,32 @@ def truth_metrics(candidate, truth, shift=None, radius=0):
             'sharpnessRatio': float(sharp_a/sharp_b) if grad.size and sharp_b > 0 else 1.0}
 
 
+def variants(scale):
+    """Every alpha mode and 8x mode without the source-range clamp, and the chosen alpha mode with it."""
+    eights = ai.EIGHT_MODES if scale == 8 else ai.EIGHT_MODES[:1]
+    return ([(alpha, eight, False) for alpha in ai.ALPHA_MODES for eight in eights]
+            + [(ai.ALPHA_MODE, eight, True) for eight in eights])
+
+
+def source_base(sid, published, manifest):
+    """The published source-only atlas of a species and its report, also once a V60 atlas replaced it."""
+    if published[sid]['atlas'].endswith(f'-{OUTPUT_TAG}.webp'):
+        base = read_json(ROOT/'.cache/battle-hd-v60/species'/sid/'report.json')['base']
+        return {key: base[key] for key in ('meta', 'atlas', 'metaSha256', 'atlasSha256')}, base['reportPath']
+    return base_species([sid], published, manifest)[sid]
+
+
 def sample(count, per_species, seed):
+    """A deterministic sample of known-good original-vector cells; independent of which species are published as V60."""
     published, manifest = read_json(HD_INDEX)['species'], read_json(HD_MANIFEST)['species']
-    ids = sorted(base_species([s for s in published if s != '346'], published, manifest))
+    # The reviewed 346 prototype report has another format (base_species).
+    ids = sorted((s for s in published if s != '346'), key=str)
     random.Random(seed).shuffle(ids)
     chosen = []
     for sid in ids:
         if len(chosen) >= count:
             break
-        entry, report_path = base_species([sid], published, manifest)[sid]
+        entry, report_path = source_base(sid, published, manifest)
         base = load_base(sid, entry, report_path)
         cells = [item for item in base['cells'] if item['cell']['mode'] == 'original-vector'
                  and item['placement']['width'] > item['native'].shape[1] and 8 <= min(item['native'].shape[:2])
@@ -132,12 +149,11 @@ def main():
         row['lanczosTruth'] = truth_metrics(baseline, cell['truth'])
         row['lanczosAligned'] = truth_metrics(baseline, cell['truth'], shift, radius)
         row['ai'] = {}
-        for alpha_mode in ai.ALPHA_MODES:
-            for eight_mode in (ai.EIGHT_MODES if cell['scale'] == 8 else ai.EIGHT_MODES[:1]):
-                tile = ai.tile_at(outputs[i], cell['scale'], alpha_mode, eight_mode)
-                row['ai'][f'{alpha_mode}/{eight_mode}'] = {'truth': truth_metrics(tile, cell['truth']),
-                                                         'aligned': truth_metrics(tile, cell['truth'], shift, radius),
-                                                         'gate': ai.gate_metrics(cell['native'], tile, cell['scale'])}
+        for alpha_mode, eight_mode, clamp in variants(cell['scale']):
+            tile = ai.tile_at(outputs[i], cell['scale'], alpha_mode, eight_mode, clamp)
+            row['ai'][f'{alpha_mode}/{eight_mode}' + ('/clamp' if clamp else '')] = {
+                'truth': truth_metrics(tile, cell['truth']), 'aligned': truth_metrics(tile, cell['truth'], shift, radius),
+                'gate': ai.gate_metrics(cell['native'], tile, cell['scale'])}
         rows.append(row)
     gate_keys = ('alphaIoU16', 'premultipliedRgbaMae', 'blockError')
     truth_keys = ('alphaIoU16', 'premultipliedRgbaMae', 'gradientMae', 'sharpnessRatio')
