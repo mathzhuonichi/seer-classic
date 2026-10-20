@@ -16,10 +16,10 @@
       "evs": {},
       "nature": null,
       "skills": [
+        21051,
+        12047,
         12050,
-        21052,
-        12048,
-        12051
+        21052
       ],
       "hp_override": 2000
     }
@@ -35,10 +35,10 @@
   "ai": {
     "kind": "smart",
     "skills": [
+      21051,
+      12047,
       12050,
-      21052,
-      12048,
-      12051
+      21052
     ]
   },
   "reward": {
@@ -63,7 +63,7 @@
   "engine_notes": [
     "Pre-battle requirement: player must wear the 高压水枪 suit and shoot the boss with the head item; model as an unlock flag (item_suit_high_pressure_water_gun) rather than a battle rule.",
     "Level 55 is the official SPT table value (maps.json map 54, 'SPT克莱芬难度1'). HP 2000 remains an estimate for the drunk first fight.",
-    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "skills: the drunk fight uses the Boss-only form 5029 (2013 client: 2529) at Lv55. Its learnset equals species 855's, so the Boss has the last four learnt at or below Lv55: 魔火邪力, 致命漏洞, 酒火回体, 醉酒燃烧. A 4399 battle screenshot of the Lv55 fight (2011-07-22) shows 醉酒燃烧 and 致命漏洞, and a 2023 recording of the Flash client adds 酒火回体. The former 暴火焚烧 (Lv57) and 怒火咆哮 (Lv61) are above the fight level.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {
@@ -80,7 +80,8 @@
   "sources": [
     "https://news.4399.com/seer/spt/201108-23-111468.html",
     "https://news.4399.com/jdseer/xinde/m/808365.html",
-    "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json"
+    "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+    "https://news.4399.com/seer/zenmezhua/201107-22-105527.html"
   ],
   "source_note": "4399 (2011-08 compilation) describes a two-step quest: drunk fight (gives 精元) then an 80级 rematch (achievement)."
 }

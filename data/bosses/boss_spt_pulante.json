@@ -16,10 +16,10 @@
       "evs": {},
       "nature": null,
       "skills": [
-        12796,
-        12794,
+        12795,
+        21451,
         12793,
-        21451
+        12796
       ],
       "hp_override": 8000
     }
@@ -91,10 +91,10 @@
   "ai": {
     "kind": "smart",
     "skills": [
-      12796,
-      12794,
+      12795,
+      21451,
       12793,
-      21451
+      12796
     ]
   },
   "reward": {
@@ -121,7 +121,8 @@
     "immune_stage_down: 属性消弱吸能无效.",
     "Innate 攻击等级+2 (sic; the 4399 text says attack even though the species is a special attacker) — boost can be cleared (雷伊消强).",
     "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated).",
-    "Boss version of 混沌绿光 puts the player to sleep at least 50% of the time (learnset version: 10%); 蚀梦术 is said to crit 25% vs sleeping targets. The boss is seen using 混沌绿光, 蚀梦术 and 灵光缠绕 (4399 2012-05-19); 蚀梦术 takes the slot of 破魂射线, and 虚空魔刺 remains the learnset top move.",
+    "Boss version of 混沌绿光 puts the player to sleep at least 50% of the time (learnset version: 10%).",
+    "skills: 破魂射线, 灵光缠绕, 虚空魔刺, 混沌绿光 = species 1191's last four at or below Lv80. Period battle logs show all four: 4399 screenshots (2012-05-18/19) and three 2012 fight videos show 混沌绿光, 灵光缠绕 and 虚空魔刺, and one 4399 screenshot (2012-05-19) shows 破魂射线. The 4399 SPT guide of 2012-05-19 says it uses 蚀梦术 on a sleeping pet, but that sentence restates the move's description and no log shows 蚀梦术, including the guide's own linked videos, so 蚀梦术 is not kept.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {
@@ -138,7 +139,9 @@
   },
   "sources": [
     "https://news.4399.com/seer/spt/201205-19-161367.html",
-    "https://news.4399.com/seer/jingyanxinde/201208-13-186773_3.html"
+    "https://news.4399.com/seer/jingyanxinde/201208-13-186773_3.html",
+    "https://news.4399.com/seer/jingyanxinde/201205-19-161214_2.html",
+    "http://v.4399pk.com/seer/video_124268.htm"
   ],
   "source_note": "4399 SPT page 2012-05-19: 8000血量, 天生攻击+2, 暴击率很高, 海洋之心无效."
 }

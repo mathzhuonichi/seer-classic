@@ -16,10 +16,10 @@
       "evs": {},
       "nature": null,
       "skills": [
-        12741,
-        12736,
         12740,
-        21422
+        21423,
+        12736,
+        12741
       ],
       "hp_override": 8000,
       "stat_multipliers": {
@@ -38,10 +38,10 @@
   "ai": {
     "kind": "smart",
     "skills": [
-      12741,
-      12736,
       12740,
-      21422
+      21423,
+      12736,
+      12741
     ]
   },
   "reward": {
@@ -64,7 +64,8 @@
     "zh": "没有明显强化、吃属性相克，较好打：凯洛亚水之结界弱化/补血→斯加尔卡自杀→盖亚返璞归真强化后石破天惊秒杀；战斗系精灵有效。"
   },
   "engine_notes": [
-    "4399: 每回合容易给我方精灵造成睡眠和害怕状态 — sleep likely from its 打盹/boss-only effects, fear from 展翅冲锋 (15%). The 4th skill is a guess (打盹 21422 fits the 'sleeping dragon' theme); engine may need a boss-only sleep-inflicting variant.",
+    "4399: 每回合容易给我方精灵造成睡眠和害怕状态. Fear fits 展翅冲锋 (15%). No move of the Boss causes sleep: in the 2012 battle logs the sleep appears right after the player's own move, so it is a Boss effect (server effect index 107, shared with 普兰特). It is not modelled.",
+    "skills: all four appear in the Boss's battle log in 4399's 2012 fight video (id 120526): 混沌惩戒, 震怒之魂, 展翅冲锋, 龙怒乾坤, which are species 1164's last four at or below Lv80. The former fourth move 打盹 was a guess; it is named only as a learnable move in a player-build article (4399 2012-04-28), never as a Boss move.",
     "速度极慢 — spe x0.5 estimate.",
     "HP and level not measured by the guide (作者用盖亚秒杀); estimates.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
@@ -77,14 +78,14 @@
       "nature",
       "level",
       "hp",
-      "skills",
       "stat_multipliers"
     ]
   },
   "sources": [
     "https://news.4399.com/news/seerwenda/156097.html",
     "https://news.4399.com/seer/zenmezhua/201204-25-156108.html",
-    "https://news.4399.com/seer/tujian/156453.htm"
+    "https://news.4399.com/seer/tujian/156453.htm",
+    "http://v.4399pk.com/seer/video_120526.htm"
   ],
   "source_note": "4399 guide 2012-04-27: slow, frequent sleep/fear, no innate boost; HP 'not measured'."
 }

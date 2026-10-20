@@ -16,10 +16,10 @@
       "evs": {},
       "nature": null,
       "skills": [
-        11358,
         20457,
-        11357,
-        20528
+        11356,
+        20528,
+        11357
       ],
       "hp_override": 1500
     }
@@ -57,10 +57,10 @@
   "ai": {
     "kind": "smart",
     "skills": [
-      11358,
       20457,
-      11357,
-      20528
+      11356,
+      20528,
+      11357
     ]
   },
   "reward": {
@@ -89,7 +89,8 @@
     "Pre-battle requirement: the player must wear no equipment (戴斯星 can only be walked without gear) — unlock flag no_equipment.",
     "PP-exhaust strategy is the classic answer, so no_struggle (a boss at 0 PP cannot act).",
     "Immune to 同生共死, 镇魂歌, 极度冰点; its own skills always hit.",
-    "Skills: 火龙红莲击 is reported (4399 2010-11-22: the first five pets drain its PP) and takes the slot of 龙族之力; 火光四溅/火龙的咆哮/进攻意识 remain the Lv50 learnset top moves. HP not published (1500 estimate).",
+    "HP not published (1500 estimate).",
+    "skills: 火龙的咆哮, 龙族之力, 进攻意识, 火龙红莲击. 4399's release-day fight video (id 21622, Lv50 badge) shows the Boss using 龙族之力 and 火龙的咆哮 against a water pet, and 4399 2010-11-22 says five non-water pets drain 火龙红莲击's PP in this first fight, so this Lv61 move was hand-added. The fourth slot is the latest-learnt remaining move of species 538's Lv50 last four (进攻意识); 火光四溅 is not attested and is dropped.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {
@@ -106,7 +107,8 @@
     "https://news.4399.com/seer/spt/201011-22-81263.html",
     "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
     "https://news.4399.com/seer/saiergonglue/201011-19-81094.html",
-    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+    "http://v.4399pk.com/seer/video_21622.htm"
   ],
   "source_note": "4399 BOSS page (2010-11-22) and techbang (2011-01): 两次挑战 LV50 (精元) / LV80 (烈火之翼), 需脱装备."
 }
