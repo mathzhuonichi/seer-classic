@@ -3,7 +3,7 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 686,
+    "handledEntries": 687,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
     "approximatedEntries": 121,
@@ -5584,8 +5584,16 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
-          "rule": "immune_status_list",
+          "rule": "barrier_until_skill",
           "scope": "root/rules/1",
+          "fields": [
+            "skill"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_status_list",
+          "scope": "root/rules/2",
           "fields": [
             "statuses"
           ],
@@ -5594,7 +5602,7 @@
         {
           "rule": "script",
           "id": "unlimited_pp_skill",
-          "scope": "root/rules/2",
+          "scope": "root/rules/3",
           "fields": [
             "skill"
           ],
@@ -5610,7 +5618,7 @@
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/1",
+          "scope": "engine_notes/3",
           "reason": "Status: 4399 (2010-06): 'BOSS不再受冻伤、中毒等异常状态影响' (a patch removed DoT cheese), yet 寄生种子 is still the core strategy in every 2010-2011 guide, so leech is NOT in the immunity list. Burn assumed immune with poison/freeze."
         }
       ],

@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 401,
+    "ruleNodes": 402,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -310,6 +310,11 @@
     },
     "src-3b4579a0f85a": {
       "url": "https://news.4399.com/seer/jingyanxinde/201208-13-186773.html",
+      "scope": "Listed by an encounter; no field verified by URL presence.",
+      "verification": "metadata-only"
+    },
+    "src-3ca97591605e": {
+      "url": "https://news.4399.com/seer/spt/200911-23-48479.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
@@ -28794,13 +28799,15 @@
       "id": "boss_spt_younasi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_younasi.json",
-      "sourceSha256": "925441be5e611c2c5dbd8ca929cfda796f0965b0ac0d5adc621f54b8273e0d50",
+      "sourceSha256": "6bdd2fbe22c940954683ce1d9ffaaf37b1a43c1d5c1c562d6c95d709c62b1269",
       "sourceNoteSha256": "ac281fbd41b4cddb56a831e4d663f4b6bfdf0e5147ad6ca085fc24c6dec787c6",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201006-05-70397.html",
         "https://news.7k7k.com/content/20110316/76862.html",
         "https://wenda.4399.com/question/4/42732.html",
-        "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html"
+        "https://news.4399.com/seer/seertuijiangonglue/sptgonglue/201006-01-69998.html",
+        "https://news.4399.com/seer/yzzt/201005-26-69566.html",
+        "https://news.4399.com/seer/spt/200911-23-48479.html"
       ],
       "originalConfidence": {
         "level": "high",
@@ -28897,6 +28904,22 @@
         {
           "index": 1,
           "path": "rules[1]",
+          "rule": "barrier_until_skill",
+          "configuration": {
+            "rule": "barrier_until_skill",
+            "skill": 10323
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 2,
+          "path": "rules[2]",
           "rule": "immune_status_list",
           "configuration": {
             "rule": "immune_status_list",
@@ -28915,8 +28938,8 @@
           }
         },
         {
-          "index": 2,
-          "path": "rules[2]",
+          "index": 3,
+          "path": "rules[3]",
           "rule": "unlimited_pp_skill",
           "configuration": {
             "rule": "script",
