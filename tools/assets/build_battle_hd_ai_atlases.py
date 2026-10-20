@@ -169,34 +169,93 @@ def gate(item, output, scale):
     return tile, metrics, ai.gate_passes(metrics)
 
 
+def reduction_steps(accepted):
+    """The order in which AI cells halve when the page does not fit: the largest AI cell outside the first standby
+    pose first, then first-pose cells. Each step halves one cell."""
+    scales = {cid: record['scale'] for cid, record in accepted.items()}
+    first = {cid: record['item']['row']['appearsInFirstStandbyPose'] for cid, record in accepted.items()}
+    area = {cid: record['item']['native'].shape[0]*record['item']['native'].shape[1] for cid, record in accepted.items()}
+    steps = []
+    while any(scale > 1 for scale in scales.values()):
+        cid = max((c for c in scales if scales[c] > 1), key=lambda c: (not first[c], area[c]*scales[c]**2, c))
+        steps.append((cid, scales[cid], scales[cid]//2))
+        scales[cid] //= 2
+    return steps
+
+
+def rows_for(base, scales):
+    """Packing rows: AI cells at their scale (1x is the native size), every other cell at its published size."""
+    rows = []
+    for item in base['cells']:
+        scale = scales.get(item['id'])
+        width, height = ((item['native'].shape[1]*scale, item['native'].shape[0]*scale) if scale
+                         else (item['placement']['width'], item['placement']['height']))
+        rows.append({'id': item['id'], 'sourceUvBounds': item['placement']['sourceUvBounds'], 'width': width, 'height': height})
+    return rows
+
+
+def fewest_steps(base, accepted, steps, max_bytes):
+    """The fewest reduction steps after which pack_rows fits the page, and its layout.
+
+    Step counts whose padded area alone exceeds the budget are skipped without packing; the rest are searched by
+    galloping and bisection, so a budget-limited atlas needs a few packings instead of one per step.
+    """
+    def scales_after(k):
+        scales = {cid: record['scale'] for cid, record in accepted.items()}
+        for cid, _, scale in steps[:k]:
+            scales[cid] = scale
+        return scales
+    def attempt(k):
+        rows = rows_for(base, scales_after(k))
+        if sum((r['width']+4)*(r['height']+4) for r in rows) > max_bytes//4:
+            return None
+        try:
+            return pack_rows(rows, max_bytes)
+        except ValueError:
+            return None
+    failed, k, stride = -1, 0, 1
+    while (layout := attempt(k)) is None:
+        if k == len(steps):
+            raise ValueError('The published source cells alone do not fit the budget')
+        failed, k, stride = k, min(k+stride, len(steps)), stride*2
+    low, high = failed+1, k-1
+    while low <= high:
+        middle = (low+high)//2
+        if (found := attempt(middle)) is None:
+            low = middle+1
+        else:
+            k, layout, high = middle, found, middle-1
+    return k, layout, scales_after(k)
+
+
 def pack_ai(base, accepted, outputs, max_bytes):
-    """Pack base cells at their published size and AI cells at their scale, halving AI cells until the page fits."""
+    """Pack base cells at their published size and AI cells at their scale, halving AI cells until the page fits.
+
+    A cell halved to 1x, or failing the gate at its reduced scale, returns to its original pixels (base['dropped']).
+    """
     reductions = []
     while True:
-        rows = [{'id': item['id'], 'sourceUvBounds': item['placement']['sourceUvBounds'],
-                 'width': accepted[item['id']]['tile'].shape[1] if item['id'] in accepted else item['placement']['width'],
-                 'height': accepted[item['id']]['tile'].shape[0] if item['id'] in accepted else item['placement']['height']}
-                for item in base['cells']]
-        try:
-            return pack_rows(rows, max_bytes), reductions
-        except ValueError:
-            if not accepted:
-                raise ValueError('The published source cells alone do not fit the budget')
-            cid = max(accepted, key=lambda key: (not accepted[key]['item']['row']['appearsInFirstStandbyPose'],
-                                                 accepted[key]['tile'].size, key))
+        steps = reduction_steps(accepted)
+        k, layout, scales = fewest_steps(base, accepted, steps, max_bytes)
+        reductions.extend({'cell': cid, 'from': old, 'to': new, 'reason': 'Single-page decoded RGBA budget.'} for cid, old, new in steps[:k])
+        dropped = False
+        for cid, scale in scales.items():
             record = accepted[cid]
-            scale = record['scale']//2
-            reductions.append({'cell': cid, 'from': record['scale'], 'to': scale, 'reason': 'Single-page decoded RGBA budget.'})
+            if scale == record['scale']:
+                continue
             if scale == 1:
-                record['dropped'] = 'The decoded budget left no room above 1x; original pixels kept.'
+                record['dropped'] = {'reason': 'The decoded budget left no room above 1x; original pixels kept.', 'at': record['scale']}
             else:
                 tile, metrics, passed = gate(record['item'], outputs[cid], scale)
                 record.update(scale=scale, tile=tile, gate=metrics)
                 if not passed:
-                    record['dropped'] = f'Failed the native gate after the budget reduced it to {scale}x; original pixels kept.'
+                    record['dropped'] = {'reason': f'Failed the native gate after the budget reduced it to {scale}x; original pixels kept.',
+                                         'at': scale}
             if 'dropped' in record:
-                record['dropped'] = {'reason': record['dropped'], 'at': record['scale']}
                 base.setdefault('dropped', {})[cid] = accepted.pop(cid)
+                dropped = True
+        if not dropped:
+            return layout, reductions
 
 
 def compose(base, accepted, layout):
@@ -290,7 +349,7 @@ def build(sid, entry, report_path, args):
     shutil.copy2(source, work/'source.json')
     args.output.mkdir(parents=True, exist_ok=True)
     atlas_output, meta_output = args.output/f'{sid}-{OUTPUT_TAG}.webp', args.output/f'{sid}-{OUTPUT_TAG}.json.gz'
-    canvas.save(atlas_output, format='WEBP', lossless=True, exact=True, method=1, quality=50)
+    canvas.save(atlas_output, format='WEBP', lossless=True, exact=True, method=0, quality=50)
     meta_output.write_bytes(gzip.compress(json.dumps(remap_clip(meta, layout), separators=(',', ':')).encode(), mtime=0))
     cells = cell_records(base, accepted, rejected, small, tiles)
     report = species_report(sid, base, cells, layout, reductions, verification, args)
@@ -329,6 +388,24 @@ def species_report(sid, base, cells, layout, reductions, verification, args):
             'verification': verification, 'cells': cells}
 
 
+def reusable_report(sid, entry, report_path, args):
+    """An existing report built by this revision, scope, method and gate from the same base, whose outputs still match."""
+    path = args.cache/'species'/sid/'report.json'
+    if not path.exists():
+        return None
+    report = read_json(path)
+    base = report.get('base', {})
+    if (report.get('revision') != REVISION or report.get('scope') != args.scope or report.get('upscaler') != ai.method()
+            or report.get('gate') != ai.GATE or base.get('atlasSha256') != entry['atlasSha256']
+            or base.get('reportSha256') != sha((ROOT/report_path).read_bytes())):
+        return None
+    for key in ('meta', 'atlas'):
+        output = args.output/Path(report[key]).name
+        if not output.exists() or sha(output.read_bytes()) != report[key+'Sha256']:
+            return None
+    return report
+
+
 def attempt(sid, entry, report_path, args):
     try:
         return sid, build(sid, entry, report_path, args), None
@@ -355,6 +432,31 @@ def batches(species, args):
             batch, cells, scales, pixels = [], {}, {}, 0
     if batch:
         yield batch, cells, scales
+
+
+def model_batches(species, args):
+    """(species, args with the batch's model cache) per batch; the next batch's model runs while this one builds."""
+    def run(number, cells, scales):
+        cache, started = args.model_cache/f'batch-{number}', time.monotonic()
+        if cells:
+            ai.prepare(cells, scales, cache)
+        print(json.dumps({'batch': number, 'cells': len(cells), 'modelSeconds': round(time.monotonic()-started, 1)}), flush=True)
+        return copy.copy(args), cache
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as model:
+        queued = None
+        for number, (batch, cells, scales) in enumerate(batches(species, args)):
+            submitted = (batch, model.submit(run, number, cells, scales))
+            if queued:
+                yield finish(*queued)
+            queued = submitted
+        if queued:
+            yield finish(*queued)
+
+
+def finish(batch, future):
+    batch_args, cache = future.result()
+    batch_args.model_cache = cache
+    return batch, batch_args
 
 
 def write_provenance(args):
@@ -410,6 +512,7 @@ def main():
     parser.add_argument('--max-rgba-mib', type=int, default=128)
     parser.add_argument('--jobs', type=int, default=1, choices=(1, 2))
     parser.add_argument('--provenance', action='store_true', help='Only write the tracked provenance of the published V60 species')
+    parser.add_argument('--resume', action='store_true', help='Keep species whose report and outputs are still current')
     args = parser.parse_args()
     # Not resolved: a worktree may link .cache, and report paths stay relative to this checkout.
     args.cache, args.output = args.cache.absolute(), args.output.absolute()
@@ -433,20 +536,18 @@ def main():
             summary['failures'][sid] = {'error': error}
             print(json.dumps({'species': sid, 'error': error}), flush=True)
         save(manifest_path, summary)
-    for batch, cells, scales in batches(species, args):
-        started = time.monotonic()
-        if cells:
-            ai.prepare(cells, scales, args.model_cache)
-        print(json.dumps({'batch': len(batch), 'cells': len(cells), 'modelSeconds': round(time.monotonic()-started, 1)}), flush=True)
+    for sid in [sid for sid in species if args.resume and reusable_report(sid, *species[sid], args)]:
+        accept(sid, reusable_report(sid, *species.pop(sid), args), None)
+    for batch, batch_args in model_batches(species, args):
         if args.jobs == 1:
             for sid in batch:
-                accept(*attempt(sid, *species[sid], args))
+                accept(*attempt(sid, *species[sid], batch_args))
         else:
             with concurrent.futures.ProcessPoolExecutor(max_workers=2, mp_context=multiprocessing.get_context('spawn')) as pool:
-                futures = [pool.submit(attempt, sid, *species[sid], args) for sid in batch]
+                futures = [pool.submit(attempt, sid, *species[sid], batch_args) for sid in batch]
                 for future in concurrent.futures.as_completed(futures):
                     accept(*future.result())
-        shutil.rmtree(args.model_cache, ignore_errors=True)
+        shutil.rmtree(batch_args.model_cache, ignore_errors=True)
 
 
 if __name__ == '__main__':
