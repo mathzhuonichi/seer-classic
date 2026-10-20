@@ -188,7 +188,8 @@
 .classic-capture-effect.settled .classic-capture-stars i{animation:none;opacity:.75}
 .motion-capture{animation:classicCaptureCreature 2.2s linear both;transform-origin:50% 76%}
 .capture-success .motion-capture{animation-name:classicCaptureCreatureSuccess}
-.classic-combatant.is-captured .classic-creature-facing{visibility:hidden}
+/* Opacity, not visibility alone: the ready clip's canvas sets its own visibility (BattleCreatureAnimation.css). */
+.classic-combatant.is-captured .classic-creature-facing{visibility:hidden;opacity:0}
 @keyframes classicCaptureCreature{0%,25%{transform:scale(1);opacity:1;filter:none}32%{transform:scale(.95);opacity:1;filter:brightness(2.3) drop-shadow(0 0 14px #b6ffed)}49%,78%{transform:scale(.04);opacity:0;filter:brightness(3)}86%{transform:scale(.2);opacity:.3;filter:brightness(2)}100%{transform:scale(1);opacity:1;filter:none}}
 @keyframes classicCaptureCreatureSuccess{0%,25%{transform:scale(1);opacity:1;filter:none}32%{transform:scale(.95);opacity:1;filter:brightness(2.3) drop-shadow(0 0 14px #b6ffed)}49%,100%{transform:scale(.04);opacity:0;filter:brightness(3)}}
 @keyframes classicCaptureCapsule{0%{opacity:1;transform:translate(-145px,-54px) rotate(-32deg)}18%,53%{opacity:1;transform:translate(0,0) rotate(0)}57%,67%{transform:rotate(-11deg)}62%,72%{transform:rotate(11deg)}77%{transform:rotate(0);filter:drop-shadow(0 4px 4px #183a5666)}83%,100%{opacity:1;transform:rotate(0);filter:drop-shadow(0 0 12px #b9f3b6)}}
