@@ -1,5 +1,7 @@
 # Locally redrawn battle raster cells (V61)
 
+V62 settles the two open points below (budget priority and thin strokes) as the user decided on 2026-10-20; see [battle-animation-hd-v62](battle-animation-hd-v62.md).
+
 After V60 ([battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md)) the soft parts of the battle art at the reference display (280 CSS px box x zoom 1.5 x DPR 2) were 72 first-pose retained raster cells in 59 species and 9 first-pose AI cells held below the target; over every frame, 1,144 raster cells in 180 species and 446 AI cells. The raster cells are the ones the V60 model failed (thin lines it thins and brightens), the ones the budget gave no room, and the ones too small for the model. On 2026-10-20 the user approved redrawing them ("你可以重绘"). V61 redraws them locally from their own native pixels, gates every redraw like V60, and publishes `<id>-v61` atlases. No model, no network and no generative AI is used: the classes V61 redraws are handled by local methods, and the class they do not handle (a creature's many-coloured body) is left as published. Redrawn cells are counted apart from source and AI cells everywhere (mode `redrawn`).
 
 ## Classes and methods
