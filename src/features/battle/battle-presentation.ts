@@ -3,6 +3,7 @@ import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { battleStepText, battleSteps, displayedDamage, type EventOf } from './battle-log.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
+import { typeMatchup } from './type-matchup.ts';
 
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
 
@@ -67,6 +68,7 @@ function applyEvent(member: BattleMonsterView, event: PresentationEvent) {
       if (event.type === 'switch_in') member.level = event.level;
       member.portrait = portrait(member.appearanceSpecies ?? member.species);
       member.types = event.types.map(typeLabel);
+      member.typeIds = [...event.types];
       member.fainted = member.hp <= 0;
       break;
     }
@@ -120,7 +122,7 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
       amount: e.type === 'damage' ? displayedDamage(e) : e.type === 'heal' ? e.amount : undefined, critical: e.type === 'damage' && e.crit,
       captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh,
       skillId: motion.skillId, targetSide: motion.targetSide,
-      playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe),
+      playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe), matchup: typeMatchup(data.types, player, enemy),
     });
   }
   return frames;

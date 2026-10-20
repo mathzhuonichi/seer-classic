@@ -7,6 +7,7 @@ import { setupBattle, type BattleSetup, type Foe } from './battle-setup.ts';
 import { foeView, hidesFoeHp, isChallenge, presentationState } from './battle-view.ts';
 import { battleInProgress, requireSession, type BattleSession, type GameContext, type Runtime, type SessionHooks } from '../../kernel/api.ts';
 import { settle } from './settlement.ts';
+import { typeMatchup } from './type-matchup.ts';
 
 /** The battle log keeps this many most recent lines. */
 const LOG_LIMIT = 160;
@@ -89,6 +90,7 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
   frames.push({
     id: ++animation.frameId, side: 0, kind: 'message', text: session.battle.result ? '' : NEXT_TURN_TEXT, playerHp: now.player.hp, enemyHp: enemy.hp,
     player: now.player, enemy, party: now.party, enemyParty: now.enemyParty.map(mon => foeView(session, mon)),
+    matchup: typeMatchup(ctx.data.types, now.player, enemy),
   });
   animation.revision++;
   session.frames = frames;

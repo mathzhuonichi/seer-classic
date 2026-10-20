@@ -22,4 +22,7 @@ export const TYPE_LABELS: Record<string, string> = {
 };
 
 export const SKILL_CATEGORY_LABELS: Record<'physical' | 'special' | 'status', string> = {physical:'物理',special:'特殊',status:'属性'};
+/** How an attack's type multiplier rates: ×0, below 1, exactly 1, above 1. */
+export type MatchupRelation = 'immune' | 'weak' | 'neutral' | 'strong';
+export const MATCHUP_LABELS: Record<MatchupRelation, string> = {immune:'无效',weak:'微弱',neutral:'均衡',strong:'克制'};
 export const ENGRAVING_SLOT_LABELS = {ability:'能力刻印',skill:'技能刻印'} as const;

@@ -1,6 +1,7 @@
 // Display view types shared by the kernel snapshot, the features and their UI.
 import type { StatBlock } from '../../raising/core/types.ts';
 import type { StatKey } from '../../raising/core/stats.ts';
+import type { MatchupRelation } from './labels.ts';
 
 export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
 export interface SkinChoiceView {species:number;name:string}
@@ -64,15 +65,26 @@ export interface SpeciesView { id: number; name: string; types: string[]; baseSt
 export interface BattleMonsterView {
   uid: string; slot?: number; name: string; species: number; appearanceSpecies?:number; level: number; hp: number; maxHp: number; fainted: boolean;
   types: string[]; portrait: string; skills: SkillView[]; statuses: string[]; stages: Record<string, number>;
+  /** The type ids (data/types.json) behind `types`, which holds their labels. */
+  typeIds: string[];
   /** An encounter opponent whose level the original showed as ?? although it is within the level cap. */
   levelMasked?: boolean;
   /** Trainer foes: hp and maxHp hold only the bar ratio on a 0–100 scale. */
   hpHidden?: boolean;
 }
+/** The type matchup of the two monsters on screen (battle/RULES.md section 6), each attacking with all of its types. */
+export interface TypeMatchupView {
+  /** How my multiplier rates. */
+  relation: MatchupRelation;
+  /** My monster's types against the opponent's. */
+  mine: number;
+  /** The opponent's types against mine. */
+  theirs: number;
+}
 export interface BattlePresentationFrame {
   id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
-  player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[];
+  player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;
 }
 export interface BattleView {
   name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[];
@@ -80,6 +92,7 @@ export interface BattleView {
   /** An encounter (a Boss, trainer, tower floor, campaign stage or facility), not a wild monster: its outcome is worded as a challenge's. */
   challenge: boolean;
   canCapture: boolean; captureBlockedReason?: string; needsSwitch: boolean; animation: {revision: number; frames: BattlePresentationFrame[]};
+  matchup: TypeMatchupView;
 }
 export interface ItemView { id: string; name: string; kind: string; count: number; unlimited?: boolean; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted';
   /** What the bag does with it now, if anything; `use` applies it to one of `useTargets` (in a battle, the members it would change). */

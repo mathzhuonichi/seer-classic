@@ -5,13 +5,13 @@ import {groupedBattleLog} from './battle-log.ts';
 import {eventFrames} from './battle-presentation.ts';
 
 const view = (side, name) => ({
-  uid: `${side}-0`, slot: 0, species: side + 1, name, level: 50, hp: 100, maxHp: 100, fainted: false, types: ['普通'],
+  uid: `${side}-0`, slot: 0, species: side + 1, name, level: 50, hp: 100, maxHp: 100, fainted: false, types: ['普通'], typeIds: ['normal'],
   portrait: '', skills: [], statuses: [], stages: {},
 });
 const player = view(0, '巴鲁斯'), enemy = view(1, '布布花');
 const before = {player, enemy, party: [player], enemyParty: [enemy]};
 /** A catalog as the game loads it: 挣扎 is the engine's own skill and never in it. */
-const data = {species: new Map(), skills: new Map(), items: new Map()};
+const data = {species: new Map(), skills: new Map(), items: new Map(), types: {chart: {}}};
 const frames = events => {
   let id = 0;
   return eventFrames(events, before, {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), nextFrameId: () => ++id});

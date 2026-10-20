@@ -7,6 +7,7 @@ import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
 import { BattleCreatureDetails } from './BattleDialogs.tsx';
 import BattleHealth from './BattleHealth.tsx';
+import BattleMatchup from './BattleMatchup.tsx';
 import { useBattlePlayback } from './use-battle-playback.ts';
 import './battle.css';
 
@@ -17,7 +18,7 @@ const ArenaLandscape = () => <div className="classic-arena-landscape" aria-hidde
 interface BattleProps {
   c: GameController;
   background?: string;
-  onSettings?: () => void;
+  onSettings: () => void;
 }
 
 export default function Battle({ c, background, onSettings }: BattleProps) {
@@ -49,7 +50,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
         <BattleHealth monster={frame ? { ...player, hp: frame.playerHp } : player} team={frame?.party ?? b.party}/>
-        <div className="classic-versus" aria-hidden="true">VS</div>
+        <BattleMatchup matchup={frame?.matchup ?? b.matchup}/>
         <BattleHealth monster={frame ? { ...enemy, hp: frame.enemyHp } : enemy} team={frame?.enemyParty ?? b.enemyParty} enemy />
       </div>
       <div className="classic-creatures">
@@ -63,7 +64,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
     {b.finished && !busy
       ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status">
         <div><strong>{battleResultTitle(b)}</strong></div>
-        {onSettings && <button onClick={onSettings}>设置</button>}
+        <button onClick={onSettings}>设置</button>
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
