@@ -459,6 +459,11 @@ def finish(batch, future):
     return batch, batch_args
 
 
+def budget_dropped(cell):
+    """A cell whose AI tile passed the gate but found no room above 1x in the decoded budget."""
+    return cell['aiUpscaleRejected']['reason'].startswith('The decoded budget')
+
+
 def write_provenance(args):
     """Compact tracked provenance of every published V60 species, bound to its cache report by digest."""
     published = read_json(HD_INDEX)['species']
@@ -477,12 +482,12 @@ def write_provenance(args):
                         'base': {key: report['base'][key] for key in ('atlas', 'atlasSha256')},
                         'aiUpscaledCells': {cid: cells[cid]['scale'] for cid in report['aiUpscaledCellIds']},
                         'firstPoseAiUpscaledCells': [cid for cid in report['aiUpscaledCellIds'] if cells[cid]['appearsInFirstStandbyPose']],
-                        'gateRejectedCells': report['aiRejectedCellIds'], 'tooSmallCells': report['aiSkippedSmallCellIds']}
+                        'gateRejectedCells': [cid for cid in report['aiRejectedCellIds'] if not budget_dropped(cells[cid])],
+                        'budgetDroppedCells': [cid for cid in report['aiRejectedCellIds'] if budget_dropped(cells[cid])],
+                        'tooSmallCells': report['aiSkippedSmallCellIds']}
         totals['species'] += 1
-        totals['aiUpscaledCells'] += len(report['aiUpscaledCellIds'])
-        totals['firstPoseAiUpscaledCells'] += len(species[sid]['firstPoseAiUpscaledCells'])
-        totals['gateRejectedCells'] += len(report['aiRejectedCellIds'])
-        totals['tooSmallCells'] += len(report['aiSkippedSmallCellIds'])
+        for key in ('aiUpscaledCells', 'firstPoseAiUpscaledCells', 'gateRejectedCells', 'budgetDroppedCells', 'tooSmallCells'):
+            totals[key] += len(species[sid][key])
         totals.update(f'{scale}x' for scale in species[sid]['aiUpscaledCells'].values())
     result = {'revision': REVISION, 'kind': KIND, 'mode': AI_MODE, 'method': ai.method(), 'gate': ai.GATE,
               'calibration': {'path': os.path.relpath(calibration, ROOT), 'sha256': sha(calibration.read_bytes())},

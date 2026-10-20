@@ -249,7 +249,9 @@ def main():
         'states': dict(status_counts), 'cellModes': dict(mode_counts), 'cellResolutions': dict(resolution_counts),
         'retainedReasonCounts': dict(native_reasons), 'generatedAssetBytes': generated_bytes,
         'firstPoseNonconstantFullyHigherResolutionSpecies': sum(v.get('firstPoseNonconstantFullyHigherResolution', False) for v in species.values()),
-        'firstPoseNonconstantFullyAboveNativeSpecies': sum(v.get('firstPoseNonconstantFullyAboveNative', False) for v in species.values()),
+        # Entries kept from an earlier summary have no AI cells; their source-rendered first pose answers the same question.
+        'firstPoseNonconstantFullyAboveNativeSpecies': sum(
+            v.get('firstPoseNonconstantFullyAboveNative', v.get('firstPoseNonconstantFullyHigherResolution', False)) for v in species.values()),
         'aiUpscaled': {'cells': sum(v.get('aiUpscaledCells', 0) for v in species.values()),
                        'firstPoseCells': sum(v.get('firstPoseAiUpscaledCells', 0) for v in species.values()),
                        'species': sum(v.get('aiUpscaledCells', 0) > 0 for v in species.values()),
