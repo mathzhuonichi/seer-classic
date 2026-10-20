@@ -287,6 +287,7 @@ DELASA2 = period(G7K + "20110331/82812.html", "2011-03-31 report: the daytime �
 DIFUTE = period(G4399 + "201108-23-111513.html", "Page dated 2011-08-23: 迪符特 HP10000, unlimited PP.")
 EER_FRI = period(G7K + "20100816/12668.html", "2010-08-16 report: the Friday 厄尔塞拉 revives to its full 3000 HP.")
 EER_SUN = period(G7K + "20100809/12297.html", "2010-08-09 report: the Sunday 厄尔塞拉 has HP 5000.")
+EER_SAT = period(G7K + "20100809/12295.html", "2010-08-09 report: the Saturday 厄尔塞拉 hits 丽莎布布 with 时空裂痕 for 30-40 HP.")
 FUXISI = period(G4399 + "201212-31-227044.html", "Page dated 2012-12-31: 弗希斯，草暗影系，体力10000.")
 GUER = period(G4399 + "201109-17-115971.html", "2011-09 report: 古尔扎迪，80级，地面系，5000血左右, and four named attacks.")
 HAMO = period(G7K + "20100816/12660.html", "2010-08-16 report: 哈默雷特有10000的血.")
@@ -320,6 +321,7 @@ SPT_CLAIMS = [
     ("delasa", "hp", 10000, "observed", [DELASA, DELASA2], "The daytime fight has 10000 HP. The evening limited mode (5000 HP) is not modelled."),
     ("difute", "hp", 10000, "observed", [DIFUTE], "The report states HP 10000."),
     ("eersaila", "hp", 3000, "estimate", [EER_FRI, EER_SUN], "Friday revives to its full 3000 HP; a Sunday report gives 5000, which no variant carries."),
+    ("eersaila", "skills", [11139], "partial", [EER_SAT], None),
     ("fuxisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
     ("fuxisi", "hp", 10000, "observed", [FUXISI], "The report states 体力10000."),
     ("gangyasha", "hp", 200, "estimate", [LIST2011, MAPS], "A 2011 tip implies 200 HP (从200拉到50以下); the official team-fight row also has 200."),

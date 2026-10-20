@@ -19,7 +19,7 @@
         11140,
         20564,
         11136,
-        10632
+        11139
       ],
       "hp_override": 3000
     }
@@ -68,7 +68,7 @@
       11140,
       20564,
       11136,
-      10632
+      11139
     ]
   },
   "reward": {
@@ -291,7 +291,7 @@
     "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed).",
     "Mon 血很厚 (hp x2 estimate); Tue MISS超高 (evasion +3 estimate); Sat 防御很高 (def/spd +2 estimate) and 血越少越容易打致命 (read as: its crit rate rises as its HP falls; could also mean the player's crits — unclear).",
     "HP 3000 inferred from techbang's Friday text (补满3000滴血); no source states its base HP directly.",
-    "Skills not named by any source; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "Skills: no source names the complete set. Only 时空裂痕 is named: the 7k7k 2010-08-09 Saturday guide has it hit 丽莎布布 for 30-40 HP (对方用时空裂痕才打30---40血). The set is the species' top four learnset skills by level (奇幻光芒 Lv66, 光芒附体 Lv62, 光能聚合 Lv58, 时空裂痕 Lv54), which is what every documented 2010-2012 SPT boss used. 金光闪烁 (Lv42), which held the fourth slot without a source until 2026-10-19, left it no attack that hurts the grass types the guides send against it (光 has no effect on 草).",
     "reward.title_on_all_variants: grant the title 七色光羽 once every variant has been cleared.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
@@ -312,7 +312,8 @@
     "https://wenda.4399.com/question/2/28746.html",
     "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
     "https://news.4399.com/seer/tujian/74884.htm",
-    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+    "http://news.7k7k.com/content/20100809/12295.html"
   ],
-  "source_note": "4399 周一到周日规则全攻略 (2010-08-14) and 4399 问答 (2010-11-16) give the daily traits; techbang (2011-01) gives the Friday revive, immunities and 七色光羽."
+  "source_note": "4399 周一到周日规则全攻略 (2010-08-14) and 4399 问答 (2010-11-16) give the daily traits; techbang (2011-01) gives the Friday revive, immunities and 七色光羽; 7k7k 星期六规则打法 (2010-08-09) names 时空裂痕."
 }

@@ -3408,7 +3408,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/5",
-          "reason": "Skills not named by any source; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
+          "reason": "Skills: no source names the complete set. Only 时空裂痕 is named: the 7k7k 2010-08-09 Saturday guide has it hit 丽莎布布 for 30-40 HP (对方用时空裂痕才打30---40血). The set is the species' top four learnset skills by level (奇幻光芒 Lv66, 光芒附体 Lv62, 光能聚合 Lv58, 时空裂痕 Lv54), which is what every documented 2010-2012 SPT boss used. 金光闪烁 (Lv42), which held the fourth slot without a source until 2026-10-19, left it no attack that hurts the grass types the guides send against it (光 has no effect on 草)."
         },
         {
           "rule": "script",
