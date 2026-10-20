@@ -5,6 +5,7 @@ import {STAT_KEYS} from '../../../../../raising/core/types.ts';
 import {IV_MAX} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {appearanceOf,speciesNumber} from '../../../../shared/monster-views.ts';
+import {SkillRow} from '../../../../shared/ui/SkillDetail.tsx';
 import {feedbackFor} from './dispatch-feedback.ts';
 
 /** 信息: the skin picker, identity, base stats, EXP bar and equipped skills. */
@@ -20,7 +21,7 @@ export default function OverviewTab({m,c}:{m:MonsterView;c:GameController}) {
       <div className="petbag-stat-summary">{STAT_KEYS.map(key=><div key={key}><span>{STAT_LABELS[key]}</span><strong>{m.stats[key]}</strong></div>)}</div>
       <div className="petbag-experience"><span>升级经验</span><meter value={m.exp} max={Math.max(1,m.expToNext)}/><small>{m.exp} / {m.expToNext}</small></div>
       <div className="petbag-skill-summary"><strong>当前技能</strong>
-        {m.skills.map(sk=><div key={sk.id}><span>{sk.name}</span><small>PP {sk.pp}/{sk.maxPp}</small></div>)}
+        {m.skills.map(sk=><SkillRow key={sk.id} skill={sk}><span>{sk.name}</span><small>PP {sk.pp}/{sk.maxPp}</small></SkillRow>)}
       </div>
     </div>
   </>;

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import type { BattleMonsterView } from '../../../shared/views.ts';
 import { skillIconType } from '../../../shared/element-types.ts';
+import { effectText, skillFacts } from '../../../shared/skill-text.ts';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
 /** A party member's battle details over the battle; a click on the backdrop or Escape closes them. */
@@ -18,8 +19,8 @@ export function BattleCreatureDetails({ monster, onClose }: { monster: BattleMon
       <p>{monster.statuses.length ? monster.statuses.join(' · ') : '无异常状态'}</p>
       <div>{monster.skills.map(skill => <article key={skill.id}>
         <strong>{skill.name}</strong>
-        <span><TypeIcon type={skillIconType(skill)}/> {skill.category} · 威力 {skill.power || '—'} · PP {skill.pp}/{skill.maxPp}</span>
-        <p>{skill.description}</p>
+        <span><TypeIcon type={skillIconType(skill)}/> {[skill.category, ...skillFacts(skill).map(fact => fact.join(' '))].join(' · ')}</span>
+        <p>{effectText(skill)}</p>
       </article>)}</div>
     </section>
   </div>;

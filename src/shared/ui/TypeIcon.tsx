@@ -14,8 +14,8 @@ export function typeTooltipPosition(anchor: Pick<DOMRect, 'left' | 'top' | 'bott
     top: (below ? anchor.bottom + 7 * zoom : anchor.top - 7 * zoom) / zoom, below, zoom };
 }
 
-/** Original official button artwork, with a tooltip outside clipping card panels. */
-export default function TypeIcon({ type, focusable = true }: { type: ElementTypes; focusable?: boolean }) {
+/** Original official button artwork, with a tooltip outside clipping card panels; `showTooltip={false}` where a detail card names the type. */
+export default function TypeIcon({ type, focusable = true, showTooltip = true }: { type: ElementTypes; focusable?: boolean; showTooltip?: boolean }) {
   const {name,label,src}=elementIcon(type);
   const icon = useRef<HTMLSpanElement>(null);
   const tooltip = useRef<HTMLSpanElement>(null);
@@ -33,7 +33,7 @@ export default function TypeIcon({ type, focusable = true }: { type: ElementType
   /** The tooltip shows while the icon, or the button around it, is hovered or focused. */
   function track(flag: { current: boolean }, on: boolean) {
     flag.current = on;
-    if (hovered.current || focused.current) { placeTooltip(); setVisible(true); } else setVisible(false);
+    if (showTooltip && (hovered.current || focused.current)) { placeTooltip(); setVisible(true); } else setVisible(false);
   }
 
   useLayoutEffect(() => {

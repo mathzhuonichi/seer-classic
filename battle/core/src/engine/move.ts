@@ -173,7 +173,8 @@ function missed(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: MoveCtx): 
 /** Every hit of a damaging skill, then the critical-hit defence clearing. */
 function strike(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: MoveCtx, actedFirst: boolean): void {
   const multi = (skill.effects ?? []).find((e) => e.op === 'multi_hit');
-  const hits = multi ? b.rng.int(multi.min ?? C.MULTI_HIT_DEFAULT, multi.max ?? multi.min ?? C.MULTI_HIT_DEFAULT) : 1;
+  const range = multi && C.multiHitRange(multi);
+  const hits = range ? b.rng.int(range.min, range.max) : 1;
   let landed = 0;
   let criticalDamage = false;
   for (let h = 0; h < hits && !target.fainted && !user.fainted; h++) {

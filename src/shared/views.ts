@@ -2,7 +2,19 @@
 import type { StatBlock } from '../../raising/core/types.ts';
 import type { StatKey } from '../../raising/core/stats.ts';
 
-export interface SkillView { id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number; description: string }
+export interface SkillView {
+  id: number; name: string; type: string; category: string; power: number; pp: number; maxPp: number;
+  /** Hit chance in percent; null never misses (必中). */
+  accuracy: number | null;
+  /** 先制: a higher priority moves first; most skills have 0. */
+  priority: number;
+  /** Critical-hit chance as a numerator over the engine's CRIT_DENOMINATOR. */
+  critRate: number;
+  /** A multi-hit attack's hit counts; absent for a single hit. */
+  hits?: { min: number; max: number };
+  /** The catalog's description, or one derived from the skill's effects (shared/skill-text.ts); '' for a plain attack. */
+  description: string;
+}
 export interface SkinChoiceView {species:number;name:string}
 export interface BoostView {name:string;/** Battles until the item effect ends. */battlesLeft:number}
 export interface EvolutionChoiceView {species:number;name:string;level:number;blockedReason?:string}
