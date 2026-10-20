@@ -26,6 +26,7 @@ const LEVEL = 100;
 const VISIBLE_ALPHA = 16;
 /** Backing pixels may differ from displayed device pixels by rounding only. */
 const BACKING_TOLERANCE = 0.02;
+const HD_INDEX = JSON.parse(fs.readFileSync(path.join(root, 'public/battle-animations/hd/runtime-index.json'), 'utf8')).species;
 
 /** The silent storage entries and, per species, a save whose only creature is that species at LEVEL. */
 async function fixtures() {
@@ -170,10 +171,10 @@ const fixture = await fixtures(), results = [];
 await withBrowser('chrome', async browser => {
   for (const species of SPECIES) for (const viewport of VIEWPORTS) {
     const label = `${species} at ${viewport.width}x${viewport.height}@${DEVICE_SCALE}x`;
-    await t.checkAsync(`${label}: loads the HD atlas, renders at device resolution`, async () => {
+    await t.checkAsync(`${label}: loads the atlas the HD index selects, renders at device resolution`, async () => {
       const result = await measure(browser, fixture, species, viewport);
       results.push(result);
-      assert.match(result.atlas ?? '', /\/battle-animations\/hd\//, `${label} loaded ${result.atlas}`);
+      assert.equal(result.atlas, HD_INDEX[species].atlas, `${label} loaded ${result.atlas}`);
       assert(!result.requests.some(url => url.startsWith(`/battle-animations/${species}.`)), `${label} also fetched the original clip`);
       const ratio = result.lead.backing[0] / result.lead.displayed[0];
       assert(Math.abs(ratio - 1) <= BACKING_TOLERANCE, `${label}: ${ratio.toFixed(3)} backing pixels per device pixel`);
