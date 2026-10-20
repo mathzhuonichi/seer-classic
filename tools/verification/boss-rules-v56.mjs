@@ -36,6 +36,7 @@ const contracts={
   type_rotation:['order'],field_heal_each_turn:['pct_max_hp','sides'],field_damage_each_turn:['amount','sides'],
   field_damage_multiplier:['multiplier','sides'],revive_unless_status_ko:['max_revives','through_turn'],ohko_attacks:['ignore_speed'],
   block_new_status:[],boss_fled:[],
+  repeat_attack_damage_multiplier:['multiplier'],
 };
 const policyLedger=read('data/boss-user-policies-v57.json');
 const policyFor=(bossId,mechanic)=>policyLedger.policies.find(policy=>policy.bossId===bossId&&policy.mechanic===mechanic);
@@ -309,6 +310,22 @@ check('Baihu avatars: 战虎 moves first and keeps its boost except against sure
   assert.equal(hit(volt,electric,25,'normal','status','percent'),0);assert.equal(volt.applyStatus(electric,'poison',{turns:3}),false);
   const kill={kind:'true',ohko:true,source:volt.active(0),skill:data.skills.get(11022)};
   assert.equal(volt.dealDamage(electric,electric.hp,kill),2500);assert(electric.fainted);assert.deepEqual(volt.warnings,[]);
+});
+check('莫尔加斯 takes a tenth from each attack right after an attack; a status move in between restores full damage',()=>{
+  // 百科 暗黑武斗场: 连续第二次对其攻击，伤害只有第一次的十分之一; player comment 三: 使用属性技，再次攻击伤害还是高伤害.
+  const ATTACK=10166,STATUS=20001,BOSS_STATUS=20461,REPEAT_MULTIPLIER=0.1;
+  const plan=[ATTACK,ATTACK,STATUS,ATTACK,ATTACK,ATTACK],reduced=[false,true,false,false,true,true];
+  const play=encounter=>{
+    const battle=createBattle({data,scripts,encounter,seed:56,sides:[player([ATTACK,STATUS])]});
+    return plan.map(move=>{
+      battle.submit(1,{kind:'move',skill:BOSS_STATUS});battle.submit(0,{kind:'move',skill:move});
+      return battle.resolveTurn().filter(event=>event.type==='damage'&&event.side===1&&event.kind==='attack').reduce((n,event)=>n+event.amount,0);
+    });
+  };
+  const boss=structuredClone(byId.get('boss_dark_door7_moerjiasi')),taken=play(boss),full=play({...structuredClone(boss),rules:[]});
+  assert.deepEqual(boss.rules,[{rule:'script',id:'repeat_attack_damage_multiplier',params:{multiplier:REPEAT_MULTIPLIER}}]);
+  assert(full.every((damage,turn)=>plan[turn]===STATUS?damage===0:damage>=1/REPEAT_MULTIPLIER),`attacks land in full: ${full}`);
+  assert.deepEqual(taken,full.map((damage,turn)=>reduced[turn]?Math.floor(damage*REPEAT_MULTIPLIER):damage));
 });
 check('Entry validation returns one structured refusal per broken party rule: team size, member level and required species',()=>{
   for(let n=1;n<=5;n++){
