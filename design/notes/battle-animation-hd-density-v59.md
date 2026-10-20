@@ -1,5 +1,7 @@
 # Battle animation texel density (V59)
 
+V60 upscales the retained raster cells described below with a local AI model; see [battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md).
+
 The 2026-10-19 playtest reported 丽莎布布 (303) and 闪光波克尔 (166) as blurry in battle. This note records the cause, the density audit of the whole catalog and the V59 re-render. The V44 pipeline, its source-matching gates and its budget rules are in [battle-animation-hd-v44](battle-animation-hd-v44.md); V59 changes only the multiplier of matched vector cells.
 
 ## Cause: the HD index was never loaded
