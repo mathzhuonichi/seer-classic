@@ -275,6 +275,7 @@ both for the player.
 | `damage_only_from {types?, skills?, categories?, crit?, super_effective?, sure_hit?, kinds?}` | all other damage from the foe does 0 |
 | `no_repeat_type` | an attack of the same type as the previous attack that hit it does 0 |
 | `hp_floor_until {skill \| skills}` | cannot drop below 1 HP until hit by one of those skills |
+| `barrier_until_skill {skill}` | the foe's attacks do 0 until its hit by that skill breaks the barrier |
 | `heal_full_below {hp, times?}` | heals to full when HP drops below `hp` (up to `times`) |
 | `heal_each_turn {pct_max_hp}` | turn end heal |
 | `reflect_damage {pct, min_damage?, not_on_ko?}` | attacker takes pct of each hit of at least `min_damage`; with `not_on_ko`, not of the hit that knocks the boss out |
@@ -311,6 +312,12 @@ evasion and blocks (`before_hit`, `block_move`). With `skills_zh` it ignores
 only the conditions that the effects of the player's skills with those names
 attach. A condition that negates the boss's move (`on_foe_move`, such as
 虚无) is not a protection here and still works.
+
+`barrier_until_skill {skill}`: until the foe hits the boss with that skill, the
+foe's attacks do 0: `attack` damage and the fixed or percent damage of a
+physical or special skill. Damage without a skill (statuses, reflection) still
+works. The skill's own hit deals its damage and breaks the barrier for the rest
+of the battle (a `boss_trait` event with trait `barrier_broken`).
 
 ### 10.2 Phases
 

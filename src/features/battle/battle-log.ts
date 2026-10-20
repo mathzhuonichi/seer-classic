@@ -100,6 +100,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'capture_attempt': return captureText(event, context);
     case 'flee': return `${sideLabel(event)}撤离了战斗。`;
     case 'boss_fled': return '对手撤离了战斗。';
+    case 'boss_trait': return event.trait === 'barrier_broken' ? `${name}的屏障被打破了，攻击恢复有效。` : '';
     case 'battle_end': return battleEndText(event, context);
     case 'say': return event.text.zh;
     default: return '';

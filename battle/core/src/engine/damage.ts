@@ -7,7 +7,7 @@ import { emptyCtx, zeroStages, type DamageInfo, type Mon, type MoveCtx } from '.
 import * as C from '../constants.ts';
 import { attackTypes, effectiveness, hasAttackType, typeIdentity } from '../typechart.ts';
 import { hookCtx, levelMult, runHookEffects, skillScripts } from './conditions.ts';
-import { checkEnd, findRule, hasRule, ignoresProtection, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
+import { breakBarrier, checkEnd, findRule, hasRule, ignoresProtection, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
 import { traceHit } from './journal.ts';
 import { dealsDamage } from './move.ts';
 
@@ -267,6 +267,7 @@ function applyDamage(b: Battle, target: Mon, raw: number, info: DamageInfo): num
     b.emit({ type: 'damage_blocked', side: target.side, rule: blocked });
     return 0;
   }
+  breakBarrier(b, info, target);
   /** The source when it is on the other side. */
   const foe = src && src.side !== target.side ? src : undefined;
   if (info.skill && foe && info.kind === 'attack') side.lastHitType = typeIdentity(b.data.types, info.skill.type);

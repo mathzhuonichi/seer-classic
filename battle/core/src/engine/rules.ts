@@ -23,7 +23,7 @@ export const NATIVE_BOSS_RULE_FIELDS:Record<string,readonly string[]> = {
   block_heal:[], clear_debuffs_each_turn:[], strip_player_boosts_each_turn:[], no_repeat_type:[],
   damage_cap_per_hit:['amount','categories'], hp_floor_until:['skill','skills'], reflect_damage:['pct','min_damage','not_on_ko'],
   heal_full_below:['hp','pct','times'], heal_each_turn:['amount','pct_max_hp'],
-  require_statuses:['count'], invulnerable_turns:['turns'],
+  require_statuses:['count'], invulnerable_turns:['turns'], barrier_until_skill:['skill'],
   damage_only_from:['types','skills','categories','allow_categories','crit','super_effective','sure_hit','kinds'],
   type_rotation:['order'],
   flee_after_skill:['skill','skills','count'], ohko_below_pct:['pct'], always_crit_below_pct:['pct'], forced_execution_below_pct:['pct'],
@@ -102,6 +102,7 @@ export function ruleBlocks(b: Battle, side: Side, info: DamageInfo, target: Mon)
   if (fromFoe && info.kind === 'attack' && has('no_repeat_type') && info.skill && side.lastHitType === typeIdentity(types, info.skill.type)) {
     return 'no_repeat_type';
   }
+  if (fromFoe && barrierStands(side, info, target)) return 'barrier_until_skill';
   const req = findRule(side, target, (r) => r.rule === 'require_statuses');
   if (req && target.conditions.filter((c) => c.def.kind === 'status').length < req.count) return 'require_statuses';
   if (info.ohko && has('immune_ohko')) return 'immune_ohko';
@@ -129,6 +130,25 @@ export function ruleBlocks(b: Battle, side: Side, info: DamageInfo, target: Mon)
     if (!hasAttackType(types, info.skill.type, expected)) return 'type_rotation';
   }
   return null;
+}
+
+/**
+ * `barrier_until_skill`: whether the barrier of `target` blocks this foe damage: an attack, or the fixed or percentage damage
+ * of a physical or special skill, until a hit by the rule's skill. That hit itself passes.
+ */
+function barrierStands(side: Side, info: DamageInfo, target: Mon): boolean {
+  const barrier = findRule(side, target, (r) => r.rule === 'barrier_until_skill');
+  const attacking = info.kind === 'attack' || (!!info.skill && info.skill.category !== 'status');
+  return !!barrier && !target.persist.barrierBroken && attacking && info.skill?.id !== barrier.skill;
+}
+
+/** `barrier_until_skill`: the foe's hit by the rule's skill breaks the barrier of `target` for the rest of the battle. */
+export function breakBarrier(b: Battle, info: DamageInfo, target: Mon): void {
+  const barrier = findRule(b.sides[target.side], target, (r) => r.rule === 'barrier_until_skill');
+  const fromFoe = !!info.source && info.source.side !== target.side;
+  if (!barrier || target.persist.barrierBroken || !fromFoe || info.skill?.id !== barrier.skill) return;
+  target.persist.barrierBroken = true;
+  b.emit({ type: 'boss_trait', side: target.side, trait: 'barrier_broken' });
 }
 
 /**
