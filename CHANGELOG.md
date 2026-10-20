@@ -2,6 +2,18 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Playtest fixes (2026-10-19 to 2026-10-20)
+
+- **Battle screen.** The record panel, skill grid and command diamond share their edges; a type-matchup indicator (my multiplier, 无效/微弱/均衡/克制, the opponent's multiplier) replaces the VS; the caption counts turns from 1.
+- **Combat feedback.** Damage numbers stay 3 s and stack; attackers stay inside the arena through their move and paint in front; multi-hit moves land every hit at the target; one action's stage changes show at once in one line.
+- **Details on hover.** Skill cards show multi-hit and priority, and a shared hover card gives every skill fact and effect; 性格 and 特性 explain themselves.
+- **Skills.** The 94 AtkNum-only multi-hits were an import error and hit once again (雷伊's 极电千鸟 included).
+- **Bosses.** The Boss AI ranks attacks by expected damage, uses status moves that still change something, and renews a boost or status once it is undone. 厄尔塞拉 has 时空裂痕 again, and six more SPT movesets follow their period sources.
+- **HD art.** Battle creatures load their HD atlases again (the index import broke in the refactor); V59 re-renders vector cells at the density the display needs and V60 upscales retained raster cells with a local AI model.
+- **Checks.** `npm run verify` gates 74 suites; `npm test` 178 tests; new `needs-browser` suites `battle-hd-display` and `battle-attack-reach`.
+
+See [design/notes/handoff-2026-10-20.md](design/notes/handoff-2026-10-20.md).
+
 ## Waves 3 to 7 (2026-10-18 to 2026-10-19)
 
 - **PvE audit and fixes.** A six-area functional audit ran every Boss, habitat contact, campaign stage, tower floor, facility and quest through the controller. Its confirmed findings are fixed: a 挣扎 turn now settles, party rules are stated and refused in Chinese, missing world contacts exist, result texts state what was paid, quests and honours count correctly.

@@ -2,7 +2,7 @@
 
 Design notes are history. The current rules are in [`battle/RULES.md`](../../battle/RULES.md) and [`raising/SPEC.md`](../../raising/SPEC.md), and the code layout is in [`ARCHITECTURE.md`](../../ARCHITECTURE.md). When a note and the code disagree, the code wins. Revision numbers (`-vNN`) match [`CHANGELOG.md`](../../CHANGELOG.md).
 
-**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-19.md`](handoff-2026-10-19.md) is the current handoff (waves 3 to 7 merged; open Boss rule differences), [`handoff-2026-10-18-wave3.md`](handoff-2026-10-18-wave3.md) is the wave-3 plan, [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the wave-2 plan and its run, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
+**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-20.md`](handoff-2026-10-20.md) is the current handoff (the 2026-10-19 playtest fixes), [`handoff-2026-10-19.md`](handoff-2026-10-19.md) is the previous one (waves 3 to 7 merged), [`handoff-2026-10-18-wave3.md`](handoff-2026-10-18-wave3.md) is the wave-3 plan, [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the wave-2 plan and its run, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
 
 Statuses:
 
@@ -20,7 +20,8 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 
 | Note | Summary | Status |
 | --- | --- | --- |
-| [handoff-2026-10-19](handoff-2026-10-19.md) | Waves 3 to 7 merged: the PvE functional audit and its fixes, the user's 2026-10-19 decisions, the Boss variant choice, 麒麟空间, no 放生 or box limit, Boss evidence for development only, original Boss HP, level, skills and team; load and review rules; open Boss rule differences. | current handoff |
+| [handoff-2026-10-20](handoff-2026-10-20.md) | The 2026-10-19 playtest fixes: console alignment, 3 s damage numbers, attackers kept in the arena, skill/性格/特性 hover cards, merged stage lines, Boss AI and SPT movesets, the type-matchup indicator, HD atlases loading again with V59/V60; open points. | current handoff |
+| [handoff-2026-10-19](handoff-2026-10-19.md) | Waves 3 to 7 merged: the PvE functional audit and its fixes, the user's 2026-10-19 decisions, the Boss variant choice, 麒麟空间, no 放生 or box limit, Boss evidence for development only, original Boss HP, level, skills and team; load and review rules; open Boss rule differences. | done (superseded by handoff-2026-10-20) |
 | [handoff-2026-10-18-wave3](handoff-2026-10-18-wave3.md) | Wave 2 and unit E merged: state, contracts, worker rules, open work for wave 3 (playtest first, code and test follow-ups, performance, product decisions). | done (superseded by handoff-2026-10-19) |
 | [playtest-2026-10-18-wave3](playtest-2026-10-18-wave3.md) | First browser playtest since the refactor (HEAD `1ff8fac` vs base `88cad12`): no regression; 30 pre-existing findings and the wave-3 unit that took each. | historical |
 | [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure, the wave-2 units and their run, follow-ups, load budget. | done (superseded by handoff-2026-10-18-wave3) |
