@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, roundStatus, type BattleItemChoice } from '../battle-hud.ts';
+import { battleResultTitle, roundStatus, shownTurn, type BattleItemChoice } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -46,7 +46,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
   return <section className="classic-battle" aria-label="精灵对战">
     <div ref={arena} className={`classic-arena ${background ? 'has-scene' : ''} ${busy ? 'is-playing' : ''}`}>
       <div className="classic-battle-caption">
-        <span>{b.name} · 第 {b.turn} 回合</span>
+        <span>{b.name} · 第 {shownTurn(b, busy)} 回合</span>
       </div>
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
