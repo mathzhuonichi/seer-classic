@@ -6,6 +6,7 @@ import { capacityReason } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
 import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
 import { portrait, skillView, statusLabel, typeLabel } from '../../shared/view-common.ts';
+import { typeMatchup } from './type-matchup.ts';
 
 export function battleMonsterView(ctx: GameContext, session: BattleSession, mon: Mon): BattleMonsterView {
   const original = mon.side === 0 ? session.appearances.get(mon.slot) : undefined;
@@ -13,7 +14,7 @@ export function battleMonsterView(ctx: GameContext, session: BattleSession, mon:
   const appearance = original?.species === mon.species.id && !transformed ? original.appearanceSpecies : mon.species.id;
   return {
     uid: mon.uid ?? `foe-${mon.slot}`, slot: mon.slot, species: mon.species.id, appearanceSpecies: appearance, name: mon.name, level: mon.level,
-    hp: mon.hp, maxHp: mon.maxHp, fainted: mon.fainted, types: mon.types.map(typeLabel), portrait: portrait(appearance),
+    hp: mon.hp, maxHp: mon.maxHp, fainted: mon.fainted, types: mon.types.map(typeLabel), typeIds: [...mon.types], portrait: portrait(appearance),
     skills: mon.skills.map(id => skillView(ctx.data, id, mon.pp, mon.skillOverrides?.[id])),
     statuses: mon.conditions.filter(c => c.def.kind === 'status').map(c => statusLabel(c.id) ?? c.def.name?.zh ?? c.id),
     stages: { ...mon.stages }, levelMasked: mon.side === 1 ? session.encounter?.team[mon.slot]?.level_masked : undefined,
@@ -71,6 +72,6 @@ export function battleView(rt: Runtime, session: BattleSession): BattleView {
     enemyParty: state.enemyParty.map(mon => foeView(session, mon)), log: [...session.logs], finished: !!battle.result, won: !!battle.result?.success,
     resultReason: battle.result?.reason, result: resultText(session), challenge: isChallenge(session), canCapture: !blocked, captureBlockedReason: blocked,
     captured: battle.result?.reason === 'capture', needsSwitch: battle.sides[0].needsReplacement,
-    animation: { revision: rt.animation.revision, frames: session.frames },
+    animation: { revision: rt.animation.revision, frames: session.frames }, matchup: typeMatchup(rt.ctx.data.types, state.player, state.enemy),
   };
 }

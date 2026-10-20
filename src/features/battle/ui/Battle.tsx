@@ -7,6 +7,7 @@ import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
 import { BattleCreatureDetails } from './BattleDialogs.tsx';
 import BattleHealth from './BattleHealth.tsx';
+import BattleMatchup from './BattleMatchup.tsx';
 import { useBattlePlayback } from './use-battle-playback.ts';
 import './battle.css';
 
@@ -49,7 +50,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
         <BattleHealth monster={frame ? { ...player, hp: frame.playerHp } : player} team={frame?.party ?? b.party}/>
-        <div className="classic-versus" aria-hidden="true">VS</div>
+        <BattleMatchup matchup={frame?.matchup ?? b.matchup}/>
         <BattleHealth monster={frame ? { ...enemy, hp: frame.enemyHp } : enemy} team={frame?.enemyParty ?? b.enemyParty} enemy />
       </div>
       <div className="classic-creatures">

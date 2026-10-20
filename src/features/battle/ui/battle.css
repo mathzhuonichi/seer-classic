@@ -17,7 +17,6 @@
 .classic-conditions .condition{background:#dc705922;color:#9c3827}
 .classic-conditions .stage-up{background:#5cac7433;color:#246342}
 .classic-conditions .stage-down{background:#ce8b7033;color:#8d3b26}
-.classic-versus{text-align:center;font-weight:900;font-style:italic;opacity:.55;letter-spacing:2px}
 .classic-creatures{display:flex;justify-content:space-between;z-index:2}
 .classic-combatant{width:42%;position:relative;display:flex;justify-content:center;--direction:1}
 .classic-ground-shadow{position:absolute;left:50%;border-radius:50%;background:radial-gradient(ellipse,#1f3d4666,#1f3d4600 70%)}
@@ -291,7 +290,6 @@
 .classic-health-heading strong{color:#fff}
 .classic-hp-track{border-color:#08245c}
 .classic-conditions .condition,.classic-conditions .stage-up,.classic-conditions .stage-down{color:#fff;background:#03457c;border-color:#09bdff}
-.classic-versus{text-shadow:1px 1px #002259}
 .classic-battle-result{background:linear-gradient(#0a64a8,#053671);color:#fff;border-top:2px solid #0ccfff}
 @container(max-width:780px){
  .classic-command-tabs{min-width:0}
@@ -349,7 +347,7 @@
 .classic-dialogue .classic-battle-history p{color:#e5f6ff;border-color:#2071a3;font-size:11px}
 
 /* Static source frame surrounds live portrait, health, name and level values. */
-.classic-health-row{grid-template-columns:minmax(0,1fr) 45px minmax(0,1fr);padding:19px 18px 0}
+.classic-health-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:10px;padding:19px 18px 0}
 .classic-health,.classic-health.foe{
  position:relative;max-width:345px;padding:0;border:0;border-radius:0;box-shadow:none;
  background:url('/ui/classic/hd/battle-hud-player-v44.svg') left top / 100% auto no-repeat;color:#fff;
@@ -366,8 +364,30 @@
 .classic-health.foe .classic-hp-track i{float:right;background-position:right top}
 .classic-hp-track>span{font-size:11px;line-height:20px;color:#fff;text-shadow:1px 1px #822200,-1px -1px #822200}
 .classic-health-footer{position:absolute;left:0;right:0;margin:0;padding:1px 4px;border-radius:4px;background:#032651bf}
-.classic-versus{font-size:16px;padding-top:25px;color:#ffe333}
 .classic-creatures{inset:136px 6% 24px}
+/* The type matchup between the panels, below the caption: my multiplier, how my attack fares, the opponent's multiplier. */
+.classic-matchup{align-self:start;display:flex;align-items:center;gap:4px;margin-top:22px;white-space:nowrap;pointer-events:auto;cursor:help;font-weight:700}
+.classic-matchup>strong{
+ padding:2px 9px;border:2px solid;border-radius:11px;box-shadow:0 2px 4px #0006;
+ color:#fff;font-size:14px;line-height:18px;letter-spacing:1px;text-shadow:0 1px 1px #0009;
+}
+.classic-matchup.is-strong>strong{background:linear-gradient(#ffb547,#e04f1b);border-color:#ffe7a3}
+.classic-matchup.is-neutral>strong{background:linear-gradient(#3db3ff,#0b5db6);border-color:#a8ecff}
+.classic-matchup.is-weak>strong{background:linear-gradient(#7b8ea4,#435266);border-color:#c3d0de}
+.classic-matchup.is-immune>strong{background:linear-gradient(#5c6067,#2a2d32);border-color:#9aa0a8;color:#d6d9dd}
+.classic-matchup-rate{
+ padding:1px 5px;border:1px solid #2ca8dc;border-radius:4px;background:#04224fd9;
+ font-size:12px;line-height:16px;font-variant-numeric:tabular-nums;text-shadow:0 1px #000;
+}
+.classic-matchup-rate.is-strong{color:#ffc94f}
+.classic-matchup-rate.is-neutral{color:#e8f7ff}
+.classic-matchup-rate.is-weak{color:#a9bfd4}
+.classic-matchup-rate.is-immune{color:#a3a9b1}
+@container(max-width:780px){
+ .classic-matchup{gap:3px;margin-top:20px}
+ .classic-matchup>strong{padding:1px 6px;font-size:12px;line-height:15px}
+ .classic-matchup-rate{padding:0 3px;font-size:10px;line-height:14px}
+}
 @container(max-width:780px){
  .classic-command-deck{height:145px;min-height:145px}
  .classic-command-content{margin:0 29% 0 31%;padding:25px 5px 7px}
@@ -379,11 +399,10 @@
  .classic-dialogue.is-expanded{width:41%;height:46%;min-height:129px}.classic-skill,.classic-empty-skill{height:49px;padding-left:25px!important}
  .classic-party-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .classic-party-grid button{height:49px;min-height:49px}
- .classic-health-row{padding:20px 10px 0;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr)}.classic-health-heading strong{font-size:11px;line-height:16px}
+ .classic-health-row{padding:20px 10px 0;column-gap:6px}.classic-health-heading strong{font-size:11px;line-height:16px}
  .classic-health-heading .type-icon{width:15px;height:15px}.classic-hp-track>span{font-size:9px}
  .classic-health-footer{font-size:8px;padding:1px 3px}
  .classic-creatures{inset:115px 5% 23px}
- .classic-versus{font-size:12px}
 }
 
 .classic-health,.classic-health.foe{height:auto;aspect-ratio:586 / 185}
