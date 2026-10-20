@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""Before/after device-pixel crops of V60 AI-upscaled or V61 redrawn battle cells, rendered in software.
+"""Before/after device-pixel crops of V60 AI-upscaled, V61 redrawn or V62 re-planned battle cells, rendered in software.
 
-Usage: battle-hd-ai-crops.py <species>[,<species>...] [--frames standby:0,attack:auto] [--version v60|v61]
+Usage: battle-hd-ai-crops.py <species>[,<species>...] [--frames standby:0,attack:auto] [--version v60|v61|v62|v62-given-back]
 
-For each species it renders the same frame from the published base atlas (before) and the V60 atlas (after) at the
+For each species it renders the same frame from the published base atlas (before) and the new atlas (after) at the
 reference display of audit_battle_hd_density.py (280 CSS px box x zoom 1.5 x DPR 2), one output pixel per device
 pixel. The renderer follows the battle shader (swf-renderer): straight bilinear texel fetch at UV x (size - 1), then
 the vertex multiply and add colours, premultiply, and premultiplied "over" compositing in quad order. Only normal
 blending is supported; other materials are drawn as normal and reported. `attack:auto` picks the attack frame that
-shows the most changed (AI-upscaled or redrawn) cell area. Writes artifacts/battle-hd-ai-v60/crops/ or
-artifacts/battle-hd-redraw-v61/crops/. Status `tool`: a diagnostic, not a gate; browser evidence is battle-hd-display.mjs.
+shows the most changed cell area (AI-upscaled, redrawn, or for V62 raised, or given back with `v62-given-back`).
+Writes artifacts/battle-hd-ai-v60/crops/, artifacts/battle-hd-redraw-v61/crops/ or artifacts/battle-hd-v62/crops*/.
+Status `tool`: a diagnostic, not a gate; browser evidence is battle-hd-display.mjs.
 """
 from __future__ import annotations
 
@@ -28,7 +29,9 @@ from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, original_magnificat
                                      reference_box_device_pixels, uv_key)
 
 VERSIONS = {'v60': (ROOT/'.cache/battle-hd-v60', ROOT/'artifacts/battle-hd-ai-v60/crops', 'aiUpscaledCellIds'),
-            'v61': (ROOT/'.cache/battle-hd-v61', ROOT/'artifacts/battle-hd-redraw-v61/crops', 'redrawnCellIds')}
+            'v61': (ROOT/'.cache/battle-hd-v61', ROOT/'artifacts/battle-hd-redraw-v61/crops', 'redrawnCellIds'),
+            'v62': (ROOT/'.cache/battle-hd-v62', ROOT/'artifacts/battle-hd-v62/crops', 'raised'),
+            'v62-given-back': (ROOT/'.cache/battle-hd-v62', ROOT/'artifacts/battle-hd-v62/crops-given-back', 'givenBack')}
 
 
 def load_meta(url):

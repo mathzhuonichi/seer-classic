@@ -1,0 +1,618 @@
+{
+ "method": "Every redraw accepted under the stroke gate (battle_hd_stroke_gate.py) is looked at by eye on contact sheets (tools/verification/battle-hd-stroke-sheets.py): the original runtime pixels and the published tile at game size (largest on-screen size at the reference display) on dark and light grounds, the whole cell and both ends, the densest part enlarged 4x with an alpha overlay. A cell is rejected when its thickness, colour, ends or position look wrong; a rejected cell keeps its published tile. A verdict holds for the cell's native pixels (inputRgbaSha256) at any multiplier.",
+ "reviewed": "2026-10-20",
+ "species": {
+  "9": {
+   "7": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "c3176e3b32c327c185342a5962e88a4c64832df3c384ed451c91ee8707d21740",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "7fa51519b467bc524e079c07508119ad8574523a792a75be18041c7c8cd1bb15",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "34": {
+   "1": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "797ec8f5b534fdb70e5e59a6ccd572909ae423ba191741b9b577bc799f063c03",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "f191bbdb23392f5250993dfc5f29dd32a4a2a1725c0789a63dd678109e51b0ab",
+    "class": "flat",
+    "note": "The beaded antialiasing of the sub-pixel arc is drawn as the continuous tapered arc it samples."
+   },
+   "150": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "02e793df012501e0ed6c84fe54f0a82efe9cda457872660742835c2f5ce26b84",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "f5d4a61898d96eeff77d001d735cac6c373e8061e9762473f72b0b8acec9d4eb",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "96": {
+   "41": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "519cf12baa53341bf229fb0ae16e68de3d005191b5a362eb5d6379653b36f0f6",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "75cf5055b5ae32d2038aeec3be1964fbad3e3c56142ff3c991be4c7b1ccc891a",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "62": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "46ca3800695deafe4eec1d04866f4e878b088475ccf11207266d70826793920f",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "be11e7714d3ca697e1150315e427dad7f0605de7578552d51e109d0f91a047e2",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "66": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "10e81ef1a92ffaacb08ef16115940d6434d8f14c910d540ea637e8793bfa42b1",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "1925eefb438681033cbc6644541593349c0d5fc756884ee2256d77513759a7a9",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "77": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "97312f845d7def1013d7a97c0643430f18f3b3d7db5c20895505071a803ce74a",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "f355c1b34341125e8d540ceac6bb3d410a633bf789ce489b31a52e16ef311e32",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "129": {
+   "24": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "1d1083e27a806bcf4c442924ac750485eeadc4a66891fce180392d3fdf00153d",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "b35e86d1b1ccc6bab8e1e59d059945b1a718bfceec008f7b242d24e5a718896e",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "25": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "faecd88c36bd8da223b0f8739a12371641f872947046c751ea2e86f8c55b6dfd",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "035b45d156cd85419780a520374e565d18c98cb47d8f3a1bcd17f927cb3790f6",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "192": {
+   "37": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "bc75db85f40d68d401b5d2925c581631388ca3abe6a83de69534819e3c0d54bc",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "04b2e4acf0e87ad42670ca5b22e23efdc2357c3c4f8c2c77ce98a323489645ef",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "199": {
+   "22": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0ff619c7dcbbdde29a9ee221b2899adc85f117946f5cc533e46e2bd2f9c8969d",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "7e9a8496ea8a633cf2c43d4beaba42a0730023e92e9d68ab2181aef7a4ead7e2",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "278": {
+   "2": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "cf150de8eb13eb6cabe2fcb7c08c9bfb715753a871a5ed5d1068e52c5365dc6d",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "d45528bfec158b3f343f36720ef83e794a583616cd5bb1679f411d6429602f1b",
+    "class": "shaded",
+    "note": "A soft glow becomes a hard-edged capsule with a dark band, and a soft blob a crisp disc (about 2.7x thicker)."
+   }
+  },
+  "340": {
+   "10": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "8c0232a695f832345c5b3588dbefb5b9319397e4bcef883761dd6043ecb8a0fc",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "edbc908e163ee4829e6ac7adbc9eedfb85325569e91a58953ccef3868c087646",
+    "class": "shaded",
+    "note": "The redraw adds rungs between the two strands of the lightning: cross links the original does not have."
+   },
+   "24": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "66d6f9ede4eff05ae63e4737ee79121f2f8776baf9682682436fcb60419ef012",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "1cd4c9fa05371d64e3e88ff582d2e5291be15bc46f009aa51a95eb8f3180f97a",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "64": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "a84cbb6cbff42061078d809fd7b30642bb6c9ca73c428514593d2a74d775d9d1",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "e29021144827015cdbb312a89e7d4819c13f038f63035966ae5c290fa33109c0",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "362": {
+   "43": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "a766484bacefbcf461b7621f5e35c10523dc57f1bd1f904c47661f45c09d16d7",
+    "reviewedScale": 32,
+    "reviewedOutputRgbaSha256": "353e62cbf646d7572d233f0dbaf56fa147bb6993c896ae73b9f2c4dc63754dc3",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "44": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "ad56acb954815ab5c188940126dd1dce96c19dc7cedffa8085e13001bdf42bdd",
+    "reviewedScale": 32,
+    "reviewedOutputRgbaSha256": "287e44e27b5fd1cdd8be981a992e715f7e30c71c025c74e556a2c34ca4ebbe24",
+    "class": "shaded",
+    "note": "The 4-pixel-wide original is broken into blocks; the redraw reads it as one continuous bolt."
+   },
+   "48": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "6030055e80aa756a05fbd0e1c7ea198b1ea2fa91c2df575937f8210889703286",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "41da4f7078b89b9a6efd70d63b598d20a5df9c2de655575d9e1eea76f8a8eb7a",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "371": {
+   "30": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "7bd19d80b8292ed8b609403aa7fe1afce7d2ee9b08d2d8b00abc4cd271331caf",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "c2256df9b7d5bdbc9755e32203fc9d7a18080c0a2320e91f7a7db6790c560e49",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "381": {
+   "57": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0a711b3472a66c176f294366462865cfa7ab0540fb4b6f392ea7a2d2fa69a4e6",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "0804fe6be487c936c624ff2bd331ec74bd168775c003ab110fc334adf023be57",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "402": {
+   "49": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "5712527fb97f44b7d267f4141799530a19a984c2e2550163748f135b31af83c0",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "6b6166f13cbed124bd51df9b50e7d3a71c6c6c4510d99b8328fd5619833c3356",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "403": {
+   "0": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "557acaf5d72c18f169839a7d75fd9d8b5bbec33f93b2b1e9541b35bcaede9f4e",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "071ec4e8cce3b31476b7edbdd3eebf057b1245ce7e194a23a635d3121a13c67d",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "426": {
+   "44": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "35896f8b2a0321ea01196b95c68636d85420c1bc0d302cab73c9111499d12391",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "826836675847da9558c7510db41b71a23eb3ba6d0f42fed18e5132c16639d963",
+    "class": "shaded",
+    "note": "The thin streaks turn a darker, more saturated orange than the yellow-orange original, and a small cross appears."
+   }
+  },
+  "430": {
+   "52": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "3029eedfb6c3edcbd490d89084d1aa2517eb264ccb505fd0f1386c40e4f8041c",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "d907490bf4e925dd628f19543aead62f33af607041f4eb4bf5382d837cac510e",
+    "class": "shaded",
+    "note": "A diagonal connector joins a dash to a separate mark, and a short diagonal streak becomes a round disc."
+   },
+   "59": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "5495c772561d8e39d0f01695ea7eb0ed3c60edfe8245d1537da28446142738e2",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "78b166036a5942802b99ff50c3e7cb9d387dcee705f01fef1978b1aa5bb80c2e",
+    "class": "shaded",
+    "note": "A short vertical streak becomes a round disc."
+   },
+   "88": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "9b4a43b65bcd7e7b956968dcb0928dbf5b401a9104c471a5a7e2e017367036e5",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "963b397b11ebfaa662ed4bce13a392686d1edc1f96bd307b528cd55a0562af56",
+    "class": "shaded",
+    "note": "The faint smudge at the right end becomes a large bright oval, and two faint blobs a hooked stroke."
+   },
+   "100": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "7037a049d85556bdfc0e1a6313d7f7ad9dc8ce097f39cae6b48897985cbe4deb",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "5ef75e03da698404fe916e70878192a0c8f6854951c313ce0a3bd42672f9a229",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "119": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "7b2d6b412a84ba66350cb4e78ee5d0cffdd5c06dc3e998f0ad8f3bad54321319",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "209c3f99abd73607a2e2ef88c39f94cab0247bc0a72dbcd4c1e7bb843b9b225a",
+    "class": "shaded",
+    "note": "Separate motion dashes at the right end are joined by a long diagonal line."
+   },
+   "123": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "cc49066c57d1cdc4711b503b276ef20d9ae538de1e9d30db54571322b056eba4",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "5c05fb7bc7659c6317946dc12d2d91412446802e689067dd7ca13c60c279de66",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "455": {
+   "22": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "c341dcd2a6682ccce10eb59911849c5ea5098a3bfafb674cc0f1795534054f8c",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "7e00b96b28965faa249f95137b5540966fa4b4485e98eece4374a4375a8747e1",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "501": {
+   "66": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "efa8c264c32dd81a5b58d0fd876403f8412f352e76fd16606b011e112c8d4e40",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "90949cd87e28485f21aaac2cc7d5b838ea903ba4daea60830e5507f110fa2f13",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "101": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "4d69272e88ce649164396236b4cf4cd18bab7762779c5073dbdeec70b716641b",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "0feb369433a9b2c05272fe4eb0a3309d2a019e42c4a0cae2609dd90a85658a24",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "544": {
+   "45": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "a0e730f06113b7f4c1aa344de31344e43e60ed5b10ca2f279439227f1b0490f3",
+    "reviewedScale": 32,
+    "reviewedOutputRgbaSha256": "3433240effc9cbfdc7dd248ad71292652649c4a1b44465967e256309e72273f1",
+    "class": "shaded",
+    "note": "A soft glow mass becomes an invented letter-like stroke shape, and a faint dot a crisp disc."
+   }
+  },
+  "546": {
+   "7": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "694937a46143679ee99468ee837bfd2c137e8bfa33114dfb9686a89eb5b8b1ea",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "7960f27f0cde7acb31ffd6380e85ace091b97c6b3f8bad7e020fc40c3d181d97",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "579": {
+   "123": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "4307c7353fd1013c7c72d9e75eb02abc13c942f7b2ac463326e769a5c5d407a5",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "4b0168cd1b8daf37b268c8918435f01bab4675351a9da7f75175704230103944",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "592": {
+   "0": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "8d98c6ef328cfd2d2526dc543372fc6f4de1ac2df438ff3aaec7fadec52a40a5",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "0d468f4988dd8b6007a97026b3f381dcda2d5299fe25e88aea6a945f14ad0410",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "593": {
+   "17": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "10a8a6289662484fa863cb92e822a78373af4f1a4eb55bf1e5fab7ba52a8a533",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "7b8d667171a11cb0941e3ca1ecd82637e8d456d2a7436594a347912890482175",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "603": {
+   "32": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "66b4413ff7812b7b517ef83759593e60560e2b3955519e96943edce01a0e8388",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "986c7ddaa074690ef85cc02414780de3f5fddf108d4f65c8645f65d49ad0c7ca",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "614": {
+   "30": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "bdf20b7254e0051d4f91fc16ef570a599bb9bc792bde765e3379f1d2a483450b",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "51c823710e89aaab49f3057c994c73a4caec527cef6e5107bba4841be66d18dd",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "616": {
+   "105": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "d3649d2b04ae4cb742beaf40ac43b08879373a8f8e7b3151d231108e25f5c751",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "60986253ec865faa989e4f3e770931af1cda125bfbb44d25911f13e2b91fc4c1",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "675": {
+   "28": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "759823605684af7d70e97c7c23247220b931a4b792a4c39082ef29ea18d2e273",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "febb1bba65f10535d8455c03cb26149721515eba033a94b0fbb35b5044c19288",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "681": {
+   "29": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "a1dc6e92c218549e3f42d5761e576126ba68865275eab92361082662047de2b6",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "b0d56a5dec42aa4dd77c30155f1a13e277e781dd2189b28001cfe9ac918d9e78",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "692": {
+   "6": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "27e78ab73a494f348bc724cc0e8a156b7d81d503ca31b52dcf1e6a85ec1b0fe3",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "ef5423052a84cd37a26f85f0742375256b184fb56b2414d18dc6c1c286937a69",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "7": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "7c8fb6cd39951d1db8a4f8ffbc43e8614231b3a143be3532988416b9b1215388",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "8398f521e856d200ff60332545ba43372ce94c2ffc236d95647578d167f1202a",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "8": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "35d68f2fc9e6d954fe16a39b070287ff5fd810d238a4b9b1635bd40bca0ee113",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "bc51365d26bfad9ad7b585a00e27e6b730a85b4f5e4898eeef02f3c896c2d6a2",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "11": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "361d5882b5cd68fb4c519e823a0d65dbc8af56f93a1e8910ffd3fd4e4e98cd54",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "5017715572fefa0e698d3eea1908f6b70d32bfcda37da2d761aa2bd4f3f4e80b",
+    "class": "flat",
+    "note": "Faint dots and dashes are redrawn brighter."
+   }
+  },
+  "693": {
+   "0": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "4901d4db20590a513be0c27bc1bc21f2727713689344e3169b64ccacbdae39b9",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "f52d8ea1425c9bf7132bdb0e4c5f1a25b9c4341ec514ee61c71d4696ba7771d3",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "4": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "a02ed2e9a8edc52d20f7dab9f58c646b42de1e5bbb0f49cc78405e5586126fab",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "0d9cec3bc13c9f9cd564ea3a1fc7df2586f1f3182979bb17bb85f820abe3964c",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "18": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "081e3948a62c63216389bb5d9f2e3e69acaebb3b8ca4dcd951062496e29ada84",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "7bebc35a95de97418cfab03a6e14e824a36ed34702fac8c411109bcce004602e",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   }
+  },
+  "714": {
+   "5": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "5c6a052cd9c18749447397ae1b0f7d54aeb6a8e40f477d1b4198843b24cf0f2d",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "fe42f911f3ae8cc70878ab00b216bb1698ac4657380b7eb8fd6ee701e5ac2bec",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "717": {
+   "14": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "d8ff11b741bd49354ebc255f9aef137828b3951c5fbd5ea9151a9ac102f59644",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "78d7fc15f1b0436e8717cf35a958fe727aa777ae1fce77420eebe1445243774e",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "780": {
+   "13": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0a73dc6e298a89398de5837ce09ac2de5e3f9b639036b87779f6ef5c80736e69",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "1ca1d599f339a119149cb8414185fa3360da3a95c1ad68b7b5e6300bf4ff3b6c",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "29": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "c2c2baa1765cbee53685e0fd150fb6de80406f4690ea5859fd99030d5ff73e7f",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "f3d70b5e11dc081232023085cf5a459eba13d8f1189f00599c407a7a53383ae8",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "821": {
+   "25": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "527e049d8912a08987c8e69cb9ac94b18acaf6c291636bb10c06e70424356423",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "19a02ca6f3731dc9dc61058a6912975209287a9caa170047441b003aa6a5e201",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   },
+   "28": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "095b09a4eca6e29351f2cf94741a750af137a34228a3b88481d064116474c6c0",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "5b397abb8b684dde0a6d6cab2d561a3f5ac5f876a6971af4bd4635c343b8e809",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "858": {
+   "13": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "96f2f1263e672cc17510a40a7c24f60a48ab81c6599ebb03778b69fed26ffcc8",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "37bee3ec0952251607021a224662d0882981d57508c67a01a77556779e3b3375",
+    "class": "shaded",
+    "note": "Soft blurred streaks become an invented branching stroke with crisp discs."
+   }
+  },
+  "948": {
+   "67": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "f97860695d20fd0243b6cae44fad02aaec029528882b6447f5679be782c24254",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "df0cf70ed44cb3859b3e9d457b108fdcbf6da19fa913fd5ace1f4a86211726e8",
+    "class": "shaded",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "1064": {
+   "40": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0ca72363696b46aa014abbc5f25846d45e331ef46deb2983f9cb06bf222ac690",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "b21573fc89f7e4b36405e0affbc4fbadec66c30c99fefd26f502ea121c464afe",
+    "class": "flat",
+    "note": "Faint side branches are drawn as defined thin branches at the original positions."
+   }
+  },
+  "1154": {
+   "5": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "253be88412bb8b7435dd82b269ef8cd45650c2a650549218ec474915c4aa9bb5",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "a1e0e53366b126b1a83f884af05bcfdf10d1d39e5fb80ea402667b42a292bd11",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "24": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "b52538f33ca9286efd4989a0a49801178a3059282d70dd94610e39b1f5ae38eb",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "be69ed39e6aa679e00a104b73b62f2d4086dbfe181d61c7cc5d0d5988d8f808a",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   },
+   "27": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "e1262bd67b477dd990d39c77b65b9af7648fd05e9079c33c63d5c513b183d92b",
+    "reviewedScale": 4,
+    "reviewedOutputRgbaSha256": "16868c43331fe76456b9dc1c40391241bc9bd476d8ecb0dcb8f13d02c6b73166",
+    "class": "flat",
+    "note": "Faint grey speed lines and dashes are redrawn brighter and thinner than the original."
+   }
+  },
+  "1193": {
+   "13": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "a1dc6e92c218549e3f42d5761e576126ba68865275eab92361082662047de2b6",
+    "reviewedScale": 8,
+    "reviewedOutputRgbaSha256": "1ed2aa75413e025ba6ed06fdfb5c0a3c71838564297b7a1a077723cdbbc0addd",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "1280": {
+   "73": {
+    "verdict": "rejected",
+    "inputRgbaSha256": "e34a9ff62bddf5a5f507183aa51dfac305b2cf660bdf5cf42d85e6b61c29c258",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "16a021ce2709d168e3ff167eed47ba39a58e203b577c741c8454446f1a477b31",
+    "class": "shaded",
+    "note": "The green line is redrawn thinner and a brighter, more saturated green."
+   }
+  },
+  "1287": {
+   "2": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "720cc2d3f7427a8ad33a7e5b588db076b46bb976aac8aea80d47daac63ce91bf",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "881312a5a9379ca22927d13a566b1b6677b9b8d3f4cc873847f1d9512cc67ed9",
+    "class": "flat",
+    "note": "Faint side branches are drawn as defined thin branches at the original positions."
+   }
+  },
+  "1353": {
+   "4": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0c5beb9934e9b044d0e979d2ca296f6e9c66a07ab27da7617ec09123caf72116",
+    "reviewedScale": 2,
+    "reviewedOutputRgbaSha256": "f8daf12c6a96875845ad571c7aaf326266525a6e542ae77d556754d383171428",
+    "class": "flat",
+    "note": "Thickness, colour, ends and position match the original at game size."
+   }
+  },
+  "1363": {
+   "6": {
+    "verdict": "accepted",
+    "inputRgbaSha256": "0fbbc5d3c39d29361b8fdebb6bad159ddfcf08885866e46c8a084ac936f230b3",
+    "reviewedScale": 16,
+    "reviewedOutputRgbaSha256": "4ff28ff4c53b8425e2c230fcfdad12fda4a75eaacaed1a09525845b52eba46ea",
+    "class": "flat",
+    "note": "Faint side branches are drawn as defined thin branches at the original positions."
+   }
+  }
+ }
+}
