@@ -1,0 +1,4748 @@
+{
+  "revision": 1,
+  "kind": "redrawn-raster-override",
+  "mode": "redrawn",
+  "method": {
+    "tool": "battle_hd_redraw.py",
+    "code": {
+      "battle_hd_redraw.py": "4bf29717f3ed74142540b3e2c3d5cb077973428fce69db7842694001a95f1b88",
+      "render_battle_redraw_svgs.mjs": "a87038a19a8d95347b3b406b9f983be51b8904fc217b59c36c8313be6daeb25d",
+      "battle_hd_ai_upscale.py": "18ac14799324c3cc3ec7f3a3f295f53250a854213bf82eeec76784fb6669b309",
+      "battle_hd_local_fidelity.py": "f720d8f19db8fae1772c059c00470c022e77b1392ec3c049d45f7576d9d51da2"
+    },
+    "libraries": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "scikit-image": "0.26.0",
+      "pillow": "13.0.0"
+    },
+    "renderer": "@resvg/resvg-js 2.6.2",
+    "parameters": {
+      "pad": 3,
+      "analysisScale": 8,
+      "analysisPixelLimit": 4000000,
+      "palette": [
+        24,
+        0.85,
+        20,
+        16
+      ],
+      "thresholdRange": [
+        0.2,
+        0.8
+      ],
+      "strokeMinimumWidth": 1.0,
+      "strokeSpacing": 0.5,
+      "strokeSmoothing": 1.5,
+      "strokeEnds": 1.5,
+      "strokeTolerance": 0.3,
+      "boundarySigma": 0.35,
+      "minimumLoopArea": 0.25,
+      "minimumColourPixels": 4.0,
+      "smallSide": 16,
+      "smallBoundarySigma": 0.6,
+      "opacitySigma": 0.75,
+      "remainderMinimum": 8,
+      "glow": [
+        0.5,
+        8
+      ],
+      "remainder": [
+        0.6,
+        2
+      ],
+      "shareSigma": 0.6,
+      "edgeWidthGlow": 1.2,
+      "edgeWidthSoft": 2.0,
+      "flatResidual": 2.5,
+      "complexColours": 8,
+      "flatSide": 8,
+      "flatMixing": 0.75,
+      "coveragePadding": "linear",
+      "sourceRangeClamp": "3x3 native neighbourhood, bilinear"
+    }
+  },
+  "gate": {
+    "default": {
+      "alphaIoU16Minimum": 0.8664,
+      "premultipliedRgbaMaeMaximum": 21.5582,
+      "blockErrorMaximum": 74.4794,
+      "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+    }
+  },
+  "calibration": {
+    "path": "artifacts/battle-hd-redraw-v61/calibration.json",
+    "sha256": "3d81c7542970988d3579aa95db8961256d523636fe0b444fdcea3b6177ce4a9e"
+  },
+  "scope": "Retained original raster cells below one texel per device pixel at the reference display, redrawn locally from their native pixels; no model, no network.",
+  "totals": {
+    "species": 106,
+    "redrawnCells": 372,
+    "firstPoseRedrawnCells": 47,
+    "aiReducedCells": 15,
+    "tiny": 245,
+    "shaded": 26,
+    "flat": 34,
+    "glow": 67
+  },
+  "species": {
+    "11": {
+      "reportPath": ".cache/battle-hd-v61/species/11/report.json",
+      "reportSha256": "9bf48c67bf702ab5363e5e21e313346df36f9da04e099d3c8b9c5c42e2da7b04",
+      "base": {
+        "atlas": "/battle-animations/hd/11-v60.webp",
+        "atlasSha256": "0b808026d7dac3837034fdd9a55a5aa572ff5b2cdec5c69d060e33bb6ab529c4"
+      },
+      "redrawnCells": {
+        "22": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "59325f42f15aef8f970541d5a58a00d94edf52f1087d5386b488bdbab0b4f99e"
+        },
+        "32": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "72d465d5ff9f39f72a899ddd49a09053f4f9928ce3fed7053bb773c295a75b34"
+        },
+        "33": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "9c564d2d18041ca793c1cc8747c3bca75494915dc262276a0cc7d20a27ee907d"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "12": {
+      "reportPath": ".cache/battle-hd-v61/species/12/report.json",
+      "reportSha256": "0549a72881e5870c89a7b6adc3ccffab52a671944d208faf3c42b0b1f0041016",
+      "base": {
+        "atlas": "/battle-animations/hd/12-v60.webp",
+        "atlasSha256": "1f67ab8d389964712609f47dd94dbc7fbc4f68aaa0afc6b4e8b94fc4b692afdd"
+      },
+      "redrawnCells": {
+        "17": {
+          "class": "shaded",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "6c3cf343b9d7f2d1434bd07f42a100f9035967ef3e07db8b89ed6406587a9c06",
+          "outputRgbaSha256": "9ab0a1aecc8dd62e0810c3a96116fb2984e4c217bbded423003f04485a9f2c8d"
+        },
+        "64": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "08847484cc4920fdf8dd5fc88e020c142202fdea358f5e99b6d664dbbf68d27d",
+          "outputRgbaSha256": "aab3602ea282cddd6191101ecc49cff6c50d75dfc43bc5931a829271a941d962"
+        }
+      },
+      "notUsedCells": {
+        "53": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "67": "The decoded budget left no room above the base multiplier.",
+        "68": "The decoded budget left no room above the base multiplier.",
+        "69": "The decoded budget left no room above the base multiplier."
+      },
+      "aiReducedCells": {}
+    },
+    "19": {
+      "reportPath": ".cache/battle-hd-v61/species/19/report.json",
+      "reportSha256": "f471eb7ce79d9cc2f036379a276044dfd6308fcc7bc148b923bfdcc442a29500",
+      "base": {
+        "atlas": "/battle-animations/hd/19-v60.webp",
+        "atlasSha256": "fc0c272f10575717f037f9f9ef0dd8e47edd25629c0adef27dc0c9cfb80c21de"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c2b6a88598f57cfa7b95da244e00e97649439ced0bbc9eb23c5b9e3f781c7871"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "20": {
+      "reportPath": ".cache/battle-hd-v61/species/20/report.json",
+      "reportSha256": "87650b1658b48045c2fcd7549efdadd57fcd79a9ccc981cd60f6b5ebabd6f6c1",
+      "base": {
+        "atlas": "/battle-animations/hd/20-v60.webp",
+        "atlasSha256": "cc6e24559adaf9d8f5b34e97451296fc2f70fd4c3ee5266308bfe8e0f0fcc8f7"
+      },
+      "redrawnCells": {
+        "63": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "0a69a530cf4c95569f9bd32a9e7785a6babfd426890d8e3e360d00dd450b7225",
+          "outputRgbaSha256": "76fa05d899908a452a61e694b569ef178b4227a3aee386a70c0194ed44d93de7"
+        }
+      },
+      "notUsedCells": {
+        "134": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "14": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "147": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "149": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "150": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "166": "The decoded budget left no room above the base multiplier.",
+        "24": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "31": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "36": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "4": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "42": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "46": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "95": "Complex many-coloured art: no local redraw; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "25": {
+      "reportPath": ".cache/battle-hd-v61/species/25/report.json",
+      "reportSha256": "79b80b0465cd7a0261896b9566c05680dd6f8b79a4b14d0a7a4f1182dd8d6929",
+      "base": {
+        "atlas": "/battle-animations/hd/25-v60.webp",
+        "atlasSha256": "7f03e19a75258aa191183bd9698a05f5ecd238e9dc9d5a3961584701bfb5385f"
+      },
+      "redrawnCells": {
+        "53": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "480cad29274582f020cff28488af63aee9f54e190db0bde48d083e0d26cb0ee5"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "45": {
+      "reportPath": ".cache/battle-hd-v61/species/45/report.json",
+      "reportSha256": "50fac1cad5abee9ff6d6ff8f37a239b558acfceefeb88b2c355a763aae516668",
+      "base": {
+        "atlas": "/battle-animations/hd/45-v60.webp",
+        "atlasSha256": "2727a31d2e4de35a9366b36dc1fbd22bdb60f4dbb659f4432b5eea5fdebda2c6"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1ed56ec9ae03002c86c69f9987ea0d16659c8746c2848a1cf12fd487daa0b014"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "51b10ea5218365e422cf23904922e2c95038a1386bea02da440c8a3953541782"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d2adcb5f5c0bdafac214611934ef915bef6b60b3cc73ac32f1351358f2cce556"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "54": {
+      "reportPath": ".cache/battle-hd-v61/species/54/report.json",
+      "reportSha256": "47b69f9845b53d0dfd64664ca1e73d42dd73600519cdf5ddd38a3564ca106052",
+      "base": {
+        "atlas": "/battle-animations/hd/54-v60.webp",
+        "atlasSha256": "6efaaf4666d3017173a7ad00727f0faf8ad8df590117d394c1a18f6d0c992c2e"
+      },
+      "redrawnCells": {
+        "110": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "ac851705d1b46a1c6557afba59d7256eba06ae41b94ebbaba80f724bfe9fdcbd",
+          "outputRgbaSha256": "880da276edc6d6ec028d7392f304ef4b83dc39c61d2cfb79f3a6e64194f98df9"
+        },
+        "85": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "0d2e5135f10ff6077c81a32cd51e8d1fabc453d56c601a95a04cd01534791aa2",
+          "outputRgbaSha256": "c6903c6037ae9cc6d67b19d30dbb920794e55837189c025bea9efd7f5685e551"
+        }
+      },
+      "notUsedCells": {
+        "107": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "66": "Complex many-coloured art: no local redraw; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "74": {
+      "reportPath": ".cache/battle-hd-v61/species/74/report.json",
+      "reportSha256": "bd257b71dbf69c8155a814e61b5384031a41a89e63adc927fa38863c602f3d9f",
+      "base": {
+        "atlas": "/battle-animations/hd/74-v60.webp",
+        "atlasSha256": "856065156ad2064e0adf4613ba72cbb5e80517be0744ae8007333204c21f20f8"
+      },
+      "redrawnCells": {
+        "18": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "d7174b2a7e11bdd4e857dfcfe92a82685620979f8816184730844888c238adc7"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "83": {
+      "reportPath": ".cache/battle-hd-v61/species/83/report.json",
+      "reportSha256": "e90f17c79a3feaa83c9ead348ad50c986e324c6a7652902ffc07d72a661afd62",
+      "base": {
+        "atlas": "/battle-animations/hd/83-v60.webp",
+        "atlasSha256": "4e8633a6a5565923f2a04f7effbe1ae816ff9c56cc3636e4dc5845c56b254e67"
+      },
+      "redrawnCells": {
+        "32": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "62aea70024a245843b7130cab3353a25f03d26f4e0163b345f44a177c91aa3b7"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "120": {
+      "reportPath": ".cache/battle-hd-v61/species/120/report.json",
+      "reportSha256": "22b9e85dc305b6cb301bc574aafee7c243bf9520a69ea808c5ddaf4ad73f50e8",
+      "base": {
+        "atlas": "/battle-animations/hd/120-v60.webp",
+        "atlasSha256": "7fc121aad4a5caca8054fefb1ce73e5c292e2f0aaad3fc5426c5af30b24398a1"
+      },
+      "redrawnCells": {
+        "25": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a539b2089c32d32aa1c88942b766d3999f4e3ca7d941a103b249928ad58a33e4"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "121": {
+      "reportPath": ".cache/battle-hd-v61/species/121/report.json",
+      "reportSha256": "e06dac01f0549890370be398f80b062627a6709e294583dc062c11b39e7db03a",
+      "base": {
+        "atlas": "/battle-animations/hd/121-v60.webp",
+        "atlasSha256": "fa06c7d94eaeee6da7fc05af0d5c8adab8153137d2fca32a5f7d596517597343"
+      },
+      "redrawnCells": {
+        "26": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8dac720677cbb4135ab34cad1c6e88b6e675ee484594a7d1d0fbbea934582887"
+        }
+      },
+      "notUsedCells": {
+        "21": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "128": {
+      "reportPath": ".cache/battle-hd-v61/species/128/report.json",
+      "reportSha256": "ac7ab8796600023cd24e8fbb450ada5deb2f7c8cbf63a5377c687e46d8093809",
+      "base": {
+        "atlas": "/battle-animations/hd/128-v60.webp",
+        "atlasSha256": "1a2b525972d3284a6b05ff8de3155806d6a0e1366c1f678b8e5652f6ad2658a9"
+      },
+      "redrawnCells": {
+        "3": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "f4951f0145384af68b88e25354b1d25093bad2b45a0a2a8ff3934b57462247a7"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "129": {
+      "reportPath": ".cache/battle-hd-v61/species/129/report.json",
+      "reportSha256": "3c2c46974fa71a0396c182e233bf90ee99719fdbc8e40e017f440c26d43c8d73",
+      "base": {
+        "atlas": "/battle-animations/hd/129-v60.webp",
+        "atlasSha256": "a896200dbdfb74ba6e8b7395ac8b2b4d2a6537bf9167003bc91579af5789d86c"
+      },
+      "redrawnCells": {
+        "45": {
+          "class": "glow",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "06ca8400fd3dc734a42001496babfb6177e642c5e0cd1de41398aff13cba3a11"
+        },
+        "59": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "25438b27b25b71f4376f251ece4acedf4b7672146c56c46b2c97a9f46dc38ee7"
+        },
+        "6": {
+          "class": "glow",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "22d71f79806106481479a5e50d8058651bdb2591b1c4537340fda22b81ce38e3"
+        },
+        "61": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f4b3628ec6d8a0b8ca71f8418f8d0ef233c1c4a0c2c556309556608084bf485c"
+        },
+        "65": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "28fc4b1c24afd66da22cf33c081f49c3a9cd45786492c7f1b655c9453ba25b3f"
+        }
+      },
+      "notUsedCells": {
+        "24": "Failed its native gate; the published tile is kept.",
+        "25": "Failed its native gate; the published tile is kept.",
+        "40": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "60": "Failed its native gate; the published tile is kept.",
+        "62": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "130": {
+      "reportPath": ".cache/battle-hd-v61/species/130/report.json",
+      "reportSha256": "b2ea8a24ed3cf81266ff0ff9712cc2ed437e7f39dbc401f489b73e50c1be336a",
+      "base": {
+        "atlas": "/battle-animations/hd/130-v60.webp",
+        "atlasSha256": "6d5e4aee82c3e50eb3ad5f9d87ade274bde306f85673bdf85ee6e0ec2eecf767"
+      },
+      "redrawnCells": {
+        "12": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "623176065cc0eeba9f2b47db758ed2ba3831d45f9efe30abc3d43c14d95eff6c"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "131": {
+      "reportPath": ".cache/battle-hd-v61/species/131/report.json",
+      "reportSha256": "16cce3a0032b73cce53cd008182f9c5675179a3825ca0a4d4f49cb707cf8a603",
+      "base": {
+        "atlas": "/battle-animations/hd/131-v60.webp",
+        "atlasSha256": "160a433f414632e258264c5b24b60ece74f33c29b79e0c5aca26785db1b80d2a"
+      },
+      "redrawnCells": {
+        "6": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": true,
+          "svgSha256": "12cb2479ad8d9e362c196352d56e043d6d6e119e2187332b4ae09718626072af",
+          "outputRgbaSha256": "fb7187c4ddfcfa1dedb1adee8ddb48fb6edfaba8399f3064c53aaf79d9f86ec0"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "137": {
+      "reportPath": ".cache/battle-hd-v61/species/137/report.json",
+      "reportSha256": "b23c97d8279d0af7116341b8a9d6ca3a566da5360092dd48c326cb5ce07a85e9",
+      "base": {
+        "atlas": "/battle-animations/hd/137-v60.webp",
+        "atlasSha256": "9ee0d5979751bf66ad668fcbd57851ddb9a40a77c2995f97bcdd011cde243acc"
+      },
+      "redrawnCells": {
+        "45": {
+          "class": "flat",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": true,
+          "svgSha256": "f1095f019fa51902106fa19b7bb3d7aa48d959d14d701868891fea4939c6ca1b",
+          "outputRgbaSha256": "780743d7aa63ed1debd5d29e264f84817f6980a1dc94d7cb910b441b14885ffb"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "138": {
+      "reportPath": ".cache/battle-hd-v61/species/138/report.json",
+      "reportSha256": "e626382e25ad1f83c5cee3a699f6b696631bb1d6650c69b77800967dbd3390c9",
+      "base": {
+        "atlas": "/battle-animations/hd/138-v60.webp",
+        "atlasSha256": "e2227901c870d0ea4f86f29d938ceea523d6d76effebee4de486f0a2c51aae07"
+      },
+      "redrawnCells": {
+        "78": {
+          "class": "flat",
+          "scale": 32,
+          "method": "traced-vector",
+          "firstPose": true,
+          "svgSha256": "fbb938b2a287f759a825d1bcf11333dd0c798c7d5220f9f31729ad86bc1e99dc",
+          "outputRgbaSha256": "f312c4ba181b6337129c3e662aebee6453f56c1230bfeaa057e2fa357124b160"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "142": {
+      "reportPath": ".cache/battle-hd-v61/species/142/report.json",
+      "reportSha256": "384760ba4180a843c17e878a178d6025d72d0189ca48940ea8246f794c0ac9ab",
+      "base": {
+        "atlas": "/battle-animations/hd/142-v60.webp",
+        "atlasSha256": "7cabab5f8512f530cd7987a4896f5db4e2133f4565c0244e65ed47d5969b72b4"
+      },
+      "redrawnCells": {
+        "6": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "df5c5aa6173c57238febf5f340f4113d08e390a04f1eee4e06f11f76caa2c80c"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "144": {
+      "reportPath": ".cache/battle-hd-v61/species/144/report.json",
+      "reportSha256": "2159efc5d7913205e58df297b5fb94e1a226ce0ee9f3e6f5df3c3205eb039ef5",
+      "base": {
+        "atlas": "/battle-animations/hd/144-v60.webp",
+        "atlasSha256": "05eda139a9bdc6c3671046d5891514d43e1ba04b63b4fdb41cb6de8ddd620ece"
+      },
+      "redrawnCells": {
+        "100": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "ee306e660ff276de8ceff250703f19198b8c729014441235cc91bbe221c3b8c5",
+          "outputRgbaSha256": "1bd028f9e955f7484b1704ba8612cc05e756196237ab005ae09751877572377b"
+        },
+        "101": {
+          "class": "shaded",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "cdce60100851d27a32d9d7d7c1c2e23304be0f384bbd500f7b32178ec2f6ec1d",
+          "outputRgbaSha256": "4d3b4991424e0f2b1de121e1d557dea520bb67731c14bc8d4c6de21518c895c3"
+        },
+        "129": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "7d5e69efd91bd1af11ea36415cda348536a57a73cabbc13943df9e7ce8432203",
+          "outputRgbaSha256": "434c36d7de8c3a936d0893fda408358168cf1d68b509f95c826c1b91278f389a"
+        },
+        "135": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "ee33e6751f22084e83b14bb0f0d5b8e87f63c6899254edad025e91e69367a940",
+          "outputRgbaSha256": "1b58baa4f79a6785fdbb57ba9f0d261a42486cd30d2d5b0e477aca3335dd3917"
+        },
+        "21": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "7e09e1971df146593c3f6d881041513d7236471b8096d2da08ffe327b65ebb8b",
+          "outputRgbaSha256": "e544c8c1ed1b3ba5532b6bcb94a6070ebf759fbe8d78fbb1c629148685ca5e0f"
+        },
+        "25": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "ae8c52d8b8f66b3fcce11fd31e318ff6f3a974cd3b0ca164f4344d1c76f60a71",
+          "outputRgbaSha256": "dea542aa27d9229f18442acb74b95c754d09d209ef34c10201e678c5a86426ae"
+        },
+        "61": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "5e5514418a627c02be48c0a49fffc8fd2cbb5a08e5a013b6be08502be0ec432d",
+          "outputRgbaSha256": "899041d190171157068f4db9d8ec5231d055fcb470332010b9437d4903f8f968"
+        },
+        "62": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "d3dfffd3c3d1a27f42823fe84065f24dfda57509ed4a85666c20a974fab668d5",
+          "outputRgbaSha256": "eca4d26d216aeb21e29788a846696046e5a4f79dcf3b325a81cc7bac610db449"
+        },
+        "75": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "6764264f0019c652f78956e8e4d2ff6f877911e5eefc8d11c5c087e2a6807465",
+          "outputRgbaSha256": "e9f744ce4a65d8afe9dce98139fbae9ecffc88c04f6e16e2509fbcb402b97094"
+        },
+        "76": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "3c9a3e30c4966dcd815a8e4b052394435116ae6d67f93881c164ef891602fd82",
+          "outputRgbaSha256": "78b640c9005b5f1263c5c55b88f32d3b8d769ddf0720f1857e410cfee3fdd003"
+        },
+        "83": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "a0c68ea0e7c128887460fe3544968a114e006e499c924c71ddd6cdc5c2d791d3",
+          "outputRgbaSha256": "7fa6b9c0470b773ede461129264b2cda632a45f558b362131bdbbed4bb1a2daa"
+        },
+        "85": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "47a3fb416a94639d4b60583f37cfb1ce56270da2e26e1d4662a97917dbda4bfb",
+          "outputRgbaSha256": "5e947c06125f9934af03d2a2b5d36fbcd0839129cf24cfdcd641d08751491af5"
+        },
+        "90": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "70fb648d4e30f399b36bc4ea222a4423e2a9e477d13864e3838f638a9a12c4be",
+          "outputRgbaSha256": "72dbd2ba713c3848350967efea61a59e3adbfc8976287421c40c52e1e52a3a74"
+        },
+        "94": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "597a1a5a484215260c8559cc9f76b02f140353ea30ebe02ee50f24cd7d81b3da",
+          "outputRgbaSha256": "f27a48e33f3e1fcf4038d0741d116184aa71a89edc36cf204cdcf5a673d6c0d0"
+        },
+        "95": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "c5aec277cd9dded7607bd308fa20af777ad9fe07caae5bd1bb0bf1920ffbe02a",
+          "outputRgbaSha256": "bc75fae7918ac092d21b68e2ea7040d165d3d55b65c5a3cd54f767c9f8635331"
+        }
+      },
+      "notUsedCells": {
+        "131": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "132": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "14": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "15": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "19": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "20": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "4": "The decoded budget left no room above the base multiplier.",
+        "58": "The decoded budget left no room above the base multiplier.",
+        "7": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "88": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "97": "Complex many-coloured art: no local redraw; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "145": {
+      "reportPath": ".cache/battle-hd-v61/species/145/report.json",
+      "reportSha256": "8f0641bcd4e6486c2ba0696e63eb8c6efef34aa85d1b6a291bf206f4780725a2",
+      "base": {
+        "atlas": "/battle-animations/hd/145-v60.webp",
+        "atlasSha256": "6e0b7f9cf6075a435ffecbe376a1d24eab1b21ae93b7846dc9440b93da01b439"
+      },
+      "redrawnCells": {
+        "4": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "79d4cbd93787429bf1e4060c6dccb0bffef65e91e221b5b745a282f6673aa7a0"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "149": {
+      "reportPath": ".cache/battle-hd-v61/species/149/report.json",
+      "reportSha256": "07a66a5df76e825d7953eb1d4d193477e35eb696cdb6f895d9a3d285b5b4e464",
+      "base": {
+        "atlas": "/battle-animations/hd/149-v60.webp",
+        "atlasSha256": "118a09108ae4e18c7b8f085a365758c9d3c86f23418104faf8e47c25bfcdc6a2"
+      },
+      "redrawnCells": {
+        "23": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "b880aa385cc1b6a980b173ecdac29dac8a3849d5d47c8e0ef689b3b4955c0f74",
+          "outputRgbaSha256": "f96b76ee355f9ae1d4a50488ae1e88f297c801c75d83958c6adf5f6c7187bcce"
+        },
+        "25": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "caacfaa2d08d430d6e4735058f7718dca7381ba6e8eb1066a0574a14ac1dee79",
+          "outputRgbaSha256": "0c1a0413d4235a814522eb3a3c3ecfb97015590528ef51103ed0dc69c6bff39c"
+        },
+        "27": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "f25646ec867d925acd78399e8b06dfb1d6fb14d1932bea7d05b46118e421eeba",
+          "outputRgbaSha256": "6fd3586aad7e0766a087b6ce72c9ec28f3aa2a6a81ea094a02352090285d22f4"
+        },
+        "28": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "e6096e8ddcb545cd2e4494eb2ad308d17fb5a6d3e7c9d60c3d8fab57b80a1cb5",
+          "outputRgbaSha256": "7b17a34921112b4772c54c457b56e479f1a0048e33f9e924ab06bab89e115bbd"
+        },
+        "29": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "750eca9a9284d34903141d4d0296766fcae44866e7171907d9627a4dc28bbec3",
+          "outputRgbaSha256": "b2d4213b0e81bf5d6c07662587c93859c34dbe0c5cf074856df01d43b1a4d917"
+        },
+        "30": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "4d0f873791a3e4f56e273aef8b20ca3043ffe46be3ffc1d439c5ca86c3855ef9",
+          "outputRgbaSha256": "7d435cd640ec6d00c650a8c634328d26d1b22c5c5c13b667b55bae7f17caef58"
+        },
+        "37": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "0a57940bb4ef8806ac927fe6ef406c9b2317978d4cc7f58c709f640b3ea4a071",
+          "outputRgbaSha256": "f7c670f34bf849628041599fa59c18cc443da5974eb7d797f6eb972da2e7d524"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "153": {
+      "reportPath": ".cache/battle-hd-v61/species/153/report.json",
+      "reportSha256": "fa4d0298481ca2189834dc6ae5150a9525d5284a062a79001c1c535f2c75b90f",
+      "base": {
+        "atlas": "/battle-animations/hd/153-v60.webp",
+        "atlasSha256": "09e45e8a60e4dba460d1ba4ef801b7046884af1ce3ee770b6b91c071ca45a7fb"
+      },
+      "redrawnCells": {
+        "7": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "009c203bb2512e624093123785e02b17e20b856600f57a0bfe9c23e8035a3fca"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "165": {
+      "reportPath": ".cache/battle-hd-v61/species/165/report.json",
+      "reportSha256": "0fb5a4379521055a5bf76053224c8afb29bc842c9572dc014408806fd92c4238",
+      "base": {
+        "atlas": "/battle-animations/hd/165-v60.webp",
+        "atlasSha256": "57919dec4f80ed47f43fe2c22f1c578eb0bfdbe42bfc349627b10dcfa9b00dc0"
+      },
+      "redrawnCells": {
+        "15": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "10a9516cbfb104ea055836a9518a9fad9d0944400301e986ad96f35f0c1fe8e4"
+        },
+        "16": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "02139e6be6d36af40256508b782f327b7a98f4e3b1942a8aaab61dd77f911da3"
+        },
+        "17": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3bf3d13a76bad7775cabe5b81935150f983d086c0613e920df50b65c05946602"
+        },
+        "19": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b5de21ac07eaa852390a7a74cf4a433c475995e18bf9dbe5093349e0563061b0"
+        },
+        "20": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "d1e6b31bfdef07e5529fc007a7472eafe42830bf96aa9b7d129efe2f2f000f46"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "166": {
+      "reportPath": ".cache/battle-hd-v61/species/166/report.json",
+      "reportSha256": "b1ab9a396085ba01fff25a9edec4c5844a79e509de80736e582d90f8adc25013",
+      "base": {
+        "atlas": "/battle-animations/hd/166-v60.webp",
+        "atlasSha256": "a60b9988cf5e8b9936d5a8c56059b3a0bafbc96f1a766c2f6c1d373cc4782f18"
+      },
+      "redrawnCells": {
+        "39": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "3b4bc721cec1ab484ba441ae7155c7d9a12fb5fdb9f4fe635904d3f2d6d74a46",
+          "outputRgbaSha256": "09e6d79b8c8c26172c9816f17449266b7494bf9abdff7fe6402f99c407c8d848"
+        },
+        "40": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "4b0b6d02e62840d8bda30e8a3587f05a3d04621dc45f2868a2f0842c24a929c7",
+          "outputRgbaSha256": "dc36881bafa02a06028a3f1aefe636b41cbad83265a4dfe4851f19961ee11f17"
+        },
+        "56": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "631b86b4ff70c923bd65f9580e5eb9457193f1b70e445fe8b3d6307f44243b3f",
+          "outputRgbaSha256": "545d62c797c58d9ee6007a3e695f2adbf35ec728f16f1e503bcd54cea1681b4a"
+        },
+        "58": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "1c05cefc49fff21d447ee39981725b209dd80b6d2c93c885b4f91388732a0f2c",
+          "outputRgbaSha256": "e20035f416729488d3d4c049eada622d19ad250b2f334cc12be91b4feed3dea8"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {
+        "19": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.996571,
+            "premultipliedRgbaMae": 1.068152,
+            "blockError": 14.671133,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 105
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "28": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.995423,
+            "premultipliedRgbaMae": 0.655401,
+            "blockError": 6.259586,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 115
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "29": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.996746,
+            "premultipliedRgbaMae": 0.804507,
+            "blockError": 13.607843,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 122
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "41": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.996983,
+            "premultipliedRgbaMae": 0.759783,
+            "blockError": 12.503813,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 135
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "49": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.99711,
+            "premultipliedRgbaMae": 0.702536,
+            "blockError": 5.918192,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 126
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "50": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.997153,
+            "premultipliedRgbaMae": 1.126488,
+            "blockError": 19.599564,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 100
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        }
+      }
+    },
+    "172": {
+      "reportPath": ".cache/battle-hd-v61/species/172/report.json",
+      "reportSha256": "4adca392187943dac9cf68ccfc589cab1de6c4ffa3e3eb9334f75ab746bb9f49",
+      "base": {
+        "atlas": "/battle-animations/hd/172-v60.webp",
+        "atlasSha256": "4b3b93eadd216e0cf318d9c03c26b1f3e83dec66ae7d48a38760a87cbaec6ef7"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e95be16dc9ed6c2ec282c5d94ac4bd246d180ea35eb34b4370e97cf8632a8c6a"
+        },
+        "108": {
+          "class": "shaded",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "da62d634642a530d873b3904757ea10e9c197d12d0a768e798f85b022388fbe0",
+          "outputRgbaSha256": "9e244aaf6c1d04ed760a2658cfedf9388cff745c239d2f6de961822ee977f5e8"
+        },
+        "11": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "41f304793c4564e2f0b54e199dc7a7e4139eb7c430f66b7aa6a8096482232907"
+        },
+        "12": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "5866374d9af943df0443a977c65c1596d988fa13a79e996903ba6876d496795f"
+        },
+        "29": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a4a149294a4c4206bedca69a9c081dd70797c9801fe0f25bf0190927fc280a13"
+        },
+        "30": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "46c38ea2187ad29ed7186635cce7c7293ffa60f10956d6ca4700078481438294"
+        },
+        "31": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c111db68c9c4162d9ba886225c9361704b8d78dbbf1b1bc37009f09bbeacf364"
+        },
+        "32": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "609055f39e1a878622f470303129e759066b3ca9c4f574909c5be5720b2ec66d"
+        }
+      },
+      "notUsedCells": {
+        "162": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "173": {
+      "reportPath": ".cache/battle-hd-v61/species/173/report.json",
+      "reportSha256": "489fe7991341827dbcda4ae0c0bd11613a6c1e2afc525b330ff8ca8e00c05aa5",
+      "base": {
+        "atlas": "/battle-animations/hd/173-v60.webp",
+        "atlasSha256": "8c4f3297ce587dd61c215148180c0bbdaecebac8f90ac9ce553c69a625e357c8"
+      },
+      "redrawnCells": {
+        "38": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "6d34f2ce0ecfdbb6db22bb16ba1f94d8869bc62fe6602f807bb9304dc74988b3"
+        },
+        "39": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ecb3fa9ace49670aaae797067838253d6245c99897474b6903775276d97d1c7f"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "175": {
+      "reportPath": ".cache/battle-hd-v61/species/175/report.json",
+      "reportSha256": "7cd2d1fc0b98d7c8a89ebe347d217e738d9b1c8aa81f8348faa2f7ee7d13c92d",
+      "base": {
+        "atlas": "/battle-animations/hd/175-v60.webp",
+        "atlasSha256": "cdc97fcaa371b4d8be437fc8592a57971f174a09612c938258139f0434046c09"
+      },
+      "redrawnCells": {
+        "110": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "15c42d4c63d8cfa05d8f22dd7f526cacd54c04a2dbee4838cc6f6e2d925357a1"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "176": {
+      "reportPath": ".cache/battle-hd-v61/species/176/report.json",
+      "reportSha256": "5bd07e51e37534623c8e81fd730a724d7edde942ecc4907dd9dc5191b648b949",
+      "base": {
+        "atlas": "/battle-animations/hd/176-v59.png",
+        "atlasSha256": "4a233ebe7a1fdbcb36a3061ca4b153b3392b54c964c91ea643db059e12175a03"
+      },
+      "redrawnCells": {
+        "11": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "05676c447df48ff32371656fb6f6b2c0c38172c7502574aedd4c65bbf70e4915"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "186": {
+      "reportPath": ".cache/battle-hd-v61/species/186/report.json",
+      "reportSha256": "b669ef8b635b1b3b3933f82862b3978cb899ad49ea076e116ae971ac72c9fc5e",
+      "base": {
+        "atlas": "/battle-animations/hd/186-v44.png",
+        "atlasSha256": "0ebecc690287fa4c92e90b0f9bb08b7bdc471b09ef5e2d9485b0eb7ff5f2c92a"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "828694503c56df8cabb166d6bb47ede2347dbe9e00ec541e4fe076be1d818004"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "199": {
+      "reportPath": ".cache/battle-hd-v61/species/199/report.json",
+      "reportSha256": "9d4621fa19de15f3eda11dd331956a8704dea647c469847cd32255562b21302f",
+      "base": {
+        "atlas": "/battle-animations/hd/199-v60.webp",
+        "atlasSha256": "bd974d2230d489847a045a02d7a9becc278b20785db61b35aff98afe7b731ad4"
+      },
+      "redrawnCells": {
+        "44": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "c0354dc6e033e8230421566fd97db0cf4165fce9957e77dbd91ddcec00eb90e6",
+          "outputRgbaSha256": "a93f669cffd21fcc2e837dd05e457fd04ace08bf63e74b943bf750fea3cc3743"
+        }
+      },
+      "notUsedCells": {
+        "22": "The decoded budget left no room above the base multiplier.",
+        "23": "The decoded budget left no room above the base multiplier."
+      },
+      "aiReducedCells": {}
+    },
+    "201": {
+      "reportPath": ".cache/battle-hd-v61/species/201/report.json",
+      "reportSha256": "acb3d0f45f494d51bcd8aa8d446d9b3368026c8763ab9ead2418b55dcbdd6e90",
+      "base": {
+        "atlas": "/battle-animations/hd/201-v60.webp",
+        "atlasSha256": "c34c81d1dd7bc1ffdb42e121d978ada4a6dc2fa214e34ac33412eb92a091ee27"
+      },
+      "redrawnCells": {
+        "50": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ef3da4a07ddcec4ada755382731af8908e691374f9f4bbe83fe80895b9349b12"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "216": {
+      "reportPath": ".cache/battle-hd-v61/species/216/report.json",
+      "reportSha256": "620537e6db4f91a6dff18c4e2d35b14fe62a3f8fbad7aab3b00275c9ba1607f3",
+      "base": {
+        "atlas": "/battle-animations/hd/216-v60.webp",
+        "atlasSha256": "a0f805a7d08fdaf71a83c0f868747020c1c55f7e6b7e15d12a9b287de6dd1528"
+      },
+      "redrawnCells": {
+        "6": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c951a90928f962d7e6a36d0acad71dfa925408632c0285903f394289277abec4"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "223": {
+      "reportPath": ".cache/battle-hd-v61/species/223/report.json",
+      "reportSha256": "04fc47dd77dbc31a9fb58fed9b160ab8c44fbe3076b37c350e9f4e8dfae0fae8",
+      "base": {
+        "atlas": "/battle-animations/hd/223-v60.webp",
+        "atlasSha256": "4386484399f0f4c00f86f2019f77e6c73e08134f39bf3dc3d6f9be37342b3c4a"
+      },
+      "redrawnCells": {
+        "53": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0566f6b36ab2ccf4a027cfa8e59d0639d0e42340df60f5037c76fe4d8267b0d6"
+        },
+        "54": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "e2061e6bd1ecabc418a7cc7da758001da16971940df4ebd12a82bda3483f988a",
+          "outputRgbaSha256": "8413923d20cb761fcb29232c3a622dae56843ad3e6f1b7c058e9557636fbc344"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "224": {
+      "reportPath": ".cache/battle-hd-v61/species/224/report.json",
+      "reportSha256": "f476bc05854a5944621b7c7e8f6fab7a312d695fcef2a179098e2ac37d7a61c2",
+      "base": {
+        "atlas": "/battle-animations/hd/224-v60.webp",
+        "atlasSha256": "4e131fa9cc86b0f081ae860b76dbb1b7b86b4df2cdbbc11be8adbe9660be520e"
+      },
+      "redrawnCells": {
+        "57": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ed6cffb1a0bc30766bb1429687eb4d84d8f790bea53cae5d9af98a266716b50f"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "257": {
+      "reportPath": ".cache/battle-hd-v61/species/257/report.json",
+      "reportSha256": "9e322e909174afc5165f586a6357635a075948d4d0ca37e1b4fd7153038adaa9",
+      "base": {
+        "atlas": "/battle-animations/hd/257-v59.png",
+        "atlasSha256": "fafc5f20afb6d5bb608d4c684d2c7cae37b7c0a3db089ca7e5a35f2e345ce402"
+      },
+      "redrawnCells": {
+        "1": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "657ac1dd8199370e656d2e10b2994f2cd9c35b626b491a560af2542f4c1c2bfe"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "327": {
+      "reportPath": ".cache/battle-hd-v61/species/327/report.json",
+      "reportSha256": "4cc88befeb5a5fed97d34acff65b7dd8b9080ce25cc7c71c41a3a19fa38cc79a",
+      "base": {
+        "atlas": "/battle-animations/hd/327-v44.png",
+        "atlasSha256": "05359a9f1b83b15f699005c66ea20b383638c6969c411208e10f5469026256d0"
+      },
+      "redrawnCells": {
+        "4": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "e1415a9d6052ef97a331450f8c16138279fe698c4e6a459574c90b14f7ad7457"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "341": {
+      "reportPath": ".cache/battle-hd-v61/species/341/report.json",
+      "reportSha256": "de26f8041af23429a9a5405ffe9096dce4b44ec700c9af53961dd057d331d1a5",
+      "base": {
+        "atlas": "/battle-animations/hd/341-v60.webp",
+        "atlasSha256": "7315b2042e632331ad72503ef7fd501cf5e1e457ffbb0d2bba70fd106b596d1f"
+      },
+      "redrawnCells": {
+        "8": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "d7681074c8267a0fa855b43690bd8b7f0ccebabb44254b49946f4b9563cd212e"
+        }
+      },
+      "notUsedCells": {
+        "5": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "342": {
+      "reportPath": ".cache/battle-hd-v61/species/342/report.json",
+      "reportSha256": "8caf7389bfabe23780e14af1297c78f93809b0b94142db3cf0ae6d58a8772133",
+      "base": {
+        "atlas": "/battle-animations/hd/342-v60.webp",
+        "atlasSha256": "731e2e5a5b13ccfa6418248fcd9d02b96d739a524fb6efc9b82cdfe59fe40c38"
+      },
+      "redrawnCells": {
+        "11": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "ee71e20f36de9e7bf64c0f69e0fef60bbedecca856a409d830e6b0125198072a"
+        }
+      },
+      "notUsedCells": {
+        "6": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "360": {
+      "reportPath": ".cache/battle-hd-v61/species/360/report.json",
+      "reportSha256": "adb283f0b02e77e104dcb8cb254e9a9c7a0dda98db498864e913ccd9a20d2931",
+      "base": {
+        "atlas": "/battle-animations/hd/360-v60.webp",
+        "atlasSha256": "b20d219bb99b95a9024bdbe0c27f71688f34b7897d33bd2ae3e1026423b5408f"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3e62e1b0579f7f17dfe5b3428f17ef7f62d0610653433711af01d3e32227f150"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "361": {
+      "reportPath": ".cache/battle-hd-v61/species/361/report.json",
+      "reportSha256": "9e4dba44529163b4fe9005ad2065ffe8c349537bf0484cb55f7acb5a01f761fc",
+      "base": {
+        "atlas": "/battle-animations/hd/361-v60.webp",
+        "atlasSha256": "c0c7b5b4743de3bd79db410ec0259dd4b8ffd7575c3070f5fc9d289aa95ea146"
+      },
+      "redrawnCells": {
+        "48": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b8e396ba3e4ab955434e36dbc60b1c6b3500c744039013bf31aafac8c6caf055"
+        }
+      },
+      "notUsedCells": {
+        "58": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "362": {
+      "reportPath": ".cache/battle-hd-v61/species/362/report.json",
+      "reportSha256": "dafcdd1f5ee9fa51ccd9a5031eaef64f874bb1630212f1fadbab8ab759e0f6d4",
+      "base": {
+        "atlas": "/battle-animations/hd/362-v60.webp",
+        "atlasSha256": "d8a80b52d551283c783784ad3e3fa929c36f7148d1c5c0a881674a09d5b7c4d6"
+      },
+      "redrawnCells": {
+        "47": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c44068a097125face9db55cba3e2a06384122b45df069365402f73e85000a44f"
+        },
+        "94": {
+          "class": "tiny",
+          "scale": 32,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "46eb1c18faf5b6a97918de5fb95c0e4966a40d4dabb54fd8fc41aef50c51db05"
+        }
+      },
+      "notUsedCells": {
+        "100": "Failed its native gate; the published tile is kept.",
+        "127": "Failed its native gate; the published tile is kept.",
+        "128": "Failed its native gate; the published tile is kept.",
+        "131": "Failed its native gate; the published tile is kept.",
+        "132": "Failed its native gate; the published tile is kept.",
+        "133": "Failed its native gate; the published tile is kept.",
+        "134": "Failed its native gate; the published tile is kept.",
+        "135": "Failed its native gate; the published tile is kept.",
+        "136": "Failed its native gate; the published tile is kept.",
+        "43": "Failed its native gate; the published tile is kept.",
+        "44": "Failed its native gate; the published tile is kept.",
+        "45": "Failed its native gate; the published tile is kept.",
+        "46": "Failed its native gate; the published tile is kept.",
+        "48": "Failed its native gate; the published tile is kept.",
+        "95": "Failed its native gate; the published tile is kept.",
+        "96": "Failed its native gate; the published tile is kept.",
+        "97": "Failed its native gate; the published tile is kept.",
+        "98": "Failed its native gate; the published tile is kept.",
+        "99": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "363": {
+      "reportPath": ".cache/battle-hd-v61/species/363/report.json",
+      "reportSha256": "5ab128de9863bcd55cc255baca524c4621823ae74956daa3aed355df354d6ff3",
+      "base": {
+        "atlas": "/battle-animations/hd/363-v60.webp",
+        "atlasSha256": "a1745abe8d160c0a82b38234a9719f97f9906d2db774210edc089953c8cae845"
+      },
+      "redrawnCells": {
+        "12": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0305f237d4930dcc223f203819941af4d5c1598e2373148fb0ec90d955606390"
+        },
+        "22": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5fe761eac7654d1b509866044ac21dfbc51e9026f44242fccef47d70d21ad667"
+        },
+        "26": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "44b4b1ec934a7978fa2569ab1e2b99b6c43765cdec3cb375c042cf14cbd4c340"
+        },
+        "27": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4622e0ba6241f21c549139b4d43658a295f6da7038d1fd3f077e27113c8fcc6c"
+        },
+        "29": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0ae23839a2e8892f0baa94af943fb0658c494e22e94e302a1b9cc41a3fb5cb20"
+        },
+        "30": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7a1403b30cbca6cc64de2062f129a1c95e9fec9e9ca46c98cc704b78935572ee"
+        },
+        "31": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6279f043fa2e4d3cc0fb26526721de0807621685505e4b2cba49d2dbef9db2ca"
+        },
+        "54": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a918bbb356979b7edcffa89cb09b387c87ae1dee23c98e05f67a387234f20848"
+        },
+        "60": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8f45e8060b2bb71c775e9d62404da3ae203788775dcc76e24f0bc737b7daa721"
+        },
+        "62": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0d60cc7554b1a9d8ff498883bc06a78012862c8777baed0e601a80b99f0b2cae"
+        },
+        "63": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "557eb434a6d7e84f8b6177b07c8e635c8ffacd3f252bcd89ea7dadc7d47675e8"
+        },
+        "66": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b141154d9e24779db68d3b96d80be2ba80017fd8467fd96c4b3d23e8122a3d52"
+        },
+        "67": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "165bb4ac09221d21e9bfb77119e3527dbca331bc7f377ade7bf3172c0fcfb1a7"
+        },
+        "70": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6e44889e7c9183ce221108a1ae428b15337d89d20f52d84178f453243f29ea93"
+        },
+        "71": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "50b6ca8d6d6efb84d0a3a770385b7eb4c122b82baa2f07c297bbc124fa44d3eb"
+        },
+        "72": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6aae8193d429eb86a0b63d6c4b0585ba5e4310c516ca7228b1cce7e29a0891c5"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "365": {
+      "reportPath": ".cache/battle-hd-v61/species/365/report.json",
+      "reportSha256": "f9a9845384d67ccfd6cef082b60b546d5ac3d0b702cca4c0d92db3e13b7ac79e",
+      "base": {
+        "atlas": "/battle-animations/hd/365-v60.webp",
+        "atlasSha256": "4a3d3d1c478ae329ea571e561d2fc69c1f39b017cc377df4df73c13fe3fdc8ed"
+      },
+      "redrawnCells": {
+        "28": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "bd4500f89fe09b05d9d566f48ea83280bddb62a3aae0027dece1855012479c2a"
+        },
+        "29": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "1203228f5314e0e2d4b1883b62e96469877fd166688d8d09790d7589089f0520"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "368": {
+      "reportPath": ".cache/battle-hd-v61/species/368/report.json",
+      "reportSha256": "8fa4eea0edb11ae58984f212ad1e9ff905c44efc23b47fbb3b84743556fd563e",
+      "base": {
+        "atlas": "/battle-animations/hd/368-v59.png",
+        "atlasSha256": "b2500a424300d48b2a323951d608131c5c96547da874c15507a9dcdf2881238d"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "flat",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "975b4c2b09b0319439a6125bc104d8e5584834819a63bb5ddd2c1a04a786dbf5",
+          "outputRgbaSha256": "d5f2c3bf3dd11638c1eaea1c5fd1085bc542d673c8810c59f717e310a3f18862"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "9492473467957ed58d75cea2370f820fdb38c83b0cfa7aeedb26fc6a0af952dc"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "373": {
+      "reportPath": ".cache/battle-hd-v61/species/373/report.json",
+      "reportSha256": "7bef2c87281c3574b2f7e484960c08dcdb9726c01a73e9caef242f9172a8a583",
+      "base": {
+        "atlas": "/battle-animations/hd/373-v60.webp",
+        "atlasSha256": "4d4bd57b1693f636c0c66971bc707e3b4ee6100b4c07fc1b1bd167ab1fe35ea0"
+      },
+      "redrawnCells": {
+        "116": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c728d01214a92a6248deac37366ed22c7e9e725e4f895ac05186ca29c981092a"
+        },
+        "117": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "9c5b98bc99cf2b9d0d6be5195392958ea64b38349f4d958a9027264f7e687b41"
+        },
+        "131": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4fec8bc46e5079593b8a399b0a26dda4681319da518e6d01c27f95a091cf77d9"
+        },
+        "132": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "25c8b4c2543ba98cf2e12a6b879e57cdcc9f12eb189b7c81d8e2bf2d8dd321e7"
+        },
+        "133": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "25525336b10f0fc62fede311748f4d7bb9ea500f6a1ecb7ed91a1dfe7be67ff7"
+        },
+        "83": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0b29edb5d374c5e332e0f509414ea3c29498ac304a34aa922373782d2719b5dd"
+        },
+        "84": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "2db00f931227ddd4b56992f3a60520c8e7bc14aa351f72bc2dc4b3fc3985873b"
+        },
+        "85": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b072250fb4c8c453c51c3fb627d630e5a098e8cf8902ccc805b524f58fbe3eda"
+        },
+        "86": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c3e3b21139fa440247797c0eadcfcad51cfe8522eeb82fe02167e6c7d1252b97"
+        },
+        "87": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "0ec04651ad4eda7346d6b9b970244eebb546e1ed45879ffc13d96c7dc1a917e4"
+        },
+        "88": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "aa201b42752db7eb3ac2ae3af68d7f4c0f3f60f86b63ae3aecbc0a1edd1bafa0"
+        },
+        "89": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "30e0e4876a3cbbe43e2477d9bc062fee7440cdc9c21b0825180ab2887606c7a6"
+        },
+        "91": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d3b880e7e1d595f25e42a625a313a876fabfe10059348616509d935a92963af0"
+        },
+        "92": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e213961cfb406ae8e67eb86f199e89cf26ca8dca8dad15318ddc16905004db85"
+        },
+        "93": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "25c08350229ee6214f232e2d5b43ba137420377edf8353e94f6502cb7fe2a717"
+        },
+        "94": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "412ccf56cfa29fd2b30bd77e047db1e01240e75ede44785edd2e167ecc216531"
+        },
+        "95": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "91dc48c9469daec40e8905bb0b895060348198520f813f970536793be027f326"
+        },
+        "96": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "fb6de3bb24d861ce6a9ff422f75a62b74b1922809715dfc977d7e0641960e93d"
+        },
+        "97": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "19295a098f8bebf0b3a9cf04c64392990bae63ed5ac4a9501961941cf58d99db"
+        },
+        "98": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "35f21b407943dc85fe0dd9c14fc60ecbfc33150d2f004780226cce0aef5f8bd2"
+        },
+        "99": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "12900f72ee8eb09fb09f116c93ed7b981f32cfaceef7488f354b7b8f1389baac"
+        }
+      },
+      "notUsedCells": {
+        "123": "Failed its native gate; the published tile is kept.",
+        "126": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "381": {
+      "reportPath": ".cache/battle-hd-v61/species/381/report.json",
+      "reportSha256": "bf313fd6720fed3a0d3f1be3d19af9694b2ff930d560584a6eb4b4afcd613d22",
+      "base": {
+        "atlas": "/battle-animations/hd/381-v60.webp",
+        "atlasSha256": "65ee9e64cbf7244fb9754f68aabd5f260b1f314b00e0025238833c2fa3ebd8c4"
+      },
+      "redrawnCells": {
+        "38": {
+          "class": "shaded",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "5c9c8e6da929137a9ce7a9b2c6bca23c42540678b8617912b25f71fdca6f2c66",
+          "outputRgbaSha256": "74e82d40e6244923ea9d2f2f1c2ad6eec0c2bec71170ebcf5d76b3908e64aab2"
+        },
+        "64": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "0278c3f87d31760f9b40a2fff37f2e82803e9933ed21e36b3dbff2d22de78501",
+          "outputRgbaSha256": "8b0a6ad0e3109d047364d064597ef4a52e14b2815e53f6754c97a6c042e03ec1"
+        }
+      },
+      "notUsedCells": {
+        "0": "Failed its native gate; the published tile is kept.",
+        "44": "Failed its native gate; the published tile is kept.",
+        "57": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "401": {
+      "reportPath": ".cache/battle-hd-v61/species/401/report.json",
+      "reportSha256": "04e3daed124988e6cced2fa8d203afbec72f9af5fe9e3cb13ce256a9fa8c9da6",
+      "base": {
+        "atlas": "/battle-animations/hd/401-v60.webp",
+        "atlasSha256": "6b9a74c8b8bfe219aa6f9a0d965f90b01ad265eaec96fb42dc44626019dcc6c8"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5d9d7f8859c583132cebe745a1b7b7f4370060c7491dc757dd3be1945dd6b292"
+        },
+        "15": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4490ab5573ad885d2242cdd5fc4807379c045c7d116c576d0ce41d8850d82e70"
+        },
+        "2": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8a193a5185160dcfad86168f7c78be000a8519416bd0466ab62a0229fd229be5"
+        },
+        "24": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "df98f64afc84bbf8622d42b5d05194cc23ccd782214b7ade517299ed92461ef3"
+        },
+        "29": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "63b774e3c694a6c8e639460a5095bec4204c567cbbc5aaec36fc0aadafb868a1"
+        },
+        "36": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fca583749bf881b6f8f503d251b11fa53b16539bed701c5a13f24d45f4e2b3ba"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "402": {
+      "reportPath": ".cache/battle-hd-v61/species/402/report.json",
+      "reportSha256": "555a438a7a709b8c4b8fd71a1cfa71a54192439810cab99a7eb287c4d6ffca11",
+      "base": {
+        "atlas": "/battle-animations/hd/402-v60.webp",
+        "atlasSha256": "09a0f592e672ac2ea227674a1442afd9f66fdab94a1c12d3df796cb19d3deda6"
+      },
+      "redrawnCells": {
+        "41": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "bb9be1bf90e014c8052518ba6e4a269ff44f3f4ff65d8914863d1c77e58f212d",
+          "outputRgbaSha256": "a5a4e6be158b048cda785368c62589d1161b31359554588732eedb05f5a31827"
+        }
+      },
+      "notUsedCells": {
+        "49": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "410": {
+      "reportPath": ".cache/battle-hd-v61/species/410/report.json",
+      "reportSha256": "15a30aaf1203ee1ceefe591cb0105209ed52ec0e5ca6df550fe4626a4070c448",
+      "base": {
+        "atlas": "/battle-animations/hd/410-v60.webp",
+        "atlasSha256": "cbfec6727229ee557bb885649eff882570610955552f941fddee6574fab5c60b"
+      },
+      "redrawnCells": {
+        "3": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "2bf582f2f3c210506b40c30ac33c1dc60e86dff45f44e029f20671086dbda3a2",
+          "outputRgbaSha256": "15209d4b3d26a7df84d4e5d4b78e942805b4d895bc312e381b286a7246405cff"
+        }
+      },
+      "notUsedCells": {
+        "2": "The decoded budget left no room above the base multiplier.",
+        "27": "The decoded budget left no room above the base multiplier.",
+        "35": "The decoded budget left no room above the base multiplier."
+      },
+      "aiReducedCells": {
+        "10": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.99596,
+            "premultipliedRgbaMae": 0.466596,
+            "blockError": 1.726253,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 436
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "18": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.996948,
+            "premultipliedRgbaMae": 0.459052,
+            "blockError": 1.880174,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 480
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "28": {
+          "from": 2,
+          "to": 1,
+          "gate": null,
+          "method": "original pixels"
+        },
+        "32": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.99576,
+            "premultipliedRgbaMae": 0.453068,
+            "blockError": 1.594662,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 404
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "33": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.995428,
+            "premultipliedRgbaMae": 0.480205,
+            "blockError": 1.892157,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 386
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "44": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.995742,
+            "premultipliedRgbaMae": 0.464573,
+            "blockError": 1.770479,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 342
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "45": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.996804,
+            "premultipliedRgbaMae": 0.469468,
+            "blockError": 1.796732,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 377
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        },
+        "51": {
+          "from": 4,
+          "to": 2,
+          "gate": {
+            "alphaIoU16": 0.995953,
+            "premultipliedRgbaMae": 0.471543,
+            "blockError": 1.86939,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 376
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        }
+      }
+    },
+    "413": {
+      "reportPath": ".cache/battle-hd-v61/species/413/report.json",
+      "reportSha256": "f3f74fbdb03b3a9d853fac8f0ced36d7571b59680240859b8cd81fafa9efaaed",
+      "base": {
+        "atlas": "/battle-animations/hd/413-v60.webp",
+        "atlasSha256": "95ce82708ae7f1f10777e88240db36fd93eae1fbc699f28d7f8fcc095a45df91"
+      },
+      "redrawnCells": {
+        "103": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "05f524036a3201c586d56d69f7938486ba2d4bac6743af86004990f50597489e"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "422": {
+      "reportPath": ".cache/battle-hd-v61/species/422/report.json",
+      "reportSha256": "79661a2025264abea1388cd664f838985d759cbd7026ab71644c502146377468",
+      "base": {
+        "atlas": "/battle-animations/hd/422-v59.png",
+        "atlasSha256": "6651c234c7f39039cec265027e0da81fbde599f49c9f8838c0a2d10306428f88"
+      },
+      "redrawnCells": {
+        "38": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "14c704bb9fb511ba643e7b8e8de05186005333d6fc8012c0b583e3fec849345a"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "429": {
+      "reportPath": ".cache/battle-hd-v61/species/429/report.json",
+      "reportSha256": "f89707a97a37dc0649f6df471ec2cb71e57531bee1715ac0cd2b98cba747a76a",
+      "base": {
+        "atlas": "/battle-animations/hd/429-v59.png",
+        "atlasSha256": "ac0402da9e5150c8ab4b51f5c1039e0c7818b83c29e204e8226789f787e2aaf5"
+      },
+      "redrawnCells": {
+        "36": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "2e0fdbe612ed29a56b4ca448af27a6bcd817e00861f1e36473e4df79e0f7d7f4"
+        },
+        "37": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6c514eea36c293b14219d9c2b78be3186b708f1674bb93b2ad0de6b8cf1dee84"
+        },
+        "38": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0237631f67570d681d0b37578a152ed2b3050ccf1c8468b434ca69ae32026bb2"
+        },
+        "39": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "076140e74acf6e36e4f8970a30015238574dff392201d66da1f64b65efcc4599"
+        },
+        "40": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4ced93062b28f5262b5d673980863c37f367fba9c4feb22594086cce29921b36"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "430": {
+      "reportPath": ".cache/battle-hd-v61/species/430/report.json",
+      "reportSha256": "bcb7ae8575622e6427ecc612c89356fc8c35c5f1f2f8d1f45b4a5f6978273d51",
+      "base": {
+        "atlas": "/battle-animations/hd/430-v60.webp",
+        "atlasSha256": "d2fa582c43f12fc388da085ed2102b9119423e6ebd69dc1ec310e391529913ec"
+      },
+      "redrawnCells": {
+        "147": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "e1a371af25b4cc17c4e87dae11462dff096bc1a69891d0f06f614016f2660dfb",
+          "outputRgbaSha256": "2d37fe543562e39fed2b8544ac7469827f3bffde961d5302c96e93854d917b74"
+        },
+        "188": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "9ebbb66e66d0cb5016d9a0816fa0886682095b1b134f1d8a6f3ecc881e800368",
+          "outputRgbaSha256": "d77b55165d4b4cc46a854057f272db77bd41f378d07729c21412900d4be94227"
+        },
+        "77": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "690ff0e17df7397e303ce89e8b777d1d59269a905a9b002547d429a3f066e3d2",
+          "outputRgbaSha256": "fd571c6adc42c7ee655c9f55d6e6796ffef8176fa71c09123ade864cded17848"
+        }
+      },
+      "notUsedCells": {
+        "100": "Failed its native gate; the published tile is kept.",
+        "102": "The decoded budget left no room above the base multiplier.",
+        "103": "The decoded budget left no room above the base multiplier.",
+        "119": "Failed its native gate; the published tile is kept.",
+        "123": "Failed its native gate; the published tile is kept.",
+        "129": "Failed its native gate; the published tile is kept.",
+        "132": "Failed its native gate; the published tile is kept.",
+        "133": "Failed its native gate; the published tile is kept.",
+        "135": "Failed its native gate; the published tile is kept.",
+        "140": "The decoded budget left no room above the base multiplier.",
+        "141": "The decoded budget left no room above the base multiplier.",
+        "142": "Failed its native gate; the published tile is kept.",
+        "145": "Failed its native gate; the published tile is kept.",
+        "154": "Failed its native gate; the published tile is kept.",
+        "156": "The decoded budget left no room above the base multiplier.",
+        "159": "Failed its native gate; the published tile is kept.",
+        "160": "Failed its native gate; the published tile is kept.",
+        "161": "The decoded budget left no room above the base multiplier.",
+        "164": "The decoded budget left no room above the base multiplier.",
+        "165": "Failed its native gate; the published tile is kept.",
+        "169": "Failed its native gate; the published tile is kept.",
+        "173": "Failed its native gate; the published tile is kept.",
+        "175": "Failed its native gate; the published tile is kept.",
+        "177": "Failed its native gate; the published tile is kept.",
+        "195": "The decoded budget left no room above the base multiplier.",
+        "26": "Failed its native gate; the published tile is kept.",
+        "37": "Failed its native gate; the published tile is kept.",
+        "43": "The decoded budget left no room above the base multiplier.",
+        "50": "Failed its native gate; the published tile is kept.",
+        "52": "Failed its native gate; the published tile is kept.",
+        "54": "Failed its native gate; the published tile is kept.",
+        "58": "Failed its native gate; the published tile is kept.",
+        "59": "Failed its native gate; the published tile is kept.",
+        "60": "Failed its native gate; the published tile is kept.",
+        "7": "The decoded budget left no room above the base multiplier.",
+        "71": "The decoded budget left no room above the base multiplier.",
+        "76": "Failed its native gate; the published tile is kept.",
+        "78": "Failed its native gate; the published tile is kept.",
+        "84": "Failed its native gate; the published tile is kept.",
+        "88": "Failed its native gate; the published tile is kept.",
+        "90": "The decoded budget left no room above the base multiplier.",
+        "91": "The decoded budget left no room above the base multiplier.",
+        "92": "The decoded budget left no room above the base multiplier."
+      },
+      "aiReducedCells": {}
+    },
+    "432": {
+      "reportPath": ".cache/battle-hd-v61/species/432/report.json",
+      "reportSha256": "6f3d6d833eab470f772d8582f1a1f7bbc962a140b907d3407379bf5c80651eba",
+      "base": {
+        "atlas": "/battle-animations/hd/432-v60.webp",
+        "atlasSha256": "3a61be8a3b89e2d73d490a4aacbda659ccd407baca81316222e815c3a1157faa"
+      },
+      "redrawnCells": {
+        "46": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "65db9387ec92b06e51990b08d59590ff608f3b1b8676f86b35d23bfe2164b3f3",
+          "outputRgbaSha256": "cb62cd922c39b962c07da82ead3b0faca4604303418d16e622afd78984103453"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {
+        "22": {
+          "from": 8,
+          "to": 4,
+          "gate": {
+            "alphaIoU16": 0.998646,
+            "premultipliedRgbaMae": 0.603846,
+            "blockError": 5.522985,
+            "localColorPassed": true,
+            "localLargestBadRegionPixels": 0,
+            "localStablePixels": 0
+          },
+          "method": "premultiplied box reduction of the base AI tile"
+        }
+      }
+    },
+    "445": {
+      "reportPath": ".cache/battle-hd-v61/species/445/report.json",
+      "reportSha256": "86342efba192d2c742e088ba33a8e6099c29f8d22b2c94b4bc5e0c295781a471",
+      "base": {
+        "atlas": "/battle-animations/hd/445-v59.png",
+        "atlasSha256": "04c3939ad3d3f24d38b7e52b5b5fdd22abe294e4a155b9fa534008b8649647e5"
+      },
+      "redrawnCells": {
+        "7": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0b2f87c82d179544deba4023955566a3d7b0fe0c51e05141d902b9dae6c94e83"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "453": {
+      "reportPath": ".cache/battle-hd-v61/species/453/report.json",
+      "reportSha256": "39e614cfba25816ec12e1cdb06ae4ba09b424c5fbd98d059437b7d93084c3127",
+      "base": {
+        "atlas": "/battle-animations/hd/453-v60.webp",
+        "atlasSha256": "bc3028db9a7d067a4ba06bd4628060d779ff40eaaf0874eb60c8eecadafea59c"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "75f05f3ba44ea5cdce8adb18a14fb21ede3957c5a693a8e10442bde575bf82b5"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "462": {
+      "reportPath": ".cache/battle-hd-v61/species/462/report.json",
+      "reportSha256": "4bed076dd16e2b9e2d2d1209113e4596470f8108eaaecef5901a498abb579a3d",
+      "base": {
+        "atlas": "/battle-animations/hd/462-v59.png",
+        "atlasSha256": "87b2f17de1a30e1249c7afb85f8d1dc3c5f4c6ca1490a985cfa5dfb7ea2058f0"
+      },
+      "redrawnCells": {
+        "64": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "324f74b5c952c6c6bdf9b855cc6e9f122248b893a57cdbe158a8ef69fc0a0740",
+          "outputRgbaSha256": "505a66fbc54d8fee9ed89b9cfac307b01e681404e20eab4f1ee5d00bd0b43a14"
+        },
+        "75": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "84a8779720ddeb33b58166d9206bff161290df0896d2f564e39b1f505c414c77",
+          "outputRgbaSha256": "5e20bd69150104e6c398642d6da15e82bf04d2f785e0bf53375d6da94caf57f3"
+        },
+        "83": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "efdbc0afb0090435141929f1c26cf04b23f4524c15aba4fab98cffb93a9a573d",
+          "outputRgbaSha256": "d0d3a47fbf37cd1db4be6352a577fd32704375f0134750c0cbb39b5560063fdb"
+        }
+      },
+      "notUsedCells": {
+        "2": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "3": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "43": "The decoded budget left no room above the base multiplier.",
+        "44": "The decoded budget left no room above the base multiplier.",
+        "45": "The decoded budget left no room above the base multiplier.",
+        "48": "The decoded budget left no room above the base multiplier.",
+        "65": "The decoded budget left no room above the base multiplier.",
+        "90": "The decoded budget left no room above the base multiplier."
+      },
+      "aiReducedCells": {}
+    },
+    "479": {
+      "reportPath": ".cache/battle-hd-v61/species/479/report.json",
+      "reportSha256": "2f9aaf24e2b7bdd6c9efc6ecba099273e07f25294595776f7cac58002e65b6ce",
+      "base": {
+        "atlas": "/battle-animations/hd/479-v60.webp",
+        "atlasSha256": "f0921ee46d4705074804a2a083488c61d37cebf0a7766730e0eef01b5c9505b2"
+      },
+      "redrawnCells": {
+        "0": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "80649e49c01802de29e89c904bf2bbf05fd6299207fbb5d92ac6a98f14c0dcf2"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "514": {
+      "reportPath": ".cache/battle-hd-v61/species/514/report.json",
+      "reportSha256": "a03f8eabe9ae6867d025c63c943f22bcdc58c189010567bcc59e6175c5e8fabf",
+      "base": {
+        "atlas": "/battle-animations/hd/514-v60.webp",
+        "atlasSha256": "0ab103c4ca361fc3c17792dca76966ceebb8f077444e3d1f62eec53cba9177e9"
+      },
+      "redrawnCells": {
+        "12": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b9f3aa59986c6b35a111f93a2b952d1237a1cd1e209a98e281e62333b7826369"
+        },
+        "13": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "188e4651b3055ebabc9a8c40208d6a389570b0da5e3eedb7b25e20be7eb4c7e1"
+        },
+        "15": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4a880910c55d4a3be97252b8dd0cb4f24e547af0d78668842b48c7983eae08e5"
+        },
+        "16": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "aeb18794c0abaa7855733a0cc6516c637c4279e88fe6c50f917eabc3c54fb91e"
+        },
+        "17": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "41bc0cc39529bdaef7241f6de87f27f3fd005a6c71c060a628335311c2beba2b"
+        },
+        "20": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1eaefb6c9e205504841125395de86fc8839e566d2ce4cafd147e66783c0ce169"
+        },
+        "22": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "93e1c4376981fd6eae6bbe1754c1978dfd44f53af90d2d0254dbb9d7e926bbb5"
+        },
+        "23": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7a0ddae963358502e0e2d0d2163fb0178514a088333855014aba910b578e4531"
+        },
+        "24": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "459e7c6a04d0b714089ef57756628c9ca05511a3f1760eca5c085d1640c7d5a5"
+        },
+        "25": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "41ea57368463d5e4e19f909c15c5149a5a91b273568f4028e381d2eb9f2d76af"
+        },
+        "26": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8705ec82eaeca0f218b46d5c2b10d7132fc28b304a0f5ecc486bd2d2bf23a3b1"
+        },
+        "28": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "46cfc91a4da03b8776aa8ee0095d12334b59b4dbf7702ec2910395c21a4f8965"
+        },
+        "29": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e9053107b43364aa5bb193b239eb44257e9a1fceb37184c257a01f35d0bd1c3c"
+        },
+        "32": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6bcce552adb5bd982f3c23b62d39533ddf132bb2110e33f881789c880036c061"
+        },
+        "34": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fb553e50e245061764cf9dccdf8f8278da3f571b5944d4e5e9bea7250ee6fdf5"
+        },
+        "35": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0180e4ea5bb56fffeb75502648c77acaaf52f0c512ab486954fdf79ac5b02a64"
+        },
+        "38": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ca72dfca359cfb765785262127a107b30d84e823ce4cbb0f30d55f6d850b8467"
+        },
+        "39": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a0c4bb704fecd8bf7e868058028609691ffb09c38ef28a364e3c4d6444dd5243"
+        },
+        "40": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fe2711cd82760e3a2cb2ce2ffff650fbff1e3cd384a7053000c612250772602d"
+        },
+        "41": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4c59511f43bec00a931951877e94db31264377e023491d8f39a0ea04ccb12c20"
+        },
+        "42": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "17c8c624b6ecfeae44e694016be1cab1e58adaaa34fad7e6d16fad168b3584c6"
+        },
+        "43": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "45419c7e854c1ebe2da9fb5496ba2bc31c002988e7148a69bd6a79ea4a57326b"
+        },
+        "45": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "64498f8efc797dc8085e99d70e374343a4d4127db893300db002f2568e198bbc"
+        },
+        "48": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "edd0d8013e5e44685ece9ec08b627bc82ba935ec315dec9e9b7f0961e7dca0fd"
+        },
+        "49": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0a12264a8f337da7793009b2fb798c90e8944f279bcdf9759835f5d983faf43d"
+        }
+      },
+      "notUsedCells": {
+        "18": "Failed its native gate; the published tile is kept.",
+        "21": "Failed its native gate; the published tile is kept.",
+        "27": "Failed its native gate; the published tile is kept.",
+        "30": "Failed its native gate; the published tile is kept.",
+        "31": "Failed its native gate; the published tile is kept.",
+        "33": "Failed its native gate; the published tile is kept.",
+        "44": "Failed its native gate; the published tile is kept.",
+        "46": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "530": {
+      "reportPath": ".cache/battle-hd-v61/species/530/report.json",
+      "reportSha256": "0612553de5145d6376354dfb9cecd52c77ff35b556ee6745e324d6284ca330b2",
+      "base": {
+        "atlas": "/battle-animations/hd/530-v60.webp",
+        "atlasSha256": "c6d2a3a3bfd469edd9e65f10b4e5977e2dd6db353c60667519aadf9b77bc248c"
+      },
+      "redrawnCells": {
+        "16": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7686341eb24539489edb24065b9bee01ff77e02b02e2020e7ed165c566761fe6"
+        },
+        "21": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7c15308f3422a4206a6167b69b58a4d29f12c52d94b2e6876791101e8915b389"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "532": {
+      "reportPath": ".cache/battle-hd-v61/species/532/report.json",
+      "reportSha256": "ede6482c2664dfb29f29a5a5208c6e8afe1bf09905dc160023a9ee39ea442771",
+      "base": {
+        "atlas": "/battle-animations/hd/532-v60.webp",
+        "atlasSha256": "24ea3235ca5556915ea5f190bbeefb163b2a46a4b38d6f52fad87c9e20751a08"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "29c9f81f189d224ba2ccf8a0ca3c0e73e30890636d1bc83788b284efa84666ee"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "575": {
+      "reportPath": ".cache/battle-hd-v61/species/575/report.json",
+      "reportSha256": "80a4f9ac5e64a72664b6d7ff15fba28db5b45ad1708cfcf07b750a40d3deedb7",
+      "base": {
+        "atlas": "/battle-animations/hd/575-v60.webp",
+        "atlasSha256": "6da0b7b54050b15b7b981b0a8900629aba4b883273af8df5d0aecf8316bd2192"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "616fa04d7addfd36c87d92c0697b99ca6d6aa424eeed39b80e3132e517f5ff7f"
+        },
+        "6": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8b4414bfb2cb011a2313b5c666bdf3b618d428ebbb7697483606be0634a5a7aa"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "579": {
+      "reportPath": ".cache/battle-hd-v61/species/579/report.json",
+      "reportSha256": "a5ef9ba913ff0260b0f6d4b55c2df4024374a562e90ebf99feccc313ac3e1365",
+      "base": {
+        "atlas": "/battle-animations/hd/579-v60.webp",
+        "atlasSha256": "4fef4304925cd63f8a6c78bdde57a44e5567c0737c87e4504eaee4fab61a7e16"
+      },
+      "redrawnCells": {
+        "13": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5ee33dc5c69ab82cbd4fd0446c31f2cdb764e426e25f20df5e375505cf6f1805"
+        },
+        "15": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e31d807d62dedee624f827925c928df350bd9ff4bb31c8f4c7eadda6f99b4a3e"
+        },
+        "46": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "feeeffdb15dd723024d510ad1e775992c895219f84dbdc5f15b0ab5ab4cd438e"
+        }
+      },
+      "notUsedCells": {
+        "123": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "592": {
+      "reportPath": ".cache/battle-hd-v61/species/592/report.json",
+      "reportSha256": "74715742111d6ca494994935374cfd662c3e0a2838466b09ab126b05f7820d38",
+      "base": {
+        "atlas": "/battle-animations/hd/592-v60.webp",
+        "atlasSha256": "365c826ae5c480170659cf6c6c87f3a68d7e2f2f73b86491a59e73138e43728b"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "45ac440b96912dca1a214f9f3fd2f7192a7c11fe2a59d18bd31fe71b44a54af3"
+        }
+      },
+      "notUsedCells": {
+        "0": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "593": {
+      "reportPath": ".cache/battle-hd-v61/species/593/report.json",
+      "reportSha256": "c203ade8f9460b23800ae6f3d4641b4eae1581fac98a60dc986b137f2842b8d6",
+      "base": {
+        "atlas": "/battle-animations/hd/593-v60.webp",
+        "atlasSha256": "690f6298711237c6ae40cd4de2424ac00bd60b2234eedec7a027fcec9f423e92"
+      },
+      "redrawnCells": {
+        "135": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "475e7c0e32c75807f5fc0087a348229becbbda2b1f45f9756762a7cab90b44e7"
+        },
+        "139": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a857012bea1614ee90ab851b02d09ad846829c72e11eaa5ca3d21915ff3ed42b"
+        },
+        "61": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b9fdfe036ea3bdd68de821dafda30379355667d7ad921c952d6469d395244391"
+        },
+        "62": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "62597cdb1fc25d2968784bbf89e909d84ec11a03ed34a0303e18f04b737593a6"
+        },
+        "66": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "bd3c1f42df4c7269b5a5346ffb6ed7bbbd593f4c97c5cca02f2140397934b7c5"
+        }
+      },
+      "notUsedCells": {
+        "17": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "601": {
+      "reportPath": ".cache/battle-hd-v61/species/601/report.json",
+      "reportSha256": "d6e21d8b3e6377f7c33ed54da8b96aa65882361d35f51fc7f1d8c30059a9e4da",
+      "base": {
+        "atlas": "/battle-animations/hd/601-v44.png",
+        "atlasSha256": "fa86123ac2f785cff3e41af05c77c5e9bf9ebb7bedb7010f0a10d7a39617c1e0"
+      },
+      "redrawnCells": {
+        "11": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "7a33b387722ae14d92c5ccc1b845c3df8451fd2d33020c1306942648dc8f6846"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "608": {
+      "reportPath": ".cache/battle-hd-v61/species/608/report.json",
+      "reportSha256": "cbc03c475abb2715b0f2641adcc2b02b4a94253aeab428ce7272a58c0c24e002",
+      "base": {
+        "atlas": "/battle-animations/hd/608-v60.webp",
+        "atlasSha256": "0a8caf35434a4f8bdd5144f171d78ea9365ecfc7bec844ebf3a5fbd6932c0595"
+      },
+      "redrawnCells": {
+        "6": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "1f1a2513e5f61a595925eae66d931c96fedf3375c7269261c036b7ca1596f9d3"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "614": {
+      "reportPath": ".cache/battle-hd-v61/species/614/report.json",
+      "reportSha256": "6de283c1b15228b20e31a6d1ecd0f879d05e6fc4c3fe18a666d8d1a404236d5e",
+      "base": {
+        "atlas": "/battle-animations/hd/614-v60.webp",
+        "atlasSha256": "4f6ec439854ae6135756cbf8f194aa92ab967b46c68314cc5ebc5da3fc5f2196"
+      },
+      "redrawnCells": {
+        "106": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8543ebf79818d45902038b3c92f94938d6611d39954ddd683f1c71893731b874"
+        }
+      },
+      "notUsedCells": {
+        "30": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "616": {
+      "reportPath": ".cache/battle-hd-v61/species/616/report.json",
+      "reportSha256": "28c33ecb71c65ae1175a2d6aeac9cad4cb29530e26bb5d5e2f13f6fb3cbc41f4",
+      "base": {
+        "atlas": "/battle-animations/hd/616-v60.webp",
+        "atlasSha256": "7075d9f35a65bf3f7919d0a6fe29d8719d4ab98022cda09f40e9d253b8f50120"
+      },
+      "redrawnCells": {
+        "12": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1525c6ba6b50ef29e1cd5d477103c23e01b8fd2627ce1dd7538ad527e54e72ba"
+        },
+        "6": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0f7654de7affb427617eb99a7aa5b60acc3d790aedcdf811d72a83fe30a4a9eb"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5ec516abaf39679143a0eb375bce1569d869d62f4a2d8846be269483590c939d"
+        }
+      },
+      "notUsedCells": {
+        "105": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "633": {
+      "reportPath": ".cache/battle-hd-v61/species/633/report.json",
+      "reportSha256": "eda97dff4d74c736ac0148bfcde4a30075c8c79b80dae7f9d3910678d35deecc",
+      "base": {
+        "atlas": "/battle-animations/hd/633-v44.png",
+        "atlasSha256": "7ed24687c44f2f83983f429a14d81dede6740392b57691d53d204b771ea00883"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "df1a23356490756df5362039f0dfbf4e1fde90459c2e351267ff6e252d41d98b"
+        },
+        "11": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "955be3d4975baf8c7d9f034cd4d703a1f1087458820f436e73a189cc9339f398"
+        },
+        "12": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "61c57c0cae0408282f3ea35c54d5aa2b891a652e2307cdbfbc205339d4b1d15e"
+        },
+        "13": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "2de981aafd9ee93da54456f94e9aa286849e326106a33dd8f3a27004d953f498"
+        },
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e1ac3a9066bce152300d780a24535f20518811b003d2d62090e8f7221a0fc24f"
+        },
+        "15": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3e36ddb2210fc4eea3501d3c4c24ee4cf5d1491dc9fe5e96f6d36d5fc48f0dfe"
+        },
+        "16": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c9aa2b407b5c9c770f12f5704694e6174b32278e39ccab83fd97517b7eaee65a"
+        },
+        "17": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7b0ea4a38febe8732dd77c86c166f10f036873744fc4dbaec80827707a04af4a"
+        },
+        "18": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d71cce8e98488dff18d5237bf095721dcfbf201c6ea55a5985a07d5837b53973"
+        },
+        "19": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "84c4ac0a2e970578d7950d48bf4f980e6bd99a38b0a1cbbbd648505df93f0b60"
+        },
+        "20": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8e09817ee9fa1142bc69b3b9c92aca3fc81d962f3ae63eb37b71f283f553b488"
+        },
+        "21": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ec79f6309a9bceff3e18727d4118ff926e723c1f5495369b5f3ebca40afbe3d5"
+        },
+        "22": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ab93e41293f87e3e157d2dd37e7ae778e78e0bbca4dc4755ce7b49a659334641"
+        },
+        "24": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "39425eb4db021c2973984943ae4418df2c2d4f3132ea2778d8a321aee75563bb"
+        },
+        "25": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "df8e4951c463755da9bba1072f578d09bc34fd75340380ead11f62d159e79c19"
+        },
+        "26": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "af609c0dbcd82f4580e2cc51165688e4adac933f3c45942fab2915791b22a400"
+        },
+        "27": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "bcac0bdec1de19090d710844e027b1f2494e558741438d4626df539f7abf8e72"
+        },
+        "28": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ccd97018de94cd117c388515a268149d5aac740766d052e805e37ccb75e2b900"
+        },
+        "5": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7660115c900bfc8afd4b3330a7bbb79af2b70087bb667edb327af282863a0314"
+        },
+        "6": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c9de1e6285285c9edada622f610e639245a551da390989c72c82228bad523d81"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5a0cb8d80923202036d1c5ec127fbc0c67acc9574ee7a644af63bdde27a277c3"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f3c3265e8b11de4ff0d060daaf58e69c1aa05037ed3b2a18d5068a9cf08788b8"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "661": {
+      "reportPath": ".cache/battle-hd-v61/species/661/report.json",
+      "reportSha256": "3775d8b7ceb5d2f880885b79aad18bfc4963c4d3d497c5eb15e0e3c86c5c37e8",
+      "base": {
+        "atlas": "/battle-animations/hd/661-v60.webp",
+        "atlasSha256": "76676fe6f090d5164d6b874b94a1a256ee77d25fa7e72dffe6fe24fbbad81853"
+      },
+      "redrawnCells": {
+        "11": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "25d9c004884a94a13f92d4ed7e43068ede97d6294aa4910e153ae438d702cd04"
+        },
+        "14": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3d141954cafee2e8176bebe81cec5c4b6745ce5a41f3d621310aae522f46bf84"
+        },
+        "23": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "cc9b299b01a0438ded41079454c82d174c1f5fc845d05262c584d3747f92d92b"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "674": {
+      "reportPath": ".cache/battle-hd-v61/species/674/report.json",
+      "reportSha256": "bc0cab8595d7840891fe5bf1359486e839cbfe483f41618f652090ccdff3c4ec",
+      "base": {
+        "atlas": "/battle-animations/hd/674-v60.webp",
+        "atlasSha256": "ea821ae3915d410b3b4e83e8fd6243bed71a6a61e31c0bdb12c4af28a2c08f7f"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "481e8b7b7d16d946308e8f46d36bd07b78c26d3e66f306eae7edf1b5546def66",
+          "outputRgbaSha256": "afed9a2368ce876a4954bc56aded7fcc46082acd1baf1c02c44ccb99562755ff"
+        },
+        "13": {
+          "class": "flat",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "8c58645ab6162a32bb52b5979cca1198a64939f8f0d0cedd9b002f94cfcbf563",
+          "outputRgbaSha256": "683cb00155a1e0ac89dbd9a44bfe7f58e24ba0a5f8926c29187b86ee1bcd38a1"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "708": {
+      "reportPath": ".cache/battle-hd-v61/species/708/report.json",
+      "reportSha256": "beb08a9590e5590f672caa98da970cd6324a5440ea0f982e0e3a0c7d784ed5be",
+      "base": {
+        "atlas": "/battle-animations/hd/708-v60.webp",
+        "atlasSha256": "ad1e5868c4f356a62f0bf877ac72c6fcd4cb156183096ede30296ff00a0d4708"
+      },
+      "redrawnCells": {
+        "40": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c2d837714ab7e152b025146c42f59900884213613eb91089e0c8e8959c0a2477"
+        },
+        "41": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "204b69cb6efc6e7d51c2506b6eb047dc26e8ce302884ae58de1ba63ba9c23c90"
+        },
+        "44": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "38e6adde4856d631c8761067f0c79f20c335b4d3c71fa6b5f36c63255a83ada9"
+        },
+        "45": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8cde39c72063b3b63ce841a7ba1b3acbe7fde69274e8db9733109681a675eb2d"
+        },
+        "46": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3c36930b3faadf502ab332bb217b6c598d70a3ac87e336ac64a521c3b4b37765"
+        },
+        "51": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "7adfc46e30a4c1e0c89d862f7af80c6e0ace3b0d3fd795244f9a9526c9770587"
+        },
+        "56": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b077283a52f284c09370a2d6c0fd92f98b895cc039fffb0373ed4b5cf4090ca0"
+        },
+        "57": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6a05f9d0d1e88f7b2c5e6094531447b445118be856dc95e1c695e23fb6fdbaa5"
+        },
+        "59": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "04df62ca1bdbd913c1a6dc7153cbdfaf645e3f65c5b3ab935781cafd1ef5fd10"
+        }
+      },
+      "notUsedCells": {
+        "52": "Failed its native gate; the published tile is kept.",
+        "54": "Failed its native gate; the published tile is kept.",
+        "55": "Failed its native gate; the published tile is kept.",
+        "58": "Failed its native gate; the published tile is kept.",
+        "60": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "755": {
+      "reportPath": ".cache/battle-hd-v61/species/755/report.json",
+      "reportSha256": "5c8b51f672ee53283e30f667ddfc8de2214c27b03fce2a594e89eac710a991ab",
+      "base": {
+        "atlas": "/battle-animations/hd/755-v60.webp",
+        "atlasSha256": "07056ba533bcdee42253329a8a84b7fb4c9ce4703f00c72810b8c6ac8148763a"
+      },
+      "redrawnCells": {
+        "0": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b05a504159bd4706a9b8e089926fb472d40c7dfd53004cdc4107fe9d481d12ce"
+        },
+        "13": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f7f0a9cb9921dce9b12c4558dc11f0fc2fa2ddc7c7be61cc9d088879afa445d7"
+        },
+        "14": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d52c850d1dd31a78255e556b01234f5888ffcc9254ea5b91ca35b88e239d346c"
+        },
+        "46": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5458ef7c559f9bdfdf51c75470bc792ef585dbee241d6aa45552648e5896f8bd"
+        },
+        "52": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "dbf1c992111b618c0ee21df624c7ed1016b79c1e09ed3c4c30b71ff386ca3c5c"
+        },
+        "53": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ea4f66e9cd16bfab3693f288183fbff027ece53116400b042dc0e77721aa9f54"
+        },
+        "54": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "238f63449f7fc5dde0a510552d2ee62e44ec0acf414933b111fdc87b3ebc3c42"
+        },
+        "55": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "77cd92e40c1a63d37269bf993e3d85ac54eb911e72493c754b0d05fa6259e46c"
+        },
+        "56": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c4524a1f4cc67d2ab18c40a1e260a6752cdd2af5eede2d6b6fedcd69fa9bf57b"
+        },
+        "57": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "26054ee149389e72e2794674d7f8382c8acf028aa111b5a8e9556731913ae434"
+        },
+        "58": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "6427afa6645cd196aa4c705b8f3275d6fe7f71922d03b8efb5860ab9c93619b3"
+        },
+        "59": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b54cbc25f8bc1f963df8a4c34a53f5513de4c2432e6ab2456b3e347604907dc9"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "780": {
+      "reportPath": ".cache/battle-hd-v61/species/780/report.json",
+      "reportSha256": "832f7ed90b0ed61ddb8f74b82394f158668c85435005dbec5d51e0c7bf34d2cc",
+      "base": {
+        "atlas": "/battle-animations/hd/780-v60.webp",
+        "atlasSha256": "1b76f93bd77a4018e67544f8eedc19cc333b1b73d6fda91aa94da3fe3e909382"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c8f78cfc5c156b5ad71ec0397aafa7cc3ceb747aa52b124cb68a2be55cd935fc"
+        }
+      },
+      "notUsedCells": {
+        "13": "Failed its native gate; the published tile is kept.",
+        "18": "Failed its native gate; the published tile is kept.",
+        "19": "Failed its native gate; the published tile is kept.",
+        "20": "Failed its native gate; the published tile is kept.",
+        "24": "Failed its native gate; the published tile is kept.",
+        "26": "Failed its native gate; the published tile is kept.",
+        "27": "Failed its native gate; the published tile is kept.",
+        "29": "Failed its native gate; the published tile is kept.",
+        "31": "Failed its native gate; the published tile is kept.",
+        "33": "Failed its native gate; the published tile is kept.",
+        "35": "Failed its native gate; the published tile is kept.",
+        "36": "Failed its native gate; the published tile is kept.",
+        "6": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "790": {
+      "reportPath": ".cache/battle-hd-v61/species/790/report.json",
+      "reportSha256": "29f8946eed9092194aec1647222e0cc6c03946beb290fdaacc804987c4c7ea9c",
+      "base": {
+        "atlas": "/battle-animations/hd/790-v44.png",
+        "atlasSha256": "43ae910fc8d1e4891c429226041dcae14f938ae4c7ca28a008da61c448b025fd"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "c14bc5f9d37031b20483901ad4cff6832885d0c5b30c7f5a1bdc5ed44f9efdcd"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "800": {
+      "reportPath": ".cache/battle-hd-v61/species/800/report.json",
+      "reportSha256": "2a8ccd883e61d068ae397c2751e6eb3fc772c9330c177a18e92313b38d887449",
+      "base": {
+        "atlas": "/battle-animations/hd/800-v60.webp",
+        "atlasSha256": "8eb0fc3a872e3bd4acf1930eaf781f865ecb038648bad72e4f79712f97085ecc"
+      },
+      "redrawnCells": {
+        "3": {
+          "class": "glow",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "caed544e9db05114ca1540e5d99f9b61ad106207ec8caea7fbebbe0df0e35f7e"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "858": {
+      "reportPath": ".cache/battle-hd-v61/species/858/report.json",
+      "reportSha256": "89d434fa075f5a456f065c9f4971e28369189128c9ac04951e400ef6f3ee03c6",
+      "base": {
+        "atlas": "/battle-animations/hd/858-v60.webp",
+        "atlasSha256": "3539914bffb482a3e50acf0cc0a49361f8b49cfa00e306f418d3bca259236734"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c4d2ea6e4a3c9fb779eb05b5b1cfc7099956d0a8308e01096f92e0f2e9d2e901"
+        },
+        "5": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3964dfb6650dfa1013ed8d71e53ed3daf9735e6a7507b9028602db62434ee29d"
+        },
+        "6": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f3687b41325b4dc4b9152d4f0f9941bc672f75e61f38da1ee233e50b070b19a3"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1c3f5f845425e4a1f243f63aa5bf4dacb4070e372fbb3eeca1fdbf47c7468a8d"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "92d87a24e017d13cba8b7dd38303c5c03f827380e904d06bb90b23fff9ca4e79"
+        }
+      },
+      "notUsedCells": {
+        "13": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "886": {
+      "reportPath": ".cache/battle-hd-v61/species/886/report.json",
+      "reportSha256": "68d3780eb35100a0264e2b1f21fd6cb76c029fc212cf94409c9940aef12e8c4c",
+      "base": {
+        "atlas": "/battle-animations/hd/886-v60.webp",
+        "atlasSha256": "73a362f252a918ee05b898b30a5a90f40c764a0dd97ea0c10a137058f17ad1bf"
+      },
+      "redrawnCells": {
+        "19": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "cc15e4f121dba8a1820860a2171354f24e678889d62c8cf8c28e50f95378b42b"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "894": {
+      "reportPath": ".cache/battle-hd-v61/species/894/report.json",
+      "reportSha256": "a9e384576e34382031c9142c80a46aed95234321db7741907008273d0fb2634c",
+      "base": {
+        "atlas": "/battle-animations/hd/894-v60.webp",
+        "atlasSha256": "6c6bbebbf423b3b7519c07770697dc864bf8d1a5e4a3a6e8ff49dc62cce109cc"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fda2c32e7cc7778b6080d2742264071d1fb343e4b57d0885b75d22f96110cace"
+        },
+        "11": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ddf03beacffae3590f364cf07762b64ad47441c92b92d161bfc3ca89aed828eb"
+        },
+        "12": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d013503c22821ac312c20ad7ea861373e2931f62d9a213c0bd95a2218680bcbe"
+        },
+        "13": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3aec389b67a3c13be7f08d9ffb884b7043d6756a8d090aeb47d6b101ad131a6b"
+        },
+        "14": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "43e314c9f0864421a7276318c059d253d7aedae8e3af5d5dd6c26c1f27ab9362"
+        },
+        "2": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "8c236c9f5d538db70d5d9661c92c888a1b2d162d17c6a9bc9aab05cf3bf3f9be"
+        },
+        "5": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5e67d65e1442ea3595022d23ac40a1563fbd1a7259d707994acdc7ef72e9ee9b"
+        },
+        "7": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1cfef51effa922f083ecaaed098868cd746b6b32030d05c0e1e1f491c2226d36"
+        },
+        "8": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "60ef70fd07d9b6e109c07bb93a8aa3529a8f8c80f35fbbc99c0a22bb9f4e0c3e"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "57262402b69264bd48b341d10ecf425d0771382d78174c79b0e7b166bab310ca"
+        }
+      },
+      "notUsedCells": {
+        "6": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "900": {
+      "reportPath": ".cache/battle-hd-v61/species/900/report.json",
+      "reportSha256": "282927d0a31d01d1d55e280151cce1ac70ca6ff6377c02ff7af935c9459d3cba",
+      "base": {
+        "atlas": "/battle-animations/hd/900-v59.png",
+        "atlasSha256": "d22dc0c88898c5c332f5b52f7f8e9485f21ce00c4433d0656dd74a1cdcace007"
+      },
+      "redrawnCells": {
+        "27": {
+          "class": "flat",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "531635ec4e1b4d45f8e975ee4d1f2655c12fbf6c2dd03b74205f1c62b3d615ad",
+          "outputRgbaSha256": "617f9ae4b406b4fb8a81b89620f85df55cbc08b1c31cd2ed251d9d7971dcbe2b"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "906": {
+      "reportPath": ".cache/battle-hd-v61/species/906/report.json",
+      "reportSha256": "65d01e43b38f1593f0e02e8387adb39a054820985c9f634454709ed53a3cb000",
+      "base": {
+        "atlas": "/battle-animations/hd/906-v60.webp",
+        "atlasSha256": "9e812b7605edc38d408e2ce04998a1bc33d34e068e690d83e59aa0718f361e45"
+      },
+      "redrawnCells": {
+        "12": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "bb1d5fd7d839e06977c6e889f0363367a290ed71c613b4e133baca142ee921d5"
+        },
+        "13": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "34534dde7d7f0bec90d5ee5963bae0426a21edb59e088fa5d7d274fdb8ad9e61"
+        },
+        "14": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "bd29634d910189ccc82f07a7ade02c17ded2c0221a5a7d48dbcf42e0fbc39346"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "6e725eb82fa2f69da19df68ca23a338fa1e73ee8faad134a73113bb1d39cfbf8"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "914": {
+      "reportPath": ".cache/battle-hd-v61/species/914/report.json",
+      "reportSha256": "4f915a44106d859d0b7a19de864e508be80c8996326b7bc3f5d70d9db9a5d99a",
+      "base": {
+        "atlas": "/battle-animations/hd/914-v60.webp",
+        "atlasSha256": "fdeae17d5dfff7c3b78ae9931dd2283d178aed24743d02da7e2e1c236db4cebb"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b5f248abfab80f6db2ed912ed99569eab509b54c963e349b416e7c4132cd855e"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "945": {
+      "reportPath": ".cache/battle-hd-v61/species/945/report.json",
+      "reportSha256": "572f90bbaa7ffb9e68d0637535c433d8e34ac3c5dad7ff5f18b85bb523ff2ac2",
+      "base": {
+        "atlas": "/battle-animations/hd/945-v60.webp",
+        "atlasSha256": "c7c7e225a4068b16830dca44fc89bc9894a9222915ce6974e2d290ffe9a2ed21"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "e64ccd982a55ef7afe451ac694ba1bff46da0dbc56e35b203f620380881fb74c"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "948": {
+      "reportPath": ".cache/battle-hd-v61/species/948/report.json",
+      "reportSha256": "a9bb2ba8abf19fecc3fbd833647e32f6b2e33ab1ba3b3df92f17447b2a97e495",
+      "base": {
+        "atlas": "/battle-animations/hd/948-v60.webp",
+        "atlasSha256": "b877b9b9434a78359e3c9e2da7687381b785928e7700c0324441651a076a9d0d"
+      },
+      "redrawnCells": {
+        "25": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "d4a993eed184fb79fa173d45d662a226fddbf0f02d81bae1db5dabfaf6e99045"
+        },
+        "41": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c07d592987fab2112116ce4b88f4cc2748152e9ba89cf4e1633e88f163803fbd"
+        }
+      },
+      "notUsedCells": {
+        "67": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "950": {
+      "reportPath": ".cache/battle-hd-v61/species/950/report.json",
+      "reportSha256": "3e91b3e8a382c71fa7e672c4aa54cf1e06f5a97d97e4e8216f8546a907effb77",
+      "base": {
+        "atlas": "/battle-animations/hd/950-v60.webp",
+        "atlasSha256": "071f31a6a22f134d52f3d7133fe2e3a719eed8acab794eb6edf25501ef7525bf"
+      },
+      "redrawnCells": {
+        "25": {
+          "class": "flat",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "9d5c2eed057793ba8a7986646e6f0cd1d5e27bc0af795d95d7ef67b2bd8fb814",
+          "outputRgbaSha256": "4f6a3f6c9b4428314c6121abfa527ec506febcc6bd3ac751c30583c60f6ec17a"
+        }
+      },
+      "notUsedCells": {
+        "267": "Complex many-coloured art: no local redraw; the published tile is kept.",
+        "44": "Complex many-coloured art: no local redraw; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "978": {
+      "reportPath": ".cache/battle-hd-v61/species/978/report.json",
+      "reportSha256": "64a8132c18fd4ecc3f01f80169d001da65b5211f448b1863d5bccc99ebce460c",
+      "base": {
+        "atlas": "/battle-animations/hd/978-v60.webp",
+        "atlasSha256": "590fcb8245627a7f6c1526bec673be560ad29da4ced71c44ef36f2906bde601d"
+      },
+      "redrawnCells": {
+        "13": {
+          "class": "glow",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "1de856130cd15a5be0cbb5ae70ab7b6893efa628fe15df9615f1d4bf2c935099"
+        },
+        "3": {
+          "class": "glow",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "17a9251d14f745f207d5b18e384b9e81ab0bba21911fbbd3a4a5a9640d1d8a14"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1087": {
+      "reportPath": ".cache/battle-hd-v61/species/1087/report.json",
+      "reportSha256": "afe82722cb9caa526587488d8fb4449faa29ce1ce1c0a0c722a69cec81f3644b",
+      "base": {
+        "atlas": "/battle-animations/hd/1087-v60.webp",
+        "atlasSha256": "d9954de1f9dbe3eec82484e7c46d0d1743255790c86091df59e02c143f1987db"
+      },
+      "redrawnCells": {
+        "6": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "473e938ec883e040e28115334371862f1f96655e5e1909d2e81f9b9ec5cf97b9"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1130": {
+      "reportPath": ".cache/battle-hd-v61/species/1130/report.json",
+      "reportSha256": "e1bfd4cd15206e6bb56327c01dfb00459e2c1c308b1a2c3a617c06c98f20cf20",
+      "base": {
+        "atlas": "/battle-animations/hd/1130-v44.png",
+        "atlasSha256": "38ca54a5b791c8941ecb3f5ee9c7835b7ada279a9b57d120a96d0109c3c4e275"
+      },
+      "redrawnCells": {
+        "2": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "33b9559324beb6a97983f914b256da608bd3aab43fee496e541731b1bc528a3a"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1131": {
+      "reportPath": ".cache/battle-hd-v61/species/1131/report.json",
+      "reportSha256": "a4b9520db1b37b05acebc240614d44976b38f3fa27bec694f2268518532ed241",
+      "base": {
+        "atlas": "/battle-animations/hd/1131-v60.webp",
+        "atlasSha256": "38fea3d46faae0ef376742d7d788fbcd5b8882a7039d93babf03d3995d3e1a41"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "64e7d83a9a6ab1afca2af731ba187773c0e2dffc86619604bdacb3d059c4d06f"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1186": {
+      "reportPath": ".cache/battle-hd-v61/species/1186/report.json",
+      "reportSha256": "33aa65a778d9739e1778eb97fc1d17af30bba06d8cbc38db226d92eddd3b2d47",
+      "base": {
+        "atlas": "/battle-animations/hd/1186-v60.webp",
+        "atlasSha256": "2a53c78eeb383f9bc202c309c526e055548697c07a2663b78044cba58742a89b"
+      },
+      "redrawnCells": {
+        "24": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "a6d580c1cd69513aa7aa7f64da5d404a77e63f03a0e31fda6ea5deaaea2b010c"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1200": {
+      "reportPath": ".cache/battle-hd-v61/species/1200/report.json",
+      "reportSha256": "8293713b049ef1c121279d1a8d908d4719cc14fb31a8bbd6677a2c88f9bd39f5",
+      "base": {
+        "atlas": "/battle-animations/hd/1200-v60.webp",
+        "atlasSha256": "e265df2059df1f4e0e75e1c63bcc5edce89b095ef623a5076d4b829c5595de5b"
+      },
+      "redrawnCells": {
+        "8": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "57ff3a98abcd8c37d48e9ca320a1679d039cfb7b13e73e33f5af118d2659f22b",
+          "outputRgbaSha256": "ebf3d2b75c5f1bc82d108c938b7cd994b509d0f39de90661d7b031dff3a6354a"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1203": {
+      "reportPath": ".cache/battle-hd-v61/species/1203/report.json",
+      "reportSha256": "1fb990c800db0f2108470b4d2a3bcd4188d52e3fa6e004e6480deb89c7695e61",
+      "base": {
+        "atlas": "/battle-animations/hd/1203-v60.webp",
+        "atlasSha256": "16285161de14255ce89b94b0bf2ba3568fae872ef8494273a87cf64525c4a41f"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "267502421d429df805b17a7645ff0d7f0dcee92c286ab07f1b0518cc351e2d16"
+        },
+        "25": {
+          "class": "tiny",
+          "scale": 32,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "bc2b242ce217984f3c5688bb67509cb9d0284290591dd61729b55fb2e36bd615"
+        }
+      },
+      "notUsedCells": {
+        "1": "Failed its native gate; the published tile is kept.",
+        "46": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1213": {
+      "reportPath": ".cache/battle-hd-v61/species/1213/report.json",
+      "reportSha256": "52f263967f0ceff4148f54637472d7fd10b4fedc9227359f256bf121e08cebd6",
+      "base": {
+        "atlas": "/battle-animations/hd/1213-v60.webp",
+        "atlasSha256": "430782a89bb1f27224d8334c09ba85bcb172e646472bcf9bf4b445fcf7ee32cf"
+      },
+      "redrawnCells": {
+        "10": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fb683ad9af3df3642c114ee0784b223e83fc23341a35a93a78cbc1190cd798fc"
+        },
+        "11": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "94b2a1252c193e1151c1c993326b09cb33f751605622a3d81191239150ae61eb"
+        },
+        "12": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "752065713159143385deb650c108efa73e8367e1ced00e876defacf49144a647"
+        },
+        "13": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b6dd91c923cccff7e140a09af66fae13a12b3ed35a682f3219a87e03a9c0e90d"
+        },
+        "14": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1e462d8db6ad92b2bbf0e37e2c46f1bbc2bed279b9e9484faf1e6be56bf4013f"
+        },
+        "15": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "76ab866acb176611b8638f0238e9d79c7e2f9564067c5d2c24a6563e35ff7dd3"
+        },
+        "16": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "cdaf0e299d9127d2fffb17732672a39ed649d4e2dd6546099d751f3e9fe4f54a"
+        },
+        "17": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "95fca23a1f9050831f889905848cb361dbc3306fb0fa275592296c7a04fd4f9f"
+        },
+        "18": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "227b6a241631a6a53fbae962847623cc498b05150f629dc4d8c380dfa21b09f4"
+        },
+        "22": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "03b8ee6cef3413cf017367967b0cd40b8fc4fda7126802d0a2e89f747f02191e"
+        },
+        "28": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "02824fa0d8a180b7e1f6d90a692c342012a4c0cc3e2fcd21b954503969a8a550"
+        },
+        "29": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0faab84e79b85ab90036b549c236ad66cc1b6c7d5b482c4a5748c70927e52466"
+        },
+        "30": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "44daed8ca27851a58667d6a56855f994e7632a25cc408e565de464c4860323e4"
+        },
+        "32": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "68ed8185564a528ae11b205374d98d0a583df0751f6557d3a2b8439c8fda1e1d"
+        },
+        "33": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "959962fca397df04a2bf9836531293710f9f6d09cfd943fc5ce1b2392cb7b50c"
+        },
+        "34": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d44d869abff06c68659d250ffa3d52bd94d7b21a2da5a154497177dd68db9674"
+        },
+        "39": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "831eec953f7ce3e9da206a77824b6851358a522f01a71a7905f2d80efb33afcb"
+        },
+        "40": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ba717290fa720461b8c1eba2d373a7ba9cb0823312e29459565c7defa9a42af0"
+        },
+        "41": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a41eda567cc90b143103da769f3a1244ff065c699818aeb3e47748cabb7e5330"
+        },
+        "42": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1ddabb42132bacacc7198c3401b77c62d0067b265082d143f80624f56a8c494f"
+        },
+        "45": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "1da2019741804daab5e00884431b237d4a26312324125d2cb5f62b63da610c4f"
+        },
+        "46": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "88ba191c798419ba6ac421bfd47a646131a658385e6adef450791d9e541d2e88"
+        },
+        "47": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "370734235dba4781367f5fbbc615aa3a83ae3cad9c7e6ada7098442c4dcc20db"
+        },
+        "54": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "515592a3a9acb20f76cba2901aae9f96229cfc40227f1a42319a83d9a4076b86"
+        },
+        "60": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "666cd8e662bd805faa93089e1881577dc0a1fda41e930e3e8062917d70f99f76"
+        }
+      },
+      "notUsedCells": {
+        "19": "Failed its native gate; the published tile is kept.",
+        "31": "Failed its native gate; the published tile is kept.",
+        "35": "Failed its native gate; the published tile is kept.",
+        "38": "Failed its native gate; the published tile is kept.",
+        "56": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1214": {
+      "reportPath": ".cache/battle-hd-v61/species/1214/report.json",
+      "reportSha256": "87f395b3d068951a21e58794fb56592690c64eb1078a71b3161d2e877a84ea27",
+      "base": {
+        "atlas": "/battle-animations/hd/1214-v60.webp",
+        "atlasSha256": "3a4a650d24c4a098407ff20e563c79ce0ab7cf5489a7f1a2f1bbf6fe54da4976"
+      },
+      "redrawnCells": {
+        "100": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4c9543ad82f645187a554ad9f81fc01be09a427a9231c833a3ffa7e88cf23f73"
+        },
+        "101": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "94a1959b936eda9a74112fbd04cd0aa39081897628c5cf99e441f62824a7c7a1"
+        },
+        "31": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "30cfd48395dd01da1cb2ed2d26d3d9e07c13cd8e6afb41fd6ce39d91a10dc8e9"
+        },
+        "37": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e47e78ddbb5a0b327f73382baf7775a82107c1aeb67f176c3187fbb2ff459b6b"
+        },
+        "38": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "fb59def0e1c4d819000ff71babe13773993b888466cb0bd78eb50e9c59b22988"
+        },
+        "39": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b0f35652dc09a81c00ef3d2858ca0462ad3ffd5412c20405e942355fb5f3e165"
+        },
+        "40": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "882ea7e89b74a48cafeba7f8ab3dbe44354d0321565b4a4fb4a3a41bde9417b5"
+        },
+        "42": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "bad686d263b719813d3f8c6fbbe37c037fe6329fcc081c38d42f34d59ba8eaf9"
+        },
+        "46": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "51c50e99fc9c402b3dadae5ef333f0b894f64b258d8b05b23074d86cd24c8911"
+        },
+        "47": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "9183ddb7f01d3f5e4dc88700eb83b7f21e8961330586586ee5e0c7de9f56549b"
+        },
+        "50": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "167dbdf2bdef3f7596b5ba913306debe1c4ace19ac4d7999c0f350ac87c2d4a2"
+        },
+        "51": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "addfbd9280ac2dce4cb2523318f6f9a2fcce9d2d5925ceb3fbce0032621157b6"
+        },
+        "52": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5a5edd055dc1c1ae742b217d603d4bfdf2e18a8be563fb309d9148bf14318c70"
+        },
+        "54": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6f1a64ba8f7f18a187438224faa71a5e847bb866dcc810a98739524b5218a178"
+        },
+        "61": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ab9fb187f52fdf67f32edf1a3d057a1673c555ed6740a60634e0116ded26c476"
+        },
+        "62": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "2a8734372b36ec0db0a4dfa8429f83589fe7f66f891333891e6651427d3013d7"
+        },
+        "67": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c31f517699ebd4e330c9433eae9d876198b6a8b18883e50e173bc491b2a75cf2"
+        },
+        "71": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4ec48535b9190bdbce3af0c7baf4a65bd55ea2e41fca56ea1ec09a298dffb09f"
+        },
+        "72": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "b508b7a7de17b24e2b7bcc649bff09628a7f5d6a57e62bf9588663929325ec62"
+        },
+        "73": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6c8866675dc1e49db956b2e37acfdc3153ae94a840415a9123d6623c9d0fb17b"
+        },
+        "74": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "02480c67f9547efe9735dd4d28e18b7161e538d0277fe337c1c8e8f426327e84"
+        },
+        "75": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ad4d32baadf9717d5826cf3aba83468d6a355b1a83ea23194e01c028f1d75457"
+        },
+        "76": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c143d3fb581b964f19949a28c33a7617aaa5528a1356ae97f75a5d1e246a32dd"
+        },
+        "77": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6f1d65eb7c9e55be94d8c012e621babfa75f2991a16f3e50b41ab76e7f1dd34d"
+        }
+      },
+      "notUsedCells": {
+        "25": "Failed its native gate; the published tile is kept.",
+        "34": "Failed its native gate; the published tile is kept.",
+        "45": "Failed its native gate; the published tile is kept.",
+        "49": "Failed its native gate; the published tile is kept.",
+        "70": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1215": {
+      "reportPath": ".cache/battle-hd-v61/species/1215/report.json",
+      "reportSha256": "a4b5cf1fb4a8c1900d9995a45b4befc3e7eb596d60885e2d382a89bd36e98805",
+      "base": {
+        "atlas": "/battle-animations/hd/1215-v60.webp",
+        "atlasSha256": "de783e7839f56312d577af701ca77f55f1096f3ba24f39733fe3796b81a47c69"
+      },
+      "redrawnCells": {
+        "0": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "ebd35cd8f47b012b56884b25f29c48f468b982f63ca18b341bdf02c31304f37e"
+        },
+        "10": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "db4751593410bcbb36d64f6a9818b655790f97aaa442368b0806f9bc1e9f18ef"
+        },
+        "12": {
+          "class": "tiny",
+          "scale": 8,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "e6e0be64738f407cbb0f1147ec2a535e0c1626d457b3c50ab84ff0ab221673ed"
+        },
+        "13": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "a20b7e55b8a6fbfb70fd600782e0578fdadca22382d7b3c413b8fc5b2a60ff4d"
+        },
+        "17": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d81a18410ac1a25550b468ffa01f7d15fcb3c02c9e9c5a23172b0b9e29e35a39"
+        },
+        "19": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f135ca204eaa587431ea5033020e2a10ea011508cdb1ebeba05b20c204103b63"
+        },
+        "20": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "57b79c76c7561223539b09e44763ffcdaa5b3f88b121d80aae501b556207f292"
+        },
+        "21": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "0ae9abd75fbdfa23291d497add8dd91ec609c27814eaec9ecc66cf1da92b80fc"
+        },
+        "25": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "f6d0b287acaa3c9d48e9c6781b16cc15cd86d1f2a1bca5cdb027741cadfca17e"
+        },
+        "29": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "2815ebdbedf402be9c7694ad58708a96b1a4c21cfca8af79fa096e374e77ec06"
+        },
+        "30": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "5b836565d45eb6d8bf41f814a263c42c929f9c2c22d9fb88e28144ee6b65132c"
+        },
+        "31": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "6726ce9bab99f4deb83b405633758865ba5dc82864033332b5f1489eec9125cd"
+        },
+        "32": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "4cf77fa0a7c3c643d8f11caeedac3ed25c2239319db6368e7989ff607ead696c"
+        },
+        "33": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "35b8b638f5ac8014a2c07e2d5705bcbb0fc23f802714639f81b3d1327e5cceb0"
+        },
+        "35": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "828c10fec7b586255ad07b0b6d37262b52f0b4c932cea3b30a566fe77fd7ba23"
+        },
+        "37": {
+          "class": "glow",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "05f531e532424a3ca4980e38b4973325830fefbfed8a9a4bc6f82cfb934c4cab"
+        },
+        "46": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "71947b3a6437e7751b1eeed6bf153a17a7582eb43e1ad268db3c5123e5f1219e"
+        },
+        "47": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c855e6fb83385a31b54ce5c2fa23d6719e733f70018f867a8c42fc31a5c90d9f"
+        },
+        "48": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "62ca662e13e1d5bd14281317366414111f5aa5e1c1cffbfc91d123f8a90b2143"
+        },
+        "5": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "c147ed1a9dfb6910d60155b768bb805b6166c4fd4a342b933a57b6c77d041fc0"
+        },
+        "6": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "19b0e76d8abd336b38f7a89fb5071047f4a5753d82a9963611a00874478b1958"
+        },
+        "8": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "41bac9ddc5cbfdbad4a53f434fcb5eb7787e75d950cfdb0a2a857d7b56484891"
+        },
+        "9": {
+          "class": "tiny",
+          "scale": 16,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "d3e13acafde8b47aaab2c22386b5bdf5097c2f66c19f95eb35ac6a7b5e97d2c6"
+        }
+      },
+      "notUsedCells": {
+        "11": "Failed its native gate; the published tile is kept.",
+        "22": "Failed its native gate; the published tile is kept.",
+        "27": "Failed its native gate; the published tile is kept.",
+        "28": "Failed its native gate; the published tile is kept.",
+        "36": "Failed its native gate; the published tile is kept.",
+        "4": "Failed its native gate; the published tile is kept.",
+        "43": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1280": {
+      "reportPath": ".cache/battle-hd-v61/species/1280/report.json",
+      "reportSha256": "15b300695faa35f66f244b701e0b965879b176e6658d516f3b3671fd8a7dbaec",
+      "base": {
+        "atlas": "/battle-animations/hd/1280-v60.webp",
+        "atlasSha256": "3db00a5af630960e4234dd8b55caaa76b518fcfd6330e9eef8db0dd6572c91b0"
+      },
+      "redrawnCells": {
+        "11": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "18b5d08ce6c32fadba6e657fb8c490672859d0638a172dee3399bc76ed884f87"
+        }
+      },
+      "notUsedCells": {
+        "12": "Failed its native gate; the published tile is kept.",
+        "73": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1281": {
+      "reportPath": ".cache/battle-hd-v61/species/1281/report.json",
+      "reportSha256": "e0ed98ef233177d62049e2b8b19df8e09ec463de240892dd5f46da69845b9cf8",
+      "base": {
+        "atlas": "/battle-animations/hd/1281-v60.webp",
+        "atlasSha256": "16c29c10b9e24ff4c5fe477f94867949de3289f85e3fa07d866359eb06f11c2f"
+      },
+      "redrawnCells": {
+        "14": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "3f7a4882db1d0860ab6889906bd141bb4417d939c894e5df9ffb3650940c26f4"
+        },
+        "32": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "680d7b31d312b3cced4ddf4b0712292af2885ada09711b4b7d4abb2cdd7f769f"
+        }
+      },
+      "notUsedCells": {
+        "16": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1287": {
+      "reportPath": ".cache/battle-hd-v61/species/1287/report.json",
+      "reportSha256": "7b021ed286823ede7350c18c691456b4cec12c3afe29d3020cefaa3d4dbecbad",
+      "base": {
+        "atlas": "/battle-animations/hd/1287-v59.png",
+        "atlasSha256": "a1fa172c0c544d78bed54a5925816e42c7720d03351c657eaa16fc412f0cf563"
+      },
+      "redrawnCells": {
+        "3": {
+          "class": "flat",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "a038c888b2cc2928c359d4dc9617ae6b4387d8d6c4be2d1bd27e4c13443bc5e0",
+          "outputRgbaSha256": "b6777c51f5eac458a32f36749cf6a4d156888b233f46c3ed37a00ca4e99905f9"
+        }
+      },
+      "notUsedCells": {
+        "2": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1289": {
+      "reportPath": ".cache/battle-hd-v61/species/1289/report.json",
+      "reportSha256": "78e8bd2d46e7b65daf893b7f43b97237b627179dd56753e7c0c0cfc00e27cf57",
+      "base": {
+        "atlas": "/battle-animations/hd/1289-v60.webp",
+        "atlasSha256": "8229292ea0a6bbf661e0cf8e2328b1d8bf9e3ad6f1c93f4b994e3bf8d27fd729"
+      },
+      "redrawnCells": {
+        "0": {
+          "class": "flat",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "8a994a9da27e182ae171c52918c82c84fdbd532c41cfdb5bbe6273c5efbd2fe8",
+          "outputRgbaSha256": "4f94478f33b31b5de98004fcfc519acd01d0e5c2a05d49d5947fcbb2db62e997"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1305": {
+      "reportPath": ".cache/battle-hd-v61/species/1305/report.json",
+      "reportSha256": "776eac8d5dc6af5108dfbbac17197b88c15953b64845d61075dbe727ab62c228",
+      "base": {
+        "atlas": "/battle-animations/hd/1305-v60.webp",
+        "atlasSha256": "84d5b6ac65f29ee84b53ce5e0d5e8727fc03e1ceca5b8cf4a8cd09d4114f4d9e"
+      },
+      "redrawnCells": {
+        "19": {
+          "class": "shaded",
+          "scale": 2,
+          "method": "traced-vector",
+          "firstPose": true,
+          "svgSha256": "ec91c59445972f50f8c8ed0d5ed11e8746481a7890c1214cbe2b45fc4914907d",
+          "outputRgbaSha256": "132c6d3b41a7608024c23b2a3c260414e00534df663f6612c04db43c9a7fe99a"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1363": {
+      "reportPath": ".cache/battle-hd-v61/species/1363/report.json",
+      "reportSha256": "968f46fe4cd8b209108ab83976248673cde72783178114790bc0ce779da9af68",
+      "base": {
+        "atlas": "/battle-animations/hd/1363-v60.webp",
+        "atlasSha256": "af556ec9a8cb6c134a6099c4395831f67111a141b7a64e16b9f36289c46c0f38"
+      },
+      "redrawnCells": {
+        "5": {
+          "class": "flat",
+          "scale": 16,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "389d158b0079c51c340df9daedf15d792e241c9cce5abe2b789011a71ebf23ce",
+          "outputRgbaSha256": "f5621e65aa9a980f67ebc1bbf3d6afd29fbc9fe14110b435fd4bc7e846b20a46"
+        }
+      },
+      "notUsedCells": {
+        "6": "Failed its native gate; the published tile is kept."
+      },
+      "aiReducedCells": {}
+    },
+    "1365": {
+      "reportPath": ".cache/battle-hd-v61/species/1365/report.json",
+      "reportSha256": "2cca7f558699f7169291f033aa09e4ba752822c6031ffadef9a8c6ce068fb2c8",
+      "base": {
+        "atlas": "/battle-animations/hd/1365-v60.webp",
+        "atlasSha256": "8cc138371e7693d2d246e74db29307340e7a9c0cdc4e655e5e25a0db5b6535ba"
+      },
+      "redrawnCells": {
+        "42": {
+          "class": "glow",
+          "scale": 32,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "f66917f52e6733591e1b5fb5f25efb8f9c022370902620ec9ed0af385fc0b946"
+        },
+        "45": {
+          "class": "glow",
+          "scale": 32,
+          "method": "smooth-field",
+          "firstPose": false,
+          "svgSha256": null,
+          "outputRgbaSha256": "111c96243f331e82c3d14420af44c8a03c78ab8fd177537b014cd5133d3bf2a2"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1481": {
+      "reportPath": ".cache/battle-hd-v61/species/1481/report.json",
+      "reportSha256": "1a5fd4c6628951d9b95c52147c5743a93002a122d200c3b6d1708515b5c12b09",
+      "base": {
+        "atlas": "/battle-animations/hd/1481-v44.png",
+        "atlasSha256": "8f8640b2e1fc27533fca7efab37f0a3f8478f39f2b7221cbb967c42e4410a827"
+      },
+      "redrawnCells": {
+        "8": {
+          "class": "tiny",
+          "scale": 4,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "ae91354d63fb7f72cae8b0a25d0218cd5866b7120eedaebe9b94857a722a771f"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1485": {
+      "reportPath": ".cache/battle-hd-v61/species/1485/report.json",
+      "reportSha256": "664b5fab5b9aaab994542f16f40223459e229f41ceac8e4a1be79c8c434bd0f4",
+      "base": {
+        "atlas": "/battle-animations/hd/1485-v60.webp",
+        "atlasSha256": "9de2281ca0978edf57534a851b715fe3537fcd31a44ba09b659ec069447c1c4e"
+      },
+      "redrawnCells": {
+        "0": {
+          "class": "shaded",
+          "scale": 4,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "910d3d45d2f1e2ecc45908886f1972607b66e1f4de581ad4437b94aa28960bcd",
+          "outputRgbaSha256": "9aec9b8bf1e1f08ec175363bdaa25c5708d166b80ef53008f2232ba1794f19ed"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    },
+    "1486": {
+      "reportPath": ".cache/battle-hd-v61/species/1486/report.json",
+      "reportSha256": "a24c566f9ed41450762807680dfd56025f1e51ed76684674f8927c2e4f939cb6",
+      "base": {
+        "atlas": "/battle-animations/hd/1486-v60.webp",
+        "atlasSha256": "7596d759dd26d34045cc1f552070cc540324c39c69b3ad148387a47c0a0a3635"
+      },
+      "redrawnCells": {
+        "30": {
+          "class": "shaded",
+          "scale": 8,
+          "method": "traced-vector",
+          "firstPose": false,
+          "svgSha256": "0986022444e4ec5482d0b7a9f90e62275b84aedbd83a822c89f1aa1dfcb4b5a6",
+          "outputRgbaSha256": "719038d180fbda82bbe6d0a60a10159fabfbf71c4aff4f571b04219e639adc4c"
+        },
+        "8": {
+          "class": "tiny",
+          "scale": 2,
+          "method": "smooth-field",
+          "firstPose": true,
+          "svgSha256": null,
+          "outputRgbaSha256": "0215eb49a4ea1cf39e81b8b9cb430c3c46ebe2b86f61470da7923267838e8d5d"
+        }
+      },
+      "notUsedCells": {},
+      "aiReducedCells": {}
+    }
+  }
+}

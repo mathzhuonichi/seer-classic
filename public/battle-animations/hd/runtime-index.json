@@ -81,20 +81,20 @@
       "atlasSha256": "706c030e392ac48f00b2824544e99cfaa00c11b75a17286e0e92fc1a516749d5"
     },
     "11": {
-      "meta": "/battle-animations/hd/11-v60.json.gz",
-      "atlas": "/battle-animations/hd/11-v60.webp",
+      "meta": "/battle-animations/hd/11-v61.json.gz",
+      "atlas": "/battle-animations/hd/11-v61.webp",
       "atlasWidth": 4608,
       "atlasHeight": 5120,
-      "metaSha256": "f1761cb8e17f6c4ac130df024e3c397c36a0313d35885a4e12e275d5c537d20d",
-      "atlasSha256": "0b808026d7dac3837034fdd9a55a5aa572ff5b2cdec5c69d060e33bb6ab529c4"
+      "metaSha256": "fb6428415506ade369f89a802c3d2bbf6c74c48684e0b748a77765cba3b88a80",
+      "atlasSha256": "38ffbf61f42b005a8fb25de6b343d4f92ebecbc248df4d52777dee22109e66d7"
     },
     "12": {
-      "meta": "/battle-animations/hd/12-v60.json.gz",
-      "atlas": "/battle-animations/hd/12-v60.webp",
+      "meta": "/battle-animations/hd/12-v61.json.gz",
+      "atlas": "/battle-animations/hd/12-v61.webp",
       "atlasWidth": 5632,
       "atlasHeight": 5956,
-      "metaSha256": "3f0399ce5faacb1e76d4882655cb27e3c1bc1ed6b48d335de66ac63b7fbec711",
-      "atlasSha256": "1f67ab8d389964712609f47dd94dbc7fbc4f68aaa0afc6b4e8b94fc4b692afdd"
+      "metaSha256": "697de15a1024fd2240fed3e7e9d1f8a332c38644d7bbf93aa0bd7aaf27f54bd6",
+      "atlasSha256": "a4abb5cf1ba9d1c7e4ead8cd71d6b3608534e0e2bae450f7f68b9bcda602e555"
     },
     "13": {
       "meta": "/battle-animations/hd/13-v60.json.gz",
@@ -145,20 +145,20 @@
       "atlasSha256": "160d45cb1513e1ae72dd761e3c7bf5ce9bbade531201ab0d3c535071e265a2ad"
     },
     "19": {
-      "meta": "/battle-animations/hd/19-v60.json.gz",
-      "atlas": "/battle-animations/hd/19-v60.webp",
+      "meta": "/battle-animations/hd/19-v61.json.gz",
+      "atlas": "/battle-animations/hd/19-v61.webp",
       "atlasWidth": 4352,
       "atlasHeight": 4684,
-      "metaSha256": "38c9ecad340b37a881af8c2cc82abf1e02f5b3acbfbab2edce645764d70b1fff",
-      "atlasSha256": "fc0c272f10575717f037f9f9ef0dd8e47edd25629c0adef27dc0c9cfb80c21de"
+      "metaSha256": "d8c50f4f01c5099ca3290f5598e21b66d9cb4c9a85296eac08b10b5f228e214d",
+      "atlasSha256": "38c0e91ae1dc159f5706f2182699c62ea1ce5c2dfb173108ff995eee987ab904"
     },
     "20": {
-      "meta": "/battle-animations/hd/20-v60.json.gz",
-      "atlas": "/battle-animations/hd/20-v60.webp",
+      "meta": "/battle-animations/hd/20-v61.json.gz",
+      "atlas": "/battle-animations/hd/20-v61.webp",
       "atlasWidth": 8190,
       "atlasHeight": 4096,
-      "metaSha256": "a03c061f1adc3710932337050e578f0d6b5d524d9d00e3436e3efa2590c0bbb5",
-      "atlasSha256": "cc6e24559adaf9d8f5b34e97451296fc2f70fd4c3ee5266308bfe8e0f0fcc8f7"
+      "metaSha256": "5f64483d5715e668349ad0fd2376be0f3af894f52c276c89e2881381899b6faf",
+      "atlasSha256": "1a7e68528d758195601691ebec24a400608e4b2f390668e738c09eb18fdad9fc"
     },
     "21": {
       "meta": "/battle-animations/hd/21-v60.json.gz",
@@ -193,12 +193,12 @@
       "atlasSha256": "5389f0ee3da4f9d7621ec8799e049e595fdc5c77ff623dff793ac36533cb3179"
     },
     "25": {
-      "meta": "/battle-animations/hd/25-v60.json.gz",
-      "atlas": "/battle-animations/hd/25-v60.webp",
+      "meta": "/battle-animations/hd/25-v61.json.gz",
+      "atlas": "/battle-animations/hd/25-v61.webp",
       "atlasWidth": 3584,
       "atlasHeight": 3940,
-      "metaSha256": "7a13a4dacbab1e4dd0d14411acf7cfea57813e59470fc476dd0e7f434c86be26",
-      "atlasSha256": "7f03e19a75258aa191183bd9698a05f5ecd238e9dc9d5a3961584701bfb5385f"
+      "metaSha256": "71424b4cbc46045a5eacb4fed427d4424ba44bc7db02a035f07e2a924693c9c1",
+      "atlasSha256": "234b8ed2978ac111ba5ac7bf8f29eabca521df4edb02c16354bc3c9c67e0b775"
     },
     "26": {
       "meta": "/battle-animations/hd/26-v60.json.gz",
@@ -353,12 +353,12 @@
       "atlasSha256": "e8f62d54c9b33dd39ca9e25e04b2b73918049d87b166895a64ef1863a804cdd1"
     },
     "45": {
-      "meta": "/battle-animations/hd/45-v60.json.gz",
-      "atlas": "/battle-animations/hd/45-v60.webp",
+      "meta": "/battle-animations/hd/45-v61.json.gz",
+      "atlas": "/battle-animations/hd/45-v61.webp",
       "atlasWidth": 8164,
       "atlasHeight": 4076,
-      "metaSha256": "68d1c6335ead1ba034e384ae83a1ef68d57420d996f1db7d9be0a13000dc86b2",
-      "atlasSha256": "2727a31d2e4de35a9366b36dc1fbd22bdb60f4dbb659f4432b5eea5fdebda2c6"
+      "metaSha256": "1c87abdf68dace16808ac477ebd95d2a2ad0b851fda23ae2ae9efc727451ce6b",
+      "atlasSha256": "d0f60613924689c0524f813e4f9601e620e92d78fd7e3e052a07c17dea3bcdd4"
     },
     "46": {
       "meta": "/battle-animations/hd/46-v60.json.gz",
@@ -425,12 +425,12 @@
       "atlasSha256": "a0bb5d49e84bdfdaa5809d979455ffb627d357875a828af8b4decdcc784d0f53"
     },
     "54": {
-      "meta": "/battle-animations/hd/54-v60.json.gz",
-      "atlas": "/battle-animations/hd/54-v60.webp",
-      "atlasWidth": 4096,
-      "atlasHeight": 8132,
-      "metaSha256": "191082aac352956736eecafb5b4951741a1dde6a55ecfcffd3356fea9940311b",
-      "atlasSha256": "6efaaf4666d3017173a7ad00727f0faf8ad8df590117d394c1a18f6d0c992c2e"
+      "meta": "/battle-animations/hd/54-v61.json.gz",
+      "atlas": "/battle-animations/hd/54-v61.webp",
+      "atlasWidth": 4095,
+      "atlasHeight": 8172,
+      "metaSha256": "3ba9f95796dee95a372f53e7254b99f97c44a08dde27c82b41c38bb952745104",
+      "atlasSha256": "6db6763cd76881bd8412f9443b9cb09b40fd4c25836564a9094d2bc5dde21f11"
     },
     "55": {
       "meta": "/battle-animations/hd/55-v60.json.gz",
@@ -585,12 +585,12 @@
       "atlasSha256": "847e87943e255e5e79db8ebd3826565faccdf335fceb3fa64e9debf511ab06bf"
     },
     "74": {
-      "meta": "/battle-animations/hd/74-v60.json.gz",
-      "atlas": "/battle-animations/hd/74-v60.webp",
+      "meta": "/battle-animations/hd/74-v61.json.gz",
+      "atlas": "/battle-animations/hd/74-v61.webp",
       "atlasWidth": 2816,
       "atlasHeight": 3124,
-      "metaSha256": "419cdabe32e8a56f43c9c0ca5e97e15576dced829542e4f5cf2af4e90c42ad1d",
-      "atlasSha256": "856065156ad2064e0adf4613ba72cbb5e80517be0744ae8007333204c21f20f8"
+      "metaSha256": "f4b5a786603b143446b4dcf87a13d88f9e0de0eb6e5f8222a762a2860e89355f",
+      "atlasSha256": "239baf922003aedee74b9655cac0a4e61f5add37e751ec6e4b58ecc1aa44bb58"
     },
     "75": {
       "meta": "/battle-animations/hd/75-v60.json.gz",
@@ -657,12 +657,12 @@
       "atlasSha256": "c30e068d8864ad925b90751fa69e390fa3583a7bfdf2d6a9a128938dcf3d402d"
     },
     "83": {
-      "meta": "/battle-animations/hd/83-v60.json.gz",
-      "atlas": "/battle-animations/hd/83-v60.webp",
+      "meta": "/battle-animations/hd/83-v61.json.gz",
+      "atlas": "/battle-animations/hd/83-v61.webp",
       "atlasWidth": 1780,
       "atlasHeight": 1772,
-      "metaSha256": "b78b81cb2734b5621466b619dfdc9892ec7e08dfb057538366224546115c87b8",
-      "atlasSha256": "4e8633a6a5565923f2a04f7effbe1ae816ff9c56cc3636e4dc5845c56b254e67"
+      "metaSha256": "8bdf1cfe113a0d98b6cd8db19032fee013520bf18bedfc1944bd4ee129657891",
+      "atlasSha256": "d4f2b470791e65a4a3105957324ec0725f95666f9f538ac69bb44f4f7cc55dfb"
     },
     "84": {
       "meta": "/battle-animations/hd/84-v60.json.gz",
@@ -953,20 +953,20 @@
       "atlasSha256": "4dfc78da40b6ecbdbc0ca6081fee47cb7e45e5380eddce16fc198dbaa9a45000"
     },
     "120": {
-      "meta": "/battle-animations/hd/120-v60.json.gz",
-      "atlas": "/battle-animations/hd/120-v60.webp",
+      "meta": "/battle-animations/hd/120-v61.json.gz",
+      "atlas": "/battle-animations/hd/120-v61.webp",
       "atlasWidth": 4090,
       "atlasHeight": 4420,
-      "metaSha256": "eb338fdb657ea412484f8b16e8451b9d14f348ba3cc0fb7462b1cd9f8975cbcc",
-      "atlasSha256": "7fc121aad4a5caca8054fefb1ce73e5c292e2f0aaad3fc5426c5af30b24398a1"
+      "metaSha256": "10f3a80893020e5c444ea3ef15da7410a2249d92300445d66d016fbcf40cef8c",
+      "atlasSha256": "7dea4bc46282a6aaf5b4b1d1c464bab1bba27d6d08c43466ed1beb94136bc6c9"
     },
     "121": {
-      "meta": "/battle-animations/hd/121-v60.json.gz",
-      "atlas": "/battle-animations/hd/121-v60.webp",
+      "meta": "/battle-animations/hd/121-v61.json.gz",
+      "atlas": "/battle-animations/hd/121-v61.webp",
       "atlasWidth": 5372,
       "atlasHeight": 6240,
-      "metaSha256": "9174135f55b312664cad3d32f698ec4262caccb21c21b9a8d748dfeaaca3566e",
-      "atlasSha256": "fa06c7d94eaeee6da7fc05af0d5c8adab8153137d2fca32a5f7d596517597343"
+      "metaSha256": "63887a542f6548385a39a557e9246f7c540145a17cabaaad207f7e5017a280e8",
+      "atlasSha256": "bc141940b604a61460a2f84ee1fc53c9beb81a2b7beb5e703aaec790b7ccc0de"
     },
     "122": {
       "meta": "/battle-animations/hd/122-v59.json.gz",
@@ -1017,36 +1017,36 @@
       "atlasSha256": "eea8cdd13618e0f8325795a37525992f6b9d2462cd0301ab6d4413394f4f8c4b"
     },
     "128": {
-      "meta": "/battle-animations/hd/128-v60.json.gz",
-      "atlas": "/battle-animations/hd/128-v60.webp",
+      "meta": "/battle-animations/hd/128-v61.json.gz",
+      "atlas": "/battle-animations/hd/128-v61.webp",
       "atlasWidth": 2816,
       "atlasHeight": 3112,
-      "metaSha256": "de2c0e44a33603d0bac686e9e3e9f19d7726e30b248d8ffb083d2c84f8aa6def",
-      "atlasSha256": "1a2b525972d3284a6b05ff8de3155806d6a0e1366c1f678b8e5652f6ad2658a9"
+      "metaSha256": "ee3ef85f956a267054f1599ff768a4e7f28f0c4ade6ed6f0b8046a4f54667316",
+      "atlasSha256": "eb1605f41b374d5f09a24772796fd6aa919bd22452ea154535fca66f669e7c38"
     },
     "129": {
-      "meta": "/battle-animations/hd/129-v60.json.gz",
-      "atlas": "/battle-animations/hd/129-v60.webp",
-      "atlasWidth": 5631,
-      "atlasHeight": 5956,
-      "metaSha256": "d6877201319771fecc82db5dd5dcb09d795b7e4c2edd4493b73502460611561a",
-      "atlasSha256": "a896200dbdfb74ba6e8b7395ac8b2b4d2a6537bf9167003bc91579af5789d86c"
+      "meta": "/battle-animations/hd/129-v61.json.gz",
+      "atlas": "/battle-animations/hd/129-v61.webp",
+      "atlasWidth": 5628,
+      "atlasHeight": 5954,
+      "metaSha256": "427429440ca7f1e060673378a48bb101a81ab1704edf890f0102ab201dc90006",
+      "atlasSha256": "9f1ec15a4b2c985fd18d2b99bd13eb7903ad347b9ab486d937e7f2da1d50738e"
     },
     "130": {
-      "meta": "/battle-animations/hd/130-v60.json.gz",
-      "atlas": "/battle-animations/hd/130-v60.webp",
+      "meta": "/battle-animations/hd/130-v61.json.gz",
+      "atlas": "/battle-animations/hd/130-v61.webp",
       "atlasWidth": 8188,
-      "atlasHeight": 4096,
-      "metaSha256": "e16691480ab410b8cb394827034238671eb690e62516e2d2d49c032b2c7ec960",
-      "atlasSha256": "6d5e4aee82c3e50eb3ad5f9d87ade274bde306f85673bdf85ee6e0ec2eecf767"
+      "atlasHeight": 4094,
+      "metaSha256": "a7a3ebfc0bd2d73d3730e094a8ca60340bd56309a6d1c1379b549a16b68cdd91",
+      "atlasSha256": "1104a32ea40795682aa72e06056b245ff870cc25b281372f92cbf1bb8cec7e39"
     },
     "131": {
-      "meta": "/battle-animations/hd/131-v60.json.gz",
-      "atlas": "/battle-animations/hd/131-v60.webp",
+      "meta": "/battle-animations/hd/131-v61.json.gz",
+      "atlas": "/battle-animations/hd/131-v61.webp",
       "atlasWidth": 2280,
       "atlasHeight": 2486,
-      "metaSha256": "eb5c297b95c384c4d111e1bab00e8a02d8e333d5937ec3f7c02c25764a5affca",
-      "atlasSha256": "160a433f414632e258264c5b24b60ece74f33c29b79e0c5aca26785db1b80d2a"
+      "metaSha256": "4f854d42d9fea1f38051e6b662685c55fbdc79ddc35be954234baa72db8774f5",
+      "atlasSha256": "ed8d2488420d17d76c6ce29aa348664eb7db420a362d7ff53462e22a123e1ea8"
     },
     "132": {
       "meta": "/battle-animations/hd/132-v59.json.gz",
@@ -1089,20 +1089,20 @@
       "atlasSha256": "a648674585b3164a8e76f65d0ea94894aa5fbc92f437b219328976bbfa8732ba"
     },
     "137": {
-      "meta": "/battle-animations/hd/137-v60.json.gz",
-      "atlas": "/battle-animations/hd/137-v60.webp",
-      "atlasWidth": 4078,
-      "atlasHeight": 4940,
-      "metaSha256": "fe8e6d84ec4cd1b5b09f61f16e82e5313bb604fe6aa21c74bcedfd729d51efea",
-      "atlasSha256": "9ee0d5979751bf66ad668fcbd57851ddb9a40a77c2995f97bcdd011cde243acc"
+      "meta": "/battle-animations/hd/137-v61.json.gz",
+      "atlas": "/battle-animations/hd/137-v61.webp",
+      "atlasWidth": 4340,
+      "atlasHeight": 4652,
+      "metaSha256": "36243c4976ad81f761308d55b73a575971f715e57f484f14c353943f1244abc5",
+      "atlasSha256": "b3aa2492c8dc120f05bdd9891a79fefbec6a77470e15858da1da76115a1aaede"
     },
     "138": {
-      "meta": "/battle-animations/hd/138-v60.json.gz",
-      "atlas": "/battle-animations/hd/138-v60.webp",
-      "atlasWidth": 4092,
-      "atlasHeight": 4412,
-      "metaSha256": "554bed9953247049f2adb86f135f1f7f3509114fd79306d4e6ee251c4c49ce07",
-      "atlasSha256": "e2227901c870d0ea4f86f29d938ceea523d6d76effebee4de486f0a2c51aae07"
+      "meta": "/battle-animations/hd/138-v61.json.gz",
+      "atlas": "/battle-animations/hd/138-v61.webp",
+      "atlasWidth": 4348,
+      "atlasHeight": 5036,
+      "metaSha256": "e82c2163d0342bb3739ce53ad26a23dd994aa83eeeac5e806aef8d570540eb03",
+      "atlasSha256": "6014ccd8cafaa62f3df134b11722cf8740450415ab55d9cb68040fd865ee89ac"
     },
     "139": {
       "meta": "/battle-animations/hd/139-v59.json.gz",
@@ -1129,12 +1129,12 @@
       "atlasSha256": "105189c59c9fd17810af813f40e573cfeea350aa58aee966a9764b622241ed08"
     },
     "142": {
-      "meta": "/battle-animations/hd/142-v60.json.gz",
-      "atlas": "/battle-animations/hd/142-v60.webp",
+      "meta": "/battle-animations/hd/142-v61.json.gz",
+      "atlas": "/battle-animations/hd/142-v61.webp",
       "atlasWidth": 4864,
       "atlasHeight": 5596,
-      "metaSha256": "7ae32d4508dfb428ed61ad89edaed16e2c526487e568cff93019a3d3442c698c",
-      "atlasSha256": "7cabab5f8512f530cd7987a4896f5db4e2133f4565c0244e65ed47d5969b72b4"
+      "metaSha256": "7908f2af3b574cef330d29a115c0c0c39cb973047ce37c4d9d3218d98b3f5452",
+      "atlasSha256": "5da6b8b454fa4675157f27484e1db335cd8f29b525663b0af7e2646665446386"
     },
     "143": {
       "meta": "/battle-animations/hd/143-v60.json.gz",
@@ -1145,20 +1145,20 @@
       "atlasSha256": "fa41640a400a29496659074121a96e4f4b64001a8899e42772225d62eb9899cf"
     },
     "144": {
-      "meta": "/battle-animations/hd/144-v60.json.gz",
-      "atlas": "/battle-animations/hd/144-v60.webp",
+      "meta": "/battle-animations/hd/144-v61.json.gz",
+      "atlas": "/battle-animations/hd/144-v61.webp",
       "atlasWidth": 5628,
-      "atlasHeight": 5957,
-      "metaSha256": "571599642fc3d910937d2c0bb8804b8e524c2187a80d09eb39152be2f70a6cc7",
-      "atlasSha256": "05eda139a9bdc6c3671046d5891514d43e1ba04b63b4fdb41cb6de8ddd620ece"
+      "atlasHeight": 5949,
+      "metaSha256": "1e939adb858f6a5aed11a02109fe8cae55273001dae50fc12954d3bb94c4c3eb",
+      "atlasSha256": "219d2ee4a9c9adcfd4fcb5306da182f7df0d42759b894c9cebba0c8bfcc0f3aa"
     },
     "145": {
-      "meta": "/battle-animations/hd/145-v60.json.gz",
-      "atlas": "/battle-animations/hd/145-v60.webp",
+      "meta": "/battle-animations/hd/145-v61.json.gz",
+      "atlas": "/battle-animations/hd/145-v61.webp",
       "atlasWidth": 2048,
       "atlasHeight": 2700,
-      "metaSha256": "ca67b4790f48ec95c6e8ff17f0afc830c5f647108d1d4abbf5a95f782da8e254",
-      "atlasSha256": "6e0b7f9cf6075a435ffecbe376a1d24eab1b21ae93b7846dc9440b93da01b439"
+      "metaSha256": "cf97954cbb9134b4256d68916897b5275c1607419cbe19b16cd527427f1e16cf",
+      "atlasSha256": "7ebb4e78fc774e7fae114492a14944e7f20236cabe02c1614cfbefc360b96b78"
     },
     "146": {
       "meta": "/battle-animations/hd/146-v60.json.gz",
@@ -1185,12 +1185,12 @@
       "atlasSha256": "51d756cd7fbe919fe27999017b328ccc8bc6d0698c9485f888f461ad716512e1"
     },
     "149": {
-      "meta": "/battle-animations/hd/149-v60.json.gz",
-      "atlas": "/battle-animations/hd/149-v60.webp",
-      "atlasWidth": 5616,
-      "atlasHeight": 5944,
-      "metaSha256": "43e095ad9d4c36c95343f4fcc727765b3ddb791c7126f28457f4163ed62092b1",
-      "atlasSha256": "118a09108ae4e18c7b8f085a365758c9d3c86f23418104faf8e47c25bfcdc6a2"
+      "meta": "/battle-animations/hd/149-v61.json.gz",
+      "atlas": "/battle-animations/hd/149-v61.webp",
+      "atlasWidth": 5622,
+      "atlasHeight": 5952,
+      "metaSha256": "a487a5e59772dbfca53f22c5b870b0eb3a91d077b04a03a475bb15cbd7a91d9a",
+      "atlasSha256": "8c35971c1cade433d5bd64b2b59bd9d2221623ef7c5a25d5d8b74d3360eb66ef"
     },
     "150": {
       "meta": "/battle-animations/hd/150-v60.json.gz",
@@ -1217,12 +1217,12 @@
       "atlasSha256": "f109e01d89ef95666e131def8bdb06b25375dec638b5a6b5d6b3151a181d7fa5"
     },
     "153": {
-      "meta": "/battle-animations/hd/153-v60.json.gz",
-      "atlas": "/battle-animations/hd/153-v60.webp",
+      "meta": "/battle-animations/hd/153-v61.json.gz",
+      "atlas": "/battle-animations/hd/153-v61.webp",
       "atlasWidth": 1536,
       "atlasHeight": 1416,
-      "metaSha256": "c01a2b5ee3de910fc8b9a93eee8f497c1a8dc46c3a2f233a14a511a2644758e3",
-      "atlasSha256": "09e45e8a60e4dba460d1ba4ef801b7046884af1ce3ee770b6b91c071ca45a7fb"
+      "metaSha256": "57edf94f0b8e4611f11b35fa146fdbf91878688a350cf510f67f013f9be4a523",
+      "atlasSha256": "64fce3e8e0e1a6786d7f0fe2ad88ca9c16b792af195edaa4ed5693d56973933c"
     },
     "154": {
       "meta": "/battle-animations/hd/154-v60.json.gz",
@@ -1313,20 +1313,20 @@
       "atlasSha256": "ac97135afba07de937e5c1925e6fa96c951748014c6f277d816b5b8374b43511"
     },
     "165": {
-      "meta": "/battle-animations/hd/165-v60.json.gz",
-      "atlas": "/battle-animations/hd/165-v60.webp",
+      "meta": "/battle-animations/hd/165-v61.json.gz",
+      "atlas": "/battle-animations/hd/165-v61.webp",
       "atlasWidth": 5120,
       "atlasHeight": 5496,
-      "metaSha256": "3add84b5a8c65f0c53e2ce8a2af017b4d367061b5b704e0a460abc3bffc49119",
-      "atlasSha256": "57919dec4f80ed47f43fe2c22f1c578eb0bfdbe42bfc349627b10dcfa9b00dc0"
+      "metaSha256": "185e5a2e60fff4cf3e9ab25d0de15771a30096be628d1e2e40d645e899e8c5e8",
+      "atlasSha256": "d064c4e7af3965b2de9716a3f719080f079b18080c06f96ef8e95aef6bc9d7f3"
     },
     "166": {
-      "meta": "/battle-animations/hd/166-v60.json.gz",
-      "atlas": "/battle-animations/hd/166-v60.webp",
-      "atlasWidth": 4096,
-      "atlasHeight": 8184,
-      "metaSha256": "6a05ceb2e0946b6c3b7e96ad9063e274390581b17b0f6e31ae241b02413f909c",
-      "atlasSha256": "a60b9988cf5e8b9936d5a8c56059b3a0bafbc96f1a766c2f6c1d373cc4782f18"
+      "meta": "/battle-animations/hd/166-v61.json.gz",
+      "atlas": "/battle-animations/hd/166-v61.webp",
+      "atlasWidth": 5632,
+      "atlasHeight": 5932,
+      "metaSha256": "5591af76103ac27884be9fcae4cd3b8e1bfe0985054ad8658eced3b77095614c",
+      "atlasSha256": "c47ae3e6dca7ac5feaab28ab5b2c934e18461406a0bbb0c4c04dca49a603b79d"
     },
     "167": {
       "meta": "/battle-animations/hd/167-v60.json.gz",
@@ -1369,20 +1369,20 @@
       "atlasSha256": "84b91089e0d3d89b6b8a846cc8d7e4b589ac7986f2fb3d2a43cc954e4ab3ab5b"
     },
     "172": {
-      "meta": "/battle-animations/hd/172-v60.json.gz",
-      "atlas": "/battle-animations/hd/172-v60.webp",
+      "meta": "/battle-animations/hd/172-v61.json.gz",
+      "atlas": "/battle-animations/hd/172-v61.webp",
       "atlasWidth": 2304,
       "atlasHeight": 2464,
-      "metaSha256": "7d73e17d5baac00318ef997e5d7b3e77e6d0fccb36e7c1aaf57c412d2a720f1e",
-      "atlasSha256": "4b3b93eadd216e0cf318d9c03c26b1f3e83dec66ae7d48a38760a87cbaec6ef7"
+      "metaSha256": "7258c3697821ea21426bf40bfe92ed78eccfb93b7dd874ec077a09f0dfd038c2",
+      "atlasSha256": "b570ea1be4a5dbb849a6af5988f40f71cbcee33912f6ea131cdff015aa5a4ab0"
     },
     "173": {
-      "meta": "/battle-animations/hd/173-v60.json.gz",
-      "atlas": "/battle-animations/hd/173-v60.webp",
+      "meta": "/battle-animations/hd/173-v61.json.gz",
+      "atlas": "/battle-animations/hd/173-v61.webp",
       "atlasWidth": 2044,
       "atlasHeight": 2296,
-      "metaSha256": "44502d198dde4c53a4503d376292b6427be7637489bac910b67c24942e7e9ec1",
-      "atlasSha256": "8c4f3297ce587dd61c215148180c0bbdaecebac8f90ac9ce553c69a625e357c8"
+      "metaSha256": "a0303ee3d6cd6d995afe721eb59db9cfb1e6b10412b36307bb68767e7a30a940",
+      "atlasSha256": "742b97f440b77191d62190fd960b41e8bd549b6574cd06555f6eabb77097936b"
     },
     "174": {
       "meta": "/battle-animations/hd/174-v60.json.gz",
@@ -1393,20 +1393,20 @@
       "atlasSha256": "62cda30c216cb73e7cb8c1c01312e5a3c5a4a4c031381420301e7d689062f522"
     },
     "175": {
-      "meta": "/battle-animations/hd/175-v60.json.gz",
-      "atlas": "/battle-animations/hd/175-v60.webp",
+      "meta": "/battle-animations/hd/175-v61.json.gz",
+      "atlas": "/battle-animations/hd/175-v61.webp",
       "atlasWidth": 3584,
       "atlasHeight": 3500,
-      "metaSha256": "ba9a5e9d576a6a78a0694f47ae02bc6de9744fee14db884e04632949de445b78",
-      "atlasSha256": "cdc97fcaa371b4d8be437fc8592a57971f174a09612c938258139f0434046c09"
+      "metaSha256": "07f7ae980ca006e38bbc41eae984ea9b3f10001d248c4ff01ff67d912eb9ac6e",
+      "atlasSha256": "24cb278bd662e56cf42d5d51a529d4aaecd78442735c784635eef3c75b48844e"
     },
     "176": {
-      "meta": "/battle-animations/hd/176-v59.json.gz",
-      "atlas": "/battle-animations/hd/176-v59.png",
+      "meta": "/battle-animations/hd/176-v61.json.gz",
+      "atlas": "/battle-animations/hd/176-v61.webp",
       "atlasWidth": 3328,
       "atlasHeight": 3584,
-      "metaSha256": "0f4f528f641a5ebebd0a354841057a1c16bf25262200003fadfeb2062914bd94",
-      "atlasSha256": "4a233ebe7a1fdbcb36a3061ca4b153b3392b54c964c91ea643db059e12175a03"
+      "metaSha256": "5efb5fbb4bd38da48cfbfd98b6ec47f15484b878545b3c4e03cc43f2aca72d58",
+      "atlasSha256": "9564b31d44e6c36af47b376afbf083d3df4ca55d5ba70c236075fceb3cb8e5db"
     },
     "177": {
       "meta": "/battle-animations/hd/177-v60.json.gz",
@@ -1481,12 +1481,12 @@
       "atlasSha256": "780fc2b701b8b02d4d4f11998de59326bed3b38bb55c0c24b10c75e6826ad6cb"
     },
     "186": {
-      "meta": "/battle-animations/hd/186-v44.json.gz",
-      "atlas": "/battle-animations/hd/186-v44.png",
-      "atlasWidth": 1276,
+      "meta": "/battle-animations/hd/186-v61.json.gz",
+      "atlas": "/battle-animations/hd/186-v61.webp",
+      "atlasWidth": 1280,
       "atlasHeight": 1344,
-      "metaSha256": "6e2f546c15813fab8ba3342583468e422a6d405364ac903bdeff5467b55848c0",
-      "atlasSha256": "0ebecc690287fa4c92e90b0f9bb08b7bdc471b09ef5e2d9485b0eb7ff5f2c92a"
+      "metaSha256": "f268ca2550b71330d2d0c9228a31d9a228ef5e95e867513db883568939523ec9",
+      "atlasSha256": "a27fa00a96de362a761f5adfcd57301a0d00faad9cb4f25f40758e7112dee180"
     },
     "187": {
       "meta": "/battle-animations/hd/187-v60.json.gz",
@@ -1585,12 +1585,12 @@
       "atlasSha256": "e8039149d9c80eae66a5219fc36392f377a0f0009064eae7535a0b557610721c"
     },
     "199": {
-      "meta": "/battle-animations/hd/199-v60.json.gz",
-      "atlas": "/battle-animations/hd/199-v60.webp",
-      "atlasWidth": 4092,
+      "meta": "/battle-animations/hd/199-v61.json.gz",
+      "atlas": "/battle-animations/hd/199-v61.webp",
+      "atlasWidth": 4096,
       "atlasHeight": 8192,
-      "metaSha256": "0ec358313b6cd4cdd8d6afb09e0e317ea260f0b86f24e1ae35ce76e721626cca",
-      "atlasSha256": "bd974d2230d489847a045a02d7a9becc278b20785db61b35aff98afe7b731ad4"
+      "metaSha256": "8a41bf205baf127cf96540633db8c5028c6d86b42fc737d17f537479ee8a7cf4",
+      "atlasSha256": "905b41fddf84b5e679508e3a7cf1eab1a0c8381981989de7a334a4cf8c6542c3"
     },
     "200": {
       "meta": "/battle-animations/hd/200-v59.json.gz",
@@ -1601,12 +1601,12 @@
       "atlasSha256": "211c96274e18251792a82a4f9188a143ad85f4b5e16daea5f2e519f0524c3f3c"
     },
     "201": {
-      "meta": "/battle-animations/hd/201-v60.json.gz",
-      "atlas": "/battle-animations/hd/201-v60.webp",
+      "meta": "/battle-animations/hd/201-v61.json.gz",
+      "atlas": "/battle-animations/hd/201-v61.webp",
       "atlasWidth": 3324,
       "atlasHeight": 3508,
-      "metaSha256": "9fda04f8807e6f9acc4539fc37a6590276fb5477563d2ef1fec893ce4c4ce273",
-      "atlasSha256": "c34c81d1dd7bc1ffdb42e121d978ada4a6dc2fa214e34ac33412eb92a091ee27"
+      "metaSha256": "e850f7e60ee94aacd62b226108d1a27c0fa03cb4c36c6c588244a2cd9a835ec0",
+      "atlasSha256": "73119ea707e1b64d8f91d89a6e009f992e4e9a1b9b5f761e218e4dc8e6110900"
     },
     "202": {
       "meta": "/battle-animations/hd/202-v60.json.gz",
@@ -1721,12 +1721,12 @@
       "atlasSha256": "40a0915aae898edd0fe7ee69fea10d72b9eccff652c1e1e9ad9a3f0b1e11ca0f"
     },
     "216": {
-      "meta": "/battle-animations/hd/216-v60.json.gz",
-      "atlas": "/battle-animations/hd/216-v60.webp",
+      "meta": "/battle-animations/hd/216-v61.json.gz",
+      "atlas": "/battle-animations/hd/216-v61.webp",
       "atlasWidth": 2560,
       "atlasHeight": 2876,
-      "metaSha256": "271c77c292157bdeb92a4854dc1d3b3e41097c76bec68fc971782fea8bbd9d1d",
-      "atlasSha256": "a0f805a7d08fdaf71a83c0f868747020c1c55f7e6b7e15d12a9b287de6dd1528"
+      "metaSha256": "204bdad5de784ff9a1c22a8c86690b5b40836877f7fff0d31e933ca80daae356",
+      "atlasSha256": "5a30bd21af4159eb1a29d3f46e3a9b98976af2eda4148be4fd3ead72558b57ff"
     },
     "217": {
       "meta": "/battle-animations/hd/217-v60.json.gz",
@@ -1777,20 +1777,20 @@
       "atlasSha256": "1ab678a6186abf006b671cdf6ba6ea2de4f7dddcf7ead9c708f83c00df2f1e0d"
     },
     "223": {
-      "meta": "/battle-animations/hd/223-v60.json.gz",
-      "atlas": "/battle-animations/hd/223-v60.webp",
+      "meta": "/battle-animations/hd/223-v61.json.gz",
+      "atlas": "/battle-animations/hd/223-v61.webp",
       "atlasWidth": 2815,
       "atlasHeight": 3176,
-      "metaSha256": "9406f8eec2ee31c77a55f02e262b7f03b103e39c4c7fc5f285c37e2829fd30f7",
-      "atlasSha256": "4386484399f0f4c00f86f2019f77e6c73e08134f39bf3dc3d6f9be37342b3c4a"
+      "metaSha256": "0597a30bf221fc42eb842c01388c954318a2e76ea6b02ce74720edd4a22502ca",
+      "atlasSha256": "04a2cb31fb358459be2ff32d556f57874dc96c1d3c7ad9fba63886f7f5a26945"
     },
     "224": {
-      "meta": "/battle-animations/hd/224-v60.json.gz",
-      "atlas": "/battle-animations/hd/224-v60.webp",
+      "meta": "/battle-animations/hd/224-v61.json.gz",
+      "atlas": "/battle-animations/hd/224-v61.webp",
       "atlasWidth": 5630,
       "atlasHeight": 5956,
-      "metaSha256": "5982a48d9e184064ad638a4b8c91e00cb7198601431a732e55dd6895f9463c9a",
-      "atlasSha256": "4e131fa9cc86b0f081ae860b76dbb1b7b86b4df2cdbbc11be8adbe9660be520e"
+      "metaSha256": "4d47fca90c54bd362c9c4f0360f2574c5105e3dfe0128ab9225334a870ed2fcf",
+      "atlasSha256": "d07dc5f4f653bb2037f978c56def4ef22fc264d8a569acc231d56dd074d203f0"
     },
     "225": {
       "meta": "/battle-animations/hd/225-v60.json.gz",
@@ -2049,12 +2049,12 @@
       "atlasSha256": "7b42f1cfde11e5a19c17f9ecc8430b35963cf1d452145544cd180f147010e053"
     },
     "257": {
-      "meta": "/battle-animations/hd/257-v59.json.gz",
-      "atlas": "/battle-animations/hd/257-v59.png",
+      "meta": "/battle-animations/hd/257-v61.json.gz",
+      "atlas": "/battle-animations/hd/257-v61.webp",
       "atlasWidth": 1200,
       "atlasHeight": 1584,
-      "metaSha256": "1f0517d9f9eb050bbe493d74fcbf4746e6dab399879bb7bb10d85dbb36f55cd7",
-      "atlasSha256": "fafc5f20afb6d5bb608d4c684d2c7cae37b7c0a3db089ca7e5a35f2e345ce402"
+      "metaSha256": "f6be2f085aecadf816aecef13cd711f1506a0480ff6cbdf8f346f326a4f8cda7",
+      "atlasSha256": "bd0185d609edd7d13d59b63701433cffaac05c5aa8254410b0b39ad04a9c8233"
     },
     "258": {
       "meta": "/battle-animations/hd/258-v60.json.gz",
@@ -2609,12 +2609,12 @@
       "atlasSha256": "6ad5cd5b3c8db4bddc492ab5baf47521cca80a9f401ab4824442df2f4a005397"
     },
     "327": {
-      "meta": "/battle-animations/hd/327-v44.json.gz",
-      "atlas": "/battle-animations/hd/327-v44.png",
-      "atlasWidth": 2553,
+      "meta": "/battle-animations/hd/327-v61.json.gz",
+      "atlas": "/battle-animations/hd/327-v61.webp",
+      "atlasWidth": 2554,
       "atlasHeight": 2712,
-      "metaSha256": "428596881629ef3546aac559f699c4a3b09b603d8581dd03877c123c390bf75c",
-      "atlasSha256": "05359a9f1b83b15f699005c66ea20b383638c6969c411208e10f5469026256d0"
+      "metaSha256": "a1c2be5dbfac13c5bd418ea352adee227aa5b40a7e38af94ff59ccc22a73cdd1",
+      "atlasSha256": "d61545337408b08f7d4ea6029da7e3ecb496de281b2639678a5f1169d12c7b15"
     },
     "328": {
       "meta": "/battle-animations/hd/328-v44.json.gz",
@@ -2721,20 +2721,20 @@
       "atlasSha256": "fa0c8f6b4ae6c9d7669a4b767e980b98b82e8d7bf8d11199d76aab6369104f50"
     },
     "341": {
-      "meta": "/battle-animations/hd/341-v60.json.gz",
-      "atlas": "/battle-animations/hd/341-v60.webp",
+      "meta": "/battle-animations/hd/341-v61.json.gz",
+      "atlas": "/battle-animations/hd/341-v61.webp",
       "atlasWidth": 1252,
       "atlasHeight": 1784,
-      "metaSha256": "3e2ae5f7df72e53212e601a5ced7a9121eed158c13810fd9456f5ff192ca1df3",
-      "atlasSha256": "7315b2042e632331ad72503ef7fd501cf5e1e457ffbb0d2bba70fd106b596d1f"
+      "metaSha256": "670ddec355f1bb40fecdf3b917a860fe9b72762c5a166e35e47f9d6971b177b9",
+      "atlasSha256": "74a1b23c0adba10ebe9832c65a22f75748f7565726b20110a7a3fd2fd8af6e7d"
     },
     "342": {
-      "meta": "/battle-animations/hd/342-v60.json.gz",
-      "atlas": "/battle-animations/hd/342-v60.webp",
-      "atlasWidth": 3578,
+      "meta": "/battle-animations/hd/342-v61.json.gz",
+      "atlas": "/battle-animations/hd/342-v61.webp",
+      "atlasWidth": 3584,
       "atlasHeight": 4002,
-      "metaSha256": "f0b5025d85d8ec8c958e268b6cf1e64d4ca7c6af5498d196bce0486aeb55685c",
-      "atlasSha256": "731e2e5a5b13ccfa6418248fcd9d02b96d739a524fb6efc9b82cdfe59fe40c38"
+      "metaSha256": "17b650ca9d22768d0caac0c7c20530a6e5d4a43d90ccf011bd225b21a953a91c",
+      "atlasSha256": "2406e047484b28e56a08abdc3703e53dc5c0ba576204276839f9b5a0a34be712"
     },
     "343": {
       "meta": "/battle-animations/hd/343-v60.json.gz",
@@ -2873,36 +2873,36 @@
       "atlasSha256": "4e28b0f329592e7407649d503a62554a80e265edbde6e41a7b219b3335b8ac18"
     },
     "360": {
-      "meta": "/battle-animations/hd/360-v60.json.gz",
-      "atlas": "/battle-animations/hd/360-v60.webp",
+      "meta": "/battle-animations/hd/360-v61.json.gz",
+      "atlas": "/battle-animations/hd/360-v61.webp",
       "atlasWidth": 2816,
       "atlasHeight": 2780,
-      "metaSha256": "9d8f307519aa677cbed29fe96d7b0e2b98dc394323bd63217fb3e24f299bbcac",
-      "atlasSha256": "b20d219bb99b95a9024bdbe0c27f71688f34b7897d33bd2ae3e1026423b5408f"
+      "metaSha256": "a2b9ab56b4c6d6543bd20106f70d629784758a1dabc48509a6ae64009e59f8bf",
+      "atlasSha256": "1f8e9fbcc10078a6a8df2225e30acce77a0fcd00a160fe0523dd3a2e066f7ccf"
     },
     "361": {
-      "meta": "/battle-animations/hd/361-v60.json.gz",
-      "atlas": "/battle-animations/hd/361-v60.webp",
+      "meta": "/battle-animations/hd/361-v61.json.gz",
+      "atlas": "/battle-animations/hd/361-v61.webp",
       "atlasWidth": 3328,
       "atlasHeight": 3490,
-      "metaSha256": "3b93aab2a58101c21902eb5fb010d29b57628f7839f21f30fa5d856885a2ab63",
-      "atlasSha256": "c0c7b5b4743de3bd79db410ec0259dd4b8ffd7575c3070f5fc9d289aa95ea146"
+      "metaSha256": "b74404ac3cd28f236b22879ab3aa83b5faf06dffbe70828f13ab87feea0f2068",
+      "atlasSha256": "90553458273ba81453f66894c31880aec2b7136616caeba2042b0bf9f8736a3e"
     },
     "362": {
-      "meta": "/battle-animations/hd/362-v60.json.gz",
-      "atlas": "/battle-animations/hd/362-v60.webp",
+      "meta": "/battle-animations/hd/362-v61.json.gz",
+      "atlas": "/battle-animations/hd/362-v61.webp",
       "atlasWidth": 4608,
-      "atlasHeight": 4776,
-      "metaSha256": "6522e4b5bf9e67351d48100a37a3a873cde8a650fb1b0000cef7587a3d79e0db",
-      "atlasSha256": "d8a80b52d551283c783784ad3e3fa929c36f7148d1c5c0a881674a09d5b7c4d6"
+      "atlasHeight": 4836,
+      "metaSha256": "ca103145fc6959fd1e447cccf24015c081bcf3358cf47225c0c4a3c3f0eb5962",
+      "atlasSha256": "2d739ab37363c548f57a8bc76e73d6e3a395ccb1105b6d9a55e7709f9fc6b089"
     },
     "363": {
-      "meta": "/battle-animations/hd/363-v60.json.gz",
-      "atlas": "/battle-animations/hd/363-v60.webp",
+      "meta": "/battle-animations/hd/363-v61.json.gz",
+      "atlas": "/battle-animations/hd/363-v61.webp",
       "atlasWidth": 5376,
       "atlasHeight": 6240,
-      "metaSha256": "9ead1585c106c3248ed26ad12c5b9c2593f20ff344f9d5ec170298cb59eaa818",
-      "atlasSha256": "a1745abe8d160c0a82b38234a9719f97f9906d2db774210edc089953c8cae845"
+      "metaSha256": "b48da67ee373a7f5afeaae753e7e1aa1f9ee58e94c605f1557c304b3eb285675",
+      "atlasSha256": "410ece5a5bec5fb9e4ab6d97a6505d0b74ecb84beb5a6801896bc6beda55cff1"
     },
     "364": {
       "meta": "/battle-animations/hd/364-v60.json.gz",
@@ -2913,12 +2913,12 @@
       "atlasSha256": "b4fa8ff0be40840d57dcc3bb1d0e66850b2e2624c0dacc1b7977d97826bbf7df"
     },
     "365": {
-      "meta": "/battle-animations/hd/365-v60.json.gz",
-      "atlas": "/battle-animations/hd/365-v60.webp",
+      "meta": "/battle-animations/hd/365-v61.json.gz",
+      "atlas": "/battle-animations/hd/365-v61.webp",
       "atlasWidth": 5632,
       "atlasHeight": 5956,
-      "metaSha256": "6b83170be321e3ca5e589c8f45f8fab638cd122d96f41931a3d5472d8ad3c144",
-      "atlasSha256": "4a3d3d1c478ae329ea571e561d2fc69c1f39b017cc377df4df73c13fe3fdc8ed"
+      "metaSha256": "218b9e9920c3368ac81e343c9403143deda4c31c8c63ebcc9e28d5531a3c900c",
+      "atlasSha256": "b69706d52f3d086bef59e4a440c4ef050dc613110a012c3a9a147d3911ee557c"
     },
     "366": {
       "meta": "/battle-animations/hd/366-v60.json.gz",
@@ -2937,12 +2937,12 @@
       "atlasSha256": "643746b0e85dc850d0e07020bb8c0bd9bbe30f7cab5245e8763f52b28036bf13"
     },
     "368": {
-      "meta": "/battle-animations/hd/368-v59.json.gz",
-      "atlas": "/battle-animations/hd/368-v59.png",
+      "meta": "/battle-animations/hd/368-v61.json.gz",
+      "atlas": "/battle-animations/hd/368-v61.webp",
       "atlasWidth": 3584,
       "atlasHeight": 3896,
-      "metaSha256": "e35bd55242dd8c09ab01ccae8181f87650ddf4bc631f3e3f4506f07ae3b7f6aa",
-      "atlasSha256": "b2500a424300d48b2a323951d608131c5c96547da874c15507a9dcdf2881238d"
+      "metaSha256": "6e9413fbab0b40aab88190d4fed97a86757568a8060b48b0109d5803334738c6",
+      "atlasSha256": "f33e9a92b888e5d2761517b9dbf998f5ab1b430748c6e2605e606aed2d66a0e4"
     },
     "369": {
       "meta": "/battle-animations/hd/369-v44.json.gz",
@@ -2977,12 +2977,12 @@
       "atlasSha256": "6d77e119d633ce4fef4df1cb9674c3cd0d5a3e0fcaa8e5d55c08d177d3d2b4c7"
     },
     "373": {
-      "meta": "/battle-animations/hd/373-v60.json.gz",
-      "atlas": "/battle-animations/hd/373-v60.webp",
+      "meta": "/battle-animations/hd/373-v61.json.gz",
+      "atlas": "/battle-animations/hd/373-v61.webp",
       "atlasWidth": 5632,
-      "atlasHeight": 5957,
-      "metaSha256": "78994419181424c363187ab3f0ce0e4ce8458db0b4088dc92f74b964ba79eeef",
-      "atlasSha256": "4d4bd57b1693f636c0c66971bc707e3b4ee6100b4c07fc1b1bd167ab1fe35ea0"
+      "atlasHeight": 5948,
+      "metaSha256": "19093b0bf323ae3e3b8258c3aba60e989023b013d55ef80eba17463e23cf36f4",
+      "atlasSha256": "57df8b289a74f476a4c0b0f1caf90fef9765881bd40cf5c252d82076b817768f"
     },
     "374": {
       "meta": "/battle-animations/hd/374-v60.json.gz",
@@ -3041,12 +3041,12 @@
       "atlasSha256": "4e08e429096143ee1a10b42b550fdc9cc769e6e13708002d4c107f76020fba45"
     },
     "381": {
-      "meta": "/battle-animations/hd/381-v60.json.gz",
-      "atlas": "/battle-animations/hd/381-v60.webp",
-      "atlasWidth": 8192,
-      "atlasHeight": 4096,
-      "metaSha256": "f8dbe7aabab10d196bb5e8d0e4c80800bc396dd0df3c5429402dc62a6a6dba9d",
-      "atlasSha256": "65ee9e64cbf7244fb9754f68aabd5f260b1f314b00e0025238833c2fa3ebd8c4"
+      "meta": "/battle-animations/hd/381-v61.json.gz",
+      "atlas": "/battle-animations/hd/381-v61.webp",
+      "atlasWidth": 4096,
+      "atlasHeight": 8190,
+      "metaSha256": "12c3c2683fc97067a22b073a72c974e4781e3f7f8a7bd9bd40c1f426390dcf6f",
+      "atlasSha256": "829cb353cc085b8dd3aa1897d2f9aef86d61394b37e08d7506abf5fff0e21251"
     },
     "382": {
       "meta": "/battle-animations/hd/382-v44.json.gz",
@@ -3201,20 +3201,20 @@
       "atlasSha256": "29c0a9da6181de1d8a21d90deebcadcc3f451e87b31eff50d8576e65033d47d2"
     },
     "401": {
-      "meta": "/battle-animations/hd/401-v60.json.gz",
-      "atlas": "/battle-animations/hd/401-v60.webp",
-      "atlasWidth": 4854,
-      "atlasHeight": 5064,
-      "metaSha256": "4bcfe47061e872e9910d9dd4726eaaeba83d8ad4a7b9d99424962f89f681c114",
-      "atlasSha256": "6b9a74c8b8bfe219aa6f9a0d965f90b01ad265eaec96fb42dc44626019dcc6c8"
+      "meta": "/battle-animations/hd/401-v61.json.gz",
+      "atlas": "/battle-animations/hd/401-v61.webp",
+      "atlasWidth": 5120,
+      "atlasHeight": 6530,
+      "metaSha256": "b9a87fe92ec2dfbf6ad936164c32fbb333c727d5e3cc95d025f09bb32bb89b05",
+      "atlasSha256": "92e86dd83856e49f50bde7d0262c63ed208528edd34b70bfbd673a2a390c7f73"
     },
     "402": {
-      "meta": "/battle-animations/hd/402-v60.json.gz",
-      "atlas": "/battle-animations/hd/402-v60.webp",
-      "atlasWidth": 5376,
-      "atlasHeight": 6234,
-      "metaSha256": "678909e9d2407b48603df84c61a3e04f41847f359458bfe8a8f2ad5572172cad",
-      "atlasSha256": "09a0f592e672ac2ea227674a1442afd9f66fdab94a1c12d3df796cb19d3deda6"
+      "meta": "/battle-animations/hd/402-v61.json.gz",
+      "atlas": "/battle-animations/hd/402-v61.webp",
+      "atlasWidth": 5374,
+      "atlasHeight": 6238,
+      "metaSha256": "ed28b872d5160e802700f08677864003599339778feaf936cd074b4038b69ff6",
+      "atlasSha256": "4f073ba51767eb7f9a6e7afd7aceccf1b734d29a9f88a27d37ffc028cbfd6cad"
     },
     "403": {
       "meta": "/battle-animations/hd/403-v60.json.gz",
@@ -3273,12 +3273,12 @@
       "atlasSha256": "ca0900446748287d3681175103dbc0b8e6e5a02c0ba4b7a7b739ad015cb1d354"
     },
     "410": {
-      "meta": "/battle-animations/hd/410-v60.json.gz",
-      "atlas": "/battle-animations/hd/410-v60.webp",
-      "atlasWidth": 5632,
-      "atlasHeight": 5956,
-      "metaSha256": "51ae09e42689b7231578e6bc87e8ee32f8c07a1f2b6c721d7a333810a9d33753",
-      "atlasSha256": "cbfec6727229ee557bb885649eff882570610955552f941fddee6574fab5c60b"
+      "meta": "/battle-animations/hd/410-v61.json.gz",
+      "atlas": "/battle-animations/hd/410-v61.webp",
+      "atlasWidth": 5884,
+      "atlasHeight": 5698,
+      "metaSha256": "028ef59627f21341dec04695fdfadd953322de203f97cae11bec8acb5849306c",
+      "atlasSha256": "368bcfed38ec3370e5b01bea57055296a310e19f1690a750a48157e897def36c"
     },
     "411": {
       "meta": "/battle-animations/hd/411-v60.json.gz",
@@ -3297,12 +3297,12 @@
       "atlasSha256": "2378114fd950e50e081df4958db5f28e4859ad4ec6f788c95de8f49365174d23"
     },
     "413": {
-      "meta": "/battle-animations/hd/413-v60.json.gz",
-      "atlas": "/battle-animations/hd/413-v60.webp",
+      "meta": "/battle-animations/hd/413-v61.json.gz",
+      "atlas": "/battle-animations/hd/413-v61.webp",
       "atlasWidth": 4864,
       "atlasHeight": 5290,
-      "metaSha256": "b7d1d22cfa152d50a025be9bfd939e85bbf85c69260f004d9ed4624ffea38cc3",
-      "atlasSha256": "95ce82708ae7f1f10777e88240db36fd93eae1fbc699f28d7f8fcc095a45df91"
+      "metaSha256": "0b4567363d965c1288ab380436e73b1177cca5c5d9ab04ae62a5c2060105c025",
+      "atlasSha256": "0e7ccd8e16ac8841385ccb56cc6fc7aecbf957b5562e003855955f539f4cbc79"
     },
     "414": {
       "meta": "/battle-animations/hd/414-v60.json.gz",
@@ -3369,12 +3369,12 @@
       "atlasSha256": "c5125f70aa465dc8a799345d0c3f8d7791b41806a88e317db761a8203b5f71a9"
     },
     "422": {
-      "meta": "/battle-animations/hd/422-v59.json.gz",
-      "atlas": "/battle-animations/hd/422-v59.png",
+      "meta": "/battle-animations/hd/422-v61.json.gz",
+      "atlas": "/battle-animations/hd/422-v61.webp",
       "atlasWidth": 4864,
       "atlasHeight": 4962,
-      "metaSha256": "42e72907ae7587bcc7bdbebe681176c73e093bfb65a39c966cd7c8a5df7e68eb",
-      "atlasSha256": "6651c234c7f39039cec265027e0da81fbde599f49c9f8838c0a2d10306428f88"
+      "metaSha256": "7f2e0905b983f6e646e47ab4ab76de6a232ca39ed3bae978128bdfb75646bd94",
+      "atlasSha256": "8ce7b9c93dce22047fba45f221d61de6cc6417ed05dc8622cd419e35f88355d9"
     },
     "423": {
       "meta": "/battle-animations/hd/423-v60.json.gz",
@@ -3425,20 +3425,20 @@
       "atlasSha256": "8df018d43e6019b905ef75e22148454ed334c733ecfc4550bce07daff7d2f683"
     },
     "429": {
-      "meta": "/battle-animations/hd/429-v59.json.gz",
-      "atlas": "/battle-animations/hd/429-v59.png",
+      "meta": "/battle-animations/hd/429-v61.json.gz",
+      "atlas": "/battle-animations/hd/429-v61.webp",
       "atlasWidth": 4092,
-      "atlasHeight": 8192,
-      "metaSha256": "1621f1d19a05852bc0791654eb15dcb1fdb1cd980e38d71c76a23e991a7c623f",
-      "atlasSha256": "ac0402da9e5150c8ab4b51f5c1039e0c7818b83c29e204e8226789f787e2aaf5"
+      "atlasHeight": 8190,
+      "metaSha256": "316bde3cf1ffbfd90f10b155061c678ec72b582a0520395ca1c7241c7dd19671",
+      "atlasSha256": "4ce8a48b03e2bdbc0e0da84ec32cf07f91dfc8556a7a2431dfbcc82a14052deb"
     },
     "430": {
-      "meta": "/battle-animations/hd/430-v60.json.gz",
-      "atlas": "/battle-animations/hd/430-v60.webp",
+      "meta": "/battle-animations/hd/430-v61.json.gz",
+      "atlas": "/battle-animations/hd/430-v61.webp",
       "atlasWidth": 8192,
       "atlasHeight": 4096,
-      "metaSha256": "1de20ad5a07ccd156b47a3aa74c8f3fa8e3bf4381ec1d0351d4401008259af3d",
-      "atlasSha256": "d2fa582c43f12fc388da085ed2102b9119423e6ebd69dc1ec310e391529913ec"
+      "metaSha256": "ffef71a089a62eeba43cf307516cb6f32b674c1fcd6985dba266ebf4425f61b6",
+      "atlasSha256": "483dd32fb153fe1ff43acb285c7c6f5f70c5b67a51f17d5676df70b96db3fca8"
     },
     "431": {
       "meta": "/battle-animations/hd/431-v44.json.gz",
@@ -3449,12 +3449,12 @@
       "atlasSha256": "8a0fa79cf9e993946f478f2bf20267fda4bd66de0936d0117c68b3d5ff015352"
     },
     "432": {
-      "meta": "/battle-animations/hd/432-v60.json.gz",
-      "atlas": "/battle-animations/hd/432-v60.webp",
+      "meta": "/battle-animations/hd/432-v61.json.gz",
+      "atlas": "/battle-animations/hd/432-v61.webp",
       "atlasWidth": 4096,
-      "atlasHeight": 8191,
-      "metaSha256": "be2db41d88b4bbf6004646bcc8422e60934223e4c0fca05b4e6e04e7f401c046",
-      "atlasSha256": "3a61be8a3b89e2d73d490a4aacbda659ccd407baca81316222e815c3a1157faa"
+      "atlasHeight": 8172,
+      "metaSha256": "1aa2b2fe3cac2cba7a4ec88aad1491653fe4e77ad5e8e8f61ea7b9bd409f6ccc",
+      "atlasSha256": "b00620e3cc35219aa2af5b8d812ced7da124f6469dd0fb780ad41be72faef32a"
     },
     "433": {
       "meta": "/battle-animations/hd/433-v60.json.gz",
@@ -3553,12 +3553,12 @@
       "atlasSha256": "f7bbdc7d33652355813d9cddf08ffabcc3b027164f1825166361c81d6a0eee01"
     },
     "445": {
-      "meta": "/battle-animations/hd/445-v59.json.gz",
-      "atlas": "/battle-animations/hd/445-v59.png",
+      "meta": "/battle-animations/hd/445-v61.json.gz",
+      "atlas": "/battle-animations/hd/445-v61.webp",
       "atlasWidth": 2032,
       "atlasHeight": 2388,
-      "metaSha256": "0ccf35509268c37e7e8d57542ad5ccf2bdc802bdcaa1df9afedbf1ea29da3e7e",
-      "atlasSha256": "04c3939ad3d3f24d38b7e52b5b5fdd22abe294e4a155b9fa534008b8649647e5"
+      "metaSha256": "5999d7848f70297dcfd7d3019fcd054220abc999ca572f0457d1b9ba210e9fb2",
+      "atlasSha256": "9397d46bae55c3b853911c334d0cb42b825dd8432d6c68df4c601b55574e888c"
     },
     "446": {
       "meta": "/battle-animations/hd/446-v44.json.gz",
@@ -3617,12 +3617,12 @@
       "atlasSha256": "d088049794d5fb3d00ae23bbc414b657e2cc1d8646b016c40eee5e52879d7142"
     },
     "453": {
-      "meta": "/battle-animations/hd/453-v60.json.gz",
-      "atlas": "/battle-animations/hd/453-v60.webp",
+      "meta": "/battle-animations/hd/453-v61.json.gz",
+      "atlas": "/battle-animations/hd/453-v61.webp",
       "atlasWidth": 3322,
       "atlasHeight": 3758,
-      "metaSha256": "550b4b52eb991c12026b947c25d0641e11952e51f00795b19ee08e73b1019d2a",
-      "atlasSha256": "bc3028db9a7d067a4ba06bd4628060d779ff40eaaf0874eb60c8eecadafea59c"
+      "metaSha256": "d159997066e06ecad8aab558e96ea6ae867e802c694b1a058ffef65fad898e46",
+      "atlasSha256": "1c6e29e84287e76edc1b7263d08423f9508c987c6064c3ed8f3bb8d73fef5d95"
     },
     "454": {
       "meta": "/battle-animations/hd/454-v59.json.gz",
@@ -3689,12 +3689,12 @@
       "atlasSha256": "f14496cb409b28a349fb46cc0ba0489dfaf2fa26706d9a1aaf07e77da21406c6"
     },
     "462": {
-      "meta": "/battle-animations/hd/462-v59.json.gz",
-      "atlas": "/battle-animations/hd/462-v59.png",
-      "atlasWidth": 5632,
-      "atlasHeight": 5955,
-      "metaSha256": "ad0ea1e717d706269d4e462c42b4a5a7c993709a3d7c73ae83b526f2eff9f54e",
-      "atlasSha256": "87b2f17de1a30e1249c7afb85f8d1dc3c5f4c6ca1490a985cfa5dfb7ea2058f0"
+      "meta": "/battle-animations/hd/462-v61.json.gz",
+      "atlas": "/battle-animations/hd/462-v61.webp",
+      "atlasWidth": 8192,
+      "atlasHeight": 4096,
+      "metaSha256": "6c6b3486a9cb82c62b5fd9e753be74bf6daa8ea8ed27eb3424fd7f366363bbe1",
+      "atlasSha256": "3d6e8cbe81b8dddfca75009b7a9f089b4d8b9bd36d60aa4743e539b370172f65"
     },
     "463": {
       "meta": "/battle-animations/hd/463-v59.json.gz",
@@ -3825,12 +3825,12 @@
       "atlasSha256": "26e32d5c9056f320c7ae0eb5c62fd2acd4ae0acc9e7ca065790e0a7d1a8026eb"
     },
     "479": {
-      "meta": "/battle-animations/hd/479-v60.json.gz",
-      "atlas": "/battle-animations/hd/479-v60.webp",
-      "atlasWidth": 5102,
+      "meta": "/battle-animations/hd/479-v61.json.gz",
+      "atlas": "/battle-animations/hd/479-v61.webp",
+      "atlasWidth": 5120,
       "atlasHeight": 6492,
-      "metaSha256": "4fe24758c42b0dd7d5d1925628f796934350d66896fc5f7b9eafd7d5bf45e8d9",
-      "atlasSha256": "f0921ee46d4705074804a2a083488c61d37cebf0a7766730e0eef01b5c9505b2"
+      "metaSha256": "8e45215dc616b167d8dc928ae6b73e1e34b9d7c85cb826e807a1789899714fe1",
+      "atlasSha256": "480436e1333fb846523da3b0ccc9aa808849d90dc8459bff0f0c3913876040ec"
     },
     "480": {
       "meta": "/battle-animations/hd/480-v59.json.gz",
@@ -4105,12 +4105,12 @@
       "atlasSha256": "84aa6ed8045bb96a3da58e6fb45843fb3e3d8aa1372ed6c21ae03db417770523"
     },
     "514": {
-      "meta": "/battle-animations/hd/514-v60.json.gz",
-      "atlas": "/battle-animations/hd/514-v60.webp",
+      "meta": "/battle-animations/hd/514-v61.json.gz",
+      "atlas": "/battle-animations/hd/514-v61.webp",
       "atlasWidth": 2816,
       "atlasHeight": 2986,
-      "metaSha256": "907b3c7bf504fe083c368857d07f6d8f76e4c1644ff8b18794a8eeed3e165bff",
-      "atlasSha256": "0ab103c4ca361fc3c17792dca76966ceebb8f077444e3d1f62eec53cba9177e9"
+      "metaSha256": "1e4eec7942b7694661865f5a3716cf90fdd633c21c3975429c50b7194d0b8524",
+      "atlasSha256": "98a3c1b1ef8cab9fd1abb96495a155cabe094c0f331cf0f6008335f134f301f2"
     },
     "515": {
       "meta": "/battle-animations/hd/515-v44.json.gz",
@@ -4233,12 +4233,12 @@
       "atlasSha256": "ac2dd551e02e69111532f92c9118a10e3df88a7afd804a88543a8dd5754a4086"
     },
     "530": {
-      "meta": "/battle-animations/hd/530-v60.json.gz",
-      "atlas": "/battle-animations/hd/530-v60.webp",
+      "meta": "/battle-animations/hd/530-v61.json.gz",
+      "atlas": "/battle-animations/hd/530-v61.webp",
       "atlasWidth": 2560,
       "atlasHeight": 2644,
-      "metaSha256": "400b33f82edf90fdf7a36190c61f34068af170fa778e6fad7aeecfbc9045b71a",
-      "atlasSha256": "c6d2a3a3bfd469edd9e65f10b4e5977e2dd6db353c60667519aadf9b77bc248c"
+      "metaSha256": "e5269947456b3f6fd2284d752214167562211b3830848f5acd9910a9e1792922",
+      "atlasSha256": "61448eb1472b96937d375a475eb1636bc170e7d748929d200f382937e0e206af"
     },
     "531": {
       "meta": "/battle-animations/hd/531-v60.json.gz",
@@ -4249,12 +4249,12 @@
       "atlasSha256": "10011fc8a79e13446593e2cbdf24f73af7b71c468b0312f37d243f9022f76306"
     },
     "532": {
-      "meta": "/battle-animations/hd/532-v60.json.gz",
-      "atlas": "/battle-animations/hd/532-v60.webp",
+      "meta": "/battle-animations/hd/532-v61.json.gz",
+      "atlas": "/battle-animations/hd/532-v61.webp",
       "atlasWidth": 2302,
       "atlasHeight": 2304,
-      "metaSha256": "909a53cdc9af21433e391cb899455fe0e031d7b7bef9d116f2887cdf3c6b92a2",
-      "atlasSha256": "24ea3235ca5556915ea5f190bbeefb163b2a46a4b38d6f52fad87c9e20751a08"
+      "metaSha256": "2db9618f9ac4c79734c107f597491543a9ff78fa8e76f0bc0ae9934ef36fb21e",
+      "atlasSha256": "da0f8aa305fd1ff682e5fa1eee188321bae4959be3f58251b4fc1ef727239151"
     },
     "533": {
       "meta": "/battle-animations/hd/533-v44.json.gz",
@@ -4593,12 +4593,12 @@
       "atlasSha256": "0f769f351f11f15357a85677338630fcd8dee76abeee932d816d47e6976fa69b"
     },
     "575": {
-      "meta": "/battle-animations/hd/575-v60.json.gz",
-      "atlas": "/battle-animations/hd/575-v60.webp",
-      "atlasWidth": 3071,
+      "meta": "/battle-animations/hd/575-v61.json.gz",
+      "atlas": "/battle-animations/hd/575-v61.webp",
+      "atlasWidth": 3072,
       "atlasHeight": 3752,
-      "metaSha256": "6074fa2023fa026eda32833d8334e6653889ca40eb122422d25195e1239507eb",
-      "atlasSha256": "6da0b7b54050b15b7b981b0a8900629aba4b883273af8df5d0aecf8316bd2192"
+      "metaSha256": "f6f59e9b2cc68e59db9dab501d9da51b456a7ee67411d833c0755ee6e63fe4cd",
+      "atlasSha256": "d0cbca30dc8449ceb8e65c78d7e1c6ae207815828a3fec64eeeca7331f328038"
     },
     "576": {
       "meta": "/battle-animations/hd/576-v60.json.gz",
@@ -4625,12 +4625,12 @@
       "atlasSha256": "88e3e8bf0b009ead4988e57969a4e15d54c2ef99c019559d04a7c34b4579d03e"
     },
     "579": {
-      "meta": "/battle-animations/hd/579-v60.json.gz",
-      "atlas": "/battle-animations/hd/579-v60.webp",
+      "meta": "/battle-animations/hd/579-v61.json.gz",
+      "atlas": "/battle-animations/hd/579-v61.webp",
       "atlasWidth": 2560,
       "atlasHeight": 3564,
-      "metaSha256": "60678046ff01e92ca4983cae6b63a9c1b2b2f59dee60284f3e0c5255ac6c500d",
-      "atlasSha256": "4fef4304925cd63f8a6c78bdde57a44e5567c0737c87e4504eaee4fab61a7e16"
+      "metaSha256": "45e9aca49e31698d4f6404024a2fa5a91f0fc909244e72eef648c5e3e38a676b",
+      "atlasSha256": "4b3451e2115fa612e29c2b53ceeb1a5ce00e90f232723fd315d767270283375f"
     },
     "580": {
       "meta": "/battle-animations/hd/580-v60.json.gz",
@@ -4729,20 +4729,20 @@
       "atlasSha256": "d2089b69bf1e3c30894b0a111ea6bd81a6326118fa79f409771f2eeb401a1698"
     },
     "592": {
-      "meta": "/battle-animations/hd/592-v60.json.gz",
-      "atlas": "/battle-animations/hd/592-v60.webp",
+      "meta": "/battle-animations/hd/592-v61.json.gz",
+      "atlas": "/battle-animations/hd/592-v61.webp",
       "atlasWidth": 3328,
       "atlasHeight": 3604,
-      "metaSha256": "f6c77daaca32b7063c8121aa57fb3a7a5f71dbf8762e4a4fda82ea1618f3e27e",
-      "atlasSha256": "365c826ae5c480170659cf6c6c87f3a68d7e2f2f73b86491a59e73138e43728b"
+      "metaSha256": "798ae50116ed4bebbba7f18fef90dac8048c167a879254a4fde628ef690c38e1",
+      "atlasSha256": "4b2ad3346f016f606899ffb0105106bafb66207ec16f01bab59b782192ad4b78"
     },
     "593": {
-      "meta": "/battle-animations/hd/593-v60.json.gz",
-      "atlas": "/battle-animations/hd/593-v60.webp",
+      "meta": "/battle-animations/hd/593-v61.json.gz",
+      "atlas": "/battle-animations/hd/593-v61.webp",
       "atlasWidth": 2814,
       "atlasHeight": 3740,
-      "metaSha256": "fd6e1311254eeeb683e5275dd4116dee4f7c9785d9c6eca1e2e6121d81f84044",
-      "atlasSha256": "690f6298711237c6ae40cd4de2424ac00bd60b2234eedec7a027fcec9f423e92"
+      "metaSha256": "216385e577a052c9ce5136b1ff5a16bde2c19c78748ab2e1d66e892dfa5fc07e",
+      "atlasSha256": "e26cab4e88851adc06ce0254d9fb02bbf6bb8c9f0b85897719af457d19e99e6d"
     },
     "594": {
       "meta": "/battle-animations/hd/594-v44.json.gz",
@@ -4801,12 +4801,12 @@
       "atlasSha256": "a8ea0103df6fcf3012ba2777c5989756db1f137d173ab8fc6cf1ada0e2bc66d8"
     },
     "601": {
-      "meta": "/battle-animations/hd/601-v44.json.gz",
-      "atlas": "/battle-animations/hd/601-v44.png",
+      "meta": "/battle-animations/hd/601-v61.json.gz",
+      "atlas": "/battle-animations/hd/601-v61.webp",
       "atlasWidth": 3776,
       "atlasHeight": 4154,
-      "metaSha256": "09fa6c9f03846e27d9c8ab13e0ae9a8ed2c827f0a43a75ab7ec66adebcda399d",
-      "atlasSha256": "fa86123ac2f785cff3e41af05c77c5e9bf9ebb7bedb7010f0a10d7a39617c1e0"
+      "metaSha256": "8c3723329c468ffd095854c73ea6a9adcd5d52e3e241874416bf860c3bba8729",
+      "atlasSha256": "2439cdfeb93786925a3898707825d51567c6df574c37e3108928dfa57388efe4"
     },
     "602": {
       "meta": "/battle-animations/hd/602-v44.json.gz",
@@ -4857,12 +4857,12 @@
       "atlasSha256": "89a8a80b6f2c132bdb998d025595f71cb10a7903afa74bb2720ede600bfd68f1"
     },
     "608": {
-      "meta": "/battle-animations/hd/608-v60.json.gz",
-      "atlas": "/battle-animations/hd/608-v60.webp",
+      "meta": "/battle-animations/hd/608-v61.json.gz",
+      "atlas": "/battle-animations/hd/608-v61.webp",
       "atlasWidth": 768,
       "atlasHeight": 872,
-      "metaSha256": "5939d7e8040693689d01aac426841ef07129dff5ef83b8c9c5f5df361efe70cb",
-      "atlasSha256": "0a8caf35434a4f8bdd5144f171d78ea9365ecfc7bec844ebf3a5fbd6932c0595"
+      "metaSha256": "ebda7429a910b163dc4c2c9ff492c4f561001c6f6b8962c80d1c31c751fc0eee",
+      "atlasSha256": "d5ac52b0130454301fba305fd3686d8b1502ca845e80a766cdbf57bdd56f9fd2"
     },
     "609": {
       "meta": "/battle-animations/hd/609-v60.json.gz",
@@ -4905,12 +4905,12 @@
       "atlasSha256": "4d3da8cae66ed38cf5a9c105787ca00257f5d140056e6c92c76a3288050b9c87"
     },
     "614": {
-      "meta": "/battle-animations/hd/614-v60.json.gz",
-      "atlas": "/battle-animations/hd/614-v60.webp",
+      "meta": "/battle-animations/hd/614-v61.json.gz",
+      "atlas": "/battle-animations/hd/614-v61.webp",
       "atlasWidth": 5120,
       "atlasHeight": 6534,
-      "metaSha256": "6918bf030646a843d96999a98de80bf656539d63d2c3d26aee907ab31646f3cd",
-      "atlasSha256": "4f6ec439854ae6135756cbf8f194aa92ab967b46c68314cc5ebc5da3fc5f2196"
+      "metaSha256": "466612e2dd6fa210beaed6faf5d42185bb2cb94d168e9027b727fa11dd8f63da",
+      "atlasSha256": "6f87f2f264b6e0a9287c4a0571028f0a134e2dc9f4045b035539835d602de00c"
     },
     "615": {
       "meta": "/battle-animations/hd/615-v60.json.gz",
@@ -4921,12 +4921,12 @@
       "atlasSha256": "15673b425ff3ac94ec764658a322a879b3ae250a6822627dfdcc60c798a66d12"
     },
     "616": {
-      "meta": "/battle-animations/hd/616-v60.json.gz",
-      "atlas": "/battle-animations/hd/616-v60.webp",
+      "meta": "/battle-animations/hd/616-v61.json.gz",
+      "atlas": "/battle-animations/hd/616-v61.webp",
       "atlasWidth": 3072,
       "atlasHeight": 4808,
-      "metaSha256": "d4af70d2f931bfe0a84e3f137205797b0afcb1b17b049d0760d52ab99ff2f6cb",
-      "atlasSha256": "7075d9f35a65bf3f7919d0a6fe29d8719d4ab98022cda09f40e9d253b8f50120"
+      "metaSha256": "acef9861ac9a84e7565ae5ce7b74ac4dfc721c23f5b08efc099a16fce3adce47",
+      "atlasSha256": "04b5fde99fbb6854efe9fd0b22ffdade36adcd75e7cdda8363f1f9eca9df04cf"
     },
     "617": {
       "meta": "/battle-animations/hd/617-v60.json.gz",
@@ -5057,12 +5057,12 @@
       "atlasSha256": "09e4912444bc230cee0359b63464216e9849a6d590362ba178b3f9079c6e6aa3"
     },
     "633": {
-      "meta": "/battle-animations/hd/633-v44.json.gz",
-      "atlas": "/battle-animations/hd/633-v44.png",
+      "meta": "/battle-animations/hd/633-v61.json.gz",
+      "atlas": "/battle-animations/hd/633-v61.webp",
       "atlasWidth": 2456,
       "atlasHeight": 2676,
-      "metaSha256": "7a413b10a9efc33efbacdfa03a755629de85cd8178913876a5812108d07f735a",
-      "atlasSha256": "7ed24687c44f2f83983f429a14d81dede6740392b57691d53d204b771ea00883"
+      "metaSha256": "6480ec6fedf7787c9f2730856964850085cb76668c7780e6f3c9005f936a6f05",
+      "atlasSha256": "443c1f38bd0f477d19a295c91bede0717ea144093232a3c0bdcb5dbd79d278a1"
     },
     "634": {
       "meta": "/battle-animations/hd/634-v60.json.gz",
@@ -5281,12 +5281,12 @@
       "atlasSha256": "3399292c2a4a2773ad6525b400f5e9401f8cf184e53d5979280dba2b166ab1a1"
     },
     "661": {
-      "meta": "/battle-animations/hd/661-v60.json.gz",
-      "atlas": "/battle-animations/hd/661-v60.webp",
-      "atlasWidth": 3840,
+      "meta": "/battle-animations/hd/661-v61.json.gz",
+      "atlas": "/battle-animations/hd/661-v61.webp",
+      "atlasWidth": 3834,
       "atlasHeight": 4080,
-      "metaSha256": "72732572c2361280b02afe6698f484f66b378a270ea44112300f38dc774cb1ad",
-      "atlasSha256": "76676fe6f090d5164d6b874b94a1a256ee77d25fa7e72dffe6fe24fbbad81853"
+      "metaSha256": "346ea3dc1731747344edf9ba8fe7cf6b672b3d066af9d3eb90e3a50b37830e4f",
+      "atlasSha256": "68e7116c0e3e64bd38c275ee1839d0ab55fdef4fd3d68ecc54908a91d62e88da"
     },
     "662": {
       "meta": "/battle-animations/hd/662-v60.json.gz",
@@ -5385,12 +5385,12 @@
       "atlasSha256": "f65aad50aedc281bcddbe3b97f1e052d1ecfef3882dc72bf56823fa76b2515d0"
     },
     "674": {
-      "meta": "/battle-animations/hd/674-v60.json.gz",
-      "atlas": "/battle-animations/hd/674-v60.webp",
+      "meta": "/battle-animations/hd/674-v61.json.gz",
+      "atlas": "/battle-animations/hd/674-v61.webp",
       "atlasWidth": 4594,
       "atlasHeight": 5082,
-      "metaSha256": "5367eee393420f9c3b862faef4d5f219d051d572b1551fe1da76f98a58f35964",
-      "atlasSha256": "ea821ae3915d410b3b4e83e8fd6243bed71a6a61e31c0bdb12c4af28a2c08f7f"
+      "metaSha256": "9cb2f49f1c6ec0f8bb788a2f0a988035966ef71c9e9c20838960a15d098c3a4c",
+      "atlasSha256": "167d43f618f59b3723ee5a9e7a98728a90454e67ea19df24e3c952ede7bb77d9"
     },
     "675": {
       "meta": "/battle-animations/hd/675-v60.json.gz",
@@ -5657,12 +5657,12 @@
       "atlasSha256": "ac349a9c0ab860fedcbc1bc55fd4601d20072f5a938f414f326cfaf63555845a"
     },
     "708": {
-      "meta": "/battle-animations/hd/708-v60.json.gz",
-      "atlas": "/battle-animations/hd/708-v60.webp",
-      "atlasWidth": 4262,
+      "meta": "/battle-animations/hd/708-v61.json.gz",
+      "atlas": "/battle-animations/hd/708-v61.webp",
+      "atlasWidth": 4350,
       "atlasHeight": 5010,
-      "metaSha256": "9e15a38ece6242b3dd3e3e3c385258330803db2d035da02cba977079b92a1745",
-      "atlasSha256": "ad1e5868c4f356a62f0bf877ac72c6fcd4cb156183096ede30296ff00a0d4708"
+      "metaSha256": "ae8e4f8caeb71c6e37db2ef0a31530b6676cc0c48b8d09d7a85c560d23c715aa",
+      "atlasSha256": "a66cdd0852d92a664d1df6a17a2fd18dac22998b1260002cd1d3e4f6431dbd0a"
     },
     "709": {
       "meta": "/battle-animations/hd/709-v60.json.gz",
@@ -6033,12 +6033,12 @@
       "atlasSha256": "6f021811991740c9f2eec82e90adf82667d5d1c9ae55880ad1550dda678a74f3"
     },
     "755": {
-      "meta": "/battle-animations/hd/755-v60.json.gz",
-      "atlas": "/battle-animations/hd/755-v60.webp",
-      "atlasWidth": 5376,
-      "atlasHeight": 6236,
-      "metaSha256": "36bb076bd8c3a0c988e79cc7be7945674eb4201505b9d21e1a62886d7125e538",
-      "atlasSha256": "07056ba533bcdee42253329a8a84b7fb4c9ce4703f00c72810b8c6ac8148763a"
+      "meta": "/battle-animations/hd/755-v61.json.gz",
+      "atlas": "/battle-animations/hd/755-v61.webp",
+      "atlasWidth": 5632,
+      "atlasHeight": 5937,
+      "metaSha256": "583d9a9485605308d31efb788d5c2cf2f7449d6960ee302a7eca011460ac1646",
+      "atlasSha256": "9dde3e0b0893013f267eadb440140fe4650086451b95a023ff82d3ef3352c5ec"
     },
     "756": {
       "meta": "/battle-animations/hd/756-v44.json.gz",
@@ -6233,12 +6233,12 @@
       "atlasSha256": "6c2163d1c62328ce298b62b1fd37893076d3a3cf9274e321ae1a3eeb63513aff"
     },
     "780": {
-      "meta": "/battle-animations/hd/780-v60.json.gz",
-      "atlas": "/battle-animations/hd/780-v60.webp",
+      "meta": "/battle-animations/hd/780-v61.json.gz",
+      "atlas": "/battle-animations/hd/780-v61.webp",
       "atlasWidth": 3071,
       "atlasHeight": 3530,
-      "metaSha256": "2c80a21fce5f6bd4692a588f9248f2447534397b94c14ecb5528b960f29e6155",
-      "atlasSha256": "1b76f93bd77a4018e67544f8eedc19cc333b1b73d6fda91aa94da3fe3e909382"
+      "metaSha256": "bf6cc9dcdaf9f77a344b5a4a2a9f836bde8bc5445a4926493e6ec1b582a10175",
+      "atlasSha256": "1b1459071d94a29ad22938098ced0f742b6e0f28683e12b13f4c10b9b4f9f2e2"
     },
     "781": {
       "meta": "/battle-animations/hd/781-v60.json.gz",
@@ -6313,12 +6313,12 @@
       "atlasSha256": "b5f5eb7941fe19c47d4fe0f84c2e68c0cf89d315e0cafccfb96a78f0ef9d2ed4"
     },
     "790": {
-      "meta": "/battle-animations/hd/790-v44.json.gz",
-      "atlas": "/battle-animations/hd/790-v44.png",
+      "meta": "/battle-animations/hd/790-v61.json.gz",
+      "atlas": "/battle-animations/hd/790-v61.webp",
       "atlasWidth": 1964,
       "atlasHeight": 2160,
-      "metaSha256": "0207d80b9490c2cd845163ead14f6febb0dfb34ab0a3f7e16fcf75ea2d967964",
-      "atlasSha256": "43ae910fc8d1e4891c429226041dcae14f938ae4c7ca28a008da61c448b025fd"
+      "metaSha256": "6ac628e3e1d49fe54627e6841741fdf417fe803411b8d441e8fd269f68e2db30",
+      "atlasSha256": "2fc3270f84b85a95b77a27a1f8a8660dbcd250ee164445eca80211a72d8808bc"
     },
     "791": {
       "meta": "/battle-animations/hd/791-v44.json.gz",
@@ -6393,12 +6393,12 @@
       "atlasSha256": "161be11130eb3455fa6358be74dc22598b64dca4ba2e5c11c5d02dc501ce4852"
     },
     "800": {
-      "meta": "/battle-animations/hd/800-v60.json.gz",
-      "atlas": "/battle-animations/hd/800-v60.webp",
-      "atlasWidth": 1262,
-      "atlasHeight": 1640,
-      "metaSha256": "56b96d817d6ef2593d4c31850d6b58fc28c87a0dde8e825f239293fd725f73e5",
-      "atlasSha256": "8eb0fc3a872e3bd4acf1930eaf781f865ecb038648bad72e4f79712f97085ecc"
+      "meta": "/battle-animations/hd/800-v61.json.gz",
+      "atlas": "/battle-animations/hd/800-v61.webp",
+      "atlasWidth": 1488,
+      "atlasHeight": 1620,
+      "metaSha256": "d3eec07b66e31116df7df29ab8862d100b1cbf4a5e76f964a5de8ee66f87a1bf",
+      "atlasSha256": "523210a1d50405047175cc9cb7aaedc6e0d52b1c027c990045be074ccd427a35"
     },
     "801": {
       "meta": "/battle-animations/hd/801-v60.json.gz",
@@ -6817,12 +6817,12 @@
       "atlasSha256": "eb75b5fefbb519ec55a6ef1bd4c45e46c09939fa5fdb5bfd520d28aaf7a3de39"
     },
     "858": {
-      "meta": "/battle-animations/hd/858-v60.json.gz",
-      "atlas": "/battle-animations/hd/858-v60.webp",
+      "meta": "/battle-animations/hd/858-v61.json.gz",
+      "atlas": "/battle-animations/hd/858-v61.webp",
       "atlasWidth": 2048,
       "atlasHeight": 2236,
-      "metaSha256": "e0cf9a187fbd5485c39639a637a2b0784a99ce015de0edc05d6be7cb883f416b",
-      "atlasSha256": "3539914bffb482a3e50acf0cc0a49361f8b49cfa00e306f418d3bca259236734"
+      "metaSha256": "a86e113520b5c6a17679738ac77dc5f5de1d474c3693f3fa245e2bd351875b7f",
+      "atlasSha256": "356e6756d11332b35448b4296cb4c71ae3af422b952e6a36286112dcff529619"
     },
     "859": {
       "meta": "/battle-animations/hd/859-v60.json.gz",
@@ -7041,12 +7041,12 @@
       "atlasSha256": "6b481846be8bcd3165920a660cb1e89343de9da661332c0e66be565ff63136c0"
     },
     "886": {
-      "meta": "/battle-animations/hd/886-v60.json.gz",
-      "atlas": "/battle-animations/hd/886-v60.webp",
+      "meta": "/battle-animations/hd/886-v61.json.gz",
+      "atlas": "/battle-animations/hd/886-v61.webp",
       "atlasWidth": 3576,
       "atlasHeight": 3724,
-      "metaSha256": "60badd84de49ee794ecc8c19ce43deebb3be23f5960adfd967f3261ef24342e1",
-      "atlasSha256": "73a362f252a918ee05b898b30a5a90f40c764a0dd97ea0c10a137058f17ad1bf"
+      "metaSha256": "4d3a02b92c85234e02e816d8fe58ec0f1df845f226125037c2be4e8db351adfc",
+      "atlasSha256": "4c4ab5090c25f47759262369b4a4145e1e5bc329245b9054666b7650e00b66dd"
     },
     "887": {
       "meta": "/battle-animations/hd/887-v60.json.gz",
@@ -7105,12 +7105,12 @@
       "atlasSha256": "4b465b6c44c80ff5f9c77ac36a48c4bb68812b18910a95bc57cdd79b2dc47918"
     },
     "894": {
-      "meta": "/battle-animations/hd/894-v60.json.gz",
-      "atlas": "/battle-animations/hd/894-v60.webp",
+      "meta": "/battle-animations/hd/894-v61.json.gz",
+      "atlas": "/battle-animations/hd/894-v61.webp",
       "atlasWidth": 3324,
       "atlasHeight": 3936,
-      "metaSha256": "ade4064e1427e4c6f1257135f2493f17ad3debad3aae865acb48553b956394e6",
-      "atlasSha256": "6c6bbebbf423b3b7519c07770697dc864bf8d1a5e4a3a6e8ff49dc62cce109cc"
+      "metaSha256": "73dd9769331b10d08346e2e70c810aa5ae3d8a923cdafc54bc827964397b738c",
+      "atlasSha256": "95cb66feda98e93ddea254731a8629b32726ac340d5dff29dea85e7929451246"
     },
     "895": {
       "meta": "/battle-animations/hd/895-v59.json.gz",
@@ -7153,12 +7153,12 @@
       "atlasSha256": "369329129859864cf91137d9b304aa061c9ec9d89b31967b0f5ccb5416517a31"
     },
     "900": {
-      "meta": "/battle-animations/hd/900-v59.json.gz",
-      "atlas": "/battle-animations/hd/900-v59.png",
+      "meta": "/battle-animations/hd/900-v61.json.gz",
+      "atlas": "/battle-animations/hd/900-v61.webp",
       "atlasWidth": 4346,
-      "atlasHeight": 5086,
-      "metaSha256": "965233afaceac1862e596b1342047efe6961ffcfde941ebbfab91ae6127ffd91",
-      "atlasSha256": "d22dc0c88898c5c332f5b52f7f8e9485f21ce00c4433d0656dd74a1cdcace007"
+      "atlasHeight": 4834,
+      "metaSha256": "1031ba9f8e595e1e8d064fc7726cde02a5cf5fe02c72e90563f2d3c59243ce7a",
+      "atlasSha256": "ff3fb8a0f6859900648da9db7b8935861e5f7bd0e4764f2ff7ec0b1846c1fdf2"
     },
     "901": {
       "meta": "/battle-animations/hd/901-v60.json.gz",
@@ -7201,12 +7201,12 @@
       "atlasSha256": "aebbadb87beadba1dd468c82c3bf560a938dd103517a5936705b69fc15ca9027"
     },
     "906": {
-      "meta": "/battle-animations/hd/906-v60.json.gz",
-      "atlas": "/battle-animations/hd/906-v60.webp",
+      "meta": "/battle-animations/hd/906-v61.json.gz",
+      "atlas": "/battle-animations/hd/906-v61.webp",
       "atlasWidth": 2048,
       "atlasHeight": 2164,
-      "metaSha256": "239e7dc1ca42ee985c97febf8e89b909c98e50df4de8b9c0dec555556f716483",
-      "atlasSha256": "9e812b7605edc38d408e2ce04998a1bc33d34e068e690d83e59aa0718f361e45"
+      "metaSha256": "e79effe736f053acea6b344ed6e1f475819ab09f74cc1f181a93c9e556ddbbb8",
+      "atlasSha256": "e16add16c335f09ef0a9557f81b76e2fee96486f9b60935e72f11e1ff866b916"
     },
     "907": {
       "meta": "/battle-animations/hd/907-v44.json.gz",
@@ -7265,12 +7265,12 @@
       "atlasSha256": "2896158d574bb6c1e52dd5b1e18c7656327d76c63a99b3628d54b4a6c41846eb"
     },
     "914": {
-      "meta": "/battle-animations/hd/914-v60.json.gz",
-      "atlas": "/battle-animations/hd/914-v60.webp",
+      "meta": "/battle-animations/hd/914-v61.json.gz",
+      "atlas": "/battle-animations/hd/914-v61.webp",
       "atlasWidth": 2282,
       "atlasHeight": 2464,
-      "metaSha256": "863f3a6dba4eb941f02910ffb0f27fa5d0a91c11cd854de02a2c9050193804fd",
-      "atlasSha256": "fdeae17d5dfff7c3b78ae9931dd2283d178aed24743d02da7e2e1c236db4cebb"
+      "metaSha256": "2b9027a1343481decb7e4727415862d99fb0928b80f994311b61872611c40afa",
+      "atlasSha256": "6a241b26c16e52f1bed6464c8dfb5b74474db4b032dfb276e2837f0451195487"
     },
     "915": {
       "meta": "/battle-animations/hd/915-v60.json.gz",
@@ -7513,12 +7513,12 @@
       "atlasSha256": "6435a24aec7aa280d3e61dd40271a4048669cf0035d2bfc4e29959f6634c57f6"
     },
     "945": {
-      "meta": "/battle-animations/hd/945-v60.json.gz",
-      "atlas": "/battle-animations/hd/945-v60.webp",
-      "atlasWidth": 2756,
+      "meta": "/battle-animations/hd/945-v61.json.gz",
+      "atlas": "/battle-animations/hd/945-v61.webp",
+      "atlasWidth": 2772,
       "atlasHeight": 3152,
-      "metaSha256": "fd7fe7bd075fc5f703c4f0c8df7e26982ddb0e2b189ba26d8f1b56f85598a4c2",
-      "atlasSha256": "c7c7e225a4068b16830dca44fc89bc9894a9222915ce6974e2d290ffe9a2ed21"
+      "metaSha256": "6528ef63e395d1a1f55bbeaf0d250373ec65f3d0d6ac128b3c5132d161a0b8e2",
+      "atlasSha256": "4aef20308ae308205da54f9c5619c3ef1b447f11e36d3b7d2557074c7ce99aa4"
     },
     "946": {
       "meta": "/battle-animations/hd/946-v44.json.gz",
@@ -7537,12 +7537,12 @@
       "atlasSha256": "53c4a4fab13328874d42e2ea733400ec94205195eeb4e836ce63f302569a616a"
     },
     "948": {
-      "meta": "/battle-animations/hd/948-v60.json.gz",
-      "atlas": "/battle-animations/hd/948-v60.webp",
+      "meta": "/battle-animations/hd/948-v61.json.gz",
+      "atlas": "/battle-animations/hd/948-v61.webp",
       "atlasWidth": 1792,
       "atlasHeight": 2412,
-      "metaSha256": "258e7a2047b420c07543020ce68f13a18862217150d1c8cdcc97cc165a80830d",
-      "atlasSha256": "b877b9b9434a78359e3c9e2da7687381b785928e7700c0324441651a076a9d0d"
+      "metaSha256": "92e559ab252e22ccf81d5f5cdfca297113f171ed1d9315559563611f7bd8dcf1",
+      "atlasSha256": "de9d92effca380fb7c53e611a18771213273a79522be51c97afcf3c0fdd82387"
     },
     "949": {
       "meta": "/battle-animations/hd/949-v60.json.gz",
@@ -7553,12 +7553,12 @@
       "atlasSha256": "25d5a16a8bde8cefeae4b762c4c6c8c4755c9384211866a9e53662478cc49f69"
     },
     "950": {
-      "meta": "/battle-animations/hd/950-v60.json.gz",
-      "atlas": "/battle-animations/hd/950-v60.webp",
+      "meta": "/battle-animations/hd/950-v61.json.gz",
+      "atlas": "/battle-animations/hd/950-v61.webp",
       "atlasWidth": 4096,
       "atlasHeight": 8192,
-      "metaSha256": "929aa501b7164fc33d5616290cd0cdf37d263c4aba3a27d59acf6c9b31983d61",
-      "atlasSha256": "071f31a6a22f134d52f3d7133fe2e3a719eed8acab794eb6edf25501ef7525bf"
+      "metaSha256": "d390b5291793fbdfa8ba80ea80bb481d6870abd0eb0eefd3ff5eca061b6e16a5",
+      "atlasSha256": "ae62f3e1b060806f1ec32464290fc96bc672dc52257566393641f6223644ffdf"
     },
     "951": {
       "meta": "/battle-animations/hd/951-v60.json.gz",
@@ -7777,12 +7777,12 @@
       "atlasSha256": "1a163987acc308264b0c08c3ac168e17b678af23d8b9b1618cd23d90681f9fc3"
     },
     "978": {
-      "meta": "/battle-animations/hd/978-v60.json.gz",
-      "atlas": "/battle-animations/hd/978-v60.webp",
-      "atlasWidth": 1536,
-      "atlasHeight": 2104,
-      "metaSha256": "d5083c77ee870b418e3b2ede427a65edfde315099a56c5eefb66224e20c96b06",
-      "atlasSha256": "590fcb8245627a7f6c1526bec673be560ad29da4ced71c44ef36f2906bde601d"
+      "meta": "/battle-animations/hd/978-v61.json.gz",
+      "atlas": "/battle-animations/hd/978-v61.webp",
+      "atlasWidth": 1762,
+      "atlasHeight": 1884,
+      "metaSha256": "e521993d4d5001d97c06a1def002fe2682cc57b2480c0ce1c448b3b31a2ee4ac",
+      "atlasSha256": "234c2bdcb3754fb69f715fb98567a61db6a34ed7dc66bc08481054a7be76c712"
     },
     "979": {
       "meta": "/battle-animations/hd/979-v60.json.gz",
@@ -8641,12 +8641,12 @@
       "atlasSha256": "3e18f993ae515f57ca2ded455ef8ef28133a97df24d7dfb1fde45d073e80e253"
     },
     "1087": {
-      "meta": "/battle-animations/hd/1087-v60.json.gz",
-      "atlas": "/battle-animations/hd/1087-v60.webp",
+      "meta": "/battle-animations/hd/1087-v61.json.gz",
+      "atlas": "/battle-animations/hd/1087-v61.webp",
       "atlasWidth": 2800,
       "atlasHeight": 2996,
-      "metaSha256": "4a6207a8861ee2ddc53ffea8a57df627bb2b3bdea46fd3d7a6bc2d376d03a824",
-      "atlasSha256": "d9954de1f9dbe3eec82484e7c46d0d1743255790c86091df59e02c143f1987db"
+      "metaSha256": "1e243d4c0074a268d7f8f739a333032cb6c547e611e2ec92fd2f9ebe92c9656b",
+      "atlasSha256": "4d4ffefa8e78792e151c510b03c06b781a98f44a7d212908047612eafadcd650"
     },
     "1088": {
       "meta": "/battle-animations/hd/1088-v60.json.gz",
@@ -8985,20 +8985,20 @@
       "atlasSha256": "7711ce0549ea45d6b3d842ad50837296cae0f90d5dcec133db0e3edb36aa752f"
     },
     "1130": {
-      "meta": "/battle-animations/hd/1130-v44.json.gz",
-      "atlas": "/battle-animations/hd/1130-v44.png",
+      "meta": "/battle-animations/hd/1130-v61.json.gz",
+      "atlas": "/battle-animations/hd/1130-v61.webp",
       "atlasWidth": 1000,
       "atlasHeight": 1060,
-      "metaSha256": "75c96565d916055e141d12861f996287ec3fd7f4c58156a19d96e8696b35bca9",
-      "atlasSha256": "38ca54a5b791c8941ecb3f5ee9c7835b7ada279a9b57d120a96d0109c3c4e275"
+      "metaSha256": "1fc4304b81bf2f82578691fe4a420cf1baf73fdee02a2421e78f4f41af274550",
+      "atlasSha256": "bdb61371acc44f24615ad5ce9fe449c00f063b77fdbb2f3bd578d26759adb8f0"
     },
     "1131": {
-      "meta": "/battle-animations/hd/1131-v60.json.gz",
-      "atlas": "/battle-animations/hd/1131-v60.webp",
+      "meta": "/battle-animations/hd/1131-v61.json.gz",
+      "atlas": "/battle-animations/hd/1131-v61.webp",
       "atlasWidth": 4324,
       "atlasHeight": 5036,
-      "metaSha256": "7e622dc24186233511be67b3ae8068477fba3897e98d1aadd8aa8800633161b4",
-      "atlasSha256": "38fea3d46faae0ef376742d7d788fbcd5b8882a7039d93babf03d3995d3e1a41"
+      "metaSha256": "163a03e646dee79c1eca1eb5b376c3b22856e25c7e8c36494cdfb6d5207ec332",
+      "atlasSha256": "a3882686964e2fbb87d767a584615161bc9f61159375d86489a0672b7e27aebd"
     },
     "1132": {
       "meta": "/battle-animations/hd/1132-v44.json.gz",
@@ -9433,12 +9433,12 @@
       "atlasSha256": "33808b9b8b9ad25d4135b628a6ce1919639e38fa81fe64bbf9f60db1c6df83bb"
     },
     "1186": {
-      "meta": "/battle-animations/hd/1186-v60.json.gz",
-      "atlas": "/battle-animations/hd/1186-v60.webp",
+      "meta": "/battle-animations/hd/1186-v61.json.gz",
+      "atlas": "/battle-animations/hd/1186-v61.webp",
       "atlasWidth": 1532,
       "atlasHeight": 1772,
-      "metaSha256": "8fb0a5c2d60edad9c79c2d749727975e1a13a4f6244379f92ba03388f473ea94",
-      "atlasSha256": "2a53c78eeb383f9bc202c309c526e055548697c07a2663b78044cba58742a89b"
+      "metaSha256": "d3f1db70c5db67751032cf5467d71d7236344d93547b0dc1a7a32787b930fd2e",
+      "atlasSha256": "328c1ed7fde9a19fe3748fb2370f2a0cfeb3360640e1138480d44bf52f544be5"
     },
     "1187": {
       "meta": "/battle-animations/hd/1187-v59.json.gz",
@@ -9545,12 +9545,12 @@
       "atlasSha256": "642836794f0543a444dd53f7c3fb574682604946f29e0ade3c306ff753e54604"
     },
     "1200": {
-      "meta": "/battle-animations/hd/1200-v60.json.gz",
-      "atlas": "/battle-animations/hd/1200-v60.webp",
+      "meta": "/battle-animations/hd/1200-v61.json.gz",
+      "atlas": "/battle-animations/hd/1200-v61.webp",
       "atlasWidth": 3838,
       "atlasHeight": 4382,
-      "metaSha256": "5eb97c79f853bdf85a032e804dbbd6c025534a5f2183757714248c5439f25e06",
-      "atlasSha256": "e265df2059df1f4e0e75e1c63bcc5edce89b095ef623a5076d4b829c5595de5b"
+      "metaSha256": "f07376f90c90b2c758525157331e8d17d559d0149af33d6a10bf6bf7bc80c36a",
+      "atlasSha256": "846d429f37ca347b1cc79750687ee190827899ccdf100bd1335950394b79de1d"
     },
     "1201": {
       "meta": "/battle-animations/hd/1201-v44.json.gz",
@@ -9569,12 +9569,12 @@
       "atlasSha256": "3b3efe5668206deb6373194849f651918d0a7c35cdb514a1e4736ebb4034488e"
     },
     "1203": {
-      "meta": "/battle-animations/hd/1203-v60.json.gz",
-      "atlas": "/battle-animations/hd/1203-v60.webp",
+      "meta": "/battle-animations/hd/1203-v61.json.gz",
+      "atlas": "/battle-animations/hd/1203-v61.webp",
       "atlasWidth": 4352,
-      "atlasHeight": 4760,
-      "metaSha256": "a81d603defafedae682db8a571151ce87ef260ed5b51d6ca99a8ae931535b31b",
-      "atlasSha256": "16285161de14255ce89b94b0bf2ba3568fae872ef8494273a87cf64525c4a41f"
+      "atlasHeight": 4752,
+      "metaSha256": "d78a98c7360bb56285d5e7804c382dcbf4deacc31be407be000ad893c7f5ddca",
+      "atlasSha256": "99f5e2cf5c4c9a98d2437cfddd31da73157c890e7710d8a7f19122cbdf117124"
     },
     "1204": {
       "meta": "/battle-animations/hd/1204-v60.json.gz",
@@ -9649,28 +9649,28 @@
       "atlasSha256": "6dfe20b2ef3470dd96740ac26e18267a758c725dbd17a1c948a1a81cee0f5bc5"
     },
     "1213": {
-      "meta": "/battle-animations/hd/1213-v60.json.gz",
-      "atlas": "/battle-animations/hd/1213-v60.webp",
+      "meta": "/battle-animations/hd/1213-v61.json.gz",
+      "atlas": "/battle-animations/hd/1213-v61.webp",
       "atlasWidth": 3584,
       "atlasHeight": 4064,
-      "metaSha256": "6ef8ff15dfaa80eb524a3cf00978feee68c64ce4e06eac7d4af1f847e4f0c915",
-      "atlasSha256": "430782a89bb1f27224d8334c09ba85bcb172e646472bcf9bf4b445fcf7ee32cf"
+      "metaSha256": "516e81cbbe6f84f5fa49f2904c1e925c3aefc2673c055b56a39429ef2c9873a1",
+      "atlasSha256": "5809c1a334f9c770c212bcebf7536ae394e1c365f6f596269bb4995ab71cfcca"
     },
     "1214": {
-      "meta": "/battle-animations/hd/1214-v60.json.gz",
-      "atlas": "/battle-animations/hd/1214-v60.webp",
-      "atlasWidth": 4864,
-      "atlasHeight": 6898,
-      "metaSha256": "6e5a963a95441234386fbdf6228c9117e19e494e607bbdc6c6970ef1f1c86b1e",
-      "atlasSha256": "3a4a650d24c4a098407ff20e563c79ce0ab7cf5489a7f1a2f1bbf6fe54da4976"
+      "meta": "/battle-animations/hd/1214-v61.json.gz",
+      "atlas": "/battle-animations/hd/1214-v61.webp",
+      "atlasWidth": 5120,
+      "atlasHeight": 6552,
+      "metaSha256": "854e94f0a36f4c0ccd38a453d5022acdabd27a9c19e457414d5d8e736eceeb96",
+      "atlasSha256": "5fa56ea03e0af83a0e8fc2968df0d5c03e68e43013b799c0119d3e3e1473995d"
     },
     "1215": {
-      "meta": "/battle-animations/hd/1215-v60.json.gz",
-      "atlas": "/battle-animations/hd/1215-v60.webp",
+      "meta": "/battle-animations/hd/1215-v61.json.gz",
+      "atlas": "/battle-animations/hd/1215-v61.webp",
       "atlasWidth": 4608,
       "atlasHeight": 5228,
-      "metaSha256": "80aefd074a24ddf8f95eb9e9de881272fe5430137b7b98faa4c94fe9d94cfa67",
-      "atlasSha256": "de783e7839f56312d577af701ca77f55f1096f3ba24f39733fe3796b81a47c69"
+      "metaSha256": "d4849a27c6358c99884628f58371ef35aa42647ab47f303f2c4800d05c7234b3",
+      "atlasSha256": "ba0cd904dd2c43e7e4f340b953bb53514e9a8ae1f229bad5a0198606b1e30b34"
     },
     "1216": {
       "meta": "/battle-animations/hd/1216-v44.json.gz",
@@ -10185,20 +10185,20 @@
       "atlasSha256": "d13a8fd0424109306fb050de3ebde57b7f723d18896a32cbc42ff3bb3b84026b"
     },
     "1280": {
-      "meta": "/battle-animations/hd/1280-v60.json.gz",
-      "atlas": "/battle-animations/hd/1280-v60.webp",
+      "meta": "/battle-animations/hd/1280-v61.json.gz",
+      "atlas": "/battle-animations/hd/1280-v61.webp",
       "atlasWidth": 4864,
       "atlasHeight": 6898,
-      "metaSha256": "3643555122a897c688183d0f317d47498fa12801c12db84fa41aa3c342a0dfa1",
-      "atlasSha256": "3db00a5af630960e4234dd8b55caaa76b518fcfd6330e9eef8db0dd6572c91b0"
+      "metaSha256": "e2e5b3012058820b2281407ef27b7ec8f81d6083268512cde6791ba6e9da1f1f",
+      "atlasSha256": "ead84c031c70b4e4a5c5a30d8b9c56329622940055f4ba516d9bcde771fcecc2"
     },
     "1281": {
-      "meta": "/battle-animations/hd/1281-v60.json.gz",
-      "atlas": "/battle-animations/hd/1281-v60.webp",
+      "meta": "/battle-animations/hd/1281-v61.json.gz",
+      "atlas": "/battle-animations/hd/1281-v61.webp",
       "atlasWidth": 5118,
       "atlasHeight": 6430,
-      "metaSha256": "8cf63190acddfa1f8271b1e8eec4e168c1c7eff5156997ff3e0d2c15653f3f2e",
-      "atlasSha256": "16c29c10b9e24ff4c5fe477f94867949de3289f85e3fa07d866359eb06f11c2f"
+      "metaSha256": "606a479a1fac8091cc29a9310aadd617ae35f7b0b2d1de974d94c16940b261c0",
+      "atlasSha256": "f36f016f231d52585d70102dc77b34e30c3c37a12e20fc4492bf3b8dc4489f73"
     },
     "1282": {
       "meta": "/battle-animations/hd/1282-v60.json.gz",
@@ -10241,12 +10241,12 @@
       "atlasSha256": "f978a1d9327559bd84a13fd5d027c89d40bb63644baf246b58fe7a18bd7828d4"
     },
     "1287": {
-      "meta": "/battle-animations/hd/1287-v59.json.gz",
-      "atlas": "/battle-animations/hd/1287-v59.png",
+      "meta": "/battle-animations/hd/1287-v61.json.gz",
+      "atlas": "/battle-animations/hd/1287-v61.webp",
       "atlasWidth": 1280,
-      "atlasHeight": 1116,
-      "metaSha256": "265d4a28635d32b723741714b65fa30db2da75b03e76438954efa72e8d5200e4",
-      "atlasSha256": "a1fa172c0c544d78bed54a5925816e42c7720d03351c657eaa16fc412f0cf563"
+      "atlasHeight": 1188,
+      "metaSha256": "ad7bc8abc5b606aa6882393ab5c89cef2467c9b8bcb034c9a1fd6a3acebff9bf",
+      "atlasSha256": "d7b5cb54b41e69a52ac2a00c5731b6d3c4a8ee521b56f44e91d844c80ad1829d"
     },
     "1288": {
       "meta": "/battle-animations/hd/1288-v60.json.gz",
@@ -10257,12 +10257,12 @@
       "atlasSha256": "c5c8f21de2435163e5f5991b193bb538d329c932320b5cac5f92b42d296ff87c"
     },
     "1289": {
-      "meta": "/battle-animations/hd/1289-v60.json.gz",
-      "atlas": "/battle-animations/hd/1289-v60.webp",
+      "meta": "/battle-animations/hd/1289-v61.json.gz",
+      "atlas": "/battle-animations/hd/1289-v61.webp",
       "atlasWidth": 1280,
-      "atlasHeight": 1264,
-      "metaSha256": "ad19ffa48bc886e4fb3dd63a446b23052a6bdce342bcd37a42db05eea135768f",
-      "atlasSha256": "8229292ea0a6bbf661e0cf8e2328b1d8bf9e3ad6f1c93f4b994e3bf8d27fd729"
+      "atlasHeight": 1204,
+      "metaSha256": "56964c17d6a714dbc3ce398cac5e0831fd9c6357431cfe4eda25c87f28627c85",
+      "atlasSha256": "9f7c9d40ac05109653148a3eae0c2dd9f693d6632108f2c7f1ea10eacfa17e47"
     },
     "1290": {
       "meta": "/battle-animations/hd/1290-v60.json.gz",
@@ -10385,12 +10385,12 @@
       "atlasSha256": "31ad4ff6ff9e9e7129605ee8046b7e55e45f6bec67c9a2639402acb4221987bd"
     },
     "1305": {
-      "meta": "/battle-animations/hd/1305-v60.json.gz",
-      "atlas": "/battle-animations/hd/1305-v60.webp",
+      "meta": "/battle-animations/hd/1305-v61.json.gz",
+      "atlas": "/battle-animations/hd/1305-v61.webp",
       "atlasWidth": 2536,
       "atlasHeight": 2940,
-      "metaSha256": "1b8fe5d055f47978b06b8daf8e5b177f390d4ad118068608b52e563319a67fb4",
-      "atlasSha256": "84d5b6ac65f29ee84b53ce5e0d5e8727fc03e1ceca5b8cf4a8cd09d4114f4d9e"
+      "metaSha256": "ba8412a2fa7ffbaa257b91561c6d46679891794c983caab30fc634f12828d585",
+      "atlasSha256": "9e71d4abb1e9a03026b8cee8bdfd24a2737ebf813787a2319466ea789fd9aa27"
     },
     "1306": {
       "meta": "/battle-animations/hd/1306-v60.json.gz",
@@ -10849,12 +10849,12 @@
       "atlasSha256": "ebb915ede5afb49c32df0e70a32f62995bc0dacaf920b7da709d92ae17278f1f"
     },
     "1363": {
-      "meta": "/battle-animations/hd/1363-v60.json.gz",
-      "atlas": "/battle-animations/hd/1363-v60.webp",
-      "atlasWidth": 2560,
-      "atlasHeight": 2888,
-      "metaSha256": "93980b2bfedeb0561d5e4df19cfa03c51aeec9e85ebbecd74451601c37f584e9",
-      "atlasSha256": "af556ec9a8cb6c134a6099c4395831f67111a141b7a64e16b9f36289c46c0f38"
+      "meta": "/battle-animations/hd/1363-v61.json.gz",
+      "atlas": "/battle-animations/hd/1363-v61.webp",
+      "atlasWidth": 2816,
+      "atlasHeight": 2780,
+      "metaSha256": "c115746b62317b9e3fb84258e3aee96dc85fee18e13464e0c5d633cf5be1c696",
+      "atlasSha256": "6acec9fd9068123abb071b30dc4ab858e63a487e795c990c29d49ca472a639af"
     },
     "1364": {
       "meta": "/battle-animations/hd/1364-v60.json.gz",
@@ -10865,12 +10865,12 @@
       "atlasSha256": "7e5e020c676965eaa226a2497ef498729237be3c726c164c8b887066dc753901"
     },
     "1365": {
-      "meta": "/battle-animations/hd/1365-v60.json.gz",
-      "atlas": "/battle-animations/hd/1365-v60.webp",
-      "atlasWidth": 5104,
-      "atlasHeight": 6546,
-      "metaSha256": "e0d97622017851f673b596a1b57e14fc76da85fe10600223621425b7d418ca80",
-      "atlasSha256": "8cc138371e7693d2d246e74db29307340e7a9c0cdc4e655e5e25a0db5b6535ba"
+      "meta": "/battle-animations/hd/1365-v61.json.gz",
+      "atlas": "/battle-animations/hd/1365-v61.webp",
+      "atlasWidth": 5376,
+      "atlasHeight": 6240,
+      "metaSha256": "ac2bb5131a464d4be01360da724fbbc46d2de6f43f42c3a2647bc9e517fdc3fe",
+      "atlasSha256": "95876f1f48edc63506dd71dbdb00fc62352ae30dc4ec3aec02a113d3af7de5c1"
     },
     "1366": {
       "meta": "/battle-animations/hd/1366-v59.json.gz",
@@ -11793,12 +11793,12 @@
       "atlasSha256": "938d5b22846c12d8a3f75313a76fee8f9242170bbeffb754830f9080086ec13b"
     },
     "1481": {
-      "meta": "/battle-animations/hd/1481-v44.json.gz",
-      "atlas": "/battle-animations/hd/1481-v44.png",
-      "atlasWidth": 996,
+      "meta": "/battle-animations/hd/1481-v61.json.gz",
+      "atlas": "/battle-animations/hd/1481-v61.webp",
+      "atlasWidth": 1008,
       "atlasHeight": 1248,
-      "metaSha256": "8285bc27879ef4120e41145bf508f6d1081a83689f0aa3879d49fd65c6bbe8b7",
-      "atlasSha256": "8f8640b2e1fc27533fca7efab37f0a3f8478f39f2b7221cbb967c42e4410a827"
+      "metaSha256": "75a0fde052b877e553f620cfd8312d983d6a528c72e0c1a5a114dd04806629ff",
+      "atlasSha256": "f9f147bf6d1666fe2830025bfe2307b78ec697693ec663b38853fc517706112e"
     },
     "1482": {
       "meta": "/battle-animations/hd/1482-v60.json.gz",
@@ -11825,20 +11825,20 @@
       "atlasSha256": "f02bffbbd731ed53b5a691042dd289b7056d7c478c0a65d702083b6c9e2037ce"
     },
     "1485": {
-      "meta": "/battle-animations/hd/1485-v60.json.gz",
-      "atlas": "/battle-animations/hd/1485-v60.webp",
+      "meta": "/battle-animations/hd/1485-v61.json.gz",
+      "atlas": "/battle-animations/hd/1485-v61.webp",
       "atlasWidth": 2812,
-      "atlasHeight": 2968,
-      "metaSha256": "4e6c931e835dfafaff5facc7636909eb39d862e0cc0123d386e3763bbb973bda",
-      "atlasSha256": "9de2281ca0978edf57534a851b715fe3537fcd31a44ba09b659ec069447c1c4e"
+      "atlasHeight": 2980,
+      "metaSha256": "fe818a30a75f1f05b9b7eebc23982787174f352ddded4da711552276679074b5",
+      "atlasSha256": "f055de223f09c70eed2e1144e31172c0e8aa81efe48d642582210d0d48d32751"
     },
     "1486": {
-      "meta": "/battle-animations/hd/1486-v60.json.gz",
-      "atlas": "/battle-animations/hd/1486-v60.webp",
+      "meta": "/battle-animations/hd/1486-v61.json.gz",
+      "atlas": "/battle-animations/hd/1486-v61.webp",
       "atlasWidth": 4606,
       "atlasHeight": 5430,
-      "metaSha256": "a78466e59f0157a65129ba0fa170889978a187e628f5ff43031911289c1121c7",
-      "atlasSha256": "7596d759dd26d34045cc1f552070cc540324c39c69b3ad148387a47c0a0a3635"
+      "metaSha256": "dc8268e10b81f4ad71e5b0ac513bcf9d468d3808f37b9a7e7c7cf830b7a00443",
+      "atlasSha256": "7582d6632f6629dd7a5e2088102616e60cd3792bfdbd8402ba8656ec6c3aa33c"
     },
     "1487": {
       "meta": "/battle-animations/hd/1487-v59.json.gz",
