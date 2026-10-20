@@ -276,7 +276,8 @@ def redrawn_tile(sid, cell, native, base_tile, base_mode, work):
     result = rd.redraw(native_array, requested, work/cell['id'])
     if result is None or result['class'] != record['class'] or result['method'] != record['method']:
         raise ValueError(f'{sid}: redrawn cell {cell["id"]} recomputes to another class or method')
-    if sha(result['tile'].tobytes()) != record['redrawRgbaSha256'] or (result.get('svg') and sha(result['svg'].encode()) != record['svgSha256']):
+    svg_digest = sha(result['svg'].encode()) if result.get('svg') else None
+    if sha(result['tile'].tobytes()) != record['redrawRgbaSha256'] or svg_digest != record['svgSha256']:
         raise ValueError(f'{sid}: redrawn cell {cell["id"]} does not recompute to its recorded pixels or SVG')
     if record['svgPath'] and sha((ROOT/record['svgPath']).read_bytes()) != record['svgSha256']:
         raise ValueError(f'{sid}: redrawn cell {cell["id"]} SVG file changed')
