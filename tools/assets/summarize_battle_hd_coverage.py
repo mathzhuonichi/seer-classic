@@ -12,9 +12,11 @@ from collections import Counter
 from datetime import datetime, timezone
 import gzip
 import json
+import os
 from pathlib import Path
 
-from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, bounds, sha
+from build_battle_hd_atlases import ROOT, VECTOR_MODES, SOURCE_RENDER_MODES, MAX_VECTOR_SCALE, bounds, sha
+from audit_battle_hd_density import TARGET_DENSITY, reference_box_device_pixels
 from recover_battle_shapes import save
 from publish_battle_hd_atlases import ORIGINAL_BUDGET_EXCEPTIONS, atlas_budget_policy
 
@@ -38,32 +40,73 @@ def first_pose_ids(meta, layout):
     return {p['id'] for p in layout['placements'] if tuple(p['sourceUvBounds']) in used}
 
 
+def report_cache(sid, caches, published):
+    """The generation cache of a species: for a published species the one whose report produced its atlas, else the newest."""
+    found = [cache for cache in caches if (cache/'species'/sid/'report.json').exists()]
+    for cache in found:
+        if sid in published and json.loads((cache/'species'/sid/'report.json').read_bytes())['atlas'] == published[sid]['atlas']:
+            return cache
+    return found[0] if found else caches[-1]
+
+
+def read_caches(caches):
+    """Per cache: its generation failures and its publication validation records."""
+    def records(path, key):
+        return json.loads(path.read_text()).get(key, {}) if path.exists() else {}
+    return {cache: (records(cache/'atlas-manifest.json', 'failures'), records(cache/'publication-validation.json', 'species'))
+            for cache in caches}
+
+
+def kept_totals(item):
+    """Aggregate contributions of an entry kept from the existing manifest: modes, resolutions, reasons, asset bytes."""
+    modes, resolutions = Counter(item.get('counts', {})), Counter(item.get('resolutionCounts', {}))
+    if item['state'] == 'candidate-failed-original-runtime':
+        modes['retained-original-atlas-cell'] += item['originalRuntimeCells']
+        resolutions['retained-original-atlas-cell:1x'] += item['originalRuntimeCells']
+        return modes, resolutions, Counter(item['retainedReasonCounts']), 0
+    size = sum((ROOT/'public'/item[key].lstrip('/')).stat().st_size for key in ('meta', 'atlas') if key in item)
+    return modes, resolutions, Counter(item.get('retainedReasonCounts', {})), size
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--cache', type=Path, default=ROOT/'.cache/battle-hd-v44')
+    parser.add_argument('--ids', help='Comma-separated species to summarize again; the existing manifest keeps every other entry')
+    parser.add_argument('--caches', type=Path, nargs='+', default=[ROOT/'.cache/battle-hd-v59', ROOT/'.cache/battle-hd-v44'],
+                        help='Generation caches, newest first; the last one also holds the source recovery and override records')
     parser.add_argument('--output', type=Path, default=ROOT/'public/battle-animations/hd/manifest.json')
     parser.add_argument('--verify-hashes', action='store_true', help='Read every pinned source and generated atlas before writing')
     args = parser.parse_args()
-    cache = args.cache.resolve()
+    # Not resolved: a worktree may link .cache, and report paths stay relative to this checkout.
+    caches = [cache.absolute() for cache in args.caches]
     original_index_path = ROOT/'public/battle-animations/runtime-index.json'
     original_index_bytes = original_index_path.read_bytes()
     runtime = json.loads(original_index_bytes)['species']
     hd_index_path = ROOT/'public/battle-animations/hd/runtime-index.json'
     hd_index_bytes = hd_index_path.read_bytes() if hd_index_path.exists() else b'{"species":{}}'
     published = json.loads(hd_index_bytes)['species']
-    aggregate_path = cache/'atlas-manifest.json'
-    aggregate = json.loads(aggregate_path.read_text()) if aggregate_path.exists() else {}
-    validation_path = cache/'publication-validation.json'
-    validated = json.loads(validation_path.read_text()).get('species', {}) if validation_path.exists() else {}
-    sources_path = cache/'source-manifest.json'
-    overrides_path = cache/'runtime-overrides.json'
+    records = read_caches(caches)
+    sources_path = caches[-1]/'source-manifest.json'
+    overrides_path = caches[-1]/'runtime-overrides.json'
     overrides = json.loads(overrides_path.read_text()).get('species', {}) if overrides_path.exists() else {}
     species = {}
     status_counts, mode_counts, resolution_counts, native_reasons = Counter(), Counter(), Counter(), Counter()
     generated_bytes = 0
+    refreshed = set(args.ids.split(',')) if args.ids else None
+    kept = json.loads(args.output.read_text())['species'] if refreshed else {}
     for sid, original in sorted(runtime.items(), key=lambda item: int(item[0])):
+        if refreshed is not None and sid not in refreshed:
+            species[sid] = item = kept[sid]
+            status_counts[item['state']] += 1
+            modes, resolutions, reasons, size = kept_totals(item)
+            mode_counts.update(modes)
+            resolution_counts.update(resolutions)
+            native_reasons.update(reasons)
+            generated_bytes += size
+            continue
+        cache = report_cache(sid, caches, published)
+        failures, validated = records[cache]
         work = cache/'species'/sid
-        generation_failed = sid in aggregate.get('failures', {}) and sid not in published
+        generation_failed = sid in failures and sid not in published
         source_path = work/'source.json'
         source = json.loads(source_path.read_text()) if source_path.exists() else None
         item = {'state': 'source-not-recovered'}
@@ -129,7 +172,7 @@ def main():
                 originalMetadataSha256=report.get('originalMetadataSha256') or sha((ROOT/'public'/original['meta'].lstrip('/')).read_bytes()),
                 originalAtlasSha256=report.get('originalAtlasSha256') or sha((ROOT/'public'/original['atlas'].lstrip('/')).read_bytes()),
                 meta=output['meta'], atlas=output['atlas'], metaSha256=output['metaSha256'], atlasSha256=output['atlasSha256'],
-                reportPath=override['reportPath'] if override else ('.cache/battle-vector-prototype-346/prototype-report.json' if prototype else f'.cache/battle-hd-v44/species/{sid}/report.json'),
+                reportPath=override['reportPath'] if override else ('.cache/battle-vector-prototype-346/prototype-report.json' if prototype else os.path.relpath(report_path, ROOT)),
                 reportSha256=sha(report_bytes), reportRevision=report.get('revision', 'reviewed-prototype'),
             )
             mode_counts.update(counts)
@@ -171,7 +214,7 @@ def main():
                 item['state'] = 'published-hd'
         if generation_failed:
             item['state'] = 'candidate-failed-original-runtime'
-            item['failure'] = aggregate['failures'][sid]['error']
+            item['failure'] = failures[sid]['error']
             original_bytes = (ROOT/'public'/original['meta'].lstrip('/')).read_bytes()
             original_meta = json.loads(gzip.decompress(original_bytes))
             original_cells = len({bounds(frame['uvs'][offset:offset+8]) for sequence in original_meta['sequences']
@@ -191,7 +234,7 @@ def main():
         status_counts[item['state']] += 1
         species[sid] = item
     result = {
-        'revision': 1, 'generatedAt': datetime.now(timezone.utc).isoformat(),
+        'revision': 2, 'generatedAt': datetime.now(timezone.utc).isoformat(),
         'originalSpeciesCount': len(runtime), 'originalRuntimeIndexSha256': sha(original_index_bytes),
         'hdRuntimeIndexSha256': sha(hd_index_bytes), 'sourceManifestSha256': sha(sources_path.read_bytes()) if sources_path.exists() else None,
         'states': dict(status_counts), 'cellModes': dict(mode_counts), 'cellResolutions': dict(resolution_counts),
@@ -203,6 +246,8 @@ def main():
                    'sourceSizedExceptionSpecies': sorted(map(int, ORIGINAL_BUDGET_EXCEPTIONS)),
                    'sourceSizedExceptionCondition': 'Only these seven species with a verified original 8192-square atlas; actual output must not exceed original decoded bytes.',
                    'smallVectorScale': 4, 'largeVectorScale': 2,
+                   'densityVectorScale': {'maximum': MAX_VECTOR_SCALE, 'targetTexelsPerDevicePixel': TARGET_DENSITY,
+                                          'referenceBoxDevicePixels': reference_box_device_pixels()},
                    'nativeUnmatchedScale': 1, 'geometryTimingColorsAndLabels': 'Original metadata preserved; only UV coordinates and atlas dimensions change'},
         'recoveryBoundary': 'Source vectors can be regenerated from digest-pinned official SWFs and the recorded toolchain. Generated atlases and complete cell reports are ignored local artifacts; transfer them with the checkout or regenerate and validate them before using the optional HD index. Independently reviewed AI bitmap outputs are not byte-reproducible from a prompt and must be transferred with their matching provenance and generated artifacts.',
         'species': species,

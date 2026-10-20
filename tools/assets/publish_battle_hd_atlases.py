@@ -143,14 +143,14 @@ def validate_species(sid, cache, runtime):
              'retainedCells': [{'id': c['id'], 'nativeSize': c['nativeSize'], 'reason': c['reason'], 'appearsInFirstStandbyPose': c['appearsInFirstStandbyPose']} for c in cells.values() if c['mode'] == 'retained-original-cell'],
              'nativeBitmapCells': [c['id'] for c in cells.values() if c['mode'] == 'original-vector-with-native-bitmap'],
              'recoveredNativeBitmapCells': [c['id'] for c in cells.values() if c['mode'] == 'original-bitmap-source-recovery'],
-             'scaleCounts': {str(scale): sum(c['scale'] == scale for c in cells.values()) for scale in (1, 2, 4)}}
+             'scaleCounts': {str(scale): sum(c['scale'] == scale for c in cells.values()) for scale in (1, 2, 4, 8)}}
     return entry, audit
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', required=True, help='Explicit comma-separated reviewed candidate IDs')
-    parser.add_argument('--cache', type=Path, default=ROOT/'.cache/battle-hd-v44')
+    parser.add_argument('--cache', type=Path, default=ROOT/'.cache/battle-hd-v59')
     parser.add_argument('--check-only', action='store_true')
     args = parser.parse_args()
     runtime_path = ROOT/'public/battle-animations/runtime-index.json'

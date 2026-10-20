@@ -3,8 +3,11 @@
 
 Preserves all pose, timing, color, material, and sequence data. Only UVs and atlas
 dimensions change. Uncertain cells retain their original pixels with an explicit
-reason. Generated files are candidates until a separate reviewed index publishes
-them. No AI images, smoothing filters, or runtime-index edits are performed here.
+reason. Matched vector cells render at the multiplier their largest on-screen size
+needs at the reference battle display (audit_battle_hd_density.py), at least the
+default 4x/2x and at most 8x, within the decoded-atlas budget. Generated files are
+candidates until a separate reviewed index publishes them. No AI images, smoothing
+filters, or runtime-index edits are performed here.
 """
 from __future__ import annotations
 
@@ -20,6 +23,7 @@ import multiprocessing
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import time
 import io
@@ -28,13 +32,20 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from PIL import Image, ImageOps
 
+from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, TARGET_DENSITY, original_magnification, physical_scales,
+                                     reference_box_device_pixels, uv_key)
 from battle_hd_atlas_layout import layout_atlas, remap_clip, _verify, _pack
 from battle_hd_local_fidelity import local_color_comparison
 from battle_sprite_candidates import inspect as prepare_sprite_candidates
 from recover_battle_shapes import save
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = 6
+REVISION = 7
+# Output file revision: published files of earlier revisions are never overwritten.
+OUTPUT_TAG = 'v59'
+MAX_VECTOR_SCALE = 8
+# render_battle_shape_candidates.mjs refuses larger tiles.
+TILE_PIXEL_LIMIT = 33554432
 VECTOR_MODES = ('original-vector', 'original-vector-with-native-bitmap')
 SOURCE_RENDER_MODES = (*VECTOR_MODES, 'original-bitmap-source-recovery')
 
@@ -53,7 +64,7 @@ def additional_candidates(work):
 
 
 def generator_inputs():
-    names = ('build_battle_hd_atlases.py', 'battle_hd_atlas_layout.py', 'battle_hd_local_fidelity.py',
+    names = ('build_battle_hd_atlases.py', 'battle_hd_atlas_layout.py', 'battle_hd_local_fidelity.py', 'audit_battle_hd_density.py',
              'render_battle_shape_candidates.mjs', 'battle_sprite_candidates.py', 'battle_sprite_candidates.mjs',
              'battle_morph_candidates.py', 'battle_morph_candidates.mjs')
     return {name: sha((ROOT/'tools/assets'/name).read_bytes()) for name in names}
@@ -262,14 +273,37 @@ def match_cells(cells, images, manifest, work):
                           else 'Original vector geometry matched by dimensions and premultiplied RGBA comparison.')
 
 
+def reference_densities(sid, cells, meta, atlas):
+    """Record each cell's original texels per device pixel at its largest on-screen size at the reference display."""
+    scale = physical_scales().get(sid, DEFAULT_PHYSICAL_SCALE)
+    _, _, magnification = original_magnification(meta, np.asarray(atlas)[:, :, 3], scale, reference_box_device_pixels())
+    for cell in cells:
+        cell['referenceDensity'] = round(magnification[uv_key(cell['sourceUvBounds'])]['anyFrame'], 6)
+
+
+def fitted(cell, scale):
+    w, h = cell['nativeSize']
+    while scale > 1 and (max(w, h)*scale+4 > 8192 or w*h*scale*scale > TILE_PIXEL_LIMIT):
+        scale //= 2
+    return scale
+
+
+def requested_scales(cell):
+    """The default multiplier, and the one the reference display needs: an original vector rises to at most 8x."""
+    w, h = cell['nativeSize']
+    default = (4 if max(w, h) <= 256 else 2) if cell['mode'] in VECTOR_MODES else (4 if cell['mode'] == 'constant-original-rgba' and max(w, h) <= 256 else 1)
+    if cell['mode'] == 'original-bitmap-source-recovery':
+        default = cell['bitmapSourceProof']['maximumNativeRecoveryScale']
+    scale = default
+    if cell['mode'] == 'original-vector':
+        while scale < MAX_VECTOR_SCALE and cell['referenceDensity']*scale < TARGET_DENSITY:
+            scale *= 2
+    return fitted(cell, default), fitted(cell, scale)
+
+
 def pack_with_budget(cells, max_bytes):
     for cell in cells:
-        w, h = cell['nativeSize']
-        cell['scale'] = (4 if max(w, h) <= 256 else 2) if cell['mode'] in VECTOR_MODES else (4 if cell['mode'] == 'constant-original-rgba' and max(w, h) <= 256 else 1)
-        if cell['mode'] == 'original-bitmap-source-recovery':
-            cell['scale'] = cell['bitmapSourceProof']['maximumNativeRecoveryScale']
-        while max(w, h)*cell['scale']+4 > 8192 and cell['scale'] > 1:
-            cell['scale'] //= 2
+        cell['defaultScale'], cell['scale'] = requested_scales(cell)
         cell['requestedScale'] = cell['scale']
     reductions = []
     while True:
@@ -300,9 +334,11 @@ def pack_with_budget(cells, max_bytes):
             available = [c for c in cells if c['scale'] > 1]
             if not available:
                 raise ValueError('Even the retained native cells do not fit the configured single-page budget.')
-            # Preserve first-pose parts and small-body resolution before large
-            # transient effects. Every reduction remains in the audit record.
-            choice = max(available, key=lambda c: (not c['appearsInFirstStandbyPose'], max(c['nativeSize']) > 256, c['nativeSize'][0]*c['nativeSize'][1]*c['scale']**2, c['id']))
+            # Give back density raises before default multipliers, then preserve
+            # first-pose parts and small-body resolution before large transient
+            # effects. Every reduction remains in the audit record.
+            choice = max(available, key=lambda c: (c['scale'] > c['defaultScale'], not c['appearsInFirstStandbyPose'],
+                                                   max(c['nativeSize']) > 256, c['nativeSize'][0]*c['nativeSize'][1]*c['scale']**2, c['id']))
             before = choice['scale']
             choice['scale'] //= 2
             reductions.append({'cell': choice['id'], 'from': before, 'to': choice['scale'], 'reason': 'Single-page decoded RGBA budget or 8192-pixel side limit.'})
@@ -437,9 +473,24 @@ def compose(cells, images, layout, work):
     return canvas
 
 
+def seed(work, inputs):
+    """Start a species in this cache from the source export (and pinned morph candidates) of an earlier cache."""
+    if (work/'source.json').exists():
+        return
+    source = inputs/'species'/work.name
+    work.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(source/'shapes', work/'shapes')
+    morph = inputs/'morph-study'/work.name/'candidates.json'
+    if morph.exists():
+        (work.parent.parent/'morph-study'/work.name).mkdir(parents=True, exist_ok=True)
+        shutil.copy2(morph, work.parent.parent/'morph-study'/work.name/'candidates.json')
+    shutil.copy2(source/'source.json', work/'source.json')
+
+
 def build(sid, entry, args):
     started = time.monotonic()
     work = args.cache/'species'/sid
+    seed(work, args.inputs)
     source = json.loads((work/'source.json').read_text())
     source_raw = (ROOT / source['sourcePath']).read_bytes()
     if sha(source_raw) != source['sourceSha256']:
@@ -456,6 +507,7 @@ def build(sid, entry, args):
         raise ValueError('Original atlas dimensions disagree with original metadata')
     cells, native = native_cells(meta, atlas)
     match_cells(cells, native, candidates, work)
+    reference_densities(sid, cells, meta, atlas)
     layout, reductions = pack_with_budget(cells, args.max_rgba_mib*1024**2)
     selection = {'revision': REVISION, 'species': int(sid), 'sourceSha256': source['sourceSha256'], 'cells': cells}
     selection_path = work/'selected-cells.json'
@@ -475,8 +527,8 @@ def build(sid, entry, args):
     verification['contentAndPaddingEveryRgbaPixelExact'] = True
     modified = remap_clip(meta, layout)
     args.output.mkdir(parents=True, exist_ok=True)
-    atlas_output = args.output/f'{sid}-v44.png'
-    meta_output = args.output/f'{sid}-v44.json.gz'
+    atlas_output = args.output/f'{sid}-{OUTPUT_TAG}.png'
+    meta_output = args.output/f'{sid}-{OUTPUT_TAG}.json.gz'
     canvas.save(atlas_output)
     meta_output.write_bytes(gzip.compress(json.dumps(modified, separators=(',', ':')).encode(), mtime=0))
     counts = dict(collections.Counter(cell['mode'] for cell in cells))
@@ -493,6 +545,8 @@ def build(sid, entry, args):
               'firstStandbyPoseFullyOriginalVector': pure_first,
               'firstStandbyPoseFullyHigherResolution': bool(first) and all(c['mode'] in VECTOR_MODES and c['scale'] > 1 for c in first),
               'publicationState': 'candidate-awaiting-reviewed-index', 'layout': layout, 'scaleReductions': reductions,
+              'densityPolicy': {'referenceBoxDevicePixels': reference_box_device_pixels(), 'targetTexelsPerDevicePixel': TARGET_DENSITY,
+                                'maximumVectorScale': MAX_VECTOR_SCALE},
               'nativeGateRejectedCells': rejected, 'nativeGateRescuedCells': rescued, 'verification': verification, 'cells': cells,
               'meta': '/'+str(meta_output.relative_to(ROOT/'public')), 'atlas': '/'+str(atlas_output.relative_to(ROOT/'public')),
               'atlasWidth': canvas.width, 'atlasHeight': canvas.height,
@@ -514,7 +568,9 @@ def attempt_build(sid, entry, args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ids', help='Comma-separated IDs; omitted means every exported species')
-    parser.add_argument('--cache', type=Path, default=ROOT/'.cache/battle-hd-v44')
+    parser.add_argument('--cache', type=Path, default=ROOT/'.cache/battle-hd-v59')
+    parser.add_argument('--inputs', type=Path, default=ROOT/'.cache/battle-hd-v44',
+                        help='Cache whose source exports start a species that this cache does not have yet')
     parser.add_argument('--output', type=Path, default=ROOT/'public/battle-animations/hd')
     parser.add_argument('--max-rgba-mib', type=int, default=128)
     parser.add_argument('--resume', action='store_true')
@@ -522,12 +578,15 @@ def main():
     parser.add_argument('--jobs', type=int, default=1, choices=(1, 2), help='Independent per-species processes; only the parent writes the aggregate manifest')
     args = parser.parse_args()
     args.cache = args.cache.resolve()
+    args.inputs = args.inputs.resolve()
     args.output = args.output.absolute()
     runtime = json.loads((ROOT/'public/battle-animations/runtime-index.json').read_text())['species']
-    ids = sorted(set(args.ids.split(',')) if args.ids else (p.name for p in (args.cache/'species').iterdir() if (p/'source.json').exists()), key=int)
+    ids = sorted(set(args.ids.split(',')) if args.ids else (p.name for p in (args.inputs/'species').iterdir() if (p/'source.json').exists()), key=int)
     published_path = ROOT/'public/battle-animations/hd/runtime-index.json'
-    published = set(json.loads(published_path.read_text()).get('species', {})) if published_path.exists() else set()
-    skip = published | set(filter(None, args.skip_ids.split(',')))
+    published = json.loads(published_path.read_text()).get('species', {}) if published_path.exists() else {}
+    # Published entries of this revision are frozen; earlier revisions' files are never overwritten.
+    frozen = {sid for sid, entry in published.items() if entry['atlas'].endswith(f'/{sid}-{OUTPUT_TAG}.png')}
+    skip = frozen | set(filter(None, args.skip_ids.split(',')))
     ids = [sid for sid in ids if sid not in skip]
     manifest_path = args.cache/'atlas-manifest.json'
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {'revision': REVISION, 'species': {}, 'failures': {}}
