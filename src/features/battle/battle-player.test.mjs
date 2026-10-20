@@ -84,6 +84,16 @@ test('under reduced motion the frames hurry but the numbers keep their time', ()
   assert.deepEqual(ui.numbers(), [{id: 2, side: 0, row: 1}]);
 });
 
+test('a turn played again keeps the numbers its first playing showed', () => {
+  const ui = screen([hit(1, 1, 8), frame(2, 'message', 0, {text: '下一句'})]);
+  ui.player.play(ui.shown.battle)();
+  ui.clock.advance(1000);
+  ui.player.play(ui.shown.battle);
+  assert.deepEqual(ui.numbers(), [{id: 1, side: 1, row: 0}]);
+  ui.clock.advance(DAMAGE_NUMBER_MS - 1000);
+  assert.deepEqual(ui.numbers(), [], 'still timed from its first showing');
+});
+
 test('disposing the screen clears the numbers and their timers', () => {
   const ui = screen([hit(1, 1, 8), frame(2, 'message', 0, {text: '下一句'})]);
   const cancel = ui.player.play(ui.shown.battle);

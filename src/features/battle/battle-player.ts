@@ -153,7 +153,10 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
   };
 }
 
-/** Shows each hit or heal frame's number for DAMAGE_NUMBER_MS on its own timer, in the lowest free row of its side. */
+/**
+ * Shows each hit or heal frame's number for DAMAGE_NUMBER_MS on its own timer, in the lowest free row of its side. A frame
+ * shown again (a replayed turn) keeps the number it has.
+ */
 function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set: Patch) {
   const timers = new Map<number, number>();
   const remove = (id: number) => {
@@ -163,7 +166,7 @@ function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set
   };
   return {
     show(frame: BattlePresentationFrame) {
-      if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined) return;
+      if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined || timers.has(frame.id)) return;
       const sideNumbers = () => current().numbers.filter(number => number.side === frame.side);
       if (sideNumbers().length >= DAMAGE_NUMBER_ROWS) remove(sideNumbers()[0].id);
       const taken = new Set(sideNumbers().map(number => number.row));
