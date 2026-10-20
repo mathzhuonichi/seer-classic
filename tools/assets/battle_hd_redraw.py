@@ -76,6 +76,8 @@ GLOW_SIGMA, GLOW_ROUNDS = .5, 8
 # Classification: mean alpha-transition width (transition pixels per pixel of contour) above which a cell is a glow;
 # shaded when the mean premultiplied palette residual (0-255) of visible pixels exceeds FLAT_RESIDUAL.
 EDGE_WIDTH_GLOW, EDGE_WIDTH_SOFT, FLAT_RESIDUAL, COMPLEX_COLOURS = 1.2, 2.0, 2.5, 8
+# Flat also needs at most FLAT_MIXING mixed pixels per pixel of colour boundary (mixing_width).
+FLAT_MIXING = .75
 # Flat palette colours need a cell at least FLAT_SIDE pixels on its shorter side; smaller cells take the smooth colour.
 FLAT_SIDE = 8
 NEIGHBOURS = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
@@ -105,7 +107,8 @@ def method():
                 'opacitySigma': OPACITY_SIGMA, 'remainderMinimum': REMAINDER_MINIMUM, 'glow': [GLOW_SIGMA, GLOW_ROUNDS],
                 'remainder': [REMAINDER_SIGMA, REMAINDER_ROUNDS], 'shareSigma': SHARE_SIGMA,
                 'edgeWidthGlow': EDGE_WIDTH_GLOW, 'edgeWidthSoft': EDGE_WIDTH_SOFT, 'flatResidual': FLAT_RESIDUAL,
-                'complexColours': COMPLEX_COLOURS, 'flatSide': FLAT_SIDE, 'sourceRangeClamp': '3x3 native neighbourhood, bilinear'}}
+                'complexColours': COMPLEX_COLOURS, 'flatSide': FLAT_SIDE, 'flatMixing': FLAT_MIXING, 'coveragePadding': 'linear',
+                'sourceRangeClamp': '3x3 native neighbourhood, bilinear'}}
 
 
 def gate_passes(metrics, cell_class):
@@ -125,11 +128,30 @@ def windows(values):
     return np.stack([padded[dy:dy+height, dx:dx+width] for dy in range(3) for dx in range(3)])
 
 
-def upsample(field, factor, order=3):
-    """Pixel-centre aligned interpolation of an HxW(xC) field, padded by PAD replicated pixels on each side."""
+def extrapolated(field):
+    """A 2-D field in 0..1 padded by PAD pixels that continue its border trend linearly (clipped), so a contour that
+    meets the cell border keeps its direction instead of turning to meet the border at a right angle."""
+    padded = np.pad(field, PAD, mode='edge').astype(np.float64)
+    for axis in (0, 1):
+        size = field.shape[axis]
+        if size < 2:
+            continue
+        moved = np.moveaxis(padded, axis, 0)
+        first, last = moved[PAD].copy(), moved[PAD+size-1].copy()
+        first_step, last_step = first-moved[PAD+1], last-moved[PAD+size-2]
+        for k in range(1, PAD+1):
+            moved[PAD-k] = first+k*first_step
+            moved[PAD+size-1+k] = last+k*last_step
+    return np.clip(padded, 0, 1)
+
+
+def upsample(field, factor, order=3, extrapolate=False):
+    """Pixel-centre aligned interpolation of an HxW(xC) field, padded by PAD pixels on each side: replicated, or for a
+    2-D coverage field optionally extrapolated."""
     pad = ((PAD, PAD), (PAD, PAD)) + ((0, 0),)*(field.ndim-2)
     zoom = (factor, factor) + (1,)*(field.ndim-2)
-    return ndimage.zoom(np.pad(field, pad, mode='edge'), zoom, order=order, mode='nearest', grid_mode=True)
+    padded = extrapolated(field) if extrapolate else np.pad(field, pad, mode='edge')
+    return ndimage.zoom(padded, zoom, order=order, mode='nearest', grid_mode=True)
 
 
 def crop(field, factor):
@@ -159,7 +181,8 @@ def classify(native):
     tiny     a side under 4 or fewer than 64 pixels (V60's minimum): no reliable outline; smooth field.
     glow     alpha transitions wider than EDGE_WIDTH_GLOW pixels on average: smooth field.
     complex  hard-edged art in COMPLEX_COLOURS or more flat colours (a creature's body): not redrawn here.
-    flat     hard-edged, a few flat colours (unmixing residual at most FLAT_RESIDUAL, shorter side >= FLAT_SIDE).
+    flat     hard-edged, a few flat colours (unmixing residual at most FLAT_RESIDUAL, mixing width at most FLAT_MIXING,
+             shorter side >= FLAT_SIDE).
     shaded   hard-edged otherwise: traced outline over the smooth colour field.
     """
     transition, length, width = edge_width(native)
@@ -178,8 +201,23 @@ def classify(native):
         return 'complex', features, None
     if width > EDGE_WIDTH_GLOW:
         return 'glow', features, None
-    flat = features['unmixResidual'] <= FLAT_RESIDUAL and min(native.shape[:2]) >= FLAT_SIDE
+    features['mixingWidth'] = mixing_width(memberships)
+    flat = (features['unmixResidual'] <= FLAT_RESIDUAL and features['mixingWidth'] <= FLAT_MIXING
+            and min(native.shape[:2]) >= FLAT_SIDE)
     return ('flat' if flat else 'shaded'), features, (colours, memberships)
+
+
+def mixing_width(memberships):
+    """Opaque pixels that mix two palette colours per pixel of boundary between colours: about one pixel or less for
+    flat art (the antialiased boundary), more for a gradient that the palette can only posterize."""
+    coverage = memberships.sum(axis=2)
+    interior = coverage >= .9
+    shares = memberships/np.maximum(coverage, 1e-6)[:, :, None]
+    labels = shares.argmax(axis=2)
+    mixed = interior & (shares.max(axis=2) < .85)
+    boundary = (((labels[1:] != labels[:-1]) & interior[1:] & interior[:-1]).sum()
+                + ((labels[:, 1:] != labels[:, :-1]) & interior[:, 1:] & interior[:, :-1]).sum())
+    return round(float(mixed.sum()/max(boundary, 1)), 4)
 
 
 def parts(mask):
@@ -295,13 +333,13 @@ def trace(field, factor):
 
 
 def region_layers(memberships, boundary_sigma):
-    """[(palette index, polygons)] of the region parts: one layer per colour, disjoint."""
+    """The silhouette polygons of the region parts, and [(palette index, polygons)]: one layer per colour, disjoint."""
     coverage = np.clip(memberships.sum(axis=2), 0, 1)
     if not (coverage > 0).any():
-        return []
+        return [], []
     factor = analysis_scale(coverage.shape)
     sigma = boundary_sigma*factor
-    coverage_up = ndimage.gaussian_filter(upsample(coverage, factor), sigma, mode='nearest')
+    coverage_up = ndimage.gaussian_filter(upsample(coverage, factor, extrapolate=True), sigma, mode='nearest')
     inside = coverage_up-silhouette_threshold(coverage, coverage_up, factor)
     share_sigma = max(boundary_sigma, SHARE_SIGMA)*factor
     shares = ndimage.gaussian_filter(upsample(memberships/np.maximum(coverage, 1e-6)[:, :, None], factor),
@@ -312,7 +350,7 @@ def region_layers(memberships, boundary_sigma):
         loops = trace(np.minimum(inside, shares[:, :, index]-others), factor)
         if loops:
             layers.append((index, loops))
-    return layers
+    return trace(inside, factor), layers
 
 
 def skeleton_paths(mask):
@@ -532,7 +570,11 @@ def vector_layers(colours, memberships, boundary_sigma=BOUNDARY_SIGMA):
     coverage = np.clip(memberships.sum(axis=2), 0, 1)
     zone, thin, count = split_strokes(coverage)
     bodies, layers, preview = [], [], []
-    for index, loops in region_layers(memberships*zone[:, :, None], boundary_sigma):
+    silhouette, regions = region_layers(memberships*zone[:, :, None], boundary_sigma)
+    if silhouette:
+        bodies.append(region_path(silhouette))
+        layers.append({'kind': 'silhouette'})
+    for index, loops in regions:
         bodies.append(region_path(loops))
         layers.append({'kind': 'region', 'colour': colours[index]})
         preview.append(region_path(loops, rgb(colours[index]), colours[index][3]/255))
@@ -543,15 +585,33 @@ def vector_layers(colours, memberships, boundary_sigma=BOUNDARY_SIGMA):
     return bodies, layers, ''.join(preview)
 
 
-def compose(layers, coverages):
-    """Premultiplied tile: region layers add (they are disjoint), stroke layers are drawn over them."""
-    total = np.zeros(coverages[0].shape+(4,))
+def compose(layers, coverages, fallback):
+    """Premultiplied tile. The coverage of the regions comes from their silhouette (one path, no inner edge); their
+    colour and opacity are the coverage-weighted mean of the colour regions, so a hairline gap or overlap between two
+    regions cannot show as a seam (where no region covers, the smooth `fallback` colour, 0-255, fills in). Stroke
+    layers are drawn over the regions."""
+    shape = coverages[0].shape
+    weight, paint = np.zeros(shape), np.zeros(shape+(4,))
+    silhouette = np.zeros(shape)
+    strokes = []
     for layer, coverage in zip(layers, coverages):
-        colour = layer['colour']
-        alpha = colour[3]/255
-        paint = coverage[:, :, None]*np.array([colour[0]/255*alpha, colour[1]/255*alpha, colour[2]/255*alpha, alpha])
-        total = total+paint if layer['kind'] == 'region' else paint+total*(1-paint[:, :, 3:])
-    total[:, :, 3] = np.minimum(total[:, :, 3], 1)
+        if layer['kind'] == 'silhouette':
+            silhouette = coverage
+        elif layer['kind'] == 'region':
+            colour = np.asarray(layer['colour'], dtype=np.float64)/255
+            weight += coverage
+            paint += coverage[:, :, None]*np.concatenate((colour[:3]*colour[3], colour[3:]))
+        else:
+            strokes.append((layer, coverage))
+    covered = weight > 1e-3
+    mean = np.where(covered[:, :, None], paint/np.maximum(weight, 1e-3)[:, :, None],
+                    np.concatenate((fallback/255, np.ones(shape+(1,))), axis=2))
+    total = silhouette[:, :, None]*mean
+    for layer, coverage in strokes:
+        colour = np.asarray(layer['colour'], dtype=np.float64)/255
+        stroke = coverage[:, :, None]*np.concatenate((colour[:3]*colour[3], colour[3:]))
+        total = stroke+total*(1-stroke[:, :, 3:])
+    total[:, :, 3] = np.clip(total[:, :, 3], 0, 1)
     total[:, :, :3] = np.minimum(total[:, :, :3], total[:, :, 3:])
     return total
 
@@ -617,8 +677,9 @@ def redraw(native, scale, work):
     height, width = native.shape[:2]
     masks = [svg_document(width, height, scale, body) for body in bodies]
     coverages, renderer = render(masks+[svg_document(width, height, 1, body) for body in bodies], work)
-    premultiplied_tile = compose(layers, coverages[:len(bodies)])
-    premultiplied_tile *= opacity_correction(native, compose(layers, coverages[len(bodies):]), scale)[:, :, None]
+    premultiplied_tile = compose(layers, coverages[:len(bodies)], fallback)
+    drawn = compose(layers, coverages[len(bodies):], smooth_colour(native, 1))
+    premultiplied_tile *= opacity_correction(native, drawn, scale)[:, :, None]
     premultiplied_tile = soft_remainder(native, premultiplied_tile, scale)
     if cell_class == 'shaded':
         alpha = premultiplied_tile[:, :, 3:]
@@ -626,4 +687,4 @@ def redraw(native, scale, work):
     tile = straight_tile(premultiplied_tile, fallback, low, high)
     return {'class': cell_class, 'method': 'traced-vector', 'tile': tile, 'features': features,
             'svg': svg_document(width, height, scale, preview), 'masks': masks, 'renderer': renderer,
-            'layers': [{**layer, 'colour': [int(v) for v in layer['colour']]} for layer in layers]}
+            'layers': [{**layer, **({'colour': [int(v) for v in layer['colour']]} if 'colour' in layer else {})} for layer in layers]}
