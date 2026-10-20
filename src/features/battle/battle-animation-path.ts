@@ -1,6 +1,6 @@
 // How an original clip travels across the arena: each frame's extent, and the per-frame offsets that keep a move inside it.
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
-import {EMPTY_BOUNDS, unionBounds, type AnimationBounds} from './battle-animation-registration.ts';
+import {EMPTY_BOUNDS, frameMeshBounds, unionBounds, type AnimationBounds} from './battle-animation-registration.ts';
 
 type Mesh = Pick<SwfClipData['sequences'][number]['frames'][number]['mesh'], 'positions' | 'indices' | 'mulColors'>;
 /** The frame label of a clip's hit marker. */
@@ -18,9 +18,12 @@ export const FORWARD_KEPT_SHARE = 0.75;
 /** A room without walls: nothing is compressed. */
 export const OPEN_ROOM: AnimationBounds = {minX: -Infinity, maxX: Infinity, minY: -Infinity, maxY: Infinity};
 
-/** One sequence's frames: each frame's body extent (EMPTY_BOUNDS when nothing is visible) and its hit frame (-1: none). */
-export interface SequencePath {frames: AnimationBounds[]; hitFrame: number}
-/** Per-frame offsets of a sequence (mesh units), and the extent of its frames once offset. */
+/**
+ * One sequence's frames: each frame's body (EMPTY_BOUNDS when nothing is visible), which must stay inside the arena; each
+ * frame's whole vertex extent, effects included, which the canvas must hold; and the hit frame (-1: none).
+ */
+export interface SequencePath {bodies: AnimationBounds[]; extents: AnimationBounds[]; hitFrame: number}
+/** Per-frame offsets of a sequence (mesh units), and the whole extent of its frames once offset. */
 export interface ContainedPath {offsets: {x: number; y: number}[]; bounds: AnimationBounds}
 
 const median = (values: number[]) => values.sort((a, b) => a - b)[values.length >> 1];
@@ -50,13 +53,14 @@ export function bodyBounds({positions, indices, mulColors}: Mesh, reach: number)
 export function sequencePaths(clip: Pick<SwfClipData, 'sequences'>, home: AnimationBounds): Map<string, SequencePath> {
   const reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY);
   return new Map(clip.sequences.filter(s => s.frames.length).map(s => [s.name, {
-    frames: s.frames.map(frame => bodyBounds(frame.mesh, reach)), hitFrame: s.frames.findIndex(frame => frame.labels.includes(HIT_LABEL)),
+    bodies: s.frames.map(frame => bodyBounds(frame.mesh, reach)), extents: s.frames.map(frameMeshBounds),
+    hitFrame: s.frames.findIndex(frame => frame.labels.includes(HIT_LABEL)),
   }]));
 }
 
-/** How far each frame reaches beyond the home extent on one side (0 for a frame inside it or without vertices). */
-const beyond = (frames: AnimationBounds[], reach: (frame: AnimationBounds) => number) =>
-  frames.map(frame => frame.minX > frame.maxX ? 0 : Math.max(0, reach(frame)));
+/** How far each body reaches beyond the home extent on one side (0 for a body inside it or an empty one). */
+const beyond = (bodies: AnimationBounds[], reach: (body: AnimationBounds) => number) =>
+  bodies.map(body => body.minX > body.maxX ? 0 : Math.max(0, reach(body)));
 
 /** Reaches squeezed into `room`: when the farthest does not fit, those up to `kept` stay and the rest scale linearly into what is left. */
 function squeeze(reaches: number[], room: number, kept: number): number[] {
@@ -80,19 +84,19 @@ function within(offset: number, min: number, max: number, low: number, high: num
  * sides of an axis can still overflow once the other side's compression moves it; it moves back just inside the room (or
  * home, where home itself reaches beyond the room).
  */
-export function containPath({frames, hitFrame}: SequencePath, home: AnimationBounds, room: AnimationBounds): ContainedPath {
-  const forward = beyond(frames, frame => frame.maxX - home.maxX), back = beyond(frames, frame => home.minX - frame.minX);
-  const up = beyond(frames, frame => frame.maxY - home.maxY), down = beyond(frames, frame => home.minY - frame.minY);
+export function containPath({bodies, extents, hitFrame}: SequencePath, home: AnimationBounds, room: AnimationBounds): ContainedPath {
+  const forward = beyond(bodies, body => body.maxX - home.maxX), back = beyond(bodies, body => home.minX - body.minX);
+  const up = beyond(bodies, body => body.maxY - home.maxY), down = beyond(bodies, body => home.minY - body.minY);
   const ahead = room.maxX - home.maxX;
   const forwardTo = squeeze(forward, ahead, Math.min(forward[hitFrame] ?? 0, ahead * FORWARD_KEPT_SHARE));
   const backTo = squeeze(back, home.minX - room.minX, 0), upTo = squeeze(up, room.maxY - home.maxY, 0), downTo = squeeze(down, home.minY - room.minY, 0);
   const allowed = unionBounds(room, home);
-  const offsets = frames.map((frame, i) => frame.minX > frame.maxX ? {x: 0, y: 0} : {
-    x: within(forwardTo[i] - forward[i] + back[i] - backTo[i], frame.minX, frame.maxX, allowed.minX, allowed.maxX),
-    y: within(upTo[i] - up[i] + down[i] - downTo[i], frame.minY, frame.maxY, allowed.minY, allowed.maxY),
+  const offsets = bodies.map((body, i) => body.minX > body.maxX ? {x: 0, y: 0} : {
+    x: within(forwardTo[i] - forward[i] + back[i] - backTo[i], body.minX, body.maxX, allowed.minX, allowed.maxX),
+    y: within(upTo[i] - up[i] + down[i] - downTo[i], body.minY, body.maxY, allowed.minY, allowed.maxY),
   });
-  const bounds = frames.reduce((union, frame, i) => frame.minX > frame.maxX ? union : unionBounds(union, {
-    minX: frame.minX + offsets[i].x, maxX: frame.maxX + offsets[i].x, minY: frame.minY + offsets[i].y, maxY: frame.maxY + offsets[i].y,
+  const bounds = extents.reduce((union, extent, i) => extent.minX > extent.maxX ? union : unionBounds(union, {
+    minX: extent.minX + offsets[i].x, maxX: extent.maxX + offsets[i].x, minY: extent.minY + offsets[i].y, maxY: extent.maxY + offsets[i].y,
   }), EMPTY_BOUNDS);
   return {offsets, bounds: bounds.minX > bounds.maxX ? home : bounds};
 }

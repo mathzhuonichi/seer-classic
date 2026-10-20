@@ -5,7 +5,8 @@ import {EMPTY_BOUNDS} from './battle-animation-registration.ts';
 
 const box = (minX, maxX, minY, maxY) => ({minX, maxX, minY, maxY});
 const HOME = box(-1, 1, -1, 1);
-const path = (frames, hitFrame = -1) => ({frames, hitFrame});
+/** A path whose frames are their bodies, without effects beyond them. */
+const path = (bodies, hitFrame = -1) => ({bodies, extents: bodies, hitFrame});
 
 /** A frame of axis-aligned quads, each [minX, maxX, minY, maxY, alpha = 1], as two triangles. */
 function frame(quads, labels = []) {
@@ -31,7 +32,8 @@ test('a frame body leaves out effects far from the creature and parts it hides',
   // Three parts of the creature around (4, 0), a slash left at (-3, 3) and a hidden part at (4, 3); home is 2 units across.
   const body = frame([[3, 4, -1, 0], [4, 5, -1, 0], [3.5, 4.5, 0, 1], [-3.5, -2.5, 2, 4], [3.5, 4.5, 2.5, 3.5, 0]]);
   const [attack] = sequencePaths({sequences: [{name: 'attack', frames: [body]}]}, HOME).values();
-  assert.deepEqual(attack.frames, [box(3, 5, -1, 1)]);
+  assert.deepEqual(attack.bodies, [box(3, 5, -1, 1)]);
+  assert.deepEqual(attack.extents, [box(-3.5, 5, -1, 4)], 'the canvas still holds every vertex');
 });
 
 test('a path that fits the room keeps every frame where the clip puts it', () => {
@@ -78,6 +80,14 @@ test('a frame reaching past home both ways moves back inside once compression on
   assert.deepEqual(containPath(path([HOME, box(-1, 1, 3, 5), box(-1, 1, -1.5, 3)]), HOME, box(-5, 5, -2, 2)).offsets.map(offset => offset.y), [0, -3, -1]);
   // Home itself may reach past the room: home frames stay where they are, and a frame past home there comes back to it.
   assert.deepEqual(containPath(path([HOME, box(-1, 1, -1.25, 1)]), HOME, box(-5, 5, -.5, 5)).offsets, [{x: 0, y: 0}, {x: 0, y: .25}]);
+});
+
+test('effects beyond the body do not move the creature, but the extent the canvas holds covers them where the body moved', () => {
+  // The body climbs past the room's top 2 by 1 and halves; a slash it leaves at x 6..8 crosses the room's right edge 5.
+  const climb = {bodies: [HOME, box(-1, 1, 1, 3)], extents: [box(-1, 8, -1, 1), box(-1, 8, 1, 3)], hitFrame: -1};
+  const {offsets, bounds} = containPath(climb, HOME, box(-5, 5, -5, 2));
+  assert.deepEqual(offsets, [{x: 0, y: 0}, {x: 0, y: -1}]);
+  assert.deepEqual(bounds, box(-1, 8, -1, 2));
 });
 
 test('a room smaller than home holds the creature at home', () => {
