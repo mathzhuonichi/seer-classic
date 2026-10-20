@@ -289,6 +289,7 @@ DIFUTE = period(G4399 + "201108-23-111513.html", "Page dated 2011-08-23: 迪符�
 EER_FRI = period(G7K + "20100816/12668.html", "2010-08-16 report: the Friday 厄尔塞拉 revives to its full 3000 HP.")
 EER_SUN = period(G7K + "20100809/12297.html", "2010-08-09 report: the Sunday 厄尔塞拉 has HP 5000.")
 EER_SAT = period(G7K + "20100809/12295.html", "2010-08-09 report: the Saturday 厄尔塞拉 hits 丽莎布布 with 时空裂痕 for 30-40 HP.")
+EER_ZHIDAO = period("https://zhidao.baidu.com/question/186710571.html", "Baidu Zhidao 2010-09-26: the Friday 厄尔塞拉 只会用光芒附体与时空裂痕; 对于草系只会用属性和100攻击的普通.")
 FUXISI = period(G4399 + "201212-31-227044.html", "Page dated 2012-12-31: 弗希斯，草暗影系，体力10000.")
 GUER = period(G4399 + "201109-17-115971.html", "2011-09 report: 古尔扎迪，80级，地面系，5000血左右, and four named attacks.")
 HAMO = period(G7K + "20100816/12660.html", "2010-08-16 report: 哈默雷特有10000的血.")
@@ -367,7 +368,7 @@ SPT_CLAIMS = [
     ("delasa", "hp", 10000, "observed", [DELASA, DELASA2], "The daytime fight has 10000 HP. The evening limited mode (5000 HP) is not modelled."),
     ("difute", "hp", 10000, "observed", [DIFUTE], "The report states HP 10000."),
     ("eersaila", "hp", 3000, "estimate", [EER_FRI, EER_SUN], "Friday revives to its full 3000 HP; a Sunday report gives 5000, which no variant carries."),
-    ("eersaila", "skills", [11139], "partial", [EER_SAT], None),
+    ("eersaila", "skills", [20564, 11139], "partial", [EER_SAT, EER_ZHIDAO], None),
     ("fuxisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
     ("fuxisi", "hp", 10000, "observed", [FUXISI], "The report states 体力10000."),
     ("gangyasha", "hp", 200, "estimate", [LIST2011, MAPS], "A 2011 tip implies 200 HP (从200拉到50以下); the official team-fight row also has 200."),

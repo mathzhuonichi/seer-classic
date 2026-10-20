@@ -1259,6 +1259,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-f2d28bf7d0b6": {
+      "url": "https://zhidao.baidu.com/question/186710571.html",
+      "scope": "Baidu Zhidao 2010-09-26: the Friday \u5384\u5c14\u585e\u62c9 \u53ea\u4f1a\u7528\u5149\u8292\u9644\u4f53\u4e0e\u65f6\u7a7a\u88c2\u75d5; \u5bf9\u4e8e\u8349\u7cfb\u53ea\u4f1a\u7528\u5c5e\u6027\u548c100\u653b\u51fb\u7684\u666e\u901a.",
+      "verification": "verified-period-observation"
+    },
     "src-f31d925c409b": {
       "url": "https://news.4399.com/seer/yzzt/201001-18-63642.html",
       "scope": "4399 2010-01-18 floors 41-45: named moves of floors 42 and 44.",
@@ -18541,7 +18546,7 @@
       "id": "boss_spt_eersaila",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_eersaila.json",
-      "sourceSha256": "0395a03dbaa9bd02790023263d9960a87dc2b04b8e821dd02f5f42f277a54632",
+      "sourceSha256": "2791b2638f7a50f168d60d419e373efb4828ae8f01cd5ed0cb6f9e8da25074be",
       "sourceNoteSha256": "763b1b6fbeffb6037f1effc1a72194e3f1afe88dfdd83d341f7f9cb714ea0a55",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201008-14-75469.html",
@@ -18622,9 +18627,11 @@
               "basis": "explicit-estimate",
               "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred.",
               "sources": [
-                "src-df9a24e28a7e"
+                "src-df9a24e28a7e",
+                "src-f2d28bf7d0b6"
               ],
               "verifiedMoveIds": [
+                20564,
                 11139
               ]
             }
@@ -18999,7 +19006,8 @@
           "basis": "explicit-estimate",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-df9a24e28a7e"
+            "src-df9a24e28a7e",
+            "src-f2d28bf7d0b6"
           ]
         },
         "rules": {
