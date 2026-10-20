@@ -36,7 +36,7 @@ function EscapePane({ battle, disabled, onFlee }: { battle: BattleView; disabled
 /** The command diamond (capture plus four commands) and the open command's pane. */
 export default function BattleCommandDeck({ battle, inventory, commands, selectedParty, playback, onDetails, onSettings }: {
   battle: BattleView; inventory: ItemView[]; commands: BattleCommandState; selectedParty: BattleMonsterView; playback: BattlePlayback;
-  onDetails: () => void; onSettings?: () => void;
+  onDetails: () => void; onSettings: () => void;
 }) {
   const { tab, setTab, items, chooseItems } = commands, { busy, submit } = playback;
   const disabled = busy || battle.finished, blocked = disabled || battle.needsSwitch;
@@ -48,7 +48,7 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
     setTab(command);
   };
   return <div className="classic-command-deck" aria-busy={busy}>
-    <nav className={`classic-command-tabs${onSettings ? ' has-settings' : ''}`} aria-label="战斗指令">
+    <nav className="classic-command-tabs" aria-label="战斗指令">
       <div className="classic-command-diamond">
         <button className={`command-capture ${capsuleTab ? 'active' : ''}`} aria-label="捕捉" title="捕捉" aria-pressed={capsuleTab} disabled={blocked || !battle.canCapture}
           onClick={openCapture}>{commandIcon('battle-capture')}</button>
@@ -59,9 +59,10 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
             disabled={unavailable} aria-pressed={active} onClick={() => openCommand(command.id)}>{commandIcon(command.asset)}</button>;
         })}
       </div>
-      {onSettings && <button className="classic-battle-settings" onClick={onSettings}>设置</button>}
+      <button className="classic-battle-settings" onClick={onSettings}>设置</button>
     </nav>
-    <div className={`classic-command-content command-content-${tab} ${tab === 'items' ? 'classic-item-panel' : ''}`}>
+    {/* Keyed by the command, so a pane opens at its top instead of where the last pane was scrolled. */}
+    <div key={tab} className={`classic-command-content command-content-${tab} ${tab === 'items' ? 'classic-item-panel' : ''}`}>
       {tab === 'battle' && <BattleSkillPane player={battle.player} blocked={blocked} onMove={skillId => submit({ type: 'move', skillId })}/>}
       {tab === 'items' && <BattleItemPane battle={battle} inventory={inventory} choice={items} onChoice={chooseItems} disabled={disabled}
         canAct={playback.canAct} submit={submit}/>}

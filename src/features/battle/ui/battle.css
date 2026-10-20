@@ -25,18 +25,6 @@
 .classic-creature-facing.mirrored{transform:scaleX(-1)}
 .classic-art-box img{pointer-events:none;user-select:none}
 .classic-round-status{font-size:10px;color:#43616d;white-space:nowrap;letter-spacing:1px}
-.classic-dialogue p{flex:1;text-align:center;line-height:1.7;font-weight:600;margin:0}
-.classic-dialogue-signal{width:8px;height:8px;border-radius:50%;background:#4d8d8a;flex-shrink:0}
-.classic-dialogue-signal.playing{animation:classicSignal .8s ease-in-out infinite}
-.classic-dialogue .classic-log-toggle{white-space:nowrap}
-.classic-dialogue .classic-log-toggle:hover{background:#c1d7de}
-.classic-battle-history{overflow-y:auto;color:#37546b;border-bottom:1px solid #728d9b;font-size:12px}
-.classic-battle-history p{margin:4px 0}
-.classic-command-tabs{grid-template-columns:repeat(4,1fr)}
-.classic-command-tabs button{display:flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(#537893,#355770);border:1px solid #81a3bb;border-bottom:3px solid #1b3951;color:#eef9ff;letter-spacing:4px;font-weight:700;text-shadow:0 1px #18394e}
-.classic-command-tabs button.active{background:linear-gradient(#ffe5a0,#e9b45e);border-color:#ffe6a6;border-bottom-color:#a77636;color:#5d3e20;text-shadow:none}
-.classic-command-tabs button:hover:not(:disabled){filter:brightness(1.1)}
-.classic-command-tabs button:disabled{opacity:.55}
 .classic-command-caption{display:flex;justify-content:space-between;gap:12px;align-items:center}
 .classic-command-caption small{font-size:10px}
 .classic-skill-grid{display:grid}
@@ -115,14 +103,8 @@
 .classic-creature-facing,.classic-art-box{aspect-ratio:1}
 .classic-ground-shadow{top:var(--ground-y);bottom:auto;width:60%;height:10%;transform:translate(-50%,-30%)}
 .classic-round-status{position:absolute;left:50%;bottom:11px;transform:translateX(-50%);text-align:center}
-.classic-dialogue{flex-shrink:0}
-.classic-dialogue p{font-size:12px}
-.classic-command-tabs{gap:7px}
-.classic-command-tabs button{min-height:35px;padding:6px 10px;font-size:14px}
 .classic-command-caption{margin-bottom:7px}
 .classic-skill{min-height:99px;padding:9px 10px!important}
-.classic-battle-history{position:absolute;inset:45px 18px 208px;z-index:9;max-height:none;overflow:auto;padding:15px 20px;background:#e4eeeff5;box-shadow:0 8px 35px #18374688;border:1px solid #63879a;border-radius:7px;text-align:left}
-.classic-battle-history p{padding:8px 0;border-bottom:1px solid #63879a33}
 .classic-party-grid button{gap:1px}
 .classic-party-grid button small{display:inline;margin-left:4px;font-size:8px}
 .classic-party-actions{display:flex;align-items:center;gap:7px;font-size:10px}
@@ -139,7 +121,6 @@
 .classic-item-actions>button{padding:6px 12px;font-size:11px;height:30px}
 .classic-escape-panel{min-height:104px;height:104px;flex-direction:row;text-align:left;padding:8px 12px}
 .classic-escape-panel p{font-size:10px;line-height:1.7;max-width:460px}
-.classic-battle-result{flex-shrink:0;min-height:128px}
 .classic-detail-backdrop{position:absolute;inset:0;background:#092339b3;z-index:12;display:grid;place-items:center;padding:16px}
 .classic-creature-details{background:#e8f1f0;color:#29465b;max-width:570px;width:100%;max-height:100%;overflow:auto;border:2px solid #6d90a4;border-radius:7px;padding:15px 19px;box-shadow:0 15px 40px #051c39aa}
 .classic-creature-details>header{display:flex;justify-content:space-between;gap:15px;align-items:center}
@@ -157,7 +138,6 @@
 @keyframes classicCritical{0%{opacity:0;transform:translate(-50%,9px) scale(.6)}22%{opacity:1;transform:translate(-50%,-2px) scale(1.15)}65%{opacity:1;transform:translate(-50%,-7px) scale(1)}100%{opacity:0;transform:translate(-50%,-20px) scale(1)}}
 @keyframes classicCriticalHit{0%,100%{transform:translateX(0)}12%,35%{transform:translateX(calc(var(--direction)*-18px)) rotate(-4deg);filter:brightness(2.4) drop-shadow(0 0 12px #ff974d)}23%,47%{transform:translateX(calc(var(--direction)*12px)) rotate(3deg)}65%{transform:translateX(calc(var(--direction)*-8px))}82%{transform:translateX(3px)}}
 @media(max-width:620px){.classic-creatures{padding:0}.classic-combatant{width:46%;max-height:200px}.classic-battle-caption{max-width:86%;top:6px;font-size:9px}.classic-skill{min-height:82px;padding:7px 9px!important}.classic-command-caption small{font-size:8px}.classic-party-actions{flex-wrap:wrap}.classic-party-actions>span{flex:1}.classic-item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.classic-item-actions{grid-template-columns:minmax(0,1fr) 66px;gap:5px}.classic-item-actions>p{max-height:29px;font-size:9px}.classic-escape-panel{height:150px;min-height:150px;flex-direction:column;text-align:center;justify-content:center;gap:8px}.classic-battle-history{inset:40px 10px 274px;font-size:10px;padding:10px 14px}.classic-dialogue p{font-size:10px}.classic-critical-popup{font-size:17px}.classic-damage-number.critical-number{font-size:33px}}
-.classic-dialogue-lines{flex:1;min-width:0}.classic-dialogue-lines>p{text-align:left}.classic-recent-log{font-size:11px;color:#37586d;margin-top:6px;line-height:1.55}.classic-dialogue .classic-recent-log p{font-size:11px;font-weight:400;text-align:left;margin:3px 0;line-height:1.55}.classic-battle-history p{text-align:left;line-height:1.65}.classic-dialogue-signal{margin-top:7px}
 
 /* Capture uses the actual capture-attempt event; outcome changes only after playback. */
 .classic-item-category-tabs{display:flex;margin-bottom:7px;min-height:25px}
@@ -229,34 +209,15 @@
 @media(max-width:620px){.classic-health{padding:5px 7px}.classic-conditions{font-size:7px}.classic-conditions>span{padding:1px 2px}}
 @media(prefers-reduced-motion:reduce){.classic-creature-motion.motion-idle{animation:none}}
 
-/* The middle strip expands in the scene; only its record body scrolls. */
-.classic-dialogue{display:flex;flex-direction:column;align-items:stretch;gap:0}
-.classic-dialogue-header{display:flex;align-items:flex-start;flex-shrink:0;min-width:0}
-.classic-dialogue .classic-log-toggle{flex-shrink:0;align-self:flex-start}
-.classic-dialogue .classic-log-toggle.is-collapse{padding:0}
-.classic-dialogue.is-expanded{overflow:hidden}
-.classic-dialogue.is-expanded .classic-dialogue-header{padding-bottom:7px;border-bottom:1px solid #63879a44}
-.classic-dialogue.is-expanded .classic-dialogue-lines>p{max-height:42px;overflow:hidden}
-.classic-dialogue .classic-battle-history{position:static;inset:auto;z-index:auto;flex:1;min-height:0;max-height:none;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;background:transparent;box-shadow:none;border:0;border-radius:0;text-align:left}
-.classic-dialogue .classic-battle-history p{font-weight:400;margin:0;padding:6px 0;line-height:1.65;border-bottom:1px solid #63879a33}
-.classic-dialogue .classic-battle-history:focus-visible{outline:2px solid #63879a;outline-offset:-2px}
-@media(max-width:620px){.classic-dialogue.is-expanded{flex-basis:180px}.classic-dialogue .classic-battle-history{padding-left:14px}}
-
 /* The frozen entry scene is below health, native creatures and effects. */
 .classic-scene-backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;pointer-events:none;user-select:none}
 .classic-arena.has-scene .classic-battle-caption,.classic-arena.has-scene .classic-round-status{color:#f1f7fb;background:#17364dd9;padding:2px 8px;border-radius:4px;text-shadow:0 1px #0a2034;z-index:4}
 
 /* Original client command artwork with the existing immediate control flow. */
 .classic-battle{background:#062968}
-.classic-command-deck{position:relative;padding:0;flex-shrink:0;background:url('/ui/classic/hd/battle-command-rail-4x.png') center / 100% 100% no-repeat}
-.classic-command-tabs{position:absolute;min-width:142px;display:block;padding:0;border:0;z-index:2}
-.classic-command-diamond>button{position:absolute;display:block;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;min-width:0}
-.classic-command-diamond>button>img{display:block;width:100%;height:100%;pointer-events:none}
-.classic-command-tabs .command-battle{z-index:3}
 .classic-command-diamond>button.active{background:transparent;color:inherit;border:0;filter:brightness(1.15) drop-shadow(0 0 2px #8dffff)}
 .classic-command-diamond>button:hover:not(:disabled){background:transparent;filter:brightness(1.2)}
 .classic-command-diamond>button:disabled{opacity:.45;filter:grayscale(.65)}
-.classic-command-content{height:100%;min-height:0;max-height:none;overflow:auto;border:0;background:none;border-radius:0;scrollbar-color:#03bcff #073975;scrollbar-width:thin;overscroll-behavior:contain}
 .classic-command-caption{color:#a6efff;margin:0 0 8px;font-size:10px}
 .classic-command-caption small{color:#9cdaff}
 .classic-skill,.classic-empty-skill{position:relative;height:53px;min-height:0;padding:5px 6px 5px 30px!important;text-align:left;border:0;border-radius:4px;background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;box-shadow:none;overflow:hidden}
@@ -282,9 +243,6 @@
 .classic-item-grid{height:104px;gap:4px}
 .classic-item-grid button{padding:6px;background:#064886;color:#fff;border-color:#0c9eda}
 .classic-item-actions select{background:#053d77;border:1px solid #1bdcff;color:#fff}
-.classic-dialogue{border-top:2px solid #009fdf;border-bottom:2px solid #0071bf}
-.classic-log-toggle{background:#0c67ac;color:white;border-color:#0cbdff}
-.classic-dialogue .classic-log-toggle.is-collapse{border:0}
 .classic-health{background:linear-gradient(#0867bb,#0a397b);border:2px solid #25dcff;color:#fff;border-radius:6px 15px 6px 6px;box-shadow:0 2px #08396b99}
 .classic-health.foe{background:linear-gradient(#0867bb,#0a397b)}
 .classic-health-heading strong{color:#fff}
@@ -292,7 +250,6 @@
 .classic-conditions .condition,.classic-conditions .stage-up,.classic-conditions .stage-down{color:#fff;background:#03457c;border-color:#09bdff}
 .classic-battle-result{background:linear-gradient(#0a64a8,#053671);color:#fff;border-top:2px solid #0ccfff}
 @container(max-width:780px){
- .classic-command-tabs{min-width:0}
  .classic-skill,.classic-empty-skill{padding:5px 6px 4px 27px!important}
  .classic-skill>div{left:4px;top:6px}.classic-skill>div>small{display:none}
  .classic-skill>strong{font-size:11px;line-height:15px;margin:0 0 4px}.classic-skill footer{font-size:8px}
@@ -302,30 +259,66 @@
  .classic-item-grid{height:64px;min-height:64px;grid-template-columns:repeat(2,minmax(0,1fr))}
  .classic-item-actions{grid-template-columns:minmax(0,1fr) 60px}
  .classic-item-actions>p{font-size:9px;max-height:30px}
- .classic-health-row{padding-top:21px}
 }
 
 .command-content-battle .classic-command-caption{display:none}
 
-/* The recovered classic module places the record, skills and diamond in one row. */
-.classic-command-deck{height:156px;min-height:156px;background:url('/ui/classic/hd/battle-skill-rail-v44.png') center bottom / 100% 87% no-repeat}
-.classic-command-tabs{right:1%;top:0;width:27%;height:100%;background:none}
-.classic-command-diamond{position:absolute;inset:0;background:url('/ui/classic/hd/battle-command-frame.svg') center / 100% 100% no-repeat}
-.classic-command-tabs.has-settings .classic-command-diamond{bottom:22px}
-.classic-command-tabs>.classic-battle-settings{position:absolute;left:24%;right:24%;bottom:0;height:20px;min-height:0;padding:0 8px;display:block;border:1px solid #2aa6df;border-radius:4px;background:linear-gradient(#135e9b,#083c73);color:#dcf6ff;font-size:10px;letter-spacing:2px;line-height:18px;box-shadow:inset 0 1px #5ec5ec44}
-.classic-command-diamond>button{width:40%;height:37%}
-.classic-command-tabs .command-capture{left:7%;top:11%}
-.classic-command-tabs .command-items{right:7%;top:11%}
-.classic-command-tabs .command-party{left:7%;bottom:8%}
-.classic-command-tabs .command-escape{right:7%;bottom:8%}
-.classic-command-tabs .command-battle{left:24%;top:19%;width:52%;height:65%}
-.classic-command-diamond>button>img{object-fit:fill}
-.classic-command-content{margin:0 29% 0 31%;padding:26px 10px 8px}
-/* The result row clears the record panel on its left exactly as the command content does. */
-.classic-battle-result{padding-left:calc(31% + 10px)}
+/* The bottom console: the record, the skills (or the open command's pane) and the command diamond share one top edge and
+ * one bottom edge, with equal gutters between and around them. Its height follows the frame width within bounds. */
+.classic-battle{
+ --console-gap:8px;--console-h:clamp(146px,16cqw,168px);--console-panel-h:calc(var(--console-h) - 2 * var(--console-gap));
+ --record-w:29%;--record-open-w:var(--record-w);
+ /* The diamond keeps its source frame's proportions (263.5 × 163) above the settings button. */
+ --settings-h:18px;--diamond-h:calc(var(--console-panel-h) - var(--settings-h) - 4px);--diamond-w:calc(var(--diamond-h) * 263.5 / 163);
+}
+/* The rail art's top edge (its first 84 of 727 rows) lines the top gutter, above all three panels; the scanlined body fills the
+ * rest. A sliced border image keeps that edge out of the panes, whose own backgrounds are transparent. */
+.classic-command-deck{
+ position:relative;flex-shrink:0;height:var(--console-h);padding:0;
+ border-image:url('/ui/classic/hd/battle-skill-rail-v44.png') 84 0 0 fill / var(--console-gap) 0 0 stretch;
+}
+.classic-command-content{
+ position:absolute;top:var(--console-gap);bottom:var(--console-gap);
+ left:calc(var(--record-w) + 2 * var(--console-gap));right:calc(var(--diamond-w) + 2 * var(--console-gap));
+ height:auto;min-height:0;max-height:none;margin:0;padding:0;overflow:auto;border:0;border-radius:0;background:none;
+ scrollbar-color:#03bcff #073975;scrollbar-width:thin;overscroll-behavior:contain;
+}
+.classic-command-tabs{
+ position:absolute;top:var(--console-gap);right:var(--console-gap);z-index:2;display:block;
+ width:var(--diamond-w);height:var(--console-panel-h);padding:0;border:0;background:none;
+}
+.classic-command-diamond{
+ position:absolute;left:0;top:0;width:100%;height:var(--diamond-h);
+ background:url('/ui/classic/hd/battle-command-frame.svg') center / 100% 100% no-repeat;
+}
+/* Button boxes in percent of the frame, from the original panel's placements (PetFightDLL controlMC, relative to the frame):
+ * each corner button is 91.5 × 63.5 and the 战斗 diamond 134.5 × 111, shadows included. */
+.classic-command-diamond>button{
+ position:absolute;display:block;width:34.725%;height:38.957%;min-width:0;min-height:0;padding:0;border:0;background:transparent;box-shadow:none;
+}
+.classic-command-diamond>button>img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.classic-command-tabs .command-capture{left:10.588%;top:10.092%}
+.classic-command-tabs .command-items{left:54.573%;top:10.092%}
+.classic-command-tabs .command-party{left:10.588%;top:51.38%}
+.classic-command-tabs .command-escape{left:54.573%;top:51.38%}
+/* The diamond's hit area must not cover its four neighbouring commands. */
+.classic-command-tabs .command-battle{
+ z-index:3;left:24.45%;top:16.043%;width:51.044%;height:68.098%;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+}
+.classic-command-tabs>.classic-battle-settings{
+ position:absolute;left:20%;right:20%;bottom:0;display:block;height:var(--settings-h);min-height:0;padding:0 8px;
+ border:1px solid #2aa6df;border-radius:4px;background:linear-gradient(#135e9b,#083c73);box-shadow:inset 0 1px #5ec5ec44;
+ color:#dcf6ff;font-size:10px;letter-spacing:2px;line-height:calc(var(--settings-h) - 2px);
+}
+.classic-command-tabs>.classic-battle-settings:hover{filter:brightness(1.2)}
+.command-content-escape>.classic-escape-panel{height:100%;min-height:0}
+/* The record panel: its text stays inside the frame art's side bars (5% of its width each) and bottom rail (8% of its
+ * height). Percentages in padding resolve against the battle's width, as --record-w does. */
 .classic-dialogue{
- position:absolute;left:1%;bottom:8px;z-index:4;width:29%;height:140px;min-height:0;
- background:#05265c;color:#e1f5ff;padding:29px 21px 9px 12px;overflow:hidden;
+ position:absolute;left:var(--console-gap);bottom:var(--console-gap);z-index:4;display:flex;flex-direction:column;
+ width:var(--record-w);height:var(--console-panel-h);min-height:0;overflow:hidden;
+ padding:0 calc(var(--record-w) * .05 + 5px) calc(var(--console-panel-h) * .08 + 4px);
+ border:2px solid #2ca8dc;border-radius:6px;background:#05265c;color:#e1f5ff;
 }
 /* The frame art fills the panel on both axes, also when the record expands: a border image with fill stretches the
  * SVG to its box, where a background would keep the art's aspect ratio. */
@@ -333,18 +326,41 @@
  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
  border-image:url('/ui/classic/hd/battle-log-panel-v44.svg') 0 fill / 0 stretch;
 }
-.classic-dialogue.is-expanded{height:46%;min-height:140px;max-height:46%;width:29%;flex:none}
-.classic-dialogue-header{position:relative;gap:4px;flex:1;min-height:0}
-.classic-dialogue-signal{display:none}
-.classic-dialogue-lines{min-height:0;overflow:auto;scrollbar-width:thin}
-.classic-dialogue-lines>p{color:#e2f6ff;font-size:11px;line-height:1.65;font-weight:400}
-.classic-dialogue .classic-recent-log,.classic-dialogue .classic-recent-log p{color:#c5e9ff;font-size:10px}
-.classic-dialogue .classic-log-toggle{position:absolute;padding:1px 5px;font-size:9px;height:20px;min-height:0;background:#175483;border:1px solid #2ca5e7;color:#fff}
-.classic-dialogue .classic-log-toggle.is-collapse{width:23px;height:20px;font-size:17px;line-height:1;background:#175483;color:#fff}
-.classic-dialogue.is-expanded .classic-dialogue-header{flex:none;height:0;padding:0}
+/* Opened, the record grows up over the scene; only its body scrolls. */
+.classic-dialogue.is-expanded{width:var(--record-open-w);height:46%;min-height:var(--console-panel-h);max-height:none}
+.classic-dialogue-header{position:relative;display:flex;flex:none;align-items:center;justify-content:center;height:24px;min-width:0}
+.classic-record-title{font-size:11px;line-height:20px;color:#a4ddff;font-weight:400}
+.classic-dialogue .classic-log-toggle{
+ position:absolute;top:2px;right:0;height:20px;min-height:0;padding:1px 5px;border:1px solid #2ca5e7;border-radius:4px;
+ background:#175483;color:#fff;font-size:9px;white-space:nowrap;
+}
+.classic-dialogue .classic-log-toggle:hover:not(:disabled){background:#1f6aa3}
+.classic-dialogue .classic-log-toggle.is-collapse{width:23px;padding:0;border:0;font-size:17px;line-height:1}
+.classic-dialogue-lines{flex:1;min-height:0;overflow:auto;scrollbar-width:thin;scrollbar-color:#39ade6 #064075}
+.classic-dialogue-lines>p{margin:0;color:#e2f6ff;font-size:11px;font-weight:400;line-height:1.65;text-align:left}
+.classic-recent-log{margin-top:4px}
+.classic-dialogue .classic-recent-log p{margin:3px 0;color:#c5e9ff;font-size:10px;font-weight:400;line-height:1.55;text-align:left}
+.classic-dialogue.is-expanded .classic-dialogue-header{border-bottom:1px solid #2071a3}
 .classic-dialogue.is-expanded .classic-dialogue-lines{display:none}
-.classic-dialogue .classic-battle-history{padding:0 2px;scrollbar-color:#39ade6 #064075}
-.classic-dialogue .classic-battle-history p{color:#e5f6ff;border-color:#2071a3;font-size:11px}
+.classic-battle-history{
+ flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#39ade6 #064075;
+ padding:0 2px;text-align:left;
+}
+.classic-battle-history p{margin:0;padding:6px 0;border-bottom:1px solid #2071a3;color:#e5f6ff;font-size:11px;font-weight:400;line-height:1.65}
+.classic-battle-history:focus-visible{outline:2px solid #63879a;outline-offset:-2px}
+/* The result row takes the console's place and clears the record panel as the command content does. */
+.classic-battle-result{
+ flex-shrink:0;height:var(--console-h);min-height:0;
+ padding:0 calc(var(--console-gap) + 14px) 0 calc(var(--record-w) + 2 * var(--console-gap) + 14px);
+}
+.classic-dialogue.is-expanded~.classic-battle-result{padding-left:calc(var(--record-open-w) + 2 * var(--console-gap) + 14px)}
+/* Narrow frames: tighter gutters, and the record opens wider than it sits. */
+@container(max-width:780px){
+ .classic-battle{--console-gap:5px;--console-h:136px;--record-w:30%;--record-open-w:41%;--settings-h:16px}
+ .classic-dialogue-header{height:22px}
+ .classic-record-title{font-size:9px}
+ .classic-dialogue .classic-log-toggle{top:1px}
+}
 
 /* Static source frame surrounds live portrait, health, name and level values. */
 .classic-health-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:10px;padding:19px 18px 0}
@@ -389,16 +405,15 @@
  .classic-matchup-rate{padding:0 3px;font-size:10px;line-height:14px}
 }
 @container(max-width:780px){
- .classic-command-deck{height:145px;min-height:145px}
- .classic-command-content{margin:0 29% 0 31%;padding:25px 5px 7px}
- .classic-battle-result{padding-left:calc(31% + 5px)}
- /* The record can be opened on the result screen, and opened it is wider here (41%) than collapsed. */
- .classic-dialogue.is-expanded~.classic-battle-result{padding-left:calc(42% + 5px)}
- .classic-command-tabs{width:28%;height:100%;right:.5%}
- .classic-dialogue{height:129px;width:30%;padding:27px 16px 7px 9px;left:.5%}
- .classic-dialogue.is-expanded{width:41%;height:46%;min-height:129px}.classic-skill,.classic-empty-skill{height:49px;padding-left:25px!important}
- .classic-party-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .classic-party-grid button{height:49px;min-height:49px}
+ .classic-skill,.classic-empty-skill{height:49px;padding-left:25px!important}
+ /* Six members in two rows of three, each with its art beside the name, so the 出战 row stays in the panel without scrolling. */
+ .classic-party-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .classic-party-grid button{
+  display:grid;grid-template-columns:24px minmax(0,1fr);grid-template-rows:auto auto;align-content:center;column-gap:4px;row-gap:1px;
+  height:38px;min-height:38px;text-align:left;
+ }
+ .classic-party-grid button img{grid-row:1 / 3;width:24px;height:24px}
+ .command-content-party>.classic-command-caption{margin-bottom:3px}
  .classic-health-row{padding:20px 10px 0;column-gap:6px}.classic-health-heading strong{font-size:11px;line-height:16px}
  .classic-health-heading .type-icon{width:15px;height:15px}.classic-hp-track>span{font-size:9px}
  .classic-health-footer{font-size:8px;padding:1px 3px}
@@ -420,16 +435,10 @@
 .classic-health-type>.battle-type-icon{width:80%;height:80%;flex-basis:auto}
 .classic-hp-track{top:20%;height:16%;border-radius:6px}
 .classic-health-footer{bottom:0;height:15%;min-height:13px}
-.classic-dialogue{padding-top:27px;border:2px solid #2ca8dc;border-radius:6px}
-.classic-record-title{position:absolute;top:-23px;left:0;right:0;text-align:center;font-size:11px;line-height:20px;color:#a4ddff;font-weight:400}
-.classic-dialogue .classic-log-toggle{top:-23px;right:0}
-.classic-dialogue .classic-log-toggle.is-collapse{top:-23px}
-@container(max-width:780px){.classic-health,.classic-health.foe{height:auto}.classic-health-level{font-size:9px}.classic-hp-track{top:20%;height:16%}.classic-health-heading>strong{font-size:10px}.classic-record-title{font-size:9px}}
+@container(max-width:780px){.classic-health,.classic-health.foe{height:auto}.classic-health-level{font-size:9px}.classic-hp-track{top:20%;height:16%}.classic-health-heading>strong{font-size:10px}}
 
 .classic-hp-track i{background-size:100% 100%}
 .classic-health.foe .classic-hp-track i{transform:scaleX(-1)}
-/* The original diamond hit area must not cover its four neighboring commands. */
-.classic-command-tabs .command-battle{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .classic-skill.category-属性,.classic-skill.category-特殊{background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;border:0}
 .classic-skill.category-属性:hover:not(:disabled),.classic-skill.category-特殊:hover:not(:disabled){background:#0754a5 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat}
 .classic-health .battle-team-strip>.battle-team-count,.classic-health .battle-team-strip>.battle-team-count i{color:#c8ecff}

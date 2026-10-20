@@ -18,7 +18,7 @@ const ArenaLandscape = () => <div className="classic-arena-landscape" aria-hidde
 interface BattleProps {
   c: GameController;
   background?: string;
-  onSettings?: () => void;
+  onSettings: () => void;
 }
 
 export default function Battle({ c, background, onSettings }: BattleProps) {
@@ -64,7 +64,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
     {b.finished && !busy
       ? <div className={`classic-battle-result ${b.won ? 'victory' : ''}`} role="status">
         <div><strong>{battleResultTitle(b)}</strong></div>
-        {onSettings && <button onClick={onSettings}>设置</button>}
+        <button onClick={onSettings}>设置</button>
       </div>
       : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
