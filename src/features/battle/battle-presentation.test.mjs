@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {STRUGGLE_SKILL} from '../../../battle/core/src/index.ts';
+import {groupedBattleLog} from './battle-log.ts';
 import {eventFrames} from './battle-presentation.ts';
 
 const view = (side, name) => ({
@@ -25,4 +26,19 @@ test('a 挣扎 move plays as a physical move at the foe, then its hit and the us
   assert.deepEqual([move.kind, move.side, move.skillId, move.targetSide, move.text], ['physical', 1, STRUGGLE_SKILL.id, 0, '布布花使用了挣扎。']);
   assert.deepEqual([hit.kind, hit.side, hit.playerHp], ['hit', 0, 88]);
   assert.deepEqual([recoil.kind, recoil.side, recoil.enemyHp], ['hit', 1, 75]);
+});
+
+test('one monster\'s stage changes at once are one frame that changes every chip, with the log\'s line', () => {
+  const events = [
+    {type: 'move_used', side: 1, skill: STRUGGLE_SKILL.id, name: '挣扎'},
+    ...['atk', 'def', 'spa', 'spd', 'spe'].map(stat => ({type: 'stat_stage', side: 1, stat, delta: 1, stage: 1, capped: false})),
+  ];
+  const shown = frames(events);
+  assert.equal(shown.length, 2);
+  const [, stages] = shown;
+  assert.deepEqual([stages.kind, stages.side, stages.enemy.stages, stages.player.stages],
+    ['message', 1, {atk: 1, def: 1, spa: 1, spd: 1, spe: 1}, {}]);
+  const [line] = groupedBattleLog(events, {data, initialPlayer: player, initialEnemy: enemy});
+  assert.equal(line, `${shown[0].text}　${stages.text}`);
+  assert.equal(stages.text, '布布花的全部能力提升 1 级，当前均为 +1 级。');
 });
