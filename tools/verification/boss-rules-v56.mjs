@@ -196,6 +196,31 @@ check('Only the named Younasi skill has unlimited PP; actual move consumption pr
   const keep=mon.pp[10410],before=mon.pp[other];battle.submit(1,{kind:'move',skill:10410});tick(battle);assert.equal(mon.pp[10410],keep);
   battle.submit(1,{kind:'move',skill:other});tick(battle);assert.equal(mon.pp[other],before-1);
 });
+check('Younasi shadow barrier: attacks do 0 and 寄生 drains until 贯穿水枪 breaks it; then attacks land and only 幻影 takes the last HP',()=>{
+  // 4399 2010-05-26 (69566): 普通攻击打他都0滴血…用布鲁克克的贯穿水枪打破他的暗影屏障，之后才能攻击; 4399 70397: 最后一滴血，只有幻影可以打掉.
+  const [ATTACK,FIXED,LEECH,BREAK,PHANTOM]=[10046,10080,20007,10323,10100];
+  const younasi=skills=>{const battle=make('boss_spt_younasi',undefined,{sides:[player(skills)]});return {battle,mon:battle.active(1)};};
+  const use=(battle,id)=>{battle.submit(0,{kind:'move',skill:id});return battle.resolveTurn();};
+  const barred=events=>events.some(event=>event.type==='damage_blocked'&&event.side===1&&event.rule==='barrier_until_skill');
+  const hitBy=(events,id)=>events.some(event=>event.type==='damage'&&event.side===1&&event.skill===id&&event.amount>0);
+  const guarded=younasi([FIXED,PHANTOM]);
+  for(const id of [FIXED,PHANTOM]){assert(barred(use(guarded.battle,id)),`skill ${id}`);assert.equal(guarded.mon.hp,guarded.mon.maxHp,`${id} deals 0`);}
+  assert(!guarded.mon.persist.floorBroken,'a barred 幻影 does not break the HP floor');
+  const {battle,mon}=younasi([ATTACK,LEECH,BREAK,PHANTOM]);
+  assert(barred(use(battle,ATTACK)));assert.equal(mon.hp,mon.maxHp);use(battle,LEECH);
+  const drained=use(battle,ATTACK),leech=Math.floor(mon.maxHp/8);assert(barred(drained));
+  assert(drained.some(event=>event.type==='damage'&&event.side===1&&event.status==='leech'&&event.amount===leech),'寄生 drains through the barrier');
+  assert(mon.hp<mon.maxHp&&(mon.maxHp-mon.hp)%leech===0,'only 寄生 has taken its HP');
+  const before=mon.hp,broke=use(battle,BREAK),creature=value=>({name:value.name,hp:value.hp,maxHp:value.maxHp});
+  assert.equal(broke.filter(event=>event.type==='boss_trait'&&event.trait==='barrier_broken').length,1);
+  assert(hitBy(broke,BREAK),'the breaking hit deals damage');assert(mon.hp<before);
+  const lines=groupedBattleLog(broke,{data,initialPlayer:creature(battle.active(0)),initialEnemy:creature(mon)});
+  assert(lines.some(line=>line.includes('尤纳斯的屏障被打破了')),lines.join(' / '));
+  const landed=use(battle,ATTACK);assert(!barred(landed));assert(hitBy(landed,ATTACK),'attacks land after the break');
+  for(let turn=0;turn<30&&mon.hp>1;turn++)use(battle,ATTACK);
+  assert.equal(mon.hp,1);use(battle,ATTACK);assert.equal(mon.hp,1,'the HP floor still holds after the barrier breaks');
+  use(battle,PHANTOM);assert(mon.fainted);assert.equal(battle.result.winner,0);assert.deepEqual(battle.warnings,[]);
+});
 check('Native first-turn phases run before move execution, including the Eersaila Saturday variant',()=>{
   const battle=make('boss_spt_eersaila','sat'),eventsBefore=battle.log.length;tick(battle);
   const events=battle.log.slice(eventsBefore),stage=events.findIndex(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='def'),move=events.findIndex(event=>event.type==='move_used');
