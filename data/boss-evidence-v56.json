@@ -25573,7 +25573,7 @@
       "id": "boss_spt_ruiersi",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_ruiersi.json",
-      "sourceSha256": "509fe1cac60c563ace584ebd9370b47d73ca0fbe10aae373339d9feb2f226470",
+      "sourceSha256": "7aebc913ea4045cc5e976095abc6f6c17518a1ae26a8a30ec1099835fafa5eee",
       "sourceNoteSha256": "643103baed6d74064b744d487c0cec51c50a9436e1bfe3250c4d5da6e959f630",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201112-26-134340.html"
@@ -25676,7 +25676,12 @@
           "rule": "ignore_player_damage_reduction",
           "configuration": {
             "rule": "script",
-            "id": "ignore_player_damage_reduction"
+            "id": "ignore_player_damage_reduction",
+            "params": {
+              "except_skills_zh": [
+                "\u7fa4\u5f71\u4e71\u821e"
+              ]
+            }
           },
           "condition": null,
           "evidence": {

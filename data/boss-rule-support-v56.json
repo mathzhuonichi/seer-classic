@@ -4819,7 +4819,9 @@
           "rule": "script",
           "id": "ignore_player_damage_reduction",
           "scope": "root/rules/1",
-          "fields": [],
+          "fields": [
+            "except_skills_zh"
+          ],
           "implementation": "install"
         },
         {
@@ -4870,7 +4872,7 @@
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
+          "scope": "engine_notes/3",
           "reason": "攻击力超高，基本可秒杀大部分精灵 — its innate boost (天生强化, size not stated) is atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         }
       ],

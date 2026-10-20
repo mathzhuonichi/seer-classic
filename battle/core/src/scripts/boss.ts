@@ -150,9 +150,12 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
 
 /** Rules with their own install: one-off changes, plain conditions, and conditions on every field member. */
 const INSTALL_RULES: Record<string, ScriptEntry> = {
-  // the boss's moves ignore the player's protections (all, or those the player's listed skills give; engine/rules.ts)
+  // the boss's moves ignore the player's protections: all or those the listed skills give, but not those the excepted skills give (engine/rules.ts)
   ignore_player_damage_reduction: {
-    install: (c, p) => { c.mon.persist.ignoreReduction = p.skills_zh ? conditionSources(c.battle, p.skills_zh) : true; },
+    install: (c, p) => {
+      const sources = (names?: string[]) => names && conditionSources(c.battle, names);
+      c.mon.persist.ignoreReduction = { only: sources(p.skills_zh), except: sources(p.except_skills_zh) };
+    },
   },
   // the boss's per-hit damage cap may fail while it has one of these statuses
   damage_cap_breaks_on_dot: {

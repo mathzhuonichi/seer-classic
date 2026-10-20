@@ -132,12 +132,14 @@ export function ruleBlocks(b: Battle, side: Side, info: DamageInfo, target: Mon)
 }
 
 /**
- * `ignore_player_damage_reduction`: whether `attacker` ignores this protection of its target (damage reduction, evasion
- * or block): all of them, or those of the conditions its listed skills attach, by condition or script id.
+ * `ignore_player_damage_reduction`: whether `attacker` ignores this protection of its target (damage reduction, evasion,
+ * block or negation of its move): all of them or `only` those of the conditions its listed skills attach, never those of
+ * the conditions its `except` skills attach (by condition or script id).
  */
 export function ignoresProtection(attacker: Mon | undefined, cond: ActiveCondition, hook: Hook): boolean {
-  const ignored = attacker?.persist.ignoreReduction as true | string[] | undefined;
-  return ignored === true || !!ignored?.some((id) => id === cond.id || id === hook.script);
+  const ignored = attacker?.persist.ignoreReduction as { only?: string[]; except?: string[] } | undefined;
+  const named = (ids?: string[]) => !!ids?.some((id) => id === cond.id || id === hook.script);
+  return !!ignored && (!ignored.only || named(ignored.only)) && !named(ignored.except);
 }
 
 /** `revive_unless_status_ko`: a knockout not dealt by a damaging status revives the boss. */

@@ -22,7 +22,7 @@ const contracts={
   immune_skill_list:['skills_zh'],
   foe_stage_each_turn:['stats'],copy_foe_boosts_on_switch_in:[],mirror_status_to_attacker:['statuses'],lifesteal:['pct_damage_dealt'],
   escalate_vs_same_foe:['stats','reset_on_foe_switch'],status_on_attacker:['status','chance','categories','turns_min','turns_max'],
-  random_heal:['chance','pct_max_hp'],ignore_player_damage_reduction:['skills_zh'],foe_status_each_turn:['status','from_turn'],
+  random_heal:['chance','pct_max_hp'],ignore_player_damage_reduction:['skills_zh','except_skills_zh'],foe_status_each_turn:['status','from_turn'],
   random_priority:['chance'],skill_effect_override:['skill','status','chance'],damage_cap_breaks_on_dot:['statuses','chance'],foe_cannot_boost:[],
   crit_rate_up:['stages'],heal_flat:['amount'],always_crit:[],damage_dealt_multiplier:['multiplier'],
   only_sure_hit_moves_land:[],status_moves_always_miss:[],status_damage_allowed:['statuses'],
@@ -309,6 +309,21 @@ check('Baihu avatars: 战虎 moves first and keeps its boost except against sure
   assert.equal(hit(volt,electric,25,'normal','status','percent'),0);assert.equal(volt.applyStatus(electric,'poison',{turns:3}),false);
   const kill={kind:'true',ohko:true,source:volt.active(0),skill:data.skills.get(11022)};
   assert.equal(volt.dealDamage(electric,electric.hp,kill),2500);assert(electric.fainted);assert.deepEqual(volt.warnings,[]);
+});
+check('Ruiersi passes full evasion such as 空间跳跃; only the block of 盖亚 群影乱舞 still stops it; a Boss without the rule is negated',()=>{
+  // 4399 133584 特性3: 闪光艾菲亚空间跳跃等完全闪避技能无效，只有盖亚的群魔乱舞能挡五回合 (盖亚's protective skill is 群影乱舞).
+  const fight=(id,guard,except)=>{
+    const battle=make(id,undefined,{sides:[player([guard])]}),boss=battle.active(1),foe=battle.active(0);foe.stats.spe=1e6;
+    if(except)boss.persist.ignoreReduction.except=except;
+    battle.submit(1,{kind:'move',skill:boss.skills.find(skill=>data.skills.get(skill).category!=='status')});battle.submit(0,{kind:'move',skill:guard});
+    const hp=foe.hp,events=battle.resolveTurn();
+    return {failed:events.some(event=>event.type==='move_failed'&&event.side===1),hurt:foe.hp<hp};
+  };
+  assert.deepEqual(fight('boss_spt_ruiersi',20097),{failed:false,hurt:true},'空间跳跃');
+  assert.deepEqual(fight('boss_spt_ruiersi',20310),{failed:false,hurt:false},'群影乱舞');
+  assert.deepEqual(fight('boss_spt_ruiersi',20310,[]),{failed:false,hurt:true},'群影乱舞 without the exception');
+  assert.equal(fight('boss_spt_palisi',20498).failed,false,'帕里斯 ignores 虚无');
+  assert.equal(fight('boss_tower_brave_f001',20097).failed,true,'空间跳跃 negates a Boss without the rule');
 });
 check('Entry validation returns one structured refusal per broken party rule: team size, member level and required species',()=>{
   for(let n=1;n<=5;n++){
