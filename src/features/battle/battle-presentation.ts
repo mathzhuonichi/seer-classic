@@ -1,6 +1,6 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
-import { battleEventText, displayedDamage, type EventOf } from './battle-log.ts';
+import { battleStepText, battleSteps, displayedDamage, type EventOf } from './battle-log.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
 
@@ -96,18 +96,22 @@ export interface FrameOptions {
   nextFrameId(): number;
 }
 
-/** Presentation follows the engine's event order; it does not resolve combat a second time. */
+/**
+ * Presentation follows the engine's event order; it does not resolve combat a second time. Each step (`battleSteps`) is one
+ * frame, so one monster's stage changes at once change all its chips together.
+ */
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
   const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
   const frames: BattlePresentationFrame[] = [];
   let shown = before;
-  for (const e of events) {
+  for (const step of battleSteps(events)) {
+    const [e] = step;
     const side: 0 | 1 = e.type === 'capture_attempt' || 'side' in e && e.side === 1 ? 1 : 0;
     const activeBefore = side === 1 ? shown.enemy : shown.player;
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
-    shown = advanceBattlePresentation(shown, e);
-    const text = battleEventText(e, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
+    for (const event of step) shown = advanceBattlePresentation(shown, event);
+    const text = battleStepText(step, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
     const motion = frameMotion(e, side, activeBefore, data);
     if (!text && motion.kind === 'message') continue;
     const { player, party } = shown, enemy = foe(shown.enemy), capture = e.type === 'capture_attempt' ? e : undefined;

@@ -36,10 +36,41 @@ const speciesName = (event: EventOf<'switch_in' | 'transform'>, context: BattleL
 /** Display the complete hit; HP loss, drain and rewards retain the core's amount. */
 export const displayedDamage = (event: EventOf<'damage'>): number => Math.max(0, event.amount) + Math.max(0, event.overkill);
 
+const signed = (stage: number) => `${stage > 0 ? '+' : ''}${stage}`;
+const changeText = (delta: number) => delta > 0 ? `提升 ${delta} 级` : delta < 0 ? `下降 ${-delta} 级` : '不变';
+
 function stageText(event: EventOf<'stat_stage'>, name: string): string {
   if (event.reason === 'critical') return `致命一击破防，${name}的${stageLabel(event.stat)}提升已清除。`;
-  const change = event.delta > 0 ? '提升' : event.delta < 0 ? '下降' : '不变';
-  return `${name}的${stageLabel(event.stat)}${change}${event.delta ? ` ${Math.abs(event.delta)} 级` : ''}，当前 ${event.stage > 0 ? '+' : ''}${event.stage} 级。`;
+  return `${name}的${stageLabel(event.stat)}${changeText(event.delta)}，当前 ${signed(event.stage)} 级。`;
+}
+
+/** The five battle stats; changed alike, they are named together, as the skill texts' 所有能力. */
+const BATTLE_STATS: readonly StageKey[] = ['atk', 'def', 'spa', 'spd', 'spe'];
+const ALL_STATS_LABEL = '全部能力';
+
+function statNames(stats: readonly StageKey[]): string {
+  if (!BATTLE_STATS.every(stat => stats.includes(stat))) return stats.map(stageLabel).join('、');
+  const others = stats.filter(stat => !BATTLE_STATS.includes(stat)).map(stageLabel);
+  return others.length ? `${ALL_STATS_LABEL}和${others.join('、')}` : ALL_STATS_LABEL;
+}
+
+/** Stage events that one step gathers (`battleSteps`); a critical hit's clearing keeps its own line. */
+type StageEvent = EventOf<'stat_stage' | 'stage_blocked'>;
+const gathers = (event: BattleEvent): event is StageEvent =>
+  event.type === 'stage_blocked' || event.type === 'stat_stage' && event.reason !== 'critical';
+
+/** One monster's stage changes at once: the stats named per change in the order they came, then the stage they all reached. */
+function stagesText(events: readonly StageEvent[], name: string): string {
+  const changes = new Map<number | 'blocked', StageKey[]>();
+  for (const event of events) {
+    const change = event.type === 'stat_stage' ? event.delta : 'blocked';
+    changes.set(change, [...changes.get(change) ?? [], event.stat]);
+  }
+  const parts = [...changes].map(([change, stats]) => `${statNames(stats)}${change === 'blocked' ? '变化被阻止' : changeText(change)}`);
+  const stages = events.map(event => event.type === 'stat_stage' ? event.stage : undefined);
+  const [reached] = stages;
+  const alike = reached !== undefined && stages.every(stage => stage === reached);
+  return `${name}的${parts.join('，')}${alike ? `，当前均为 ${signed(reached)} 级` : ''}。`;
 }
 
 function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContext): string {
@@ -59,13 +90,19 @@ function battleEndText(event: EventOf<'battle_end'>, context: BattleLogContext):
   return event.success && !context.challenge ? '战斗胜利！' : '战斗结束。';
 }
 
+/** The event's monster; a move's own `name` is its skill's. */
+const bareName = (event: BattleEvent, context: BattleLogContext): string =>
+  event.type !== 'move_used' && 'name' in event && event.name || (onFoe(event) ? context.initialEnemy : context.initialPlayer).name;
+
+/** The event's monster as a line names it: both sides can field the same species, and then the side tells them apart. */
+function subjectName(event: BattleEvent, context: BattleLogContext): string {
+  const bare = bareName(event, context), other = onFoe(event) ? context.initialPlayer : context.initialEnemy;
+  return 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
+}
+
 /** Format one event for the centered dialogue; pass current displayed creature names. */
 export function battleEventText(event: BattleEvent, context: BattleLogContext): string {
-  const foe = onFoe(event), mon = foe ? context.initialEnemy : context.initialPlayer, other = foe ? context.initialPlayer : context.initialEnemy;
-  // A move's own `name` is its skill's.
-  const bare = event.type !== 'move_used' && 'name' in event && event.name || mon.name;
-  // Both sides can field the same species: then the side tells them apart.
-  const name = 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
+  const bare = bareName(event, context), name = subjectName(event, context);
   const skill = (id: number) => moveSkill(context.data, id)?.name.zh || '技能';
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
@@ -118,6 +155,38 @@ export function openingEvents(events: BattleEvent[]): BattleEvent[] {
   return events.filter((event, index) => index >= fielded || (event.type !== 'condition_added' && event.type !== 'condition_refreshed'));
 }
 
+/**
+ * The steps a battle shows, one line and one frame each: every event alone, except that consecutive stage changes of one monster
+ * are one step. The engine emits a cause's changes one stat at a time with nothing between them (光芒附体's five `stat_stage`
+ * events right after its `move_used`) and names no cause, so any other event, or a stat changing a second time, starts a new
+ * step. Changes to the other side in the same run (袭天舞's lowering of the foe, a 同步 mirror) gather in a step of their own.
+ */
+export function battleSteps(events: readonly BattleEvent[]): BattleEvent[][] {
+  const steps: BattleEvent[][] = [];
+  const gathering = new Map<0 | 1, StageEvent[]>();
+  for (const event of events) {
+    if (!gathers(event)) {
+      gathering.clear();
+      steps.push([event]);
+      continue;
+    }
+    const step = gathering.get(event.side);
+    if (step && !step.some(other => other.stat === event.stat)) step.push(event);
+    else {
+      const opened = [event];
+      gathering.set(event.side, opened);
+      steps.push(opened);
+    }
+  }
+  return steps;
+}
+
+/** A step's line (`battleSteps`): its event's, or one monster's stage changes together. */
+export function battleStepText(step: readonly BattleEvent[], context: BattleLogContext): string {
+  const [event] = step;
+  return step.length > 1 && step.every(gathers) ? stagesText(step, subjectName(event, context)) : battleEventText(event, context);
+}
+
 /** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
 const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
   new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
@@ -131,7 +200,9 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
   let current: string[] = [];
   const flush = () => { if (current.length) groups.push(current.join('　')); current = []; };
   let previous: BattleEvent | undefined;
-  for (const event of events) {
+  // A step of several events is one monster's stage changes, so its first event stands for it here.
+  for (const step of battleSteps(events)) {
+    const [event] = step;
     if (GROUP_STARTS.has(event.type) && !continuesSwitch(event, previous)) flush();
     previous = event;
     const mon = onFoe(event) ? shown.initialEnemy : shown.initialPlayer;
@@ -140,7 +211,7 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
       mon.hp = event.hp;
       mon.maxHp = event.maxHp;
     }
-    const text = battleEventText(event, shown);
+    const text = battleStepText(step, shown);
     if (text) current.push(text);
     // Named bench recovery must not overwrite the active creature's context.
     if ((event.type === 'damage' || event.type === 'heal' || event.type === 'revive') && (!event.name || event.name === mon.name)) mon.hp = event.hp;

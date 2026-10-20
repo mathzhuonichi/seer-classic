@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {battleEventText, groupedBattleLog, openingEvents} from './battle-log.ts';
+import {battleEventText, battleSteps, groupedBattleLog, openingEvents} from './battle-log.ts';
 
 const context = {data: {species: new Map(), skills: new Map(), items: new Map()},
   initialPlayer: {name: '巴鲁斯', hp: 100, maxHp: 100}, initialEnemy: {name: '布布花', hp: 100, maxHp: 100}};
@@ -79,4 +79,49 @@ test('a switch opens its own entry: the switch_out with the switch_in that follo
     '布布花返回精灵胶囊。　对手派出了巴鲁斯。',
     '对手巴鲁斯使用了技能。',
   ]);
+});
+
+const stage = (side, stat, delta, reached = delta, fields = {}) => ({type: 'stat_stage', side, stat, delta, stage: reached, capped: false, ...fields});
+const each = (side, stats, delta, reached) => stats.map(stat => stage(side, stat, delta, reached));
+const FIVE = ['atk', 'def', 'spa', 'spd', 'spe'];
+const used = side => ({type: 'move_used', side, skill: 1, name: '光芒附体'});
+
+test('one monster\'s stage changes at once are one line: the five battle stats alike are 全部能力', () => {
+  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 1, 1)], context), ['布布花使用了技能。　布布花的全部能力提升 1 级，当前均为 +1 级。']);
+  // The stage reached is said only when it is the same for all.
+  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 1, 2).map((event, index) => index ? event : {...event, stage: 3})], context),
+    ['布布花使用了技能。　布布花的全部能力提升 1 级。']);
+  assert.deepEqual(groupedBattleLog([used(0), ...each(1, [...FIVE, 'acc'], -1, -1)], context), ['巴鲁斯使用了技能。　布布花的全部能力和命中下降 1 级，当前均为 -1 级。']);
+  assert.deepEqual(groupedBattleLog([used(1), ...each(1, FIVE, 0, 6)], context), ['布布花使用了技能。　布布花的全部能力不变，当前均为 +6 级。']);
+});
+
+test('other stage changes at once name their stats per change, and each monster has its own line', () => {
+  const lines = groupedBattleLog([
+    used(0), stage(0, 'atk', 2), stage(0, 'def', 1, 1), stage(0, 'spa', 2), stage(0, 'spd', 1, 1), stage(0, 'spe', -1),
+    used(1), stage(1, 'atk', 2), stage(1, 'spa', 2), stage(0, 'spe', -1, -2),
+  ], context);
+  assert.deepEqual(lines, [
+    '巴鲁斯使用了技能。　巴鲁斯的攻击、特攻提升 2 级，防御、特防提升 1 级，速度下降 1 级。',
+    '布布花使用了技能。　布布花的攻击、特攻提升 2 级，当前均为 +2 级。　巴鲁斯的速度下降 1 级，当前 -2 级。',
+  ]);
+  const blocked = stat => ({type: 'stage_blocked', side: 1, stat});
+  assert.deepEqual(groupedBattleLog([used(0), blocked('atk'), blocked('def')], context), ['巴鲁斯使用了技能。　布布花的攻击、防御变化被阻止。']);
+  assert.deepEqual(groupedBattleLog([used(0), stage(1, 'atk', -1), blocked('def')], context), ['巴鲁斯使用了技能。　布布花的攻击下降 1 级，防御变化被阻止。']);
+});
+
+test('changes from another cause keep their own line: after another event, on a stat changed again, or a critical hit\'s clearing', () => {
+  const tick = {type: 'condition_tick', side: 1, slot: 0, name: '布布花', condition: 'seer_eff_1', conditionName: '蓄力'};
+  const hit = {type: 'damage', side: 1, slot: 0, name: '布布花', amount: 10, overkill: 0, hp: 90, maxHp: 100, kind: 'attack', crit: true};
+  const critical = stage(1, 'def', -2, 0, {name: '布布花', reason: 'critical'});
+  assert.deepEqual(groupedBattleLog([tick, stage(1, 'atk', 1), stage(1, 'atk', 1, 2), stage(1, 'def', 1, 2)], context),
+    ['布布花的蓄力在回合结束时生效。　布布花的攻击提升 1 级，当前 +1 级。　布布花的攻击、防御提升 1 级，当前均为 +2 级。']);
+  assert.deepEqual(groupedBattleLog([used(0), hit, critical, stage(1, 'atk', -1, -1), stage(1, 'spe', -1, -1)], context), [
+    '巴鲁斯使用了技能。　布布花受到 10 点伤害，致命一击！剩余体力 90/100。　致命一击破防，布布花的防御提升已清除。　布布花的攻击、速度下降 1 级，当前均为 -1 级。',
+  ]);
+});
+
+test('a run of stage changes to both monsters, as a 同步 mirror makes them, is one step per monster', () => {
+  const run = [stage(0, 'atk', 1), stage(1, 'atk', 1), stage(0, 'def', 1), stage(1, 'def', 1)];
+  assert.deepEqual(battleSteps(run), [[run[0], run[2]], [run[1], run[3]]]);
+  assert.deepEqual(battleSteps([stage(0, 'atk', 1), used(0), stage(0, 'def', 1)]).map(step => step.length), [1, 1, 1]);
 });
