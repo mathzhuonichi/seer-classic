@@ -5,6 +5,7 @@ import {STAT_KEYS} from '../../../../../raising/core/types.ts';
 import {IV_MAX} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {appearanceOf,speciesNumber} from '../../../../shared/monster-views.ts';
+import {HoverTerm} from '../../../../shared/ui/HoverCard.tsx';
 import {SkillRow} from '../../../../shared/ui/SkillDetail.tsx';
 import {feedbackFor} from './dispatch-feedback.ts';
 
@@ -14,8 +15,10 @@ export default function OverviewTab({m,c}:{m:MonsterView;c:GameController}) {
     <SkinPicker m={m} c={c}/>
     <div className="petbag-overview">
       <div className="petbag-information">
-        <div><span>精灵编号</span><strong>{speciesNumber(m.species)}</strong></div><div><span>性格</span><strong>{m.nature}</strong></div>
-        <div><span>个体值</span><strong>{m.iv} / {IV_MAX}</strong></div><div><span>特性</span><strong>{m.trait||'无'}</strong></div>
+        <div><span>精灵编号</span><strong>{speciesNumber(m.species)}</strong></div>
+        <div><span>性格</span><HoverTerm name={m.nature.name} detail={m.nature.effect}/></div>
+        <div><span>个体值</span><strong>{m.iv} / {IV_MAX}</strong></div>
+        <div><span>特性</span>{m.trait?<HoverTerm name={m.trait.name} detail={m.trait.description}/>:<strong>无</strong>}</div>
       </div>
       <p className="engraving-stat-note">基础能力（不含刻印）</p>
       <div className="petbag-stat-summary">{STAT_KEYS.map(key=><div key={key}><span>{STAT_LABELS[key]}</span><strong>{m.stats[key]}</strong></div>)}</div>

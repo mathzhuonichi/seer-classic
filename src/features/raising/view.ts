@@ -5,14 +5,14 @@ import { activeEngravings, engravingById, engravingStatBonus, type EngravingDefi
 import { traits } from '../../domain/traits.ts';
 import { getBreedingGender } from '../../domain/recipes/breeding.ts';
 import { appearanceSpecies } from '../../domain/acquisition/skins.ts';
-import type { BoostView, EvolutionChoiceView, MonsterEngravingsView, MonsterView } from '../../shared/views.ts';
+import type { BoostView, EvolutionChoiceView, MonsterEngravingsView, MonsterView, TraitView } from '../../shared/views.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
 import type { GameContext } from '../../kernel/api.ts';
 import {engravingHolder, engravingLedger, engravingView, equippedEngravings, type EngravingLedger} from '../engravings/index.ts';
-import { portrait, skillView, typeLabel } from '../../shared/view-common.ts';
+import { natureView, portrait, skillView, typeLabel } from '../../shared/view-common.ts';
 
 /** The row fields that the rest of the save decides; every other field follows from the monster's own record. */
-const SAVE_FIELDS = ['trait', 'traitId', 'engravings', 'inParty', 'evolutionChoices', 'boosts'] as const;
+const SAVE_FIELDS = ['trait', 'engravings', 'inParty', 'evolutionChoices', 'boosts'] as const;
 type SaveFields = Pick<MonsterView, (typeof SAVE_FIELDS)[number]>;
 
 /** What every row of one snapshot shares: the party, each species' stored copies, the engravings' holders and the player-wide boosts. */
@@ -46,13 +46,13 @@ function evolutionChoices(ctx: GameContext, save: GameSave, index: SaveIndex, mo
   });
 }
 
-const traitById = new Map(traits.map(trait => [trait.id, trait]));
+/** Every trait's view, one object per trait, so a row keeps its trait while the trait is unchanged. */
+export const TRAIT_VIEWS: ReadonlyMap<string, TraitView> = new Map(traits.map(({ id, name, description }) => [id, { id, name, description }]));
 
 /** The trait, engravings, party place, evolution capacity and boosts (the player-wide ones and this monster's energy bead). */
 function saveFields(ctx: GameContext, save: GameSave, index: SaveIndex, mon: Monster): SaveFields {
-  const trait = traitById.get(save.game.traits[mon.uid]);
   return {
-    trait: trait?.name ?? '无', traitId: trait?.id ?? null, engravings: monsterEngravings(ctx, save, mon, index.ledger), inParty: index.party.has(mon.uid),
+    trait: TRAIT_VIEWS.get(save.game.traits[mon.uid]) ?? null, engravings: monsterEngravings(ctx, save, mon, index.ledger), inParty: index.party.has(mon.uid),
     evolutionChoices: evolutionChoices(ctx, save, index, mon), boosts: [...index.boosts, ...activeBeads(save, mon.uid).map(index.boostView)],
   };
 }
@@ -63,7 +63,7 @@ function recordView(ctx: GameContext, mon: Monster): Omit<MonsterView, keyof Sav
     uid: mon.uid, species: sp.id, appearanceSpecies: appearance,
     skinOptions: (ctx.skinOptions.get(sp.id) ?? [sp.id]).map(species => ({ species, name: ctx.speciesName(species) })),
     name: mon.nickname || sp.name.zh, speciesName: sp.name.zh, level: mon.level, exp: mon.exp, expToNext: expToNext(sp.growth, mon.level),
-    iv: mon.iv, nature: dex.nature(mon.nature).name.zh, natureId: mon.nature, types: sp.types.map(typeLabel), baseStats: { ...sp.base },
+    iv: mon.iv, nature: natureView(dex.nature(mon.nature)), types: sp.types.map(typeLabel), baseStats: { ...sp.base },
     stats: computeStats(mon, dex), evs: mon.evs, hp: mon.hp,
     skills: mon.skills.map(id => skillView(data, id, mon.pp)), learned: mon.learned.map(id => skillView(data, id, mon.pp)),
     portrait: portrait(appearance), evolution: evolutions.length ? evolutions.map(id => ctx.speciesName(id)).join(' / ') : null,

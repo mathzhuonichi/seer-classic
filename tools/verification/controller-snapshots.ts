@@ -89,7 +89,7 @@ export async function verifySnapshotInputs(){
     checks.push(label);
   };
   act({type:'cheatResources',coins:100000},...[15,15,19,20,20,20,20,20,97,14].map((species):GameAction=>({type:'cheatAcquire',species,level:100})))();
-  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),[x]=uids(14),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).traitId)!.id;
+  const [a,b]=uids(15),[m]=uids(19),[c]=uids(20),[x]=uids(14),traitId=game.snapshot().traits.find(trait=>trait.id!==row(a).trait?.id)!.id;
   step('notice dismissed',act({type:'dismissNotice'}),[]);
   step('rename',act({type:'rename',uid:m,name:'Identity'}),[m]);
   step('party',act({type:'party',uid:m,add:false}),[m]);

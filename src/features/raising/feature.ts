@@ -1,10 +1,11 @@
 // features/raising's registration: raising and organising owned monsters, the editor, and the roster slices.
 import type { StatBlock } from '../../../raising/core/types.ts';
 import type { StatKey } from '../../../raising/core/stats.ts';
-import type { MonsterView } from '../../shared/views.ts';
+import type { MonsterView, NatureView, TraitView } from '../../shared/views.ts';
+import { natureView } from '../../shared/view-common.ts';
 import type { Feature } from '../../kernel/api.ts';
 import { raisingActions } from './actions.ts';
-import { monsterRows } from './view.ts';
+import { monsterRows, TRAIT_VIEWS } from './view.ts';
 
 export type RaisingAction =
   | {type: 'heal'}
@@ -22,14 +23,14 @@ export type RaisingAction =
   | {type: 'cheatResources'; coins?: number; expPool?: number};
 export interface RaisingSlice {
   monsters: MonsterView[]; party: string[]; expPool: number;
-  natures: {id: string; name: string}[]; traits: {id: string; name: string; description: string}[];
+  natures: NatureView[]; traits: TraitView[];
 }
 
 export const raisingFeature: Feature<RaisingAction, RaisingSlice> = {
   actions: raisingActions,
   slice: ctx => {
-    const natures = ctx.catalog.natures.map(nature => ({ id: String(nature.id), name: (nature.name as { zh: string }).zh }));
-    const traits = ctx.availableTraits.map(trait => ({ id: trait.id, name: trait.name, description: trait.description }));
+    const natures = ctx.catalog.natures.map(nature => natureView(ctx.dex.nature(String(nature.id))));
+    const traits = ctx.availableTraits.map(trait => TRAIT_VIEWS.get(trait.id)!);
     const monsters = monsterRows(ctx);
     return ({ save }) => ({ monsters: monsters(save), party: [...save.party], expPool: save.exp_pool, natures, traits });
   },

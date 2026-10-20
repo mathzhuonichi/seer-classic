@@ -15,6 +15,10 @@ export interface SkillView {
   /** The catalog's description, or one derived from the skill's effects (shared/skill-text.ts); '' for a plain attack. */
   description: string;
 }
+/** A 特性 with its effect, from data/traits.json. */
+export interface TraitView { id: string; name: string; description: string }
+/** A 性格 with its stat correction, such as 攻击 +10%，防御 -10%. */
+export interface NatureView { id: string; name: string; effect: string }
 export interface SkinChoiceView {species:number;name:string}
 export interface BoostView {name:string;/** Battles until the item effect ends. */battlesLeft:number}
 export interface EvolutionChoiceView {species:number;name:string;level:number;blockedReason?:string}
@@ -31,7 +35,7 @@ export interface EngravingView {
   owned: number; canBuy: boolean;
 }
 export interface MonsterEngravingsView { ability: EngravingView | null; skill: EngravingView | null; bonus: Partial<StatBlock> }
-export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: string; natureId: string; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: string; traitId: string | null; engravings: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices:EvolutionChoiceView[]; gender: 0 | 1 | 2; generation: number; boosts: BoostView[] }
+export interface MonsterView { uid: string; species: number; appearanceSpecies?:number; skinOptions:SkinChoiceView[]; name: string; speciesName: string; level: number; exp: number; expToNext: number; iv: number; nature: NatureView; types: string[]; baseStats: StatBlock; stats: StatBlock; evs: StatBlock; hp: number; skills: SkillView[]; learned: SkillView[]; trait: TraitView | null; engravings: MonsterEngravingsView; inParty: boolean; portrait: string; evolution: string | null; evolutionChoices:EvolutionChoiceView[]; gender: 0 | 1 | 2; generation: number; boosts: BoostView[] }
 /** `levelMasked`: the original showed this opponent's level as ?? although it is within the level cap. */
 export interface EncounterOpponentView {species:number;name:string;level:number;levelMasked?:boolean}
 /** An encounter's archive category; `CHALLENGE_CATEGORY` (domain/challenges) holds the labels. */

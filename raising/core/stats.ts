@@ -11,7 +11,7 @@ export const EV_STAT_CAP = 255;
 export const EV_TOTAL_CAP = 510;
 
 // 性格修正: x1.1 on `plus`, x0.9 on `minus`, never on HP. Neutral natures have plus === minus.
-export function natureMultiplier(nature: Nature, stat: StatKey): number {
+export function natureMultiplier(nature: Pick<Nature, "plus" | "minus">, stat: StatKey): number {
   if (stat === "hp" || nature.plus === nature.minus) return 1;
   if (stat === nature.plus) return 1.1;
   if (stat === nature.minus) return 0.9;

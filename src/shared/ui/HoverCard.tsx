@@ -66,3 +66,8 @@ export default function HoverCard({id,open,anchor,className='',children}:HoverCa
   return createPortal(<div ref={ref} id={id} role="tooltip" className={`hover-card ${className}`} style={style}>{children}</div>,document.body);
 }
 
+/** A name explained on hover or keyboard focus, such as a monster's 性格 or 特性. */
+export function HoverTerm({name,detail}:{name:string;detail:string}) {
+  const {trigger,card}=useHoverCard<HTMLElement>();
+  return <><strong {...trigger} className="hover-term" tabIndex={0}>{name}</strong><HoverCard {...card}><strong>{name}</strong><p>{detail}</p></HoverCard></>;
+}

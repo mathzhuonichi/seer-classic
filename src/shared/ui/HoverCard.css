@@ -1,3 +1,5 @@
 .hover-card{position:fixed;z-index:100000;transform-origin:0 0;box-sizing:border-box;width:max-content;overflow:hidden;padding:9px 11px;border:1px solid #59cff1;border-radius:5px;background:#073665;box-shadow:0 3px 12px #001f4b88,inset 0 0 0 1px #145f8f;color:#e5f8ff;text-align:left;font:12px/1.55 SimSun,serif;pointer-events:none;overflow-wrap:anywhere}
 .hover-card>strong{display:block;color:#fff3aa;font-size:13px}
 .hover-card>p{margin:5px 0 0;font-size:11px;line-height:1.6}
+.hover-term{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+.hover-term:focus-visible{outline:2px solid #fff47b;outline-offset:2px;border-radius:2px}

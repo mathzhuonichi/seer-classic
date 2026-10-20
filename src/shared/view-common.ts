@@ -1,9 +1,11 @@
 // Small display rules shared by the controller's snapshot builders.
 import { DEFAULT_CRIT_RATE, STRUGGLE_SKILL, type DataSet, type Skill as BattleSkill } from '../../battle/core/src/index.ts';
 import { attackTypes } from '../../battle/core/src/typechart.ts';
+import type { Nature } from '../../raising/core/types.ts';
 import { SKILL_CATEGORY_LABELS, STATUS_LABELS, TYPE_LABELS } from './labels.ts';
+import { natureEffect } from './monster-views.ts';
 import { skillDescription, skillHits } from './skill-text.ts';
-import type { SkillView } from './views.ts';
+import type { NatureView, SkillView } from './views.ts';
 
 export const portrait = (species: number) => `/portraits/${species}.png`;
 export const typeLabel = (type: string) => TYPE_LABELS[type] ?? type;
@@ -33,3 +35,5 @@ export function skillView(data: DataSet, id: number, pp?: Record<string, number>
   };
 }
 
+/** A 性格 as the raising screens show it: its name and stat correction. */
+export const natureView = (nature: Nature): NatureView => ({ id: nature.id, name: nature.name.zh, effect: natureEffect(nature) });
