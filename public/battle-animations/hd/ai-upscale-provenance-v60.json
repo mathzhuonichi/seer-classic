@@ -1,0 +1,99 @@
+{
+  "revision": 1,
+  "kind": "ai-upscaled-raster-override",
+  "mode": "ai-upscaled",
+  "method": {
+    "tool": "realesrgan-ncnn-vulkan",
+    "release": "xinntao/Real-ESRGAN v0.2.5.0, ncnn-Vulkan build 20220424 (macOS universal)",
+    "archive": "realesrgan-ncnn-vulkan-20220424-macos.zip",
+    "archiveUrl": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip",
+    "archiveSha256": "e0ad05580abfeb25f8d8fb55aaf7bedf552c375b5b4d9bd3c8d59764d2cc333a",
+    "binarySha256": "c1c35d92079085de96b9d547fd7e4464bc8a2e9ccf28d7b8c712d72ade91b7cc",
+    "model": "realesrgan-x4plus-anime",
+    "modelScale": 4,
+    "modelParamSha256": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4",
+    "modelBinSha256": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+    "arguments": [
+      "-s",
+      "4",
+      "-t",
+      "0",
+      "-j",
+      "1:1:1",
+      "-f",
+      "png"
+    ],
+    "padding": 8,
+    "colourAlphaMinimum": 4,
+    "alphaMode": "edge",
+    "alphaBlend": [
+      16,
+      64
+    ],
+    "alphaEdge": [
+      64,
+      160
+    ],
+    "eightTimesMode": "lanczos",
+    "reduction": "premultiplied box filter"
+  },
+  "gate": {
+    "alphaIoU16Minimum": 0.8664,
+    "premultipliedRgbaMaeMaximum": 21.5582,
+    "blockErrorMaximum": 74.4794,
+    "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+  },
+  "calibration": {
+    "path": "artifacts/battle-hd-ai-v60/calibration.json",
+    "sha256": "313d9b59553412c7dda300f6680c1a3658b9c720817f260e80738f53e3845cec"
+  },
+  "scope": "Retained original raster cells below one texel per device pixel at the reference display; original-vector, constant and other cells keep their published pixels.",
+  "totals": {
+    "species": 1,
+    "aiUpscaledCells": 16,
+    "firstPoseAiUpscaledCells": 1,
+    "gateRejectedCells": 4,
+    "tooSmallCells": 0,
+    "4x": 8,
+    "2x": 8
+  },
+  "species": {
+    "166": {
+      "reportPath": ".cache/battle-hd-v60/species/166/report.json",
+      "reportSha256": "7da1583a86603a30f49b4c94b7e2d970d7cc9edb26d3aa7b220e882f40f6c2ff",
+      "base": {
+        "atlas": "/battle-animations/hd/166-v59.png",
+        "atlasSha256": "033a62ac718f19ccab3774e901bfbd2f19cb796ad140b92088dbc422202b0004"
+      },
+      "aiUpscaledCells": {
+        "11": 4,
+        "12": 2,
+        "19": 4,
+        "28": 4,
+        "29": 4,
+        "30": 2,
+        "31": 2,
+        "32": 2,
+        "33": 2,
+        "34": 2,
+        "35": 2,
+        "41": 4,
+        "49": 4,
+        "50": 4,
+        "69": 2,
+        "9": 4
+      },
+      "firstPoseAiUpscaledCells": [
+        "11"
+      ],
+      "gateRejectedCells": [
+        "39",
+        "40",
+        "56",
+        "58"
+      ],
+      "tooSmallCells": []
+    }
+  },
+  "transfer": "Model output is not guaranteed byte-reproducible on another GPU or driver: transfer the V60 atlases, metadata and cache reports together; regeneration needs revalidation by the publisher."
+}

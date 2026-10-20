@@ -1,44 +1,70 @@
 {
   "revision": 2,
-  "generatedAt": "2026-10-20T03:45:32.451541+00:00",
+  "generatedAt": "2026-10-20T05:32:54.599257+00:00",
   "originalSpeciesCount": 1483,
   "originalRuntimeIndexSha256": "0c67d42dea3f224c6b160a03798f2f33ab1f9b8bf6a3d84a7292e3b7ddd3d546",
-  "hdRuntimeIndexSha256": "ecf0d034113938631b8c6565c0a3b500014a3a3cf9269053a9bf6237c3bc7325",
+  "hdRuntimeIndexSha256": "dcdab2365a6fe78fbcaaec92b420c7a6de093ef0b2243fb906beda8bb55801a9",
   "sourceManifestSha256": "f53a1d52b622017ba29ead055ba3b6e6ec1467b166bf8410bb29dc30b8110357",
   "states": {
     "published-hd": 1483
   },
   "cellModes": {
     "original-vector": 37638,
-    "retained-original-cell": 8449,
+    "retained-original-cell": 8433,
     "constant-original-rgba": 92,
+    "ai-upscaled": 16,
     "retained-native-microstrip": 2,
     "ai-source-bitmap": 1
   },
   "cellResolutions": {
     "original-vector:4x": 27317,
     "original-vector:2x": 5463,
-    "retained-original-cell:1x": 8449,
+    "retained-original-cell:1x": 8433,
     "original-vector:8x": 4404,
     "constant-original-rgba:4x": 91,
     "original-vector:1x": 454,
+    "ai-upscaled:4x": 8,
+    "ai-upscaled:2x": 8,
     "retained-native-microstrip:1x": 2,
     "constant-original-rgba:1x": 1,
     "ai-source-bitmap:2x": 1
   },
   "retainedReasonCounts": {
     "Native-resolution source fidelity check failed": 900,
-    "Source RGBA comparison exceeded its limit": 4479,
+    "Source RGBA comparison exceeded its limit": 4467,
     "Native-size source render changed a connected stable interior color region.": 803,
-    "No compatible original vector bounds": 913,
+    "No compatible original vector bounds": 910,
     "Distinct original candidates could not be distinguished": 1328,
-    "Original bitmap has no additional native pixels above the Unity cell resolution.": 23,
+    "Original bitmap has no additional native pixels above the Unity cell resolution.": 22,
     "Distinct source alternatives pass local checks but cannot be safely distinguished.": 2,
     "Native microstrip has insufficient source detail for a reliable match": 2,
     "Embedded bitmap composition has no proven higher native detail; preserve original pixels.": 1
   },
-  "generatedAssetBytes": 1712112799,
+  "generatedAssetBytes": 1711962401,
   "firstPoseNonconstantFullyHigherResolutionSpecies": 981,
+  "firstPoseNonconstantFullyAboveNativeSpecies": 1,
+  "aiUpscaled": {
+    "cells": 16,
+    "firstPoseCells": 1,
+    "species": 1,
+    "method": {
+      "tool": "realesrgan-ncnn-vulkan",
+      "release": "xinntao/Real-ESRGAN v0.2.5.0, ncnn-Vulkan build 20220424 (macOS universal)",
+      "archiveSha256": "e0ad05580abfeb25f8d8fb55aaf7bedf552c375b5b4d9bd3c8d59764d2cc333a",
+      "binarySha256": "c1c35d92079085de96b9d547fd7e4464bc8a2e9ccf28d7b8c712d72ade91b7cc",
+      "model": "realesrgan-x4plus-anime",
+      "modelParamSha256": "2b8fb6e0ae4d2d85704ca08c119a2f5ea40add4f2ecd512eb7f4cd44b6127ed4",
+      "modelBinSha256": "fe01c269cfd10cdef8e018ab66ebe750cf79c7af4d1f9c16c737e1295229bacc",
+      "alphaMode": "edge",
+      "eightTimesMode": "lanczos"
+    },
+    "gate": {
+      "alphaIoU16Minimum": 0.8664,
+      "premultipliedRgbaMaeMaximum": 21.5582,
+      "blockErrorMaximum": 74.4794,
+      "localColorCheck": "battle_hd_local_fidelity.local_color_comparison with its default limits"
+    }
+  },
   "fullyImprovedNonconstantSpecies": 524,
   "limits": {
     "maxAtlasSide": 8192,
@@ -10180,21 +10206,22 @@
       "sourceBitmapCount": 1,
       "counts": {
         "original-vector": 50,
-        "retained-original-cell": 20
+        "ai-upscaled": 16,
+        "retained-original-cell": 4
       },
       "resolutionCounts": {
         "original-vector:4x": 50,
-        "retained-original-cell:1x": 20
+        "ai-upscaled:4x": 8,
+        "ai-upscaled:2x": 8,
+        "retained-original-cell:1x": 4
       },
       "improvedVectorCells": 50,
       "improvedSourceBitmapCells": 0,
       "reconstructedBitmapCells": 0,
+      "aiUpscaledCells": 16,
       "sourceAlternativeRecoveredCells": 0,
-      "nativeRetainedCells": 20,
+      "nativeRetainedCells": 4,
       "retainedReasonCounts": {
-        "Source RGBA comparison exceeded its limit": 12,
-        "Original bitmap has no additional native pixels above the Unity cell resolution.": 1,
-        "No compatible original vector bounds": 3,
         "Native-resolution source fidelity check failed": 4
       },
       "firstPoseCells": 2,
@@ -10203,11 +10230,13 @@
       "firstPoseVectorCells": 1,
       "firstPoseHigherResolutionCells": 1,
       "firstPoseAiReconstructedCells": 0,
+      "firstPoseAiUpscaledCells": 1,
+      "firstPoseNonconstantFullyAboveNative": true,
       "firstPoseNonconstantFullyPureVector": false,
       "firstPoseNonconstantFullyHigherResolution": false,
-      "atlasWidth": 5624,
-      "atlasHeight": 5954,
-      "atlasRgbaBytes": 133941184,
+      "atlasWidth": 4096,
+      "atlasHeight": 8184,
+      "atlasRgbaBytes": 134086656,
       "budgetPolicy": {
         "standardDecodedBytes": 134217728,
         "allowedDecodedBytes": 134217728,
@@ -10218,21 +10247,22 @@
         "originalDecodedBytes": 16777216,
         "pinnedSourceSizedExceptionEligible": false,
         "actualDimensions": [
-          5624,
-          5954
+          4096,
+          8184
         ],
-        "actualDecodedBytes": 133941184,
+        "actualDecodedBytes": 134086656,
         "sourceSizedExceptionUsed": false
       },
       "originalMetadataSha256": "2934d6694fab44a0428a1514b782893ec3c447a68a0cc3f5929c303c96c7a44c",
       "originalAtlasSha256": "5ea63f99aa5119d01f80810c802c5842b90342922065ea26ba8e8dc955b89c6d",
-      "meta": "/battle-animations/hd/166-v59.json.gz",
-      "atlas": "/battle-animations/hd/166-v59.png",
-      "metaSha256": "2e8b94ffc80ebb1144b0e672dd48bebe703597890121b613b48d5d2200186608",
-      "atlasSha256": "033a62ac718f19ccab3774e901bfbd2f19cb796ad140b92088dbc422202b0004",
-      "reportPath": ".cache/battle-hd-v59/species/166/report.json",
-      "reportSha256": "103bf8aa10b51b301628654a8908781ba292d1e5b866cc2626b08816c582f68f",
-      "reportRevision": 7,
+      "meta": "/battle-animations/hd/166-v60.json.gz",
+      "atlas": "/battle-animations/hd/166-v60.webp",
+      "metaSha256": "6a05ceb2e0946b6c3b7e96ad9063e274390581b17b0f6e31ae241b02413f909c",
+      "atlasSha256": "f3ea7cd50afa6a8942d280d5846844cd28d2d8bf9a95eda5c2862aca72fa943c",
+      "reportPath": ".cache/battle-hd-v60/species/166/report.json",
+      "reportSha256": "7da1583a86603a30f49b4c94b7e2d970d7cc9edb26d3aa7b220e882f40f6c2ff",
+      "reportRevision": 1,
+      "reportKind": "ai-upscaled-raster-override",
       "validatedPixelsAndMetadata": true
     },
     "167": {

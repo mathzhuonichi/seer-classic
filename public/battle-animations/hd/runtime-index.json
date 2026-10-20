@@ -1321,12 +1321,12 @@
       "atlasSha256": "907a9e6d98439bb88dda0ceabcbb644c41436fa639a44a8cf7b96e28f8adebba"
     },
     "166": {
-      "meta": "/battle-animations/hd/166-v59.json.gz",
-      "atlas": "/battle-animations/hd/166-v59.png",
-      "atlasWidth": 5624,
-      "atlasHeight": 5954,
-      "metaSha256": "2e8b94ffc80ebb1144b0e672dd48bebe703597890121b613b48d5d2200186608",
-      "atlasSha256": "033a62ac718f19ccab3774e901bfbd2f19cb796ad140b92088dbc422202b0004"
+      "meta": "/battle-animations/hd/166-v60.json.gz",
+      "atlas": "/battle-animations/hd/166-v60.webp",
+      "atlasWidth": 4096,
+      "atlasHeight": 8184,
+      "metaSha256": "6a05ceb2e0946b6c3b7e96ad9063e274390581b17b0f6e31ae241b02413f909c",
+      "atlasSha256": "f3ea7cd50afa6a8942d280d5846844cd28d2d8bf9a95eda5c2862aca72fa943c"
     },
     "167": {
       "meta": "/battle-animations/hd/167-v59.json.gz",
