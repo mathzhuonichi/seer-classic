@@ -148,9 +148,8 @@ function visibleReach(host: HTMLElement) {
 
 /** The margins the playing sequence's extent `reach` needs beyond the host, within what can be seen; none while it stays inside. */
 function sequenceMargins(host: HTMLElement, reach: AnimationBounds | undefined, transform: ReturnType<typeof fixedAnimationTransform>) {
-  const {width, height} = hostSize(host);
   if (!reach) return NO_MARGINS;
-  const needed = canvasMargins(reach, transform, width, height, UNLIMITED);
+  const {width, height} = hostSize(host), needed = canvasMargins(reach, transform, width, height, UNLIMITED);
   if (!needed.left && !needed.right && !needed.top && !needed.bottom) return NO_MARGINS;
   return canvasMargins(reach, transform, width, height, visibleReach(host));
 }
