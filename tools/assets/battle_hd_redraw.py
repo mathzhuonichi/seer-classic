@@ -63,10 +63,14 @@ STROKE_SPACING, STROKE_SMOOTHING = .5, 1.5
 STROKE_TOLERANCE, BOUNDARY_SIGMA, MINIMUM_LOOP_AREA, MINIMUM_COLOUR_PIXELS = .3, .35, .25, 4.0
 # Cells with a side below SMALL_SIDE get the wider SMALL_BOUNDARY_SIGMA: a few pixels give no reliable corner.
 SMALL_SIDE, SMALL_BOUNDARY_SIGMA = 16, .6
+# Boundaries between two colours are smoothed more (Gaussian sigma, native px): their antialiasing is noisier.
+SHARE_SIGMA = .6
 # Smoothing (native px) of the opacity correction that fades a vector where the native art is fainter.
 OPACITY_SIGMA = .75
 # Premultiplied alpha (0-255) the native art must exceed the drawn vector by to enter the soft remainder.
 REMAINDER_MINIMUM = 8
+# The remainder is a smoother field (two back-projection rounds), so it does not bring back the native pixel steps.
+REMAINDER_ROUNDS, REMAINDER_SIGMA = 2, .6
 # Glow field: Gaussian sigma in native pixels and back-projection rounds.
 GLOW_SIGMA, GLOW_ROUNDS = .5, 8
 # Classification: mean alpha-transition width (transition pixels per pixel of contour) above which a cell is a glow;
@@ -99,6 +103,7 @@ def method():
                 'strokeTolerance': STROKE_TOLERANCE, 'boundarySigma': BOUNDARY_SIGMA, 'minimumLoopArea': MINIMUM_LOOP_AREA,
                 'minimumColourPixels': MINIMUM_COLOUR_PIXELS, 'smallSide': SMALL_SIDE, 'smallBoundarySigma': SMALL_BOUNDARY_SIGMA,
                 'opacitySigma': OPACITY_SIGMA, 'remainderMinimum': REMAINDER_MINIMUM, 'glow': [GLOW_SIGMA, GLOW_ROUNDS],
+                'remainder': [REMAINDER_SIGMA, REMAINDER_ROUNDS], 'shareSigma': SHARE_SIGMA,
                 'edgeWidthGlow': EDGE_WIDTH_GLOW, 'edgeWidthSoft': EDGE_WIDTH_SOFT, 'flatResidual': FLAT_RESIDUAL,
                 'complexColours': COMPLEX_COLOURS, 'flatSide': FLAT_SIDE, 'sourceRangeClamp': '3x3 native neighbourhood, bilinear'}}
 
@@ -298,8 +303,9 @@ def region_layers(memberships, boundary_sigma):
     sigma = boundary_sigma*factor
     coverage_up = ndimage.gaussian_filter(upsample(coverage, factor), sigma, mode='nearest')
     inside = coverage_up-silhouette_threshold(coverage, coverage_up, factor)
-    shares = ndimage.gaussian_filter(upsample(memberships/np.maximum(coverage, 1e-6)[:, :, None], factor), (sigma, sigma, 0),
-                                     mode='nearest')
+    share_sigma = max(boundary_sigma, SHARE_SIGMA)*factor
+    shares = ndimage.gaussian_filter(upsample(memberships/np.maximum(coverage, 1e-6)[:, :, None], factor),
+                                     (share_sigma, share_sigma, 0), mode='nearest')
     layers = []
     for index in range(memberships.shape[2]):
         others = np.delete(shares, index, axis=2).max(axis=2) if memberships.shape[2] > 1 else np.full(inside.shape, -1.0)
@@ -506,15 +512,16 @@ def straight_tile(premultiplied_tile, fallback, low, high):
     return tile.astype(np.uint8)
 
 
-def glow_field(native, scale, target=None):
+def glow_field(native, scale, target=None, rounds=None, sigma=None):
     """Smooth premultiplied field, pulled towards the native pixels (or a premultiplied `target`) by a few rounds of
     back-projection."""
     target = premultiplied(native) if target is None else target
+    rounds, sigma = (GLOW_ROUNDS if rounds is None else rounds), (GLOW_SIGMA if sigma is None else sigma)
     def smooth(values):
         up = crop(upsample(values, scale, order=1), scale)
-        return ndimage.gaussian_filter(up, sigma=(GLOW_SIGMA*scale, GLOW_SIGMA*scale, 0), mode='nearest')
+        return ndimage.gaussian_filter(up, sigma=(sigma*scale, sigma*scale, 0), mode='nearest')
     field = smooth(target)
-    for _ in range(GLOW_ROUNDS):
+    for _ in range(rounds):
         field = np.clip(field+smooth(target-box_down(field, scale)), 0, 1)
         field[:, :, :3] = np.minimum(field[:, :, :3], field[:, :, 3:])
     return field
@@ -572,7 +579,7 @@ def soft_remainder(native, drawn, scale):
     remainder[:, :, :3] = np.minimum(remainder[:, :, :3], remainder[:, :, 3:])
     if not remainder[:, :, 3].any():
         return drawn
-    total = drawn+glow_field(native, scale, remainder)
+    total = drawn+glow_field(native, scale, remainder, REMAINDER_ROUNDS, REMAINDER_SIGMA)
     total[:, :, 3] = np.minimum(total[:, :, 3], 1)
     total[:, :, :3] = np.minimum(total[:, :, :3], total[:, :, 3:])
     return total

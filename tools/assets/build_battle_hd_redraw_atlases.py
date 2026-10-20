@@ -370,7 +370,7 @@ def build(sid, entry, report_path, args):
     accepted, rejected, skipped = redraw_cells(base, args.scope, work/'render', args.max_rgba_mib*1024**2)
     shutil.rmtree(work/'render', ignore_errors=True)
     if not accepted:
-        raise ValueError(f'{sid}: no redraw passed its gate' + (f' ({len(rejected)} rejected, {len(skipped)} skipped)'))
+        raise ValueError(f'{sid}: no redraw kept ({len(rejected)} failed the gate, {len(skipped)} skipped: complex art or no budget)')
     layout, levels, tiles = pack(base, accepted, args.max_rgba_mib*1024**2)
     if not any(kind == 'redrawn' for _, kind in levels.values()):
         raise ValueError(f'{sid}: no redraw fits the decoded budget above its base multiplier')
