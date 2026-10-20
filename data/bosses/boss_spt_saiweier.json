@@ -78,7 +78,8 @@
   "engine_notes": [
     "User-requested single-player adaptation: exactly one Seville opponent. Tarklin and Tasia are not added as cooperative teammates or as an artificial three-enemy raid. Their existing ordinary challenges and the Azure Dragon guardian sequence remain unchanged.",
     "Level 80 and 10000 HP are authored solo difficulty values, not a reconstruction of historical cooperative difficulty. A 2010 guide reports approximately 140000 HP for the cooperative version; that multiplayer value is intentionally not reused.",
-    "The retained four skill IDs are original species-413 learnset skills. Source discussions identify Dragon Flight and Immortal Will as common actions. Status immunity is bounded to the poison, burn, freeze and leech effects described by period guides.",
+    "Status immunity is bounded to the poison, burn, freeze and leech effects described by period guides.",
+    "skills: the only original 塞维尔 fight is the 塞维尔/塔西亚/塔克林 team fight (species 413, Lv100); 4399 2010-08-13 and 2010-08-17 name 龙翔天驱 and 不灭意志 for it. The other two slots come from species 413's last four, which are the same at Lv80 and Lv100.",
     "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified.",
     "Official MapConfig symbol 155 identifies map 349 as Challenge Seville, with replacement map 1147. The remake uses its already modeled Dragon Temple meeting point; it does not claim to render the original map-349 encounter scene."
   ],
@@ -91,7 +92,8 @@
       "level",
       "hp",
       "original_healing_amount",
-      "original_hook_timing"
+      "original_hook_timing",
+      "skills"
     ]
   },
   "sources": [

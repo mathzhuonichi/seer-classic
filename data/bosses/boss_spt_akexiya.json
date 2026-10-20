@@ -68,6 +68,7 @@
   "engine_notes": [
     "heal_full_below {hp 100}: whenever a hit leaves it at 1-99 HP it immediately returns to full HP, so it must be KO'd by a hit that takes it from >=100 to 0. Sources do not say the heal is limited to once; treated as unlimited.",
     "HP: 4399 2010-06 and weste 2010-09 say 约1000.",
+    "skills: all four are named by period guides (4399 2010-06-01 and 2010-06-05, 7k7k 2011-03-16) and equal species 50's last four at or below Lv65; 极冰风暴 (Lv67) is above the boss level.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

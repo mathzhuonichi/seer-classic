@@ -83,6 +83,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [boss-rules-v56](boss-rules-v56.md) | Execution audit of every Boss rule, phase and objective (`data/boss-rule-support-v56.json`). | current; five entries updated by [boss-user-policies-v57](boss-user-policies-v57.md) |
 | [boss-audit-integration-v56](boss-audit-integration-v56.md) | V56 checkpoint joining the evidence and rule audits with the UI. | historical |
 | [boss-evidence-controller-validation-v56](boss-evidence-controller-validation-v56.md) | Independent evidence and controller validation (18 groups). | historical |
+| [spt-movesets-2026-10-19](spt-movesets-2026-10-19.md) | Original SPT Boss movesets: period sources first, then Boss forms, then the species' last four moves at the fight level; six sets corrected, a basis for every Boss. | current |
 | [boss-loadout-fidelity-v47](boss-loadout-fidelity-v47.md) | Source review of original Boss loadouts; restores Tower 61's sacrifice move. | current |
 | [classic-challenge-campaign-sources](classic-challenge-campaign-sources.md) | Sources and reconstruction of the seven campaigns (divine beasts, Qilin, Rei training, Puni). | current |
 | [campaign-delivery](campaign-delivery.md) | Campaign routes with 30 stages, archive sorting by species number, official attribute icons. | historical |

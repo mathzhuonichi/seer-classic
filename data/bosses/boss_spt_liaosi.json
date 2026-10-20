@@ -85,6 +85,7 @@
   "engine_notes": [
     "AI: 血多时用密集火网，血少时用回击（必定后发, priority -1）. Encoded as weighted AI favouring 密集火网, switched at 50% HP to 回击/报复; the exact threshold is not stated.",
     "Reward was not guaranteed (打败它有可能获得) — reward.chance 50 is an estimate; first_clear_items gives the 蓝武士装 suit part once.",
+    "skills: all four are named by period guides (4399 2010-06-05, 7k7k 2011-03-16) and equal species 42's last four at or below Lv35; 阴谋 (Lv36) is above the boss level.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

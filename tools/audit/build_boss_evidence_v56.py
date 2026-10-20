@@ -89,12 +89,13 @@ def set_field(entry: dict, field: str, expected, proof: dict, slot: int = 0) -> 
     entry["members"][slot]["fields"][field] = deepcopy(proof)
 
 
-def partial_skills(entry: dict, ids: list[int], src: str | list[str], slot: int = 0) -> None:
+def partial_skills(entry: dict, ids: list[int], src: str | list[str], slot: int = 0, note: str | None = None) -> None:
     member = entry["members"][slot]
     if not set(ids).issubset(member["configured"]["skills"]):
         raise ValueError(f"Named move no longer configured: {entry['id']}")
     srcs = [src] if isinstance(src, str) else src
-    member["fields"]["skills"].update({"verifiedMoveIds": ids, "sources": srcs, "note": "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred."})
+    note = note or "Only the listed move IDs are individually supported. Remaining slots and the completeness of the loadout remain inferred."
+    member["fields"]["skills"].update({"verifiedMoveIds": ids, "sources": srcs, "note": note})
 
 
 def rule_nodes(value, path: str = "", condition: dict | None = None):
@@ -307,6 +308,51 @@ YALUNSI = period(G4399 + "201102-28-87994.html", "2011-02 report: 亚伦斯 体�
 ROBOT2013 = source("https://web.archive.org/web/20130706235627id_/http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
                    "Official 2013-07-06 client PetXMLInfo (DefineBinaryData 196): boss-only form 2522 斯普林特 lists 20933, 11836, 20934, 11841.",
                    "verified-client")
+# The 2026-10-19 SPT moveset pass (design/notes/spt-movesets-2026-10-19.md): every quote and screenshot below was re-read on its page.
+V4399, G4399J, G4399G = "http://v.4399pk.com/seer/video_", "https://news.4399.com/seer/jingyanxinde/", "https://news.4399.com/gonglue/seer/saiergonglue/"
+KEN_LIST = period("http://news.4399.com/seer/jingyanxinde/201101-18-84816.html",
+                  "Page dated 2011-01-18: 常用技能 暗流深渊，暗影之力，暗黑狂流，黑色旋涡 (catalog 黑色漩涡); it also reports fear.")
+SILIPU_VIDEO = period(V4399 + "120526.htm", "4399 fight video (page dated 2012-06-21): the Boss's battle log shows 混沌惩戒, 震怒之魂, 展翅冲锋 and 龙怒乾坤.")
+SILIPU_TEXT = period(G4399J + "201204-28-156784.html", "Page dated 2012-04-28: after its boosts are cleared the Boss uses 龙怒乾坤.")
+KALUNNI_LIST = period("https://www.juxia.com/news/2012-4-7/37635.html", "聚侠 2012-04-07: 常用技能 异界毒蔓，黑暗魔影草，暗能吸收，魔雾缠绕.")
+KALUNNI_VIDEO = period(V4399 + "116640.htm", "4399 fight video (page dated 2012-06-04): the Boss's battle log shows all four named moves.")
+KELANITE_VIDEO = period(V4399 + "21622.htm", "4399 fight video (page dated 2010-12-18): the Lv50 log shows 龙族之力 and 火龙的咆哮; "
+                        "the Lv80 rematch log shows 火龙红莲击, 进攻意识, 赤色龙息 and 自我暗示.")
+MINUOSI_LIST = period(G4399J + "201110-27-122862.html", "Page dated 2011-10-27: 常用技能 狂暴裂袭 (sic, 狂暴烈袭)，皮毛强化，暗之迷宫，魂之审判.")
+MINUOSI_READER = period(G4399J + "201110-24-122382.html", "Reader report dated 2011-10-25: the same four moves with their effects.")
+PITE = period(G4399 + "201111-21-127453.html", "Page dated 2011-11-21: 常用技能 羽翼利刃，破空长鸣，怒鸣，绝灭射线.")
+RUIER = period(G4399 + "201112-26-134340.html", "Page dated 2011-12-26: 常用技能 风林火山，势如破竹，撼地震击，气贯长虹.")
+SIBIN = period(G4399 + "201110-08-119108.html", "Page dated 2011-10-08: 常用技能 黑暗撕裂 (catalog 暗黑撕裂)，黑暗迷雾，湮灭之球，生命汲取.")
+KELAIFEN_SHOTS = period("https://news.4399.com/seer/zenmezhua/201107-22-105527.html",
+                        "Page dated 2011-07-22, battle screenshots: the Lv55 Boss uses 醉酒燃烧 and 致命漏洞; the Lv80 rematch uses 怒火咆哮 and 醉酒燃烧.")
+TAKELIN_SHOT = period(G4399 + "201009-26-78027.html", "Page dated 2010-09-17, a solo-fight battle screenshot: the Boss uses 潜龙伏地啸.")
+TAKELIN_7K = period(G7K + "20100730/11811.html", "2010-07-30 guide, solo-fight battle screenshots: the Boss uses 咆哮震九天 and 潜龙伏地啸.")
+TAXIYA_7K = period(G7K + "20100730/11809.html", "2010-07-30 guide, a solo-fight battle screenshot: the Boss uses 龙之结界 and 真龙灭世咒.")
+TAXIYA_SHOT = period(G4399 + "201009-26-78028.html", "Page dated 2010-09-17, a solo-fight battle screenshot: the Boss uses 真龙灭世咒.")
+KAWOER_V1 = period("https://v.4399pk.com/seer/video_107740.htm", "4399 fight video (page dated 2012-03-31): the Boss uses 闪电冰暴 and 冰雷幻阵.")
+KAWOER_V2 = period("https://v.4399pk.com/seer/video_107738.htm", "4399 fight video (page dated 2012-04-06): the Boss uses 雷霆横扫.")
+MODUOSA_7K = period(G7K + "20101224/55647.html", "Debut-day 2010-12-24 report: it usually uses 念力碰撞 and uses 决然一击 against light pets.")
+KULI_4399 = period(G4399G + "201211-07-211331.html", "Page dated 2012-11-09: the Boss's 星光奔腾击 has a 15% chance to restore 1/4 HP.")
+NATE_SHOTS = period(G4399J + "201210-12-203269_2.html", "Page dated 2012-10-12, battle screenshots: the Boss uses 爆裂岩浆拳, 火之神力 and 巨石飞掷.")
+NATE_VIDEO = period(V4399 + "164835.htm", "4399 fight video '击杀SPT纳特': the Boss uses 火之神力 and 爆裂岩浆拳.")
+PALISI_SHOTS = period(G4399G + "201208-08-185427.html", "Page dated 2012-08-10, battle screenshots: the Boss uses 深渊之爪 and 暗流涌动.")
+PALISI_VIDEO = period(V4399 + "147677.htm", "4399 fight video (page dated 2012-09-06): the Boss uses 深渊之爪 and 狂暴冲击.")
+SAIWEIER_TEAM = period(G4399 + "201008-14-75467.html", "Page dated 2010-08-13 (team fight): 塞维尔 常用技能 龙翔天驱 and 不灭意志.")
+SAIWEIER_RUN = period(G4399J + "201008-17-75577.html", "Page dated 2010-08-17: in the team fight 塞维尔 uses 龙翔天驱 and then 不灭意志.")
+SIKELU_SHOTS = period(G4399J + "201209-21-198996_2.html", "Page dated 2012-09-21, battle screenshots: every logged Boss turn is 寒冰破碎拳.")
+SITUERTE_SHOTS = period(G4399J + "201210-26-207406.html", "Page dated 2012-10-26, battle screenshots: the Boss uses 混元归气斩, 震慑之光 and 金刚罩.")
+YISUOLI_SHOTS = period(G4399G + "201212-07-220127.html", "Page dated 2012-12-07, battle screenshots: the Boss uses 巨力猛爪击 and 狂战之力.")
+PULANTE_SHOTS = period(G4399J + "201205-19-161214_2.html", "Page dated 2012-05-19, battle screenshots: the Boss uses 破魂射线 and 混沌绿光.")
+PULANTE_XIYE = period(G4399J + "201205-18-160964_2.html", "Page dated 2012-05-18, battle screenshots: the Boss uses 虚空魔刺 and 灵光缠绕.")
+PULANTE_VIDEO = period(V4399 + "124268.htm", "4399 fight video (page dated 2012-05-25): the Boss uses 灵光缠绕 and 混沌绿光.")
+DELASA_WIKI = source("https://wapbaike.baidu.com/item/%E5%BE%B7%E6%8B%89%E8%90%A8",
+                     "Undated wiki Boss section citing 4399: the Boss uses 双爪强化.", "verified-secondary")
+DIFUTE_WIKI = source("https://wapbaike.baidu.com/item/%E8%BF%AA%E7%AC%A6%E7%89%B9", "Undated wiki Boss section: the Boss uses 山神护体.",
+                     "verified-secondary")
+KEN_NOTE = ("The only list (2011-01-18) names all four. The same page reports fear, which only 黯然一击 can cause in this learnset, "
+            "so one slot is in doubt and the loadout stays inferred.")
+PULANTE_NOTE = ("All four configured moves appear in 2012 battle logs (破魂射线 in one low-resolution screenshot). The 2012-05-19 guide "
+                "also names 蚀梦术, which no log shows, so the loadout stays inferred.")
 # The V58 SPT fidelity pass: (boss suffix, field, value, kind, sources, note). observed = a period report states it; official = an
 # official client table states it; estimate = an approximate or single-tip report; partial = only the listed moves are named.
 SPT_CLAIMS = [
@@ -334,7 +380,7 @@ SPT_CLAIMS = [
     ("kalunni", "hp", 8000, "estimate", [KALUNNI], "The report gives 8000 HP and marks it unverified."),
     ("kelaifen1", "level", 55, "official", [MAPS], "The official SPT table's 'SPT克莱芬难度1' row gives level 55."),
     ("kelaifen2", "level", 80, "observed", [KELAIFEN], "The report states the rematch is level 80."),
-    ("kelanite1", "skills", [11357], "partial", [KELANITE], None),
+    ("kelanite1", "skills", [11357, 11356, 20457], "partial", [KELANITE, KELANITE_VIDEO], None),
     ("lansite", "level", 80, "observed", [LANSITE], "The report states level 80."),
     ("lansite", "hp", 12000, "estimate", [LANSITE], "The report says about 12000 HP."),
     ("lansite", "skills", [12563, 12562, 12564, 21333], "observed", [LANSITE], "The report names all four attacks."),
@@ -348,13 +394,38 @@ SPT_CLAIMS = [
     ("palisi", "level", 100, "official", [MAPS], "The official SPT table gives level 100 for the single and team fights; no period report states a level."),
     ("palisi", "hp", 12000, "observed", [PALISI], "The report states 12000 HP."),
     ("pulante", "hp", 8000, "observed", [PULANTE], "The report states 8000 HP."),
-    ("pulante", "skills", [12796, 12794, 21451], "partial", [PULANTE], None),
+    ("pulante", "skills", [12796, 21451, 12793, 12795], "partial", [PULANTE_SHOTS, PULANTE_XIYE, PULANTE_VIDEO, PULANTE], PULANTE_NOTE),
     ("sikelu", "hp", 8000, "observed", [SIKELU, MAPS], "The report states 体力8000, as does the official SPT table."),
     ("sipulinte", "skills", [20933, 11836, 20934, 11841], "official", [MONSTERS, ROBOT2013], "The boss form 5022 (2013: 2522) lists these four."),
     ("tiyasi", "hp", 500, "official", [MAPS], "The official SPT table gives 500 HP for the single fight."),
     ("tiyasi", "skills", [10161, 20082, 10162, 10163], "observed", [TIYASI], "The report names all four attacks."),
     ("yalunsi", "hp", 5000, "observed", [YALUNSI], "The report states 体力为5000."),
     ("yalunsi", "skills", [11668], "official", [MONSTERS], "The SPT boss form 5012 has the single move 交错冰柱."),
+    # The 2026-10-19 SPT moveset pass.
+    ("kalunni", "skills", [12699, 12696, 12698, 21405], "observed", [KALUNNI_LIST, KALUNNI_VIDEO],
+     "The guide names all four attacks and all four appear in the Boss's battle log."),
+    ("kelanite2", "skills", [11357, 11359, 20528, 20666], "observed", [KELANITE_VIDEO], "All four appear in the Lv80 rematch battle log."),
+    ("minuosi", "skills", [12285, 12284, 21187, 21186], "observed", [MINUOSI_LIST, MINUOSI_READER], "Two reports name all four attacks."),
+    ("pitesaluo", "skills", [12373, 12370, 21233, 12372], "observed", [PITE], "The report names all four attacks."),
+    ("ruiersi", "skills", [12316, 21278, 12453, 12455], "observed", [RUIER], "The report names all four attacks."),
+    ("sibinsai", "skills", [12254, 21169, 12257, 12256], "observed", [SIBIN], "The report names all four attacks."),
+    ("silipu", "skills", [12740, 21423, 12736, 12741], "observed", [SILIPU_VIDEO, SILIPU_TEXT], "All four appear in the Boss's battle log."),
+    ("kenpeide", "skills", [11546, 20593, 11548, 11544], "partial", [KEN_LIST], KEN_NOTE),
+    ("kelaifen1", "skills", [12047, 21052], "partial", [KELAIFEN_SHOTS], None),
+    ("kelaifen2", "skills", [12051, 21052], "partial", [KELAIFEN_SHOTS], None),
+    ("takelin", "skills", [10760, 20339], "partial", [TAKELIN_SHOT, TAKELIN_7K], None),
+    ("taxiya", "skills", [10979, 20448], "partial", [TAXIYA_7K, TAXIYA_SHOT], None),
+    ("kawoer", "skills", [12614, 21363, 12610], "partial", [KAWOER_V1, KAWOER_V2], None),
+    ("moduosa", "skills", [11466, 11470], "partial", [MODUOSA_7K], None),
+    ("kuli", "skills", [13292], "partial", [KULI_4399], None),
+    ("nate", "skills", [13210, 21689, 13209], "partial", [NATE_SHOTS, NATE_VIDEO], None),
+    ("palisi", "skills", [13034, 21591, 13033], "partial", [PALISI_SHOTS, PALISI_VIDEO], None),
+    ("saiweier", "skills", [11114, 20554], "partial", [SAIWEIER_TEAM, SAIWEIER_RUN], None),
+    ("sikelu", "skills", [13156], "partial", [SIKELU_SHOTS], None),
+    ("situerte", "skills", [13249, 13251, 21707], "partial", [SITUERTE_SHOTS], None),
+    ("yisuoli", "skills", [13371, 21784], "partial", [YISUOLI_SHOTS], None),
+    ("delasa", "skills", [20878], "partial", [DELASA_WIKI], None),
+    ("difute", "skills", [20990], "partial", [DIFUTE_WIKI], None),
 ]
 
 
@@ -362,7 +433,7 @@ def curate_spt(entries: dict[str, dict]) -> None:
     for suffix, field, value, kind, srcs, note in SPT_CLAIMS:
         entry = entries["boss_spt_" + suffix]
         if kind == "partial":
-            partial_skills(entry, value, srcs[0])
+            partial_skills(entry, value, srcs, note=note)
         elif kind == "official":
             set_field(entry, field, value, evidence("official", "official-client-table", note, srcs))
         elif kind == "estimate":

@@ -6,7 +6,7 @@
     "handledEntries": 688,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 122,
+    "approximatedEntries": 116,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -3807,13 +3807,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/3",
-          "reason": "Skills: 火龙红莲击 is reported (4399 2010-11-22: the first five pets drain its PP) and takes the slot of 龙族之力; 火光四溅/火龙的咆哮/进攻意识 remain the Lv50 learnset top moves. HP not published (1500 estimate)."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -3927,11 +3921,6 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "Innate boost (先消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
-        },
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/3",
-          "reason": "Skills not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
       ],
       "waived": [
@@ -4165,11 +4154,6 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
-        },
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/4",
-          "reason": "Skills not named by sources; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
         }
       ],
       "waived": [],
@@ -4354,13 +4338,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
-          "reason": "Skills besides 决然一击 not named; top learnset used. skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -4374,13 +4352,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/3",
-          "reason": "No special rules; skills 针刺/撞击/毒粉/瞪眼 as listed by every source."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },
@@ -4922,7 +4894,7 @@
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/3",
+          "scope": "engine_notes/4",
           "reason": "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified."
         }
       ],
@@ -5100,7 +5072,7 @@
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/1",
+          "scope": "engine_notes/2",
           "reason": "速度极慢 — spe x0.5 estimate."
         }
       ],
@@ -5491,11 +5463,6 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "Innate boost (先上来消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). 速度非常慢 (spe x0.5 estimate), 攻击很弱."
-        },
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/3",
-          "reason": "Skills: the SPT boss form (official monsters.json ID 5012, used by maps.json map 430 'SPT亚伦斯') has the single move 交错冰柱; sina 2011 lists 交错冰柱 and three unknown slots."
         }
       ],
       "waived": [],

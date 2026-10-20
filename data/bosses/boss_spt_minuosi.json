@@ -61,7 +61,8 @@
     "zh": "用飞行、机械、超能系克制：盖亚日月皆伤+返璞归真消耗，艾尔伊洛星体解离术，迪普利德魔力漩涡，闪光艾菲亚无限之光收尾。"
   },
   "engine_notes": [
-    "No special rules reported by 4399; 4399 names 狂暴烈袭 and 魂之审判 — the other two slots are the species' remaining top learnset skills.",
+    "No special rules reported by 4399.",
+    "skills: all four are named by 4399 2011-10-27 (常用技能; 狂暴裂袭 is a typo for 狂暴烈袭) and by a 4399 reader report of 2011-10-25 that lists their effects; they equal species 957's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {
@@ -70,8 +71,7 @@
       "iv",
       "evs",
       "nature",
-      "hp",
-      "skills"
+      "hp"
     ]
   },
   "sources": [

@@ -142,6 +142,7 @@
     "Innate boost exists (天生有强化，可消掉) but which stat is not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). It CAN be cleared.",
     "Below 1/5 HP every boss attack is a critical hit (always_crit).",
     "Control/weaken skills 'basically ineffective' (同生共死、寄生种子、控场技能、弱化技能基本无效).",
+    "skills: all four are named by a period guide (4399 2011-10-08; 黑暗撕裂 = catalog 暗黑撕裂) and equal species 945's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

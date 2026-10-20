@@ -96,6 +96,7 @@
     "lifesteal: heals 1/3 of the damage its attacks deal.",
     "escalate_vs_same_foe: while it keeps fighting the same player pet, after each of its attacks its atk and spa rise (攻击和特攻自动强化，下一回合攻击技能造成的伤害大幅提升); assumed +1/+1 per turn, reset when the player switches pets.",
     "速度极其缓慢 — encoded as spe x0.5 (estimate).",
+    "skills: all four are named by a period guide (聚侠 2012-04-07, 常用技能) and all four appear in the Boss's battle log in 4399's 2012 fight video (id 116640); they equal species 1147's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

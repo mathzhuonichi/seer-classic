@@ -91,6 +91,7 @@
     "Status: 4399 (2010-06): 'BOSS不再受冻伤、中毒等异常状态影响' (a patch removed DoT cheese), yet 寄生种子 is still the core strategy in every 2010-2011 guide, so leech is NOT in the immunity list. Burn assumed immune with poison/freeze.",
     "unlimited_pp_skill: 黑暗之门 (无限次数) never runs out of PP; its other skills have normal PP.",
     "HP: 2800 (4399 2010, 7k7k 2011, 4399 问答 2011). The 怀旧服 6000 HP / 攻击+2 version is the 2013 S-mode rework, not used.",
+    "skills: all four are named by period guides (4399 2010-06-01 and 2010-06-05, 7k7k 2011-03-16) and equal species 132's last four at or below Lv70 (黑暗之门 at Lv70 is included).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

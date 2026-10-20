@@ -79,7 +79,7 @@
   "engine_notes": [
     "Very thin sourcing: only the 4399 2011 summary (70级, 消强化 then 大招) and a 4399 问答 dated 2011-03-24.",
     "Innate boost implied by '叶绿光束消强化'; atk+2 assumed. HP 10000 is the daytime fight (7k7k 2011-03-28 and 2011-03-31); the 19:00-21:00 limited mode (HP 5000, weaker attacks) is not modelled.",
-    "skills: no source names (all of) the boss's moves; remaining slots use the species' top learnset skills, which is what every documented 2010-2012 SPT boss used.",
+    "skills: species 715's last four at or below Lv70. Only 双爪强化 is named (undated Baidu Baike Boss section citing 4399). Period reports describe a physical attacker that inflicts 衰弱 (7k7k 2011-03-31), which fits 浩劫之力 and 极寒龙刺爪; 寒冰龙息 is not named.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

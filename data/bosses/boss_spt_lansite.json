@@ -123,6 +123,7 @@
     "reflect_damage: any single hit dealing more than 1200 damage reflects 1/4 of that damage to the attacker.",
     "Once, when at low HP (残血), it heals a flat 500 HP; the exact threshold is not stated (20% assumed).",
     "海洋之心 works; 寄生种子 does not. Frequently uses 大地崩裂 to weaken the player.",
+    "skills: all four are named by a period guide (4399 2012-02-08) and equal species 1085's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

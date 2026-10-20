@@ -120,6 +120,7 @@
     "魔龙咒 struck twice per turn in the original 3v3 team version (可同时攻击2只精灵，一回合可攻击2次); single-target here.",
     "Known 2010 bug: 龙之结界's text said it lowers the foe's 双攻 but it actually lowered 双防 — the catalog skill follows the text.",
     "Level: 4399 2011 summary says 70级 (techbang only gives a recommended LV100).",
+    "skills: species 391's last four at or below Lv70. Solo-fight battle screenshots show 真龙灭世咒 (4399 2010-09-17, 7k7k 2010-07-30) and 龙之结界 (7k7k 2010-07-30); 4399 2010-08-13 names 魔龙咒 and 龙之结界 for the team fight. 狂化龙舞 is named only in TW-server screenshots.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
   ],
   "confidence": {

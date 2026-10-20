@@ -74,7 +74,7 @@
     "immune_status: 4399 says 烧伤、冻伤技能无效、免疫疲惫等异常状态; 海洋之心 (pct damage) explicitly works.",
     "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses.",
     "Unlock is an exploration step (collect 4 灵魂残片 in 炫彩山神秘洞窟), not a prior boss fight.",
-    "skills: sources name no (or only some) boss skills; the team uses the species' four top learnset skills (Lv49-61). Every 2011-2012 SPT boss whose skills a source does list used exactly these four.",
+    "skills: species 804's last four at or below Lv80. 山神护体 is named (undated Baidu Baike Boss section); 7k7k 2011-06-14 describes a boost-clearing attack, a self-debuff-clearing attack and an all-stats boost (尖峰号角, 封印镇压, 山神护体). 炫彩神力 is not named or described.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {

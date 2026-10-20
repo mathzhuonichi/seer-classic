@@ -5814,7 +5814,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -5848,7 +5848,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
@@ -5894,7 +5894,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -5928,7 +5928,7 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
@@ -6016,6 +6016,7 @@
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "http://news.7k7k.com/content/20110328/82467.html",
         "http://news.7k7k.com/content/20110331/82812.html",
+        "https://wapbaike.baidu.com/item/%E5%BE%B7%E6%8B%89%E8%90%A8",
         "http://wenda.4399.com/question/6/64186.html"
       ],
       "summary": {
@@ -6097,6 +6098,7 @@
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111513.html",
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "https://wapbaike.baidu.com/item/%E8%BF%AA%E7%AC%A6%E7%89%B9",
         "https://news.4399.com/seer/zenmezhua/201106-10-99559.html",
         "https://news.4399.com/seer/tujian/99561.htm"
       ],
@@ -6625,8 +6627,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -6659,20 +6661,22 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201204-07-152582.html",
+        "https://www.juxia.com/news/2012-4-7/37635.html",
+        "http://v.4399pk.com/seer/video_116640.htm",
         "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -6745,6 +6749,8 @@
         }
       ],
       "sourceUrls": [
+        "https://v.4399pk.com/seer/video_107740.htm",
+        "https://v.4399pk.com/seer/video_107738.htm",
         "https://news.4399.com/seer/spt/201203-05-146475.html",
         "https://news.4399.com/seer/jingyanxinde/201208-13-186773.html"
       ],
@@ -6826,6 +6832,7 @@
       "sourceUrls": [
         "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/spt/201108-23-111468.html",
+        "https://news.4399.com/seer/zenmezhua/201107-22-105527.html",
         "https://news.4399.com/jdseer/xinde/m/808365.html"
       ],
       "summary": {
@@ -6905,6 +6912,7 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201108-23-111468.html",
+        "https://news.4399.com/seer/zenmezhua/201107-22-105527.html",
         "https://news.4399.com/jdseer/xinde/m/808365.html"
       ],
       "summary": {
@@ -6985,6 +6993,7 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201011-22-81263.html",
+        "http://v.4399pk.com/seer/video_21622.htm",
         "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
         "https://news.4399.com/seer/saiergonglue/201011-19-81094.html"
       ],
@@ -7023,8 +7032,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -7057,8 +7066,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -7066,13 +7075,14 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201011-22-81263.html",
+        "http://v.4399pk.com/seer/video_21622.htm",
         "https://www.techbang.com/posts/33176-order-spt-boss-raiders-carat-bennett-review",
         "https://news.4399.com/seer/saiergonglue/201011-19-81094.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": false,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -7147,6 +7157,7 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201101-17-84758.html",
+        "http://news.4399.com/seer/jingyanxinde/201101-18-84816.html",
         "https://news.5068.com/z/seer/gonglue/25651.html",
         "https://news.4399.com/seer/tujian/84569.htm"
       ],
@@ -7234,6 +7245,7 @@
         }
       ],
       "sourceUrls": [
+        "https://news.4399.com/gonglue/seer/saiergonglue/201211-07-211331.html",
         "https://news.7k7k.com/content/20121112/541577.html"
       ],
       "summary": {
@@ -7667,8 +7679,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -7701,19 +7713,21 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
       ],
       "sourceUrls": [
+        "https://news.4399.com/seer/jingyanxinde/201110-27-122862.html",
+        "https://news.4399.com/seer/jingyanxinde/201110-24-122382.html",
         "https://news.4399.com/seer/spt/201110-22-122129.html"
       ],
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -7787,6 +7801,7 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+        "http://news.7k7k.com/content/20101224/55647.html",
         "https://news.4399.com/seer/spt/201101-12-84389.html"
       ],
       "summary": {
@@ -8201,6 +8216,8 @@
         }
       ],
       "sourceUrls": [
+        "https://news.4399.com/seer/jingyanxinde/201210-12-203269_2.html",
+        "http://v.4399pk.com/seer/video_164835.htm",
         "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
         "https://news.4399.com/seer/tujian/203231.htm"
       ],
@@ -8240,7 +8257,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -8274,14 +8291,16 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
       ],
       "sourceUrls": [
         "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
-        "https://news.4399.com/seer/spt/201208-22-189879.html"
+        "https://news.4399.com/seer/spt/201208-22-189879.html",
+        "https://news.4399.com/gonglue/seer/saiergonglue/201208-08-185427.html",
+        "http://v.4399pk.com/seer/video_147677.htm"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -8318,8 +8337,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -8352,8 +8371,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -8364,7 +8383,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -8438,6 +8457,9 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201205-19-161367.html",
+        "https://news.4399.com/seer/jingyanxinde/201205-19-161214_2.html",
+        "http://v.4399pk.com/seer/video_124268.htm",
+        "https://news.4399.com/seer/jingyanxinde/201205-18-160964_2.html",
         "https://news.4399.com/seer/jingyanxinde/201208-13-186773_3.html"
       ],
       "summary": {
@@ -8475,8 +8497,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -8509,8 +8531,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -8521,7 +8543,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -8554,7 +8576,7 @@
         },
         "skills": {
           "status": "inferred",
-          "basis": "unverified"
+          "basis": "explicit-estimate"
         },
         "rules": {
           "status": "inferred",
@@ -8588,14 +8610,15 @@
             },
             "skills": {
               "status": "inferred",
-              "basis": "unverified"
+              "basis": "explicit-estimate"
             }
           }
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/spt/201009-26-78033.html",
         "https://news.4399.com/seer/spt/201008-14-75467.html",
+        "https://news.4399.com/seer/jingyanxinde/201008-17-75577.html",
+        "https://news.4399.com/seer/spt/201009-26-78033.html",
         "https://news.7k7k.com/content/20100816/12670.html",
         "https://seer.61.com/dll/RobotCoreDLL.swf"
       ],
@@ -8634,8 +8657,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "unverified"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -8668,8 +8691,8 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "unverified"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
@@ -8681,7 +8704,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -8756,6 +8779,7 @@
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201209-21-199064.html",
         "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
+        "https://news.4399.com/seer/jingyanxinde/201209-21-198996_2.html",
         "https://wiki.biligame.com/seer/%E6%96%AF%E5%85%8B%E9%B2%81"
       ],
       "summary": {
@@ -8793,8 +8817,8 @@
           "basis": "explicit-estimate"
         },
         "skills": {
-          "status": "inferred",
-          "basis": "explicit-estimate"
+          "status": "observed",
+          "basis": "verified-period-observation"
         },
         "rules": {
           "status": "inferred",
@@ -8827,13 +8851,15 @@
               "basis": "explicit-estimate"
             },
             "skills": {
-              "status": "inferred",
-              "basis": "explicit-estimate"
+              "status": "observed",
+              "basis": "verified-period-observation"
             }
           }
         }
       ],
       "sourceUrls": [
+        "http://v.4399pk.com/seer/video_120526.htm",
+        "https://news.4399.com/seer/jingyanxinde/201204-28-156784.html",
         "https://news.4399.com/news/seerwenda/156097.html",
         "https://news.4399.com/seer/zenmezhua/201204-25-156108.html",
         "https://news.4399.com/seer/tujian/156453.htm"
@@ -8841,7 +8867,7 @@
       "summary": {
         "hasInferredStats": true,
         "hasInferredLevel": true,
-        "hasUnverifiedSkills": true,
+        "hasUnverifiedSkills": false,
         "aiIsRemake": true
       },
       "userPolicies": []
@@ -9078,8 +9104,9 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201009-26-78027.html",
-        "https://www.techbang.com/posts/33167-order-spt-boss-raiders-tarklin-review",
-        "https://news.4399.com/seer/spt/201008-14-75467.html"
+        "https://news.4399.com/seer/spt/201008-14-75467.html",
+        "http://news.7k7k.com/content/20100730/11811.html",
+        "https://www.techbang.com/posts/33167-order-spt-boss-raiders-tarklin-review"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -9159,8 +9186,9 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201009-26-78028.html",
-        "https://www.techbang.com/posts/33165-order-spt-boss-raiders-fantasia-review",
-        "https://news.4399.com/seer/spt/201008-14-75467.html"
+        "https://news.4399.com/seer/spt/201008-14-75467.html",
+        "http://news.7k7k.com/content/20100730/11809.html",
+        "https://www.techbang.com/posts/33165-order-spt-boss-raiders-fantasia-review"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -9401,6 +9429,7 @@
         }
       ],
       "sourceUrls": [
+        "https://news.4399.com/gonglue/seer/saiergonglue/201212-07-220127.html",
         "https://m.juxia.com/news/2012-12-7/70413.html"
       ],
       "summary": {

@@ -110,6 +110,7 @@
   "engine_notes": [
     "reflect_damage 100%: every point of damage the player's pet deals is reflected back to it (反弹我方精灵打出的100%的伤害). Whether percentage damage (海洋之心) is reflected is unclear; strategies imply the 海洋之心 users faint eventually.",
     "Innate atk+2 def+1 (clearable). 速度极慢 (spe x0.5 estimate).",
+    "skills: no period source names or describes the Boss's moves; the set is species 1221's last four learnt at or below Lv80, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {
@@ -120,7 +121,8 @@
       "nature",
       "level",
       "reflect_applies_to_pct_damage",
-      "stat_multipliers"
+      "stat_multipliers",
+      "skills"
     ]
   },
   "sources": [
