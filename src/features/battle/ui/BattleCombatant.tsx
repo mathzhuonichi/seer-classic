@@ -6,6 +6,7 @@ import { appearanceOf } from '../../../shared/monster-views.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import BattleSkillEffect from './BattleSkillEffect.tsx';
 import type { SkillEffectCue } from '../battle-player.ts';
+import { isMoveFrame } from '../battle-playback.ts';
 
 /** Frame kinds with their own CSS motion on the combatant. */
 const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture']);
@@ -27,7 +28,8 @@ function CaptureEffect({ animating, success }: { animating: boolean; success: bo
 
 /**
  * One side's creature with the current frame's motion and overlays. Original source timelines
- * retain their registration; unavailable clips use the portrait.
+ * retain their registration; unavailable clips use the portrait. The creature acting a move is drawn in front of the other,
+ * since its original clip travels to the opponent; numbers and effects stay in front of both.
  */
 export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue }: {
   monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; busy?: boolean;
@@ -42,24 +44,26 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const held = monster.statuses.some(status => STILL_STATUSES.includes(status));
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
   const motion = MOTION_KINDS.has(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';
-  const capturing = effect === 'capture';
+  const capturing = effect === 'capture', acting = !!originalFrame && isMoveFrame(originalFrame);
   const className = `classic-combatant side-${side}${monster.hp <= 0 ? ' is-fainted' : ''}${critical ? ' is-critical' : ''}`
     + `${captured && !capturing ? ' is-captured' : ''}${capturing && frame?.captureSuccess ? ' capture-success' : ''}`;
   return <div className={className} style={{ '--direction': side === 0 ? 1 : -1, '--ground-y': `${groundY}%` } as CSSProperties}>
-    <div className={`classic-creature-motion ${motion}`}>
-      <div className="classic-ground-shadow" />
-      <div className={`classic-creature-facing ${side === 1 ? 'mirrored' : ''}`}>
-        <div className="classic-art-box">
-          <BattleCreatureAnimation species={appearance} name={monster.name} kind={originalFrame?.kind || 'idle'}
-            eventKey={originalFrame?.id || 'idle'} resting={resting}/>
+    <div className={`classic-combatant-stage${acting ? ' is-acting' : ''}`}>
+      <div className={`classic-creature-motion ${motion}`}>
+        <div className="classic-ground-shadow" />
+        <div className={`classic-creature-facing ${side === 1 ? 'mirrored' : ''}`}>
+          <div className="classic-art-box">
+            <BattleCreatureAnimation species={appearance} name={monster.name} kind={originalFrame?.kind || 'idle'}
+              eventKey={originalFrame?.id || 'idle'} resting={resting}/>
+          </div>
         </div>
+        {effect === 'status' && !effectActor && <div className="classic-status-ring" aria-hidden="true"><i /><i /><i /></div>}
+        {effect === 'heal' && <div className="classic-heal-sparks" aria-hidden="true">＋<span>＋</span><i>＋</i></div>}
+        {effect === 'hit' && (critical || !effectTarget)
+          && <svg className={`classic-impact ${critical ? 'critical-impact' : ''}`} viewBox="0 0 120 120" aria-hidden="true">
+          <path d={IMPACT_PATH} />
+        </svg>}
       </div>
-      {effect === 'status' && !effectActor && <div className="classic-status-ring" aria-hidden="true"><i /><i /><i /></div>}
-      {effect === 'heal' && <div className="classic-heal-sparks" aria-hidden="true">＋<span>＋</span><i>＋</i></div>}
-      {effect === 'hit' && (critical || !effectTarget)
-        && <svg className={`classic-impact ${critical ? 'critical-impact' : ''}`} viewBox="0 0 120 120" aria-hidden="true">
-        <path d={IMPACT_PATH} />
-      </svg>}
     </div>
     {effect === 'special' && !effectActor && <div className="classic-energy-projectile" aria-hidden="true"><i /></div>}
     {(effect === 'hit' || effect === 'heal') && frame?.amount !== undefined

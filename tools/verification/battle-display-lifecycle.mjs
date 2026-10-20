@@ -55,7 +55,9 @@ function scenario(options = {}) {
     destroy() { h.rendererDestroys++; if (h.failRendererDestroy) throw Error('renderer destroy failed'); }
   }
   class Container { destroy() { h.stageDestroys++; if (h.failStageDestroy) throw Error('stage destroy failed'); } }
-  const clip = {atlasWidth: 512, atlasHeight: 512, sequences: [{name: 'standby', frames: [{mesh: {positions: [-1, -1, 1, 1]}}]}]};
+  const sequence = (name, positions) => ({name, frames: [{mesh: {positions}}]});
+  // `attack` gives the clip an attack sequence with these vertices; without it the attack falls back to the standby extent.
+  const clip = {atlasWidth: 512, atlasHeight: 512, sequences: [sequence('standby', [-1, -1, 1, 1]), ...h.attack ? [sequence('attack', h.attack)] : []]};
   h.deps = {
     loadRenderer: async () => ({SwfPlayer, WebGLRenderer, Container}),
     retain() {
@@ -100,11 +102,11 @@ try {
   await withSsr('battle-display-lifecycle', async load => {
     const {mountCreatureAnimation, RecoveryBudget} = await load('/src/features/battle/ui/creature-animation-mount.ts');
     const t = suite('battle-display-lifecycle');
-    /** Mount species 6 mid-attack and return its dispose function. */
+    /** Mount species 6 mid-attack (or in `h.motion`) and return its dispose function; the mount is `h.animation`. */
     const start = h => {
       install(h);
-      const animation = mountCreatureAnimation(h.host, {
-        species: 6, extent: .9, motion: () => ({kind: 'physical', resting: true}), onReady: ready => h.ready.push(ready),
+      const animation = h.animation = mountCreatureAnimation(h.host, {
+        species: 6, extent: .9, motion: () => h.motion ?? {kind: 'physical', resting: true}, onReady: ready => h.ready.push(ready),
         allowRecovery: () => { h.recoverRequests++; return !!h.grantRecovery; }, remount: () => { h.remounts++; },
       }, h.deps);
       return () => animation.dispose();
@@ -129,6 +131,22 @@ try {
       assert.equal(h.alphaReads, 1); assert.equal(h.plays, 1); assert.equal(h.clockAttaches, 1);
       cleanup(); assertReleased(h); assert.equal(h.clockDestroys, 1); assert.equal(h.playerDestroys, 1); assert.equal(h.windowListeners.size, 0);
       assert.equal(h.resizeObservers[0].disconnected, true); assert.equal(h.mutationObservers[0].disconnected, true);
+    });
+    await t.checkAsync('An attack that travels past the host widens the canvas toward it, as far as the viewport, and standby restores it', async () => {
+      // The host sits 100 px from the viewport's left edge and 730 px from its right one; the attack reaches 11 units forward.
+      const h = scenario({attack: [-1, -1, 11, 1]});
+      Object.assign(h.window, {innerWidth: 1000, innerHeight: 600});
+      h.host.getBoundingClientRect = () => ({left: 100, right: 270, top: 300, bottom: 470, width: 170, height: 170});
+      const cleanup = start(h);
+      await waitFor(() => h.plays === 1);
+      const canvas = h.canvases[0], renderer = h.renderers[0];
+      assert.deepEqual([renderer.screen.width, renderer.screen.height], [170 + 730, 170], 'widened forward up to the viewport, not upward');
+      assert.deepEqual([canvas.style.left, canvas.style.top, canvas.style.width, canvas.style.height], ['0px', '0px', '900px', '170px']);
+      const attacking = h.players[0].position;
+      h.motion = {kind: 'idle', resting: true}; h.animation.play();
+      assert.deepEqual([renderer.screen.width, renderer.screen.height, canvas.style.width], [170, 170, '170px'], 'standby fits the host again');
+      assert.deepEqual(h.players[0].position, attacking, 'the creature keeps its place on screen');
+      cleanup(); assertReleased(h);
     });
     await t.checkAsync('Initialization failure releases graphics before a player exists', async () => {
       const h = scenario({failInit: true}), cleanup = start(h);

@@ -1,14 +1,36 @@
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 export type AnimationBounds={minX:number;maxX:number;minY:number;maxY:number};
-/** Vertex extent of every standby frame (or the first sequence when a clip has no standby). */
-export function standbyMeshBounds(clip:Pick<SwfClipData,'sequences'>):AnimationBounds{
-  const standby=clip.sequences.find(s=>s.name==='standby')||clip.sequences[0];
+type Sequence=SwfClipData['sequences'][number];
+/** Margins in host pixels by which a canvas reaches beyond its host on each side. */
+export type CanvasMargins={left:number;right:number;top:number;bottom:number};
+/** Vertex extent of every frame of a sequence. */
+function extentOf(sequence:Sequence):AnimationBounds{
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
-  for(const {mesh:{positions}} of standby.frames)for(let i=0;i<positions.length;i+=2){
+  for(const {mesh:{positions}} of sequence.frames)for(let i=0;i<positions.length;i+=2){
     minX=Math.min(minX,positions[i]);maxX=Math.max(maxX,positions[i]);minY=Math.min(minY,positions[i+1]);maxY=Math.max(maxY,positions[i+1]);
   }
   return {minX,maxX,minY,maxY};
+}
+/** Vertex extent of every standby frame (or the first sequence when a clip has no standby). */
+export function standbyMeshBounds(clip:Pick<SwfClipData,'sequences'>):AnimationBounds{
+  return extentOf(clip.sequences.find(s=>s.name==='standby')||clip.sequences[0]);
+}
+/** Vertex extent of every frame of each sequence, by sequence name: how far the clip's own movement and effects travel. */
+export function sequenceMeshBounds(clip:Pick<SwfClipData,'sequences'>):Map<string,AnimationBounds>{
+  return new Map(clip.sequences.filter(s=>s.frames.length).map(s=>[s.name,extentOf(s)]));
+}
+/**
+ * The margins a canvas needs beyond its width x height host to draw `bounds` under `transform`, each at most `limit`
+ * (host pixels): an original move carries its creature to the opponent, far outside the creature's own box.
+ */
+export function canvasMargins(bounds:AnimationBounds,transform:ReturnType<typeof fixedAnimationTransform>,width:number,height:number,
+  limit:{x:number;y:number}):CanvasMargins{
+  const {position,scale}=transform;
+  const xs=[position.x+bounds.minX*scale.x,position.x+bounds.maxX*scale.x],ys=[position.y+bounds.minY*scale.y,position.y+bounds.maxY*scale.y];
+  const fit=(beyond:number,max:number)=>Math.min(Math.max(0,Math.ceil(beyond)),Math.floor(max));
+  return {left:fit(-Math.min(...xs),limit.x),right:fit(Math.max(...xs)-width,limit.x),
+    top:fit(-Math.min(...ys),limit.y),bottom:fit(Math.max(...ys)-height,limit.y)};
 }
 /** Layout dimensions deliberately exclude ancestor CSS transforms, including switch-in scale. */
 export function fixedAnimationTransform(bounds:AnimationBounds,width:number,height:number,extent:number){

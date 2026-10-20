@@ -111,7 +111,11 @@
 .classic-arena{flex:1;min-height:180px;height:auto}
 .classic-battle-caption{position:absolute;top:7px;left:50%;transform:translateX(-50%);max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;color:#456675;z-index:4}
 .classic-creatures{position:absolute;padding:0}
-.classic-combatant{max-height:300px;container-type:size}
+.classic-combatant{max-height:300px}
+/* The stage is the size container (and so a stacking context) of the creature alone, so numbers and effects stay in front of
+ * both creatures; the creature acting a move is in front of the other while its clip travels to it. */
+.classic-combatant-stage{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;container-type:size}
+.classic-combatant-stage.is-acting{z-index:1}
 .classic-creature-motion{width:min(280px,100cqw,100cqh);height:min(280px,100cqw,100cqh);max-height:none;max-width:none;aspect-ratio:1}
 .classic-creature-facing,.classic-art-box{aspect-ratio:1}
 .classic-ground-shadow{top:var(--ground-y);bottom:auto;width:60%;height:10%;transform:translate(-50%,-30%)}
