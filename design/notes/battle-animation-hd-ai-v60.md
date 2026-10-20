@@ -91,7 +91,7 @@ The manifest's cell modes are 37,638 original-vector, 6,245 `ai-upscaled`, 2,204
 
 - `artifacts/battle-hd-ai-v60/crops/`: software before/after device-pixel renders (`battle-hd-ai-crops.py`) of the first pose and the attack frame with the most AI area for 166, 36, 259, 11, 29, 549, 1256, 912, 300, 96, 614, 1486 and 1092 on dark and light grounds, with 3x zooms of 166, 259, 36, 11, 614 and 1092. Reviewed: faces and eyes keep their shapes, edges are crisper, motion-blurred and glow parts stay soft, cell borders that cut the original art stay cut, and after the clamp no new lines or halos appear.
 - `artifacts/battle-hd-ai-v60/browser/`: `battle-hd-display.mjs` for 303, 166, 36, 259 and 11 in four viewports at DPR 2 (20 of 20 passed, no page or console errors, each loads its HD-index atlas), with the 166 V59/V60 browser crops side by side.
-- Battle suites `battle-animation-hd-loader`, `battle-hd-memory`, `display-resolution`, `battle-display-lifecycle` and `battle-animation-registration` pass; `npm run typecheck` passes.
+- Battle suites `battle-animation-hd-loader`, `battle-hd-memory`, `display-resolution`, `battle-display-lifecycle` and `battle-animation-registration` pass; `npm run typecheck` and `npm test` (154 tests) pass. The full `npm run verify` was not run.
 - Audits `audit-before.json` and `audit-after.json`, the calibration, the build and publication logs and `publisher-tamper-166.json` are in `artifacts/battle-hd-ai-v60/`.
 
 ## Limits and open points
