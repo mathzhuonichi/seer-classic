@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 402,
+    "ruleNodes": 403,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -9900,7 +9900,7 @@
       "id": "boss_dark_door7_moerjiasi",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door7_moerjiasi.json",
-      "sourceSha256": "077c62d621ae32bf4d312d2a0b38f6be38a90cb8427c8ac8140787e82e0aac54",
+      "sourceSha256": "3cc120c3ebe71b84a57f9a1c18baf089dfe77b2917a3eadb2d72644beb82b453",
       "sourceNoteSha256": "514a8a803718fdb5c3ea8d3c433ce2c923f951d43d8958a74fcf0b4b5a6f58e4",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98441.html",
@@ -9983,6 +9983,25 @@
       "rules": [
         {
           "index": 0,
+          "path": "rules[0]",
+          "rule": "repeat_attack_damage_multiplier",
+          "configuration": {
+            "rule": "script",
+            "id": "repeat_attack_damage_multiplier",
+            "params": {
+              "multiplier": 0.1
+            }
+          },
+          "condition": null,
+          "evidence": {
+            "status": "inferred",
+            "basis": "unverified",
+            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
+            "sources": []
+          }
+        },
+        {
+          "index": 1,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {

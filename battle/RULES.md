@@ -297,7 +297,16 @@ Boss rule scripts: `drain_each_turn`, `stages_unclearable`,
 `mirror_status_to_attacker`, `lifesteal`, `escalate_vs_same_foe`,
 `status_on_attacker`, `random_heal`, `ignore_player_damage_reduction`,
 `foe_status_each_turn`, `random_priority`, `skill_effect_override`,
-`damage_cap_breaks_on_dot`, `foe_cannot_boost`.
+`damage_cap_breaks_on_dot`, `foe_cannot_boost`, `repeat_attack_damage_multiplier`.
+
+`repeat_attack_damage_multiplier {multiplier}`: when the foe's previous
+move on the boss was an attack (physical or special), the attack damage of
+its next attack is multiplied by `multiplier` and rounded down
+(`modify_damage_final`), so every attack in a row after the first is reduced.
+A status move breaks the chain. Only the moves the foe gets to use count
+(the boss's `on_foe_move`, before accuracy): a missed attack extends the
+chain, while a switch, an item or a turn in which the foe cannot act leaves
+it as it was.
 
 `stages_unclearable {stats?, except_sure_hit?, except_skills_zh?}`: the foe
 cannot clear the boss's stages (only `stats`, when listed). A clear by a

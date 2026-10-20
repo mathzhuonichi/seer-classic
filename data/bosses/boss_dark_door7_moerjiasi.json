@@ -24,7 +24,15 @@
       "hp_override": 2000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "script",
+      "id": "repeat_attack_damage_multiplier",
+      "params": {
+        "multiplier": 0.1
+      }
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -82,7 +90,8 @@
   "engine_notes": [
     "Entry (original): 超能NoNo owners loaded the 反物质芯片 directly; others needed NoNo AI level 10 and a crafted 反物质芯片 (VIP-gated). Doors open in order: 试炼之门, then 暗黑第一门 … 第九门 (pre-2013). The remake drops the VIP gate.",
     "All skills ground-type with side effects; high special attack.",
-    "Innate boost (天生强化), stat and size not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
+    "Innate boost (天生强化), stat and size not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
+    "An attack right after the player's previous move on it, if that was also an attack, deals a tenth of its damage; a status move in between restores full damage (百科 暗黑武斗场: 连续第二次对其攻击，伤害只有第一次的十分之一; player comment 三: 使用属性技，再次攻击伤害还是高伤害). Not stated, simplest reading: every attack right after an attack is reduced (the third in a row too); only the moves the player uses count, so a switch, an item or a turn in which the player's monster could not act neither breaks nor extends the chain, and a missed attack extends it; the tenth applies to the attack's damage (not to fixed or percentage damage its effects add), rounded down."
   ],
   "confidence": {
     "level": "high",

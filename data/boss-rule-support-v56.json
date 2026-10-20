@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 687,
+    "handledEntries": 688,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 121,
+    "approximatedEntries": 122,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -1524,6 +1524,15 @@
       "id": "boss_dark_door7_moerjiasi",
       "handled": [
         {
+          "rule": "script",
+          "id": "repeat_attack_damage_multiplier",
+          "scope": "root/rules/0",
+          "fields": [
+            "multiplier"
+          ],
+          "implementation": "install"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -1550,6 +1559,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "Innate boost (天生强化), stat and size not stated: atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "An attack right after the player's previous move on it, if that was also an attack, deals a tenth of its damage; a status move in between restores full damage (百科 暗黑武斗场: 连续第二次对其攻击，伤害只有第一次的十分之一; player comment 三: 使用属性技，再次攻击伤害还是高伤害). Not stated, simplest reading: every attack right after an attack is reduced (the third in a row too); only the moves the player uses count, so a switch, an item or a turn in which the player's monster could not act neither breaks nor extends the chain, and a missed attack extends it; the tenth applies to the attack's damage (not to fixed or percentage damage its effects add), rounded down."
         }
       ],
       "waived": [],

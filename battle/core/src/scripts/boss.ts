@@ -142,6 +142,17 @@ const CONDITION_RULES: Record<string, RuleSpec> = {
       if (c.skill?.id === p.skill && c.battle.rng.chance(p.chance)) c.battle.applyStatus(c.battle.foeOf(c.holder), p.status, { source: c.holder });
     },
   },
+  // the foe's attack right after its previous move, also an attack, deals `multiplier` of its damage; a status move breaks the chain
+  repeat_attack_damage_multiplier: {
+    on: ['on_foe_move', 'modify_damage_final'],
+    hook: (c) => {
+      const d = c.cond.data;
+      if (c.point === 'modify_damage_final') return fromFoeAttack(c) && d.repeated ? c.amount * d.multiplier : undefined;
+      const attack = c.skill?.category !== 'status';
+      d.repeated = attack && d.lastAttack === true;
+      d.lastAttack = attack;
+    },
+  },
   // V56
   always_move_first: { on: ['modify_priority'], hook: () => ALWAYS_FIRST_PRIORITY },
   always_crit_after_turn: { on: ['modify_crit_rate'], hook: (c) => (c.battle.turn > c.cond.data.turn ? { force: true } : undefined) },
