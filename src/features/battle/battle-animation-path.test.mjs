@@ -69,6 +69,17 @@ test('forward travel keeps the landing at the hit and compresses only the oversh
   assert.deepEqual(containPath(path(frames), HOME, room).offsets.map(offset => offset.x), [0, -1, -2]);
 });
 
+test('a frame reaching past home both ways moves back inside once compression on one side has moved it', () => {
+  // The climb compresses the up reach by 1/4; the tall frame (up 1, down .75) would then drop .75 and cross the floor.
+  const {offsets, bounds} = containPath(path([HOME, box(-1, 1, 3, 5), box(-1, 1, -1.75, 2)]), HOME, box(-5, 5, -2, 2));
+  assert.deepEqual(offsets.map(offset => offset.y), [0, -3, -.25]);
+  assert.deepEqual(bounds, box(-1, 1, -2, 2));
+  // A frame taller than the room (-1.5..3 in 4 of room) would drop 1.5 and leave the top empty: it moves only as far as covers the room.
+  assert.deepEqual(containPath(path([HOME, box(-1, 1, 3, 5), box(-1, 1, -1.5, 3)]), HOME, box(-5, 5, -2, 2)).offsets.map(offset => offset.y), [0, -3, -1]);
+  // Home itself may reach past the room: home frames stay where they are, and a frame past home there comes back to it.
+  assert.deepEqual(containPath(path([HOME, box(-1, 1, -1.25, 1)]), HOME, box(-5, 5, -.5, 5)).offsets, [{x: 0, y: 0}, {x: 0, y: .25}]);
+});
+
 test('a room smaller than home holds the creature at home', () => {
   const {offsets} = containPath(path([HOME, box(-1, 1, 1, 3)]), HOME, box(-5, 5, -5, .5));
   assert.deepEqual(offsets[1], {x: 0, y: -2});

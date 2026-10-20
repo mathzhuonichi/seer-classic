@@ -66,11 +66,19 @@ function squeeze(reaches: number[], room: number, kept: number): number[] {
   return reaches.map(reach => reach <= knee ? reach : knee + (reach - knee) * rate);
 }
 
+/** `offset` changed as little as keeps [min, max] + offset within [low, high], or covering it when it is wider. */
+function within(offset: number, min: number, max: number, low: number, high: number) {
+  const atLow = low - min, atHigh = high - max;
+  return Math.min(Math.max(offset, Math.min(atLow, atHigh)), Math.max(atLow, atHigh));
+}
+
 /**
  * Offsets that bring a sequence's travel inside `room` (mesh units, x forward, y up) by compressing it on each side it
  * overflows; the creature keeps its size and pose. `home` is the standby extent the travel is measured from: frames within it
  * do not move. Up, down and back compress linearly from home. Forward keeps the travel to the hit frame (within
- * FORWARD_KEPT_SHARE of the room ahead), so the move still lands on the opponent.
+ * FORWARD_KEPT_SHARE of the room ahead), so the move still lands on the opponent. A frame that reaches past home on both
+ * sides of an axis can still overflow once the other side's compression moves it; it moves back just inside the room (or
+ * home, where home itself reaches beyond the room).
  */
 export function containPath({frames, hitFrame}: SequencePath, home: AnimationBounds, room: AnimationBounds): ContainedPath {
   const forward = beyond(frames, frame => frame.maxX - home.maxX), back = beyond(frames, frame => home.minX - frame.minX);
@@ -78,7 +86,11 @@ export function containPath({frames, hitFrame}: SequencePath, home: AnimationBou
   const ahead = room.maxX - home.maxX;
   const forwardTo = squeeze(forward, ahead, Math.min(forward[hitFrame] ?? 0, ahead * FORWARD_KEPT_SHARE));
   const backTo = squeeze(back, home.minX - room.minX, 0), upTo = squeeze(up, room.maxY - home.maxY, 0), downTo = squeeze(down, home.minY - room.minY, 0);
-  const offsets = frames.map((_, i) => ({x: forwardTo[i] - forward[i] + back[i] - backTo[i], y: upTo[i] - up[i] + down[i] - downTo[i]}));
+  const allowed = unionBounds(room, home);
+  const offsets = frames.map((frame, i) => frame.minX > frame.maxX ? {x: 0, y: 0} : {
+    x: within(forwardTo[i] - forward[i] + back[i] - backTo[i], frame.minX, frame.maxX, allowed.minX, allowed.maxX),
+    y: within(upTo[i] - up[i] + down[i] - downTo[i], frame.minY, frame.maxY, allowed.minY, allowed.maxY),
+  });
   const bounds = frames.reduce((union, frame, i) => frame.minX > frame.maxX ? union : unionBounds(union, {
     minX: frame.minX + offsets[i].x, maxX: frame.maxX + offsets[i].x, minY: frame.minY + offsets[i].y, maxY: frame.maxY + offsets[i].y,
   }), EMPTY_BOUNDS);
