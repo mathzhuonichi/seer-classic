@@ -189,7 +189,8 @@ def main():
         result = {'sample': {'cells': len(rows), 'species': len({r['species'] for r in rows}), 'seed': args.seed,
                              'perSpecies': args.per_species, 'maxSide': args.max_side,
                              'rule': f'original-vector cells published at 2x or more, shorter side >= 8 px, longer side <= {args.max_side} px, '
-                                     f'native raster of class flat or shaded with thin parts holding >= {sg.STROKE_SHARE_MINIMUM} of the coverage',
+                                     f'native raster of class flat or shaded whose line-like thin parts (skeleton >= '
+                                     f'{sg.STROKE_MINIMUM_LENGTH} px) hold >= {sg.STROKE_SHARE_MINIMUM} of the coverage',
                              'scales': {str(s): sum(r['scale'] == s for r in rows) for s in sorted({r['scale'] for r in rows})},
                              'classes': {c: sum(r['class'] == c for r in rows) for c in sg.STROKE_CLASSES},
                              'calibrationCells': len(calibration), 'validationCells': len(validation)},
