@@ -249,6 +249,7 @@
     },
     {
       "name": "battle-hp-bar",
+      "preserveAspectRatio": "none",
       "baselinePath": "/ui/classic/battle-hp-bar.png",
       "baselineSha256": "3a87c789a3349ffd975edab45e665b592bc1b612a8f374a689dc5caacd6786a8",
       "sourceGroup": "fight",
