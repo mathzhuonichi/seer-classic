@@ -3,6 +3,7 @@ import type { BattleMonsterView, BattlePresentationFrame } from '../../../shared
 import { getCreatureArt } from '../../../shared/creature-art.ts';
 import { STATUS_LABELS } from '../../../shared/labels.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
+import { battleCreatureExtent } from '../battle-creature-size.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import BattleSkillEffect from './BattleSkillEffect.tsx';
 import type { FloatingNumber, SkillEffectCue } from '../battle-player.ts';
@@ -50,7 +51,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const critical = effect === 'hit' && !!frame?.critical;
   const effectActor = effectCue?.move.side === side, effectTarget = effectCue?.move.targetSide === side;
   const appearance = appearanceOf(monster), art = getCreatureArt(appearance);
-  const groundY = 50 + art.bounds.height / Math.max(art.bounds.width, art.bounds.height) * art.physicalScale * .9 * 50;
+  const groundY = 50 + art.bounds.height / Math.max(art.bounds.width, art.bounds.height) * battleCreatureExtent(appearance) * 50;
   const held = monster.statuses.some(status => STILL_STATUSES.includes(status));
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
   const motion = MOTION_KINDS.has(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';

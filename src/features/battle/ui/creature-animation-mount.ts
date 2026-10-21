@@ -28,7 +28,7 @@ export interface ViewportBox {left: number; right: number; top: number; bottom: 
 
 export interface CreatureAnimationOptions {
   species: number;
-  /** Silhouette extent of the creature's portrait, so the clip matches its size. */
+  /** Share of the creature box that the largest side of the first standby pose fills; the portrait fallback has the same. */
   extent: number;
   /** The box a move must keep the creature inside (the arena, which clips it), read at each layout; null: no limit. */
   room?: () => ViewportBox | null;

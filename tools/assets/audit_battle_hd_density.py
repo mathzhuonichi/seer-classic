@@ -2,9 +2,10 @@
 """Audit the texel density of every selected battle atlas at a reference battle display.
 
 The battle scales each clip so the visible alpha box of its first standby pose fills the creature box times the
-creature's art extent (battle-animation-registration.ts, BattleCreatureAnimation.tsx). From the original metadata and
-atlas this tool derives, per species, device pixels per clip unit at the reference display, and per atlas cell the
-selected atlas's texels per device pixel at the cell's largest on-screen size (first standby pose, and any frame).
+creature's battle extent: its native standby size times one scale, capped (battle-animation-registration.ts,
+battle-creature-size.ts). From the original metadata and atlas this tool derives, per species, device pixels per clip unit
+at the reference display, and per atlas cell the selected atlas's texels per device pixel at the cell's largest on-screen
+size (first standby pose, and any frame).
 
 Cells below the threshold are split by cause: an original-vector cell rendered at too low a multiplier (fixable by a
 higher source render), a retained raster cell (original pixels; no source vector was accepted), or an AI cell (an
@@ -18,6 +19,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import concurrent.futures
+import functools
 import gzip
 import json
 import math
@@ -31,8 +33,9 @@ ROOT = Path(__file__).resolve().parents[2]
 # The largest creature box: .classic-creature-motion is at most 280 CSS pixels; gameDisplayLayout zooms a 1920x1080
 # viewport by 1.5; the reference device pixel ratio is 2.
 REFERENCE = {'boxCssPixels': 280, 'layoutZoom': 1.5, 'devicePixelRatio': 2}
-# BattleCreatureAnimation passes physicalScale * .9 as the extent; creature-art.ts falls back to .84 without a row.
-ART_FILL, DEFAULT_PHYSICAL_SCALE = .9, .84
+ORIGINAL_INDEX = ROOT/'public/battle-animations/runtime-index.json'
+# The battle extent's calibration and cap, which battle-creature-size.ts reads too.
+SIZING = ROOT/'src/features/battle/battle-creature-size.json'
 # visibleStandbyBounds treats alpha 16 of 255 as visible.
 VISIBLE_ALPHA = 16
 # Atlas texels per device pixel at which a cell is no longer magnified; the generator renders vector cells to reach it.
@@ -99,17 +102,21 @@ def mesh_box(standby):
     return [min(xs), min(ys), max(xs), max(ys)]
 
 
-def physical_scales():
-    """Species id -> physicalScale, from the measured art rows that creature-art.ts reads."""
-    return {sid: row[8] for sid, row in json.loads((ROOT/'src/shared/creature-art-data.json').read_text()).items()}
+@functools.cache
+def battle_extents():
+    """Species id -> battle extent, as battle-creature-size.ts computes it from the index's standbySize."""
+    sizing = json.loads(SIZING.read_text())
+    sizes = {sid: entry['standbySize'] for sid, entry in json.loads(ORIGINAL_INDEX.read_text())['species'].items()}
+    per_unit = sizing['calibrationExtent']/sizes[str(sizing['calibrationSpecies'])]
+    return {sid: min(size*per_unit, sizing['maxExtent']) for sid, size in sizes.items()}
 
 
 def reference_box_device_pixels():
     return REFERENCE['boxCssPixels']*REFERENCE['layoutZoom']*REFERENCE['devicePixelRatio']
 
 
-def original_magnification(meta, alpha, physical_scale, box_device_pixels):
-    """How the battle shows each original atlas cell at a creature box of `box_device_pixels`.
+def original_magnification(meta, alpha, extent, box_device_pixels):
+    """How the battle shows each original atlas cell at battle extent `extent` in a creature box of `box_device_pixels`.
 
     Returns device pixels per clip unit, the visible first-pose box, and per UV cell key the original atlas texels per
     device pixel at the cell's largest on-screen size, in the first standby pose and in any frame.
@@ -117,7 +124,7 @@ def original_magnification(meta, alpha, physical_scale, box_device_pixels):
     height, width = alpha.shape
     standby = next((s for s in meta['sequences'] if s['name'] == 'standby'), meta['sequences'][0])
     box = visible_box(standby['frames'][0], alpha, width, height) or mesh_box(standby)
-    device_per_unit = box_device_pixels*physical_scale*ART_FILL/max(box[2]-box[0], box[3]-box[1])
+    device_per_unit = box_device_pixels*extent/max(box[2]-box[0], box[3]-box[1])
     cells = {}
     for sequence in meta['sequences']:
         for index, frame in enumerate(sequence['frames']):
@@ -152,11 +159,11 @@ def low_cells(densities, threshold):
                       'other': [r for r in low if r['mode'] not in VECTOR_MODES | RASTER_MODES | AI_MODES | REDRAWN_MODES]}}
 
 
-def audit_species(sid, original, report_path, physical_scale, box_device_pixels, threshold):
+def audit_species(sid, original, report_path, extent, box_device_pixels, threshold):
     meta = json.loads(gzip.decompress((ROOT/'public'/original['meta'].lstrip('/')).read_bytes()))
     with Image.open(ROOT/'public'/original['atlas'].lstrip('/')) as image:
         alpha = np.asarray(image.convert('RGBA'))[:, :, 3]
-    device_per_unit, box, magnification = original_magnification(meta, alpha, physical_scale, box_device_pixels)
+    device_per_unit, box, magnification = original_magnification(meta, alpha, extent, box_device_pixels)
     cells = report_cells(json.loads((ROOT/report_path).read_bytes()))
     scopes = {'firstPose': [], 'anyFrame': []}
     for key, seen in magnification.items():
@@ -165,7 +172,7 @@ def audit_species(sid, original, report_path, physical_scale, box_device_pixels,
             if cell and seen[scope] is not None:
                 rows.append({'id': cell['id'], 'mode': cell['mode'], 'multiplier': cell['multiplier'],
                              'density': round(seen[scope]*cell['multiplier'], 4)})
-    return {'species': sid, 'physicalScale': physical_scale, 'visibleBox': [round(v, 5) for v in box],
+    return {'species': sid, 'extent': round(extent, 5), 'visibleBox': [round(v, 5) for v in box],
             'devicePixelsPerUnit': round(device_per_unit, 3), 'unmatchedCells': sum(key not in cells for key in magnification),
             **{scope: low_cells(rows, threshold) for scope, rows in scopes.items()}}
 
@@ -198,12 +205,11 @@ def main():
     parser.add_argument('--jobs', type=int, default=1, choices=(1, 2))
     parser.add_argument('--output', type=Path, default=ROOT/'artifacts/battle-hd-density/audit.json')
     args = parser.parse_args()
-    original = json.loads((ROOT/'public/battle-animations/runtime-index.json').read_text())['species']
+    original = json.loads(ORIGINAL_INDEX.read_text())['species']
     manifest = json.loads((ROOT/'public/battle-animations/hd/manifest.json').read_text())['species']
-    scales = physical_scales()
+    extents = battle_extents()
     ids = sorted(args.ids.split(',') if args.ids else original, key=int)
-    tasks = [(sid, original[sid], manifest[sid]['reportPath'], scales.get(sid, DEFAULT_PHYSICAL_SCALE),
-              args.box_device_pixels, args.threshold) for sid in ids]
+    tasks = [(sid, original[sid], manifest[sid]['reportPath'], extents[sid], args.box_device_pixels, args.threshold) for sid in ids]
     if args.jobs == 1:
         outcomes = [attempt(task) for task in tasks]
     else:

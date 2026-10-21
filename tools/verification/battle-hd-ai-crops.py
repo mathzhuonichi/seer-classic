@@ -25,8 +25,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'tools/assets'))
-from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, original_magnification, physical_scales,  # noqa: E402
-                                     reference_box_device_pixels, uv_key)
+from audit_battle_hd_density import battle_extents, original_magnification, reference_box_device_pixels, uv_key  # noqa: E402
 
 VERSIONS = {'v60': (ROOT/'.cache/battle-hd-v60', ROOT/'artifacts/battle-hd-ai-v60/crops', 'aiUpscaledCellIds'),
             'v61': (ROOT/'.cache/battle-hd-v61', ROOT/'artifacts/battle-hd-redraw-v61/crops', 'redrawnCellIds'),
@@ -116,8 +115,7 @@ def species_crops(sid, frames, version):
     original_meta = load_meta(original['meta'])
     with Image.open(ROOT/'public'/original['atlas'].lstrip('/')) as image:
         alpha = np.asarray(image.convert('RGBA'))[:, :, 3]
-    scale, box, _ = original_magnification(original_meta, alpha, physical_scales().get(sid, DEFAULT_PHYSICAL_SCALE),
-                                           reference_box_device_pixels())
+    scale, box, _ = original_magnification(original_meta, alpha, battle_extents()[sid], reference_box_device_pixels())
     placements = {p['id']: p for p in report['layout']['placements']}
     ai_cells = {uv_key(placements[c]['sourceUvBounds']) for c in report[changed]}
     sequences = {s['name']: s for s in after_meta['sequences']}

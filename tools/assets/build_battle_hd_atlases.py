@@ -32,8 +32,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from PIL import Image, ImageOps
 
-from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, TARGET_DENSITY, original_magnification, physical_scales,
-                                     reference_box_device_pixels, uv_key)
+from audit_battle_hd_density import TARGET_DENSITY, battle_extents, original_magnification, reference_box_device_pixels, uv_key
 from battle_hd_atlas_layout import layout_atlas, remap_clip, _verify, _pack
 from battle_hd_local_fidelity import local_color_comparison
 from battle_sprite_candidates import inspect as prepare_sprite_candidates
@@ -275,8 +274,7 @@ def match_cells(cells, images, manifest, work):
 
 def reference_densities(sid, cells, meta, atlas):
     """Record each cell's original texels per device pixel at its largest on-screen size at the reference display."""
-    scale = physical_scales().get(sid, DEFAULT_PHYSICAL_SCALE)
-    _, _, magnification = original_magnification(meta, np.asarray(atlas)[:, :, 3], scale, reference_box_device_pixels())
+    _, _, magnification = original_magnification(meta, np.asarray(atlas)[:, :, 3], battle_extents()[sid], reference_box_device_pixels())
     for cell in cells:
         cell['referenceDensity'] = round(magnification[uv_key(cell['sourceUvBounds'])]['anyFrame'], 6)
 

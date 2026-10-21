@@ -34,8 +34,8 @@ import time
 import numpy as np
 from PIL import Image, ImageOps
 
-from audit_battle_hd_density import (DEFAULT_PHYSICAL_SCALE, RASTER_MODES, TARGET_DENSITY, original_magnification,
-                                     physical_scales, reference_box_device_pixels, uv_key)
+from audit_battle_hd_density import (RASTER_MODES, TARGET_DENSITY, battle_extents, original_magnification, reference_box_device_pixels,
+                                     uv_key)
 from battle_hd_atlas_layout import remap_clip, _verify
 import battle_hd_ai_upscale as ai
 from build_battle_hd_atlases import ROOT, VECTOR_MODES, fitted, native_cells, pack_rows, sha
@@ -104,8 +104,7 @@ def load_base(sid, entry, report_path, verify_pixels=True):
 
 def densities(base):
     """Original texels per device pixel of each UV cell at the reference display: anyFrame and firstPose."""
-    scale = physical_scales().get(base['sid'], DEFAULT_PHYSICAL_SCALE)
-    _, _, magnification = original_magnification(base['meta'], np.asarray(base['originalAtlas'])[:, :, 3], scale,
+    _, _, magnification = original_magnification(base['meta'], np.asarray(base['originalAtlas'])[:, :, 3], battle_extents()[base['sid']],
                                                  reference_box_device_pixels())
     return magnification
 

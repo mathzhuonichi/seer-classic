@@ -1,6 +1,7 @@
 /**
  * HD battle animation density in the running game: which atlas a battle actually loads, whether the WebGL backing store follows
- * the device pixel ratio, and how many atlas texels each cell of the lead's first standby pose has per device pixel.
+ * the device pixel ratio, how many atlas texels each cell of the lead's first standby pose has per device pixel, and whether the
+ * lead is drawn at the battle extent of its native size (battle-creature-size.ts).
  * Status `needs-browser`. Each species in SPECIES leads a seeded save into a wild battle at DPR 2 in every viewport of VIEWPORTS.
  *
  * Measurement: the page keeps its WebGL drawing buffer (an init script of this suite only), so the canvas's visible alpha box
@@ -17,8 +18,8 @@ import {BOOT_TIMEOUT_MS, buildApp, openGame, talkToCreature, wait, waitCommands,
 const NAME = 'battle-hd-display';
 const OUT = path.join(root, 'artifacts', NAME);
 const DIST = path.join(OUT, 'dist');
-/** 丽莎布布 and 闪光波克尔, reported blurry in the 2026-10-19 playtest. */
-const SPECIES = (process.env.HD_DISPLAY_SPECIES ?? '303,166').split(',').map(Number);
+/** 丽莎布布 and 闪光波克尔, reported blurry in the 2026-10-19 playtest; 哈莫雷特, drawn too small next to 303 before 2026-10-21. */
+const SPECIES = (process.env.HD_DISPLAY_SPECIES ?? '303,166,216').split(',').map(Number);
 const VIEWPORTS = [{width: 1000, height: 650}, {width: 1280, height: 800}, {width: 1440, height: 900}, {width: 1920, height: 1080}];
 const DEVICE_SCALE = 2;
 const LEVEL = 100;
@@ -27,6 +28,13 @@ const VISIBLE_ALPHA = 16;
 /** Backing pixels may differ from displayed device pixels by rounding only. */
 const BACKING_TOLERANCE = 0.02;
 const HD_INDEX = JSON.parse(fs.readFileSync(path.join(root, 'public/battle-animations/hd/runtime-index.json'), 'utf8')).species;
+const NATIVE = JSON.parse(fs.readFileSync(path.join(root, 'public/battle-animations/runtime-index.json'), 'utf8')).species;
+const SIZING = JSON.parse(fs.readFileSync(path.join(root, 'src/features/battle/battle-creature-size.json'), 'utf8'));
+/** The share of its creature box that a species' first standby pose fills: its native size times one scale, capped. */
+const battleExtent = species => Math.min(SIZING.maxExtent,
+  NATIVE[species].standbySize * SIZING.calibrationExtent / NATIVE[SIZING.calibrationSpecies].standbySize);
+/** The drawn pose may differ from its extent by the alpha box's pixel rounding and the HD atlas's own edge pixels. */
+const EXTENT_TOLERANCE = 0.02;
 
 /** The silent storage entries and, per species, a save whose only creature is that species at LEVEL. */
 async function fixtures() {
@@ -68,11 +76,12 @@ function leadCanvas(visibleAlpha) {
     if (data[(y * canvas.width + x) * 4 + 3] < visibleAlpha) continue;
     minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
   }
+  const box = canvas.closest('.classic-art-box').getBoundingClientRect();
   const portrait = document.querySelector('.classic-health-portrait img');
   const portraitRect = portrait?.getBoundingClientRect();
   return {dpr: devicePixelRatio, backing: [canvas.width, canvas.height], css: [canvas.clientWidth, canvas.clientHeight],
     displayed: [rect.width * devicePixelRatio, rect.height * devicePixelRatio], rect: [rect.left, rect.top, rect.width, rect.height],
-    alpha: [minX, minY, maxX + 1, maxY + 1], registration: canvas.parentElement.dataset.registration,
+    alpha: [minX, minY, maxX + 1, maxY + 1], registration: canvas.parentElement.dataset.registration, boxSide: box.width * devicePixelRatio,
     portrait: portrait && {src: portrait.getAttribute('src'), natural: [portrait.naturalWidth, portrait.naturalHeight],
       displayed: [portraitRect.width * devicePixelRatio, portraitRect.height * devicePixelRatio]}};
 }
@@ -180,11 +189,15 @@ await withBrowser('chrome', async browser => {
       assert.deepEqual(result.errors, [], `${label}: page or console errors`);
       const ratio = result.lead.backing[0] / result.lead.displayed[0];
       assert(Math.abs(ratio - 1) <= BACKING_TOLERANCE, `${label}: ${ratio.toFixed(3)} backing pixels per device pixel`);
+      const [minX, minY, maxX, maxY] = result.lead.alpha, extent = Math.max(maxX - minX, maxY - minY) / ratio / result.lead.boxSide;
+      result.extent = extent;
+      assert(Math.abs(extent / battleExtent(species) - 1) <= EXTENT_TOLERANCE,
+        `${label}: the first pose fills ${extent.toFixed(3)} of its creature box, not ${battleExtent(species).toFixed(3)}`);
     });
   }
 });
-const lowest = results.map(({species, viewport, cells}) => ({species, viewport: `${viewport.width}x${viewport.height}`,
-  lowest: Math.min(...cells.map(cell => cell.texelsPerDevicePixel))}));
+const lowest = results.map(({species, viewport, cells, extent}) => ({species, viewport: `${viewport.width}x${viewport.height}`,
+  lowest: Math.min(...cells.map(cell => cell.texelsPerDevicePixel)), extent}));
 t.witness('lowestFirstPoseDensity', lowest);
 fs.writeFileSync(path.join(OUT, 'measurements.json'), JSON.stringify(results, null, 1) + '\n');
 t.finish();
