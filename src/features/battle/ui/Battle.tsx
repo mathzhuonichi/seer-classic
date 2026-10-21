@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
-import { battleResultTitle, roundStatus, shownTurn, type BattleItemChoice } from '../battle-hud.ts';
+import type { BattleSupplyCategory } from '../../../shared/item-categories.ts';
+import { OPENED_ITEM_CATEGORY, battleResultTitle, roundStatus, shownTurn } from '../battle-hud.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -26,19 +27,15 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
   const [tab, setTab] = useState<BattleCommand>(b.needsSwitch ? 'party' : 'battle');
   const [showLog, setShowLog] = useState(false);
   const [partySelection, setPartySelection] = useState(b.player.uid);
-  const [items, setItems] = useState<BattleItemChoice>({ category: 'recovery', selection: '', target: b.player.uid });
+  const [itemCategory, setItemCategory] = useState<BattleSupplyCategory>(OPENED_ITEM_CATEGORY);
   const [showDetails, setShowDetails] = useState(false);
   const arena = useRef<HTMLDivElement>(null);
-  const chooseItems = useCallback((patch: Partial<BattleItemChoice>) => setItems(current => ({ ...current, ...patch })), []);
   const closeDetails = useCallback(() => setShowDetails(false), []);
   const playback = useBattlePlayback(b, c, {
     onStart: () => setShowLog(false),
     onNeedsSwitch: battle => { setTab('party'); setPartySelection(battle.party.find(mon => mon.hp > 0)?.uid || ''); },
-    onReplaced: () => setTab('battle'),
   });
   const { frame, busy } = playback;
-
-  useEffect(() => { chooseItems({ target: b.player.uid }); }, [b.player.uid]);
 
   const player = frame?.player ?? b.player;
   const enemy = frame?.enemy ?? b.enemy;
@@ -68,7 +65,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
         <div><strong>{battleResultTitle(b)}</strong></div>
         <button onClick={onSettings}>设置</button>
       </div>
-      : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, items, chooseItems, setPartySelection }} selectedParty={selectedParty}
+      : <BattleCommandDeck battle={b} inventory={inventory} commands={{ tab, setTab, itemCategory, setItemCategory, setPartySelection }} selectedParty={selectedParty}
         playback={playback} onDetails={() => setShowDetails(true)} onSettings={onSettings}/>}
     {showDetails && <BattleCreatureDetails c={c} monster={selectedParty} onClose={closeDetails}/>}
   </section>;

@@ -37,7 +37,7 @@ function screen(frames, {reducedMotion = false, timing} = {}) {
   const player = createBattlePlayer({
     battle: () => shown.battle, dispatch: () => ({ok: true}), sound() {}, clock,
     motion: shownFrame => ({reducedMotion, timing: ['physical', 'special', 'status'].includes(shownFrame.kind) ? timing : undefined}),
-    onStart() {}, onNeedsSwitch() {}, onReplaced() {}, holdIdle: () => () => {},
+    onStart() {}, onNeedsSwitch() {}, holdIdle: () => () => {},
   });
   const numbers = () => player.state().numbers.map(({id, side, row}) => ({id, side, row}));
   return {player, clock, shown, numbers};

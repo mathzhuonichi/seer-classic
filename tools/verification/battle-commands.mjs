@@ -80,7 +80,6 @@ await withSsr('battle-commands', async load => {
       clock,
       onStart: () => events.push('start'),
       onNeedsSwitch: battle => events.push(battle.needsSwitch ? 'needsSwitch' : 'needsSwitch without a faint'),
-      onReplaced: () => events.push('replaced'),
       holdIdle: holdIdle ?? countingHold,
     });
     player.subscribe(() => {
@@ -343,7 +342,7 @@ await withSsr('battle-commands', async load => {
     assert.ok(!view.result.includes('首领'));
   });
 
-  t.check('A forced replacement is reported once the controller accepts it; a voluntary switch is not', () => {
+  t.check('A command reports whether the controller took it: a forced replacement, a voluntary switch, a refused switch', () => {
     const save = structuredClone(base), lead = save.storage.find(mon => mon.uid === save.party[0]);
     lead.hp = 1;
     const game = started({type: 'startTraining', species: 22, level: 3}, catalog, save), ui = screen(game);
@@ -355,16 +354,16 @@ await withSsr('battle-commands', async load => {
     const fainted = game.snapshot().battle, bench = fainted.party.filter(mon => mon.hp > 0);
     assert.ok(fainted.needsSwitch && !fainted.finished, 'the lead faints');
     assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch']);
-    ui.player.submit({type: 'switch', uid: bench[0].uid});
-    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch', 'replaced']);
+    assert.equal(ui.player.submit({type: 'switch', uid: fainted.player.uid}), false, 'the fainted lead cannot go back in');
+    assert.equal(ui.player.submit({type: 'switch', uid: bench[0].uid}), true);
     ui.rerender();
     ui.clock.runAll();
     assert.equal(game.snapshot().battle.needsSwitch, false);
-    ui.player.submit({type: 'switch', uid: bench[1].uid});
+    assert.equal(ui.player.submit({type: 'switch', uid: bench[1].uid}), true);
     ui.rerender();
     ui.clock.runAll();
     assert.equal(game.snapshot().battle.player.uid, bench[1].uid);
-    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch', 'replaced']);
+    assert.deepEqual(ui.events.filter(event => event !== 'start'), ['needsSwitch']);
   });
 
   t.check('A screen that unmounts while a turn plays lets idle work go', () => {

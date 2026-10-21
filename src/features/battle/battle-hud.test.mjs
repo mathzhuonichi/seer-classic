@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, itemUse, recentBattleLog, settledDialogue, shownTurn,
+  battleEndSound, battleItemPane, battleResultTitle, battleSkills, conditionSummary, itemCardAction, recentBattleLog, settledDialogue, shownTurn,
   stageChips,
 } from './battle-hud.ts';
 import {skillView} from '../../shared/view-common.ts';
@@ -25,35 +25,17 @@ test('Struggle replaces the skills only when every one is out of PP', () => {
   assert.deepEqual(skillView({skills: new Map()}, struggle.id), struggle, 'a snapshot names 挣扎 as the command deck does');
 });
 
-test('the item pane falls back to recovery without capture and resolves its target', () => {
+test('the item pane falls back to recovery without capture and lists no revival items', () => {
   const inventory = [
     {id: 'cap', battleCategory: 'capsule', count: 1}, {id: 'pot', battleCategory: 'recovery', count: 2, useAction: 'use', useTargets: ['c']},
     {id: 'empty', battleCategory: 'recovery', count: 0},
     {id: 'revive', battleCategory: 'recovery', unlimited: true, count: 0, targetMode: 'fainted', useAction: 'use', useTargets: ['b']},
   ];
-  const open = battleItemPane(battle(), inventory, {category: 'recovery', selection: '', target: 'zzz'});
-  assert.deepEqual(open.items.map(item => item.id), ['pot', 'revive']);
-  assert.deepEqual([open.selected.id, open.target.uid, open.helpsTarget], ['pot', 'a', false]);
-  const revive = battleItemPane(battle(), inventory, {category: 'recovery', selection: 'revive', target: 'a'});
-  assert.deepEqual([revive.targets.map(m => m.uid), revive.target.uid, revive.helpsTarget], [['b'], 'b', true]);
-  const blocked = battleItemPane(battle({canCapture: false}), inventory, {category: 'capsule', selection: '', target: 'a'});
+  const open = battleItemPane(battle(), inventory, 'recovery');
+  assert.deepEqual([open.category, open.items.map(item => item.id)], ['recovery', ['pot']]);
+  const blocked = battleItemPane(battle({canCapture: false}), inventory, 'capsule');
   assert.deepEqual([blocked.category, blocked.categories.map(([id]) => id)], ['recovery', ['recovery', 'status']]);
-  assert.equal(battleItemPane(battle(), [], {category: 'status', selection: '', target: 'a'}).empty, '暂无异常解除道具。');
-});
-
-test('using an item pins it, and once its last copy is gone nothing is selected and 使用 is disabled', () => {
-  const potion = {id: 'pot', battleCategory: 'recovery', count: 1, useAction: 'use', useTargets: ['a']};
-  const ether = {id: 'pp', battleCategory: 'recovery', count: 3, useAction: 'use', useTargets: ['a']};
-  const choice = {category: 'recovery', selection: '', target: 'a'};
-  const open = battleItemPane(battle(), [potion, ether], choice);
-  assert.equal(open.selected.id, 'pot', 'nothing picked yet: the first item');
-  const used = itemUse(open);
-  assert.deepEqual(used, {action: {type: 'battleItem', itemId: 'pot', targetUid: 'a'}, selection: 'pot'});
-  const gone = battleItemPane(battle(), [{...potion, count: 0}, ether], {...choice, selection: used.selection});
-  assert.deepEqual([gone.items.map(item => item.id), gone.selected, itemUse(gone)], [['pp'], undefined, null]);
-  const left = battleItemPane(battle(), [{...potion, count: 0}, ether], {...choice, selection: 'pp'});
-  assert.equal(itemUse(left).action.itemId, 'pp', 'a picked item with stock left stays selected');
-  assert.equal(itemUse({...open, helpsTarget: false}), null, 'the target does not need it');
+  assert.equal(battleItemPane(battle(), [], 'status').empty, '暂无异常解除道具。');
 });
 
 test('the result title names the outcome once, and a challenge\'s loss as a challenge\'s', () => {
@@ -76,11 +58,13 @@ test('settled dialogue, end sounds and the latest turn log', () => {
   assert.deepEqual(recentBattleLog(['a']), ['a']);
 });
 
-test('an item card throws a capsule at once, selects other items, and ignores empty or blocked cards', () => {
-  const capsule = {id: 'cap', battleCategory: 'capsule', count: 1}, potion = {id: 'pot', battleCategory: 'recovery', count: 1};
+test('an item card throws a capsule or uses the item on the creature in battle at once, and ignores useless, empty or blocked cards', () => {
+  const capsule = {id: 'cap', battleCategory: 'capsule', count: 1};
+  const potion = {id: 'pot', battleCategory: 'recovery', count: 1, useAction: 'use', useTargets: ['a', 'c']};
   assert.deepEqual(itemCardAction(battle(), capsule), {type: 'capture', itemId: 'cap'});
-  assert.deepEqual(itemCardAction(battle(), potion), {type: 'select', itemId: 'pot'});
-  assert.deepEqual(itemCardAction(battle(), {...potion, count: 0, unlimited: true}), {type: 'select', itemId: 'pot'});
+  assert.deepEqual(itemCardAction(battle(), potion), {type: 'battleItem', itemId: 'pot'}, 'no target: the creature in battle');
+  assert.deepEqual(itemCardAction(battle(), {...potion, count: 0, unlimited: true}), {type: 'battleItem', itemId: 'pot'});
+  assert.equal(itemCardAction(battle(), {...potion, useTargets: ['c']}), null, 'the creature in battle does not need it');
   assert.equal(itemCardAction(battle({canCapture: false}), capsule), null);
   assert.equal(itemCardAction(battle({needsSwitch: true}), potion), null);
   assert.equal(itemCardAction(battle(), {...capsule, count: 0}), null);

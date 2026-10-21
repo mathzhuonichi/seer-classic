@@ -41,8 +41,6 @@ export interface PlaybackEvents {
   onStart(): void;
   /** Playback settled on a fainted combatant that must be replaced. */
   onNeedsSwitch(battle: BattleView): void;
-  /** The controller accepted the replacement for a fainted combatant. */
-  onReplaced(): void;
 }
 
 /** The timers playback runs on; the screen passes the browser's. */
@@ -72,8 +70,8 @@ export interface BattlePlayer {
   play(battle: BattleView): () => void;
   /** No turn is being submitted or plays, and the battle is still on. */
   canAct(): boolean;
-  /** Sends a battle command; a command the controller rejects shows its notice and unlocks. */
-  submit(action: GameAction): void;
+  /** Sends a battle command and says whether the controller took it; a rejected command shows its notice and unlocks. */
+  submit(action: GameAction): boolean;
   /** Lets go of the idle work it holds and clears the numbers; the screen calls it when it unmounts. */
   dispose(): void;
 }
@@ -133,18 +131,15 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
     },
     canAct,
     submit(action) {
-      if (!canAct()) return;
-      const replacing = action.type === 'switch' && host.battle().needsSwitch;
+      if (!canAct()) return false;
       host.sound('click');
       holdIdle();
       set({ busy: true });
       const result = host.dispatch(action);
-      if (result.ok) {
-        if (replacing) host.onReplaced();
-        return;
-      }
+      if (result.ok) return true;
       releaseHeldIdle();
       set({ busy: false, dialogue: result.notice || REJECTED_DIALOGUE });
+      return false;
     },
     dispose() {
       releaseHeldIdle();

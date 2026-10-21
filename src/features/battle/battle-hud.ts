@@ -3,7 +3,6 @@ import type { BattleMonsterView, BattlePresentationFrame, BattleView, ItemView, 
 import { BATTLE_SUPPLY_CATEGORIES, type BattleSupplyCategory } from '../../shared/item-categories.ts';
 import { STAGE_LABELS, type StageKey } from '../../shared/labels.ts';
 import { STRUGGLE_VIEW } from '../../shared/view-common.ts';
-import { pinnedSelection } from '../../shared/view-helpers.ts';
 
 export interface StageChip { stat: string; label: string; value: number }
 
@@ -61,38 +60,28 @@ const EMPTY_SUPPLIES: Record<BattleSupplyCategory, string> = {
   recovery: '暂无体力或 PP 恢复道具。', capsule: '暂无精灵胶囊，请到道具管理补充。', status: '暂无异常解除道具。',
 };
 
-/**
- * The item pane's own choices; the pane resolves them against the current battle. `selection` is the picked item ('' until a
- * card is picked or an item used; opening the pane or a category clears it), so a used item that runs out selects nothing.
- */
-export interface BattleItemChoice { category: BattleSupplyCategory; selection: string; target: string }
-
-/** The command deck's 道具 command opens the recovery supplies with nothing picked. */
-export const OPENED_ITEM_PANE: Readonly<Pick<BattleItemChoice, 'category' | 'selection'>> = { category: 'recovery', selection: '' };
+/** The command deck's 道具 command opens the recovery supplies. */
+export const OPENED_ITEM_CATEGORY: BattleSupplyCategory = 'recovery';
 
 export const hasStock = (item: ItemView) => item.unlimited || item.count > 0;
 
-/** What a click on an item card does: throw the capsule at once, select the item, or nothing. */
-export function itemCardAction(battle: BattleView, item: ItemView): { type: 'capture'; itemId: string } | { type: 'select'; itemId: string } | null {
+/** Whether `item` does something for the creature in battle now, which is the only creature a battle item goes to. */
+export const helpsActive = (battle: BattleView, item: ItemView) => !!item.useTargets?.includes(battle.player.uid);
+
+/** What a click on an item card does: throw the capsule, use the item on the creature in battle, or nothing. */
+export function itemCardAction(battle: BattleView, item: ItemView): { type: 'capture' | 'battleItem'; itemId: string } | null {
   if (battle.needsSwitch || !hasStock(item)) return null;
-  if (item.battleCategory !== 'capsule') return { type: 'select', itemId: item.id };
-  return battle.canCapture ? { type: 'capture', itemId: item.id } : null;
+  if (item.battleCategory === 'capsule') return battle.canCapture ? { type: 'capture', itemId: item.id } : null;
+  return helpsActive(battle, item) ? { type: 'battleItem', itemId: item.id } : null;
 }
 
-/** Visible categories, the effective category, its items and the resolved selection and target. */
-export function battleItemPane(battle: BattleView, inventory: ItemView[], choice: BattleItemChoice) {
+/**
+ * Visible categories, the effective category and its items. Revival items are not listed: battle items go to the creature in
+ * battle, which is never fainted while the pane takes a command.
+ */
+export function battleItemPane(battle: BattleView, inventory: ItemView[], category: BattleSupplyCategory) {
   const categories = BATTLE_SUPPLY_CATEGORIES.filter(([id]) => id !== 'capsule' || battle.canCapture);
-  const category = choice.category === 'capsule' && !battle.canCapture ? 'recovery' : choice.category;
-  const items = inventory.filter(item => hasStock(item) && item.battleCategory === category);
-  const selected = pinnedSelection(items, choice.selection);
-  const targets = battle.party.filter(mon => selected?.targetMode === 'fainted' ? mon.hp <= 0 : mon.hp > 0);
-  const target = targets.find(mon => mon.uid === choice.target) || targets.find(mon => mon.uid === battle.player.uid) || targets[0];
-  const helpsTarget = !!target && !!selected?.useTargets?.includes(target.uid);
-  return { categories, category, items, selected, targets, target, empty: EMPTY_SUPPLIES[category], helpsTarget };
-}
-
-/** What the 使用 button does, or null while it is disabled: the item action, and the pick it leaves (using an item pins it). */
-export function itemUse({ selected, target, helpsTarget }: { selected?: ItemView; target?: BattleMonsterView; helpsTarget: boolean }) {
-  if (!selected || !target || !helpsTarget) return null;
-  return { action: { type: 'battleItem' as const, itemId: selected.id, targetUid: target.uid }, selection: selected.id };
+  const shown = category === 'capsule' && !battle.canCapture ? 'recovery' : category;
+  const items = inventory.filter(item => hasStock(item) && item.battleCategory === shown && item.targetMode !== 'fainted');
+  return { categories, category: shown, items, empty: EMPTY_SUPPLIES[shown] };
 }

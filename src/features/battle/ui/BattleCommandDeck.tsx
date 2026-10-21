@@ -1,6 +1,8 @@
+import type { GameAction } from '../../../kernel/contract.ts';
 import type { BattleMonsterView, BattleView, ItemView } from '../../../shared/views.ts';
+import type { BattleSupplyCategory } from '../../../shared/item-categories.ts';
 import { gameAudio } from '../../../shared/audio/game-audio.ts';
-import { OPENED_ITEM_PANE, type BattleItemChoice } from '../battle-hud.ts';
+import { OPENED_ITEM_CATEGORY } from '../battle-hud.ts';
 import BattleItemPane from './BattleItemPane.tsx';
 import BattlePartyPane from './BattlePartyPane.tsx';
 import BattleSkillPane from './BattleSkillPane.tsx';
@@ -18,8 +20,8 @@ const commandIcon = (asset: string) => <img src={`/ui/classic/hd/${asset}.svg`} 
 export interface BattleCommandState {
   tab: BattleCommand;
   setTab: (tab: BattleCommand) => void;
-  items: BattleItemChoice;
-  chooseItems: (patch: Partial<BattleItemChoice>) => void;
+  itemCategory: BattleSupplyCategory;
+  setItemCategory: (category: BattleSupplyCategory) => void;
   setPartySelection: (uid: string) => void;
 }
 
@@ -38,15 +40,17 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
   battle: BattleView; inventory: ItemView[]; commands: BattleCommandState; selectedParty: BattleMonsterView; playback: BattlePlayback;
   onDetails: () => void; onSettings: () => void;
 }) {
-  const { tab, setTab, items, chooseItems } = commands, { busy, submit } = playback;
+  const { tab, setTab, itemCategory, setItemCategory } = commands, { busy, submit } = playback;
   const disabled = busy || battle.finished, blocked = disabled || battle.needsSwitch;
-  const capsuleTab = tab === 'items' && items.category === 'capsule';
-  const openCapture = () => { gameAudio.playSfx('tab'); chooseItems({ category: 'capsule', selection: '' }); setTab('items'); };
+  const capsuleTab = tab === 'items' && itemCategory === 'capsule';
+  const openCapture = () => { gameAudio.playSfx('tab'); setItemCategory('capsule'); setTab('items'); };
   const openCommand = (command: BattleCommand) => {
     gameAudio.playSfx('tab');
-    if (command === 'items') chooseItems(OPENED_ITEM_PANE);
+    if (command === 'items') setItemCategory(OPENED_ITEM_CATEGORY);
     setTab(command);
   };
+  /** A switch, an item or a capsule the controller accepts returns the deck to the skills for the next turn. */
+  const act = (action: GameAction) => { if (submit(action)) setTab('battle'); };
   return <div className="classic-command-deck" aria-busy={busy}>
     <nav className="classic-command-tabs" aria-label="战斗指令">
       <div className="classic-command-diamond">
@@ -64,10 +68,10 @@ export default function BattleCommandDeck({ battle, inventory, commands, selecte
     {/* Keyed by the command, so a pane opens at its top instead of where the last pane was scrolled. */}
     <div key={tab} className={`classic-command-content command-content-${tab} ${tab === 'items' ? 'classic-item-panel' : ''}`}>
       {tab === 'battle' && <BattleSkillPane player={battle.player} blocked={blocked} onMove={skillId => submit({ type: 'move', skillId })}/>}
-      {tab === 'items' && <BattleItemPane battle={battle} inventory={inventory} choice={items} onChoice={chooseItems} disabled={disabled}
-        canAct={playback.canAct} submit={submit}/>}
+      {tab === 'items' && <BattleItemPane battle={battle} inventory={inventory} category={itemCategory} onCategory={setItemCategory} disabled={disabled}
+        canAct={playback.canAct} act={act}/>}
       {tab === 'party' && <BattlePartyPane battle={battle} selected={selectedParty} disabled={disabled} onSelect={commands.setPartySelection}
-        onDetails={onDetails} onSwitch={uid => submit({ type: 'switch', uid })}/>}
+        onDetails={onDetails} onSwitch={uid => act({ type: 'switch', uid })}/>}
       {tab === 'escape' && <EscapePane battle={battle} disabled={disabled} onFlee={() => submit({ type: 'flee' })}/>}
     </div>
   </div>;

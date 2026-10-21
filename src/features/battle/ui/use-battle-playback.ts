@@ -13,8 +13,8 @@ import { getSkillEffectDurationMs } from '../battle-skill-effects.ts';
 export interface BattlePlayback extends PlaybackState {
   /** No turn is playing or being submitted, and the battle is still on. */
   canAct(): boolean;
-  /** Send a battle command; a command the controller rejects shows its notice and unlocks. */
-  submit(action: GameAction): void;
+  /** Send a battle command and say whether the controller took it; a rejected command shows its notice and unlocks. */
+  submit(action: GameAction): boolean;
 }
 
 /** A finished battle returns to its scene after its last action and capsule settle. */
@@ -43,7 +43,6 @@ export function useBattlePlayback(battle: BattleView, c: GameController, events:
     dispatch: action => latest.current.c.dispatch(action),
     onStart: () => latest.current.events.onStart(),
     onNeedsSwitch: settled => latest.current.events.onNeedsSwitch(settled),
-    onReplaced: () => latest.current.events.onReplaced(),
     sound: cue => gameAudio.playSfx(cue),
     motion: frameMotion,
     clock: BROWSER_CLOCK,
