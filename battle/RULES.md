@@ -269,7 +269,7 @@ both for the player.
 | `immune_status` / `immune_status_list {statuses}` | statuses fail |
 | `immune_crit` | never takes a critical hit |
 | `immune_ohko` | `ohko` op fails |
-| `immune_stage_down` | foe cannot lower its stages |
+| `immune_stage_down` | foe cannot lower any of its stages, accuracy and evasion included (a `stage_blocked` event); its own drops still apply |
 | `immune_fixed_damage` / `immune_percent_damage` | those damage kinds do 0 |
 | `damage_cap_per_hit {amount}` | each hit capped (not `true` damage) |
 | `damage_only_from {types?, skills?, categories?, crit?, super_effective?, sure_hit?, kinds?}` | all other damage from the foe does 0 |
@@ -333,7 +333,10 @@ of the battle (a `boss_trait` event with trait `barrier_broken`).
 
 `{ when, do, once }`. `when` uses the condition language of effect ops
 (`self_hp_below_pct`, `turn`, `turn_ge`, `on_faint`, `lives_left`, `all`,
-`any`, `not`, ...). Phases are checked after each hit and at turn end. `do` is
+`any`, `not`, ...). Phases are checked when a boss monster enters (the battle
+start included), at turn start, after each hit and at turn end, so a
+`first_turn` phase, such as an innate boost (天生强化), is in place and shown
+before the player's first command. `do` is
 a list of effect ops plus `transform {species, keep_hp?, full_heal?}`,
 `set_skills {skills}`, `set_ai {ai}`, `revive {pct_max_hp}`, `say {text}`
 (boss dialogue for the UI), `ohko_below_pct`, `always_crit_below_pct`,

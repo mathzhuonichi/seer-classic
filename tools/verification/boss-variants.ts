@@ -193,7 +193,8 @@ t.check('厄尔塞拉 pays no essence or victory when a direct knockout sticks a
 
 t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the missed objective',()=>{
   const game=journey();
-  start(game,LAOKE,'energy_field');
+  // Its innate attack +2 stands from the start, so the Boss can strike first for double damage: the player's member is shielded.
+  start(game,LAOKE,'energy_field');shield();
   assert.equal(knockOut(game).won,true);assert.equal(parse(game).items.essence_laokemengde,1);game.dispatch({type:'closeBattle'});
   // 极限领域 takes 100 HP from both sides at the end of the turn, so a lone member at one HP falls on turn 1.
   const lost=loseQuickly(journey());start(lost,LAOKE,'extreme_field');battle.active(0).hp=1;
@@ -204,6 +205,8 @@ t.check('劳克蒙德 pays its essence on a field clear, and a defeat names the 
   assert.deepEqual(parse(lost).game.bossVariants,{});
 });
 
+/** 厄尔塞拉's Thursday: its healing, and the stat-drop immunity and innate attack +2 of 7k7k 2010-08-16. */
+const THURSDAY_RULES=['首领每回合结束时回复 1000 体力','首领免疫能力下降（命中、闪避在内）','开场时，首领攻击+2'];
 const variantIds=(id:string)=>encounter(id).variants.map((variant:any)=>variant.id);
 
 t.check('A version-3 save opens at the current version and keeps its clears; a 厄尔塞拉 clear stands for all its variants, a 盖亚 clear for none',()=>{
@@ -294,7 +297,7 @@ t.check('The challenge archive lists every variant with its rules and objectives
   for(const variant of eersaila.variants!){
     for(const text of [variant.label,...variant.rules,`胜利条件：${variant.win}。`,`失败条件：${variant.lose}。`])assert(html.includes(text),`${variant.id}: ${text}`);
   }
-  assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='thu')!.rules,['首领每回合结束时回复 1000 体力']);
+  assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='thu')!.rules,THURSDAY_RULES);
   assert.deepEqual(eersaila.variants!.find(variant=>variant.id==='sun')!.rules,['首领总是先手行动','首领体力低于 20% 后，首领的攻击直接击倒对手'],'the phase names whose HP');
   assert.equal(eersaila.variants!.find(variant=>variant.id==='fri')!.win,'击败全部对手，最后一击须为中毒、烧伤、冻伤的异常状态伤害');
   assert.equal(checkedLabel(html),label(EERSAILA,'wed'),'the first variant not cleared is picked');
@@ -312,7 +315,7 @@ t.check('The Boss world dialogue offers the variant choice and states the picked
   assert(plain.includes('规则：首领免疫所有异常状态；首领体力上限变为 2 倍。'),'the picked variant’s rules');
   assert(!plain.includes('首领每回合结束时回复 1000 体力'),'another variant’s rules stay folded');
   const thursday=dialogue(EERSAILA,'thu');
-  assert.equal(checkedLabel(thursday),label(EERSAILA,'thu'));assert(thursday.includes('规则：首领每回合结束时回复 1000 体力。'));
+  assert.equal(checkedLabel(thursday),label(EERSAILA,'thu'));assert(thursday.includes(`规则：${THURSDAY_RULES.join('；')}。`));
   const practice=dialogue(GAIA,null);
   assert.equal(checkedLabel(practice),'练习战');assert(practice.includes('不计入挑战记录，也不发放精元'));
   const field=dialogue(LAOKE,'healing_field');

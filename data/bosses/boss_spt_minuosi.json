@@ -24,14 +24,34 @@
       "hp_override": 5000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -63,7 +83,8 @@
   "engine_notes": [
     "No special rules reported by 4399.",
     "skills: all four are named by 4399 2011-10-27 (常用技能; 狂暴裂袭 is a typo for 狂暴烈袭) and by a 4399 reader report of 2011-10-25 that lists their effects; they equal species 957's last four at or below Lv80.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to stat drops and innate atk+2: 4399 2011-10-25 天生强化2…弱化无效，控场无效; 4399 2011-10-27 有天生攻击强化…免疫所有异常和能力下降技能. The same guide lists traits not yet encoded (sure-hit moves, unlimited PP, all stats +1 below half HP, the player's pets start at accuracy -2)."
   ],
   "confidence": {
     "level": "medium",
@@ -75,7 +96,9 @@
     ]
   },
   "sources": [
-    "https://news.4399.com/seer/spt/201110-22-122129.html"
+    "https://news.4399.com/seer/spt/201110-22-122129.html",
+    "https://news.4399.com/seer/jingyanxinde/201110-24-122382.html",
+    "https://news.4399.com/seer/jingyanxinde/201110-27-122862.html"
   ],
   "source_note": "4399 SPT page 2011-10-22: 80级, 战斗系, 5000血左右."
 }

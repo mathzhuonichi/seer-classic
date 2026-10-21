@@ -41,7 +41,11 @@
       ]
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -66,7 +70,8 @@
   },
   "engine_notes": [
     "Wheel1HP 20000 and wheel2HP 15000 are explicitly reported in 2013; wheel3–6HP 15000 reuse the later reported values as calibration, not a verified pre-2013 number.",
-    "The first four wheel immunities have reported forced-status and exceptional-skill loopholes. Only represented native/status/skill mechanisms are implemented; undisclosed server exceptions are not certified."
+    "The first four wheel immunities have reported forced-status and exceptional-skill loopholes. Only represented native/status/skill mechanisms are implemented; undisclosed server exceptions are not certified.",
+    "Immune to stat drops: 7k7k 2013-09-04 天生攻击+2，不吃弱化和异常（但是火车和米队的控场有效）. Its status immunity is not encoded yet."
   ],
   "confidence": {
     "level": "medium",
@@ -75,7 +80,8 @@
     ]
   },
   "sources": [
-    "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html"
+    "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html",
+    "https://news.7k7k.com/51seer/20130904-603192.html"
   ],
   "source_note": "Historical order and specified effects are reconstructed from the cited period gameplay reports. Level100, IV 31, zero EVs and hardy nature are explicit remake calibration; copied guardian skill sets are catalog-based, not certified historical boss loadouts."
 }

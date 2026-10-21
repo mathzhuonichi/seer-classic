@@ -24,7 +24,11 @@
       "hp_override": 5000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -68,7 +72,8 @@
   },
   "engine_notes": [
     "Normal finite PP (the classic tactic was 耗PP), high crit rate on its attacks per 4399; no extra rules.",
-    "skills: all four are named by a period guide (4399 2011-09-17) and equal species 925's last four at or below Lv80."
+    "skills: all four are named by a period guide (4399 2011-09-17) and equal species 925's last four at or below Lv80.",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source says drops work. No innate boost: 4399 2011-09-17 精灵特性：没有强化. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "high",

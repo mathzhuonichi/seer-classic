@@ -259,6 +259,9 @@
       "rule": "player_team_size",
       "min": 6,
       "min_level": 100
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -310,7 +313,8 @@
     "Level 105 for all six lives is the official map-108 entry 普尼真身 (seer_data maps.json); the client displays ?? above 100.",
     "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report.",
     "谱尼的领域 admits only a bag of six level-100 monsters (2013 client MapProcess_108 checkBag(6,100)).",
-    "Speed 280 on every life (7k7k 2010-10-28: 谱尼速度280): stat_multipliers spe scales the computed speed to 280."
+    "Speed 280 on every life (7k7k 2010-10-28: 谱尼速度280): stat_multipliers spe scales the computed speed to 280.",
+    "Immune to stat drops on every life: 7k7k 2010-07-21 tested it (不受状态下降影响（自身不受能力下降影响，又用肯札特迷惑减命中无效）). A 2018 video and a 2023 answer say drops work; they are later."
   ],
   "confidence": {
     "level": "low",
@@ -329,7 +333,8 @@
     "https://news.4399.com/seer/jingyanxinde/201210-18-204899.html",
     "https://www.taptap.cn/moment/15207740754364428",
     "https://news.7k7k.com/content/20101028/18173.html",
-    "https://news.7k7k.com/content/20110316/76909.html"
+    "https://news.7k7k.com/content/20110316/76909.html",
+    "https://news.7k7k.com/content/20100721/11055.html"
   ],
   "source_note": "4399 谱尼真身攻略 (2010-10) for lives and HP; 7k7k 2011-03-30 for the per-life seal traits; TapTap summary (spinoff) fills lives 2-4."
 }

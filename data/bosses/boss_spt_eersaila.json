@@ -151,7 +151,7 @@
     {
       "id": "thu",
       "label": {
-        "zh": "周四：每回合回复1000体力"
+        "zh": "周四：天生强化、免疫弱化，每回合回复1000体力"
       },
       "win": [
         {
@@ -166,6 +166,26 @@
           "params": {
             "amount": 1000
           }
+        },
+        {
+          "rule": "immune_stage_down"
+        }
+      ],
+      "phases": [
+        {
+          "when": {
+            "first_turn": true
+          },
+          "do": [
+            {
+              "op": "stat_stage",
+              "target": "self",
+              "stats": {
+                "atk": 2
+              }
+            }
+          ],
+          "once": true
         }
       ]
     },
@@ -293,7 +313,8 @@
     "HP 3000 inferred from techbang's Friday text (补满3000滴血); no source states its base HP directly.",
     "Skills: no source names the complete set. Two moves are named: the 7k7k 2010-08-09 Saturday guide has it hit 丽莎布布 for 30-40 HP (对方用时空裂痕才打30---40血), and Baidu Zhidao 2010-09-26 has the Friday Boss use only 光芒附体 and 时空裂痕 against grass (对于草系只会用属性和100攻击的普通). The set is the species' top four learnset skills by level (奇幻光芒 Lv66, 光芒附体 Lv62, 光能聚合 Lv58, 时空裂痕 Lv54), which is what every documented 2010-2012 SPT boss used. 金光闪烁 (Lv42), which held the fourth slot without a source until 2026-10-19, left it no attack that hurts the grass types the guides send against it (光 has no effect on 草).",
     "reward.title_on_all_variants: grant the title 七色光羽 once every variant has been cleared.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Thu also has stat-drop immunity and an innate atk+2: 7k7k 2010-08-16 星期四 特性：天生强化、免疫弱化、每回合恢复 1000 体力 (stat unstated, so atk+2); the modern client gives only Thursday's list idx 1 (免疫能力下降). The 4399 2010-08-13 weekday guide's Thursday plan spams 减防 instead (conflict). The other days keep neither: the per-day lists name these traits for Thursday only, and drops land on Wed, Sat and Sun in period guides (4399 2010-08-07 BOSS是不免疫降属性的; Wednesday 减命中无效, 4399 2010-08-11, not encoded)."
   ],
   "confidence": {
     "level": "medium",
@@ -313,7 +334,9 @@
     "https://www.techbang.com/posts/33185-order-spt-boss-raiders-el-sierra-review",
     "https://news.4399.com/seer/tujian/74884.htm",
     "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-    "http://news.7k7k.com/content/20100809/12295.html"
+    "http://news.7k7k.com/content/20100809/12295.html",
+    "http://news.7k7k.com/content/20100816/12668.html",
+    "https://news.4399.com/seer/jingyanxinde/201008-07-74991.html"
   ],
   "source_note": "4399 周一到周日规则全攻略 (2010-08-14) and 4399 问答 (2010-11-16) give the daily traits; techbang (2011-01) gives the Friday revive, immunities and 七色光羽; 7k7k 星期六规则打法 (2010-08-09) names 时空裂痕."
 }

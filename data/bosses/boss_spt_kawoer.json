@@ -51,6 +51,9 @@
           "灵魂干涉"
         ]
       }
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -110,7 +113,8 @@
     "Immune to control skills such as 灵魂干涉. 4399: 'this boss is weak: low attack, not fast'.",
     "HP not published; 8000 estimated (contemporary 螺旋星系 SPT bosses had 8000-12000).",
     "skills: species 1109's last four at or below Lv80. 4399's 2012 fight videos (ids 107740, 107738) show 闪电冰暴, 冰雷幻阵 and 雷霆横扫; 零度冰封 is seen only in later (2023) recordings of the official Flash client.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it (guides clear its boost and attack). The modern client's list has no idx 1."
   ],
   "confidence": {
     "level": "low",

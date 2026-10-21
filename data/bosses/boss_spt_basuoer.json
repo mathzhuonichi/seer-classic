@@ -104,7 +104,8 @@
     "immune_status: 不受异常状态影响.",
     "Availability window (only appeared on 7月9日 at launch) is meta, not modelled.",
     "skills: no period source names or describes the Boss's moves; the set is species 1265's last four learnt at or below Lv80, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Not immune to stat drops, against the 2026-10-21 default: 7k7k 2012-07-10 (after the release bug was fixed) 首先我们上加布消强，然后弱化 … 弱化双防的（最好-2级）; 7k7k 2012-09-26 弱化2次大招. The modern client's list has no idx 1."
   ],
   "confidence": {
     "level": "medium",
@@ -120,7 +121,8 @@
   "sources": [
     "https://news.4399.com/gonglue/seer/saiergonglue/201207-06-174139.html",
     "http://news.4399.com/news/seerwenda/174947.html",
-    "http://wenda.4399.com/question/24/242348.html"
+    "http://wenda.4399.com/question/24/242348.html",
+    "http://news.7k7k.com/content/20120710/181087.html"
   ],
   "source_note": "4399 guide 2012-07: 血量大概10000, 天生攻击+2, 每回合命中-1, 复制强化, 不吃海洋之心/异常."
 }

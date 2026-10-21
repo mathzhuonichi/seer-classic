@@ -32,6 +32,9 @@
     {
       "rule": "script",
       "id": "infinite_pp"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -40,7 +43,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -75,7 +94,8 @@
     "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses.",
     "Unlock is an exploration step (collect 4 灵魂残片 in 炫彩山神秘洞窟), not a prior boss fight.",
     "skills: species 804's last four at or below Lv80. 山神护体 is named (undated Baidu Baike Boss section); 7k7k 2011-06-14 describes a boost-clearing attack, a self-debuff-clearing attack and an all-stats boost (尖峰号角, 封印镇压, 山神护体). 炫彩神力 is not named or described.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). Period guides clear its boost first (4399 2011-08-23: 先消强 / 消强后上谱尼; stat not stated, so atk+2); no period source tests stat drops. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "medium",

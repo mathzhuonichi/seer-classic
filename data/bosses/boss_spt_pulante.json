@@ -123,7 +123,8 @@
     "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated).",
     "Boss version of 混沌绿光 puts the player to sleep at least 50% of the time (learnset version: 10%).",
     "skills: 蚀梦术, 灵光缠绕, 虚空魔刺, 混沌绿光. The 4399 SPT guide of 2012-05-19 names 蚀梦术 (普兰特使用蚀梦术，25%致命一击), and 4399 screenshots (2012-05-18/19) and three 2012 fight videos show 混沌绿光, 灵光缠绕 and 虚空魔刺. One low-resolution 4399 screenshot (2012-05-19) shows 破魂射线, which is not kept: the user's rule (2026-10-20) puts the guide first.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Stat-drop immunity is partial in the period guide: 4399 2012-05-19 属性消弱吸能无效（攻击技能附带属性消弱OK）. The engine's immune_stage_down blocks both kinds; drops riding on attacks should land (open point)."
   ],
   "confidence": {
     "level": "medium",

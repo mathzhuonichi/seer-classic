@@ -57,6 +57,9 @@
           "灵魂干涉"
         ]
       }
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -99,7 +102,8 @@
     "No innate boost; 绿光冲击 clears the player's boosts; 藤蔓抽打 15% fear.",
     "skills: all four are named by a period guide (4399 2012-01-10, 常用技能) and equal species 1061's last four learnt at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "Immune to 烧伤、冻伤、中毒 and control (灵魂干涉 and the like); 海洋之心 works (7k7k 2012-01-06)."
+    "Immune to 烧伤、冻伤、中毒 and control (灵魂干涉 and the like); 海洋之心 works (7k7k 2012-01-06).",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. No innate boost: 4399 2012-01-10 没有天生强化. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "medium",

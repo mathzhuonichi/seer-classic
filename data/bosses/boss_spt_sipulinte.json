@@ -24,7 +24,11 @@
       "hp_override": 4000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
@@ -84,7 +88,8 @@
     "Innate boost implied by '先用盖亚消强化'; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate.",
     "Its 虚空之身/黑暗遮蔽 make physical/special attacks miss for 2 turns — skill effects.",
     "skills: the fight uses the Boss-only form 5022 (2013 client: 2522), whose list is exactly these four (黑暗遮蔽, 黑冰, 虚空之身, 紫雾霜冻 = species 755's last four at Lv80). Battle screenshots of 2011-04-29 (7k7k, 4399) show 紫雾霜冻 and 黑冰.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source says drops work or fail. The innate boost stays atk+2 (4399 2011-04-29: 挑战斯普林特，先用盖亚消强化; stat not stated). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "low",

@@ -45,6 +45,9 @@
     },
     {
       "rule": "no_struggle"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -53,7 +56,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -91,7 +110,8 @@
     "Immune to 同生共死, 镇魂歌, 极度冰点; its own skills always hit.",
     "HP not published (1500 estimate).",
     "skills: 火龙的咆哮, 龙族之力, 进攻意识, 火龙红莲击. 4399's release-day fight video (id 21622, Lv50 badge) shows the Boss using 龙族之力 and 火龙的咆哮 against a water pet, and 4399 2010-11-22 says five non-water pets drain 火龙红莲击's PP in this first fight, so this Lv61 move was hand-added. The fourth slot is the latest-learnt remaining move of species 538's Lv50 last four (进攻意识); 火光四溅 is not attested and is dropped.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source states either for the Lv50 fight. The modern client's 简单难度 list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "low",

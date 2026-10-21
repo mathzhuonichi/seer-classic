@@ -32,6 +32,9 @@
         "type": "light",
         "skill": 11470
       }
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -41,6 +44,21 @@
   ],
   "lose": [],
   "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    },
     {
       "when": {
         "self_hp_below_pct": 50
@@ -92,7 +110,8 @@
     "vs_type_use_only: while the player's active pet is 光系 it only uses 决然一击 (普通系) — its 超能 moves do 0 to light (type chart psychic→light = 0).",
     "Below 1/2 HP every attack crits (体力低于2分之一会暴击).",
     "skills: species 587's last four at or below Lv80. 7k7k 2010-12-24 (debut day) says it usually uses 念力碰撞 and uses 决然一击 against light pets, and that its targets became petrified or afraid (源力气场, 念力碰撞). 墨杜萨之力 is not named.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). No period source states either; 4399 2011-01-12 and 2011-07-21 open with 先消强化 (stat unstated). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "medium",

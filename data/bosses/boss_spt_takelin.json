@@ -47,6 +47,9 @@
     },
     {
       "rule": "unlimited_pp"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -140,7 +143,8 @@
     "skills: the solo SPT fight uses species 274 at Lv80, so its set is the last four: 龙之威仪, 猛龙陷地步, 咆哮震九天, 潜龙伏地啸. Solo-fight battle screenshots show 潜龙伏地啸 (4399 2010-09-17, 7k7k 2010-07-30) and 咆哮震九天 (7k7k 2010-07-30); 7k7k 2010-08-16 describes its all-stats -1 move (龙之威仪). 猛龙陷地步 is named for the Lv80 story fight of the same species (7k7k 2011-03-16). The former 灰飞烟灭 is the only move of the team fight's Boss-only form 5001 (2013 client: 2501).",
     "Status damage here follows RULES 7: poison/burn/freeze/leech each take 1/8 max HP per turn (percent damage), and several DoT statuses can be on the boss at once (classic 叠加异常).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
-    "Unlimited PP (PP无限)."
+    "Unlimited PP (PP无限).",
+    "Immune to stat drops: 4399 2010-08-09 lists 免疫属性下降 for 塔克林 (and 塔西亚); no mainland guide lowers its stats. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "medium",
@@ -159,7 +163,8 @@
     "https://www.techbang.com/posts/33167-order-spt-boss-raiders-tarklin-review",
     "https://news.4399.com/seer/spt/201008-14-75467.html",
     "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
-    "http://news.7k7k.com/content/20100730/11811.html"
+    "http://news.7k7k.com/content/20100730/11811.html",
+    "https://news.4399.com/seer/jingyanxinde/201008-09-75027.html"
   ],
   "source_note": "4399 BOSS page (2010-09-26): 血量13000, 天生物攻+2, 可中毒/烧伤/冻伤, 免疫寄生; 4399 2011 summary: 80级."
 }

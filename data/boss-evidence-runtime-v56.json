@@ -1244,7 +1244,8 @@
       ],
       "sourceUrls": [
         "https://news.7k7k.com/51seer/20140924-673219.html",
-        "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html"
+        "https://news.4399.com/gonglue/seer/jingyanxinde/304371.html",
+        "https://news.7k7k.com/51seer/20130904-603192.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -4555,7 +4556,8 @@
         "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/pngl/201010-16-78980.html",
         "https://news.7k7k.com/content/20100519/7615.html",
-        "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html"
+        "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html",
+        "https://news.7k7k.com/content/20100721/11055.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -4636,7 +4638,8 @@
         "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/pngl/201010-16-78982.html",
         "https://news.7k7k.com/content/20110330/82686.html",
-        "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html"
+        "https://jingyan.baidu.com/article/aa6a2c148af1d64c4c19c4fe.html",
+        "https://news.7k7k.com/content/20100721/11055.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -4716,7 +4719,9 @@
       "sourceUrls": [
         "https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/maps.json",
         "https://news.4399.com/seer/pngl/201010-16-78983.html",
-        "https://news.7k7k.com/content/20110330/82686.html"
+        "https://news.7k7k.com/content/20110330/82686.html",
+        "https://news.7k7k.com/content/20100721/11055.html",
+        "https://seer.52pk.com/bk/2013/0205/8144.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -5856,7 +5861,8 @@
       "sourceUrls": [
         "https://news.4399.com/gonglue/seer/saiergonglue/201207-06-174139.html",
         "http://news.4399.com/news/seerwenda/174947.html",
-        "http://wenda.4399.com/question/24/242348.html"
+        "http://wenda.4399.com/question/24/242348.html",
+        "http://news.7k7k.com/content/20120710/181087.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -6590,7 +6596,8 @@
       ],
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201203-17-148791.html",
-        "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html"
+        "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html",
+        "http://news.7k7k.com/content/20120316/163344.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -7405,7 +7412,9 @@
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201010-16-78995.html",
-        "https://www.techbang.com/posts/33170-order-spt-boss-raiders-lauck-maunder-review"
+        "https://www.techbang.com/posts/33170-order-spt-boss-raiders-lauck-maunder-review",
+        "https://news.4399.com/seer/saiergonglue/201010-15-78882.html",
+        "http://news.7k7k.com/content/20101016/16278.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -7642,7 +7651,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/spt/201211-24-216477.html"
+        "https://news.4399.com/seer/spt/201211-24-216477.html",
+        "https://news.7k7k.com/content/20121126/545224.html"
       ],
       "summary": {
         "hasInferredStats": true,
@@ -7720,8 +7730,8 @@
         }
       ],
       "sourceUrls": [
-        "https://news.4399.com/seer/jingyanxinde/201110-27-122862.html",
         "https://news.4399.com/seer/jingyanxinde/201110-24-122382.html",
+        "https://news.4399.com/seer/jingyanxinde/201110-27-122862.html",
         "https://news.4399.com/seer/spt/201110-22-122129.html"
       ],
       "summary": {
@@ -9351,7 +9361,8 @@
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.4399.com/seer/spt/201102-28-87994.html",
         "https://raw.githubusercontent.com/Nattsu39/seer_data/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/monsters.json",
-        "https://blog.sina.com.cn/s/blog_752dd1260100orml.html"
+        "https://blog.sina.com.cn/s/blog_752dd1260100orml.html",
+        "https://zhidao.baidu.com/question/231249198.html"
       ],
       "summary": {
         "hasInferredStats": true,

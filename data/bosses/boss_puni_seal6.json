@@ -32,6 +32,9 @@
       "rule": "player_team_size",
       "min": 6,
       "min_level": 100
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -40,7 +43,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -76,7 +95,8 @@
     "Level 105 (seal 1: 101) is the official map-108 boss table (seer_data maps.json); the client displays ?? above 100.",
     "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",
     "Reward: none for the seal itself; clearing it unlocks the next stage of the 'puni' campaign (src/domain/challenges/challenge-campaigns.ts).",
-    "谱尼的领域 admits only a bag of six level-100 monsters (2013 client MapProcess_108 checkBag(6,100))."
+    "谱尼的领域 admits only a bag of six level-100 monsters (2013 client MapProcess_108 checkBag(6,100)).",
+    "Immune to stat drops: 7k7k 2010-07-21 永恒：技能PP无限、不受状态下降影响. Innate boost: 52pk 2013-02-05 同时天生有强化 (stat not stated, so atk+2; no 2010 source mentions it)."
   ],
   "confidence": {
     "level": "low",
@@ -89,7 +109,9 @@
   },
   "sources": [
     "https://news.4399.com/seer/pngl/201010-16-78983.html",
-    "https://news.7k7k.com/content/20110330/82686.html"
+    "https://news.7k7k.com/content/20110330/82686.html",
+    "https://news.7k7k.com/content/20100721/11055.html",
+    "https://seer.52pk.com/bk/2013/0205/8144.html"
   ],
   "source_note": "4399 谱尼攻略 series (2010-10, one page per seal) for the seal rules and skills/PP; HP from a later baidu jingyan summary (5000/6000/7000/8000/9000 for seals 1-5)."
 }

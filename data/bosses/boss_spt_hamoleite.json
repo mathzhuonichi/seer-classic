@@ -75,6 +75,9 @@
           "极度冰点"
         ]
       }
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -83,7 +86,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -124,7 +143,8 @@
     "龙之意志 (20269) raises its atk/def/spa by 1; clearing boosts first was standard.",
     "skills: all four are named by period guides (4399 2010-06-01, 7k7k 2011-03-16) and equal species 216's last four at or below Lv80 (龙王灭碎阵 at Lv80 is included).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
-    "寄生种子、镇魂歌、海洋之心、同生共死 and 极度冰点 have no effect; 极度冰点 does nothing even when it hits (T客邦 2011-01-20, 4399 2010-07)."
+    "寄生种子、镇魂歌、海洋之心、同生共死 and 极度冰点 have no effect; 极度冰点 does nothing even when it hits (T客邦 2011-01-20, 4399 2010-07).",
+    "Immune to stat drops (accuracy and evasion included) and innate atk+2 from its entry: the user's own play of the original (2026-10-21): 哈莫雷特及以后多数boss都免疫弱化和自带攻击+2. 龙之意志 adds to the innate boost."
   ],
   "confidence": {
     "level": "medium",

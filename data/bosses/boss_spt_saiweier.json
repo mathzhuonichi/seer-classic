@@ -45,7 +45,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -81,7 +97,8 @@
     "Status immunity is bounded to the poison, burn, freeze and leech effects described by period guides.",
     "skills: the only original 塞维尔 fight is the 塞维尔/塔西亚/塔克林 team fight (species 413, Lv100); 4399 2010-08-13 and 2010-08-17 name 龙翔天驱 and 不灭意志 for it. The other two slots come from species 413's last four, which are the same at Lv80 and Lv100.",
     "The period guide reports healing below 200 HP. The existing engine rule uses the absolute field heal_full_below {hp:200}, restoring full HP when nonlethal damage leaves the solo body below that threshold. Exact original healing amount and hook timing remain uncertified.",
-    "Official MapConfig symbol 155 identifies map 349 as Challenge Seville, with replacement map 1147. The remake uses its already modeled Dragon Temple meeting point; it does not claim to render the original map-349 encounter scene."
+    "Official MapConfig symbol 155 identifies map 349 as Challenge Seville, with replacement map 1147. The remake uses its already modeled Dragon Temple meeting point; it does not claim to render the original map-349 encounter scene.",
+    "Innate boost: 4399 2010-08-03 塞维尔:天生强化，可减攻击消除强化 (stat unstated, so atk+2). Not immune to stat drops, against the 2026-10-21 default: the period team-battle guides lower its attack and defence (7k7k 2010-08-16 -2攻丢给塞维尔 … 塞维尔被破攻后基本是废了)."
   ],
   "confidence": {
     "level": "low",
@@ -100,7 +117,9 @@
     "https://news.4399.com/seer/spt/201009-26-78033.html",
     "https://news.4399.com/seer/spt/201008-14-75467.html",
     "https://news.7k7k.com/content/20100816/12670.html",
-    "https://seer.61.com/dll/RobotCoreDLL.swf"
+    "https://seer.61.com/dll/RobotCoreDLL.swf",
+    "https://news.4399.com/seer/jingyanxinde/201008-03-74673.html",
+    "http://news.7k7k.com/content/20100816/12670.html"
   ],
   "source_note": "Period SPT guides identify the Seville battle, essence reward, original cooperative three-dragon format, common actions and low-HP recovery. The current one-opponent solo format and HP/level calibration are explicit remake choices requested by the user."
 }

@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 688,
+    "handledEntries": 731,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 116,
+    "approximatedEntries": 132,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -846,6 +846,12 @@
             "target",
             "stats"
           ]
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -2202,6 +2208,12 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -2246,6 +2258,12 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -2275,13 +2293,40 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/8",
+          "reason": "Immune to stat drops: 7k7k 2010-07-21 永恒：技能PP无限、不受状态下降影响. Innate boost: 52pk 2013-02-05 同时天生有强化 (stat not stated, so atk+2; no 2010 source mentions it)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -2308,6 +2353,12 @@
             "min",
             "min_level"
           ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
@@ -2482,6 +2533,12 @@
             "min",
             "min_level"
           ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
@@ -2899,13 +2956,25 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. No innate boost: 4399 2012-01-10 没有天生强化. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -2957,6 +3026,12 @@
             "skills_zh"
           ],
           "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3012,6 +3087,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/3",
           "reason": "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. Its innate boost is the documented double defence, which replaces the default atk+2. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
         }
       ],
       "waived": [],
@@ -3200,9 +3280,30 @@
           "implementation": "native alias"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -3211,6 +3312,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "Battle displayed the level as '??' (等级问号级); level 80 is an estimate matching contemporary SPT bosses."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). Period guides clear its boost first (4399 2011-08-23: 先消强 / 消强后上谱尼; stat not stated, so atk+2); no period source tests stat drops. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
         }
       ],
       "waived": [],
@@ -3322,6 +3428,27 @@
             "amount"
           ],
           "implementation": "install"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/variants/3/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/variants/3/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/variants/3/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         },
         {
           "rule": "objective:ko_all",
@@ -3447,13 +3574,40 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). No period source states either: the trait lists of 4399 2012-12-28/12-31, 7k7k 2012-12-29 and 聚侠 omit both, and no strategy clears a boost first. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3475,13 +3629,25 @@
       "id": "boss_spt_guerzhadi",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source says drops work. No innate boost: 4399 2011-09-17 精灵特性：没有强化. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3547,9 +3713,30 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/8",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -3658,6 +3845,12 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -3674,6 +3867,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/4",
           "reason": "速度极其缓慢 — encoded as spe x0.5 (estimate)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/7",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source tests drops. No innate boost: 4399 2012-04-07 由于卡伦尼没有强化 (its per-turn rise is escalate_vs_same_foe). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
         }
       ],
       "waived": [],
@@ -3710,6 +3908,12 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -3736,6 +3940,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
           "reason": "Innate boost (天生强化) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it (guides clear its boost and attack). The modern client's list has no idx 1."
         }
       ],
       "waived": [],
@@ -3751,7 +3960,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Not given the 2026-10-21 default (stat-drop immunity, innate atk+2): this is the weak Lv55 drunk fight (4399/7k7k 2011-07-22: 弱不禁风, 用谱尼单挑就能过), no period source states either trait, the modern client's 难度1 list has no idx 1 or 2, and 赛尔号启航 (2017, a different game) calls it not immune. Open for the user."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3759,13 +3974,40 @@
       "id": "boss_spt_kelaifen2",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/3",
+          "reason": "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source states either (7k7k 2011-07-22: 出招先手，MISS率高，血厚). The modern client's 难度2 list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3801,13 +4043,40 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/4",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source states either for the Lv50 fight. The modern client's 简单难度 list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3850,13 +4119,40 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/5",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/6",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source tests drops. Innate boost: 4399 2010-12-08 因为火龙天生强化一个等级，加一的先手 (one stage, stat unstated, so atk+1). The modern client's 困难难度 list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -3872,6 +4168,12 @@
             "min_damage"
           ],
           "implementation": "native alias"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "objective:ko_all",
@@ -3916,11 +4218,6 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
           "reason": "Reflect: '有反弹伤害的招式' / '反射盾' — damage reflection; whether always-on or a skill-triggered shield, and the percentage, are not given (always-on 25% assumed)."
-        },
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
-          "reason": "Innate boost (先消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19)."
         }
       ],
       "waived": [
@@ -3943,6 +4240,12 @@
           "fields": [
             "statuses"
           ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
@@ -3972,6 +4275,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/0",
           "reason": "random_heal: 'has a chance to heal' (有几率回血) — chance and amount not given (20% / 10% max HP are placeholders). Its 星光奔腾击 already has 15% to heal 1/4 HP; the 'chance to heal' may simply be that effect."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source tests drops (its listed immunities are burn, freeze and poison). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
         }
       ],
       "waived": [],
@@ -4005,6 +4313,12 @@
           "fields": [
             "statuses"
           ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/3",
+          "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
@@ -4051,6 +4365,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
           "reason": "Once, when at low HP (残血), it heals a flat 500 HP; the exact threshold is not stated (20% assumed)."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. Its documented innate boost is atk+1 (4399 2012-02-08 and 2012-08-13: 天生攻击强化+1), which replaces the default atk+2; undated Baidu Baike's +2 is later. The modern client's list has no idx 1."
         }
       ],
       "waived": [],
@@ -4260,6 +4579,37 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        }
+      ],
+      "unsupported": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/0",
+          "reason": "Rules (immune_pct_damage, immune_status, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "No innate boost and not immune to stat drops (the placeholder atk+2 is removed): 4399 2012-11-24 and 7k7k 2012-11-26 没有天生强化; 7k7k 2012-11-26 洛拉斯克吃弱化,同生共死. Both describe the 简单模式 week (11-23 to 11-30); no later source was found."
+        }
+      ],
+      "waived": [],
+      "replacements": []
+    },
+    {
+      "id": "boss_spt_minuosi",
+      "handled": [
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "objective:ko_all",
+          "scope": "root/win/0",
+          "fields": []
         },
         {
           "rule": "condition:first_turn",
@@ -4275,26 +4625,6 @@
             "target",
             "stats"
           ]
-        }
-      ],
-      "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/0",
-          "reason": "Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified."
-        }
-      ],
-      "waived": [],
-      "replacements": []
-    },
-    {
-      "id": "boss_spt_minuosi",
-      "handled": [
-        {
-          "rule": "objective:ko_all",
-          "scope": "root/win/0",
-          "fields": []
         }
       ],
       "unsupported": [],
@@ -4316,13 +4646,34 @@
           "implementation": "install"
         },
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
         },
         {
-          "rule": "condition:self_hp_below_pct",
+          "rule": "condition:first_turn",
           "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
           "fields": [
             "self_hp_below_pct"
           ]
@@ -4330,7 +4681,7 @@
         {
           "rule": "phase_script",
           "id": "always_crit",
-          "scope": "root/phases/0/do/0",
+          "scope": "root/phases/1/do/0",
           "fields": [
             "target"
           ],
@@ -4338,7 +4689,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/4",
+          "reason": "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). No period source states either; 4399 2011-01-12 and 2011-07-21 open with 先消强化 (stat unstated). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -4888,6 +5245,21 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:first_turn",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "first_turn"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
@@ -5083,6 +5455,12 @@
       "id": "boss_spt_sipulinte",
       "handled": [
         {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -5109,6 +5487,11 @@
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
           "reason": "Innate boost implied by '先用盖亚消强化'; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). HP and level: 4399 2011 summary says 80级; HP 4000 is an estimate."
+        },
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/5",
+          "reason": "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source says drops work or fail. The innate boost stays atk+2 (4399 2011-04-29: 挑战斯普林特，先用盖亚消强化; stat not stated). The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
         }
       ],
       "waived": [],
@@ -5207,6 +5590,12 @@
         {
           "rule": "unlimited_pp",
           "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/4",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -5440,21 +5829,6 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
-        },
-        {
-          "rule": "condition:first_turn",
-          "scope": "root/phases/0/when",
-          "fields": [
-            "first_turn"
-          ]
-        },
-        {
-          "rule": "phase:stat_stage",
-          "scope": "root/phases/0/do/0",
-          "fields": [
-            "target",
-            "stats"
-          ]
         }
       ],
       "unsupported": [],
@@ -5462,7 +5836,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Innate boost (先上来消强化) — stat not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19). 速度非常慢 (spe x0.5 estimate), 攻击很弱."
+          "reason": "速度非常慢 (spe x0.5 estimate), 攻击很弱."
         }
       ],
       "waived": [],

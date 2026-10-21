@@ -47,6 +47,9 @@
       "statuses": [
         "leech"
       ]
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -124,7 +127,8 @@
     "Once, when at low HP (残血), it heals a flat 500 HP; the exact threshold is not stated (20% assumed).",
     "海洋之心 works; 寄生种子 does not. Frequently uses 大地崩裂 to weaken the player.",
     "skills: all four are named by a period guide (4399 2012-02-08) and equal species 1085's last four at or below Lv80.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. Its documented innate boost is atk+1 (4399 2012-02-08 and 2012-08-13: 天生攻击强化+1), which replaces the default atk+2; undated Baidu Baike's +2 is later. The modern client's list has no idx 1."
   ],
   "confidence": {
     "level": "high",

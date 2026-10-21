@@ -38,6 +38,9 @@
     },
     {
       "rule": "immune_percent_damage"
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -46,7 +49,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -81,7 +100,8 @@
     "Level 100 is the official SPT table value (maps.json map 810, single and team entries). HP 10000: 4399 2012-12-26 and 2012-12-31 (弗希斯，草暗影系，体力10000).",
     "skills: no period source names the Boss's moves (guides only say its PP can be drained); the set is species 1477's last four at or below Lv100, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "海洋之心 and other large percentage-damage skills have no effect (4399 2012-12-31)."
+    "海洋之心 and other large percentage-damage skills have no effect (4399 2012-12-31).",
+    "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2). No period source states either: the trait lists of 4399 2012-12-28/12-31, 7k7k 2012-12-29 and 聚侠 omit both, and no strategy clears a boost first. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "low",

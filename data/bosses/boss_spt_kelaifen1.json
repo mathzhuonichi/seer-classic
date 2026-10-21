@@ -64,7 +64,8 @@
     "Pre-battle requirement: player must wear the 高压水枪 suit and shoot the boss with the head item; model as an unlock flag (item_suit_high_pressure_water_gun) rather than a battle rule.",
     "Level 55 is the official SPT table value (maps.json map 54, 'SPT克莱芬难度1'). HP 2000 remains an estimate for the drunk first fight.",
     "skills: the drunk fight uses the Boss-only form 5029 (2013 client: 2529) at Lv55. Its learnset equals species 855's, so the Boss has the last four learnt at or below Lv55: 魔火邪力, 致命漏洞, 酒火回体, 醉酒燃烧. A 4399 battle screenshot of the Lv55 fight (2011-07-22) shows 醉酒燃烧 and 致命漏洞, and a 2023 recording of the Flash client adds 酒火回体. The former 暴火焚烧 (Lv57) and 怒火咆哮 (Lv61) are above the fight level.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Not given the 2026-10-21 default (stat-drop immunity, innate atk+2): this is the weak Lv55 drunk fight (4399/7k7k 2011-07-22: 弱不禁风, 用谱尼单挑就能过), no period source states either trait, the modern client's 难度1 list has no idx 1 or 2, and 赛尔号启航 (2017, a different game) calls it not immune. Open for the user."
   ],
   "confidence": {
     "level": "low",

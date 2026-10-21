@@ -35,6 +35,7 @@ const statuses = (ids: readonly string[]) => ids.map(id => STATUS_LABELS[id]).jo
  */
 const RULE_TEXTS: Record<string, ((p: Params) => string) | null> = {
   immune_status: () => '首领免疫所有异常状态',
+  immune_stage_down: () => '首领免疫能力下降（命中、闪避在内）',
   hp_multiplier: p => `首领体力上限变为 ${p.multiplier} 倍`,
   evasion_bonus: p => `首领闪避等级 +${p.stages}`,
   reflect_damage: p => `首领单次受到 ${p.min_damage} 点及以上的伤害时，反弹其中 ${p.pct}% 给攻击者`,

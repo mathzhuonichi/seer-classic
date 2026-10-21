@@ -49,23 +49,7 @@
     }
   ],
   "lose": [],
-  "phases": [
-    {
-      "when": {
-        "first_turn": true
-      },
-      "do": [
-        {
-          "op": "stat_stage",
-          "target": "self",
-          "stats": {
-            "atk": 2
-          }
-        }
-      ],
-      "once": true
-    }
-  ],
+  "phases": [],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -95,10 +79,11 @@
     "zh": "未找到同期攻略；地面系，草、水、冰、飞行（免疫地面技能）系有利。"
   },
   "engine_notes": [
-    "Rules (immune_pct_damage, immune_status, innate atk+2, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified.",
+    "Rules (immune_pct_damage, immune_status, 10000 HP) are a placeholder modelled on the neighbouring SPT bosses (库里 2012-11, 伊索里 2012-12) and must be verified.",
     "skills: no period source names the Boss's moves; the set is species 1431's last four, the same at the repo's Lv100 and the server table's Lv80, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights. 7k7k 2012-11-26 says it never removes boosts and gains defense boosts, which fits this set.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "Level 100: the fight starts at level 100 (4399 2012-11-24: 当我方成功捕捉洛拉斯克后，洛拉斯克变回100级); the same report (特性2) lowers it by 5 per win and by 1 per lost fight, down to level 1. level_drops_per_attempt counts the save's recorded wins and its other recorded fights. The return to level 100 after a capture does not apply: the remake's Boss cannot be captured."
+    "Level 100: the fight starts at level 100 (4399 2012-11-24: 当我方成功捕捉洛拉斯克后，洛拉斯克变回100级); the same report (特性2) lowers it by 5 per win and by 1 per lost fight, down to level 1. level_drops_per_attempt counts the save's recorded wins and its other recorded fights. The return to level 100 after a capture does not apply: the remake's Boss cannot be captured.",
+    "No innate boost and not immune to stat drops (the placeholder atk+2 is removed): 4399 2012-11-24 and 7k7k 2012-11-26 没有天生强化; 7k7k 2012-11-26 洛拉斯克吃弱化,同生共死. Both describe the 简单模式 week (11-23 to 11-30); no later source was found."
   ],
   "confidence": {
     "level": "low",
@@ -114,7 +99,8 @@
     ]
   },
   "sources": [
-    "https://news.4399.com/seer/spt/201211-24-216477.html"
+    "https://news.4399.com/seer/spt/201211-24-216477.html",
+    "https://news.7k7k.com/content/20121126/545224.html"
   ],
   "source_note": "Only species data and the game's SPT list (habitat 晶蛇魔窟) were available; era inferred from species id between 库里 and 伊索里."
 }

@@ -172,7 +172,8 @@
     "Innate boost (天然强化，最好是消强化再打) — stats not stated; atk+2, as unstated innate boosts are atk+2 (user decision 2026-10-19).",
     "unlimited_pp and 100% accuracy per techbang. Very high crit damage noted; no number.",
     "skills: no period source names the Boss's moves; the set is species 490's last four at or below Lv80, the original server's default for a Boss without its own list, inferred from the 20 fully documented SPT fights. A debut-day report that it boosted itself twice (7k7k 2010-10-15) fits 规则掌控, its only self-boost.",
-    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德)."
+    "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
+    "Not immune to stat drops, against the 2026-10-21 default: release-week guides rely on drops (4399 2010-10-15 消强化，弱化技能; 7k7k 2010-10-16 虚弱光线命中6次; 7k7k 2010-10-17 卡鲁克斯破甲…成功两次即可). The 白虎 guardian 劳克蒙德 (2011-03, 弱化双防无效) is a different fight."
   ],
   "confidence": {
     "level": "medium",
@@ -188,7 +189,9 @@
   "sources": [
     "https://news.4399.com/seer/spt/201010-16-78995.html",
     "https://www.techbang.com/posts/33170-order-spt-boss-raiders-lauck-maunder-review",
-    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html"
+    "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
+    "https://news.4399.com/seer/saiergonglue/201010-15-78882.html",
+    "http://news.7k7k.com/content/20101016/16278.html"
   ],
   "source_note": "4399 BOSS page (2010-10-16): 5000血, 三领域, 需完成奇妙的新生命; techbang (2011-01): 时段, PP无限, 偶数回合轮流无效."
 }

@@ -114,7 +114,8 @@
     "断流怒啸: 10% chance of +150 fixed damage (matches skill 12660).",
     "Level/HP not published; 80 / 10000 are estimates.",
     "skills: all four are named by a period guide (4399 2012-03-17) and equal species 1131's last four at or below Lv80.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Not immune to stat drops, against the 2026-10-21 default: 7k7k 2012-03-16 吃弱化技能，可以先用封印6次降它攻击; 4399 2012-03-17 and 2012-08-13 weaken it with 塔克林's 龙之威仪."
   ],
   "confidence": {
     "level": "low",
@@ -129,7 +130,8 @@
   },
   "sources": [
     "https://news.4399.com/seer/spt/201203-17-148791.html",
-    "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html"
+    "https://news.4399.com/seer/jingyanxinde/201208-13-186773_2.html",
+    "http://news.7k7k.com/content/20120316/163344.html"
   ],
   "source_note": "4399 SPT page 2012-03-17: skills 异光幻流/断流怒啸/破浪念闪/水之结界; no level/HP given."
 }

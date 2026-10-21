@@ -68,7 +68,8 @@
     "skills: all four appear in the Boss's battle log in 4399's 2012 fight video (id 120526): 混沌惩戒, 震怒之魂, 展翅冲锋, 龙怒乾坤, which are species 1164's last four at or below Lv80. The former fourth move 打盹 was a guess; it is named only as a learnable move in a player-build article (4399 2012-04-28), never as a Boss move.",
     "速度极慢 — spe x0.5 estimate.",
     "HP and level not measured by the guide (作者用盖亚秒杀); estimates.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Neither stat-drop immunity nor an innate boost, against the 2026-10-21 default: the 4399 2012-04-27 winning line spams 凯洛亚's 水之结界 (all stats -1) on it, and the same guide says 吃属性相克，没啥强化. The modern client's list has no idx 1."
   ],
   "confidence": {
     "level": "low",

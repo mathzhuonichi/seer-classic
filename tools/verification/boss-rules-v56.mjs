@@ -192,6 +192,17 @@ check('Hamorait requires the encoded water-fire-grass cycle and blocked hits do 
   assert.equal(battle.dealDamage(mon,10,{kind:'true',source:battle.active(0),skill:skill('fire'),ohko:true}),0);
   assert.equal(hit(battle,mon,10,'fire'),0);assert.equal(hit(battle,mon,10,'water'),10);assert.equal(hit(battle,mon,10,'water'),0);assert.equal(hit(battle,mon,10,'grass'),0);assert.equal(hit(battle,mon,10,'fire'),10);assert.equal(hit(battle,mon,10,'grass'),10);assert.equal(hit(battle,mon,10,'water'),10);
 });
+check('Hamorait stands at attack +2 before the first command and refuses the player\'s accuracy, evasion and other stage drops',()=>{
+  const battle=make('boss_spt_hamoleite',undefined,{sides:[player([20025,20082])]}),mon=battle.active(1);
+  assert.equal(mon.stages.atk,2);assert(battle.initialEvents.some(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='atk'&&event.delta===2));
+  for(const skill of [20025,20082]){
+    battle.submit(0,{kind:'move',skill});const events=battle.resolveTurn();
+    assert(events.some(event=>event.type==='stage_blocked'&&event.side===1&&event.stat==='acc'),`skill ${skill}: the accuracy drop is refused`);
+  }
+  const before={...mon.stages};for(const stat of ['eva','atk','def','spa','spd','spe'])battle.changeStage(mon,stat,-1,true);
+  assert.deepEqual(mon.stages,before);assert.equal(mon.stages.acc,0);assert.equal(mon.stages.eva,0);
+  battle.changeStage(mon,'spe',-1,false);assert.equal(mon.stages.spe,before.spe-1,'its own drops still apply');
+});
 check('Only the named Younasi skill has unlimited PP; actual move consumption preserves its other skills',()=>{
   const battle=make('boss_spt_younasi'),mon=battle.active(1),other=mon.skills.find(id=>id!==10410);
   const keep=mon.pp[10410],before=mon.pp[other];battle.submit(1,{kind:'move',skill:10410});tick(battle);assert.equal(mon.pp[10410],keep);
@@ -222,10 +233,13 @@ check('Younasi shadow barrier: attacks do 0 and 寄生 drains until 贯穿水枪
   assert.equal(mon.hp,1);use(battle,ATTACK);assert.equal(mon.hp,1,'the HP floor still holds after the barrier breaks');
   use(battle,PHANTOM);assert(mon.fainted);assert.equal(battle.result.winner,0);assert.deepEqual(battle.warnings,[]);
 });
-check('Native first-turn phases run before move execution, including the Eersaila Saturday variant',()=>{
-  const battle=make('boss_spt_eersaila','sat'),eventsBefore=battle.log.length;tick(battle);
-  const events=battle.log.slice(eventsBefore),stage=events.findIndex(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='def'),move=events.findIndex(event=>event.type==='move_used');
-  assert(stage>=0&&stage<move);assert.equal(events[stage].delta,2);assert(events.some(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='spd'&&event.delta===2));tick(battle);assert.equal(battle.log.filter(event=>event.type==='phase_triggered').length,1);
+check('First-turn phases run when the Boss enters, so the Eersaila Saturday boosts stand before the first command',()=>{
+  const battle=make('boss_spt_eersaila','sat'),mon=battle.active(1),events=battle.initialEvents;
+  const entered=events.findIndex(event=>event.type==='switch_in'&&event.side===1);
+  const stage=stat=>events.findIndex(event=>event.type==='stat_stage'&&event.side===1&&event.stat===stat&&event.delta===2);
+  assert(entered>=0&&stage('def')>entered&&stage('spd')>entered);
+  assert.equal(mon.stages.def,2);assert.equal(mon.stages.spd,2);tick(battle);tick(battle);
+  assert.equal([...events,...battle.log].filter(event=>event.type==='phase_triggered').length,1);
 });
 check('Eersaila weekday HP, evasion and Sunday low-HP execution paths are live',()=>{
   assert.equal(make('boss_spt_eersaila','mon').active(1).maxHp,6000);assert.equal(make('boss_spt_eersaila','tue').active(1).stages.eva,3);
@@ -390,7 +404,9 @@ check('Four declined mechanics and one authored replacement are explicit; defens
 check('Rule conditions are installed before the first switch-in, so no Boss opening log line names one',()=>{
   const conditionEvents=new Set(['condition_added','condition_refreshed']);let installed=0;
   for(const boss of bosses){
-    const battle=make(boss.id),events=battle.initialEvents,fielded=events.findIndex(event=>event.type==='switch_in');
+    // Innate first-turn phases run when the Boss enters; what they add (塔克林's crit rate) is their own opening line.
+    const battle=make(boss.id),phased=battle.initialEvents.findIndex(event=>event.type==='phase_triggered');
+    const events=phased<0?battle.initialEvents:battle.initialEvents.slice(0,phased),fielded=events.findIndex(event=>event.type==='switch_in');
     installed+=events.slice(0,fielded).filter(event=>conditionEvents.has(event.type)).length;
     const late=events.slice(fielded).find(event=>conditionEvents.has(event.type)&&event.condition.startsWith('boss_'));
     assert(!late,`${boss.id}: rule condition ${late?.condition} after the switch-ins`);

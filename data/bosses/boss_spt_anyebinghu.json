@@ -47,6 +47,9 @@
           "同生共死"
         ]
       }
+    },
+    {
+      "rule": "immune_stage_down"
     }
   ],
   "win": [
@@ -129,7 +132,8 @@
     "Immune to control skills, not 同生共死; susceptible to 海洋之心、圣灵魔闪光、魑魅魍魉、静电场.",
     "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown).",
     "skills: all four are named by a period guide (4399 2011-12-05) and equal species 1012's last four at or below Lv80.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
+    "Immune to stat drops: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source mentions drops on it. Its innate boost is the documented double defence, which replaces the default atk+2. The modern client's Boss trait list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "medium",

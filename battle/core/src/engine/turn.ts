@@ -93,7 +93,7 @@ function resolveFullTurn(b: Battle): void {
     const m = b.active(s.index);
     m.turnsActive++;
     runHookEffects(b, m, 'turn_start');
-    // Innate first-turn boosts and turn thresholds must apply before moves.
+    // Turn thresholds must apply before moves (first-turn phases already ran when the Boss entered).
     b.checkPhases(m);
   }
 
@@ -201,7 +201,8 @@ export function switchIn(b: Battle, side: Side, slot: number): void {
     type: 'switch_in', side: side.index, slot, species: mon.species.id, types: [...mon.types], name: mon.name, hp: mon.hp, maxHp: mon.maxHp, level: mon.level,
   });
   runHookEffects(b, mon, 'on_switch_in');
-  if (mon.side === 1 && mon.phases.length) b.checkPhases(mon);
+  // A Boss's entry runs its phases, so innate first-turn boosts are in place, and shown, before the first command.
+  if (mon.side === 1) b.checkPhases(mon);
   if (b.sides.every((x) => x.team[x.active])) markFaced(b);
 }
 

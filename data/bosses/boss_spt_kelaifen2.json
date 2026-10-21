@@ -24,14 +24,34 @@
       "hp_override": 5000
     }
   ],
-  "rules": [],
+  "rules": [
+    {
+      "rule": "immune_stage_down"
+    }
+  ],
   "win": [
     {
       "kind": "ko_all"
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "first_turn": true
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -65,7 +85,8 @@
   "engine_notes": [
     "Rematch reward is an achievement only; reward.monster is null.",
     "HP not published; 5000 estimated from contemporary 80级 SPT bosses (古尔扎迪/米诺斯 ~5000).",
-    "skills: species 855 (form 5029) last four at or below Lv80. A 4399 battle screenshot of the Lv80 rematch (2011-07-22) shows 怒火咆哮 and 醉酒燃烧; later recordings of the Flash client show all four."
+    "skills: species 855 (form 5029) last four at or below Lv80. A 4399 battle screenshot of the Lv80 rematch (2011-07-22) shows 怒火咆哮 and 醉酒燃烧; later recordings of the Flash client show all four.",
+    "Immune to stat drops and innate atk+2: Default per user 2026-10-21 (哈莫雷特及以后多数boss都免疫弱化和自带攻击+2); no period source states either (7k7k 2011-07-22: 出招先手，MISS率高，血厚). The modern client's 难度2 list carries idx 1 (免疫能力下降), supporting only."
   ],
   "confidence": {
     "level": "low",
