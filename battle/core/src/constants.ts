@@ -82,7 +82,8 @@ export function stageMultiplier(stage: number): number {
   return stage >= 0 ? (2 + stage) / 2 : 2 / (2 - stage);
 }
 
+/** The accuracy table from the September 2010 update (4399 2010-09-01, 7k7k 2010-10-15): raises like other stats, drops by the table. */
 export function accuracyStageMultiplier(stage: number): number {
   const s = Math.max(STAGE_MIN, Math.min(STAGE_MAX, stage));
-  return s >= 0 ? (3 + s) / 3 : NEGATIVE_ACC_TABLE[-s];
+  return s >= 0 ? stageMultiplier(s) : NEGATIVE_ACC_TABLE[-s];
 }
