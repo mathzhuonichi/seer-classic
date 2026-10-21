@@ -71,7 +71,8 @@ else:
         temporary.write_text(json.dumps(manifest, indent=2) + '\n')
         temporary.replace(manifest_path)
         runtime_index = manifest_path.with_name('runtime-index.json')
-        runtime_payload = {'species': {species: {key: entry[key] for key in ('meta', 'atlas', 'frameRate', 'atlasWidth', 'atlasHeight', 'sequences')} for species, entry in manifest['species'].items()}}
+        keys = ('meta', 'atlas', 'frameRate', 'atlasWidth', 'atlasHeight', 'sequences', 'standbySize')
+        runtime_payload = {'species': {species: {key: entry[key] for key in keys if key in entry} for species, entry in manifest['species'].items()}}
         temporary_index = runtime_index.with_suffix('.json.tmp')
         temporary_index.write_text(json.dumps(runtime_payload, separators=(',', ':')) + '\n')
         temporary_index.replace(runtime_index)
