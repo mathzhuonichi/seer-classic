@@ -35,22 +35,25 @@ other = floor((floor((2*base + iv + floor(ev/4)) * L / 100) + 5) * nature)
 
 ### 2.1 Stat stages (能力等级)
 
-`atk, def, spa, spd, spe` range −6..+6. [recalled]
+`atk, def, spa, spd, spe` range −6..+6. [sourced: 7k7k 2010-10-15 浅蓝, Wayback 2010-10-18; 7k7k 2011-03-29]
 
 | stage | +n | −n |
 |---|---|---|
 | multiplier | (2+n)/2 → +1 ×1.5, +2 ×2 … +6 ×4 | 2/(2+n) → −1 ×0.667, −2 ×0.5 … −6 ×0.25 |
 
-[sourced for positive: "(1+0.5n)"; negative mirrors it, chosen]
+[sourced for both: "每提升一个等级，现有能力比原始能力提高0.5倍" with the table 1.5 … 4 and 2/3, 1/2, 0.4, 1/3, 0.286,
+0.25, each end "极限封顶" (7k7k 2010-10-15, 2011-03-29); later summaries say "乘或除 (1+0.5n)"]
 
-`acc` (命中) and `eva` (闪避) also range −6..+6. Effective accuracy stage =
-user `acc` − target `eva`, clamped to ±6.
+`acc` (命中) also ranges −6..+6. `eva` (闪避) is an engine extension, not a period stage (period sources list six
+stages: the five above and 命中); only the Boss rule `evasion_bonus` sets it. Effective accuracy stage = user `acc` −
+target `eva`, clamped to ±6.
 
 | stage | −1 | −2 | −3 | −4 | −5 | −6 |
 |---|---|---|---|---|---|---|
 | hit multiplier | 0.85 | 0.70 | 0.55 | 0.45 | 0.35 | 0.25 |
 
-Positive: (3+n)/3. [sourced for negatives; positive chosen]
+Positive: (2+n)/2, as other stats: +1 ×1.5 … +6 ×4. [sourced: the September 2010 accuracy update, 4399 2010-09-01
+and 7k7k 2010-10-15 (0.25 … 0.85, 1, 1.5 … 4); before it, drops followed 2/(2+n) (4399 2010-08-26)]
 
 Switching out resets all stages. [recalled]
 
