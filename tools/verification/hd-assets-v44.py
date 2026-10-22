@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Static V44 asset integrity audit; no rendering, generation, or runtime edits."""
+"""Static V44 asset integrity audit; no rendering, generation, or runtime edits.
+
+Skill effects left this audit when the battle moved to playing the original SWFs with Ruffle
+(design/notes/skill-effects-ruffle-2026-10-22.md); their V44 frames are no longer published.
+"""
 from __future__ import annotations
 
 import argparse
@@ -22,7 +26,6 @@ PUBLIC_ROOT_NAMES = {path.name for path in PUBLIC.iterdir()}
 MAP_MANIFEST = 'public/maps/original-manifest.json'
 # The map manifest only gains rows after V44; maps() checks that every baseline row is unchanged.
 AUTHORIZED_BASELINE_MANIFEST_CHANGES = {
-    'public/battle-effects/manifest.json',
     'public/portraits/vectors/manifest.json',
     MAP_MANIFEST,
 }
@@ -34,7 +37,6 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--baseline', default='00a93ec')
 parser.add_argument('--skip-atlas', action='store_true')
 parser.add_argument('--allow-pending-map', action='store_true')
-parser.add_argument('--skill-sources', type=Path, default=ROOT.parent / 'analysis/codex-takeover-2026-10-14/skill-effects-hd-v44/sources')
 parser.add_argument('--report', type=Path, default=ROOT / 'artifacts/hd-original-v44/verification.json')
 args = parser.parse_args()
 report = {'baseline': args.baseline, 'scope': 'Static byte, provenance, registration, runtime-reference and Git-policy consistency. No new visual-fidelity or gameplay certification.',
@@ -336,34 +338,6 @@ def interface():
             'hudRestoredSharedParts': len(hud['parts']), 'hudMixedWrappers': len(hud['assets'])}
 
 
-def skills():
-    baseline = baseline_json('public/battle-effects/manifest.json')['effects']
-    runtime = load('public/battle-effects/manifest.json')['effects']
-    hd = load('public/battle-effects/hd/manifest.json')['effects']
-    require(set(runtime) == set(hd) == set(baseline) and len(hd) == 67, 'Skill effect inventory must remain 67')
-    frame_total = 0
-    encoded = 0
-    for sid, row in hd.items():
-        main = runtime[sid]
-        require({key: value for key, value in main.items() if key != 'hd'} == baseline[sid], f'Skill {sid} native fallback or source timeline changed')
-        require(row['sourceSha256'] == main['sourceSha256'] and row['fps'] == main['fps'], f'Skill {sid} source hash/fps mismatch')
-        require(row['originalFrames'] == main['frames'] == len(row['frames']), f'Skill {sid} frame count differs')
-        require([frame['n'] for frame in row['frames']] == list(range(main['frames'])), f'Skill {sid} frame ordering differs')
-        require(main['hd']['path'] == row['path'] and main['hd']['sha256'] == row['sha256'], f'Skill {sid} runtime HD projection differs')
-        aggregate = hashlib.sha256(''.join(f"{frame['n']}:{frame['sha256']}\n" for frame in row['frames']).encode()).hexdigest()
-        require(aggregate == row['sha256'], f'Skill {sid} aggregate frame hash differs')
-        for frame in row['frames']:
-            name = f"{row['path']}/{frame['n']}.webp"
-            asset(name, frame['sha256'], frame['bytes'])
-            require(frame['width'] == main['hd']['width'] and frame['height'] == main['hd']['height'], f'Skill {sid}/{frame["n"]} viewport metadata differs')
-            runtime_assets.add(name)
-            frame_total += 1
-            encoded += frame['bytes']
-    require(frame_total == 2128, f'Expected 2128 skill frame references, found {frame_total}')
-    return {'effects': len(hd), 'frameReferencesAndHashes': frame_total, 'encodedBytes': encoded,
-            'verification': 'Static manifest and byte consistency only; the completed 13-group skill suite was not rerun.'}
-
-
 def atlas():
     rows = source_assets('public/ui/classic/maps/hd/manifest.json')
     supplemental = {}
@@ -457,9 +431,6 @@ def cached_sources():
         for name, row in manifest.items():
             if row.get('sourceUrl'):
                 require(row['sourceUrl'] in pinned and row['sourceSha256'] == pinned[row['sourceUrl']]['sha256'], f'{name} source SWF metadata differs from its pinned input')
-    for sid, row in load('public/battle-effects/hd/manifest.json')['effects'].items():
-        asset(args.skill_sources / f'{sid}.swf', row['sourceSha256'])
-        source_count += 1
     return {'pinnedSwfReferences': source_count, 'portraitSources': len(sources)}
 
 
@@ -488,7 +459,7 @@ def launchers():
 
 def runtime_references():
     references = {}
-    roots = ('/maps/', '/portraits/', '/ui/classic/hd/', '/ui/classic/maps/hd/', '/battle-effects/hd/')
+    roots = ('/maps/', '/portraits/', '/ui/classic/hd/', '/ui/classic/maps/hd/')
     for path in (ROOT / 'src').rglob('*'):
         if path.suffix not in ('.ts', '.tsx', '.css', '.json'):
             continue
@@ -505,7 +476,7 @@ def runtime_references():
         if '/hd/' in value or '/source-renders/' in value or '/vectors/' in value:
             require(value.split('?', 1)[0] in runtime_assets, f'Runtime HD path has no audited manifest row: {value}')
     return {'literalAssetPaths': len(references), 'sourceFiles': len({name for names in references.values() for name in names}),
-            'dynamicPaths': 'Finite map, portrait, skill-frame and UI inventories checked in their corresponding manifest sections.'}
+            'dynamicPaths': 'Finite map, portrait and UI inventories checked in their corresponding manifest sections.'}
 
 
 def git_policy():
@@ -544,7 +515,6 @@ run('baselineOriginalBytes', original_assets)
 run('portraitProfilesAndAssets', portraits)
 run('mapRuntimeAndProvenance', maps)
 run('nativeAndGeneratedUI', interface)
-run('skillReferences', skills)
 if args.skip_atlas:
     report['pending'].append('Atlas final composites are still being integrated; atlas verification was explicitly deferred.')
 else:
