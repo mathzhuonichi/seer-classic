@@ -8,7 +8,7 @@ import { prefersReducedMotion } from '../../../shared/ui/reduced-motion.ts';
 import { battleAnimationTiming } from '../battle-animation.ts';
 import { createBattlePlayer, type PlaybackClock, type PlaybackEvents, type PlaybackState } from '../battle-player.ts';
 import { isMoveFrame } from '../battle-playback.ts';
-import { getSkillEffectDurationMs } from '../battle-skill-effects.ts';
+import { getSkillEffectTiming } from '../battle-skill-effects.ts';
 
 export interface BattlePlayback extends PlaybackState {
   /** No turn is playing or being submitted, and the battle is still on. */
@@ -25,12 +25,12 @@ const BROWSER_CLOCK: PlaybackClock = {
   now: () => performance.now(),
 };
 
-/** A move frame plays its actor's loaded clip and its skill effect; every frame follows the reduced-motion preference. */
+/** A move frame plays its actor's loaded clip and its skill effect, if it can play; every frame follows the reduced-motion preference. */
 function frameMotion(frame: BattlePresentationFrame) {
   if (!isMoveFrame(frame)) return { reducedMotion: prefersReducedMotion() };
-  const actor = frame.side === 0 ? frame.player : frame.enemy;
+  const species = appearanceOf(frame.side === 0 ? frame.player : frame.enemy);
   return {
-    reducedMotion: prefersReducedMotion(), timing: battleAnimationTiming(appearanceOf(actor), frame.kind), effectMs: getSkillEffectDurationMs(frame.skillId),
+    reducedMotion: prefersReducedMotion(), timing: battleAnimationTiming(species, frame.kind), effect: getSkillEffectTiming(frame.skillId, species),
   };
 }
 

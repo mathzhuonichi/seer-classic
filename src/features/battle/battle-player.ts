@@ -5,8 +5,17 @@ import type { BattlePresentationFrame, BattleView } from '../../shared/views.ts'
 import type { MoveTiming } from './battle-animation.ts';
 import { battleEndSound, settledDialogue } from './battle-hud.ts';
 import { CAPTURE_OUTCOME_MS, DAMAGE_NUMBER_MS, DAMAGE_NUMBER_ROWS, captureDialogue, planBattleFrame } from './battle-playback.ts';
+import type { FramePlan, SkillEffectTiming } from './battle-playback.ts';
 
-export interface SkillEffectCue { move: BattlePresentationFrame; delay: number; duration: number }
+/**
+ * A move's original skill effect: it starts `delay` ms into the move and plays for `duration` ms. The cue stays until another
+ * move's frame or the turn's end, so that the creatures do not show their own status ring or projectile once it has played.
+ */
+export interface SkillEffectCue {
+  move: BattlePresentationFrame; delay: number; duration: number;
+  /** The effect does not show after all (it could not start, or its host stopped): nothing waits for it any longer. */
+  skip(): void;
+}
 
 /** A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS). */
 export interface FloatingNumber {
@@ -56,8 +65,8 @@ export interface PlayerHost extends PlaybackEvents {
   battle(): BattleView;
   dispatch(action: GameAction): DispatchResult;
   sound(cue: GameSound): void;
-  /** One frame's timing inputs: reduced motion, the actor's loaded clip and the move's skill effect length. */
-  motion(frame: BattlePresentationFrame): { reducedMotion: boolean; timing?: MoveTiming | null; effectMs?: number };
+  /** One frame's timing inputs: reduced motion, the actor's loaded clip and the move's skill effect, if it can play. */
+  motion(frame: BattlePresentationFrame): { reducedMotion: boolean; timing?: MoveTiming | null; effect?: SkillEffectTiming };
   clock: PlaybackClock;
   /** Holds the controller's idle work (turn preparation) until the returned function runs. */
   holdIdle(): () => void;
@@ -79,7 +88,7 @@ export interface BattlePlayer {
 const OPENING_DIALOGUE = '请选择指令。';
 const REJECTED_DIALOGUE = '该指令当前无法使用，请重新选择。';
 type Patch = (patch: Partial<PlaybackState>) => void;
-type TimerName = 'advance' | 'outcome' | 'action' | 'effect';
+type TimerName = 'advance' | 'outcome' | 'action';
 
 export function createBattlePlayer(host: PlayerHost): BattlePlayer {
   let state: PlaybackState = {
@@ -181,13 +190,16 @@ function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set
 
 /**
  * Shows `batch` frame by frame on the host's clock, calls `shown` with each frame as it shows, `last` once the last frame is on
- * screen and `settle` once it has played; the returned function cancels whatever is still pending.
+ * screen and `settle` once it has played; the returned function cancels whatever is still pending. A skipped skill effect stops
+ * holding the frame on screen: its move hands over at the hit marker, and a later frame no longer waits for the effect's end.
  */
 function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Patch,
   { last, settle, shown }: { last(): void; settle(): void; shown(frame: BattlePresentationFrame): void }) {
   const { clock } = host, timers: Partial<Record<TimerName, number>> = {};
   const schedule = (name: TimerName, run: () => void, ms: number) => { clock.clearTimeout(timers[name]); timers[name] = clock.setTimeout(run, ms); };
-  let cursor = 0, actionEndsAt = 0, effectEndsAt = 0;
+  let cursor = 0, actionEndsAt = 0, effectEndsAt = 0, cue: SkillEffectCue | null = null;
+  /** The frame on screen, its plan and when it showed; null once the batch has played or was cancelled. */
+  let current: { frame: BattlePresentationFrame; plan: FramePlan; at: number } | null = null;
   const show = (next: BattlePresentationFrame) => {
     shown(next);
     if (next.kind !== 'capture') {
@@ -202,27 +214,41 @@ function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Pat
       if (next.captureSuccess) host.sound('capture');
     }, CAPTURE_OUTCOME_MS);
   };
+  /** The next frame shows `delayMs` after the current one did, and also waits for the running clip and effect if its plan says so. */
+  const handOver = (delayMs: number) => {
+    const { plan, at } = current!, due = at + delayMs, now = clock.now();
+    schedule('advance', advance, Math.max(0, (plan.awaitRunning ? Math.max(due, actionEndsAt, effectEndsAt) : due) - now));
+  };
+  const endEffect = () => { cue = null; effectEndsAt = 0; set({ skillEffect: null }); };
+  const skip = (skipped: SkillEffectCue) => {
+    if (cue !== skipped || !current) return;
+    endEffect();
+    handOver(current.frame === skipped.move ? current.plan.delayMs - current.plan.hurtDelayMs : current.plan.delayMs);
+  };
   const advance = () => {
-    if (cursor >= batch.length) { settle(); return; }
+    if (cursor >= batch.length) { current = null; settle(); return; }
     const next = batch[cursor++];
     show(next);
     if (cursor === batch.length) last();
     const plan = planBattleFrame(next, batch[cursor], host.motion(next));
-    if (plan.effect === 'clear') { set({ skillEffect: null }); effectEndsAt = 0; }
+    current = { frame: next, plan, at: clock.now() };
+    if (plan.effect === 'clear') endEffect();
     else if (plan.effect !== 'keep') {
-      const { delayMs, durationMs } = plan.effect;
-      set({ skillEffect: { move: next, delay: delayMs, duration: durationMs } });
+      const { delayMs, durationMs } = plan.effect, started: SkillEffectCue = { move: next, delay: delayMs, duration: durationMs, skip: () => skip(started) };
+      cue = started;
+      set({ skillEffect: started });
       effectEndsAt = clock.now() + delayMs + durationMs;
-      schedule('effect', () => set({ skillEffect: null }), delayMs + durationMs);
     }
     if (plan.actionMs !== null) {
       set({ sourceAction: next });
       actionEndsAt = clock.now() + plan.actionMs;
       schedule('action', () => set({ sourceAction: null }), plan.actionMs);
     }
-    const now = clock.now();
-    schedule('advance', advance, plan.awaitRunning ? Math.max(plan.delayMs, actionEndsAt - now, effectEndsAt - now) : plan.delayMs);
+    handOver(plan.delayMs);
   };
   advance();
-  return () => { for (const timer of Object.values(timers)) clock.clearTimeout(timer); };
+  return () => {
+    current = null;
+    for (const timer of Object.values(timers)) clock.clearTimeout(timer);
+  };
 }

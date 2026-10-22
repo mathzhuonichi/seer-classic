@@ -30,30 +30,40 @@ export interface FramePlan {
   actionMs: number | null;
   /** Also wait for the running clip and effect to end before advancing. */
   awaitRunning: boolean;
+  /** The part of delayMs that waits for the effect to hurt the target; an effect that does not show hands over without it. */
+  hurtDelayMs: number;
 }
+
+/**
+ * A move's original skill effect, while it can play: when it starts and when it hurts the target, both from the attacker
+ * clip's hit marker (the start may come before it), and how long it plays.
+ */
+export interface SkillEffectTiming { startMs: number; durationMs: number; hurtMs: number }
 
 export const isMoveFrame = (frame: BattlePresentationFrame) => frame.kind === 'physical' || frame.kind === 'special' || frame.kind === 'status';
 
 /**
- * Plan one frame. `timing` is the actor's loaded clip for this move and `effectMs` the move's
- * original skill effect length; both are absent when the asset is unavailable.
+ * Plan one frame. `timing` is the actor's loaded clip for this move and `effect` the move's original skill effect; both are
+ * absent when the asset is unavailable. With an effect, a move followed by its hit hands over when the effect hurts the target.
  */
 export function planBattleFrame(frame: BattlePresentationFrame, following: BattlePresentationFrame | undefined,
-  { reducedMotion, timing, effectMs }: { reducedMotion: boolean; timing?: MoveTiming | null; effectMs?: number }): FramePlan {
+  { reducedMotion, timing, effect }: { reducedMotion: boolean; timing?: MoveTiming | null; effect?: SkillEffectTiming }): FramePlan {
   let delayMs = frame.kind === 'capture' ? FRAME_MS.capture
     : reducedMotion ? REDUCED_MOTION_MS
     : frame.kind === 'hit' && frame.critical ? CRITICAL_HIT_MS
     : FRAME_MS[frame.kind];
   const move = isMoveFrame(frame);
   if (frame.kind === 'hit' && following?.kind === 'hit' && following.side === frame.side) {
-    return { delayMs: reducedMotion ? REDUCED_MOTION_MS : FOLLOW_UP_HIT_MS, effect: 'keep', actionMs: null, awaitRunning: false };
+    return { delayMs: reducedMotion ? REDUCED_MOTION_MS : FOLLOW_UP_HIT_MS, effect: 'keep', actionMs: null, awaitRunning: false, hurtDelayMs: 0 };
   }
-  if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: frame.kind === 'hit' };
-  const effect = effectMs ? { delayMs: reducedMotion ? 0 : timing?.hitMs ?? 0, durationMs: reducedMotion ? REDUCED_MOTION_MS : effectMs } : 'clear';
+  if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: frame.kind === 'hit', hurtDelayMs: 0 };
   const clip = reducedMotion ? null : timing ?? null;
-  // A move followed by its hit hands over at the hit marker; otherwise the whole clip plays.
-  if (clip) delayMs = clip.hitMs !== null && following?.kind === 'hit' ? clip.hitMs : clip.durationMs;
-  return { delayMs, effect, actionMs: clip?.durationMs ?? null, awaitRunning: following?.kind !== 'hit' };
+  const shown = !effect ? 'clear' as const : reducedMotion ? { delayMs: 0, durationMs: REDUCED_MOTION_MS }
+    : { delayMs: Math.max(0, (clip?.hitMs ?? 0) + effect.startMs), durationMs: effect.durationMs };
+  // A move followed by its hit hands over at the hit marker, or when its effect hurts the target; otherwise the whole clip plays.
+  const hitMs = following?.kind === 'hit' ? clip?.hitMs ?? null : null, hurtDelayMs = hitMs !== null && effect ? effect.hurtMs : 0;
+  if (clip) delayMs = hitMs !== null ? hitMs + hurtDelayMs : clip.durationMs;
+  return { delayMs, effect: shown, actionMs: clip?.durationMs ?? null, awaitRunning: following?.kind !== 'hit', hurtDelayMs };
 }
 
 /** Dialogue while a capsule is in flight, before the outcome is revealed. */

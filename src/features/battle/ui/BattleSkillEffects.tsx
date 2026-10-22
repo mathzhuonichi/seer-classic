@@ -1,10 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import type { BattleMonsterView } from '../../../shared/views.ts';
 import { getLayoutZoom } from '../../../shared/game-display.ts';
-import { createSkillEffectStage, type SkillEffectStage } from '../battle-skill-effects.ts';
+import { createSkillEffectStage } from '../battle-skill-effects.ts';
 import type { SkillEffectCue } from '../battle-player.ts';
 import { REDUCED_MOTION_MS } from '../battle-playback.ts';
 import { skillEffectPlacement, type Box } from '../skill-effect-placement.ts';
+import type { SkillEffectStage } from '../skill-effect-session.ts';
 import './battle-skill-effects.css';
 
 /**
@@ -54,16 +55,19 @@ function useArenaCover(layer: RefObject<HTMLDivElement | null>) {
 }
 
 /**
- * The arena's original skill effects: one host stage per battle screen, drawn over both creatures and under the numbers and
- * the HUD, clipped by the arena. A move's effect starts at its cue's delay (the attacker's hit marker), anchored at the acting
- * creature, and stops when the cue ends; under reduced motion it holds its middle frame. The creatures on screen have their
- * moves' effects loaded.
+ * The arena's original skill effects, drawn over both creatures and under the numbers and the HUD, clipped by the arena. The
+ * page's effect host is in this layer from the battle screen's first frame until it goes. A move's effect starts at its cue's
+ * delay (around the attacker's hit marker), anchored at the acting creature, and stops after the cue's duration or when the cue
+ * goes; under reduced motion it holds its middle frame. An effect that cannot start skips its cue. The creatures on screen have
+ * their moves' effects loaded.
  */
 export default function BattleSkillEffects({ cue, player, enemy }: { cue: SkillEffectCue | null; player: BattleMonsterView; enemy: BattleMonsterView }) {
   const layer = useRef<HTMLDivElement>(null);
   const [stage, setStage] = useState<SkillEffectStage | null>(null);
   useArenaCover(layer);
-  useEffect(() => {
+  // A layout effect: the host is in the layer before the battle's first paint, and back in its parking place before React
+  // detaches the layer.
+  useLayoutEffect(() => {
     const created = createSkillEffectStage(layer.current!);
     setStage(created);
     return () => created.dispose();
@@ -73,14 +77,16 @@ export default function BattleSkillEffects({ cue, player, enemy }: { cue: SkillE
   useEffect(() => {
     const skillId = cue?.move.skillId, element = layer.current;
     if (!stage || !cue || skillId === undefined || !element) return;
-    stage.prepare([skillId]);
     let stop = () => {};
-    const timer = setTimeout(() => {
+    const start = setTimeout(() => {
       const geometry = arenaGeometry(element), at = geometry?.creatures && skillEffectPlacement(geometry.arena, geometry.creatures, cue.move.side);
-      if (at) stop = stage.play(skillId, at, cue.duration <= REDUCED_MOTION_MS);
+      if (at) stop = stage.play(skillId, at, cue.duration <= REDUCED_MOTION_MS, cue.skip);
+      else cue.skip();
     }, cue.delay);
+    const end = setTimeout(() => stop(), cue.delay + cue.duration);
     return () => {
-      clearTimeout(timer);
+      clearTimeout(start);
+      clearTimeout(end);
       stop();
     };
   }, [stage, cue]);

@@ -1,24 +1,12 @@
-// Original skill effects, and when their parts load. This module is the loading boundary: Ruffle, the host SWF and the
-// effect index load behind the battle loading screen (prepareSkillEffects), and every battle screen gets one host stage
-// (createSkillEffectStage) that loads its effects as they are needed. Placement and the battle UI do not depend on how.
-import { loadRuffle, startSkillEffectHost, type SkillEffectHost } from './skill-effect-host.ts';
-import type { SkillEffectPlacement } from './skill-effect-placement.ts';
+// Original skill effects, and when their parts load. This module is the loading boundary. Nothing of Ruffle loads before the
+// first battle's loading screen. There, once the creature art and animations are in, the page's one effect host starts in a
+// hidden 1x1 px parking place, and every loading screen loads its battle's effects into it (prepareSkillEffects). Each battle
+// screen takes the host into its arena layer and gives it back (createSkillEffectStage); the playback asks how a move's effect
+// is timed (getSkillEffectTiming). skill-effect-session.ts holds the rules; placement and the battle UI do not depend on them.
+import type { BattleView } from '../../shared/views.ts';
+import { loadRuffle, startSkillEffectHost } from './skill-effect-host.ts';
+import { SkillEffectSession, battleSkillIds, type SkillEffectData, type SkillEffectRow } from './skill-effect-session.ts';
 
-/** public/battle-effects/swf/index.json, written by tools/assets/publish_skill_effect_swfs.py. */
-interface EffectIndex {
-  /** The SWF path with `<skillId>`. */
-  path: string;
-  /** skillId -> [the frame whose script sets isEnd (the clip's last), the SWF's version]. */
-  effects: Record<string, [number, string]>;
-}
-
-/** A play starts on the host's next frame. */
-const START_FRAMES = 1;
-
-let index: EffectIndex | null = null;
-/** The host's frame rate, once a host has run on this page; 0 until then and when effects cannot play here. */
-let hostFps = 0;
-let preparing: Promise<void> | null = null;
 const reported = new Set<string>();
 
 /** Reports why effects or one effect cannot play, once per reason; the battle goes on without them. */
@@ -28,97 +16,52 @@ function report(what: string, error: unknown) {
   console.warn(`Original skill effects: ${what} unavailable:`, error);
 }
 
-/** A hidden 1 px place where a first host starts. */
-function offstage() {
-  const element = document.createElement('div');
-  element.setAttribute('aria-hidden', 'true');
-  element.style.cssText = 'position:fixed;left:-2px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none';
-  document.body.append(element);
-  return element;
+let parking: HTMLElement | null = null;
+
+/** The hidden 1x1 px place where the host starts and waits between battles: its canvas is 1x1 px too. */
+function park() {
+  if (parking?.isConnected) return parking;
+  parking = document.createElement('div');
+  parking.className = 'skill-effect-parking';
+  parking.setAttribute('aria-hidden', 'true');
+  parking.style.cssText = 'position:fixed;left:-2px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none';
+  document.body.append(parking);
+  return parking;
 }
 
-async function warm() {
-  const [data, source] = await Promise.all([import('../../../public/battle-effects/swf/index.json'), loadRuffle()]);
-  // A first host compiles Ruffle's WebAssembly and starts its renderer, so a battle's own host starts without a long task.
-  const place = offstage();
-  try {
-    const host = await startSkillEffectHost(source, place);
-    hostFps = host.fps;
-    host.destroy();
-  } finally {
-    place.remove();
-  }
-  // JSON rows are typed as arrays, not as the index's [frame, version] pairs.
-  index = data.default as unknown as EffectIndex;
+/** The effect index (public/battle-effects/swf/index.json) and the original's label-timed species, in one lazy chunk. */
+async function data(): Promise<SkillEffectData> {
+  const [index, timing] = await Promise.all([import('../../../public/battle-effects/swf/index.json'), import('../../../data/original-fight-timing.json')]);
+  // JSON rows are typed as arrays, not as the index's [end, version, hit] rows.
+  const effects = index.default.effects as unknown as Record<string, SkillEffectRow>;
+  return { path: index.default.path, effects, labelTimed: new Set(timing.default.species) };
 }
 
-/** Loads the index and Ruffle and runs a first host, once per page. Never rejects: without them a battle has no effects. */
-export function prepareSkillEffects(): Promise<void> {
-  preparing ??= warm().catch(error => report('Ruffle', error));
-  return preparing;
-}
-
-/** Index row of a skill's effect, while effects can play. */
-const effectRow = (skillId: number) => (hostFps ? index?.effects[skillId] : undefined);
+const session = new SkillEffectSession({
+  data,
+  start: async () => startSkillEffectHost(await loadRuffle(), park()),
+  park,
+  url: (path, skillId, version) => new URL(`${path.replace('<skillId>', String(skillId))}?v=${version}`, document.baseURI).href,
+  hidden: () => document.hidden,
+  onHidden(listener) {
+    const changed = () => { if (document.hidden) listener(); };
+    document.addEventListener('visibilitychange', changed);
+    return () => document.removeEventListener('visibilitychange', changed);
+  },
+  report,
+});
 
 /**
- * How long a skill's effect plays: its timeline up to the frame that sets isEnd, at the host's frame rate, and the frame
- * before it starts. Undefined for a skill without one and while effects cannot play, so no move waits for a missing effect.
+ * Behind a battle's loading screen, after its art and animations: starts the page's host if none runs (or replaces one that died
+ * or would be too full) and loads the effects of every creature in the battle. Never rejects: without them a battle has no effects.
  */
-export function getSkillEffectDurationMs(skillId?: number): number | undefined {
-  const row = skillId === undefined ? undefined : effectRow(skillId);
-  return row && (row[0] + START_FRAMES) / hostFps * 1000;
-}
+export const prepareSkillEffects = (battle: BattleView) => session.prepare(battleSkillIds(battle));
 
-export interface SkillEffectStage {
-  /** Starts loading these skills' effects. */
-  prepare(skillIds: readonly number[]): void;
-  /** Plays a skill's effect, or holds its middle frame (`still`), until the returned function stops it or it ends. */
-  play(skillId: number, at: SkillEffectPlacement, still: boolean): () => void;
-  /** Removes the stage's player. */
-  dispose(): void;
-}
+/**
+ * When a move's effect starts and hurts the target, from the attacker clip's hit marker, and how long it plays; undefined unless
+ * it can play now, so that no move waits for an effect that does not show.
+ */
+export const getSkillEffectTiming = (skillId: number | undefined, species: number) => session.timing(skillId, species);
 
-/** One battle screen's effects: a host player in `container`, started once effects can play on this page. */
-export function createSkillEffectStage(container: HTMLElement): SkillEffectStage {
-  let disposed = false;
-  const host: Promise<SkillEffectHost | null> = prepareSkillEffects().then(async () => {
-    if (disposed || !hostFps) return null;
-    const started = await startSkillEffectHost(await loadRuffle(), container);
-    if (disposed) started.destroy();
-    return disposed ? null : started;
-  }).catch(error => {
-    if (!disposed) report('the battle stage', error);
-    return null;
-  });
-  const loads = new Map<number, Promise<boolean>>();
-  const load = (skillId: number) => {
-    const row = effectRow(skillId);
-    if (!row || !index) return Promise.resolve(false);
-    const url = new URL(`${index.path.replace('<skillId>', String(skillId))}?v=${row[1]}`, document.baseURI).href;
-    if (!loads.has(skillId)) {
-      loads.set(skillId, host.then(running => running?.load(String(skillId), url).then(() => true) ?? false)
-        .catch(error => { report(`skill ${skillId}`, error); return false; }));
-    }
-    return loads.get(skillId)!;
-  };
-  return {
-    prepare: skillIds => { for (const skillId of skillIds) void load(skillId); },
-    play(skillId, at, still) {
-      let stopped = false, id: number | null = null;
-      void Promise.all([host, load(skillId)]).then(([running, loaded]) => {
-        const row = effectRow(skillId);
-        if (stopped || !running || !loaded || !row) return;
-        id = running.play(String(skillId), at, still ? Math.ceil(row[0] / 2) : 0);
-      });
-      return () => {
-        stopped = true;
-        if (id !== null) void host.then(running => running?.stop(id!));
-      };
-    },
-    dispose() {
-      disposed = true;
-      void host.then(running => running?.destroy());
-    },
-  };
-}
+/** One battle screen's effects: the page's host, taken into `container` (the arena layer) while the screen shows. */
+export const createSkillEffectStage = (container: HTMLElement) => session.stage(container);

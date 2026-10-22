@@ -31,12 +31,16 @@ const frame = (id, kind, side, extra = {}) => ({id, side, kind, text: '', player
 const hit = (id, side, amount, extra) => frame(id, 'hit', side, {amount, ...extra});
 const view = frames => ({log: [], finished: false, needsSwitch: false, animation: {revision: 1, frames}});
 
-/** A player on a manual clock over the battle in `shown.battle`, which a test replaces for the next turn; `timing` is every move's clip. */
-function screen(frames, {reducedMotion = false, timing} = {}) {
+/**
+ * A player on a manual clock over the battle in `shown.battle`, which a test replaces for the next turn; `timing` is every move's
+ * clip and `effect` every move's skill effect.
+ */
+function screen(frames, {reducedMotion = false, timing, effect} = {}) {
   const clock = manualClock(), shown = {battle: view(frames)};
+  const move = shownFrame => ['physical', 'special', 'status'].includes(shownFrame.kind);
   const player = createBattlePlayer({
     battle: () => shown.battle, dispatch: () => ({ok: true}), sound() {}, clock,
-    motion: shownFrame => ({reducedMotion, timing: ['physical', 'special', 'status'].includes(shownFrame.kind) ? timing : undefined}),
+    motion: shownFrame => ({reducedMotion, timing: move(shownFrame) ? timing : undefined, effect: move(shownFrame) ? effect : undefined}),
     onStart() {}, onNeedsSwitch() {}, holdIdle: () => () => {},
   });
   const numbers = () => player.state().numbers.map(({id, side, row}) => ({id, side, row}));
@@ -113,4 +117,66 @@ test('disposing the screen clears the numbers and their timers', () => {
   ui.player.dispose();
   assert.deepEqual(ui.player.state().numbers, []);
   assert.equal(ui.clock.pending(), 0);
+});
+
+/** The attacker's clip hits at 600 ms and ends at 1500 ms; its effect is drawn from 627 ms for 2000 ms and hurts at 725 ms. */
+function effectTurn() {
+  const frames = [frame(1, 'special', 0, {targetSide: 1, skillId: 11006}), hit(2, 1, 30), frame(3, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 1500, hitMs: 600}, effect: {startMs: 27, durationMs: 2000, hurtMs: 125}}), shownAt = {};
+  ui.player.subscribe(() => { const id = ui.player.state().frame?.id; if (id && !(id in shownAt)) shownAt[id] = ui.clock.now(); });
+  const cancel = ui.player.play(ui.shown.battle);
+  return {...ui, shownAt, cancel};
+}
+
+test('a move with a skill effect hands over when the effect hurts its target, and the hit waits for the effect to end', () => {
+  const ui = effectTurn();
+  assert.deepEqual(ui.player.state().skillEffect && {delay: ui.player.state().skillEffect.delay, duration: ui.player.state().skillEffect.duration},
+    {delay: 627, duration: 2000});
+  ui.clock.advance(3000);
+  assert.deepEqual(ui.shownAt, {1: 0, 2: 725, 3: 2627});
+});
+
+test('a skill effect\'s cue stays while its move is on screen after it has played, and goes with the next move or the turn', () => {
+  const frames = [frame(1, 'status', 0, {skillId: 20001}), frame(2, 'status', 1, {skillId: 20002}), frame(3, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 3000, hitMs: 1400}, effect: {startMs: -15, durationMs: 958, hurtMs: 83}});
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(2900);
+  assert.equal(ui.player.state().skillEffect?.move.id, 1, 'the effect has played, its move has not');
+  ui.clock.advance(100);
+  assert.equal(ui.player.state().skillEffect?.move.id, 2, 'the next move\'s own');
+  ui.clock.advance(3000);
+  assert.equal(ui.player.state().skillEffect?.move.id, 2, 'through the turn\'s last line');
+  ui.clock.advance(FRAME_MS.message);
+  assert.equal(ui.player.state().skillEffect, null, 'the turn has settled');
+});
+
+test('a skill effect skipped at its start hands the move over at the hit marker and holds nothing for it', () => {
+  const ui = effectTurn();
+  ui.clock.advance(627);
+  ui.player.state().skillEffect.skip();
+  assert.equal(ui.player.state().skillEffect, null);
+  ui.clock.advance(0);
+  assert.equal(ui.player.state().frame.id, 2, 'the hit shows at once: the marker has passed');
+  ui.clock.advance(3000);
+  assert.deepEqual(ui.shownAt, {1: 0, 2: 627, 3: 1500}, 'the hit waits for the clip only');
+});
+
+test('a skill effect skipped while its hit shows stops holding the hit; a stale or cancelled cue changes nothing', () => {
+  const ui = effectTurn();
+  ui.clock.advance(1000);
+  const cue = ui.player.state().skillEffect;
+  cue.skip();
+  ui.clock.advance(3000);
+  assert.deepEqual(ui.shownAt, {1: 0, 2: 725, 3: 1500});
+  cue.skip();
+  assert.equal(ui.player.state().busy, false, 'the turn stays settled');
+  const again = effectTurn(), stale = again.player.state().skillEffect;
+  again.clock.advance(3000);
+  stale.skip();
+  assert.deepEqual(again.shownAt, {1: 0, 2: 725, 3: 2627});
+  const cancelled = effectTurn(), late = cancelled.player.state().skillEffect;
+  cancelled.cancel();
+  const pending = cancelled.clock.pending();
+  late.skip();
+  assert.equal(cancelled.clock.pending(), pending, 'a cancelled playback schedules nothing');
 });
