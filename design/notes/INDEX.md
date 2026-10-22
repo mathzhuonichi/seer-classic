@@ -2,7 +2,7 @@
 
 Design notes are history. The current rules are in [`battle/RULES.md`](../../battle/RULES.md) and [`raising/SPEC.md`](../../raising/SPEC.md), and the code layout is in [`ARCHITECTURE.md`](../../ARCHITECTURE.md). When a note and the code disagree, the code wins. Revision numbers (`-vNN`) match [`CHANGELOG.md`](../../CHANGELOG.md).
 
-**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-20.md`](handoff-2026-10-20.md) is the current handoff (the 2026-10-19 playtest fixes), [`handoff-2026-10-19.md`](handoff-2026-10-19.md) is the previous one (waves 3 to 7 merged), [`handoff-2026-10-18-wave3.md`](handoff-2026-10-18-wave3.md) is the wave-3 plan, [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the wave-2 plan and its run, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
+**Active work:** [`refactor-survey-2026-10-18.md`](refactor-survey-2026-10-18.md) is the wave-1 refactor plan, [`architecture-v2.md`](architecture-v2.md) is the target architecture for wave 2, [`handoff-2026-10-22.md`](handoff-2026-10-22.md) is the current handoff (battle rules, Boss AI and move clips; the paused skill-effect catalog), [`handoff-2026-10-20.md`](handoff-2026-10-20.md) is the previous one (the 2026-10-19 playtest fixes), [`handoff-2026-10-19.md`](handoff-2026-10-19.md) is the one before (waves 3 to 7 merged), [`handoff-2026-10-18-wave3.md`](handoff-2026-10-18-wave3.md) is the wave-3 plan, [`handoff-2026-10-18-wave2.md`](handoff-2026-10-18-wave2.md) is the wave-2 plan and its run, and [`handoff-2026-10-18.md`](handoff-2026-10-18.md) is the previous one.
 
 Statuses:
 
@@ -20,7 +20,8 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 
 | Note | Summary | Status |
 | --- | --- | --- |
-| [handoff-2026-10-20](handoff-2026-10-20.md) | The 2026-10-19 playtest fixes: console alignment, 3 s damage numbers, attackers kept in the arena, skill/性格/特性 hover cards, merged stage lines, Boss AI and SPT movesets, the type-matchup indicator, HD atlases loading again with V59/V60; open points. | current handoff |
+| [handoff-2026-10-22](handoff-2026-10-22.md) | The 2026-10-21 decisions built: native creature size, one-click items, accuracy (2+n)/2, steady move clips, the 裸伤 Boss AI, 先手权 and damage doubling, fire/ice immunity, 必中 through shields, the classic trait fixes, the Boss follow-ups; the paused skill-effect catalog and its placement options; open points. | current handoff |
+| [handoff-2026-10-20](handoff-2026-10-20.md) | The 2026-10-19 playtest fixes: console alignment, 3 s damage numbers, attackers kept in the arena, skill/性格/特性 hover cards, merged stage lines, Boss AI and SPT movesets, the type-matchup indicator, HD atlases loading again with V59/V60; open points. | done (superseded by handoff-2026-10-22) |
 | [handoff-2026-10-19](handoff-2026-10-19.md) | Waves 3 to 7 merged: the PvE functional audit and its fixes, the user's 2026-10-19 decisions, the Boss variant choice, 麒麟空间, no 放生 or box limit, Boss evidence for development only, original Boss HP, level, skills and team; load and review rules; open Boss rule differences. | done (superseded by handoff-2026-10-20) |
 | [handoff-2026-10-18-wave3](handoff-2026-10-18-wave3.md) | Wave 2 and unit E merged: state, contracts, worker rules, open work for wave 3 (playtest first, code and test follow-ups, performance, product decisions). | done (superseded by handoff-2026-10-19) |
 | [playtest-2026-10-18-wave3](playtest-2026-10-18-wave3.md) | First browser playtest since the refactor (HEAD `1ff8fac` vs base `88cad12`): no regression; 30 pre-existing findings and the wave-3 unit that took each. | historical |
@@ -49,7 +50,9 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [unity-and-swf-source-audit](unity-and-swf-source-audit.md) | First check that official Unity bundles and Flash SWFs decode; found the fighting-vs-evil chart difference. | historical |
 | [official-game-feel-resources](official-game-feel-resources.md) | Source discovery for motion, skill effects and audio; the fighting-vs-evil 0.5 correction. | historical |
 | [capture-official-v25](capture-official-v25.md) | Capsule factors and CatchRate checked against the official client; the capture equation stays a remake calibration. | current |
-| [critical-traits](critical-traits.md) | Remake calibration for the 会心 and 免爆 critical-rate traits, whose original probabilities are unknown. | current |
+| [critical-traits](critical-traits.md) | Remake calibration for the critical traits: 会心 adds 1/16 to the crit rate; since 2026-10-21, 免爆 makes 1/16 of the critical hits it takes deal 0 instead of lowering the rate. | current |
+| [engine-fixes-2026-10-21](engine-fixes-2026-10-21.md) | 先手权 after a switch, item or capsule; fire, ice and grass immunity to 烧伤, 冻伤 and 寄生 (dual types included); the battle-observe-v58 neutrality check rebuilt on the current engine. Sources, decisions, blast radius. | current |
+| [classic-traits-2026-10-21](classic-traits-2026-10-21.md) | The 2026-10-21 classic trait fixes: 免爆 zeroes 1/16 of the crits it takes, 反击类 trigger on any foe move that reaches the holder, 回神 works at 0 HP and only on foe-move damage, 单属性增伤 skip dual-type skills, 虚无 dodges non-必中 attacks; also the 先出手/后出手 damage doubling (`damage_if`) and why 闪避 shields let 必中 moves through. | current |
 | [skill-atknum-audit-v45](skill-atknum-audit-v45.md) | `AtkNum > 1` was imported as multi-hit by mistake; finding, and the 2026-10-19 repair of 94 skills against the pinned moves table. | done |
 | [status-skills-and-playtest-v19](status-skills-and-playtest-v19.md) | Six-point status-skill symbol and fixes from the revision 18 playtest (leech, recoil, Puni immunity, potions). | historical |
 | [core-performance-v22](core-performance-v22.md) | Battle-core rule-lookup performance (`findRule`) without rule changes. | historical |
@@ -79,7 +82,9 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | Note | Summary | Status |
 | --- | --- | --- |
 | [boss-user-policies-v57](boss-user-policies-v57.md) | User decisions: four waived Boss mechanics and Moshidilu's forced execution below 25% HP. Bosses are outside the V58 planner. | current |
-| [boss-ai-isolation-v56](boss-ai-isolation-v56.md) | Restores the pre-V36 Boss policy (`legacy-ai.ts`) and limits the planner to trainer sides. | current |
+| [boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) | The 裸伤 Boss policy (knockout, else strongest attack, 20% useful status move; stand still at 0 PP; 奈尼芬多 re-casts 药剂反噬): sources, user decisions, simulation numbers. | current |
+| [boss-innate-rules-2026-10-21](boss-innate-rules-2026-10-21.md) | Boss stat-drop immunity and innate boosts from 哈莫雷特 on; the 2026-10-22 follow-ups (米诺斯, 塔西亚, 麒麟·幻化之轮, `immune_stage_down {stats?, except_attacks?}`, `foe_stage_on_entry`) and the 哈莫雷特 data check (PP, 龙王圣殿 date). | current |
+| [boss-ai-isolation-v56](boss-ai-isolation-v56.md) | Restores the pre-V36 Boss policy (`legacy-ai.ts`) and limits the planner to trainer sides. | current; the Boss move choice is superseded by [boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) |
 | [boss-evidence-v56](boss-evidence-v56.md) | Field-level evidence ledgers for all 180 Boss encounters and 240 members. | current |
 | [boss-rules-v56](boss-rules-v56.md) | Execution audit of every Boss rule, phase and objective (`data/boss-rule-support-v56.json`). | current; five entries updated by [boss-user-policies-v57](boss-user-policies-v57.md) |
 | [boss-audit-integration-v56](boss-audit-integration-v56.md) | V56 checkpoint joining the evidence and rule audits with the UI. | historical |
@@ -157,6 +162,8 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [battle-animation-hd-v62](battle-animation-hd-v62.md) | The first standby pose first within each atlas's budget (other-frame raises given back), and a stroke-only gate for thin-stroke redraws with a visual review; `<id>-v62` atlases. | current |
 | [full-dex-motion-v22](full-dex-motion-v22.md) | Offline battle motion for all 1,483 species: source and export process. | current; HD atlases in [battle-animation-hd-v44](battle-animation-hd-v44.md) |
 | [battle-runtime-v22](battle-runtime-v22.md) | Shared animation clock, resource pool and canvas recovery for battle timelines. | current |
+| [battle-native-size](battle-native-size.md) | Battle creatures at their original native size: one scale from the standby pose's clip size, calibrated on 丽莎布布 (303) and capped by the room below the HP panel. | current |
+| [battle-move-clips-audit-2026-10-21](battle-move-clips-audit-2026-10-21.md) | Why 鲁斯王's special attack jumped (an effect counted as the body), the fix that tells the creature by its standby sprites and eases offsets, a jump audit of every species' moves in the measured arenas, and an inventory of how each species' moves are drawn. | current |
 | [original-skill-effects](original-skill-effects.md) | 67 original skill effects from the official CDN, with provenance. | current; HD frames in [skill-effects-hd-v44](skill-effects-hd-v44.md) |
 | [skill-effects-hd-v44](skill-effects-hd-v44.md) | HD source frames for the 67 skill effects with bounded decoding. | current |
 | [battle-audio](battle-audio.md) | Official battle music and interface cues, with the source manifest. | current |

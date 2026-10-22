@@ -2,6 +2,20 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Battle rules, Boss AI and move clips (2026-10-21 to 2026-10-22)
+
+- **Battle screen.** Creatures are drawn at their original native size, so 哈莫雷特 is no longer as small as 丽莎布布 ([battle-native-size](design/notes/battle-native-size.md)). Battle items act on the creature in battle with one click.
+- **Move clips.** A move no longer jumps when its own effect flickers (鲁斯王's 海啸旋风). The arena limit follows the creature's own sprites, so beams and particles never move it, and every move eases in and out. Before, 421 of 1483 species jumped in some arena size ([battle-move-clips-audit-2026-10-21](design/notes/battle-move-clips-audit-2026-10-21.md)).
+- **Stages.** Accuracy raises follow the September 2010 table: +n gives (2+n)/2, like the other stats.
+- **先手权.** When the other side switches, uses an item or throws a capsule, your move counts as moving first, so 疾风追击-type moves double and 冲撞-type moves no longer do. 先出手/后出手 ×2 (effects 40/30, 102 skills) doubles the damage, not the power ([engine-fixes-2026-10-21](design/notes/engine-fixes-2026-10-21.md)).
+- **Statuses and 必中.** Fire monsters cannot be burned and ice monsters cannot be frozen, as grass monsters resist 寄生; a dual type counts if either type matches. The evasion shields of effects 78/106 and the trait 虚无 no longer stop 必中 moves; 圣洁 still stops 必中 status moves.
+- **Traits.** 免爆 gives each critical hit it takes a 1/16 chance to deal 0 and no longer lowers the crit rate. 反击类 trigger on any foe move that reaches the holder, status moves included. 回神 works at 0 HP but only on damage from the foe's move. 单属性增伤 no longer boosts dual-type skills. 虚无 only dodges the foe's attacks ([classic-traits-2026-10-21](design/notes/classic-traits-2026-10-21.md)).
+- **Boss AI.** The 裸伤 model: a Boss takes a knockout first; otherwise it uses its strongest expected-damage attack, with a 20% seeded chance of a status move that still changes something. Bosses at 0 PP stand still instead of struggling. 奈尼芬多 re-casts 药剂反噬 whenever it is not in place, and 提亚斯 now flees after its second 精神干涉 ([boss-ai-raw-damage-2026-10-21](design/notes/boss-ai-raw-damage-2026-10-21.md)).
+- **Boss rules.** Stat-drop immunity and innate boosts from 哈莫雷特 on, shown from the start. 米诺斯 never misses, has unlimited PP, is immune to status, gains +1 to all five stats and a 1/4 crit rate below half HP, and every pet that enters starts at accuracy -2. 塔西亚 gains special attack +2 below a quarter of its HP. 麒麟·幻化之轮 is immune to status. 普兰特 now takes stat drops from attacks; Wednesday's 厄尔塞拉 refuses only accuracy drops, plus burn and freeze. 哈莫雷特's PP and era are kept, with the sources recorded ([boss-innate-rules-2026-10-21](design/notes/boss-innate-rules-2026-10-21.md)).
+- **Checks.** `npm run verify` gates 74 suites; `npm test` 191 tests; new `needs-assets` suite `battle-move-clips` and tool `battle-move-clips-inventory`.
+
+See [design/notes/handoff-2026-10-22.md](design/notes/handoff-2026-10-22.md).
+
 ## Playtest fixes (2026-10-19 to 2026-10-20)
 
 - **Battle screen.** The record panel, skill grid and command diamond share their edges; a type-matchup indicator (my multiplier, 无效/微弱/均衡/克制, the opponent's multiplier) replaces the VS; the caption counts turns from 1.

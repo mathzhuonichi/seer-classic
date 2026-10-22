@@ -555,7 +555,8 @@ The suites that exercise this spec most directly:
    {amount}`, `restore_pp {amount}`, `cure_status`) and capsules carry
    `capture_multiplier`.
 4. Effect ops added by the engine: `restore_pp`, `struggle` is built in,
-   `heal {amount}` (flat), `status {level}` for 衰弱, `force_switch`.
+   `heal {amount}` (flat), `status {level}` for 衰弱, `force_switch`,
+   `damage_if {when, multiplier}` (先出手/后出手 ×2, section 5).
 5. Boss rule and objective additions listed in section 10: `reflect_damage`, `invulnerable_turns`,
    `clear_debuffs_each_turn`, `lives`, `no_capture`, `no_items`, `no_switch`,
    `immune_percent_damage`, `finish_with_crit`.
