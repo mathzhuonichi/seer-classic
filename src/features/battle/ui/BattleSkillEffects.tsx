@@ -27,7 +27,11 @@ function arenaGeometry(layer: HTMLElement) {
     creatures: left && right ? [left, right] as const : null };
 }
 
-/** Keeps the layer over the arena, which clips it; the arena is found from the layer (an enclosing ref attaches only later). */
+/**
+ * Keeps the layer over the arena, which clips it; the arena is found from the layer (an enclosing ref attaches only later). The
+ * arena's layout box changes on most resizes; the game display's zoom, an ancestor's inline style, can change without it
+ * (1920x1080 to 1280x720 at DPR 2).
+ */
 function useArenaCover(layer: RefObject<HTMLDivElement | null>) {
   useLayoutEffect(() => {
     const element = layer.current, arena = element?.closest('.classic-arena');
@@ -39,12 +43,12 @@ function useArenaCover(layer: RefObject<HTMLDivElement | null>) {
       Object.assign(element.style, { zoom: String(1 / zoom), left: `${box.left}px`, top: `${box.top}px`, width: `${box.width}px`, height: `${box.height}px` });
     };
     cover();
-    const observer = new ResizeObserver(cover);
-    observer.observe(arena);
-    window.addEventListener('resize', cover);
+    const resized = new ResizeObserver(cover), zoomed = new MutationObserver(cover);
+    resized.observe(arena);
+    for (let node = element.parentElement; node; node = node.parentElement) zoomed.observe(node, { attributes: true, attributeFilter: ['style'] });
     return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', cover);
+      resized.disconnect();
+      zoomed.disconnect();
     };
   }, [layer]);
 }
