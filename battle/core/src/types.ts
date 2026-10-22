@@ -339,7 +339,7 @@ export type JournalEntry = JournalHit | JournalOrder;
 export interface DamageProbe {
   roll: number;
   crit: boolean;
-  /** For `acted_first` power conditions; defaults to the current turn order. */
+  /** For `acted_first` power and damage conditions; defaults to the current turn order. */
   actedFirst?: boolean;
   /** Treat this side's side-level rules as unknown (none), for a public observer's model of it. */
   unknownRulesSide?: 0 | 1;

@@ -52,6 +52,8 @@ const EFFECTS: Record<number, TraitEffect> = {
     if (fromFoeAttack(c) && c.skill?.category === 'physical' && chance(c, p[1])) c.battle.applyStatus(c.source, STATUS_BY_INDEX[p[0]], { source: c.holder });
   } } },
   7: { hooks: (p) => [{ on: 'modify_accuracy_taken', add_percent: p[0] }] },
+  // Single-type damage traits keep their recovered hooks; aliasTypes matches the exact type, so dual-type skills get no bonus.
+  28: { note: '（双属性技能不加成）' },
   // Explicit remake calibration: the client tier code does not establish a probability.
   30: {
     hooks: () => [{ on: 'modify_crit_rate', add: CRIT_STEP }],
@@ -93,11 +95,14 @@ const EFFECTS: Record<number, TraitEffect> = {
 };
 
 const scriptId = (id: string) => `classic_trait_${id}`;
-/** Recovered hook with the catalog's type ids. */
+/**
+ * Recovered hook with the catalog's type ids. Its `skill_type` becomes `skill_type_exact`: a single-type trait (Eid 28,
+ * 「对指定单属性有效，双属性无效」) boosts only skills of exactly that type, not dual-type skills containing it.
+ */
 function aliasTypes(h: Hook): Hook {
   const hook = { ...h } as Hook;
-  const when = hook.when as Record<string, unknown> | undefined;
-  if (when?.skill_type) hook.when = { ...when, skill_type: TYPE_ALIASES[String(when.skill_type)] ?? when.skill_type };
+  const { skill_type, ...when } = (hook.when ?? {}) as Record<string, unknown>;
+  if (skill_type) hook.when = { ...when, skill_type_exact: TYPE_ALIASES[String(skill_type)] ?? skill_type };
   return hook;
 }
 

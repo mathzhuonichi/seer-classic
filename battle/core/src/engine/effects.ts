@@ -10,8 +10,8 @@ import { IV_MAX } from '../../../../raising/core/stats.ts';
 import { hasRule } from './rules.ts';
 import { runHookEffects } from './conditions.ts';
 
-/** Ops read by the move pipeline itself (hit count, power, priority, crit); runEffects skips them. */
-export const MODIFIER_OPS = new Set(['multi_hit', 'power_if', 'priority_if', 'crit_if']);
+/** Ops read by the move pipeline itself (hit count, power, damage, priority, crit); runEffects skips them. */
+export const MODIFIER_OPS = new Set(['multi_hit', 'power_if', 'damage_if', 'priority_if', 'crit_if']);
 
 const SELF_OPS = new Set(['heal', 'restore_pp', 'protect', 'cure_status', 'transform', 'set_skills', 'set_ai', 'revive', 'say']);
 

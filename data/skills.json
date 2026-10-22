@@ -3386,7 +3386,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -3838,7 +3838,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -7040,7 +7040,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -7561,7 +7561,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -8880,7 +8880,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -10542,7 +10542,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -11176,7 +11176,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -11505,7 +11505,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -13786,7 +13786,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -14258,7 +14258,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -15107,7 +15107,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -15214,7 +15214,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -17656,7 +17656,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -17802,7 +17802,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -19511,7 +19511,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -22580,7 +22580,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -24023,7 +24023,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -24146,7 +24146,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -25268,7 +25268,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -25614,7 +25614,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -31945,7 +31945,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -32204,7 +32204,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -32452,7 +32452,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -32757,7 +32757,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -33564,7 +33564,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -33888,7 +33888,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -34023,7 +34023,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -34827,7 +34827,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -35356,7 +35356,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -35769,7 +35769,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -36363,7 +36363,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -36570,7 +36570,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -37213,7 +37213,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -37752,7 +37752,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -38622,7 +38622,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -40119,7 +40119,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -40981,7 +40981,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -41188,7 +41188,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -41359,7 +41359,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -41899,7 +41899,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -42231,7 +42231,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -42378,7 +42378,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -43000,7 +43000,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -43403,7 +43403,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -43967,7 +43967,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -44121,7 +44121,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -44153,7 +44153,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -44793,7 +44793,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -45497,7 +45497,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -45642,7 +45642,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -45849,7 +45849,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -46052,7 +46052,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -46244,7 +46244,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -46416,7 +46416,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -46563,7 +46563,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -46751,7 +46751,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -47442,7 +47442,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -48074,7 +48074,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -48219,7 +48219,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -48511,7 +48511,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -48991,7 +48991,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -50808,7 +50808,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -51367,7 +51367,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -53156,7 +53156,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -54217,7 +54217,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -55292,7 +55292,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -56252,7 +56252,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -57818,7 +57818,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -58096,7 +58096,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -60164,7 +60164,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -61503,7 +61503,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -64072,7 +64072,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -65301,7 +65301,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -65923,7 +65923,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -66905,7 +66905,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -67576,7 +67576,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -67806,7 +67806,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -67989,7 +67989,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -68244,7 +68244,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -68394,7 +68394,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -70222,7 +70222,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -70652,7 +70652,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -71089,7 +71089,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -71451,7 +71451,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -75385,7 +75385,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -75911,7 +75911,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -77218,7 +77218,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -78173,7 +78173,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -79590,7 +79590,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -80551,7 +80551,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -80683,7 +80683,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -80967,7 +80967,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -89709,7 +89709,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -90109,7 +90109,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -90663,7 +90663,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -90936,7 +90936,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -91374,7 +91374,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": true
         },
@@ -91629,7 +91629,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -93031,7 +93031,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -94406,7 +94406,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -95413,7 +95413,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },
@@ -98299,7 +98299,7 @@
     "target": "foe",
     "effects": [
       {
-        "op": "power_if",
+        "op": "damage_if",
         "when": {
           "acted_first": false
         },

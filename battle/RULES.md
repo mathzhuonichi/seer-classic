@@ -107,7 +107,7 @@ monster can cancel the move (`on_foe_move`), evade or block it (`before_hit`).
 
 ```
 base   = floor( (0.4*L + 2) * power * A / D / 50 ) + 2
-damage = floor( base × STAB × type × rand(217..255)/255 × crit × burn × mods )
+damage = floor( base × STAB × type × rand(217..255)/255 × crit × first × burn × mods )
 ```
 The algebraic shape is a historical reconstruction. The inner floor, discrete
 uniform roll and exact modifier boundaries are retained remake conventions;
@@ -130,6 +130,9 @@ are sequential and can introduce further floors.
   special: `spd`). Other stages remain. Explicit clearing-block hooks are
   honored. The reconstruction clears once after all powered hits in a move;
   historical multi-hit clearing timing is unverified.
+- `first` = the skill's `damage_if` multiplier when its 先出手/后出手 condition
+  holds (effects 40/30, ×2): the period effect doubles the damage, not the
+  power. [sourced: 赛学选修1 增伤, cv34369402; user decision 2026-10-21]
 - `burn` = 0.5 if the attacker is 烧伤, for physical and special attacks.
   A 2010 reported test supports both categories; placement after the additive
   term remains a reconstruction choice rather than a proved integer boundary.

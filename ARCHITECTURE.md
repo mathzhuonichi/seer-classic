@@ -89,9 +89,10 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
   | `restore_pp`, `pp_drain` | restore the target's PP; drain the foe's PP |
   | `fixed_damage`, `pct_damage`, `ohko`, `multi_hit` | fixed, percentage and one-hit-KO damage; `min`..`max` hits |
   | `power_if`, `priority_if` | conditional power or priority |
+  | `damage_if` | conditional damage multiplier (先出手/后出手 ×2) |
   | `force_switch`, `protect` | force the foe out; block this turn's attacks |
 
-  Boss phases also use `transform`, `set_skills`, `set_ai`, `revive`, `say`, `swap_types`, `counter_skill`, `ohko_below_pct` and `always_crit_below_pct`. The `OPS` table in `engine/effects.ts` is every op the effect interpreter runs (skill effects after the attack, Boss phases, hooks and items); `MODIFIER_OPS` beside it names the four attack modifiers (`multi_hit`, `power_if`, `priority_if`, `crit_if`), which modify the attack instead of running after it and are applied in `damage.ts` and `move.ts`.
+  Boss phases also use `transform`, `set_skills`, `set_ai`, `revive`, `say`, `swap_types`, `counter_skill`, `ohko_below_pct` and `always_crit_below_pct`. The `OPS` table in `engine/effects.ts` is every op the effect interpreter runs (skill effects after the attack, Boss phases, hooks and items); `MODIFIER_OPS` beside it names the five attack modifiers (`multi_hit`, `power_if`, `damage_if`, `priority_if`, `crit_if`), which modify the attack instead of running after it and are applied in `damage.ts` (`damage_if` in `calcAttack`) and `move.ts`.
 - **Conditions.** Timed modifiers are hooks on fixed engine extension points (`turn_end`, `modify_damage_taken`, `on_hit`, …). Statuses are conditions with `kind: "status"`, so there is one mechanism.
 - **Encounters.** An encounter has a `team`, `rules`, `win`/`lose` objectives, `phases` and an `ai` spec; side kinds are `player`, `wild`, `boss` and `trainer`.
 - **Determinism.** One seeded `sfc32` RNG per battle, consumed in a fixed order. The search planner simulates on clones and draws from the live RNG only once, when its chosen strategy is mixed.
