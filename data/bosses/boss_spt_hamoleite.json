@@ -59,9 +59,6 @@
       "rule": "immune_percent_damage"
     },
     {
-      "rule": "no_struggle"
-    },
-    {
       "rule": "immune_ohko"
     },
     {
@@ -138,7 +135,7 @@
     "damage_only_from types water/fire/grass: other skill types deal 0.",
     "type_rotation (stricter than no_repeat_type): a damaging hit only counts if its skill type is the next one in the cycle 水→火→草→水…; an out-of-order hit deals 0 (techbang 2011: 如果顺序错误的话，BOSS就不会损血). 7k7k phrases it as 每种属性只能打一次 (per cycle). Rotation is by skill type here; several guides phrase it by monster type (先上水系，然后上火系…) because each pet used its own STAB move.",
     "Immune to 麻痹、寄生种子、中毒 and 海洋之心 (percent damage).",
-    "no_struggle: the classic plan was to drain its attack PP (龙王波/龙爪闪空破/龙王灭碎阵) and then rotate safely.",
+    "PP: the classic plan was to drain its attack PP (龙王波/龙爪闪空破/龙王灭碎阵) and then rotate safely; with no PP left it stands still (哈默不动了).",
     "HP conflict: 7k7k 2011 says 3000; 4399 (2010-06-01) and weste (2010-09) say 10000. 10000 used (two 2010 sources, and the 10-20 minute fights).",
     "龙之意志 (20269) raises its atk/def/spa by 1; clearing boosts first was standard.",
     "skills: all four are named by period guides (4399 2010-06-01, 7k7k 2011-03-16) and equal species 216's last four at or below Lv80 (龙王灭碎阵 at Lv80 is included).",

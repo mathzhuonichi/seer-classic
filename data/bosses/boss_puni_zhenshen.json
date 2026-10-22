@@ -253,9 +253,6 @@
   ],
   "rules": [
     {
-      "rule": "no_struggle"
-    },
-    {
       "rule": "player_team_size",
       "min": 6,
       "min_level": 100
@@ -308,7 +305,7 @@
     "heal_full_below 1000 on life 6: to win, the final hit must take it from ≥1000 to 0 in one blow (hence '血量低于1300时可使用大招').",
     "4399 2010 also says the player's hit rate drops when 谱尼 is below 10000 HP (命中率70%) and that its crits remove the player's defence boosts (暴击破防) — not encoded.",
     "Daily limit (once per day) is reported only for the spinoff; the remake has no clock, so attempts_per_day is null.",
-    "PP: lives 1-4 have finite PP (35 each), so no_struggle applies and the PP-exhaust tactic works; lives 5-6 have unlimited PP.",
+    "PP: lives 1-4 have finite PP (35 each), so 谱尼 stands still once they are spent and the PP-exhaust tactic works; lives 5-6 have unlimited PP.",
     "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
     "Level 105 for all six lives is the official map-108 entry 普尼真身 (seer_data maps.json); the client displays ?? above 100.",
     "Campaign audit: sixth-life 6,500 HP corrected to 65,000 HP from the 2010-10-28 period report.",

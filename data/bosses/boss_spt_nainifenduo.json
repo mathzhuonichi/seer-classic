@@ -73,6 +73,39 @@
         }
       ],
       "once": true
+    },
+    {
+      "when": {
+        "not": {
+          "foe_condition": "seer_eff_69"
+        }
+      },
+      "do": [
+        {
+          "op": "set_ai",
+          "ai": {
+            "kind": "sequence",
+            "skills": [
+              20314
+            ]
+          }
+        }
+      ],
+      "once": false
+    },
+    {
+      "when": {
+        "foe_condition": "seer_eff_69"
+      },
+      "do": [
+        {
+          "op": "set_ai",
+          "ai": {
+            "kind": "smart"
+          }
+        }
+      ],
+      "once": false
     }
   ],
   "ai": {
@@ -105,6 +138,7 @@
   },
   "engine_notes": [
     "药剂反噬 (skill 20314, its signature): for 5 turns the player's HP potions deal their heal amount as damage instead (喝多少体力药就扣多少血); PP potions (活力药) unaffected. Healing SKILLS (究极吸取, 花草护体) still work in every guide, so the foundation's 'block_heal' is narrower here: it is the skill effect, not a battle-wide rule.",
+    "AI: whenever the player's active pet is not under 药剂反噬 (condition seer_eff_69: at the start, after it expires, after a switch), it uses 药剂反噬 before anything else, a knockout included; while it is in place, the Boss policy decides. BWIKI 赛尔号PVE概论: 69（药剂反噬代码）无视该逻辑，并且在药剂反噬结束后再次打出该技能循环; jiangshibiao PVE百科全书: boss 有药剂反噬技能（代码 69）且我方未处于药剂反噬状态时，boss 会优先使用这一技能; 4399 2010-06-01: 换任意100J的精灵，它就会连续用药剂反噬. With 药剂反噬 at 0 PP a spent sequence falls back to the Boss policy.",
     "Immune to 烧伤、中毒、寄生种子; 海洋之心 and 暗影屏障-type status moves work.",
     "速度无敌: always_moves_first. 容易致命: crit_rate_up (+1, estimate).",
     "HP 8000 (4399 2010-06-01, weste 2010-09).",

@@ -6,8 +6,10 @@ memoryStorage();
 const report={bossChanges:[],supportWitnesses:[]};
 await withSsr('boss-and-support-v46',async load=>{
   const t=suite('boss-and-support-v46'),{check}=t;
-  const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle},{buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS}]=await Promise.all([
+  const [{loadCatalog},{normalizeNpcTrainingEncounter:normalize},{createBattle},{buildDataSet},{STRUGGLE_SKILL},{chooseAiAction},{SEER_SCRIPTS},
+    {legacySmartPick}]=await Promise.all([
     '/src/domain/catalog/catalog.ts','/src/domain/challenges/npc-training.ts','/tools/verification/_battle.ts','/battle/core/src/index.ts','/battle/core/src/constants.ts','/battle/ai/src/ai.ts','/battle/core/src/scripts/index.ts',
+    '/battle/ai/src/legacy-ai.ts',
   ].map(load));
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),skills=new Map(catalog.skills.map(s=>[s.id,s]));
   // This is an audit classification, not a rule for rewriting original Bosses.
@@ -78,7 +80,9 @@ await withSsr('boss-and-support-v46',async load=>{
   check('Sea Heart is chosen as maximum-HP damage in ordinary trainer battles',()=>{
     const b=fixture(359);turn(b,{kind:'move',skill:20397});const a=action(b);assert.deepEqual(a,{kind:'move',skill:20143});legal(b,a);
     const oldHp=b.active(0).hp;turn(b,a);assert.equal(b.active(0).hp,oldHp-2500);
-    const originalBoss=fixture(359,{kind:'boss'});assert.equal(action(originalBoss).skill,20143,'Legacy Boss AI uses its first unused status move; it does not use trainer support scoring.');
+    const originalBoss=fixture(359,{kind:'boss'}),twin=fixture(359,{kind:'boss'}),lead=twin.active(1);
+    assert.deepEqual(action(originalBoss),{kind:'move',skill:legacySmartPick(twin,lead,lead.skills.filter(id=>lead.pp[id]>0))},
+      'A Boss decides by the Boss policy, not by trainer support scoring.');
     report.supportWitnesses.push({species:359,chosen:a.skill,maximumHpDamage:2500});
   });
   for(const id of [356,755])check(`${id}: an injured six-member trainer lead's sacrifice replaces it and grants exactly two shared critical attacks`,()=>{

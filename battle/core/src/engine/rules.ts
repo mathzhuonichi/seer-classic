@@ -17,7 +17,7 @@ const RULE_ALIASES: Record<string, string> = {
 
 /** Fields consumed by native rules; the catalog audit checks every occurrence. */
 export const NATIVE_BOSS_RULE_FIELDS:Record<string,readonly string[]> = {
-  lives:['count'], no_switch:[], no_items:[], no_capture:[], no_struggle:[], unlimited_pp:[],
+  lives:['count'], no_switch:[], no_items:[], no_capture:[], unlimited_pp:[],
   ignore_type_chart:[], immune_crit:[], immune_ohko:[], immune_fixed_damage:[], immune_percent_damage:[],
   immune_status:[], immune_status_list:['statuses'], immune_stage_down:[], immune_force_switch:[],
   block_heal:[], clear_debuffs_each_turn:[], strip_player_boosts_each_turn:[], no_repeat_type:[],

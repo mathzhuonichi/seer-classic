@@ -5,7 +5,6 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,partyRules,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
 import {createBattle} from './_battle.ts';
-import {legacySmartPick} from '../../battle/ai/src/legacy-ai.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 import {groupedBattleLog,openingEvents} from '../../src/features/battle/battle-log.ts';
@@ -41,7 +40,7 @@ const contracts={
 const policyLedger=read('data/boss-user-policies-v57.json');
 const policyFor=(bossId,mechanic)=>policyLedger.policies.find(policy=>policy.bossId===bossId&&policy.mechanic===mechanic);
 const phaseOps={stat_stage:['target','stats'],revive:['pct_max_hp'],set_ai:['ai']};
-const whenKeys=new Set(['first_turn','on_faint','self_hp_below_pct','self_hp_below','turn_ge','lives_left']);
+const whenKeys=new Set(['first_turn','on_faint','self_hp_below_pct','self_hp_below','turn_ge','lives_left','not','foe_condition']);
 const objectiveKinds=new Set(['ko_all','turn_limit','finish_with_crit','ko_after_turn','finish_with_skill','use_skill','finish_with_status_damage']);
 const support={schemaVersion:1,scope:'Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.',summary:{},bosses:[]};
 const unexpected=[];
@@ -259,7 +258,8 @@ check('Moshidilu incoming type immunity does not neutralize its outgoing type ef
   const outgoing=battle.calcAttack(mon,foe,move,undefined,{estimate:true}),incoming=battle.calcAttack(foe,mon,move,undefined,{estimate:true});
   assert.equal(outgoing.effectiveness,2);assert.equal(incoming.effectiveness,1);
 });
-const ordinaryMoshi=()=>make('boss_spt_moshidilu',undefined,{sides:[{kind:'player',team:[{species:70,level:100,iv:31,nature:'hardy',evs:{},skills:[20001,10166]}]}]});
+const ordinaryMoshi=(options={})=>make('boss_spt_moshidilu',undefined,
+  {sides:[{kind:'player',team:[{species:70,level:100,iv:31,nature:'hardy',evs:{},skills:[20001,10166]}]}],...options});
 const moveEvents=events=>events.filter(event=>event.type==='move_used');
 check('Moshidilu execution is strictly below 25 percent; exact boundary and above use normal attacks',()=>{
   for(const hp of [749999,750000,750001]){
@@ -269,9 +269,12 @@ check('Moshidilu execution is strictly below 25 percent; exact boundary and abov
     if(hp>=750000){battle.submit(1,{kind:'move',skill:10540});battle.submit(0,{kind:'move',skill:20001});const events=battle.resolveTurn();assert(foe.hp>0);assert(!events.some(event=>event.trait==='forced_execution_below_pct'));}
   }
 });
-check('Below-quarter execution chooses an attack over the unused status move selected by legacy AI',()=>{
-  const battle=ordinaryMoshi(),mon=battle.active(1);mon.hp=749999;
-  const priorPick=legacySmartPick(battle,mon,mon.skills.filter(id=>mon.pp[id]>0));assert.equal(battle.skill(priorPick).category,'status');
+check('Below-quarter execution chooses an attack over a status move the Boss policy would use',()=>{
+  // A policy that always uses the status move: execution decides before any policy is asked.
+  const statusOnly={
+    chooseAction:(b,side)=>({kind:'move',skill:b.active(side.index).skills.find(id=>b.skill(id).category==='status')}),chooseReplacement:()=>undefined,
+  };
+  const battle=ordinaryMoshi({policy:statusOnly}),mon=battle.active(1);mon.hp=749999;
   battle.submit(0,{kind:'move',skill:10166});const events=battle.resolveTurn(),moves=moveEvents(events);
   assert.equal(moves[0].side,1);assert.notEqual(battle.skill(moves[0].skill).category,'status');assert.equal(mon.pp[moves[0].skill],mon.maxPp[moves[0].skill]-1);
   assert.equal(battle.active(0).hp,0);assert.equal(battle.result.winner,1);assert.equal(moves.length,1);

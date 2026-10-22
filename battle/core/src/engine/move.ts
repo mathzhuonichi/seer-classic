@@ -77,7 +77,7 @@ function performMove(b: Battle, user: Mon, target: Mon, skill: Skill, actedFirst
   if (ctx.hit && targetsFoe) runHookEffects(b, user, 'on_hit', target, { skill, ctx });
 }
 
-/** Preventing statuses and scripts, and Struggle under `no_struggle`. */
+/** Preventing statuses and scripts, and Struggle by a Boss: with no PP left it stands still (RULES.md 4, step 2). */
 function canAct(b: Battle, user: Mon, target: Mon, skill: Skill): boolean {
   for (const { cond, hook } of b.hooksWithCond(user, 'before_move')) {
     if (hook.prevent) {
@@ -88,7 +88,7 @@ function canAct(b: Battle, user: Mon, target: Mon, skill: Skill): boolean {
   for (const r of b.fire(user, 'before_move', { skill, foe: target })) {
     if (r === 'prevent') { b.emit({ type: 'cant_act', side: user.side, reason: 'script' }); return false; }
   }
-  if (skill.id === STRUGGLE_SKILL.id && hasRule(b.sides[user.side], 'no_struggle')) {
+  if (skill.id === STRUGGLE_SKILL.id && b.sides[user.side].kind === 'boss') {
     b.emit({ type: 'cant_act', side: user.side, reason: 'no_pp' });
     return false;
   }

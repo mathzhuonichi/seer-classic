@@ -82,8 +82,11 @@ In order:
 2. **PP**: −1 when the move is attempted (also on a miss; not when the monster
    could not act). A skill at 0 PP cannot be chosen. If every equipped skill is
    at 0 PP the monster can still choose `struggle` (挣扎, power 50 typeless
-   physical, 1/4 recoil). [chosen; the original had no reliable rule] Boss sides with
-   `unlimited_pp` spend no PP; with `no_struggle` a boss at 0 PP cannot act.
+   physical, 1/4 recoil). [chosen; the original had no reliable rule] A Boss
+   side never struggles: with every skill at 0 PP it stands still (`cant_act`,
+   reason `no_pp`). [sourced: 4399 2010-11-23 「只到哈默不动了」; 7k7k
+   2010-08-05 「当谱尼不会动了的时候，说明PP耗完了」] Boss sides with
+   `unlimited_pp` spend no PP.
 3. **Accuracy**: `accuracy: null` always hits. Otherwise
    hit if `rng < accuracy/100 × stage multiplier × condition multipliers`.
    [sourced formula shape]
@@ -286,7 +289,7 @@ both for the player.
 | `clear_debuffs_each_turn` | removes its own negative stages at turn end |
 | `strip_player_boosts_each_turn` | removes the foe's positive stages at turn end |
 | `block_heal` | the player cannot heal (items, drain) |
-| `unlimited_pp` / `no_struggle` | section 4 step 2 |
+| `unlimited_pp` | section 4 step 2 |
 | `flee_after_skill {skill \| skills, count?}` | the boss leaves after using it `count` times: result `boss_fled`, no winner |
 | `ohko_below_pct {pct}` / `always_crit_below_pct {pct}` | below that HP its attacks KO / always crit |
 | `lives {count}` | on fainting, revive to full HP and PP `count` times (multi-life bosses) |
@@ -339,7 +342,8 @@ of the battle (a `boss_trait` event with trait `barrier_broken`).
 `any`, `not`, ...). Phases are checked when a boss monster enters (the battle
 start included), at turn start, after each hit and at turn end, so a
 `first_turn` phase, such as an innate boost (天生强化), is in place and shown
-before the player's first command. `do` is
+before the player's first command. A phase fires once unless `once: false`,
+which runs it at every check where `when` holds. `do` is
 a list of effect ops plus `transform {species, keep_hp?, full_heal?}`,
 `set_skills {skills}`, `set_ai {ai}`, `revive {pct_max_hp}`, `say {text}`
 (boss dialogue for the UI), `ohko_below_pct`, `always_crit_below_pct`,
@@ -392,40 +396,44 @@ from `ai/src/` (`src/kernel/context.ts`); module paths below are relative to
 `ai/src/`. `ai.ts` dispatches on the `ai` spec: `sequence`, `weighted`, `random`
 (wild default: uniformly among usable skills), `script`, and `smart` (boss and
 trainer default). A forced skill from `counter_skill` overrides all of them.
-A side with no usable skill uses Struggle, except that a smart trainer plans
-first and may restore PP with an item instead.
+A `sequence` whose listed skills are all spent is decided by the side's default
+policy (`random` for a wild side, `smart` otherwise). A side with no usable
+skill uses Struggle (a Boss stands still instead, section 4), except that a
+smart trainer plans first and may restore PP with an item instead.
 
 `smart` has two implementations, chosen by side kind:
 
-- **Boss and other non-trainer sides: local scoring** (`legacy-ai.ts`, the
-  project's historical Boss policy, refined after the 2026-10-19 playtest).
+- **Boss and other non-trainer sides: the 裸伤 policy** (`legacy-ai.ts`;
+  [boss-ai-raw-damage-2026-10-21](../design/notes/boss-ai-raw-damage-2026-10-21.md)).
   Each usable skill is scored by its priority and by its expected damage
   against the live foe: the damage probe (5.1) times the mean hit count of a
   `multi_hit` op, times the hit chance from accuracy and accuracy/evasion
   stages, and never more than the foe's HP. A skill whose estimate times its
   fewest hits knocks the foe out wins, highest priority first, then highest
-  expected damage; otherwise the first status skill this monster has not used
-  yet or whose effect has been undone; otherwise the highest expected damage.
-  Remaining ties go to the higher single-hit estimate, then to skill order.
-  A used status skill's effect counts as undone (`idle-moves.ts`
-  `effectUndone`) when no part of it is in place and using it again would put
-  it back: a self-boost none of whose raised stats is above 0 (cleared or
-  reversed), a status or condition its target no longer has and is not immune
-  to, a condition on the user that has expired, a heal whose whole amount the
-  user is missing (so a full heal is not repeated). The user's own stage drops
-  and statuses are the skill's cost, not its effect. A skill with any other
-  effect (a script, a stage drop on the foe, a condition spent by charges, a
-  conditional op, a heal by damage dealt) is not renewed and stays used once.
-  A reuse draws no random number. [chosen; the period guides fought a
-  厄尔塞拉 that boosted again after 叶绿光束 cleared it: 「强化就叶绿光束」
-  「他马上强化，你下一次就叶绿」] When no skill has a positive
-  estimate, it draws with one RNG value among the non-attacking skills that
-  still change something (`idle-moves.ts`: a stage not yet at its cap and not
-  refused, a heal when hurt, a status the target neither has nor is immune
-  to, something to clear or cure, a condition that can be added again; any
-  other effect counts as a change), and among all usable skills only when
-  none is left. It never switches voluntarily, and a fainted active is
-  replaced by the first living team member.
+  expected damage, and no random number is drawn. Otherwise, while some skill
+  has a positive estimate and some non-attacking skill still changes something
+  (`idle-moves.ts`: a stage not yet at its cap and not refused, a heal when
+  hurt, a status the target neither has nor is immune to, something to clear
+  or cure, a condition that can be added again; any other effect, such as a
+  script, counts as a change), one RNG value decides: below
+  `BOSS_STATUS_CHANCE` (0.2, the same for every Boss) it picks among those
+  skills, scaled to their number; otherwise it uses the highest expected
+  damage. With no such skill there is no draw and it uses the highest
+  expected damage. Remaining ties go to the higher single-hit estimate, then
+  to skill order. [chosen: the community model of the Boss AI, BWIKI
+  赛尔号PVE概论 and jiangshibiao PVE百科全书, which period guides fit: 「他强化
+  （碰运气）」「如果它选择强化」, and 哈莫雷特 「没技能前会用很多招龙之意志」]
+  The project keeps two deviations from that model: a status skill that
+  changes nothing is never picked, and no turn goes to an attack that cannot
+  hurt the foe while a skill that changes something is left. When no skill
+  has a positive estimate, it draws with one RNG value among the non-attacking
+  skills that still change something, and among all usable skills only when
+  none is left; so once its attacks are spent, 哈莫雷特 uses 龙之意志 until it
+  too is at 0 PP, and then stands still (section 4). Per-Boss exceptions are
+  data: 奈尼芬多 re-casts 药剂反噬 whenever the foe is not under it, through
+  two `set_ai` phases with `once: false` (10.2) keyed on `foe_condition`. It
+  never switches voluntarily, and a fainted active is replaced by the first
+  living team member.
 - **Trainer sides: the engine-simulated search planner** (`search-ai.ts`,
   `search/`; [trainer-search-ai-v58](../design/notes/trainer-search-ai-v58.md)).
   Every legal move, item and voluntary switch (after two active turns; HP

@@ -90,7 +90,8 @@ await withSsr('skill-atknum-v45',async load=>{
     const rei=catalog.bosses.find(row=>row.id==='boss_rei');
     const b=createBattle({data:buildDataSet(catalog),seed:45,sides:[{kind:'player',team:[member([10001])]}],encounter:structuredClone(rei)});
     assert.deepEqual(b.active(1).skills,[10176,10175,20087,10170]);
-    b.active(1).usedSkills.add(20087);
+    // Among its attacks: with its status move spent, no status chance is drawn.
+    b.active(1).pp[20087]=0;
     assert.deepEqual(chooseAiAction(b,b.sides[1]),{kind:'move',skill:10176});
   });
   t.finish();

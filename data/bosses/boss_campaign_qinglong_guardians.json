@@ -28,7 +28,41 @@
           "pct": 25
         }
       ],
-      "member_phases": []
+      "member_phases": [
+        {
+          "when": {
+            "not": {
+              "foe_condition": "seer_eff_69"
+            }
+          },
+          "do": [
+            {
+              "op": "set_ai",
+              "ai": {
+                "kind": "sequence",
+                "skills": [
+                  20314
+                ]
+              }
+            }
+          ],
+          "once": false
+        },
+        {
+          "when": {
+            "foe_condition": "seer_eff_69"
+          },
+          "do": [
+            {
+              "op": "set_ai",
+              "ai": {
+                "kind": "smart"
+              }
+            }
+          ],
+          "once": false
+        }
+      ]
     },
     {
       "species": 391,
@@ -141,7 +175,8 @@
   },
   "engine_notes": [
     "Guardian HP and30%miss calibration are not official recovered values. Final guardian HP 16000 is inferred from the reported poison tick2000 at one-eighth HP.",
-    "The earliest selected January 2011 report says damage>=200 retaliates with attacker KO; other period guides say>150. The dated200 rule is selected explicitly."
+    "The earliest selected January 2011 report says damage>=200 retaliates with attacker KO; other period guides say>150. The dated200 rule is selected explicitly.",
+    "奈尼芬多 (slot 0) uses 药剂反噬 whenever the player's active pet is not under it, as the SPT 奈尼芬多 does (boss_spt_nainifenduo.json, BWIKI 赛尔号PVE概论: 69（药剂反噬代码）无视该逻辑，并且在药剂反噬结束后再次打出该技能循环)."
   ],
   "confidence": {
     "level": "medium",

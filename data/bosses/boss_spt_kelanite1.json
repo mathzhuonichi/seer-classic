@@ -44,9 +44,6 @@
       "id": "always_hit"
     },
     {
-      "rule": "no_struggle"
-    },
-    {
       "rule": "immune_stage_down"
     }
   ],
@@ -106,7 +103,7 @@
   },
   "engine_notes": [
     "Pre-battle requirement: the player must wear no equipment (戴斯星 can only be walked without gear) — unlock flag no_equipment.",
-    "PP-exhaust strategy is the classic answer, so no_struggle (a boss at 0 PP cannot act).",
+    "PP-exhaust strategy is the classic answer: a Boss with no PP left stands still.",
     "Immune to 同生共死, 镇魂歌, 极度冰点; its own skills always hit.",
     "HP not published (1500 estimate).",
     "skills: 火龙的咆哮, 龙族之力, 进攻意识, 火龙红莲击. 4399's release-day fight video (id 21622, Lv50 badge) shows the Boss using 龙族之力 and 火龙的咆哮 against a water pet, and 4399 2010-11-22 says five non-water pets drain 火龙红莲击's PP in this first fight, so this Lv61 move was hand-added. The fourth slot is the latest-learnt remaining move of species 538's Lv50 last four (进攻意识); 火光四溅 is not attested and is dropped.",

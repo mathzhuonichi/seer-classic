@@ -3,7 +3,7 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 731,
+    "handledEntries": 729,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
     "approximatedEntries": 132,
@@ -384,12 +384,6 @@
           "scope": "root/team/1/member_rules/2",
           "fields": [],
           "implementation": "install"
-        },
-        {
-          "rule": "no_struggle",
-          "scope": "root/team/1/member_rules/3",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
@@ -991,6 +985,34 @@
             "pct"
           ],
           "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "condition:not",
+          "scope": "root/team/0/member_phases/0/when",
+          "fields": [
+            "not"
+          ]
+        },
+        {
+          "rule": "phase:set_ai",
+          "scope": "root/team/0/member_phases/0/do/0",
+          "fields": [
+            "ai"
+          ]
+        },
+        {
+          "rule": "condition:foe_condition",
+          "scope": "root/team/0/member_phases/1/when",
+          "fields": [
+            "foe_condition"
+          ]
+        },
+        {
+          "rule": "phase:set_ai",
+          "scope": "root/team/0/member_phases/1/do/0",
+          "fields": [
+            "ai"
+          ]
         },
         {
           "rule": "always_crit_below_pct",
@@ -2070,14 +2092,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/2",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/3",
+          "scope": "root/rules/2",
           "fields": [
             "min",
             "min_level"
@@ -2116,14 +2132,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/2",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/3",
+          "scope": "root/rules/2",
           "fields": [
             "min",
             "min_level"
@@ -2155,14 +2165,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/1",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/2",
+          "scope": "root/rules/1",
           "fields": [
             "min",
             "min_level"
@@ -2193,14 +2197,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/1",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/2",
+          "scope": "root/rules/1",
           "fields": [
             "min",
             "min_level"
@@ -2209,7 +2207,7 @@
         },
         {
           "rule": "immune_stage_down",
-          "scope": "root/rules/3",
+          "scope": "root/rules/2",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -2243,14 +2241,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/2",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/3",
+          "scope": "root/rules/2",
           "fields": [
             "min",
             "min_level"
@@ -2259,7 +2251,7 @@
         },
         {
           "rule": "immune_stage_down",
-          "scope": "root/rules/4",
+          "scope": "root/rules/3",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -2521,14 +2513,8 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/0",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "player_team_size",
-          "scope": "root/rules/1",
+          "scope": "root/rules/0",
           "fields": [
             "min",
             "min_level"
@@ -2537,7 +2523,7 @@
         },
         {
           "rule": "immune_stage_down",
-          "scope": "root/rules/2",
+          "scope": "root/rules/1",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -3692,21 +3678,15 @@
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/5",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "immune_ohko",
-          "scope": "root/rules/6",
+          "scope": "root/rules/5",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
           "rule": "script",
           "id": "immune_skill_list",
-          "scope": "root/rules/7",
+          "scope": "root/rules/6",
           "fields": [
             "skills_zh"
           ],
@@ -3714,7 +3694,7 @@
         },
         {
           "rule": "immune_stage_down",
-          "scope": "root/rules/8",
+          "scope": "root/rules/7",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -4037,14 +4017,8 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/3",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "immune_stage_down",
-          "scope": "root/rules/4",
+          "scope": "root/rules/3",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -4106,21 +4080,15 @@
           "implementation": "install"
         },
         {
-          "rule": "no_struggle",
-          "scope": "root/rules/3",
-          "fields": [],
-          "implementation": "battle/core/src/engine/rules.ts"
-        },
-        {
           "rule": "script",
           "id": "always_moves_first",
-          "scope": "root/rules/4",
+          "scope": "root/rules/3",
           "fields": [],
           "implementation": "install"
         },
         {
           "rule": "immune_stage_down",
-          "scope": "root/rules/5",
+          "scope": "root/rules/4",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -4849,13 +4817,41 @@
             "stages"
           ],
           "implementation": "apply"
+        },
+        {
+          "rule": "condition:not",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "not"
+          ]
+        },
+        {
+          "rule": "phase:set_ai",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "ai"
+          ]
+        },
+        {
+          "rule": "condition:foe_condition",
+          "scope": "root/phases/2/when",
+          "fields": [
+            "foe_condition"
+          ]
+        },
+        {
+          "rule": "phase:set_ai",
+          "scope": "root/phases/2/do/0",
+          "fields": [
+            "ai"
+          ]
         }
       ],
       "unsupported": [],
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/2",
+          "scope": "engine_notes/3",
           "reason": "速度无敌: always_moves_first. 容易致命: crit_rate_up (+1, estimate)."
         }
       ],

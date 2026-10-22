@@ -104,7 +104,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | Side | Policy |
 | --- | --- |
 | Wild | `random` among usable moves, unless the encounter sets an `ai` spec. |
-| Boss | `smart` is the project's historical policy (`legacy-ai.ts`), plus each encounter's authored sequence, weights, phases and scripts ([boss-ai-isolation-v56](design/notes/boss-ai-isolation-v56.md)). |
+| Boss | `smart` is the 裸伤 policy (`legacy-ai.ts`: a knockout first, else the strongest expected-damage attack with a seeded 20% chance of a status move that changes something; [boss-ai-raw-damage-2026-10-21](design/notes/boss-ai-raw-damage-2026-10-21.md)), plus each encounter's authored sequence, weights, phases and scripts ([boss-ai-isolation-v56](design/notes/boss-ai-isolation-v56.md)). |
 | Trainer | `smart` is the search planner (`search-ai.ts`, `search/`): it runs the real engine on isolated copies of the battle, models the player only from what has been observed, and plays a mixed-strategy equilibrium ([trainer-search-ai-v58](design/notes/trainer-search-ai-v58.md)). With `allow_switch` it also picks faint replacements. |
 
 ## Remake decisions

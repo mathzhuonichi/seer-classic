@@ -88,7 +88,8 @@ t.check('Each variant of the three encounters starts through startBattle with it
   assert.deepEqual(Object.values(opened).map(ids=>ids.length),[3,7,3]);
   const mon=start(game,EERSAILA,'mon').active(1);assert.equal(mon.maxHp,6000,'周一 doubles 3000 HP');leave(game);
   assert.equal(start(game,EERSAILA,'tue').active(1).stages.eva,3,'周二 raises evasion');leave(game);
-  const saturday=start(game,EERSAILA,'sat');game.dispatch({type:'move',skillId:attack(game)});
+  // Checked before the first command: the first_turn phase is in place on entry, and a critical hit would clear the boost.
+  const saturday=start(game,EERSAILA,'sat');
   assert(saturday.variantPhasesFired.has(0)&&saturday.active(1).stages.def>=2,'周六 raises defence on turn 1 (a variant phase)');leave(game);
   const field=start(game,LAOKE,'energy_field');
   assert(field.sides.every((side:any)=>side.team[side.active].conditions.some((entry:any)=>entry.id==='boss_field_damage_multiplier')),'能量领域 on both sides');
@@ -120,7 +121,9 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   assert.equal(parse(game).progress.boss_wins[GAIA],1,'the win is counted');
   game.dispatch({type:'closeBattle'});
   const missed=parse(game);
-  start(game,GAIA,'survive_10_then_ko');view=knockOut(game);
+  // The lead is still hurt from the first fight, and 盖亚 may open with its strongest attack (RULES.md 10.4): shield it here
+  // and in the third fight.
+  start(game,GAIA,'survive_10_then_ko');shield();view=knockOut(game);
   assert.deepEqual([view.won,essences()],[false,1],'knocked out before turn 10: no essence');
   // The Lv 100 lead's knockout share still reaches the pool, and the result says so; no coins or victory are paid.
   const pool=poolText(game,missed);
@@ -130,7 +133,7 @@ t.check('盖亚 pays its essence only when the chosen variant’s objectives are
   assert.equal(view.result,`对手已倒下，但未达成规则「${label(GAIA,'survive_10_then_ko')}」的目标，本次挑战未通过，请按规则要求重试。${pool}`);
   assert.equal(game.snapshot().notices[0],view.result,'the settlement notice states it');
   game.dispatch({type:'closeBattle'});
-  start(game,GAIA,'finish_with_crit');forceCrits();view=knockOut(game);
+  start(game,GAIA,'finish_with_crit');shield();forceCrits();view=knockOut(game);
   assert.deepEqual([view.won,essences()],[true,2],'a critical final hit meets 致命一击');
   assert.deepEqual(parse(game).game.bossVariants,{[GAIA]:['within_2_turns','finish_with_crit']},'only met objectives are recorded');
 });

@@ -34,9 +34,6 @@
       "id": "only_sure_hit_moves_land"
     },
     {
-      "rule": "no_struggle"
-    },
-    {
       "rule": "player_team_size",
       "min": 6,
       "min_level": 100
@@ -76,7 +73,7 @@
   },
   "engine_notes": [
     "only_sure_hit_moves_land: every player move that is not 必中 (MustHit) misses — attacks AND status moves. damage_only_from {sure_hit:true} is the damage half of the same rule.",
-    "no_struggle: when 谱尼 has no PP left it cannot act. The universal 2010 strategy for seals 1-5 was 查尔顿 虚张声势 + 固若金汤 (and 超级药 heals) until 谱尼's 35 PP were spent, then finish it with a pet suited to the seal's rule.",
+    "PP: when 谱尼 has no PP left it stands still, as every Boss does (battle/RULES.md section 4). The universal 2010 strategy for seals 1-5 was 查尔顿 虚张声势 + 固若金汤 (and 超级药 heals) until 谱尼's 35 PP were spent, then finish it with a pet suited to the seal's rule.",
     "Skills (4399 2010-10 seal guides, identical for every seal): 圣光气 10PP, 旋灭裂空阵 10PP, 圣灵魔闪光 5PP, 千烈虚光闪 10PP — 35 PP in total. 圣光气 makes its next two attacks certain crits (下两次攻击必定致命); the classic answer was to switch in two throw-away pets.",
     "Level 105 (seal 1: 101) is the official map-108 boss table (seer_data maps.json); the client displays ?? above 100.",
     "Unlock of the whole line: light the two small lamps beside 勇者之塔 in the 精灵太空站 resource area, then enter the red 神秘领域 (4399 谱尼 page).",

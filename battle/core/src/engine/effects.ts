@@ -38,7 +38,7 @@ export function runEffects(b: Battle, ops: EffectOp[], user: Mon, foe: Mon, ctx:
 }
 
 /** What a `heal` op restores to `tgt` before the cap at its max HP. */
-export function healAmount(op: EffectOp, tgt: Mon, damageDealt: number): number {
+function healAmount(op: EffectOp, tgt: Mon, damageDealt: number): number {
   if (op.pct_max_hp) return (tgt.maxHp * op.pct_max_hp) / 100;
   if (op.pct_damage_dealt) return (damageDealt * op.pct_damage_dealt) / 100;
   return op.amount || 0;

@@ -30,6 +30,7 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     return { kind: 'move', skill: id };
   }
   const move = (skill: number): Action => ({ kind: 'move', skill });
+  const smart = (): Action => (side.kind === 'trainer' ? searchAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable)));
 
   switch (ai.kind) {
     case 'sequence': {
@@ -41,7 +42,8 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
           return move(id);
         }
       }
-      return move(battle.rng.pick(usable));
+      // Every listed skill is spent: the side's policy without an `ai` spec decides.
+      return side.kind === 'wild' ? move(battle.rng.pick(usable)) : smart();
     }
     case 'weighted': {
       const w = usable.map((id) => Math.max(0, ai.weights?.[String(id)] ?? 0));
@@ -62,7 +64,7 @@ export function chooseAiAction(battle: Battle, side: Side): Action {
     }
     case 'smart':
     default:
-      return side.kind === 'trainer' ? searchAction(battle, side, ai) : move(legacySmartPick(battle, mon, usable));
+      return smart();
   }
 }
 

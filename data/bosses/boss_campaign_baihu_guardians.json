@@ -93,9 +93,6 @@
         {
           "rule": "script",
           "id": "always_hit"
-        },
-        {
-          "rule": "no_struggle"
         }
       ],
       "member_phases": []
