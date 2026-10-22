@@ -264,35 +264,36 @@ await withSsr('battle-commands', async load => {
     assert.deepEqual([view.result, game.snapshot().notices.length], ['战斗失败，可恢复精灵后继续探索。', notices], 'no settlement notice');
   });
 
-  /** An SPT Boss whose win pays its essence; most SPT Bosses run out of PP in a long fight and then use 挣扎. */
-  const STRUGGLE_BOSS = 'boss_spt_silipu', STRUGGLE_ESSENCE = 'essence_boss_spt_silipu';
+  /** An SPT Boss whose win pays its essence; an SPT Boss out of PP stands still (battle/RULES.md 4). */
+  const SPT_BOSS = 'boss_spt_silipu', SPT_ESSENCE = 'essence_boss_spt_silipu';
   /** What the save holds of a win over the Boss: its clear, the battles won, the coins and its essence. */
   const bossRecord = game => {
     const save = JSON.parse(game.exportSave());
     const {battlesWon: won, coins} = save.game;
-    return {cleared: save.progress.bosses_cleared.includes(STRUGGLE_BOSS), won, coins, essence: save.items[STRUGGLE_ESSENCE] ?? 0};
+    return {cleared: save.progress.bosses_cleared.includes(SPT_BOSS), won, coins, essence: save.items[SPT_ESSENCE] ?? 0};
   };
   const settledWin = before => ({cleared: true, won: before.won + 1, coins: before.coins + VICTORY_REWARDS.encounter.coins, essence: before.essence + 1});
   /** The levelled lead against the Boss, and the engine battle the controller built; `wrap` stands in for that battle. */
   const bossBattle = (wrap = battle => battle) => {
     let battle;
-    const game = levelledLead({type: 'startBattle', bossId: STRUGGLE_BOSS}, catalog, {createBattle: options => (battle = wrap(new Battle(options)))});
+    const game = levelledLead({type: 'startBattle', bossId: SPT_BOSS}, catalog, {createBattle: options => (battle = wrap(new Battle(options)))});
     return {game, battle};
   };
 
-  t.check('A Boss out of PP falls to its own 挣扎 recoil: the turn plays like any move, and the win is settled', () => {
-    const {game, battle} = bossBattle(), boss = battle.active(1);
-    // The Boss has spent its PP and has 1 HP left; it acts first, so its recoil ends the battle before the lead's command.
+  t.check('A Boss out of PP stands still: the lead\'s move is the turn\'s only move, and the win is settled', () => {
+    const {game, battle} = bossBattle(), [lead, boss] = [battle.active(0), battle.active(1)];
+    // The Boss has spent its PP and has 1 HP left; it acts first and stands still, and the lead's sure hit ends the battle.
     for (const id of boss.skills) boss.pp[id] = 0;
     boss.hp = 1;
-    battle.active(0).stats.spe = 1;
-    const before = bossRecord(game), ui = screen(game);
-    ui.player.submit({type: 'move', skillId: strongest(game.snapshot().battle).id});
+    lead.stats.spe = 1;
+    lead.stages.acc = 6;
+    const before = bossRecord(game), ui = screen(game), skill = strongest(game.snapshot().battle);
+    ui.player.submit({type: 'move', skillId: skill.id});
     ui.rerender();
     ui.clock.runAll();
     const view = game.snapshot().battle, moves = view.animation.frames.filter(frame => frame.skillId !== undefined);
-    assert.deepEqual(moves.map(frame => [frame.side, frame.kind, frame.skillId]), [[1, 'physical', STRUGGLE_SKILL.id]], 'the Boss\'s 挣扎 is the only move');
-    assert.ok(ui.dialogue.includes(`${view.enemy.name}使用了挣扎。`), 'the log names 挣扎');
+    assert.deepEqual(moves.map(frame => [frame.side, frame.skillId]), [[0, skill.id]], 'the lead\'s move is the only move');
+    assert.ok(ui.dialogue.includes(`${view.enemy.name}无法行动。`), 'the log says the Boss cannot act');
     assert.deepEqual([view.finished, view.won, ui.dialogue.at(-1)], [true, true, view.result], 'the screen ends on the result text');
     assert.deepEqual(bossRecord(game), settledWin(before), 'cleared, one more battle won, the victory coins and the essence');
   });
