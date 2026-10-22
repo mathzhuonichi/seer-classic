@@ -15,6 +15,7 @@
     "dev:preview": "vite --host 127.0.0.1 --port 1421"
   },
   "dependencies": {
+    "@ruffle-rs/ruffle": "0.7.1",
     "@seer-pet-anim/swf-bundle": "0.3.1",
     "@seer-pet-anim/swf-renderer": "0.3.1",
     "pixi.js": "8.19.0",
