@@ -35,3 +35,4 @@ __pycache__/
 /public/audio/*.m4a
 /public/audio/*.mp3
 .claude/
+/public/battle-effects/swf/*.swf
