@@ -6,7 +6,9 @@ FFDec's AS3 compiler (`-replace`, against the playerglobal it bundles) needs a S
 2. FFDec replaces that script with FxHost.as;
 3. the root (SymbolClass id 0) is rebound to FxHost.
 Any other class in the donor's ABC would stay but never be created (10001 has none). The stage rate in the header is the effects'
-playback rate: a loaded SWF plays at its host's rate, and the skill SWFs were authored at 25 fps (5,271 of 5,273 headers).
+playback rate, since a loaded SWF plays at its host's rate. It is the original fight stage's 24 fps (PetFightDLL_201308's
+PetFightController starts the stage at `_startFrames = 24`, and every fight DLL header says 24), at which the original client
+played every effect, although 5,271 of the 5,273 skill SWF headers say 25.
 The built SWF is tracked and the battle imports it as an asset. Rebuild it only when FxHost.as changes: FFDec 26.3.0
 labels its compiler experimental.
 """
@@ -23,7 +25,7 @@ HOST_CLASS = 'FxHost'
 DONOR_CLASS = 'skill'
 # The original fight stage, recorded for reference: the host scales nothing (noScale), so its stage is its element.
 STAGE = (960, 560)
-EFFECT_FPS = 25
+EFFECT_FPS = 24
 FILE_ATTRIBUTES_AS3 = 0x09
 SYMBOL_CLASS, DO_ABC, SET_BACKGROUND, FILE_ATTRIBUTES, SHOW_FRAME, END = 76, 82, 9, 69, 1, 0
 

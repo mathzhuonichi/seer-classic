@@ -12,7 +12,7 @@ sources, written by the same tool). Each SWF is checked and read without running
 
 Unpatched SWFs are hard-linked from the cache when possible, so publication does not duplicate their bytes. Outputs:
 - `public/battle-effects/swf/<skillId>.swf` (ignored by Git; the asset archive carries them);
-- `public/battle-effects/swf/index.json`, the runtime index: skillId -> [end frame, version];
+- `public/battle-effects/swf/index.json`, the runtime index: skillId -> [end frame, version, hit frame];
 - `public/battle-effects/swf/manifest.json`, the provenance: source hashes, stage, frame rate, frames and script facts, and
   the published hash of the patched ones.
 Nothing is written unless every in-scope SWF passes.
@@ -433,7 +433,7 @@ def publish(sources, effects):
         else:
             target.write_bytes(published)
         digest = sha(published)
-        index[str(skill_id)] = [facts['endFrame'], digest[:VERSION_CHARS]]
+        index[str(skill_id)] = [facts['endFrame'], digest[:VERSION_CHARS], facts['hitFrame']]
         changed = {'bytes': len(published), 'sha256': digest, 'blendsToNormal': patched} if patched else {}
         manifest[str(skill_id)] = dict(sourceBytes=len(source), sourceSha256=sha(source), **facts, **changed)
     return index, manifest
@@ -449,7 +449,7 @@ def main():
     if failures:
         raise SystemExit('Not published:\n  ' + '\n  '.join(failures))
     index, manifest = publish(sources, effects)
-    (OUT / 'index.json').write_text(lines({'schema': 1, 'path': RUNTIME_PATH, 'row': ['end frame', 'version']}, 'effects', index))
+    (OUT / 'index.json').write_text(lines({'schema': 2, 'path': RUNTIME_PATH, 'row': ['end frame', 'version', 'hit frame']}, 'effects', index))
     fps = sorted({row['fps'] for row in manifest.values()})
     summary = dict(effects=len(manifest), sourceBytes=sum(row['sourceBytes'] for row in manifest.values()),
                    bytes=sum(row.get('bytes', row['sourceBytes']) for row in manifest.values()), fps=fps,
