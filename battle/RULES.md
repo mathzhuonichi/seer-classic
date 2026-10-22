@@ -97,7 +97,12 @@ In order:
    reason `no_pp`). [sourced: 4399 2010-11-23 「只到哈默不动了」; 7k7k
    2010-08-05 「当谱尼不会动了的时候，说明PP耗完了」] Boss sides with
    `unlimited_pp` spend no PP.
-3. **Accuracy**: `accuracy: null` always hits. Otherwise
+3. **Accuracy**: a 必中 move (`accuracy: null`, or a force-hit accuracy hook
+   such as `cond_sure_hit` or the Boss rule `always_hit`) always hits, and the
+   evasion conditions of effects 78 and 106 (「n回合内物理/特殊攻击对自身必定miss」)
+   and the trait 虚无 do not stop it; 圣洁 (effect 86, status moves) still does.
+   [sourced: 赛学必修1, cv34339526: 「闪避：非必中技能必定miss（对必中技能不影响）」;
+   圣洁 kept by user decision 2026-10-21] Otherwise
    hit if `rng < accuracy/100 × stage multiplier × condition multipliers`.
    [sourced formula shape]
 4. **Damage** (attack skills, power > 0), section 5.
@@ -111,13 +116,15 @@ hit.
 
 Scripted skills (section 12) can change power, priority, crit, accuracy, PP
 cost and damage at fixed points of this sequence, and conditions on either
-monster can cancel the move (`on_foe_move`), evade or block it (`before_hit`).
+monster can cancel the move (`on_foe_move`), evade or block it (`before_hit`),
+or react once it has reached the target, before its damage and effects
+(`on_foe_hit`, as the 反击 traits do).
 
 ## 5. Damage formula
 
 ```
 base   = floor( (0.4*L + 2) * power * A / D / 50 ) + 2
-damage = floor( base × STAB × type × rand(217..255)/255 × crit × burn × mods )
+damage = floor( base × STAB × type × rand(217..255)/255 × crit × first × burn × mods )
 ```
 The algebraic shape is a historical reconstruction. The inner floor, discrete
 uniform roll and exact modifier boundaries are retained remake conventions;
@@ -140,6 +147,9 @@ are sequential and can introduce further floors.
   special: `spd`). Other stages remain. Explicit clearing-block hooks are
   honored. The reconstruction clears once after all powered hits in a move;
   historical multi-hit clearing timing is unverified.
+- `first` = the skill's `damage_if` multiplier when its 先出手/后出手 condition
+  holds (effects 40/30, ×2): the period effect doubles the damage, not the
+  power. [sourced: 赛学选修1 增伤, cv34369402; user decision 2026-10-21]
 - `burn` = 0.5 if the attacker is 烧伤, for physical and special attacks.
   A 2010 reported test supports both categories; placement after the additive
   term remains a reconstruction choice rather than a proved integer boundary.

@@ -111,10 +111,11 @@ await withSsr('holder-ownership-v47',async load=>{
     report.effectWitnesses.push({mechanic:'Representative deterministic traits',ids:['1013','1065','1066','1024'],ownership:true});
   });
   check('Accuracy, evasion, critical chance, and critical resistance hooks are local to the holder',()=>{
-    for(const [id,point] of [['1022','modify_accuracy'],['1025','modify_accuracy_taken'],['1023','modify_crit_rate'],['1063','modify_crit_rate_taken']]){
+    for(const [id,point] of [['1022','modify_accuracy'],['1025','modify_accuracy_taken'],['1023','modify_crit_rate'],['1063','modify_damage_final']]){
       const b=plain(),[owner,ordinary]=b.sides[0].team;attach(b,owner,id);assert.equal(b.hooksWithCond(owner,point).length,1);
       b.switchIn(b.sides[0],1);assert.equal(b.hooksWithCond(ordinary,point).length,0);b.switchIn(b.sides[0],0);assert.equal(b.hooksWithCond(owner,point).length,1);
-      if(id==='1063'){assert.deepEqual(b.fire(owner,point,{rate:1,source:b.active(1),skill:data.skills.get(PHYSICAL)}),[{add:-1}]);assert.deepEqual(b.fire(ordinary,point,{rate:1,source:b.active(1),skill:data.skills.get(PHYSICAL)}),[]);}
+      // 免爆 zeroes a critical hit on its holder only (chance forced true).
+      if(id==='1063'){const crit={kind:'attack',source:b.active(1),skill:data.skills.get(PHYSICAL),crit:true};b.rng.chance=()=>true;assert.equal(b.dealDamage(owner,100,crit),0);assert.equal(b.dealDamage(ordinary,100,crit),100);}
     }
     report.effectWitnesses.push({mechanic:'Accuracy/critical hook ownership',ids:['1022','1025','1023','1063'],scope:'Hook enumeration, plus actual scripted critical-resistance dispatch; not a statistical rate test.'});
   });
@@ -124,9 +125,11 @@ await withSsr('holder-ownership-v47',async load=>{
       direct(b,foe,owner);assert(foe.conditions.some(c=>c.id===expected),id);b.removeCondition(foe,expected);
       b.switchIn(b.sides[0],1);direct(b,foe,ordinary);assert(!foe.conditions.some(c=>c.id===expected),id);assert(!ordinary.conditions.some(c=>c.id.startsWith('trait-')));
     }
+    // 反抗 (1035) reacts to special damage taken; 反击 (1041) to any foe move that reaches the holder (on_foe_hit), so it is driven by a move.
     for(const [id,stat,target] of [['1035','atk','source'],['1041','atk','holder']]){
-      const b=plain(),[owner,ordinary]=b.sides[0].team,foe=b.active(1);attach(b,owner,id);b.rng.chance=()=>true;direct(b,foe,owner,SPECIAL);
-      assert.equal((target==='source'?foe:owner).stages[stat],target==='source'?-1:1);foe.stages.atk=0;b.switchIn(b.sides[0],1);direct(b,foe,ordinary,SPECIAL);assert.equal(foe.stages.atk,0);assert.equal(ordinary.stages.atk,0);
+      const b=plain(),[owner,ordinary]=b.sides[0].team,foe=b.active(1);attach(b,owner,id);b.rng.chance=()=>true;
+      const hit=mon=>id==='1041'?b.useMove(foe,mon,data.skills.get(SPECIAL),true):direct(b,foe,mon,SPECIAL);hit(owner);
+      assert.equal((target==='source'?foe:owner).stages[stat],target==='source'?-1:1);foe.stages.atk=0;b.switchIn(b.sides[0],1);hit(ordinary);assert.equal(foe.stages.atk,0);assert.equal(ordinary.stages.atk,0);
     }
     report.effectWitnesses.push({mechanic:'Representative on-hurt triggers',ids:['1029','1031','1032','1033','1035','1041'],probability:'Forced true to isolate ownership; rates not measured.'});
   });

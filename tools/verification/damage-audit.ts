@@ -4,6 +4,7 @@ import type { Battle } from '../../battle/core/src/index.ts';
 import { createBattle } from './_battle.ts';
 import { buildDataSet } from '../../battle/core/src/data.ts';
 import { effectiveness } from '../../battle/core/src/typechart.ts';
+import { RANDOM_MAX } from '../../battle/core/src/constants.ts';
 import { SEER_SCRIPTS } from '../../battle/core/src/scripts/index.ts';
 import type { BossRule, ConditionDef, ScriptRegistry, Skill, Stats } from '../../battle/core/src/types.ts';
 import { traits, traitScripts } from '../../src/domain/traits.ts';
@@ -20,8 +21,10 @@ function fixture() {
     { id: 2, name: { zh: '火系物攻' }, type: 'fire', category: 'physical', power: 100, accuracy: null, pp: 10 },
     { id: 3, name: { zh: '普通特攻' }, type: 'normal', category: 'special', power: 100, accuracy: null, pp: 10 },
     catalog.skills.find((s: Skill) => s.id === 20175),
+    // 疾风追击 (effect 40, 先出手) and 冲撞 (effect 30, 后出手); 刀叶 grass, 绿色幻影 grass_psychic, 暗影飞叶 grass_shadow, 念力射线 psychic.
+    ...[10260, 10128, 10067, 11282, 12697, 10194].map(id => catalog.skills.find((s: Skill) => s.id === id)),
   ];
-  assert(skills[3], 'The actual self-sacrifice skill must be present in the catalog.');
+  assert(skills.every(Boolean), 'The actual catalog skills must be present.');
   const data = buildDataSet({ types: catalog.types, conditions: catalog.conditions, skills, species: [
     { id: 1, name: { zh: '攻击方' }, types: ['normal'], base: stats },
     { id: 2, name: { zh: '防守方' }, types: ['normal'], base: stats },
@@ -41,7 +44,7 @@ function fixture() {
   ] });
   const shield = (b: Battle, charges: number) => b.addCondition(b.active(1), data.conditions.get('cond_block_attacks')!, undefined, undefined, charges);
   return {
-    data, skills, make, shield,
+    catalog, data, skills, make, shield,
     damage: (b: Battle, amount: number) => b.dealDamage(b.active(1), amount, {
       kind: 'attack', source: b.active(0), skill: data.skills.get(1), effectiveness: 1,
     }),
@@ -208,10 +211,52 @@ function formulaChecks({ data, skills, make, damage, maxRoll, powered }: Fixture
   }));
 }
 
+/** Effects 40/30 (先出手/后出手 ×2) double the damage, not the power (RULES.md 5): `damage_if`. */
+function firstMoverChecks({ catalog, data, make }: Fixture, check: Check) {
+  const probe = (b: Battle, id: number, actedFirst: boolean) =>
+    b.probeDamage(b.active(0), b.active(1), data.skills.get(id)!, { roll: RANDOM_MAX, crit: false, actedFirst });
+  const attack = (b: Battle, id: number, actedFirst: boolean) =>
+    b.calcAttack(b.active(0), b.active(1), data.skills.get(id)!, { actedFirst }, { roll: RANDOM_MAX, crit: false });
+  for (const [id, doubledWhenFirst, expected] of [[10260, true, [96, 48]], [10128, false, [63, 31]]] as const) {
+    check(`${id} doubles the floored damage, not the power`, { expected, samePowerAndBase: true, doubledIsTwiceTheUnfloored: true }, () => {
+      const b = make(), doubled = attack(b, id, doubledWhenFirst), plain = attack(b, id, !doubledWhenFirst);
+      return {
+        expected: [probe(b, id, doubledWhenFirst), probe(b, id, !doubledWhenFirst)],
+        samePowerAndBase: doubled.power === plain.power && doubled.base === plain.base,
+        doubledIsTwiceTheUnfloored: probe(b, id, doubledWhenFirst) === Math.floor(2 * plain.damage),
+      };
+    });
+  }
+  check('every effect 40/30 skill has exactly one damage_if and no acted_first power_if', 102, () => {
+    const firstMovers = catalog.skills.filter((s: Skill) => (s as { seer_effects?: { eff: number }[] }).seer_effects?.some(e => e.eff === 40 || e.eff === 30));
+    for (const s of firstMovers as Skill[]) {
+      const first = (s as unknown as { seer_effects: { eff: number }[] }).seer_effects.some(e => e.eff === 40);
+      assert.deepEqual(s.effects, [{ op: 'damage_if', when: { acted_first: first }, multiplier: 2 }], `skill ${s.id}`);
+    }
+    assert(!catalog.skills.some((s: Skill) => s.effects?.some(op => op.op === 'power_if' && op.when && 'acted_first' in op.when)));
+    return firstMovers.length;
+  });
+}
+
+/** 单属性增伤 traits (Eid 28) boost only skills of exactly their type, with the catalog's types. */
+function singleTypeTraitChecks({ data, make }: Fixture, check: Check) {
+  const dealt = (b: Battle, id: number) => b.dealDamage(b.active(1), 100, { kind: 'attack', source: b.active(0), skill: data.skills.get(id), effectiveness: 1 });
+  check('叶绿 boosts a grass skill, not a grass_psychic or psychic one', [105, 100, 100], () => {
+    const b = make(), trait = traits.find(t => t.id === '1006')!;
+    b.addCondition(b.active(0), { id: 'audit_trait_1006', hooks: trait.hooks });
+    return [10067, 11282, 10194].map(id => dealt(b, id));
+  });
+  check('skill_type_exact with a composite type matches that pair only', [200, 100, 100], () => {
+    const b = make();
+    b.addCondition(b.active(0), { id: 'audit_exact_pair', hooks: [{ on: 'modify_damage_dealt', multiplier: 2, when: { skill_type_exact: 'grass_psychic' } }] });
+    return [11282, 10067, 12697].map(id => dealt(b, id));
+  });
+}
+
 /** Focused damage audit. Run through Vite SSR; fixtures never load or modify a save. */
 export function runDamageAudit() {
   const t = suite('damage-audit'), f = fixture();
   const check: Check = (name, expected, run) => t.check(name, () => assert.deepEqual(run(), expected));
-  for (const group of [shieldChecks, estimateChecks, pipelineChecks, formulaChecks]) group(f, check);
+  for (const group of [shieldChecks, estimateChecks, pipelineChecks, formulaChecks, firstMoverChecks, singleTypeTraitChecks]) group(f, check);
   return t.finish();
 }

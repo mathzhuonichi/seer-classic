@@ -3,7 +3,7 @@
 import type { When } from '../types.ts';
 import type { Battle } from './battle.ts';
 import type { Mon, WhenCtx } from './state.ts';
-import { hasAttackType } from '../typechart.ts';
+import { hasAttackType, typeIdentity } from '../typechart.ts';
 
 type Test = (b: Battle, c: WhenCtx, v: any) => boolean;
 
@@ -48,6 +48,11 @@ const TESTS: Record<string, Test> = {
   skill_type: (b, c, v) => {
     const sk = c.skill ?? c.ctx?.skill;
     return !!sk && (Array.isArray(v) ? v : [v]).some(type => hasAttackType(b.data.types, sk.type, type));
+  },
+  /** The skill's type is exactly `v`: a single type does not match a dual-type skill containing it. */
+  skill_type_exact: (b, c, v) => {
+    const sk = c.skill ?? c.ctx?.skill;
+    return !!sk && typeIdentity(b.data.types, sk.type) === typeIdentity(b.data.types, v);
   },
   damage_kind: (_b, c, v) => Array.isArray(v) ? v.includes(c.kind) : c.kind === v,
   speed_faster: (b, c, v) => !!c.foe && (b.effStat(c.self, 'spe') > b.effStat(c.foe, 'spe')) === v,

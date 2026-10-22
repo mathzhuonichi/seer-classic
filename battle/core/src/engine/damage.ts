@@ -42,8 +42,17 @@ export function calcAttack(b: Battle, user: Mon, target: Mon, skill: Skill, ctx:
   const eff = ignoreChart ? 1 : effectiveness(b.data.types, skill.type, target.types);
   const { crit, roll } = opts.roll !== undefined ? { crit: !!opts.crit, roll: opts.roll }
     : opts.estimate ? { crit: false, roll: C.MEAN_ROLL } : rollCritAndDamage(b, user, target, skill, ctx);
-  const damage = base * stab * eff * (roll / C.RANDOM_MAX) * (crit ? C.CRIT_MULTIPLIER : 1);
+  const damage = base * stab * eff * (roll / C.RANDOM_MAX) * (crit ? C.CRIT_MULTIPLIER : 1) * damageIf(b, user, target, skill, ctx);
   return { damage, crit, effectiveness: eff, base, power };
+}
+
+/** The product of the skill's `damage_if` multipliers whose condition holds (先出手/后出手 ×2 doubles damage, not power). */
+function damageIf(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Partial<MoveCtx> | undefined): number {
+  let multiplier = 1;
+  for (const op of skill.effects ?? []) {
+    if (op.op === 'damage_if' && b.evalWhen(op.when, { self: user, foe: target, actedFirst: ctx?.actedFirst })) multiplier *= op.multiplier;
+  }
+  return multiplier;
 }
 
 function attackPower(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Partial<MoveCtx> | undefined, opts: AttackOptions): number {
@@ -92,9 +101,6 @@ function rollCritAndDamage(b: Battle, user: Mon, target: Mon, skill: Skill, ctx:
   }
   for (const r of b.fire(user, 'modify_crit_rate', { skill, foe: target }) as any[]) {
     if (r?.force) force = true;
-    if (r?.add) rate += r.add;
-  }
-  for (const r of b.fire(target, 'modify_crit_rate_taken', { rate, source: user, foe: user, skill }) as any[]) {
     if (r?.add) rate += r.add;
   }
   if (b.bossTrait(user, 'always_crit_below_pct')) force = true;

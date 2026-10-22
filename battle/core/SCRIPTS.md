@@ -56,7 +56,8 @@ in `context.ts`, so what a script emits (`battle.emit`) is checked against the `
 | `objective(c, p)` | a `script` win or lose objective | `battle` | `true` when met |
 | `hook(c, p)` | a condition hook `{ on, script: id, params }` fired | see below | see below |
 
-`ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst, user, target`, and `data`, state
+`ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst`, `sureHit` (the move is 必中:
+accuracy `null` or a force-hit accuracy hook), `user, target`, and `data`, state
 that a skill's members share during one move (seer_eff_185 remembers in `modifyDamage` what `apply` reads).
 
 ## Tables and builders
@@ -68,7 +69,8 @@ Most templates are one of two table shapes, so an entry only states its data:
   and `hook(c, p)` runs at the `on` points with the skill's params. Options: `foe` (attach to the foe, kind
   `debuff`), `kind`, `turns(p)`, `when(c, p)` (attach only if), `data(c, p)` (initial `cond.data`), `cover`
   (this turn counts as the first one). Families such as `evade`, `hurtStatus`, `drain`, `boostEachTurn`,
-  `dropEachTurn`, `hurtDropsFoe` and `foeDamageEachTurn` return ready-made specs.
+  `dropEachTurn`, `hurtDropsFoe` and `foeDamageEachTurn` return ready-made specs; `evade` lets a 必中 move
+  (`ctx.sureHit`) through unless its `sureHitToo` is set (圣洁).
 - **Rule conditions** (boss, campaign and NPC rules) are `{ on, hook }` tables turned into `install` + `hook`
   entries by `ruleScripts(table, install)`; each registry passes its own install policy (condition id,
   name, guards). Their `params` become `cond.data`.
@@ -101,7 +103,8 @@ ones your points pass. `source`, `skill`, `turns` and `clear` can be unset even 
 | `pp_cost` | `skill` | number |
 | `on_foe_move` (foe uses any move) | `foe` (the user), `skill, ctx, targetsHolder` | `'negate'` |
 | `on_expire` (condition removed: expired or cured) | `expired` | |
-| `before_hit` (holder is about to be hit) | `foe, skill, ctx` | `'evade'` (miss) / `'block'` |
+| `before_hit` (holder is about to be hit; a 必中 move has `ctx.sureHit`) | `foe, skill, ctx` | `'evade'` (miss) / `'block'` |
+| `on_foe_hit` (the foe's move reached the holder: after accuracy and evasion, before its damage and effects) | `foe` (the user), `skill, ctx` | |
 | `on_miss` / `on_foe_miss` | `foe, skill` | |
 | `modify_power` (holder attacking) | `skill, power, foe` | number |
 | `modify_crit_rate` | `skill, foe` | `{ force?, add? }` |

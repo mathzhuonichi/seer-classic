@@ -52,9 +52,11 @@ export function timedScripts(table: Record<string, Timed>): ScriptRegistry {
 
 // ---------- timed families ----------
 
-/** "{0}回合内{category}攻击对自身必定miss" */
-export const evade = (name: string, category: string): Timed =>
-  ({ name, on: ['before_hit'], hook: (c) => (c.skill?.category === category ? 'evade' : undefined) });
+/** "{0}回合内{category}攻击对自身必定miss": a 必中 move (`ctx.sureHit`) still lands unless `sureHitToo` (RULES.md 4). */
+export const evade = (name: string, category: string, sureHitToo = false): Timed => ({
+  name, on: ['before_hit'],
+  hook: (c) => (c.skill?.category === category && (sureHitToo || !c.ctx?.sureHit) ? 'evade' : undefined),
+});
 
 /** "{0}回合内受到{category}攻击时有{1}%概率令对手{status}"; without `fixed`, the status is index {2}. */
 export const hurtStatus = (name: string, category?: string, fixed?: string): Timed => ({

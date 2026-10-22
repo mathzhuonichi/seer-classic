@@ -54,6 +54,8 @@ id or any later id, i.e. a month by which the monster certainly existed. All 1,4
   slot, which raising has no curve for yet.
 - `crit_rate` = original CritRate (x/16, default 1). `accuracy: null` = original 必中.
 - Effect 31 (`[min, max]` hits) becomes `multi_hit {min, max}`; it is the only source of `multi_hit`.
+- Effects 40 (先出手) and 30 (后出手) become `damage_if {when: {acted_first: true|false}, multiplier: 2}` (102 skills):
+  the period effect doubles the damage, not the power (赛学选修1 增伤).
   `AtkNum` is not imported: it is the group-fight target count (`SkillXMLInfo.getGpFtSkillAtkNum`),
   not a hit count. The first import turned `AtkNum > 1` into a fixed `multi_hit` on 94 skills; that
   was removed in 2026-10 ([AtkNum audit](../design/notes/skill-atknum-audit-v45.md)).

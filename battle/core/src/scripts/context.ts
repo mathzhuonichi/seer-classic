@@ -38,8 +38,6 @@ export interface HookExtras {
   expired?: boolean;
   priority?: number;
   power?: number;
-  /** `modify_crit_rate_taken`: the attacker's crit rate so far. */
-  rate?: number;
   source?: Mon;
   /** `on_ko`: the monster the holder knocked out. */
   target?: Mon;
