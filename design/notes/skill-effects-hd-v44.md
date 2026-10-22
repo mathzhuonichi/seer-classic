@@ -1,5 +1,7 @@
 # Original skill effects at high resolution
 
+> **Superseded (delivery path), 2026-10-22.** Ruffle now renders the original SWFs as vectors at the screen's density ([skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md)), so these frames, `SkillFrameBuffer`, `public/battle-effects/hd/manifest.json`, `export_skill_effects_hd.py`, `publish_skill_effects_hd.py` and the `skill-effects-hd-v44.mjs` suite are gone. The source facts below (the 67 SWF hashes, embedded bitmaps, FFDec's blur limit) stay valid as research.
+
 All 67 existing original skill effects now use individual lossless source frames with a 2,048-pixel longest edge. The 2,128-frame timeline, frame rate, representative frame, fixed viewport, actual battle target, scheduler duration and reduced-motion behavior remain tied to the existing effect metadata. The old sprite sheets remain available when a frame cannot load or decode.
 
 ## Source and fidelity

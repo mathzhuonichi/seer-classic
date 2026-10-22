@@ -1,5 +1,7 @@
 # Original combat skill effects
 
+> **Superseded (delivery path), 2026-10-22.** The battle no longer shows WebP sheets: it plays every in-scope skill's original SWF with Ruffle, at the original client's placement ([skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md)). The sheets, `public/battle-effects/manifest.json`, `BattleSkillEffect` and `export_original_skill_effects.py` described below are gone. The source provenance stays valid: the official `fightResource/skill/swf/<skill-id>.swf` route, the exact skill-ID rule (no substitution by name, type or category) and the 25 fps timelines.
+
 Sixty-seven exact skill-ID resources are recovered from the official `https://seer.61.com/resource/fightResource/skill/swf/<skill-id>.swf` route used by the original client's `BefLoad`. This is a bounded current-CDN recovery, not a claim that every historical effect or every catalog skill is supported. No scene or world resource is changed. Battle countdowns remain excluded.
 
 ## Assets and provenance
