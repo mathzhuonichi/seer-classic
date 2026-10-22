@@ -72,6 +72,16 @@ that is not removed by switching.
 3. Same priority: higher effective speed (stats × stage) first. [recalled]
 4. Speed tie: coin flip from the battle RNG. [chosen]
 
+**先手权.** The side whose move resolves first holds 先手权 (先出手); the other
+moves last (后出手). A side that switches, uses an item or throws a capsule
+gives it up: when only one side uses a move, that move is 先出手 although it
+resolves after the other side's action. Every 先出手/后出手 effect reads this
+(effects 30/40 and the templates 73, 116, 117, 122, 138, 147, 148, 170, 172,
+173, 186, 196, 402, 405). Whether a monster has acted yet this turn (status
+durations, 急速闪避) still follows the resolution order. [sourced: 赛学必修9
+先手权, Bilibili cv34358166: 「通过切换，嗑药等操作放弃获得先手权时，会默认为后手方」;
+no period counter-evidence; user decision 2026-10-21]
+
 ## 4. Using a move
 
 In order:
@@ -204,13 +214,21 @@ A status applied this turn does no damage at this turn's end. It is removed
 at 0. Switching out and fainting remove all statuses. [sourced durations and
 effects; switching rule recalled; counting chosen]
 
+A monster of the matching type cannot get these statuses from any source, its
+own effects included (`status_blocked`, reason `type_immunity`): 寄生 on grass,
+烧伤 on fire, 冻伤 on ice. A dual-type monster is immune when either of its
+types matches. 冰封 and 易燃 are not covered; the 烧伤 that 易燃 inflicts and
+the 冻伤 that ends 冰封 are. [sourced: 寄生种子 「对草系无效」; 赛学扩展1
+(cv39757579) on the 2009 templates 「对方精灵属性为草系（对应寄生）、火系（对应烧伤）、冰系（对应冻伤）的时候，必定不会触发异常」;
+dual types follow the 寄生 rule: chosen]
+
 | id | 中文 | effect |
 |---|---|---|
 | `paralysis` | 麻痹 | cannot act |
 | `poison` | 中毒 | lose 1/8 max HP at turn end |
-| `burn` | 烧伤 | lose 1/8 max HP at turn end; attack damage ×0.5 |
-| `leech` | 寄生 | lose 1/8 max HP at turn end, the opponent heals that much; 5 turns |
-| `freeze` | 冻伤 | lose 1/8 max HP at turn end |
+| `burn` | 烧伤 | lose 1/8 max HP at turn end; attack damage ×0.5; not on fire types |
+| `leech` | 寄生 | lose 1/8 max HP at turn end, the opponent heals that much; 5 turns; not on grass types |
+| `freeze` | 冻伤 | lose 1/8 max HP at turn end; not on ice types |
 | `fear` | 害怕 | cannot act |
 | `fatigue` | 疲惫 | cannot act (also used as the recharge turn after strong skills) |
 | `sleep` | 睡眠 | cannot act; removed when hit by an attack |

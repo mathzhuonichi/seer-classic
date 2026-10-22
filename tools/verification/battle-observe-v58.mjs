@@ -1,45 +1,20 @@
 /** V58 observation: engine journal neutrality, fixed-roll damage probe, public opponent model (design/notes/trainer-search-ai-v58.md 2, 9.2-9.5, 12.2). */
 import assert from 'node:assert/strict';
-import crypto from 'node:crypto';
-import {execFileSync} from 'node:child_process';
-import {root,suite,withSsr} from './_harness.mjs';
-
-// The engine before the journal existed: every battle/core/src module at that revision,
-// served from Git as virtual modules, so neutrality is checked against real history.
-const BASE_REVISION='1d7d3ce',BASE='/__observe_base_v58/';
-const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8'});
-const baseFiles=new Map();
-let baseRevision=null;
-try{
-  baseRevision=git(['rev-parse',BASE_REVISION]).trim();
-  const files=git(['ls-tree','--name-only',baseRevision,'battle/core/src/']).split('\n').filter(name=>name.endsWith('.ts'));
-  for(const file of files)baseFiles.set(file.split('/').pop(),git(['show',`${baseRevision}:${file}`]));
-  if(baseFiles.get('battle.ts').includes('journal'))throw new Error('base revision already has the journal');
-}catch(error){baseFiles.clear();console.error(`Base engine unavailable (${error.message}); neutrality falls back to repeat runs.`);}
-// The base engine is flat battle/core/src/*.ts with single-quoted relative imports; anything else is an error.
-const baseModule=id=>{
-  const source=baseFiles.get(id.slice(BASE.length));
-  if(source===undefined)throw new Error(`${id} is not a battle/core/src/*.ts module at ${BASE_REVISION}`);
-  return source.replaceAll("from './",`from '${BASE}`).replaceAll("from '../../../raising/","from '/raising/");
-};
-const baseModules={name:'git-base-engine',resolveId:id=>id.startsWith(BASE)?id:undefined,load:id=>id.startsWith(BASE)?baseModule(id):undefined};
+import {suite,withSsr} from './_harness.mjs';
 
 await withSsr('battle-observe-v58',async load=>{
   const t=suite('battle-observe-v58'),{check,witnesses}=t;
   const ids=['/battle/core/src/index.ts','/battle/ai/src/index.ts','/tools/verification/_battle.ts','/battle/core/src/scripts/index.ts','/src/domain/catalog/catalog.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
-    '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts',...(baseFiles.size?[`${BASE}battle.ts`]:[])];
-  const [core,{observeOpponent,revealedOpponentSlots},{createBattle},{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},base]=await Promise.all(ids.map(load));
+    '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/engine/journal.ts'];
+  const [core,{observeOpponent,revealedOpponentSlots},{createBattle},{SEER_SCRIPTS},{loadCatalog},{traitScripts},{campaignScripts},{npcTrainingScripts},{createFacilityEncounter},journalModule]=await Promise.all(ids.map(load));
   const {buildDataSet,computeStats,Rng,stageMultiplier}=core;
   const catalog=await loadCatalog(),realData=buildDataSet(catalog);
   const realScripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
   const serial=value=>JSON.stringify(value,(_key,v)=>v instanceof Map?[...v]:v instanceof Set?[...v]:v===Infinity?'Infinity':v);
-  // Fields that events gained after BASE_REVISION: labels for what the base engine already reported.
-  const LABELS={condition_refreshed:['name','conditionName'],condition_tick:['slot','name','conditionName']};
-  const unlabelled=events=>events.map(e=>LABELS[e.type]?Object.fromEntries(Object.entries(e).filter(([k])=>!LABELS[e.type].includes(k))):e);
   const move=skill=>({kind:'move',skill});
 
   // ---------- real-data corpus ----------
-  // Two facility teams on explicitly driven sides: no AI decides, so the pre-journal engine replays the same battle.
+  // Two facility teams on explicitly driven sides: no AI decides, so every run of a seed replays the same battle.
   const facilityOptions=(seed,facility='random')=>{
     const foe=createFacilityEncounter(catalog,facility,new Rng(seed)),own=createFacilityEncounter(catalog,facility,new Rng(seed+7919));
     const side=(name,encounter)=>({kind:'player',name,team:structuredClone(encounter.team),rules:structuredClone(encounter.rules??[])});
@@ -59,30 +34,62 @@ await withSsr('battle-observe-v58',async load=>{
   const runToEnd=(b,seed,onTurn)=>{const step=driver(seed);for(let n=0;!b.result&&n<400;n++){step(b);onTurn?.(b);}};
   const corpus=[...Array.from({length:24},(_,i)=>['random',5801+i]),...Array.from({length:8},(_,i)=>['elite',5901+i])];
 
-  check('The journal is behaviour-neutral against the pre-journal engine loaded from Git',()=>{
-    let turns=0,hits=0,orders=0;
-    for(const [facility,seed] of corpus){
-      const now=createBattle(facilityOptions(seed,facility));
-      if(base){
-        const then=new base.Battle(facilityOptions(seed,facility)),stepNow=driver(seed),stepThen=driver(seed);
-        assert.equal(serial(unlabelled(now.initialEvents)),serial(then.initialEvents),`${facility}/${seed}: initial events`);
-        for(let n=0;!now.result&&!then.result&&n<400;n++){
-          const a=stepNow(now),b=stepThen(then);turns++;
-          assert.equal(serial(unlabelled(a)),serial(b),`${facility}/${seed} turn ${now.turn}: events`);
-          assert.equal(serial(now.state),serial(then.state),`${facility}/${seed} turn ${now.turn}: state`);
-          assert.equal(now.rng.draws,then.rng.draws,`${facility}/${seed} turn ${now.turn}: RNG draws`);
+  // Journal neutrality. This check used to replay the corpus on the pre-journal engine loaded from Git (1d7d3ce), so every
+  // later rule change (for example 先手权 and type immunity, design/notes/engine-fixes-2026-10-21.md) made it diverge although
+  // the journal was still neutral. The engine has no switch that turns the journal off, and adding one would be a test hook in
+  // production (AGENTS.md rule 5), so the comparison runs the current engine three times per battle:
+  // - two ordinary runs agree turn by turn (events, state, RNG draws) and journal the same entries: the journal is deterministic;
+  // - a run whose journal is write-only (any read of it throws) agrees with them and receives the same entries: no rule reads it;
+  // - in that run no RNG draw and no event comes from inside a journal.ts function, and a positive control shows that the stack
+  //   test sees those functions (their hook reads).
+  // Not proved here: that a journal function writes no other battle state; journal.ts reads only, by its contract.
+  const journalFunctions=Object.keys(journalModule).filter(key=>typeof journalModule[key]==='function');
+  const inJournal=new RegExp(`\\bat (?:\\S+\\.)?(?:${journalFunctions.join('|')}) `);
+  /** An array stand-in that only takes appends, collected in `entries`. */
+  const writeOnly=entries=>new Proxy([],{get:(_target,key)=>{
+    if(key==='push')return (...rows)=>entries.push(...rows);
+    throw new Error(`a rule read the journal (${String(key)})`);
+  }});
+  /** Records RNG draws and events made inside a journal function, and counts its hook reads (the control). */
+  function watchJournalOrigins(b,seen){
+    const nextU32=b.rng.nextU32.bind(b.rng),emit=b.emit.bind(b),hooksWithCond=b.hooksWithCond.bind(b);
+    const fromJournal=()=>inJournal.test(new Error().stack);
+    b.rng.nextU32=()=>{if(fromJournal())seen.effects.push('RNG draw');return nextU32();};
+    b.emit=event=>{if(fromJournal())seen.effects.push(`event ${event.type}`);return emit(event);};
+    b.hooksWithCond=(...args)=>{if(fromJournal())seen.hookReads++;return hooksWithCond(...args);};
+  }
+
+  check('The journal is behaviour-neutral: repeat runs agree, a write-only journal changes nothing, and it draws and emits nothing',()=>{
+    let turns=0,hits=0,orders=0;const seen={effects:[],hookReads:0},stackTraceLimit=Error.stackTraceLimit;
+    Error.stackTraceLimit=Infinity;
+    try{
+      for(const [facility,seed] of corpus){
+        const runs=[0,1,2].map(()=>createBattle(facilityOptions(seed,facility))),[now,again,sink]=runs,steps=runs.map(()=>driver(seed)),sunk=[];
+        sink.journal=writeOnly(sunk);watchJournalOrigins(sink,seen);
+        const others=[[again,'repeat run'],[sink,'write-only journal']];
+        for(const [b,label] of others)assert.equal(serial(b.initialEvents),serial(now.initialEvents),`${facility}/${seed} ${label}: initial events`);
+        for(let n=0;!now.result&&n<400;n++){
+          const events=runs.map((b,k)=>serial(steps[k](b)));turns++;
+          others.forEach(([b,label],k)=>{
+            const at=`${facility}/${seed} ${label} turn ${now.turn}`;
+            assert.equal(events[k+1],events[0],`${at}: events`);assert.equal(serial(b.state),serial(now.state),`${at}: state`);
+            assert.equal(b.rng.draws,now.rng.draws,`${at}: RNG draws`);
+          });
         }
-        assert.equal(serial(now.result),serial(then.result),`${facility}/${seed}: result`);
-        assert.equal(serial(now.warnings),serial(then.warnings),`${facility}/${seed}: warnings`);
-      }else{
-        // Fallback: two runs must agree, and the journal must be the only extra state.
-        const other=createBattle(facilityOptions(seed,facility));runToEnd(now,seed);runToEnd(other,seed);turns+=now.turn;
-        assert.equal(serial(now.log),serial(other.log));assert.equal(now.rng.draws,other.rng.draws);
+        for(const [b,label] of others){
+          assert.equal(serial(b.result),serial(now.result),`${facility}/${seed} ${label}: result`);
+          assert.equal(serial(b.warnings),serial(now.warnings),`${facility}/${seed} ${label}: warnings`);
+        }
+        assert.equal(serial(again.journal),serial(now.journal),`${facility}/${seed}: the journal is deterministic`);
+        assert.equal(serial(sunk),serial(now.journal),`${facility}/${seed}: the write-only journal receives the same entries`);
+        assert(now.journal.every(entry=>JSON.parse(JSON.stringify(entry))&&serial(entry)===JSON.stringify(entry)),'journal entries are plain JSON data');
+        hits+=now.journal.filter(e=>e.type==='hit').length;orders+=now.journal.filter(e=>e.type==='order').length;
       }
-      assert(now.journal.every(entry=>JSON.parse(JSON.stringify(entry))&&serial(entry)===JSON.stringify(entry)),'journal entries are plain JSON data');
-      hits+=now.journal.filter(e=>e.type==='hit').length;orders+=now.journal.filter(e=>e.type==='order').length;
-    }
-    witnesses.neutrality={battles:corpus.length,turns,hits,orders,comparedAgainst:base?`git ${baseRevision}`:'repeat runs'};
+    }finally{Error.stackTraceLimit=stackTraceLimit;}
+    assert.deepEqual(seen.effects,[],'no RNG draw or event comes from a journal function');
+    assert(seen.hookReads>0,'control: the stack test sees the journal functions');
+    witnesses.neutrality={battles:corpus.length,turns,hits,orders,comparedAgainst:'repeat runs and a write-only journal',
+      journalFunctions,journalHookReads:seen.hookReads};
     assert(hits>500&&orders>100,'the corpus exercises the journal');
   });
 
@@ -97,7 +104,10 @@ await withSsr('battle-observe-v58',async load=>{
         const full=++count%fullStateEvery===0;
         const before=full?serial({state:b.state,sides:b.sides,warnings:b.warnings,journal:b.journal,result:b.result}):null;
         const rng=[...b.rng.s],draws=b.rng.draws,out=b.out.length,log=b.log.length;
-        const value=b.probeDamage(info.source,target,info.skill,{roll:lastRoll,crit:!!info.crit});stats.probes++;
+        // The hit's 先手权 is journaled after its damage (RULES.md 3: not always the turn order), so probe both values of it.
+        const probe=actedFirst=>b.probeDamage(info.source,target,info.skill,{roll:lastRoll,crit:!!info.crit,actedFirst});
+        const value={true:probe(true),false:probe(false)};
+        stats.probes+=2;
         assert.deepEqual(b.rng.s,rng,'probe drew no RNG');assert.equal(b.rng.draws,draws);assert.equal(b.out.length,out,'probe emitted no event');assert.equal(b.log.length,log);
         if(full)assert.equal(serial({state:b.state,sides:b.sides,warnings:b.warnings,journal:b.journal,result:b.result}),before,'probe mutated nothing');
         pending={value,target,skill:info.skill.id};
@@ -109,8 +119,15 @@ await withSsr('battle-observe-v58',async load=>{
       if(entry.type==='hit'){
         stats.hits++;
         assert(pending&&pending.skill===entry.skill&&pending.target.side===entry.defender.side&&pending.target.slot===entry.defender.slot,'every journaled hit was probed');
-        if(entry.opaque){stats.opaque++;for(const r of entry.opaqueReasons)stats.reasons[r]=(stats.reasons[r]??0)+1;if(pending.value!==entry.damage)stats.opaqueDiffer++;}
-        else{stats.nonOpaque++;if(pending.value===entry.damage)stats.matched++;else if(stats.mismatches.length<5)stats.mismatches.push({turn:entry.turn,skill:entry.skill,probe:pending.value,real:entry.damage});}
+        const probe=pending.value[entry.actedFirst];
+        if(entry.opaque){
+          stats.opaque++;for(const r of entry.opaqueReasons)stats.reasons[r]=(stats.reasons[r]??0)+1;
+          if(probe!==entry.damage)stats.opaqueDiffer++;
+        }else{
+          stats.nonOpaque++;
+          if(probe===entry.damage)stats.matched++;
+          else if(stats.mismatches.length<5)stats.mismatches.push({turn:entry.turn,skill:entry.skill,probe,real:entry.damage});
+        }
         pending=null;
       }
       return push.call(this,entry);
@@ -337,5 +354,5 @@ await withSsr('battle-observe-v58',async load=>{
     assert.equal(pri.journal.filter(e=>e.type==='order').length,2);assert.equal(model(pri).intervals.spe,undefined);
     assert.deepEqual(pri.journal.find(e=>e.type==='order').skills,[S.phys,S.quick]);
   });
-  t.finish({baseEngine:baseFiles.size?{revision:baseRevision,sha256:crypto.createHash('sha256').update(baseFiles.get('battle.ts')).digest('hex')}:null});
-},{plugins:[baseModules]});
+  t.finish();
+});

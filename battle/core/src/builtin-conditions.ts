@@ -1,7 +1,7 @@
 // Seer's abnormal statuses (异常状态) as ordinary conditions. RULES.md section 7.
 // data/conditions.json may override any of these by id.
 
-import type { ConditionDef } from './types.ts';
+import type { ConditionDef, TypeId } from './types.ts';
 import { BURN_DAMAGE_MULTIPLIER, STATUS_DEFAULT_TURNS as T, STATUS_DOT_FRACTION } from './constants.ts';
 
 const cannotAct = { on: 'before_move' as const, prevent: true };
@@ -54,3 +54,5 @@ export const BUILTIN_CONDITIONS: ConditionDef[] = [
 
 export const CONTROL_STATUSES = BUILTIN_CONDITIONS.filter((c) => c.control).map((c) => c.id);
 export const DOT_STATUSES = ['poison', 'burn', 'freeze', 'leech'];
+/** The type that cannot get each status, from any source (RULES.md section 7): 寄生 on grass, 烧伤 on fire, 冻伤 on ice. */
+export const STATUS_IMMUNE_TYPE: Record<string, TypeId> = { leech: 'grass', burn: 'fire', freeze: 'ice' };

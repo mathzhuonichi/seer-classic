@@ -7,6 +7,7 @@ import type { ConditionDef, EffectOp, Skill, StageKey } from '../../core/src/typ
 import type { Battle } from '../../core/src/engine/battle.ts';
 import type { Mon } from '../../core/src/engine/state.ts';
 import { STAGE_MAX, STAGE_MIN } from '../../core/src/constants.ts';
+import { typeImmune } from '../../core/src/engine/conditions.ts';
 import { defaultTarget, MODIFIER_OPS } from '../../core/src/engine/effects.ts';
 import { findRule, hasRule } from '../../core/src/engine/rules.ts';
 
@@ -57,7 +58,7 @@ function stageMoves(b: Battle, mon: Mon, stat: StageKey, delta: number, byFoe: b
 function statusLands(b: Battle, mon: Mon, status: string, byFoe: boolean): boolean {
   const def = b.data.conditions.get(status);
   if (!def || mon.fainted || repeatFails(mon, def)) return false;
-  if (status === 'leech' && mon.types.includes('grass')) return false;
+  if (typeImmune(mon, status)) return false;
   const side = b.sides[mon.side];
   if (byFoe && (hasRule(side, 'immune_status', mon) || findRule(side, mon, (r) => r.rule === 'immune_status_list')?.statuses?.includes(status))) return false;
   return !b.hooks(mon, 'block_status').some((h) => !h.statuses || h.statuses.includes(status));
