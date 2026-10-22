@@ -65,6 +65,10 @@
     "battle-hd-memory.mjs": {
       "status": "needs-assets"
     },
+    "battle-move-clips-inventory.mjs": {
+      "status": "tool",
+      "note": "Writes artifacts/battle-move-clips/inventory.json for design/notes/battle-move-clips-audit-2026-10-21.md."
+    },
     "battle-move-clips.mjs": {
       "status": "needs-assets"
     },
