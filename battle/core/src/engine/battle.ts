@@ -316,7 +316,7 @@ export class Battle {
     effects.runEffects(this, ops, user, foe, ctx, filter);
   }
 
-  changeStage(mon: Mon, stat: StageKey, delta: number, byFoe: boolean): void { effects.changeStage(this, mon, stat, delta, byFoe); }
+  changeStage(mon: Mon, stat: StageKey, delta: number, byFoe: boolean, skill?: Skill): void { effects.changeStage(this, mon, stat, delta, byFoe, skill); }
 
   clearStages(mon: Mon, which: 'up' | 'down' | 'all', byFoe = false): void { effects.clearStages(this, mon, which, byFoe); }
 

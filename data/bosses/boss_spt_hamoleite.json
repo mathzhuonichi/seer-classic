@@ -137,11 +137,13 @@
     "Immune to 麻痹、寄生种子、中毒 and 海洋之心 (percent damage).",
     "PP: the classic plan was to drain its attack PP (龙王波/龙爪闪空破/龙王灭碎阵) and then rotate safely; with no PP left it stands still (哈默不动了).",
     "HP conflict: 7k7k 2011 says 3000; 4399 (2010-06-01) and weste (2010-09) say 10000. 10000 used (two 2010 sources, and the 10-20 minute fights).",
-    "龙之意志 (20269) raises its atk/def/spa by 1; clearing boosts first was standard.",
+    "龙之意志 (20269) raises all five of its stats by 1 (4399 2010-06-01 5项属性得到提升); clearing boosts first was standard.",
     "skills: all four are named by period guides (4399 2010-06-01, 7k7k 2011-03-16) and equal species 216's last four at or below Lv80 (龙王灭碎阵 at Lv80 is included).",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
     "寄生种子、镇魂歌、海洋之心、同生共死 and 极度冰点 have no effect; 极度冰点 does nothing even when it hits (T客邦 2011-01-20, 4399 2010-07).",
-    "Immune to stat drops (accuracy and evasion included) and innate atk+2 from its entry: the user's own play of the original (2026-10-21): 哈莫雷特及以后多数boss都免疫弱化和自带攻击+2. 龙之意志 adds to the innate boost."
+    "Immune to stat drops (accuracy and evasion included) and innate atk+2 from its entry: the user's own play of the original (2026-10-21): 哈莫雷特及以后多数boss都免疫弱化和自带攻击+2. 龙之意志 adds to the innate boost.",
+    "PP (data check 2026-10-22): the catalog's PP is kept (龙王灭碎阵 5, 龙之意志 10, 龙爪闪空破 15, 龙王波 15). 4399 2010-06-01, copied by weste 2010-09-15, gives 意志 20PP, 龙爪 10PP and 龙王波 15PP; Zhidao 2010-03-21 (the learnset) gives 龙爪 15, 龙王波 20, 意志 10; the 7k7k all-Boss Q&A (2010-04, updated into 2011) drains 灭碎阵 5, 龙爪连击破 5, 龙王波 10, 意志 10; 7k7k 2012-11-27 gives 灭碎阵 5, 龙爪 15, 龙王波 10, 意志 10; and 4399 2011-01-20 (暗影屏障用完，也就是20次后，哈莫雷特就会用龙王波了) fits 灭碎阵 5 + 龙爪 15. 意志 10 has three sources against one for 20, and 龙爪 15 two plus that count, so no change.",
+    "Location history (data check 2026-10-22): era 2010-05 is its first appearance, not the opening of 龙王圣殿. 4399 2010-06-01: 会根据剧情任务移动，现在在斯科尔星; 4399 2010-08-17 has 塔西亚 and 塔克林 in 龙王圣殿 while 现在哈默不能挑战; a Zhidao question of 2010-10-05 asks 在龙王圣殿的哈莫怎么打; 4399 2011-01-20: 出现的地点随着剧情更改了多次…目前（2011年1月20日）…哈莫星龙王圣殿. The remake places it in 龙王圣殿 without a date."
   ],
   "confidence": {
     "level": "medium",
@@ -159,7 +161,12 @@
     "https://www.weste.net/2010/9-15/72453.html",
     "https://news.7k7k.com/content/20110316/76862.html",
     "https://www.techbang.com/posts/33164-order-spt-boss-raiders-hamo-hamlet-review",
-    "https://news.4399.com/seer/zenmezhua/201101-20-85001.html"
+    "https://news.4399.com/seer/zenmezhua/201101-20-85001.html",
+    "https://zhidao.baidu.com/question/143105640.html",
+    "http://news.7k7k.com/content/20100408/40760.html",
+    "http://news.7k7k.com/content/20121127/545690.html",
+    "https://news.4399.com/seer/jingyanxinde/201008-17-75577.html",
+    "https://zhidao.baidu.com/question/188458054.html"
   ],
   "source_note": "4399 2010-06-01: 80级 10000血, 必须水火草轮流; 7k7k 2011: 仅受水火草属性招式有效，每种属性限打一次; techbang 2011-01: 顺序错误不损血, 免疫麻痹/寄生/中毒/海洋之心."
 }

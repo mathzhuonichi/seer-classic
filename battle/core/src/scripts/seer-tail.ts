@@ -19,7 +19,7 @@
 import { IV_MAX, IV_MIN } from '../../../../raising/core/stats.ts';
 import type { ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
-import type { ActiveCondition, Mon } from '../engine/state.ts';
+import { moveSkill, STAGES, type ActiveCondition, type Mon } from '../engine/state.ts';
 import type { ApplyCtx } from './context.ts';
 import { GAMBLE_POWER, GAMBLE_POWER_ESTIMATE, IV_POWER_BASE, IV_POWER_PER_POINT, stageMultiplier } from '../constants.ts';
 import { computeStats } from '../stats.ts';
@@ -291,7 +291,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // 若对手处于能力提升状态则附加{0}点固定伤害
   seer_eff_413: bonusDamageIf((c) => hasStageUp(c.foe)),
   // 若对手处于能力提升状态则对方{0}等级{1}
-  seer_eff_418: { apply(c, p) { if (hasStageUp(c.foe)) c.battle.changeStage(c.foe, stat(p[0]), p[1], true); } },
+  seer_eff_418: { apply(c, p) { if (hasStageUp(c.foe)) c.battle.changeStage(c.foe, stat(p[0]), p[1], true, moveSkill(c.ctx)); } },
   // {0}回合内使自身的属性和对方的属性相同
   seer_eff_56: {
     apply(c, p) {
@@ -335,7 +335,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   seer_eff_131: NOOP,
   // 使对手的能力提升效果反转成能力下降效果
   seer_eff_143: {
-    apply(c) { for (const [k, v] of Object.entries(c.foe.stages) as [StageKey, number][]) if (v > 0) c.battle.changeStage(c.foe, k, -2 * v, true); },
+    apply(c) { for (const k of STAGES) if (c.foe.stages[k] > 0) c.battle.changeStage(c.foe, k, -2 * c.foe.stages[k], true, moveSkill(c.ctx)); },
   },
   // {0}回合内免疫并反弹{1}伤害   ({1}: 1 物理, 2 特殊)
   seer_eff_183: {
@@ -383,7 +383,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // 属性相同时，{0}%概率让对方麻痹
   seer_eff_121: { apply(c, p) { if (sameType(c.user, c.foe) && c.battle.rng.chance(p[0])) c.battle.applyStatus(c.foe, 'paralysis', { source: c.user }); } },
   // 命中后，{0}%概率随机对方一个属性{1}个等级
-  seer_eff_124: { apply(c, p) { if (c.battle.rng.chance(p[0])) c.battle.changeStage(c.foe, c.battle.rng.pick(STAT_BY_INDEX), p[1], true); } },
+  seer_eff_124: { apply(c, p) { if (c.battle.rng.chance(p[0])) c.battle.changeStage(c.foe, c.battle.rng.pick(STAT_BY_INDEX), p[1], true, moveSkill(c.ctx)); } },
   // 若当前HP低于对手，则技能威力翻倍
   seer_eff_132: { power(c, _p, pw) { return c.user.hp < c.foe.hp ? pw * 2 : pw; } },
   // 若造成的伤害低于{0}，则所有技能的PP值恢复{1}点
@@ -464,7 +464,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   seer_eff_196: {
     apply(c, p) {
       const [s, pct, d] = c.ctx.actedFirst ? [p[3], p[4], p[5]] : [p[0], p[1], p[2]];
-      if (c.battle.rng.chance(pct)) c.battle.changeStage(c.foe, stat(s), d, true);
+      if (c.battle.rng.chance(pct)) c.battle.changeStage(c.foe, stat(s), d, true, moveSkill(c.ctx));
     },
   },
   // 若和对手属性相同，则技能威力翻倍
@@ -565,7 +565,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // {0}%概率令对手随机进入烧伤、冻伤、中毒、麻痹、害怕、睡眠中的一种异常状态
   seer_eff_176: { apply(c, p) { if (c.battle.rng.chance(p[0])) c.battle.applyStatus(c.foe, c.battle.rng.pick(RANDOM_STATUSES), { source: c.user }); } },
   // 随机使对手{0}种能力等级-{1}
-  seer_eff_198: { apply(c, p) { for (const s of pickN(c.battle, STAT_BY_INDEX, p[0])) c.battle.changeStage(c.foe, s, -p[1], true); } },
+  seer_eff_198: { apply(c, p) { for (const s of pickN(c.battle, STAT_BY_INDEX, p[0])) c.battle.changeStage(c.foe, s, -p[1], true, moveSkill(c.ctx)); } },
   // 若对手处于能力提升状态，{0}%概率令对手{1}
   seer_eff_200: { apply(c, p) { if (hasStageUp(c.foe) && c.battle.rng.chance(p[0])) c.battle.applyStatus(c.foe, status(p[1]), { source: c.user }); } },
   // 技能使用成功时，{0}%令自身特攻和速度等级+{1}。若和对手属性相同，则技能效果翻倍

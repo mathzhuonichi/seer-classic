@@ -30,7 +30,8 @@
       "id": "immune_pct_damage"
     },
     {
-      "rule": "immune_stage_down"
+      "rule": "immune_stage_down",
+      "except_attacks": true
     },
     {
       "rule": "script",
@@ -118,13 +119,12 @@
   },
   "engine_notes": [
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
-    "immune_stage_down: 属性消弱吸能无效.",
+    "immune_stage_down except_attacks: the player's status moves, conditions and traits cannot lower its stages, but a drop that an attack makes as its own effect lands: 4399 2012-05-19 属性消弱吸能无效（攻击技能附带属性消弱OK）. 吸能 (drain) is not modelled beyond stat drops. The modern trait list's full immunity (idx 1) is outweighed by the period text.",
     "Innate 攻击等级+2 (sic; the 4399 text says attack even though the species is a special attacker) — boost can be cleared (雷伊消强).",
     "暴击率很高 — crit_rate_up; 偶尔使用技能还会先手 — random_priority (chance estimated).",
     "Boss version of 混沌绿光 puts the player to sleep at least 50% of the time (learnset version: 10%).",
     "skills: 蚀梦术, 灵光缠绕, 虚空魔刺, 混沌绿光. The 4399 SPT guide of 2012-05-19 names 蚀梦术 (普兰特使用蚀梦术，25%致命一击), and 4399 screenshots (2012-05-18/19) and three 2012 fight videos show 混沌绿光, 灵光缠绕 and 虚空魔刺. One low-resolution 4399 screenshot (2012-05-19) shows 破魂射线, which is not kept: the user's rule (2026-10-20) puts the guide first.",
-    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "Stat-drop immunity is partial in the period guide: 4399 2012-05-19 属性消弱吸能无效（攻击技能附带属性消弱OK）. The engine's immune_stage_down blocks both kinds; drops riding on attacks should land (open point)."
+    "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1."
   ],
   "confidence": {
     "level": "medium",

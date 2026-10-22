@@ -4,7 +4,7 @@
 
 import type { ScriptRegistry } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
-import type { Mon } from '../engine/state.ts';
+import { moveSkill, type Mon } from '../engine/state.ts';
 import type { ApplyCtx } from './context.ts';
 import {
   BURN_DAMAGE_MULTIPLIER, PUNISH_MAX_POWER, PUNISH_POWER_PER_STAGE, REVERSAL_MIN_POWER, REVERSAL_POWER, REVERSAL_SCALE, STRANGE_STAGE_DEFAULT,
@@ -295,7 +295,7 @@ const ENTRIES: ScriptRegistry = {
   // 对手{0}等级{1}，若对手处于{2}状态，则弱化效果翻倍
   seer_eff_414: (c, p: P) => {
     const doubled = hasStatus(c.foe, status(p[2]));
-    c.battle.changeStage(c.foe, stat(p[0]), p[1] * (doubled ? 2 : 1), true);
+    c.battle.changeStage(c.foe, stat(p[0]), p[1] * (doubled ? 2 : 1), true, moveSkill(c.ctx));
   },
 };
 

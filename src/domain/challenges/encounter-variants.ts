@@ -2,7 +2,7 @@
 // (no real-time clock), the practice fight some encounters offer without one, and the rules and objectives as the player reads them.
 import { DOT_STATUSES, type BossEncounter, type BossRule, type EncounterVariant, type Objective, type Phase } from '../../../battle/core/src/index.ts';
 import type { StatKey } from '../../../raising/core/stats.ts';
-import { STAT_LABELS, STATUS_LABELS } from '../../shared/labels.ts';
+import { STAGE_LABELS, STAT_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
 import type { EncounterVariantView } from '../../shared/views.ts';
 
 /**
@@ -35,7 +35,10 @@ const statuses = (ids: readonly string[]) => ids.map(id => STATUS_LABELS[id]).jo
  */
 const RULE_TEXTS: Record<string, ((p: Params) => string) | null> = {
   immune_status: () => '首领免疫所有异常状态',
-  immune_stage_down: () => '首领免疫能力下降（命中、闪避在内）',
+  immune_status_list: p => `首领免疫${statuses(p.statuses)}`,
+  immune_stage_down: p => p.stats
+    ? `首领免疫${p.stats.map((stat: StageKey) => STAGE_LABELS[stat]).join('、')}下降`
+    : '首领免疫能力下降（命中、闪避在内）',
   hp_multiplier: p => `首领体力上限变为 ${p.multiplier} 倍`,
   evasion_bonus: p => `首领闪避等级 +${p.stages}`,
   reflect_damage: p => `首领单次受到 ${p.min_damage} 点及以上的伤害时，反弹其中 ${p.pct}% 给攻击者`,

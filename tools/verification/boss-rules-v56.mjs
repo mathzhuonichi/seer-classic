@@ -5,6 +5,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {buildDataSet,NATIVE_BOSS_RULE_FIELDS,partyRules,STRUGGLE_SKILL,validateEncounter} from '../../battle/core/src/index.ts';
 import {createBattle} from './_battle.ts';
+import {changesSomething} from '../../battle/ai/src/idle-moves.ts';
 import {SEER_SCRIPTS} from '../../battle/core/src/scripts/index.ts';
 import {campaignScripts} from '../../src/domain/challenges/campaign-rules.ts';
 import {groupedBattleLog,openingEvents} from '../../src/features/battle/battle-log.ts';
@@ -35,7 +36,7 @@ const contracts={
   type_rotation:['order'],field_heal_each_turn:['pct_max_hp','sides'],field_damage_each_turn:['amount','sides'],
   field_damage_multiplier:['multiplier','sides'],revive_unless_status_ko:['max_revives','through_turn'],ohko_attacks:['ignore_speed'],
   block_new_status:[],boss_fled:[],
-  repeat_attack_damage_multiplier:['multiplier'],
+  repeat_attack_damage_multiplier:['multiplier'],foe_stage_on_entry:['stats'],
 };
 const policyLedger=read('data/boss-user-policies-v57.json');
 const policyFor=(bossId,mechanic)=>policyLedger.policies.find(policy=>policy.bossId===bossId&&policy.mechanic===mechanic);
@@ -106,6 +107,8 @@ const tick=battle=>{if(!battle.result){battle.submit(0,{kind:'move',skill:20001}
 const skill=(type,category='physical')=>({...data.skills.get(10001),id:-56,name:{zh:'Controlled rule probe'},type,category,power:50,accuracy:null,effects:[]});
 const hit=(battle,mon,amount=10,type='normal',category='physical',kind='attack')=>battle.dealDamage(mon,amount,{kind,source:battle.active(0),skill:skill(type,category)});
 const fullInput=JSON.stringify(bosses);
+/** The events `act` emits. */
+const emitted=(battle,act)=>{const from=battle.out.length;act();return battle.out.slice(from);};
 
 check('All 180 encounters, variants, member rules, phases and objectives have an explicit support classification',()=>{
   assert.equal(bosses.length,180);assert.deepEqual(unexpected,[]);assert.equal(support.bosses.length,180);
@@ -201,6 +204,65 @@ check('Hamorait stands at attack +2 before the first command and refuses the pla
   const before={...mon.stages};for(const stat of ['eva','atk','def','spa','spd','spe'])battle.changeStage(mon,stat,-1,true);
   assert.deepEqual(mon.stages,before);assert.equal(mon.stages.acc,0);assert.equal(mon.stages.eva,0);
   battle.changeStage(mon,'spe',-1,false);assert.equal(mon.stages.spe,before.spe-1,'its own drops still apply');
+});
+check('米诺斯 starts every entering player pet at accuracy -2, never spends PP, always hits, and below half HP gains +1 to all five stats and a 4/16 crit rate',()=>{
+  // 4399 2011-10-27: 自身所有技能必中，自身PP值无限…免疫所有异常和能力下降技能; 血量低于1/2，自身全属性等级+1，所有攻击技能致命一击率达到1/4; 所有出战精灵初始命中等级-2.
+  const JUDGEMENT=12285,battle=make('boss_spt_minuosi',undefined,{sides:[player([20001],2)]}),mon=battle.active(1),events=battle.initialEvents;
+  const lead=events.findIndex(event=>event.type==='switch_in'&&event.side===0);
+  const dropped=events.findIndex(event=>event.type==='stat_stage'&&event.side===0&&event.stat==='acc'&&event.delta===-2);
+  assert(lead>=0&&dropped>lead,'the lead stands at accuracy -2 before the first command');assert.equal(battle.active(0).stages.acc,-2);
+  for(const slot of [1,0]){battle.submit(0,{kind:'switch',slot});battle.resolveTurn();assert.equal(battle.active(0).slot,slot);assert.equal(battle.active(0).stages.acc,-2,`slot ${slot} enters at -2`);}
+  battle.submit(1,{kind:'move',skill:JUDGEMENT});tick(battle);assert.equal(mon.pp[JUDGEMENT],mon.maxPp[JUDGEMENT]);
+  assert.equal(battle.applyStatus(mon,'paralysis',{fromFoe:true}),false);
+  for(let seed=1;seed<=20;seed++){
+    const sure=make('boss_spt_minuosi',undefined,{seed});sure.active(0).stages.eva=6;sure.submit(1,{kind:'move',skill:JUDGEMENT});sure.submit(0,{kind:'move',skill:20001});
+    const events=sure.resolveTurn();assert(events.some(event=>event.type==='move_used'&&event.side===1));
+    assert(!events.some(event=>event.type==='miss'&&event.side===1),`seed ${seed}: 魂之审判 hits through evasion +6`);
+  }
+  const low=make('boss_spt_minuosi'),boss=low.active(1),crit=()=>1+low.hooks(boss,'modify_crit_rate').reduce((n,hook)=>n+(hook.add??0),0);
+  boss.hp=boss.maxHp/2+1;hit(low,boss,1);assert.deepEqual([boss.stages.atk,boss.stages.def,crit()],[2,0,1],'exactly half HP is not below it');
+  for(let n=0;n<2;n++){hit(low,boss,1);assert.deepEqual(boss.stages,{atk:3,def:1,spa:1,spd:1,spe:1,acc:0,eva:0});assert.equal(crit(),4,'4/16');}
+  assert.deepEqual([...battle.warnings,...low.warnings],[]);
+});
+check('塔西亚 gains special attack +2 once when its HP falls below a quarter, and a clear removes it for good',()=>{
+  // 4399 2010-08-09: 血到1/4时有强化，可消除 (stat and size unstated; spa+2 by the +2 convention).
+  const battle=make('boss_spt_taxiya'),mon=battle.active(1);
+  mon.hp=mon.maxHp/4+1;hit(battle,mon,1);assert.equal(mon.stages.spa,0,'exactly a quarter is not below it');
+  const fell=emitted(battle,()=>hit(battle,mon,1));assert.equal(mon.stages.spa,2);assert(fell.some(event=>event.type==='phase_triggered'));
+  hit(battle,mon,1);assert.equal(mon.stages.spa,2,'once');
+  battle.clearStages(mon,'up',true);assert.equal(mon.stages.spa,0,'clearable');hit(battle,mon,1);assert.equal(mon.stages.spa,0);
+});
+check('麒麟·幻化之轮 refuses statuses',()=>{
+  // 7k7k 2013-09-04: 不吃弱化和异常.
+  const battle=make('boss_campaign_qilin_wheel5'),mon=battle.active(1);
+  for(const status of ['paralysis','poison']){
+    const events=emitted(battle,()=>assert.equal(battle.applyStatus(mon,status,{fromFoe:true}),false));
+    assert(events.some(event=>event.type==='status_blocked'&&event.status===status&&event.reason==='immune_status'),status);
+  }
+});
+check('普兰特 refuses stat drops from status moves and conditions, but takes those an attack makes as its own effect',()=>{
+  // 4399 2012-05-19: 属性消弱吸能无效（攻击技能附带属性消弱OK）.
+  const [GLARE,SAND,BITE]=[20004,20025,12886],battle=make('boss_spt_pulante',undefined,{sides:[player([GLARE,SAND,BITE])]}),mon=battle.active(1);
+  // The Boss answers with 蚀梦术, which puts nobody to sleep, so the player's move always comes.
+  const use=id=>{battle.active(0).stages.acc=6;battle.submit(1,{kind:'move',skill:12794});battle.submit(0,{kind:'move',skill:id});return battle.resolveTurn();};
+  for(const [id,stat] of [[GLARE,'def'],[SAND,'acc']])assert(use(id).some(event=>event.type==='stage_blocked'&&event.side===1&&event.stat===stat),`skill ${id}`);
+  assert.equal(mon.stages.def,0);assert(use(BITE).some(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='def'&&event.delta===-1));
+  const before=mon.stages.def;battle.changeStage(mon,'def',-1,true);battle.changeStage(mon,'def',-1,true,data.skills.get(GLARE));assert.equal(mon.stages.def,before,'no skill, or a status skill');
+  battle.changeStage(mon,'def',-1,true,data.skills.get(BITE));assert.equal(mon.stages.def,before-1,'an attack');
+  const foe=battle.active(0);
+  assert.deepEqual([GLARE,BITE].map(id=>changesSomething(battle,foe,mon,data.skills.get(id))),[false,true],'the AI reads the same refusal');
+});
+check('厄尔塞拉 refuses accuracy drops, burn and freeze only on Wednesday',()=>{
+  // 4399 2010-08-11: 赛尔号星期三的光系BOSS厄尔塞拉…寄生、冻伤、烧伤、减命中无效.
+  const [GLARE,SAND]=[20004,20025],fight=variant=>make('boss_spt_eersaila',variant,{sides:[player([SAND,GLARE])]});
+  const use=(battle,id)=>{battle.submit(1,{kind:'move',skill:11136});battle.submit(0,{kind:'move',skill:id});return battle.resolveTurn();};
+  const wed=fight('wed'),boss=wed.active(1);
+  assert(use(wed,SAND).some(event=>event.type==='stage_blocked'&&event.side===1&&event.stat==='acc'));
+  assert(use(wed,GLARE).some(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='def'&&event.delta===-1));
+  assert.deepEqual([SAND,GLARE].map(id=>changesSomething(wed,wed.active(0),boss,data.skills.get(id))),[false,true],'the AI reads the same refusal');
+  assert.deepEqual(['burn','freeze','leech','poison'].map(status=>wed.applyStatus(boss,status,{fromFoe:true})),[false,false,false,true],'the day list adds to the top-level 寄生');
+  const sat=fight('sat');assert(use(sat,SAND).some(event=>event.type==='stat_stage'&&event.side===1&&event.stat==='acc'&&event.delta===-1));
+  assert.equal(sat.applyStatus(sat.active(1),'burn',{fromFoe:true}),true);
 });
 check('Only the named Younasi skill has unlimited PP; actual move consumption preserves its other skills',()=>{
   const battle=make('boss_spt_younasi'),mon=battle.active(1),other=mon.skills.find(id=>id!==10410);

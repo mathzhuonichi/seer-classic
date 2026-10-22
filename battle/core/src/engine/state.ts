@@ -120,6 +120,9 @@ export function emptyCtx(): MoveCtx {
   return { skill: STRUGGLE_SKILL, hit: true, crit: false, damageDealt: 0, effectiveness: 1, actedFirst: false };
 }
 
+/** The skill of the move `ctx` belongs to; none outside a move (an `emptyCtx` names no user). */
+export const moveSkill = (ctx: MoveCtx): Skill | undefined => (ctx.user ? ctx.skill : undefined);
+
 export function journalMon(m: Mon): JournalMon {
   return {
     side: m.side, slot: m.slot, species: m.species.id, level: m.level, types: [...m.types], hp: m.hp, maxHp: m.maxHp,

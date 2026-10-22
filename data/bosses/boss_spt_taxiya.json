@@ -83,7 +83,23 @@
     }
   ],
   "lose": [],
-  "phases": [],
+  "phases": [
+    {
+      "when": {
+        "self_hp_below_pct": 25
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "spa": 2
+          }
+        }
+      ],
+      "once": true
+    }
+  ],
   "ai": {
     "kind": "smart",
     "skills": [
@@ -122,7 +138,8 @@
     "Level: 4399 2011 summary says 70级 (techbang only gives a recommended LV100).",
     "skills: species 391's last four at or below Lv70. Solo-fight battle screenshots show 真龙灭世咒 (4399 2010-09-17, 7k7k 2010-07-30) and 龙之结界 (7k7k 2010-07-30); 4399 2010-08-13 names 魔龙咒 and 龙之结界 for the team fight. 狂化龙舞 is named only in TW-server screenshots.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
-    "No innate boost, against the 2026-10-21 default: 4399 2010-08-09 血到1/4时有强化，可消除 (a boost at a quarter HP, stat unstated, not yet encoded), in contrast with 塔克林's 天生带强化; no release guide clears a boost first."
+    "No innate boost, against the 2026-10-21 default: 4399 2010-08-09 gives 塔克林 天生带强化 but this Boss a boost only at a quarter HP; no release guide clears a boost first.",
+    "Quarter-HP boost: once below a quarter of its HP it gains special attack +2, which can be cleared: 4399 2010-08-09 血到1/4时有强化，可消除，他血1/4时秒了叮叮的魔焰，可是用古雷亚冰凌之光消强化后他却秒不掉古雷亚. Stat and stages not stated; spa+2 by the +2 convention, as the same page lists both its attacks as special (真龙灭世咒 特攻大招, 魔龙咒 特攻副手招)."
   ],
   "confidence": {
     "level": "medium",
@@ -131,7 +148,8 @@
       "evs",
       "nature",
       "level",
-      "skills"
+      "skills",
+      "quarter_hp_boost"
     ]
   },
   "sources": [
