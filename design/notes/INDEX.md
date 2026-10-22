@@ -164,8 +164,9 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [battle-runtime-v22](battle-runtime-v22.md) | Shared animation clock, resource pool and canvas recovery for battle timelines. | current |
 | [battle-native-size](battle-native-size.md) | Battle creatures at their original native size: one scale from the standby pose's clip size, calibrated on 丽莎布布 (303) and capped by the room below the HP panel. | current |
 | [battle-move-clips-audit-2026-10-21](battle-move-clips-audit-2026-10-21.md) | Why 鲁斯王's special attack jumped (an effect counted as the body), the fix that tells the creature by its standby sprites and eases offsets, a jump audit of every species' moves in the measured arenas, and an inventory of how each species' moves are drawn. | current |
-| [original-skill-effects](original-skill-effects.md) | 67 original skill effects from the official CDN, with provenance. | current; HD frames in [skill-effects-hd-v44](skill-effects-hd-v44.md) |
-| [skill-effects-hd-v44](skill-effects-hd-v44.md) | HD source frames for the 67 skill effects with bounded decoding. | current |
+| [original-skill-effects](original-skill-effects.md) | 67 original skill effects from the official CDN, with provenance. | superseded by [skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md) for delivery; source provenance current |
+| [skill-effects-hd-v44](skill-effects-hd-v44.md) | HD source frames for the 67 skill effects with bounded decoding. | superseded by [skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md) |
+| [skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md) | The original skill-effect SWFs played with Ruffle 0.7.1 (user decision 2026-10-22): the original client's placement rule with its decompiled evidence, the host SWF, the loading boundary for the latency redesign, spike and in-situ measurements, fidelity known issues. | current |
 | [battle-audio](battle-audio.md) | Official battle music and interface cues, with the source manifest. | current |
 | [original-battle-motion](original-battle-motion.md) | First original Unity battle motion, for 384 species. | superseded by [full-dex-motion-v22](full-dex-motion-v22.md) |
 | [full-dex-animation-audit](full-dex-animation-audit.md) | Audit that official animation bundles exist for all 1,483 species. | historical |
