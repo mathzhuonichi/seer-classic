@@ -88,7 +88,8 @@ const TIMED: Record<string, Timed> = {
     hook(c) { if (fromFoeAttack(c) && !c.source.fainted) c.battle.dealDamage(c.source, c.amount * 2, { kind: 'fixed', source: c.holder, noReflect: true }); },
   },
   // {0}回合内属性攻击对自身必定miss
-  seer_eff_86: evade('圣洁', 'status'),
+  // Unlike the physical and special shields (78, 106), 圣洁 still stops 必中 status moves (user decision 2026-10-21).
+  seer_eff_86: evade('圣洁', 'status', true),
   // {0}回合内每次直接攻击都有{1}%概率附带衰弱效果
   seer_eff_104: {
     name: '浩劫之力', on: ['on_hit'],

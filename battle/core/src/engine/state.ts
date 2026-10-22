@@ -69,6 +69,8 @@ export interface MoveCtx {
   damageDealt: number;
   effectiveness: number;
   actedFirst: boolean;
+  /** 必中 (RULES.md 4): the skill's accuracy is null, or the user has a force-hit accuracy hook. */
+  sureHit?: boolean;
   user?: Mon;
   target?: Mon;
   /** Per-move state that a skill's scripts share between their members (seer_eff_185, 188, 421). */

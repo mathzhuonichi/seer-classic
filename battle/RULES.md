@@ -87,7 +87,12 @@ In order:
    reason `no_pp`). [sourced: 4399 2010-11-23 「只到哈默不动了」; 7k7k
    2010-08-05 「当谱尼不会动了的时候，说明PP耗完了」] Boss sides with
    `unlimited_pp` spend no PP.
-3. **Accuracy**: `accuracy: null` always hits. Otherwise
+3. **Accuracy**: a 必中 move (`accuracy: null`, or a force-hit accuracy hook
+   such as `cond_sure_hit` or the Boss rule `always_hit`) always hits, and the
+   evasion conditions of effects 78 and 106 (「n回合内物理/特殊攻击对自身必定miss」)
+   and the trait 虚无 do not stop it; 圣洁 (effect 86, status moves) still does.
+   [sourced: 赛学必修1, cv34339526: 「闪避：非必中技能必定miss（对必中技能不影响）」;
+   圣洁 kept by user decision 2026-10-21] Otherwise
    hit if `rng < accuracy/100 × stage multiplier × condition multipliers`.
    [sourced formula shape]
 4. **Damage** (attack skills, power > 0), section 5.
