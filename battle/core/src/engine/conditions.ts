@@ -21,8 +21,8 @@ export function applyStatus(b: Battle, target: Mon, status: string, opts: Status
   const side = b.sides[target.side];
   if (opts.fromFoe !== false) {
     if (hasRule(side, 'immune_status', target)) return blockedStatus(b, target, status, 'immune_status');
-    const list = findRule(side, target, (r) => r.rule === 'immune_status_list');
-    if (list?.statuses?.includes(status)) return blockedStatus(b, target, status, 'immune_status_list');
+    const listed = findRule(side, target, (r) => r.rule === 'immune_status_list' && !!r.statuses?.includes(status));
+    if (listed) return blockedStatus(b, target, status, 'immune_status_list');
   }
   for (const h of b.hooks(target, 'block_status')) {
     if (!h.statuses || h.statuses.includes(status)) return blockedStatus(b, target, status, 'block_status');

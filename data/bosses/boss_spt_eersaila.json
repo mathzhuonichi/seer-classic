@@ -129,7 +129,7 @@
     {
       "id": "wed",
       "label": {
-        "zh": "周三：单次伤害超过150会反弹"
+        "zh": "周三：单次伤害超过150会反弹，寄生、冻伤、烧伤、减命中无效"
       },
       "win": [
         {
@@ -145,6 +145,19 @@
             "pct": 100,
             "min_damage": 150
           }
+        },
+        {
+          "rule": "immune_status_list",
+          "statuses": [
+            "burn",
+            "freeze"
+          ]
+        },
+        {
+          "rule": "immune_stage_down",
+          "stats": [
+            "acc"
+          ]
         }
       ]
     },
@@ -308,13 +321,13 @@
   "engine_notes": [
     "Seven weekday rule sets become variants the player picks (no real-time clock, foundation 7.2). Variant `rules`/`phases` are ADDED to the top-level ones (unlimited PP, always-hit, immunities apply every day). Every fight takes a variant, as every day had its trait; any variant clear pays the 精元.",
     "Fri: the boss fully revives whenever a direct hit KOs it (techbang: 5回合内体力被降为0会完全恢复, 最多6～7次瞬间补满3000血); only a KO by poison/burn/freeze damage sticks — revive_unless_status_ko + finish_with_status_damage.",
-    "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed).",
+    "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed). Burn, freeze and accuracy drops fail on Wednesday (寄生 fails every day): 4399 2010-08-11 寄生、冻伤、烧伤、减命中无效. Other drops land, as that page's plans show (先上上古炎兽减特防 3次; 龙之威仪6次).",
     "Mon 血很厚 (hp x2 estimate); Tue MISS超高 (evasion +3 estimate); Sat 防御很高 (def/spd +2 estimate) and 血越少越容易打致命 (read as: its crit rate rises as its HP falls; could also mean the player's crits — unclear).",
     "HP 3000 inferred from techbang's Friday text (补满3000滴血); no source states its base HP directly.",
     "Skills: no source names the complete set. Two moves are named: the 7k7k 2010-08-09 Saturday guide has it hit 丽莎布布 for 30-40 HP (对方用时空裂痕才打30---40血), and Baidu Zhidao 2010-09-26 has the Friday Boss use only 光芒附体 and 时空裂痕 against grass (对于草系只会用属性和100攻击的普通). The set is the species' top four learnset skills by level (奇幻光芒 Lv66, 光芒附体 Lv62, 光能聚合 Lv58, 时空裂痕 Lv54), which is what every documented 2010-2012 SPT boss used. 金光闪烁 (Lv42), which held the fourth slot without a source until 2026-10-19, left it no attack that hurts the grass types the guides send against it (光 has no effect on 草).",
     "reward.title_on_all_variants: grant the title 七色光羽 once every variant has been cleared.",
     "reward: 精元 item (kind essence) hatching the base form of the line at Lv1, as the original 分子转化器 did (e.g. 里奥斯精元 → 胡里亚, 阿克希亚精元 → 索拉, 斯普林特精元 → 斯林德).",
-    "Thu also has stat-drop immunity and an innate atk+2: 7k7k 2010-08-16 星期四 特性：天生强化、免疫弱化、每回合恢复 1000 体力 (stat unstated, so atk+2); the modern client gives only Thursday's list idx 1 (免疫能力下降). The 4399 2010-08-13 weekday guide's Thursday plan spams 减防 instead (conflict). The other days keep neither: the per-day lists name these traits for Thursday only, and drops land on Wed, Sat and Sun in period guides (4399 2010-08-07 BOSS是不免疫降属性的; Wednesday 减命中无效, 4399 2010-08-11, not encoded)."
+    "Thu also has stat-drop immunity and an innate atk+2: 7k7k 2010-08-16 星期四 特性：天生强化、免疫弱化、每回合恢复 1000 体力 (stat unstated, so atk+2); the modern client gives only Thursday's list idx 1 (免疫能力下降). The 4399 2010-08-13 weekday guide's Thursday plan spams 减防 instead (conflict). The other days keep neither: the per-day lists name these traits for Thursday only, and drops land on Wed (but accuracy), Sat and Sun in period guides (4399 2010-08-07 BOSS是不免疫降属性的; 4399 2010-08-11 for Wednesday)."
   ],
   "confidence": {
     "level": "medium",
@@ -336,7 +349,8 @@
     "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
     "http://news.7k7k.com/content/20100809/12295.html",
     "http://news.7k7k.com/content/20100816/12668.html",
-    "https://news.4399.com/seer/jingyanxinde/201008-07-74991.html"
+    "https://news.4399.com/seer/jingyanxinde/201008-07-74991.html",
+    "https://news.4399.com/seer/jingyanxinde/201008-11-75161.html"
   ],
   "source_note": "4399 周一到周日规则全攻略 (2010-08-14) and 4399 问答 (2010-11-16) give the daily traits; techbang (2011-01) gives the Friday revive, immunities and 七色光羽; 7k7k 星期六规则打法 (2010-08-09) names 时空裂痕."
 }

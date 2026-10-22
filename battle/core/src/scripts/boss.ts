@@ -203,6 +203,11 @@ const INSTALL_RULES: Record<string, ScriptEntry> = {
     install: (c, p) => { for (const mon of fieldMembers(c.battle, c.mon, p.sides)) attachRule(c.battle, mon, 'field_heal_each_turn', ['turn_end'], p); },
     hook: (c) => { c.battle.heal(c.holder, (c.holder.maxHp * c.cond.data.pct_max_hp) / 100); },
   },
+  // every foe monster's stages change by `stats` each time it enters, the battle start included (switching out resets them)
+  foe_stage_on_entry: {
+    install: (c, p) => { for (const mon of c.battle.sides[1 - c.mon.side].team) attachRule(c.battle, mon, 'foe_stage_on_entry', ['on_switch_in'], p); },
+    hook: (c) => { for (const [k, d] of Object.entries(c.cond.data.stats ?? {})) c.battle.changeStage(c.holder, k as StageKey, d as number, true); },
+  },
   field_damage_each_turn: {
     install: (c, p) => { for (const mon of fieldMembers(c.battle, c.mon, p.sides)) attachRule(c.battle, mon, 'field_damage_each_turn', ['turn_end'], p); },
     hook: (c) => { c.battle.dealDamage(c.holder, c.cond.data.amount, { kind: 'fixed' }); },

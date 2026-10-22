@@ -43,6 +43,9 @@
   ],
   "rules": [
     {
+      "rule": "immune_status"
+    },
+    {
       "rule": "immune_stage_down"
     }
   ],
@@ -71,7 +74,7 @@
   "engine_notes": [
     "Wheel1HP 20000 and wheel2HP 15000 are explicitly reported in 2013; wheel3–6HP 15000 reuse the later reported values as calibration, not a verified pre-2013 number.",
     "The first four wheel immunities have reported forced-status and exceptional-skill loopholes. Only represented native/status/skill mechanisms are implemented; undisclosed server exceptions are not certified.",
-    "Immune to stat drops: 7k7k 2013-09-04 天生攻击+2，不吃弱化和异常（但是火车和米队的控场有效）. Its status immunity is not encoded yet."
+    "Immune to stat drops and status: 7k7k 2013-09-04 天生攻击+2，不吃弱化和异常（但是火车和米队的控场有效）. The exception for 火车's and 米队's control moves is not encoded, like the loopholes of wheels 1–4."
   ],
   "confidence": {
     "level": "medium",

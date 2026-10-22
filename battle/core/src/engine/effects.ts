@@ -3,11 +3,11 @@
 
 import type { EffectOp, Skill, StageKey } from '../types.ts';
 import type { Battle } from './battle.ts';
-import { STAGES, type Mon, type MoveCtx } from './state.ts';
+import { moveSkill, STAGES, type Mon, type MoveCtx } from './state.ts';
 import * as C from '../constants.ts';
 import { computeStats } from '../stats.ts';
 import { IV_MAX } from '../../../../raising/core/stats.ts';
-import { hasRule } from './rules.ts';
+import { findRule, hasRule } from './rules.ts';
 import { runHookEffects } from './conditions.ts';
 
 /** Ops read by the move pipeline itself (hit count, power, damage, priority, crit); runEffects skips them. */
@@ -48,8 +48,8 @@ interface OpArgs { user: Mon; foe: Mon; ctx: MoveCtx; tgt: Mon }
 type OpHandler = (b: Battle, op: EffectOp, a: OpArgs) => void;
 
 const OPS: Record<string, OpHandler> = {
-  stat_stage: (b, op, { user, tgt }) => {
-    for (const [stat, delta] of Object.entries(op.stats as Record<StageKey, number>)) b.changeStage(tgt, stat as StageKey, delta, tgt !== user);
+  stat_stage: (b, op, { user, ctx, tgt }) => {
+    for (const [stat, delta] of Object.entries(op.stats as Record<StageKey, number>)) b.changeStage(tgt, stat as StageKey, delta, tgt !== user, moveSkill(ctx));
   },
   status: (b, op, { user, tgt }) => {
     b.applyStatus(tgt, Array.isArray(op.status) ? b.rng.pick(op.status) : op.status, { turns: op.turns, level: op.level, fromFoe: tgt !== user });
@@ -58,7 +58,7 @@ const OPS: Record<string, OpHandler> = {
     for (const c of [...tgt.conditions]) if (c.def.kind === 'status' && (!op.statuses || op.statuses.includes(c.id))) b.removeCondition(tgt, c.id);
   },
   // a move's context names its user; outside a move (emptyCtx) no skill does the clearing
-  clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, ctx.user ? ctx.skill : undefined),
+  clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, moveSkill(ctx)),
   heal: (b, op, { ctx, tgt }) => { b.heal(tgt, healAmount(op, tgt, ctx.damageDealt), { item: b.usingItem }); },
   restore_pp: (b, op, { tgt }) => {
     const ids = op.skill ? [op.skill] : tgt.skills;
@@ -169,7 +169,18 @@ function setSkills(b: Battle, mon: Mon, skills: number[]): void {
 
 // ---------- stat stages ----------
 
-export function changeStage(b: Battle, mon: Mon, stat: StageKey, delta: number, byFoe: boolean): void {
+/**
+ * Whether `mon` refuses a foe's drop of `stat`: a `block_stage_down` hook, or an `immune_stage_down` rule that covers the stat
+ * (all when it lists no `stats`) and, with `except_attacks`, the drop is not the own effect of the attacking `skill` making it.
+ */
+export function stageDropRefused(b: Battle, mon: Mon, stat: StageKey, skill?: Skill): boolean {
+  if (b.hooks(mon, 'block_stage_down').length > 0) return true;
+  const attack = !!skill && skill.category !== 'status';
+  return !!findRule(b.sides[mon.side], mon, (r) => r.rule === 'immune_stage_down' && (!r.stats || r.stats.includes(stat)) && !(r.except_attacks && attack));
+}
+
+/** A stage change; `skill` is the move whose own effect makes it, if any (stageDropRefused). */
+export function changeStage(b: Battle, mon: Mon, stat: StageKey, delta: number, byFoe: boolean, skill?: Skill): void {
   if (mon.fainted) return;
   for (const r of b.fire(mon, 'on_stage_incoming', { stat, delta, byFoe })) {
     if (r === false) { b.emit({ type: 'stage_blocked', side: mon.side, stat }); return; }
@@ -177,8 +188,7 @@ export function changeStage(b: Battle, mon: Mon, stat: StageKey, delta: number, 
   }
   if (delta === 0) return;
   const foe = b.foeOf(mon);
-  const blocked = delta > 0 ? !!foe.persist.foeCannotBoost && !foe.fainted
-    : byFoe && (hasRule(b.sides[mon.side], 'immune_stage_down', mon) || b.hooks(mon, 'block_stage_down').length > 0);
+  const blocked = delta > 0 ? !!foe.persist.foeCannotBoost && !foe.fainted : byFoe && stageDropRefused(b, mon, stat, skill);
   if (blocked) { b.emit({ type: 'stage_blocked', side: mon.side, stat }); return; }
   const before = mon.stages[stat];
   const after = Math.max(C.STAGE_MIN, Math.min(C.STAGE_MAX, before + delta));

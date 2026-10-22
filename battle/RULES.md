@@ -300,10 +300,10 @@ both for the player.
 
 | rule | effect |
 |---|---|
-| `immune_status` / `immune_status_list {statuses}` | statuses fail |
+| `immune_status` / `immune_status_list {statuses}` | statuses fail; the lists of several `immune_status_list` rules (a variant's and the top-level one) add up |
 | `immune_crit` | never takes a critical hit |
 | `immune_ohko` | `ohko` op fails |
-| `immune_stage_down` | foe cannot lower any of its stages, accuracy and evasion included (a `stage_blocked` event); its own drops still apply |
+| `immune_stage_down {stats?, except_attacks?}` | foe cannot lower its stages (only `stats` when listed; all, accuracy and evasion included, otherwise), a `stage_blocked` event; with `except_attacks`, a drop that an attacking (physical or special) skill makes as its own effect still lands, while drops from status moves, conditions and traits fail; its own drops still apply |
 | `immune_fixed_damage` / `immune_percent_damage` | those damage kinds do 0 |
 | `damage_cap_per_hit {amount}` | each hit capped (not `true` damage) |
 | `damage_only_from {types?, skills?, categories?, crit?, super_effective?, sure_hit?, kinds?}` | all other damage from the foe does 0 |
@@ -331,7 +331,13 @@ Boss rule scripts: `drain_each_turn`, `stages_unclearable`,
 `mirror_status_to_attacker`, `lifesteal`, `escalate_vs_same_foe`,
 `status_on_attacker`, `random_heal`, `ignore_player_damage_reduction`,
 `foe_status_each_turn`, `random_priority`, `skill_effect_override`,
-`damage_cap_breaks_on_dot`, `foe_cannot_boost`, `repeat_attack_damage_multiplier`.
+`damage_cap_breaks_on_dot`, `foe_cannot_boost`, `repeat_attack_damage_multiplier`,
+`foe_stage_on_entry`.
+
+`foe_stage_on_entry {stats}`: every foe monster's stages change by `stats`
+(a foe drop) each time it enters, the battle start included, so the lead
+starts at them before the first command. Switching out resets stages, so each
+later entry, a faint replacement included, applies them again.
 
 `repeat_attack_damage_multiplier {multiplier}`: when the foe's previous
 move on the boss was an attack (physical or special), the attack damage of

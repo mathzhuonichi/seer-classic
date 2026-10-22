@@ -26,7 +26,26 @@
   ],
   "rules": [
     {
+      "rule": "unlimited_pp"
+    },
+    {
+      "rule": "immune_status"
+    },
+    {
       "rule": "immune_stage_down"
+    },
+    {
+      "rule": "script",
+      "id": "always_hit"
+    },
+    {
+      "rule": "script",
+      "id": "foe_stage_on_entry",
+      "params": {
+        "stats": {
+          "acc": -2
+        }
+      }
     }
   ],
   "win": [
@@ -46,6 +65,33 @@
           "target": "self",
           "stats": {
             "atk": 2
+          }
+        }
+      ],
+      "once": true
+    },
+    {
+      "when": {
+        "self_hp_below_pct": 50
+      },
+      "do": [
+        {
+          "op": "stat_stage",
+          "target": "self",
+          "stats": {
+            "atk": 1,
+            "def": 1,
+            "spa": 1,
+            "spd": 1,
+            "spe": 1
+          }
+        },
+        {
+          "op": "script",
+          "id": "crit_rate_up",
+          "params": {
+            "target": "self",
+            "stages": 3
           }
         }
       ],
@@ -81,10 +127,13 @@
     "zh": "用飞行、机械、超能系克制：盖亚日月皆伤+返璞归真消耗，艾尔伊洛星体解离术，迪普利德魔力漩涡，闪光艾菲亚无限之光收尾。"
   },
   "engine_notes": [
-    "No special rules reported by 4399.",
     "skills: all four are named by 4399 2011-10-27 (常用技能; 狂暴裂袭 is a typo for 狂暴烈袭) and by a 4399 reader report of 2011-10-25 that lists their effects; they equal species 957's last four at or below Lv80.",
     "reward: original reward was the species' 精元 (essence), hatched in the 分子转化器 into the base form (e.g. 兰斯特 精元 → 卡斯, 伊索里 → 伊索的精元); encoded as the base-form species at Lv1.",
-    "Immune to stat drops and innate atk+2: 4399 2011-10-25 天生强化2…弱化无效，控场无效; 4399 2011-10-27 有天生攻击强化…免疫所有异常和能力下降技能. The same guide lists traits not yet encoded (sure-hit moves, unlimited PP, all stats +1 below half HP, the player's pets start at accuracy -2)."
+    "Immune to stat drops and innate atk+2: 4399 2011-10-25 天生强化2…弱化无效，控场无效; 4399 2011-10-27 有天生攻击强化…免疫所有异常和能力下降技能.",
+    "Immune to status (immune_status): 4399 2011-10-27 免疫所有异常和能力下降技能; 4399 2011-10-25 控场无效.",
+    "Sure-hit moves (always_hit) and unlimited PP: 4399 2011-10-27 自身所有技能必中，自身PP值无限. The modern client's trait list (idx 58 and 79) supports both.",
+    "Below half HP, once: all five stats +1 and its attacks' crit rate 4/16 (crit_rate_up +3 on the base 1/16): 4399 2011-10-27 血量低于1/2，自身全属性等级+1，所有攻击技能致命一击率达到1/4. 全属性 is the five stats, as 4399 2010-06-01 words 龙之意志 (5项属性得到提升).",
+    "Every player pet that enters starts at accuracy -2 (foe_stage_on_entry), the lead before the first command included: 4399 2011-10-27 所有出战精灵初始命中等级-2，我方对米诺斯的攻击，MISS率非常高. Switching out resets stages, so each entry applies it again."
   ],
   "confidence": {
     "level": "medium",

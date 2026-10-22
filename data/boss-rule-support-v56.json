@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 729,
+    "handledEntries": 741,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 132,
+    "approximatedEntries": 133,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -842,8 +842,14 @@
           ]
         },
         {
-          "rule": "immune_stage_down",
+          "rule": "immune_status",
           "scope": "root/rules/0",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/1",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
         },
@@ -3402,6 +3408,22 @@
           "implementation": "native alias"
         },
         {
+          "rule": "immune_status_list",
+          "scope": "root/variants/2/rules/1",
+          "fields": [
+            "statuses"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/variants/2/rules/2",
+          "fields": [
+            "stats"
+          ],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
           "rule": "objective:ko_all",
           "scope": "root/variants/3/win/0",
           "fields": []
@@ -3511,7 +3533,7 @@
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
-          "reason": "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed)."
+          "reason": "Wed: any single hit dealing more than 150 damage is reflected (pct not stated; 100% assumed). Burn, freeze and accuracy drops fail on Wednesday (寄生 fails every day): 4399 2010-08-11 寄生、冻伤、烧伤、减命中无效. Other drops land, as that page's plans show (先上上古炎兽减特防 3次; 龙之威仪6次)."
         },
         {
           "rule": "catalog_reconstruction",
@@ -4569,10 +4591,38 @@
       "id": "boss_spt_minuosi",
       "handled": [
         {
-          "rule": "immune_stage_down",
+          "rule": "unlimited_pp",
           "scope": "root/rules/0",
           "fields": [],
           "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_status",
+          "scope": "root/rules/1",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "immune_stage_down",
+          "scope": "root/rules/2",
+          "fields": [],
+          "implementation": "battle/core/src/engine/rules.ts"
+        },
+        {
+          "rule": "script",
+          "id": "always_hit",
+          "scope": "root/rules/3",
+          "fields": [],
+          "implementation": "install"
+        },
+        {
+          "rule": "script",
+          "id": "foe_stage_on_entry",
+          "scope": "root/rules/4",
+          "fields": [
+            "stats"
+          ],
+          "implementation": "install"
         },
         {
           "rule": "objective:ko_all",
@@ -4593,6 +4643,31 @@
             "target",
             "stats"
           ]
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/1/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/1/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
+        },
+        {
+          "rule": "phase_script",
+          "id": "crit_rate_up",
+          "scope": "root/phases/1/do/1",
+          "fields": [
+            "target",
+            "stages"
+          ],
+          "implementation": "apply"
         }
       ],
       "unsupported": [],
@@ -5071,7 +5146,9 @@
         {
           "rule": "immune_stage_down",
           "scope": "root/rules/1",
-          "fields": [],
+          "fields": [
+            "except_attacks"
+          ],
           "implementation": "battle/core/src/engine/rules.ts"
         },
         {
@@ -5729,10 +5806,31 @@
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
+        },
+        {
+          "rule": "condition:self_hp_below_pct",
+          "scope": "root/phases/0/when",
+          "fields": [
+            "self_hp_below_pct"
+          ]
+        },
+        {
+          "rule": "phase:stat_stage",
+          "scope": "root/phases/0/do/0",
+          "fields": [
+            "target",
+            "stats"
+          ]
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/10",
+          "reason": "Quarter-HP boost: once below a quarter of its HP it gains special attack +2, which can be cleared: 4399 2010-08-09 血到1/4时有强化，可消除，他血1/4时秒了叮叮的魔焰，可是用古雷亚冰凌之光消强化后他却秒不掉古雷亚. Stat and stages not stated; spa+2 by the +2 convention, as the same page lists both its attacks as special (真龙灭世咒 特攻大招, 魔龙咒 特攻副手招)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
