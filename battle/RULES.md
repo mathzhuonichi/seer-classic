@@ -106,7 +106,9 @@ hit.
 
 Scripted skills (section 12) can change power, priority, crit, accuracy, PP
 cost and damage at fixed points of this sequence, and conditions on either
-monster can cancel the move (`on_foe_move`), evade or block it (`before_hit`).
+monster can cancel the move (`on_foe_move`), evade or block it (`before_hit`),
+or react once it has reached the target, before its damage and effects
+(`on_foe_hit`, as the 反击 traits do).
 
 ## 5. Damage formula
 

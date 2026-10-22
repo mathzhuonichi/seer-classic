@@ -66,6 +66,8 @@ function performMove(b: Battle, user: Mon, target: Mon, skill: Skill, actedFirst
   const ctx: MoveCtx = { skill, hit: true, crit: false, damageDealt: 0, effectiveness: 1, actedFirst, sureHit: isSureHit(b, user, skill), user, target };
   const targetsFoe = (skill.target ?? (skill.category === 'status' ? inferTarget(skill) : 'foe')) === 'foe';
   if (!reachesTarget(b, user, target, skill, ctx, targetsFoe)) return;
+  // The foe's move reached the holder: after accuracy, evasion and blocks, before its damage and effects (RULES.md 4).
+  if (targetsFoe) b.fire(target, 'on_foe_hit', { foe: user, skill, ctx });
   if (dealsDamage(b, skill)) {
     strike(b, user, target, skill, ctx, actedFirst);
     if (ctx.effectiveness === 0) {

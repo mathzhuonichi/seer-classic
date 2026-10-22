@@ -103,9 +103,6 @@ function rollCritAndDamage(b: Battle, user: Mon, target: Mon, skill: Skill, ctx:
     if (r?.force) force = true;
     if (r?.add) rate += r.add;
   }
-  for (const r of b.fire(target, 'modify_crit_rate_taken', { rate, source: user, foe: user, skill }) as any[]) {
-    if (r?.add) rate += r.add;
-  }
   if (b.bossTrait(user, 'always_crit_below_pct')) force = true;
   const critRoll = b.rng.int(1, C.CRIT_DENOMINATOR);
   const crit = (force || critRoll <= rate) && !hasRule(b.sides[target.side], 'immune_crit');

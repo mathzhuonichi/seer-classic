@@ -104,6 +104,7 @@ ones your points pass. `source`, `skill`, `turns` and `clear` can be unset even 
 | `on_foe_move` (foe uses any move) | `foe` (the user), `skill, ctx, targetsHolder` | `'negate'` |
 | `on_expire` (condition removed: expired or cured) | `expired` | |
 | `before_hit` (holder is about to be hit; a 必中 move has `ctx.sureHit`) | `foe, skill, ctx` | `'evade'` (miss) / `'block'` |
+| `on_foe_hit` (the foe's move reached the holder: after accuracy and evasion, before its damage and effects) | `foe` (the user), `skill, ctx` | |
 | `on_miss` / `on_foe_miss` | `foe, skill` | |
 | `modify_power` (holder attacking) | `skill, power, foe` | number |
 | `modify_crit_rate` | `skill, foe` | `{ force?, add? }` |

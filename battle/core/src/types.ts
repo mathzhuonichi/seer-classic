@@ -70,11 +70,11 @@ export interface Item {
 export type HookPoint =
   | 'turn_start' | 'turn_end' | 'before_move'
   | 'modify_damage_dealt' | 'modify_damage_taken' | 'modify_stat'
-  | 'modify_accuracy' | 'modify_accuracy_taken' | 'modify_crit_rate' | 'modify_crit_rate_taken'
+  | 'modify_accuracy' | 'modify_accuracy_taken' | 'modify_crit_rate'
   | 'on_hit' | 'on_hurt' | 'block_status' | 'block_stage_down'
   | 'block_switch' | 'block_move' | 'on_switch_in' | 'on_faint' | 'on_expire'
   // script-only points (hooks with `script`):
-  | 'modify_priority' | 'pp_cost' | 'on_foe_move' | 'before_hit' | 'on_miss' | 'on_foe_miss'
+  | 'modify_priority' | 'pp_cost' | 'on_foe_move' | 'before_hit' | 'on_foe_hit' | 'on_miss' | 'on_foe_miss'
   | 'modify_power' | 'modify_damage_outgoing' | 'modify_damage_final' | 'on_ko' | 'on_status_incoming' | 'on_stage_incoming'
   | 'on_heal_incoming' | 'on_revive' | 'choose_action';
 
