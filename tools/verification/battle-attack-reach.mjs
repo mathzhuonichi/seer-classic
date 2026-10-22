@@ -23,8 +23,12 @@ const RUNS = [
 ];
 /** Alpha below which a pixel counts as transparent. */
 const VISIBLE_ALPHA = 40;
-/** Share of the attacker's opaque pixels that must lie inside the arena on every frame; effects left behind may cross its edge. */
-const MIN_INSIDE_SHARE = 0.9;
+/**
+ * Share of the attacker's opaque pixels that must lie inside the arena on every frame. Only the creature's own sprites are
+ * kept inside (battle-move-clips.mjs checks them), so effects may cross the edge: when 闪光波克尔 reappears behind home
+ * (frames 69 to 71 of its attack), the flash it draws over itself reaches past the creature, and as few as 0.83 stay inside.
+ */
+const MIN_INSIDE_SHARE = 0.8;
 /** A move's clip lasts seconds; fewer sampled frames mean the clip did not play. */
 const MIN_FRAMES = 20;
 
