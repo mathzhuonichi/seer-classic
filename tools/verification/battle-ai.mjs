@@ -11,9 +11,10 @@ await withSsr('battle-ai',async load=>{
   const {STRUGGLE_SKILL}=await load('/battle/core/src/constants.ts');
   const {buildDataSet}=await load('/battle/core/src/data.ts');
   const {chooseAiAction}=await load('/battle/ai/src/ai.ts');
+  const {changesSomething}=await load('/battle/ai/src/idle-moves.ts');
   const {Rng}=await load('/battle/core/src/rng.ts');
   const {SEER_SCRIPTS}=await load('/battle/core/src/scripts/index.ts');
-  const S={attack:1,wait:2,heal:3,control:4,poison:5,boost:6,debuff:7,cure:8,clear:9,leech:10,quick:11,strong:12,fire:13,water:14,grass:15,weak:16,script:17,selfClear:18,pp:19,shield:20,fixed:21,conditionalHeal:22,ground:23};
+  const S={attack:1,wait:2,heal:3,control:4,poison:5,boost:6,debuff:7,cure:8,clear:9,leech:10,quick:11,strong:12,fire:13,water:14,grass:15,weak:16,script:17,selfClear:18,pp:19,shield:20,fixed:21,conditionalHeal:22,ground:23,burn:24,freeze:25};
   const base={hp:100,atk:100,def:100,spa:100,spd:100,spe:100},stats={...base,hp:400};
   const attack=(id,power=80,extra={})=>({id,name:{zh:`Attack ${id}`},type:'normal',category:'physical',power,accuracy:null,pp:20,priority:0,effects:[],...extra});
   const support=(id,effects,extra={})=>attack(id,0,{category:'status',effects,...extra});
@@ -24,6 +25,8 @@ await withSsr('battle-ai',async load=>{
     {id:4,name:{zh:'Water reserve'},types:['water'],base},
     {id:5,name:{zh:'Grass lead'},types:['grass'],base},
     {id:6,name:{zh:'Flying opponent'},types:['flying'],base},
+    {id:7,name:{zh:'Ice opponent'},types:['ice'],base},
+    {id:8,name:{zh:'Electric/ice opponent'},types:['electric','ice'],base},
   ],types:{chart:{normal:{normal:1},fire:{grass:2,water:.5,fire:.5},water:{fire:2,grass:.5,water:.5},grass:{water:2,fire:.5,grass:.5},ground:{flying:0}}},skills:[
     attack(S.attack),support(S.wait,[],{target:'self'}),support(S.heal,[{op:'heal',pct_max_hp:50}],{target:'self'}),
     support(S.control,[{op:'status',status:'paralysis',target:'foe'}]),support(S.poison,[{op:'status',status:'poison',target:'foe'}]),
@@ -34,6 +37,7 @@ await withSsr('battle-ai',async load=>{
     attack(S.script,80,{effects:[{op:'script',id:'seer_eff_113'}]}),support(S.selfClear,[{op:'clear_stages',target:'self',which:'down'}],{target:'self'}),
     support(S.pp,[{op:'restore_pp',amount:5}],{target:'self'}),support(S.shield,[{op:'add_condition',condition:'audit-shield',target:'self'}],{target:'self'}),
     support(S.fixed,[{op:'fixed_damage',amount:80,target:'foe'}]),support(S.conditionalHeal,[{op:'heal',pct_max_hp:50,when:{self_hp_below_pct:10}}],{target:'self'}),attack(S.ground,120,{type:'ground'}),
+    support(S.burn,[{op:'status',status:'burn',target:'foe'}]),support(S.freeze,[{op:'status',status:'freeze',target:'foe'}]),
   ],conditions:[{id:'audit-shield',kind:'buff',hooks:[{on:'modify_damage_taken',multiplier:.5}]}]};
   const member=(species=2,skills=[S.attack,S.heal],extra={})=>({species,level:50,skills,stats:{...stats},...extra});
   function fixture(options={}){
@@ -75,9 +79,16 @@ await withSsr('battle-ai',async load=>{
     const fresh=fixture({skills:[S.control,S.weak],ai:{kind:'smart',style:'control'}});assert.deepEqual(decide(fresh),move(S.control));
     condition(fresh,fresh.active(0),'paralysis');assert.deepEqual(decide(fresh),move(S.weak));
   });
-  check('Visible status-block hooks and grass leech immunity avoid ineffective moves',()=>{
+  check('Visible status-block hooks and type immunity (grass 寄生, fire 烧伤, ice 冻伤) avoid ineffective moves',()=>{
     const blocked=fixture({skills:[S.control,S.weak]});blocked.active(0).conditions.push({id:'audit-block',def:{id:'audit-block',hooks:[{on:'block_status',statuses:['paralysis']}]},turns:4,appliedTurn:0});blocked.log.push({type:'condition_added',side:0,condition:'audit-block'});assert.deepEqual(decide(blocked),move(S.weak));
     const grass=fixture({playerSpecies:5,skills:[S.leech,S.weak]});assert.deepEqual(decide(grass),move(S.weak));
+    // The trainer planner and the Boss policy (idle-moves.ts) both skip a status the opponent's type refuses, dual types included.
+    const lands=(battle,skill)=>changesSomething(battle,battle.active(1),battle.active(0),battle.skill(skill));
+    for(const [skill,immune,open] of [[S.burn,3,4],[S.freeze,7,3],[S.freeze,8,4]])for(const kind of ['trainer','boss']){
+      const battle=fixture({kind,playerSpecies:immune,skills:[skill,S.weak]});
+      assert.deepEqual(decide(battle),move(S.weak),`${kind}: status ${skill} on species ${immune}`);assert.equal(lands(battle,skill),false);
+      assert.equal(lands(fixture({kind,playerSpecies:open,skills:[skill,S.weak]}),skill),true,`status ${skill} lands on species ${open}`);
+    }
   });
   check('Capped stat setup and capped debuffs are skipped',()=>{
     const self=fixture({skills:[S.boost,S.attack]});self.active(1).stages.atk=6;assert.deepEqual(decide(self),move(S.attack));

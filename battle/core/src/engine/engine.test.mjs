@@ -1,4 +1,4 @@
-// Engine seams (the injected policy, the read-only damage probe) and the 先手权 rule.
+// Engine seams (the injected policy, the read-only damage probe) and two engine rules: 先手权 and status type immunity.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {Battle} from './battle.ts';
@@ -100,7 +100,7 @@ test('a script objective is met by its script\'s objective member, and an entry 
   assert.deepEqual(missing.warnings, ['script apply_only has no objective']);
 });
 
-// ---------- 先手权 (RULES.md 3) ----------
+// ---------- 先手权 and status type immunity (RULES.md 3 and 7) ----------
 
 /** Raises atk when its user holds 先手权 and def when it moves last; it also hits, so the journal records the flag. */
 const PROBE = 31, FIRE = 32;
@@ -153,4 +153,47 @@ test('when both sides move, the faster holds 先手权 and the slower moves last
   assert.deepEqual(probeStages(battle.active(0)), {atk: 1, def: 0});
   assert.deepEqual(probeStages(battle.active(1)), {atk: 0, def: 1});
   assert.deepEqual([probeHits(battle, 0), probeHits(battle, 1)], [[true], [false]]);
+});
+
+/** applyStatus's result and the reasons of the status_blocked events it emitted. */
+const tryStatus = (mon, status, battle) => {
+  const from = battle.out.length, applied = battle.applyStatus(mon, status, {});
+  return {applied, blocked: battle.out.slice(from).filter(e => e.type === 'status_blocked').map(e => e.reason)};
+};
+
+test('fire types cannot be burned, ice types cannot be frozen, grass types cannot be leeched, dual types included', () => {
+  const immune = {burn: [['fire'], ['fire', 'psychic']], freeze: [['ice'], ['electric', 'ice']], leech: [['grass'], ['water', 'grass']]};
+  for (const [status, typeLists] of Object.entries(immune)) {
+    for (const types of typeLists) {
+      const battle = duel({team: [ruleMember({types})]});
+      assert.deepEqual(tryStatus(battle.active(1), status, battle), {applied: false, blocked: ['type_immunity']}, `${status} on ${types}`);
+      assert(!battle.active(1).conditions.some(c => c.id === status));
+    }
+  }
+  for (const [status, types] of [['burn', ['water']], ['freeze', ['fire']], ['leech', ['ice']]]) {
+    const battle = duel({team: [ruleMember({types})]});
+    assert.deepEqual(tryStatus(battle.active(1), status, battle), {applied: true, blocked: []}, `${status} on ${types}`);
+  }
+});
+
+test('冰封 ending on an ice monster lowers speed without 冻伤, and 易燃 does not burn a fire monster', () => {
+  for (const [types, frozen] of [[['ice'], false], [['water'], true]]) {
+    const battle = duel({team: [ruleMember({types})]});
+    battle.applyStatus(battle.active(1), 'frozen_solid', {turns: 1});
+    battle.submit(0, {kind: 'move', skill: 1});
+    battle.submit(1, {kind: 'move', skill: 1});
+    battle.resolveTurn();
+    const mon = battle.active(1);
+    assert.equal(mon.conditions.some(c => c.id === 'frozen_solid'), false, `${types}: 冰封 ended`);
+    assert.equal(mon.conditions.some(c => c.id === 'freeze'), frozen, `${types}: 冻伤`);
+    assert.equal(mon.stages.spe, -1, `${types}: speed -1`);
+  }
+  for (const [types, burned] of [[['fire'], false], [['normal'], true]]) {
+    const battle = duel({team: [ruleMember({types})]});
+    assert(battle.applyStatus(battle.active(1), 'flammable', {}), `${types}: 易燃 itself is not type-blocked`);
+    battle.submit(0, {kind: 'move', skill: FIRE});
+    battle.submit(1, {kind: 'move', skill: 1});
+    battle.resolveTurn();
+    assert.equal(battle.active(1).conditions.some(c => c.id === 'burn'), burned, `${types}: 烧伤 from 易燃`);
+  }
 });

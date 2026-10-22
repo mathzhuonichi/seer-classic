@@ -6,6 +6,7 @@ import type { ApplyCtx, HookCtx, HookExtras } from '../scripts/context.ts';
 import type { Battle } from './battle.ts';
 import { emptyCtx, type ActiveCondition, type Mon } from './state.ts';
 import { findRule, hasRule } from './rules.ts';
+import { STATUS_IMMUNE_TYPE } from '../builtin-conditions.ts';
 
 export interface StatusOptions { turns?: number | [number, number]; level?: number; fromFoe?: boolean; source?: Mon }
 
@@ -13,7 +14,7 @@ export function applyStatus(b: Battle, target: Mon, status: string, opts: Status
   const def = b.data.conditions.get(status);
   if (!def) { b.warn(`unknown status ${status}`); return false; }
   if (target.fainted) return false;
-  if (status === 'leech' && target.types.includes('grass')) return blockedStatus(b, target, status, 'grass_immunity');
+  if (typeImmune(target, status)) return blockedStatus(b, target, status, 'type_immunity');
   for (const r of b.fire(target, 'on_status_incoming', { status, source: opts.source, fromFoe: opts.fromFoe !== false, turns: opts.turns })) {
     if (r === false) return blockedStatus(b, target, status, 'script');
   }
@@ -27,6 +28,12 @@ export function applyStatus(b: Battle, target: Mon, status: string, opts: Status
     if (!h.statuses || h.statuses.includes(status)) return blockedStatus(b, target, status, 'block_status');
   }
   return b.addCondition(target, def, opts.turns, opts.level);
+}
+
+/** The monster's type keeps the status off (RULES.md section 7); a dual type is immune when either of its types matches. */
+export function typeImmune(target: Mon, status: string): boolean {
+  const type = STATUS_IMMUNE_TYPE[status];
+  return type !== undefined && target.types.includes(type);
 }
 
 function blockedStatus(b: Battle, target: Mon, status: string, reason: string): false {
