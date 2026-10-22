@@ -99,6 +99,8 @@ function resolveFullTurn(b: Battle): void {
 
   const order = orderActions(b, actions);
   b.turnOrder = order;
+  // 先手权 (RULES.md 3): a side that switches, uses an item or throws a capsule gives it up, so a lone move is 先出手.
+  const firstMover = order.find((i) => actions[i].kind === 'move') ?? order[0];
   const actors = order.map((i) => b.active(i));
   const orderEntry = b.lastOrder ? journalOrder(b, actions, order) : null;
   const executed = [false, false];
@@ -109,7 +111,7 @@ function resolveFullTurn(b: Battle): void {
     const mon = b.active(i);
     if (action.kind === 'move' && (mon !== actors[k] || mon.fainted)) continue;
     if (action.kind === 'move' && !b.active((1 - i) as 0 | 1).fainted) executed[i] = true;
-    b.doAction(i, action, k === 0);
+    b.doAction(i, action, i === firstMover);
   }
   if (orderEntry && executed[0] && executed[1]) b.journal.push(orderEntry);
 
@@ -141,6 +143,7 @@ function orderActions(b: Battle, actions: [Action, Action]): (0 | 1)[] {
   return b.rng.next() < 0.5 ? [0, 1] : [1, 0];
 }
 
+/** Resolves side `i`'s action; `first` says whether the side holds 先手权 this turn (RULES.md 3), which only a move reads. */
 export function doAction(b: Battle, i: 0 | 1, action: Action, first: boolean): void {
   const side = b.sides[i];
   b.active(i).lastActedTurn = b.turn;

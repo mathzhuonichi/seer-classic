@@ -72,6 +72,16 @@ that is not removed by switching.
 3. Same priority: higher effective speed (stats × stage) first. [recalled]
 4. Speed tie: coin flip from the battle RNG. [chosen]
 
+**先手权.** The side whose move resolves first holds 先手权 (先出手); the other
+moves last (后出手). A side that switches, uses an item or throws a capsule
+gives it up: when only one side uses a move, that move is 先出手 although it
+resolves after the other side's action. Every 先出手/后出手 effect reads this
+(effects 30/40 and the templates 73, 116, 117, 122, 138, 147, 148, 170, 172,
+173, 186, 196, 402, 405). Whether a monster has acted yet this turn (status
+durations, 急速闪避) still follows the resolution order. [sourced: 赛学必修9
+先手权, Bilibili cv34358166: 「通过切换，嗑药等操作放弃获得先手权时，会默认为后手方」;
+no period counter-evidence; user decision 2026-10-21]
+
 ## 4. Using a move
 
 In order:
