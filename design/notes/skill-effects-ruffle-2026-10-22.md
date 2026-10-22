@@ -1,12 +1,12 @@
 # Original skill effects played with Ruffle (2026-10-22)
 
-Status: current. This note replaces the delivery path of [original-skill-effects](original-skill-effects.md) and [skill-effects-hd-v44](skill-effects-hd-v44.md) (67 WebP sheets and HD frames) and the paused WebP catalog export of the [2026-10-22 handoff](handoff-2026-10-22.md).
+Status: current, except its loading: the loading boundary, the per-battle host and the effect timing of version 1.0 are superseded by [skill-effects-seamless-2026-10-22](skill-effects-seamless-2026-10-22.md) (version 2). This note replaces the delivery path of [original-skill-effects](original-skill-effects.md) and [skill-effects-hd-v44](skill-effects-hd-v44.md) (67 WebP sheets and HD frames) and the paused WebP catalog export of the [2026-10-22 handoff](handoff-2026-10-22.md).
 
 ## Decision
 
 On 2026-10-22 the user chose to play the original skill-effect SWFs at runtime with Ruffle instead of exporting WebP frames: first a complete, working version 1.0, then a redesign so that the player notices the loading as little as possible (尽量无感). This accepts that the original ActionScript runs. In all 5,273 effects that script only calls `stop()` (and `gotoAndPlay` in 21589 and 21770) and sets `hit` and `isEnd`; no effect has sound.
 
-Version 1.0 is this note. Its loading has one module boundary (below) so that the redesign can change when things load without touching the placement or the battle screen.
+Version 1.0 is this note. Its loading has one module boundary (below) so that the redesign can change when things load without touching the placement or the battle screen. Version 2, the redesign, is [skill-effects-seamless-2026-10-22](skill-effects-seamless-2026-10-22.md).
 
 ## The original placement rule
 
@@ -49,22 +49,24 @@ The layer has an effective CSS zoom of 1 inside the zoomed game display, so Ruff
 |---|---|---|
 | Scope and sources | `tools/assets/skill_effect_sources.mjs` | The 5,273 in-scope skill IDs: every learnset skill and every skill named by bosses, trainers, the elite roster and NPC profiles. Probes and caches the official SWFs into `.cache/skill-effects/sources/` with `probe.json` (polite: at most four requests at once). |
 | Publication | `tools/assets/publish_skill_effect_swfs.py` | Reads each SWF without running it (the `skill` sprite's frame count, the frames that set `hit` and `isEnd`, a frame-1 `stop()`), rewrites overlay/hardlight blend modes to normal in the 16 effects that use them, hard-links the rest, and writes the ignored `public/battle-effects/swf/<id>.swf` (5,273 files, 130.6 MB), the runtime index `index.json` (end frame and version per skill, 158 KB) and the provenance `manifest.json` (source hashes, stage, frame rate, frames, script facts, patched hashes). All 5,273 publish. |
-| Host SWF | `tools/assets/skill-effect-host/FxHost.as`, `tools/assets/build_skill_effect_host.py` → `src/features/battle/skill-effect-host.swf` | The effect stage, compiled with FFDec's AS3 compiler (labelled experimental; the 3,344-byte output is tracked and rebuilds byte-identical). It does what `petPlay` and `BaseAnimatorCon` did, loading each SWF into its own ApplicationDomain (every one defines `skill`). JS calls `fxLoad`, `fxPlay` and `fxStop` through ExternalInterface; the host answers with `trace()` lines (`fx|ready`, `fx|loaded`, `fx|error`) read through Ruffle's trace observer. It never uses `ExternalInterface.call` (which evaluates JS). Its stage runs at 25 fps, the rate of 5,271 of the 5,273 SWF headers; a loaded SWF plays at its host's rate. |
+| Host SWF | `tools/assets/skill-effect-host/FxHost.as`, `tools/assets/build_skill_effect_host.py` → `src/features/battle/skill-effect-host.swf` | The effect stage, compiled with FFDec's AS3 compiler (labelled experimental; the 3,344-byte output is tracked and rebuilds byte-identical). It does what `petPlay` and `BaseAnimatorCon` did, loading each SWF into its own ApplicationDomain (every one defines `skill`). JS calls `fxLoad`, `fxPlay` and `fxStop` through ExternalInterface; the host answers with `trace()` lines (`fx|ready`, `fx|loaded`, `fx|error`) read through Ruffle's trace observer. It never uses `ExternalInterface.call` (which evaluates JS). Its stage ran at 25 fps in version 1.0, the rate of 5,271 of the 5,273 SWF headers (version 2: the original fight stage's 24 fps); a loaded SWF plays at its host's rate. |
 | Ruffle | `@ruffle-rs/ruffle` 0.7.1 (exact), `vite.config.ts` (`ruffleFiles`) | The self-hosted build is served in development and emitted unchanged under `ruffle/` in the build (ruffle.js loads its core chunk and WASM by name). Nothing comes from a CDN. ruffle.js is added by a script tag on the first battle, configured first so that it never scans the page for Flash embeds. |
 | Placement | `src/features/battle/skill-effect-placement.ts` | The rule above, pure, with unit tests. |
 | Ruffle protocol | `src/features/battle/skill-effect-host.ts` | The script, the player options (transparent, no input or Ruffle UI, `wgpu-webgl`, `noScale`, volume 0) and the host protocol. |
 | Loading boundary | `src/features/battle/battle-skill-effects.ts` | `prepareSkillEffects`, `getSkillEffectDurationMs` and `createSkillEffectStage` (below). |
 | Battle screen | `src/features/battle/ui/BattleSkillEffects.tsx` | The layer in `.classic-creatures`: covers the arena, holds one stage per battle screen, plays the cue's effect at the cue's delay and stops it when the cue ends. |
 
-**Timing.** The presentation contract is unchanged (`planBattleFrame`, `use-battle-playback.ts`): a move's effect starts at the attacker clip's hit marker and lasts `getSkillEffectDurationMs`, the effect's timeline up to the frame that sets `isEnd` at the host's frame rate, plus the frame the host waits before it starts a clip. Damage numbers and the log keep their timing; a multi-hit move keeps its one effect through its hits. The host removes a clip itself at `isEnd`; the battle screen stops it when its cue ends or the screen goes.
+**Timing** (version 1.0; version 2 times effects as the original fight module did, at 24 fps). The presentation contract is unchanged (`planBattleFrame`, `use-battle-playback.ts`): a move's effect starts at the attacker clip's hit marker and lasts `getSkillEffectDurationMs`, the effect's timeline up to the frame that sets `isEnd` at the host's frame rate, plus the frame the host waits before it starts a clip. Damage numbers and the log keep their timing; a multi-hit move keeps its one effect through its hits. The host removes a clip itself at `isEnd`; the battle screen stops it when its cue ends or the screen goes.
 
 **Reduced motion** holds the effect's middle frame for the 160 ms cue, at 72% opacity, as the WebP still did.
 
-**Failure.** If ruffle.js, the WASM, WebGL or the first host fails, one console warning is logged, `getSkillEffectDurationMs` stays undefined, so no move waits for an effect, and the creatures' own CSS status ring, projectile and impact show instead. A skill whose SWF fails to load is warned about once and skipped. A host that stops answering (a Ruffle panic shows its own message in the player) is hidden. A battle that ends or is left removes its player.
+**Failure** (version 1.0; version 2 plans an effect only while it can play). If ruffle.js, the WASM, WebGL or the first host fails, one console warning is logged, `getSkillEffectDurationMs` stays undefined, so no move waits for an effect, and the creatures' own CSS status ring, projectile and impact show instead. A skill whose SWF fails to load is warned about once and skipped. A host that stops answering (a Ruffle panic shows its own message in the player) is hidden. A battle that ends or is left removes its player.
 
 **Audio.** The SWFs have no sound tags and the host sets Ruffle's volume to 0. Ruffle still creates an AudioContext per instance.
 
 ## The loading boundary, and what the redesign can change
+
+Superseded by [skill-effects-seamless-2026-10-22](skill-effects-seamless-2026-10-22.md): version 2 starts one host per page in the first loading screen, after its art and animations, and moves it into each battle screen. This section records version 1.0.
 
 `battle-skill-effects.ts` decides when everything loads; the placement and the battle screen only call `createSkillEffectStage(container)` and `stage.play(skillId, placement, still)`, and the presentation only reads `getSkillEffectDurationMs`.
 
@@ -110,6 +112,8 @@ A frame-locked comparison of 246 sampled effects (6,743 frames) between Ruffle a
 - In all, about 10 effects (0.19%) look wrong before the blend patch and about 20 (0.4%) remain visibly different after it; none is broken.
 
 ## Version 1.0 in situ
+
+Version 2's numbers, against these, are in [skill-effects-seamless-2026-10-22](skill-effects-seamless-2026-10-22.md#in-situ).
 
 Measured on 2026-10-22 in the built app, silent, in headless Chrome 155 and Playwright WebKit 26.0 on this Mac (Apple M4, load 2-4), in a real wild battle of 丽莎布布 against 皮皮. Each configuration ran once with Ruffle and once with Ruffle blocked as the baseline: a first battle on a fresh page, twelve turns of 缩头 (24 effects, our move and 皮皮's), 叶绿光束, then a second battle. Files come through Playwright's request interception (no localhost here), so fetches include that overhead; WebAudio is kept suspended, so every Ruffle instance pays its hidden 200 ms wait. Memory is the phys_footprint of all browser processes (noisy, about ±30 MiB).
 
