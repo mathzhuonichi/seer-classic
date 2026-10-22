@@ -1,8 +1,8 @@
 /**
  * Inventory of every species' original move clips (attack, sa, cp, hited): length, hit marker, how the creature is drawn
  * (its own standby sprites, sprites only the move draws, copies of itself), how far the drawing and the creature reach, and
- * which of its special skills bring their own skill effect (getSkillEffect, so those counts follow the skill-effect export of
- * the day). Status `tool`: writes artifacts/battle-move-clips/inventory.json and prints a summary;
+ * which of its special skills bring their own skill effect (the published original SWFs, public/battle-effects/swf/index.json).
+ * Status `tool`: writes artifacts/battle-move-clips/inventory.json and prints a summary;
  * design/notes/battle-move-clips-audit-2026-10-21.md reads it. Needs the ignored clips in public/.
  */
 import fs from 'node:fs';
@@ -18,6 +18,7 @@ const OUT = path.join(root, 'artifacts/battle-move-clips/inventory.json');
 
 const index = JSON.parse(fs.readFileSync(path.join(root, 'public/battle-animations/runtime-index.json'))).species;
 const skills = new Map(JSON.parse(fs.readFileSync(path.join(root, 'data/skills.json'))).map(skill => [skill.id, skill]));
+const effects = JSON.parse(fs.readFileSync(path.join(root, 'public/battle-effects/swf/index.json'))).effects;
 const monster = id => {
   const file = path.join(root, `data/monsters/${String(id).padStart(4, '0')}.json`);
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file)) : null;
@@ -65,7 +66,7 @@ function moveRecord(sequence, {frameRate, own, copies, home, size, path: travel}
 }
 
 /** A species' record: its move clips, and its special skills with or without their own skill effect. */
-function speciesRecord(id, {sequencePaths, standbyMeshBounds, getSkillEffect}) {
+function speciesRecord(id, {sequencePaths, standbyMeshBounds}) {
   const meta = JSON.parse(gunzipSync(fs.readFileSync(path.join(root, 'public', index[id].meta))));
   const clip = {sequences: meta.sequences.map(s => ({name: s.name, frames: s.frames.map(f => ({labels: f.labels, mesh: f}))}))};
   const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0], home = standbyMeshBounds(clip);
@@ -81,7 +82,7 @@ function speciesRecord(id, {sequencePaths, standbyMeshBounds, getSkillEffect}) {
     return [name, sequence ? moveRecord(sequence, {frameRate: meta.frameRate, own, copies, home, size, path: paths.get(name)}) : null];
   }));
   return {id: +id, name: data?.name?.zh ?? null, frameRate: meta.frameRate, standbyFrames: standby.frames.length, standbySprites: own.size, moves,
-    specialSkills: special.length, specialSkillsWithEffect: special.filter(skill => getSkillEffect(skill)).length};
+    specialSkills: special.length, specialSkillsWithEffect: special.filter(skill => effects[skill]).length};
 }
 
 /** Counts over the inventory for the design note. */
@@ -105,8 +106,7 @@ function summarize(records) {
 }
 
 await withSsr('battle-move-clips-inventory', async load => {
-  const modules = {...await load('/src/features/battle/battle-animation-path.ts'), ...await load('/src/features/battle/battle-animation-registration.ts'),
-    ...await load('/src/features/battle/battle-skill-effects.ts')};
+  const modules = {...await load('/src/features/battle/battle-animation-path.ts'), ...await load('/src/features/battle/battle-animation-registration.ts')};
   const records = Object.keys(index).map(id => speciesRecord(id, modules)), summary = summarize(records);
   fs.mkdirSync(path.dirname(OUT), {recursive: true});
   fs.writeFileSync(OUT, JSON.stringify({summary, species: records}, null, 1) + '\n');

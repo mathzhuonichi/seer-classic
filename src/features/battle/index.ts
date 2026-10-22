@@ -2,6 +2,7 @@
 export { clearIdleBattleAnimations, preloadBattleAnimations } from './battle-animation.ts';
 export { type BattleBackdrop, battleImageSources, locationBackdrop } from './battle-backdrop.ts';
 export { preloadBattleImages, waitForBattleLoad } from './battle-loading.ts';
+export { prepareSkillEffects } from './battle-skill-effects.ts';
 export { advanceBattlePresentation, type BattlePresentationState } from './battle-presentation.ts';
 export { type BattleAction, battleFeature, type BattleSlice } from './feature.ts';
 export { startSession } from './battle-session.ts';

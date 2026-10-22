@@ -4,7 +4,7 @@ import type { BattleView } from '../shared/views.ts';
 import {clearIdleBattleAnimations, preloadBattleAnimations} from '../features/battle/index.ts';
 import {battleImageSources, type BattleBackdrop} from '../features/battle/index.ts';
 import {entersTower, towerBackdrop} from '../features/challenges/index.ts';
-import {preloadBattleImages, waitForBattleLoad} from '../features/battle/index.ts';
+import {preloadBattleImages, prepareSkillEffects, waitForBattleLoad} from '../features/battle/index.ts';
 import { appearanceOf } from '../shared/monster-views.ts';
 import { CHALLENGE_CAMPAIGNS } from '../domain/challenges/challenge-campaigns.ts';
 import type {BattlePreparation} from '../features/battle/ui.ts';
@@ -14,11 +14,13 @@ export interface BattleBackdrops { exploration: BattleBackdrop; campaign: Battle
 
 // Pauses that let the loading screen paint before and after the preloads.
 const SETTLE_MS = 250, DEPLOY_MS = 600, START_MS = 350;
+/** The longest the loading screen waits for the skill effects' first start (Ruffle); the battle then opens and they follow. */
+const SKILL_EFFECTS_WAIT_MS = 3000;
 const nextPaint = () => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 
 /**
  * Starts a battle behind the loading screen: dispatches the action, then preloads the backdrop,
- * creature art and animations before revealing the battle. A newer request or `leave` cancels it.
+ * creature art, animations and skill effects before revealing the battle. A newer request or `leave` cancels it.
  */
 export function useBattlePreparation(c: GameController, backdrops: { current: BattleBackdrops }, inBattle: boolean, events: {
   /** The battle is starting: close windows and messages. */
@@ -54,13 +56,15 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
       await nextPaint();
       await waitForBattleLoad(SETTLE_MS, signal);
       if (!current()) return;
+      // Ruffle starts once per page, alongside the images; later battles find it ready. Leaving is handled by the waits below.
+      const effects = Promise.race([prepareSkillEffects(), waitForBattleLoad(SKILL_EFFECTS_WAIT_MS, signal).catch(() => {})]);
       await preloadBattleImages(battleImageSources(scene, battle), signal, (loaded, total) => { if (current()) report(Math.round(loaded / total * 75), '准备精灵立绘与场景…'); });
       if (!current()) return;
       report(80, '准备精灵动作…');
       await preloadBattleAnimations([appearanceOf(battle.player), appearanceOf(battle.enemy)], { signal });
       if (!current()) return;
       report(90, '部署出战精灵…');
-      await waitForBattleLoad(DEPLOY_MS, signal);
+      await Promise.all([waitForBattleLoad(DEPLOY_MS, signal), effects]);
       report(100, '战斗开始！');
       await waitForBattleLoad(START_MS, signal);
       if (current()) { setPreparation(null); preparing.current = false; }

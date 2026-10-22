@@ -5,7 +5,6 @@ import { STATUS_LABELS } from '../../../shared/labels.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
 import { battleCreatureExtent } from '../battle-creature-size.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
-import BattleSkillEffect from './BattleSkillEffect.tsx';
 import type { FloatingNumber, SkillEffectCue } from '../battle-player.ts';
 import { DAMAGE_NUMBER_MS, isMoveFrame } from '../battle-playback.ts';
 
@@ -38,7 +37,8 @@ function DamageNumber({ number }: { number: FloatingNumber }) {
 /**
  * One side's creature with the current frame's motion and overlays. Original source timelines
  * retain their registration; unavailable clips use the portrait. The creature acting a move is drawn in front of the other,
- * since its original clip travels to the opponent; numbers and effects stay in front of both.
+ * since its original clip travels to the opponent; numbers stay in front of both. A move with an original skill effect
+ * (BattleSkillEffects, `effectCue`) shows that instead of this component's own status ring, projectile and impact.
  */
 export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue, numbers, arena }: {
   monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; busy?: boolean;
@@ -79,8 +79,6 @@ export default function BattleCombatant({ monster, side, frame, captured = false
     {effect === 'special' && !effectActor && <div className="classic-energy-projectile" aria-hidden="true"><i /></div>}
     {numbers.filter(number => number.side === side).map(number => <DamageNumber key={number.id} number={number}/>)}
     {critical && <span key={`critical-${frame?.id}`} className="classic-critical-popup" aria-hidden="true">致命一击！</span>}
-    {effectCue && effectTarget && <BattleSkillEffect skillId={effectCue.move.skillId} eventKey={effectCue.move.id} side={effectCue.move.side} targetSide={side}
-      startDelayMs={effectCue.delay} durationMs={effectCue.duration}/>}
     {(capturing || captured) && <CaptureEffect key={capturing ? frame?.id : 'captured'} animating={capturing} success={!!frame?.captureSuccess || captured} />}
   </div>;
 }

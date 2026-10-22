@@ -9,6 +9,7 @@ import BattleDialogue from './BattleDialogue.tsx';
 import { BattleCreatureDetails } from './BattleDialogs.tsx';
 import BattleHealth from './BattleHealth.tsx';
 import BattleMatchup from './BattleMatchup.tsx';
+import BattleSkillEffects from './BattleSkillEffects.tsx';
 import { useBattlePlayback } from './use-battle-playback.ts';
 import './battle.css';
 
@@ -56,6 +57,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
           numbers={playback.numbers} arena={arena}/>
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={enemy} side={1} frame={frame}
           captured={playback.captureResolved} busy={busy} numbers={playback.numbers} arena={arena}/>
+        <BattleSkillEffects cue={playback.skillEffect} player={player} enemy={enemy}/>
       </div>
       <div className="classic-round-status">{roundStatus(b, busy)}</div>
     </div>

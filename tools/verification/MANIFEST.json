@@ -84,6 +84,9 @@
     "battle-runtime-lifecycle.mjs": {
       "status": "gate"
     },
+    "battle-skill-effects.mjs": {
+      "status": "needs-browser"
+    },
     "battle-supplies-v48.mjs": {
       "status": "gate"
     },
@@ -263,9 +266,6 @@
     },
     "skill-atknum-v45.mjs": {
       "status": "gate"
-    },
-    "skill-effects-hd-v44.mjs": {
-      "status": "needs-assets"
     },
     "skins.mjs": {
       "status": "gate"
