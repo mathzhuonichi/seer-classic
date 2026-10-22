@@ -55,9 +55,10 @@ function scenario(options = {}) {
     destroy() { h.rendererDestroys++; if (h.failRendererDestroy) throw Error('renderer destroy failed'); }
   }
   class Container { destroy() { h.stageDestroys++; if (h.failStageDestroy) throw Error('stage destroy failed'); } }
-  // A frame draws one opaque quad [minX, maxX, minY, maxY] (clip units, y up) as two triangles.
-  const quad = ([minX, maxX, minY, maxY]) => ({labels: [],
-    mesh: {positions: [minX, minY, maxX, minY, maxX, maxY, minX, maxY], indices: [0, 1, 2, 0, 2, 3], mulColors: Array(16).fill(1)}});
+  // A frame draws one opaque quad [minX, maxX, minY, maxY] (clip units, y up) as two triangles, the whole atlas: the
+  // creature's one sprite, which its standby draws too.
+  const quad = ([minX, maxX, minY, maxY]) => ({labels: [], mesh: {positions: [minX, minY, maxX, minY, maxX, maxY, minX, maxY],
+    uvs: [0, 0, 1, 0, 1, 1, 0, 1], indices: [0, 1, 2, 0, 2, 3], mulColors: Array(16).fill(1)}});
   const sequence = (name, quads) => ({name, frames: quads.map(quad)});
   // `attack` gives the clip an attack sequence of these frame quads; without it the attack falls back to the standby extent.
   const clip = {atlasWidth: 512, atlasHeight: 512, sequences: [sequence('standby', [[-1, 1, -1, 1]]), ...h.attack ? [sequence('attack', h.attack)] : []]};
