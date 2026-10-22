@@ -84,11 +84,13 @@ export async function startSkillEffectHost(source: RuffleSource, container: HTML
     ready = resolve;
     timer = window.setTimeout(() => reject(new Error('the skill-effect host did not start')), HOST_START_TIMEOUT_MS);
   });
+  // A timeout while Ruffle is still loading is handled where `started` is awaited.
+  started.catch(() => {});
   try {
     const player = element.ruffle();
     await player.load({ ...PLAYER_OPTIONS, url: new URL(hostSwf, document.baseURI).href });
     player.volume = 0;
-    player.traceObserver = hostLines(loads, fps => ready(fps));
+    player.traceObserver = hostLines(loads, ready);
     const fps = await started;
     element.style.visibility = '';
     return hostApi(element, player, loads, fps);
