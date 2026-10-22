@@ -33,7 +33,10 @@ export async function buildApp(outDir) {
 async function launch(engine) {
   if (engine === 'chrome') {
     const executable = process.env.SEER_CHROME;
-    return {browser: await chromium.launch({...(executable ? {executablePath: executable} : {channel: 'chrome'}), headless: true, args: ['--mute-audio']})};
+    // System Chrome otherwise wakes GoogleUpdater a few seconds after it starts. The updater inherits Chrome's stdio and outlives
+    // it (its requests are blocked here), so browser.close() would wait for it to exit.
+    const args = ['--mute-audio', '--disable-updater-scheduler'];
+    return {browser: await chromium.launch({...(executable ? {executablePath: executable} : {channel: 'chrome'}), headless: true, args})};
   }
   if (!fs.existsSync(webkit.executablePath())) return {skipped: 'Playwright WebKit is not installed (npx playwright-core install webkit)'};
   return {browser: await webkit.launch({headless: true})};
