@@ -83,6 +83,18 @@ test('status damage and other turn-end damage stand alone, also right after the 
   ]);
 });
 
+test('the turn\'s end opens no log entry: its damage before any tick joins the last move\'s entry, as its own number', () => {
+  const {hits, log} = show([
+    used(0, MULTI), hurt(1, 20, 80), used(1, FOE_MOVE), hurt(0, 30, 70, {sourceSide: 1, skill: FOE_MOVE}),
+    {type: 'turn_end', turn: 1}, hurt(0, 10, 60, {kind: 'fixed', sourceSide: 1}),
+  ]);
+  assert.deepEqual(hits.map(({side, amount, numberId}) => [side, amount, numberId]), [[1, 20, undefined], [0, 30, undefined], [0, 10, undefined]]);
+  assert.deepEqual(log, [
+    '巴鲁斯使用了三连击。　布布花受到 20 点伤害。剩余体力 80/100。',
+    '布布花使用了撞击。　巴鲁斯受到 30 点伤害。剩余体力 70/100。　巴鲁斯受到 10 点伤害。剩余体力 60/100。',
+  ]);
+});
+
 test('a lethal multi-hit shows its total with the damage beyond the HP left, while the HP bar stops at 0', () => {
   const {hits, log} = show([
     used(0, MULTI), hurt(1, 260, 40, {maxHp: 300}), hurt(1, 40, 0, {maxHp: 300, overkill: 202}),

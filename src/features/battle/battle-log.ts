@@ -192,10 +192,13 @@ export function battleStepText(step: readonly BattleEvent[], context: BattleLogC
   return step.length > 1 && step.every(gathers) ? stagesText(step, subjectName(event, context)) : battleEventText(event, context);
 }
 
-/** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
-const GROUP_STARTS: ReadonlySet<BattleEvent['type']> = new Set([
-  'turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'turn_end', 'flee', 'battle_end',
-]);
+/**
+ * Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). `turn_end`
+ * opens none: the turn end's lines before any tick (a condition running out, a Boss's drain) join the last move's entry, so they
+ * do not push the turn's first move out of the recent log (`recentBattleLog`, the last two entries).
+ */
+const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
+  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
 const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
   event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 
