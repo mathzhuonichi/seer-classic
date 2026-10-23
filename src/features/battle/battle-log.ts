@@ -200,7 +200,7 @@ export function battleSteps(events: readonly BattleEvent[]): BattleEvent[][] {
 }
 
 /** A step's line (`battleSteps`): its event's, or one monster's stage changes together. */
-export function battleStepText(step: readonly BattleEvent[], context: BattleLogContext): string {
+function battleStepText(step: readonly BattleEvent[], context: BattleLogContext): string {
   const [event] = step;
   return step.length > 1 && step.every(gathers) ? stagesText(step, subjectName(event, context)) : battleEventText(event, context);
 }
