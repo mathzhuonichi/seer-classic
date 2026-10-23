@@ -103,18 +103,24 @@ export interface FrameOptions {
  * Presentation follows the engine's event order; it does not resolve combat a second time. Each step (`battleSteps`) is one
  * frame, so one monster's stage changes at once change all its chips together. A move's hits and riders on one creature keep a
  * frame each, with its hurt and its HP, and count up one number (`damageTallies`); the last of them carries the line of the total.
- * A counter shows with the hit that drew it (`withCounter`), so a move's hits into a reflection follow each other as any others.
+ * A counter, or a block of one, shows with the hit that drew it (`withCounter`), so a move's hits into a reflection follow each
+ * other as any others.
  */
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
   const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
-  const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events), blocks = damageBlocks(events);
-  const numberIds = new Map<DamageTally, number>();
+  const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events);
+  const blocks: ReadonlyMap<BattleEvent, BlockShare> = damageBlocks(events), numberIds = new Map<DamageTally, number>();
   /** The number a tally shows: the id of the frame or counter that first showed it, from `id` on. */
   const numberOf = (tally: DamageTally, id: number) => {
     const first = numberIds.get(tally);
     if (first === undefined) numberIds.set(tally, id);
     return first;
+  };
+  /** The counter that `share` adds to `hit`: the attacker's number so far, under the id of the hit's first counter. */
+  const counterOf = (share: TallyShare, hit: BattlePresentationFrame) => {
+    const id = hit.counter?.id ?? options.nextFrameId();
+    return { id, amount: share.shown, numberId: numberOf(share.tally, id) };
   };
   let shown = before, last: { frame: BattlePresentationFrame; event: BattleEvent } | undefined;
   for (const step of battleSteps(events)) {
@@ -122,11 +128,10 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     const activeBefore = side === 1 ? shown.enemy : shown.player;
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
     for (const event of step) shown = advanceBattlePresentation(shown, event);
-    const share = e.type === 'damage' ? tallies.get(e) : undefined;
+    const share = e.type === 'damage' ? tallies.get(e) : undefined, drawnBy = share ? share.drawnBy : blocks.get(e)?.drawnBy;
     const text = stepText(step, share, blocks, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
-    if (share?.drawnBy && last?.event === share.drawnBy && last.frame.kind === 'hit') {
-      const id = last.frame.counter?.id ?? options.nextFrameId(), counter = { id, amount: share.shown, numberId: numberOf(share.tally, id) };
-      frames[frames.length - 1] = last.frame = withCounter(last.frame, sceneOf(shown, foe, data), text, counter);
+    if (drawnBy && last?.event === drawnBy && last.frame.kind === 'hit') {
+      frames[frames.length - 1] = last.frame = withCounter(last.frame, sceneOf(shown, foe, data), text, share && counterOf(share, last.frame));
       continue;
     }
     const motion = frameMotion(e, side, activeBefore, data);
@@ -154,11 +159,12 @@ function sceneOf(shown: BattlePresentationState, foe: (mon: BattleMonsterView) =
 }
 
 /**
- * `hit` with the counter it drew: the attacker's number and HP bar change with the hurt, so the counter holds no frame of its
- * own and does not stop the attacker's clip; its tally's line, on its last counter, follows the hit's.
+ * `hit` with a counter it drew: the attacker's number and HP bar change with the hurt, so the counter holds no frame of its
+ * own and does not stop the attacker's clip; its tally's line, on its last counter, follows the hit's. A counter that a rule of
+ * the attacker stopped brings only its block line, on the last of them (`BlockShare.lined`), so that it follows the move's.
  */
-const withCounter = (hit: BattlePresentationFrame, scene: Scene, text: string, counter: NonNullable<BattlePresentationFrame['counter']>) =>
-  ({ ...hit, ...scene, text: [hit.text, text].filter(Boolean).join(LINE_SEPARATOR), counter });
+const withCounter = (hit: BattlePresentationFrame, scene: Scene, text: string, counter?: BattlePresentationFrame['counter']) =>
+  ({ ...hit, ...scene, text: [hit.text, text].filter(Boolean).join(LINE_SEPARATOR), ...counter && { counter } });
 
 /**
  * A step's line; a damage event's is its tally's, on the tally's last frame, so earlier hits keep the move's line on screen, and a

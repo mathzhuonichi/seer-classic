@@ -84,6 +84,22 @@ test('a counter needs the hit straight before it; recoil, a line between and the
   assert.equal(frames[4].counter.numberId, 4, 'the folded counters count up the attacker\'s number that the first one started');
 });
 
+test('counters that a rule of the attacker stopped show their one block line with the move\'s last hit, and add no frame', () => {
+  const stopped = () => ({type: 'damage_blocked', side: 0, rule: 'immune_fixed_damage'});
+  const all = show([used(0, MULTI), hurt(1, 20, 80), stopped(), hurt(1, 20, 60), stopped(), hurt(1, 20, 40), stopped(), {type: 'multi_hit', side: 0, hits: 3}]);
+  assert.deepEqual(all.frames.map(({kind, side, amount, text}) => [kind, side, amount, text]), [
+    ['physical', 0, undefined, '巴鲁斯使用了三连击。'], ['hit', 1, 20, ''], ['hit', 1, 40, ''],
+    ['hit', 1, 60, '布布花受到 60 点伤害。剩余体力 40/100。　巴鲁斯抵挡了这次伤害。'],
+  ], 'the hits follow each other, and the block line follows the move\'s');
+  assert.deepEqual(all.log, ['巴鲁斯使用了三连击。　布布花受到 60 点伤害。剩余体力 40/100。　巴鲁斯抵挡了这次伤害。']);
+  const counter = (amount, hp) => hurt(0, amount, hp, {kind: 'fixed', sourceSide: 1});
+  const part = show([used(0, MULTI), hurt(1, 20, 80), counter(5, 95), stopped(), hurt(1, 20, 60), counter(5, 90), stopped()]);
+  assert.deepEqual(part.frames.map(({kind, amount, counter}) => [kind, amount, counter?.amount]), [['physical', undefined, undefined],
+    ['hit', 20, 5], ['hit', 40, 10]], 'a reflection that got through still counts up with its hit');
+  const lines = '布布花受到 40 点伤害。剩余体力 60/100。　巴鲁斯受到 10 点伤害。剩余体力 90/100。　巴鲁斯抵挡了部分伤害。';
+  assert.deepEqual([part.frames[2].text, part.log], [lines, [`巴鲁斯使用了三连击。　${lines}`]]);
+});
+
 test('status damage and other turn-end damage stand alone, also right after the creature\'s own move', () => {
   const {hits, log} = show([
     used(1, FOE_MOVE), hurt(0, 30, 70, {sourceSide: 1, skill: FOE_MOVE}),

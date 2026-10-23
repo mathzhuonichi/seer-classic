@@ -109,11 +109,11 @@ function damageText(event: EventOf<'damage'>, { shown, critical }: Pick<DamageTa
 export const tallyText = (tally: DamageTally, context: BattleLogContext) => damageText(tally.events.at(-1)!, tally, context);
 
 /**
- * The one line of a move's blocks on one creature (`damageBlocks`), on the first: 抵挡了这次伤害 when nothing of the move got
- * through to it, 抵挡了部分伤害 when some did, so that it agrees with the move's damage line.
+ * The one line of a move's blocks on one creature (`damageBlocks`), on the one that carries it: 抵挡了这次伤害 when nothing of
+ * the move got through to it, 抵挡了部分伤害 when some did, so that it agrees with the move's damage line.
  */
-const blockText = (event: Block, { first, partial }: BlockShare, context: BattleLogContext) =>
-  first ? `${subjectName(event, context)}抵挡了${partial ? '部分' : '这次'}伤害。` : '';
+const blockText = (event: Block, { lined, partial }: BlockShare, context: BattleLogContext) =>
+  lined ? `${subjectName(event, context)}抵挡了${partial ? '部分' : '这次'}伤害。` : '';
 
 /** A step's line with a move's blocks on one creature as one (`blockText`). */
 export function shownStepText(step: readonly BattleEvent[], blocks: ReadonlyMap<BattleEvent, BlockShare>, context: BattleLogContext): string {
@@ -221,7 +221,7 @@ export const LINE_SEPARATOR = '　';
 /**
  * Each entry is one action and its consequences, or one residual/end-of-turn group. A move's damage to one creature is one line
  * (`damageTallies`), where its first hit came, with the total and the HP left after the last; its blocks on one creature are one
- * line too, where the first came (`damageBlocks`).
+ * line too (`damageBlocks`).
  */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
   const shown = { ...context, initialPlayer: { ...context.initialPlayer }, initialEnemy: { ...context.initialEnemy } };

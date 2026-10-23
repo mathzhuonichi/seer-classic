@@ -41,14 +41,32 @@ const MOVE_ENDS: ReadonlySet<BattleEvent['type']> = new Set([
 const TALLY_ENDS: ReadonlySet<BattleEvent['type']> = new Set(['heal', 'revive', 'faint', 'transform', 'max_hp_changed']);
 
 /**
+ * The counters of `events` (one dispatch's), each with the hit that drew it: damage on a move's user from the other side, or a
+ * rule of the user stopping it (`damage_blocked`), that follows a hit of the move on its target with only other counters to that
+ * hit between (a Boss's `reflect_damage`, an `on_hurt` reflection such as 反击风暴, or both).
+ */
+function counterHits(events: readonly BattleEvent[]): Map<BattleEvent, Damage> {
+  const drawn = new Map<BattleEvent, Damage>();
+  let user: 0 | 1 | undefined, hit: Damage | undefined;
+  for (const event of events) {
+    if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) user = event.type === 'move_used' ? event.side : undefined;
+    const onUser = user !== undefined && 'side' in event && event.side === user;
+    const answers = event.type === 'damage' ? !event.status && event.sourceSide !== undefined && event.sourceSide !== user : event.type === 'damage_blocked';
+    if (hit && onUser && answers) drawn.set(event, hit);
+    else hit = event.type === 'damage' && user !== undefined && !event.status && event.side !== user ? event : undefined;
+  }
+  return drawn;
+}
+
+/**
  * Groups `events` (one dispatch's) into tallies. From a `move_used` until the move ends (`MOVE_ENDS`), every damage event without
  * a `status` joins the open tally of its creature: the move's hits and riders on its target, and its recoil and the counters it
- * draws on its user. Status damage and damage outside a move (the turn's end, an entry, an item) are tallies of their own. Damage
- * on the user from the other side that follows a hit on the target with nothing between is a counter to that hit (`drawnBy`).
+ * draws on its user (`counterHits`, `drawnBy`). Status damage and damage outside a move (the turn's end, an entry, an item) are
+ * tallies of their own.
  */
 export function damageTallies(events: readonly BattleEvent[]): Map<Damage, TallyShare> {
-  const shares = new Map<Damage, TallyShare>(), open = new Map<string, DamageTally>();
-  let user: 0 | 1 | undefined, hit: Damage | undefined;
+  const shares = new Map<Damage, TallyShare>(), open = new Map<string, DamageTally>(), drawn = counterHits(events);
+  let user: 0 | 1 | undefined;
   for (const event of events) {
     if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) {
       open.clear();
@@ -58,9 +76,8 @@ export function damageTallies(events: readonly BattleEvent[]): Map<Damage, Tally
     if (TALLY_ENDS.has(event.type) && 'side' in event) {
       for (const key of [...open.keys()]) if ('slot' in event ? key === `${event.side}:${event.slot}` : key.startsWith(`${event.side}:`)) open.delete(key);
     }
-    if (event.type !== 'damage') { hit = undefined; continue; }
+    if (event.type !== 'damage') continue;
     const key = `${event.side}:${event.slot}`, joins = user !== undefined && !event.status;
-    const drawnBy = joins && event.side === user && event.sourceSide !== undefined && event.sourceSide !== user ? hit : undefined;
     let tally = joins ? open.get(key) : undefined;
     if (!tally) {
       tally = { events: [], shown: 0, critical: false };
@@ -69,28 +86,28 @@ export function damageTallies(events: readonly BattleEvent[]): Map<Damage, Tally
     tally.events.push(event);
     tally.shown += displayedDamage(event);
     tally.critical ||= event.crit;
-    shares.set(event, { tally, index: tally.events.length - 1, shown: tally.shown, drawnBy });
-    // A second counter to the same hit (a reflection and an on_hurt one) answers it too.
-    if (!drawnBy) hit = joins && event.side !== user ? event : undefined;
+    shares.set(event, { tally, index: tally.events.length - 1, shown: tally.shown, drawnBy: drawn.get(event) });
   }
   return shares;
 }
 
 /** One block's place among its move's blocks on one creature, which show as one line. */
 export interface BlockShare {
-  /** It is the first of them, which carries the line. */
-  first: boolean;
+  /** It carries the line: the first of them, or the last when they are all counters, so that the line follows the move's last hit. */
+  lined: boolean;
   /** Some of the move's damage to the creature went through, so the line must not say that all of it was stopped. */
   partial: boolean;
+  /** It stopped a counter to this hit (`counterHits`); the battle screen shows it with that hit. */
+  drawnBy?: Damage;
 }
 
 /**
  * The blocks of `events` (one dispatch's), grouped like the tallies: from a `move_used` until the move ends (`MOVE_ENDS`), the
- * blocks on one side (a protection, or a Boss rule stopping each hit or rider) are one line, the first's. A block outside a move
+ * blocks on one side (a protection, or a Boss rule stopping each hit, rider or counter) are one line. A block outside a move
  * stands alone.
  */
 export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockShare> {
-  const groups: { blocks: Block[]; damaged: boolean }[] = [];
+  const groups: { blocks: Block[]; damaged: boolean }[] = [], drawn = counterHits(events);
   let open: Map<0 | 1, (typeof groups)[number]> | undefined;
   for (const event of events) {
     if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) open = event.type === 'move_used' ? new Map() : undefined;
@@ -103,5 +120,8 @@ export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockSh
     if (event.type !== 'damage') group.blocks.push(event);
     else group.damaged ||= !event.status && displayedDamage(event) > 0;
   }
-  return new Map(groups.flatMap(({ blocks, damaged }) => blocks.map((block, index) => [block, { first: index === 0, partial: damaged }] as const)));
+  return new Map(groups.flatMap(({ blocks, damaged }) => {
+    const lined = blocks.every(block => drawn.has(block)) ? blocks.length - 1 : 0;
+    return blocks.map((block, index) => [block, { lined: index === lined, partial: damaged, drawnBy: drawn.get(block) }] as const);
+  }));
 }
