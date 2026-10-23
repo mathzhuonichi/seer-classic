@@ -18,9 +18,9 @@ export const REDUCED_MOTION_MS = 160;
 export const CAPTURE_OUTCOME_MS = 1700;
 /**
  * A damage or healing number stays on screen this long from when it last changed, however fast the frames and turns move on.
- * The original held its one number per move for 1.5 s; the user asked for longer than the 3 s shown before (2026-10-23).
+ * The original held its one number per move for 1.5 s; the user chose 4 s, up from the 3 s shown before (2026-10-23).
  */
-export const DAMAGE_NUMBER_MS = 4500;
+export const DAMAGE_NUMBER_MS = 4000;
 /** Numbers shown at once on one side stack in this many rows; a further one replaces the oldest. */
 export const DAMAGE_NUMBER_ROWS = 5;
 
