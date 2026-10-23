@@ -229,6 +229,9 @@
     "game-v3.ts": {
       "status": "gate"
     },
+    "golden-saves.mjs": {
+      "status": "gate"
+    },
     "graphical-atlas.mjs": {
       "status": "gate"
     },

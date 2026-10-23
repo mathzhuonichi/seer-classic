@@ -3,12 +3,13 @@
 //! through Tauri's own protocol.
 mod payload;
 mod public_assets;
+mod saves;
 mod shell;
 
 use std::sync::Arc;
 
 use public_assets::{GameAssets, PublicDir};
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager, RunEvent};
 use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
 
 /// Logs why the payload is incomplete, tells the player and quits once the message is closed.
@@ -48,6 +49,20 @@ fn check_payload(app: &AppHandle, public: &PublicDir) -> bool {
     }
 }
 
+/// The page's commands.
+macro_rules! commands {
+    () => {
+        tauri::generate_handler![
+            saves::read_save,
+            saves::write_save,
+            saves::keep_unreadable_save,
+            saves::export_save,
+            shell::toggle_fullscreen,
+            shell::log_web
+        ]
+    };
+}
+
 fn main() {
     let mut context = tauri::generate_context!();
     let public = Arc::new(PublicDir::default());
@@ -60,10 +75,13 @@ fn main() {
         .plugin(shell::log_plugin())
         .plugin(shell::window_state_plugin())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![shell::toggle_fullscreen, shell::log_web])
+        .invoke_handler(commands!())
         .setup(move |app| {
             shell::log_panics();
             log::info!("Seer Classic {} starting", app.package_info().version);
+            // Development runs keep their own saves beside the player's.
+            let saves = app.path().app_data_dir()?.join(if tauri::is_dev() { "saves-dev" } else { "saves" });
+            app.manage(saves::SaveState::open(saves));
             if check_payload(app.handle(), &public) {
                 shell::create_main_window(app, public_assets::not_found_handler(embedded_paths, public))?;
             }
@@ -71,5 +89,13 @@ fn main() {
         });
     #[cfg(target_os = "macos")]
     let builder = builder.on_web_content_process_terminate(|_| log::warn!("the web content process ended; the page reloads"));
-    builder.run(context).expect("Failed to launch Seer Classic");
+    let app = builder.build(context).expect("Failed to launch Seer Classic");
+    app.run(|app, event| {
+        // The last save handed to the writer reaches the disk before the process ends.
+        if let RunEvent::Exit = event {
+            if let Some(saves) = app.try_state::<saves::SaveState>() {
+                saves.drain();
+            }
+        }
+    });
 }

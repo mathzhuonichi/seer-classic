@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog,type CatalogData} from '../../src/domain/catalog/catalog.ts';
 import type {GameAction} from '../../src/kernel/contract.ts';
-import {readLocalSave,UNREADABLE_SAVE_PREFIX,writeLocalSave} from '../../src/kernel/persistence.ts';
+import {readLocalSave,saveWriteProblem,UNREADABLE_SAVE_PREFIX,unreadableSaves,writeLocalSave} from '../../src/kernel/persistence.ts';
 import {SAVE_VERSION} from '../../src/kernel/save.ts';
 import {memoryStorage} from './_harness.mjs';
 
@@ -230,15 +230,19 @@ export async function verifyControllerSaveRecovery(){
   try{
     writeLocalSave('{"version":99}');
     const game=createGame(catalog);
-    assert.deepEqual(game.snapshot().notices,['旧存档无法读取，已创建新存档。']);
+    assert.deepEqual(game.snapshot().notices,[`存档来自更新版本的游戏（存档格式 99，本游戏为 ${SAVE_VERSION}），已另存原存档并创建新存档；可在设置中导出原存档。`],
+      'A newer game\'s save names its format version.');
     const backups=[...memory.keys()].filter(key=>key.startsWith(UNREADABLE_SAVE_PREFIX));
     assert.deepEqual(backups.map(key=>memory.get(key)),['{"version":99}'],'The unreadable save is kept under its own key.');
+    assert.deepEqual(unreadableSaves().map(save=>save.text),['{"version":99}'],'Settings lists it for export.');
     assert.equal(readLocalSave(),game.exportSave(),'The new journey is written under the save key.');
+    memory.clear();writeLocalSave('{"version":5,"party"');
+    assert.deepEqual(createGame(catalog).snapshot().notices,['旧存档无法读取，已另存原存档并创建新存档；可在设置中导出原存档。']);
     // Without room for a backup, progress stays in memory until the player replaces the save explicitly.
     memory.clear();writeLocalSave('{"version":99}');
     storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');setItem(key,value);};
     const unsaved=createGame(catalog);
-    assert.equal(unsaved.snapshot().notices.length,1);assert.notEqual(unsaved.snapshot().notices[0],'旧存档无法读取，已创建新存档。');
+    assert.deepEqual(unsaved.snapshot().notices,['存档来自更新版本的游戏（存档格式 99，本游戏为 5）且无法备份；为保留原存档，本次进度暂不保存。'.replace('5',String(SAVE_VERSION))]);
     unsaved.dispatch({type:'heal'});unsaved.exportSave();await microtasks();
     assert.equal(readLocalSave(),'{"version":99}','The unreadable save is never overwritten.');
     unsaved.reset();assert.equal(readLocalSave(),unsaved.exportSave(),'A new journey chosen by the player replaces it.');
@@ -292,16 +296,24 @@ export async function verifyCoalescedSaveWrites(){
     assert.equal(writes,3,'Neither the end of the task nor an export with nothing pending writes again.');
     full=true;game.dispatch({type:'rename',uid,name:'Full'});
     assert.equal(nicknameIn(game.exportSave()),'Full','An export returns the latest state when storage refuses the write.');
-    await microtasks();full=false;game.dispatch({type:'rename',uid,name:'Retry'});await microtasks();
+    await microtasks();assert.equal(saveWriteProblem(),'QuotaExceededError','A refused write is reported to the shell.');
+    full=false;game.dispatch({type:'rename',uid,name:'Retry'});await microtasks();
     assert.equal(writes,4,'The next action writes again.');assert.equal(nickname(),'Retry');
+    assert.equal(saveWriteProblem(),null,'A successful write clears the report.');
     game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
     assert.equal(writes,5,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
     await microtasks();assert.equal(writes,5,'The end of the task writes nothing more.');
     game.dispatch({type:'rename',uid:game.snapshot().party[0],name:'Import'});game.importSave(exported);
     assert.equal(writes,6,'An import replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());assert.equal(nickname(),'Export');
     await microtasks();assert.equal(writes,6,'The end of the import\'s task writes nothing more.');
+    full=true;const refused=createGame(catalog,'');full=false;
+    assert.equal(saveWriteProblem(),'QuotaExceededError','A game whose first write is refused still opens, with the report.');
+    const lead=refused.snapshot().party[0];refused.dispatch({type:'rename',uid:lead,name:'Opened'});await microtasks();
+    assert.equal(saveWriteProblem(),null);
+    assert.equal(JSON.parse(readLocalSave()!).storage.find((mon:{uid:string})=>mon.uid===lead).nickname,'Opened','Its next action is written.');
     return {checks:['burst writes once before its task ends','burst writes the latest state','unchanged save not written','export writes the latest state',
-      'export returns the latest state when storage refuses it','reset writes at once','import writes at once']};
+      'export returns the latest state when storage refuses it','refused write reported until the next write','first write refused',
+      'reset writes at once','import writes at once']};
   }finally{
     if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
   }

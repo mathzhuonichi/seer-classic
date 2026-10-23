@@ -14,12 +14,13 @@ import {WorldAtlas} from '../features/world/ui.ts';
 import { RecoveryConsole, SettingsConsole } from './ShellPanels.tsx';
 import type { shellRoutes } from './shell-routes.ts';
 import type { useShellNavigation } from './useShellNavigation.ts';
+import type { UnreadableSave } from '../kernel/persistence.ts';
 
 export interface ShellWindowProps {
   kind: WindowKind; c: GameController; focus: WindowFocus; selected: string; inBattle: boolean;
   navigation: ReturnType<typeof useShellNavigation>; routes: ReturnType<typeof shellRoutes>;
   onSelect: (uid: string) => void; onMessage: (message: string) => void;
-  onExportSave: () => void; onImportSave: () => void; onHeal: () => void; onModifier: () => void;
+  onExportSave: () => void; onExportUnreadable: (save: UnreadableSave) => void; onImportSave: () => void; onHeal: () => void; onModifier: () => void;
 }
 
 /** The body of one scene window. */
@@ -46,6 +47,6 @@ export function ShellWindowContent({ kind, c, focus, selected, inBattle, navigat
       onOpenBag={itemId => openBag('essence', itemId)}/>;
     case 'recovery': return <RecoveryConsole c={c} onHeal={actions.onHeal}/>;
     case 'settings': return <SettingsConsole inBattle={inBattle} onExport={actions.onExportSave} onImport={actions.onImportSave} onModifier={actions.onModifier}
-      onMessage={onMessage}/>;
+      onExportUnreadable={actions.onExportUnreadable} onMessage={onMessage}/>;
   }
 }
