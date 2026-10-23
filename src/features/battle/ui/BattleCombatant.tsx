@@ -43,8 +43,9 @@ function DamageNumber({ number }: { number: FloatingNumber }) {
 /**
  * One side's creature with the current frame's motion and overlays. Original source timelines
  * retain their registration; unavailable clips use the portrait. The creature acting a move is drawn in front of the other,
- * since its original clip travels to the opponent; numbers stay in front of both. A move with an original skill effect
- * (BattleSkillEffects, `effectCue`) shows that instead of this component's own status ring, projectile and impact.
+ * since its original clip travels to the opponent, and is not greyed out at 0 HP until it is home; numbers stay in front of
+ * both. A move with an original skill effect (BattleSkillEffects, `effectCue`) shows that instead of this component's own
+ * status ring, projectile and impact.
  */
 export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue, numbers, arena }: {
   monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; busy?: boolean;
@@ -62,7 +63,9 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
   const motion = MOTION_KINDS.has(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';
   const capturing = effect === 'capture', acting = !!originalFrame && isMoveFrame(originalFrame);
-  const className = `classic-combatant side-${side}${monster.hp <= 0 ? ' is-fainted' : ''}${critical ? ' is-critical' : ''}`
+  // A counter can take the attacker to 0 HP while its clip is still at the target: it greys once it is home.
+  const greyed = monster.hp <= 0 && !acting;
+  const className = `classic-combatant side-${side}${greyed ? ' is-fainted' : ''}${critical ? ' is-critical' : ''}`
     + `${captured && !capturing ? ' is-captured' : ''}${capturing && frame?.captureSuccess ? ' capture-success' : ''}`;
   return <div className={className} style={{ '--direction': side === 0 ? 1 : -1, '--ground-y': `${groundY}%` } as CSSProperties}>
     <div className={`classic-combatant-stage${acting ? ' is-acting' : ''}`}>
