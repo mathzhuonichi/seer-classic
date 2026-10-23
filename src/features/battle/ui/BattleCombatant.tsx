@@ -28,7 +28,7 @@ function CaptureEffect({ animating, success }: { animating: boolean; success: bo
 
 /**
  * A damage or healing number, held for DAMAGE_NUMBER_MS in its row of its side's stack. It is drawn again each time a later hit
- * adds to it (keyed by the frame that last set it): it stays in view, swells briefly and holds its time again.
+ * changes it (keyed by the frame that last changed it): it stays in view, swells briefly and holds its time again.
  */
 function DamageNumber({ number }: { number: FloatingNumber }) {
   const style = { '--number-row': number.row, animationDuration: `${DAMAGE_NUMBER_MS}ms` } as CSSProperties;

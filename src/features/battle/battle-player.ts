@@ -18,15 +18,17 @@ export interface SkillEffectCue {
 }
 
 /**
- * A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS). A move's
- * later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
+ * A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS), but not its
+ * creature's place on screen. A move's later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
  */
 export interface FloatingNumber {
   /** The id of its first frame. */
   id: number;
-  /** The frame that last set it: its first, or the latest one that added to it. */
+  /** The frame that last changed it: its first, or the latest one that added to it. */
   frame: number;
   side: 0 | 1;
+  /** The creature it is on (`BattleMonsterView.uid`); it leaves when another creature of its side enters. */
+  uid: string;
   amount: number;
   healing: boolean;
   /** Any of its hits was critical. */
@@ -163,9 +165,14 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
   };
 }
 
+/** The creature that `frame` shows on its own side. */
+const activeUid = (frame: BattlePresentationFrame) => (frame.side === 1 ? frame.enemy : frame.player).uid;
+
 /**
  * Shows each hit or heal frame's number for DAMAGE_NUMBER_MS, in the lowest free row of its side. A frame that adds to a number
- * on screen sets its amount, keeps its row and starts its time again. A frame shown again (a replayed turn) changes nothing.
+ * on screen sets its amount, keeps its row and starts its time again; one that changes neither its amount nor its critical style
+ * (a 0-damage hit) leaves it as it is. A creature entering (a switch frame of another creature) takes the place of the numbers on
+ * the one it replaced; a transform keeps them. A frame shown again (a replayed turn) changes nothing.
  */
 function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set: Patch) {
   const timers = new Map<number, number>();
@@ -181,15 +188,23 @@ function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set
     const taken = new Set(sideNumbers().map(number => number.row));
     let row = 0;
     while (taken.has(row)) row++;
-    return [...current().numbers, { id, frame: frame.id, side: frame.side, amount, healing: frame.kind === 'heal', critical: !!frame.critical, row }];
+    const healing = frame.kind === 'heal', critical = !!frame.critical;
+    return [...current().numbers, { id, frame: frame.id, side: frame.side, uid: activeUid(frame), amount, healing, critical, row }];
+  };
+  /** The numbers of the creatures of `frame`'s side that it no longer shows leave with them. */
+  const retire = (frame: BattlePresentationFrame) => {
+    const uid = activeUid(frame);
+    for (const number of current().numbers) if (number.side === frame.side && number.uid !== uid) remove(number.id);
   };
   return {
     show(frame: BattlePresentationFrame) {
+      if (frame.kind === 'switch') retire(frame);
       if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined) return;
       const id = frame.numberId ?? frame.id, amount = frame.amount, shown = current().numbers.find(number => number.id === id);
-      if (shown && frame.id <= shown.frame) return;
+      const critical = !!shown?.critical || !!frame.critical;
+      if (shown && (frame.id <= shown.frame || amount === shown.amount && critical === shown.critical)) return;
       set({ numbers: shown
-        ? current().numbers.map(number => number === shown ? { ...shown, frame: frame.id, amount, critical: shown.critical || !!frame.critical } : number)
+        ? current().numbers.map(number => number === shown ? { ...shown, frame: frame.id, amount, critical } : number)
         : added(frame, id, amount) });
       clock.clearTimeout(timers.get(id));
       timers.set(id, clock.setTimeout(() => remove(id), DAMAGE_NUMBER_MS));
