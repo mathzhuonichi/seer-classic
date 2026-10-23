@@ -8,7 +8,8 @@
  * - Every path the minified build can request exists in the payload, and no excluded path is among them: the literal paths in
  *   its scripts, styles and page; its template paths (`/portraits/${…}.png`, a `<skillId>` placeholder), filled with every
  *   payload or public file they match whose filled-in parts are numbers or string literals of the build; and the paths that
- *   requested SVG, CSS and JSON files name in turn. A dynamic path the gate cannot read fails it.
+ *   requested SVG, CSS and JSON files name in turn. A dynamic path the gate cannot read fails it: a concatenation or template
+ *   with a known top folder after an expression, and a template to an asset file whose folder comes from an expression.
  *
  * Usage: node tools/verification/desktop-payload.mjs [--dist dist-desktop] [--payload releases/desktop-payload/public]
  */
@@ -27,7 +28,10 @@ const DIST_ENTRIES = ['assets', 'index.html', 'ruffle'];
 const MANIFEST = 'payload.json', NOTICES = 'THIRD-PARTY-NOTICES.txt';
 /** Text assets whose references are followed, and the reference forms read in them. */
 const TEXT_ASSET = /\.(svg|css|html|json)$/;
-const REFERENCE = /(?:href|src|url)\s*=?\s*\(?\s*["']?([^"')\s>]+\.(?:png|webp|svg|jpg|jpeg|gif|json|gz|swf|m4a|mp3|woff2?|ttf))/g;
+const ASSET_EXTENSIONS = 'png|webp|svg|jpg|jpeg|gif|json|gz|swf|m4a|mp3|woff2?|ttf';
+const REFERENCE = new RegExp(`(?:href|src|url)\\s*=?\\s*\\(?\\s*["']?([^"')\\s>]+\\.(?:${ASSET_EXTENSIONS}))`, 'g');
+/** A template part that ends a path at an asset file. */
+const ASSET_END = new RegExp(`\\.(?:${ASSET_EXTENSIONS})$`);
 
 /** Every file below `dir` as a POSIX path relative to it. */
 const files = dir => fs.readdirSync(dir, {recursive: true, withFileTypes: true}).filter(entry => entry.isFile())
@@ -99,6 +103,8 @@ function requestable({strings, templates, concatenations, styles}, known) {
     const at = parts[0].search(prefix);
     if (at >= 0) fill(new RegExp(`^${[parts[0].slice(at + 1), ...parts.slice(1)].map(escape).join('(.+?)')}$`));
     else if (parts.slice(1).some(part => prefix.test(part))) unread.push(parts.join('${…}'));
+    // `/${folder}/${name}.png` names its folder through an expression; `/${name}.json`, with no slash after one, does not.
+    else if (ASSET_END.test(parts.at(-1)) && parts.slice(1).some(part => part.includes('/'))) unread.push(parts.join('${…}'));
   }
   unread.push(...concatenations.filter(text => prefix.test(text) || new RegExp(`^/(?:${tops})$`).test(text)));
   return {found, unread};
