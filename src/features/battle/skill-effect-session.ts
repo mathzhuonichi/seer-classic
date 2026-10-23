@@ -43,6 +43,8 @@ export interface SkillEffectStage {
    * `missing` runs instead when it cannot start, and later when the page is hidden or the host dies while it plays.
    */
   play(skillId: number, at: SkillEffectPlacement, still: boolean, missing: () => void): () => void;
+  /** Stops every effect the stage plays, and their `missing` run: the arena moved or changed size under them. */
+  stopAll(): void;
   /** Gives the host back: it goes to its parking place, suspended. */
   dispose(): void;
 }
@@ -188,6 +190,7 @@ export class SkillEffectSession {
         plays.set(id, missing);
         return () => { if (plays.delete(id)) held?.host.stop(id); };
       },
+      stopAll: cut,
       dispose: () => {
         if (disposed) return;
         disposed = true;

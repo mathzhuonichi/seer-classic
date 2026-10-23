@@ -276,3 +276,16 @@ test('a loading screen waits for the opening creatures\' effects only; the other
   session.stage({});
   assert.ok(session.timing(11006, 1));
 });
+
+test('a stage stops every effect it plays when the arena moves, and their cues skip', async () => {
+  const {session, hosts} = harness();
+  await session.prepare([11006, 20001]);
+  const stage = session.stage({}), missed = [];
+  const stop = stage.play(11006, at, false, () => missed.push(11006));
+  stage.play(20001, at, false, () => missed.push(20001));
+  stage.stopAll();
+  assert.deepEqual([missed, hosts[0].stops], [[11006, 20001], [1, 2]]);
+  stop();
+  assert.equal(hosts[0].stops.length, 2, 'a stopped effect is not stopped twice');
+  stage.dispose();
+});

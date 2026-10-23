@@ -104,13 +104,15 @@ The host SWF runs at 24 fps, the original fight stage's rate (`tools/assets/buil
 
 The presentation (`planBattleFrame`) starts the cue at the hit marker plus the start. With an effect, a move followed by its hit hands over when the effect hurts the target (`hurtDelayMs`). The hit frame still holds its 490 ms and waits for the effect's end. The damage number and HP bar still come with the hurt, not after the effect as in the original: that would add about 0.46 s per damaging move, and is left to the user.
 
-An effect that cannot start at its cue's delay skips its cue (`SkillEffectCue.skip`): no placement, the host gone, the page hidden, or the effect not loaded. So does a playing effect when the page is hidden or the host dies. The frame on screen then hands over without the effect: the move at its hit marker, and a later frame without waiting for the effect's end.
+An effect that cannot start at its cue's delay skips its cue (`SkillEffectCue.skip`): no placement, the host gone, the page hidden, or the effect not loaded. So does a playing effect when the page is hidden, the host dies, or the arena moves or changes size. The frame on screen then hands over without the effect: the move at its hit marker, and a later frame without waiting for the effect's end.
 
 A cue now stays until another move's frame or the turn's end. Before, it cleared when the effect ended, and the creature's own status ring or projectile popped up for the rest of a move whose clip outlasts its effect.
 
 ### The arena layer
 
 The layer, its z-order and its CSS are v1's. `useArenaCover` also re-covers the arena when an ancestor's inline style changes (`MutationObserver`). That is how the game display's zoom changes on a resize that leaves the arena's layout box alone.
+
+When the cover changes the layer's place, size or zoom while effects play, the stage stops them (`SkillEffectStage.stopAll`) and their cues skip. The host places a clip once, in stage px, and Ruffle draws with `noScale`, so the rest of an effect would be drawn at the old place and scale: after a resize from 1280x800 to 1000x650 during 叶绿光束, its beam started below 丽莎布布 and its impact cloud landed past 皮皮, larger than it should be. Moving the running clips would need a new host callback (an `fxMove`) and a host SWF rebuild; a window resized mid-effect is rare (maximizing or going fullscreen in Tauri), so the effect ends instead. The next move's effect is placed in the new arena.
 
 ### Not taken
 
@@ -130,7 +132,7 @@ The layer, its z-order and its CSS are v1's. `useArenaCover` also re-covers the 
 | Loading boundary | `src/features/battle/battle-skill-effects.ts` | `prepareSkillEffects(battle)`, `getSkillEffectTiming(skillId, species)` and `createSkillEffectStage(container)`, wired to the real page: the parking place, the lazy index and timing data, the page's visibility, one warning per reason. |
 | Session rules | `src/features/battle/skill-effect-session.ts` | `SkillEffectSession`: which screen holds the host, when it starts, is replaced or is given up, the loads, how long a loading screen waits (`SKILL_EFFECTS_WAIT_MS`), the stages, `skillEffectTiming`, `battleSkillIds`. Pure, with unit tests on a fake host and a fake clock. |
 | Ruffle protocol | `src/features/battle/skill-effect-host.ts` | The script, the kept player element, the start's time limit, `moveTo`/`suspend`/`resume`, the death watchers and the host protocol. |
-| Battle screen | `src/features/battle/ui/BattleSkillEffects.tsx` | Takes the host in a layout effect, plays each cue at its delay and stops it after its duration; follows zoom-only resizes. |
+| Battle screen | `src/features/battle/ui/BattleSkillEffects.tsx` | Takes the host in a layout effect, plays each cue at its delay and stops it after its duration; follows zoom-only resizes, and stops the effects playing when the arena moves. |
 | Presentation | `battle-playback.ts`, `battle-player.ts`, `ui/use-battle-playback.ts` | `SkillEffectTiming`, `hurtDelayMs` and `SkillEffectCue.skip`. |
 | Loading screen | `src/app/useBattlePreparation.ts` | Calls `prepareSkillEffects(battle)` at 90 %, after the art and animations, and waits for it with its last pauses; the session bounds that wait. |
 | Data | `data/original-fight-timing.json`, `tools/assets/extract_fight_timing.py` | The 450 species PetLabelXMLInfo times, with source URL, binary-data id and hash. |
@@ -215,7 +217,7 @@ The harness is `insitu-v2.mjs`, after the version 1.0 in-situ script and the lif
 ## Checks
 
 - **Unit tests** (in `npm test`):
-  - `skill-effect-session.test.mjs`: the original timing, both parties' skills and the opening pair's, one host over battles (taken, parked, suspended, loads kept), timing only while it can play, plays that cannot start or that a hidden page stops, death and the next host, Ruffle blocked and the failure limit, the recycle rule, a stage disposed before the host runs, and the label-timed data against the catalog. On a fake clock: a start that never answers holds only the screen that began it, fails, is counted and is tried once more without being waited for; a start that lands after its screen gave up loads that battle's effects into the battle screen; a load that never answers holds only one screen; and a screen waits only for the opening pair's effects.
+  - `skill-effect-session.test.mjs`: the original timing, both parties' skills and the opening pair's, one host over battles (taken, parked, suspended, loads kept), timing only while it can play, plays that cannot start or that a hidden page stops, death and the next host, Ruffle blocked and the failure limit, the recycle rule, a stage disposed before the host runs, and the label-timed data against the catalog. On a fake clock: a start that never answers holds only the screen that began it, fails, is counted and is tried once more without being waited for; a start that lands after its screen gave up loads that battle's effects into the battle screen; a load that never answers holds only one screen; a screen waits only for the opening pair's effects; `stopAll` ends the stage's plays.
   - `battle-playback.test.mjs`: the start offset and the hurt hand-over.
   - `battle-player.test.mjs`: the hurt hand-over, the cue that stays while its move shows, and skips at the start, during the hit, stale and after a cancel.
 - **`tools/verification/battle-skill-effects.mjs`** (`needs-browser`), in Chrome 1280x800@1 and 1920x1080@2 and WebKit 1280x800@1:
