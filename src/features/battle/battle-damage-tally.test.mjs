@@ -127,8 +127,23 @@ test('a missed multi-hit shows no number, a blocked hit leaves the move\'s numbe
   const blocked = show([used(0, MULTI), hurt(1, 30, 70), {type: 'damage_blocked', side: 1, rule: 'invulnerable'}, hurt(1, 31, 39),
     used(0, MULTI), hurt(1, 8, 31)]);
   assert.deepEqual(blocked.hits.map(({amount, numberId}) => [amount, numberId]), [[30, undefined], [61, 2], [8, undefined]]);
-  assert.deepEqual(blocked.log, ['巴鲁斯使用了三连击。　布布花受到 61 点伤害。剩余体力 39/100。　布布花抵挡了这次伤害。',
+  assert.deepEqual(blocked.log, ['巴鲁斯使用了三连击。　布布花受到 61 点伤害。剩余体力 39/100。　布布花抵挡了部分伤害。',
     '巴鲁斯使用了三连击。　布布花受到 8 点伤害。剩余体力 31/100。']);
+});
+
+test('a move\'s blocked hits on one creature are one line: all of them stopped, or a part when some damage got through', () => {
+  const block = side => ({type: 'damage_blocked', side, rule: 'no_repeat_type'});
+  const lines = ({frames}) => frames.map(frame => frame.text).filter(Boolean);
+  const all = show([used(0, MULTI), block(1), block(1), block(1), {type: 'multi_hit', side: 0, hits: 3}]);
+  assert.deepEqual(lines(all), ['巴鲁斯使用了三连击。', '布布花抵挡了这次伤害。'], 'one line and one frame for the three');
+  assert.deepEqual(all.log, ['巴鲁斯使用了三连击。　布布花抵挡了这次伤害。']);
+  const some = show([used(0, MULTI), hurt(1, 30, 70), block(1), block(1), used(1, FOE_MOVE), {type: 'protected', side: 0}]);
+  assert.deepEqual(lines(some), ['巴鲁斯使用了三连击。', '布布花受到 30 点伤害。剩余体力 70/100。', '布布花抵挡了部分伤害。', '布布花使用了撞击。', '巴鲁斯抵挡了这次伤害。']);
+  assert.deepEqual(some.log, ['巴鲁斯使用了三连击。　布布花受到 30 点伤害。剩余体力 70/100。　布布花抵挡了部分伤害。', '布布花使用了撞击。　巴鲁斯抵挡了这次伤害。']);
+  const rider = show([used(0, RIDER), block(1), hurt(1, 40, 60, {kind: 'fixed', sourceSide: 0, skill: RIDER})]);
+  assert.deepEqual(rider.log, ['巴鲁斯使用了龙之怒。　布布花抵挡了部分伤害。　布布花受到 40 点伤害。剩余体力 60/100。'], 'a rider after the block');
+  const apart = show([{type: 'turn_end', turn: 1}, block(1), block(1)]);
+  assert.deepEqual(apart.log, ['布布花抵挡了这次伤害。　布布花抵挡了这次伤害。'], 'outside a move each block stands alone');
 });
 
 test('a heal or a life between the hits starts a new number, so the number never runs past what the HP bar shows', () => {

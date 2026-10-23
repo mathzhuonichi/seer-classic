@@ -1,7 +1,7 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
-import { LINE_SEPARATOR, battleStepText, battleSteps, tallyText, type BattleLogContext, type EventOf } from './battle-log.ts';
-import { damageTallies, type DamageTally, type TallyShare } from './battle-damage-tally.ts';
+import { LINE_SEPARATOR, battleSteps, shownStepText, tallyText, type BattleLogContext, type EventOf } from './battle-log.ts';
+import { damageBlocks, damageTallies, type BlockShare, type DamageTally, type TallyShare } from './battle-damage-tally.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
 import { typeMatchup } from './type-matchup.ts';
@@ -108,7 +108,8 @@ export interface FrameOptions {
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
   const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
-  const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events), numberIds = new Map<DamageTally, number>();
+  const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events), blocks = damageBlocks(events);
+  const numberIds = new Map<DamageTally, number>();
   /** The number a tally shows: the id of the frame or counter that first showed it, from `id` on. */
   const numberOf = (tally: DamageTally, id: number) => {
     const first = numberIds.get(tally);
@@ -123,7 +124,7 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
     for (const event of step) shown = advanceBattlePresentation(shown, event);
     const share = e.type === 'damage' ? tallies.get(e) : undefined;
-    const text = stepText(step, share, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
+    const text = stepText(step, share, blocks, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
     if (share?.drawnBy && last?.event === share.drawnBy && last.frame.kind === 'hit') {
       const id = last.frame.counter?.id ?? options.nextFrameId(), counter = { id, amount: share.shown, numberId: numberOf(share.tally, id) };
       frames[frames.length - 1] = last.frame = withCounter(last.frame, sceneOf(shown, foe, data), text, counter);
@@ -160,9 +161,12 @@ function sceneOf(shown: BattlePresentationState, foe: (mon: BattleMonsterView) =
 const withCounter = (hit: BattlePresentationFrame, scene: Scene, text: string, counter: NonNullable<BattlePresentationFrame['counter']>) =>
   ({ ...hit, ...scene, text: [hit.text, text].filter(Boolean).join(LINE_SEPARATOR), counter });
 
-/** A step's line; a damage event's is its tally's, on the tally's last frame, so earlier hits keep the move's line on screen. */
-const stepText = (step: readonly BattleEvent[], share: TallyShare | undefined, context: BattleLogContext) => !share ? battleStepText(step, context)
-  : share.index === share.tally.events.length - 1 ? tallyText(share.tally, context) : '';
+/**
+ * A step's line; a damage event's is its tally's, on the tally's last frame, so earlier hits keep the move's line on screen, and a
+ * move's blocks on one creature say theirs once.
+ */
+const stepText = (step: readonly BattleEvent[], share: TallyShare | undefined, blocks: ReadonlyMap<BattleEvent, BlockShare>, context: BattleLogContext) =>
+  !share ? shownStepText(step, blocks, context) : share.index === share.tally.events.length - 1 ? tallyText(share.tally, context) : '';
 
 interface FrameMotion { kind: BattlePresentationFrame['kind']; skillId?: number; targetSide?: 0 | 1 }
 

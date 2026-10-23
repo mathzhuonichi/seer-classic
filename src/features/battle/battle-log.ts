@@ -1,7 +1,7 @@
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { STAGE_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
 import { moveSkill } from '../../shared/view-common.ts';
-import { damageTallies, displayedDamage, type DamageTally } from './battle-damage-tally.ts';
+import { damageBlocks, damageTallies, displayedDamage, type Block, type BlockShare, type DamageTally } from './battle-damage-tally.ts';
 
 export type EventOf<T extends BattleEvent['type']> = Extract<BattleEvent, { type: T }>;
 
@@ -108,6 +108,19 @@ function damageText(event: EventOf<'damage'>, { shown, critical }: Pick<DamageTa
 /** The one line of a tally (`damageTallies`): a move's hits and riders on one creature together. */
 export const tallyText = (tally: DamageTally, context: BattleLogContext) => damageText(tally.events.at(-1)!, tally, context);
 
+/**
+ * The one line of a move's blocks on one creature (`damageBlocks`), on the first: 抵挡了这次伤害 when nothing of the move got
+ * through to it, 抵挡了部分伤害 when some did, so that it agrees with the move's damage line.
+ */
+const blockText = (event: Block, { first, partial }: BlockShare, context: BattleLogContext) =>
+  first ? `${subjectName(event, context)}抵挡了${partial ? '部分' : '这次'}伤害。` : '';
+
+/** A step's line with a move's blocks on one creature as one (`blockText`). */
+export function shownStepText(step: readonly BattleEvent[], blocks: ReadonlyMap<BattleEvent, BlockShare>, context: BattleLogContext): string {
+  const [event] = step, block = blocks.get(event);
+  return block ? blockText(event as Block, block, context) : battleStepText(step, context);
+}
+
 /** Format one event for the centered dialogue; pass current displayed creature names. */
 export function battleEventText(event: BattleEvent, context: BattleLogContext): string {
   const bare = bareName(event, context), name = subjectName(event, context);
@@ -207,11 +220,12 @@ export const LINE_SEPARATOR = '　';
 
 /**
  * Each entry is one action and its consequences, or one residual/end-of-turn group. A move's damage to one creature is one line
- * (`damageTallies`), where its first hit came, with the total and the HP left after the last.
+ * (`damageTallies`), where its first hit came, with the total and the HP left after the last; its blocks on one creature are one
+ * line too, where the first came (`damageBlocks`).
  */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
   const shown = { ...context, initialPlayer: { ...context.initialPlayer }, initialEnemy: { ...context.initialEnemy } };
-  const tallies = damageTallies(events);
+  const tallies = damageTallies(events), blocks = damageBlocks(events);
   const groups: string[] = [];
   let current: string[] = [];
   const flush = () => { if (current.length) groups.push(current.join(LINE_SEPARATOR)); current = []; };
@@ -228,7 +242,7 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
       mon.maxHp = event.maxHp;
     }
     const share = event.type === 'damage' ? tallies.get(event)! : undefined;
-    const text = !share ? battleStepText(step, shown) : share.index === 0 ? tallyText(share.tally, shown) : '';
+    const text = !share ? shownStepText(step, blocks, shown) : share.index === 0 ? tallyText(share.tally, shown) : '';
     if (text) current.push(text);
     // Named bench recovery must not overwrite the active creature's context.
     if ((event.type === 'damage' || event.type === 'heal' || event.type === 'revive') && (!event.name || event.name === mon.name)) mon.hp = event.hp;

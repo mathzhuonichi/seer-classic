@@ -2,6 +2,8 @@
 import type { BattleEvent } from '../../../battle/core/src/index.ts';
 
 type Damage = Extract<BattleEvent, { type: 'damage' }>;
+/** A hit or move that a protection or a Boss rule stopped before it did damage. */
+export type Block = Extract<BattleEvent, { type: 'protected' | 'damage_blocked' }>;
 
 /** Display the complete hit; HP loss, drain and rewards retain the core's amount. */
 export const displayedDamage = (event: Damage): number => Math.max(0, event.amount) + Math.max(0, event.overkill);
@@ -72,4 +74,34 @@ export function damageTallies(events: readonly BattleEvent[]): Map<Damage, Tally
     if (!drawnBy) hit = joins && event.side !== user ? event : undefined;
   }
   return shares;
+}
+
+/** One block's place among its move's blocks on one creature, which show as one line. */
+export interface BlockShare {
+  /** It is the first of them, which carries the line. */
+  first: boolean;
+  /** Some of the move's damage to the creature went through, so the line must not say that all of it was stopped. */
+  partial: boolean;
+}
+
+/**
+ * The blocks of `events` (one dispatch's), grouped like the tallies: from a `move_used` until the move ends (`MOVE_ENDS`), the
+ * blocks on one side (a protection, or a Boss rule stopping each hit or rider) are one line, the first's. A block outside a move
+ * stands alone.
+ */
+export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockShare> {
+  const groups: { blocks: Block[]; damaged: boolean }[] = [];
+  let open: Map<0 | 1, (typeof groups)[number]> | undefined;
+  for (const event of events) {
+    if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) open = event.type === 'move_used' ? new Map() : undefined;
+    if (event.type !== 'damage' && event.type !== 'protected' && event.type !== 'damage_blocked') continue;
+    let group = open?.get(event.side);
+    if (!group) {
+      groups.push(group = { blocks: [], damaged: false });
+      open?.set(event.side, group);
+    }
+    if (event.type !== 'damage') group.blocks.push(event);
+    else group.damaged ||= !event.status && displayedDamage(event) > 0;
+  }
+  return new Map(groups.flatMap(({ blocks, damaged }) => blocks.map((block, index) => [block, { first: index === 0, partial: damaged }] as const)));
 }
