@@ -1,23 +1,30 @@
 import assert from 'node:assert/strict';
 import { createGame } from '../../src/kernel/game.ts';
 import { advanceBattlePresentation, type BattlePresentationState } from '../../src/features/battle/index.ts';
-import { displayedDamage, battleEventText } from '../../src/features/battle/battle-log.ts';
+import { battleEventText } from '../../src/features/battle/battle-log.ts';
+import { displayedDamage } from '../../src/features/battle/battle-damage-tally.ts';
 import type { CatalogData } from '../../src/domain/catalog/catalog.ts';
 import { loadCatalogNode } from '../catalog.mjs';
 
 // Isolated catalog and save fixtures; this runner never accesses browser storage.
 const catalog = loadCatalogNode();
-const attackId = 990001, waitId = 990002, reviveId = 'audit_bench_revive';
+const attackId = 990001, waitId = 990002, multiId = 990003, reviveId = 'audit_bench_revive';
+const drain = { op: 'heal', target: 'self', pct_damage_dealt: 100 };
 catalog.skills.push(
-  { id: attackId, name: { zh: '伤害演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10, effects: [{ op: 'heal', target: 'self', pct_damage_dealt: 100 }] },
+  { id: attackId, name: { zh: '伤害演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10, effects: [drain] },
   { id: waitId, name: { zh: '等待' }, type: 'normal', category: 'status', power: 0, accuracy: null, pp: 10, effects: [] },
+  { id: multiId, name: { zh: '连击演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10,
+    effects: [{ op: 'multi_hit', min: 3, max: 3 }, drain] },
 );
-catalog.species.find((s: any) => s.id === 1).learnset = [{ level: 1, skill: attackId }];
+catalog.species.find((s: any) => s.id === 1).learnset = [{ level: 1, skill: attackId }, { level: 1, skill: multiId }];
 catalog.items.push({ id: reviveId, name: { zh: '演示复苏剂' }, kind: 'battle', battle_effects: [{ op: 'revive', pct_max_hp: 50 }] });
 const foe = (species: number, hp: number) => ({ species, level: 1, hp_override: hp, stats: { hp, atk: 1, def: 100, spa: 1, spd: 100, spe: 1 }, skills: [waitId] });
 catalog.bosses = [
   { id: 'audit-two-opponents', name: { zh: '双精灵演示' }, team: [foe(10, 7), foe(13, 11)], ai: { kind: 'sequence', skills: [waitId] } },
   { id: 'audit-extra-life', name: { zh: '复苏演示' }, team: [foe(10, 7)], rules: [{ rule: 'lives', count: 1 }], ai: { kind: 'sequence', skills: [waitId] } },
+  // Each hit is capped at 3, so three hits take 3, 3 and the last 1 of 7 HP with 2 more shown.
+  { id: 'audit-capped-hits', name: { zh: '连击演示' }, team: [foe(10, 7)], rules: [{ rule: 'damage_cap_per_hit', amount: 3 }],
+    ai: { kind: 'sequence', skills: [waitId] } },
 ];
 const seedGame = createGame(structuredClone(catalog) as CatalogData);
 for (const uid of seedGame.snapshot().party) seedGame.dispatch({ type: 'cheatMonster', uid, iv: 31, nature: 'hardy', traitId: null });
@@ -83,6 +90,19 @@ assert.equal(lifeFrames[lethalIndex].enemyParty[0].hp, 0);
 assert.equal(lifeFrames[revivedEnemyIndex].enemyParty[0].hp, 7);
 assert.equal(lifeFrames[revivedEnemyIndex].enemyParty[0].fainted, false);
 
+// A multi-hit move is one number that counts up per hit, its total beyond the HP lost; its drain heals the HP lost.
+const capped = fresh();
+capped.dispatch({ type: 'startBattle', bossId: 'audit-capped-hits' });
+capped.dispatch({ type: 'move', skillId: multiId });
+const cappedBattle = capped.snapshot().battle!, cappedHits = cappedBattle.animation.frames.filter(frame => frame.kind === 'hit' && frame.side === 1);
+assert.deepEqual(cappedHits.map(frame => [frame.amount, frame.enemyHp, frame.numberId]),
+  [[3, 4, undefined], [6, 1, cappedHits[0].id], [9, 0, cappedHits[0].id]], 'one number counting up while the HP bar steps down');
+assert.deepEqual(cappedHits.map(frame => frame.text.includes('受到')), [false, false, true], 'only the last hurt says the total');
+assert(cappedHits[2].text.includes('受到 9 点伤害') && cappedHits[2].text.includes('剩余体力 0/7'), cappedHits[2].text);
+assert.equal(cappedBattle.log.filter(line => line.includes('受到 9 点伤害')).length, 1, 'one log line for the move\'s damage');
+assert(!cappedBattle.log.some(line => /受到 [36] 点伤害/.test(line)), 'no line per hit');
+assert(cappedBattle.animation.frames.some(frame => frame.kind === 'heal' && frame.side === 0 && frame.amount === 7), 'the drain heals the 7 HP lost');
+
 // A detached bench event exercises slot routing even when the active has the same species.
 const state: BattlePresentationState = structuredClone({ player: result.player, enemy: result.enemy, party: result.party, enemyParty: result.enemyParty });
 state.party[2].hp = 5;
@@ -100,4 +120,4 @@ const text = battleEventText({ type: 'damage', side: 1, slot: 0, name: '目标',
   data: { species: new Map(), skills: new Map(), items: new Map() }, initialPlayer: state.player, initialEnemy: { name: '目标', hp: 7, maxHp: 7 },
 });
 assert(text.includes('受到 100 点伤害') && text.includes('剩余体力 0/7'));
-console.log(JSON.stringify({ passed: ['full overkill popup and log', 'actual-loss HP and drain', 'event-ordered enemy knockout and switch', 'bench revival and player switch', 'enemy revival after lethal damage', 'slot-specific bench faint and immutable earlier snapshots', 'renamed transformation remains in the active slot'], displayedLethalDamage: hit.amount, actualLoss: 7 }));
+console.log(JSON.stringify({ passed: ['full overkill popup and log', 'actual-loss HP and drain', 'event-ordered enemy knockout and switch', 'bench revival and player switch', 'enemy revival after lethal damage', 'one counting number and line for a lethal multi-hit, drain of the HP lost', 'slot-specific bench faint and immutable earlier snapshots', 'renamed transformation remains in the active slot'], displayedLethalDamage: hit.amount, actualLoss: 7 }));

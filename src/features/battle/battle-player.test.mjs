@@ -76,7 +76,8 @@ test('numbers stack in rows per side, heals and critical hits among them, and on
   assert.equal(rows.find(number => number.id === hits.length).row, 0, 'the newest took the row the oldest left');
   assert.equal(ui.player.state().numbers.find(number => number.id === 2).critical, true);
   ui.clock.advance(FRAME_MS.hit);
-  assert.deepEqual(ui.player.state().numbers.find(number => number.side === 0), {id: 99, frame: 99, side: 0, amount: 12, healing: true, critical: false, row: 0});
+  assert.deepEqual(ui.player.state().numbers.find(number => number.side === 0),
+    {id: 99, frame: 99, side: 0, amount: 12, healing: true, critical: false, row: 0});
 });
 
 /** A move whose clip hits at 600 ms and walks home until 2000 ms lands three hits (30 + 31 + 32), then the turn says one more line. */

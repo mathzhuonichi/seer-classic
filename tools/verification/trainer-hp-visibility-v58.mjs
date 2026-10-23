@@ -29,7 +29,8 @@ await withSsr('trainer-hp-visibility-v58',async load=>{
     return {frames,snapshots,battle:game.snapshot().battle};
   }
   const foeViews=({frames,snapshots})=>[...snapshots.flatMap(b=>[b.enemy,...b.enemyParty]),...frames.flatMap(f=>[f.enemy,...f.enemyParty])];
-  const hits=(frames,side)=>frames.filter(f=>f.kind==='hit'&&f.side===side&&f.amount>0);
+  // A move's hits on one creature count up one number; the last of them carries the line of the total (damage-display-2026-10-23).
+  const hits=(frames,side)=>frames.filter(f=>f.kind==='hit'&&f.side===side&&f.amount>0&&f.text);
 
   // Rebuild the facility roster from the same RNG state to learn the true opposing HP the views must not carry.
   const encounter=createFacilityEncounter(catalog,'random',new Rng(rngState));

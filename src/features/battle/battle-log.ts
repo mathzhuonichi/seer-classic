@@ -1,6 +1,7 @@
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { STAGE_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
 import { moveSkill } from '../../shared/view-common.ts';
+import { damageTallies, displayedDamage, type DamageTally } from './battle-damage-tally.ts';
 
 export type EventOf<T extends BattleEvent['type']> = Extract<BattleEvent, { type: T }>;
 
@@ -32,9 +33,6 @@ const remaining = (event: Sided & { hp: number; maxHp: number }, context: Battle
   hidesHp(event, context) ? '' : `${lead}剩余体力 ${event.hp}/${event.maxHp}`;
 const speciesName = (event: EventOf<'switch_in' | 'transform'>, context: BattleLogContext): string | undefined =>
   event.name || context.data.species.get(event.species)?.name.zh;
-
-/** Display the complete hit; HP loss, drain and rewards retain the core's amount. */
-export const displayedDamage = (event: EventOf<'damage'>): number => Math.max(0, event.amount) + Math.max(0, event.overkill);
 
 const signed = (stage: number) => `${stage > 0 ? '+' : ''}${stage}`;
 const changeText = (delta: number) => delta > 0 ? `提升 ${delta} 级` : delta < 0 ? `下降 ${-delta} 级` : '不变';
@@ -101,6 +99,15 @@ function subjectName(event: BattleEvent, context: BattleLogContext): string {
   return 'side' in event && bare === other.name ? `${sideLabel(event)}${bare}` : bare;
 }
 
+/** A damage line: `shown` damage in all, 致命一击 when any of it was critical, and the HP left after `event`, the last of it. */
+function damageText(event: EventOf<'damage'>, { shown, critical }: Pick<DamageTally, 'shown' | 'critical'>, context: BattleLogContext): string {
+  const cause = event.status ? `因${conditionName(event.status)}` : '', end = hidesHp(event, context) ? '' : '。';
+  return `${subjectName(event, context)}${cause}受到 ${shown} 点伤害${critical ? '，致命一击！' : '。'}${remaining(event, context, '')}${end}`;
+}
+
+/** The one line of a tally (`damageTallies`): a move's hits and riders on one creature together. */
+export const tallyText = (tally: DamageTally, context: BattleLogContext) => damageText(tally.events.at(-1)!, tally, context);
+
 /** Format one event for the centered dialogue; pass current displayed creature names. */
 export function battleEventText(event: BattleEvent, context: BattleLogContext): string {
   const bare = bareName(event, context), name = subjectName(event, context);
@@ -108,10 +115,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
   switch (event.type) {
     case 'turn_start': return `第 ${event.turn} 回合`;
     case 'move_used': return `${name}使用了${skill(event.skill)}。`;
-    case 'damage': {
-      const cause = event.status ? `因${conditionName(event.status)}` : '', end = hidesHp(event, context) ? '' : '。';
-      return `${name}${cause}受到 ${displayedDamage(event)} 点伤害${event.crit ? '，致命一击！' : '。'}${remaining(event, context, '')}${end}`;
-    }
+    case 'damage': return damageText(event, { shown: displayedDamage(event), critical: event.crit }, context);
     case 'heal': return `${name}恢复 ${event.amount} 点体力${remaining(event, context, '，')}。`;
     case 'revive': return `${name}恢复了战斗能力${remaining(event, context, '，')}。`;
     case 'miss': return `${name}的${skill(event.skill)}没有命中。`;
@@ -189,14 +193,19 @@ export function battleStepText(step: readonly BattleEvent[], context: BattleLogC
 }
 
 /** Events that open a new log entry; a switch_in continues the switch_out of its side just before it (one switch). */
-const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
-  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+const GROUP_STARTS: ReadonlySet<BattleEvent['type']> = new Set([
+  'turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'turn_end', 'flee', 'battle_end',
+]);
 const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
   event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 
-/** Each entry is one action and its consequences, or one residual/end-of-turn group. */
+/**
+ * Each entry is one action and its consequences, or one residual/end-of-turn group. A move's damage to one creature is one line
+ * (`damageTallies`), where its first hit came, with the total and the HP left after the last.
+ */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
   const shown = { ...context, initialPlayer: { ...context.initialPlayer }, initialEnemy: { ...context.initialEnemy } };
+  const tallies = damageTallies(events);
   const groups: string[] = [];
   let current: string[] = [];
   const flush = () => { if (current.length) groups.push(current.join('　')); current = []; };
@@ -212,7 +221,8 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
       mon.hp = event.hp;
       mon.maxHp = event.maxHp;
     }
-    const text = battleStepText(step, shown);
+    const share = event.type === 'damage' ? tallies.get(event)! : undefined;
+    const text = !share ? battleStepText(step, shown) : share.index === 0 ? tallyText(share.tally, shown) : '';
     if (text) current.push(text);
     // Named bench recovery must not overwrite the active creature's context.
     if ((event.type === 'damage' || event.type === 'heal' || event.type === 'revive') && (!event.name || event.name === mon.name)) mon.hp = event.hp;
