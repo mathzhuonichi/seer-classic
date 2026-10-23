@@ -3,16 +3,17 @@
 //! through Tauri's own protocol.
 mod payload;
 mod public_assets;
+mod shell;
 
 use std::sync::Arc;
 
 use public_assets::{GameAssets, PublicDir};
-use tauri::{AppHandle, WebviewWindowBuilder};
+use tauri::AppHandle;
 use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
 
 /// Logs why the payload is incomplete, tells the player and quits once the message is closed.
 fn refuse_incomplete(app: &AppHandle, reason: &str) {
-    eprintln!("payload check failed: {reason}");
+    log::error!("payload check failed: {reason}");
     let quit = app.clone();
     app.dialog()
         .message(payload::INCOMPLETE)
@@ -54,19 +55,21 @@ fn main() {
     let assets = GameAssets::new(embedded, public.clone());
     let embedded_paths = assets.embedded_paths();
     context.set_assets(Box::new(assets));
-    tauri::Builder::default()
+    let builder = tauri::Builder::default()
+        .plugin(shell::single_instance_plugin())
+        .plugin(shell::log_plugin())
+        .plugin(shell::window_state_plugin())
         .plugin(tauri_plugin_dialog::init())
+        .invoke_handler(tauri::generate_handler![shell::toggle_fullscreen, shell::log_web])
         .setup(move |app| {
-            if !check_payload(app.handle(), &public) {
-                return Ok(());
+            shell::log_panics();
+            log::info!("Seer Classic {} starting", app.package_info().version);
+            if check_payload(app.handle(), &public) {
+                shell::create_main_window(app, public_assets::not_found_handler(embedded_paths, public))?;
             }
-            let config = app.config().app.windows.first().expect("the main window's configuration").clone();
-            WebviewWindowBuilder::from_config(app.handle(), &config)?
-                .on_web_resource_request(public_assets::not_found_handler(embedded_paths, public))
-                .visible(true)
-                .build()?;
             Ok(())
-        })
-        .run(context)
-        .expect("Failed to launch Seer Classic");
+        });
+    #[cfg(target_os = "macos")]
+    let builder = builder.on_web_content_process_terminate(|_| log::warn!("the web content process ended; the page reloads"));
+    builder.run(context).expect("Failed to launch Seer Classic");
 }
