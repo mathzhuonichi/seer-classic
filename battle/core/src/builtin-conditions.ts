@@ -52,7 +52,6 @@ export const BUILTIN_CONDITIONS: ConditionDef[] = [
   { id: 'protect', name: { zh: '保护' }, kind: 'buff', default_turns: 1, stack: 'refresh', hooks: [{ on: 'block_move' }] },
 ];
 
-export const CONTROL_STATUSES = BUILTIN_CONDITIONS.filter((c) => c.control).map((c) => c.id);
 export const DOT_STATUSES = ['poison', 'burn', 'freeze', 'leech'];
 /** The type that cannot get each status, from any source (RULES.md section 7): 寄生 on grass, 烧伤 on fire, 冻伤 on ice. */
 export const STATUS_IMMUNE_TYPE: Record<string, TypeId> = { leech: 'grass', burn: 'fire', freeze: 'ice' };

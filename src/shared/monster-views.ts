@@ -12,9 +12,6 @@ const namers = new WeakMap<readonly NamedSpecies[], SpeciesName>();
 /** The species drawn for a monster: its chosen skin, else its own form. */
 export const appearanceOf=(m:Pick<MonsterView,'species'|'appearanceSpecies'>)=>m.appearanceSpecies??m.species;
 
-/** A species' Chinese name, or `fallback` when the list has no such species. */
-export const speciesName=(s:{species:readonly NamedSpecies[]},id:number,fallback:string)=>s.species.find(row=>row.id===id)?.name??fallback;
-
 /**
  * Display-name lookup over a species list, normally `snapshot.species`; an id the list lacks reads `精灵 <id>`.
  * The lookup is cached per list, so it keeps its identity until the list changes.
