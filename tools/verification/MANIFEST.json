@@ -2,7 +2,6 @@
   "statuses": {
     "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
     "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
-    "needs-cache": "Needs the ignored research inputs under .cache/.",
     "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check."
@@ -34,10 +33,6 @@
     },
     "battle-animation-transport.mjs": {
       "status": "needs-assets"
-    },
-    "battle-animation.mjs": {
-      "status": "needs-cache",
-      "note": "Needs .cache/unity-swf-audit/, which was not transferred."
     },
     "battle-attack-reach.mjs": {
       "status": "needs-browser"
@@ -122,16 +117,8 @@
     "breeding-controller.mjs": {
       "status": "gate"
     },
-    "breeding.mjs": {
-      "status": "needs-cache",
-      "note": "Needs .cache/breeding-v24/, which was not transferred."
-    },
     "browser-regressions.mjs": {
       "status": "needs-browser"
-    },
-    "calculator-parity.ts": {
-      "status": "needs-cache",
-      "note": "Needs .cache/calculator-parity/ inputs, which were not transferred."
     },
     "campaign-mechanics.ts": {
       "status": "gate"
@@ -168,10 +155,6 @@
     },
     "damage-audit.ts": {
       "status": "gate"
-    },
-    "damage-official-v25.ts": {
-      "status": "needs-cache",
-      "note": "Needs .cache/ calculator inputs, which were not transferred."
     },
     "damage-presentation.ts": {
       "status": "gate"
