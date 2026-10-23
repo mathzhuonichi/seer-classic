@@ -15,7 +15,6 @@ __pycache__/
 /public/battle-animations/hd/*.png
 /public/battle-animations/hd/*.webp
 /public/battle-animations/hd/*.json.gz
-/public/battle-effects/*.webp
 /public/maps/hd/*.png
 /public/maps/hd/*.svg
 /public/maps/original/*.svg
@@ -28,7 +27,6 @@ __pycache__/
 /public/ui/classic/maps/hd/planet-484.svg
 /public/ui/classic/maps/hd/planet-702.svg
 /public/ui/classic/maps/hd/planet-717.svg
-/public/battle-effects/hd/**/*.webp
 /public/portraits/vectors/*.svg
 /public/portraits/source-renders/*.png
 /public/portraits/hd/*.png
