@@ -4,7 +4,7 @@ import { partyMonsters } from '../shared/party-order.ts';
 import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';
-import { version } from '../../package.json';
+import { AboutSection } from './AboutSection.tsx';
 import { DESKTOP, toggleWindowFullscreen } from './desktop.ts';
 import { unreadableSaves, type UnreadableSave } from '../kernel/persistence.ts';
 
@@ -56,6 +56,7 @@ export function SettingsConsole({ inBattle, onExport, onImport, onModifier, onEx
     <UnreadableSaves onExport={onExportUnreadable}/>
     <h3>开发工具</h3><button disabled={inBattle} onClick={onModifier}>修改器</button>
     <h3>画面</h3><button onClick={toggleFullscreen}>切换全屏</button>
-    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 {version} · 本地单人航行</p>
+    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p>
+    <AboutSection/>
   </section>;
 }

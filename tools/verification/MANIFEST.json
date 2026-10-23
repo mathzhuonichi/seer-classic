@@ -180,6 +180,9 @@
     "damage-presentation.ts": {
       "status": "gate"
     },
+    "desktop-identity.mjs": {
+      "status": "gate"
+    },
     "dex-acquisition.ts": {
       "status": "gate"
     },
