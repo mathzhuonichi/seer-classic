@@ -18,9 +18,9 @@ export interface SkillEffectCue {
 }
 
 /**
- * A damage or healing number on screen, from a hit or heal frame or a hit's counter; it outlives its frame and turn (DAMAGE_NUMBER_MS),
- * but not its creature's place on screen. A move's later hits and riders on the same creature update it in place
- * (`BattlePresentationFrame.numberId`).
+ * A damage or healing number on screen, from a hit or heal frame or a hit's counter, or the MISS of a miss frame; it outlives its
+ * frame and turn (DAMAGE_NUMBER_MS), but not its creature's place on screen. A move's later hits and riders on the same creature
+ * update it in place (`BattlePresentationFrame.numberId`).
  */
 export interface FloatingNumber {
   /** The id of its first frame or counter. */
@@ -31,7 +31,8 @@ export interface FloatingNumber {
   /** The creature it is on (`BattleMonsterView.uid`); it leaves when another creature of its side enters. */
   uid: string;
   amount: number;
-  healing: boolean;
+  /** −amount for damage, +amount for healing, MISS for a move that missed the creature. */
+  kind: 'damage' | 'healing' | 'miss';
   /** Any of its hits was critical. */
   critical: boolean;
   /** Its row among its side's numbers on screen, from 0 (DAMAGE_NUMBER_ROWS rows), so numbers on one creature stack instead of overlapping. */
@@ -172,23 +173,26 @@ const activeUid = (frame: BattlePresentationFrame, side = frame.side) => (side =
 /** A number as a frame shows it, before it has a row. */
 type ShownNumber = Omit<FloatingNumber, 'row'>;
 
-/** The numbers a hit or heal frame shows: its own, and on the attacker the counter it drew (`BattlePresentationFrame.counter`). */
+/**
+ * The numbers a frame shows: a hit's or heal's own, on the attacker the counter a hit drew (`BattlePresentationFrame.counter`), and
+ * a miss's MISS on its target.
+ */
 function frameNumbers(frame: BattlePresentationFrame): ShownNumber[] {
-  const shown: ShownNumber[] = [];
+  const shown: ShownNumber[] = [], own = { id: frame.numberId ?? frame.id, frame: frame.id, side: frame.side, uid: activeUid(frame) };
   if ((frame.kind === 'hit' || frame.kind === 'heal') && frame.amount !== undefined) {
-    shown.push({ id: frame.numberId ?? frame.id, frame: frame.id, side: frame.side, uid: activeUid(frame), amount: frame.amount,
-      healing: frame.kind === 'heal', critical: !!frame.critical });
+    shown.push({ ...own, amount: frame.amount, kind: frame.kind === 'heal' ? 'healing' : 'damage', critical: !!frame.critical });
   }
+  if (frame.kind === 'miss') shown.push({ ...own, amount: 0, kind: 'miss', critical: false });
   const { counter } = frame, side = frame.side === 1 ? 0 : 1;
   if (counter) {
     shown.push({ id: counter.numberId ?? counter.id, frame: counter.id, side, uid: activeUid(frame, side), amount: counter.amount,
-      healing: false, critical: false });
+      kind: 'damage', critical: false });
   }
   return shown;
 }
 
 /**
- * Shows each hit or heal frame's numbers for DAMAGE_NUMBER_MS, in the lowest free row of their side. A frame that adds to a number
+ * Shows each frame's numbers (`frameNumbers`) for DAMAGE_NUMBER_MS, in the lowest free row of their side. A frame that adds to a number
  * on screen sets its amount, keeps its row and starts its time again; one that changes neither its amount nor its critical style
  * (a 0-damage hit) leaves it as it is. A creature entering (a switch frame of another creature) takes the place of the numbers on
  * the one it replaced; a transform keeps them. A frame shown again (a replayed turn) changes nothing.

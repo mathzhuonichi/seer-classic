@@ -5,9 +5,10 @@ import {groupedBattleLog} from './battle-log.ts';
 import {eventFrames} from './battle-presentation.ts';
 
 const NAMES = ['巴鲁斯', '布布花'];
-const MULTI = 1, RIDER = 2, FOE_MOVE = 3;
-const skill = (id, zh) => [id, {id, name: {zh}, category: 'physical', target: 'foe'}];
-const data = {species: new Map(), skills: new Map([skill(MULTI, '三连击'), skill(RIDER, '龙之怒'), skill(FOE_MOVE, '撞击')]), items: new Map(), types: {chart: {}}};
+const MULTI = 1, RIDER = 2, FOE_MOVE = 3, SLEEP = 4;
+const skill = (id, zh, category = 'physical') => [id, {id, name: {zh}, category, target: 'foe'}];
+const data = {species: new Map(), items: new Map(), types: {chart: {}},
+  skills: new Map([skill(MULTI, '三连击'), skill(RIDER, '龙之怒'), skill(FOE_MOVE, '撞击'), skill(SLEEP, '催眠粉', 'status')])};
 const view = (side, maxHp) => ({
   uid: `${side}-0`, slot: 0, species: side + 1, name: NAMES[side], level: 50, hp: maxHp, maxHp, fainted: false, types: ['普通'], typeIds: ['normal'],
   portrait: '', skills: [], statuses: [], stages: {},
@@ -120,15 +121,23 @@ test('a lethal multi-hit shows its total with the damage beyond the HP left, whi
   assert.deepEqual(log, ['巴鲁斯使用了三连击。　布布花受到 502 点伤害。剩余体力 0/300。　布布花失去战斗能力。']);
 });
 
-test('a missed multi-hit shows no number, a blocked hit leaves the move\'s number counting, and the next move starts its own', () => {
+test('a missed multi-hit shows MISS and no number, a blocked hit leaves the move\'s number counting, and the next move starts its own', () => {
   const missed = show([used(0, MULTI), {type: 'miss', side: 0, skill: MULTI}, used(1, FOE_MOVE), hurt(0, 9, 91)]);
   assert.deepEqual(missed.hits.map(({side, amount, numberId}) => [side, amount, numberId]), [[0, 9, undefined]]);
+  assert.deepEqual(missed.frames.filter(frame => frame.kind === 'miss').map(({side, text, amount}) => [side, text, amount]),
+    [[1, '巴鲁斯的三连击没有命中。', undefined]], 'on the target, with the line');
   assert.deepEqual(missed.log, ['巴鲁斯使用了三连击。　巴鲁斯的三连击没有命中。', '布布花使用了撞击。　巴鲁斯受到 9 点伤害。剩余体力 91/100。']);
   const blocked = show([used(0, MULTI), hurt(1, 30, 70), {type: 'damage_blocked', side: 1, rule: 'invulnerable'}, hurt(1, 31, 39),
     used(0, MULTI), hurt(1, 8, 31)]);
   assert.deepEqual(blocked.hits.map(({amount, numberId}) => [amount, numberId]), [[30, undefined], [61, 2], [8, undefined]]);
   assert.deepEqual(blocked.log, ['巴鲁斯使用了三连击。　布布花受到 61 点伤害。剩余体力 39/100。　布布花抵挡了部分伤害。',
     '巴鲁斯使用了三连击。　布布花受到 8 点伤害。剩余体力 31/100。']);
+});
+
+test('a missed status move shows MISS on its target too, and so does the foe\'s miss on the player', () => {
+  const {frames, log} = show([used(0, SLEEP), {type: 'miss', side: 0, skill: SLEEP}, used(1, FOE_MOVE), {type: 'miss', side: 1, skill: FOE_MOVE}]);
+  assert.deepEqual(frames.map(({kind, side}) => [kind, side]), [['status', 0], ['miss', 1], ['physical', 1], ['miss', 0]]);
+  assert.deepEqual(log, ['巴鲁斯使用了催眠粉。　巴鲁斯的催眠粉没有命中。', '布布花使用了撞击。　布布花的撞击没有命中。']);
 });
 
 test('a move\'s blocked hits on one creature are one line: all of them stopped, or a part when some damage got through', () => {

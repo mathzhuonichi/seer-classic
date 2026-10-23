@@ -118,8 +118,7 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
   };
   let shown = before, last: { frame: BattlePresentationFrame; event: BattleEvent } | undefined;
   for (const step of battleSteps(events)) {
-    const [e] = step;
-    const side: 0 | 1 = e.type === 'capture_attempt' || 'side' in e && e.side === 1 ? 1 : 0;
+    const [e] = step, side = frameSide(e);
     const activeBefore = side === 1 ? shown.enemy : shown.player;
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
     for (const event of step) shown = advanceBattlePresentation(shown, event);
@@ -170,6 +169,13 @@ const stepText = (step: readonly BattleEvent[], share: TallyShare | undefined, b
 
 interface FrameMotion { kind: BattlePresentationFrame['kind']; skillId?: number; targetSide?: 0 | 1 }
 
+/** The side a frame shows on (`BattlePresentationFrame.side`): its event's, the foe for a capsule, and the target for a miss. */
+function frameSide(e: BattleEvent): 0 | 1 {
+  if (e.type === 'capture_attempt') return 1;
+  if (e.type === 'miss') return e.side === 1 ? 0 : 1;
+  return 'side' in e && e.side === 1 ? 1 : 0;
+}
+
 function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterView, data: DataSet): FrameMotion {
   switch (e.type) {
     case 'switch_in': case 'transform': return { kind: 'switch' };
@@ -181,6 +187,7 @@ function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterVie
     }
     case 'damage': return { kind: e.slot === activeBefore.slot ? 'hit' : 'message' };
     case 'heal': case 'revive': return { kind: e.slot === activeBefore.slot ? 'heal' : 'message' };
+    case 'miss': return { kind: 'miss' };
     default: return { kind: 'message' };
   }
 }

@@ -97,8 +97,13 @@ export interface TypeMatchupView {
   /** The opponent's types against mine. */
   theirs: number;
 }
+/**
+ * One step of a turn on screen. `side` is the creature it shows on: a move's user, a hit's or heal's creature, and a `miss`'s
+ * target, where it shows MISS at the moment the hit would have hurt.
+ */
 export interface BattlePresentationFrame {
-  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number;
+  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'miss' | 'heal' | 'switch' | 'capture' | 'message'; text: string;
+  amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
   player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;
   /** A hit that adds to the number an earlier frame showed (a move's later hit or rider on the same creature): that frame's id. */

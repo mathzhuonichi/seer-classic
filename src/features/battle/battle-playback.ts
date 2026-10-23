@@ -4,8 +4,10 @@ import type { MoveTiming } from './battle-animation.ts';
 
 type FrameKind = BattlePresentationFrame['kind'];
 
-/** Default on-screen time per frame kind. */
-export const FRAME_MS: Record<FrameKind, number> = { physical: 680, special: 700, status: 620, hit: 490, heal: 530, switch: 620, capture: 2200, message: 480 };
+/** Default on-screen time per frame kind; a miss holds as long as the line it says did before it showed MISS. */
+export const FRAME_MS: Record<FrameKind, number> = {
+  physical: 680, special: 700, status: 620, hit: 490, miss: 480, heal: 530, switch: 620, capture: 2200, message: 480,
+};
 export const CRITICAL_HIT_MS = 800;
 /**
  * A hit followed straight away by another on the same creature is one of a move's several hits: the next one lands this long
@@ -44,10 +46,13 @@ export interface FramePlan {
 export interface SkillEffectTiming { startMs: number; durationMs: number; hurtMs: number }
 
 export const isMoveFrame = (frame: BattlePresentationFrame) => frame.kind === 'physical' || frame.kind === 'special' || frame.kind === 'status';
+/** The move reaches its target here: a hit, or a miss that shows MISS where the hit would have hurt. */
+const strikes = (frame: BattlePresentationFrame | undefined) => frame?.kind === 'hit' || frame?.kind === 'miss';
 
 /**
  * Plan one frame. `timing` is the actor's loaded clip for this move and `effect` the move's original skill effect; both are
  * absent when the asset is unavailable. With an effect, a move followed by its hit hands over when the effect hurts the target.
+ * A miss plays like a hit that does not hurt: it shows at that moment and waits for the attacker's clip and effect.
  */
 export function planBattleFrame(frame: BattlePresentationFrame, following: BattlePresentationFrame | undefined,
   { reducedMotion, timing, effect }: { reducedMotion: boolean; timing?: MoveTiming | null; effect?: SkillEffectTiming }): FramePlan {
@@ -59,14 +64,14 @@ export function planBattleFrame(frame: BattlePresentationFrame, following: Battl
   if (frame.kind === 'hit' && following?.kind === 'hit' && following.side === frame.side) {
     return { delayMs: reducedMotion ? REDUCED_MOTION_MS : FOLLOW_UP_HIT_MS, effect: 'keep', actionMs: null, awaitRunning: false, hurtDelayMs: 0 };
   }
-  if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: frame.kind === 'hit', hurtDelayMs: 0 };
+  if (!move) return { delayMs, effect: 'keep', actionMs: null, awaitRunning: strikes(frame), hurtDelayMs: 0 };
   const clip = reducedMotion ? null : timing ?? null;
   const shown = !effect ? 'clear' as const : reducedMotion ? { delayMs: 0, durationMs: REDUCED_MOTION_MS }
     : { delayMs: Math.max(0, (clip?.hitMs ?? 0) + effect.startMs), durationMs: effect.durationMs };
-  // A move followed by its hit hands over at the hit marker, or when its effect hurts the target; otherwise the whole clip plays.
-  const hitMs = following?.kind === 'hit' ? clip?.hitMs ?? null : null, hurtDelayMs = hitMs !== null && effect ? effect.hurtMs : 0;
+  // A move followed by its hit or miss hands over at the hit marker, or when its effect hurts the target; otherwise the whole clip plays.
+  const hitMs = strikes(following) ? clip?.hitMs ?? null : null, hurtDelayMs = hitMs !== null && effect ? effect.hurtMs : 0;
   if (clip) delayMs = hitMs !== null ? hitMs + hurtDelayMs : clip.durationMs;
-  return { delayMs, effect: shown, actionMs: clip?.durationMs ?? null, awaitRunning: following?.kind !== 'hit', hurtDelayMs };
+  return { delayMs, effect: shown, actionMs: clip?.durationMs ?? null, awaitRunning: !strikes(following), hurtDelayMs };
 }
 
 /** Dialogue while a capsule is in flight, before the outcome is revealed. */

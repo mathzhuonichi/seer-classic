@@ -9,7 +9,7 @@ const effect = {startMs: 27, durationMs: 920, hurtMs: 125};
 const plan = (current, following, context = {}) => planBattleFrame(frame(current), following && frame(following), {reducedMotion: false, ...context});
 
 test('frames without a clip or effect keep their kind default', () => {
-  for (const kind of ['physical', 'special', 'status', 'heal', 'switch', 'message'])
+  for (const kind of ['physical', 'special', 'status', 'heal', 'miss', 'switch', 'message'])
     assert.equal(plan(kind).delayMs, FRAME_MS[kind]);
   assert.equal(planBattleFrame(frame('hit', {critical: true}), undefined, {reducedMotion: false}).delayMs, CRITICAL_HIT_MS);
   assert.deepEqual(plan('heal'), {delayMs: FRAME_MS.heal, effect: 'keep', actionMs: null, awaitRunning: false, hurtDelayMs: 0});
@@ -20,6 +20,14 @@ test('a move hands over to its hit at the clip hit marker, otherwise plays the w
   assert.deepEqual(plan('physical', 'message', {timing: clip}), {delayMs: 1500, effect: 'clear', actionMs: 1500, awaitRunning: true, hurtDelayMs: 0});
   assert.equal(plan('special', 'hit', {timing: {durationMs: 900, hitMs: null}}).delayMs, 900);
   assert.equal(plan('hit').awaitRunning, true, 'a hit waits for the running clip and effect');
+});
+
+test('a move followed by its miss hands over at the hit marker or when its effect would hurt, and the miss waits like a hit', () => {
+  assert.deepEqual(plan('physical', 'miss', {timing: clip}), {delayMs: 600, effect: 'clear', actionMs: 1500, awaitRunning: false, hurtDelayMs: 0});
+  assert.deepEqual(plan('status', 'miss', {timing: clip, effect}),
+    {delayMs: 725, effect: {delayMs: 627, durationMs: 920}, actionMs: 1500, awaitRunning: false, hurtDelayMs: 125}, 'a status move too');
+  assert.deepEqual(plan('miss'), {delayMs: FRAME_MS.miss, effect: 'keep', actionMs: null, awaitRunning: true, hurtDelayMs: 0});
+  assert.equal(plan('physical', 'miss').delayMs, FRAME_MS.physical, 'without a clip the move keeps its time');
 });
 
 test('a skill effect starts at its offset from the clip hit marker and runs its source length', () => {

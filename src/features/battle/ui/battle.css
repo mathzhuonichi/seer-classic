@@ -76,6 +76,8 @@
  -webkit-text-stroke:8px #5a1205;paint-order:stroke fill;text-shadow:0 4px 0 #2e0800,0 0 14px #000c;animation:classicNumber ease-out both;pointer-events:none;
 }
 .classic-damage-number.healing{color:#d4ffc8;-webkit-text-stroke-color:#11522a;text-shadow:0 4px 0 #062c14,0 0 14px #000c}
+/* A miss reads MISS in the damage style, as the original drew it, a little smaller and spaced out as a word. */
+.classic-damage-number.miss{font-size:calc(var(--number-size) * .85);letter-spacing:3px}
 .classic-combatant.is-fainted .classic-creature-facing{opacity:.35;filter:grayscale(1)}
 .motion-physical{animation:classicPhysical .68s cubic-bezier(.2,.7,.25,1) both}
 .motion-special{animation:classicSpecial .7s ease-in-out both}

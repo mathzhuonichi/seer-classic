@@ -52,7 +52,7 @@ function screen(frames, {reducedMotion = false, timing, effect} = {}) {
 test('a hit number stays DAMAGE_NUMBER_MS from its frame, after its frame and its turn have moved on', () => {
   const ui = screen([hit(1, 1, 31), frame(2, 'message', 0, {text: '下一句'})]);
   ui.player.play(ui.shown.battle);
-  assert.deepEqual(ui.player.state().numbers, [{id: 1, frame: 1, side: 1, uid: 'foe-0', amount: 31, healing: false, critical: false, row: 0}]);
+  assert.deepEqual(ui.player.state().numbers, [{id: 1, frame: 1, side: 1, uid: 'foe-0', amount: 31, kind: 'damage', critical: false, row: 0}]);
   ui.clock.advance(FRAME_MS.hit + FRAME_MS.message);
   assert.deepEqual([ui.player.state().busy, ui.player.state().frame], [false, null], 'the turn has settled');
   // A new turn starts and its playback is cancelled by the next one, as the screen does on each revision.
@@ -79,7 +79,7 @@ test('numbers stack in rows per side, heals and critical hits among them, and on
   assert.equal(ui.player.state().numbers.find(number => number.id === 2).critical, true);
   ui.clock.advance(FRAME_MS.hit);
   assert.deepEqual(ui.player.state().numbers.find(number => number.side === 0),
-    {id: 99, frame: 99, side: 0, uid: 'mine-0', amount: 12, healing: true, critical: false, row: 0});
+    {id: 99, frame: 99, side: 0, uid: 'mine-0', amount: 12, kind: 'healing', critical: false, row: 0});
 });
 
 /** A move whose clip hits at 600 ms and walks home until 2000 ms lands three hits (30 + 31 + 32), then the turn says one more line. */
@@ -105,7 +105,7 @@ test('a move\'s hits on one creature are one number that counts up in its row an
   ui.player.play(ui.shown.battle);
   ui.clock.advance(lastHitAt);
   assert.deepEqual(amounts, [30, 61, 93]);
-  assert.deepEqual(ui.player.state().numbers, [{id: 2, frame: 4, side: 1, uid: 'foe-0', amount: 93, healing: false, critical: true, row: 0}]);
+  assert.deepEqual(ui.player.state().numbers, [{id: 2, frame: 4, side: 1, uid: 'foe-0', amount: 93, kind: 'damage', critical: true, row: 0}]);
   ui.clock.advance(DAMAGE_NUMBER_MS - 1);
   assert.deepEqual(ui.numbers(), [{id: 2, side: 1, row: 0}], 'timed from the last hit, not the first');
   ui.clock.advance(1);
@@ -128,6 +128,23 @@ test('hits into a reflection land as follow-up hits and count up the attacker\'s
     'the attacker\'s number comes with each hit, while its move\'s clip still plays');
   assert.deepEqual(ui.player.state().numbers.map(({id, frame, side, uid, amount}) => ({id, frame, side, uid, amount})), [
     {id: 2, frame: 4, side: 1, uid: 'foe-0', amount: 40}, {id: 3, frame: 5, side: 0, uid: 'mine-0', amount: 10}]);
+});
+
+test('a miss shows MISS on its target when the hit would have hurt, in the next free row, for DAMAGE_NUMBER_MS', () => {
+  const frames = [hit(1, 1, 12), frame(2, 'physical', 0, {targetSide: 1}), frame(3, 'miss', 1, {text: '巴鲁斯的乱突没有命中。'}),
+    frame(4, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 1500, hitMs: 600}}), shownAt = {};
+  ui.player.subscribe(() => { const id = ui.player.state().frame?.id; if (id && !(id in shownAt)) shownAt[id] = ui.clock.now(); });
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(3000);
+  const moveAt = FRAME_MS.hit, missAt = moveAt + 600;
+  assert.deepEqual(shownAt, {1: 0, 2: moveAt, 3: missAt, 4: moveAt + 1500}, 'at the hit marker, and the turn waits for the clip');
+  assert.deepEqual(ui.player.state().numbers.map(({id, side, uid, amount, kind, row}) => ({id, side, uid, amount, kind, row})), [
+    {id: 1, side: 1, uid: 'foe-0', amount: 12, kind: 'damage', row: 0}, {id: 3, side: 1, uid: 'foe-0', amount: 0, kind: 'miss', row: 1}]);
+  ui.clock.advance(missAt + DAMAGE_NUMBER_MS - 3000 - 1);
+  assert.equal(ui.player.state().numbers.at(-1)?.kind, 'miss');
+  ui.clock.advance(1);
+  assert.deepEqual(ui.numbers(), [], 'gone DAMAGE_NUMBER_MS after it showed');
 });
 
 test('a critical hit keeps its number critical through the later hits, and another number on the creature takes the next row', () => {
