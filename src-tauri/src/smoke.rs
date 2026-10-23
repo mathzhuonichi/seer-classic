@@ -4,7 +4,7 @@
 use std::path::PathBuf;
 
 use tauri::utils::config::BackgroundThrottlingPolicy;
-use tauri::{App, AppHandle, Manager, Runtime, WebviewWindow, WebviewWindowBuilder};
+use tauri::{AppHandle, LogicalPosition, Manager, Runtime, WebviewWindow, WebviewWindowBuilder};
 
 const DRIVER: &str = include_str!("../smoke/driver.js");
 
@@ -18,21 +18,24 @@ fn driver() -> String {
 /// How much of the window stays on screen, at the bottom-right corner: WebKit stops animation frames in a window it cannot see.
 const SHOWN: (f64, f64) = (160.0, 110.0);
 
-/// The main window: unfocused, kept above other windows but almost entirely off screen, never throttled, with the driver.
-pub fn window<'a, R: Runtime, M: Manager<R>>(app: &App<R>, builder: WebviewWindowBuilder<'a, R, M>) -> WebviewWindowBuilder<'a, R, M> {
-    let builder = match app.primary_monitor() {
-        Ok(Some(monitor)) => {
-            let (size, scale) = (monitor.size(), monitor.scale_factor());
-            builder.position(f64::from(size.width) / scale - SHOWN.0, f64::from(size.height) / scale - SHOWN.1)
-        }
-        _ => builder,
-    };
+/// The main window: unfocused, kept above other windows, never throttled, with the driver.
+pub fn window<'a, R: Runtime, M: Manager<R>>(builder: WebviewWindowBuilder<'a, R, M>) -> WebviewWindowBuilder<'a, R, M> {
     builder
         .focused(false)
         .focusable(false)
         .always_on_top(true)
         .background_throttling(BackgroundThrottlingPolicy::Disabled)
         .initialization_script(driver())
+}
+
+/// Moves the built window almost entirely off screen, to the primary monitor's bottom-right corner. It runs after the shell has
+/// centred and fitted the window: a builder position would lose to the centring.
+pub fn place<R: Runtime>(window: &WebviewWindow<R>) -> tauri::Result<()> {
+    if let Some(monitor) = window.primary_monitor()? {
+        let (size, scale) = (monitor.size(), monitor.scale_factor());
+        window.set_position(LogicalPosition::new(f64::from(size.width) / scale - SHOWN.0, f64::from(size.height) / scale - SHOWN.1))?;
+    }
+    Ok(())
 }
 
 /// Exports go to <app data>/smoke-export.json.
