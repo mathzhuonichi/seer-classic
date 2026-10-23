@@ -27,8 +27,13 @@ function ruffleFiles(): Plugin {
   };
 }
 
-export default defineConfig({
+/**
+ * `--mode desktop` builds the Tauri app's code only, into dist-desktop/: public/ ships beside the executable as the staged payload
+ * (tools/distribution/stage_desktop_payload.py) and is never compiled into it. The web build copies public/ into dist/ as before.
+ */
+export default defineConfig(({ mode }) => ({
   plugins: [ruffleFiles()],
   server: { port: 1420, strictPort: true, watch: {ignored:['**/artifacts/**','**/.cache/**','**/releases/**']} },
+  build: mode === 'desktop' ? { outDir: 'dist-desktop', copyPublicDir: false } : {},
   clearScreen: false,
-});
+}));

@@ -4,10 +4,10 @@
   "version": "0.3.2",
   "identifier": "local.chizhuoni.seer-classic",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev -- --mode desktop",
+    "beforeBuildCommand": "npm run build:desktop",
     "devUrl": "http://127.0.0.1:1420",
-    "frontendDist": "../dist"
+    "frontendDist": "../dist-desktop"
   },
   "app": {
     "windows": [

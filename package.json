@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 1420",
     "build": "tsc --noEmit && vite build",
+    "build:desktop": "tsc --noEmit && vite build --mode desktop --configLoader native",
     "preview": "vite preview --host 127.0.0.1 --port 1420",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"src/**/*.test.mjs\" \"battle/**/*.test.mjs\" \"raising/**/*.test.mjs\"",
