@@ -200,6 +200,28 @@ Two harness notes:
 
 The harness is `insitu-v2.mjs`, after the version 1.0 in-situ script and the lifecycle study's harness. It stayed in the session's scratch directory, with its raw JSON and `table.py`.
 
+### After the independent check
+
+An independent check of version 2 at `cc1416f` found that a request that never answers held every later loading screen to the cap, that a resize mid-effect left the rest of the effect misplaced, and five smaller points. The fixes are in the design above. They were measured on 2026-10-22 with the check's own harness, silent, headless, at 1280x800@1, on the same page flow: three wild battles in a row against 皮皮, 缩头 then 叶绿光束.
+
+**Loading screens**, in ms from the fight click to the battle's first frame, battles 1/2/3 on one page:
+
+| | Chrome, before | Chrome, now | WebKit, before | WebKit, now |
+|---|---|---|---|---|
+| Ruffle's WebAssembly never answers | 3386/3412/3409 | 3410/1379/1360 | 3457/3480/3468 | 3475/1430/1416 |
+| 11006.swf (叶绿光束) never answers | 3487/3413/3408 | 3502/1349/1337 | | |
+| Ruffle blocked (the baseline) | 1336-1450 in both engines | 1478/1365/1363 | | 1418/1437/1420 |
+| Party battle, a bench creature's 20004.swf held back (one battle) | 3490 | 1451 | 3464 | 1452 |
+
+- With the WebAssembly hung, the page warns twice: "this battle's effects" when the first screen gives up, and "Ruffle unavailable: the skill-effect host did not start in time" 20 s after the start. Before, nothing was warned until the page closed.
+- With the WebAssembly 4.5 s late, only the first screen waits: Chrome 3412/1352/1363, WebKit 3461/1440/1408. The host comes in the first battle (one frame of 117 ms and a 146 ms long task in Chrome, 189 ms in WebKit) and serves the later two.
+- **A resize during 叶绿光束,** 267 ms (Chrome) and 284 ms (WebKit) after its first pixels, from 1280x800 to 1000x650: its last frame with pixels came 16 ms after the resize, and the turn settled as without the resize (4975 against 4990 ms; WebKit 5010 against 5001). Without a resize the effect drew for 817 ms in both engines, as before the fix.
+- **A page hidden during a battle that closes while hidden:** the parked host is suspended after the page shows again, in both engines (before: playing).
+- **A suspend while the host is in the arena:** Ruffle's play button stays hidden (`display: none`) in both engines.
+- In the party battle, the held-back 瞪眼 played without its effect at its first use, while its SWF was still held, and with it at its second use, as before the fix.
+
+That harness also stayed in the session's scratch directory.
+
 ## Known limits
 
 - **Pinned Ruffle internals.** The kept element relies on Ruffle 0.7.1's internals: `disconnectedCallback` ends the instance, `connectedCallback` only updates styles, and the element class is reachable through `customElements.get` after the first `createPlayer()`. The version is pinned exactly, and an upgrade must pass `battle-skill-effects` (one instance over two battles, none destroyed).
@@ -208,11 +230,12 @@ The harness is `insitu-v2.mjs`, after the version 1.0 in-situ script and the lif
 - **Requests that never answer.** In the browser build a stalled request for ruffle.js or the WebAssembly holds the first loading screen to the cap; later screens do not wait for that start again. The start fails at its 20 s limit, is warned about and counted, and the next loading screen tries once more without waiting for it. A second failure turns effects off for the page. A restart after a host death on such a page is not waited for either, so its build can land in the battle's first seconds. A stalled effect SWF of the opening creatures holds one loading screen to the cap, and that effect does not play on the page: the host takes each SWF once (`fxLoad` answers false for a key it was asked for), so a load is not tried again until the host is replaced. Tauri reads local files.
 - **The static step.** The build's main-thread stretch is hidden only while the "部署出战精灵…" step stays static. Adding a main-thread animation to the loading screen would show it.
 - **Phase-change moves.** A Boss's moves that only appear after a phase change (`set_skills`) are not in the loading screen's set. They load when they show, and their first use right after the change may play without its effect.
-- **Pending loads.** A loading screen left after the host started lets the build finish in the parking place, on the world map.
-- **Hidden pages.** Real hidden tabs could not be produced headless. Hiding was checked with the session's own listener on a fake host. A page hidden mid-effect drops that effect.
+- **Pending loads.** A loading screen left after the host started lets the build finish in the parking place, on the world map. Left right at the 90 % step, the build lands there as a visible hitch: one frame of 117 ms with a 133 ms long task in Chrome, and of 145 ms in WebKit, in the 4 s after leaving. Left before the step or 400 ms after it, the world map shows none (17-25 ms frames).
+- **Hidden pages.** Real hidden tabs could not be produced headless. Hiding was checked with the session's own listener on a fake host, and in the browser with `document.hidden` overridden and a `visibilitychange` event. A page hidden mid-effect drops that effect.
 - **Damage numbers** still come with the hurt, about 0.8 s before the original showed them.
 - **The canvas resize at the reveal.** The host is in the arena layer from the battle's first frame. WebKit gives its canvas the arena's size on the frame after its 240-400 ms battle-mount frame, which the blocked build has too. Chrome does it within two frames. The canvas is transparent until the first effect, which is due 1.4 s or more into the first move.
-- **WebKit pacing in later battles.** At 1920x1080@2, a reused host had 1-3 frames of 35-44 ms per later battle in our effect windows, against 0-1 in version 1.0 and none in a page's first battle. The cause was not isolated. Chrome had none.
+- **WebKit pacing at 1920x1080@2.** In our effect windows a host had 1-3 frames of 35-52 ms per battle, against 0-1 in version 1.0. The in-situ run had them only in later battles, but an independent run of five battles in a row had them in the first battle too: 2/358, 3/359, 3/180, 2/304 and 1/306 frames over 34 ms (at most 41-52 ms). So it is not tied to reusing the host. The cause was not isolated. Chrome had none.
+- **Replaced hosts stay reachable.** Every Ruffle 0.7.1 element adds a `pointerdown` listener on `document.documentElement` and a `visibilitychange` listener on `document` that it never removes (inner.js, the InnerPlayer constructor). So the element and shadow DOM of each dead or replaced host, and of the throwaway element that `keptPlayer` makes through `createPlayer()` to find Ruffle's class, stay reachable; their WebAssembly instances are destroyed. That is a few elements per page, against one per battle in version 1.0. Reusing one kept element across replacements with a second `load()` would avoid it, at the cost of a second start path; it was not taken.
 
 ## Checks
 
