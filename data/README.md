@@ -16,6 +16,7 @@ Owner: the "Monster and boss catalog" thread. Shapes are the types in `battle/co
 | `bosses/_modes_tower.md` | rules of the repeatable challenge modes |
 | `items.json` | 51 pre-2013 items: capsules, HP/PP potions, 能量珠, 学习力/性格/level items, EXP/EV boosters |
 | `catalog_index.json` | one-line index of every species (name, types, stat total, evolutions, tags) |
+| `traits.json` | the 48 zero-star classic traits (see [Traits](#traits)) |
 
 These files are the only copy of the catalog: there is no aggregate bundle, and generators write them directly.
 The game assembles the catalog with `loadCatalog()` (`src/domain/catalog/catalog.ts`), Node scripts and suites
@@ -93,6 +94,18 @@ values in provenance, and makes all 32 special transitions manual. Missing targe
 levels use documented remake thresholds of 60, then 70 and 80 for later special stages.
 These forward evolution rules are separate from the ordinary item table; they do not
 claim that the original game offered material-free level evolution.
+
+## Traits
+
+`traits.json` holds the 48 zero-star trait definitions of the original client `NewSe.NewSeIdx` table, from the same seer_data
+commit as the monsters
+([new_se.json](https://github.com/Nattsu39/seer_data/blob/a00bcdd5800e3bae5df881b4994a170a87541115/resource/config/xml/new_se.json)).
+Each keeps its numeric id, Chinese name and description, effect id (`Eid`), argument string and upgrade records through
+three stars; five-star upgrades and the later high-id traits 反弹 and 吸血 are left out. Where an upgraded trait's description
+and parameters disagree, both are kept. The `hooks` and `implemented` fields are the extractor's first mappings: the game's
+behaviour for each effect id is in `src/domain/traits.ts`
+([classic-traits-2026-10-21](../design/notes/classic-traits-2026-10-21.md), [critical-traits](../design/notes/critical-traits.md)).
+`python3 tools/assets/build_traits.py` regenerates the file from the checked-in client table `tools/assets/new_se.source.json`.
 
 ## Known gaps
 
