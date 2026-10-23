@@ -238,6 +238,10 @@ export async function verifyControllerSaveRecovery(){
     assert.equal(readLocalSave(),game.exportSave(),'The new journey is written under the save key.');
     memory.clear();writeLocalSave('{"version":5,"party"');
     assert.deepEqual(createGame(catalog).snapshot().notices,['旧存档无法读取，已另存原存档并创建新存档；可在设置中导出原存档。']);
+    // An emptied save is unreadable, not absent: it is kept and the player is told.
+    memory.clear();writeLocalSave('');
+    assert.deepEqual(createGame(catalog).snapshot().notices,['旧存档无法读取，已另存原存档并创建新存档；可在设置中导出原存档。']);
+    assert.deepEqual(unreadableSaves().map(save=>save.text),[''],'The empty save is kept.');
     // Without room for a backup, progress stays in memory until the player replaces the save explicitly.
     memory.clear();writeLocalSave('{"version":99}');
     storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');setItem(key,value);};
@@ -256,7 +260,7 @@ export async function verifyControllerSaveRecovery(){
     const current=JSON.parse(createGame(catalog,JSON.stringify(legacy)).exportSave());
     assert.equal(current.items.item_status_cure,undefined,'A current save is not granted the version-1 supply again.');
     assert.deepEqual(current.game.recruitmentClaims,{},'A current save is not repaired again.');
-    const output={checks:['unreadable save backed up','new journey written','unbackable save kept in memory only','version-1 supply granted once','version-1 recruitment claims repaired once']};
+    const output={checks:['unreadable save backed up','new journey written','empty save kept','unbackable save kept in memory only','version-1 supply granted once','version-1 recruitment claims repaired once']};
     fs.mkdirSync('artifacts/battle-media-v22',{recursive:true});
     fs.writeFileSync('artifacts/battle-media-v22/controller-save-recovery.json',JSON.stringify(output,null,2)+'\n');
     return output;

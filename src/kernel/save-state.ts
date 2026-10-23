@@ -84,10 +84,14 @@ function unreadableNotice(text: string, kept: boolean) {
   return kept ? `${which}，已另存原存档并创建新存档；可在设置中导出原存档。` : `${which}且无法备份；为保留原存档，本次进度暂不保存。`;
 }
 
-/** The given or stored save; an unreadable one is kept under its own name before a new journey replaces it. */
+/**
+ * The given or stored save; an unreadable one is kept under its own name before a new journey replaces it. An empty given save
+ * asks for a new journey (the preview does); an empty stored save is unreadable, not absent, so that a save file emptied outside
+ * the game is kept and the player is told.
+ */
 export function openJourney(ctx: GameContext, initialSave?: string): OpenedJourney {
   const previous = initialSave ?? readLocalSave();
-  if (!previous) return { ...startJourney(ctx), notices: [], durable: true };
+  if (previous === null || initialSave === '') return { ...startJourney(ctx), notices: [], durable: true };
   try {
     return { ...loadJourney(ctx, previous), notices: [], durable: true };
   } catch {
