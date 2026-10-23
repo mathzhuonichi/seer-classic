@@ -94,8 +94,14 @@
 @keyframes classicStatus{0%{opacity:0;transform:translateX(-50%) scale(.4)}40%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(1.25)}}
 @keyframes classicHeal{from{opacity:0;transform:translateY(18px)}30%{opacity:1}to{opacity:0;transform:translateY(-35px)}}
 @keyframes classicNumber{
- 0%{opacity:0;transform:translate(-50%,14px) scale(.5)}5%{opacity:1;transform:translate(-50%,-4px) scale(1.18)}10%{transform:translate(-50%,0) scale(1)}
- 86%{opacity:1;transform:translate(-50%,-8px)}100%{opacity:0;transform:translate(-50%,-18px)}
+ 0%{opacity:0;transform:translate(-50%,14px) scale(.5)}3.5%{opacity:1;transform:translate(-50%,-4px) scale(1.18)}7%{transform:translate(-50%,0) scale(1)}
+ 90%{opacity:1;transform:translate(-50%,-8px)}100%{opacity:0;transform:translate(-50%,-18px)}
+}
+/* A later hit of the same move added to the number: it stays in view and swells briefly, then holds and fades as a new one. */
+.classic-damage-number.is-updated{animation-name:classicNumberUpdate}
+@keyframes classicNumberUpdate{
+ 0%{opacity:1;transform:translate(-50%,0) scale(1.16)}5%{transform:translate(-50%,0) scale(1)}
+ 90%{opacity:1;transform:translate(-50%,-8px)}100%{opacity:0;transform:translate(-50%,-18px)}
 }
 @media(max-width:1050px){.classic-creatures{left:4%;right:4%}.classic-combatant{width:43%}}
 @media(max-width:620px){.classic-round-status{font-size:9px}.classic-dialogue p{line-height:1.65}.classic-command-tabs button{gap:4px;letter-spacing:1px}.classic-battle-result{padding:18px 12px}.classic-battle-result strong{font-size:17px}.classic-battle-result button{font-size:11px;padding:9px}@keyframes classicPhysical{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(calc(var(--direction)*-10px)) rotate(calc(var(--direction)*-5deg))}49%,65%{transform:translateX(calc(var(--direction)*60px)) rotate(calc(var(--direction)*9deg))}}@keyframes classicProjectile{0%,22%{opacity:0;transform:translateX(0) scale(.2)}35%{opacity:1;transform:translateX(0) scale(1)}85%{opacity:1;transform:translateX(calc(var(--direction)*160px)) scale(1.1)}100%{opacity:0;transform:translateX(calc(var(--direction)*175px)) scale(1.4)}}}

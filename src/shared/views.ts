@@ -101,6 +101,8 @@ export interface BattlePresentationFrame {
   id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'heal' | 'switch' | 'capture' | 'message'; text: string; amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
   player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;
+  /** A hit that adds to the number an earlier frame showed (a move's later hit or rider on the same creature): that frame's id. */
+  numberId?: number;
 }
 export interface BattleView {
   name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[];

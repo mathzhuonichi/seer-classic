@@ -17,15 +17,21 @@ export interface SkillEffectCue {
   skip(): void;
 }
 
-/** A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS). */
+/**
+ * A damage or healing number on screen, from a hit or heal frame; it outlives its frame and turn (DAMAGE_NUMBER_MS). A move's
+ * later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
+ */
 export interface FloatingNumber {
-  /** The frame's id. */
+  /** The id of its first frame. */
   id: number;
+  /** The frame that last set it: its first, or the latest one that added to it. */
+  frame: number;
   side: 0 | 1;
   amount: number;
   healing: boolean;
+  /** Any of its hits was critical. */
   critical: boolean;
-  /** Its row among its side's numbers on screen, from 0 (DAMAGE_NUMBER_ROWS rows), so a run of hits stacks instead of overlapping. */
+  /** Its row among its side's numbers on screen, from 0 (DAMAGE_NUMBER_ROWS rows), so numbers on one creature stack instead of overlapping. */
   row: number;
 }
 
@@ -158,8 +164,8 @@ export function createBattlePlayer(host: PlayerHost): BattlePlayer {
 }
 
 /**
- * Shows each hit or heal frame's number for DAMAGE_NUMBER_MS on its own timer, in the lowest free row of its side. A frame
- * shown again (a replayed turn) keeps the number it has.
+ * Shows each hit or heal frame's number for DAMAGE_NUMBER_MS, in the lowest free row of its side. A frame that adds to a number
+ * on screen sets its amount, keeps its row and starts its time again. A frame shown again (a replayed turn) changes nothing.
  */
 function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set: Patch) {
   const timers = new Map<number, number>();
@@ -168,17 +174,25 @@ function floatingNumbers(clock: PlaybackClock, current: () => PlaybackState, set
     timers.delete(id);
     set({ numbers: current().numbers.filter(number => number.id !== id) });
   };
+  /** A new number in the lowest free row of its side; one beyond the rows replaces the side's oldest. */
+  const added = (frame: BattlePresentationFrame, id: number, amount: number): FloatingNumber[] => {
+    const sideNumbers = () => current().numbers.filter(number => number.side === frame.side);
+    if (sideNumbers().length >= DAMAGE_NUMBER_ROWS) remove(sideNumbers()[0].id);
+    const taken = new Set(sideNumbers().map(number => number.row));
+    let row = 0;
+    while (taken.has(row)) row++;
+    return [...current().numbers, { id, frame: frame.id, side: frame.side, amount, healing: frame.kind === 'heal', critical: !!frame.critical, row }];
+  };
   return {
     show(frame: BattlePresentationFrame) {
-      if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined || timers.has(frame.id)) return;
-      const sideNumbers = () => current().numbers.filter(number => number.side === frame.side);
-      if (sideNumbers().length >= DAMAGE_NUMBER_ROWS) remove(sideNumbers()[0].id);
-      const taken = new Set(sideNumbers().map(number => number.row));
-      let row = 0;
-      while (taken.has(row)) row++;
-      const shown: FloatingNumber = { id: frame.id, side: frame.side, amount: frame.amount, healing: frame.kind === 'heal', critical: !!frame.critical, row };
-      set({ numbers: [...current().numbers, shown] });
-      timers.set(frame.id, clock.setTimeout(() => remove(frame.id), DAMAGE_NUMBER_MS));
+      if ((frame.kind !== 'hit' && frame.kind !== 'heal') || frame.amount === undefined) return;
+      const id = frame.numberId ?? frame.id, amount = frame.amount, shown = current().numbers.find(number => number.id === id);
+      if (shown && frame.id <= shown.frame) return;
+      set({ numbers: shown
+        ? current().numbers.map(number => number === shown ? { ...shown, frame: frame.id, amount, critical: shown.critical || !!frame.critical } : number)
+        : added(frame, id, amount) });
+      clock.clearTimeout(timers.get(id));
+      timers.set(id, clock.setTimeout(() => remove(id), DAMAGE_NUMBER_MS));
     },
     clear() {
       for (const timer of timers.values()) clock.clearTimeout(timer);

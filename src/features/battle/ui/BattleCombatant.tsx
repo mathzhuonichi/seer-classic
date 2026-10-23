@@ -26,12 +26,15 @@ function CaptureEffect({ animating, success }: { animating: boolean; success: bo
   </div>;
 }
 
-/** A damage or healing number, held for DAMAGE_NUMBER_MS in its row of its side's stack. */
+/**
+ * A damage or healing number, held for DAMAGE_NUMBER_MS in its row of its side's stack. It is drawn again each time a later hit
+ * adds to it (keyed by the frame that last set it): it stays in view, swells briefly and holds its time again.
+ */
 function DamageNumber({ number }: { number: FloatingNumber }) {
   const style = { '--number-row': number.row, animationDuration: `${DAMAGE_NUMBER_MS}ms` } as CSSProperties;
-  return <strong className={`classic-damage-number${number.healing ? ' healing' : ''}${number.critical ? ' critical-number' : ''}`} style={style}>
-    {number.healing ? '+' : '−'}{number.amount}
-  </strong>;
+  const className = `classic-damage-number${number.healing ? ' healing' : ''}${number.critical ? ' critical-number' : ''}`
+    + `${number.frame !== number.id ? ' is-updated' : ''}`;
+  return <strong className={className} style={style}>{number.healing ? '+' : '−'}{number.amount}</strong>;
 }
 
 /**
@@ -77,7 +80,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
       </div>
     </div>
     {effect === 'special' && !effectActor && <div className="classic-energy-projectile" aria-hidden="true"><i /></div>}
-    {numbers.filter(number => number.side === side).map(number => <DamageNumber key={number.id} number={number}/>)}
+    {numbers.filter(number => number.side === side).map(number => <DamageNumber key={`${number.id}:${number.frame}`} number={number}/>)}
     {critical && <span key={`critical-${frame?.id}`} className="classic-critical-popup" aria-hidden="true">致命一击！</span>}
     {(capturing || captured) && <CaptureEffect key={capturing ? frame?.id : 'captured'} animating={capturing} success={!!frame?.captureSuccess || captured} />}
   </div>;
