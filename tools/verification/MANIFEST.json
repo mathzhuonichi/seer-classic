@@ -55,10 +55,6 @@
     "battle-facilities.mjs": {
       "status": "gate"
     },
-    "battle-hd-atlas.mjs": {
-      "status": "tool",
-      "note": "Takes source, remapped and layout paths as arguments."
-    },
     "battle-hd-display.mjs": {
       "status": "needs-browser"
     },
