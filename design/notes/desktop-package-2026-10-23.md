@@ -70,13 +70,25 @@ of the packaged game showed no problem with `set_assets`, and the 404 answer cam
 
 - Plugins: single-instance first (a second launch focuses the running game; two instances would overwrite each other's save),
   log (the platform log folder, 1 MiB per file, three kept, with a panic hook, the page's errors and unhandled rejections through
-  `log_web`, and the macOS web content process ending), window-state (size, position, maximized, fullscreen; not visibility,
-  whose restore would also take focus) and dialog. `capabilities/default.json` grants `core:default`; the page's own calls are
-  app commands. `app.withGlobalTauri` gives the page `window.__TAURI__.core.invoke`, so no npm package is added.
-- The window is built in setup from its configuration (`create: false`, `visible: false`) at the largest 960:650 inner size
-  within 90 % of the primary monitor's work area, never below the configured minimum (1000x700), with `preventOverflow`, then the
-  window-state plugin restores the saved state and the window is shown. Example sizes: 1255x850 on a 1512x982 MacBook, 1085x734
-  for 1920x1080 at 125 %.
+  `log_web`, and the macOS web content process ending), window-state (saves size, position, maximized and fullscreen; not
+  visibility, whose restore would also take focus; the shell restores them itself, below) and dialog.
+  `capabilities/default.json` grants `core:default`; the page's own calls are app commands. `app.withGlobalTauri` gives the
+  page `window.__TAURI__.core.invoke`, so no npm package is added.
+- The window is built in setup from its configuration (`create: false`, `visible: false`, `preventOverflow`). A first start
+  opens it at the largest 960:650 inner size within 90 % of the primary monitor's work area, never below the configured minimum
+  (1000x700), centred. Example sizes: 1255x850 on a 1512x982 MacBook, 1085x734 for 1920x1080 at 125 %.
+- Later starts open it at its saved frame, which the shell reads from the window-state plugin's file (`.window-state.json` in
+  the app config folder) before the window is built, when the work area of a monitor holds that frame at no less than the
+  minimum; otherwise as on a first start. Maximized and fullscreen follow the saved state. The plugin's own restore is skipped
+  (`skip_initial_state`): it sets the saved inner size in physical pixels with no monitor check, so 1255x850 saved on a 2x
+  MacBook came back as 2510x1048 on a 1x 1920x1080 display (macOS clamps only the height) with the game stage past the right
+  edge, and it runs after the window is built, where on macOS tao applies the size later still (`setContentSize` is dispatched
+  to the main queue), too late to check. A MacBook with an external monitor, or 150 % and 100 % screens on Windows, meet this.
+  The saved pixels carry no scale, so a frame saved on a 2x display reads twice as large on a 1x one and opens as on a first
+  start there.
+- In the smoke build on this Mac the size Tauri calls inner is the window's frame, title bar included: the page's viewport is
+  32 px shorter (1436x940 for the first start's 1436x972 on a 1920x1080 screen). Saving and restoring use the same measure, so
+  a size holds across launches (a 1100x760 frame reopened as 1100x760).
 - `src/app/desktop.ts` (only in the desktop build: `import.meta.env.MODE === 'desktop'`) blocks F5, Ctrl/Cmd+R, Ctrl/Cmd+P and
   the context menu, which offers reload and print, and forwards page errors to the log. The settings fullscreen button calls
   `toggle_fullscreen`, which sets the window fullscreen: WebView2 does not resize the window for HTML fullscreen.
@@ -94,18 +106,27 @@ entry point sets.
 
 - **Desktop files (`src-tauri/src/saves.rs`, `src/app/desktop-saves.ts`).** `<app data>/saves/save.json` (macOS
   `~/Library/Application Support/local.chizhuoni.seer-classic/saves/`, Windows `%APPDATA%\local.chizhuoni.seer-classic\saves\`).
-  One writer thread takes the latest save it was given and writes it through `save.tmp`, fsync, rename and an fsync of the folder;
-  a burst of actions costs one write. Each run's first write, and then at most one write every 10 minutes, first copies the save
-  it replaces into `backup-1.json` and shifts the older ones (three kept); save.json itself is always in place. `write_save`
-  resolves once that save or a later one is on disk, or with the error of the write that failed for it. On exit the app waits
-  for the last write. `read_save` waits for a pending write first, so a reload reads what the page last wrote. Development runs
-  use `saves-dev/`.
+  One writer thread takes the latest save it was given and writes it through a temporary file of its own process
+  (`save.<pid>.tmp`, so two processes never rename each other's half-written file), fsync, rename and an fsync of the folder; a
+  burst of actions costs one write. Each run's first write, and then at most one write every 10 minutes, first copies the save
+  it replaces, byte for byte, into `backup-1.json` and shifts the older ones (three kept); save.json itself is always in place.
+- `write_save` is a command without `async`: Tauri runs it on the main thread as its message arrives, and it only hands the
+  save to the writer and returns its number; the page then awaits `save_written`, which resolves once that save or a later one
+  is on disk, or with the error of the write that failed for it. As an async command it ran on a runtime worker, so two saves
+  could be handed over out of order (the older one then stayed on disk until the next action), and a save whose task had not run
+  yet was missed by the exit's drain. On exit the app waits for the last write. `read_save` waits for a pending write first, so a
+  reload reads what the page last wrote. Development runs use `saves-dev/`.
 - `src/main.tsx` awaits `read_save` before the game opens. With no save file, the save in this origin's `localStorage` (the
-  0.2 app's) becomes the journey, and its first write creates save.json: the import happens once. If the files cannot be read,
+  0.2 app's) becomes the journey; its first successful write creates save.json and sets `seer-classic-save-v1.imported` in
+  local storage, so the import happens once: deleting the save files, the player README's way to start over, starts a new
+  journey (before this, the 0.2 journey came back). Local storage's save itself is never changed. If the files cannot be read,
   the boot screen says so and nothing is written.
-- Unreadable saves stay as files (`unreadable-<time>-<n>.json`, AGENTS rule 7). The page names them; the shell refuses any
-  other name and never overwrites one. Because each run's first write backs up the file it replaces, an unreadable save.json is
-  also in `backup-1.json`.
+- Unreadable saves stay as files (`unreadable-<time>-<n>.json`, AGENTS rule 7), byte for byte: the page reads save.json as
+  UTF-8 (lossily for a file that is not UTF-8), so the shell remembers the bytes it read and keeps those when the page's text is
+  their reading. The page names the files; the shell refuses any other name and never overwrites one. Because each run's first
+  write backs up the file it replaces, an unreadable save.json is also in `backup-1.json`. An empty save.json is unreadable, not
+  absent: it gets the notice and is kept, where it used to start a new journey silently (an empty save given to `createGame`
+  still asks for a new journey, as the preview and the suites use it).
 - Export uses the native save dialog (`export_save`): the macOS web view cancels `<a download>` when the app has no download
   handler, and the game used to say 航行存档已导出 anyway. The message now appears only after the file is written. Import stays
   an `<input type=file>`.
@@ -116,8 +137,9 @@ entry point sets.
   journey is still in memory) and 重新载入.
 - `golden-saves` (gate) opens the 0.2 app's version-1 save (copied read-only out of
   `~/Library/WebKit/local.chizhuoni.seer-classic`; it holds game state only: three Lv 5 starters, no nickname) and a version-5
-  save of 0.3.2 with a Chinese nickname, from the save store, with no notice; the current one exports unchanged. Add a fixture
-  for every release that changes the format.
+  save of 0.3.2 with a Chinese nickname, from the save store, with no notice; the current one exports unchanged. With a
+  stand-in shell it also opens the desktop store twice: the 0.2 save in local storage becomes the save file, and once the save
+  files are deleted a new journey starts. Add a fixture for every release that changes the format.
 
 ### Identity and notices
 
@@ -141,14 +163,19 @@ entry point sets.
 
 1. `build:desktop`; `stage:desktop` (notices, then the payload);
 2. the `desktop-payload` gate;
-3. `tauri build --bundles app --config src-tauri/tauri.bundle.conf.json`: ad-hoc signed, arm64, `LSMinimumSystemVersion` 12.0;
-4. `tools/distribution/pack_macos_dmg.py`: `codesign --verify --deep --strict`, then a UDZO DMG with the .app (an APFS clone of the
-   signed bundle), a link to /Applications, 请先阅读.txt and THIRD-PARTY-NOTICES.txt, checked with `hdiutil verify`.
+3. `tauri build --bundles app --config src-tauri/tauri.bundle.conf.json` with `RUSTFLAGS=--remap-path-prefix=$HOME=~`: ad-hoc
+   signed, arm64, `LSMinimumSystemVersion` 12.0. Without the remap the executable named the build machine's home folder (and so
+   the user name) 387 times, in the panic locations of the crates under `~/.cargo/registry`. `package:smoke` uses the same flag,
+   so both builds share their compiled crates;
+4. `tools/distribution/pack_macos_dmg.py`: `codesign --verify --deep --strict` and a refusal of an executable that names this
+   machine's home folder, then a UDZO DMG with the .app (an APFS clone of the signed bundle), a link to /Applications,
+   请先阅读.txt and THIRD-PARTY-NOTICES.txt, checked with `hdiutil verify`.
 
 Measured (2026-10-23, Apple M4): 154.6 s for the whole script with an incremental Rust build (39.7 s); a cold Rust build of the
-shell took 76 s. Executable 20,641,344 B (19.7 MiB). .app 2.77 GiB, 15,628 sealed files, valid ad-hoc signature (flags
-adhoc, runtime). DMG 2.67-2.68 GiB (2,865,826,546 B for the final one; the payload is already compressed, so UDZO saves
-little). `syspolicy_check
+shell took 76 s. Adding the remap flag rebuilt every crate once (81 s, 196 s for the whole script); the next incremental run took
+155 s (Rust 30 s). Executable 20,645,152 B (19.7 MiB), with no path under the home folder. .app 2.77 GiB, 15,628 sealed files,
+valid ad-hoc signature (flags adhoc, runtime). DMG 2.67-2.69 GiB (2,881,340,598 B for the latest; the payload is already
+compressed, so UDZO saves little). `syspolicy_check
 distribution` reports the expected "Adhoc Signed App" and "Notary Ticket Missing": other Macs need Open Anyway.
 
 ## Release gate
@@ -164,7 +191,10 @@ In order:
    - every path the minified build can request is staged and none is excluded. The gate reads the build's strings from rolldown's
      syntax trees (inlined JSON included) and its styles, fills its template paths (`/portraits/${…}.png`, a `<skillId>`
      placeholder) with every known file whose filled-in parts are numbers or strings of the build, and follows the references of
-     requested SVG, CSS and JSON files. A dynamic path it cannot read fails it. All 15,626 staged files are requestable.
+     requested SVG, CSS and JSON files. A dynamic path it cannot read fails it: a concatenation or template with a known top
+     folder after an expression, and a template to an asset file with a slash after an expression (`/${dir}/${id}.png`, which
+     passed before; the catalog's `/${name}.json` key match has no slash after its expression). All 15,626 staged files are
+     requestable.
 3. The needs-assets and needs-browser suites, the latter with `SEER_PUBLIC=releases/desktop-payload/public` so that the browser
    harness serves the staged payload instead of `public/` (Chrome with `--mute-audio`, and Playwright WebKit when installed).
    On 2026-10-23 all four needs-browser suites passed against the staged payload in Chrome and WebKit (with the
@@ -180,10 +210,12 @@ the player's data is never touched. `src-tauri/src/smoke.rs`, compiled only into
 (`src-tauri/smoke/driver.js`) as an initialization script, exports to a fixed file instead of the dialog, and keeps the app from
 ever activating itself: its window stays above other windows but almost entirely off screen, because WebKit stops animation
 frames in a window it cannot see (a first run with the window behind others stalled at the battle loading screen's first
-`requestAnimationFrame`). The driver mutes the game before it loads (the game's mute setting, silent WebAudio, muted media) and
+`requestAnimationFrame`). `smoke::place` moves the built window to the primary monitor's bottom-right corner, 160x110 of it
+on screen, after the shell centred and fitted it; until then a builder position lost to the centring, and the smoke runs showed
+the full window centred above other windows (it took no focus and made no sound). The driver mutes the game before it loads (the game's mute setting, silent WebAudio, muted media) and
 clicks with untrusted events, so the game never unlocks audio. `tools/distribution/smoke_macos.py` launches the executable as
 its own process, reads the driver's lines from the app's log, and deletes the smoke identifier's data (Application Support,
-Logs, WebKit, Caches) before and after.
+Logs, WebKit, Caches) and the single-instance socket a killed run leaves in /tmp before and after.
 
 Phases and results (all passed, 2026-10-23):
 
@@ -191,8 +223,9 @@ Phases and results (all passed, 2026-10-23):
 | --- | --- |
 | import | first start: the 0.2 app's version-1 save in local storage becomes save.json (migrated, same seed) |
 | battle | world map with no broken image; origin tauri://localhost; a missing file 404, a present one 200; eval blocked by the CSP; a wild battle with both creatures animated and a skill effect drawn; export writes the save; quit; save.json holds the journey |
-| relaunch | the save file loads (its export equals it), backup-1.json holds the previous run's save, 关于 shows the license texts |
-| unreadable | a broken save.json is kept as unreadable-*.json and in backup-1.json, the notice says so, settings lists it, a new journey starts |
+| relaunch | the save file loads (its export equals it), backup-1.json holds the previous run's save, 关于 shows the license texts; a saved window state of 4000x3000 physical pixels opens within the screen and above the minimum |
+| unreadable (truncated, empty, not UTF-8) | save.json is kept byte for byte as unreadable-*.json and in backup-1.json, the notice says so, settings lists it, a new journey starts |
+| reset | with every save file deleted, a new journey starts while local storage still holds the 0.2 save |
 | refuse | without payload.json, and without one listed file, the payload check logs its refusal and shows its dialog |
 
 Times in the packaged app (spawn to world map; the fight button to the battle's commands; a skill command to the first frame the
@@ -202,8 +235,8 @@ Ruffle canvas draws, which follows the move's hit marker):
 | --- | --- |
 | startup, first launch of a newly built app | 5.9-6.5 s (macOS checks a new 2.8 GiB bundle once; a fresh profile with a known binary took 0.40 s) |
 | startup, later launches | 0.40-0.48 s |
-| battle entry | 1.42-1.53 s |
-| first skill effect | 1.96-2.70 s after the command |
+| battle entry | 1.42-1.63 s |
+| first skill effect | 1.94-2.70 s after the command |
 
 The effect path in WKWebView, an open point of [handoff-2026-10-22](handoff-2026-10-22.md), works in the package: Ruffle's
 host starts behind the first loading screen and the first move's effect draws. The shader-cache cost of a new binary is inside
@@ -259,6 +292,16 @@ save.json 是当前存档，backup-1.json 到 backup-3.json 是较早的备份�
   packer are still to be written; cross-building needs `brew install llvm`, the msvc Rust target and cargo-xwin (user approval).
   The notices generator then needs `--target x86_64-pc-windows-msvc`.
 - The native save dialog itself is not exercised by automation (the smoke build writes to a fixed file); try one export by hand.
+- **Single instance is unverified.** This machine's sandbox refuses the plugin's unix-socket connect (EPERM), and
+  tauri-plugin-single-instance 2.5.4 then starts normally, so a second launch here ran beside the first. Check by hand outside
+  the sandbox, and on Windows. Two instances no longer share a temporary file, but each would still write its own journey to
+  save.json.
+- **Ruffle's crates are not in the notices.** Ruffle's WASM embeds about 100 Rust crates (symphonia-* 0.5.5 under MPL-2.0, naga,
+  encoding_rs, chardetng, fluent-*, lzma-rs, image, png, gif, tiff, rustfft, chrono and more); THIRD-PARTY-NOTICES.txt names only
+  `@ruffle-rs/ruffle` with its own MIT and Apache texts, as the npm package does. Before distribution, add a Ruffle section from
+  Ruffle 0.7.1's Cargo.lock (for example with cargo-about) with the license texts and, for the MPL crates, a link to their source.
+- A save still inside the page (its message not yet received by the shell) is lost at a reload or a quit in the same
+  milliseconds. The desktop build blocks reloads, and a player quits long after the last action.
 - Gatekeeper's first check of a quarantined, downloaded DMG on another Mac was not timed.
 - The minimum macOS version stays 12.0, but the build targets Safari 16.4 and the battle loader needs DecompressionStream
   (Safari 16.4): the critic recommends 13.3. The icon is still the upscaled official favicon. Both wait for the user.
