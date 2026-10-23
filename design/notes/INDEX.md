@@ -113,7 +113,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [debug-acquisition-battle-v23](debug-acquisition-battle-v23.md) | Revision 23 integration record: initial-form links, paid recruitment, Seville, frozen battle backdrop. | historical |
 | [missing-acquisition-v24](missing-acquisition-v24.md) | How `export-acquisition-status.mjs` builds the missing-acquisition inventory; the revision 24 baseline. | historical |
 | [repeatable-paid-acquisition-v24](repeatable-paid-acquisition-v24.md) | Repeatable routes for the paid families: breeding for 史克 and 米娅, conditional hatch items. | current |
-| [breeding-source-v24](breeding-source-v24.md) | Eight breeding pairs and outcome weights from the official `Eggs` table. | current |
+| [breeding-source-v24](breeding-source-v24.md) | Eight breeding pairs and outcome weights from the official `Eggs` table. | current; its replay suite `breeding.mjs` was deleted on 2026-10-23, since its `.cache` inputs are not on this machine |
 | [breeding-integration-v24](breeding-integration-v24.md) | Breeding rules: Lv.50 mature parents, first-generation male, immediate free offspring. | current; entry point moved by [laboratory-slots-v26](laboratory-slots-v26.md) |
 | [dex-acquisition-review-v14](dex-acquisition-review-v14.md) | Revision 14 coverage review by evolution family. | superseded by [dex-acquisition-review-v21](dex-acquisition-review-v21.md) |
 | [dex-acquisition-review-v21](dex-acquisition-review-v21.md) | Revision 21 coverage: 367 species with routes, 1,112 without. | historical |
@@ -160,7 +160,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [battle-animation-hd-ai-v60](battle-animation-hd-ai-v60.md) | Retained raster battle cells upscaled by a local AI model, gated against the original pixels; `<id>-v60` atlases. | current |
 | [battle-animation-hd-redraw-v61](battle-animation-hd-redraw-v61.md) | Raster battle cells V60 left soft, redrawn locally as vector traces, strokes and smooth fields, gated against the original pixels; `<id>-v61` atlases. | current |
 | [battle-animation-hd-v62](battle-animation-hd-v62.md) | The first standby pose first within each atlas's budget (other-frame raises given back), and a stroke-only gate for thin-stroke redraws with a visual review; `<id>-v62` atlases. | current |
-| [full-dex-motion-v22](full-dex-motion-v22.md) | Offline battle motion for all 1,483 species: source and export process. | current; HD atlases in [battle-animation-hd-v44](battle-animation-hd-v44.md) |
+| [full-dex-motion-v22](full-dex-motion-v22.md) | Offline battle motion for all 1,483 species: source and export process. | current; HD atlases in [battle-animation-hd-v44](battle-animation-hd-v44.md); its check `battle-animation.mjs` was deleted on 2026-10-23, since its `.cache` inputs are not on this machine |
 | [battle-runtime-v22](battle-runtime-v22.md) | Shared animation clock, resource pool and canvas recovery for battle timelines. | current |
 | [battle-native-size](battle-native-size.md) | Battle creatures at their original native size: one scale from the standby pose's clip size, calibrated on 丽莎布布 (303) and capped by the room below the HP panel. | current |
 | [battle-move-clips-audit-2026-10-21](battle-move-clips-audit-2026-10-21.md) | Why 鲁斯王's special attack jumped (an effect counted as the body), the fix that tells the creature by its standby sprites and eases offsets, a jump audit of every species' moves in the measured arenas, and an inventory of how each species' moves are drawn. | current |
