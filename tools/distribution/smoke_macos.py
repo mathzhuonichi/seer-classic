@@ -180,7 +180,8 @@ def main():
         events, started = run.launch("unreadable")
         kept = sorted(run.saves.glob("unreadable-*.json"))
         ok &= run.phase("unreadable", events, started, lambda e: [
-            ("the notice", "已另存原存档" in (e.get("unreadable", {}).get("notice") or "")), ("settings lists it", len(e.get("unreadable", {}).get("listed", [])) == 1),
+            ("the notice", "已另存原存档" in (e.get("unreadable", {}).get("notice") or "")),
+            ("settings lists it", len(e.get("unreadable", {}).get("listed", [])) == 1),
             ("kept as it was", len(kept) == 1 and kept[0].read_text() == broken), ("a new journey written", run.save().get("seed") != seed["seed"]),
             ("the broken file also backed up", (run.saves / "backup-1.json").read_text() == broken), ("done", "done" in e)])
         for hide in ("payload.json", "portraits/1.png"):
