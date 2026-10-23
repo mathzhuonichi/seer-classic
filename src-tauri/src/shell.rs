@@ -1,11 +1,16 @@
 //! The main window, the shell's plugins and its own commands: fullscreen and the page's log lines.
 use std::borrow::Cow;
+use std::collections::HashMap;
 
+use serde::Deserialize;
 use tauri::http::{Request, Response};
 use tauri::plugin::TauriPlugin;
-use tauri::{App, LogicalSize, Manager, Monitor, Runtime, WebviewWindow, WebviewWindowBuilder, Window};
+use tauri::{App, Manager, Monitor, Runtime, WebviewWindow, WebviewWindowBuilder, Window};
 use tauri_plugin_log::{RotationStrategy, Target, TargetKind};
 use tauri_plugin_window_state::StateFlags;
+
+/// The main window's label, which is also its entry in the window-state plugin's file.
+const MAIN_WINDOW: &str = "main";
 
 /// The game's frame (src/shared/game-display.ts) and the share of the monitor's work area the first window takes.
 const FRAME: (f64, f64) = (960.0, 650.0);
@@ -22,10 +27,56 @@ pub fn fitted_size(work_area: (f64, f64), minimum: (f64, f64)) -> (f64, f64) {
     ((FRAME.0 * scale).round().max(minimum.0), (FRAME.1 * scale).round().max(minimum.1))
 }
 
-/// Whether a window of this outer and inner size fits the work area at no less than the minimum (logical px).
-pub fn fits(outer: (f64, f64), inner: (f64, f64), work_area: (f64, f64), minimum: (f64, f64)) -> bool {
-    let within = outer.0 <= work_area.0 + ROUNDING_PX && outer.1 <= work_area.1 + ROUNDING_PX;
-    within && inner.0 + ROUNDING_PX >= minimum.0 && inner.1 + ROUNDING_PX >= minimum.1
+/// The main window's state as tauri-plugin-window-state saves it, in physical pixels; while maximized, x and y are the
+/// monitor's corner and prev_x and prev_y the window's own.
+#[derive(Deserialize, Debug, Clone, Copy, PartialEq)]
+struct SavedWindow {
+    width: u32,
+    height: u32,
+    x: i32,
+    y: i32,
+    prev_x: i32,
+    prev_y: i32,
+    maximized: bool,
+    fullscreen: bool,
+}
+
+/// The main window's saved state, if the plugin's file holds one.
+fn saved_window<R: Runtime>(app: &App<R>) -> Option<SavedWindow> {
+    let file = app.path().app_config_dir().ok()?.join(tauri_plugin_window_state::DEFAULT_FILENAME);
+    let mut saved: HashMap<String, SavedWindow> = serde_json::from_slice(&std::fs::read(file).ok()?).ok()?;
+    saved.remove(MAIN_WINDOW)
+}
+
+/// A monitor's work area in logical pixels, and its scale.
+#[derive(Debug, Clone, Copy)]
+struct Screen {
+    work_origin: (f64, f64),
+    work_size: (f64, f64),
+    scale: f64,
+}
+
+impl Screen {
+    fn of(monitor: &Monitor) -> Self {
+        let (area, scale) = (monitor.work_area(), monitor.scale_factor());
+        let work_origin = (f64::from(area.position.x) / scale, f64::from(area.position.y) / scale);
+        Self { work_origin, work_size: logical_work_area(monitor), scale }
+    }
+}
+
+/// The saved window's inner size and top-left corner (logical px) on the first screen whose work area holds it at no less than
+/// the minimum. The plugin saves physical pixels without their scale: a size saved on a 2x display reads twice as large on a 1x
+/// one, and would run past it. Such a window opens as on a first start instead.
+fn restorable(saved: &SavedWindow, screens: &[Screen], minimum: (f64, f64)) -> Option<((f64, f64), (f64, f64))> {
+    let (x, y) = if saved.maximized { (saved.prev_x, saved.prev_y) } else { (saved.x, saved.y) };
+    screens.iter().find_map(|screen| {
+        let corner = (f64::from(x) / screen.scale, f64::from(y) / screen.scale);
+        let size = (f64::from(saved.width) / screen.scale, f64::from(saved.height) / screen.scale);
+        let (origin, area) = (screen.work_origin, screen.work_size);
+        let inside = corner.0 + ROUNDING_PX >= origin.0 && corner.1 + ROUNDING_PX >= origin.1
+            && corner.0 + size.0 <= origin.0 + area.0 + ROUNDING_PX && corner.1 + size.1 <= origin.1 + area.1 + ROUNDING_PX;
+        (inside && size.0 + ROUNDING_PX >= minimum.0 && size.1 + ROUNDING_PX >= minimum.1).then_some((size, corner))
+    })
 }
 
 /// A monitor's work area in logical pixels.
@@ -34,8 +85,10 @@ fn logical_work_area(monitor: &Monitor) -> (f64, f64) {
     (f64::from(area.width) / scale, f64::from(area.height) / scale)
 }
 
-/// The main window from its configuration, fitted to the primary monitor's work area and centred, then given its saved state
-/// (the window-state plugin restores it as the window is built), fitted again if that state does not fit, and shown.
+/// The main window from its configuration, at its saved frame when that still fits a monitor, otherwise fitted to the primary
+/// monitor's work area and centred; then maximized or fullscreen as saved, and shown. The shell restores the saved state itself,
+/// before the window is built: the window-state plugin's restore runs after it, and on macOS its size and position land later
+/// still (tao sets them asynchronously), so they could not be checked. The plugin only saves.
 pub fn create_main_window<R: Runtime, H>(app: &App<R>, on_request: H) -> tauri::Result<WebviewWindow<R>>
 where
     H: Fn(Request<Vec<u8>>, &mut Response<Cow<'static, [u8]>>) + Send + Sync + 'static,
@@ -43,40 +96,30 @@ where
     let config = app.config().app.windows.first().expect("the main window's configuration").clone();
     let minimum = (config.min_width.unwrap_or(0.0), config.min_height.unwrap_or(0.0));
     let mut builder = WebviewWindowBuilder::from_config(app.handle(), &config)?.on_web_resource_request(on_request);
-    if let Some(monitor) = app.primary_monitor()? {
+    let saved = saved_window(app);
+    let screens: Vec<Screen> = app.available_monitors()?.iter().map(Screen::of).collect();
+    if let Some((size, corner)) = saved.and_then(|saved| restorable(&saved, &screens, minimum)) {
+        builder = builder.inner_size(size.0, size.1).position(corner.0, corner.1);
+    } else if let Some(monitor) = app.primary_monitor()? {
+        if let Some(saved) = saved {
+            log::info!("the saved window ({}x{} at {},{}) fits no monitor now; it opens as on a first start", saved.width, saved.height, saved.x, saved.y);
+        }
         let (width, height) = fitted_size(logical_work_area(&monitor), minimum);
         builder = builder.inner_size(width, height).center();
     }
     #[cfg(feature = "smoke")]
     let builder = crate::smoke::window(builder);
     let window = builder.build()?;
-    fit_restored(&window, minimum)?;
+    if saved.is_some_and(|saved| saved.maximized) {
+        window.maximize()?;
+    }
+    if saved.is_some_and(|saved| saved.fullscreen) {
+        window.set_fullscreen(true)?;
+    }
     #[cfg(feature = "smoke")]
     crate::smoke::place(&window)?;
     window.show()?;
     Ok(window)
-}
-
-/// The window-state plugin restores a saved size in physical pixels with no check against the monitor, so a size saved on a 2x
-/// display or a larger screen runs past this one (macOS clamps only the height). Such a window, or one below the minimum, gets the
-/// first window's fitted size on its monitor and is centred there; a maximized or fullscreen window is left as it is.
-fn fit_restored<R: Runtime>(window: &WebviewWindow<R>, minimum: (f64, f64)) -> tauri::Result<()> {
-    if window.is_maximized()? || window.is_fullscreen()? {
-        return Ok(());
-    }
-    let Some(monitor) = window.current_monitor()?.or(window.primary_monitor()?) else { return Ok(()) };
-    let scale = window.scale_factor()?;
-    let (outer, inner) = (window.outer_size()?.to_logical::<f64>(scale), window.inner_size()?.to_logical::<f64>(scale));
-    let work_area = logical_work_area(&monitor);
-    if fits((outer.width, outer.height), (inner.width, inner.height), work_area, minimum) {
-        return Ok(());
-    }
-    let (width, height) = fitted_size(work_area, minimum);
-    log::info!("the restored window ({}x{}) does not fit its monitor; fitted to {width}x{height}", inner.width, inner.height);
-    // From the work area's corner, so that the screen's edge never clamps the new size.
-    window.set_position(monitor.work_area().position)?;
-    window.set_size(LogicalSize::new(width, height))?;
-    window.center()
 }
 
 /// The log in the platform's log folder (~/Library/Logs/<identifier>, %LOCALAPPDATA%\<identifier>\logs), size-capped.
@@ -90,10 +133,10 @@ pub fn log_plugin<R: Runtime>() -> TauriPlugin<R> {
         .build()
 }
 
-/// Restores size, position, maximized and fullscreen; the window is shown by `create_main_window`.
+/// Saves size, position, maximized and fullscreen; `create_main_window` restores them and shows the window.
 pub fn window_state_plugin<R: Runtime>() -> TauriPlugin<R> {
     let flags = StateFlags::SIZE | StateFlags::POSITION | StateFlags::MAXIMIZED | StateFlags::FULLSCREEN;
-    tauri_plugin_window_state::Builder::default().with_state_flags(flags).build()
+    tauri_plugin_window_state::Builder::default().with_state_flags(flags).skip_initial_state(MAIN_WINDOW).build()
 }
 
 /// A second launch focuses the running game instead: two instances would overwrite each other's save.
@@ -147,15 +190,35 @@ mod tests {
         assert_eq!(fitted_size((1280.0, 680.0), (1000.0, 700.0)), (1000.0, 700.0));
     }
 
+    fn saved(width: u32, height: u32, x: i32, y: i32) -> SavedWindow {
+        SavedWindow { width, height, x, y, prev_x: 0, prev_y: 0, maximized: false, fullscreen: false }
+    }
+
     #[test]
-    fn a_restored_window_must_fit_its_work_area_at_no_less_than_the_minimum() {
-        let (work_area, minimum) = ((1920.0, 1055.0), (1000.0, 700.0));
-        assert!(fits((1255.0, 878.0), (1255.0, 850.0), work_area, minimum));
-        // 1255x850 saved on a 2x MacBook is restored as 2510x1700 here; macOS clamps only the height.
-        assert!(!fits((2510.0, 1055.0), (2510.0, 1027.0), work_area, minimum));
-        // The minimum clamped by the screen's bottom edge.
-        assert!(!fits((1000.0, 700.0), (1000.0, 668.0), work_area, minimum));
-        // Physical-to-logical rounding is no reason to refit.
-        assert!(fits((1920.4, 1055.0), (999.5, 699.6), work_area, minimum));
+    fn a_saved_window_opens_where_it_was_only_while_a_work_area_holds_it() {
+        let minimum = (1000.0, 700.0);
+        let macbook = Screen { work_origin: (0.0, 38.0), work_size: (1512.0, 944.0), scale: 2.0 };
+        let external = Screen { work_origin: (1512.0, 0.0), work_size: (1920.0, 1080.0), scale: 1.0 };
+        // 1255x850 at (128, 70) on the 2x MacBook, saved as physical pixels, opens there again.
+        assert_eq!(restorable(&saved(2510, 1700, 256, 140), &[macbook, external], minimum), Some(((1255.0, 850.0), (128.0, 70.0))));
+        // The same state with only a 1x screen reads as 2510x1700, wider than it: a first start's placement instead.
+        let alone = Screen { work_origin: (0.0, 0.0), work_size: (1920.0, 1080.0), scale: 1.0 };
+        assert_eq!(restorable(&saved(2510, 1700, 256, 140), &[alone], minimum), None);
+        assert_eq!(restorable(&saved(4000, 3000, 0, 0), &[alone], minimum), None);
+        // A window on the external screen opens there; one running past the bottom edge, or below the minimum, does not.
+        assert_eq!(restorable(&saved(1400, 900, 1600, 100), &[macbook, external], minimum), Some(((1400.0, 900.0), (1600.0, 100.0))));
+        assert_eq!(restorable(&saved(1000, 700, 1760, 970), &[alone], minimum), None);
+        assert_eq!(restorable(&saved(900, 700, 100, 100), &[alone], minimum), None);
+        // A maximized window's own corner is prev_x, prev_y.
+        let maximized = SavedWindow { prev_x: 300, prev_y: 100, maximized: true, ..saved(1400, 900, 0, 0) };
+        assert_eq!(restorable(&maximized, &[alone], minimum), Some(((1400.0, 900.0), (300.0, 100.0))));
+    }
+
+    #[test]
+    fn the_plugins_file_reads_as_saved_windows() {
+        let file = r#"{"main":{"width":2510,"height":1700,"x":256,"y":140,"prev_x":256,"prev_y":140,"maximized":false,
+            "visible":true,"decorated":true,"fullscreen":false}}"#;
+        let windows: HashMap<String, SavedWindow> = serde_json::from_str(file).unwrap();
+        assert_eq!(windows[MAIN_WINDOW], SavedWindow { prev_x: 256, prev_y: 140, ..saved(2510, 1700, 256, 140) });
     }
 }
