@@ -24,7 +24,8 @@ export async function openDesktopSaveStore(): Promise<SaveStore> {
   return {
     read: () => initial,
     write(text) {
-      invoke('write_save', { text }).then(written, error => saveWriteSettled(error));
+      // The shell takes each save as it arrives, in the order the page sent them, then answers once it is on disk.
+      invoke<number>('write_save', { text }).then(number => invoke('save_written', { number })).then(written, error => saveWriteSettled(error));
     },
     keepUnreadable(text) {
       const name = `unreadable-${Date.now()}-${++kept}.json`;

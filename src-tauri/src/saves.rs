@@ -1,6 +1,6 @@
 //! The desktop save as files in <app data>/saves, the primary store (design/notes/platform.md 4.8): save.json, written
-//! through a temporary file, fsync and rename; three rotating backups; unreadable saves kept under their own names. One writer
-//! thread writes the latest save it was given, so a burst of actions costs one write.
+//! through a temporary file, fsync and rename; three rotating backups; unreadable saves kept byte for byte under their own
+//! names. One writer thread writes the latest save it was given, so a burst of actions costs one write.
 use std::fs::{self, File};
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
@@ -29,11 +29,12 @@ pub struct SaveFiles {
     pub unreadable: Vec<Unreadable>,
 }
 
-/// Writes `text` to `path` through `<path>.tmp`: write, fsync, rename, then fsync the folder where that is possible.
-pub fn write_atomic(path: &Path, text: &str) -> io::Result<()> {
-    let temporary = path.with_extension("tmp");
+/// Writes `bytes` to `path` through a temporary file of this process (`<name>.<pid>.tmp`, so that two processes never rename
+/// each other's half-written file): write, fsync, rename, then fsync the folder where that is possible.
+pub fn write_atomic(path: &Path, bytes: &[u8]) -> io::Result<()> {
+    let temporary = path.with_extension(format!("{}.tmp", std::process::id()));
     let mut file = File::create(&temporary)?;
-    file.write_all(text.as_bytes())?;
+    file.write_all(bytes)?;
     file.sync_all()?;
     drop(file);
     fs::rename(&temporary, path)?;
@@ -59,13 +60,20 @@ impl SaveFolder {
         self.dir.join(format!("backup-{n}.json"))
     }
 
-    pub fn read(&self) -> io::Result<SaveFiles> {
-        let save = match fs::read(self.dir.join(SAVE)) {
-            Ok(bytes) => Some(String::from_utf8_lossy(&bytes).into_owned()),
-            Err(error) if error.kind() == io::ErrorKind::NotFound => None,
-            Err(error) => return Err(error),
-        };
-        Ok(SaveFiles { save, unreadable: self.unreadable()? })
+    /// save.json's bytes, or None when there is none.
+    fn read_current(&self) -> io::Result<Option<Vec<u8>>> {
+        match fs::read(self.dir.join(SAVE)) {
+            Ok(bytes) => Ok(Some(bytes)),
+            Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(None),
+            Err(error) => Err(error),
+        }
+    }
+
+    /// The save files, with save.json's bytes as read: its text is their UTF-8 reading, lossy for a file that is not UTF-8.
+    pub fn read(&self) -> io::Result<(SaveFiles, Option<Vec<u8>>)> {
+        let bytes = self.read_current()?;
+        let save = bytes.as_deref().map(|bytes| String::from_utf8_lossy(bytes).into_owned());
+        Ok((SaveFiles { save, unreadable: self.unreadable()? }, bytes))
     }
 
     fn unreadable(&self) -> io::Result<Vec<Unreadable>> {
@@ -88,18 +96,15 @@ impl SaveFolder {
         modified.map_or(true, |time| SystemTime::now().duration_since(time).map_or(true, |age| age >= BACKUP_INTERVAL))
     }
 
-    /// Shifts the backups and copies the current save into backup-1: save.json itself always stays in place.
+    /// Shifts the backups and copies the current save, byte for byte, into backup-1: save.json itself always stays in place.
     fn rotate(&self) -> io::Result<()> {
-        let current = self.dir.join(SAVE);
-        if !current.exists() {
-            return Ok(());
-        }
+        let Some(current) = self.read_current()? else { return Ok(()) };
         for n in (1..BACKUPS).rev() {
             if self.backup(n).exists() {
                 fs::rename(self.backup(n), self.backup(n + 1))?;
             }
         }
-        write_atomic(&self.backup(1), &fs::read_to_string(&current).unwrap_or_default())
+        write_atomic(&self.backup(1), &current)
     }
 
     /// Replaces save.json; `first` (the run's first write) always takes a backup of the save it replaces.
@@ -108,11 +113,11 @@ impl SaveFolder {
         if first || self.backup_due() {
             self.rotate()?;
         }
-        write_atomic(&self.dir.join(SAVE), text)
+        write_atomic(&self.dir.join(SAVE), text.as_bytes())
     }
 
     /// Keeps an unreadable save under `name`, which the page chose (unreadable-<time>-<n>.json); never overwrites one.
-    pub fn keep_unreadable(&self, name: &str, text: &str) -> io::Result<()> {
+    pub fn keep_unreadable(&self, name: &str, bytes: &[u8]) -> io::Result<()> {
         let valid = name.starts_with(UNREADABLE_PREFIX) && name.ends_with(".json") && !name.contains(['/', '\\', ':', '\0']);
         if !valid || name.contains("..") {
             return Err(io::Error::new(io::ErrorKind::InvalidInput, format!("not an unreadable-save name: {name}")));
@@ -122,7 +127,16 @@ impl SaveFolder {
         if path.exists() {
             return Err(io::Error::new(io::ErrorKind::AlreadyExists, name.to_string()));
         }
-        write_atomic(&path, text)
+        write_atomic(&path, bytes)
+    }
+}
+
+/// The bytes to keep for an unreadable save's text: save.json's own as the page read them when the text is their reading, so a
+/// save that is not UTF-8 is kept as it was; otherwise (local storage's save) the text.
+fn kept_bytes(opened: Option<&[u8]>, text: String) -> Vec<u8> {
+    match opened {
+        Some(bytes) if String::from_utf8_lossy(bytes) == text => bytes.to_vec(),
+        _ => text.into_bytes(),
     }
 }
 
@@ -215,16 +229,17 @@ impl SaveWriter {
     }
 }
 
-/// The save folder and its writer, managed by the app.
+/// The save folder, its writer, and save.json's bytes as the page last read them, managed by the app.
 pub struct SaveState {
     folder: SaveFolder,
     writer: Arc<SaveWriter>,
+    opened: Arc<Mutex<Option<Vec<u8>>>>,
 }
 
 impl SaveState {
     pub fn open(dir: PathBuf) -> Self {
         let folder = SaveFolder::new(dir);
-        Self { writer: SaveWriter::start(folder.clone()), folder }
+        Self { writer: SaveWriter::start(folder.clone()), folder, opened: Arc::default() }
     }
 
     /// Finishes the write in progress and the one waiting (the app is quitting).
@@ -241,26 +256,35 @@ async fn blocking<T: Send + 'static>(work: impl FnOnce() -> Result<T, String> + 
 /// The save files, once any write still waiting is on disk (a reload reads what the last page wrote).
 #[tauri::command]
 pub async fn read_save(state: State<'_, SaveState>) -> Result<SaveFiles, String> {
-    let (folder, writer) = (state.folder.clone(), state.writer.clone());
+    let (folder, writer, opened) = (state.folder.clone(), state.writer.clone(), state.opened.clone());
     blocking(move || {
         writer.drain();
-        folder.read().map_err(|error| error.to_string())
+        let (files, bytes) = folder.read().map_err(|error| error.to_string())?;
+        *opened.lock().unwrap() = bytes;
+        Ok(files)
     })
     .await
 }
 
-/// Hands the save to the writer; resolves once it, or a later save, is on disk.
+/// Hands the save to the writer at once and returns its number for `save_written`. A command without `async` runs on the
+/// main thread as its message arrives, so saves are taken in the order the page sent them, and the exit's drain waits for every
+/// save that arrived before it.
 #[tauri::command]
-pub async fn write_save(state: State<'_, SaveState>, text: String) -> Result<(), String> {
-    let number = state.writer.submit(text);
+pub fn write_save(state: State<'_, SaveState>, text: String) -> u64 {
+    state.writer.submit(text)
+}
+
+/// Resolves once save `number`, or a later save, is on disk; with the error of the write that failed for it otherwise.
+#[tauri::command]
+pub async fn save_written(state: State<'_, SaveState>, number: u64) -> Result<(), String> {
     let writer = state.writer.clone();
     blocking(move || writer.wait(number)).await
 }
 
 #[tauri::command]
 pub async fn keep_unreadable_save(state: State<'_, SaveState>, name: String, text: String) -> Result<(), String> {
-    let folder = state.folder.clone();
-    blocking(move || folder.keep_unreadable(&name, &text).map_err(|error| error.to_string())).await
+    let (folder, bytes) = (state.folder.clone(), kept_bytes(state.opened.lock().unwrap().as_deref(), text));
+    blocking(move || folder.keep_unreadable(&name, &bytes).map_err(|error| error.to_string())).await
 }
 
 /// Where the player chose to export, or None when the dialog was cancelled. The smoke build writes to a fixed file instead.
@@ -281,7 +305,7 @@ async fn export_path<R: Runtime>(app: AppHandle<R>, window: WebviewWindow<R>, fi
 pub async fn export_save<R: Runtime>(app: AppHandle<R>, window: WebviewWindow<R>, text: String, file_name: String) -> Result<Option<String>, String> {
     let Some(path) = export_path(app, window, file_name).await? else { return Ok(None) };
     let shown = path.display().to_string();
-    blocking(move || write_atomic(&path, &text).map_err(|error| error.to_string())).await?;
+    blocking(move || write_atomic(&path, text.as_bytes()).map_err(|error| error.to_string())).await?;
     log::info!("save exported to {shown}");
     Ok(Some(shown))
 }
@@ -296,14 +320,20 @@ mod tests {
         (SaveFolder::new(dir.clone()), dir)
     }
 
+    /// The temporary files left in `dir`.
+    fn temporaries(dir: &Path) -> Vec<String> {
+        let names = fs::read_dir(dir).unwrap().map(|entry| entry.unwrap().file_name().to_string_lossy().into_owned());
+        names.filter(|name| name.ends_with(".tmp")).collect()
+    }
+
     #[test]
     fn a_first_start_has_no_save_and_writes_create_one() {
         let (saves, dir) = folder("first");
-        let read = saves.read().unwrap();
-        assert_eq!((read.save, read.unreadable), (None, vec![]));
+        let (read, bytes) = saves.read().unwrap();
+        assert_eq!((read.save, read.unreadable, bytes), (None, vec![], None));
         saves.write("{\"version\":5}", true).unwrap();
-        assert_eq!(saves.read().unwrap().save.as_deref(), Some("{\"version\":5}"));
-        assert!(!dir.join("save.tmp").exists() && !dir.join("backup-1.json").exists());
+        assert_eq!(saves.read().unwrap().0.save.as_deref(), Some("{\"version\":5}"));
+        assert!(temporaries(&dir).is_empty() && !dir.join("backup-1.json").exists());
     }
 
     #[test]
@@ -318,20 +348,38 @@ mod tests {
         // Later writes of the same run take no backup while the newest one is recent.
         saves.write("save 6", false).unwrap();
         assert_eq!(backup(1), "save 4");
-        assert_eq!(saves.read().unwrap().save.as_deref(), Some("save 6"));
+        assert_eq!(saves.read().unwrap().0.save.as_deref(), Some("save 6"));
     }
 
     #[test]
     fn unreadable_saves_are_kept_listed_and_never_overwritten() {
         let (saves, _) = folder("unreadable");
-        saves.keep_unreadable("unreadable-2-1.json", "{\"version\":99}").unwrap();
-        saves.keep_unreadable("unreadable-1-1.json", "not json").unwrap();
-        assert!(saves.keep_unreadable("unreadable-1-1.json", "again").is_err());
+        saves.keep_unreadable("unreadable-2-1.json", b"{\"version\":99}").unwrap();
+        saves.keep_unreadable("unreadable-1-1.json", b"not json").unwrap();
+        assert!(saves.keep_unreadable("unreadable-1-1.json", b"again").is_err());
         for name in ["save.json", "unreadable-../save.json", "unreadable-a\\b.json", "unreadable-c:.json", "backup-1.json"] {
-            assert!(saves.keep_unreadable(name, "x").is_err(), "{name}");
+            assert!(saves.keep_unreadable(name, b"x").is_err(), "{name}");
         }
-        let names: Vec<String> = saves.read().unwrap().unreadable.into_iter().map(|kept| kept.name).collect();
+        let names: Vec<String> = saves.read().unwrap().0.unreadable.into_iter().map(|kept| kept.name).collect();
         assert_eq!(names, ["unreadable-1-1.json", "unreadable-2-1.json"]);
+    }
+
+    #[test]
+    fn a_save_that_is_not_utf8_is_backed_up_and_kept_byte_for_byte() {
+        let (saves, dir) = folder("bytes");
+        let original: &[u8] = b"\xff\xfe{\"version\":5}\x00\x81\xc3";
+        fs::create_dir_all(&dir).unwrap();
+        fs::write(dir.join(SAVE), original).unwrap();
+        let (read, opened) = saves.read().unwrap();
+        let text = read.save.unwrap();
+        assert!(text.starts_with('\u{fffd}'), "the page reads it lossily");
+        saves.keep_unreadable("unreadable-1-1.json", &kept_bytes(opened.as_deref(), text)).unwrap();
+        saves.write("{\"version\":5}", true).unwrap();
+        assert_eq!(fs::read(dir.join("unreadable-1-1.json")).unwrap(), original);
+        assert_eq!(fs::read(dir.join("backup-1.json")).unwrap(), original);
+        // Text that is not save.json's reading (local storage's save) is kept as the page gave it.
+        assert_eq!(kept_bytes(opened.as_deref(), "other".into()), b"other");
+        assert_eq!(kept_bytes(None, "".into()), b"");
     }
 
     #[test]
@@ -356,9 +404,9 @@ mod tests {
         let (_, dir) = folder("atomic");
         fs::create_dir_all(&dir).unwrap();
         let path = dir.join("export.json");
-        write_atomic(&path, "one").unwrap();
-        write_atomic(&path, "two").unwrap();
+        write_atomic(&path, b"one").unwrap();
+        write_atomic(&path, b"two").unwrap();
         assert_eq!(fs::read_to_string(&path).unwrap(), "two");
-        assert!(!dir.join("export.tmp").exists());
+        assert!(temporaries(&dir).is_empty());
     }
 }

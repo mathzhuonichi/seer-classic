@@ -57,6 +57,7 @@ macro_rules! commands {
         tauri::generate_handler![
             saves::read_save,
             saves::write_save,
+            saves::save_written,
             saves::keep_unreadable_save,
             saves::export_save,
             shell::toggle_fullscreen,

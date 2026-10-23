@@ -18,10 +18,11 @@ const GOLDEN = [
 
 /** A stand-in for the desktop shell's save commands (src-tauri/src/saves.rs): save.json's text, null while there is none. */
 function standInShell() {
-  const shell = {save: null};
+  const shell = {save: null, submitted: 0};
   const commands = {
     read_save: () => ({save: shell.save, unreadable: []}),
-    write_save: ({text}) => { shell.save = text; },
+    write_save: ({text}) => { shell.save = text; return ++shell.submitted; },
+    save_written: () => {},
   };
   globalThis.window = {__TAURI__: {core: {invoke: async (command, args) => commands[command](args)}}};
   return shell;
