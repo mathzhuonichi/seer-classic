@@ -1,6 +1,6 @@
 /**
- * The V56 Boss evidence ledgers, the Boss level display and the attempt adapter, checked through public controller actions. The
- * evidence is development data: the ledgers must match the encounters, and no view a player sees carries it.
+ * The V56 Boss evidence ledger, the Boss level display and the attempt adapter, checked through public controller actions. The
+ * evidence is development data: the ledger must match the encounters, and no view a player sees carries it.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,7 +8,7 @@ import path from 'node:path';
 import {root,sha256File,suite,withSsr} from './_harness.mjs';
 
 const scope='Production controller and core objects, observed through the controller battle-factory seam. No browser, user save, development server, build, '
-  +'or package operation is used. The ledgers are checked against the encounters they describe; historical source correctness belongs to the source audit.';
+  +'or package operation is used. The ledger is checked against the encounters it describes; historical source correctness belongs to the source audit.';
 let storageReads=0,storageWrites=0,networkRequests=0;
 globalThis.localStorage={getItem:()=>{storageReads++;return null;},setItem:()=>{storageWrites++;},removeItem:()=>{}};
 globalThis.fetch=()=>{networkRequests++;throw new Error('Evidence verification must remain offline.');};
@@ -28,7 +28,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   const created=[];
   const createGame=(input,save)=>createProductionGame(input,save,{createBattle:options=>{const battle=createBattle(options);created.push(battle);return battle;}});
   const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
-  const runtime=readJson('data/boss-evidence-runtime-v56.json'),audit=readJson('data/boss-evidence-v56.json');
+  const audit=readJson('data/boss-evidence-v56.json');
   const catalog=await loadCatalog(),catalogBefore=JSON.stringify(catalog),data=buildDataSet(catalog),dex=makeDex(catalog),rng=new Rng(56);
   const bosses=new Map(catalog.bosses.map(boss=>[boss.id,boss]));
   const fieldKeys=['level','iv','evs','nature','hp','skills','ai','rules'],statsKeys=fieldKeys.slice(0,6),statuses=new Set(['official','observed','authored','inferred']);
@@ -47,31 +47,26 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     .flatMap(([key,child])=>key==='evidence'?[`${at}/${key}`]:evidencePaths(child,`${at}/${key}`));
   function reject(game,action,label){const before=game.exportSave(),battle=JSON.stringify(game.snapshot().battle),rngBefore=parse(game).rng_state,count=created.length;game.dispatch(action);assert.equal(game.exportSave(),before,`${label}: save`);assert.deepEqual(parse(game).rng_state,rngBefore,`${label}: RNG`);assert.equal(JSON.stringify(game.snapshot().battle),battle,`${label}: battle`);assert.equal(created.length,count,`${label}: no battle constructed`);}
 
-  check('The runtime and detailed evidence ledgers cover exactly the 180 encounters and 247 unique members they describe',()=>{
-    assert.equal(bosses.size,180);assert.deepEqual(Object.keys(runtime.encounters).sort(),[...bosses.keys()].sort());assert.deepEqual(Object.keys(audit.encounters).sort(),[...bosses.keys()].sort());
+  check('The evidence ledger covers exactly the 180 encounters and 247 unique members it describes',()=>{
+    assert.equal(bosses.size,180);assert.deepEqual(Object.keys(audit.encounters).sort(),[...bosses.keys()].sort());
     let members=0;
     for(const boss of bosses.values()){
-      const runtimeEntry=runtime.encounters[boss.id],detail=audit.encounters[boss.id];assert.equal(runtimeEntry.members.length,boss.team.length);assert.equal(detail.members.length,boss.team.length);
-      assert.deepEqual(runtimeEntry.members.map(row=>row.slot),boss.team.map((_,slot)=>slot));
-      const citedIds=new Set(JSON.stringify(detail).match(/src-[a-f0-9]+/g)??[]),allowedUrls=new Set([...detail.sourceUrls,...[...citedIds].map(id=>audit.sources[id]?.url)]);
-      if(allowedUrls.size)assert(runtimeEntry.sourceUrls.length>0,`${boss.id}: retained references remain discoverable`);
-      assert.equal(new Set(runtimeEntry.sourceUrls).size,runtimeEntry.sourceUrls.length);
-      for(const url of runtimeEntry.sourceUrls)assert(allowedUrls.has(url),`${boss.id}: runtime URL is supported by an encounter or field citation`);
-      for(const row of runtimeEntry.members){const source=boss.team[row.slot],detailed=detail.members.find(member=>member.slot===row.slot);assert.equal(row.species,source.species);assert.equal(detailed.species,source.species);members++;
+      const detail=audit.encounters[boss.id];assert.deepEqual(detail.members.map(row=>row.slot),boss.team.map((_,slot)=>slot));
+      for(const row of detail.members){const source=boss.team[row.slot];assert.equal(row.species,source.species);members++;
         assert.equal(!!source.level_masked,!!row.displayLevelUnknown,`${boss.id}/${row.slot}: the encounter masks the level the ledger records as shown ??`);
-        for(const key of statsKeys){assert(statuses.has(row.fields[key]?.status));assert.equal(row.fields[key].status,detailed.fields[key].status);}
-        assert.equal(detailed.configured.level,source.level);assert.deepEqual(detailed.configured.skills,source.skills);assert.equal(detailed.configured.hp,source.hp_override??null);
+        for(const key of statsKeys)assert(statuses.has(row.fields[key]?.status));
+        assert.equal(row.configured.level,source.level);assert.deepEqual(row.configured.skills,source.skills);assert.equal(row.configured.hp,source.hp_override??null);
       }
-      for(const key of fieldKeys){assert(statuses.has(runtimeEntry.fields[key]?.status));assert.equal(runtimeEntry.fields[key].status,detail.fields[key].status);}
+      for(const key of fieldKeys)assert(statuses.has(detail.fields[key]?.status));
     }
     assert.equal(members,247);t.witness('evidence-index',{encounters:bosses.size,members});
   });
-  check('Both ledgers record the four waivers and the strict-quarter replacement of the user policy ledger',()=>{
+  check('The ledger records the four waivers and the strict-quarter replacement of the user policy ledger',()=>{
     const expected=['boss_puni_seal7','boss_puni_zhenshen','boss_spt_eersaila','boss_spt_kenpeide','boss_spt_moshidilu'];
     const policies=readJson('data/boss-user-policies-v57.json').policies;assert.deepEqual([...new Set(policies.map(policy=>policy.bossId))].sort(),expected);
     for(const id of expected){
       const ledger=policies.filter(policy=>policy.bossId===id);assert.equal(ledger.length,1);
-      assert.deepEqual(runtime.encounters[id].userPolicies,ledger);assert.deepEqual(audit.encounters[id].userPolicies,ledger);
+      assert.deepEqual(audit.encounters[id].userPolicies,ledger);
     }
     assert.deepEqual(policies.map(policy=>policy.disposition).sort(),['replaced','waived','waived','waived','waived']);
     const moshi=audit.encounters.boss_spt_moshidilu.rules.find(row=>row.rule==='forced_execution_below_pct');assert.equal(moshi.configuration.pct,25);
@@ -115,7 +110,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     t.witness('masked-high-levels',{members});
   });
   check('Difuert masks its documented unknown display level without replacing its internal estimate of 80',()=>{
-    const boss=bosses.get('boss_spt_difute'),ledger=runtime.encounters[boss.id].members[0];
+    const boss=bosses.get('boss_spt_difute'),ledger=audit.encounters[boss.id].members[0];
     assert.equal(boss.team[0].level,80);assert.equal(boss.team[0].level_masked,true);
     assert.equal(ledger.displayLevelUnknown,true);assert.equal(ledger.fields.level.status,'inferred');
     assert.equal(encounterLevelText(80,true),'Lv.??');assert.equal(encounterLevelText(80),'Lv.80');
@@ -132,7 +127,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       const {level:_old,...originalMember}=source.team[0],{level:_new,...adaptedMember}=adapted.team[0];assert.deepEqual(adaptedMember,originalMember);
     }
     assert.equal(JSON.stringify(source),before);assert.equal(source.team[0].level,100);
-    const ledger=runtime.encounters[attemptId].members[0].fields;assert.equal(ledger.level.status,'inferred');assert.equal(ledger.hp.status,'inferred');
+    const ledger=audit.encounters[attemptId].members[0].fields;assert.equal(ledger.level.status,'inferred');assert.equal(ledger.hp.status,'inferred');
     const ordinary=bosses.get('boss_spt_liaosi');assert.equal(bossEncounterForAttempt(ordinary,100,50),ordinary);
   });
   check('Successful controller starts increment attempts exactly once and preserve the current battle level',()=>{
@@ -267,7 +262,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
   });
   const hashed=[
     'src/domain/challenges/boss-encounter.ts','src/kernel/game.ts','src/shared/encounter-level.ts',
-    'data/boss-evidence-runtime-v56.json','data/boss-evidence-v56.json',
+    'data/boss-evidence-v56.json',
   ];
   t.finish({scope,sourceHashes:Object.fromEntries([...hashed,...controllerFiles].map(file=>[file,sha256File(file)]))});
 });

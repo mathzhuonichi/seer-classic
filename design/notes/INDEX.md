@@ -85,7 +85,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) | The 裸伤 Boss policy (knockout, else strongest attack, 20% useful status move; stand still at 0 PP; 奈尼芬多 re-casts 药剂反噬): sources, user decisions, simulation numbers. | current |
 | [boss-innate-rules-2026-10-21](boss-innate-rules-2026-10-21.md) | Boss stat-drop immunity and innate boosts from 哈莫雷特 on; the 2026-10-22 follow-ups (米诺斯, 塔西亚, 麒麟·幻化之轮, `immune_stage_down {stats?, except_attacks?}`, `foe_stage_on_entry`) and the 哈莫雷特 data check (PP, 龙王圣殿 date). | current |
 | [boss-ai-isolation-v56](boss-ai-isolation-v56.md) | Restores the pre-V36 Boss policy (`legacy-ai.ts`) and limits the planner to trainer sides. | current; the Boss move choice is superseded by [boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) |
-| [boss-evidence-v56](boss-evidence-v56.md) | Field-level evidence ledgers for all 180 Boss encounters and 240 members. | current |
+| [boss-evidence-v56](boss-evidence-v56.md) | Field-level evidence ledgers for all 180 Boss encounters and 240 members. | current for `data/boss-evidence-v56.json`; the runtime ledger was deleted on 2026-10-23 |
 | [boss-rules-v56](boss-rules-v56.md) | Execution audit of every Boss rule, phase and objective (`data/boss-rule-support-v56.json`). | current; five entries updated by [boss-user-policies-v57](boss-user-policies-v57.md) |
 | [boss-audit-integration-v56](boss-audit-integration-v56.md) | V56 checkpoint joining the evidence and rule audits with the UI. | historical |
 | [boss-evidence-controller-validation-v56](boss-evidence-controller-validation-v56.md) | Independent evidence and controller validation (18 groups). | historical |

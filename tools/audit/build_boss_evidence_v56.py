@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build conservative, field-specific provenance without changing encounter data.
 
-Run with --check to check the tracked ledgers; omit it to regenerate them.
+Run with --check to check the tracked ledger; omit it to regenerate it.
 Only the small explicit claim table below can promote a field to observed.
 Existing confidence labels and source URLs never promote fields automatically.
 """
@@ -585,7 +585,7 @@ def aggregate(fields: list[dict]) -> dict:
     return evidence(least["status"], least["basis"], "Aggregate retains the least certain member; inspect member records for exact field claims.", sorted({src for field in fields for src in field.get("sources", [])}))
 
 
-def build() -> tuple[dict, dict]:
+def build() -> dict:
     entries = {}
     for path in sorted((ROOT / "data/bosses").glob("*.json")):
         raw = path.read_bytes()
@@ -615,32 +615,21 @@ def build() -> tuple[dict, dict]:
     summary["waivedMechanics"] = sum(policy["disposition"] == "waived" for policy in USER_POLICY_LEDGER["policies"])
     summary["userReplacementPolicies"] = sum(policy["disposition"] == "replaced" for policy in USER_POLICY_LEDGER["policies"])
     full = {"schemaVersion": 1, "userPolicyAuthority": {key: value for key, value in USER_POLICY_LEDGER.items() if key != "policies"}, "sourceBoundary": {"scope": "All 180 production boss records and 247 members; excludes ten authored trainer encounters.", "unknownPolicy": "Unreviewed, approximate, conflicting or incomplete claims remain inferred. Confidence labels and URL presence are metadata, not proof.", "officialBoundary": "Recovered official client code establishes display behavior and client-side conditions only. Exact boss IV/EV/nature, hidden combat stats and server AI were not recovered.", "periodBoundary": "Observed means a specific claim was read in a period gameplay report; it is not official server certification.", "executionBoundary": "Source provenance is separate from data/boss-rule-support-v56.json execution coverage. Implemented does not mean historically exact."}, "summary": summary, "sources": dict(sorted(SOURCES.items())), "encounters": entries}
-    compact = lambda field: {"status": field["status"], "basis": field["basis"]}
-    def source_urls(entry: dict) -> list[str]:
-        refs = [src for member in entry["members"] for field in member["fields"].values() for src in field["sources"]]
-        refs += [src for member in entry["members"] for src in member.get("displayEvidence", {}).get("sources", [])]
-        refs += [src for rule in entry["rules"] for src in rule["evidence"]["sources"]]
-        verified = [SOURCES[src]["url"] for src in refs if SOURCES[src]["verification"] != "metadata-only"]
-        # Listed URLs remain visibly non-certifying in the full ledger; linking
-        # to a source is not a claim that every field on its encounter is exact.
-        return list(dict.fromkeys(verified + entry["sourceUrls"]))[:5]
-    runtime = {"schemaVersion": 1, "encounters": {boss_id: {"fields": {key: compact(field) for key, field in entry["fields"].items()}, "members": [{"slot": member["slot"], "species": member["species"], "fields": {key: compact(field) for key, field in member["fields"].items()}, **({"displayLevelUnknown": True} if member.get("displayLevelUnknown") else {})} for member in entry["members"]], "sourceUrls": source_urls(entry), "summary": entry["summary"], "userPolicies": entry["userPolicies"]} for boss_id, entry in entries.items()}}
-    return full, runtime
+    return full
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    full, runtime = build()
-    for name, value in [("boss-evidence-v56.json", full), ("boss-evidence-runtime-v56.json", runtime)]:
-        path = ROOT / "data" / name
-        content = json.dumps(value, ensure_ascii=True, indent=2) + "\n"
-        if args.check:
-            if not path.exists() or path.read_text() != content:
-                raise SystemExit(f"Stale evidence ledger: {path.relative_to(ROOT)}")
-        else:
-            path.write_text(content)
+    full = build()
+    path = ROOT / "data" / "boss-evidence-v56.json"
+    content = json.dumps(full, ensure_ascii=True, indent=2) + "\n"
+    if args.check:
+        if not path.exists() or path.read_text() != content:
+            raise SystemExit(f"Stale evidence ledger: {path.relative_to(ROOT)}")
+    else:
+        path.write_text(content)
     print(json.dumps(full["summary"], sort_keys=True))
 
 
