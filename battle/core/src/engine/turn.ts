@@ -223,6 +223,7 @@ function resetOnSwitch(mon: Mon): void {
 // ---------- turn end ----------
 
 export function endOfTurn(b: Battle): void {
+  b.emit({ type: 'turn_end', turn: b.turn });
   for (const i of [0, 1] as const) {
     if (b.result) return;
     const mon = b.active(i);

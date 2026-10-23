@@ -135,6 +135,17 @@ test('a lone move after the foe\'s switch or item holds 先手权 although it re
   assert.deepEqual(probeStages(healed.active(0)), {atk: 1, def: 0});
 });
 
+test('a textless turn_end opens the turn\'s end: after both moves, before the status damage', () => {
+  const battle = duel();
+  assert(battle.applyStatus(battle.active(1), 'poison', {}));
+  battle.submit(0, {kind: 'move', skill: 1});
+  battle.submit(1, {kind: 'move', skill: 1});
+  const events = battle.resolveTurn(), types = events.map(e => e.type), end = types.indexOf('turn_end');
+  assert.deepEqual(events[end], {type: 'turn_end', turn: 1});
+  assert.equal(types.filter(type => type === 'turn_end').length, 1);
+  assert(types.lastIndexOf('move_used') < end && end < types.indexOf('condition_tick'), types.join(' '));
+});
+
 test('a wild monster moving after a failed capsule holds 先手权', () => {
   const policy = {chooseAction: () => ({kind: 'move', skill: PROBE}), chooseReplacement: () => undefined};
   const battle = new Battle({data: ruleData(), seed: 5, policy, sides: [

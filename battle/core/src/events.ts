@@ -10,6 +10,8 @@ interface EventFields {
   battle_start: { sides: { kind: SideInput['kind']; name: string }[] };
   battle_end: BattleResult;
   turn_start: { turn: number };
+  /** The turn's actions are over and its end begins (battle/RULES.md section 8), so a display can tell its damage from a move's. */
+  turn_end: { turn: number };
   warning: { message: string };
   switch_in: HpFields & { side: 0 | 1; slot: number; species: number; types: TypeId[]; name: string; level: number };
   switch_out: { side: 0 | 1; slot: number };

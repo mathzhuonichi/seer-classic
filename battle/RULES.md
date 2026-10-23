@@ -254,7 +254,9 @@ them by id.
 
 ## 8. Turn end
 
-In order, player side first: [chosen order]
+A textless `turn_end { turn }` event opens the turn's end, so the displays can tell
+its damage from the last move's (section 5). Then, in order, player side first:
+[chosen order]
 1. Status damage (poison, burn, freeze, leech).
 2. Condition `turn_end` hooks (scripted effects, boss rule scripts).
 3. Boss side rules: `heal_each_turn`, `clear_debuffs_each_turn`,
