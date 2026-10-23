@@ -112,6 +112,24 @@ test('a move\'s hits on one creature are one number that counts up in its row an
   assert.deepEqual(ui.numbers(), []);
 });
 
+test('hits into a reflection land as follow-up hits and count up the attacker\'s number with them, its clip playing on', () => {
+  const frames = [frame(1, 'physical', 0, {targetSide: 1}), hit(2, 1, 20, {counter: {id: 3, amount: 5}}),
+    hit(4, 1, 40, {numberId: 2, counter: {id: 5, amount: 10, numberId: 3}}), frame(6, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 2000, hitMs: 600}}), shownAt = {}, attacker = [];
+  ui.player.subscribe(() => {
+    const {frame: on, numbers, sourceAction} = ui.player.state(), mine = numbers.find(number => number.side === 0);
+    if (on && !(on.id in shownAt)) shownAt[on.id] = ui.clock.now();
+    if (mine && attacker.at(-1)?.amount !== mine.amount) attacker.push({at: ui.clock.now(), amount: mine.amount, row: mine.row, action: sourceAction?.id});
+  });
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(3000);
+  assert.deepEqual(shownAt, {1: 0, 2: 600, 4: 600 + FOLLOW_UP_HIT_MS, 6: 2000}, 'the turn waits for the clip only once');
+  assert.deepEqual(attacker, [{at: 600, amount: 5, row: 0, action: 1}, {at: 600 + FOLLOW_UP_HIT_MS, amount: 10, row: 0, action: 1}],
+    'the attacker\'s number comes with each hit, while its move\'s clip still plays');
+  assert.deepEqual(ui.player.state().numbers.map(({id, frame, side, uid, amount}) => ({id, frame, side, uid, amount})), [
+    {id: 2, frame: 4, side: 1, uid: 'foe-0', amount: 40}, {id: 3, frame: 5, side: 0, uid: 'mine-0', amount: 10}]);
+});
+
 test('a critical hit keeps its number critical through the later hits, and another number on the creature takes the next row', () => {
   const ui = screen([hit(1, 1, 30, {critical: true}), hit(2, 1, 61, {numberId: 1}), frame(3, 'message', 0, {text: '中毒'}), hit(4, 1, 12)]);
   ui.player.play(ui.shown.battle);

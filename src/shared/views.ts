@@ -103,6 +103,12 @@ export interface BattlePresentationFrame {
   player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;
   /** A hit that adds to the number an earlier frame showed (a move's later hit or rider on the same creature): that frame's id. */
   numberId?: number;
+  /**
+   * A hit's counter: the damage it drew straight back on the attacker (a reflection or counter), shown with it on the other
+   * side. `id` names it for its number, `amount` is the attacker's tally so far, and `numberId` the frame or counter that first
+   * showed that tally's number.
+   */
+  counter?: { id: number; amount: number; numberId?: number };
 }
 export interface BattleView {
   name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[];

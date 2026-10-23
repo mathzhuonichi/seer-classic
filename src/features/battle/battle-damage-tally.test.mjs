@@ -58,13 +58,29 @@ test('recoil shows on the user as its own number, apart from the target\'s', () 
   assert.deepEqual(log, ['巴鲁斯使用了三连击。　布布花受到 50 点伤害。剩余体力 50/100。　巴鲁斯受到 12 点伤害。剩余体力 88/100。']);
 });
 
-test('counters to each hit are one number on the attacker, while the hits are one on the target', () => {
+test('counters to each hit are one number on the attacker that shows with the hits, while the hits are one on the target', () => {
   const counter = (amount, hp) => hurt(0, amount, hp, {kind: 'fixed', sourceSide: 1});
-  const {hits, log} = show([used(0, MULTI), hurt(1, 20, 80), counter(5, 95), hurt(1, 20, 60), counter(5, 90)]);
-  assert.deepEqual(hits.map(({id, side, amount, numberId, hp}) => [id, side, amount, numberId, hp]),
-    [[2, 1, 20, undefined, 80], [3, 0, 5, undefined, 95], [4, 1, 40, 2, 60], [5, 0, 10, 3, 90]]);
-  assert.deepEqual(hits.map(hit => hit.text !== ''), [false, false, true, true]);
+  const {frames, hits, log} = show([used(0, MULTI), hurt(1, 20, 80), counter(5, 95), hurt(1, 20, 60), counter(5, 90)]);
+  assert.deepEqual(frames.map(frame => [frame.kind, frame.side]), [['physical', 0], ['hit', 1], ['hit', 1]], 'no frame of their own');
+  assert.deepEqual(frames.slice(1).map(({id, amount, numberId, counter, playerHp, enemyHp}) => [id, amount, numberId, counter, playerHp, enemyHp]), [
+    [2, 20, undefined, {id: 3, amount: 5, numberId: undefined}, 95, 80],
+    [4, 40, 2, {id: 5, amount: 10, numberId: 3}, 90, 60],
+  ], 'each hit carries the counter it drew: the attacker\'s number so far and both HP bars after it');
+  assert.deepEqual(hits.map(hit => hit.text), ['', '布布花受到 40 点伤害。剩余体力 60/100。　巴鲁斯受到 10 点伤害。剩余体力 90/100。']);
   assert.deepEqual(log, ['巴鲁斯使用了三连击。　布布花受到 40 点伤害。剩余体力 60/100。　巴鲁斯受到 10 点伤害。剩余体力 90/100。']);
+});
+
+test('a counter needs the hit straight before it; recoil, a line between and the foe\'s own damage keep frames of their own', () => {
+  const counter = (amount, hp) => hurt(0, amount, hp, {kind: 'fixed', sourceSide: 1});
+  const cured = {type: 'condition_removed', side: 1, condition: 'sleep', reason: 'cured', name: '布布花'};
+  const {frames} = show([used(0, MULTI), hurt(1, 20, 80), cured, counter(5, 95), hurt(1, 20, 60), counter(5, 90), counter(3, 87),
+    hurt(0, 4, 83, {kind: 'fixed'}), used(1, FOE_MOVE), hurt(0, 9, 74, {sourceSide: 1, skill: FOE_MOVE})]);
+  assert.deepEqual(frames.map(({id, kind, side, amount, numberId, counter}) => [id, kind, side, amount, numberId, counter?.amount]), [
+    [1, 'physical', 0, undefined, undefined, undefined], [2, 'hit', 1, 20, undefined, undefined], [3, 'message', 1, undefined, undefined, undefined],
+    [4, 'hit', 0, 5, undefined, undefined], [5, 'hit', 1, 40, 2, 13], [7, 'hit', 0, 17, 4, undefined],
+    [8, 'physical', 1, undefined, undefined, undefined], [9, 'hit', 0, 9, undefined, undefined],
+  ], 'after a line the counter is a hit of its own; two counters to one hit are one; recoil and the next move stand alone');
+  assert.equal(frames[4].counter.numberId, 4, 'the folded counters count up the attacker\'s number that the first one started');
 });
 
 test('status damage and other turn-end damage stand alone, also right after the creature\'s own move', () => {

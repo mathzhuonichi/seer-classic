@@ -202,6 +202,9 @@ const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
 const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
   event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 
+/** Lines shown together, in one log entry or one frame's dialogue, follow each other with this gap. */
+export const LINE_SEPARATOR = '　';
+
 /**
  * Each entry is one action and its consequences, or one residual/end-of-turn group. A move's damage to one creature is one line
  * (`damageTallies`), where its first hit came, with the total and the HP left after the last.
@@ -211,7 +214,7 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
   const tallies = damageTallies(events);
   const groups: string[] = [];
   let current: string[] = [];
-  const flush = () => { if (current.length) groups.push(current.join('　')); current = []; };
+  const flush = () => { if (current.length) groups.push(current.join(LINE_SEPARATOR)); current = []; };
   let previous: BattleEvent | undefined;
   // A step of several events is one monster's stage changes, so its first event stands for it here.
   for (const step of battleSteps(events)) {

@@ -1,6 +1,6 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
-import { battleStepText, battleSteps, tallyText, type BattleLogContext, type EventOf } from './battle-log.ts';
+import { LINE_SEPARATOR, battleStepText, battleSteps, tallyText, type BattleLogContext, type EventOf } from './battle-log.ts';
 import { damageTallies, type DamageTally, type TallyShare } from './battle-damage-tally.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
@@ -103,12 +103,19 @@ export interface FrameOptions {
  * Presentation follows the engine's event order; it does not resolve combat a second time. Each step (`battleSteps`) is one
  * frame, so one monster's stage changes at once change all its chips together. A move's hits and riders on one creature keep a
  * frame each, with its hurt and its HP, and count up one number (`damageTallies`); the last of them carries the line of the total.
+ * A counter shows with the hit that drew it (`withCounter`), so a move's hits into a reflection follow each other as any others.
  */
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
   const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
   const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events), numberIds = new Map<DamageTally, number>();
-  let shown = before;
+  /** The number a tally shows: the id of the frame or counter that first showed it, from `id` on. */
+  const numberOf = (tally: DamageTally, id: number) => {
+    const first = numberIds.get(tally);
+    if (first === undefined) numberIds.set(tally, id);
+    return first;
+  };
+  let shown = before, last: { frame: BattlePresentationFrame; event: BattleEvent } | undefined;
   for (const step of battleSteps(events)) {
     const [e] = step;
     const side: 0 | 1 = e.type === 'capture_attempt' || 'side' in e && e.side === 1 ? 1 : 0;
@@ -117,21 +124,41 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     for (const event of step) shown = advanceBattlePresentation(shown, event);
     const share = e.type === 'damage' ? tallies.get(e) : undefined;
     const text = stepText(step, share, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
+    if (share?.drawnBy && last?.event === share.drawnBy && last.frame.kind === 'hit') {
+      const id = last.frame.counter?.id ?? options.nextFrameId(), counter = { id, amount: share.shown, numberId: numberOf(share.tally, id) };
+      frames[frames.length - 1] = last.frame = withCounter(last.frame, sceneOf(shown, foe, data), text, counter);
+      continue;
+    }
     const motion = frameMotion(e, side, activeBefore, data);
     if (!text && motion.kind === 'message') continue;
-    const { player, party } = shown, enemy = foe(shown.enemy), capture = e.type === 'capture_attempt' ? e : undefined, id = options.nextFrameId();
-    const numberId = share && numberIds.get(share.tally);
-    if (share && numberId === undefined) numberIds.set(share.tally, id);
-    frames.push({
-      id, side, kind: motion.kind, text, numberId,
+    const capture = e.type === 'capture_attempt' ? e : undefined, id = options.nextFrameId();
+    const frame: BattlePresentationFrame = {
+      id, side, kind: motion.kind, text, numberId: share && numberOf(share.tally, id),
       amount: share ? share.shown : e.type === 'heal' ? e.amount : undefined, critical: e.type === 'damage' && e.crit,
       captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh,
-      skillId: motion.skillId, targetSide: motion.targetSide,
-      playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe), matchup: typeMatchup(data.types, player, enemy),
-    });
+      skillId: motion.skillId, targetSide: motion.targetSide, ...sceneOf(shown, foe, data),
+    };
+    frames.push(frame);
+    last = { frame, event: e };
   }
   return frames;
 }
+
+type Scene = Pick<BattlePresentationFrame, 'playerHp' | 'enemyHp' | 'player' | 'enemy' | 'party' | 'enemyParty' | 'matchup'>;
+
+/** Both sides as a frame shows them after its events. */
+function sceneOf(shown: BattlePresentationState, foe: (mon: BattleMonsterView) => BattleMonsterView, data: DataSet): Scene {
+  const { player, party } = shown, enemy = foe(shown.enemy);
+  const matchup = typeMatchup(data.types, player, enemy);
+  return { playerHp: player.hp, enemyHp: enemy.hp, player, enemy, party, enemyParty: shown.enemyParty.map(foe), matchup };
+}
+
+/**
+ * `hit` with the counter it drew: the attacker's number and HP bar change with the hurt, so the counter holds no frame of its
+ * own and does not stop the attacker's clip; its tally's line, on its last counter, follows the hit's.
+ */
+const withCounter = (hit: BattlePresentationFrame, scene: Scene, text: string, counter: NonNullable<BattlePresentationFrame['counter']>) =>
+  ({ ...hit, ...scene, text: [hit.text, text].filter(Boolean).join(LINE_SEPARATOR), counter });
 
 /** A step's line; a damage event's is its tally's, on the tally's last frame, so earlier hits keep the move's line on screen. */
 const stepText = (step: readonly BattleEvent[], share: TallyShare | undefined, context: BattleLogContext) => !share ? battleStepText(step, context)

@@ -23,6 +23,11 @@ export interface TallyShare {
   index: number;
   /** The tally's displayed damage up to and including this event. */
   shown: number;
+  /**
+   * A counter: damage the move's target dealt straight back to the move's user in answer to `drawnBy`, the hit just before it
+   * (a Boss's `reflect_damage`, an `on_hurt` reflection such as 反击风暴). The battle screen shows it with that hit.
+   */
+  drawnBy?: Damage;
 }
 
 /** Events after which a damage event no longer belongs to the move before them: another action, an entry, a tick or the turn's end. */
@@ -36,22 +41,24 @@ const TALLY_ENDS: ReadonlySet<BattleEvent['type']> = new Set(['heal', 'revive', 
 /**
  * Groups `events` (one dispatch's) into tallies. From a `move_used` until the move ends (`MOVE_ENDS`), every damage event without
  * a `status` joins the open tally of its creature: the move's hits and riders on its target, and its recoil and the counters it
- * draws on its user. Status damage and damage outside a move (the turn's end, an entry, an item) are tallies of their own.
+ * draws on its user. Status damage and damage outside a move (the turn's end, an entry, an item) are tallies of their own. Damage
+ * on the user from the other side that follows a hit on the target with nothing between is a counter to that hit (`drawnBy`).
  */
 export function damageTallies(events: readonly BattleEvent[]): Map<Damage, TallyShare> {
   const shares = new Map<Damage, TallyShare>(), open = new Map<string, DamageTally>();
-  let inMove = false;
+  let user: 0 | 1 | undefined, hit: Damage | undefined;
   for (const event of events) {
     if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) {
       open.clear();
-      inMove = event.type === 'move_used';
+      user = event.type === 'move_used' ? event.side : undefined;
     }
     // It ends its creature's tally, or every tally of its side when it names no slot (a transform).
     if (TALLY_ENDS.has(event.type) && 'side' in event) {
       for (const key of [...open.keys()]) if ('slot' in event ? key === `${event.side}:${event.slot}` : key.startsWith(`${event.side}:`)) open.delete(key);
     }
-    if (event.type !== 'damage') continue;
-    const key = `${event.side}:${event.slot}`, joins = inMove && !event.status;
+    if (event.type !== 'damage') { hit = undefined; continue; }
+    const key = `${event.side}:${event.slot}`, joins = user !== undefined && !event.status;
+    const drawnBy = joins && event.side === user && event.sourceSide !== undefined && event.sourceSide !== user ? hit : undefined;
     let tally = joins ? open.get(key) : undefined;
     if (!tally) {
       tally = { events: [], shown: 0, critical: false };
@@ -60,7 +67,9 @@ export function damageTallies(events: readonly BattleEvent[]): Map<Damage, Tally
     tally.events.push(event);
     tally.shown += displayedDamage(event);
     tally.critical ||= event.crit;
-    shares.set(event, { tally, index: tally.events.length - 1, shown: tally.shown });
+    shares.set(event, { tally, index: tally.events.length - 1, shown: tally.shown, drawnBy });
+    // A second counter to the same hit (a reflection and an on_hurt one) answers it too.
+    if (!drawnBy) hit = joins && event.side !== user ? event : undefined;
   }
   return shares;
 }
