@@ -80,6 +80,8 @@ Run `node tools/verification/graphical-atlas.mjs` to check canonical traversal o
 
 See [the integration report](../../design/notes/hd-integration-v44.md) for all scene, portrait, UI, atlas and skill-effect coverage. The public manifests pin original source hashes, accepted output hashes, AI prompts and viewport registration. Generated large files are ignored by Git and must accompany their manifests when moving this development checkout; rerunning an AI prompt does not reproduce identical pixels.
 
+Two scripts register reviewed AI restorations without changing their pixels. `register_hd_map.py <metadata.json>` copies one restored scene background to `public/maps/hd/<map>-v44.png` after checking that it is a PNG larger than the original in both dimensions with the same aspect ratio, and records its prompt, review and source hashes in `public/maps/hd/manifest.json`. `register_hd_composites_v44.py` reads the reviewed jobs in ignored `.cache/hd-ui-v44/root-art-final.json`: it embeds the map-10032 background in that map's original vector platform (`public/maps/hd/10032-v44.svg`) and copies the atlas restorations to `public/ui/classic/maps/hd/`, recorded in `independent-ai-manifest.json`.
+
 The mixed battle HUDs use three shared restored bitmap strips inside the untouched original vector layout. After the three accepted PNGs and original source SVG wrappers are present, rebuild only their composite wrappers with:
 
 ```sh
@@ -87,3 +89,7 @@ python3 tools/assets/register_hd_hud_v44.py public/ui/classic/hd/hud-ai-manifest
 ```
 
 This checks the pinned input hashes, retains generated PNG bytes and registers their visible bounds through SVG. It does not resample the PNGs. `tools/verification/hd-assets-v44.py` checks these composites alongside the other static asset manifests and their runtime references.
+
+## Item and engraving icons
+
+`download_item_icons_v50.py` (Pillow required) pins the official per-id icons of every runtime item and engraving. It first runs `collect_item_icons_v50.mjs`, which lists through the real controller, without a browser or a player save, every item a screen can show (catalog items, Boss and recruitment essences, fusion beads) into ignored `.cache/item-icons-v50/runtime-items.json`. It resolves essence and soul-bead ids through `../analysis/seer-data-a00bcdd/items.json`, downloads the PNGs to `public/item-icons/original/`, writes the authored category fallbacks to `public/item-icons/fallback/`, and writes `public/item-icons/manifest.json` and `src/shared/item-icon-assets.json`. See [item-icons-access-v50](../../design/notes/item-icons-access-v50.md).
