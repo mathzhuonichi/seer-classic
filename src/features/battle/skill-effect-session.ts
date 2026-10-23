@@ -31,6 +31,8 @@ export interface SessionDeps {
   onHidden(listener: () => void): () => void;
   /** Says why effects or one effect cannot play, once per reason. */
   report(what: string, error: unknown): void;
+  /** Resolves after `ms`. */
+  wait(ms: number): Promise<void>;
 }
 
 export interface SkillEffectStage {
@@ -52,6 +54,11 @@ export interface SkillEffectStage {
 export const RECYCLE_EFFECTS = 64;
 /** Hosts that may fail to start or die on one page; after that, the page plays no effects. */
 export const HOST_FAILURES = 2;
+/**
+ * The longest a loading screen waits for its battle's effects (on a first run, Ruffle's start), and the longest any loading
+ * screen waits for one start or load: the battle then opens without them, and takes them when they come.
+ */
+export const SKILL_EFFECTS_WAIT_MS = 3000;
 /** The host starts a clip on its next frame after fxPlay, and removes it after the frame that sets isEnd. */
 const START_FRAMES = 1;
 /** fxPlay to the drawn frame 1, on average: the host's next frame (measured in the app, Chrome and WebKit: 13-18 ms). */
@@ -70,14 +77,26 @@ export function skillEffectTiming([end, , hit]: SkillEffectRow, fps: number, lab
   return { startMs: firstFrame - PLAY_LATENCY_MS, durationMs: (end + START_FRAMES) * frameMs, hurtMs: firstFrame + Math.max(HURT_FRAMES, hit ?? 0) * frameMs };
 }
 
-/** The skills of every creature in a battle, on both sides: the effects its loading screen loads. */
+/**
+ * The effects a battle's loading screen loads, the skills of every creature on both sides (`all`), and those it waits for, the
+ * skills of the two creatures that open the battle (`lead`); the others' follow behind the battle.
+ */
 export function battleSkillIds(battle: Pick<BattleView, 'player' | 'enemy' | 'party' | 'enemyParty'>) {
-  const monsters = [battle.player, battle.enemy, ...battle.party, ...battle.enemyParty];
-  return [...new Set(monsters.flatMap(monster => monster.skills.map(skill => skill.id)))];
+  const skills = (monsters: readonly BattleView['player'][]) => [...new Set(monsters.flatMap(monster => monster.skills.map(skill => skill.id)))];
+  return { all: skills([battle.player, battle.enemy, ...battle.party, ...battle.enemyParty]), lead: skills([battle.player, battle.enemy]) };
 }
 
+/**
+ * A start or a load: `done` settles with its outcome (it never rejects); `waited` settles with true when it was done in time,
+ * or with false SKILL_EFFECTS_WAIT_MS after it began. Loading screens wait for `waited`, so none waits again for work that
+ * already held an earlier one to its limit, such as a request that never answers.
+ */
+interface Work<T> { done: Promise<T>; waited: Promise<boolean> }
+const settled = <T>(value: T): Work<T> => ({ done: Promise.resolve(value), waited: Promise.resolve(true) });
+const NO_LOAD = settled(false);
+
 /** A started host and the effects asked of it. */
-interface Started { host: SkillEffectHost; loads: Map<number, Promise<boolean>>; loaded: Set<number> }
+interface Started { host: SkillEffectHost; loads: Map<number, Work<boolean>>; loaded: Set<number> }
 
 /**
  * The page's host and the battle screens that borrow it. A loading screen (prepare) starts the host, or replaces one that died
@@ -88,8 +107,10 @@ export class SkillEffectSession {
   readonly #deps: SessionDeps;
   #data: SkillEffectData | null = null;
   #current: Started | null = null;
-  #starting: Promise<Started | null> | null = null;
+  #starting: Work<Started | null> | null = null;
   #failures = 0;
+  /** A start held a loading screen to its limit: the page's requests are too slow, and no later start is waited for. */
+  #slowStart = false;
   #preparing = 0;
   /** The battle screen holding the host, and what it does when the host dies. */
   #owner: { died(): void } | null = null;
@@ -98,15 +119,23 @@ export class SkillEffectSession {
     this.#deps = deps;
   }
 
-  /** Behind a loading screen: makes sure that a host runs and holds these skills' effects. Never rejects. */
-  async prepare(skillIds: readonly number[]) {
-    const started = await this.#hostFor(skillIds);
-    if (!started) return;
-    // A suspended host does not load: it runs, out of sight, until the loads are in or a battle screen takes it.
-    this.#preparing++;
-    started.host.resume();
-    await Promise.all(skillIds.map(skillId => this.#load(started, skillId)));
-    if (--this.#preparing === 0 && !this.#owner && this.#current === started) started.host.suspend();
+  /**
+   * Behind a loading screen: makes sure that a host runs and loads these skills' effects. Resolves once the host runs and the
+   * `first` skills' effects are in, but at most SKILL_EFFECTS_WAIT_MS after the call, and never waits for a start or a load that
+   * began longer ago than that. Never rejects.
+   */
+  async prepare(skillIds: readonly number[], first: readonly number[] = skillIds) {
+    const starting = this.#hostFor(skillIds);
+    // The loads follow the host, however late it starts.
+    const loading = starting.done.then(started => started ? this.#loadAll(started, skillIds, first) : true);
+    const ready = async () => {
+      if (await starting.waited) return loading;
+      this.#slowStart = true;
+      return false;
+    };
+    if (!await Promise.race([ready(), this.#deps.wait(SKILL_EFFECTS_WAIT_MS).then(() => false)])) {
+      this.#deps.report('this battle\'s effects', new Error(`not in after ${SKILL_EFFECTS_WAIT_MS} ms: the battle opens without them`));
+    }
   }
 
   /** How a move's effect is timed, while it can play now: a battle screen holds a host that answers, the effect is in, the page shows. */
@@ -140,7 +169,7 @@ export class SkillEffectSession {
       started.host.moveTo(container);
       started.host.resume();
     };
-    if (this.#starting) void this.#starting.then(take);
+    if (this.#starting) void this.#starting.done.then(take);
     else take(this.#current);
     const unwatch = this.#deps.onHidden(cut);
     const holds = () => (this.#owner === self && held?.host.alive ? held : null);
@@ -174,35 +203,55 @@ export class SkillEffectSession {
     };
   }
 
-  #load(started: Started, skillId: number) {
+  /**
+   * Loads skills' effects behind a loading screen; true once the `first` are in, false once one of them outlived its wait. A
+   * suspended host does not load: it runs, out of sight, until the loads are in (at most SKILL_EFFECTS_WAIT_MS) or a battle
+   * screen takes it.
+   */
+  #loadAll(started: Started, skillIds: readonly number[], first: readonly number[]) {
+    this.#preparing++;
+    started.host.resume();
+    const loads = Promise.all(skillIds.map(skillId => this.#load(started, skillId).done));
+    void Promise.race([loads, this.#deps.wait(SKILL_EFFECTS_WAIT_MS)]).then(() => {
+      if (--this.#preparing === 0 && !this.#owner && this.#current === started) started.host.suspend();
+    });
+    return Promise.all(first.map(skillId => this.#load(started, skillId).waited)).then(inTime => inTime.every(Boolean));
+  }
+
+  #load(started: Started, skillId: number): Work<boolean> {
     const data = this.#data, row = data?.effects[skillId];
-    if (!data || !row) return Promise.resolve(false);
+    if (!data || !row) return NO_LOAD;
     let loading = started.loads.get(skillId);
     if (!loading) {
-      loading = started.host.load(String(skillId), this.#deps.url(data.path, skillId, row[1])).then(() => {
+      loading = this.#work(started.host.load(String(skillId), this.#deps.url(data.path, skillId, row[1])).then(() => {
         started.loaded.add(skillId);
         return true;
       }, error => {
         if (started.host.alive) this.#deps.report(`skill ${skillId}`, error);
         return false;
-      });
+      }));
       started.loads.set(skillId, loading);
     }
     return loading;
   }
 
+  /** Work that loading screens wait for at most SKILL_EFFECTS_WAIT_MS after it began, or not at all (`waited` false). */
+  #work<T>(done: Promise<T>, waited = true): Work<T> {
+    if (!waited) return { done, waited: Promise.resolve(false) };
+    return { done, waited: Promise.race([done.then(() => true), this.#deps.wait(SKILL_EFFECTS_WAIT_MS).then(() => false)]) };
+  }
+
   /** The host for a loading screen's skills: the running one, or a new one in place of none, a dead one or one that would be too full. */
-  #hostFor(skillIds: readonly number[]): Promise<Started | null> {
+  #hostFor(skillIds: readonly number[]): Work<Started | null> {
     if (this.#starting) return this.#starting;
     const held = this.#current, adding = held ? skillIds.filter(id => this.#data?.effects[id] && !held.loads.has(id)).length : 0;
     // A host a battle screen holds is never replaced; a dead one waits for a loading screen without a battle.
     const keep = held && (this.#owner || held.host.alive && (!adding || held.loads.size + adding <= RECYCLE_EFFECTS));
-    if (keep) return Promise.resolve(held.host.alive ? held : null);
+    if (keep) return settled(held.host.alive ? held : null);
     held?.host.destroy();
     this.#current = null;
-    if (this.#failures >= HOST_FAILURES) return Promise.resolve(null);
-    this.#starting = this.#start().finally(() => { this.#starting = null; });
-    return this.#starting;
+    if (this.#failures >= HOST_FAILURES) return settled(null);
+    return this.#starting = this.#work(this.#start().finally(() => { this.#starting = null; }), !this.#slowStart);
   }
 
   async #start(): Promise<Started | null> {

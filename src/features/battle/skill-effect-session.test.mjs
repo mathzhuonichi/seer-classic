@@ -1,13 +1,19 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import {HOST_FAILURES, PLAY_LATENCY_MS, RECYCLE_EFFECTS, SkillEffectSession, battleSkillIds, skillEffectTiming} from './skill-effect-session.ts';
+import {
+  HOST_FAILURES, PLAY_LATENCY_MS, RECYCLE_EFFECTS, SKILL_EFFECTS_WAIT_MS, SkillEffectSession, battleSkillIds, skillEffectTiming,
+} from './skill-effect-session.ts';
 
 const FPS = 24, FRAME_MS = 1000 / FPS, LABEL_TIMED = 303;
 const near = (actual, expected, label) => assert.ok(Math.abs(actual - expected) < 1e-9, `${label}: ${actual} vs ${expected}`);
+/** Whether `promise` settles before the next macrotask: the fakes answer in microtasks, so it did not wait for any time to pass. */
+const soon = promise => Promise.race([promise.then(() => true), new Promise(resolve => setImmediate(() => resolve(false)))]);
+/** Lets every pending microtask run. */
+const flush = () => new Promise(resolve => setImmediate(resolve));
 
-/** A host that loads at once (or fails the keys in `failing`), and dies when it stops answering. */
-function fakeHost(failing) {
+/** A host that loads at once (or fails the keys in `failing`, or never answers those in `hanging`), and dies when it stops answering. */
+function fakeHost(failing, hanging) {
   let nextId = 1;
   const deaths = [];
   const host = {
@@ -22,6 +28,7 @@ function fakeHost(failing) {
     resume: () => { host.suspended = false; },
     load(key) {
       host.loads.push(key);
+      if (hanging.has(Number(key))) return new Promise(() => {});
       return failing.has(Number(key)) ? Promise.reject(new Error(`no ${key}`)) : Promise.resolve();
     },
     play(key, at, still) {
@@ -40,15 +47,20 @@ function fakeHost(failing) {
   return host;
 }
 
-/** A session over fake hosts: `effects` rows by skill id, `failing` skill loads that fail, `blocked` makes every start fail. */
-function harness({effects = {11006: [23, 'a', 1], 20001: [22, 'b', 1], 10022: [30, 'c', 9]}, failing = new Set()} = {}) {
-  const hosts = [], warnings = [], hiddenListeners = new Set(), park = {name: 'park'};
-  const state = {hidden: false, blocked: false};
+/**
+ * A session over fake hosts: `effects` rows by skill id, `failing` skill loads that fail, `hanging` ones that never answer.
+ * `state.blocked` makes every start fail; `state.hang` holds every start in `state.starts` until the test settles it. Time passes
+ * only in `expire()`, which ends every wait begun so far (SKILL_EFFECTS_WAIT_MS, the only one the session asks for).
+ */
+function harness({effects = {11006: [23, 'a', 1], 20001: [22, 'b', 1], 10022: [30, 'c', 9]}, failing = new Set(), hanging = new Set()} = {}) {
+  const hosts = [], warnings = [], hiddenListeners = new Set(), park = {name: 'park'}, timers = [];
+  const state = {hidden: false, blocked: false, hang: false, starts: []};
   const session = new SkillEffectSession({
     data: async () => ({path: '/fx/<skillId>.swf', effects, labelTimed: new Set([LABEL_TIMED])}),
     async start() {
       if (state.blocked) throw new Error('blocked');
-      const host = fakeHost(failing);
+      if (state.hang) return new Promise((resolve, reject) => state.starts.push({resolve, reject}));
+      const host = fakeHost(failing, hanging);
       host.parent = park;
       hosts.push(host);
       return host;
@@ -61,12 +73,17 @@ function harness({effects = {11006: [23, 'a', 1], 20001: [22, 'b', 1], 10022: [3
       return () => hiddenListeners.delete(listener);
     },
     report: what => warnings.push(what),
+    wait(ms) {
+      assert.equal(ms, SKILL_EFFECTS_WAIT_MS);
+      return new Promise(resolve => timers.push(resolve));
+    },
   });
   const hide = () => {
     state.hidden = true;
     for (const listener of hiddenListeners) listener();
   };
-  return {session, hosts, warnings, park, state, hide};
+  const expire = () => { for (const resolve of timers.splice(0)) resolve(); };
+  return {session, hosts, warnings, park, state, hide, expire};
 }
 
 const at = {x: 1, y: 2, scaleX: 1, scaleY: 1};
@@ -88,10 +105,10 @@ test('the label-timed species are the original\'s PetLabelXMLInfo list: 450 entr
   assert.deepEqual(species, [...species].sort((a, b) => a - b));
 });
 
-test('a battle\'s skills are both parties\', each once', () => {
+test('a battle loads both parties\' skills, each once, and waits for those of the two creatures that open it', () => {
   const monster = ids => ({skills: ids.map(id => ({id}))});
   assert.deepEqual(battleSkillIds({player: monster([1, 2]), enemy: monster([3]), party: [monster([1, 2]), monster([4])], enemyParty: [monster([3, 5])]}),
-    [1, 2, 3, 4, 5]);
+    {all: [1, 2, 3, 4, 5], lead: [1, 2, 3]});
 });
 
 test('one host serves every battle: started by the first loading screen, taken by each battle screen and parked between', async () => {
@@ -200,4 +217,62 @@ test('a stage disposed before the host runs takes nothing; the next one takes it
   assert.equal(hosts[0].suspended, false, 'held by a battle screen');
   stage.dispose();
   assert.deepEqual([hosts[0].parent, hosts[0].suspended], [park, true]);
+});
+
+test('a start that never answers holds only the loading screen that began it, and no later start is waited for', async () => {
+  const {session, hosts, warnings, state, expire} = harness();
+  state.hang = true;
+  const first = session.prepare([11006]);
+  assert.equal(await soon(first), false, 'the first loading screen waits for the start');
+  expire();
+  await first;
+  assert.deepEqual(warnings, ['this battle\'s effects'], 'and says that its battle opens without effects');
+  assert.equal(await soon(session.prepare([11006])), true, 'a later one does not wait for that start again');
+  state.starts[0].reject(new Error('the skill-effect host did not start in time'));
+  await flush();
+  assert.deepEqual(warnings.at(-1), 'Ruffle', 'the failure is reported');
+  assert.equal(await soon(session.prepare([11006])), true, 'the next loading screen starts one more, without waiting for it');
+  assert.equal(state.starts.length, 2);
+  state.starts[1].reject(new Error('the skill-effect host did not start in time'));
+  await flush();
+  assert.equal(await soon(session.prepare([11006])), true);
+  assert.deepEqual([state.starts.length, hosts.length], [HOST_FAILURES, 0], `after ${HOST_FAILURES} failures the page starts no host`);
+});
+
+test('a start that lands after its loading screen gave up loads that battle\'s effects, and the battle screen takes it', async () => {
+  const {session, state, expire, park} = harness();
+  state.hang = true;
+  const preparing = session.prepare([11006]);
+  expire();
+  await preparing;
+  const arena = {name: 'arena'}, stage = session.stage(arena), host = fakeHost(new Set(), new Set());
+  state.starts[0].resolve(host);
+  await flush();
+  assert.deepEqual([host.parent, host.suspended, host.loads], [arena, false, ['11006']]);
+  assert.ok(session.timing(11006, 1), 'its effects play from then on');
+  stage.dispose();
+  assert.equal(host.parent, park);
+});
+
+test('a load that never answers holds only one loading screen; the other effects play', async () => {
+  const {session, hosts, warnings, expire} = harness({hanging: new Set([10022])});
+  const first = session.prepare([11006, 10022]);
+  assert.equal(await soon(first), false);
+  expire();
+  await first;
+  await flush();
+  assert.deepEqual([warnings, hosts[0].suspended], [['this battle\'s effects'], true], 'the host waits suspended all the same');
+  assert.equal(await soon(session.prepare([11006, 10022])), true, 'a later loading screen does not wait for it again');
+  session.stage({});
+  assert.ok(session.timing(11006, 1));
+  assert.equal(session.timing(10022, 1), undefined);
+  assert.deepEqual(hosts[0].loads, ['11006', '10022'], 'asked for once');
+});
+
+test('a loading screen waits for the opening creatures\' effects only; the others load behind the battle', async () => {
+  const {session, hosts, warnings} = harness({hanging: new Set([10022])});
+  assert.equal(await soon(session.prepare([11006, 10022], [11006])), true);
+  assert.deepEqual([hosts[0].loads, hosts[0].suspended, warnings], [['11006', '10022'], false, []], 'the host runs while they load');
+  session.stage({});
+  assert.ok(session.timing(11006, 1));
 });

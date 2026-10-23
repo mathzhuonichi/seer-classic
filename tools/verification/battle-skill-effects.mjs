@@ -4,9 +4,9 @@
  * 缩头 (20001) lets 皮皮 move until it has used a damaging move (撞击 or 电光火石), whose effect is cast from the right and must be
  * mirrored onto 丽莎布布; then 叶绿光束 (11006) beams from 丽莎布布 to 皮皮 and tints the whole arena, under the HUD. A second
  * battle follows on the same page. Status `needs-browser`: Chrome at 1280x800@1 and 1920x1080@2 and Playwright WebKit at
- * 1280x800@1 (when installed); Chrome also under reduced motion, without Ruffle and leaving the first loading screen early;
- * Chrome and WebKit also losing the host's WebGL context. Screenshots of each effect are written to
- * artifacts/battle-skill-effects/ for review.
+ * 1280x800@1 (when installed); Chrome also under reduced motion, without Ruffle, leaving the first loading screen early and
+ * with a request for Ruffle's WebAssembly that never answers; Chrome and WebKit also losing the host's WebGL context.
+ * Screenshots of each effect are written to artifacts/battle-skill-effects/ for review.
  *
  * The host: nothing of Ruffle exists before the first battle; its one instance starts while the first loading screen shows,
  * waits no longer than the screen's own last pauses, is in the arena from each battle's first frame and waits parked and
@@ -51,6 +51,8 @@ const TURN_TIMEOUT_MS = 30_000;
 const LAST_PAUSES_MS = 950;
 /** Beyond those pauses, this much more counts as the effects holding the loading screen up. */
 const WAIT_SLACK_MS = 250;
+/** The longest a loading screen waits for the effects, from its 90 % step (SKILL_EFFECTS_WAIT_MS, src/features/battle/skill-effect-session.ts). */
+const EFFECTS_WAIT_MS = 3000;
 /**
  * The host's canvas takes the arena's size within this long of the battle's first frame, before the first move's effect can
  * start (its hit marker is 1.4 s or more into the move). Headless, Chrome resizes it within two frames and WebKit within about
@@ -228,7 +230,7 @@ async function playTurn(page, skill, label) {
 }
 
 /** Opens the game in `run`'s viewport and density, with the host watched. */
-async function openPage(browser, fixture, {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false}) {
+async function openPage(browser, fixture, {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false, hangWasm = false}) {
   const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.save, viewport});
   const {context, page} = session;
   const resize = async size => {
@@ -237,6 +239,9 @@ async function openPage(browser, fixture, {engine, viewport, scale, reducedMotio
   };
   await resize(viewport);
   if (blockRuffle) await page.route('**/ruffle/**', route => route.fulfill({status: 404, body: 'blocked by the suite'}));
+  // Requests held without an answer until the page closes.
+  const held = [];
+  if (hangWasm) await page.route('**/*.wasm', route => { held.push(route); });
   const warnings = [];
   page.on('console', message => { if (message.type() === 'warning') warnings.push(message.text()); });
   await page.addInitScript(keepDrawingBuffers);
@@ -244,7 +249,11 @@ async function openPage(browser, fixture, {engine, viewport, scale, reducedMotio
   await page.emulateMedia({reducedMotion});
   await page.reload({waitUntil: 'load', timeout: BOOT_TIMEOUT_MS});
   await waitWorld(page);
-  return {...session, warnings, resize};
+  const close = async () => {
+    for (const route of held) await route.abort().catch(() => {});
+    await session.context.close();
+  };
+  return {...session, warnings, resize, close};
 }
 
 /** Nothing of Ruffle on the page: no player, no script, no global. */
@@ -322,11 +331,16 @@ function checkCleared(result, label) {
   assert.deepEqual({players, parked, suspended}, {players: 1, parked: 1, suspended: [true]}, `${label}: the host does not wait parked and suspended`);
 }
 
+/** The loading screen did not wait for the effects beyond its own last pauses. */
+function checkEntryWait(entry, label) {
+  assert(entry.afterArtMs <= LAST_PAUSES_MS + WAIT_SLACK_MS, `${label}: the loading screen waited ${entry.afterArtMs} ms after its art (pauses ${LAST_PAUSES_MS})`);
+}
+
 /** The battle's first frame has the host in the arena layer, its canvas sized at once, and the screen did not wait for the effects. */
 function checkEntry(entry, label) {
   assert(entry.inLayer, `${label}: the host was not in the arena layer at the battle's first frame`);
   assert(entry.sizedMs !== null && entry.sizedMs <= SIZED_MS, `${label}: the host's canvas took ${entry.sizedMs} ms to cover the arena`);
-  assert(entry.afterArtMs <= LAST_PAUSES_MS + WAIT_SLACK_MS, `${label}: the loading screen waited ${entry.afterArtMs} ms after its art (pauses ${LAST_PAUSES_MS})`);
+  checkEntryWait(entry, label);
 }
 
 /** Two battles in a row on one page: placement and layering in the first, the same host in both, built only behind the loading screen. */
@@ -415,6 +429,25 @@ function checkLostContext(result, label) {
   assert.deepEqual(result.instances.map(entry => [entry.kind, entry.loading]), [['created', true], ['destroyed', false], ['created', true]]);
 }
 
+/**
+ * Ruffle's WebAssembly never answers: the first loading screen waits at most its limit, its battle plays on without effects, and
+ * the next loading screen does not wait for that start again.
+ */
+async function hungWasmRun(browser, fixture, run) {
+  const session = await openPage(browser, fixture, {...run, hangWasm: true}), {page} = session;
+  try {
+    const first = await enterBattle(page);
+    const {samples} = await playTurn(page, GUARD, 'chrome-hung-wasm');
+    await page.click('.classic-command-tabs button[aria-label="逃跑"]');
+    await page.click('.classic-escape-panel button');
+    await page.waitForSelector('.battle-layer', {state: 'detached', timeout: TURN_TIMEOUT_MS});
+    const second = await enterBattle(page);
+    return {first, second, samples, errors: [...session.errors], warnings: session.warnings.filter(text => text.includes('Original skill effects'))};
+  } finally {
+    await session.close();
+  }
+}
+
 /** Leaving the first loading screen before its art is in starts nothing of Ruffle. */
 async function leaveEarlyRun(browser, fixture, run) {
   const session = await openPage(browser, fixture, run), {page} = session;
@@ -485,6 +518,15 @@ for (const engine of new Set(RUNS.map(run => run.engine))) {
       const result = await leaveEarlyRun(browser, fixture, base);
       assert.deepEqual(result.errors, []);
       assert.deepEqual(result.left, {players: 0, scripts: 0, global: false});
+    });
+    await t.checkAsync('chrome: a WebAssembly request that never answers holds only the first loading screen, with one warning', async () => {
+      const result = await hungWasmRun(browser, fixture, base);
+      write('chrome-hung-wasm', result);
+      assert.deepEqual(result.errors, []);
+      assert(result.first.afterArtMs <= EFFECTS_WAIT_MS + WAIT_SLACK_MS, `the first loading screen waited ${result.first.afterArtMs} ms after its art`);
+      checkEntryWait(result.second, 'the next loading screen');
+      assert(result.samples.every(s => s.drawn === 0), `${GUARD.name} drew an effect without a host`);
+      assert.equal(result.warnings.length, 1, result.warnings.join('\n'));
     });
   });
   engines[engine] = skipped ? `skipped: ${skipped}` : 'ran';

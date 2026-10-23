@@ -1,10 +1,11 @@
 // Original skill effects, and when their parts load. This module is the loading boundary. Nothing of Ruffle loads before the
 // first battle's loading screen. There, once the creature art and animations are in, the page's one effect host starts in a
-// hidden 1x1 px parking place, and every loading screen loads its battle's effects into it (prepareSkillEffects). Each battle
-// screen takes the host into its arena layer and gives it back (createSkillEffectStage); the playback asks how a move's effect
-// is timed (getSkillEffectTiming). skill-effect-session.ts holds the rules; placement and the battle UI do not depend on them.
+// hidden 1x1 px parking place, and every loading screen loads its battle's effects into it (prepareSkillEffects), waiting at
+// most SKILL_EFFECTS_WAIT_MS for them. Each battle screen takes the host into its arena layer and gives it back
+// (createSkillEffectStage); the playback asks how a move's effect is timed (getSkillEffectTiming). skill-effect-session.ts holds
+// the rules; placement and the battle UI do not depend on them.
 import type { BattleView } from '../../shared/views.ts';
-import { loadRuffle, startSkillEffectHost } from './skill-effect-host.ts';
+import { startSkillEffectHost } from './skill-effect-host.ts';
 import { SkillEffectSession, battleSkillIds, type SkillEffectData, type SkillEffectRow } from './skill-effect-session.ts';
 
 const reported = new Set<string>();
@@ -39,7 +40,7 @@ async function data(): Promise<SkillEffectData> {
 
 const session = new SkillEffectSession({
   data,
-  start: async () => startSkillEffectHost(await loadRuffle(), park()),
+  start: () => startSkillEffectHost(park()),
   park,
   url: (path, skillId, version) => new URL(`${path.replace('<skillId>', String(skillId))}?v=${version}`, document.baseURI).href,
   hidden: () => document.hidden,
@@ -49,13 +50,18 @@ const session = new SkillEffectSession({
     return () => document.removeEventListener('visibilitychange', changed);
   },
   report,
+  wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
 });
 
 /**
  * Behind a battle's loading screen, after its art and animations: starts the page's host if none runs (or replaces one that died
- * or would be too full) and loads the effects of every creature in the battle. Never rejects: without them a battle has no effects.
+ * or would be too full) and loads the effects of every creature in the battle. Resolves once the host runs and the two opening
+ * creatures' effects are in, at most SKILL_EFFECTS_WAIT_MS later. Never rejects: without them a battle has no effects.
  */
-export const prepareSkillEffects = (battle: BattleView) => session.prepare(battleSkillIds(battle));
+export function prepareSkillEffects(battle: BattleView) {
+  const { all, lead } = battleSkillIds(battle);
+  return session.prepare(all, lead);
+}
 
 /**
  * When a move's effect starts and hurts the target, from the attacker clip's hit marker, and how long it plays; undefined unless

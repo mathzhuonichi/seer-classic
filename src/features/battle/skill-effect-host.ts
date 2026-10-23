@@ -24,7 +24,10 @@ declare global {
 const RUFFLE_PATH = `${import.meta.env.BASE_URL}ruffle/`;
 /** The host's player element (keptPlayer). */
 const PLAYER_TAG = 'seer-skill-effect-player';
-/** A host that has neither started nor failed by then never will. */
+/**
+ * A host that has neither started nor failed by then never will: a request for Ruffle's script, its WebAssembly or the host SWF
+ * that never answers would otherwise hold its start forever.
+ */
 const HOST_START_TIMEOUT_MS = 20_000;
 /**
  * The host draws on a transparent canvas, takes no input, shows none of Ruffle's own UI and is silent (the skill SWFs have no
@@ -39,20 +42,23 @@ const PLAYER_OPTIONS = {
 let script: Promise<RuffleSource> | null = null;
 
 /**
- * Ruffle's self-hosted script, once per page (a load that failed is tried again on the next call). It is configured first, so it
- * never scans the page for Flash embeds.
+ * Ruffle's self-hosted script, once per page (a load that failed, or neither loaded nor failed within HOST_START_TIMEOUT_MS, is
+ * tried again on the next call). It is configured first, so it never scans the page for Flash embeds.
  */
-export function loadRuffle(): Promise<RuffleSource> {
+function loadRuffle(): Promise<RuffleSource> {
   script ??= new Promise((resolve, reject) => {
     window.RufflePlayer = { ...window.RufflePlayer, config: { polyfills: false, publicPath: RUFFLE_PATH } };
     const element = document.createElement('script');
     const fail = (message: string) => {
+      clearTimeout(timer);
       element.remove();
       script = null;
       reject(new Error(message));
     };
+    const timer = window.setTimeout(() => fail('Ruffle did not load in time'), HOST_START_TIMEOUT_MS);
     element.src = `${RUFFLE_PATH}ruffle.js?v=${ruffle.version}`;
     element.onload = () => {
+      clearTimeout(timer);
       const source = window.RufflePlayer?.newest?.();
       if (source) resolve(source);
       else fail('Ruffle did not register');
@@ -147,32 +153,46 @@ function moveInto(element: HTMLElement, container: HTMLElement) {
   container.append(element);
 }
 
-/** Starts a host player in `container` and resolves once the host runs; until then, and after a failure, nothing shows. */
-export async function startSkillEffectHost(source: RuffleSource, container: HTMLElement): Promise<SkillEffectHost> {
+/**
+ * Starts a host player in `container` and resolves once the host runs; until then, and after a failure, nothing shows. It rejects
+ * when Ruffle cannot start it, or has not within HOST_START_TIMEOUT_MS.
+ */
+export async function startSkillEffectHost(container: HTMLElement): Promise<SkillEffectHost> {
+  let timer = 0;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = window.setTimeout(() => reject(new Error('the skill-effect host did not start in time')), HOST_START_TIMEOUT_MS);
+  });
+  // Each step races the timeout; a timeout that no step is waiting for is not unhandled.
+  timeout.catch(() => {});
+  const inTime = <T>(step: Promise<T>) => Promise.race([step, timeout]);
+  try {
+    return await startPlayer(await inTime(loadRuffle()), container, inTime);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function startPlayer(source: RuffleSource, container: HTMLElement, inTime: <T>(step: Promise<T>) => Promise<T>) {
   const element = keptPlayer(source), loads = new Map<string, Pending>();
   // The player fills its container, whose box sizes its canvas: the arena in a battle, 1x1 px while it waits.
   element.style.cssText = 'display:block;width:100%;height:100%;visibility:hidden';
   container.append(element);
-  let ready = (_fps: number) => {}, timer = 0, host: ReturnType<typeof hostApi> | null = null;
-  const started = new Promise<number>((resolve, reject) => {
-    ready = resolve;
-    timer = window.setTimeout(() => reject(new Error('the skill-effect host did not start')), HOST_START_TIMEOUT_MS);
-  });
-  // A timeout while Ruffle is still loading is handled where `started` is awaited.
-  started.catch(() => {});
+  let ready = (_fps: number) => {}, host: ReturnType<typeof hostApi> | null = null, loading: Promise<void> | null = null;
+  const started = new Promise<number>(resolve => { ready = resolve; });
   try {
     const player = element.ruffle();
-    await player.load({ ...PLAYER_OPTIONS, url: new URL(hostSwf, document.baseURI).href });
+    loading = player.load({ ...PLAYER_OPTIONS, url: new URL(hostSwf, document.baseURI).href });
+    await inTime(loading);
     player.volume = 0;
     player.traceObserver = hostLines(loads, ready, () => host?.die('Ruffle reloaded it'));
-    const fps = await started;
+    const fps = await inTime(started);
     element.style.visibility = '';
     return host = hostApi(element, player, loads, fps);
   } catch (error) {
     element.end();
+    // A load that ends after the timeout has built an instance into the ended element: that one ends too.
+    void loading?.then(() => element.end(), () => {});
     throw error;
-  } finally {
-    clearTimeout(timer);
   }
 }
 

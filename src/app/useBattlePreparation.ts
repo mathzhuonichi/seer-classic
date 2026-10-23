@@ -14,8 +14,6 @@ export interface BattleBackdrops { exploration: BattleBackdrop; campaign: Battle
 
 // Pauses that let the loading screen paint before and after the preloads.
 const SETTLE_MS = 250, DEPLOY_MS = 600, START_MS = 350;
-/** The longest the loading screen waits for the skill effects (on a first run, Ruffle's start); the battle then opens without them. */
-const SKILL_EFFECTS_WAIT_MS = 3000;
 const nextPaint = () => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 
 /**
@@ -63,8 +61,9 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
       if (!current()) return;
       report(90, '部署出战精灵…');
       // The skill effects load in the screen's own last pauses, once the art and animations are in, so that they slow neither:
-      // the page's effect host starts here on the first battle. Leaving is handled by the waits.
-      const effects = Promise.race([prepareSkillEffects(battle), waitForBattleLoad(SKILL_EFFECTS_WAIT_MS, signal).catch(() => {})]);
+      // the page's effect host starts here on the first battle. They hold the screen at most SKILL_EFFECTS_WAIT_MS (3 s); leaving
+      // is handled by the pauses' waits.
+      const effects = prepareSkillEffects(battle);
       await waitForBattleLoad(DEPLOY_MS, signal);
       report(100, '战斗开始！');
       await Promise.all([waitForBattleLoad(START_MS, signal), effects]);
