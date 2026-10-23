@@ -44,11 +44,6 @@ npm run desktop                  # Tauri development window
 npm run package                  # macOS .app through Tauri (needs Rust and the Tauri prerequisites)
 ```
 
-Two scripts write distributable archives to the ignored `releases/` directory:
-
-- `python3 tools/distribution/pack_linux_playtest.py --revision N --format zip` packages an existing `dist/` build with its public assets as a portable browser game. The player runs `python3 start.py`; see [distribution/PLAYTEST.md](distribution/PLAYTEST.md).
-- `python3 tools/distribution/pack_source.py --revision N` packages the working tree as one source ZIP and two asset ZIPs. It generates `START-HERE-SOURCE.md` and `SOURCE-MANIFEST.json` inside the source ZIP.
-
 ## Content
 
 - 1,483 species and 5,325 skills from the recovered classic catalog, with original official portraits and battle motion for every species.
