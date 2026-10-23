@@ -26,8 +26,8 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [handoff-2026-10-18-wave3](handoff-2026-10-18-wave3.md) | Wave 2 and unit E merged: state, contracts, worker rules, open work for wave 3 (playtest first, code and test follow-ups, performance, product decisions). | done (superseded by handoff-2026-10-19) |
 | [playtest-2026-10-18-wave3](playtest-2026-10-18-wave3.md) | First browser playtest since the refactor (HEAD `1ff8fac` vs base `88cad12`): no regression; 30 pre-existing findings and the wave-3 unit that took each. | historical |
 | [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md) | Wave 1 merged; Step 0 procedure, the wave-2 units and their run, follow-ups, load budget. | done (superseded by handoff-2026-10-18-wave3) |
-| [architecture-v2](architecture-v2.md) | Target feature-module architecture: experience budgets, dependency rules, kernel/feature contracts, AI turn preparation. | plan (active) |
-| [refactor-survey-2026-10-18](refactor-survey-2026-10-18.md) | Repository refactor survey (items A–E and a ranked plan); the source of the AGENTS.md rules. | plan (active) |
+| [architecture-v2](architecture-v2.md) | Target feature-module architecture: experience budgets, dependency rules, kernel/feature contracts, AI turn preparation. | current for §2–§5, the rules `architecture.mjs` enforces; the §6 plan is done |
+| [refactor-survey-2026-10-18](refactor-survey-2026-10-18.md) | Repository refactor survey (items A–E and a ranked plan); the source of the AGENTS.md rules. | done |
 | [handoff-2026-10-18](handoff-2026-10-18.md) | Branch state, search-AI measurements, open items, and refactor progress after the move to the new machine. | historical (previous handoff; item 1 resolved, open items continue in [handoff-2026-10-18-wave2](handoff-2026-10-18-wave2.md)) |
 | [codex-takeover-v31](codex-takeover-v31.md) | Codex takeover at `04d6196`: starting acquisition metrics and the decisions recorded in `design/approved-plan.json`. | done |
 | [platform](platform.md) | 2026-10-02 platform proposal: TypeScript, React and Tauri, with Godot as runner-up. Its planned monorepo was never built. | historical |
@@ -66,7 +66,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 | [trainer-ko-priority-v57](trainer-ko-priority-v57.md) | V57 tier that put a reliable first-action knockout above all other trainer utility. | superseded by [trainer-search-ai-v58](trainer-search-ai-v58.md) |
 | [trainer-ko-priority-validation-v57](trainer-ko-priority-validation-v57.md) | Independent 27-group validation of the V57 knockout tier. | superseded by [trainer-search-ai-v58](trainer-search-ai-v58.md) |
 | [offline-battle-ai-v36](offline-battle-ai-v36.md) | First offline tactical AI and three Lv.80 trainer teams, with their research. | superseded by [trainer-search-ai-v58](trainer-search-ai-v58.md) (AI) and [classic-teams-v38](classic-teams-v38.md) (teams) |
-| [station-battle-facilities-v37](station-battle-facilities-v37.md) | Three station facilities (random, BST ≥ 600, fixed classic teams), the 200-turn draw and AI liveness. | current |
+| [station-battle-facilities-v37](station-battle-facilities-v37.md) | Three station facilities (random, BST ≥ 600, fixed classic teams), the 200-turn draw and AI liveness. | current for the facilities and the 200-turn draw; the BST ≥ 600 pool is superseded by [elite-integration-v46](elite-integration-v46.md), the teams by [classic-teams-v38](classic-teams-v38.md) and the AI by [trainer-search-ai-v58](trainer-search-ai-v58.md) |
 | [classic-teams-v38](classic-teams-v38.md) | The ten authored Lv.100 trainer teams in four tactical groups and their fair-build rules. | current |
 | [npc-training-v45](npc-training-v45.md) | Rei's and Gaia's ability-training profiles for the two trained teams. | current |
 | [elite-candidates-v45](elite-candidates-v45.md) | Read-only audit of sub-600 BST candidates for the elite pool. | historical |
@@ -182,7 +182,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 
 | Note | Summary | Status |
 | --- | --- | --- |
-| [hd-integration-v44](hd-integration-v44.md) | Revision 44 HD scenes, portraits and UI; asset transfer requirements. | current |
+| [hd-integration-v44](hd-integration-v44.md) | Revision 44 HD scenes, portraits and UI; asset transfer requirements. | current for scenes, portraits and UI; its skill-effect frames are superseded by [skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md) |
 | [hd-original-art-v44](hd-original-art-v44.md) | Source exports of UI, leaf-map and atlas art for revision 44. | current |
 | [portrait-source-recovery-v44](portrait-source-recovery-v44.md) | Original portrait source selection for every species; the species 910 reconstruction. | current |
 | [ui-ai-v44](ui-ai-v44.md) | Seven conservative AI-restored UI images and their manifest. | current |
