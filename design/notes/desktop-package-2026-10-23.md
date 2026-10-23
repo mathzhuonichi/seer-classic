@@ -147,7 +147,8 @@ entry point sets.
 
 Measured (2026-10-23, Apple M4): 154.6 s for the whole script with an incremental Rust build (39.7 s); a cold Rust build of the
 shell took 76 s. Executable 20,641,344 B (19.7 MiB). .app 2.77 GiB, 15,628 sealed files, valid ad-hoc signature (flags
-adhoc, runtime). DMG 2,881,846,283 B (2.68 GiB; the payload is already compressed, so UDZO saves little). `syspolicy_check
+adhoc, runtime). DMG 2.67-2.68 GiB (2,865,826,546 B for the final one; the payload is already compressed, so UDZO saves
+little). `syspolicy_check
 distribution` reports the expected "Adhoc Signed App" and "Notary Ticket Missing": other Macs need Open Anyway.
 
 ## Release gate
@@ -166,6 +167,8 @@ In order:
      requested SVG, CSS and JSON files. A dynamic path it cannot read fails it. All 15,626 staged files are requestable.
 3. The needs-assets and needs-browser suites, the latter with `SEER_PUBLIC=releases/desktop-payload/public` so that the browser
    harness serves the staged payload instead of `public/` (Chrome with `--mute-audio`, and Playwright WebKit when installed).
+   On 2026-10-23 all four needs-browser suites passed against the staged payload in Chrome and WebKit (with the
+   `pixi.js/unsafe-eval` import), and all six needs-assets suites passed.
 4. The packaged smoke test below.
 5. Windows: the static checks and the checklist on a real PC (open points).
 6. Equal versions (the identity gate), a CHANGELOG entry, the notices present, a git tag.
