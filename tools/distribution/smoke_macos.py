@@ -8,9 +8,12 @@ script launches it as its own process (it never activates itself or takes focus)
 1. first start: the 0.2 app's save in local storage becomes the save file (tools/verification/fixtures/save-version-1-app-0.2.json);
 2. the world map with no broken image, a real 404 for a missing file, the content security policy in force; a wild battle,
    its creatures animated and its first skill effect drawn; export writes a file; quit; the save file holds the journey;
-3. a relaunch loads that save file (its export equals it), keeps a backup of it, and 关于 shows the license texts;
-4. an unreadable save file is kept as unreadable-*.json (and in the run's backup), listed in settings, and a new journey starts;
-5. the payload check fires, and the game does not open, without payload.json and without one listed file.
+3. a relaunch loads that save file (its export equals it), keeps a backup of it, and 关于 shows the license texts; a saved
+   window size too large for this screen is fitted to it;
+4. an unreadable save file (truncated, empty, not UTF-8) is kept byte for byte as unreadable-*.json (and in the run's backup),
+   listed in settings, and a new journey starts;
+5. with every save file deleted (the player README's way to start over), a new journey starts, not the imported one again;
+6. the payload check fires, and the game does not open, without payload.json and without one listed file.
 
 It reports startup, battle entry and first-effect times, and deletes the smoke identifier's data before and after.
 """
@@ -32,6 +35,11 @@ LAUNCH_TIMEOUT_S = 240
 REFUSAL_TIMEOUT_S = 30
 POLL_S = 0.2
 HOME = Path.home()
+# A window state saved on a larger or denser screen (physical pixels), and the window's configured minimum (logical pixels).
+OVERSIZED_WINDOW = {"width": 4000, "height": 3000, "x": 0, "y": 0, "prev_x": 0, "prev_y": 0, "maximized": False, "visible": True,
+                    "decorated": True, "fullscreen": False}
+MINIMUM_WINDOW = (1000, 700)
+UNREADABLE = {"truncated": b'{"version":5,"party"', "empty": b"", "not UTF-8": b'\xff\xfe{"version":5}\x00\x81\xc3'}
 
 
 def data_dirs(identifier):
@@ -43,10 +51,12 @@ def data_dirs(identifier):
 
 
 def clear(identifier):
+    """The smoke identifier's data, and the single-instance socket a killed run leaves (the plugin's name for it)."""
     if not identifier.endswith(".smoke"):
         sys.exit("refusing to clear data of a non-smoke identifier: " + identifier)
     for path in data_dirs(identifier):
         shutil.rmtree(path, ignore_errors=True)
+    (Path("/tmp") / (identifier.replace(".", "_").replace("-", "_") + "_si.sock")).unlink(missing_ok=True)
 
 
 def spawn(program, env, log):
@@ -95,6 +105,7 @@ class Run:
         self.public, self.out = app / "Contents/Resources/public", out
         self.saves = HOME / "Library/Application Support" / self.identifier / "saves"
         self.export = HOME / "Library/Application Support" / self.identifier / "smoke-export.json"
+        self.window_state = HOME / "Library/Application Support" / self.identifier / ".window-state.json"
         self.results = {"identifier": self.identifier, "phases": {}}
 
     def launch(self, phase, seed=None, until=None, timeout=LAUNCH_TIMEOUT_S):
@@ -142,6 +153,67 @@ def refuses(run, hide):
         moved.rename(hidden)
 
 
+def fitted(world):
+    """Whether the window's inner size is within the screen's available size and no smaller than the minimum."""
+    inner_width, inner_height, available_width, available_height = world.get("window", [0, 0, 0, 0])
+    return MINIMUM_WINDOW[0] <= inner_width <= available_width and MINIMUM_WINDOW[1] <= inner_height <= available_height
+
+
+def first_runs(run, seed):
+    """The first start's import, a battle and an export, and a relaunch with a saved window state too large for the screen."""
+    events, started = run.launch("import", seed=SEED)
+    imported = run.save() if (run.saves / "save.json").exists() else {}
+    ok = run.phase("import", events, started, lambda e: [
+        ("world shown", "world" in e), ("done", "done" in e), ("save file written", bool(imported)),
+        ("the 0.2 save imported and migrated", imported.get("seed") == seed["seed"] and imported.get("version", 0) > seed["version"])])
+    events, started = run.launch("battle")
+    after_battle = run.save()
+    exported = json.loads(run.export.read_text()) if run.export.exists() else None
+    ok &= run.phase("battle", events, started, lambda e: [
+        ("no broken image", e.get("world", {}).get("broken") == []), ("missing file is 404", e.get("world", {}).get("missing", [0])[0] == 404),
+        ("present file is 200", e.get("world", {}).get("present", [0])[0] == 200), ("eval blocked by the CSP", e.get("world", {}).get("evalBlocked")),
+        ("battle entered", "battle" in e), ("both creatures animated", e.get("battle", {}).get("animated") == 2),
+        ("a skill effect drew", e.get("battle", {}).get("firstEffectMs") is not None),
+        ("export message", e.get("export", {}).get("toast") == "航行存档已导出。"), ("export file equals the save", exported == after_battle),
+        ("still the imported journey", after_battle.get("seed") == seed["seed"]), ("done", "done" in e)])
+    run.export.unlink(missing_ok=True)
+    run.window_state.write_text(json.dumps({"main": OVERSIZED_WINDOW}))
+    events, started = run.launch("relaunch")
+    exported = json.loads(run.export.read_text()) if run.export.exists() else None
+    return ok & run.phase("relaunch", events, started, lambda e: [
+        ("world shown", "world" in e), ("the save file loaded", exported is not None and exported.get("seed") == seed["seed"]),
+        ("progress kept", exported == run.save()), ("backup of the previous run", (run.saves / "backup-1.json").exists()),
+        ("关于 shows the license texts", e.get("about", {}).get("head", "").startswith("赛尔经典")),
+        ("an oversized saved window is fitted to the screen", fitted(e.get("world", {}))), ("done", "done" in e)])
+
+
+def unreadable_runs(run, seed):
+    """Each unreadable save file is kept byte for byte, backed up, named in a notice and listed; a new journey replaces it."""
+    ok = True
+    for label, broken in UNREADABLE.items():
+        for kept in run.saves.glob("unreadable-*.json"):
+            kept.unlink()
+        (run.saves / "save.json").write_bytes(broken)
+        events, started = run.launch("unreadable")
+        kept = sorted(run.saves.glob("unreadable-*.json"))
+        ok &= run.phase("unreadable " + label, events, started, lambda e: [
+            ("the notice", "已另存原存档" in (e.get("unreadable", {}).get("notice") or "")),
+            ("settings lists it", len(e.get("unreadable", {}).get("listed", [])) == 1),
+            ("kept byte for byte", len(kept) == 1 and kept[0].read_bytes() == broken), ("a new journey written", run.save().get("seed") != seed["seed"]),
+            ("the broken file also backed up", (run.saves / "backup-1.json").read_bytes() == broken), ("done", "done" in e)])
+    return ok
+
+
+def reset_run(run, seed):
+    """The player README's way to start over: with every save file deleted, a new journey starts, not the imported one again."""
+    for path in run.saves.iterdir():
+        path.unlink()
+    events, started = run.launch("import")
+    return run.phase("reset", events, started, lambda e: [
+        ("world shown", "world" in e), ("local storage still holds the 0.2 save", e.get("world", {}).get("localSave") is True),
+        ("a new journey written", (run.saves / "save.json").exists() and run.save().get("seed") != seed["seed"]), ("done", "done" in e)])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--app", type=Path, default=DEFAULT_APP)
@@ -153,37 +225,9 @@ def main():
     seed = json.loads(SEED.read_text())
     ok = True
     try:
-        events, started = run.launch("import", seed=SEED)
-        imported = run.save() if (run.saves / "save.json").exists() else {}
-        ok &= run.phase("import", events, started, lambda e: [
-            ("world shown", "world" in e), ("done", "done" in e), ("save file written", bool(imported)),
-            ("the 0.2 save imported and migrated", imported.get("seed") == seed["seed"] and imported.get("version", 0) > seed["version"])])
-        events, started = run.launch("battle")
-        after_battle = run.save()
-        exported = json.loads(run.export.read_text()) if run.export.exists() else None
-        ok &= run.phase("battle", events, started, lambda e: [
-            ("no broken image", e.get("world", {}).get("broken") == []), ("missing file is 404", e.get("world", {}).get("missing", [0])[0] == 404),
-            ("present file is 200", e.get("world", {}).get("present", [0])[0] == 200), ("eval blocked by the CSP", e.get("world", {}).get("evalBlocked")),
-            ("battle entered", "battle" in e), ("both creatures animated", e.get("battle", {}).get("animated") == 2),
-            ("a skill effect drew", e.get("battle", {}).get("firstEffectMs") is not None),
-            ("export message", e.get("export", {}).get("toast") == "航行存档已导出。"), ("export file equals the save", exported == after_battle),
-            ("still the imported journey", after_battle.get("seed") == seed["seed"]), ("done", "done" in e)])
-        run.export.unlink(missing_ok=True)
-        events, started = run.launch("relaunch")
-        exported = json.loads(run.export.read_text()) if run.export.exists() else None
-        ok &= run.phase("relaunch", events, started, lambda e: [
-            ("world shown", "world" in e), ("the save file loaded", exported is not None and exported.get("seed") == seed["seed"]),
-            ("progress kept", exported == run.save()), ("backup of the previous run", (run.saves / "backup-1.json").exists()),
-            ("关于 shows the license texts", e.get("about", {}).get("head", "").startswith("赛尔经典")), ("done", "done" in e)])
-        broken = '{"version":5,"party"'
-        (run.saves / "save.json").write_text(broken)
-        events, started = run.launch("unreadable")
-        kept = sorted(run.saves.glob("unreadable-*.json"))
-        ok &= run.phase("unreadable", events, started, lambda e: [
-            ("the notice", "已另存原存档" in (e.get("unreadable", {}).get("notice") or "")),
-            ("settings lists it", len(e.get("unreadable", {}).get("listed", [])) == 1),
-            ("kept as it was", len(kept) == 1 and kept[0].read_text() == broken), ("a new journey written", run.save().get("seed") != seed["seed"]),
-            ("the broken file also backed up", (run.saves / "backup-1.json").read_text() == broken), ("done", "done" in e)])
+        ok &= first_runs(run, seed)
+        ok &= unreadable_runs(run, seed)
+        ok &= reset_run(run, seed)
         for hide in ("payload.json", "portraits/1.png"):
             refused, details = refuses(run, hide)
             run.results["phases"]["refuse " + hide] = {"refused": refused, **details}

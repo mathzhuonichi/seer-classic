@@ -61,7 +61,10 @@
     return false;
   }
 
-  /** The world map: when it showed, its broken images, and how the shell answers a missing and a present payload file. */
+  /**
+   * The world map: when it showed, its broken images, how the shell answers a missing and a present payload file, the window's
+   * inner size beside the screen's available size, and whether local storage still holds the 0.2 app's save.
+   */
   async function world() {
     await until(() => $('.world-scene .world-player'), 'the world map');
     const shown = Date.now();
@@ -71,7 +74,8 @@
     let evalBlocked = false;
     try { (0, eval)('1'); } catch { evalBlocked = true; }
     await report({event: 'world', shown, origin: location.origin, broken, evalBlocked,
-      missing: await probe('/portraits/0.png'), present: await probe('/portraits/1.png'), atlas: await probe('/battle-animations/hd/1-v44.png')});
+      missing: await probe('/portraits/0.png'), present: await probe('/portraits/1.png'), atlas: await probe('/battle-animations/hd/1-v44.png'),
+      window: [innerWidth, innerHeight, screen.availWidth, screen.availHeight], localSave: localStorage.getItem('seer-classic-save-v1') !== null});
   }
 
   /** Plays one turn with the first damaging move; returns when the first effect frame drew (ms after the click), or null. */
