@@ -59,7 +59,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers, development data that no screen shows); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate). |
 | `public/` | Runtime assets. Large ones are ignored by Git and travel in a separate asset archive. |
 | `src-tauri/` | The Tauri desktop shell. |
-| `design/` | Design notes ([index](design/notes/INDEX.md)) and preserved source snapshots. |
+| `design/` | Design notes ([index](design/notes/INDEX.md)), preserved source snapshots and `approved-plan.json`, the user's decisions through revision 50. |
 
 ## Data flow
 
@@ -112,7 +112,7 @@ The battle screen plays each move's original skill effect from its SWF with Ruff
 
 ## Remake decisions
 
-These are remake decisions, not original rules; do not describe them as original. Later product decisions are in `approved-plan.json` and the design notes.
+These are remake decisions, not original rules; do not describe them as original. Later product decisions are in `design/approved-plan.json` and the design notes.
 
 - **No real-time clock.** Hourly windows, weekday-only fights and daily attempt limits are dropped. Weekday objectives and time-window fields become encounter `variants`, which the player picks before the start in the Boss dialogue or the challenge archive (`domain/challenges/encounter-variants.ts`; settled by `features/challenges/boss-variants.ts`, recorded in `game.bossVariants`). 盖亚 pays its essence only when the chosen objective is met, and its fight without one is a practice fight with no record; 厄尔塞拉 and 劳克蒙德 are always fought with one; honours for every variant (七色光羽, 完胜盖亚) come from the cleared variants. Every encounter is open at any time; party and level rules, the attempt-based Boss level rule and campaign and tower order still apply.
 - **Open Bosses.** Every Boss is open from the start (user decision, 2026-10-19). The source unlock chains between encounters (the dark-arena doors in order, the second 克莱芬 and 克拉尼特 fights, the Mystery Realm 谱尼 after Tower floor 60) are not enforced; the records keep `unlock.requires` as source history, read only to place that 谱尼 on the Tower panel. Only the stage order inside a campaign and the Brave Tower's floor order gate a fight.

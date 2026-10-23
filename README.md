@@ -14,7 +14,7 @@ A local, single-player remake of pre-2013 Seer (赛尔号), focused on PvE battl
 | [design/notes/INDEX.md](design/notes/INDEX.md) | Every design note with a one-line summary and its status. |
 | [CHANGELOG.md](CHANGELOG.md) | What each revision changed, newest first. |
 
-`approved-plan.json` records the user's product decisions through revision 50; later decisions are in the design notes.
+[`design/approved-plan.json`](design/approved-plan.json) records the user's product decisions through revision 50; later decisions are in the design notes.
 
 ## Run and check
 
