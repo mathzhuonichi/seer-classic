@@ -3,6 +3,8 @@
 const SAVE_KEY = 'seer-classic-save-v1';
 /** Unreadable saves are copied under this prefix before a new journey replaces them. */
 export const UNREADABLE_SAVE_PREFIX = `${SAVE_KEY}.unreadable.`;
+/** Set by the desktop app (src/app/desktop-saves.ts) once the save under SAVE_KEY has become its save file. */
+export const IMPORTED_SAVE_KEY = `${SAVE_KEY}.imported`;
 
 /** An unreadable save kept beside the save: its key or file name and its text. */
 export interface UnreadableSave { name: string; text: string }
