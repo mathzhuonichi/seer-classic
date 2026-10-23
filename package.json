@@ -14,6 +14,8 @@
     "desktop": "tauri dev",
     "stage:desktop": "python3 tools/distribution/stage_desktop_payload.py",
     "package": "npm run stage:desktop && tauri build --bundles app --config src-tauri/tauri.bundle.conf.json",
+    "package:smoke": "npm run stage:desktop && tauri build --bundles app --features smoke --config src-tauri/tauri.bundle.conf.json --config src-tauri/tauri.smoke.conf.json",
+    "smoke:macos": "python3 tools/distribution/smoke_macos.py",
     "dev:preview": "vite --host 127.0.0.1 --port 1421"
   },
   "dependencies": {

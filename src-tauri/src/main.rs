@@ -5,6 +5,8 @@ mod payload;
 mod public_assets;
 mod saves;
 mod shell;
+#[cfg(feature = "smoke")]
+mod smoke;
 
 use std::sync::Arc;
 
@@ -49,7 +51,7 @@ fn check_payload(app: &AppHandle, public: &PublicDir) -> bool {
     }
 }
 
-/// The page's commands.
+/// The page's commands; the smoke build adds its quit.
 macro_rules! commands {
     () => {
         tauri::generate_handler![
@@ -58,12 +60,16 @@ macro_rules! commands {
             saves::keep_unreadable_save,
             saves::export_save,
             shell::toggle_fullscreen,
-            shell::log_web
+            shell::log_web,
+            #[cfg(feature = "smoke")]
+            smoke::smoke_quit
         ]
     };
 }
 
 fn main() {
+    #[cfg(all(feature = "smoke", target_os = "macos"))]
+    smoke::neuter_activation();
     let mut context = tauri::generate_context!();
     let public = Arc::new(PublicDir::default());
     let embedded = context.set_assets(Box::new(public_assets::EmptyAssets));
@@ -77,6 +83,8 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(commands!())
         .setup(move |app| {
+            #[cfg(all(feature = "smoke", target_os = "macos"))]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
             shell::log_panics();
             log::info!("Seer Classic {} starting", app.package_info().version);
             // Development runs keep their own saves beside the player's.

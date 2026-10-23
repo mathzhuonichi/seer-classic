@@ -2936,6 +2936,7 @@ name = "seer-classic"
 version = "0.3.2"
 dependencies = [
  "log",
+ "objc2",
  "percent-encoding",
  "serde",
  "serde_json",

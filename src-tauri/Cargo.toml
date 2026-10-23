@@ -17,3 +17,9 @@ percent-encoding = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
+[features]
+# The packaged smoke test's build (src-tauri/src/smoke.rs, tools/distribution/smoke_macos.py); never in a release.
+smoke = ["dep:objc2"]
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = { version = "0.6", optional = true }

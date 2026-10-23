@@ -34,6 +34,8 @@ where
         let (width, height) = fitted_size((f64::from(area.width) / scale, f64::from(area.height) / scale), minimum);
         builder = builder.inner_size(width, height).center();
     }
+    #[cfg(feature = "smoke")]
+    let builder = crate::smoke::window(app, builder);
     let window = builder.build()?;
     window.show()?;
     Ok(window)

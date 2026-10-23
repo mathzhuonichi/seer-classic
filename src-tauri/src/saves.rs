@@ -263,7 +263,10 @@ pub async fn keep_unreadable_save(state: State<'_, SaveState>, name: String, tex
     blocking(move || folder.keep_unreadable(&name, &text).map_err(|error| error.to_string())).await
 }
 
-/// Where the player chose to export, or None when the dialog was cancelled.
+/// Where the player chose to export, or None when the dialog was cancelled. The smoke build writes to a fixed file instead.
+#[cfg(feature = "smoke")]
+use crate::smoke::export_path;
+#[cfg(not(feature = "smoke"))]
 async fn export_path<R: Runtime>(app: AppHandle<R>, window: WebviewWindow<R>, file_name: String) -> Result<Option<PathBuf>, String> {
     use tauri_plugin_dialog::DialogExt;
     blocking(move || {
