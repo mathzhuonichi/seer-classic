@@ -8,8 +8,9 @@ script launches it as its own process (it never activates itself or takes focus)
 1. first start: the 0.2 app's save in local storage becomes the save file (tools/verification/fixtures/save-version-1-app-0.2.json);
 2. the world map with no broken image, a real 404 for a missing file, the content security policy in force; a wild battle,
    its creatures animated and its first skill effect drawn; export writes a file; quit; the save file holds the journey;
-3. a relaunch loads that save file (its export equals it) and keeps a backup of it;
-4. the payload check fires, and the game does not open, without payload.json and without one listed file.
+3. a relaunch loads that save file (its export equals it), keeps a backup of it, and 关于 shows the license texts;
+4. an unreadable save file is kept as unreadable-*.json (and in the run's backup), listed in settings, and a new journey starts;
+5. the payload check fires, and the game does not open, without payload.json and without one listed file.
 
 It reports startup, battle entry and first-effect times, and deletes the smoke identifier's data before and after.
 """
@@ -172,7 +173,16 @@ def main():
         exported = json.loads(run.export.read_text()) if run.export.exists() else None
         ok &= run.phase("relaunch", events, started, lambda e: [
             ("world shown", "world" in e), ("the save file loaded", exported is not None and exported.get("seed") == seed["seed"]),
-            ("progress kept", exported == run.save()), ("backup of the previous run", (run.saves / "backup-1.json").exists()), ("done", "done" in e)])
+            ("progress kept", exported == run.save()), ("backup of the previous run", (run.saves / "backup-1.json").exists()),
+            ("关于 shows the license texts", e.get("about", {}).get("head", "").startswith("赛尔经典")), ("done", "done" in e)])
+        broken = '{"version":5,"party"'
+        (run.saves / "save.json").write_text(broken)
+        events, started = run.launch("unreadable")
+        kept = sorted(run.saves.glob("unreadable-*.json"))
+        ok &= run.phase("unreadable", events, started, lambda e: [
+            ("the notice", "已另存原存档" in (e.get("unreadable", {}).get("notice") or "")), ("settings lists it", len(e.get("unreadable", {}).get("listed", [])) == 1),
+            ("kept as it was", len(kept) == 1 and kept[0].read_text() == broken), ("a new journey written", run.save().get("seed") != seed["seed"]),
+            ("the broken file also backed up", (run.saves / "backup-1.json").read_text() == broken), ("done", "done" in e)])
         for hide in ("payload.json", "portraits/1.png"):
             refused, details = refuses(run, hide)
             run.results["phases"]["refuse " + hide] = {"refused": refused, **details}

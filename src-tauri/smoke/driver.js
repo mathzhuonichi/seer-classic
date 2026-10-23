@@ -123,10 +123,27 @@
     await report({event: 'export', toast, problem: $('.save-problem')?.textContent ?? null});
   }
 
+  /** 关于 shows the license texts from the payload. */
+  async function about() {
+    [...document.querySelectorAll('.settings-console button')].find(button => button.textContent === '查看开源许可').click();
+    const text = await until(() => $('.about-licenses')?.textContent, 'the license texts');
+    await report({event: 'about', head: text.slice(0, 40), bytes: text.length});
+  }
+
+  /** An unreadable save file: the notice, and settings listing the kept file. */
+  async function unreadable() {
+    await world();
+    const notice = $('.game-toast')?.textContent ?? null;
+    $('.game-toolbar button[aria-label="设置"]').click();
+    await until(() => $('.scene-window[aria-label="航行设置"]'), 'the settings window');
+    await report({event: 'unreadable', notice, listed: [...document.querySelectorAll('.unreadable-saves li span')].map(span => span.textContent)});
+  }
+
   const phases = {
     import: world,
     battle: async () => { await world(); await battle(); await exportSave(); },
-    relaunch: async () => { await world(); await exportSave(); },
+    relaunch: async () => { await world(); await exportSave(); await about(); },
+    unreadable,
     refuse: world,
     probe: async () => {
       await world();
