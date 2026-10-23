@@ -12,12 +12,14 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "赛尔经典 · Seer Classic",
         "width": 1360,
         "height": 900,
         "minWidth": 1000,
         "minHeight": 700,
-        "resizable": true
+        "resizable": true,
+        "create": false
       }
     ],
     "security": {
