@@ -23,8 +23,3 @@ export function expToNext(growth: GrowthId, level: number): number {
   if (level >= MAX_LEVEL) return 0;
   return cumulative(growth, level + 1) - cumulative(growth, level);
 }
-
-// Total EXP from level 1 (0 exp) to the given level and exp-into-level.
-export function totalExp(growth: GrowthId, level: number, expIntoLevel = 0): number {
-  return cumulative(growth, level) - cumulative(growth, 1) + expIntoLevel;
-}

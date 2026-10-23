@@ -71,12 +71,3 @@ export function buildPaidSPTRecruitments(catalog: AcquisitionCatalog, sources: r
       prerequisiteBossIds:preceding.map(boss => boss.id),prerequisiteSpecies:preceding.map(boss => boss.team[0].species)}];
   }).sort((a,b) => a.rewardSpecies-b.rewardSpecies);
 }
-
-/** Repeated victories, unrelated battles and campaign clears cannot satisfy a missing named SPT. */
-export function getSPTRecruitmentProgress(quest: Pick<PaidSPTRecruitment,'prerequisiteBossIds'>, clearedBossIds: readonly string[] | ReadonlySet<string>) {
-  const cleared = new Set(clearedBossIds);
-  const required = [...new Set(quest.prerequisiteBossIds)];
-  const completedBossIds = required.filter(id => cleared.has(id));
-  const missingBossIds = required.filter(id => !cleared.has(id));
-  return {complete:required.length > 0 && missingBossIds.length === 0,completed:completedBossIds.length,total:required.length,completedBossIds,missingBossIds};
-}

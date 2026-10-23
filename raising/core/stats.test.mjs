@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import {computeStatsFrom, cumulative, evTotal, expToNext, MAX_LEVEL, natureMultiplier, statValue, totalExp} from './index.ts';
+import {computeStatsFrom, cumulative, evTotal, expToNext, MAX_LEVEL, natureMultiplier, statValue} from './index.ts';
 import {natures} from './test-fixture.mjs';
 
 const [hardy, modest] = natures;
@@ -33,7 +33,6 @@ test('the four EXP curves reproduce data/growth.json for every level (SPEC 5.1)'
   for (const id of ['medium', 'slow', 'medium_slow', 'fluctuating']) {
     const steps = Array.from({length: growth[id].to_next.length}, (_, i) => expToNext(id, i + 1));
     assert.deepEqual(steps, growth[id].to_next, id);
-    assert.equal(totalExp(id, MAX_LEVEL), growth[id].total_to_lv100, id);
     assert.equal(cumulative(id, MAX_LEVEL) - cumulative(id, 1), growth[id].total_to_lv100, id);
     assert.equal(expToNext(id, MAX_LEVEL), 0, `${id} has no step past the cap`);
   }

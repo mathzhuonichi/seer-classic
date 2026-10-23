@@ -7,7 +7,7 @@ import {root,suite,withSsr} from './_harness.mjs';
 const attributes = text => Object.fromEntries([...text.matchAll(/(\w+)="([^"]*)"/g)].map(m => [m[1],m[2]]));
 await withSsr('breeding', async load => {
   const t = suite('breeding');
-  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose, breedingEggItemId: egg} = await load('/src/domain/recipes/breeding.ts');
+  const {BREEDING_RECIPES: recipes, getBreedingGender: gender, findBreedingRecipe: find, canBreedParents: can, chooseBreedingOutcome: choose} = await load('/src/domain/recipes/breeding.ts');
   const {buildExcludedRecruitmentSpecies} = await load('/src/domain/acquisition/spt-recruitment.ts');
   const catalog = await (await load('/src/domain/catalog/catalog.ts')).loadCatalog();
   const species = new Map(catalog.species.map(s => [s.id,s])), excluded = buildExcludedRecruitmentSpecies(catalog);
@@ -34,7 +34,6 @@ await withSsr('breeding', async load => {
     for (const outcome of recipe.outcomes) {
       assert.ok(!species.get(outcome.species).evolves_from);
       assert.ok(!catalog.species.some(s => s.evolution.some(e => e.to === outcome.species)));
-      assert.equal(egg(outcome.species),`breeding_egg_${outcome.species}`);
     }
     const male={uid:'male',species:recipe.maleSpecies[0],level:50};
     const female={uid:'female',species:recipe.femaleSpecies[0],level:50};

@@ -9,7 +9,7 @@ import { buildAcquisitionFamilies, buildAcquisitionIndex } from '../../src/domai
 import { NPC_ONLY_SPECIES, type AcquisitionCatalog } from '../../src/domain/acquisition/acquisition-model.ts';
 import { bossEssenceRewards } from '../../src/domain/acquisition/native-acquisition.ts';
 import { braveTowerFloor } from '../../src/domain/challenges/brave-tower.ts';
-import { autoEvolve, createMonster, evolutionOptions, gainLevels, makeDex, totalExp } from '../../raising/core/index.ts';
+import { autoEvolve, createMonster, cumulative, evolutionOptions, gainLevels, makeDex } from '../../raising/core/index.ts';
 import { Rng } from '../../battle/core/src/rng.ts';
 import { suite } from './_harness.mjs';
 
@@ -195,11 +195,11 @@ export async function runDexAcquisitionAudit(outputDirectory = 'artifacts/dex-ac
       // mechanical endpoint and the separately approved manual special threshold.
       const training = JSON.parse(collector.exportSave()); training.exp_pool = 1e9;
       evolver.importSave(JSON.stringify(training));
-      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(byId.get(111).growth, 39, 0) });
+      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: cumulative(byId.get(111).growth, 39) - cumulative(byId.get(111).growth, 1) });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, chain.at(-1));
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.level, 39);
       const growth = byId.get(113).growth;
-      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: totalExp(growth, 60, 0) - totalExp(growth, 39, 0) });
+      evolver.dispatch({ type: 'allocateExp', uid: infant.uid, amount: cumulative(growth, 60) - cumulative(growth, 39) });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, 113, 'The special form requires a deliberate selection.');
       evolver.dispatch({ type: 'evolve', uid: infant.uid, toSpecies: 1277 });
       assert.equal(evolver.snapshot().monsters.find(mon => mon.uid === infant.uid)!.species, 1277);

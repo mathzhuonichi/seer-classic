@@ -9,7 +9,7 @@ import {memoryStorage,root,suite,withSsr} from './_harness.mjs';
 memoryStorage();
 await withSsr('paid-spt-recruitment',async load=>{
   const t=suite('paid-spt-recruitment');
-  const {getSPTRecruitmentProgress:progress,buildPaidSPTRecruitments:build,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs:eligible}=await load('/src/domain/acquisition/spt-recruitment.ts');
+  const {buildPaidSPTRecruitments:build,buildExcludedRecruitmentSpecies,getEligibleRecruitmentSPTs:eligible}=await load('/src/domain/acquisition/spt-recruitment.ts');
   const {buildInitialFormAcquisitionIndex}=await load('/src/domain/acquisition/initial-acquisition.ts');
   const catalog=await (await load('/src/domain/catalog/catalog.ts')).loadCatalog();
   const quests=build(catalog),excluded=buildExcludedRecruitmentSpecies(catalog);
@@ -33,15 +33,6 @@ await withSsr('paid-spt-recruitment',async load=>{
       assert.ok(required.every(b=>b.category==='spt'&&b.team.length===1&&b.team[0].species<quest.rewardSpecies&&!excluded.has(b.team[0].species)));
       assert.equal(new Set(required.map(b=>b.team[0].species)).size,required.length);
     }
-  });
-  t.check('false empty/partial/repeated gates',()=>{
-    for(const quest of quests) {
-      assert.equal(progress(quest,[]).complete,false);
-      assert.equal(progress(quest,[...Array(10).fill(quest.prerequisiteBossIds[0]),'boss_puni','boss_campaign_qinglong_guardians','boss_tower_brave_1']).completed,1);
-      assert.equal(progress(quest,quest.prerequisiteBossIds.slice(1)).complete,false);
-      assert.equal(progress(quest,[...quest.prerequisiteBossIds,quest.prerequisiteBossIds[0]]).complete,true);
-    }
-    assert.equal(progress({prerequisiteBossIds:[]},[]).complete,false);
   });
   t.check('divine/NPC/adult exclusion',()=>{
     assert.deepEqual(build({...catalog,bosses:[]}),[]);

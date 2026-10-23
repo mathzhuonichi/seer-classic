@@ -50,13 +50,6 @@ export function canBreedParents(recipe: BreedingRecipe, first: BreedingParent, s
     && (male.generation ?? 0) === 0;
 }
 
-export function breedingEggItemId(species: number): string {
-  if (!BREEDING_RECIPES.some(recipe => recipe.outcomes.some(outcome => outcome.species === species))) {
-    throw new Error('Unknown breeding offspring.');
-  }
-  return `breeding_egg_${species}`;
-}
-
 /** Exact original outcome probabilities; the controller owns random generation. */
 export function chooseBreedingOutcome(recipe: BreedingRecipe, roll: number): BreedingOutcome {
   if (!Number.isFinite(roll) || roll < 0 || roll >= 1) throw new RangeError('Breeding roll must be in [0, 1).');
