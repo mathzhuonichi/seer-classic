@@ -29,6 +29,8 @@ const PLAYER_TAG = 'seer-skill-effect-player';
  * that never answers would otherwise hold its start forever.
  */
 const HOST_START_TIMEOUT_MS = 20_000;
+/** Ruffle's pause() (the host's suspend) shows its play button over the movie; the host never shows it. */
+const HIDDEN_UI = '#play-button{display:none!important}';
 /**
  * The host draws on a transparent canvas, takes no input, shows none of Ruffle's own UI and is silent (the skill SWFs have no
  * sound). Only the wgpu-webgl renderer draws the blur and glow filters that 1,053 effects use.
@@ -80,7 +82,7 @@ export interface SkillEffectHost {
   onDeath(listener: (reason: string) => void): void;
   /** Moves the player into `container`, whose box sizes its canvas, keeping its instance, its loaded effects and its WebGL context. */
   moveTo(container: HTMLElement): void;
-  /** Stops the host's frames (nothing plays or loads) until resume(). */
+  /** Stops the host's frames (nothing plays or loads) until resume(), also when the page is hidden and shown meanwhile. */
   suspend(): void;
   resume(): void;
   /** Loads one skill SWF; resolves once it can play. */
@@ -176,6 +178,7 @@ async function startPlayer(source: RuffleSource, container: HTMLElement, inTime:
   const element = keptPlayer(source), loads = new Map<string, Pending>();
   // The player fills its container, whose box sizes its canvas: the arena in a battle, 1x1 px while it waits.
   element.style.cssText = 'display:block;width:100%;height:100%;visibility:hidden';
+  element.shadowRoot?.append(Object.assign(document.createElement('style'), { textContent: HIDDEN_UI }));
   container.append(element);
   let ready = (_fps: number) => {}, host: ReturnType<typeof hostApi> | null = null, loading: Promise<void> | null = null;
   const started = new Promise<number>(resolve => { ready = resolve; });
@@ -202,14 +205,18 @@ async function startPlayer(source: RuffleSource, container: HTMLElement, inTime:
  * nothing). A dead host ends at once, so that Ruffle neither reloads it nor paints its panic screen over the arena.
  */
 function hostApi(element: KeptPlayer, player: RufflePlayer, loads: Map<string, Pending>, fps: number) {
-  let alive = true;
+  let alive = true, suspended = false;
   const listeners: ((reason: string) => void)[] = [], canvas = element.shadowRoot?.querySelector('canvas');
   const panic = new MutationObserver(() => { if (element.shadowRoot?.getElementById('panic')) die('Ruffle panicked'); });
   const lost = () => die('its WebGL context was lost');
+  // Ruffle's own handler, which runs first, plays the movie again when the page shows if it played when the page was hidden:
+  // a host suspended meanwhile (given back to its parking place while hidden) is suspended again.
+  const shown = () => { if (suspended && !document.hidden) player.suspend(); };
   const end = () => {
     alive = false;
     panic.disconnect();
     canvas?.removeEventListener('webglcontextlost', lost);
+    document.removeEventListener('visibilitychange', shown);
     for (const pending of loads.values()) pending.reject(new Error('the skill-effect host ended'));
     loads.clear();
     element.end();
@@ -221,6 +228,7 @@ function hostApi(element: KeptPlayer, player: RufflePlayer, loads: Map<string, P
   }
   if (element.shadowRoot) panic.observe(element.shadowRoot, { childList: true, subtree: true });
   canvas?.addEventListener('webglcontextlost', lost);
+  document.addEventListener('visibilitychange', shown);
   const call = (name: string, ...args: unknown[]) => {
     if (!alive) return undefined;
     let answer: unknown;
@@ -240,8 +248,16 @@ function hostApi(element: KeptPlayer, player: RufflePlayer, loads: Map<string, P
     ping: () => call('fxStop', 0) === false,
     onDeath: (listener: (reason: string) => void) => { listeners.push(listener); },
     moveTo: (container: HTMLElement) => moveInto(element, container),
-    suspend: () => { if (alive) player.suspend(); },
-    resume: () => { if (alive) player.resume(); },
+    suspend: () => {
+      if (!alive) return;
+      suspended = true;
+      player.suspend();
+    },
+    resume: () => {
+      if (!alive) return;
+      suspended = false;
+      player.resume();
+    },
     load: (key: string, url: string) => new Promise<void>((resolve, reject) => {
       loads.set(key, { resolve, reject });
       if (call('fxLoad', key, url) !== true) reject(new Error(`skill effect ${key}: the host did not take it`));

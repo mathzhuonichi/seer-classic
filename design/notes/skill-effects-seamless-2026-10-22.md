@@ -73,6 +73,8 @@ Nothing of Ruffle runs before the first battle's loading screen: no script, no W
 
 The player fills its container, so the container's box sizes the canvas: the arena in a battle, 1x1 px while it waits.
 
+- **Suspended stays suspended.** Ruffle's own tab-visibility handler plays a movie again when the page shows if it played when the page was hidden. A host given back to its parking place while the page was hidden is therefore suspended again when the page shows.
+- **No play button.** Ruffle's `pause()`, which the host's `suspend()` calls, shows Ruffle's large orange play button. A style in the kept element's shadow root hides it (`#play-button`), so a suspend never shows it, parked or in the arena.
 - **The start's time limit.** `startSkillEffectHost` gives Ruffle's script, its WebAssembly, the host SWF and the host's first frame `HOST_START_TIMEOUT_MS` (20 s) together. A start that has not finished by then fails and ends its player; a player load that answers later is ended too. A script that neither loaded nor failed by then is requested again by the next start. Before, the timeout was only looked at once Ruffle's load had resolved, and a WebAssembly request that never answered held the start forever.
 
 `skill-effect-session.ts` (`SkillEffectSession`) holds the rules:
