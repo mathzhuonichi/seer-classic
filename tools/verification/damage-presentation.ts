@@ -120,4 +120,9 @@ const text = battleEventText({ type: 'damage', side: 1, slot: 0, name: '目标',
   data: { species: new Map(), skills: new Map(), items: new Map() }, initialPlayer: state.player, initialEnemy: { name: '目标', hp: 7, maxHp: 7 },
 });
 assert(text.includes('受到 100 点伤害') && text.includes('剩余体力 0/7'));
-console.log(JSON.stringify({ passed: ['full overkill popup and log', 'actual-loss HP and drain', 'event-ordered enemy knockout and switch', 'bench revival and player switch', 'enemy revival after lethal damage', 'one counting number and line for a lethal multi-hit, drain of the HP lost', 'slot-specific bench faint and immutable earlier snapshots', 'renamed transformation remains in the active slot'], displayedLethalDamage: hit.amount, actualLoss: 7 }));
+const passed = [
+  'full overkill popup and log', 'actual-loss HP and drain', 'event-ordered enemy knockout and switch', 'bench revival and player switch',
+  'enemy revival after lethal damage', 'one counting number and line for a lethal multi-hit, drain of the HP lost',
+  'slot-specific bench faint and immutable earlier snapshots', 'renamed transformation remains in the active slot',
+];
+console.log(JSON.stringify({ passed, displayedLethalDamage: hit.amount, actualLoss: 7 }));
