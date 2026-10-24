@@ -218,8 +218,9 @@ marked unreadable with the reason and never written; it can be retried,
 exported or deleted. If the active slot is unreadable at start, a new journey
 opens in a new slot. On the first start with slots, the save of the earlier
 versions (`localStorage` key `seer-classic-save-v1`) becomes the active
-存档 1, unchanged, and the unreadable saves kept beside it follow; those keys
-are left as they were.
+存档 1, unchanged, and the unreadable saves kept beside it follow; once they
+are stored in IndexedDB those keys are deleted (kept while the slots can only
+live in the page's memory).
 
 `progress` records encounters by id: `bosses_cleared` (first clears),
 `boss_attempts` (recorded fights, counted when one starts) and `boss_wins`

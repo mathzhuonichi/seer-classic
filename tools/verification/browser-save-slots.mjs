@@ -1,6 +1,6 @@
 /**
  * Save slots in real browsers (design/notes/save-slots-2026-10-24.md): the pre-slot save in local storage is adopted unchanged as
- * the active 存档 1 and the pre-slot key is kept; 设置 > 航行存档 starts a new save in a second slot, loads the first again, and
+ * the active 存档 1 and the pre-slot key is deleted; 设置 > 航行存档 starts a new save in a second slot, loads the first again, and
  * a reload opens the slot loaded last; a slot that is not active is deleted after its confirmation. Status `needs-browser`:
  * Chrome, and Playwright WebKit when installed. Every check runs in a fresh, silent, temporary browser context (`_browser.mjs`).
  */
@@ -58,7 +58,7 @@ async function adoption({page, fixture}) {
   assert.deepEqual(records.map(record => [record.name, record.unreadable]), [['存档 1', null]]);
   assert.equal(active, records[0].id, '存档 1 is the active slot');
   assert.deepEqual(JSON.parse(text[active]), JSON.parse(fixture.text), 'the slot holds the pre-slot save unchanged');
-  assert.equal(await page.evaluate(key => localStorage.getItem(key), fixture.legacyKey), fixture.text, 'the pre-slot key is kept as it was');
+  assert.equal(await page.evaluate(key => localStorage.getItem(key), fixture.legacyKey), null, 'the pre-slot key is deleted once 存档 1 is stored');
   assert.equal(await coins(page, fixture), SAVED_COINS);
   await openTool(page, fixture.settings);
   assert.deepEqual((await slotRows(page)).map(({name, active}) => [name, active]), [['存档 1', true]]);
@@ -89,7 +89,7 @@ async function newLoadReloadDelete({page, fixture}) {
 }
 
 const CHECKS = [
-  {name: 'the pre-slot save is adopted unchanged as the active 存档 1, and its local storage key is kept', run: adoption},
+  {name: 'the pre-slot save is adopted unchanged as the active 存档 1, and its local storage key is deleted', run: adoption},
   {name: 'a new save opens in 存档 2, loading 存档 1 switches back, a reload opens 存档 1, and 存档 2 is deleted', run: newLoadReloadDelete},
 ];
 

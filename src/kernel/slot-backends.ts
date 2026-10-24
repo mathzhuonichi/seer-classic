@@ -17,6 +17,7 @@ export function memoryBackend(): SlotBackend {
     for (const id of change?.remove ?? []) texts.delete(id);
   };
   return {
+    durable: false,
     apply: async change => apply(change),
     update: async plan => { apply(plan(stored)); return stored; },
     read: async id => texts.get(id),
@@ -64,6 +65,7 @@ export async function indexedDbBackend(factory: IDBFactory = indexedDB): Promise
   // A later version upgrading the database closes this connection; this page's writes then fail and are reported.
   db.onversionchange = () => db.close();
   return {
+    durable: true,
     async apply(change) {
       const transaction = db.transaction(STORES, 'readwrite'), done = settled(transaction);
       try {
@@ -77,7 +79,8 @@ export async function indexedDbBackend(factory: IDBFactory = indexedDB): Promise
       return done;
     },
     async update(plan) {
-      const transaction = db.transaction(STORES, 'readwrite');
+      // Strict: an adoption must reach the disk before the pre-slot keys are deleted.
+      const transaction = db.transaction(STORES, 'readwrite', { durability: 'strict' });
       const records = transaction.objectStore(SLOT_DATABASE.slots).getAll(), active = transaction.objectStore(SLOT_DATABASE.meta).get(SLOT_DATABASE.activeKey);
       const documents = transaction.objectStore(SLOT_DATABASE.documents).getAllKeys();
       let after: StoredSlots | undefined, refused: unknown;

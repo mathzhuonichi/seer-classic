@@ -36,7 +36,7 @@ value `localStorage` accepts, the most it accepts over several keys, and five wo
 
 `localStorage` holds about 5 Mi characters per origin (10 MiB counted in UTF-16), one quota shared by every key: the pre-slot
 save, the audio settings and the world position live there too. A worst-case save takes 1.42 M of them, so three fit and a fourth
-does not, and the pre-slot save, which is kept (below), already takes one place. Desktop Safari was not probed; its documented
+does not, and until it is adopted (below) the pre-slot save already takes one place. Desktop Safari was not probed; its documented
 limit has been 5 MB, which, counted in UTF-16, would hold only one. **The slots therefore live in IndexedDB**, whose quota is a share of the
 disk (gigabytes). The save document format is unchanged (`SAVE_VERSION` stays 5; no migration).
 
@@ -59,7 +59,7 @@ in the order they are made, across pages too.
 ## Modules and contracts
 
 ```
-src/kernel/persistence.ts    the pre-slot save (read only) and the write-problem report (saveWriteSettled → SaveProblem.tsx)
+src/kernel/persistence.ts    the pre-slot saves (read; deleted once adopted) and the write-problem report (saveWriteSettled → SaveProblem.tsx)
 src/kernel/save-slots.ts     SlotStore over a SlotBackend: records, documents, the active id; legacy adoption; moves text only
 src/kernel/slot-backends.ts  indexedDbBackend, memoryBackend, openBrowserSlotStore (IndexedDB, else memory with the problem shown)
 src/kernel/save-library.ts   SaveLibrary: the game of the active slot; newSave, load, remove, importSave, exportSlot
@@ -71,8 +71,8 @@ src/app/SaveSlots.tsx        设置 > 航行存档: the list, 新存档, 读取,
 
 - `SlotBackend` is the storage seam: `apply(change)` applies a change without reading first (the save writes),
   `update(plan)` reads what is stored and applies the plan's change in one atomic transaction (opening, deleting), and
-  `read(id)` returns a document. The unit tests (`save-slots.test.mjs`) run the store on `memoryBackend` and on a wrapper that
-  refuses writes beyond a size, as a full storage does.
+  `read(id)` returns a document. The unit tests (`save-slots.test.mjs`) run the store on `memoryBackend`, on a copy of it that
+  reports itself durable (as IndexedDB does), and on a wrapper that refuses writes beyond a size, as a full storage does.
 - The store never reads a save; the library decides what a slot holds. The kernel's game writes only through a `JourneySlot`
   (`write(text, summary)`), which the library binds to the slot it opened.
 - **One game context per library.** Opening a slot, a new save or an import builds a new controller (`runGame`) from that slot's
@@ -91,12 +91,14 @@ src/app/SaveSlots.tsx        设置 > 航行存档: the list, 新存档, 读取,
 
 On the first start of this version the slot store is empty. Inside the transaction that opens it, it reads the pre-slot save
 from `localStorage` and stores it, byte for byte, as **存档 1**, the active slot, followed by the kept unreadable saves (each as
-**存档 n**, marked 旧版本中无法读取，已原样保留, saved at the time its key records). The `localStorage` keys are not changed or deleted;
-this version never reads them again once the store has a slot (an empty store is the only trigger, and the active slot can never
-be deleted, so a store never empties). Then the game opens 存档 1 as it opened the save before: migrated and settled, and written
+**存档 n**, marked 旧版本中无法读取，已原样保留, saved at the time its key records). Once that transaction (opened with strict
+durability) has committed, the adopted `localStorage` keys are deleted (user, 2026-10-24), each only while it still holds the text
+that was adopted; a page-only store (IndexedDB unavailable) keeps them. This version never reads them again once the store has a
+slot (an empty store is the only trigger, and the active slot can never be deleted, so a store never empties).
+Then the game opens 存档 1 as it opened the save before: migrated and settled, and written
 back to its slot, which leaves a current save's text unchanged. A player upgrading finds the same journey, now listed as the
-active 存档 1. The pre-slot key keeps the save as it was at the upgrade: an older folder run in the same browser still opens that
-copy, but what it plays is not seen by this version.
+active 存档 1. An older folder run in the same browser afterwards finds no save and starts a new journey, which this version does
+not see.
 
 ## Operations (设置 > 航行存档)
 
@@ -139,19 +141,21 @@ may lose its storage applies to IndexedDB as it did to `localStorage` (the playe
 - **Unreadable slots** can be retried (重试读取), exported and deleted, never written.
 - **The explorer's position stays shared** by every slot (a UI preference, as before); a new or loaded save opens where the robot
   last stood.
-- The pre-slot `localStorage` keys are kept, not deleted.
+- The adopted pre-slot `localStorage` keys are deleted once a durable (IndexedDB) store has committed them, and kept by a
+  page-only store (user, 2026-10-24).
 
 ## Tests
 
-- `src/kernel/save-slots.test.mjs` (npm test): the index and creation order, legacy adoption (byte for byte, kept keys, once
-  only), create, switch, write and delete across reloads of the backend, the refusals of deleting the active or stored-active
-  slot, a refused write and a refused new slot on a full storage, unreadable marks, orphan documents. `persistence.test.mjs`:
-  the pre-slot reader and the problem report.
+- `src/kernel/save-slots.test.mjs` (npm test): the index and creation order, legacy adoption (byte for byte, once only, the
+  keys deleted after a durable adoption and kept by a page-only store or a refused adoption), create, switch, write and delete
+  across reloads of the backend, the refusals of deleting the active or stored-active slot, a refused write and a refused new
+  slot on a full storage, unreadable marks, orphan documents. `persistence.test.mjs`: the pre-slot reader, the deletion of only
+  the keys that still hold what was adopted, and the problem report.
 - `tools/verification/save-library.ts` (gate): adoption with no notice; 新存档 and 读取 rebuilding the game from the slot alone
   (the snapshot equals a fresh controller's of that save), the active slot after a reload, no switch in battle; an unreadable
   active slot, an unreadable 读取, an emptied save, an unreadable import, a refused new slot; import and delete; a 3000-monster slot
   written and opened again. `controller-snapshots.ts` checks the write timing and the dispatch budget on a slot; `golden-saves`
   opens the released saves through adoption.
 - `tools/verification/browser-save-slots.mjs` (needs-browser, Chrome and WebKit, fresh silent contexts): adoption of a seeded
-  pre-slot save as the active 存档 1 with its key kept; 新存档, 读取, a reload opening the slot loaded last, and 删除.
+  pre-slot save as the active 存档 1 with its key deleted; 新存档, 读取, a reload opening the slot loaded last, and 删除.
   The browser suites seed their saves through the pre-slot key, which the game adopts.

@@ -1,6 +1,7 @@
 // The one save of the versions before save slots, and the report of a failed save write.
 // Until 2026-10-24 the browser's local storage held the save under LEGACY_SAVE_KEY and kept each unreadable save beside it under
-// LEGACY_UNREADABLE_PREFIX. The slot store (save-slots.ts) adopts them once, as its first slots, and never writes or deletes them.
+// LEGACY_UNREADABLE_PREFIX. The slot store (save-slots.ts) adopts them once, as its first slots, and once they are stored for
+// good it deletes the keys (user, 2026-10-24).
 export const LEGACY_SAVE_KEY = 'seer-classic-save-v1';
 /** An unreadable save's key: this prefix, the time it was kept (milliseconds since 1970) and a counter. */
 export const LEGACY_UNREADABLE_PREFIX = `${LEGACY_SAVE_KEY}.unreadable.`;
@@ -17,6 +18,16 @@ export function readLegacySaves(): LegacySaves {
     return { save: localStorage.getItem(LEGACY_SAVE_KEY), unreadable };
   } catch {
     return { save: null, unreadable: [] };
+  }
+}
+
+/** Deletes the pre-slot keys that still hold what was adopted; a key changed since (by an older build in another tab) is kept. */
+export function forgetLegacySaves(adopted: LegacySaves) {
+  try {
+    if (adopted.save !== null && localStorage.getItem(LEGACY_SAVE_KEY) === adopted.save) localStorage.removeItem(LEGACY_SAVE_KEY);
+    for (const { key, text } of adopted.unreadable) if (localStorage.getItem(key) === text) localStorage.removeItem(key);
+  } catch {
+    // A blocked local storage keeps the keys; the slots hold their copies.
   }
 }
 

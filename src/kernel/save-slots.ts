@@ -1,7 +1,7 @@
 // The save slots: one record and one document (the save's text, in the save format of save.ts) per slot, and the active slot's
 // id, kept by a SlotBackend (IndexedDB in the browser, slot-backends.ts). The store moves text and never reads a save; the game
 // layer (save-library.ts) decides what a slot holds. Design: design/notes/save-slots-2026-10-24.md.
-import { LEGACY_UNREADABLE_PREFIX, readLegacySaves, saveWriteSettled, type LegacySaves } from './persistence.ts';
+import { forgetLegacySaves, LEGACY_UNREADABLE_PREFIX, readLegacySaves, saveWriteSettled, type LegacySaves } from './persistence.ts';
 
 /** What the slot list shows of a save without opening it; the game writes it with every save. */
 export interface SlotSummary { monsters: number; topLevel: number; owned: number; cleared: number }
@@ -28,6 +28,8 @@ export interface SlotChange {
 export interface StoredSlots { readonly records: readonly unknown[]; readonly active: unknown; readonly documents: readonly string[] }
 
 export interface SlotBackend {
+  /** Whether what it stores outlives the page: only then are the adopted pre-slot keys deleted. */
+  readonly durable: boolean;
   /** Applies `change` without reading first, all of it or none: the save writes. Rejects when the storage refuses it. */
   apply(change: SlotChange): Promise<void>;
   /**
@@ -106,12 +108,12 @@ function adoption(legacy: LegacySaves): SlotChange | null {
 }
 
 /**
- * Opening a store: an empty one adopts the pre-slot saves; a document without a readable record gets a record, so that no
- * stored save goes unlisted; an active id that names no slot falls back to the first slot.
+ * Opening a store: an empty one adopts the pre-slot saves that `legacy` reads; a document without a readable record gets a record,
+ * so that no stored save goes unlisted; an active id that names no slot falls back to the first slot.
  */
-function openingChange(stored: StoredSlots): SlotChange | null {
+function openingChange(stored: StoredSlots, legacy: () => LegacySaves): SlotChange | null {
   const records = stored.records.map(asRecord).filter(record => record !== null);
-  if (!records.length && !stored.documents.length) return adoption(readLegacySaves());
+  if (!records.length && !stored.documents.length) return adoption(legacy());
   const listed = new Set(records.map(record => record.id)), put: { record: SlotRecord }[] = [];
   for (const id of stored.documents.filter(id => !listed.has(id)).sort()) {
     put.push({ record: { ...newRecord(nextSlotName([...records, ...put.map(({ record }) => record)])), id } });
@@ -143,7 +145,10 @@ export interface SlotStore {
 /** Why `remove` refused a slot. */
 export const SLOT_IN_USE = '这个存档正在使用中，不能删除。';
 
-/** Opens the store on `backend`, adopting the pre-slot saves into an empty one. */
+/**
+ * Opens the store on `backend`, adopting the pre-slot saves into an empty one. Once a durable backend has committed them, their
+ * local-storage keys are deleted; a page-only store (no IndexedDB) keeps them.
+ */
 export async function openSlotStore(backend: SlotBackend): Promise<SlotStore> {
   const listeners = new Set<() => void>();
   let slots: readonly SlotRecord[] = [], active: string | null = null;
@@ -152,7 +157,10 @@ export async function openSlotStore(backend: SlotBackend): Promise<SlotStore> {
     active = nextActive;
     listeners.forEach(listener => listener());
   };
-  const stored = await backend.update(openingChange), records = stored.records.map(asRecord).filter(record => record !== null);
+  let adopted = null as LegacySaves | null;
+  const stored = await backend.update(now => openingChange(now, () => (adopted = readLegacySaves())));
+  if (adopted && backend.durable) forgetLegacySaves(adopted);
+  const records = stored.records.map(asRecord).filter(record => record !== null);
   show(records, typeof stored.active === 'string' && records.some(record => record.id === stored.active) ? stored.active : null);
   const find = (id: string) => {
     const record = slots.find(slot => slot.id === id);

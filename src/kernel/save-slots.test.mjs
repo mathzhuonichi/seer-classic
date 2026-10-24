@@ -56,20 +56,34 @@ test('a first start without a pre-slot save has no slot; each new slot is named 
   assert.equal(nextSlotName([{ name: '存档 7' }, { name: '我的存档' }]), '存档 8');
 });
 
-test('the pre-slot save is adopted unchanged as the active 存档 1, its unreadable saves after it, and local storage is left as it was', async () => {
+/** A memory backend that reports itself durable, as IndexedDB does. */
+const durableBackend = () => ({ ...memoryBackend(), durable: true });
+
+test('the pre-slot save is adopted unchanged as the active 存档 1, its unreadable saves after it, and then their keys are deleted', async () => {
   const kept = `${LEGACY_UNREADABLE_PREFIX}1760000000000-1`, save = '{"version":5,"seed":7}';
-  const memory = localStorageWith({ [LEGACY_SAVE_KEY]: save, [kept]: 'not json' }), before = [...memory];
-  const backend = memoryBackend(), store = await openSlotStore(backend), [adopted, unreadable] = store.slots();
+  const memory = localStorageWith({ [LEGACY_SAVE_KEY]: save, [kept]: 'not json', other: 'x' });
+  const backend = durableBackend(), store = await openSlotStore(backend), [adopted, unreadable] = store.slots();
   assert.equal(store.slots().length, 2);
   assert.deepEqual([adopted.name, adopted.unreadable, adopted.savedAt, store.activeId()], ['存档 1', null, null, adopted.id]);
   assert.equal(await store.read(adopted.id), save, 'the text is the pre-slot save, byte for byte');
   assert.deepEqual([unreadable.name, unreadable.unreadable, unreadable.savedAt], ['存档 2', LEGACY_UNREADABLE_REASON, new Date(1760000000000).toISOString()]);
   assert.equal(await store.read(unreadable.id), 'not json');
-  assert.deepEqual([...memory], before, 'the pre-slot keys are neither changed nor deleted');
+  assert.deepEqual([...memory], [['other', 'x']], 'the adopted keys are deleted, nothing else');
   memory.set(LEGACY_SAVE_KEY, '{"version":5,"seed":8}');
   const reopened = await openSlotStore(backend);
   assert.deepEqual(reopened.slots(), store.slots(), 'a store with slots adopts nothing again');
   assert.equal(reopened.activeId(), adopted.id);
+  assert.equal(memory.get(LEGACY_SAVE_KEY), '{"version":5,"seed":8}', 'and deletes nothing it did not adopt');
+});
+
+test('a page-only store (no IndexedDB) and a refused adoption keep the pre-slot keys', async () => {
+  const entries = { [LEGACY_SAVE_KEY]: '{"version":5,"seed":7}', [`${LEGACY_UNREADABLE_PREFIX}1760000000000-1`]: 'not json' };
+  const memory = localStorageWith(entries), before = [...memory];
+  const store = await openSlotStore(memoryBackend());
+  assert.equal(await store.read(store.activeId()), entries[LEGACY_SAVE_KEY]);
+  assert.deepEqual([...memory], before, 'the keys stay while the slots end with the page');
+  await assert.rejects(openSlotStore({ ...limitedBackend(3), durable: true }), { name: 'QuotaExceededError' });
+  assert.deepEqual([...memory], before, 'an adoption that storage refuses deletes nothing');
 });
 
 test('an emptied pre-slot save is adopted as a slot, not dropped', async () => {
