@@ -175,6 +175,21 @@ test('a move\'s blocked hits on one creature are one line: all of them stopped, 
   assert.deepEqual(apart.log, ['布布花抵挡了这次伤害。　布布花抵挡了这次伤害。'], 'outside a move each block stands alone');
 });
 
+test('a damaging move stopped before any of its damage reached its target shows −0 there with its block line, and nothing else does', () => {
+  const block = side => ({type: 'damage_blocked', side, rule: 'invulnerable_turns'});
+  const stopped = ({frames}) => frames.filter(frame => frame.stopped).map(({kind, side, text}) => [kind, side, text]);
+  const all = show([used(0, MULTI), block(1), block(1), block(1), {type: 'multi_hit', side: 0, hits: 3}]);
+  assert.deepEqual(stopped(all), [['message', 1, '布布花抵挡了这次伤害。']], 'one −0 for the three, on the line\'s frame');
+  assert.deepEqual(stopped(show([used(1, FOE_MOVE), {type: 'protected', side: 0}])), [['message', 0, '巴鲁斯抵挡了这次伤害。']], 'a protection too');
+  assert.deepEqual(stopped(show([used(0, RIDER), block(1), hurt(1, 40, 60, {kind: 'fixed', sourceSide: 0, skill: RIDER})])), [],
+    'a rider that got through has its own number');
+  assert.deepEqual(stopped(show([used(0, MULTI), hurt(1, 0, 100), block(1)])), [], 'a 0-damage hit already shows −0');
+  assert.deepEqual(stopped(show([used(0, SLEEP), {type: 'protected', side: 1}])), [], 'a status move shows no number, as in the original');
+  const counter = () => ({type: 'damage_blocked', side: 0, rule: 'immune_fixed_damage'});
+  assert.deepEqual(stopped(show([used(0, MULTI), hurt(1, 20, 80), counter()])), [], 'a stopped counter is no stopped move');
+  assert.deepEqual(stopped(show([{type: 'turn_end', turn: 1}, block(1)])), [], 'nor is a block outside a move');
+});
+
 test('a heal or a life between the hits starts a new number, so the number never runs past what the HP bar shows', () => {
   const {hits} = show([used(0, MULTI), hurt(1, 100, 0, {overkill: 20}),
     {type: 'revive', side: 1, slot: 0, name: '布布花', hp: 100, maxHp: 100, reason: 'lives', livesLeft: 0}, hurt(1, 30, 70),

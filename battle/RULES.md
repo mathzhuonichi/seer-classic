@@ -165,8 +165,10 @@ are sequential and can introduce further floors.
   reflection and the engine's damage-based effects use the actual HP loss.
   The battle screen shows a move's damage to one creature (every hit and every
   rider; on the user its recoil and the counters it draws) as one number that
-  counts up with each hurt and one line of the total. Status damage and other
-  damage after `turn_end` (section 8) show one number per event. The engine
+  counts up with each hurt and one line of the total. A damaging move that
+  blocks (`protected`, `damage_blocked`) stopped before any of its damage
+  reached its target shows −0 there with its one block line. Status damage and
+  other damage after `turn_end` (section 8) show one number per event. The engine
   still emits one `damage` event per hit (design/notes/damage-display-2026-10-23.md).
 
 ### 5.1 Damage kinds

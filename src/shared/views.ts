@@ -114,6 +114,8 @@ export interface BattlePresentationFrame {
    * showed that tally's number.
    */
   counter?: { id: number; amount: number; numberId?: number };
+  /** The block line of a damaging move that none of its damage got through to: it shows −0 on its target, as the original did. */
+  stopped?: boolean;
 }
 export interface BattleView {
   name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[];
