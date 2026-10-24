@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import {
-  HOST_FAILURES, PLAY_LATENCY_MS, RECYCLE_EFFECTS, SKILL_EFFECTS_WAIT_MS, SkillEffectSession, battleSkillIds, skillEffectTiming,
+  EFFECT_LOAD_ATTEMPTS, HOST_FAILURES, PLAY_LATENCY_MS, RECYCLE_EFFECTS, SKILL_EFFECTS_WAIT_MS, SkillEffectSession, battleSkillIds, skillEffectTiming,
 } from './skill-effect-session.ts';
 
 const FPS = 24, FRAME_MS = 1000 / FPS, LABEL_TIMED = 303;
@@ -12,12 +12,15 @@ const soon = promise => Promise.race([promise.then(() => true), new Promise(reso
 /** Lets every pending microtask run. */
 const flush = () => new Promise(resolve => setImmediate(resolve));
 
-/** A host that loads at once (or fails the keys in `failing`, or never answers those in `hanging`), and dies when it stops answering. */
+/**
+ * A host that loads at once, or fails the skills in `failing`, or never answers those in `hanging` (a key is the skill id, with
+ * `.<attempt>` when it is asked for again), and dies when it stops answering.
+ */
 function fakeHost(failing, hanging) {
   let nextId = 1;
   const deaths = [];
   const host = {
-    fps: FPS, alive: true, answering: true, suspended: false, parent: null, loads: [], plays: [], stops: [], destroyed: false,
+    fps: FPS, alive: true, answering: true, suspended: false, parent: null, loads: [], urls: [], plays: [], stops: [], destroyed: false,
     ping() {
       if (!host.answering) host.die('it stopped answering');
       return host.alive;
@@ -26,10 +29,12 @@ function fakeHost(failing, hanging) {
     moveTo: container => { host.parent = container; },
     suspend: () => { host.suspended = true; },
     resume: () => { host.suspended = false; },
-    load(key) {
+    load(key, url) {
       host.loads.push(key);
-      if (hanging.has(Number(key))) return new Promise(() => {});
-      return failing.has(Number(key)) ? Promise.reject(new Error(`no ${key}`)) : Promise.resolve();
+      host.urls.push(url);
+      const skillId = Number.parseInt(key, 10);
+      if (hanging.has(skillId)) return new Promise(() => {});
+      return failing.has(skillId) ? Promise.reject(new Error(`no ${key}`)) : Promise.resolve();
     },
     play(key, at, still) {
       if (!host.alive) return null;
@@ -66,7 +71,7 @@ function harness({effects = {11006: [23, 'a', 1], 20001: [22, 'b', 1], 10022: [3
       return host;
     },
     park: () => park,
-    url: (path, skillId, version) => `${path.replace('<skillId>', skillId)}?v=${version}`,
+    url: (path, skillId, version, attempt) => `${path.replace('<skillId>', skillId)}?v=${version}&attempt=${attempt}`,
     hidden: () => state.hidden,
     onHidden(listener) {
       hiddenListeners.add(listener);
@@ -266,7 +271,51 @@ test('a load that never answers holds only one loading screen; the other effects
   session.stage({});
   assert.ok(session.timing(11006, 1));
   assert.equal(session.timing(10022, 1), undefined);
-  assert.deepEqual(hosts[0].loads, ['11006', '10022'], 'asked for once');
+  assert.deepEqual(hosts[0].loads, ['11006', '10022', '10022.2'], 'asked for once more, under a key of its own');
+  expire();
+  await flush();
+  for (let n = 0; n < 3; n++) session.timing(10022, 1);
+  await session.prepare([11006, 10022]);
+  assert.equal(hosts[0].loads.length, 1 + EFFECT_LOAD_ATTEMPTS, `at most ${EFFECT_LOAD_ATTEMPTS} times`);
+});
+
+test('an effect whose load stalled plays from its next use once the stall clears; no move or loading screen waits for it', async () => {
+  const hanging = new Set([11006]), {session, hosts, expire} = harness({hanging});
+  const first = session.prepare([11006, 20001]);
+  await flush();
+  const stage = session.stage({}), missed = [];
+  assert.equal(session.timing(11006, 1), undefined);
+  assert.deepEqual(hosts[0].loads, ['11006', '20001'], 'not asked for again while loading screens still wait for it');
+  expire();
+  await first;
+  await flush();
+  hanging.delete(11006);
+  assert.equal(session.timing(11006, 1), undefined, 'the use that finds it stale asks for it again, without waiting');
+  await flush();
+  assert.ok(session.timing(11006, 1), 'and its next use plays');
+  stage.play(11006, at, false, () => missed.push(11006));
+  assert.deepEqual([hosts[0].loads, hosts[0].plays, missed], [['11006', '20001', '11006.2'], [{key: '11006.2', still: 0}], []]);
+  assert.deepEqual([hosts[0].urls[0], hosts[0].urls[2]], ['/fx/11006.swf?v=a&attempt=1', '/fx/11006.swf?v=a&attempt=2'], 'under a URL of its own');
+  stage.dispose();
+  assert.equal(await soon(session.prepare([11006, 20001])), true);
+  assert.equal(hosts[0].loads.length, 3, 'a loaded effect is not asked for again');
+});
+
+test('a load that failed is asked for once more by the effect\'s next request, then no more', async () => {
+  const failing = new Set([10022]), {session, hosts} = harness({failing});
+  await session.prepare([11006, 10022]);
+  await flush();
+  const stage = session.stage({});
+  stage.prepare([10022]);
+  await flush();
+  assert.equal(session.timing(10022, 1), undefined);
+  stage.prepare([10022]);
+  await flush();
+  assert.deepEqual(hosts[0].loads, ['11006', '10022', '10022.2'], 'a broken SWF is not asked for in a loop');
+  failing.delete(10022);
+  stage.prepare([10022]);
+  assert.equal(session.timing(10022, 1), undefined, 'nor once it would load: that host has given it up');
+  stage.dispose();
 });
 
 test('a loading screen waits for the opening creatures\' effects only; the others load behind the battle', async () => {

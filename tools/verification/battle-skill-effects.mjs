@@ -4,8 +4,9 @@
  * 缩头 (20001) lets 皮皮 move until it has used a damaging move (撞击 or 电光火石), whose effect is cast from the right and must be
  * mirrored onto 丽莎布布; then 叶绿光束 (11006) beams from 丽莎布布 to 皮皮 and tints the whole arena, under the HUD. A second
  * battle follows on the same page. Status `needs-browser`: Chrome at 1280x800@1 and 1920x1080@2 and Playwright WebKit at
- * 1280x800@1 (when installed); Chrome also under reduced motion, without Ruffle, leaving the first loading screen early and
- * with a request for Ruffle's WebAssembly that never answers; Chrome and WebKit also losing the host's WebGL context.
+ * 1280x800@1 (when installed); Chrome also under reduced motion, without Ruffle, leaving the first loading screen early,
+ * with a request for Ruffle's WebAssembly that never answers and with a first request for 叶绿光束's SWF that never answers;
+ * Chrome and WebKit also losing the host's WebGL context.
  * Screenshots of each effect are written to artifacts/battle-skill-effects/ for review.
  *
  * The host: nothing of Ruffle exists before the first battle; its one instance starts while the first loading screen shows,
@@ -222,7 +223,7 @@ async function playTurn(page, skill, label) {
 }
 
 /** Opens the game in `run`'s viewport and density, with the host watched. */
-async function openPage(browser, fixture, {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false, hangWasm = false}) {
+async function openPage(browser, fixture, {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false, hangWasm = false, hangEffect = null}) {
   const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.save, viewport});
   const {context, page} = session;
   const resize = async size => {
@@ -234,6 +235,13 @@ async function openPage(browser, fixture, {engine, viewport, scale, reducedMotio
   // Requests held without an answer until the page closes.
   const held = [];
   if (hangWasm) await page.route('**/*.wasm', route => { held.push(route); });
+  // The requests for one effect's SWF: the first is held, the others are served.
+  const effectRequests = [];
+  if (hangEffect) await page.route(url => url.pathname.endsWith(`/${hangEffect}.swf`), route => {
+    effectRequests.push(route.request().url());
+    if (effectRequests.length === 1) held.push(route);
+    else void route.fallback();
+  });
   const warnings = [];
   page.on('console', message => { if (message.type() === 'warning') warnings.push(message.text()); });
   await page.addInitScript(keepDrawingBuffers);
@@ -245,7 +253,7 @@ async function openPage(browser, fixture, {engine, viewport, scale, reducedMotio
     for (const route of held) await route.abort().catch(() => {});
     await session.context.close();
   };
-  return {...session, warnings, resize, close};
+  return {...session, warnings, effectRequests, resize, close};
 }
 
 /** Nothing of Ruffle on the page: no player, no script, no global. */
@@ -440,6 +448,22 @@ async function hungWasmRun(browser, fixture, run) {
   }
 }
 
+/**
+ * 叶绿光束's first SWF request never answers: the first loading screen waits at most its limit, the effect is asked for once more
+ * under a URL of its own, and it plays in the next battle, whose loading screen does not wait for it.
+ */
+async function hungEffectRun(browser, fixture, run) {
+  const session = await openPage(browser, fixture, {...run, hangEffect: BEAM.id}), {page} = session;
+  try {
+    const first = await enterBattle(page), {turns} = await fight(page, 'chrome-hung-effect');
+    const second = await enterBattle(page), {samples} = await playTurn(page, BEAM, 'chrome-hung-effect-battle2');
+    return {first, second, turns, samples, requests: [...session.effectRequests], errors: [...session.errors],
+      warnings: session.warnings.filter(text => text.includes('Original skill effects'))};
+  } finally {
+    await session.close();
+  }
+}
+
 /** Leaving the first loading screen before its art is in starts nothing of Ruffle. */
 async function leaveEarlyRun(browser, fixture, run) {
   const session = await openPage(browser, fixture, run), {page} = session;
@@ -518,6 +542,17 @@ for (const engine of new Set(RUNS.map(run => run.engine))) {
       assert(result.first.afterArtMs <= EFFECTS_WAIT_MS + WAIT_SLACK_MS, `the first loading screen waited ${result.first.afterArtMs} ms after its art`);
       checkEntryWait(result.second, 'the next loading screen');
       assert(result.samples.every(s => s.drawn === 0), `${GUARD.name} drew an effect without a host`);
+      assert.equal(result.warnings.length, 1, result.warnings.join('\n'));
+    });
+    await t.checkAsync(`chrome: a first request for ${BEAM.name}'s SWF that never answers holds one loading screen; the effect plays from a later use`, async () => {
+      const result = await hungEffectRun(browser, fixture, base);
+      write('chrome-hung-effect', result);
+      assert.deepEqual(result.errors, []);
+      assert(result.first.afterArtMs <= EFFECTS_WAIT_MS + WAIT_SLACK_MS, `the first loading screen waited ${result.first.afterArtMs} ms after its art`);
+      checkEntryWait(result.second, 'the next loading screen');
+      assert.equal(result.requests.length, 2, `asked for ${result.requests.length} times: ${result.requests.join(' ')}`);
+      assert(new URL(result.requests[1]).searchParams.get('attempt') === '2', `the second request ${result.requests[1]} has no URL of its own`);
+      assert(result.samples.some(s => s.drawn > TINT_SHARE), `${BEAM.name} did not play in the next battle`);
       assert.equal(result.warnings.length, 1, result.warnings.join('\n'));
     });
   });

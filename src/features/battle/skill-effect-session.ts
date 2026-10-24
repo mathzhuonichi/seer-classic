@@ -25,7 +25,8 @@ export interface SessionDeps {
   start(): Promise<SkillEffectHost>;
   /** The hidden 1x1 px place where the host waits between battles. */
   park(): HTMLElement;
-  url(path: string, skillId: number, version: string): string;
+  /** An effect's SWF URL; an `attempt` after the first has a URL of its own, so that no browser cache holds it behind the one it replaces. */
+  url(path: string, skillId: number, version: string, attempt: number): string;
   hidden(): boolean;
   /** Calls `listener` whenever the page is hidden; returns the function that stops it. */
   onHidden(listener: () => void): () => void;
@@ -56,6 +57,11 @@ export interface SkillEffectStage {
 export const RECYCLE_EFFECTS = 64;
 /** Hosts that may fail to start or die on one page; after that, the page plays no effects. */
 export const HOST_FAILURES = 2;
+/**
+ * Times one host is asked for one effect. A load that failed, or was neither in nor failed SKILL_EFFECTS_WAIT_MS after it was asked
+ * for, is asked for once more on the effect's next request; a broken or unanswered SWF then stays missing on that host.
+ */
+export const EFFECT_LOAD_ATTEMPTS = 2;
 /**
  * The longest a loading screen waits for its battle's effects (on a first run, Ruffle's start), and the longest any loading
  * screen waits for one start or load: the battle then opens without them, and takes them when they come.
@@ -89,16 +95,18 @@ export function battleSkillIds(battle: Pick<BattleView, 'player' | 'enemy' | 'pa
 }
 
 /**
- * A start or a load: `done` settles with its outcome (it never rejects); `waited` settles with true when it was done in time,
- * or with false SKILL_EFFECTS_WAIT_MS after it began. Loading screens wait for `waited`, so none waits again for work that
- * already held an earlier one to its limit, such as a request that never answers.
+ * A start or a load: `done` settles with its outcome (it never rejects); `waited` settles with true when it was done in time or
+ * is not waited for (an effect asked for again), or with false SKILL_EFFECTS_WAIT_MS after it began. Loading screens wait for
+ * `waited`, so none waits again for work that already held an earlier one to its limit, such as a request that never answers.
  */
 interface Work<T> { done: Promise<T>; waited: Promise<boolean> }
 const settled = <T>(value: T): Work<T> => ({ done: Promise.resolve(value), waited: Promise.resolve(true) });
 const NO_LOAD = settled(false);
 
-/** A started host and the effects asked of it. */
-interface Started { host: SkillEffectHost; loads: Map<number, Work<boolean>>; loaded: Set<number> }
+/** One effect asked of a host: its latest load, how many times it was asked for, and whether that load failed or went stale. */
+interface EffectLoad { work: Work<boolean>; attempts: number; missed: boolean }
+/** A started host, the effects asked of it, and the host key each loaded effect plays under. */
+interface Started { host: SkillEffectHost; loads: Map<number, EffectLoad>; loaded: Map<number, string> }
 
 /**
  * The page's host and the battle screens that borrow it. A loading screen (prepare) starts the host, or replaces one that died
@@ -144,7 +152,7 @@ export class SkillEffectSession {
   timing(skillId: number | undefined, species: number): SkillEffectTiming | undefined {
     const held = this.#owner && this.#current, data = this.#data, row = skillId === undefined ? undefined : data?.effects[skillId];
     if (!held || !data || !row || this.#deps.hidden()) return undefined;
-    // An effect that is not in yet plays from its next use on.
+    // An effect that is not in yet is asked for (again, after a load that failed or went stale) and plays from a later use.
     if (!held.loaded.has(skillId!)) {
       void this.#load(held, skillId!);
       return undefined;
@@ -181,8 +189,8 @@ export class SkillEffectSession {
         if (host) for (const skillId of skillIds) void this.#load(host, skillId);
       },
       play: (skillId, at, still, missing) => {
-        const host = holds(), row = this.#data?.effects[skillId], ready = host && row && host.loaded.has(skillId) && !this.#deps.hidden();
-        const id = ready ? host.host.play(String(skillId), at, still ? Math.ceil(row[0] / 2) : 0) : null;
+        const host = holds(), row = this.#data?.effects[skillId], key = host?.loaded.get(skillId);
+        const id = host && row && key && !this.#deps.hidden() ? host.host.play(key, at, still ? Math.ceil(row[0] / 2) : 0) : null;
         if (id === null) {
           missing();
           return () => {};
@@ -221,21 +229,30 @@ export class SkillEffectSession {
     return Promise.all(first.map(skillId => this.#load(started, skillId).waited)).then(inTime => inTime.every(Boolean));
   }
 
+  /**
+   * The effect's load on `started`: the one asked for already, or a new one in place of one that failed or went stale, up to
+   * EFFECT_LOAD_ATTEMPTS. The host takes each key once, so a new load has a key of its own; no loading screen waits for it.
+   */
   #load(started: Started, skillId: number): Work<boolean> {
-    const data = this.#data, row = data?.effects[skillId];
+    const data = this.#data, row = data?.effects[skillId], last = started.loads.get(skillId);
     if (!data || !row) return NO_LOAD;
-    let loading = started.loads.get(skillId);
-    if (!loading) {
-      loading = this.#work(started.host.load(String(skillId), this.#deps.url(data.path, skillId, row[1])).then(() => {
-        started.loaded.add(skillId);
-        return true;
-      }, error => {
-        if (started.host.alive) this.#deps.report(`skill ${skillId}`, error);
-        return false;
-      }));
-      started.loads.set(skillId, loading);
-    }
-    return loading;
+    if (last && (!last.missed || last.attempts >= EFFECT_LOAD_ATTEMPTS || started.loaded.has(skillId))) return last.work;
+    const attempts = (last?.attempts ?? 0) + 1, key = attempts > 1 ? `${skillId}.${attempts}` : String(skillId);
+    const load: EffectLoad = { work: NO_LOAD, attempts, missed: false };
+    const work = this.#work(started.host.load(key, this.#deps.url(data.path, skillId, row[1], attempts)).then(() => {
+      if (!started.loaded.has(skillId)) started.loaded.set(skillId, key);
+      return true;
+    }, error => {
+      if (started.host.alive) this.#deps.report(`skill ${skillId}`, error);
+      return false;
+    }));
+    // A load that failed, or is still out when loading screens stop waiting for it, may be asked for again.
+    const miss = (ok: boolean) => { if (!ok) load.missed = true; };
+    void work.done.then(miss);
+    void work.waited.then(miss);
+    load.work = last ? { done: work.done, waited: Promise.resolve(true) } : work;
+    started.loads.set(skillId, load);
+    return load.work;
   }
 
   /** Work that loading screens wait for at most SKILL_EFFECTS_WAIT_MS after it began, or not at all (`waited` false). */
@@ -266,7 +283,7 @@ export class SkillEffectSession {
         this.#deps.report('the effect host', new Error(reason));
         this.#owner?.died();
       });
-      return this.#current = { host, loads: new Map(), loaded: new Set() };
+      return this.#current = { host, loads: new Map(), loaded: new Map() };
     } catch (error) {
       this.#failures++;
       this.#deps.report('Ruffle', error);
