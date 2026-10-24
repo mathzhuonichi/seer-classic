@@ -223,7 +223,8 @@ async function playTurn(page, skill, label) {
 }
 
 /** Opens the game in `run`'s viewport and density, with the host watched. */
-async function openPage(browser, fixture, {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false, hangWasm = false, hangEffect = null}) {
+async function openPage(browser, fixture,
+  {engine, viewport, scale, reducedMotion = 'no-preference', blockRuffle = false, hangWasm = false, hangEffect = null}) {
   const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.save, viewport});
   const {context, page} = session;
   const resize = async size => {
@@ -544,7 +545,7 @@ for (const engine of new Set(RUNS.map(run => run.engine))) {
       assert(result.samples.every(s => s.drawn === 0), `${GUARD.name} drew an effect without a host`);
       assert.equal(result.warnings.length, 1, result.warnings.join('\n'));
     });
-    await t.checkAsync(`chrome: a first request for ${BEAM.name}'s SWF that never answers holds one loading screen; the effect plays from a later use`, async () => {
+    await t.checkAsync(`chrome: a hung first request for ${BEAM.name}'s SWF holds one loading screen; the effect plays from a later use`, async () => {
       const result = await hungEffectRun(browser, fixture, base);
       write('chrome-hung-effect', result);
       assert.deepEqual(result.errors, []);
