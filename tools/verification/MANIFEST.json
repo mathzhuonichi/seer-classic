@@ -5,7 +5,7 @@
     "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check.",
-    "release": "Checks the desktop package's inputs, dist-desktop/ and the staged payload (npm run build:desktop, npm run stage:desktop); npm run package runs it before building.",
+    "release": "Checks a package before it ships: the desktop package's inputs, dist-desktop/ and the staged payload (npm run build:desktop, npm run stage:desktop; npm run package runs it before building), or the browser package's ZIP (after npm run package:browser).",
     "needs-rust": "Needs the Rust toolchain (cargo): the desktop shell's own tests."
   },
   "suites": {
@@ -118,6 +118,9 @@
     },
     "breeding-controller.mjs": {
       "status": "gate"
+    },
+    "browser-package.mjs": {
+      "status": "release"
     },
     "browser-regressions.mjs": {
       "status": "needs-browser"

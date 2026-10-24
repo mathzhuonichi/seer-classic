@@ -16,6 +16,8 @@ critic produced a merged plan; the coordinator then fixed these points:
 - Windows ships as a portable ZIP. Nothing in this run cross-compiles Windows: that needs `brew install llvm`, which waits for
   the user's approval.
 - Version, minimum macOS version and architecture (arm64) stay as they are until the user answers; the in-game modifier stays.
+  The user then chose version 0.9.0 and macOS 13.3 (with the browser package); the DMG
+  measured below was built before that and still says 0.3.2 and 12.0.
 
 Before this work, `npm run package` would have tried to compile all of `public/` (2.8 GiB) into the executable: Vite copies
 `public/` into the build, and Tauri embeds every file of `frontendDist` (brotli, then `include_bytes!`). The desktop study
@@ -144,15 +146,16 @@ entry point sets.
 ### Identity and notices
 
 - `tauri.conf.json` reads its version from package.json. The `desktop-identity` gate keeps Cargo.toml, Cargo.lock and
-  package-lock.json equal to it, and keeps the identifier, Tauri's own protocol and `useHttpsScheme` off. Versions are unchanged
-  (0.3.2) until the coordinator sets them.
-- `tools/distribution/third-party-notices.mjs` writes THIRD-PARTY-NOTICES.txt (512 KiB) from what ships: the 18 npm packages
+  package-lock.json equal to it, keeps the identifier, Tauri's own protocol and `useHttpsScheme` off, and keeps the minimum
+  macOS version at 13.3. The version is 0.9.0.
+- `tools/distribution/third-party-notices.mjs` writes THIRD-PARTY-NOTICES.txt (998 KiB) from what ships: the 18 npm packages
   whose modules Rolldown bundles into the desktop build (an in-memory build with the project's configuration, not `npm ls`:
   `@seer-pet-anim/swf-bundle`'s AGPL dependency `@arkntools/unity-js` is not among them), Ruffle with its LICENSE_MIT and
-  LICENSE_APACHE, and the 239 Rust crates the executable links for the target (`cargo metadata --filter-platform`, normal
-  dependencies). Each license text is printed once with the packages it covers; a package without a license file gets the MIT
-  text with its authors, or the same license's text from another package of the set (15 crates, `@pixi/colord`). Vite's
-  `LICENSE.md` is cut before its own bundled dependencies, which never reach the game.
+  LICENSE_APACHE and the crates and npm packages inside it (`tools/distribution/ruffle-licenses.json`), and the 239 Rust crates
+  the executable links for the target (`cargo metadata --filter-platform`, normal dependencies). Each license text is printed
+  once with the packages it covers; a package without a license file gets the MIT text with its authors, or the same license's
+  text from another package of the set (15 crates, `@pixi/colord`). Vite's `LICENSE.md` is cut before its own bundled
+  dependencies, which never reach the game.
 - The asset notice (`src/app/asset-notice.txt`: unofficial fan remake, original art, sound and SWFs © 上海淘米网络科技有限公司,
   not for sale) heads THIRD-PARTY-NOTICES.txt, is in the player README and shows in settings under 关于 with the version.
   关于 also shows the license texts, which the packaged game serves from its payload.
@@ -296,15 +299,14 @@ save.json 是当前存档，backup-1.json 到 backup-3.json 是较早的备份�
   tauri-plugin-single-instance 2.5.4 then starts normally, so a second launch here ran beside the first. Check by hand outside
   the sandbox, and on Windows. Two instances no longer share a temporary file, but each would still write its own journey to
   save.json.
-- **Ruffle's crates are not in the notices.** Ruffle's WASM embeds about 100 Rust crates (symphonia-* 0.5.5 under MPL-2.0, naga,
-  encoding_rs, chardetng, fluent-*, lzma-rs, image, png, gif, tiff, rustfft, chrono and more); THIRD-PARTY-NOTICES.txt names only
-  `@ruffle-rs/ruffle` with its own MIT and Apache texts, as the npm package does. Before distribution, add a Ruffle section from
-  Ruffle 0.7.1's Cargo.lock (for example with cargo-about) with the license texts and, for the MPL crates, a link to their source.
+- ~~Ruffle's crates are not in the notices.~~ Done with the browser package: the notices now list the 255 Rust crates of Ruffle's
+  WebAssembly and the 5 npm packages of its ruffle.js with their texts (`tools/distribution/ruffle-licenses.json`, written by
+  `ruffle_licenses.mjs`; the MPL-2.0 symphonia crates with their repository), and the desktop notices grew to 998 KiB.
 - A save still inside the page (its message not yet received by the shell) is lost at a reload or a quit in the same
   milliseconds. The desktop build blocks reloads, and a player quits long after the last action.
 - Gatekeeper's first check of a quarantined, downloaded DMG on another Mac was not timed.
-- The minimum macOS version stays 12.0, but the build targets Safari 16.4 and the battle loader needs DecompressionStream
-  (Safari 16.4): the critic recommends 13.3. The icon is still the upscaled official favicon. Both wait for the user.
+- The minimum macOS version is 13.3 (Safari 16.4, whose DecompressionStream the battle loader needs), as the critic
+  recommended. The icon is still the upscaled official favicon; it waits for the user.
 - WebKit pauses animation frames while the window cannot be seen, so a battle's loading screen waits while the game is hidden,
   as in a background browser tab; it goes on when the window shows again.
 - A catalog-id stability check against the previous release (gate item 5 of the merged plan) is not built; `golden-saves` covers

@@ -20,7 +20,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
-import {BOOT_TIMEOUT_MS, buildApp, openGame, talkToCreature, wait, waitWorld, withBrowser} from './_browser.mjs';
+import {BOOT_TIMEOUT_MS, buildApp, keepDrawingBuffers, openGame, talkToCreature, wait, waitWorld, withBrowser} from './_browser.mjs';
 
 const NAME = 'battle-skill-effects';
 const OUT = path.join(root, 'artifacts', NAME);
@@ -81,14 +81,6 @@ async function fixtures() {
     });
     return {silent, save};
   });
-}
-
-/** Init script: keep every WebGL drawing buffer so the drawn frames can be read back. */
-function keepDrawingBuffers() {
-  const getContext = HTMLCanvasElement.prototype.getContext;
-  HTMLCanvasElement.prototype.getContext = function (type, attributes) {
-    return getContext.call(this, type, /webgl/.test(type) ? {...attributes, preserveDrawingBuffer: true} : attributes);
-  };
 }
 
 /**
