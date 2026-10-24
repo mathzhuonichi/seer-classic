@@ -5,8 +5,6 @@ import {EMPTY_BOUNDS, frameMeshBounds, unionBounds, type AnimationBounds} from '
 type Mesh = Pick<SwfClipData['sequences'][number]['frames'][number]['mesh'], 'positions' | 'uvs' | 'indices' | 'mulColors'>;
 type Clip = Pick<SwfClipData, 'sequences'>;
 export interface Point {x: number; y: number}
-/** The frame label of a clip's hit marker. */
-const HIT_LABEL = 'action_hit';
 /**
  * The creature's own parts lie within this many standby sizes of the middle of its parts in a frame; farther ones are parts it
  * throws, such as a held orb flung at the opponent.
@@ -154,12 +152,13 @@ function redrawn(from: Piece[], to: Piece[]): Point {
   return {x: Math.abs(b.x - a.x), y: Math.abs(b.y - a.y)};
 }
 /**
- * Each sequence's path, by sequence name; `home` is the standby extent, whose size scales BODY_REACH. A frame's body is its
+ * Each sequence's path, by sequence name; `home` is the standby extent, whose size scales BODY_REACH, and `hitFrames` each
+ * sequence's hit frame by name (battleAnimationHitFrames; a sequence it lacks has none). A frame's body is its
  * own pieces (all it draws when it draws none, as a move that redraws the whole creature does). The creature's motion is
  * how the pieces of its regions moved, copies included, as they all show it; else how any piece both frames draw moved;
  * else, for a creature redrawn frame by frame, how its largest piece moved, and no limit when the drawings do not overlap.
  */
-export function sequencePaths(clip: Clip, home: AnimationBounds): Map<string, SequencePath> {
+export function sequencePaths(clip: Clip, home: AnimationBounds, hitFrames: ReadonlyMap<string, number>): Map<string, SequencePath> {
   const reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY), regions = creatureRegions(clip);
   return new Map(clip.sequences.filter(s => s.frames.length).map(s => {
     let before = new Map<string, Piece[]>();
@@ -171,7 +170,7 @@ export function sequencePaths(clip: Clip, home: AnimationBounds): Map<string, Se
     });
     const motions = drawn.map((pieces, i) => !i ? STILL : !pieces.length || !drawn[i - 1].length ? FREE
       : shift(creature[i - 1], creature[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
-    return [s.name, {bodies, motions, extents: s.frames.map(frameMeshBounds), hitFrame: s.frames.findIndex(frame => frame.labels.includes(HIT_LABEL))}];
+    return [s.name, {bodies, motions, extents: s.frames.map(frameMeshBounds), hitFrame: hitFrames.get(s.name) ?? -1}];
   }));
 }
 

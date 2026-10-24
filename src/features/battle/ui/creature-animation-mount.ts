@@ -1,7 +1,9 @@
 // Imperative lifecycle of one combatant's original clip: WebGL renderer, player, clock and context loss.
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 import type {Container, WebGLRenderer} from 'pixi.js';
-import {originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation} from '../battle-animation.ts';
+import {
+  battleAnimationHitFrames, originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation,
+} from '../battle-animation.ts';
 import {battleRuntimeClock} from '../battle-runtime-clock.ts';
 import {
   canvasMargins, fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds, type CanvasMargins,
@@ -328,7 +330,7 @@ class CreatureAnimationMount implements CreatureAnimation {
     const onDrawError = () => this.lost(new Event('webglcontextlost', {cancelable: true}));
     const driver = this.ownedDriver = this.deps.clock.attach(player, onDrawError, clipAtlasBytes(prepared.clip));
     const home = standbyMeshBounds(prepared.clip), bounds = registrationBounds(player, host, home);
-    this.paths = sequencePaths(prepared.clip, home);
+    this.paths = sequencePaths(prepared.clip, home, battleAnimationHitFrames(this.options.species));
     const layout = this.layout = () => {
       if (!this.live || this.contextLost) return;
       const {room, mirrored = false, extent} = this.options, path = this.sequence === undefined ? undefined : this.paths.get(this.sequence);

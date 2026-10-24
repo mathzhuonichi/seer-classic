@@ -2046,7 +2046,7 @@
         {
           "name": "cp",
           "frames": 75,
-          "hitFrame": -1
+          "hitFrame": 38
         },
         {
           "name": "hited",
@@ -56046,7 +56046,7 @@
         {
           "name": "attack",
           "frames": 45,
-          "hitFrame": -1
+          "hitFrame": 21
         },
         {
           "name": "sa",

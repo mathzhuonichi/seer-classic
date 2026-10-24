@@ -60,6 +60,14 @@ export function battleAnimationTiming(species:number,kind:string):MoveTiming|nul
   return{durationMs:sequence.frames/entry.frameRate*1000,hitMs:sequence.hitFrame>=0?sequence.hitFrame/entry.frameRate*1000:null};
 }
 
+/**
+ * Each sequence's hit frame (-1: none) by name: the clip's hit marker, or the original combat SWF's where the clip export lost
+ * it (tools/assets/original-clip-hits.json). The one source of the marker for the timing above and for a move's travel.
+ */
+export function battleAnimationHitFrames(species:number):ReadonlyMap<string,number>{
+  return new Map(entries[species]?.sequences.map(sequence=>[sequence.name,sequence.hitFrame])??[]);
+}
+
 /** Decode the atlas again from its compressed bytes after a large atlas gave up its CPU pixels. */
 async function ensureBitmap(asset:Asset){
   if(asset.clip.atlas.width)return;

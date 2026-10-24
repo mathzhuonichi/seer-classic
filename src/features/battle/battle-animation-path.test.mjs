@@ -15,7 +15,7 @@ const path = (bodies, hitFrame = -1) => ({bodies, motions: bodies.map(() => FREE
  * A frame of axis-aligned quads, each [region, minX, maxX, minY, maxY, alpha = 1], as two triangles. Each region letter
  * draws its own atlas rect, so copies of a letter are copies of one sprite.
  */
-function frame(quads, labels = []) {
+function frame(quads) {
   const positions = [], uvs = [], indices = [], mulColors = [];
   quads.forEach(([region, minX, maxX, minY, maxY, alpha = 1], q) => {
     const u = (region.charCodeAt(0) - 65) / 32;
@@ -24,18 +24,20 @@ function frame(quads, labels = []) {
     indices.push(q * 4, q * 4 + 1, q * 4 + 2, q * 4, q * 4 + 2, q * 4 + 3);
     for (let v = 0; v < 4; v++) mulColors.push(1, 1, 1, alpha);
   });
-  return {labels, mesh: {positions, uvs, indices, mulColors}};
+  return {mesh: {positions, uvs, indices, mulColors}};
 }
 /** The creature at home: a body A and a head B. */
 const STANDING = [['A', -1, 1, -1, 0], ['B', -.5, .5, 0, 1]];
 const moved = (quads, dx, dy) => quads.map(([region, minX, maxX, minY, maxY, alpha]) => [region, minX + dx, maxX + dx, minY + dy, maxY + dy, alpha]);
 const clip = (...moves) => ({sequences: [{name: 'standby', frames: [frame(STANDING)]}, ...moves]});
+/** Hit frames by sequence: none. */
+const NO_HITS = new Map();
 
-test('a sequence path holds each frame body, how far the creature moved into it, and the frame its hit label marks', () => {
+test('a sequence path holds each frame body, how far the creature moved into it, and the hit frame it is given', () => {
   const paths = sequencePaths(clip(
-    {name: 'attack', frames: [frame(STANDING), frame(moved(STANDING, 3, 2), ['action_hit']), frame([]), frame(STANDING)]},
+    {name: 'attack', frames: [frame(STANDING), frame(moved(STANDING, 3, 2)), frame([]), frame(STANDING)]},
     {name: 'cp', frames: []},
-  ), HOME);
+  ), HOME, new Map([['attack', 1], ['cp', 0]]));
   assert.deepEqual([...paths.keys()], ['standby', 'attack']);
   const bodies = [HOME, box(2, 4, 1, 3), EMPTY_BOUNDS, HOME];
   assert.deepEqual(paths.get('attack'), {bodies, motions: [STILL, {x: 3, y: 2}, FREE, FREE], extents: bodies, hitFrame: 1},
@@ -45,7 +47,7 @@ test('a sequence path holds each frame body, how far the creature moved into it,
 test('an effect, a sprite the standby never draws, is not the body even where it touches the creature, but the canvas holds it', () => {
   // 鲁斯王's special attack: a beam reaching from the creature down and ahead, within BODY_REACH, flickers on and off.
   const beam = ['E', 0, 2.5, -2.5, 0];
-  const attack = sequencePaths(clip({name: 'sa', frames: [frame(STANDING), frame([...STANDING, beam]), frame(STANDING)]}), HOME).get('sa');
+  const attack = sequencePaths(clip({name: 'sa', frames: [frame(STANDING), frame([...STANDING, beam]), frame(STANDING)]}), HOME, NO_HITS).get('sa');
   assert.deepEqual(attack.bodies, [HOME, HOME, HOME]);
   assert.deepEqual(attack.extents[1], box(-1, 2.5, -2.5, 1));
   assert.deepEqual(attack.motions[1], STILL, 'the creature did not move');
@@ -56,7 +58,7 @@ test('an effect, a sprite the standby never draws, is not the body even where it
 test('copies of a part beyond what the standby draws are afterimages and clones: the creature is the copy that carries on', () => {
   // The creature stays while a translucent clone of it dashes ahead.
   const frames = [0, 2, 4].map(dx => frame([...STANDING, ...moved(STANDING, dx, 0).map(quad => [...quad.slice(0, 5), .5])]));
-  const {bodies, motions} = sequencePaths(clip({name: 'attack', frames}), HOME).get('attack');
+  const {bodies, motions} = sequencePaths(clip({name: 'attack', frames}), HOME, NO_HITS).get('attack');
   assert.deepEqual(bodies, [HOME, HOME, HOME]);
   assert.deepEqual(motions.slice(1), [STILL, STILL], 'paired with its nearest copy, every piece but the clone stayed');
 });
@@ -64,19 +66,19 @@ test('copies of a part beyond what the standby draws are afterimages and clones:
 test('a move that redraws the whole creature takes all it draws as the body, within reach of its middle', () => {
   // New sprites C (the creature, large) and a small spark D far away: neither is a standby sprite.
   const frames = [frame(STANDING), frame([['C', -1, 1, -1, 1], ['D', 6, 6.5, 0, .5]]), frame([['C', 0, 2, -1, 1], ['D', 6, 6.5, 0, .5]])];
-  const {bodies, motions} = sequencePaths(clip({name: 'attack', frames}), HOME).get('attack');
+  const {bodies, motions} = sequencePaths(clip({name: 'attack', frames}), HOME, NO_HITS).get('attack');
   assert.deepEqual(bodies, [HOME, HOME, box(0, 2, -1, 1)], 'the spark lies beyond BODY_REACH');
   assert.deepEqual(motions[1], {x: 0, y: .5}, 'no part carries on, but the drawing overlaps: it moved as its largest piece did, A to C');
   assert.deepEqual(motions[2], {x: 1, y: 0}, 'both sprites carry on: the creature moved and the spark stayed, and the creature covers more');
-  const elsewhere = sequencePaths(clip({name: 'attack', frames: [frame(STANDING), frame([['C', 5, 7, -1, 1]])]}), HOME).get('attack');
+  const elsewhere = sequencePaths(clip({name: 'attack', frames: [frame(STANDING), frame([['C', 5, 7, -1, 1]])]}), HOME, NO_HITS).get('attack');
   assert.deepEqual(elsewhere.motions[1], FREE, 'a drawing elsewhere carries nothing visible on');
-  const redrawn = sequencePaths(clip({name: 'attack', frames: [frame([['C', -1, 1, -1, 1]]), frame([['D', 0, 2, -1, 1]])]}), HOME).get('attack');
+  const redrawn = sequencePaths(clip({name: 'attack', frames: [frame([['C', -1, 1, -1, 1]]), frame([['D', 0, 2, -1, 1]])]}), HOME, NO_HITS).get('attack');
   assert.deepEqual(redrawn.motions[1], {x: 1, y: 0});
 });
 
 test('a part thrown far from the creature is not its body', () => {
   const frames = [frame(STANDING), frame([STANDING[0], ['B', 5.5, 6.5, 0, 1]])];
-  assert.deepEqual(sequencePaths(clip({name: 'attack', frames}), HOME).get('attack').bodies[1], box(-1, 1, -1, 0));
+  assert.deepEqual(sequencePaths(clip({name: 'attack', frames}), HOME, NO_HITS).get('attack').bodies[1], box(-1, 1, -1, 0));
 });
 
 test('a path that fits the room keeps every frame where the clip puts it', () => {

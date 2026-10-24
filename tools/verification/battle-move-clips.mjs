@@ -2,7 +2,8 @@
  * Every species' move clips (attack, sa, cp, hited) play without jumps in the measured arenas. Between two frames the
  * creature's offset changes no more than its own parts move, plus a step too small to see; a move starts and ends at rest;
  * 鲁斯王's special attack, whose flickering beam made the creature bob (the 2026-10-21 report), is not moved at all; and
- * 闪光波克尔's climb still stays inside the arena. Status `needs-assets`: it reads the ignored clips in public/battle-animations/.
+ * 闪光波克尔's climb still stays inside the arena; and every attack, sa and cp has a hit marker. Status `needs-assets`: it reads
+ * the ignored clips in public/battle-animations/.
  *
  * Rooms: the arena box around a creature's canvas host, in the host's layout pixels (x forward), measured in Chrome on
  * 2026-10-21 at 1000x650 and at 1280x800 (1920x1080 scales the same layout). Sizes: the standby mesh extent filling 0.4 to 2
@@ -19,6 +20,8 @@ import {root, suite, withSsr} from './_harness.mjs';
 
 const NAME = 'battle-move-clips';
 const MOVES = ['attack', 'sa', 'cp', 'hited'];
+/** The moves that land a hit; a hit reaction (hited) has no marker. */
+const HITS = ['attack', 'sa', 'cp'];
 /** The canvas host's layout size: 1.7 creature boxes (BattleCreatureAnimation.css). */
 const HOST = 442;
 /** Arena boxes relative to the host's top-left, x measured toward the opponent; the same for both sides. */
@@ -113,12 +116,13 @@ await withSsr(NAME, async load => {
   const {containPath, sequencePaths} = await load('/src/features/battle/battle-animation-path.ts');
   const {fixedAnimationTransform, standbyMeshBounds} = await load('/src/features/battle/battle-animation-registration.ts');
   const {battleCreatureExtent} = await load('/src/features/battle/battle-creature-size.ts');
+  const {battleAnimationHitFrames} = await load('/src/features/battle/battle-animation.ts');
   const t = suite(NAME), jumps = [], ends = [], reported = [], climb = [];
   let sequences = 0, worst = {excess: 0}, widest = {extent: 0};
   for (const id of Object.keys(index)) {
     const clip = loadClip(id), home = standbyMeshBounds(clip), size = Math.max(home.maxX - home.minX, home.maxY - home.minY);
     const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0];
-    const own = new Set(standby.frames.flatMap(f => quads(f).map(q => q.region))), paths = sequencePaths(clip, home);
+    const own = new Set(standby.frames.flatMap(f => quads(f).map(q => q.region))), paths = sequencePaths(clip, home, battleAnimationHitFrames(+id));
     const live = battleCreatureExtent(+id) * size / index[id].standbySize, extents = [...EXTENTS, live];
     if (live > widest.extent) widest = {extent: live, species: +id};
     for (const sequence of clip.sequences.filter(s => MOVES.includes(s.name) && s.frames.length)) {
@@ -146,6 +150,8 @@ await withSsr(NAME, async load => {
       }
     }
   }
+  const unmarked = Object.keys(index).flatMap(id => [...battleAnimationHitFrames(+id)].filter(([name, hit]) => HITS.includes(name) && hit < 0)
+    .map(([name]) => `${id} ${name}`));
   t.witness('sequences', sequences);
   t.witness('worst', worst);
   t.witness('largest live extent', widest);
@@ -154,5 +160,6 @@ await withSsr(NAME, async load => {
   t.check(`${REPORTED.species}'s ${REPORTED.sequence}, its beam flickering beside it, keeps the creature where the clip puts it`,
     () => assert.deepEqual(reported, []));
   t.check(`${CLIMB.species}'s ${CLIMB.sequence} keeps ${CLIMB.inside} of its parts inside the arena`, () => assert.deepEqual(climb.slice(0, 20), []));
+  t.check(`Every ${HITS.join(', ')} clip has a hit marker`, () => assert.deepEqual(unmarked, []));
   t.finish({rooms: ROOMS, extents: EXTENTS, jumps: jumps.length, ends: ends.length});
 });
