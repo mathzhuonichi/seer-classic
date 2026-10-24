@@ -85,8 +85,9 @@ test('a Boss ranks attacks by expected damage: accuracy, every hit and no more t
 });
 
 test('with an attack that hurts, a Boss uses a status move that changes something on about one turn in five, by one draw', () => {
+  // 1300 seeds put the ±0.05 bound at 4.5 standard deviations of the binomial, so new random draws alone cannot break it.
   const counts = {[S.normal]: 0, [S.boost]: 0, [S.poison]: 0};
-  const SEEDS = 400;
+  const SEEDS = 1300;
   for (let seed = 1; seed <= SEEDS; seed++) {
     const b = battle({skills: [S.normal, S.boost, S.poison], foe: 3, seed});
     counts[decide(b)]++;

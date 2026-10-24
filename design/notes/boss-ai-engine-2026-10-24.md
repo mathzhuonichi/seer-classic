@@ -30,6 +30,8 @@ three times, 提亚斯 twice, the heal share and the status sweep once each. The
   picked on any of 24 seeds x 6 turns (0 of 360 on 60 seeds).
 - 提亚斯's and 奈尼芬多's checks submitted 木之振奋 without checking its PP; on some seeds it ran out. They now fall back to the
   foe's first legal action, as the sweep did.
+- The unit test of the status share in `battle/ai/src/ai.test.mjs` had the same flaw (±0.05 over 400 seeds, 2.5 standard
+  deviations); 1300 seeds put it at 4.5.
 
 The recorded oracle decisions (`ORACLE_POLICIES`, `ORACLE_HP_PHASE` and the others) stay fixed on purpose: they replay the
 decisions recorded from d7e87e9 and must change only with a reviewed recording.
