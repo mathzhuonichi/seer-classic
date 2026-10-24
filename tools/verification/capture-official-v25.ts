@@ -14,15 +14,22 @@ const make = (active: number, target: number, kind: 'wild' | 'boss' = 'wild', no
 });
 const allows = (active: number, target: number, kind: 'wild' | 'boss' = 'wild', noCapture = false) =>
   make(active, target, kind, noCapture).legalActions(0).some(a => a.kind === 'capture');
-for (const id of [77, 78, 79, 310, 311, 312]) assert(allows(id, 416));
-assert(!allows(1, 416));
-assert(allows(1, 22));
-assert(!allows(77, 416, 'boss'));
-assert(!allows(77, 416, 'wild', true));
-const rejected = make(1, 416), drawsBefore = rejected.rng.draws;
-assert.throws(() => rejected.submit(0, { kind: 'capture', item: capsule }), /illegal action/);
-assert.equal(rejected.sides[0].items[capsule], 2);
-assert.equal(rejected.rng.draws, drawsBefore);
+// 尼奥 (416) flees from a capsule thrown while none of the official client's six partner forms is out (battle/RULES.md 9.1);
+// with one out, a capsule is an ordinary capture. The partner list is the species data, the one source.
+const NIAO = 416, partners = (data.species.get(NIAO)?.wild_flee as { unless_player_active?: number[] } | undefined)?.unless_player_active;
+assert.deepEqual(partners, [77, 78, 79, 310, 311, 312]);
+const throwAt = (active: number) => {
+  const battle = make(active, NIAO);
+  battle.submit(0, { kind: 'capture', item: capsule });
+  return { battle, events: battle.resolveTurn() };
+};
+for (const id of partners) assert.equal(throwAt(id).battle.result?.reason, 'capture', `partner ${id}`);
+const fled = throwAt(1);
+assert.deepEqual([fled.battle.result?.reason, fled.battle.result?.captured, fled.battle.sides[0].items[capsule]], ['wild_fled', undefined, 1]);
+assert(!fled.events.some(event => event.type === 'capture_attempt'), 'no capture roll');
+assert(allows(1, NIAO) && allows(1, 22));
+assert(!allows(77, NIAO, 'boss'));
+assert(!allows(77, NIAO, 'wild', true));
 
 const input = { maxHp: 100, hp: 100, catchRate: 45, multiplier: 1, controlStatus: false, anyStatus: false };
 let draws = 0;
@@ -39,4 +46,5 @@ assert(!rollReconstructedCapture({ ...input, catchRate: 0 }, draw(0)));
 assert.equal(draws, 1);
 assert(rollReconstructedCapture({ ...input, controlStatus: true, anyStatus: true }, () => 0.1));
 assert(!rollReconstructedCapture({ ...input, anyStatus: true }, () => 0.1));
-console.log(JSON.stringify({ passed: ['official Niao prerequisite: six accepted forms', 'ordinary/boss/no_capture distinction', 'rejection preserves capsule and RNG', 'reconstructed probability boundary', 'master and saturation skip RNG', 'zero-rate failure consumes one RNG draw', 'control status takes precedence'], probabilityParity: 'unverified server-side formula' }));
+console.log(JSON.stringify({ passed: ['Niao: the six partner forms catch it', 'Niao flees from another form\'s capsule, which is spent',
+  'ordinary/boss/no_capture distinction', 'reconstructed probability boundary', 'master and saturation skip RNG', 'zero-rate failure consumes one RNG draw', 'control status takes precedence'], probabilityParity: 'unverified server-side formula' }));

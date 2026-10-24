@@ -28,6 +28,12 @@ test('a 挣扎 move plays as a physical move at the foe, then its hit and the us
   assert.deepEqual([recoil.kind, recoil.side, recoil.enemyHp], ['hit', 1, 75]);
 });
 
+test('a wild monster\'s flee is one frame on its side, with its line, and the battle\'s end adds none', () => {
+  const shown = frames([{type: 'wild_fled', side: 1, slot: 0, name: '布布花'},
+    {type: 'battle_end', winner: null, reason: 'wild_fled', success: false, defeated: [], turns: 5}]);
+  assert.deepEqual(shown.map(frame => [frame.kind, frame.side, frame.text, frame.enemy.name]), [['flee', 1, '布布花逃跑了！', '布布花']]);
+});
+
 test('one monster\'s stage changes at once are one frame that changes every chip, with the log\'s line', () => {
   const events = [
     {type: 'move_used', side: 1, skill: STRUGGLE_SKILL.id, name: '挣扎'},

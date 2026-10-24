@@ -59,7 +59,7 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={player} side={0} frame={frame} busy={busy}
           numbers={playback.numbers} arena={arena}/>
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={enemy} side={1} frame={frame}
-          captured={playback.captureResolved} busy={busy} numbers={playback.numbers} arena={arena}/>
+          captured={playback.captureResolved} fled={playback.foeFled} busy={busy} numbers={playback.numbers} arena={arena}/>
         <BattleSkillEffects cue={playback.skillEffect} player={player} enemy={enemy}/>
       </div>
       <div className="classic-round-status">{roundStatus(b, busy)}</div>

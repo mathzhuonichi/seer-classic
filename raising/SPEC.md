@@ -119,7 +119,9 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
   save's `exp_pool` instead of being lost.
 - Each victory, a capture included, also pays the game's pooled experience
   into it (`VICTORY_REWARDS` in `src/domain/economy.ts`). A captured monster
-  was not defeated, so it yields no EXP or 学习力 of its own [chosen].
+  was not defeated, so it yields no EXP or 学习力 of its own [chosen]. A wild
+  monster that flees (battle/RULES.md 9.1) ends the battle with no victory and
+  pays nothing.
 - The 经验分配器 moves pool EXP into any monster. Only what the monster absorbs
   leaves the pool.
 - Items: `exp {amount}` and `levels {amount}` (升级秘药). They refuse a level-100
@@ -182,6 +184,13 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 A boss reward is a 精元 item (`kind: "essence"`, `hatches: species`).
 `hatchEssence` consumes one and hatches the monster at level 1
 with a fresh 1–31 个体 and random 性格, into the party or the box if full.
+
+## 8.2 Wild captures
+A capsule catches a wild monster (battle/RULES.md 9). A species with
+`wild_flee.unless_player_active` (尼奥, 416) is caught only while one of those
+species is the active monster: with any other, a capsule makes it flee
+(battle/RULES.md 9.1). Its acquisition route (`src/domain/acquisition/`)
+therefore waits until one of them is obtainable, and the dex names them. [sourced]
 
 ## 9. Save file
 

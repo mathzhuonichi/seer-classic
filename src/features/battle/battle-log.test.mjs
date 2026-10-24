@@ -40,6 +40,13 @@ test('the opening log leaves out the rule conditions installed before the first 
 test('a retreat is said once, by the flee line; a turn cap\'s end names the cap, and only a wild win\'s end names the win', () => {
   const end = fields => ({type: 'battle_end', winner: 1, success: false, defeated: [], turns: 3, ...fields});
   assert.deepEqual(groupedBattleLog([{type: 'flee', side: 0}, end({reason: 'flee'})], context), ['我方撤离了战斗。']);
+  // A wild monster's flee is said once too, by its own line; the result text then gives the original's message.
+  const fled = [{type: 'wild_fled', side: 1, slot: 0, name: '该伊'}, end({reason: 'wild_fled', winner: null})];
+  assert.deepEqual(groupedBattleLog([{type: 'turn_start', turn: 5}, {type: 'move_used', side: 0, skill: 1, name: '撞击'}, ...fled], context),
+    ['第 5 回合', '巴鲁斯使用了技能。', '该伊逃跑了！']);
+  // A capsule that sets a flee off is the same line, with the throw first.
+  const capsules = {...context, data: {...context.data, items: new Map([['item_capsule_basic', {name: {zh: '普通精灵胶囊'}}]])}};
+  assert.equal(battleEventText({type: 'wild_fled', side: 1, slot: 0, name: '尼奥', item: 'item_capsule_basic'}, capsules), '我方使用了普通精灵胶囊，尼奥逃跑了！');
   assert.equal(text(end({reason: 'turn_cap', winner: null})), '已达到 3 回合上限。');
   assert.equal(text(end({reason: 'ko'})), '战斗结束。');
   const won = end({reason: 'ko', winner: 0, success: true});

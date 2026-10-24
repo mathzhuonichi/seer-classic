@@ -197,6 +197,11 @@
 .capture-success .motion-capture{animation-name:classicCaptureCreatureSuccess}
 /* Opacity, not visibility alone: the ready clip's canvas sets its own visibility (BattleCreatureAnimation.css). */
 .classic-combatant.is-captured .classic-creature-facing{visibility:hidden;opacity:0}
+/* A wild foe that flees turns away from the player and runs off the arena with its shadow; it stays away once gone. */
+.motion-flee{animation:classicFlee .9s ease-in both}
+.classic-combatant.is-fled .classic-creature-motion{visibility:hidden;opacity:0}
+@keyframes classicFlee{0%{transform:translateX(0) scaleX(1);opacity:1}18%{transform:translateX(0) scaleX(-1);opacity:1}100%{transform:translateX(calc(var(--direction)*-240px)) scaleX(-1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.motion-flee{opacity:0}}
 @keyframes classicCaptureCreature{0%,25%{transform:scale(1);opacity:1;filter:none}32%{transform:scale(.95);opacity:1;filter:brightness(2.3) drop-shadow(0 0 14px #b6ffed)}49%,78%{transform:scale(.04);opacity:0;filter:brightness(3)}86%{transform:scale(.2);opacity:.3;filter:brightness(2)}100%{transform:scale(1);opacity:1;filter:none}}
 @keyframes classicCaptureCreatureSuccess{0%,25%{transform:scale(1);opacity:1;filter:none}32%{transform:scale(.95);opacity:1;filter:brightness(2.3) drop-shadow(0 0 14px #b6ffed)}49%,100%{transform:scale(.04);opacity:0;filter:brightness(3)}}
 @keyframes classicCaptureCapsule{0%{opacity:1;transform:translate(-145px,-54px) rotate(-32deg)}18%,53%{opacity:1;transform:translate(0,0) rotate(0)}57%,67%{transform:rotate(-11deg)}62%,72%{transform:rotate(11deg)}77%{transform:rotate(0);filter:drop-shadow(0 4px 4px #183a5666)}83%,100%{opacity:1;transform:rotate(0);filter:drop-shadow(0 0 12px #b9f3b6)}}

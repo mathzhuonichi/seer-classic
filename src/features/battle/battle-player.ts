@@ -53,6 +53,8 @@ export interface PlaybackState {
   dialogue: string;
   /** The last capsule in this battle caught its target. */
   captureResolved: boolean;
+  /** The wild foe fled (a `flee` frame has shown): it is gone from the arena. */
+  foeFled: boolean;
   /** Damage and healing numbers on screen, oldest first. */
   numbers: FloatingNumber[];
 }
@@ -104,8 +106,8 @@ type TimerName = 'advance' | 'outcome' | 'action';
 
 export function createBattlePlayer(host: PlayerHost): BattlePlayer {
   let state: PlaybackState = {
-    frame: null, sourceAction: null, skillEffect: null, busy: false, captureResolved: false, dialogue: host.battle().log.at(-1) || OPENING_DIALOGUE,
-    numbers: [],
+    frame: null, sourceAction: null, skillEffect: null, busy: false, captureResolved: false, foeFled: false,
+    dialogue: host.battle().log.at(-1) || OPENING_DIALOGUE, numbers: [],
   };
   const listeners = new Set<() => void>();
   const set: Patch = patch => {
@@ -260,8 +262,11 @@ function playFrames(batch: BattlePresentationFrame[], host: PlayerHost, set: Pat
     shown(next);
     if (next.kind !== 'capture') {
       if (next.kind === 'heal') host.sound('heal');
+      const patch: Partial<PlaybackState> = { frame: next };
       // A frame without a line keeps the one on screen.
-      set(next.text ? { frame: next, dialogue: next.text } : { frame: next });
+      if (next.text) patch.dialogue = next.text;
+      if (next.kind === 'flee') patch.foeFled = true;
+      set(patch);
       return;
     }
     set({ frame: next, captureResolved: !!next.captureSuccess, dialogue: captureDialogue(next) });

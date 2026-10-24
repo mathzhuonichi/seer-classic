@@ -184,6 +184,7 @@ function frameMotion(e: BattleEvent, side: 0 | 1, activeBefore: BattleMonsterVie
   switch (e.type) {
     case 'switch_in': case 'transform': return { kind: 'switch' };
     case 'capture_attempt': return { kind: 'capture' };
+    case 'wild_fled': return { kind: 'flee' };
     case 'move_used': {
       const skill = moveSkill(data, e.skill)!;
       const kind = skill.category === 'physical' ? 'physical' : skill.category === 'special' ? 'special' : 'status';

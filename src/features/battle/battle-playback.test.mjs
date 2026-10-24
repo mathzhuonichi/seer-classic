@@ -9,7 +9,7 @@ const effect = {startMs: 27, durationMs: 920, hurtMs: 125};
 const plan = (current, following, context = {}) => planBattleFrame(frame(current), following && frame(following), {reducedMotion: false, ...context});
 
 test('frames without a clip or effect keep their kind default', () => {
-  for (const kind of ['physical', 'special', 'status', 'heal', 'miss', 'switch', 'message'])
+  for (const kind of ['physical', 'special', 'status', 'heal', 'miss', 'switch', 'flee', 'message'])
     assert.equal(plan(kind).delayMs, FRAME_MS[kind]);
   assert.equal(planBattleFrame(frame('hit', {critical: true}), undefined, {reducedMotion: false}).delayMs, CRITICAL_HIT_MS);
   assert.deepEqual(plan('heal'), {delayMs: FRAME_MS.heal, effect: 'keep', actionMs: null, awaitRunning: false, hurtDelayMs: 0});

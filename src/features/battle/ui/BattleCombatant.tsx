@@ -9,7 +9,7 @@ import type { FloatingNumber, SkillEffectCue } from '../battle-player.ts';
 import { DAMAGE_NUMBER_MS, isActing, shownDown, sideAction } from '../battle-playback.ts';
 
 /** Frame kinds with their own CSS motion on the combatant. */
-const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture']);
+const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture', 'flee']);
 /** Statuses that hold a creature still instead of its idle sway. */
 const STILL_STATUSES = [STATUS_LABELS.sleep, STATUS_LABELS.petrify, STATUS_LABELS.frozen_solid];
 const IMPACT_PATH = 'm60 5 10 33 29-18-18 29 34 11-34 10 18 29-29-18-10 34-11-34-29 18 18-29L5 60l33-11-18-29 29 18Z';
@@ -48,10 +48,10 @@ function DamageNumber({ number }: { number: FloatingNumber }) {
  * retain their registration; unavailable clips use the portrait. The creature acting a move is drawn in front of the other,
  * since its original clip travels to the opponent, and is not greyed out at 0 HP until it is home; numbers stay in front of
  * both. A move with an original skill effect (BattleSkillEffects, `effectCue`) shows that instead of this component's own
- * status ring, projectile and impact.
+ * status ring, projectile and impact. A wild foe that fled runs off the arena in its `flee` frame and stays away (`fled`).
  */
-export default function BattleCombatant({ monster, side, frame, captured = false, busy = false, action, effectCue, numbers, arena }: {
-  monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; busy?: boolean;
+export default function BattleCombatant({ monster, side, frame, captured = false, fled = false, busy = false, action, effectCue, numbers, arena }: {
+  monster: BattleMonsterView; side: 0 | 1; frame: BattlePresentationFrame | null; captured?: boolean; fled?: boolean; busy?: boolean;
   action?: BattlePresentationFrame | null; effectCue?: SkillEffectCue | null; numbers: readonly FloatingNumber[];
   /** The arena, which clips the creatures: a move keeps its creature inside it. */
   arena: RefObject<HTMLElement | null>;
@@ -63,12 +63,13 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const appearance = appearanceOf(monster), art = getCreatureArt(appearance);
   const groundY = 50 + art.bounds.height / Math.max(art.bounds.width, art.bounds.height) * battleCreatureExtent(appearance) * 50;
   const held = monster.statuses.some(status => STILL_STATUSES.includes(status));
-  const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
+  const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !fled && !held;
   const motion = MOTION_KINDS.has(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';
   const capturing = effect === 'capture', acting = isActing(side, frame, action);
   const greyed = shownDown(monster.hp, acting);
   const className = `classic-combatant side-${side}${greyed ? ' is-fainted' : ''}${critical ? ' is-critical' : ''}`
-    + `${captured && !capturing ? ' is-captured' : ''}${capturing && frame?.captureSuccess ? ' capture-success' : ''}`;
+    + `${captured && !capturing ? ' is-captured' : ''}${capturing && frame?.captureSuccess ? ' capture-success' : ''}`
+    + `${fled && effect !== 'flee' ? ' is-fled' : ''}`;
   return <div className={className} style={{ '--direction': side === 0 ? 1 : -1, '--ground-y': `${groundY}%` } as CSSProperties}>
     <div className={`classic-combatant-stage${acting ? ' is-acting' : ''}`}>
       <div className={`classic-creature-motion ${motion}`}>

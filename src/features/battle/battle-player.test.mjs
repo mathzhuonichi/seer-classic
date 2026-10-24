@@ -215,6 +215,18 @@ test('a creature that enters takes the place of the numbers on the one it replac
   assert.deepEqual(ui.numbers(), [{id: 2, side: 1, row: 0}, {id: 4, side: 0, row: 0}], 'a transform of the same creature keeps its number');
 });
 
+test('a wild foe\'s flee frame says its line and leaves the foe gone through the closing frame and after the turn', () => {
+  const ui = screen([hit(1, 1, 9), frame(2, 'flee', 1, {text: '布布花逃跑了！'}), frame(3, 'message', 0)]);
+  ui.player.play(ui.shown.battle);
+  assert.equal(ui.player.state().foeFled, false, 'still there while it is hit');
+  ui.clock.advance(FRAME_MS.hit);
+  assert.deepEqual([ui.player.state().frame.kind, ui.player.state().dialogue, ui.player.state().foeFled], ['flee', '布布花逃跑了！', true]);
+  ui.clock.advance(FRAME_MS.flee);
+  assert.deepEqual([ui.player.state().frame.kind, ui.player.state().foeFled], ['message', true], 'gone in the closing frame');
+  ui.clock.advance(FRAME_MS.message);
+  assert.deepEqual([ui.player.state().busy, ui.player.state().foeFled], [false, true], 'and once the turn has settled');
+});
+
 test('under reduced motion the frames hurry but the numbers keep their time', () => {
   const ui = screen([hit(1, 0, 5), hit(2, 0, 6)], {reducedMotion: true});
   ui.player.play(ui.shown.battle);

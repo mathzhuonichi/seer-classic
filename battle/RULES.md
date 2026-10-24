@@ -17,7 +17,8 @@ this spec requested from the original data model are listed in section 14.
 - When the active monster faints, its owner picks a replacement before the next
   turn. That replacement does not cost a turn. [recalled]
 - A side loses when every monster in its party has fainted. Fleeing always
-  succeeds and counts as a loss for the fleeing side. [chosen]
+  succeeds and counts as a loss for the fleeing side. [chosen] Some wild
+  species flee on their own (section 9.1); the battle then has no winner.
 - HP and PP carry over after battle (the caller writes them back to the save);
   statuses, stat stages and conditions do not. [recalled]
 
@@ -297,9 +298,10 @@ Capsule multipliers come from the item (`capture_multiplier`); a capsule with
 
 The equation and random draw are remake calibration, not recovered official
 server probabilities. Official capture command 2409 sends a capsule ID and
-receives the result. An ordinary Niao (species 416) encounter requires active
-species 77, 78, 79, 310, 311 or 312 before any capsule can be used; this gate is
-source-verified. The official server's separate `catchType` field is not modeled.
+receives the result. 尼奥 (416) is caught only while one of its partners is the
+active monster: a capsule thrown with any other makes it flee (section 9.1). The
+live official client refuses that capsule instead; the remake follows the 2010
+guides. The official server's separate `catchType` field is not modeled.
 See `design/notes/capture-official-v25.md` for table/protocol evidence and limits.
 
 A successful capture ends the battle as the player's win: `winner: 0`,
@@ -307,6 +309,47 @@ A successful capture ends the battle as the player's win: `winner: 0`,
 monster was not knocked out, so it is not in `defeated`. The game settles a
 capture as a victory: it counts as a won battle and pays the wild victory's
 coins and pooled experience. [chosen]
+
+### 9.1 Wild monsters that flee
+
+A species with `wild_flee` (its `data/monsters/` file) flees when it is a wild
+monster. The flee is its action: when it is about to use the move it chose and
+can act (section 4, step 1), it flees instead, at its own place in the turn
+order, so a faster foe's move comes first. The `wild_fled` event follows, and
+the battle ends at once, before the turn end: `winner: null`, `reason:
+wild_fled`, no capture and an empty `defeated`, so nothing is paid (no EXP,
+学习力, coins, pooled experience or items). HP and PP carry over as after any
+battle (section 1); the move it chose spends no PP. A turn in which it cannot
+act (麻痹, 害怕, 疲惫, 睡眠, 石化, 冰封, or a script that prevents its move)
+brings no flee. 混乱 does not stop it: the flee is not a move that can fail.
+Only a wild side flees; the same species in a Boss or trainer team fights on.
+
+- `from_turn {n}`: at its action in battle turn n and in every later turn in
+  which it can act. The turns (回合) are the battle's, so the turns it could not
+  act count too: kept asleep through turn n, it flees at its first action once
+  it wakes. 该伊 (474) has `from_turn: 5`, 尼尔 (77) `from_turn: 10`.
+  [sourced: 4399 2010-12-07 仙人掌抓五回合逃跑精灵方法测试 (该伊: 手下留情, a
+  switch and two 香甜气息 take turns 1 to 4, then 催眠粉 lands in turn 5 and
+  alternates with capsules, 「确实，该伊是不会逃跑了」); Zhidao 2011-08-13
+  「该伊5回合后会逃跑」; 7k7k 2010-04-16 尼尔 「现在改到10回合才逃跑」 (8 turns in a
+  2012 answer, a later change); user decision 2026-10-24;
+  `design/notes/wild-flee-2026-10-24.md`]
+- `unless_player_active [species]`: at its action in any turn in which the
+  player's active monster is none of these species, and at once when a capsule
+  is thrown at it then, before any capture roll and whether it can act or not;
+  the thrown capsule is spent, and `wild_fled` names it (`item`). With one of them
+  out it never flees, and a capsule rolls as usual. A switch resolves before its
+  action (section 3), so switching to a partner keeps it and switching away from
+  one makes it flee in that turn. The check reads the active monster's species
+  in battle, not its skin. 尼奥 (416) has `[77, 78, 79, 310, 311, 312]` (尼尔,
+  菲斯利, 艾斯菲亚 and their 闪光 forms, the official client's list). [sourced:
+  7k7k 2010-08-03 尼奥捕捉指南 「如果你换了别的精灵，尼奥就会马上逃跑的。不换，捉到明天它都
+  不会跑」; 4399 2010-08-02 「用其他精灵来捕捉的话尼奥会逃跑，只有用尼尔来捕捉才不会逃走」;
+  user decision 2026-10-24 (the capsule flee); `design/notes/wild-flee-2026-10-24.md`]
+
+A species' `farewell {line, reply}` is not read by the engine: once its battle
+closes, the scene shows the fled monster saying `line`, with the player's `reply`
+as the one button (尼奥's, from the original's fight module). [sourced]
 
 ## 10. PvE bosses
 
@@ -435,7 +478,7 @@ the choice before the start and settles its rewards (ARCHITECTURE.md, remake
 decisions).
 
 **Result** (`BattleResult`): `winner`, `reason` (`ko`, `flee`, `capture`,
-`objective`, `lose_condition`, `turn_cap`, `boss_fled`), `success`,
+`objective`, `lose_condition`, `turn_cap`, `boss_fled`, `wild_fled`), `success`,
 `objectives`, `captured`, `turns`, and `defeated`: one entry per foe the
 player knocked out, `{ foe: { species, level, boss? }, participants }`, where
 participants are the player monsters (uid, else `slot<n>`) that were on the

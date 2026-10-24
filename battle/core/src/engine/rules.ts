@@ -196,6 +196,22 @@ export function checkBossFlee(b: Battle, user: Mon, skill: Skill): void {
   finish(b, null, 'boss_fled');
 }
 
+/**
+ * A wild monster's flee (RULES.md 9.1), its species' `wild_flee`: at its action once it can act, in place of its move, or at
+ * the `capsule` thrown at it, when the flee is due; the battle then ends with no winner. Returns whether it fled.
+ */
+export function checkWildFlee(b: Battle, mon: Mon, capsule?: string): boolean {
+  const flee = b.sides[mon.side].kind === 'wild' ? mon.species.wild_flee : undefined;
+  if (!flee) return false;
+  const due = 'unless_player_active' in flee
+    ? !flee.unless_player_active.includes(b.active((1 - mon.side) as 0 | 1).species.id)
+    : capsule === undefined && b.turn >= flee.from_turn;
+  if (!due) return false;
+  b.emit({ type: 'wild_fled', side: mon.side, slot: mon.slot, name: mon.name, ...(capsule === undefined ? {} : { item: capsule }) });
+  finish(b, null, 'wild_fled');
+  return true;
+}
+
 // ---------- phases ----------
 
 /** Runs the encounter, variant and member phases whose condition holds. Returns true if any phase fired. */
@@ -284,7 +300,9 @@ export function finish(b: Battle, winner: 0 | 1 | null, reason: BattleResult['re
   if (b.result) return;
   const objectives = b.winList.map((o) => ({ kind: o.kind, met: winner === 0 && b.objectiveMet(o) }));
   const success = reason !== 'flee' && winner === 0 && objectives.every((o) => o.met);
-  b.result = { winner, reason, success, objectives: b.encounter ? objectives : undefined, defeated: reason === 'flee' ? [] : b.defeated, turns: b.turn };
+  // A retreat, or a wild monster's flee (RULES.md 9.1), pays no knockout reward.
+  const unrewarded = reason === 'flee' || reason === 'wild_fled';
+  b.result = { winner, reason, success, objectives: b.encounter ? objectives : undefined, defeated: unrewarded ? [] : b.defeated, turns: b.turn };
   if (b.capturedMon) b.result.captured = { species: b.capturedMon.species.id, level: b.capturedMon.level, hp: b.capturedMon.hp };
   b.phase = 'ended';
   for (const side of b.sides) { side.needsReplacement = false; side.pending = null; }

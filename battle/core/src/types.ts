@@ -27,8 +27,22 @@ export interface Species {
   ev_yield?: Partial<Stats>;
   exp_yield?: number;
   learnset?: { level: number; skill: number }[];
+  /** How a wild monster of this species flees (RULES.md 9.1). */
+  wild_flee?: WildFlee;
   [key: string]: unknown;
 }
+
+/**
+ * A wild monster's flee (RULES.md 9.1). The flee is its action: it flees instead of its move, so never while it cannot act.
+ * - `from_turn`: at its action in that battle turn and in every later one; the turns it could not act count.
+ * - `unless_player_active`: at its action while the player's active monster is none of these species, and at once, whether
+ *   it can act or not, when a capsule is thrown at it then; with one of them out it never flees, so only they can catch it.
+ * `farewell` is for the scene after the battle; the engine does not read it.
+ */
+export type WildFlee = ({ from_turn: number } | { unless_player_active: number[] }) & { farewell?: WildFarewell };
+
+/** What a fled wild monster says in the scene once the battle closes, and the player's answer, which closes the dialogue. */
+export interface WildFarewell { line: string; reply: string }
 
 export interface Skill {
   id: number;
@@ -266,7 +280,7 @@ export type Action =
 
 export interface BattleResult {
   winner: 0 | 1 | null;
-  reason: 'ko' | 'flee' | 'capture' | 'objective' | 'lose_condition' | 'turn_cap' | 'boss_fled';
+  reason: 'ko' | 'flee' | 'capture' | 'objective' | 'lose_condition' | 'turn_cap' | 'boss_fled' | 'wild_fled';
   success: boolean;            // player (side 0) won and met every win objective
   objectives?: { kind: string; met: boolean }[];
   captured?: { species: number; level: number; hp: number };

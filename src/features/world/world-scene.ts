@@ -1,16 +1,17 @@
 import type { GameAction, GameSnapshot } from '../../kernel/contract.ts';
-import type { BossView, CampaignView, EncounterOpponentView, EncounterVariantView, QuestView, SpeciesView } from '../../shared/views.ts';
+import type { BossView, CampaignView, EncounterOpponentView, EncounterVariantView, QuestView, SpeciesView, WildFarewellView } from '../../shared/views.ts';
 import { CHALLENGE_CATEGORY, campaignContactWording } from '../../domain/challenges/challenge-campaigns.ts';
 import { BRAVE_TOWER_LOCATION, LABORATORY_LOCATION, findSceneChallenges, isWorldLocation, type WorldPlanet, type WorldRegion } from '../../domain/world/world.ts';
 import { opponentLevelText } from '../../shared/encounter-level.ts';
 import type { ScenePoint } from './scene-geometry.ts';
 
-/** What the player is talking to in the current scene. */
+/** What the player is talking to in the current scene; a `farewell` is a fled wild monster's, once its battle has closed. */
 export type WorldSelection =
   | { kind: 'creature'; id: number; instanceId?: string; level?: number }
   | { kind: 'boss'; id: string }
   | { kind: 'campaign'; id: string }
-  | { kind: 'facility' };
+  | { kind: 'facility' }
+  | { kind: 'farewell'; farewell: WildFarewellView };
 export type FacilityKind = NonNullable<WorldRegion['facility']>;
 
 /** A piece of equipment drawn in the original background: walking to it opens a page. */
@@ -136,6 +137,8 @@ export interface WorldDialogueView {
   /** Set for a creature, boss or campaign contact; facilities use `facilityActions`. */
   challenge?: { label: string; disabled: boolean; chooseStart: boolean; run: DialogueChallenge };
   facilityActions: FacilityAction[];
+  /** The player's answer, the dialogue's one button, which closes it (a farewell). */
+  reply?: string;
 }
 
 
@@ -162,8 +165,6 @@ function campaignDialogue(scene: WorldSceneView, { campaign, name, progress, kic
 function creatureNote(creature: SpeciesView, recruitment: QuestView | undefined) {
   if (recruitment) return '完成精灵招募的收集与首领条件后领取精元。';
   if (creature.wildCapture === false) return '战胜后领取精元，在道具背包孵化。';
-  // Niao is captured only with one of its partner species active.
-  if (creature.id === 416) return '捕捉时需派出尼尔、菲斯利、艾斯菲亚或其闪光形态。';
   return '在战斗道具中使用精灵胶囊捕捉。';
 }
 
@@ -217,8 +218,14 @@ function facilityDialogue(scene: WorldSceneView): WorldDialogueView {
   };
 }
 
+/** A fled wild monster's words, and the player's answer as the one button (the original's NpcDialog after the flee). */
+function farewellDialogue({ species, name, line, reply }: WildFarewellView): WorldDialogueView {
+  return { label: `与${name}交谈`, portrait: { species, name }, kicker: '野生精灵', title: name, text: line, detail: '', facilityActions: [], reply };
+}
+
 /** The dialogue for a selection, or undefined when it is not shown (an unknown Tower contact). */
 export function buildWorldDialogue(s: WorldSlices, scene: WorldSceneView, selection: WorldSelection): WorldDialogueView | undefined {
+  if (selection.kind === 'farewell') return farewellDialogue(selection.farewell);
   const { campaign, region, tower } = scene;
   const boss = selection.kind === 'boss' ? (tower ? scene.bosses : s.bosses).find(entry => entry.id === selection.id) : undefined;
   if (tower && !boss) return undefined;

@@ -7,7 +7,6 @@ import {ACQUISITION_POLICIES,buildRecruitmentRewards,initialSpecies,isSpeciesRep
 import {getEligibleRecruitmentSPTs} from '../../src/domain/acquisition/spt-recruitment.ts';
 import {FUSION_RECIPES,type FusionRecipe} from '../../src/domain/recipes/fusion.ts';
 import {BREEDING_RECIPES,getBreedingGender} from '../../src/domain/recipes/breeding.ts';
-import {NIAO_CAPTURE_PARTNERS} from '../../battle/core/src/capture.ts';
 import {WORLD_PLANETS,type WorldPlanet} from '../../src/domain/world/world.ts';
 import {suite} from './_harness.mjs';
 
@@ -17,6 +16,9 @@ export async function verifyRecruitmentAcquisition(){
  const original=JSON.stringify(catalog),graph=buildAcquisitionIndex(catalog),initial=buildInitialFormAcquisitionIndex(catalog,graph);
  const roots=initialSpecies(catalog),rewards=buildRecruitmentRewards(catalog),eligible=new Set(getEligibleRecruitmentSPTs(catalog).map(boss=>boss.id));
  const available=(id:number)=>graph.get(id)?.status==='available';
+ // 尼奥 flees unless one of these is the player's active monster (battle/RULES.md 9.1), so its capture waits for one of them.
+ const niaoFlee=catalog.species.find(species=>species.id===416)?.wild_flee;
+ const NIAO_PARTNERS=niaoFlee&&'unless_player_active' in niaoFlee?niaoFlee.unless_player_active:[];
  t.check('all initial entries reachable',()=>{
   assert.equal(roots.length,632);
   for(const root of roots)assert(initial.get(root.id)?.initialForms.some(form=>form.species===root.id&&form.routes.length),`Initial form ${root.id} must have an executable entry.`);
@@ -68,10 +70,16 @@ export async function verifyRecruitmentAcquisition(){
  t.check('Niao habitat routes name their active-partner requirement',()=>{
   const niaoRoutes=graph.get(416)?.routes.filter(route=>route.kind==='wild')??[];
   assert(niaoRoutes.length>0);
-  for(const route of niaoRoutes){assert.deepEqual(route.requiredActiveSpecies,NIAO_CAPTURE_PARTNERS);assert(route.label.includes('需先获得并派出'));}
+  assert.deepEqual(NIAO_PARTNERS,[77,78,79,310,311,312]);
+  for(const route of niaoRoutes){
+   assert.deepEqual(route.requiredActiveSpecies,NIAO_PARTNERS);
+   assert(route.label.includes('需先获得并派出')&&route.label.includes('会逃跑'));
+  }
  });
 
- const tiny:AcquisitionCatalog={species:[1,4,7,47,77,78,79,122,310,311,312,416,800,801,802,803,900].map(id=>({id,name:{zh:String(id)},obtain:['wild'],catch_rate:255,evolves_from:null,evolution:[]})),bosses:[]};
+ const tiny:AcquisitionCatalog={species:[1,4,7,47,77,78,79,122,310,311,312,416,800,801,802,803,900].map(id=>({
+  id,name:{zh:String(id)},obtain:['wild'],catch_rate:255,evolves_from:null,evolution:[],...(id===416?{wild_flee:{unless_player_active:NIAO_PARTNERS}}:{}),
+ })),bosses:[]};
  const gate=(id:number,prerequisites:readonly RecruitmentPrerequisite[]):AcquisitionSeed=>({species:id,route:{kind:'quest',entrySpecies:id,questId:`fixture-${id}`,label:`Fixture reward ${id}`},prerequisites});
  const direct=(id:number):AcquisitionSeed=>({species:id,route:{kind:'quest',entrySpecies:id,questId:`direct-${id}`,label:`Explicit fixture ${id}`}});
  const blocked=(seeds:AcquisitionSeed[],source=tiny)=>assert.equal(buildAcquisitionIndex(source,[],[],seeds,[]).get(800)?.status,'unimplemented');
@@ -118,7 +126,9 @@ export async function verifyRecruitmentAcquisition(){
  });
  t.check('all six Niao active forms and visible route requirement',()=>{
   assert.equal(buildAcquisitionIndex(tiny,[habitat],[],[],[]).get(416)?.status,'unimplemented','A mapped Niao is not a seed without an eligible active partner.');
-  for(const partner of NIAO_CAPTURE_PARTNERS)assert.equal(buildAcquisitionIndex(tiny,[habitat],[],[direct(partner)],[]).get(416)?.status,'available',`Capture accepts reachable partner ${partner}.`);
+  for(const partner of NIAO_PARTNERS){
+   assert.equal(buildAcquisitionIndex(tiny,[habitat],[],[direct(partner)],[]).get(416)?.status,'available',`Capture accepts reachable partner ${partner}.`);
+  }
  });
  t.check('source immutability',()=>assert.equal(JSON.stringify(catalog),original,'Graph verification does not mutate catalog records.'));
  return t.finish({initialForms:roots.length,recruitmentRewards:rewards.length,mapCollectionEntries:collectionMapEntries,readyFusionRecipes:FUSION_RECIPES.length,readyBreedingRecipes:BREEDING_RECIPES.length});

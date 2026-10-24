@@ -5,9 +5,9 @@ import type { Battle } from './battle.ts';
 import { emptyCtx, type Mon, type Side } from './state.ts';
 import * as C from '../constants.ts';
 import { STRUGGLE_SKILL } from '../constants.ts';
-import { meetsWildCapturePrerequisite, rollReconstructedCapture } from '../capture.ts';
+import { rollReconstructedCapture } from '../capture.ts';
 import { isAttackSkill } from './move.ts';
-import { finish, hasRule } from './rules.ts';
+import { checkWildFlee, finish, hasRule } from './rules.ts';
 
 export function legalActions(b: Battle, sideIndex: 0 | 1): Action[] {
   if (b.phase === 'ended') return [];
@@ -22,8 +22,7 @@ export function legalActions(b: Battle, sideIndex: 0 | 1): Action[] {
   const switchBlocked = hasRule(foeSide, 'no_switch') || b.hooks(mon, 'block_switch').length > 0;
   if (!switchBlocked) actions.push(...bench);
   if (!hasRule(foeSide, 'no_items')) actions.push(...itemActions(b, side));
-  if (foeSide.kind === 'wild' && !hasRule(foeSide, 'no_capture') &&
-    meetsWildCapturePrerequisite(b.active(foeSide.index).species.id, mon.species.id)) {
+  if (foeSide.kind === 'wild' && !hasRule(foeSide, 'no_capture')) {
     for (const id of available(side)) if ('capture_multiplier' in (b.data.items.get(id) ?? {})) actions.push({ kind: 'capture', item: id });
   }
   actions.push({ kind: 'flee' });
@@ -105,6 +104,8 @@ export function tryCapture(b: Battle, side: Side, foe: Side, itemId: string): vo
   const item = b.data.items.get(itemId)!;
   if (!side.unlimitedItems.has(itemId)) side.items[itemId]--;
   const target = b.active(foe.index);
+  // A monster that flees from this capsule takes it before any roll (RULES.md 9.1): the capsule is thrown, so it is spent.
+  if (checkWildFlee(b, target, itemId)) return;
   const statuses = target.conditions.filter((c) => c.def.kind === 'status');
   const ok = rollReconstructedCapture({ maxHp: target.maxHp, hp: target.hp,
     catchRate: target.species.catch_rate ?? C.DEFAULT_CATCH_RATE, multiplier: item.capture_multiplier === null ? null : (item.capture_multiplier ?? 1),

@@ -6,7 +6,7 @@ type FrameKind = BattlePresentationFrame['kind'];
 
 /** Default on-screen time per frame kind; a miss holds as long as the line it says did before it showed MISS. */
 export const FRAME_MS: Record<FrameKind, number> = {
-  physical: 680, special: 700, status: 620, hit: 490, miss: 480, heal: 530, switch: 620, capture: 2200, message: 480,
+  physical: 680, special: 700, status: 620, hit: 490, miss: 480, heal: 530, switch: 620, capture: 2200, flee: 900, message: 480,
 };
 export const CRITICAL_HIT_MS = 800;
 /**

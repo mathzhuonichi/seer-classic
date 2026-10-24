@@ -1,4 +1,3 @@
-import { NIAO_CAPTURE_PARTNERS } from '../../../battle/core/src/capture.ts';
 import { MAX_LEVEL } from '../../../raising/core/growth.ts';
 import { WORLD_PLANETS, type WorldPlanet } from '../world/world.ts';
 import {
@@ -14,9 +13,6 @@ import { bossEssenceRewards, habitatEntries } from './native-acquisition.ts';
 import { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES, type RecruitmentReward } from './recruitment.ts';
 import { buildPredecessors } from './species-graph.ts';
 import { getEligibleRecruitmentSPTs } from './spt-recruitment.ts';
-
-/** Niao (尼奥) can only be captured while one of NIAO_CAPTURE_PARTNERS is active. */
-const NIAO_SPECIES = 416;
 
 interface RouteIndex {
   index: Map<number, SpeciesAcquisition>;
@@ -61,7 +57,11 @@ function journeySeeds(definitions: Definitions): AcquisitionSeed[] {
   return [...starters, ...quests];
 }
 
-/** Field captures and challenge-for-essence encounters; Niao's capture waits for a reachable partner. */
+/**
+ * Field captures and challenge-for-essence encounters. A species that flees unless one of its partners is the player's active
+ * monster (`wild_flee.unless_player_active`, battle/RULES.md 9.1) is caught only with a partner out, so its capture waits for
+ * a reachable partner.
+ */
 function habitatSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet[], definitions: Definitions)
   : { direct: AcquisitionSeed[]; conditional: AcquisitionSeed[] } {
   const direct: AcquisitionSeed[] = [], conditional: AcquisitionSeed[] = [];
@@ -72,9 +72,11 @@ function habitatSeeds(catalog: AcquisitionCatalog, planets: readonly WorldPlanet
       continue;
     }
     const route: AcquisitionRoute = { ...at, label: `${region.name}：与 Lv.${low}–${high} 的${species.name.zh}对战，使用胶囊捕捉` };
-    if (id !== NIAO_SPECIES) { direct.push({ species: id, route }); continue; }
-    route.requiredActiveSpecies = NIAO_CAPTURE_PARTNERS;
-    route.label += `（需先获得并派出${NIAO_CAPTURE_PARTNERS.map(partner => definitions.get(partner)?.name.zh ?? `#${partner}`).join(' / ')}中的任一形态）`;
+    const flee = species.wild_flee, partners = flee && 'unless_player_active' in flee ? flee.unless_player_active : undefined;
+    if (!partners) { direct.push({ species: id, route }); continue; }
+    route.requiredActiveSpecies = partners;
+    const names = partners.map(partner => definitions.get(partner)?.name.zh ?? `#${partner}`).join(' / ');
+    route.label += `（需先获得并派出${names}中的任一形态，派出其他精灵时它会逃跑）`;
     conditional.push({ species: id, route });
   }
   return { direct, conditional };

@@ -1,12 +1,5 @@
 import * as C from './constants.ts';
 
-/** Official PetFightDLL's ordinary-fight prerequisite for species 416 (Niao). */
-export const NIAO_CAPTURE_PARTNERS = [77, 78, 79, 310, 311, 312] as const;
-
-export function meetsWildCapturePrerequisite(targetSpecies: number, activeSpecies: number): boolean {
-  return targetSpecies !== 416 || NIAO_CAPTURE_PARTNERS.some(id => id === activeSpecies);
-}
-
 /**
  * Remake calibration, NOT a recovered Seer server formula. Official clients send
  * the capsule ID to command 2409 and receive catchTime; they do not roll locally.

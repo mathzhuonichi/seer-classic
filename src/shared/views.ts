@@ -104,7 +104,7 @@ export type TypeEffect = Exclude<MatchupRelation, 'neutral'>;
  * target, where it shows MISS at the moment the hit would have hurt.
  */
 export interface BattlePresentationFrame {
-  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'miss' | 'heal' | 'switch' | 'capture' | 'message'; text: string;
+  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'miss' | 'heal' | 'switch' | 'capture' | 'flee' | 'message'; text: string;
   amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
   player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;
@@ -134,7 +134,11 @@ export interface BattleView {
   challenge: boolean;
   canCapture: boolean; captureBlockedReason?: string; needsSwitch: boolean; animation: {revision: number; frames: BattlePresentationFrame[]};
   matchup: TypeMatchupView;
+  /** Set once a wild monster with a farewell has fled: the scene shows it as that monster's dialogue when the battle closes. */
+  farewell?: WildFarewellView;
 }
+/** A fled wild monster's words in the scene after the battle (its species' `wild_flee.farewell`) and the player's answer. */
+export interface WildFarewellView { species: number; name: string; line: string; reply: string }
 export interface ItemView { id: string; name: string; kind: string; count: number; unlimited?: boolean; description: string; battleUsable: boolean; battleCategory?: 'recovery' | 'capsule' | 'status'; targetMode?: 'living' | 'fainted';
   /** What the bag does with it now, if anything; `use` applies it to one of `useTargets` (in a battle, the members it would change). */
   useAction: 'use' | 'hatch' | 'capture' | null; useTargets?: string[] }
