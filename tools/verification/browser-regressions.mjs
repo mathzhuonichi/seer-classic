@@ -1,6 +1,7 @@
 /**
  * Browser regressions: keyboard, focus and clickability behaviours that only a real browser shows, each fixed after the
- * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), and the Boss variant carried from the archive to the dialogue.
+ * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), the Boss variant carried from the archive to the dialogue, and
+ * the damage display's moments during a played turn (design/notes/damage-display-2026-10-23.md).
  * Status `needs-browser`: it needs a local Google Chrome, and runs every check in Playwright WebKit too when that is installed
  * (otherwise WebKit is reported as skipped).
  *
@@ -48,6 +49,16 @@ const BREEDING_COPIES = 4;
 const TOWER_CLEARED = 3;
 /** The facilities save stands in the space-station hall at its 对战终端 (world-scene.ts), which opens the battle facilities. */
 const FACILITY_HALL = {planetId: 'space-station', regionId: 'resources', x: 69, y: 44};
+/**
+ * The damage-display battles: 巴鲁斯 with 乱突, and 布布花 behind it, against 博卡特, whose reflection takes the lead at LOW_HP to 0
+ * on 乱突's last hit while its clip is still at the Boss, and against 哈莫雷特, which only water, fire and grass hurt, so that the
+ * Boss rule stops all of 乱突. DISPLAY_SEED gives the first turns these outcomes; [species, level, skills] per member.
+ */
+const DISPLAY_SEED = 7;
+const DISPLAY_PARTY = [[6, 100, [10022]], [3, 100, [10043, 10016]]];
+const DISPLAY_MOVE = '乱突';
+const LOW_HP = 10;
+const DISPLAY_BOSSES = {counter: 'boss_spt_bokate', blocked: 'boss_spt_hamoleite'};
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
@@ -89,9 +100,22 @@ async function fixtures() {
     const hallPlace = entries(() => writeWorldPreference({...FACILITY_HALL, visited: []}));
     // A new save has no game extras yet; the loader fills in the others.
     const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
+    /** A save whose party is DISPLAY_PARTY, its lead at `leadHp` when given; its seed plays the damage-display turns. */
+    const fighters = leadHp => entries(() => {
+      const game = createGame(structuredClone(catalog), JSON.stringify(newSave(DISPLAY_SEED)));
+      for (const [species, level] of DISPLAY_PARTY) dispatch(game, {type: 'cheatAcquire', species, level});
+      const party = game.snapshot().party;
+      DISPLAY_PARTY.forEach(([, , skills], index) => {
+        dispatch(game, {type: 'cheatMonster', uid: party[index], iv: 31, traitId: null});
+        dispatch(game, {type: 'equip', uid: party[index], skills});
+      });
+      const save = JSON.parse(game.exportSave());
+      if (leadHp) save.storage.find(mon => mon.uid === save.party[0]).hp = leadHp;
+      writeLocalSave(JSON.stringify(save));
+    });
     const saves = {
       journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
-      facilities: {...plain.slot, ...hallPlace},
+      facilities: {...plain.slot, ...hallPlace}, counter: fighters(LOW_HP), blocked: fighters(),
     };
     const facilities = plain.game.snapshot().facilities.map(({name, teams}) => ({name, teams: !!teams?.length}));
     const {left, center, right} = shell.TOOLBAR;
@@ -103,8 +127,9 @@ async function fixtures() {
     const allChallenges = archive.CHALLENGE_TABS.find(([tab]) => tab === 'all')[1];
     const labEssence = lab.game.snapshot().items.find(item => item.id === LAB_ESSENCE);
     const shopTab = pockets.ITEM_POCKETS.find(([pocket]) => pocket === pockets.itemPocket(labEssence.kind))[1];
+    const bosses = Object.fromEntries(Object.entries(DISPLAY_BOSSES).map(([save, id]) => [save, catalog.bosses.find(boss => boss.id === id).name.zh]));
     return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), lab: {essence: labEssence.name, shopTab}, facilities,
-      variants, allChallenges};
+      variants, allChallenges, bosses};
   });
 }
 
@@ -411,15 +436,20 @@ async function detailCards({page, fixture}) {
   await cardInWindow(page, '.skill-hover-card', 'an equipped learned skill');
 }
 
-/** The variant (or practice fight) picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
-async function variantChoice({page, fixture}, {boss, label, caption: named}) {
-  const picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
-    input => input.closest('label').querySelector('strong').firstChild.textContent);
+/** Opens `boss`'s entry in the challenge archive, from the world. */
+async function openChallenge(page, fixture, boss) {
   await waitWorld(page);
   await openTool(page, tool(fixture, 'challenge'));
   await page.click(`.challenge-category-tabs button:text-is("${fixture.allChallenges}")`);
   await page.fill('input[aria-label="搜索挑战"]', boss);
   await page.click(`.challenge-index-scroll button:has(strong:text-is("${boss}"))`);
+}
+
+/** The variant (or practice fight) picked in the challenge archive is preselected in the Boss dialogue it travels to, and the battle starts with it. */
+async function variantChoice({page, fixture}, {boss, label, caption: named}) {
+  const picked = scope => page.$eval(`${scope} .boss-variant-choice input:checked`,
+    input => input.closest('label').querySelector('strong').firstChild.textContent);
+  await openChallenge(page, fixture, boss);
   await page.locator('.challenge-entry-scroll .boss-variant-option', {hasText: label}).click();
   assert.equal(await picked('.challenge-entry-scroll'), label, 'the archive did not pick the variant');
   await page.click('.challenge-management .management-confirm-row button.primary');
@@ -429,6 +459,66 @@ async function variantChoice({page, fixture}, {boss, label, caption: named}) {
   await page.waitForSelector('.classic-battle');
   const caption = await page.$eval('.classic-battle-caption > span', element => element.textContent);
   assert(caption.startsWith(`${named} `), `the battle did not start with the pick: ${caption}`);
+}
+
+/**
+ * In the page: from now on, what the battle shows of the player's lead on every animation frame, kept when it changed: its HP,
+ * whether it acts its move and is greyed out, whether its team strip counts it out and the strip's count, the numbers on the
+ * foe and the dialogue's line.
+ */
+function sampleLead() {
+  const samples = window.battleSamples = [];
+  let last = '';
+  const tick = () => {
+    const lead = document.querySelector('.classic-combatant.side-0'), ally = document.querySelector('.classic-health.ally');
+    const sample = {
+      hp: Number(ally?.querySelector('.classic-hp-track')?.getAttribute('aria-valuenow')),
+      acting: !!lead?.querySelector('.classic-combatant-stage.is-acting'), greyed: !!lead?.classList.contains('is-fainted'),
+      out: ally?.querySelector('.battle-team-member.is-active')?.dataset.fainted === 'true',
+      count: ally?.querySelector('.battle-team-count strong')?.textContent,
+      foeNumbers: [...document.querySelectorAll('.classic-combatant.side-1 .classic-damage-number')].map(number => number.textContent),
+      line: document.querySelector('.classic-dialogue-lines > p')?.textContent,
+    };
+    const key = JSON.stringify(sample);
+    if (key !== last) samples.push(sample);
+    last = key;
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+/** Fights the Boss of `save` (`DISPLAY_BOSSES`) with DISPLAY_MOVE once and returns what the lead's side showed while it played. */
+async function playDisplayTurn({page, fixture}, save) {
+  await openChallenge(page, fixture, fixture.bosses[save]);
+  await page.click('.challenge-management .management-confirm-row button.primary');
+  await page.click('.world-dialogue-actions button.primary');
+  await waitCommands(page);
+  await page.evaluate(sampleLead);
+  await page.click(`.classic-skill:has(strong:text-is("${DISPLAY_MOVE}"))`);
+  await page.waitForFunction(() => document.querySelector('.classic-command-deck')?.getAttribute('aria-busy') === 'true');
+  await waitCommands(page);
+  return page.evaluate(() => window.battleSamples);
+}
+
+/** A counter that takes the attacker to 0 HP at the target turns it down on its team strip when it greys, once its clip is home. */
+async function counterKnockout(session) {
+  const samples = await playDisplayTurn(session, 'counter');
+  const atTarget = samples.filter(sample => sample.hp === 0 && sample.acting);
+  assert(atTarget.length, `the reflection no longer knocks the lead out while its clip plays (seed ${DISPLAY_SEED}): ${JSON.stringify(samples.at(-1))}`);
+  const disagree = samples.filter(sample => sample.out !== sample.greyed);
+  assert.deepEqual(disagree, [], 'the team strip counted the lead out apart from its greying');
+  assert.deepEqual([...new Set(atTarget.map(sample => [sample.out, sample.count].join()))], [`false,${DISPLAY_PARTY.length} / ${DISPLAY_PARTY.length}`],
+    'the lead at 0 HP still acting its move must stay on the strip');
+  assert(samples.some(sample => sample.greyed && sample.out && sample.count === `${DISPLAY_PARTY.length - 1} / ${DISPLAY_PARTY.length}`),
+    'the lead never went down once it was home');
+}
+
+/** A damaging move that a Boss rule stops entirely shows −0 on the Boss, with its one block line. */
+async function stoppedMove(session) {
+  const samples = await playDisplayTurn(session, 'blocked'), zero = '−0';
+  const first = samples.find(sample => sample.foeNumbers.includes(zero));
+  assert(first, `no ${zero} on the Boss: ${JSON.stringify(samples.map(sample => sample.line))}`);
+  assert.equal(first.line, `${session.fixture.bosses.blocked}抵挡了这次伤害。`, `the ${zero} must come with the block line`);
 }
 
 const size = ({width, height}) => `${width}x${height}`;
@@ -458,7 +548,10 @@ const LAYOUT_CHECKS = [
     save: 'facilities', viewport: layout.NARROW_VIEWPORTS.at(-1), run: layout.facilityCascade},
 ];
 
-/** Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default). */
+/**
+ * Each check runs in every engine, in a fresh browser with its save (`journey` by default) and viewport (1280x800 by default);
+ * `motion` plays battles with their creatures' clips instead of reduced motion.
+ */
 const CHECKS = [
   {name: 'boots and opens every toolbar window without page or console errors', run: bootAndWindows},
   {name: 'the arrows do not walk the robot behind a window or the modifier, and walk again after closing', run: arrowsBehindCovers},
@@ -475,6 +568,9 @@ const CHECKS = [
     run: session => variantChoice(session, session.fixture.variants[0])},
   {name: 'the practice fight picked in the challenge archive is preselected in the Boss dialogue and starts the battle', save: 'solo',
     run: session => variantChoice(session, session.fixture.variants[1])},
+  {name: 'a counter that knocks the attacker out at the target turns it down on its team strip only when it greys, once home', save: 'counter',
+    motion: true, run: counterKnockout},
+  {name: 'a damaging move that a Boss rule stops entirely shows −0 on the Boss with its block line', save: 'blocked', motion: true, run: stoppedMove},
   ...LAYOUT_CHECKS,
 ];
 
@@ -493,7 +589,8 @@ const seconds = since => Number(((performance.now() - since) / 1000).toFixed(1))
 function runCheck(engine, check) {
   const label = `${engine}: ${check.name}`, began = performance.now();
   return withBrowser(engine, browser => t.checkAsync(label, async () => {
-    const session = await openGame(browser, {dist: DIST, silent: fixture.silent, seed: fixture.saves[check.save ?? 'journey'], viewport: check.viewport});
+    const session = await openGame(browser,
+      {dist: DIST, silent: fixture.silent, seed: fixture.saves[check.save ?? 'journey'], viewport: check.viewport, motion: check.motion});
     try { await within(CHECK_TIMEOUT_MS, check.run({...session, engine, fixture})); } finally { await session.context.close(); }
   })).then(skipped => { if (!skipped) timings[label] = seconds(began); return skipped; });
 }
