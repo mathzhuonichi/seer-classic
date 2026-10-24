@@ -51,7 +51,7 @@
         "official": 5
       }
     },
-    "ruleNodes": 441,
+    "ruleNodes": 440,
     "waivedMechanics": 4,
     "userReplacementPolicies": 1
   },
@@ -153,8 +153,8 @@
     },
     "src-156d46ed471f": {
       "url": "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "Page dated 2012-10-12: \u4f53\u529b8000\uff0c\u5929\u751f\u653b\u51fb\u7b49\u7ea7+2\uff0c\u65e0\u6cd5\u6d88\u5f3a\u5316; \u4e0d\u80fd\u88ab\u6d88\u5f3a\u5316 is called a trait seldom seen before.",
+      "verification": "verified-period-observation"
     },
     "src-16ab58a7c26b": {
       "url": "https://news.4399.com/gonglue/seer/jingyanxinde/243814.html",
@@ -345,7 +345,7 @@
     },
     "src-36707d6d2b58": {
       "url": "https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
-      "scope": "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000.",
+      "scope": "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000; the fighting avatar \u65e0\u6cd5\u6d88\u5f3a\u5316\uff0c\u6d88\u5f3a\u5316\u6280\u80fdMISS.",
       "verification": "verified-period-observation"
     },
     "src-37f05b4c78ca": {
@@ -558,6 +558,11 @@
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
     },
+    "src-62712704a4a8": {
+      "url": "https://wapbaike.baidu.com/item/%E6%B3%B0%E6%A0%BC%E5%B0%94",
+      "scope": "Undated wiki rewording of the 4399 2011-03-11 report: \u6218\u864e \u6d88\u5f3a\u5316\u6280\u80fd\uff08\u9664\u5fc5\u4e2d\u5916\uff09\u4f1aMISS. The only source of the sure-hit exception.",
+      "verification": "verified-secondary"
+    },
     "src-62cb54d1b47b": {
       "url": "https://news.4399.com/seer/yzzt/201005-26-69566.html",
       "scope": "4399 2010-05-26 repost: 52F \u5df4\u62c9\u9f9f's \u5149\u6805\u70ae and \u9ad8\u538b\u6c34\u67aa.",
@@ -745,7 +750,7 @@
     },
     "src-81e8c86bc37e": {
       "url": "https://news.7k7k.com/content/20110426/84954.html",
-      "scope": "2011-04-26 report: the Baihu body has 50000 HP.",
+      "scope": "2011-04-26 report: the Baihu body has 50000 HP; against \u6218\u864e, \u5148\u7528\u76d6\u4e9a\u65e5\u6708\u7686\u4f24\u6d88\u5f3a\u5316.",
       "verification": "verified-period-observation"
     },
     "src-83f59fbb444c": {
@@ -1105,7 +1110,7 @@
     },
     "src-bdb0818a4979": {
       "url": "https://news.4399.com/seer/spt/201112-05-130110.html",
-      "scope": "2011-12 report: \u6697\u591c\u51b0\u72d0 level 80, HP 8000\u5de6\u53f3 and four named attacks.",
+      "scope": "2011-12 report: \u6697\u591c\u51b0\u72d0 level 80, HP 8000\u5de6\u53f3, four named attacks and \u5929\u751f\u5f3a\u5316\u53cc\u9632\u5e76\u4e14\u4e0d\u53ef\u6d88\u53bb.",
       "verification": "verified-period-observation"
     },
     "src-bdbf956c7b75": {
@@ -1120,13 +1125,18 @@
     },
     "src-bebc3d2b438b": {
       "url": "https://m.juxia.com/news/2012-12-7/70413.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "\u805a\u4fa0 2012-12-07: the same trait list as 4399 2012-12-10, \u6b63\u5e38\u6d88\u5f3a\u5316\u6280\u80fd\u4e0d\u53ef\u6d88\u9664\u53cc\u9632\u5f3a\u5316 included.",
+      "verification": "verified-period-observation"
     },
     "src-c05d14ef8133": {
       "url": "https://www.juxia.com/news/2012-12-28/73290.html",
       "scope": "Listed by an encounter; no field verified by URL presence.",
       "verification": "metadata-only"
+    },
+    "src-c1d3f5f4ea51": {
+      "url": "https://news.4399.com/seer/spt/201212-10-220873.html",
+      "scope": "Page dated 2012-12-10: \u5929\u751f\u5f3a\u5316\u653b\u51fb\u3001\u9632\u5fa1\u548c\u7279\u9632\u7b49\u7ea7+2\uff0c\u5e76\u4e14\u6b63\u5e38\u6d88\u5f3a\u5316\u6280\u80fd\u4e0d\u53ef\u6d88\u9664\u53cc\u9632\u5f3a\u5316.",
+      "verification": "verified-period-observation"
     },
     "src-c6551d8c17d5": {
       "url": "https://news.4399.com/seer/ahwdc/201105-30-98433.html",
@@ -1416,8 +1426,8 @@
     },
     "src-faf912617aa0": {
       "url": "https://news.7k7k.com/content/20110328/82522.html",
-      "scope": "Listed by an encounter; no field verified by URL presence.",
-      "verification": "metadata-only"
+      "scope": "2011-03-28 report: \u6218\u6597\u864e \u5148\u5929\u5f3a\u5316\u65e0\u6cd5\u6d88\u9664\uff08\u6709\u4eba\u8bf4\u76d6\u4e9a\u7684\u65e5\u6708\u6709\u4e00\u5b9a\u7684\u547d\u4e2d\u51e0\u7387\uff0c\u53ef\u4ee5\u6d88\u9664\u5b83\u7684\u5f3a\u5316\uff09; \u7535\u864e \u5148\u5929\u5f3a\u5316\uff0c\u6d88\u9664\u5f88\u96be.",
+      "verification": "verified-period-observation"
     },
     "src-fb997f3eabf8": {
       "url": "https://news.4399.com/seer/spt/201203-17-148791.html",
@@ -2050,14 +2060,15 @@
       "id": "boss_campaign_baihu_avatars",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_campaign_baihu_avatars.json",
-      "sourceSha256": "35844ff9948fd456c8ed4c92649e77b98f62df16dbe257c421a252a4cfc7fc37",
+      "sourceSha256": "572b778c92b7584069fd38ff0039f336ab96a01c1c8036a27b5282c300f33f93",
       "sourceNoteSha256": "c56e10147735ac49fc93e86e7b49cbc460066979b2f2c44cff2ceac0272bfebb",
       "sourceUrls": [
         "https://news.7k7k.com/content/20110426/84954.html",
         "https://news.4399.com/seer/jingyanxinde/201107-21-105242.html",
         "https://news.7k7k.com/content/20110328/82522.html",
         "https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
-        "https://news.7k7k.com/content/20130106/555761.html"
+        "https://news.7k7k.com/content/20130106/555761.html",
+        "https://wapbaike.baidu.com/item/%E6%B3%B0%E6%A0%BC%E5%B0%94"
       ],
       "originalConfidence": {
         "level": "medium",
@@ -2295,8 +2306,15 @@
           "evidence": {
             "status": "inferred",
             "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
+            "note": "Two 2011 reports state that \u6218\u864e's boosts cannot be cleared. The \u65e5\u6708\u7686\u4f24 exception is hearsay in one and advice in another; the sure-hit exception is only on an undated wiki; the reports say clearing skills MISS, while the remake refuses the clear and keeps the damage.",
+            "sources": [
+              "src-36707d6d2b58",
+              "src-faf912617aa0",
+              "src-81e8c86bc37e",
+              "src-62712704a4a8"
+            ],
+            "mechanicStatus": "observed",
+            "parameterStatus": "inferred"
           }
         },
         {
@@ -2461,7 +2479,12 @@
           "status": "inferred",
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-36707d6d2b58",
+            "src-62712704a4a8",
+            "src-81e8c86bc37e",
+            "src-faf912617aa0"
+          ]
         }
       },
       "userPolicies": [],
@@ -11921,7 +11944,7 @@
       "id": "boss_dark_door9_dipulide",
       "category": "tower",
       "sourceFile": "data/bosses/boss_dark_door9_dipulide.json",
-      "sourceSha256": "d42b2fb7037e30128cbf900fd46c39e0436d5bc925510bf5e879bbc5253b6172",
+      "sourceSha256": "0c4b0ef1803a6cc1ab3df70aab419d8f2e231a06c590d08aaf347a8d2708e0ec",
       "sourceNoteSha256": "cd3d580b3f269bcfb78bbd65784bfb8ee1d481928e863db21c2a0a854e5bc138",
       "sourceUrls": [
         "https://news.4399.com/seer/ahwdc/201105-30-98372.html",
@@ -12007,27 +12030,6 @@
       "rules": [
         {
           "index": 0,
-          "path": "rules[0]",
-          "rule": "stages_unclearable",
-          "configuration": {
-            "rule": "script",
-            "id": "stages_unclearable",
-            "params": {
-              "stats": [
-                "atk"
-              ]
-            }
-          },
-          "condition": null,
-          "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
-          }
-        },
-        {
-          "index": 1,
           "path": "phases[0].do[0]",
           "rule": "stat_stage",
           "configuration": {
@@ -17517,7 +17519,7 @@
       "id": "boss_spt_anyebinghu",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_anyebinghu.json",
-      "sourceSha256": "5d4cab36c8ca37edaed06fab40e91a0ccbeaca18ebbe80c3e9fd21551735d8c9",
+      "sourceSha256": "e4ca9be0cfc3f1d890bd431caf783b8edad056f162bdc40c781be9cd46d9aebc",
       "sourceNoteSha256": "4f3fad22ac126c0bbc662038faf3e560cc37470a57268a6f8172e16a42b15692",
       "sourceUrls": [
         "https://news.4399.com/seer/spt/201112-05-130110.html"
@@ -17606,14 +17608,22 @@
           "rule": "stages_unclearable",
           "configuration": {
             "rule": "script",
-            "id": "stages_unclearable"
+            "id": "stages_unclearable",
+            "params": {
+              "stats": [
+                "def",
+                "spd"
+              ]
+            }
           },
           "condition": null,
           "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
+            "status": "observed",
+            "basis": "verified-period-observation",
+            "note": "The guide states that the innate double-defence boost cannot be removed; it says nothing of other boosts.",
+            "sources": [
+              "src-bdb0818a4979"
+            ]
           }
         },
         {
@@ -17795,7 +17805,9 @@
           "status": "inferred",
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-bdb0818a4979"
+          ]
         }
       },
       "userPolicies": [],
@@ -25524,7 +25536,7 @@
       "id": "boss_spt_nate",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_nate.json",
-      "sourceSha256": "cb3fad5d5a77fb404531a734cfe78821b6aaa75a4216ab0180f2503b99856918",
+      "sourceSha256": "9528de52895cbac312e3701ee68d82a1b983713c899a4de30543fb74cb3210d5",
       "sourceNoteSha256": "176790bd4548db1396fb941be9c0a7e64f1f5c53755f06d46c09f8250f0dc0c3",
       "sourceUrls": [
         "https://news.4399.com/seer/jingyanxinde/201210-12-203269.html",
@@ -25627,10 +25639,12 @@
           },
           "condition": null,
           "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
+            "status": "observed",
+            "basis": "verified-period-observation",
+            "note": "The guide states \u65e0\u6cd5\u6d88\u5f3a\u5316 for every boost.",
+            "sources": [
+              "src-156d46ed471f"
+            ]
           }
         },
         {
@@ -25802,7 +25816,9 @@
           "status": "inferred",
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-156d46ed471f"
+          ]
         }
       },
       "userPolicies": [],
@@ -29622,10 +29638,11 @@
       "id": "boss_spt_yisuoli",
       "category": "spt",
       "sourceFile": "data/bosses/boss_spt_yisuoli.json",
-      "sourceSha256": "68c32b54c457c7987d55c6cbfe90997edc0b019ea41705476abdee7f6d3f81ee",
+      "sourceSha256": "2b80386cbecf6e27bdd7d4d42c45a97b51228418722d86288c1f89411bf731dc",
       "sourceNoteSha256": "1354b16b05e5f7ed66067105365f795af81c199aa8865d8d57e702fef80fe5de",
       "sourceUrls": [
-        "https://m.juxia.com/news/2012-12-7/70413.html"
+        "https://m.juxia.com/news/2012-12-7/70413.html",
+        "https://news.4399.com/seer/spt/201212-10-220873.html"
       ],
       "originalConfidence": {
         "level": "high",
@@ -29659,7 +29676,8 @@
               "basis": "unverified",
               "note": "The configured level has not been verified by the curated field claims below.",
               "sources": [
-                "src-bebc3d2b438b"
+                "src-bebc3d2b438b",
+                "src-c1d3f5f4ea51"
               ]
             },
             "iv": {
@@ -29685,7 +29703,8 @@
               "basis": "unverified",
               "note": "Exact HP has not been established for this member; approximate reports, extrapolation and reconstructed formulas are not exact server parameters.",
               "sources": [
-                "src-bebc3d2b438b"
+                "src-bebc3d2b438b",
+                "src-c1d3f5f4ea51"
               ]
             },
             "skills": {
@@ -29722,10 +29741,13 @@
           },
           "condition": null,
           "evidence": {
-            "status": "inferred",
-            "basis": "unverified",
-            "note": "This exact rule, parameter set and event timing have not been independently certified. Consult the separate execution-support ledger for engine coverage.",
-            "sources": []
+            "status": "observed",
+            "basis": "verified-period-observation",
+            "note": "Both guides state that normal clears cannot remove the double-defence boost.",
+            "sources": [
+              "src-c1d3f5f4ea51",
+              "src-bebc3d2b438b"
+            ]
           }
         },
         {
@@ -29871,7 +29893,8 @@
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-bebc3d2b438b"
+            "src-bebc3d2b438b",
+            "src-c1d3f5f4ea51"
           ]
         },
         "iv": {
@@ -29897,7 +29920,8 @@
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
           "sources": [
-            "src-bebc3d2b438b"
+            "src-bebc3d2b438b",
+            "src-c1d3f5f4ea51"
           ]
         },
         "skills": {
@@ -29912,7 +29936,10 @@
           "status": "inferred",
           "basis": "unverified",
           "note": "Aggregate retains the least certain member; inspect member records for exact field claims.",
-          "sources": []
+          "sources": [
+            "src-bebc3d2b438b",
+            "src-c1d3f5f4ea51"
+          ]
         }
       },
       "userPolicies": [],

@@ -86,8 +86,8 @@ for(const boss of bosses){
     for(const [child,part]of Object.entries(value))if(typeof part==='object')visit(part,`${scope}/${child}`,child);
   }
   visit(boss);
-  // These are explicit retained reconstruction choices, not newly inferred values.
-  for(const [index,note]of (boss.engine_notes??[]).entries())if(/assum|estimat|unclear|placeholder|not stated|unknown|no formula|not recovered|uncertif|uncertain|no .*source/i.test(note)&&!/^(skills:|reward:|HP |Level )/.test(note))row.approximated.push({rule:'catalog_reconstruction',scope:`engine_notes/${index}`,reason:note});
+  // These are explicit retained reconstruction choices, not newly inferred values; the rule name stages_unclearable is not one.
+  for(const [index,note]of (boss.engine_notes??[]).entries())if(/assum|estimat|unclear(?!able)|placeholder|not stated|unknown|no formula|not recovered|uncertif|uncertain|no .*source/i.test(note)&&!/^(skills:|reward:|HP |Level )/.test(note))row.approximated.push({rule:'catalog_reconstruction',scope:`engine_notes/${index}`,reason:note});
   if(boss.id==='boss_spt_eersaila')row.approximated.push({rule:'script',id:'revive_unless_status_ko',scope:'variants/fri',reason:'The retained seven-revival cap is not established by the 2010-08-13 guide. Other period wording mentions an early-turn window; its exact interaction is unresolved. The cap is not presented as official.'});
   support.bosses.push(row);
 }
@@ -414,6 +414,20 @@ check('Baihu avatars: 战虎 moves first and keeps its boost except against sure
   assert.equal(hit(volt,electric,25,'normal','status','percent'),0);assert.equal(volt.applyStatus(electric,'poison',{turns:3}),false);
   const kill={kind:'true',ohko:true,source:volt.active(0),skill:data.skills.get(11022)};
   assert.equal(volt.dealDamage(electric,electric.hp,kill),2500);assert(electric.fainted);assert.deepEqual(volt.warnings,[]);
+});
+check('A clear leaves only the boosts a period report calls unclearable: all of 纳特, the double defence of 暗夜冰狐 and 伊索里, none of 迪普利德',()=>{
+  // 4399 2012-10-12 纳特: 无法消强化; 4399 2011-12-05 暗夜冰狐: 天生强化双防并且不可消去; 4399 2012-12-10 伊索里: 正常消强化技能不可消除双防强化.
+  // 迪普利德's 无法消除 is only on 百科, whose cited 4399 guide does not say it, so its innate atk +6 clears (user 2026-10-24).
+  const cases=[['boss_spt_nate',13212,{atk:2}],['boss_spt_anyebinghu',12399,{def:2,spd:2,spe:0}],['boss_spt_yisuoli',13373,{atk:0,def:2,spd:2}],
+    ['boss_dark_door9_dipulide',11743,{atk:0}]];
+  for(const [id,attack,after] of cases){
+    const battle=make(id,undefined,{sides:[player([20300])]}),boss=battle.active(1);
+    if(id==='boss_spt_anyebinghu')boss.stages.spe=1;
+    battle.submit(1,{kind:'move',skill:attack});battle.submit(0,{kind:'move',skill:20300});
+    const events=battle.resolveTurn(),cleared=Object.values(after).includes(0);
+    for(const [stat,stage] of Object.entries(after))assert.equal(boss.stages[stat],stage,`${id} ${stat}`);
+    assert.equal(events.some(event=>event.type==='stages_cleared'&&event.side===1),cleared,`${id} cleared`);
+  }
 });
 check('Ruiersi passes full evasion such as 空间跳跃; only the block of 盖亚 群影乱舞 still stops it; a Boss without the rule is negated',()=>{
   // 4399 133584 特性3: 闪光艾菲亚空间跳跃等完全闪避技能无效，只有盖亚的群魔乱舞能挡五回合 (盖亚's protective skill is 群影乱舞).

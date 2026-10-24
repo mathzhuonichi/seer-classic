@@ -119,6 +119,12 @@ def rule_proof(boss_id: str, path: str, node: dict) -> dict:
         return evidence("authored", "user-adopted-policy", "The user explicitly chose strict current HP below 25%, forced-first attacking and direct KO, with ordinary behavior restored at 25% or above. Historical guides conflict between half and quarter HP; this is a remake policy, not server certification.", [MOSHI, CLASSIC], policyId="v57-moshidilu-quarter-execution")
     if boss_id == "boss_spt_eersaila" and symbol == "crit_rate_scales_with_hp_lost":
         return evidence("authored", "user-waived-mechanic", "The historical qualitative probability claim remains unquantified and is explicitly omitted by user request; no numerical curve is executed.", [EER], policyId="v57-eersaila-critical-curve", scopeStatus="waived")
+    stated = STATED_RULES.get((boss_id, symbol))
+    if stated:
+        expected, srcs, note, exact = stated
+        if node != expected:
+            raise ValueError(f"Curated rule claim no longer matches {boss_id} {path}: {node!r}")
+        return observed(note, srcs) if exact else evidence("inferred", "unverified", note, srcs, mechanicStatus="observed", parameterStatus="inferred")
     specific = {
         ("boss_spt_moshidilu", "ignore_type_chart"): (MOSHI, "Neutral type interaction is explicitly reported."),
         ("boss_spt_moshidilu", "damage_scales_with_hp_lost"): (MOSHI, "Damage increases as HP falls; no formula is reported."),
@@ -281,7 +287,7 @@ def curate_tower_high(entries: dict[str, dict]) -> None:
 G4399, G7K = "https://news.4399.com/seer/spt/", "http://news.7k7k.com/content/"
 AJIASHA = period(G4399 + "201201-10-137149.html", "Page dated 2012-01-10: 阿加莎，80级，草系，8000血左右, and four named attacks.")
 AKEXIYA = period(G4399 + "200911-23-48480.html", "Page dated 2009-11-23: 等级：65级, 阿克希亚生命：1000.")
-ANYE = period(G4399 + "201112-05-130110.html", "2011-12 report: 暗夜冰狐 level 80, HP 8000左右 and four named attacks.")
+ANYE = period(G4399 + "201112-05-130110.html", "2011-12 report: 暗夜冰狐 level 80, HP 8000左右, four named attacks and 天生强化双防并且不可消去.")
 BOKATE = period(G4399 + "201206-02-165052.html", "2012-06 report: 博卡特 体力12000.")
 DELASA = period(G7K + "20110328/82467.html", "2011-03-28 report: the 19:00-21:00 limited mode lowers 德拉萨's HP from 10000 to 5000 and weakens its attacks.")
 DELASA2 = period(G7K + "20110331/82812.html", "2011-03-31 report: the daytime 德拉萨 has 10000 HP and strong attacks; the evening one has 5000.")
@@ -472,8 +478,17 @@ QILIN_WHEELS = {wheel: period(url, f"Qilin wheel-{wheel} report: HP{' and four n
 FORBIDDEN = period("https://news.4399.com/seer/jingyanxinde/201108-18-110516.html",
                    "Page dated 2011-08-18: the Xuanwu and Qinglong bodies have 50000 HP after the 2011-08-05 update.")
 BAIHU = period("https://news.4399.com/seer/saiergonglue/201103-11-88984.html",
-               "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000.")
-BAIHU_BODY = period("https://news.7k7k.com/content/20110426/84954.html", "2011-04-26 report: the Baihu body has 50000 HP.")
+               "Release-day 2011-03-11 report: electric avatar HP 2500, fighting avatar HP 3000; the fighting avatar 无法消强化，消强化技能MISS.")
+BAIHU_BODY = period("https://news.7k7k.com/content/20110426/84954.html",
+                    "2011-04-26 report: the Baihu body has 50000 HP; against 战虎, 先用盖亚日月皆伤消强化.")
+BAIHU_7K = period("https://news.7k7k.com/content/20110328/82522.html",
+                  "2011-03-28 report: 战斗虎 先天强化无法消除（有人说盖亚的日月有一定的命中几率，可以消除它的强化）; 电虎 先天强化，消除很难.")
+BAIHU_WIKI = source("https://wapbaike.baidu.com/item/%E6%B3%B0%E6%A0%BC%E5%B0%94",
+                    "Undated wiki rewording of the 4399 2011-03-11 report: 战虎 消强化技能（除必中外）会MISS. The only source of the sure-hit exception.",
+                    "verified-secondary")
+NATE = period(G4399J + "201210-12-203269.html", "Page dated 2012-10-12: 体力8000，天生攻击等级+2，无法消强化; 不能被消强化 is called a trait seldom seen before.")
+YISUOLI = period(G4399 + "201212-10-220873.html", "Page dated 2012-12-10: 天生强化攻击、防御和特防等级+2，并且正常消强化技能不可消除双防强化.")
+YISUOLI_JUXIA = period("https://m.juxia.com/news/2012-12-7/70413.html", "聚侠 2012-12-07: the same trait list as 4399 2012-12-10, 正常消强化技能不可消除双防强化 included.")
 BAIHU_MOVES = period("https://news.7k7k.com/content/20130106/555761.html", "2013 report: the Baihu body's four commonly used attacks.")
 BAIHU_GUARD = period("https://news.4399.com/seer/jingyanxinde/201103-12-89181.html", "2011-03-12 report: the Baihu guardian Laokemengde has 10000 HP.")
 ZHUQUE = period("https://news.4399.com/seer/jingyanxinde/201108-10-108989.html",
@@ -489,6 +504,20 @@ KATESI_WIKI = source("https://wapbaike.baidu.com/item/%E5%8D%A1%E7%89%B9%E6%96%A
                      "Undated wiki boss section: Lv45 and four named attacks; only 舍身撞击 is corroborated by period reports.", "verified-secondary")
 DARK_WIKI = source("https://wapbaike.baidu.com/item/%E6%9A%97%E9%BB%91%E6%AD%A6%E6%96%97%E5%9C%BA/9200029",
                    "Undated wiki door-8 section attributed to the 4399 2013-08-19 guide: Paduoni and Jialuode are Lv100.", "verified-secondary")
+# Boss rules a period report states outright: (configuration, sources, note, whether the report also gives every parameter).
+STATED_RULES = {
+    ("boss_spt_nate", "stages_unclearable"): ({"rule": "script", "id": "stages_unclearable"}, [NATE],
+        "The guide states 无法消强化 for every boost.", True),
+    ("boss_spt_anyebinghu", "stages_unclearable"): ({"rule": "script", "id": "stages_unclearable", "params": {"stats": ["def", "spd"]}}, [ANYE],
+        "The guide states that the innate double-defence boost cannot be removed; it says nothing of other boosts.", True),
+    ("boss_spt_yisuoli", "stages_unclearable"): ({"rule": "script", "id": "stages_unclearable", "params": {"stats": ["def", "spd"]}},
+        [YISUOLI, YISUOLI_JUXIA], "Both guides state that normal clears cannot remove the double-defence boost.", True),
+    ("boss_campaign_baihu_avatars", "stages_unclearable"): (
+        {"rule": "script", "id": "stages_unclearable", "params": {"except_sure_hit": True, "except_skills_zh": ["日月皆伤"]}},
+        [BAIHU, BAIHU_7K, BAIHU_BODY, BAIHU_WIKI],
+        "Two 2011 reports state that 战虎's boosts cannot be cleared. The 日月皆伤 exception is hearsay in one and advice in another; the sure-hit "
+        "exception is only on an undated wiki; the reports say clearing skills MISS, while the remake refuses the clear and keeps the damage.", False),
+}
 REI_TRAINING = [("boss_rei_training1", 35, 350, "map 17 region 1"), ("boss_rei_training2", 45, 500, "map 27 region 1"),
                 ("boss_rei_training3", 75, 1500, "map 49 entry 雷伊技能特训之雷纳多"), ("boss_rei_training4", 65, 1000, "map 40 entry 雷伊技能特训之阿克希亚"),
                 ("boss_rei_training5", 100, 1200, "map 32 entry 雷伊技能特训之雷伊幻影")]

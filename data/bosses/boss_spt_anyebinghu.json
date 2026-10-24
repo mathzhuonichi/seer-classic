@@ -27,7 +27,13 @@
   "rules": [
     {
       "rule": "script",
-      "id": "stages_unclearable"
+      "id": "stages_unclearable",
+      "params": {
+        "stats": [
+          "def",
+          "spd"
+        ]
+      }
     },
     {
       "rule": "immune_status_list",
@@ -127,7 +133,7 @@
     "zh": "魔龙王魑魅魍魉、布鲁克克海洋之心等百分比扣血逐步削弱；或盖亚高伤害技能直接击杀。速度很慢（无极之冰+1后仍不到300）。"
   },
   "engine_notes": [
-    "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects.",
+    "stages_unclearable for def/spd only: the player cannot clear its innate double-defence boost (4399 2011-12-05: 天生强化双防并且不可消去); its other boosts, such as the speed of 无极之冰, can be cleared.",
     "Innate double-defence boost (天生强化双防并且不可消去); +2 each is an estimate.",
     "Immune to control skills, not 同生共死; susceptible to 海洋之心、圣灵魔闪光、魑魅魍魉、静电场.",
     "Below 50% HP its crit rate rises (crit_rate_up, magnitude unknown).",
