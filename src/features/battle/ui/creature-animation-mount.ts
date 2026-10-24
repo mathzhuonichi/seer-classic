@@ -75,10 +75,7 @@ const browserDeps: CreatureAnimationDeps = {
   retain: retainBattleAnimation,
   clock: battleRuntimeClock,
   async loadRenderer() {
-    // pixi.js/unsafe-eval replaces Pixi's generated functions, which the desktop app's content security policy forbids.
-    const [{SwfPlayer}, {WebGLRenderer, Container}] = await Promise.all([
-      import('@seer-pet-anim/swf-renderer'), import('pixi.js'), import('pixi.js/unsafe-eval'),
-    ]);
+    const [{SwfPlayer}, {WebGLRenderer, Container}] = await Promise.all([import('@seer-pet-anim/swf-renderer'), import('pixi.js')]);
     return {SwfPlayer, WebGLRenderer, Container};
   },
 };
