@@ -2,15 +2,14 @@
  * Drives the built game in real browsers for the `needs-browser` suites.
  *
  * There is no dev server and no localhost: `buildApp` builds the app with Vite into artifacts/ without public/, and every
- * request to ORIGIN is answered by Playwright request interception, from that build and then from public/, or from the folder
- * SEER_PUBLIC names: `SEER_PUBLIC=releases/desktop-payload/public` runs the suites against the staged desktop payload.
+ * request to ORIGIN is answered by Playwright request interception, from that build and then from public/.
  * `SEER_PACKAGE=<unzipped browser package>` runs them against that package instead: nothing is built, and every request is
  * answered by the package's own server.mjs, run by its own Node.js for macOS (_package-server.mjs, over an IPC channel).
  * Every page is silent: the game's own mute setting, WebAudio contexts that never run and muted media elements, and Chrome
  * also runs with --mute-audio. Browsers are closed by `withBrowser`, also when a check fails or times out.
  *
  * Chrome is the system Google Chrome (Playwright's `chrome` channel) or the executable named by SEER_CHROME. Playwright
- * WebKit stands in for the Tauri WKWebView and runs only when installed (`npx playwright-core install webkit`).
+ * WebKit stands in for Safari and runs only when installed (`npx playwright-core install webkit`).
  */
 import {spawn} from 'node:child_process';
 import fs from 'node:fs';
@@ -20,8 +19,8 @@ import {chromium, webkit} from 'playwright-core';
 import {root} from './_harness.mjs';
 
 const ORIGIN = 'http://seer.test';
-/** The asset folder served beside the build: public/, or the staged desktop payload named by SEER_PUBLIC (relative to the repository). */
-const PUBLIC = path.resolve(root, process.env.SEER_PUBLIC ?? 'public');
+/** The asset folder served beside the build. */
+const PUBLIC = path.join(root, 'public');
 /** An unzipped browser package (tools/distribution/pack_browser.mjs) whose own server answers every request, or null. */
 const PACKAGE = process.env.SEER_PACKAGE ? path.resolve(root, process.env.SEER_PACKAGE) : null;
 const VIEWPORT = {width: 1280, height: 800};

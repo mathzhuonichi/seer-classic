@@ -6,12 +6,12 @@
  *     启动游戏-Windows.bat, 启动游戏-macOS.command   tools/distribution/browser/launch-*: CRLF; LF and executable
  *     runtime/<platform>/node[.exe], LICENSE        the official Node.js pinned in tools/distribution/browser/node-runtime.json
  *     server.mjs                                    tools/distribution/browser/server.mjs
- *     game/                                         the web build (index.html, assets/, ruffle/) and the desktop payload
+ *     game/                                         the web build (index.html, assets/, ruffle/) and the payload
  *     请先阅读.txt, THIRD-PARTY-NOTICES.txt
  *
  * Steps: the web build without public/ (no source maps); THIRD-PARTY-NOTICES.txt (third-party-notices.mjs);
- * the payload of stage_desktop_payload.py (the files the desktop app ships, APFS clones) and the desktop-payload gate on this
- * build and payload; Node.js from .cache/node-runtime/, downloaded when missing and checked against the pinned SHA-256; the
+ * the payload of stage_payload.py (the requestable files of public/, APFS clones) and the payload gate on this build and
+ * payload; Node.js from .cache/node-runtime/, downloaded when missing and checked against the pinned SHA-256; the
  * folder; the ZIP (zip.mjs, without ZIP64). The staging folder releases/browser-stage/ is deleted unless --keep is given.
  *
  * Usage: node tools/distribution/pack_browser.mjs [--out releases] [--keep]   (NODE_USE_ENV_PROXY=1 behind a proxy)
@@ -140,8 +140,8 @@ fs.rmSync(stage, {recursive: true, force: true});
 fs.mkdirSync(stage, {recursive: true});
 const runtime = await nodeRuntime(), buildDir = await buildGame(), notices = path.join(stage, 'THIRD-PARTY-NOTICES.txt');
 run(process.execPath, [path.join(here, 'third-party-notices.mjs'), '--node-license', runtime.license, '--out', notices]);
-run('python3', [path.join(here, 'stage_desktop_payload.py'), '--out', path.join(stage, 'payload'), '--notices', notices]);
-run(process.execPath, [path.join(root, 'tools/verification/desktop-payload.mjs'), '--dist', buildDir, '--payload', path.join(stage, 'payload/public')]);
+run('python3', [path.join(here, 'stage_payload.py'), '--out', path.join(stage, 'payload'), '--notices', notices]);
+run(process.execPath, [path.join(root, 'tools/verification/payload.mjs'), '--dist', buildDir, '--payload', path.join(stage, 'payload/public')]);
 const folder = assemble(buildDir, path.join(stage, 'payload/public'), runtime, notices), entries = zipEntries(folder);
 const zip = path.join(out, `${name}-browser.zip`), started = performance.now();
 const written = writeZip(`${zip}.part`, entries);

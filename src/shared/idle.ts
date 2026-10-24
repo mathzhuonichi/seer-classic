@@ -5,8 +5,8 @@ let holds = 0;
 const held: (() => void)[] = [];
 
 /**
- * Runs `task` in an idle slot after the frame. WebKit, the macOS app's web view, has no requestIdleCallback: there a timer set in
- * the next animation frame runs after that frame is painted. Node has neither and uses a timer.
+ * Runs `task` in an idle slot after the frame. WebKit (Safari) has no requestIdleCallback: there a timer set in the next
+ * animation frame runs after that frame is painted. Node has neither and uses a timer.
  */
 function schedule(task: () => void) {
   if (typeof requestIdleCallback === 'function') requestIdleCallback(() => task());

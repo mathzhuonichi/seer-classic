@@ -5,7 +5,7 @@
     "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check.",
-    "release": "Checks the browser package before it ships: its web build and staged payload (desktop-payload, which npm run package runs before zipping), or its ZIP (browser-package, after npm run package)."
+    "release": "Checks the browser package before it ships: its web build and staged payload (payload, which npm run package runs before zipping), or its ZIP (browser-package, after npm run package)."
   },
   "suites": {
     "acquisition-limits-controller.mjs": {
@@ -163,9 +163,6 @@
     "damage-presentation.ts": {
       "status": "gate"
     },
-    "desktop-payload.mjs": {
-      "status": "release"
-    },
     "dex-acquisition.ts": {
       "status": "gate"
     },
@@ -239,6 +236,9 @@
     },
     "paid-spt-recruitment.mjs": {
       "status": "gate"
+    },
+    "payload.mjs": {
+      "status": "release"
     },
     "playtest-v18-regressions.ts": {
       "status": "gate"

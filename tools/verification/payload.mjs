@@ -1,17 +1,18 @@
 /**
- * The desktop package's release gate on its two inputs: the code build (dist-desktop/, `npm run build:desktop`) and the staged
- * payload (releases/desktop-payload/public/, `npm run stage:desktop`). `npm run package` runs it before building.
+ * The browser package's release gate on its two inputs, before they become its game/ folder: the web build without public/ and
+ * the staged payload (tools/distribution/stage_payload.py). `npm run package` (tools/distribution/pack_browser.mjs) runs it
+ * before zipping.
  *
- * - dist-desktop holds only index.html, assets/ and ruffle/, and no source map.
+ * - The build holds only index.html, assets/ and ruffle/, and no source map.
  * - payload.json is of this version and matches the staged files (count, sizes and SHA-256); the payload holds every file of
- *   public/ except the exclusion list (tools/distribution/desktop-payload-exclusions.json), and no .DS_Store or .md file.
+ *   public/ except the exclusion list (tools/distribution/payload-exclusions.json), and no .DS_Store or .md file.
  * - Every path the minified build can request exists in the payload, and no excluded path is among them: the literal paths in
  *   its scripts, styles and page; its template paths (`/portraits/${…}.png`, a `<skillId>` placeholder), filled with every
  *   payload or public file they match whose filled-in parts are numbers or string literals of the build; and the paths that
  *   requested SVG, CSS and JSON files name in turn. A dynamic path the gate cannot read fails it: a concatenation or template
  *   with a known top folder after an expression, and a template to an asset file whose folder comes from an expression.
  *
- * Usage: node tools/verification/desktop-payload.mjs [--dist dist-desktop] [--payload releases/desktop-payload/public]
+ * Usage: node tools/verification/payload.mjs --dist <web build> --payload <staged payload>/public
  */
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
@@ -21,8 +22,8 @@ import {parseArgs} from 'node:util';
 import {parseSync} from 'vite';
 import {root, suite} from './_harness.mjs';
 
-const {values: args} = parseArgs({options: {dist: {type: 'string', default: 'dist-desktop'},
-  payload: {type: 'string', default: 'releases/desktop-payload/public'}}});
+const {values: args} = parseArgs({options: {dist: {type: 'string'}, payload: {type: 'string'}}});
+if (!args.dist || !args.payload) throw new Error('usage: --dist <web build> --payload <staged payload>/public');
 const DIST = path.resolve(root, args.dist), PAYLOAD = path.resolve(root, args.payload), PUBLIC = path.join(root, 'public');
 const DIST_ENTRIES = ['assets', 'index.html', 'ruffle'];
 const MANIFEST = 'payload.json', NOTICES = 'THIRD-PARTY-NOTICES.txt';
@@ -40,7 +41,7 @@ const sha256 = file => crypto.createHash('sha256').update(fs.readFileSync(file))
 const escape = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 function loadExclusions() {
-  const data = JSON.parse(fs.readFileSync(path.join(root, 'tools/distribution/desktop-payload-exclusions.json'), 'utf8'));
+  const data = JSON.parse(fs.readFileSync(path.join(root, 'tools/distribution/payload-exclusions.json'), 'utf8'));
   const named = new Set(data.groups.flatMap(group => group.paths));
   return relative => named.has(relative) || data.names.includes(path.posix.basename(relative)) || data.suffixes.some(s => relative.endsWith(s));
 }
@@ -128,9 +129,9 @@ function followReferences(found, payload) {
   return missing;
 }
 
-const {check, witness, finish} = suite('desktop-payload');
-check('dist-desktop holds only the page, its assets and Ruffle, with no source map', () => {
-  assert.deepEqual(fs.readdirSync(DIST).sort(), DIST_ENTRIES, `${args.dist} top level`);
+const {check, witness, finish} = suite('payload');
+check('the build holds only the page, its assets and Ruffle, with no source map', () => {
+  assert.deepEqual(fs.readdirSync(DIST).sort(), DIST_ENTRIES, 'the build\'s top level');
   const maps = files(DIST).filter(file => file.endsWith('.map'));
   assert.deepEqual(maps, [], 'source maps');
   assert.doesNotMatch(readBuild().sources.join('\n'), /sourceMappingURL/, 'source map references');

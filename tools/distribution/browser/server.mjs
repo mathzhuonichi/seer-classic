@@ -18,7 +18,7 @@ export const PORT = 1426;
 /** Answers with this game's name and version, so a second start can tell a running game server from another program. */
 export const PROBE_PATH = '/__seer-classic';
 export const APP = 'seer-classic';
-/** game/payload.json: the version and every staged file's size and SHA-256 (tools/distribution/stage_desktop_payload.py). */
+/** game/payload.json: the version and every staged file's size and SHA-256 (tools/distribution/stage_payload.py). */
 const PAYLOAD = 'payload.json';
 /** How long a probe of a busy port waits for an answer. */
 const PROBE_TIMEOUT_MS = 2000;

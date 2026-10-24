@@ -1,5 +1,5 @@
 {
- "about": "Files of public/ that the desktop payload leaves out (tools/distribution/stage_desktop_payload.py). They stay in the workspace. The release gate tools/verification/desktop-payload.mjs fails if the built game can request one of them.",
+ "about": "Files of public/ that the browser package leaves out of game/ (tools/distribution/stage_payload.py). They stay in the workspace. The release gate tools/verification/payload.mjs fails if the built game can request one of them.",
  "names": [
   ".DS_Store"
  ],
@@ -86,8 +86,7 @@
    "reason": "Superseded scene renders and AI source bitmaps.",
    "paths": [
     "battle-animations/hd/910-bitmap-19-v44.png",
-    "maps/hd/10032-background-v44.png",
-    "maps/hd/726-v44.png"
+    "maps/hd/10032-background-v44.png"
    ]
   },
   {
@@ -150,23 +149,6 @@
     "ui/classic/maps/galaxy-likong.png",
     "ui/classic/maps/galaxy-pano.png",
     "ui/classic/maps/galaxy-rogue.png",
-    "ui/classic/maps/hd/galaxy-helix-4x.png",
-    "ui/classic/maps/hd/galaxy-kalan-4x.png",
-    "ui/classic/maps/hd/galaxy-likong-4x.png",
-    "ui/classic/maps/hd/galaxy-pano-4x.png",
-    "ui/classic/maps/hd/galaxy-rogue-4x.png",
-    "ui/classic/maps/hd/planet-1-4x.png",
-    "ui/classic/maps/hd/planet-102-4x.png",
-    "ui/classic/maps/hd/planet-29.svg",
-    "ui/classic/maps/hd/planet-484.svg",
-    "ui/classic/maps/hd/planet-702.svg",
-    "ui/classic/maps/hd/planet-717.svg",
-    "ui/classic/maps/hd/planet-726-4x.png",
-    "ui/classic/maps/hd/selector-helix-4x.png",
-    "ui/classic/maps/hd/selector-kalan-4x.png",
-    "ui/classic/maps/hd/selector-likong-4x.png",
-    "ui/classic/maps/hd/selector-pano-4x.png",
-    "ui/classic/maps/hd/selector-rogue-4x.png",
     "ui/classic/maps/hd/ship-blueprint-v44.png",
     "ui/classic/maps/planet-1-diagram.png",
     "ui/classic/maps/planet-10.png",

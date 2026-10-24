@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Stage the desktop app's payload: the files of public/ that the game can request, in releases/desktop-payload/public/.
+"""Stage the browser package's payload: the files of public/ that the game can request, in <out>/public/.
 
-The desktop executable embeds only the code build (dist-desktop/); the payload ships beside it as bundle resources
-(src-tauri/tauri.bundle.conf.json). Files named in tools/distribution/desktop-payload-exclusions.json are left out. On
-APFS every file is a clone, so staging costs no disk space. payload.json records the app version and every file's size and
-SHA-256; the app checks it at startup and the release gate (tools/verification/desktop-payload.mjs) checks it before packaging.
+The packer (tools/distribution/pack_browser.mjs) builds the game without public/ and moves this payload into the package's
+game/ folder beside the build. Files named in tools/distribution/payload-exclusions.json are left out. On APFS every file is a
+clone, so staging costs no disk space. payload.json records the version and every file's size and SHA-256; server.mjs checks
+the sizes at startup and the release gate (tools/verification/payload.mjs) checks it all before zipping.
 """
 
 import argparse
@@ -18,8 +18,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 PUBLIC = ROOT / "public"
-EXCLUSIONS = Path(__file__).with_name("desktop-payload-exclusions.json")
-DEFAULT_OUT = ROOT / "releases" / "desktop-payload"
+EXCLUSIONS = Path(__file__).with_name("payload-exclusions.json")
 MANIFEST = "payload.json"
 NOTICES = "THIRD-PARTY-NOTICES.txt"
 
@@ -65,8 +64,8 @@ def sha256(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="staging directory (default releases/desktop-payload)")
-    parser.add_argument("--notices", type=Path, help="THIRD-PARTY-NOTICES.txt to place at the payload root")
+    parser.add_argument("--out", type=Path, required=True, help="staging directory; the payload goes into its public/")
+    parser.add_argument("--notices", type=Path, required=True, help="THIRD-PARTY-NOTICES.txt to place at the payload root")
     args = parser.parse_args()
     version = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"]
     names, suffixes, excluded = load_exclusions()
@@ -77,9 +76,7 @@ def main():
         shutil.rmtree(args.out)
     target_root.mkdir(parents=True)
     copy, entries = clone_or_copy(), {}
-    sources = [(relative, PUBLIC / relative) for relative in staged]
-    if args.notices:
-        sources.append((NOTICES, args.notices))
+    sources = [(relative, PUBLIC / relative) for relative in staged] + [(NOTICES, args.notices)]
     for relative, source in sources:
         target = target_root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
