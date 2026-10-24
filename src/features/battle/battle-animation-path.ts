@@ -1,10 +1,11 @@
 // How an original clip travels across the arena: each frame's body and extent, and the per-frame offsets that keep a move inside it.
 import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import {EMPTY_BOUNDS, frameMeshBounds, unionBounds, type AnimationBounds} from './battle-animation-registration.ts';
+import {
+  Regions, apart, byRegion, framePieces, links, middleOf, moved, movedOf, nearest, shift, sized, type Link, type Piece, type Point,
+} from './battle-clip-pieces.ts';
 
-type Mesh = Pick<SwfClipData['sequences'][number]['frames'][number]['mesh'], 'positions' | 'uvs' | 'indices' | 'mulColors'>;
 type Clip = Pick<SwfClipData, 'sequences'>;
-export interface Point {x: number; y: number}
 /**
  * The creature's own parts lie within this many standby sizes of where the middle of its body went since the frame before
  * (or of the middle of its parts, where nothing of its body carries on); farther ones are parts it throws, such as a held
@@ -34,73 +35,12 @@ export interface SequencePath {
 /** Per-frame offsets of a sequence (mesh units), and the whole extent of its frames once offset. */
 export interface ContainedPath {offsets: Point[]; bounds: AnimationBounds}
 
-/** One drawn copy of an atlas region: visible triangles sharing vertices, their area, centre and extent. */
-interface Piece {region: string; area: number; x: number; y: number; bounds: AnimationBounds}
-
-/** The atlas region a triangle draws: its UV rect. */
-const regionOf = (uvs: ArrayLike<number>, [a, b, c]: number[]) =>
-  `${Math.min(uvs[a * 2], uvs[b * 2], uvs[c * 2])},${Math.max(uvs[a * 2], uvs[b * 2], uvs[c * 2])},`
-  + `${Math.min(uvs[a * 2 + 1], uvs[b * 2 + 1], uvs[c * 2 + 1])},${Math.max(uvs[a * 2 + 1], uvs[b * 2 + 1], uvs[c * 2 + 1])}`;
-
-/** The pieces a frame draws: its visible triangles (any corner not fully transparent), joined where they share vertices. */
-function framePieces({positions, uvs, indices, mulColors}: Mesh): Piece[] {
-  const root = new Map<number, number>(), find = (v: number) => {
-    while (root.has(v) && root.get(v) !== v) v = root.get(v)!;
-    return v;
-  };
-  const triangles: number[][] = [];
-  for (let t = 0; t + 2 < indices.length; t += 3) {
-    const corners = [indices[t], indices[t + 1], indices[t + 2]];
-    if (corners.every(v => mulColors[v * 4 + 3] === 0)) continue;
-    triangles.push(corners);
-    for (const v of corners.slice(1)) root.set(find(v), find(corners[0]));
-  }
-  const pieces = new Map<number, Piece>();
-  for (const corners of triangles) {
-    const [a, b, c] = corners.map(v => ({x: positions[v * 2], y: positions[v * 2 + 1]}));
-    const area = Math.abs((b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y)) / 2, key = find(corners[0]);
-    const piece = pieces.get(key) ?? {region: regionOf(uvs, corners), area: 0, x: a.x, y: a.y, bounds: EMPTY_BOUNDS};
-    const total = piece.area + area, share = total ? area / total : 0;
-    const extent = {minX: Math.min(a.x, b.x, c.x), maxX: Math.max(a.x, b.x, c.x), minY: Math.min(a.y, b.y, c.y), maxY: Math.max(a.y, b.y, c.y)};
-    pieces.set(key, {region: piece.region, area: total, bounds: unionBounds(piece.bounds, extent),
-      x: piece.x + ((a.x + b.x + c.x) / 3 - piece.x) * share, y: piece.y + ((a.y + b.y + c.y) / 3 - piece.y) * share});
-  }
-  return [...pieces.values()];
-}
-
-/** The value at half the total weight. */
-function weightedMedian(entries: [value: number, weight: number][]): number {
-  entries.sort((a, b) => a[0] - b[0]);
-  let remaining = entries.reduce((sum, [, weight]) => sum + weight, 0) / 2;
-  for (const [value, weight] of entries) if ((remaining -= weight) <= 0) return value;
-  return entries[entries.length - 1][0];
-}
-/** Squared distance, which orders distances as they do. */
-const apart = (a: Point, b: Point) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
-/** The index of the place nearest `point`. */
-function nearest(point: Point, places: Point[]) {
-  let best = 0;
-  for (let i = 1; i < places.length; i++) if (apart(places[i], point) < apart(places[best], point)) best = i;
-  return best;
-}
-
-/** The pieces by region, in drawing order. */
-function byRegion(pieces: Piece[]) {
-  const regions = new Map<string, Piece[]>();
-  for (const piece of pieces) {
-    const copies = regions.get(piece.region);
-    if (copies) copies.push(piece);
-    else regions.set(piece.region, [piece]);
-  }
-  return regions;
-}
-
 /** A region of the creature's own: where the standby first draws it, and the most copies one standby frame draws. */
 interface OwnRegion {home: Piece[]; copies: number}
 /** The creature's own regions: those its standby draws. A region only a move draws is an effect. */
-function creatureRegions(clip: Clip): Map<string, OwnRegion> {
-  const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0], regions = new Map<string, OwnRegion>();
-  for (const frame of standby.frames) for (const [region, pieces] of byRegion(framePieces(frame.mesh))) {
+function creatureRegions(clip: Clip, atlas: Regions): Map<number, OwnRegion> {
+  const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0], regions = new Map<number, OwnRegion>();
+  for (const frame of standby.frames) for (const [region, pieces] of byRegion(framePieces(frame.mesh, atlas))) {
     const known = regions.get(region);
     regions.set(region, {home: known?.home ?? pieces, copies: Math.max(known?.copies ?? 0, pieces.length)});
   }
@@ -111,7 +51,7 @@ function creatureRegions(clip: Clip): Map<string, OwnRegion> {
  * The creature's own pieces among the pieces of its regions in a frame. A region drawn more often than the standby ever does
  * is the creature plus copies of it (afterimages, clones): the creature is the copies nearest where it had that part before.
  */
-function ownPieces(pieces: Piece[], regions: Map<string, OwnRegion>, before: Map<string, Piece[]>): Piece[] {
+function ownPieces(pieces: Piece[], regions: Map<number, OwnRegion>, before: Map<number, Piece[]>): Piece[] {
   return [...byRegion(pieces)].flatMap(([region, copies]) => {
     const {home, copies: count} = regions.get(region)!, places = before.get(region) ?? home;
     if (copies.length <= count) return copies;
@@ -119,33 +59,6 @@ function ownPieces(pieces: Piece[], regions: Map<string, OwnRegion>, before: Map
     return copies.sort((a, b) => away.get(a)! - away.get(b)!).slice(0, count);
   });
 }
-
-/**
- * The copies of one region in two frames, paired: in drawing order while their number holds (a timeline keeps its layers),
- * else the nearest pairs first, so a copy that appears or vanishes leaves the others paired with themselves.
- */
-function pairs(from: Piece[], to: Piece[]): [Piece, Piece][] {
-  if (from.length === to.length) return to.map((piece, i) => [from[i], piece]);
-  const near = from.flatMap(a => to.map(b => [apart(a, b), a, b] as const)).sort((x, y) => x[0] - y[0]), used = new Set<Piece>();
-  return near.flatMap(([, a, b]): [Piece, Piece][] => used.has(a) || used.has(b) ? [] : (used.add(a).add(b), [[a, b]]));
-}
-
-/** A piece of one frame and the piece of the frame before that it continues. */
-type Link = [before: Piece, piece: Piece];
-/** Each piece of `to` linked to the piece of `from` it continues, region by region (`pairs`). */
-function links(from: Piece[], to: Piece[]): Link[] {
-  const earlier = byRegion(from);
-  return [...byRegion(to)].flatMap(([region, copies]) => pairs(earlier.get(region) ?? [], copies));
-}
-/** How far linked pieces moved, area-weighted median per axis, signed or not; null without a link. */
-function displacement(linked: Link[], signed = false): Point | null {
-  if (!linked.length) return null;
-  const by = (axis: 'x' | 'y') => weightedMedian(linked.map(([before, piece]) => [piece[axis] - before[axis], piece.area]));
-  const x = by('x'), y = by('y');
-  return signed ? {x, y} : {x: Math.abs(x), y: Math.abs(y)};
-}
-/** How far the pieces of regions drawn in both frames moved; null when no region is in both. */
-const shift = (from: Piece[], to: Piece[]) => displacement(links(from, to));
 
 /** No limit, where nothing visible carries on from one frame to the next; no motion, into a sequence from the resting pose. */
 const FREE: Point = {x: Infinity, y: Infinity}, STILL: Point = {x: 0, y: 0};
@@ -161,17 +74,17 @@ function redrawn(from: Piece[], to: Piece[]): Point {
 
 /** The creature's body in a frame: its pieces, their area-weighted middle, and whether they are its own sprites. */
 interface Body {pieces: Piece[]; middle: Point; own: boolean}
-const middleOf = (pieces: Piece[]): Point => ({x: weightedMedian(pieces.map(p => [p.x, p.area])), y: weightedMedian(pieces.map(p => [p.y, p.area]))});
 /**
  * The body among a frame's `candidates`: those within `reach` of where the body's middle went with the pieces that carry it
  * on from the frame before (`linked`), so a part it throws or a copy of it does not take the body over; where nothing of
  * the body carries on, those within reach of the candidates' middle.
  */
-function bodyAmong(candidates: Piece[], own: boolean, previous: Body | null, linked: Link[], reach: number): Body {
+function bodyAmong(candidates: Piece[], own: boolean, previous: Body | null, linked: Link[], motion: Point | null, reach: number): Body {
   const near = (middle: Point) => candidates.filter(piece => apart(piece, middle) <= reach ** 2);
-  const kept = new Set(previous?.pieces), step = previous && displacement(linked.filter(([before]) => kept.has(before)), true);
+  const kept = new Set(previous?.pieces), step = previous && movedOf(linked, motion, ([before]) => kept.has(before));
   const carried = step && previous ? near({x: previous.middle.x + step.x, y: previous.middle.y + step.y}) : [];
-  const middle = middleOf(candidates), pieces = carried.length ? carried : near(middle);
+  if (carried.length) return {pieces: carried, middle: middleOf(carried), own};
+  const middle = middleOf(candidates), pieces = near(middle);
   return {pieces, middle: pieces.length ? middleOf(pieces) : middle, own};
 }
 /**
@@ -181,12 +94,12 @@ function bodyAmong(candidates: Piece[], own: boolean, previous: Body | null, lin
  * and freely where it appears after a frame without it. A body of sprites the move draws instead of the creature's own
  * lends the offset nothing.
  */
-function bodyMotion(body: Body | null, last: Body | null, linked: Link[]): Point {
+function bodyMotion(body: Body | null, last: Body | null, linked: Link[], motion: Point | null): Point {
   if (!body?.own) return STILL;
   if (!last?.own) return FREE;
   const parts = new Set(last.pieces.map(piece => piece.region)), pieces = new Set(body.pieces);
   if (!body.pieces.some(piece => parts.has(piece.region))) return redrawn(last.pieces, body.pieces);
-  return displacement(linked.filter(([, piece]) => pieces.has(piece))) ?? STILL;
+  return sized(movedOf(linked, motion, ([, piece]) => pieces.has(piece))) ?? STILL;
 }
 /**
  * Each sequence's path, by sequence name; `home` is the standby extent, whose size scales BODY_REACH, and `hitFrames` each
@@ -197,22 +110,22 @@ function bodyMotion(body: Body | null, last: Body | null, linked: Link[]): Point
  * when the drawings do not overlap. Its body can move farther (bodyMotion).
  */
 export function sequencePaths(clip: Clip, home: AnimationBounds, hitFrames: ReadonlyMap<string, number>): Map<string, SequencePath> {
-  const reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY), regions = creatureRegions(clip);
+  const atlas = new Regions(), regions = creatureRegions(clip, atlas), reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY);
   return new Map(clip.sequences.filter(s => s.frames.length).map(s => {
-    let before = new Map<string, Piece[]>(), previous: Body | null = null;
-    const drawn = s.frames.map(frame => framePieces(frame.mesh)), creature = drawn.map(pieces => pieces.filter(piece => regions.has(piece.region)));
-    const linked = creature.map((pieces, i) => i ? links(creature[i - 1], pieces) : []);
+    let before = new Map<number, Piece[]>(), previous: Body | null = null;
+    const drawn = s.frames.map(frame => framePieces(frame.mesh, atlas)), creature = drawn.map(pieces => pieces.filter(piece => regions.has(piece.region)));
+    const linked = creature.map((pieces, i) => i ? links(creature[i - 1], pieces) : []), shifts = linked.map(moved);
     const tracked = drawn.map((pieces, i) => {
       const own = ownPieces(creature[i], regions, before);
       if (own.length) before = byRegion(own);
-      const body = pieces.length ? bodyAmong(own.length ? own : pieces, own.length > 0, previous, linked[i], reach) : null;
+      const body = pieces.length ? bodyAmong(own.length ? own : pieces, own.length > 0, previous, linked[i], shifts[i], reach) : null;
       return previous = body?.pieces.length ? body : null;
     });
     const motions = drawn.map((pieces, i) => !i ? STILL : !pieces.length || !drawn[i - 1].length ? FREE
-      : displacement(linked[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
+      : sized(shifts[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
     return [s.name, {
       bodies: tracked.map(body => body ? extentOf(body.pieces) : EMPTY_BOUNDS), owned: tracked.map(body => !!body?.own), motions,
-      bodyMotions: tracked.map((body, i) => i ? bodyMotion(body, tracked[i - 1], linked[i]) : STILL),
+      bodyMotions: tracked.map((body, i) => i ? bodyMotion(body, tracked[i - 1], linked[i], shifts[i]) : STILL),
       extents: s.frames.map(frameMeshBounds), hitFrame: hitFrames.get(s.name) ?? -1,
     }];
   }));
