@@ -1,7 +1,7 @@
 /**
  * Browser regressions: keyboard, focus and clickability behaviours that only a real browser shows, each fixed after the
  * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), the Boss variant carried from the archive to the dialogue, and
- * the damage display's moments during a played turn (design/notes/damage-display-2026-10-23.md).
+ * the damage display's moments and type ratings during a played turn (design/notes/damage-display-2026-10-23.md).
  * Status `needs-browser`: it needs a local Google Chrome, and runs every check in Playwright WebKit too when that is installed
  * (otherwise WebKit is reported as skipped).
  *
@@ -59,6 +59,16 @@ const DISPLAY_PARTY = [[6, 100, [10022]], [3, 100, [10043, 10016]]];
 const DISPLAY_MOVE = '乱突';
 const LOW_HP = 10;
 const DISPLAY_BOSSES = {counter: 'boss_spt_bokate', blocked: 'boss_spt_hamoleite'};
+/**
+ * The type-rating battles, with the same seed: 雷伊 with 雷电击 against 肯佩德 (water and shadow, so electric hits it ×4), whose 25%
+ * reflection answers the hit on 雷伊, and against 纳多雷 (ground), which electric cannot hurt. 肯佩德's reply then knocks 雷伊 out
+ * (the reflection and 暗黑狂流 take more than its 283 HP), so DISPLAY_PARTY's reserve keeps the battle going to the next command.
+ */
+const RATED_PARTY = [[70, 100, [10171]], DISPLAY_PARTY.at(-1)];
+const RATED_MOVE = '雷电击';
+const RATED_BOSSES = {rated: 'boss_spt_kenpeide', immune: 'boss_spt_naduolei'};
+/** 无效−0's colour, the original's grey (PetFightDLL_201308 `tf_gray`, #666666). */
+const IMMUNE_GREY = 'rgb(102, 102, 102)';
 
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
@@ -100,12 +110,12 @@ async function fixtures() {
     const hallPlace = entries(() => writeWorldPreference({...FACILITY_HALL, visited: []}));
     // A new save has no game extras yet; the loader fills in the others.
     const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
-    /** A save whose party is DISPLAY_PARTY, its lead at `leadHp` when given; its seed plays the damage-display turns. */
-    const fighters = leadHp => entries(() => {
+    /** A save whose party is `members` ([species, level, skills]), its lead at `leadHp` when given; its seed plays the display turns. */
+    const fighters = (members, leadHp) => entries(() => {
       const game = createGame(structuredClone(catalog), JSON.stringify(newSave(DISPLAY_SEED)));
-      for (const [species, level] of DISPLAY_PARTY) dispatch(game, {type: 'cheatAcquire', species, level});
+      for (const [species, level] of members) dispatch(game, {type: 'cheatAcquire', species, level});
       const party = game.snapshot().party;
-      DISPLAY_PARTY.forEach(([, , skills], index) => {
+      members.forEach(([, , skills], index) => {
         dispatch(game, {type: 'cheatMonster', uid: party[index], iv: 31, traitId: null});
         dispatch(game, {type: 'equip', uid: party[index], skills});
       });
@@ -115,7 +125,8 @@ async function fixtures() {
     });
     const saves = {
       journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
-      facilities: {...plain.slot, ...hallPlace}, counter: fighters(LOW_HP), blocked: fighters(),
+      facilities: {...plain.slot, ...hallPlace}, counter: fighters(DISPLAY_PARTY, LOW_HP), blocked: fighters(DISPLAY_PARTY),
+      rated: fighters(RATED_PARTY), immune: fighters(RATED_PARTY),
     };
     const facilities = plain.game.snapshot().facilities.map(({name, teams}) => ({name, teams: !!teams?.length}));
     const {left, center, right} = shell.TOOLBAR;
@@ -127,7 +138,8 @@ async function fixtures() {
     const allChallenges = archive.CHALLENGE_TABS.find(([tab]) => tab === 'all')[1];
     const labEssence = lab.game.snapshot().items.find(item => item.id === LAB_ESSENCE);
     const shopTab = pockets.ITEM_POCKETS.find(([pocket]) => pocket === pockets.itemPocket(labEssence.kind))[1];
-    const bosses = Object.fromEntries(Object.entries(DISPLAY_BOSSES).map(([save, id]) => [save, catalog.bosses.find(boss => boss.id === id).name.zh]));
+    const bosses = Object.fromEntries(Object.entries({...DISPLAY_BOSSES, ...RATED_BOSSES})
+      .map(([save, id]) => [save, catalog.bosses.find(boss => boss.id === id).name.zh]));
     return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), lab: {essence: labEssence.name, shopTab}, facilities,
       variants, allChallenges, bosses};
   });
@@ -464,11 +476,12 @@ async function variantChoice({page, fixture}, {boss, label, caption: named}) {
 /**
  * In the page: from now on, what the battle shows of the player's lead on every animation frame, kept when it changed: its HP,
  * whether it acts its move and is greyed out, whether its team strip counts it out and the strip's count, the numbers on the
- * foe and the dialogue's line.
+ * foe (their text and colour) and on the lead, and the dialogue's line.
  */
 function sampleLead() {
   const samples = window.battleSamples = [];
   let last = '';
+  const numbers = side => [...document.querySelectorAll(`.classic-combatant.side-${side} .classic-damage-number`)];
   const tick = () => {
     const lead = document.querySelector('.classic-combatant.side-0'), ally = document.querySelector('.classic-health.ally');
     const sample = {
@@ -476,7 +489,8 @@ function sampleLead() {
       acting: !!lead?.querySelector('.classic-combatant-stage.is-acting'), greyed: !!lead?.classList.contains('is-fainted'),
       out: ally?.querySelector('.battle-team-member.is-active')?.dataset.fainted === 'true',
       count: ally?.querySelector('.battle-team-count strong')?.textContent,
-      foeNumbers: [...document.querySelectorAll('.classic-combatant.side-1 .classic-damage-number')].map(number => number.textContent),
+      foeNumbers: numbers(1).map(number => number.textContent), foeColours: numbers(1).map(number => getComputedStyle(number).color),
+      leadNumbers: numbers(0).map(number => number.textContent),
       line: document.querySelector('.classic-dialogue-lines > p')?.textContent,
     };
     const key = JSON.stringify(sample);
@@ -487,14 +501,14 @@ function sampleLead() {
   requestAnimationFrame(tick);
 }
 
-/** Fights the Boss of `save` (`DISPLAY_BOSSES`) with DISPLAY_MOVE once and returns what the lead's side showed while it played. */
-async function playDisplayTurn({page, fixture}, save) {
+/** Fights the Boss of `save` (`DISPLAY_BOSSES`, `RATED_BOSSES`) with `move` once and returns what the lead's side showed while it played. */
+async function playDisplayTurn({page, fixture}, save, move = DISPLAY_MOVE) {
   await openChallenge(page, fixture, fixture.bosses[save]);
   await page.click('.challenge-management .management-confirm-row button.primary');
   await page.click('.world-dialogue-actions button.primary');
   await waitCommands(page);
   await page.evaluate(sampleLead);
-  await page.click(`.classic-skill:has(strong:text-is("${DISPLAY_MOVE}"))`);
+  await page.click(`.classic-skill:has(strong:text-is("${move}"))`);
   await page.waitForFunction(() => document.querySelector('.classic-command-deck')?.getAttribute('aria-busy') === 'true');
   await waitCommands(page);
   return page.evaluate(() => window.battleSamples);
@@ -519,6 +533,28 @@ async function stoppedMove(session) {
   const first = samples.find(sample => sample.foeNumbers.includes(zero));
   assert(first, `no ${zero} on the Boss: ${JSON.stringify(samples.map(sample => sample.line))}`);
   assert.equal(first.line, `${session.fixture.bosses.blocked}抵挡了这次伤害。`, `the ${zero} must come with the block line`);
+}
+
+/**
+ * A move's number on its target names its type rating while the move plays (克制−N on 肯佩德), and the counter it draws on the
+ * attacker names none (−N on 雷伊).
+ */
+async function ratedNumbers(session) {
+  const samples = await playDisplayTurn(session, 'rated', RATED_MOVE), during = samples.filter(sample => sample.acting && sample.foeNumbers.length);
+  const shown = JSON.stringify(samples.map(({foeNumbers, leadNumbers, line}) => ({foeNumbers, leadNumbers, line})));
+  assert(during.length, `no number on the Boss while 雷伊's move played (seed ${DISPLAY_SEED}): ${shown}`);
+  assert(during.every(sample => sample.foeNumbers.every(text => /^克制−\d+$/.test(text))), `the Boss's number must read 克制−N: ${shown}`);
+  assert(during.some(sample => sample.leadNumbers.length), `no reflection on 雷伊 with its hit: ${shown}`);
+  assert(during.every(sample => sample.leadNumbers.every(text => /^−\d+$/.test(text))), `the counter must name no rating: ${shown}`);
+}
+
+/** A move its target's type is immune to shows a grey 无效−0 on the target, with the immunity's line. */
+async function immuneNumber(session) {
+  const samples = await playDisplayTurn(session, 'immune', RATED_MOVE), shown = '无效−0';
+  const first = samples.find(sample => sample.foeNumbers.includes(shown));
+  assert(first, `no ${shown} on the Boss: ${JSON.stringify(samples.map(sample => sample.line))}`);
+  assert.equal(first.line, `${session.fixture.bosses.immune}免疫了这次攻击。`, `the ${shown} must come with the immunity's line`);
+  assert.equal(first.foeColours[first.foeNumbers.indexOf(shown)], IMMUNE_GREY, `the ${shown} must be grey`);
 }
 
 const size = ({width, height}) => `${width}x${height}`;
@@ -571,6 +607,9 @@ const CHECKS = [
   {name: 'a counter that knocks the attacker out at the target turns it down on its team strip only when it greys, once home', save: 'counter',
     motion: true, run: counterKnockout},
   {name: 'a damaging move that a Boss rule stops entirely shows −0 on the Boss with its block line', save: 'blocked', motion: true, run: stoppedMove},
+  {name: 'a move\'s number on its target names its type rating (克制) as it plays, and the counter on the attacker names none', save: 'rated',
+    motion: true, run: ratedNumbers},
+  {name: 'a move the target\'s type is immune to shows a grey 无效−0 on it with the immunity\'s line', save: 'immune', motion: true, run: immuneNumber},
   ...LAYOUT_CHECKS,
 ];
 

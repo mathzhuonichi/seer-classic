@@ -1,7 +1,7 @@
 // The battle screen's turn playback and command lock, without React: the screen renders the state and lends its clock and sound.
 import type { DispatchResult, GameAction } from '../../kernel/contract.ts';
 import type { GameSound } from '../../shared/audio/game-audio.ts';
-import type { BattlePresentationFrame, BattleView } from '../../shared/views.ts';
+import type { BattlePresentationFrame, BattleView, TypeEffect } from '../../shared/views.ts';
 import type { MoveTiming } from './battle-animation.ts';
 import { battleEndSound, settledDialogue } from './battle-hud.ts';
 import { CAPTURE_OUTCOME_MS, DAMAGE_NUMBER_MS, DAMAGE_NUMBER_ROWS, captureDialogue, planBattleFrame } from './battle-playback.ts';
@@ -18,9 +18,9 @@ export interface SkillEffectCue {
 }
 
 /**
- * A damage or healing number on screen, from a hit or heal frame or a hit's counter, the −0 of a stopped move's block line,
- * or the MISS of a miss frame; it outlives its frame and turn (DAMAGE_NUMBER_MS), but not its creature's place on screen. A
- * move's later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
+ * A damage or healing number on screen, from a hit or heal frame or a hit's counter, the −0 of a stopped move's line (a block's
+ * or an immunity's), or the MISS of a miss frame; it outlives its frame and turn (DAMAGE_NUMBER_MS), but not its creature's place
+ * on screen. A move's later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
  */
 export interface FloatingNumber {
   /** The id of its first frame or counter. */
@@ -35,6 +35,8 @@ export interface FloatingNumber {
   kind: 'damage' | 'healing' | 'miss';
   /** Any of its hits was critical. */
   critical: boolean;
+  /** A move's damage on its target: the move's type rating when not neutral (`BattlePresentationFrame.typeEffect`). */
+  typeEffect?: TypeEffect;
   /** Its row among its side's numbers on screen, from 0 (DAMAGE_NUMBER_ROWS rows), so numbers on one creature stack instead of overlapping. */
   row: number;
 }
@@ -174,15 +176,17 @@ const activeUid = (frame: BattlePresentationFrame, side = frame.side) => (side =
 type ShownNumber = Omit<FloatingNumber, 'row'>;
 
 /**
- * The numbers a frame shows: a hit's or heal's own, on the attacker the counter a hit drew (`BattlePresentationFrame.counter`),
- * −0 on the target of a damaging move that a block stopped entirely (`stopped`), and a miss's MISS on its target.
+ * The numbers a frame shows: a hit's or heal's own, with its move's type rating, on the attacker the counter a hit drew
+ * (`BattlePresentationFrame.counter`), −0 on the target of a damaging move that a block or its type stopped entirely (`stopped`),
+ * and a miss's MISS on its target.
  */
 function frameNumbers(frame: BattlePresentationFrame): ShownNumber[] {
   const shown: ShownNumber[] = [], own = { id: frame.numberId ?? frame.id, frame: frame.id, side: frame.side, uid: activeUid(frame) };
+  const rated = frame.typeEffect && { typeEffect: frame.typeEffect };
   if ((frame.kind === 'hit' || frame.kind === 'heal') && frame.amount !== undefined) {
-    shown.push({ ...own, amount: frame.amount, kind: frame.kind === 'heal' ? 'healing' : 'damage', critical: !!frame.critical });
+    shown.push({ ...own, amount: frame.amount, kind: frame.kind === 'heal' ? 'healing' : 'damage', critical: !!frame.critical, ...rated });
   }
-  if (frame.stopped) shown.push({ ...own, amount: 0, kind: 'damage', critical: false });
+  if (frame.stopped) shown.push({ ...own, amount: 0, kind: 'damage', critical: false, ...rated });
   if (frame.kind === 'miss') shown.push({ ...own, amount: 0, kind: 'miss', critical: false });
   const { counter } = frame, side = frame.side === 1 ? 0 : 1;
   if (counter) {

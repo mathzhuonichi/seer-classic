@@ -78,6 +78,9 @@
 .classic-damage-number.healing{color:#d4ffc8;-webkit-text-stroke-color:#11522a;text-shadow:0 4px 0 #062c14,0 0 14px #000c}
 /* A miss reads MISS in the damage style, as the original drew it, a little smaller and spaced out as a word. */
 .classic-damage-number.miss{font-size:calc(var(--number-size) * .85);letter-spacing:3px}
+/* 无效−0 in the original's grey with its white glow (PetFightDLL_201308: #666666, GlowFilter #ffffff); the drop shadow is the
+ * matchup indicator's 无效 dark. 克制 and 微弱 take the number's own style, as the original drew its prefix in the number's. */
+.classic-damage-number.immune{color:#666;-webkit-text-stroke-color:#fff;text-shadow:0 4px 0 #2a2d32,0 0 14px #000c}
 .classic-combatant.is-fainted .classic-creature-facing{opacity:.35;filter:grayscale(1)}
 .motion-physical{animation:classicPhysical .68s cubic-bezier(.2,.7,.25,1) both}
 .motion-special{animation:classicSpecial .7s ease-in-out both}

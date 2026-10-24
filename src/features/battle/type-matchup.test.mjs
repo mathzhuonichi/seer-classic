@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import {eventFrames} from './battle-presentation.ts';
-import {matchupLabel, matchupRelation, multiplierText, typeMatchup} from './type-matchup.ts';
+import {matchupLabel, matchupRelation, multiplierText, typeEffect, typeMatchup} from './type-matchup.ts';
 
 const chart = JSON.parse(fs.readFileSync(new URL('../../../data/types.json', import.meta.url), 'utf8'));
 const mon = (...typeIds) => ({typeIds});
@@ -31,6 +31,11 @@ test('dual types attack and defend with the dual-type rule', () => {
 
 test('the relation follows my multiplier', () => {
   assert.deepEqual([0, 0.25, 0.5, 1, 1.125, 2, 4].map(matchupRelation), ['immune', 'weak', 'weak', 'neutral', 'strong', 'strong', 'strong']);
+});
+
+test('a move\'s number names its rating unless it is neutral or the chart rated no hit', () => {
+  assert.deepEqual([0, 0.25, 0.5, 1, 1.125, 2, 4, undefined].map(typeEffect),
+    ['immune', 'weak', 'weak', undefined, 'strong', 'strong', 'strong', undefined]);
 });
 
 test('multipliers print without floating-point noise or trailing zeros', () => {

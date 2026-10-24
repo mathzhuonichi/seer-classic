@@ -1,7 +1,7 @@
 import type { CSSProperties, RefObject } from 'react';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../../shared/views.ts';
 import { getCreatureArt } from '../../../shared/creature-art.ts';
-import { STATUS_LABELS } from '../../../shared/labels.ts';
+import { MATCHUP_LABELS, STATUS_LABELS } from '../../../shared/labels.ts';
 import { appearanceOf } from '../../../shared/monster-views.ts';
 import { battleCreatureExtent } from '../battle-creature-size.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
@@ -32,12 +32,15 @@ const NUMBER_TEXT: Record<FloatingNumber['kind'], (amount: number) => string> = 
 /**
  * A damage or healing number or a MISS, held for DAMAGE_NUMBER_MS in its row of its side's stack. It is drawn again each time a
  * later hit changes it (keyed by the frame that last changed it): it stays in view, swells briefly and holds its time again.
+ * A move's number on its target names the move's type rating before it (克制−93), in its own style, and 无效−0 is grey, as the
+ * original drew them; a critical number names none, as the original's critical digits did not.
  */
 function DamageNumber({ number }: { number: FloatingNumber }) {
   const style = { '--number-row': number.row, animationDuration: `${DAMAGE_NUMBER_MS}ms` } as CSSProperties;
+  const rating = number.critical ? undefined : number.typeEffect;
   const className = `classic-damage-number${number.kind === 'damage' ? '' : ` ${number.kind}`}${number.critical ? ' critical-number' : ''}`
-    + `${number.frame !== number.id ? ' is-updated' : ''}`;
-  return <strong className={className} style={style}>{NUMBER_TEXT[number.kind](number.amount)}</strong>;
+    + `${rating === 'immune' ? ' immune' : ''}${number.frame !== number.id ? ' is-updated' : ''}`;
+  return <strong className={className} style={style}>{`${rating ? MATCHUP_LABELS[rating] : ''}${NUMBER_TEXT[number.kind](number.amount)}`}</strong>;
 }
 
 /**

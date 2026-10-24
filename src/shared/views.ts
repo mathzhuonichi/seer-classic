@@ -97,6 +97,8 @@ export interface TypeMatchupView {
   /** The opponent's types against mine. */
   theirs: number;
 }
+/** A rating other than neutral, which the original drew before a move's damage number: 克制, 微弱 or 无效 (`MATCHUP_LABELS`). */
+export type TypeEffect = Exclude<MatchupRelation, 'neutral'>;
 /**
  * One step of a turn on screen. `side` is the creature it shows on: a move's user, a hit's or heal's creature, and a `miss`'s
  * target, where it shows MISS at the moment the hit would have hurt.
@@ -114,8 +116,16 @@ export interface BattlePresentationFrame {
    * showed that tally's number.
    */
   counter?: { id: number; amount: number; numberId?: number };
-  /** The block line of a damaging move that none of its damage got through to: it shows −0 on its target, as the original did. */
+  /**
+   * The line of a damaging move that none of its damage got through to, a block's or its target's type immunity (`immune`): it
+   * shows −0 on its target, as the original did, 无效−0 for the immunity.
+   */
   stopped?: boolean;
+  /**
+   * How the type chart rated the move whose damage this frame's number shows (its hit's, or its −0), on its target, when not
+   * neutral: the original drew 克制, 微弱 or 无效 before that number. A counter, recoil, status or turn-end damage has none.
+   */
+  typeEffect?: TypeEffect;
 }
 export interface BattleView {
   name: string; turn: number; player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; log: string[];

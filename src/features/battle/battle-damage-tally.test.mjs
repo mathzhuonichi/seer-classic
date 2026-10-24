@@ -190,6 +190,41 @@ test('a damaging move stopped before any of its damage reached its target shows 
   assert.deepEqual(stopped(show([{type: 'turn_end', turn: 1}, block(1)])), [], 'nor is a block outside a move');
 });
 
+test('a move\'s number on its target names the move\'s type rating from its first rated hit, and nothing else names one', () => {
+  const rated = (events, side = 1) => show(events).frames.filter(frame => frame.kind === 'hit' && frame.side === side).map(frame => frame.typeEffect);
+  const counter = (amount, hp) => hurt(0, amount, hp, {kind: 'fixed', sourceSide: 1});
+  assert.deepEqual(rated([used(0, MULTI), hurt(1, 30, 70, {effectiveness: 2}), hurt(1, 31, 39, {effectiveness: 2})]), ['strong', 'strong'],
+    'every frame of the count names it');
+  const countered = show([used(0, MULTI), hurt(1, 30, 70, {effectiveness: 0.5}), counter(5, 95)]).frames.find(frame => frame.counter);
+  assert.deepEqual([countered.typeEffect, countered.counter], ['weak', {id: 3, amount: 5, numberId: undefined}],
+    '微弱 below ×1, and the counter it drew on the attacker names none');
+  assert.deepEqual(rated([used(0, MULTI), hurt(1, 30, 70, {effectiveness: 1})]), [undefined], 'a neutral move names none');
+  assert.deepEqual(rated([used(0, RIDER), hurt(1, 40, 60, {effectiveness: 4}), hurt(1, 40, 20, {kind: 'fixed', sourceSide: 0, skill: RIDER})]),
+    ['strong', 'strong'], 'the rider joins its hit\'s rating, as one number');
+  assert.deepEqual(rated([used(0, RIDER), hurt(1, 40, 60, {kind: 'fixed', sourceSide: 0, skill: RIDER})]), [undefined],
+    'fixed damage alone was not rated by the chart');
+  assert.deepEqual(rated([used(0, MULTI), hurt(1, 50, 50, {effectiveness: 2}), hurt(0, 12, 88, {kind: 'fixed', effectiveness: 2})], 0), [undefined],
+    'nor is the user\'s own recoil');
+  assert.deepEqual(rated([{type: 'turn_end', turn: 1}, hurt(1, 12, 88, {kind: 'percent', status: 'poison', effectiveness: 2})]), [undefined],
+    'nor status damage');
+});
+
+test('the −0 of a stopped move names its stopped hits\' rating, and a type-immune move shows 无效−0 with its line, before any damage', () => {
+  const block = effectiveness => ({type: 'damage_blocked', side: 1, rule: 'invulnerable_turns', effectiveness});
+  const immune = {type: 'immune', side: 1, skill: MULTI};
+  const stopped = ({frames}) => frames.filter(frame => frame.stopped).map(({kind, side, text, typeEffect}) => [kind, side, text, typeEffect]);
+  assert.deepEqual(stopped(show([used(0, MULTI), block(0.5), block(0.5)])), [['message', 1, '布布花抵挡了这次伤害。', 'weak']]);
+  assert.deepEqual(stopped(show([used(0, MULTI), block(1)])), [['message', 1, '布布花抵挡了这次伤害。', undefined]], 'a neutral one names none');
+  assert.deepEqual(stopped(show([used(1, FOE_MOVE), {type: 'protected', side: 0}])), [['message', 0, '巴鲁斯抵挡了这次伤害。', undefined]],
+    'a protection stops the move before the chart rates it');
+  const immuneMove = show([used(0, MULTI), immune, used(1, FOE_MOVE), hurt(0, 9, 91, {effectiveness: 1})]);
+  assert.deepEqual(stopped(immuneMove), [['message', 1, '布布花免疫了这次攻击。', 'immune']], 'on the target, with the line');
+  assert.deepEqual(immuneMove.log, ['巴鲁斯使用了三连击。　布布花免疫了这次攻击。', '布布花使用了撞击。　巴鲁斯受到 9 点伤害。剩余体力 91/100。'],
+    'the log is as before');
+  assert.deepEqual(stopped(show([used(0, MULTI), hurt(1, 30, 70, {effectiveness: 2}), immune])), [], 'after a hit its number stands');
+  assert.deepEqual(stopped(show([{type: 'turn_end', turn: 1}, immune])), [], 'and outside a move there is no move to show');
+});
+
 test('a heal or a life between the hits starts a new number, so the number never runs past what the HP bar shows', () => {
   const {hits} = show([used(0, MULTI), hurt(1, 100, 0, {overkill: 20}),
     {type: 'revive', side: 1, slot: 0, name: '布布花', hp: 100, maxHp: 100, reason: 'lives', livesLeft: 0}, hurt(1, 30, 70),

@@ -9,14 +9,19 @@ import { loadCatalogNode } from '../catalog.mjs';
 // Isolated catalog and save fixtures; this runner never accesses browser storage.
 const catalog = loadCatalogNode();
 const attackId = 990001, waitId = 990002, multiId = 990003, reviveId = 'audit_bench_revive';
+// Type ratings on the numbers: a water double hit, and an electric hit that a ground creature is immune to and grass resists.
+const waterId = 990004, electricId = 990005;
 const drain = { op: 'heal', target: 'self', pct_damage_dealt: 100 };
 catalog.skills.push(
   { id: attackId, name: { zh: '伤害演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10, effects: [drain] },
   { id: waitId, name: { zh: '等待' }, type: 'normal', category: 'status', power: 0, accuracy: null, pp: 10, effects: [] },
   { id: multiId, name: { zh: '连击演示' }, type: 'normal', category: 'physical', power: 10000, accuracy: null, pp: 10,
     effects: [{ op: 'multi_hit', min: 3, max: 3 }, drain] },
+  { id: waterId, name: { zh: '水系连击' }, type: 'water', category: 'physical', power: 20, accuracy: null, pp: 10,
+    effects: [{ op: 'multi_hit', min: 2, max: 2 }] },
+  { id: electricId, name: { zh: '电系演示' }, type: 'electric', category: 'physical', power: 20, accuracy: null, pp: 10 },
 );
-catalog.species.find((s: any) => s.id === 1).learnset = [{ level: 1, skill: attackId }, { level: 1, skill: multiId }];
+catalog.species.find((s: any) => s.id === 1).learnset = [attackId, multiId, waterId, electricId].map(skill => ({ level: 1, skill }));
 catalog.items.push({ id: reviveId, name: { zh: '演示复苏剂' }, kind: 'battle', battle_effects: [{ op: 'revive', pct_max_hp: 50 }] });
 const foe = (species: number, hp: number) => ({ species, level: 1, hp_override: hp, stats: { hp, atk: 1, def: 100, spa: 1, spd: 100, spe: 1 }, skills: [waitId] });
 catalog.bosses = [
@@ -24,6 +29,12 @@ catalog.bosses = [
   { id: 'audit-extra-life', name: { zh: '复苏演示' }, team: [foe(10, 7)], rules: [{ rule: 'lives', count: 1 }], ai: { kind: 'sequence', skills: [waitId] } },
   // Each hit is capped at 3, so three hits take 3, 3 and the last 1 of 7 HP with 2 more shown.
   { id: 'audit-capped-hits', name: { zh: '连击演示' }, team: [foe(10, 7)], rules: [{ rule: 'damage_cap_per_hit', amount: 3 }],
+    ai: { kind: 'sequence', skills: [waitId] } },
+  // 小火猴 (fire), 仙人球 (grass) and 莫比 (ground); the second fire one lets only fire hurt it.
+  { id: 'audit-fire', name: { zh: '克制演示' }, team: [foe(7, 5000)], ai: { kind: 'sequence', skills: [waitId] } },
+  { id: 'audit-grass', name: { zh: '微弱演示' }, team: [foe(16, 5000)], ai: { kind: 'sequence', skills: [waitId] } },
+  { id: 'audit-ground', name: { zh: '无效演示' }, team: [foe(53, 5000)], ai: { kind: 'sequence', skills: [waitId] } },
+  { id: 'audit-fire-only', name: { zh: '抵挡演示' }, team: [foe(7, 5000)], rules: [{ rule: 'damage_only_from', types: ['fire'] }],
     ai: { kind: 'sequence', skills: [waitId] } },
 ];
 const seedGame = createGame(structuredClone(catalog) as CatalogData);
@@ -103,6 +114,21 @@ assert.equal(cappedBattle.log.filter(line => line.includes('受到 9 点伤害')
 assert(!cappedBattle.log.some(line => /受到 [36] 点伤害/.test(line)), 'no line per hit');
 assert(cappedBattle.animation.frames.some(frame => frame.kind === 'heal' && frame.side === 0 && frame.amount === 7), 'the drain heals the 7 HP lost');
 
+// A move's number on its target names its type rating, from the engine's own multiplier: 克制 on each hit of the water double
+// hit into fire, 微弱 for electric into grass, and 无效 on the line of electric into ground, whose −0 the original drew grey.
+const ratedFrames = (bossId: string, skillId: number) => {
+  const rated = fresh();
+  rated.dispatch({ type: 'startBattle', bossId });
+  assert(rated.dispatch({ type: 'move', skillId }).ok, `${bossId}: the move was not taken`);
+  return rated.snapshot().battle!.animation.frames.filter(frame => frame.side === 1 && (frame.kind === 'hit' || frame.stopped))
+    .map(frame => [frame.kind, frame.typeEffect, frame.stopped && frame.text]);
+};
+assert.deepEqual(ratedFrames('audit-fire', waterId), [['hit', 'strong', false], ['hit', 'strong', false]], '克制 on both hits of one number');
+assert.deepEqual(ratedFrames('audit-grass', electricId), [['hit', 'weak', false]]);
+assert.deepEqual(ratedFrames('audit-ground', electricId), [['message', 'immune', '莫比免疫了这次攻击。']], '无效−0 with the immunity\'s line');
+assert.deepEqual(ratedFrames('audit-fire-only', waterId), [['message', 'strong', '小火猴抵挡了这次伤害。']], 'the stopped move\'s −0 keeps its rating');
+assert.deepEqual(ratedFrames('audit-fire', attackId).map(([, rating]) => rating), [undefined], 'a neutral move names none');
+
 // A detached bench event exercises slot routing even when the active has the same species.
 const state: BattlePresentationState = structuredClone({ player: result.player, enemy: result.enemy, party: result.party, enemyParty: result.enemyParty });
 state.party[2].hp = 5;
@@ -124,5 +150,6 @@ const passed = [
   'full overkill popup and log', 'actual-loss HP and drain', 'event-ordered enemy knockout and switch', 'bench revival and player switch',
   'enemy revival after lethal damage', 'one counting number and line for a lethal multi-hit, drain of the HP lost',
   'slot-specific bench faint and immutable earlier snapshots', 'renamed transformation remains in the active slot',
+  'the type ratings 克制, 微弱 and 无效−0 on a move\'s numbers, and on a stopped move\'s −0',
 ];
 console.log(JSON.stringify({ passed, displayedLethalDamage: hit.amount, actualLoss: 7 }));

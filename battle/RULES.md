@@ -172,9 +172,17 @@ are sequential and can introduce further floors.
   rider; on the user its recoil and the counters it draws) as one number that
   counts up with each hurt and one line of the total. A damaging move that
   blocks (`protected`, `damage_blocked`) stopped before any of its damage
-  reached its target shows −0 there with its one block line. Status damage and
-  other damage after `turn_end` (section 8) show one number per event. The engine
-  still emits one `damage` event per hit (design/notes/damage-display-2026-10-23.md).
+  reached its target shows −0 there with its one block line, and so does a
+  damaging move its target's type is immune to (`immune`, 免疫了这次攻击。).
+  A move's number on its target names the move's type rating before it, as the
+  original did: 克制 above ×1, 微弱 below ×1, 无效 at ×0 (section 6), nothing
+  when neutral. The rating is the multiplier of the move's first hit the chart
+  rated (`damage.effectiveness`); a stopped move's −0 takes that of its first
+  stopped hit (`damage_blocked.effectiveness`), and the immune move shows a grey
+  无效−0. Counters, recoil, status, turn-end and critical numbers name none.
+  Status damage and other damage after `turn_end` (section 8) show one number
+  per event. The engine still emits one `damage` event per hit
+  (design/notes/damage-display-2026-10-23.md).
 
 ### 5.1 Damage kinds
 
