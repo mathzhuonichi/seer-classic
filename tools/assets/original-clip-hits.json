@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "note": "Hit frames (0-based) of the two move clips whose Unity export has no action_hit label. Each is the frame whose script sets `hit = 1` in the move's timeline of the original combat SWF, as the export's label gives for every other move. export_battle_animation.mjs writes them into the published manifest and runtime index.",
+  "source": "https://seer.61.com/resource/fightResource/pet/swf/<species>.swf, scripts exported with FFDec 26.3.0 (-export script)",
+  "sequences": [
+    {
+      "species": 50,
+      "sequence": "cp",
+      "hitFrame": 38,
+      "sha256": "d7d0189a4829e1c0501f9c6b3d8fa3dfa1dee3a302cef7b34a8fd296abb2e7ea",
+      "evidence": "050_fla.Timeline_13, the 75-frame sprite the pet's cp label places: addFrameScript(38) sets hit = 1. PetLabelXMLInfo (PetFightDLL_201308) gives cp frame 39, 1-based."
+    },
+    {
+      "species": 1327,
+      "sequence": "attack",
+      "hitFrame": 21,
+      "sha256": "6427df0e8f2f98a05bf6c75f7366322700f654a6eea941bc0187c17b8f611d60",
+      "evidence": "_1327_fla.Timeline_2, the 45-frame sprite the pet's attack label places: addFrameScript(21) sets hit = 1. 1327 is not in PetLabelXMLInfo."
+    }
+  ]
+}

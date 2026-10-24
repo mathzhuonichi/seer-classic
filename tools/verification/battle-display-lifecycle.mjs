@@ -4,6 +4,8 @@ import {suite, withSsr} from './_harness.mjs';
 
 const browserGlobals = ['window', 'document', 'getComputedStyle', 'ResizeObserver', 'MutationObserver', 'requestAnimationFrame', 'cancelAnimationFrame'];
 const saved = new Map(browserGlobals.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
+/** The path and registration modules, loaded with the mount: a prepared clip carries its paths, as the clip pool computes them. */
+const modules = {};
 
 /** One scenario: a host element, browser stubs and the injected dependencies, all counting their calls. */
 function scenario(options = {}) {
@@ -67,7 +69,8 @@ function scenario(options = {}) {
     retain() {
       let released = false; h.leases++;
       return {
-        prepareForMount: async () => ({clip, releasePixelsAfterUpload: true}),
+        prepareForMount: async () => ({clip, releasePixelsAfterUpload: true,
+          paths: new Map(modules.sequencePaths(clip, modules.standbyMeshBounds(clip), new Map()))}),
         uploaded() { h.uploads++; },
         release(options) { if (!released) { released = true; h.releases++; h.warm = !!options?.warm; } },
       };
@@ -105,6 +108,7 @@ async function waitFor(predicate) {
 try {
   await withSsr('battle-display-lifecycle', async load => {
     const {mountCreatureAnimation, RecoveryBudget} = await load('/src/features/battle/ui/creature-animation-mount.ts');
+    Object.assign(modules, await load('/src/features/battle/battle-animation-path.ts'), await load('/src/features/battle/battle-animation-registration.ts'));
     const t = suite('battle-display-lifecycle');
     /** Mount species 6 mid-attack (or in `h.motion`) and return its dispose function; the mount is `h.animation`. */
     const start = h => {

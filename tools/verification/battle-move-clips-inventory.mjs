@@ -1,5 +1,6 @@
 /**
- * Inventory of every species' original move clips (attack, sa, cp, hited): length, hit marker, how the creature is drawn
+ * Inventory of every species' original move clips (attack, sa, cp, hited): length, hit marker (battleAnimationHitFrames: the
+ * clip's action_hit label, or the original combat SWF's hit frame where the export lost it), how the creature is drawn
  * (its own standby sprites, sprites only the move draws, copies of itself), how far the drawing and the creature reach, and
  * which of its special skills bring their own skill effect (the published original SWFs, public/battle-effects/swf/index.json).
  * Status `tool`: writes artifacts/battle-move-clips/inventory.json and prints a summary;
@@ -11,7 +12,6 @@ import {gunzipSync} from 'node:zlib';
 import {root, withSsr} from './_harness.mjs';
 
 const MOVES = ['attack', 'sa', 'cp', 'hited'];
-const HIT_LABEL = 'action_hit';
 /** A drawing that reaches this many standby sizes beyond home on some side is a huge extent. */
 const HUGE_REACH = 4;
 const OUT = path.join(root, 'artifacts/battle-move-clips/inventory.json');
@@ -47,7 +47,7 @@ const rounded = sides => Object.fromEntries(Object.entries(sides).map(([k, v]) =
 
 /** One move sequence's record. */
 function moveRecord(sequence, {frameRate, own, copies, home, size, path: travel}) {
-  const drawn = sequence.frames.map(frame => quads(frame.mesh)), hitFrame = sequence.frames.findIndex(f => f.labels.includes(HIT_LABEL));
+  const drawn = sequence.frames.map(frame => quads(frame.mesh)), {hitFrame} = travel;
   const effectRegions = new Set(drawn.flat().filter(q => !own.has(q.region)).map(q => q.region));
   const counted = list => Object.entries(Object.groupBy(list.filter(q => own.has(q.region)), q => q.region));
   const body = travel.bodies[hitFrame >= 0 ? hitFrame : 0], middle = (home.minX + home.maxX) / 2;
@@ -66,7 +66,7 @@ function moveRecord(sequence, {frameRate, own, copies, home, size, path: travel}
 }
 
 /** A species' record: its move clips, and its special skills with or without their own skill effect. */
-function speciesRecord(id, {sequencePaths, standbyMeshBounds}) {
+function speciesRecord(id, {sequencePaths, standbyMeshBounds, battleAnimationHitFrames}) {
   const meta = JSON.parse(gunzipSync(fs.readFileSync(path.join(root, 'public', index[id].meta))));
   const clip = {sequences: meta.sequences.map(s => ({name: s.name, frames: s.frames.map(f => ({labels: f.labels, mesh: f}))}))};
   const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0], home = standbyMeshBounds(clip);
@@ -75,7 +75,8 @@ function speciesRecord(id, {sequencePaths, standbyMeshBounds}) {
     own.add(region);
     copies.set(region, Math.max(copies.get(region) ?? 0, list.length));
   }
-  const paths = sequencePaths(clip, home), size = Math.max(home.maxX - home.minX, home.maxY - home.minY), data = monster(id);
+  const paths = new Map(sequencePaths(clip, home, battleAnimationHitFrames(+id)));
+  const size = Math.max(home.maxX - home.minX, home.maxY - home.minY), data = monster(id);
   const special = [...new Set((data?.learnset ?? []).map(entry => entry.skill))].filter(skill => skills.get(skill)?.category === 'special');
   const moves = Object.fromEntries(MOVES.map(name => {
     const sequence = clip.sequences.find(s => s.name === name && s.frames.length);
@@ -106,7 +107,8 @@ function summarize(records) {
 }
 
 await withSsr('battle-move-clips-inventory', async load => {
-  const modules = {...await load('/src/features/battle/battle-animation-path.ts'), ...await load('/src/features/battle/battle-animation-registration.ts')};
+  const modules = {...await load('/src/features/battle/battle-animation-path.ts'), ...await load('/src/features/battle/battle-animation-registration.ts'),
+    ...await load('/src/features/battle/battle-animation.ts')};
   const records = Object.keys(index).map(id => speciesRecord(id, modules)), summary = summarize(records);
   fs.mkdirSync(path.dirname(OUT), {recursive: true});
   fs.writeFileSync(OUT, JSON.stringify({summary, species: records}, null, 1) + '\n');

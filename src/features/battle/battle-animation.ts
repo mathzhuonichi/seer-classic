@@ -3,6 +3,8 @@ import type {SwfClipData} from '@seer-pet-anim/swf-bundle';
 import index from '../../../public/battle-animations/runtime-index.json';
 import hdIndex from '../../../public/battle-animations/hd/runtime-index.json';
 import {loadBattleAnimation,type BattleAnimationAssetEntry} from './battle-animation-loader.ts';
+import {sequencePaths,type SequencePath} from './battle-animation-path.ts';
+import {standbyMeshBounds} from './battle-animation-registration.ts';
 import {createBattleClipPool,waitForClipLease} from './battle-clip-pool.ts';
 import {clipAtlasBytes,clipGeometryBytes,disposeOfflineBattleClip} from './battle-offline-clip.ts';
 import {battleRuntimeClock} from './battle-runtime-clock.ts';
@@ -10,7 +12,8 @@ import {battleRuntimeClock} from './battle-runtime-clock.ts';
 export type OriginalAction='standby'|'attack'|'sa'|'cp'|'hited';
 /** The actor's original clip for a move: its length and the time of its hit marker. */
 export interface MoveTiming {durationMs:number;hitMs:number|null}
-export interface PreparedBattleAnimation {clip:SwfClipData;releasePixelsAfterUpload:boolean}
+/** A clip ready to mount, with each sequence's path across the arena (battle-animation-path.ts), computed when it loaded. */
+export interface PreparedBattleAnimation {clip:SwfClipData;releasePixelsAfterUpload:boolean;paths:ReadonlyMap<string,SequencePath>}
 export interface RetainedBattleAnimation {
   /** The clip to mount, or null when it is unavailable or was released meanwhile. */
   prepareForMount():Promise<PreparedBattleAnimation|null>;
@@ -19,7 +22,7 @@ export interface RetainedBattleAnimation {
   release(options?:{warm?:boolean}):void;
 }
 type Entry={meta:string;atlas:string;frameRate:number;atlasWidth:number;atlasHeight:number;sequences:{name:string;frames:number;hitFrame:number}[]};
-type Asset={clip:SwfClipData;atlasBlob:Blob;geometryBytes:number;rehydrating?:Promise<void>};
+type Asset={clip:SwfClipData;atlasBlob:Blob;geometryBytes:number;paths:Map<string,SequencePath>;rehydrating?:Promise<void>};
 
 const entries:Record<string,Entry>=index.species;
 // Published entries pass source/atlas validation, with representative GPU and browser review. The index is tracked, so a
@@ -35,6 +38,17 @@ const transientBitmaps=new Set<ImageBitmap>();
 const diagnostics={decodes:0,decodeMs:0,rehydrations:0,atlasCopies:0,hdLoads:0,hdFallbacks:0};
 const bitmapBytes=(bitmap:ImageBitmap)=>bitmap.width*bitmap.height*4;
 const isLarge=(clip:SwfClipData)=>clipAtlasBytes(clip)>=LARGE_ATLAS_BYTES;
+const nextTask=()=>new Promise<void>(resolve=>setTimeout(resolve));
+/** Each sequence's path, one sequence per task so a long clip does not hold the page; none once the load is abandoned. */
+async function clipPaths(species:number,clip:SwfClipData,signal:AbortSignal){
+  const paths=new Map<string,SequencePath>();
+  for(const [name,path] of sequencePaths(clip,standbyMeshBounds(clip),battleAnimationHitFrames(species))){
+    paths.set(name,path);
+    await nextTask();
+    if(signal.aborted)break;
+  }
+  return paths;
+}
 // Idle clips use the pool's limits: two clips, 32 MiB, 15 seconds.
 const pool=createBattleClipPool<Asset>({
   async load(id,signal){
@@ -43,7 +57,7 @@ const pool=createBattleClipPool<Asset>({
     diagnostics.decodes++;diagnostics.decodeMs+=performance.now()-started;
     if(usedHd)diagnostics.hdLoads++;
     if(fellBack)diagnostics.hdFallbacks++;
-    return{clip,atlasBlob,geometryBytes:clipGeometryBytes(clip)};
+    return{clip,atlasBlob,geometryBytes:clipGeometryBytes(clip),paths:await clipPaths(id,clip,signal)};
   },
   dispose(asset){disposeOfflineBattleClip(asset.clip);},
   bytes:asset=>bitmapBytes(asset.clip.atlas)+asset.geometryBytes+asset.atlasBlob.size,
@@ -58,6 +72,14 @@ export function battleAnimationTiming(species:number,kind:string):MoveTiming|nul
   const entry=entries[species],sequence=entry?.sequences.find(s=>s.name===originalAction(kind));
   if(!sequence)return null;
   return{durationMs:sequence.frames/entry.frameRate*1000,hitMs:sequence.hitFrame>=0?sequence.hitFrame/entry.frameRate*1000:null};
+}
+
+/**
+ * Each sequence's hit frame (-1: none) by name: the clip's hit marker, or the original combat SWF's where the clip export lost
+ * it (tools/assets/original-clip-hits.json). The one source of the marker for the timing above and for a move's travel.
+ */
+export function battleAnimationHitFrames(species:number):ReadonlyMap<string,number>{
+  return new Map(entries[species]?.sequences.map(sequence=>[sequence.name,sequence.hitFrame])??[]);
 }
 
 /** Decode the atlas again from its compressed bytes after a large atlas gave up its CPU pixels. */
@@ -88,7 +110,7 @@ export function retainBattleAnimation(species:number):RetainedBattleAnimation{
         const large=isLarge(asset.clip);
         if(large){privateBitmap=await createImageBitmap(asset.clip.atlas,{premultiplyAlpha:'none'});transientBitmaps.add(privateBitmap);diagnostics.atlasCopies++;}
         if(lease.released){dropPrivate();return null;}
-        return{clip:privateBitmap?{...asset.clip,atlas:privateBitmap}:asset.clip,releasePixelsAfterUpload:large};
+        return{clip:privateBitmap?{...asset.clip,atlas:privateBitmap}:asset.clip,releasePixelsAfterUpload:large,paths:asset.paths};
       }finally{hold.release();}
     },
     uploaded(){if(privateBitmap)transientBitmaps.delete(privateBitmap);lease?.uploaded();},
