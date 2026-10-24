@@ -86,8 +86,8 @@ function unreadableNotice(text: string, kept: boolean) {
 
 /**
  * The given or stored save; an unreadable one is kept under its own name before a new journey replaces it. An empty given save
- * asks for a new journey (the preview does); an empty stored save is unreadable, not absent, so that a save file emptied outside
- * the game is kept and the player is told.
+ * asks for a new journey (the preview does); an empty stored save is unreadable, not absent, so that an emptied save is kept and
+ * the player is told.
  */
 export function openJourney(ctx: GameContext, initialSave?: string): OpenedJourney {
   const previous = initialSave ?? readLocalSave();

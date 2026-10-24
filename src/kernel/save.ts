@@ -1,6 +1,6 @@
 // Save file: create, validate, migrate, serialise. This is game-layer code (it parses
-// text); the rules it checks come from the core. Storage medium (file, IndexedDB,
-// Tauri fs) is the app's job: it only ever passes strings in and out.
+// text); the rules it checks come from the core. The storage medium (local storage,
+// persistence.ts) is the app's job: it only ever passes strings in and out.
 import type { Dex, Monster, Save } from "../../raising/core/types.ts";
 import { STAT_KEYS } from "../../raising/core/types.ts";
 import { EV_STAT_CAP, EV_TOTAL_CAP, evTotal, IV_MAX, IV_MIN } from "../../raising/core/stats.ts";

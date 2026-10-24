@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  backupUnreadableSave, localSaveStore, readLocalSave, saveWriteProblem, saveWriteSettled, setSaveStore, subscribeSaveWriteProblem,
-  UNREADABLE_SAVE_PREFIX, unreadableSaves, writeLocalSave,
+  backupUnreadableSave, readLocalSave, saveWriteProblem, saveWriteSettled, subscribeSaveWriteProblem, UNREADABLE_SAVE_PREFIX,
+  unreadableSaves, writeLocalSave,
 } from './persistence.ts';
 
 function memoryStorage() {
@@ -53,17 +53,4 @@ test('a write failure is kept until a later write succeeds, and listeners hear e
   assert.equal(saveWriteProblem(), null);
   assert.equal(heard, 2);
   stop();
-});
-
-test('the entry point can replace the store', () => {
-  const written = [];
-  setSaveStore({ read: () => 'file save', write: text => written.push(text), keepUnreadable: () => 'unreadable-1.json', unreadable: () => [] });
-  try {
-    assert.equal(readLocalSave(), 'file save');
-    writeLocalSave('next');
-    assert.deepEqual(written, ['next']);
-    assert.equal(backupUnreadableSave('bad'), 'unreadable-1.json');
-  } finally {
-    setSaveStore(localSaveStore);
-  }
 });
