@@ -1,5 +1,5 @@
 {
- "note": "The world theme of each map the game shows, by original map ID: the original client's SoundManager.playSound() reads the map's sound attribute (MapXMLInfo.getBgSoundIdByMapId) and plays resource/map/sound/<id>.mp3 in a loop (ClientConfig.getMapSound). A region without a map of its own plays its planet's map. Files and their pins: public/audio/source-manifest.json (sceneMusic). Research: design/notes/bgm-2026-10-24.md.",
+ "note": "The world theme of each map the game shows, by original map ID: the original client's SoundManager.playSound() reads the map's sound attribute (MapXMLInfo.getBgSoundIdByMapId) and plays resource/map/sound/<id>.mp3 in a loop (ClientConfig.getMapSound). A region without a map of its own plays its planet's map. Files and their pins: `sceneMusic` of the audio source manifest in public/audio, which tools/assets/download_scene_music.py fetches and checks (the note names no file path: the game bundles it, and the package gate reads such a path as one the game requests). Research: design/notes/bgm-2026-10-24.md.",
  "source": {
   "period": {
    "url": "http://seer.61.com/dll/RobotCoreDLL.swf?hir2eh3c",
