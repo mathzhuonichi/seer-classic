@@ -273,7 +273,7 @@ await withSsr('boss-evidence-controller-v56',async load=>{
     t.witness('boss-openings',{opened,installed,elsewhere});
   });
   check('The entire verification preserves catalog and user state',()=>{
-    assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert(storageWrites>0);assert.equal(networkRequests,0);assert(created.length>0);
+    assert.equal(JSON.stringify(catalog),catalogBefore);assert.equal(storageReads,0);assert.equal(storageWrites,0);assert.equal(networkRequests,0);assert(created.length>0);
   });
   const hashed=[
     'src/domain/challenges/boss-encounter.ts','src/kernel/game.ts','src/shared/encounter-level.ts',

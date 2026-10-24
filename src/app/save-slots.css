@@ -1,0 +1,17 @@
+/* 航行存档 in the settings console: the navy-on-light surface of game-shell.css. */
+.save-slots h3{margin-top:22px}
+.save-slot-list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:7px}
+.save-slot{display:grid;gap:4px;padding:8px 10px;background:#fff;border:1px solid #b5d4e6;border-radius:4px;font-size:12px}
+.save-slot.is-active{border-color:#087ec0;box-shadow:inset 3px 0 #087ec0}
+.save-slot-heading{display:flex;align-items:baseline;gap:8px;min-width:0}
+.save-slot-heading strong{font-size:13px;color:#104a76;overflow-wrap:anywhere}
+.save-slot-badge{font-size:11px;color:#fff;background:#087ec0;border-radius:3px;padding:1px 6px}
+.save-slot-time{margin-left:auto;color:#476c86;font-variant-numeric:tabular-nums;white-space:nowrap}
+.settings-console .save-slot-summary{margin:0;color:#3e6580;font-variant-numeric:tabular-nums}
+.settings-console .save-slot.is-unreadable .save-slot-summary{color:#a3342b}
+.save-slot-actions,.save-slot-prompt{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.save-slot-actions{justify-content:flex-end}
+.settings-console .save-slot-actions button,.settings-console .save-slot-prompt button{padding:5px 12px}
+.save-slot-prompt{margin-top:12px;font-size:12px;color:#123e65}
+.save-slot .save-slot-prompt{margin-top:2px}
+.settings-console .save-slot-prompt .save-slot-confirm{border-color:#c0392b;color:#8e1f15}

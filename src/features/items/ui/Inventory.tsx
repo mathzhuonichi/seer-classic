@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useState} from 'react';
 import type { GameController } from '../../../kernel/contract.ts';
 import ItemIcon from '../../../shared/ui/ItemIcon.tsx';
 import ItemTile from '../../../shared/ui/ItemTile.tsx';
@@ -15,12 +15,12 @@ import './Inventory.css';
 
 const PAGE_SIZE=48;
 interface Props {
-  c:GameController;onSave:()=>void;onMessage:(text:string)=>void;
+  c:GameController;onSave:()=>void;onLoad:()=>void;
   /** The pocket to open, and the item to pick in it (nothing is selected while the bag holds none of it). */
   focus?:{pocket:string;itemId?:string};
 }
 
-export default function Inventory({c,onSave,onMessage,focus}:Props) {
+export default function Inventory({c,onSave,onLoad,focus}:Props) {
   const held=useGame(c,s=>s.items),monsters=useGame(c,s=>s.monsters),party=useGame(c,s=>s.party),battle=useGame(c,s=>s.battle);
   const coins=useGame(c,s=>s.coins),expPool=useGame(c,s=>s.expPool),inBattle=battleActive({battle});
   const [pocket,setPocket]=useState<ItemPocket>(focus&&isItemPocket(focus.pocket)?focus.pocket:inBattle?'battle':'raising');
@@ -44,7 +44,6 @@ export default function Inventory({c,onSave,onMessage,focus}:Props) {
   }
   useEffect(()=>{if(focus&&isItemPocket(focus.pocket))openPocket(focus.pocket,focus.itemId)},[focus]);
   useEffect(()=>{if(pickGone)setFeedback('')},[pickGone]);
-  function loadSave(text:string){c.importSave(text);onMessage('已载入航行存档。');setTarget('');repick({type:'clear'});setFeedback('')}
   function confirmUse() {
     if(!item||!action)return;
     repick({type:'use',itemId:item.id});
@@ -74,22 +73,16 @@ export default function Inventory({c,onSave,onMessage,focus}:Props) {
       <InventoryDetail item={item} monster={monster} monsters={monsters} party={party} battle={battle} enabled={!!action} feedback={feedback}
         pickGone={pickGone} onTarget={uid=>{setTarget(uid);setFeedback('')}} onUse={confirmUse}/>
     </div>
-    <SaveControls inBattle={inBattle} onSave={onSave} onLoad={loadSave}
-      onError={error=>onMessage(`存档无法读取：${String(error)}`)}/>
+    <SaveControls battleOpen={!!battle} onSave={onSave} onLoad={onLoad}/>
   </section>;
 }
 
-/** Export and import of the journey save, folded away below the bag. */
-function SaveControls({inBattle,onSave,onLoad,onError}:{inBattle:boolean;onSave:()=>void;onLoad:(text:string)=>void;onError:(error:unknown)=>void}) {
-  const [open,setOpen]=useState(false),file=useRef<HTMLInputElement>(null);
+/** Export and import of the journey save, folded away below the bag; an import opens in a new save slot (settings, 航行存档). */
+function SaveControls({battleOpen,onSave,onLoad}:{battleOpen:boolean;onSave:()=>void;onLoad:()=>void}) {
+  const [open,setOpen]=useState(false);
   return <>
     <div className="inventory-save-strip"><button onClick={()=>setOpen(value=>!value)}>存档管理 {open?'▴':'▾'}</button></div>
-    {open&&<div className="management-save-controls"><p>旅程自动保存。可导出当前存档，或导入已有存档继续游戏。</p><button onClick={onSave}>导出存档</button>
-      <button disabled={inBattle} onClick={()=>file.current?.click()}>导入存档</button></div>}
-    <input ref={file} type="file" accept=".json" hidden onChange={async event=>{
-      const f=event.target.files?.[0];
-      if(f)try{onLoad(await f.text())}catch(error){onError(error)}
-      event.target.value='';
-    }}/>
+    {open&&<div className="management-save-controls"><p>旅程自动保存。可导出当前存档，或导入已有存档另存为新存档继续游戏。</p>
+      <button onClick={onSave}>导出存档</button><button disabled={battleOpen} onClick={onLoad}>导入存档</button></div>}
   </>;
 }

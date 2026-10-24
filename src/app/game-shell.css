@@ -110,8 +110,6 @@ html,body,#root{height:100%;overflow:hidden}
 }
 .save-problem p{margin:0;flex:1;line-height:1.6}
 .save-problem button{flex-shrink:0}
-.unreadable-saves{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
-.unreadable-saves li{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;word-break:break-all}
 .game-error .action-row{justify-content:center}
 .settings-console .about-notice{color:#123e65}
 .about-licenses{

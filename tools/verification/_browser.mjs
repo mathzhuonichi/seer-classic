@@ -185,6 +185,34 @@ export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT
   }
 }
 
+/** Runs in the page: what the save slot database holds (`layout` is SLOT_DATABASE of src/kernel/slot-backends.ts). */
+async function slotDatabase({name, version, slots, documents, meta, activeKey}) {
+  const db = await new Promise((resolve, reject) => {
+    const opening = indexedDB.open(name, version);
+    // Only the game creates the database: a check that runs before it did must not.
+    opening.onupgradeneeded = () => opening.transaction.abort();
+    opening.onsuccess = () => resolve(opening.result);
+    opening.onerror = () => reject(new Error(`no save slot database: ${opening.error}`));
+  });
+  const result = request => new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  try {
+    const read = db.transaction([slots, documents, meta], 'readonly');
+    const [records, active, keys] = await Promise.all([result(read.objectStore(slots).getAll()), result(read.objectStore(meta).get(activeKey)),
+      result(read.objectStore(documents).getAllKeys())]);
+    const texts = db.transaction(documents, 'readonly').objectStore(documents);
+    const text = Object.fromEntries(await Promise.all(keys.map(async key => [key, await result(texts.get(key))])));
+    return {records: records.sort((a, b) => a.id < b.id ? -1 : 1), active, text};
+  } finally {
+    db.close();
+  }
+}
+
+/** The save slots of the game open in `page`: their records in creation order, the active slot's id and each slot's text. */
+export const saveSlots = (page, layout) => page.evaluate(slotDatabase, layout);
+
 /** Time for a key press or a click to take effect (or, for a check that nothing happened, to have taken effect). */
 export const SETTLE_MS = 250;
 export const wait = ms => new Promise(resolve => setTimeout(resolve, ms));

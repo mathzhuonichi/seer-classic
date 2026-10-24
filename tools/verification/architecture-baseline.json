@@ -1,10 +1,6 @@
 {
   "imports": [],
   "size": {
-    "src/app/ShellWindowContent.tsx": {
-      "lines": 0,
-      "long": 1
-    },
     "src/app/shell-navigation.ts": {
       "lines": 0,
       "long": 2

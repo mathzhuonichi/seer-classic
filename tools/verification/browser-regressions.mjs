@@ -6,7 +6,8 @@
  * (otherwise WebKit is reported as skipped).
  *
  * The app is built with Vite and served by request interception (`_browser.mjs`); the saves are built headlessly and seeded into
- * localStorage. Every page is silent. Each entry of CHECKS is one named check in a fresh browser; add new ones there.
+ * localStorage as the pre-slot save, which the game adopts as its first save slot. Every page is silent. Each entry of CHECKS is
+ * one named check in a fresh browser; add new ones there.
  */
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -63,7 +64,7 @@ const DISPLAY_BOSSES = {counter: 'boss_spt_bokate', blocked: 'boss_spt_hamoleite
 /** The silent storage entries, the saves (as storage entries) and the shell's toolbar, all from the game's own modules. */
 async function fixtures() {
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, economy, {writeLocalSave}, {gameAudio}, shell, pockets, {writeWorldPreference}, locations, archive]
+    const [{createGame}, {loadCatalog}, {newSave}, economy, {LEGACY_SAVE_KEY}, {gameAudio}, shell, pockets, {writeWorldPreference}, locations, archive]
       = await Promise.all(['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/domain/economy.ts',
         '/src/kernel/persistence.ts', '/src/shared/audio/game-audio.ts', '/src/app/shell-navigation.ts', '/src/shared/item-categories.ts',
         '/src/domain/world/preference.ts', '/src/domain/world/locations.ts', '/src/features/challenges/challenge-center.ts'].map(load));
@@ -83,7 +84,7 @@ async function fixtures() {
         game = createGame(structuredClone(catalog), JSON.stringify(save));
         for (const species of economy.STARTER_SPECIES) dispatch(game, {type: 'cheatAcquire', species, level: economy.STARTER_LEVEL});
         build(game);
-        writeLocalSave(game.exportSave());
+        localStorage.setItem(LEGACY_SAVE_KEY, game.exportSave());
       });
       return {game, slot};
     };
@@ -111,7 +112,7 @@ async function fixtures() {
       });
       const save = JSON.parse(game.exportSave());
       if (leadHp) save.storage.find(mon => mon.uid === save.party[0]).hp = leadHp;
-      writeLocalSave(JSON.stringify(save));
+      localStorage.setItem(LEGACY_SAVE_KEY, JSON.stringify(save));
     });
     const saves = {
       journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,

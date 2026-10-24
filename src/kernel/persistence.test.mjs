@@ -1,12 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  backupUnreadableSave, readLocalSave, saveWriteProblem, saveWriteSettled, subscribeSaveWriteProblem, UNREADABLE_SAVE_PREFIX,
-  unreadableSaves, writeLocalSave,
+  LEGACY_SAVE_KEY, LEGACY_UNREADABLE_PREFIX, readLegacySaves, saveWriteProblem, saveWriteSettled, subscribeSaveWriteProblem,
 } from './persistence.ts';
 
-function memoryStorage() {
-  const memory = new Map();
+function memoryStorage(entries = {}) {
+  const memory = new Map(Object.entries(entries));
   globalThis.localStorage = {
     getItem: key => memory.get(key) ?? null, setItem: (key, value) => memory.set(key, String(value)), removeItem: key => memory.delete(key),
     key: index => [...memory.keys()][index] ?? null, get length() { return memory.size; },
@@ -14,42 +13,35 @@ function memoryStorage() {
   return memory;
 }
 
-test('the save round-trips through local storage', () => {
-  memoryStorage();
-  assert.equal(readLocalSave(), null);
-  writeLocalSave('{"version":2}');
-  assert.equal(readLocalSave(), '{"version":2}');
+test('the pre-slot save and its kept unreadable saves are read, oldest first, and nothing is written', () => {
+  const second = `${LEGACY_UNREADABLE_PREFIX}1760000000002-2`, first = `${LEGACY_UNREADABLE_PREFIX}1760000000001-1`;
+  const memory = memoryStorage({ [LEGACY_SAVE_KEY]: '{"version":5}', [second]: 'also broken', [first]: 'not json', other: 'x' });
+  const before = [...memory];
+  assert.deepEqual(readLegacySaves(), { save: '{"version":5}', unreadable: [{ key: first, text: 'not json' }, { key: second, text: 'also broken' }] });
+  assert.deepEqual([...memory], before);
 });
 
-test('unreadable saves are kept under their own keys, never overwrite the save or each other, and are listed', () => {
-  const memory = memoryStorage();
-  writeLocalSave('not json');
-  const first = backupUnreadableSave('not json'), second = backupUnreadableSave('also broken');
-  assert.notEqual(first, second);
-  assert(first.startsWith(UNREADABLE_SAVE_PREFIX) && second.startsWith(UNREADABLE_SAVE_PREFIX));
-  assert.equal(memory.get(first), 'not json');
-  assert.equal(memory.get(second), 'also broken');
-  assert.equal(readLocalSave(), 'not json');
-  assert.deepEqual(unreadableSaves(), [{ name: first, text: 'not json' }, { name: second, text: 'also broken' }]);
+test('an emptied pre-slot save is read as an empty text, not as no save', () => {
+  memoryStorage({ [LEGACY_SAVE_KEY]: '' });
+  assert.equal(readLegacySaves().save, '');
 });
 
-test('without local storage nothing is read, written, backed up or listed', () => {
+test('without local storage, or when it is blocked, there is no pre-slot save', () => {
   delete globalThis.localStorage;
-  assert.equal(readLocalSave(), null);
-  assert.doesNotThrow(() => writeLocalSave('x'));
-  assert.equal(backupUnreadableSave('x'), null);
-  assert.deepEqual(unreadableSaves(), []);
+  assert.deepEqual(readLegacySaves(), { save: null, unreadable: [] });
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, get() { throw new DOMException('blocked', 'SecurityError'); } });
+  assert.deepEqual(readLegacySaves(), { save: null, unreadable: [] });
+  delete globalThis.localStorage;
 });
 
 test('a write failure is kept until a later write succeeds, and listeners hear each change', () => {
-  memoryStorage();
   let heard = 0;
   const stop = subscribeSaveWriteProblem(() => heard++);
-  saveWriteSettled(new Error('QuotaExceededError'));
-  saveWriteSettled(new Error('QuotaExceededError'));
-  assert.equal(saveWriteProblem(), 'QuotaExceededError');
+  saveWriteSettled(new DOMException('', 'QuotaExceededError'));
+  saveWriteSettled(new DOMException('', 'QuotaExceededError'));
+  assert.equal(saveWriteProblem(), 'QuotaExceededError', 'an error without a message is named');
   assert.equal(heard, 1);
-  writeLocalSave('{"version":5}');
+  saveWriteSettled();
   assert.equal(saveWriteProblem(), null);
   assert.equal(heard, 2);
   stop();

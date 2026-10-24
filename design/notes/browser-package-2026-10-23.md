@@ -75,6 +75,10 @@ and the `payload` gate proves every path the build can request is staged and non
 
 ## Saves
 
+Since 2026-10-24 the saves are slots in the browser's IndexedDB for the same origin, and the `localStorage` save below is adopted
+as the first slot ([save-slots-2026-10-24](save-slots-2026-10-24.md)); what follows about the origin, the browsers and Safari
+holds for them alike.
+
 The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web build's save store), so:
 
 - the same browser keeps the same save across versions of the folder, and a new folder unzipped beside or over the old one finds

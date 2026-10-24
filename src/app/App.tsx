@@ -1,5 +1,6 @@
-import {useCallback,useEffect,useMemo,useRef,useState,type ChangeEvent,type MouseEvent} from 'react';
-import {createGame} from '../kernel/game.ts';
+import {useCallback,useEffect,useMemo,useRef,useState,useSyncExternalStore,type ChangeEvent,type MouseEvent} from 'react';
+import {openSaveLibrary,type SaveLibrary} from '../kernel/save-library.ts';
+import {openBrowserSlotStore} from '../kernel/slot-backends.ts';
 import {loadCatalog} from '../domain/catalog/catalog.ts';
 import type { GameController } from '../kernel/contract.ts';
 import {Battle,BattleLoading} from '../features/battle/ui.ts';
@@ -24,7 +25,6 @@ import {actionSound} from './action-sounds.ts';
 import {GameErrorBoundary} from './GameErrorBoundary.tsx';
 import {SaveProblem} from './SaveProblem.tsx';
 import {exportSaveFile} from './save-files.ts';
-import type {UnreadableSave} from '../kernel/persistence.ts';
 import './app.css';
 import './game-shell.css';
 if(import.meta.env.DEV)void import('./classic-font.css');
@@ -69,13 +69,23 @@ function BootScreen({message}:{message:string}){
 }
 
 export default function App(){
- const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');
- useEffect(()=>{loadCatalog().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);
- if(!controller)return <BootScreen message={error||'正在载入星际档案…'}/>;
- return <GameErrorBoundary onExport={()=>exportSaveFile(controller.exportSave())}><Game controller={controller}/></GameErrorBoundary>;
+ const [saves,setSaves]=useState<SaveLibrary|null>(null),[error,setError]=useState('');
+ useEffect(()=>{
+  Promise.all([loadCatalog(),openBrowserSlotStore()]).then(([catalog,store])=>openSaveLibrary(catalog,store)).then(setSaves).catch(e=>setError(String(e)));
+ },[]);
+ if(!saves)return <BootScreen message={error||'正在载入星际档案…'}/>;
+ return <SavedGame saves={saves}/>;
 }
 
-export function Game({controller:c}:{controller:GameController}){
+/** The active save slot's game; loading another slot, a new save or an import mounts a new game, so no screen state carries over. */
+export function SavedGame({saves}:{saves:SaveLibrary}){
+ const session=useSyncExternalStore(saves.subscribe,saves.current);
+ return <GameErrorBoundary onExport={()=>exportSaveFile(session.game.exportSave())}>
+  <Game key={session.serial} controller={session.game} saves={saves}/>
+ </GameErrorBoundary>;
+}
+
+function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}){
  const shell=useRef<HTMLDivElement>(null),display=useGameDisplay(shell),file=useRef<HTMLInputElement>(null);
  const {navigation,selected,setSelected,modifier,setModifier,setMessage,
   battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast}=useShellState(c);
@@ -108,11 +118,11 @@ export function Game({controller:c}:{controller:GameController}){
   try{exportSaveFile(text,fileName);setMessage('航行存档已导出。')}catch(error){setMessage('存档导出失败：'+String(error))}
  }
  const exportSave=()=>exportFile(c.exportSave());
- const exportUnreadable=(save:UnreadableSave)=>exportFile(save.text,`赛尔号-无法读取的存档-${save.name.replace(/\.json$/,'').replace(/[^\w.-]+/g,'-')}.json`);
+ // An import opens in a new save slot, which mounts a new game that tells what it opened.
  async function importSave(event:ChangeEvent<HTMLInputElement>){
   const chosen=event.target.files?.[0];
-  if(chosen)try{c.importSave(await chosen.text());setMessage('航行存档已载入。');close()}catch(error){setMessage('存档无法读取：'+String(error))}
   event.target.value='';
+  if(chosen)try{await saves.importSave(await chosen.text())}catch(error){setMessage('存档无法读取：'+String(error))}
  }
  return <div ref={shell} style={display} className={`game-shell${battleOpen||preparation?' is-in-battle':''}`} onClickCapture={clickSound}>
   <div className="game-stage">
@@ -132,8 +142,8 @@ export function Game({controller:c}:{controller:GameController}){
    <SaveProblem onExport={exportSave}/>
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={close}/>}
    {windowKind&&<GameWindow key={windowKind} title={WINDOW_TITLES[windowKind]} compact={COMPACT_WINDOWS.has(windowKind)} onClose={close}>
-    <ShellWindowContent kind={windowKind} c={uiController} focus={nav.focus} selected={selected} inBattle={inBattle} navigation={navigation} routes={routes}
-     onSelect={setSelected} onMessage={setMessage} onExportSave={exportSave} onExportUnreadable={exportUnreadable} onImportSave={()=>file.current?.click()}
+    <ShellWindowContent kind={windowKind} c={uiController} saves={saves} focus={nav.focus} selected={selected} inBattle={inBattle} navigation={navigation}
+     routes={routes} onSelect={setSelected} onMessage={setMessage} onExportSave={exportSave} onExportFile={exportFile} onImportSave={()=>file.current?.click()}
      onHeal={()=>{c.dispatch({type:'heal'});gameAudio.playSfx('heal');close()}} onModifier={()=>{close();setModifier(true)}}/>
    </GameWindow>}
    <input ref={file} type="file" accept=".json" hidden onChange={importSave}/>

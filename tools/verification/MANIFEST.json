@@ -253,6 +253,9 @@
     "recruitment-acquisition.ts": {
       "status": "gate"
     },
+    "save-library.ts": {
+      "status": "gate"
+    },
     "skill-atknum-v45.mjs": {
       "status": "gate"
     },

@@ -14,19 +14,22 @@ function memoryStorage(): Storage {
 }
 
 // Isolate this page before application modules read or write storage. Reloading
-// resets the preview; the browser's player saves and preferences stay untouched.
+// resets the preview; the browser's player saves and preferences stay untouched
+// (its save slots are kept in memory too).
 for(const name of ['localStorage','sessionStorage'] as const) {
   Object.defineProperty(window,name,{value:memoryStorage(),configurable:true});
 }
 document.title='Seer Classic Preview';
 
-const [{Game},{createGame},{loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
+const [{SavedGame},{openSaveLibrary},{openSlotStore},{memoryBackend},{loadCatalog},{BRAVE_TOWER_FLOORS,braveTowerBossId}]=await Promise.all([
   import('./App.tsx'),
-  import('../kernel/game.ts'),
+  import('../kernel/save-library.ts'),
+  import('../kernel/save-slots.ts'),
+  import('../kernel/slot-backends.ts'),
   import('../domain/catalog/catalog.ts'),
   import('../domain/challenges/brave-tower.ts'),
 ]);
-const game=createGame(await loadCatalog(),'');
+const saves=await openSaveLibrary(await loadCatalog(),await openSlotStore(memoryBackend())),game=saves.current().game;
 for(const species of [15,12,832])game.dispatch({type:'cheatAcquire',species,level:100});
 const seed=JSON.parse(game.exportSave()) as Save;
 seed.party=[seed.party[0],...seed.storage.slice(3).map(mon=>mon.uid),...seed.party.slice(1)].slice(0,6);
@@ -38,4 +41,4 @@ if(Number.isInteger(towerFloor)&&towerFloor>=1&&towerFloor<=BRAVE_TOWER_FLOORS){
   (seed as Save&{game:{braveTower:{highestCleared:number;resumeFloor:number}}}).game.braveTower={highestCleared:towerFloor-1,resumeFloor:towerFloor};
 }
 game.importSave(JSON.stringify(seed));
-createRoot(document.getElementById('root')!).render(<Game controller={game}/>);
+createRoot(document.getElementById('root')!).render(<SavedGame saves={saves}/>);
