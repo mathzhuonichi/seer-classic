@@ -9,7 +9,7 @@
  *     game/                                         the web build (index.html, assets/, ruffle/) and the desktop payload
  *     请先阅读.txt, THIRD-PARTY-NOTICES.txt
  *
- * Steps: the web build without public/ (no source maps); THIRD-PARTY-NOTICES.txt (third-party-notices.mjs --package browser);
+ * Steps: the web build without public/ (no source maps); THIRD-PARTY-NOTICES.txt (third-party-notices.mjs);
  * the payload of stage_desktop_payload.py (the files the desktop app ships, APFS clones) and the desktop-payload gate on this
  * build and payload; Node.js from .cache/node-runtime/, downloaded when missing and checked against the pinned SHA-256; the
  * folder; the ZIP (zip.mjs, without ZIP64). The staging folder releases/browser-stage/ is deleted unless --keep is given.
@@ -139,7 +139,7 @@ function zipEntries(folder) {
 fs.rmSync(stage, {recursive: true, force: true});
 fs.mkdirSync(stage, {recursive: true});
 const runtime = await nodeRuntime(), buildDir = await buildGame(), notices = path.join(stage, 'THIRD-PARTY-NOTICES.txt');
-run(process.execPath, [path.join(here, 'third-party-notices.mjs'), '--package', 'browser', '--node-license', runtime.license, '--out', notices]);
+run(process.execPath, [path.join(here, 'third-party-notices.mjs'), '--node-license', runtime.license, '--out', notices]);
 run('python3', [path.join(here, 'stage_desktop_payload.py'), '--out', path.join(stage, 'payload'), '--notices', notices]);
 run(process.execPath, [path.join(root, 'tools/verification/desktop-payload.mjs'), '--dist', buildDir, '--payload', path.join(stage, 'payload/public')]);
 const folder = assemble(buildDir, path.join(stage, 'payload/public'), runtime, notices), entries = zipEntries(folder);

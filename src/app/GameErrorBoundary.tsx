@@ -1,5 +1,4 @@
 import { Component, type ReactNode } from 'react';
-import { DESKTOP, logLine } from './desktop.ts';
 
 interface Props { children: ReactNode; onExport: () => void }
 
@@ -8,9 +7,6 @@ export class GameErrorBoundary extends Component<Props, { error: string | null }
   state = { error: null as string | null };
   static getDerivedStateFromError(error: unknown) {
     return { error: error instanceof Error ? error.message : String(error) };
-  }
-  componentDidCatch(error: unknown, info: { componentStack?: string | null }) {
-    if (DESKTOP) logLine('error', `render error: ${error instanceof Error ? error.stack : String(error)}${info.componentStack ?? ''}`);
   }
   render() {
     if (this.state.error === null) return this.props.children;

@@ -5,7 +5,6 @@ import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';
 import { AboutSection } from './AboutSection.tsx';
-import { DESKTOP, toggleWindowFullscreen } from './desktop.ts';
 import { unreadableSaves, type UnreadableSave } from '../kernel/persistence.ts';
 
 export function GameToolbar({ hidden, active, questAlert, onOpen }: {
@@ -46,8 +45,7 @@ export function SettingsConsole({ inBattle, onExport, onImport, onModifier, onEx
   onMessage: (message: string) => void;
 }) {
   function toggleFullscreen() {
-    if (DESKTOP) void toggleWindowFullscreen().catch(() => onMessage('窗口无法切换全屏。'));
-    else if (document.fullscreenElement) void document.exitFullscreen();
+    if (document.fullscreenElement) void document.exitFullscreen();
     else void document.documentElement.requestFullscreen().catch(() => onMessage('当前预览窗口不支持全屏，可扩大游戏窗口。'));
   }
   return <section className="settings-console"><AudioSettings/>

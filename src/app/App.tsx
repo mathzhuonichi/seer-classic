@@ -64,7 +64,7 @@ function useShellState(c:GameController){
 }
 
 /** The screen before the game opens: loading, or why it could not open. */
-export function BootScreen({message}:{message:string}){
+function BootScreen({message}:{message:string}){
  return <div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{message}</p></div>;
 }
 
@@ -72,7 +72,7 @@ export default function App(){
  const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');
  useEffect(()=>{loadCatalog().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);
  if(!controller)return <BootScreen message={error||'正在载入星际档案…'}/>;
- return <GameErrorBoundary onExport={()=>void exportSaveFile(controller.exportSave()).catch(()=>{})}><Game controller={controller}/></GameErrorBoundary>;
+ return <GameErrorBoundary onExport={()=>exportSaveFile(controller.exportSave())}><Game controller={controller}/></GameErrorBoundary>;
 }
 
 export function Game({controller:c}:{controller:GameController}){
@@ -105,7 +105,7 @@ export function Game({controller:c}:{controller:GameController}){
   toggle(kind);
  }
  function exportFile(text:string,fileName?:string){
-  exportSaveFile(text,fileName).then(saved=>{if(saved)setMessage('航行存档已导出。')},error=>setMessage('存档导出失败：'+String(error)));
+  try{exportSaveFile(text,fileName);setMessage('航行存档已导出。')}catch(error){setMessage('存档导出失败：'+String(error))}
  }
  const exportSave=()=>exportFile(c.exportSave());
  const exportUnreadable=(save:UnreadableSave)=>exportFile(save.text,`赛尔号-无法读取的存档-${save.name.replace(/\.json$/,'').replace(/[^\w.-]+/g,'-')}.json`);

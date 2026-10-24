@@ -5,8 +5,7 @@
     "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check.",
-    "release": "Checks a package before it ships: the desktop package's inputs, dist-desktop/ and the staged payload (npm run build:desktop, npm run stage:desktop; npm run package runs it before building), or the browser package's ZIP (after npm run package:browser).",
-    "needs-rust": "Needs the Rust toolchain (cargo): the desktop shell's own tests."
+    "release": "Checks the browser package before it ships: its web build and staged payload (desktop-payload, which npm run package runs before zipping), or its ZIP (browser-package, after npm run package)."
   },
   "suites": {
     "acquisition-limits-controller.mjs": {
@@ -164,14 +163,8 @@
     "damage-presentation.ts": {
       "status": "gate"
     },
-    "desktop-identity.mjs": {
-      "status": "gate"
-    },
     "desktop-payload.mjs": {
       "status": "release"
-    },
-    "desktop-shell.mjs": {
-      "status": "needs-rust"
     },
     "dex-acquisition.ts": {
       "status": "gate"

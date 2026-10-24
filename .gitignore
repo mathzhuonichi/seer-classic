@@ -1,13 +1,10 @@
 node_modules
 dist/
-dist-desktop/
-src-tauri/target/
 .cache/
 *.log
 .DS_Store
 artifacts/
 releases/
-src-tauri/gen/
 __pycache__/
 *.pyc
 /public/battle-animations/*.png
