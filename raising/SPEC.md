@@ -191,8 +191,8 @@ validate), `validateSave`, `migrate` with a per-version migration table.
 Validation checks ranges (level, 个体, 学习力 caps, exp within level), equipped
 ⊆ learned, 1–4 equipped, party ⊆ storage, unique uids, and with a Dex that every
 species, nature and skill exists. `rng_state` is the sfc32 four-word state
-shared with the battle core. The app only moves strings; the medium (file,
-IndexedDB, Tauri fs) is the app's choice.
+shared with the battle core. The app only moves strings; the medium (the
+browser's local storage) is the app's choice.
 
 `progress` records encounters by id: `bosses_cleared` (first clears),
 `boss_attempts` (recorded fights, counted when one starts) and `boss_wins`

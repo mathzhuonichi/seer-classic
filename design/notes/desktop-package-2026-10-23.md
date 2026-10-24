@@ -1,7 +1,10 @@
 # Desktop package (2026-10-23)
 
-Status: current. It describes how the desktop app is built, served, saved and checked, with the numbers measured on the
-macOS package. Windows uses the same shell and payload but has not been built or run yet (open points below).
+Status: superseded by [browser-package-2026-10-23](browser-package-2026-10-23.md). On 2026-10-24 the user made the local
+browser package the only release form and the Tauri app was removed: src-tauri, the desktop build mode, its save files, the DMG
+packer and smoke test, and the desktop gates are gone (the payload staging and its gate live on as `stage_payload.py` and
+`payload.mjs`). This note is kept as the record of the desktop app as it was built, served, saved and checked, with the numbers
+measured on the macOS package.
 
 ## Decision
 

@@ -1,21 +1,25 @@
-# Browser package (2026-10-23)
+# Browser package (2026-10-23), release 0.0.1 (2026-10-24)
 
-Status: current. It describes the version of the game common to Windows and macOS: one folder that runs in the player's own
-browser, with the numbers measured on this Mac. Nothing in it has run on Windows yet (open points below).
+Status: current. The release note of 0.0.1 and of the only release form, for Windows and macOS alike: one folder that runs in
+the player's own browser, with the numbers measured on this Mac. Nothing in it has run on Windows yet (open points below).
 
 ## Decision
 
 On 2026-10-23 the user said the game is for the user and a few friends, wants no backup, and needs Windows only to run, without
 an installer and without testing. Asked whether an Electron-like build or a version for the local browser could serve both
 systems, the user chose the **local browser version** as the version common to Windows and macOS, over Electron. The Tauri macOS
-app ([desktop-package-2026-10-23](desktop-package-2026-10-23.md)) stays as it is.
+app ([desktop-package-2026-10-23](desktop-package-2026-10-23.md)) stayed for the moment.
 
 Against Electron: the game already runs in browsers (the development launcher `../test.command` serves it at
 http://127.0.0.1:1426/), one folder serves both systems with no per-system build, signing or cross-compilation, and the only
 native code is Node.js's official, signed binaries (353 MiB for three platforms, where Electron would add a Chromium per system).
 
-With it the user set the version to 0.9.0 and the Tauri app's minimum macOS version to 13.3 (Safari 16.4, whose
-DecompressionStream the battle loader needs); `desktop-identity` keeps both.
+With it the user first set the version to 0.9.0 (and the Tauri app's minimum macOS version to 13.3).
+
+On 2026-10-24 the user made the local browser version **the** version for Windows and macOS: the Tauri app is not needed and
+was removed (below), the version restarts at **0.0.1**, and a Markdown guide makes running it easy for players
+(`运行说明.md`, below). 0.0.1 is lower than the 0.2, 0.3.2 and 0.9.0 before it, but nothing orders app versions: the server's
+probe of a running game and the payload check test equality, and the save's format version (`SAVE_VERSION` 5) is its own.
 
 ## Layout
 
@@ -25,15 +29,14 @@ SeerClassic-<version>/
   启动游戏-macOS.command        LF, executable; runs runtime/darwin-arm64/node (or darwin-x64) server.mjs
   server.mjs                   the game server (tools/distribution/browser/server.mjs), Node's own modules only
   runtime/win-x64/node.exe, runtime/darwin-arm64/node, runtime/darwin-x64/node, each with Node's LICENSE
-  game/                        the web build (index.html, assets/, ruffle/) and the desktop payload, with payload.json and
+  game/                        the web build (index.html, assets/, ruffle/) and the payload, with payload.json and
                                THIRD-PARTY-NOTICES.txt (which 关于 shows)
-  请先阅读.txt                  the player README (tools/distribution/browser/player-readme.txt), UTF-8 with a BOM, CRLF
+  运行说明.md                    the player guide (tools/distribution/browser/运行说明.md), UTF-8 without a BOM, CRLF
   THIRD-PARTY-NOTICES.txt
 ```
 
-`game/` holds the same public files as the desktop app (`stage_desktop_payload.py` and its exclusion list), so the
-`desktop-payload` gate that proves every requestable path is staged applies unchanged; the build is the default (web) mode, so
-neither `desktop.ts` nor the save files of the desktop build are in it.
+`game/` holds the files of `public/` the game can request: `stage_payload.py` leaves out the list in `payload-exclusions.json`,
+and the `payload` gate proves every path the build can request is staged and none is excluded. The build is Vite's web build.
 
 ## The server (`server.mjs`)
 
@@ -58,13 +61,13 @@ neither `desktop.ts` nor the save files of the desktop build are in it.
   says a restart usually frees it, or `net stop winnat` and `net start winnat` in an administrator's console.
 - When reading `payload.json` fails with `EPERM` or `EACCES`, the folder is not called incomplete: on macOS, Terminal (which runs
   node) needs the player's consent for Downloads, Documents and Desktop, and after a denial the message points to 系统设置 >
-  隐私与安全性 > 文件和文件夹 > 终端; elsewhere it asks for a local folder. The README says to allow Terminal's request.
+  隐私与安全性 > 文件和文件夹 > 终端; elsewhere it asks for a local folder. The guide says to allow Terminal's request.
 - Opens the game: on Windows Microsoft Edge as an app window (`msedge --app=`, from Program Files (x86), Program Files or
   LocalAppData), then `explorer.exe <url>`, which hands it to the default browser; on macOS Google Chrome, else Microsoft Edge
   (`open -a`, from the system's or the user's Applications folder), else the default browser (Saves, below). It prints
   where the game runs, where the save lives and that closing the window stops the game, and sets the console title to say so.
 - Stops on Ctrl+C, SIGTERM and SIGHUP (a closed Terminal window, and on Windows a closed console window, which Node raises as
-  SIGHUP), and Ctrl+Break on Windows. On Windows the console and the README name only closing the window: after Ctrl+C, cmd asks
+  SIGHUP), and Ctrl+Break on Windows. On Windows the console and the guide name only closing the window: after Ctrl+C, cmd asks
   `终止批处理操作吗(Y/N)?` (either answer closes it). After a failure it has explained and the player acknowledged, it exits with 3,
   so the Windows launcher does not pause a second time; any other failure makes the launcher show its own message and pause.
 
@@ -74,17 +77,17 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
 
 - the same browser keeps the same save across versions of the folder, and a new folder unzipped beside or over the old one finds
   it; another browser, a private window or a cleared "browsing data" has none. Edge's app window uses Edge's own profile.
-- 导出存档 and 导入存档 in settings carry a save between browsers and machines; the README asks players to export often.
+- 导出存档 and 导入存档 in settings carry a save between browsers and machines; the guide says how and that clearing browser data deletes the save.
 - Nothing migrates: the key and format are those of the web build.
 - **Safari.** WebKit's tracking prevention deletes all of a site's script-writable storage, localStorage included, after 7 days of
   Safari use without the user interacting with the site ([webkit.org/blog/10218](https://webkit.org/blog/10218/)); whether an IP
   literal such as 127.0.0.1 is exempt is not documented and was not tested. A friend who pauses for a week in Safari could lose the
-  journey, so on macOS the server opens Chrome or Edge when installed, and the README recommends them, warns about Safari, asks a
+  journey, so on macOS the server opens Chrome or Edge when installed, and the guide recommends them, warns about Safari, asks a
   Safari-only player to export after every session and says how to carry a Safari save to Chrome. This Mac's default browser is
   Chrome, so `test.command` (which opens the default browser) and the package keep using the same save here.
 - **A newer save format.** The package and `test.command` share the origin and the key. Once a later version raises
   `SAVE_VERSION`, an older folder in the same browser cannot read the save: the shell keeps it aside (设置 > 无法读取的存档,
-  exportable) and starts a new journey in the main slot. The README says to start only the newest version after an update. With
+  exportable) and starts a new journey in the main slot. The guide says to start only the newest folder after an update. With
   the next format change, the new folder should reach the friends at once, and an older folder should not be opened in a browser
   where a newer version has played.
 
@@ -96,16 +99,16 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
   none) and no delayed expansion (a `!` in a folder name).
 - `启动游戏-macOS.command` picks `darwin-arm64` when `hw.optional.arm64` is 1, also in a Terminal under Rosetta, else `darwin-x64`,
   and `exec`s node.
-- **Privacy controls (TCC).** Archive Utility extracts next to the ZIP, usually in Downloads, and the README suggests 文稿; reading
+- **Privacy controls (TCC).** Archive Utility extracts next to the ZIP, usually in Downloads, and the guide names 下载, 文稿 and 桌面; reading
   the game there makes macOS ask once whether Terminal may access that folder (above).
 - **Gatekeeper.** The macOS node binaries are signed `Developer ID Application: Node.js Foundation (HX7739G8FX)` with the hardened
   runtime, and `spctl -t install` reports them as `Notarized Developer ID`. A copy given a browser's quarantine attribute ran from
   the shell (1.4 s for its first start, the online check, then at once), and keeps the attribute: the launcher removes nothing.
   The `.command` itself is an unsigned script (`spctl`: rejected, no usable signature), so its first start needs Control-click
-  > 打开 on macOS 13 and 14, and 系统设置 > 隐私与安全性 > 仍要打开 on macOS 15 and later, which the README says.
-- Node 24 needs Windows 10 or later and macOS 13.5 or later, which the README names as the minimum.
+  > 打开 on macOS 13 and 14, and 系统设置 > 隐私与安全性 > 仍要打开 on macOS 15 and later, which the guide says.
+- Node 24 needs Windows 10 or later and macOS 13.5 or later (the binaries' own minimum), which the guide names as the minimum.
 
-## The packer (`npm run package:browser`)
+## The packer (`npm run package`)
 
 `tools/distribution/pack_browser.mjs`, through `heavy.sh` on this Mac:
 
@@ -114,9 +117,9 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
    `SHASUMS256.txt`, whose GPG signature checked out against nodejs/release-keys when pinned; a file of another sum is refused.
    The macOS binaries and LICENSE are extracted from the tarballs.
 2. The web build without `public/` and without source maps (Vite's API, `copyPublicDir: false`).
-3. THIRD-PARTY-NOTICES.txt (`third-party-notices.mjs --package browser`, 885 KiB): the 18 npm packages of the web build, Ruffle,
+3. THIRD-PARTY-NOTICES.txt (`third-party-notices.mjs`, 885 KiB): the 18 npm packages of the web build, Ruffle,
    the 255 Rust crates of Ruffle's WebAssembly and the 5 npm packages of its ruffle.js, and Node.js with its LICENSE.
-4. `stage_desktop_payload.py` (APFS clones, payload.json) and the `desktop-payload` gate on this build and payload.
+4. `stage_payload.py` (APFS clones, payload.json) and the `payload` gate on this build and payload.
 5. The folder (the build and payload moved, the runtime cloned), then the ZIP (`tools/distribution/zip.mjs`): UTF-8 names
    (general purpose bit 11, so Windows Explorer shows 启动游戏-Windows.bat on a Chinese or English Windows), Unix modes (the
    `.command` and the node binaries 755), deflate where it saves space and stored bytes for images, audio and `.gz`. It
@@ -134,7 +137,7 @@ manifests at its tag (v0.7.1, 89a7049), `cargo tree` of `ruffle_web` for wasm32-
 repository, the repository's root, as for nihav's relicensing COPYING), and the npm packages among ruffle.js.map's sources, whose
 tarballs are checked against Ruffle's package-lock.json. The five symphonia crates (MPL-2.0) ship no license text, so the first
 gets the SPDX text and the others share it; their repository is named beside them. `third-party-notices.mjs` refuses the file
-when it is of another Ruffle than the installed one. The desktop notices now carry the same Ruffle sections (998 KiB).
+when it is of another Ruffle than the installed one.
 
 ## Checks
 
@@ -146,9 +149,9 @@ when it is of another Ruffle than the installed one. The desktop notices now car
   the probe over a real port, is skipped where local TCP connections are refused.
 - `main()` itself, run with a preload in place of the system: a listen failing with `EACCES` (on macOS and with the platform set
   to `win32`), a `payload.json` of mode 0 and a missing one each print their Chinese message and exit with 3.
-- `browser-package` (status `release`), after `npm run package:browser`, on the ZIP as a player gets it: the ZIP's limits, names,
+- `browser-package` (status `release`), after `npm run package`, on the ZIP as a player gets it: the ZIP's limits, names,
   modes and order; unzipped with `ditto` (Archive Utility's engine), the launchers statically (CRLF, ASCII and code page, quoted
-  paths, no `cd`, the exit code), node.exe's PE header and pinned SHA-256, the README, the notices, the node signatures, this Mac's
+  paths, no `cd`, the exit code), node.exe's PE header and pinned SHA-256, the guide, the notices, the node signatures, this Mac's
   node version, and server.mjs's own startup check; then the smoke (`_browser-package-smoke.mjs`) in Chrome and WebKit; then
   `battle-skill-effects` and `browser-regressions` with `SEER_PACKAGE`.
 - `SEER_PACKAGE=<unzipped package>` makes `_browser.mjs` skip its build and answer every request with the package's own server.mjs
@@ -167,6 +170,45 @@ After the fixes of the independent check (2026-10-24, the rebuilt ZIP): 10 of 11
 watchdog had stopped the gate for 91 s at a load of 12.4: every request of the page goes through the stopped process. Rerun with
 `--skip-suites`: 9 of 9, the smoke in both engines. `npm test` runs 260 tests, one skipped here (above).
 
+## Player guide (`运行说明.md`)
+
+`tools/distribution/browser/运行说明.md` is the guide for the user's friends, in Chinese (the one Chinese text file of the
+repository besides the game's own). The packer writes it at the package root and again beside the ZIP as `releases/运行说明.md`,
+to send along, in UTF-8 without a BOM and with CRLF line ends: Notepad (Windows 10 1903 and later) and TextEdit read UTF-8 without a
+BOM, and CRLF keeps older Notepad's lines apart. It reads the same rendered and as plain text: `#` headings, short numbered steps
+and `-` lists, one line each, with no table, HTML or emphasis.
+
+It covers what the game is and needs (Windows 10/11 64-bit or macOS 13.5 and later; about 7 GB free for a ZIP and a folder of
+about 3 GB each, the ZIP deletable after unzipping), unzipping the whole ZIP (全部解压缩 on Windows), the Windows launcher
+(SmartScreen's 更多信息 > 仍要运行, the attachment warning, Edge's app window, the console that must stay open, Ctrl+C's Y/N
+question), the macOS launcher (Control-click > 打开 on macOS 13 and 14, 系统设置 > 隐私与安全性 > 仍要打开 on 15 and later,
+Terminal's folder request, Chrome, Edge or the default browser, closing Terminal), the save (the browser's site data for
+http://127.0.0.1:1426, 设置 > 导出存档 and 导入存档, clearing browser data, Safari's 7-day deletion, updating, 0.0.1 replacing
+0.9.0), and what to do on each message of `server.mjs` and the launchers, with a screenshot for whoever gave the game. Every
+message and label it quotes is copied from `server.mjs`, the launchers or the settings panel (`ShellPanels.tsx`), so a change to
+one of them changes the guide in the same commit. The release gate checks its version, the launchers' names, the game's address,
+the asset notice and that the copy beside the ZIP is the same file. The macOS 15 and Windows dialogs it names were not clicked
+through here (open points).
+
+## The Tauri app's removal (2026-10-24)
+
+Removed: `src-tauri/` (the shell, its save files, payload serving, smoke build and generated icons; the branding source art moved
+to `design/branding/`), `src/app/desktop.ts` and `desktop-saves.ts` with every `DESKTOP` branch, Vite's desktop mode, the
+`build:desktop`, `desktop`, `stage:desktop`, `package:smoke` and `smoke:macos` scripts and `@tauri-apps/cli` (`package:browser` is
+now `npm run package`), the DMG packer, the packaged smoke test and the DMG's README, the `desktop-shell` and `desktop-identity`
+gates with the `needs-rust` status, golden-saves' desktop store check, and the notices' desktop mode with the 239 crates of the
+app executable. `persistence.ts` keeps the save in local storage only, as its replaceable store had no other caller.
+`pixi.js/unsafe-eval` went too: only the desktop app's content security policy needed it, and neither `server.mjs`, the page nor
+the development server sets one. `_browser.mjs` lost `SEER_PUBLIC`, whose one use was the staged desktop payload. The payload
+staging and its gate stay, as `stage_payload.py`, `payload-exclusions.json` and `payload.mjs`.
+
+Kept from the desktop work, as the browser build uses it: refused save writes reported until a later one succeeds, unreadable saves
+kept and exportable from settings, the root error boundary with 导出存档, 关于 with the version, the asset notice and the license
+texts, and export by download with import by file pick.
+
+The ignored desktop outputs were deleted: `releases/SeerClassic-0.3.2-macos-arm64.dmg` (2,881,340,598 B), `src-tauri/target`
+(1.3 GiB) and `src-tauri/gen`; `dist-desktop/`, `releases/desktop-payload` and `releases/desktop-notices` were already gone.
+
 ## Independent check (2026-10-23)
 
 An independent check of the package found two medium and seven low issues. Fixed: the port Windows refuses (a stack trace
@@ -179,15 +221,16 @@ about keeping to the newest version. Not changed:
   nothing can be tried here, for no gain against a player's own files.
 - **One WebKit run found no clickable skill within 30 s** at the first turn (load 5-6), and three runs after it passed. If it
   comes back in this gate, record the command deck's and the battle's state (busy, finished, needsSwitch) on failure.
-- **18 paths in `desktop-payload-exclusions.json` are no longer in the main checkout's `public/`** after its cleanup (the HD map
-  and selector `-4x` files, `maps/hd/726-v44.png`); `stage_desktop_payload.py` warns. The checkout that packed this ZIP was made
-  before the cleanup and still holds them, so the list is pruned in the cleanup lane, where removing an entry cannot ship a file.
+- **18 paths in the exclusion list were no longer in the main checkout's `public/`** after its cleanup (the HD map
+  and selector `-4x` files, `maps/hd/726-v44.png`), and staging warned. The checkout that packed the 0.9.0 ZIP was made before
+  the cleanup and still held them, so the list was pruned later in the main checkout, where removing an entry cannot ship a
+  file (2026-10-24, with the 0.0.1 release).
 
 ## Open points (untested)
 
 - **Windows has not run anything.** Checked only statically or with a mocked platform: cmd's reading of the `.bat` (CRLF,
   `chcp 65001` inside a batch, `%~dp0` with spaces and Chinese characters), Edge's app window and the `explorer.exe` fallback,
-  the console close reaching Node as SIGHUP, Chinese text in the console, SmartScreen and the downloaded-file warning (the README
+  the console close reaching Node as SIGHUP, Chinese text in the console, SmartScreen and the downloaded-file warning (the guide
   says how to pass them), Defender's cost on the first start and on unzipping 15,668 files, Explorer's extraction time and its
   path limit (the longest path inside the ZIP is about 70 characters), OneDrive folders. node.exe is the pinned file; its own
   Authenticode signature was not checked here.
@@ -197,4 +240,6 @@ about keeping to the newest version. Not changed:
 - **macOS.** The Gatekeeper dialog of a quarantined `.command` was not clicked through (no window is opened on this screen), nor
   Terminal's request for Downloads or Documents, nor `open -a` with Chrome or Edge; the Intel node was only signature-checked;
   Firefox was not tried. Whether Safari's 7-day deletion applies to 127.0.0.1 is unknown.
-- The save lives in one browser's site data; clearing it deletes the journey. The README says so and asks for exports.
+- The save lives in one browser's site data; clearing it deletes the journey. The guide says so and how to export.
+- **The guide's dialog wording** (SmartScreen, 打开文件 - 安全警告, 全部解压缩 and 提取, macOS 15's 完成 and 仍要打开, Terminal's
+  终止) follows those systems' Chinese wording as documented and remembered, not as seen here: no such dialog was opened.
