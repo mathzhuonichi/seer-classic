@@ -151,17 +151,27 @@ await withSsr('boss-ai-isolation-v56',async load=>{
    * skill had a positive estimate, the oracle drew any move; the policy draws, with the same one RNG value, among moves that are
    * not attacks. Where the oracle used its first unused status move, or the highest raw damage, the policy uses the highest
    * expected damage, or with one draw a status move that changes something. A knockout of the oracle's is never replaced by a
-   * slower move.
+   * slower move, by the priorities `seen` while deciding.
    */
-  function refinement(b,expected,actual,drew){
+  function refinement(b,expected,actual,drew,seen){
     const mon=b.active(1),foe=b.active(0),skill=id=>b.skill(id),estimate=id=>b.estimateDamage(mon,foe,skill(id)),attack=id=>dealsDamage(b,skill(id));
     if(!mon.skills.some(id=>mon.pp[id]>0&&estimate(id)>0))return attack(actual)?undefined:'no-damage fallback';
     if(!attack(actual))return drew&&changesSomething(b,mon,foe,skill(actual))?'status move by the status chance':undefined;
-    const slower=attack(expected)&&estimate(expected)>=foe.hp&&b.priority(mon,skill(actual))<b.priority(mon,skill(expected));
+    const priority=id=>seen.get(id)??b.priority(mon,skill(id));
+    const slower=attack(expected)&&estimate(expected)>=foe.hp&&priority(actual)<priority(expected);
     if(!(estimate(actual)>0)||slower)return undefined;
     return drew?'attack by the status chance':attack(expected)?'expected-damage ranking':'attack over a useless status move';
   }
   const withoutRng=value=>{const copy=structuredClone(value);delete copy.draws;delete copy.state.rng;return copy;};
+  /**
+   * The oracle's decision on `reference`, with the priority it gave each skill. A chance-based priority rule (random_priority) draws
+   * on every call, so asking again afterwards would answer differently; both policies ask in the same order and see the same values.
+   */
+  function oracleDecision(reference){
+    const seen=new Map(),priority=reference.priority;
+    reference.priority=(mon,skill)=>{const value=priority.call(reference,mon,skill);if(!seen.has(skill.id))seen.set(skill.id,value);return value;};
+    try{return {expected:decideAsD7e87e9(reference),seen};}finally{delete reference.priority;}
+  }
   /**
    * The current policy decides as the frozen oracle on an identical battle, or as one of its refinements, and never plans. An
    * explicit policy keeps the oracle's RNG draws and decision state; the Boss policy changes nothing but the RNG and draws at
@@ -169,7 +179,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
    */
   function matchOracle(current,reference,label){
     const mon=current.active(1),own=bossPolicy(current,mon);
-    const before=structuredClone(observed(current)),actual=decide(current),expected=decideAsD7e87e9(reference);
+    const before=structuredClone(observed(current)),actual=decide(current),{expected,seen}=oracleDecision(reference);
     assert.equal(lastSearchDecision(current,current.sides[1]),undefined,`${label}: no planner`);
     if(own){
       assert.deepEqual(withoutRng(observed(current)),withoutRng(before),`${label}: the Boss policy changes nothing but the RNG`);
@@ -178,7 +188,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     }else assert.deepEqual(observed(current),observed(reference),`${label}: RNG and decision side effects`);
     const same=JSON.stringify(actual)===JSON.stringify(expected)&&JSON.stringify(observed(current))===JSON.stringify(observed(reference));
     const drew=current.rng.draws>reference.rng.draws;
-    const reason=same?'same':own==='smart'?refinement(reference,expected.skill,actual.skill,drew):own;
+    const reason=same?'same':own==='smart'?refinement(reference,expected.skill,actual.skill,drew,seen):own;
     assert(reason,`${label}: ${JSON.stringify(actual)} differs from the oracle's ${JSON.stringify(expected)} without a refinement`);
     return {action:actual,oracle:expected,reason};
   }
@@ -228,16 +238,36 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     }
   });
   /** A sturdy foe that only heals itself (木之振奋): it undoes none of a Boss's boosts, statuses or conditions. */
-  // STATUS_RUN_LIMIT: status moves in a row; six in a row has chance 0.2^6 a turn, and the old reuse rule ran ten.
-  const PASSIVE_SKILL=20416,SWEEP_TURNS=30,STATUS_RUN_LIMIT=6,passiveFoe={species:6,level:100,iv:31,skills:[PASSIVE_SKILL],hp_override:20000};
+  const PASSIVE_SKILL=20416,SWEEP_TURNS=30,SWEEP_SEEDS=2,passiveFoe={species:6,level:100,iv:31,skills:[PASSIVE_SKILL],hp_override:20000};
+  /** The passive foe's move, or once its PP is spent its first legal action (Struggle). */
+  const passiveAction=b=>{const legal=b.legalActions(0);return legal.find(a=>a.kind==='move'&&a.skill===PASSIVE_SKILL)??legal[0];};
   /** A Boss's status moves that would change something now, while one of its attacks can hurt the foe: the status chance applies. */
   const chanceOpen=b=>{
     const mon=b.active(1),foe=b.active(0),usable=mon.skills.filter(id=>mon.pp[id]>0),skill=id=>b.skill(id,mon);
     const hurts=usable.some(id=>b.estimateDamage(mon,foe,skill(id))>0),ko=usable.some(id=>b.estimateDamage(mon,foe,skill(id))>=foe.hp);
     return hurts&&!ko?usable.filter(id=>!dealsDamage(b,skill(id))&&changesSomething(b,mon,foe,skill(id))):[];
   };
-  /** The share of `chosen` among `turns`, within BOSS_STATUS_CHANCE ± `margin`. */
-  const nearChance=(chosen,turns,margin,label)=>assert(Math.abs(chosen/turns-BOSS_STATUS_CHANCE)<=margin,`${label}: ${chosen}/${turns}`);
+  /**
+   * The share of `chosen` among `turns` is BOSS_STATUS_CHANCE within `margin`, robustly. Each open turn draws one fresh RNG value, so
+   * the status picks are binomial: the share must lie within STATUS_Z standard deviations of the chance (a false alarm below 1e-5 per
+   * bound, so new random draws alone cannot break it), and the sample must be large enough for that band to fit inside `margin`.
+   */
+  const STATUS_Z=4.5,statusBand=n=>STATUS_Z*Math.sqrt(BOSS_STATUS_CHANCE*(1-BOSS_STATUS_CHANCE)/n);
+  function nearChance(chosen,turns,margin,label){
+    assert(statusBand(turns)<=margin,`${label}: ${turns} turns cannot bound the chance within ${margin}`);
+    assert(Math.abs(chosen/turns-BOSS_STATUS_CHANCE)<=statusBand(turns),`${label}: ${chosen}/${turns}`);
+  }
+  /**
+   * Status picks in a row, over consecutive open turns of one monster: `after` counts open turns right after a status pick and
+   * `again` the status picks among them. A loop (the old reuse rule ran ten in a row) makes `again/after` near 1; independent draws
+   * keep it at the status chance, which `nearChance` bounds. A fixed cap on the longest run would fail by chance on some seeds.
+   */
+  const statusRuns=()=>({run:0,after:0,again:0,longestRun:0});
+  function countRun(runs,open,status){
+    if(!open){runs.run=0;return;}
+    if(runs.run){runs.after++;if(status)runs.again++;}
+    runs.run=status?runs.run+1:0;runs.longestRun=Math.max(runs.longestRun,runs.run);
+  }
   // 「强化就叶绿光束」「他马上强化，你下一次就叶绿」: the period guides fought a 厄尔塞拉 that boosted again after each clear.
   check('Against 丽莎布布\'s 叶绿光束, 厄尔塞拉 boosts on about one turn in five, cleared or not, and never with every boost at +6',()=>{
     const raised=data.skills.get(20564).effects.flatMap(op=>Object.keys(op.stats)),counts={open:0,boosts:0,afterClear:0,whileStanding:0};
@@ -262,12 +292,13 @@ await withSsr('boss-ai-isolation-v56',async load=>{
   check('蘑菇怪 never poisons a poisoned foe, and poisons again on about one turn in five once the poison is gone, by expiry or by a switch',()=>{
     const moguguai=catalog.bosses.find(row=>row.id==='boss_spt_moguguai'),POISON_POWDER=20020,counts={open:0,repoisons:0,afterSwitch:0};
     assert(moguguai.team[0].skills.includes(POISON_POWDER));
-    for(let seed=1;seed<=24;seed++){
+    // 96 battles hold about 280 switches, so a re-poison right after one (a few percent each) is all but certain to occur.
+    for(let seed=1;seed<=96;seed++){
       const b=createBattle({data,scripts,seed,encounter:structuredClone(moguguai),sides:[{kind:'player',team:[structuredClone(passiveFoe),structuredClone(passiveFoe)]}]});
       let switched=false;
       for(let turn=0;turn<24&&!b.result;turn++){
         const poisoned=b.active(0).conditions.some(c=>c.id==='poison'),spent=b.active(1).usedSkills.has(POISON_POWDER),open=chanceOpen(b).includes(POISON_POWDER);
-        b.submit(0,turn%6===5?{kind:'switch',slot:1-b.sides[0].active}:move(PASSIVE_SKILL));
+        b.submit(0,turn%6===5?{kind:'switch',slot:1-b.sides[0].active}:passiveAction(b));
         const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${seed}/turn ${turn}`;
         if(poisoned)assert.notEqual(used,POISON_POWDER,`${label}: still poisoned`);
         if(open)counts.open++;
@@ -278,47 +309,50 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     assert(counts.afterSwitch>0&&counts.repoisons>counts.afterSwitch,JSON.stringify(counts));
     t.witness('moguguaiRepoisons',counts);
   });
-  check('No Boss loops on status moves: against a foe that only heals itself, the status chance holds and status runs stay short',()=>{
-    const totals={runs:0,open:0,status:0,longestRun:0};
-    for(const encounter of catalog.bosses)for(const variant of encounter.variants?.length?encounter.variants.map(row=>row.id):[undefined]){
+  check('No Boss loops on status moves: against a foe that only heals itself, the status chance holds, also right after a status move',()=>{
+    const totals={runs:0,open:0,status:0},runs=statusRuns(),variants=encounter=>encounter.variants?.length?encounter.variants.map(row=>row.id):[undefined];
+    for(const encounter of catalog.bosses)for(const variant of variants(encounter))for(let k=0;k<SWEEP_SEEDS;k++){
       // A seed per battle: one seed would hand every Boss the same draws.
       const b=createBattle({data,scripts,seed:5701+totals.runs,variant,encounter:structuredClone(encounter),
         sides:[{kind:'player',team:[structuredClone(passiveFoe)]}]});
-      let run=0;
+      runs.run=0;
       for(let turn=0;turn<SWEEP_TURNS&&!b.result;turn++){
-        const mon=b.active(1),open=bossPolicy(b,mon)?chanceOpen(b):[],legal=b.legalActions(0);
-        b.submit(0,legal.find(a=>a.kind==='move'&&a.skill===PASSIVE_SKILL)??legal[0]);
-        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill;
-        if(!open.length||used===undefined||b.active(1)!==mon){run=0;continue;}
+        const mon=b.active(1),open=bossPolicy(b,mon)?chanceOpen(b):[];
+        b.submit(0,passiveAction(b));
+        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,counted=open.length>0&&used!==undefined&&b.active(1)===mon;
+        countRun(runs,counted,counted&&open.includes(used));
+        if(!counted)continue;
         totals.open++;
-        if(open.includes(used)){totals.status++;run++;totals.longestRun=Math.max(totals.longestRun,run);}else run=0;
+        if(open.includes(used))totals.status++;
       }
       totals.runs++;
     }
     nearChance(totals.status,totals.open,0.03,'status moves');
-    assert(totals.longestRun<=STATUS_RUN_LIMIT,JSON.stringify(totals));
-    t.witness('statusLoopSweep',totals);
+    nearChance(runs.again,runs.after,0.06,'status moves right after a status move');
+    t.witness('statusLoopSweep',{...totals,after:runs.after,again:runs.again,longestRun:runs.longestRun});
   });
   // The 2026-10-21 report: 哈莫雷特 opened with 龙之意志 and, against a 丽莎布布 clearing it with 叶绿光束, boosted again every turn
   // until its PP was gone. Period guides drained its attack PP first: 「没技能前会用很多招龙之意志」「只有龙之意志了」「哈默不动了」.
   const hamoleite=catalog.bosses.find(row=>row.id==='boss_spt_hamoleite'),WILL=20269,LEAF=11006,HEAL_GUARD=20503,GRASS_POWER=20504;
-  check('哈莫雷特 against a 丽莎布布 that clears every turn uses 龙之意志 on about one turn in five and never ten turns in a row',()=>{
-    const counts={turns:0,will:0,longestRun:0,openingsWithWill:0};
-    for(let seed=1;seed<=40;seed++){
+  check('哈莫雷特 against a 丽莎布布 that clears every turn uses 龙之意志 on about one turn in five, no more often right after using it',()=>{
+    const SEEDS=50,counts={turns:0,will:0,openingsWithWill:0},runs=statusRuns();
+    for(let seed=1;seed<=SEEDS;seed++){
       const b=createBattle({data,scripts,seed,encounter:structuredClone(hamoleite),sides:[{kind:'player',team:[structuredClone(lisa)]}]});
-      let run=0;
+      runs.run=0;
       for(let turn=0;turn<30&&!b.result;turn++){
+        const open=chanceOpen(b).includes(WILL);
         b.submit(0,move(b.isLegal(0,move(LEAF))?LEAF:HEAL_GUARD));
-        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill;
-        if(used===undefined)continue;
+        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,counted=open&&used!==undefined;
+        countRun(runs,counted,counted&&used===WILL);
+        if(!counted)continue;
         counts.turns++;
-        if(used===WILL){counts.will++;run++;counts.longestRun=Math.max(counts.longestRun,run);if(turn===0)counts.openingsWithWill++;}else run=0;
+        if(used===WILL){counts.will++;if(turn===0)counts.openingsWithWill++;}
       }
     }
     nearChance(counts.will,counts.turns,0.05,'龙之意志');
-    assert(counts.longestRun<=STATUS_RUN_LIMIT,JSON.stringify(counts));
-    assert(counts.openingsWithWill<40,'it does not always open with 龙之意志');
-    t.witness('hamoleiteAgainstClears',counts);
+    nearChance(runs.again,runs.after,0.12,'龙之意志 right after 龙之意志');
+    assert(counts.openingsWithWill<SEEDS,'it does not always open with 龙之意志');
+    t.witness('hamoleiteAgainstClears',{...counts,after:runs.after,again:runs.again,longestRun:runs.longestRun});
   });
   check('哈莫雷特 spends its attack PP strongest first, then 龙之意志, and with no PP left it stands still',()=>{
     const sturdy={...structuredClone(lisa),hp_override:60000};
@@ -342,7 +376,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       const b=createBattle({data,scripts,seed,encounter:structuredClone(tiyasi),sides:[{kind:'player',team:[{...structuredClone(passiveFoe),hp_override:60000}]}]});
       let uses=0;
       for(let turn=0;turn<60&&!b.result;turn++){
-        b.submit(0,move(PASSIVE_SKILL));
+        b.submit(0,passiveAction(b));
         if(b.resolveTurn().some(e=>e.type==='move_used'&&e.side===1&&e.skill===MIND))uses++;
         assert.equal(b.result?.reason==='boss_fled',uses===2,`seed ${seed}/turn ${turn}: ${uses} uses`);
       }
@@ -359,7 +393,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
       let switched=false;
       for(let turn=0;turn<30&&!b.result;turn++){
         const boss=b.active(1),under=b.active(0).conditions.some(c=>c.id==='seer_eff_69'),left=boss.pp[BACKFIRE]>0,switching=turn%7===6;
-        b.submit(0,switching?{kind:'switch',slot:1-b.sides[0].active}:move(PASSIVE_SKILL));
+        b.submit(0,switching?{kind:'switch',slot:1-b.sides[0].active}:passiveAction(b));
         const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${id}/${seed}/turn ${turn}`;
         if(boss.species.id===264&&used!==undefined){
           if(!under&&left){assert.equal(used,BACKFIRE,label);if(turn)counts[switched?'afterSwitch':'recasts']++;}
@@ -371,10 +405,12 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     assert(counts.recasts>0&&counts.afterSwitch>0,JSON.stringify(counts));
     t.witness('nainifenduoBackfire',counts);
   });
+  // The member as the Boss fields it, its 3000 HP included. Without that HP it cannot last against 20000, every action of the planner
+  // scores a certain loss, and its uniform mix picks a light attack on about one turn in ten.
   check('As a trainer, the planner does not pick 厄尔塞拉\'s light attacks against 丽莎布布 either',()=>{
-    for(let seed=1;seed<=2;seed++){
+    for(let seed=1;seed<=24;seed++){
       const b=createBattle({data,scripts,seed,sides:[{kind:'player',team:[structuredClone(lisa)]},
-        {kind:'trainer',team:[{species:421,level:80,skills:eersaila.team[0].skills}],ai:{kind:'smart'}}]});
+        {kind:'trainer',team:[structuredClone(eersaila.team[0])],ai:{kind:'smart'}}]});
       for(let turn=0;turn<6&&!b.result;turn++){
         const action=decide(b);
         assert(action.kind!=='move'||!isLight(action.skill),`${seed}/turn ${turn}: ${JSON.stringify(action)}`);
@@ -402,7 +438,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     assert.deepEqual(decide(fixture({skills:[S.attack,S.strong,S.fire]})),move(S.strong),'the highest raw damage');
     assert.deepEqual(decide(fixture({kind:'trainer'})),move(S.attack));
     // The fixture heal restores half of 400 HP.
-    const hurt=(kind,seed)=>{const b=fixture({kind,seed});b.active(1).hp=120;b.active(1).stats.spe=300;return b;},SEEDS=200;
+    const hurt=(kind,seed)=>{const b=fixture({kind,seed});b.active(1).hp=120;b.active(1).stats.spe=300;return b;},SEEDS=1000;
     let heals=0;
     for(let seed=1;seed<=SEEDS;seed++)if(decide(hurt('boss',seed)).skill===S.heal)heals++;
     nearChance(heals,SEEDS,0.06,'a hurt Boss heals by the status chance');
