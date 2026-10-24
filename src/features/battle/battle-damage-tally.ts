@@ -97,6 +97,11 @@ export interface BlockShare {
   lined: boolean;
   /** Some of the move's damage to the creature went through, so the line must not say that all of it was stopped. */
   partial: boolean;
+  /**
+   * It carries the line of a move that was stopped on its target before any of the move's damage reached it, so the target has no
+   * number of the move (`damageTallies`). A damaging move shows −0 there: the original drew its one `lostHP` per move, 0 here.
+   */
+  stopped: boolean;
   /** It stopped a counter to this hit (`counterHits`); the battle screen shows it with that hit. */
   drawnBy?: Damage;
 }
@@ -107,21 +112,30 @@ export interface BlockShare {
  * stands alone.
  */
 export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockShare> {
-  const groups: { blocks: Block[]; damaged: boolean }[] = [], drawn = counterHits(events);
-  let open: Map<0 | 1, (typeof groups)[number]> | undefined;
+  /** One line's blocks; `struck`: a damage event of the move reached the side, `damaged`: one did damage, `target`: the move's target. */
+  const groups: { blocks: Block[]; struck: boolean; damaged: boolean; target: boolean }[] = [], drawn = counterHits(events);
+  let open: Map<0 | 1, (typeof groups)[number]> | undefined, user: 0 | 1 | undefined;
   for (const event of events) {
-    if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) open = event.type === 'move_used' ? new Map() : undefined;
+    if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) {
+      open = event.type === 'move_used' ? new Map() : undefined;
+      user = event.type === 'move_used' ? event.side : undefined;
+    }
     if (event.type !== 'damage' && event.type !== 'protected' && event.type !== 'damage_blocked') continue;
     let group = open?.get(event.side);
     if (!group) {
-      groups.push(group = { blocks: [], damaged: false });
+      groups.push(group = { blocks: [], struck: false, damaged: false, target: user !== undefined && event.side !== user });
       open?.set(event.side, group);
     }
     if (event.type !== 'damage') group.blocks.push(event);
-    else group.damaged ||= !event.status && displayedDamage(event) > 0;
+    else if (!event.status) {
+      group.struck = true;
+      group.damaged ||= displayedDamage(event) > 0;
+    }
   }
-  return new Map(groups.flatMap(({ blocks, damaged }) => {
+  return new Map(groups.flatMap(({ blocks, struck, damaged, target }) => {
     const lined = blocks.every(block => drawn.has(block)) ? blocks.length - 1 : 0;
-    return blocks.map((block, index) => [block, { lined: index === lined, partial: damaged, drawnBy: drawn.get(block) }] as const);
+    return blocks.map((block, index) => [block, {
+      lined: index === lined, partial: damaged, stopped: index === lined && target && !struck, drawnBy: drawn.get(block),
+    }] as const);
   }));
 }

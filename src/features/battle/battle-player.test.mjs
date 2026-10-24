@@ -147,6 +147,23 @@ test('a miss shows MISS on its target when the hit would have hurt, in the next 
   assert.deepEqual(ui.numbers(), [], 'gone DAMAGE_NUMBER_MS after it showed');
 });
 
+test('a stopped move\'s block line shows −0 on its target with the line, in the next free row, for DAMAGE_NUMBER_MS', () => {
+  const frames = [hit(1, 1, 12), frame(2, 'physical', 0, {targetSide: 1}), frame(3, 'message', 1, {text: '布布花抵挡了这次伤害。', stopped: true}),
+    frame(4, 'message', 0, {text: '下一句'})];
+  const ui = screen(frames, {timing: {durationMs: 1500, hitMs: 600}}), shownAt = {};
+  ui.player.subscribe(() => { const id = ui.player.state().frame?.id; if (id && !(id in shownAt)) shownAt[id] = ui.clock.now(); });
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(FRAME_MS.hit + 1500);
+  const lineAt = FRAME_MS.hit + 1500;
+  assert.deepEqual(shownAt, {1: 0, 2: FRAME_MS.hit, 3: lineAt}, 'when the clip has ended, as the block line did before');
+  assert.deepEqual(ui.player.state().numbers.map(({id, side, uid, amount, kind, row}) => ({id, side, uid, amount, kind, row})), [
+    {id: 1, side: 1, uid: 'foe-0', amount: 12, kind: 'damage', row: 0}, {id: 3, side: 1, uid: 'foe-0', amount: 0, kind: 'damage', row: 1}]);
+  ui.clock.advance(DAMAGE_NUMBER_MS - 1);
+  assert.equal(ui.player.state().numbers.at(-1)?.id, 3);
+  ui.clock.advance(1);
+  assert.deepEqual(ui.numbers(), [], 'gone DAMAGE_NUMBER_MS after it showed');
+});
+
 test('a critical hit keeps its number critical through the later hits, and another number on the creature takes the next row', () => {
   const ui = screen([hit(1, 1, 30, {critical: true}), hit(2, 1, 61, {numberId: 1}), frame(3, 'message', 0, {text: '中毒'}), hit(4, 1, 12)]);
   ui.player.play(ui.shown.battle);

@@ -18,9 +18,9 @@ export interface SkillEffectCue {
 }
 
 /**
- * A damage or healing number on screen, from a hit or heal frame or a hit's counter, or the MISS of a miss frame; it outlives its
- * frame and turn (DAMAGE_NUMBER_MS), but not its creature's place on screen. A move's later hits and riders on the same creature
- * update it in place (`BattlePresentationFrame.numberId`).
+ * A damage or healing number on screen, from a hit or heal frame or a hit's counter, the −0 of a stopped move's block line,
+ * or the MISS of a miss frame; it outlives its frame and turn (DAMAGE_NUMBER_MS), but not its creature's place on screen. A
+ * move's later hits and riders on the same creature update it in place (`BattlePresentationFrame.numberId`).
  */
 export interface FloatingNumber {
   /** The id of its first frame or counter. */
@@ -174,14 +174,15 @@ const activeUid = (frame: BattlePresentationFrame, side = frame.side) => (side =
 type ShownNumber = Omit<FloatingNumber, 'row'>;
 
 /**
- * The numbers a frame shows: a hit's or heal's own, on the attacker the counter a hit drew (`BattlePresentationFrame.counter`), and
- * a miss's MISS on its target.
+ * The numbers a frame shows: a hit's or heal's own, on the attacker the counter a hit drew (`BattlePresentationFrame.counter`),
+ * −0 on the target of a damaging move that a block stopped entirely (`stopped`), and a miss's MISS on its target.
  */
 function frameNumbers(frame: BattlePresentationFrame): ShownNumber[] {
   const shown: ShownNumber[] = [], own = { id: frame.numberId ?? frame.id, frame: frame.id, side: frame.side, uid: activeUid(frame) };
   if ((frame.kind === 'hit' || frame.kind === 'heal') && frame.amount !== undefined) {
     shown.push({ ...own, amount: frame.amount, kind: frame.kind === 'heal' ? 'healing' : 'damage', critical: !!frame.critical });
   }
+  if (frame.stopped) shown.push({ ...own, amount: 0, kind: 'damage', critical: false });
   if (frame.kind === 'miss') shown.push({ ...own, amount: 0, kind: 'miss', critical: false });
   const { counter } = frame, side = frame.side === 1 ? 0 : 1;
   if (counter) {

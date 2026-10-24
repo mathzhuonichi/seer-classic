@@ -155,11 +155,12 @@ function seedOnce(entries) {
 
 /**
  * Opens the game in a fresh context and waits for the page load. `silent` holds the mute entries set on every load, `seed` the
- * entries set before the first load, `viewport` the page size (1280x800 by default). Page errors and console errors are
- * collected in `errors`, failed requests with the engine's reason in `failed` (not those the page cancels itself).
+ * entries set before the first load, `viewport` the page size (1280x800 by default); the page asks for reduced motion unless
+ * `motion` is set, so that battles play their creatures' clips. Page errors and console errors are collected in `errors`, failed
+ * requests with the engine's reason in `failed` (not those the page cancels itself).
  */
-export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT}) {
-  const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion: 'reduce'});
+export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT, motion = false}) {
+  const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion: motion ? 'no-preference' : 'reduce'});
   const errors = [], failed = [];
   try {
     await context.route(`${ORIGIN}/**`, PACKAGE ? packageRoute : async route => {

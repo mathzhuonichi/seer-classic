@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {CRITICAL_HIT_MS, FOLLOW_UP_HIT_MS, FRAME_MS, REDUCED_MOTION_MS, planBattleFrame} from './battle-playback.ts';
+import {CRITICAL_HIT_MS, FOLLOW_UP_HIT_MS, FRAME_MS, REDUCED_MOTION_MS, isActing, planBattleFrame, shownDown, sideAction} from './battle-playback.ts';
 
 const frame = (kind, extra = {}) => ({id: 1, side: 0, kind, text: '', playerHp: 1, enemyHp: 1, ...extra});
 const clip = {durationMs: 1500, hitMs: 600};
@@ -60,4 +60,15 @@ test('a hit followed by another on the same creature hands over quickly; the las
   assert.deepEqual(planBattleFrame(frame('hit'), frame('hit', {side: 1}), {reducedMotion: false}),
     {delayMs: FRAME_MS.hit, effect: 'keep', actionMs: null, awaitRunning: true, hurtDelayMs: 0}, 'a hit on the other creature is another move\'s');
   assert.equal(plan('hit', 'message').awaitRunning, true);
+});
+
+test('a creature at 0 HP shows as down only once it is not acting its move, so a counter\'s knockout waits for its clip', () => {
+  const move = frame('physical', {id: 1, side: 0}), hit = frame('hit', {id: 2, side: 1});
+  assert.deepEqual([sideAction(0, hit, move), sideAction(1, hit, move), sideAction(1, null, move)], [move, hit, null]);
+  assert.equal(isActing(0, hit, move), true, 'its clip plays on while the hit that drew the counter shows');
+  assert.equal(shownDown(0, isActing(0, hit, move)), false, 'neither greyed nor counted out at the target');
+  assert.equal(shownDown(0, isActing(0, hit, null)), true, 'down once its clip is home');
+  assert.equal(isActing(0, move, null), true, 'a move without a clip acts while its frame shows');
+  assert.equal(isActing(1, hit, move), false, 'the target of the hit is not acting');
+  assert.equal(shownDown(5, false), false);
 });

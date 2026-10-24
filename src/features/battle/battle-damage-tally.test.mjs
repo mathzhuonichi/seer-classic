@@ -31,6 +31,8 @@ function show(events, maxHp = [100, 100]) {
   }));
   return {frames, hits, log: groupedBattleLog(events, {data, initialPlayer: player, initialEnemy: enemy})};
 }
+/** The dialogue's lines in the order the frames show them, as one log entry would join them. */
+const dialogue = frames => frames.map(frame => frame.text).filter(Boolean).join('　');
 
 test('a multi-hit move is one number on its target that counts up with each hurt, and one line of the total', () => {
   const {hits, log} = show([used(0, MULTI), hurt(1, 30, 70), hurt(1, 31, 39), hurt(1, 32, 7), {type: 'multi_hit', side: 0, hits: 3}]);
@@ -42,7 +44,7 @@ test('a multi-hit move is one number on its target that counts up with each hurt
   assert.deepEqual(log, ['巴鲁斯使用了三连击。　布布花受到 93 点伤害。剩余体力 7/100。']);
 });
 
-test('a move\'s rider joins its hit, a critical hit makes the total critical, and a line between them keeps its place', () => {
+test('a move\'s rider joins its hit, a critical hit makes the total critical, and a line between them reads before the total', () => {
   const {frames, hits, log} = show([
     used(0, RIDER), hurt(1, 40, 60, {crit: true}), {type: 'stat_stage', side: 1, stat: 'def', delta: -1, stage: 0, name: '布布花', reason: 'critical'},
     hurt(1, 40, 20, {kind: 'fixed', sourceSide: 0, skill: RIDER}),
@@ -50,7 +52,8 @@ test('a move\'s rider joins its hit, a critical hit makes the total critical, an
   assert.deepEqual(hits.map(({amount, numberId, text}) => [amount, numberId, text]),
     [[40, undefined, ''], [80, 2, '布布花受到 80 点伤害，致命一击！剩余体力 20/100。']]);
   assert.deepEqual(frames.filter(frame => frame.kind === 'hit').map(frame => frame.critical), [true, false], 'each hurt keeps its own impact');
-  assert.deepEqual(log, ['巴鲁斯使用了龙之怒。　布布花受到 80 点伤害，致命一击！剩余体力 20/100。　致命一击破防，布布花的防御提升已清除。']);
+  assert.deepEqual(log, ['巴鲁斯使用了龙之怒。　致命一击破防，布布花的防御提升已清除。　布布花受到 80 点伤害，致命一击！剩余体力 20/100。']);
+  assert.equal(dialogue(frames), log[0], 'the log reads the lines in the order the dialogue showed them');
 });
 
 test('recoil shows on the user as its own number, apart from the target\'s', () => {
@@ -146,8 +149,9 @@ test('a missed multi-hit shows MISS and no number, a blocked hit leaves the move
   const blocked = show([used(0, MULTI), hurt(1, 30, 70), {type: 'damage_blocked', side: 1, rule: 'invulnerable'}, hurt(1, 31, 39),
     used(0, MULTI), hurt(1, 8, 31)]);
   assert.deepEqual(blocked.hits.map(({amount, numberId}) => [amount, numberId]), [[30, undefined], [61, 2], [8, undefined]]);
-  assert.deepEqual(blocked.log, ['巴鲁斯使用了三连击。　布布花受到 61 点伤害。剩余体力 39/100。　布布花抵挡了部分伤害。',
-    '巴鲁斯使用了三连击。　布布花受到 8 点伤害。剩余体力 31/100。']);
+  assert.deepEqual(blocked.log, ['巴鲁斯使用了三连击。　布布花抵挡了部分伤害。　布布花受到 61 点伤害。剩余体力 39/100。',
+    '巴鲁斯使用了三连击。　布布花受到 8 点伤害。剩余体力 31/100。'], 'the block between the hits reads before the total, as in the dialogue');
+  assert.equal(dialogue(blocked.frames.slice(0, 4)), blocked.log[0]);
 });
 
 test('a missed status move shows MISS on its target too, and so does the foe\'s miss on the player', () => {
@@ -169,6 +173,21 @@ test('a move\'s blocked hits on one creature are one line: all of them stopped, 
   assert.deepEqual(rider.log, ['巴鲁斯使用了龙之怒。　布布花抵挡了部分伤害。　布布花受到 40 点伤害。剩余体力 60/100。'], 'a rider after the block');
   const apart = show([{type: 'turn_end', turn: 1}, block(1), block(1)]);
   assert.deepEqual(apart.log, ['布布花抵挡了这次伤害。　布布花抵挡了这次伤害。'], 'outside a move each block stands alone');
+});
+
+test('a damaging move stopped before any of its damage reached its target shows −0 there with its block line, and nothing else does', () => {
+  const block = side => ({type: 'damage_blocked', side, rule: 'invulnerable_turns'});
+  const stopped = ({frames}) => frames.filter(frame => frame.stopped).map(({kind, side, text}) => [kind, side, text]);
+  const all = show([used(0, MULTI), block(1), block(1), block(1), {type: 'multi_hit', side: 0, hits: 3}]);
+  assert.deepEqual(stopped(all), [['message', 1, '布布花抵挡了这次伤害。']], 'one −0 for the three, on the line\'s frame');
+  assert.deepEqual(stopped(show([used(1, FOE_MOVE), {type: 'protected', side: 0}])), [['message', 0, '巴鲁斯抵挡了这次伤害。']], 'a protection too');
+  assert.deepEqual(stopped(show([used(0, RIDER), block(1), hurt(1, 40, 60, {kind: 'fixed', sourceSide: 0, skill: RIDER})])), [],
+    'a rider that got through has its own number');
+  assert.deepEqual(stopped(show([used(0, MULTI), hurt(1, 0, 100), block(1)])), [], 'a 0-damage hit already shows −0');
+  assert.deepEqual(stopped(show([used(0, SLEEP), {type: 'protected', side: 1}])), [], 'a status move shows no number, as in the original');
+  const counter = () => ({type: 'damage_blocked', side: 0, rule: 'immune_fixed_damage'});
+  assert.deepEqual(stopped(show([used(0, MULTI), hurt(1, 20, 80), counter()])), [], 'a stopped counter is no stopped move');
+  assert.deepEqual(stopped(show([{type: 'turn_end', turn: 1}, block(1)])), [], 'nor is a block outside a move');
 });
 
 test('a heal or a life between the hits starts a new number, so the number never runs past what the HP bar shows', () => {

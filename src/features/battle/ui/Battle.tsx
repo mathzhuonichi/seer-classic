@@ -3,6 +3,7 @@ import type { GameController } from '../../../kernel/contract.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
 import type { BattleSupplyCategory } from '../../../shared/item-categories.ts';
 import { OPENED_ITEM_CATEGORY, battleResultTitle, roundStatus, shownTurn } from '../battle-hud.ts';
+import { isActing } from '../battle-playback.ts';
 import BattleCombatant from './BattleCombatant.tsx';
 import BattleCommandDeck, { type BattleCommand } from './BattleCommandDeck.tsx';
 import BattleDialogue from './BattleDialogue.tsx';
@@ -48,9 +49,11 @@ export default function Battle({ c, background, onSettings }: BattleProps) {
       </div>
       {background ? <img className="classic-scene-backdrop" src={background} alt="" aria-hidden="true" draggable={false}/> : <ArenaLandscape />}
       <div className="classic-health-row">
-        <BattleHealth monster={frame ? { ...player, hp: frame.playerHp } : player} team={frame?.party ?? b.party}/>
+        <BattleHealth monster={frame ? { ...player, hp: frame.playerHp } : player} team={frame?.party ?? b.party}
+          acting={isActing(0, frame, playback.sourceAction)}/>
         <BattleMatchup matchup={frame?.matchup ?? b.matchup}/>
-        <BattleHealth monster={frame ? { ...enemy, hp: frame.enemyHp } : enemy} team={frame?.enemyParty ?? b.enemyParty} enemy />
+        <BattleHealth monster={frame ? { ...enemy, hp: frame.enemyHp } : enemy} team={frame?.enemyParty ?? b.enemyParty} enemy
+          acting={isActing(1, frame, playback.sourceAction)}/>
       </div>
       <div className="classic-creatures">
         <BattleCombatant action={playback.sourceAction} effectCue={playback.skillEffect} monster={player} side={0} frame={frame} busy={busy}

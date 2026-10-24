@@ -6,7 +6,7 @@ import { appearanceOf } from '../../../shared/monster-views.ts';
 import { battleCreatureExtent } from '../battle-creature-size.ts';
 import BattleCreatureAnimation from './BattleCreatureAnimation.tsx';
 import type { FloatingNumber, SkillEffectCue } from '../battle-player.ts';
-import { DAMAGE_NUMBER_MS, isMoveFrame } from '../battle-playback.ts';
+import { DAMAGE_NUMBER_MS, isActing, shownDown, sideAction } from '../battle-playback.ts';
 
 /** Frame kinds with their own CSS motion on the combatant. */
 const MOTION_KINDS = new Set(['physical', 'special', 'status', 'hit', 'heal', 'switch', 'capture']);
@@ -54,7 +54,7 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   arena: RefObject<HTMLElement | null>;
 }) {
   const effect = frame?.side === side ? frame.kind : 'idle';
-  const originalFrame = action?.side === side ? action : frame?.side === side ? frame : null;
+  const originalFrame = sideAction(side, frame, action);
   const critical = effect === 'hit' && !!frame?.critical;
   const effectActor = effectCue?.move.side === side, effectTarget = effectCue?.move.targetSide === side;
   const appearance = appearanceOf(monster), art = getCreatureArt(appearance);
@@ -62,9 +62,8 @@ export default function BattleCombatant({ monster, side, frame, captured = false
   const held = monster.statuses.some(status => STILL_STATUSES.includes(status));
   const resting = !busy && !frame && monster.hp > 0 && !monster.fainted && !captured && !held;
   const motion = MOTION_KINDS.has(effect) ? `motion-${effect}` : resting ? 'motion-idle' : '';
-  const capturing = effect === 'capture', acting = !!originalFrame && isMoveFrame(originalFrame);
-  // A counter can take the attacker to 0 HP while its clip is still at the target: it greys once it is home.
-  const greyed = monster.hp <= 0 && !acting;
+  const capturing = effect === 'capture', acting = isActing(side, frame, action);
+  const greyed = shownDown(monster.hp, acting);
   const className = `classic-combatant side-${side}${greyed ? ' is-fainted' : ''}${critical ? ' is-critical' : ''}`
     + `${captured && !capturing ? ' is-captured' : ''}${capturing && frame?.captureSuccess ? ' capture-success' : ''}`;
   return <div className={className} style={{ '--direction': side === 0 ? 1 : -1, '--ground-y': `${groundY}%` } as CSSProperties}>

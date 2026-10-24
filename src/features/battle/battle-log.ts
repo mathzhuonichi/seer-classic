@@ -1,7 +1,9 @@
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { STAGE_LABELS, STATUS_LABELS, type StageKey } from '../../shared/labels.ts';
 import { moveSkill } from '../../shared/view-common.ts';
-import { damageBlocks, damageTallies, displayedDamage, type Block, type BlockShare, type DamageTally } from './battle-damage-tally.ts';
+import {
+  damageBlocks, damageTallies, displayedDamage, type Block, type BlockShare, type DamageTally, type TallyShare,
+} from './battle-damage-tally.ts';
 
 export type EventOf<T extends BattleEvent['type']> = Extract<BattleEvent, { type: T }>;
 
@@ -106,7 +108,7 @@ function damageText(event: EventOf<'damage'>, { shown, critical }: Pick<DamageTa
 }
 
 /** The one line of a tally (`damageTallies`): a move's hits and riders on one creature together. */
-export const tallyText = (tally: DamageTally, context: BattleLogContext) => damageText(tally.events.at(-1)!, tally, context);
+const tallyText = (tally: DamageTally, context: BattleLogContext) => damageText(tally.events.at(-1)!, tally, context);
 
 /**
  * The one line of a move's blocks on one creature (`damageBlocks`), on the one that carries it: 抵挡了这次伤害 when nothing of
@@ -115,9 +117,16 @@ export const tallyText = (tally: DamageTally, context: BattleLogContext) => dama
 const blockText = (event: Block, { lined, partial }: BlockShare, context: BattleLogContext) =>
   lined ? `${subjectName(event, context)}抵挡了${partial ? '部分' : '这次'}伤害。` : '';
 
-/** A step's line with a move's blocks on one creature as one (`blockText`). */
-export function shownStepText(step: readonly BattleEvent[], blocks: ReadonlyMap<BattleEvent, BlockShare>, context: BattleLogContext): string {
-  const [event] = step, block = blocks.get(event);
+/**
+ * A step's line, the same in the dialogue and the log. A damage event's is its tally's (`tallyText`), on the tally's last event:
+ * the line names the total and the HP left after the last hurt, so it comes with the number's and the HP bar's last change, and
+ * a line between the hits (a rider's condition, 致命一击破防, a block) reads before it, as the dialogue shows it while the number
+ * counts up. A move's blocks on one creature say theirs once (`blockText`).
+ */
+export function shownStepText(step: readonly BattleEvent[], tallies: ReadonlyMap<BattleEvent, TallyShare>,
+  blocks: ReadonlyMap<BattleEvent, BlockShare>, context: BattleLogContext): string {
+  const [event] = step, share = tallies.get(event), block = blocks.get(event);
+  if (share) return share.index === share.tally.events.length - 1 ? tallyText(share.tally, context) : '';
   return block ? blockText(event as Block, block, context) : battleStepText(step, context);
 }
 
@@ -220,8 +229,8 @@ export const LINE_SEPARATOR = '　';
 
 /**
  * Each entry is one action and its consequences, or one residual/end-of-turn group. A move's damage to one creature is one line
- * (`damageTallies`), where its first hit came, with the total and the HP left after the last; its blocks on one creature are one
- * line too (`damageBlocks`).
+ * (`damageTallies`), where its last hit came, with the total and the HP left after it; its blocks on one creature are one line
+ * too (`damageBlocks`). The lines follow each other as the dialogue showed them (`shownStepText`).
  */
 export function groupedBattleLog(events: BattleEvent[], context: BattleLogContext): string[] {
   const shown = { ...context, initialPlayer: { ...context.initialPlayer }, initialEnemy: { ...context.initialEnemy } };
@@ -241,8 +250,7 @@ export function groupedBattleLog(events: BattleEvent[], context: BattleLogContex
       mon.hp = event.hp;
       mon.maxHp = event.maxHp;
     }
-    const share = event.type === 'damage' ? tallies.get(event)! : undefined;
-    const text = !share ? shownStepText(step, blocks, shown) : share.index === 0 ? tallyText(share.tally, shown) : '';
+    const text = shownStepText(step, tallies, blocks, shown);
     if (text) current.push(text);
     // Named bench recovery must not overwrite the active creature's context.
     if ((event.type === 'damage' || event.type === 'heal' || event.type === 'revive') && (!event.name || event.name === mon.name)) mon.hp = event.hp;
