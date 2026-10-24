@@ -2,6 +2,14 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## The browser package, 0.0.1 (2026-10-23 to 2026-10-24)
+
+- **One folder for Windows and macOS.** `npm run package` builds `releases/SeerClassic-0.0.1-browser.zip` (2.77 GiB, 3.10 GiB unpacked): 启动游戏-Windows.bat, 启动游戏-macOS.command, the official Node 24 runtimes (win-x64, darwin-arm64, darwin-x64), `server.mjs` on 127.0.0.1:1426 (the origin of the dev server, so a browser's save carries over), the web build and the checked payload. Windows opens Edge as an app window; macOS opens Chrome or Edge when installed, because Safari may delete a site's storage after 7 days without a visit ([browser-package-2026-10-23](design/notes/browser-package-2026-10-23.md)).
+- **Player guide.** `运行说明.md` at the ZIP root and beside it: unpacking, the first-open dialogs of Windows and macOS, saves (export, import, which replaces the save, Safari), updating, and every message of the server and the launchers. The server explains a busy or reserved port, another running version, a folder macOS denies and an incomplete folder in Chinese and waits for a key.
+- **The Tauri desktop app is removed.** `src-tauri`, the desktop build mode and scripts, `desktop.ts` and `desktop-saves.ts` with every desktop branch, the DMG packer and packaged smoke test, and the `desktop-shell` and `desktop-identity` gates are gone; the save lives in local storage only; Pixi loads without its unsafe-eval entry; the branding art is in `design/branding`. The payload tools are `stage_payload.py`, `payload-exclusions.json` and the `payload` gate.
+- **Cache cleanup.** The HD battle caches v44-v62, the regenerable `.cache` exports, `artifacts/` and 18 superseded map renders (5.8 GiB) were deleted at the user's request, without a backup; the V62 stroke calibration is tracked in `tools/assets`, and the unregistered `hd-assets-v44.py` audit is deleted.
+- **Version and checks.** The version is 0.0.1 (nothing orders app versions; the save format stays 5). `npm run verify` gates 75 suites; `npm test` 260 tests (1 skipped where local TCP is refused); the `browser-package` release gate unpacks the ZIP and plays it in Chrome and WebKit through the package's own server.
+
 ## Cleanup and the desktop package (2026-10-23)
 
 - **Cleanup.** Dead exports and functions, the runtime Boss evidence ledger, the dead and needs-cache verification scripts, the mobile and Store icons, `public/laboratory`, the browser playtest package and the source packer are gone; `public/branding` moved to `src-tauri/icons/source` and `approved-plan.json` to `design/`.

@@ -213,7 +213,8 @@ Windows launcher
 question), the macOS launcher (Control-click > 打开 on macOS 13 and 14, 系统设置 > 隐私与安全性 > 仍要打开 on 15 and later,
 Terminal's folder request, Chrome, Edge or the default browser, closing Terminal), the save (the browser's site data for
 http://127.0.0.1:1426, 设置 > 导出存档 and 导入存档, which replaces the browser's save without asking, clearing browser data,
-Safari's 7-day deletion, updating and 0.0.1 replacing 0.9.0 after closing the old console), and what to do on each message of
+Safari's 7-day deletion, updating after closing the old console; the 0.9.0 ZIP never left this machine, so the guide does not
+name it), and what to do on each message of
 `server.mjs` and the launchers and on an antivirus program's block, with a screenshot for whoever gave the game. Every
 message and label it quotes is copied from `server.mjs`, the launchers or the settings panel (`ShellPanels.tsx`), so a change to
 one of them changes the guide in the same commit. The release gate checks its version, the launchers' names, the game's address,
