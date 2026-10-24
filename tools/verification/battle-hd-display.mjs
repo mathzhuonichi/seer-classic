@@ -40,7 +40,7 @@ const EXTENT_TOLERANCE = 0.02;
 async function fixtures() {
   memoryStorage();
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, {writeLocalSave}, {gameAudio}]
+    const [{createGame}, {loadCatalog}, {newSave}, {LEGACY_SAVE_KEY}, {gameAudio}]
       = await Promise.all(['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/kernel/persistence.ts',
         '/src/shared/audio/game-audio.ts'].map(load));
     const catalog = await loadCatalog();
@@ -50,7 +50,7 @@ async function fixtures() {
       const game = createGame(structuredClone(catalog), JSON.stringify(newSave(species)));
       assert(game.dispatch({type: 'cheatAcquire', species, level: LEVEL}).ok, `cheatAcquire ${species}`);
       assert.equal(game.snapshot().monsters[0]?.species, species);
-      writeLocalSave(game.exportSave());
+      localStorage.setItem(LEGACY_SAVE_KEY, game.exportSave());
     })]));
     return {silent, saves};
   });

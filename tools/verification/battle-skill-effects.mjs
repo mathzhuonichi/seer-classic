@@ -67,7 +67,7 @@ const HUD_SLACK = 20, ARENA_TINT = 25;
 async function fixtures() {
   memoryStorage();
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, {writeLocalSave}, {gameAudio}]
+    const [{createGame}, {loadCatalog}, {newSave}, {LEGACY_SAVE_KEY}, {gameAudio}]
       = await Promise.all(['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/kernel/persistence.ts',
         '/src/shared/audio/game-audio.ts'].map(load));
     const catalog = await loadCatalog();
@@ -78,7 +78,7 @@ async function fixtures() {
       assert(game.dispatch({type: 'cheatAcquire', species: SPECIES, level: LEVEL}).ok, `cheatAcquire ${SPECIES}`);
       const [lead] = game.snapshot().monsters;
       assert(game.dispatch({type: 'equip', uid: lead.uid, skills: [GUARD.id, BEAM.id]}).ok, 'equip');
-      writeLocalSave(game.exportSave());
+      localStorage.setItem(LEGACY_SAVE_KEY, game.exportSave());
     });
     return {silent, save};
   });
