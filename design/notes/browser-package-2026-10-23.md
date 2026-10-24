@@ -139,7 +139,10 @@ deflated), for 3.10 GiB unpacked (game/ 2.8 GiB, runtime/ 353 MiB). 4 min 50 s w
 payload's 15,626 files (2,812.4 MiB), the web build, the runtime and the root files. Two fewer entries than 0.9.0: Pixi's
 chunks without its unsafe-eval entry. The guide beside it is 6,965 B. About 7 min with the runtime downloads (a fresh
 `.cache/node-runtime/`) and a 91 s watchdog stop; the ZIP itself 41 s. Staging printed no stale exclusion. The 0.9.0 ZIP was
-deleted once this one passed its gate.
+deleted once this one passed its gate. Rebuilt after its independent check (below), with the new `server.mjs` and guide:
+2,973,184,482 B, the same 15,666 entries (1,826 deflated), SHA-256
+`abae85a5c88e5e822a44ccc45e69a7d73f03d6ad85099f33fe472dca56e7ff54`, for 3,332,422,142 B unpacked; the guide beside it is
+8,174 B; the ZIP in 41 s.
 
 **Ruffle's own third-party code.** `tools/distribution/ruffle_licenses.mjs --work <scratch>` writes
 `tools/distribution/ruffle-licenses.json` (737 KiB, 161 distinct texts) for the installed Ruffle: a sparse checkout of Ruffle's
@@ -159,7 +162,9 @@ when it is of another Ruffle than the installed one.
   console's lines and the stop signals with a mocked platform; the ZIP's names, modes, bytes and its refusal of ZIP64. One test,
   the probe over a real port, is skipped where local TCP connections are refused.
 - `main()` itself, run with a preload in place of the system: a listen failing with `EACCES` (on macOS and with the platform set
-  to `win32`), a `payload.json` of mode 0 and a missing one each print their Chinese message and exit with 3.
+  to `win32`), a `payload.json` of mode 0 and a missing one each print their Chinese message and exit with 3. So does a game
+  server of another version answering on the port (in a pseudo-terminal it waits for a key first), while one of the same version
+  gets the browser opened (the spawn stubbed) and exit 0; run with the package's own server.mjs and node.
 - `browser-package` (status `release`), after `npm run package`, on the ZIP as a player gets it: the ZIP's limits, names,
   modes and order; unzipped with `ditto` (Archive Utility's engine), the launchers statically (CRLF, ASCII and code page, quoted
   paths, no `cd`, the exit code), node.exe's PE header and pinned SHA-256, the guide, the notices, the node signatures, this Mac's
@@ -186,6 +191,11 @@ static checks, the guide and the WebKit smoke passing. The Chrome smoke saw 14 w
 portraits, the scene) while the load watchdog stopped the gate twice for 91 s at loads of 8.3 and 9.9, as the page's requests
 go through the stopped process. Rerun with `--skip-suites` and no stop: 9 of 9, the smoke in both engines. `npm test` runs 259
 tests, one skipped.
+
+The rebuilt 0.0.1 (after its independent check): 10 of 11, with `battle-skill-effects` 9 of 9, `browser-regressions` 56 of 56,
+the static checks, the guide and the Chrome smoke passing; the WebKit smoke's click timed out after the watchdog had stopped the
+gate for 56 s at a load of 8.1. A rerun with `--skip-suites` lost the Chrome smoke the same way (a 71 s stop at 8.5); the next,
+with no stop, passed 9 of 9. `npm test` runs 260 tests, one skipped.
 
 ## Player guide (`运行说明.md`)
 
@@ -246,6 +256,16 @@ about keeping to the newest version. Not changed:
   and selector `-4x` files, `maps/hd/726-v44.png`), and staging warned. The checkout that packed the 0.9.0 ZIP was made before
   the cleanup and still held them, so the list was pruned later in the main checkout, where removing an entry cannot ship a
   file (2026-10-24, with the 0.0.1 release).
+
+## Independent check of 0.0.1 (2026-10-24)
+
+A second independent check, of the 0.0.1 ZIP, found nothing high, two medium and four low issues. Fixed: a start that finds
+another version running now explains it and waits for a key instead of opening that version (on Windows its console closed at
+once, so the guide's line about the message described text nobody saw), and the guide says to close the old window before an
+update; the guide says that 导入存档 replaces the browser's save without asking, that Windows' Extract All adds a folder level
+and may take over ten minutes (or another unzip program), that Safari may have unzipped the download, and what to do when an
+antivirus program blocks the launcher; its intro is one line. Not changed in the package: a `.md` file has no default app on
+Windows 10 or macOS, and the guide must stay Markdown, so the message sending the ZIP says how to open it (Player guide, above).
 
 ## Open points (untested)
 
