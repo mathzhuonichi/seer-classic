@@ -6,8 +6,9 @@ type Mesh = Pick<SwfClipData['sequences'][number]['frames'][number]['mesh'], 'po
 type Clip = Pick<SwfClipData, 'sequences'>;
 export interface Point {x: number; y: number}
 /**
- * The creature's own parts lie within this many standby sizes of the middle of its parts in a frame; farther ones are parts it
- * throws, such as a held orb flung at the opponent.
+ * The creature's own parts lie within this many standby sizes of where the middle of its body went since the frame before
+ * (or of the middle of its parts, where nothing of its body carries on); farther ones are parts it throws, such as a held
+ * orb flung at the opponent.
  */
 export const BODY_REACH = 1;
 /**
@@ -22,10 +23,14 @@ export const OPEN_ROOM: AnimationBounds = {minX: -Infinity, maxX: Infinity, minY
 
 /**
  * One sequence's frames: each frame's body, the creature's own parts (EMPTY_BOUNDS when nothing is visible), which must stay
- * inside the arena; how far the creature moved into each frame along each axis (Infinity next to a frame that shows
- * nothing); each frame's whole vertex extent, effects included, which the canvas must hold; and the hit frame (-1: none).
+ * inside the arena, and whether its own sprites draw it (`owned`; else sprites of the move redraw it); along each axis, how
+ * far what the frame shows moved on from the frame before (`motions`, Infinity next to a frame that shows nothing) and how
+ * far its body did (`bodyMotions`, bodyMotion); each frame's whole vertex extent, effects included, which the canvas must
+ * hold; and the hit frame (-1: none).
  */
-export interface SequencePath {bodies: AnimationBounds[]; motions: Point[]; extents: AnimationBounds[]; hitFrame: number}
+export interface SequencePath {
+  bodies: AnimationBounds[]; owned: boolean[]; motions: Point[]; bodyMotions: Point[]; extents: AnimationBounds[]; hitFrame: number;
+}
 /** Per-frame offsets of a sequence (mesh units), and the whole extent of its frames once offset. */
 export interface ContainedPath {offsets: Point[]; bounds: AnimationBounds}
 
@@ -115,30 +120,32 @@ function ownPieces(pieces: Piece[], regions: Map<string, OwnRegion>, before: Map
   });
 }
 
-/** Extent of the pieces within `reach` of their area-weighted middle. */
-function bodyOf(pieces: Piece[], reach: number): AnimationBounds {
-  const middle = {x: weightedMedian(pieces.map(p => [p.x, p.area])), y: weightedMedian(pieces.map(p => [p.y, p.area]))};
-  return pieces.filter(piece => apart(piece, middle) <= reach ** 2).reduce((union, piece) => unionBounds(union, piece.bounds), EMPTY_BOUNDS);
-}
-
 /**
  * The copies of one region in two frames, paired: in drawing order while their number holds (a timeline keeps its layers),
- * else each later copy with the nearest earlier one left.
+ * else the nearest pairs first, so a copy that appears or vanishes leaves the others paired with themselves.
  */
 function pairs(from: Piece[], to: Piece[]): [Piece, Piece][] {
   if (from.length === to.length) return to.map((piece, i) => [from[i], piece]);
-  const left = [...from];
-  return to.slice(0, from.length).map(piece => [left.splice(nearest(piece, left), 1)[0], piece]);
+  const near = from.flatMap(a => to.map(b => [apart(a, b), a, b] as const)).sort((x, y) => x[0] - y[0]), used = new Set<Piece>();
+  return near.flatMap(([, a, b]): [Piece, Piece][] => used.has(a) || used.has(b) ? [] : (used.add(a).add(b), [[a, b]]));
 }
 
-/** How far the pieces of regions drawn in both frames moved, area-weighted median per axis; null when no region is in both. */
-function shift(from: Piece[], to: Piece[]): Point | null {
-  const xs: [number, number][] = [], ys: [number, number][] = [], earlier = byRegion(from);
-  for (const [region, copies] of byRegion(to)) for (const [before, piece] of pairs(earlier.get(region) ?? [], copies)) {
-    xs.push([piece.x - before.x, piece.area]); ys.push([piece.y - before.y, piece.area]);
-  }
-  return xs.length ? {x: Math.abs(weightedMedian(xs)), y: Math.abs(weightedMedian(ys))} : null;
+/** A piece of one frame and the piece of the frame before that it continues. */
+type Link = [before: Piece, piece: Piece];
+/** Each piece of `to` linked to the piece of `from` it continues, region by region (`pairs`). */
+function links(from: Piece[], to: Piece[]): Link[] {
+  const earlier = byRegion(from);
+  return [...byRegion(to)].flatMap(([region, copies]) => pairs(earlier.get(region) ?? [], copies));
 }
+/** How far linked pieces moved, area-weighted median per axis, signed or not; null without a link. */
+function displacement(linked: Link[], signed = false): Point | null {
+  if (!linked.length) return null;
+  const by = (axis: 'x' | 'y') => weightedMedian(linked.map(([before, piece]) => [piece[axis] - before[axis], piece.area]));
+  const x = by('x'), y = by('y');
+  return signed ? {x, y} : {x: Math.abs(x), y: Math.abs(y)};
+}
+/** How far the pieces of regions drawn in both frames moved; null when no region is in both. */
+const shift = (from: Piece[], to: Piece[]) => displacement(links(from, to));
 
 /** No limit, where nothing visible carries on from one frame to the next; no motion, into a sequence from the resting pose. */
 const FREE: Point = {x: Infinity, y: Infinity}, STILL: Point = {x: 0, y: 0};
@@ -151,26 +158,63 @@ function redrawn(from: Piece[], to: Piece[]): Point {
   const a = largest(from), b = largest(to);
   return {x: Math.abs(b.x - a.x), y: Math.abs(b.y - a.y)};
 }
+
+/** The creature's body in a frame: its pieces, their area-weighted middle, and whether they are its own sprites. */
+interface Body {pieces: Piece[]; middle: Point; own: boolean}
+const middleOf = (pieces: Piece[]): Point => ({x: weightedMedian(pieces.map(p => [p.x, p.area])), y: weightedMedian(pieces.map(p => [p.y, p.area]))});
+/**
+ * The body among a frame's `candidates`: those within `reach` of where the body's middle went with the pieces that carry it
+ * on from the frame before (`linked`), so a part it throws or a copy of it does not take the body over; where nothing of
+ * the body carries on, those within reach of the candidates' middle.
+ */
+function bodyAmong(candidates: Piece[], own: boolean, previous: Body | null, linked: Link[], reach: number): Body {
+  const near = (middle: Point) => candidates.filter(piece => apart(piece, middle) <= reach ** 2);
+  const kept = new Set(previous?.pieces), step = previous && displacement(linked.filter(([before]) => kept.has(before)), true);
+  const carried = step && previous ? near({x: previous.middle.x + step.x, y: previous.middle.y + step.y}) : [];
+  const middle = middleOf(candidates), pieces = carried.length ? carried : near(middle);
+  return {pieces, middle: pieces.length ? middleOf(pieces) : middle, own};
+}
+/**
+ * How far the creature's own body moved into a frame, which the offset may follow beyond what the frame shows moving on:
+ * where the body shares a part with the body before, as its pieces moved (a copy that takes it over, as that copy did);
+ * where other parts of the creature take it over, as its largest piece moved, and freely where the two do not overlap;
+ * and freely where it appears after a frame without it. A body of sprites the move draws instead of the creature's own
+ * lends the offset nothing.
+ */
+function bodyMotion(body: Body | null, last: Body | null, linked: Link[]): Point {
+  if (!body?.own) return STILL;
+  if (!last?.own) return FREE;
+  const parts = new Set(last.pieces.map(piece => piece.region)), pieces = new Set(body.pieces);
+  if (!body.pieces.some(piece => parts.has(piece.region))) return redrawn(last.pieces, body.pieces);
+  return displacement(linked.filter(([, piece]) => pieces.has(piece))) ?? STILL;
+}
 /**
  * Each sequence's path, by sequence name; `home` is the standby extent, whose size scales BODY_REACH, and `hitFrames` each
- * sequence's hit frame by name (battleAnimationHitFrames; a sequence it lacks has none). A frame's body is its
- * own pieces (all it draws when it draws none, as a move that redraws the whole creature does). The creature's motion is
- * how the pieces of its regions moved, copies included, as they all show it; else how any piece both frames draw moved;
- * else, for a creature redrawn frame by frame, how its largest piece moved, and no limit when the drawings do not overlap.
+ * sequence's hit frame by name (battleAnimationHitFrames; a sequence it lacks has none). A frame's body is its own pieces
+ * (all it draws when it draws none, as a move that redraws the whole creature does), followed from frame to frame. What a
+ * frame shows moved on as the pieces of the creature's regions did, copies included, as they all show it; else as any
+ * piece both frames draw did; else, for a creature redrawn frame by frame, as its largest piece did, and without limit
+ * when the drawings do not overlap. Its body can move farther (bodyMotion).
  */
 export function sequencePaths(clip: Clip, home: AnimationBounds, hitFrames: ReadonlyMap<string, number>): Map<string, SequencePath> {
   const reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY), regions = creatureRegions(clip);
   return new Map(clip.sequences.filter(s => s.frames.length).map(s => {
-    let before = new Map<string, Piece[]>();
+    let before = new Map<string, Piece[]>(), previous: Body | null = null;
     const drawn = s.frames.map(frame => framePieces(frame.mesh)), creature = drawn.map(pieces => pieces.filter(piece => regions.has(piece.region)));
-    const bodies = drawn.map((pieces, i) => {
+    const linked = creature.map((pieces, i) => i ? links(creature[i - 1], pieces) : []);
+    const tracked = drawn.map((pieces, i) => {
       const own = ownPieces(creature[i], regions, before);
       if (own.length) before = byRegion(own);
-      return pieces.length ? bodyOf(own.length ? own : pieces, reach) : EMPTY_BOUNDS;
+      const body = pieces.length ? bodyAmong(own.length ? own : pieces, own.length > 0, previous, linked[i], reach) : null;
+      return previous = body?.pieces.length ? body : null;
     });
     const motions = drawn.map((pieces, i) => !i ? STILL : !pieces.length || !drawn[i - 1].length ? FREE
-      : shift(creature[i - 1], creature[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
-    return [s.name, {bodies, motions, extents: s.frames.map(frameMeshBounds), hitFrame: hitFrames.get(s.name) ?? -1}];
+      : displacement(linked[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
+    return [s.name, {
+      bodies: tracked.map(body => body ? extentOf(body.pieces) : EMPTY_BOUNDS), owned: tracked.map(body => !!body?.own), motions,
+      bodyMotions: tracked.map((body, i) => i ? bodyMotion(body, tracked[i - 1], linked[i]) : STILL),
+      extents: s.frames.map(frameMeshBounds), hitFrame: hitFrames.get(s.name) ?? -1,
+    }];
   }));
 }
 
@@ -192,41 +236,61 @@ function within(offset: number, min: number, max: number, low: number, high: num
   return Math.min(Math.max(offset, Math.min(atLow, atHigh)), Math.max(atLow, atHigh));
 }
 
+/** An offset's limits on one axis in one frame: at least `low` and at most `high`. */
+export interface Band {low: number; high: number}
+/** No limit. */
+const ANYWHERE: Band = {low: -Infinity, high: Infinity};
+
 /**
- * Offsets reaching at least as far as `targets` in their direction (a zero target asks nothing) that change by at most
- * `steps[i]` into frame i, from no offset before the first frame (the resting pose) and back to none after the last
- * (`steps[targets.length]`). Each target binds the frames around it, loosening by a step per frame, so the creature eases
- * into and out of it rather than jumping; where opposite targets come too close the upward one wins. Near the ends the
- * offset is held within what the steps allow from and back to rest, even where that leaves a target short.
+ * Offsets within `bands` that change by at most `steps[i]` into frame i, from no offset before the first frame (the resting
+ * pose) and back to none after the last (`steps[bands.length]`). Each band binds the frames around it, loosening by a step
+ * per frame, so the offset reaches it in time. Where `eases` (at most the steps) are enough, the offset eases into each band
+ * that far ahead and back to rest by them; elsewhere it changes by more, but only as far as the bands make it. Where opposite
+ * limits come too close the lower one wins (upward, forward). Near the ends the offset is held within what the steps allow
+ * from and back to rest, even where that leaves a band unmet.
  */
-export function limitRate(targets: number[], steps: number[]): number[] {
-  const spread = (bounds: number[], tighter: (a: number, b: number) => number, loosen: (bound: number, step: number) => number) => {
-    for (let i = 1; i < bounds.length; i++) bounds[i] = tighter(bounds[i], loosen(bounds[i - 1], steps[i]));
-    for (let i = bounds.length - 2; i >= 0; i--) bounds[i] = tighter(bounds[i], loosen(bounds[i + 1], steps[i + 1]));
-    return bounds;
+export function limitRate(bands: Band[], steps: number[], eases: number[] = steps): number[] {
+  const spread = (by: number[], forward: boolean): Band[] => {
+    const low = bands.map(band => band.low), high = bands.map(band => band.high);
+    for (let i = 1; forward && i < bands.length; i++) {
+      low[i] = Math.max(low[i], low[i - 1] - by[i]); high[i] = Math.min(high[i], high[i - 1] + by[i]);
+    }
+    for (let i = bands.length - 2; i >= 0; i--) {
+      low[i] = Math.max(low[i], low[i + 1] - by[i + 1]); high[i] = Math.min(high[i], high[i + 1] + by[i + 1]);
+    }
+    return low.map((bound, i) => ({low: bound, high: high[i]}));
   };
-  const low = spread(targets.map(target => target > 0 ? target : -Infinity), Math.max, (bound, step) => bound - step);
-  const high = spread(targets.map(target => target < 0 ? target : Infinity), Math.min, (bound, step) => bound + step);
-  const toRest = targets.map(() => 0);
-  for (let i = targets.length - 1, sum = 0; i >= 0; i--) toRest[i] = sum += steps[i + 1];
-  let fromRest = 0;
-  return low.map((bound, i) => {
+  // The hard bands must hold; the soft ones are how far ahead the offset eases into a band, while it eases out by itself.
+  const hard = spread(steps, true), soft = spread(eases, false), toRest = bands.map(() => 0);
+  for (let i = bands.length - 1, sum = 0; i >= 0; i--) toRest[i] = sum += steps[i + 1];
+  const into = (value: number, {low, high}: Band) => Math.max(low, Math.min(value, high));
+  let fromRest = 0, offset = 0;
+  return bands.map((_, i) => {
     const reach = Math.min(fromRest += steps[i], toRest[i]);
-    return Math.min(Math.max(Math.max(bound, Math.min(0, high[i])), -reach), reach);
+    const eased = offset > 0 ? Math.max(0, offset - eases[i]) : Math.min(0, offset + eases[i]), ease = {low: offset - eases[i], high: offset + eases[i]};
+    return offset = Math.min(Math.max(into(into(into(eased, soft[i]), ease), hard[i]), -reach), reach);
   });
 }
 
-/** Per-frame targets that bring the bodies' travel inside `room`, as containPath describes. */
-function travelTargets({bodies, hitFrame}: SequencePath, home: AnimationBounds, room: AnimationBounds): Point[] {
+/**
+ * Per-frame bands that bring the bodies' travel inside `room`, as containPath describes: at least as far as the compressed
+ * travel's offset in its direction, and, for a body of the creature's own sprites, no farther than keeps it inside
+ * (covering the room, where it is wider).
+ */
+function travelBands({bodies, owned, hitFrame}: SequencePath, home: AnimationBounds, room: AnimationBounds): {x: Band; y: Band}[] {
   const forward = beyond(bodies, body => body.maxX - home.maxX), back = beyond(bodies, body => home.minX - body.minX);
   const up = beyond(bodies, body => body.maxY - home.maxY), down = beyond(bodies, body => home.minY - body.minY);
   const ahead = room.maxX - home.maxX;
   const forwardTo = squeeze(forward, ahead, Math.min(forward[hitFrame] ?? 0, ahead * FORWARD_KEPT_SHARE));
   const backTo = squeeze(back, home.minX - room.minX, 0), upTo = squeeze(up, room.maxY - home.maxY, 0), downTo = squeeze(down, home.minY - room.minY, 0);
   const allowed = unionBounds(room, home);
-  return bodies.map((body, i) => body.minX > body.maxX ? {x: 0, y: 0} : {
-    x: within(forwardTo[i] - forward[i] + back[i] - backTo[i], body.minX, body.maxX, allowed.minX, allowed.maxX),
-    y: within(upTo[i] - up[i] + down[i] - downTo[i], body.minY, body.maxY, allowed.minY, allowed.maxY),
+  const band = (inside: boolean, travel: number, min: number, max: number, low: number, high: number): Band => {
+    const target = within(travel, min, max, low, high), fits = inside ? [low - min, high - max] : [-Infinity, Infinity];
+    return {low: Math.max(target > 0 ? target : -Infinity, Math.min(...fits)), high: Math.min(target < 0 ? target : Infinity, Math.max(...fits))};
+  };
+  return bodies.map((body, i) => body.minX > body.maxX ? {x: ANYWHERE, y: ANYWHERE} : {
+    x: band(owned[i], forwardTo[i] - forward[i] + back[i] - backTo[i], body.minX, body.maxX, allowed.minX, allowed.maxX),
+    y: band(owned[i], upTo[i] - up[i] + down[i] - downTo[i], body.minY, body.maxY, allowed.minY, allowed.maxY),
   });
 }
 
@@ -236,13 +300,19 @@ function travelTargets({bodies, hitFrame}: SequencePath, home: AnimationBounds, 
  * do not move. Up, down and back compress linearly from home. Forward keeps the travel to the hit frame (within
  * FORWARD_KEPT_SHARE of the room ahead), so the move still lands on the opponent. A frame that reaches past home on both
  * sides of an axis can still overflow once the other side's compression moves it; it moves back just inside the room (or
- * home, where home itself reaches beyond the room). The offsets then change between frames no faster than the creature
- * moves plus OFFSET_CREEP, so a body that changes shape at once (a part appears or vanishes) eases instead of jumping.
+ * home, where home itself reaches beyond the room). A body of the creature's own sprites then stays inside on every frame:
+ * no offset pushes it out on the other side. The offsets change between frames no faster than what the frame shows moves on
+ * plus OFFSET_CREEP, so a body that changes shape at once (a part appears or vanishes) eases instead of jumping; where that
+ * leaves the body outside, as fast as the body itself moves, appears or is taken over (bodyMotion), and copies and effects
+ * then move with it.
  */
 export function containPath(path: SequencePath, home: AnimationBounds, room: AnimationBounds): ContainedPath {
-  const targets = travelTargets(path, home, room), creep = OFFSET_CREEP * Math.max(home.maxX - home.minX, home.maxY - home.minY);
-  const xs = limitRate(targets.map(t => t.x), [...path.motions.map(m => m.x + creep), creep]);
-  const ys = limitRate(targets.map(t => t.y), [...path.motions.map(m => m.y + creep), creep]);
+  const bands = travelBands(path, home, room), creep = OFFSET_CREEP * Math.max(home.maxX - home.minX, home.maxY - home.minY);
+  const along = (axis: 'x' | 'y') => {
+    const steps = path.motions.map((motion, i) => Math.max(motion[axis], path.bodyMotions[i][axis]) + creep);
+    return limitRate(bands.map(band => band[axis]), [...steps, creep], [...path.motions.map(motion => motion[axis] + creep), creep]);
+  };
+  const xs = along('x'), ys = along('y');
   const offsets = xs.map((x, i) => ({x, y: ys[i]}));
   const bounds = path.extents.reduce((union, extent, i) => extent.minX > extent.maxX ? union : unionBounds(union, {
     minX: extent.minX + offsets[i].x, maxX: extent.maxX + offsets[i].x, minY: extent.minY + offsets[i].y, maxY: extent.maxY + offsets[i].y,
