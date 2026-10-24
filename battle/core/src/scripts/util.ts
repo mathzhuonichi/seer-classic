@@ -5,7 +5,7 @@
 import type { ConditionDef, Hook, HookPoint, StageKey } from '../types.ts';
 import type { Battle } from '../engine/battle.ts';
 import type { ActiveCondition, Mon } from '../engine/state.ts';
-import type { ApplyCtx, HookCtx } from './context.ts';
+import type { ApplyCtx, HookCtx, SkillCtx } from './context.ts';
 
 export type StageMap = Partial<Record<StageKey, number>>;
 
@@ -89,6 +89,15 @@ export function attach(
   if (o.cover) c.appliedTurn = b.turn - 1;
   return c;
 }
+
+/**
+ * The `changes` member of a script that puts condition `id` on its user, or on the foe with `onFoe`: while the condition is in
+ * place, casting it again changes nothing, whatever its remaining turns or counts (RULES.md 10.4).
+ */
+export const placesCondition = (id: string, onFoe = false) => (c: SkillCtx): boolean => {
+  const holder = onFoe ? c.foe : c.user;
+  return !holder.fainted && !hasStatus(holder, id);
+};
 
 /** A permanent condition installed by an encounter rule, with `data` as its state. */
 export const ruleCondition = (b: Battle, mon: Mon, id: string, name: string, hooks: Hook[], data?: Record<string, unknown>) =>

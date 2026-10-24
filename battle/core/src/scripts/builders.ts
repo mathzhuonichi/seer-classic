@@ -1,7 +1,7 @@
 // Entry factories for script templates that differ only in data. Guide: SCRIPTS.md.
 import type { ConditionDef, HookPoint, ScriptEntry, ScriptRegistry, StageKey } from '../types.ts';
 import type { ApplyCtx, HookCtx, InstallCtx } from './context.ts';
-import { attach, changeStages, counts, fromFoeAttack, hitFoe, once, scriptHooks, stat, status } from './util.ts';
+import { attach, changeStages, counts, fromFoeAttack, hitFoe, once, placesCondition, scriptHooks, stat, status } from './util.ts';
 
 type P = number[];
 export type HookFn = (c: HookCtx, p: any) => unknown;
@@ -33,18 +33,22 @@ export interface Timed extends RuleSpec {
   key?: (p: P) => number;
 }
 
-/** Entries for a table of timed templates: each condition id is its script id (plus `key`), and its hooks get the skill's params. */
+/**
+ * Entries for a table of timed templates: each condition id is its script id (plus `key`), and its hooks get the skill's params.
+ * Casting one again while its condition is in place changes nothing (`changes`).
+ */
 export function timedScripts(table: Record<string, Timed>): ScriptRegistry {
   const out: ScriptRegistry = {};
   for (const [id, t] of Object.entries(table)) {
+    const condId = (p: P) => (t.key ? `${id}_${t.key(p)}` : id);
     out[id] = {
       apply: (c: ApplyCtx, p: P) => {
         if (t.when && !t.when(c, p)) return;
-        const condId = t.key ? `${id}_${t.key(p)}` : id;
-        attach(c.battle, t.foe ? c.foe : c.user, condId, t.name, scriptHooks(t.on, id, p), t.turns ? t.turns(p) : p[0],
+        attach(c.battle, t.foe ? c.foe : c.user, condId(p), t.name, scriptHooks(t.on, id, p), t.turns ? t.turns(p) : p[0],
           { kind: t.kind ?? (t.foe ? 'debuff' : 'buff'), data: t.data?.(c, p), cover: t.cover });
       },
       hook: t.hook,
+      changes: (c, p: P) => placesCondition(condId(p), t.foe)(c),
     };
   }
   return out;

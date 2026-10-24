@@ -363,6 +363,7 @@ export interface DamageProbe {
 //   hook         condition hooks with `script` (c includes `point`)
 //   install      boss rule scripts
 //   objective    `script` win and lose objectives: (c, params) => met
+//   changes      read-only, for the Boss policy: (c, params) => whether `apply` would change anything now
 export type ScriptFn = (c: ApplyCtx, params: any) => unknown;
 export interface ScriptEntry {
   apply?: ScriptFn;
@@ -379,5 +380,11 @@ export interface ScriptEntry {
   /** Boss rule scripts (`{ rule: 'script', id }`): called once per team member at battle start. */
   install?: (c: InstallCtx, params: any) => void;
   objective?: (c: BattleScriptCtx, params: any) => boolean;
+  /**
+   * Read-only, no RNG draws: whether `apply` would change anything now, for the Boss policy's moves that deal no damage
+   * (RULES.md 10.4). A condition the script puts in place changes nothing while it is there, whatever its turns or counts.
+   * A script without it counts as a change.
+   */
+  changes?: (c: SkillCtx, params: any) => boolean;
 }
 export type ScriptRegistry = Record<string, ScriptFn | ScriptEntry>;

@@ -465,10 +465,10 @@ smart trainer plans first and may restore PP with an item instead.
   has a positive estimate and some non-attacking skill still changes something
   (`idle-moves.ts`: a stage not yet at its cap and not refused, a heal when
   hurt, a status the target neither has nor is immune to, something to clear
-  or cure, a condition that can be added again; any other effect, such as a
-  script, counts as a change, except 药剂反噬 while the foe is under it), one
-  RNG value decides: below `BOSS_STATUS_CHANCE` (0.2, the same for every Boss)
-  it picks among those skills, scaled to their number; otherwise it uses the
+  or cure, a condition not yet on its target; a move with several effects
+  changes something if any of them does), one RNG value decides: below
+  `BOSS_STATUS_CHANCE` (0.2, the same for every Boss) it picks among those
+  skills, scaled to their number; otherwise it uses the
   highest expected damage. With no such skill there is no draw and it uses
   the highest expected damage. Remaining ties go to the higher single-hit
   estimate, then to skill order. [chosen: the community model of the Boss AI, BWIKI
@@ -476,8 +476,20 @@ smart trainer plans first and may restore PP with an item instead.
   （碰运气）」「如果它选择强化」, and 哈莫雷特 「没技能前会用很多招龙之意志」]
   The project keeps two deviations from that model: a status skill that
   changes nothing is never picked, and no turn goes to an attack that cannot
-  hurt the foe while a skill that changes something is left. When no skill
-  has a positive estimate, it draws with one RNG value among the non-attacking
+  hurt the foe while a skill that changes something is left. A condition,
+  shield, charge or other effect already on its target changes nothing while
+  it is in place, whatever its remaining turns or counts, so a Boss never
+  re-casts a status move whose effect is still in place (user rule,
+  2026-10-24). A script effect answers through its entry's read-only
+  `changes` (`core/SCRIPTS.md`): a timed template's condition, or the
+  condition another script puts on its user, changes nothing while it is
+  there; a scripted heal changes something when its target is hurt, 镜影术
+  when the user has a stage drop to pass on; a script without `changes`
+  (海洋之心's damage, a sacrifice such as 眼球的掌控) counts as a change.
+  [chosen: user decision 2026-10-24, as for 药剂反噬 since 2026-10-21;
+  [boss-ai-engine-2026-10-24](../design/notes/boss-ai-engine-2026-10-24.md)
+  section 6 lists every Boss move it affects] When no skill has a positive
+  estimate, it draws with one RNG value among the non-attacking
   skills that still change something, and among all usable skills only when
   none is left; so once its attacks are spent, 哈莫雷特 uses 龙之意志 until it
   too is at 0 PP, and then stands still (section 4). Per-Boss exceptions are
@@ -486,9 +498,9 @@ smart trainer plans first and may restore PP with an item instead.
   also the turn after it expires and the first turn of a foe that switched in
   or replaced a fainted one (a fainted monster keeps no conditions, and the
   turn-end phase check sees it); while it is in
-  place, the status chance never picks it, because renewing its turns changes
-  nothing (user rule, 2026-10-21). It never switches voluntarily, and a
-  fainted active is replaced by the first living team member.
+  place, the status chance never picks it, as any effect in place. It never
+  switches voluntarily, and a fainted active is replaced by the first living
+  team member.
 - **Trainer sides: the engine-simulated search planner** (`search-ai.ts`,
   `search/`; [trainer-search-ai-v58](../design/notes/trainer-search-ai-v58.md)).
   Every legal move, item and voluntary switch (after two active turns; HP

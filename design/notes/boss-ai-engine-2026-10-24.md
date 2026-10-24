@@ -1,8 +1,8 @@
 # Boss AI and engine follow-ups (2026-10-24)
 
 Status: current. The Boss AI and engine open points of [handoff-2026-10-22](handoff-2026-10-22.md), after
-[boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) and [engine-fixes-2026-10-21](engine-fixes-2026-10-21.md).
-Checks: `boss-ai-isolation-v56`.
+[boss-ai-raw-damage-2026-10-21](boss-ai-raw-damage-2026-10-21.md) and [engine-fixes-2026-10-21](engine-fixes-2026-10-21.md),
+and the user's 2026-10-24 rule for status moves in place (section 6). Checks: `boss-ai-isolation-v56`, `battle/ai/src/ai.test.mjs`.
 
 ## 1. boss-ai-isolation-v56 no longer depends on its seeds
 
@@ -140,13 +140,178 @@ riders), and a move's clear passes its context to `on_stage_incoming`. An attack
 `battle/RULES.md` section 4 step 3 and section 10.1; checks in `boss-rules-v56` and `campaign-mechanics`; record in
 [boss-clear-immunity-2026-10-24](boss-clear-immunity-2026-10-24.md) section 5.
 
+## 6. No status move is re-cast while its effect is in place
+
+**Rule** (user, 2026-10-24): a Boss never re-casts a status move whose effect is still in place, as 药剂反噬 already did
+(section 2). By rule, not by a list: an effect that puts a condition, shield, charge or the like on its target changes nothing
+while that is there, whatever its remaining turns or counts. A stage change below its cap and a heal when hurt still change
+something, and a move with several effects changes something if any of them does.
+
+**Before.** `idle-moves.ts` counted an `add_condition` as a change unless the condition was already there with `stack: "fail"`
+(none of the data conditions is: all refresh), and every script as a change except 药剂反噬 in place. So 51 Boss status moves
+could be re-cast in place by the status chance, renewing turns or counts: on 8.1 of 100 Boss turns against a foe that only
+heals itself, 7.2 against one that attacks (numbers below).
+
+**After.**
+
+- `add_condition`: no change while a condition of that id is on its target.
+- A script answers for itself through a new read-only member of its entry, `changes(c, p)` (`types.ts`, SCRIPTS.md), which
+  `idle-moves.ts` calls; a script without it still counts as a change. Every timed template gets it from `timedScripts`: its
+  condition (the script id, plus `key`) on its holder, the user or with `foe` the foe, means no change. Other entries that put
+  a condition on their user declare `placesCondition(id)` (`util.ts`): 55 属性反转, 56 属性复制, 90, 127, 142 and 183. Scripted
+  heals declare when they heal something: 201 (光合作用) and the 1/{1} heal chance (438 六道轮回, 410) when the target is
+  hurt. 63 (镜影术) changes something when its user has a stage drop to pass on. 28 (海洋之心, a quarter of the foe's max HP)
+  and 59 (眼球的掌控 and 能量灌注: the user faints and boosts the next member) declare nothing: they always change something.
+- `BACKFIRE_SCRIPT`, the one-script exception of section 2, is gone: 药剂反噬 (timed, `foe`) follows the rule.
+- **属性复制 after the foe switches** (user decision 2026-10-24: left as it is). The copied types stay on the Boss while its
+  condition is in place, so it does not cast 属性复制 again to copy a new foe's types, although that would change them; it may
+  copy again once the condition has ended.
+- **先手无效 (seer_eff_52, 融入黑暗 and 暗影跳跃 among the Bosses):** its condition outlived its window by one turn (from the
+  turn it was used to `p[0] - 1` turns later), so it would have counted as in place on a turn in which it negated nothing. It now
+  counts the turn it is used as its first (`cover`) and ends with its window; the window data is gone. The effect is unchanged:
+  used first, it negates the foe's move that turn (`scripts.test.mjs`).
+- Kept: with no attack that hurts and nothing that changes something, any move with PP is spent, an effect in place included
+  (so with every other move at 0 PP a move with PP is still used); 奈尼芬多's `set_ai` phases; the knockout and highest-damage
+  rules. This is the Boss policy only: the trainer planner does not read `idle-moves.ts` and is unchanged.
+
+**Every Boss status move affected**, with how each effect is read (status moves that only raise or lower stages, heal or inflict
+a status are unchanged and not listed):
+
+| Move (id) | Bosses (`boss_` left out) | Effects: when each changes something |
+| --- | --- | --- |
+| 魔化羽翼 (21682) | ailike | spe+2: below the cap; `cond_force_crit` 1t on self: none while in place |
+| 冲天霸气 (20854) | campaign_baihu_avatars, campaign_baihu_body | `cond_force_crit` 2t on self: none while in place |
+| 雷光铠甲 (20475) | campaign_baihu_avatars | script 84, a condition on self: none while in place |
+| 火龙的咆哮 (20457) | campaign_baihu_guardians, dark_door7_sanuolasi, spt_kelanite1 | `cond_force_crit` 2t on self: none while in place |
+| 六道轮回 (21895) | campaign_qilin_body, campaign_qilin_wheel1-6 | atk, def, spa, spd, spe +1: below the cap; script 438, a 30% heal of 1/3: when hurt |
+| 森罗万象 (21896) | campaign_qilin_body, campaign_qilin_wheel1-6 | script 439, a condition on self: none while in place |
+| 药剂反噬 (20314) | campaign_qinglong_guardians, spt_nainifenduo | script 69, a condition on the foe: none while in place |
+| 属性反转 (20113) | campaign_xuanwu_guardians, spt_naduolei | script 55, a condition on self: none while in place |
+| 属性复制 (20145) | campaign_xuanwu_guardians, rei_training3, spt_leinaduo | script 56, a condition on self: none while in place |
+| 浩劫之力 (20879) | campaign_zhuque_guardians, spt_delasa | script 104, a condition on self: none while in place |
+| 融入黑暗 (20639) | campaign_zhuque_guardians, kaxiusi | script 52, a condition on self: none while in place |
+| 镇魂歌 (20215) | dark_door3_bafuluo | script 62, a condition on self: none while in place |
+| 海洋之心 (20143) | dark_door6_bulinkeke, tower_brave_f046, tower_brave_f059 | script 28, 1/4 of the foe's max HP: always (no `changes`) |
+| 要害瞄准 (20461) | dark_door7_moerjiasi | `cond_crit_up_1` 5t on self: none while in place |
+| 寒冷叠加 (20964) | dark_door9_akenuoya | script 109, a condition on self: none while in place |
+| 圣光气 (20500) | puni_seal1-7, puni_zhenshen, tower_brave_mystery | `cond_force_crit` 2t on self: none while in place |
+| 光之兵刃 (21538) | spt_basuoer | atk+2: below the cap; `cond_crit_up_1` 2t on self: none while in place |
+| 火力锁定 (21479) | spt_bokate | `cond_force_crit` 2t on self: none while in place |
+| 自我暗示 (20666) | spt_kelanite2 | script 91, a condition on the foe: none while in place |
+| 镜影术 (20232) | spt_moshidilu | script 63, passes its stage drops to the foe: with a drop |
+| 暗流涌动 (21591) | spt_palisi | `cond_force_crit` 2t on self: none while in place; script 169, a condition on self: none while in place |
+| 不灭意志 (20554) | spt_saiweier | `cond_force_crit` 2t on self: none while in place |
+| 冰之领悟 (21653) | spt_sikelu | def+2: below the cap; script 92, a condition on self: none while in place |
+| 虚空之身 (20934) | spt_sipulinte | script 78, a condition on self: none while in place |
+| 黑暗遮蔽 (20933) | spt_sipulinte | script 106, a condition on self: none while in place |
+| 金刚罩 (21707) | spt_situerte | def, spd +1: below the cap; script 406, a condition on self: none while in place |
+| 保护 (20036) | tower_brave_f004 | `cond_block_attacks` 1 charge on self: none while in place |
+| 模仿术 (20029) | tower_brave_f005, tower_brave_f021, tower_brave_f043, tower_brave_f055 | script 45, a condition on self: none while in place |
+| 光之壁 (20024) | tower_brave_f009, tower_brave_f025, tower_brave_f054 | `cond_halve_special` 5t on self: none while in place |
+| 反击风暴 (20070) | tower_brave_f017, tower_brave_f030 | `cond_counter_1_4` 4-5t on self: none while in place |
+| 充电 (20006) | tower_brave_f022, tower_brave_f033, tower_brave_f054 | `cond_electric_power_x2` 1t on self: none while in place |
+| 光合作用 (20009) | tower_brave_f027, tower_brave_f038, tower_brave_f051 | heal: when hurt; script 201, a heal of 1/3: when hurt |
+| 白雾 (20012) | tower_brave_f028 | `cond_immune_stage_down` 5t on self: none while in place |
+| 水神护体 (20095) | tower_brave_f050, tower_brave_f052 | script 49, a condition on self: none while in place |
+| 寒冰碎裂 (20151) | tower_brave_f056 | `cond_force_crit` 2t on self: none while in place |
+| 电能聚合 (20122) | tower_brave_f058 | `cond_electric_power_x2` 2t on self: none while in place |
+| 超能力 (20187) | tower_brave_f060 | `cond_dmg_dealt_x2` 2t on self: none while in place |
+| 眼球的掌控 (20330) | tower_brave_f061 | script 59, faints and boosts the next member: always (no `changes`) |
+| 地泉喷涌 (20333) | tower_brave_f061 | `cond_halve_special` 3t on self: none while in place |
+| 真实残影 (20336) | tower_brave_f061 | script 45, a condition on self: none while in place |
+| 狙击战术 (20355) | tower_brave_f063 | `cond_force_crit` 2t on self: none while in place |
+| 心灵共鸣 (20295) | tower_brave_f063 | `cond_counter_1_3` 4-5t on self: none while in place |
+| 固若金汤 (20279) | tower_brave_f064, tower_brave_f067 | script 49, a condition on self: none while in place |
+| 无限再生 (20291) | tower_brave_f065 | heal: when hurt; `cond_regen_1_10` 5t on self: none while in place |
+| 自然的掩护 (20359) | tower_brave_f065 | `cond_regen_1_5` 5t on self: none while in place |
+| 能量灌注 (20264) | tower_brave_f067 | script 59, faints and boosts the next member: always (no `changes`) |
+| 百变随心 (20304) | tower_brave_f068 | `cond_immune_stage_down` 5t on self: none while in place |
+| 平行位面 (20341) | tower_brave_f069 | `cond_halve_physical` 5t on self: none while in place |
+| 暗影跳跃 (20344) | tower_brave_f069 | script 52, a condition on self: none while in place |
+| 蜃楼 (20412) | tower_brave_f070 | script 49, a condition on self: none while in place |
+| 冰霜锁定 (20662) | trial_brave_qigesa | `cond_sure_hit` 3t on self: none while in place |
+
+**Numbers.** Each Boss member carrying one of these moves, in all its variants, 40 battles of 30 turns, as the lead, against a
+Lv100 巴鲁斯 of 20000 HP that only uses 木之振奋 (passive) or 撞击 (attacking): Boss status picks per 100 Boss turns, the same
+per 100 open turns (an attack of the Boss can still hurt the foe, so the status chance decides), and re-casts in place per 100
+Boss turns while another move would hurt or change something. Before is a48f2d8, after this change; a cell with one number is
+unchanged. Where all PP is spent within the 30 turns (two attacks of 5 PP, as 德拉萨 or 麒麟's wheels), the share over all turns
+cannot change: an in-place move skipped while attacks are left is spent at the end, when nothing else is.
+
+| Moves | Bosses (`/n`: the team slot) | passive: status / 100 turns | / 100 open turns | in place | attacking: status / 100 turns | / 100 open turns | in place |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 魔化羽翼 | ailike | 40 | 19 → 16 | 3 → 0 | 40 | 20 → 18 | 1 → 0 |
+| 冲天霸气 | campaign_baihu_avatars, campaign_baihu_body | 39 | 21 | 6 → 0 | 39 | 22 | 6 → 0 |
+| 雷光铠甲 | campaign_baihu_avatars/1 | 40 | 22 → 21 | 8 → 0 | 40 | 20 | 9 → 0 |
+| 火龙的咆哮 | campaign_baihu_guardians/1, dark_door7_sanuolasi, spt_kelanite1 | 29 → 28 | 20 → 17 | 4 → 0 | 27 → 25 | 20 → 17 | 4 → 0 |
+| 六道轮回, 森罗万象 | campaign_qilin_body/0-5, campaign_qilin_wheel1-6 | 38 | 20 → 19 | 7 → 0 | 39 | 21 | 8 → 0 |
+| 药剂反噬 | campaign_qinglong_guardians, spt_nainifenduo | 17 | 17 | 0 | 17 | 17 | 0 |
+| 属性反转 | campaign_xuanwu_guardians/4, spt_naduolei | 19 → 11 | 19 → 11 | 11 → 0 | 19 → 10 | 19 → 10 | 12 → 0 |
+| 属性复制 | campaign_xuanwu_guardians/5, rei_training3, spt_leinaduo | 19 → 10 | 19 → 10 | 12 → 0 | 20 → 10 | 20 → 10 | 12 → 0 |
+| 浩劫之力 | campaign_zhuque_guardians, spt_delasa | 67 | 22 → 19 | 5 → 0 | 66 | 20 → 18 | 4 → 0 |
+| 融入黑暗 | campaign_zhuque_guardians/1, kaxiusi | 43 | 20 | 3 → 0 | 43 | 20 | 3 → 0 |
+| 镇魂歌 | dark_door3_bafuluo | 20 → 14 | 20 → 14 | 8 → 0 | 19 → 13 | 19 → 13 | 7 → 0 |
+| 要害瞄准 | dark_door7_moerjiasi | 19 → 17 | 17 → 10 | 9 → 0 | 21 → 17 | 20 → 10 | 12 → 0 |
+| 寒冷叠加 | dark_door9_akenuoya | 25 | 18 → 11 | 9 → 0 | 24 → 22 | 19 → 11 | 11 → 0 |
+| 圣光气 | puni_seal1-7, puni_zhenshen/0-5, tower_brave_mystery | 21 → 17 | 20 → 14 | 7 → 0 | 19 → 14 | 19 → 14 | 6 → 0 |
+| 光之兵刃 | spt_basuoer | 40 | 19 → 15 | 4 → 0 | 40 | 19 → 16 | 4 → 0 |
+| 火力锁定 | spt_bokate | 40 | 18 → 13 | 5 → 0 | 40 | 21 → 13 | 6 → 0 |
+| 自我暗示 | spt_kelanite2 | 67 | 21 → 20 | 4 → 0 | 67 | 21 | 6 → 0 |
+| 镜影术 | spt_moshidilu | 20 → 14 | 20 → 14 | 11 → 0 | 20 → 16 | 20 → 16 | 11 → 0 |
+| 暗流涌动 | spt_palisi | 40 | 20 → 15 | 5 → 0 | 22 → 15 | 22 → 15 | 8 → 0 |
+| 不灭意志 | spt_saiweier | 16 → 13 | 16 → 13 | 4 → 0 | 20 → 14 | 20 → 14 | 6 → 0 |
+| 冰之领悟 | spt_sikelu | 20 → 15 | 20 → 15 | 7 → 0 | 19 → 17 | 19 → 17 | 2 → 0 |
+| 虚空之身, 黑暗遮蔽 | spt_sipulinte | 50 | 21 → 19 | 9 → 0 | 50 | 22 → 20 | 10 → 0 |
+| 金刚罩 | spt_situerte | 20 | 20 | 0 | 20 | 20 | 0 |
+| 保护 | tower_brave_f004 | 19 → 3 | 19 → 3 | 16 → 0 | 22 → 19 | 22 → 19 | 4 → 0 |
+| 模仿术 | tower_brave_f005, f021, f043, f055/1 | 20 → 10 | 20 → 10 | 13 → 0 | 21 → 11 | 21 → 11 | 13 → 0 |
+| 光之壁 | tower_brave_f009, tower_brave_f025, tower_brave_f054/1 | 18 → 10 | 18 → 10 | 10 → 0 | 21 → 11 | 21 → 11 | 12 → 0 |
+| 反击风暴 | tower_brave_f017, tower_brave_f030 | 20 → 12 | 20 → 12 | 11 → 0 | 20 → 11 | 20 → 11 | 10 → 0 |
+| 充电 | tower_brave_f022, tower_brave_f033, tower_brave_f054 | 20 → 16 | 20 → 16 | 4 → 0 | 20 → 18 | 20 → 18 | 4 → 0 |
+| 光合作用 | tower_brave_f027, tower_brave_f038, tower_brave_f051/1 | 15 → 0 | 15 → 0 | 15 → 0 | 15 → 14 | 15 → 14 | 1 → 0 |
+| 白雾 | tower_brave_f028 | 20 → 11 | 20 → 11 | 13 → 0 | 18 → 10 | 18 → 10 | 9 → 0 |
+| 水神护体 | tower_brave_f050, tower_brave_f052/1 | 20 → 3 | 20 → 3 | 17 → 0 | 20 → 14 | 20 → 14 | 7 → 0 |
+| 寒冰碎裂 | tower_brave_f056 | 21 → 15 | 21 → 15 | 7 → 0 | 20 → 14 | 20 → 14 | 7 → 0 |
+| 电能聚合 | tower_brave_f058 | 20 → 14 | 20 → 14 | 8 → 0 | 22 → 15 | 22 → 15 | 9 → 0 |
+| 超能力 | tower_brave_f060/1 | 20 → 15 | 20 → 15 | 7 → 0 | 20 → 15 | 20 → 15 | 6 → 0 |
+| 地泉喷涌 | tower_brave_f061/1 | 20 | 18 → 13 | 8 → 0 | 20 | 16 → 14 | 7 → 0 |
+| 真实残影 | tower_brave_f061/2 | 20 | 18 → 13 | 8 → 0 | 20 | 17 → 14 | 7 → 0 |
+| 狙击战术 | tower_brave_f063 | 22 → 18 | 20 → 15 | 7 → 0 | 21 → 13 | 21 → 13 | 8 → 0 |
+| 心灵共鸣 | tower_brave_f063/2 | 50 | 21 → 12 | 8 → 0 | 42 → 39 | 21 → 11 | 9 → 0 |
+| 固若金汤 | tower_brave_f064/1, tower_brave_f067/2 | 19 → 8 | 19 → 8 | 11 → 0 | 20 → 10 | 20 → 10 | 11 → 0 |
+| 无限再生 | tower_brave_f065 | 20 | 17 → 10 | 9 → 0 | 15 → 9 | 15 → 9 | 7 → 0 |
+| 自然的掩护 | tower_brave_f065/1 | 21 → 11 | 21 → 11 | 13 → 0 | 14 → 9 | 14 → 9 | 6 → 0 |
+| 百变随心 | tower_brave_f068/1 | 33 | 21 → 11 | 11 → 0 | 19 → 11 | 19 → 11 | 12 → 0 |
+| 平行位面 | tower_brave_f069/1 | 33 | 20 → 11 | 10 → 0 | 20 → 11 | 20 → 11 | 13 → 0 |
+| 暗影跳跃 | tower_brave_f069/3 | 33 | 21 | 3 → 0 | 19 | 19 | 4 → 0 |
+| 蜃楼 | tower_brave_f070/1 | 22 → 17 | 21 → 4 | 17 → 0 | 20 → 7 | 20 → 7 | 16 → 0 |
+| 冰霜锁定 | trial_brave_qigesa | 21 → 17 | 19 → 12 | 10 → 0 | 20 → 12 | 20 → 12 | 10 → 0 |
+
+Over all 91 members: status picks per 100 open turns 19.4 → 13.4 (passive) and 19.5 → 15.2 (attacking); in-place re-casts
+8.1 → 0 and 7.2 → 0 per 100 Boss turns. The largest drops are the long conditions and the shields and charges that only an attack
+uses up: 保护, 水神护体, 固若金汤 and 蜃楼 are cast once per battle against the passive foe (3 per 100 turns), 14-19 per 100
+against the attacking one. **No Boss now never uses a status move in a real fight.** Against the passive foe, the three 光合作用
+floors of 勇者之塔 (f027, f038, f051's second member) never do: they are never hurt, and 光合作用 at full HP changed nothing
+before either (it was picked on 15 of 100 turns only because its script counted as a change). Against the attacking foe they heal
+on 14 of 100 turns, as before.
+
+**Checks.** `boss-ai-isolation-v56` gained "No Boss re-casts a status move whose effect is still in place": 96 Boss members
+carrying a status move with a condition or script, 8 battles each against the passive foe, reading "in place" independently of
+`idle-moves.ts` (each effect a condition on its target, or a script's condition, named after it, on the Boss or its foe, or a stage
+at its cap). On every turn on which the Boss policy decides and an attack can hurt, no move in place is used: 6058 such turns,
+every move of the decision among them (圣光气 845, 光之壁 347, 水神护体 412, 冲天霸气 41, 充电 117, 白雾 103), and 2404
+re-casts once the effect had ended. The assertion has no tolerance, so new random draws cannot break it; the old policy fails it on
+the first Boss (魔神艾里克's 魔化羽翼, seed 3, turn 14). With fewer status picks in a row, the status-loop sweep runs three battles per
+encounter (9106 open turns, 1810 status picks, 204 of 1178 right after one, longest run 5), so that the "right after" sample
+still fits its 0.06 band. With the seeds of the sweep and of this check shifted by 10000, 20000, 30000 and 40000, all 23 checks pass.
+`ai.test.mjs`: a condition (two turns), a charge and a shield, each about to run out, change nothing; a move with a boost and a
+condition changes something while the stage can rise; a scripted heal only when hurt; 镜影术 only with a drop; with every other
+move at 0 PP a move in place is still used.
+
 ## Open points
 
-- **Any condition already in place.** Only 药剂反噬 counts as no change while it is in place. Some 50 other Boss status moves
-  carry an `add_condition` or a script effect (圣光气 on the 谱尼 seals, 冲天霸气, 光之壁, 充电, 白雾, 海洋之心, ...); where
-  that is a condition already in place, casting it again renews it, and the status chance may do so. A renewal does change the
-  remaining turns or charges, so this follows the rule as written; making every renewal count as no change would be a new
-  decision.
+- **Any condition already in place.** Decided on 2026-10-24 and done in section 6.
+- **属性复制 after the foe switches.** Decided on 2026-10-24: left as it is (section 6).
 - **`random_priority` rolls on every `priority` call.** The Boss policy calls `priority` for each usable skill to rank
   knockouts, so 普兰特's knockout choice uses a separately rolled priority per skill, and each decision adds up to four draws
   before `orderActions` rolls the one that counts. Deterministic, so replays hold, but an estimate should not roll.

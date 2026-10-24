@@ -11,7 +11,7 @@ import {
   STRANGE_STAGE_LIMIT, stageMultiplier,
 } from '../constants.ts';
 import { bonusDamageIf, drain, evade, hurtStatus, randomPower, selfStageIf, timedScripts, type Timed } from './builders.ts';
-import { armBench, attach, disarm, hasStatus, hitFoe, landed, moveStages, scriptHooks, stat, status } from './util.ts';
+import { armBench, attach, disarm, hasStageDown, hasStatus, hitFoe, landed, moveStages, placesCondition, scriptHooks, stat, status } from './util.ts';
 
 type P = number[];
 let mirroring = false; // seer_eff_91 re-entrancy guard
@@ -170,7 +170,7 @@ const ENTRIES: ScriptRegistry = {
   },
 
   // 将能力下降状态反馈给对手
-  seer_eff_63: (c) => { if (landed(c)) moveStages(c.battle, c.user, c.foe, (v) => v < 0); },
+  seer_eff_63: { apply: (c) => { if (landed(c)) moveStages(c.battle, c.user, c.foe, (v) => v < 0); }, changes: (c) => hasStageDown(c.user) },
 
   // 当次攻击击败对方出战精灵时恢复自身最大体力的1/{0}
   seer_eff_66: (c, p: P) => { if (landedKo(c)) c.battle.heal(c.user, c.user.maxHp / p[0]); },
@@ -275,6 +275,7 @@ const ENTRIES: ScriptRegistry = {
       if (foe) foe.types = cond.data.foeTypes;
       battle.emit({ type: 'types_changed', side: holder.side, types: [...holder.types] });
     },
+    changes: placesCondition('seer_eff_55'),
   },
 
   // 损失1/2的体力，提升自身的能力 (特攻+2, 速度+1, 命中+1 per the skill texts)

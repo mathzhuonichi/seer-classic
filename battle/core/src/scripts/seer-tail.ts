@@ -26,7 +26,7 @@ import {
 } from './builders.ts';
 import {
   STAT_BY_INDEX, armBench, attach, changeStages, disarm, expiring, fromFoeAttack, hasAnyStatus, hasStageDown, hasStageUp, hasStatus, hitFoe,
-  once, sameType, scriptHooks, selfLoss, stat, status,
+  once, placesCondition, sameType, scriptHooks, selfLoss, stat, status,
 } from './util.ts';
 
 const RANDOM_STATUSES = ['burn', 'freeze', 'poison', 'paralysis', 'fear', 'sleep'];
@@ -49,8 +49,15 @@ function estimateIv(m: Mon): number {
   for (let i = IV_MIN; i <= IV_MAX; i++) if (computeStats(m.species.base, m.level, i).hp <= m.maxHp) iv = i;
   return iv;
 }
+/** seer_eff_201's targets: the user ({0} = 0) or its whole team, the fainted left out. */
+const healed = (c: { battle: Battle; user: Mon }, p: number[]): Mon[] =>
+  (p[0] === 0 ? [c.user] : c.battle.sides[c.user.side].team).filter((m) => !m.fainted);
+
 // {0}%回复自身1/{1}体力值 (two templates share this text)
-const healChance: ScriptEntry = { apply(c, p) { if (c.battle.rng.chance(p[0])) c.battle.heal(c.user, c.user.maxHp / p[1]); } };
+const healChance: ScriptEntry = {
+  apply(c, p) { if (c.battle.rng.chance(p[0])) c.battle.heal(c.user, c.user.maxHp / p[1]); },
+  changes: (c) => c.user.hp < c.user.maxHp,
+};
 
 // ---------- timed templates ----------
 
@@ -303,6 +310,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
       c.holder.types = [...c.cond.data.orig]; // on_expire: expired, cured or removed
       c.battle.emit({ type: 'types_changed', side: c.holder.side, types: [...c.holder.types] });
     },
+    changes: placesCondition('seer_eff_56'),
   },
   // 消耗自身全部体力，己方下2次攻击技能必定打出致命一击   (2 charges shared by the team)
   seer_eff_71: {
@@ -323,7 +331,10 @@ const ENTRIES: Record<string, ScriptEntry> = {
     },
   },
   // {0}回合内自身造成的伤害为{1}倍
-  seer_eff_90: { apply(c, p) { attach(c.battle, c.user, 'seer_eff_90', '伤害加倍', [{ on: 'modify_damage_dealt', multiplier: p[1] }], p[0]); } },
+  seer_eff_90: {
+    apply(c, p) { attach(c.battle, c.user, 'seer_eff_90', '伤害加倍', [{ on: 'modify_damage_dealt', multiplier: p[1] }], p[0]); },
+    changes: placesCondition('seer_eff_90'),
+  },
   // 使对手的能力提升效果反转成能力下降效果
   seer_eff_143: {
     apply(c) { for (const k of STAGES) if (c.foe.stages[k] > 0) c.battle.changeStage(c.foe, k, -2 * c.foe.stages[k], true, moveSkill(c.ctx)); },
@@ -338,6 +349,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
       if (c.amount > 0) c.battle.dealDamage(c.source, c.amount, { kind: 'fixed', source: c.holder, noReflect: true });
       return 0;
     },
+    changes: placesCondition('seer_eff_183'),
   },
   // 对方体力高于自己时才能命中，将对方体力减到和自己相同
   seer_eff_7: {
@@ -489,10 +501,8 @@ const ENTRIES: Record<string, ScriptEntry> = {
   },
   // 对选中对象或本方全体恢复1/{1}的体力   ({0}: 0 = the selected monster (self), else the whole team)
   seer_eff_201: {
-    apply(c, p) {
-      const team: Mon[] = p[0] === 0 ? [c.user] : c.battle.sides[c.user.side].team;
-      for (const m of team) if (!m.fainted) c.battle.heal(m, m.maxHp / p[1]);
-    },
+    apply(c, p) { for (const m of healed(c, p)) c.battle.heal(m, m.maxHp / p[1]); },
+    changes: (c, p) => healed(c, p).some((m) => m.hp < m.maxHp),
   },
   // 损失1/2的体力，给予对手同等的伤害   (1/2 of max HP, capped by current HP)
   // p[0] truthy: the 敌我同伤刻印 removes the user's own loss.
@@ -521,6 +531,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
       selfLoss(c.battle, c.user, c.user.maxHp / p[0]);
     },
     hook(c) { return c.priority + 1; },
+    changes: placesCondition('seer_eff_142'),
   },
   // 消耗自己所有体力，使下一个出战的精灵{0}回合免疫异常状态
   seer_eff_144: {
@@ -564,6 +575,7 @@ const ENTRIES: Record<string, ScriptEntry> = {
   // {0}%的概率，{1}回合内受到的伤害减半
   seer_eff_127: {
     apply(c, p) { if (c.battle.rng.chance(p[0])) attach(c.battle, c.user, 'seer_eff_127', '伤害减半', [{ on: 'modify_damage_taken', multiplier: 0.5 }], p[1]); },
+    changes: placesCondition('seer_eff_127'),
   },
   // 直接造成等同于对手防御值的固定伤害
   seer_eff_423: { apply(c) { hitFoe(c, c.foe.stats.def); } },
