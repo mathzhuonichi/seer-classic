@@ -1,6 +1,6 @@
 # Seer Classic
 
-A local, single-player remake of pre-2013 Seer (赛尔号), focused on PvE battles and monster raising. The interface is Chinese. It keeps the recovered battle and raising engines, the complete recovered classic catalog, and the original portraits, battle motion, scenes and interface art. It runs in the browser and ships as a Tauri desktop app.
+A local, single-player remake of pre-2013 Seer (赛尔号), focused on PvE battles and monster raising. The interface is Chinese. It keeps the recovered battle and raising engines, the complete recovered classic catalog, and the original portraits, battle motion, scenes and interface art. It runs in the browser, ships as a browser package for Windows and macOS, and as a Tauri app for macOS.
 
 ## Documentation
 
@@ -46,9 +46,13 @@ npm run stage:desktop            # THIRD-PARTY-NOTICES.txt, then the payload in 
 npm run package                  # the macOS app and DMG in releases/ (needs Rust and the Tauri prerequisites)
 npm run package:smoke            # the same app with the smoke driver, under its own identifier
 npm run smoke:macos              # the packaged smoke test, silent and in the background
+npm run package:browser          # the browser package for Windows and macOS: releases/SeerClassic-<version>-browser.zip
+node tools/verification/browser-package.mjs   # its release gate: the unzipped package, a smoke and two browser suites
 ```
 
-The desktop app ([desktop-package-2026-10-23](design/notes/desktop-package-2026-10-23.md)) embeds only the code build; the payload, the files of `public/` the game can request, ships beside the executable and is checked at startup against its `payload.json`. Its saves are files in the app data folder. `npm run package` builds the code, stages the payload, runs the `desktop-payload` release gate, builds the ad-hoc signed arm64 `.app` and packs `releases/SeerClassic-<version>-macos-arm64.dmg` with the player README (`tools/distribution/player-readme.txt`, 请先阅读.txt) and THIRD-PARTY-NOTICES.txt. Windows builds the same shell with the same payload as a portable ZIP; it has not been built yet.
+The browser package ([browser-package-2026-10-23](design/notes/browser-package-2026-10-23.md)) is the version common to Windows 10/11 x64 and macOS 13.5+ (Apple silicon and Intel): one folder with `启动游戏-Windows.bat` and `启动游戏-macOS.command`, the official Node.js 24 binaries in `runtime/` (pinned with their SHA-256 in `tools/distribution/browser/node-runtime.json`, downloaded into `.cache/node-runtime/`), the dependency-free `server.mjs` and `game/` (the web build and the desktop payload). The server listens on http://127.0.0.1:1426/, the origin of `test.command`, so the save in a browser's storage stays the same; it opens Edge as an app window on Windows and the default browser on macOS. Behind a proxy, run the packer with `NODE_USE_ENV_PROXY=1`. The player README is `tools/distribution/browser/player-readme.txt`.
+
+The desktop app ([desktop-package-2026-10-23](design/notes/desktop-package-2026-10-23.md)) embeds only the code build; the payload, the files of `public/` the game can request, ships beside the executable and is checked at startup against its `payload.json`. Its saves are files in the app data folder. `npm run package` builds the code, stages the payload, runs the `desktop-payload` release gate, builds the ad-hoc signed arm64 `.app` and packs `releases/SeerClassic-<version>-macos-arm64.dmg` with the player README (`tools/distribution/player-readme.txt`, 请先阅读.txt) and THIRD-PARTY-NOTICES.txt. A Windows build of the same shell (a portable ZIP) has not been built; Windows players use the browser package.
 
 ## Content
 
