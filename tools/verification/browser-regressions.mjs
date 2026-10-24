@@ -1,7 +1,8 @@
 /**
  * Browser regressions: keyboard, focus and clickability behaviours that only a real browser shows, each fixed after the
- * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), the Boss variant carried from the archive to the dialogue, and
- * the damage display's moments during a played turn (design/notes/damage-display-2026-10-23.md).
+ * 2026-10-18 playtest (design/notes/playtest-2026-10-18-wave3.md), the Boss variant carried from the archive to the dialogue, the
+ * damage display's moments during a played turn (design/notes/damage-display-2026-10-23.md), and 尼奥's farewell in the scene after
+ * its flee (design/notes/wild-flee-2026-10-24.md).
  * Status `needs-browser`: it needs a local Google Chrome, and runs every check in Playwright WebKit too when that is installed
  * (otherwise WebKit is reported as skipped).
  *
@@ -47,6 +48,8 @@ const LAB_POSITION = {x: 48, y: 62};
 const BREEDING_COPIES = 4;
 /** The tower save has cleared these floors, so the Brave Tower window offers to resume the next one. */
 const TOWER_CLEARED = 3;
+/** The 尼奥 save stands in its habitat (黑色洞穴) with the starter lead, none of the 尼尔 line, so 尼奥 flees at its first action. */
+const NIAO = 416, NIAO_PLACE = {planetId: 'white', regionId: 'habitat-478', x: 50, y: 70};
 /** The facilities save stands in the space-station hall at its 对战终端 (world-scene.ts), which opens the battle facilities. */
 const FACILITY_HALL = {planetId: 'space-station', regionId: 'resources', x: 69, y: 44};
 /**
@@ -98,6 +101,8 @@ async function fixtures() {
     const solo = journey({}, game => { for (const uid of game.snapshot().party.slice(1)) dispatch(game, {type: 'party', uid, add: false}); });
     const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
     const hallPlace = entries(() => writeWorldPreference({...FACILITY_HALL, visited: []}));
+    const niaoPlace = entries(() => writeWorldPreference({...NIAO_PLACE, visited: []}));
+    const niao = catalog.species.find(species => species.id === NIAO), farewell = {name: niao.name.zh, ...niao.wild_flee.farewell};
     // A new save has no game extras yet; the loader fills in the others.
     const tower = journey({}, () => {}, save => { save.game = {braveTower: {highestCleared: TOWER_CLEARED, resumeFloor: TOWER_CLEARED + 1}}; });
     /** A save whose party is DISPLAY_PARTY, its lead at `leadHp` when given; its seed plays the damage-display turns. */
@@ -115,7 +120,7 @@ async function fixtures() {
     });
     const saves = {
       journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
-      facilities: {...plain.slot, ...hallPlace}, counter: fighters(LOW_HP), blocked: fighters(),
+      facilities: {...plain.slot, ...hallPlace}, niao: {...plain.slot, ...niaoPlace}, counter: fighters(LOW_HP), blocked: fighters(),
     };
     const facilities = plain.game.snapshot().facilities.map(({name, teams}) => ({name, teams: !!teams?.length}));
     const {left, center, right} = shell.TOOLBAR;
@@ -129,7 +134,7 @@ async function fixtures() {
     const shopTab = pockets.ITEM_POCKETS.find(([pocket]) => pocket === pockets.itemPocket(labEssence.kind))[1];
     const bosses = Object.fromEntries(Object.entries(DISPLAY_BOSSES).map(([save, id]) => [save, catalog.bosses.find(boss => boss.id === id).name.zh]));
     return {silent, saves, tools, essence: essenceLabels(hatching.game.snapshot().items, pockets), lab: {essence: labEssence.name, shopTab}, facilities,
-      variants, allChallenges, bosses};
+      variants, allChallenges, bosses, farewell};
   });
 }
 
@@ -398,6 +403,28 @@ async function battleDetailsEscape({page}) {
   assert.equal(await count(page, '.classic-battle'), 1, 'Escape left the battle');
 }
 
+/**
+ * 尼奥 flees at its first action from a lead outside the 尼尔 line; once its battle closes, the scene shows its farewell as its
+ * world dialogue, with the player's answer as the one button, which closes it (battle/RULES.md 9.1).
+ */
+async function niaoFarewell({page, fixture: {farewell}}) {
+  await waitWorld(page);
+  await page.locator(`.world-roamer[data-species="${NIAO}"]`).evaluate(element => element.click());
+  await page.waitForSelector('.world-dialogue');
+  await page.click('.world-dialogue button.primary');
+  await waitCommands(page);
+  await page.locator('.classic-skill-grid > .classic-skill:not(:disabled)').first().click();
+  await page.waitForSelector('.classic-battle', {state: 'detached', timeout: BOOT_TIMEOUT_MS});
+  const dialogue = page.locator('.world-dialogue');
+  await dialogue.waitFor({timeout: BOOT_TIMEOUT_MS});
+  const shown = await dialogue.evaluate(element => ({title: element.querySelector('h3')?.textContent,
+    line: element.querySelector('.world-dialogue-copy p')?.textContent,
+    buttons: [...element.querySelectorAll('.world-dialogue-actions button')].map(button => button.textContent)}));
+  assert.deepEqual(shown, {title: farewell.name, line: farewell.line, buttons: [farewell.reply]});
+  await dialogue.locator('.world-dialogue-actions button').click();
+  await dialogue.waitFor({state: 'detached'});
+}
+
 /** Waits for the open detail card `selector` and checks that it lies inside the window. */
 async function cardInWindow(page, selector, what) {
   await page.waitForSelector(selector);
@@ -563,6 +590,7 @@ const CHECKS = [
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
     run: lastEssence},
   {name: 'the battle creature-details modal closes on Escape', run: battleDetailsEscape},
+  {name: '尼奥 flees from a lead outside the 尼尔 line and, once its battle closes, says its farewell in the scene', save: 'niao', run: niaoFarewell},
   {name: 'battle skills, 性格, 特性 and disabled learned skills show their detail cards inside the window', run: detailCards},
   {name: 'the Boss variant picked in the challenge archive is preselected in its dialogue and starts the battle',
     run: session => variantChoice(session, session.fixture.variants[0])},
