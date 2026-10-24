@@ -253,6 +253,9 @@
     "recruitment-acquisition.ts": {
       "status": "gate"
     },
+    "scene-music.mjs": {
+      "status": "gate"
+    },
     "skill-atknum-v45.mjs": {
       "status": "gate"
     },

@@ -1,5 +1,7 @@
+import sceneMusic from '../../../data/scene-music.json';
 import type { ChallengeCategoryId } from '../../shared/views.ts';
 import { WORLD_PLANETS } from './planets.ts';
+import { sceneTrack } from './scene-music.ts';
 import type { WorldLocationId, WorldPlanet, WorldRegion } from './types.ts';
 
 /** The first landing, also the fallback for an unknown planet. */
@@ -31,6 +33,12 @@ export function resolveWorldLocation(planetId: string, regionId: string): { plan
   const planet = WORLD_PLANETS.find(candidate => candidate.id === canonicalPlanet)
     ?? WORLD_PLANETS.find(candidate => candidate.id === HOME_LOCATION.planetId)!;
   return { planet, region: planet.regions.find(candidate => candidate.id === canonicalRegion) ?? planet.regions[0] };
+}
+
+/** The world theme a location plays (data/scene-music.json), or null. */
+export function locationTrack({ planetId, regionId }: WorldLocationId): string | null {
+  const { planet, region } = resolveWorldLocation(planetId, regionId);
+  return sceneTrack(sceneMusic.maps, planet, region);
 }
 
 /** The encounter fields that decide where it is staged. */
