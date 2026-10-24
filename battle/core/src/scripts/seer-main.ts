@@ -26,15 +26,10 @@ function lowerMaxHp(b: Battle, m: Mon, by: number): void {
 }
 
 const TIMED: Record<string, Timed> = {
-  // {0}回合若本方先手攻击，使得对方的技能失效
+  // {0}回合若本方先手攻击，使得对方的技能失效   (the turn it is used counts as the first, so it is in place only while it works)
   seer_eff_52: {
-    name: '先手无效', on: ['on_foe_move'],
-    data: (c, p) => ({ from: c.battle.turn, until: c.battle.turn + p[0] - 1 }),
-    hook: (c) => {
-      const { battle, holder, cond } = c;
-      const inWindow = battle.turn >= cond.data.from && battle.turn <= cond.data.until;
-      return inWindow && holder.lastActedTurn === battle.turn ? 'negate' : undefined;
-    },
+    name: '先手无效', on: ['on_foe_move'], cover: true,
+    hook: (c) => (c.holder.lastActedTurn === c.battle.turn ? 'negate' : undefined),
   },
 
   // {0}%概率令对手在{1}回合内每回合受到{2}点固定伤害

@@ -8,13 +8,14 @@ import {SEER_SCRIPTS} from './index.ts';
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const skill = (id, effects) =>
   ({id, name: {zh: `skill ${id}`}, type: 'normal', category: 'status', power: 0, accuracy: null, pp: 20, priority: 0, target: 'foe', effects});
-const SYNC = 1, BOOST = 2;
+const SYNC = 1, BOOST = 2, NEGATE = 3;
 const data = () => buildDataSet({types: {chart: {normal: {normal: 1}}}, skills: [
   skill(SYNC, [{op: 'script', id: 'seer_eff_91', params: [5]}]),
   skill(BOOST, [{op: 'stat_stage', target: 'self', stats: {atk: 1}}]),
+  {...skill(NEGATE, [{op: 'script', id: 'seer_eff_52', params: [1]}]), target: 'self'},
 ], species: [{id: 1, name: {zh: 'fixture'}, types: ['normal'], base}]});
-const member = () => ({species: 1, level: 50, skills: [SYNC, BOOST], stats: {...base, hp: 300}});
-const duel = () => new Battle({data: data(), seed: 5, scripts: SEER_SCRIPTS, sides: [{kind: 'player', team: [member()]}, {kind: 'player', team: [member()]}]});
+const member = (spe = base.spe) => ({species: 1, level: 50, skills: [SYNC, BOOST, NEGATE], stats: {...base, hp: 300, spe}});
+const duel = (spe) => new Battle({data: data(), seed: 5, scripts: SEER_SCRIPTS, sides: [{kind: 'player', team: [member(spe)]}, {kind: 'player', team: [member()]}]});
 const turn = (battle, a, b) => {
   battle.submit(0, {kind: 'move', skill: a});
   battle.submit(1, {kind: 'move', skill: b});
@@ -30,6 +31,13 @@ test('同步 (seer_eff_91) mirrors a stage change once, even when both actives c
   assert.equal(battle.active(0).stages.atk, 1, 'the user keeps its own boost');
   assert.equal(battle.active(1).stages.atk, 1, 'the foe receives the mirrored boost once');
   assert.equal(events.filter(e => e.type === 'stat_stage').length, 2, 'the mirrored change is not mirrored back');
+});
+
+test('先手无效 (seer_eff_52) is in place only for the turns it works: used first, it negates the foe\'s move that turn, and then ends', () => {
+  const battle = duel(2 * base.spe), user = battle.active(0), negated = events => events.some(e => e.type === 'move_failed' && e.side === 1);
+  assert(negated(turn(battle, NEGATE, BOOST)), 'the foe\'s move that turn fails');
+  assert(!user.conditions.some(c => c.id === 'seer_eff_52'), 'it ends with the turn it is used in');
+  assert(!negated(turn(battle, BOOST, BOOST)), 'the next turn is not covered');
 });
 
 // 闪避类护盾 (RULES.md 4): the physical and special shields (78, 106) do not stop 必中 moves; 圣洁 (86) still does.
