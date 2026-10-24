@@ -119,8 +119,9 @@ Before is the 2026-10-19 policy; after is this one. Headless engine runs.
 
 ## Open points
 
-- 药剂反噬 while already in place: it is a script effect, so `changesSomething` counts it as a change, and the 20% chance also
-  re-casts it while it is in place (40 times in the witness), spending PP. Refining that is out of scope.
+- 药剂反噬 while already in place: it is a script effect, so `changesSomething` counted it as a change, and the 20% chance also
+  re-cast it while it was in place (40 times in the witness), spending PP. Fixed on 2026-10-24: renewing it changes nothing
+  ([boss-ai-engine-2026-10-24](boss-ai-engine-2026-10-24.md) section 2).
 - After a faint replacement the re-cast probably comes one turn late: phases run at turn end before the replacement, and at
   turn start after actions are chosen. The voluntary-switch case is tested; the faint case is not.
 - The `once: false` phases of 奈尼芬多 emit `phase_triggered` at every check. The UI skips empty message frames, so only the

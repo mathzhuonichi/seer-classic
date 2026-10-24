@@ -384,8 +384,9 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     }
     t.witness('tiyasiFleeTurns',fleeTurns);
   });
-  check('奈尼芬多 uses 药剂反噬 whenever the foe is not under it: at the start, once it expires and after a switch, until its PP is spent',()=>{
-    const BACKFIRE=20314,counts={recasts:0,afterSwitch:0,whileStanding:0};
+  // With 药剂反噬 its only status move, the old status chance re-cast it on one turn in five while it was in place (40 times here).
+  check('奈尼芬多 uses 药剂反噬 whenever the foe is not under it (at the start, once it expires, after a switch) and never while it is',()=>{
+    const BACKFIRE=20314,counts={recasts:0,afterSwitch:0,underTurns:0,whileStanding:0};
     for(const id of ['boss_spt_nainifenduo','boss_campaign_qinglong_guardians'])for(let seed=1;seed<=8;seed++){
       const encounter=catalog.bosses.find(row=>row.id===id);
       const b=createBattle({data,scripts,seed,encounter:structuredClone(encounter),
@@ -397,12 +398,15 @@ await withSsr('boss-ai-isolation-v56',async load=>{
         const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${id}/${seed}/turn ${turn}`;
         if(boss.species.id===264&&used!==undefined){
           if(!under&&left){assert.equal(used,BACKFIRE,label);if(turn)counts[switched?'afterSwitch':'recasts']++;}
+          // Only a Boss with nothing else left to use casts it again in place, as any move with PP (RULES.md 10.4).
+          const otherLeft=boss.skills.some(skill=>skill!==BACKFIRE&&boss.pp[skill]>0);
+          if(under&&otherLeft){counts.underTurns++;assert.notEqual(used,BACKFIRE,`${label}: still in place`);}
           if(under&&used===BACKFIRE)counts.whileStanding++;
         }
         switched=switching;
       }
     }
-    assert(counts.recasts>0&&counts.afterSwitch>0,JSON.stringify(counts));
+    assert(counts.recasts>0&&counts.afterSwitch>0&&counts.underTurns>=100,JSON.stringify(counts));
     t.witness('nainifenduoBackfire',counts);
   });
   // The member as the Boss fields it, its 3000 HP included. Without that HP it cannot last against 20000, every action of the planner

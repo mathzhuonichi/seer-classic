@@ -5,9 +5,11 @@ import test from 'node:test';
 import {Battle} from '../../core/src/engine/battle.ts';
 import {buildDataSet} from '../../core/src/data.ts';
 import {BOSS_STATUS_CHANCE, STRUGGLE_SKILL} from '../../core/src/constants.ts';
+import {emptyCtx} from '../../core/src/engine/state.ts';
+import {SEER_SCRIPTS} from '../../core/src/scripts/index.ts';
 import {AI_POLICY, chooseAiAction} from './ai.ts';
 
-const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11};
+const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11, backfire: 12};
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const skill = (id, extra = {}) => ({id, name: {zh: `fixture ${id}`}, type: 'normal', category: 'special', power: 0, accuracy: null, pp: 20, priority: 0,
   effects: [], ...extra});
@@ -21,11 +23,12 @@ const data = () => buildDataSet({
     status(S.boost, [{op: 'stat_stage', target: 'self', stats: boosts}], 'self'), status(S.heal, [{op: 'heal', target: 'self', pct_max_hp: 50}], 'self'),
     status(S.poison, [{op: 'status', target: 'foe', status: 'poison'}]), status(S.leech, [{op: 'status', target: 'foe', status: 'leech'}]),
     status(S.wait, [], 'self'), skill(S.sure, {power: 70, accuracy: 100}), skill(S.wild, {power: 100, accuracy: 50}),
-    skill(S.multi, {power: 40, effects: [{op: 'multi_hit', min: 3, max: 3}]}), skill(S.big, {power: 200, accuracy: 50})],
+    skill(S.multi, {power: 40, effects: [{op: 'multi_hit', min: 3, max: 3}]}), skill(S.big, {power: 200, accuracy: 50}),
+    status(S.backfire, [{op: 'script', id: 'seer_eff_69', params: [5]}])],
 });
 const mon = (species, skills) => ({species, level: 50, skills, stats: {...base, hp: 5000}});
 function battle({kind = 'boss', skills, foe = 2, seed = 7}) {
-  return new Battle({data: data(), seed, policy: AI_POLICY, sides: [
+  return new Battle({data: data(), seed, policy: AI_POLICY, scripts: SEER_SCRIPTS, sides: [
     {kind: 'player', team: [mon(foe, [S.wait])]},
     {kind, team: [mon(1, skills)], ai: {kind: 'smart'}},
   ]});
@@ -116,6 +119,9 @@ test('a Boss draws nothing without a real choice: a knockout, no status move, or
   assert.deepEqual(run([S.normal, S.poison], b => b.applyStatus(b.active(0), 'poison', {turns: 3})), {picks: [S.normal], draws: 0}, 'already poisoned');
   assert.deepEqual(run([S.normal, S.poison], b => b.sides[0].rules.push({rule: 'immune_status'})), {picks: [S.normal], draws: 0}, 'immune');
   assert.deepEqual(run([S.normal, S.heal, S.wait]), {picks: [S.normal], draws: 0}, 'unhurt, and a move without effects');
+  const backfire = b => b.runEffects(b.skill(S.backfire).effects, b.active(1), b.active(0), emptyCtx());
+  assert.deepEqual(run([S.normal, S.backfire], backfire), {picks: [S.normal], draws: 0}, '药剂反噬 is still in place');
+  assert.equal(run([S.normal, S.backfire]).draws, 6, 'without it, 药剂反噬 changes something');
 });
 
 test('with no attack PP left, a Boss uses a status move that changes something, else spends any status move', () => {

@@ -38,3 +38,21 @@ Witnesses at this point: sweep 1383 status picks in 7033 open turns (19.7%), 258
 run 4; 哈莫雷特 300 of 1492 (20.1%), 61 of 288 right after one, longest run 5, 14 of 50 battles open with 龙之意志; 厄尔塞拉
 234 of 1120; 蘑菇怪 107 re-poisons, 16 after a switch. With the same eight shifts and 9000, every check passes except
 `ORACLE_HP_PHASE`, the recording of seed 124.
+
+## 2. 药剂反噬 is never re-cast while it is in place
+
+**Rule** (user, 2026-10-21): a status move only when it still changes something, and 奈尼芬多 re-casts 药剂反噬 whenever the
+foe is not under it.
+
+**Before.** 药剂反噬 (skill 20314) is the script `seer_eff_69`, and `idle-moves.ts` counted every script as a change. While the
+foe was under it, the second phase gave 奈尼芬多 the Boss policy, whose status chance re-cast 药剂反噬 on one turn in five, since
+it was its only status move: 40 times in the isolation witness, spending its 5 PP early.
+
+**After.** `changesSomething` treats a `seer_eff_69` op as no change while its condition (same id) is on the foe: casting it
+again would only renew its turns (`attach` refreshes). So the status chance never picks it in place, and no draw is made when
+nothing else is useful. With every other move at 0 PP it is still spent, as any move with PP (RULES.md 10.4). The exception is
+named for this one script; the general question (any condition already in place) is open, see "Open decisions".
+
+**Checks.** `boss-ai-isolation-v56`: over 16 battles of both 奈尼芬多 encounters, 224 turns under 药剂反噬 with another move
+left and no re-cast in place (the old policy fails on the first battle, turn 4); 32 re-casts on expiry and 32 after a switch,
+each on the first turn it is not in place. `ai.test.mjs`: in place, a Boss with an attack and 药剂反噬 attacks without a draw.
