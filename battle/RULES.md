@@ -285,9 +285,10 @@ Capsule multipliers come from the item (`capture_multiplier`); a capsule with
 
 The equation and random draw are remake calibration, not recovered official
 server probabilities. Official capture command 2409 sends a capsule ID and
-receives the result. An ordinary Niao (species 416) encounter requires active
-species 77, 78, 79, 310, 311 or 312 before any capsule can be used; this gate is
-source-verified. The official server's separate `catchType` field is not modeled.
+receives the result. 尼奥 (416) is caught only while one of its partners is the
+active monster: a capsule thrown with any other makes it flee (section 9.1). The
+live official client refuses that capsule instead; the remake follows the 2010
+guides. The official server's separate `catchType` field is not modeled.
 See `design/notes/capture-official-v25.md` for table/protocol evidence and limits.
 
 A successful capture ends the battle as the player's win: `winner: 0`,
@@ -320,6 +321,22 @@ Only a wild side flees; the same species in a Boss or trainer team fights on.
   「该伊5回合后会逃跑」; 7k7k 2010-04-16 尼尔 「现在改到10回合才逃跑」 (8 turns in a
   2012 answer, a later change); user decision 2026-10-24;
   `design/notes/wild-flee-2026-10-24.md`]
+- `unless_player_active [species]`: at its action in any turn in which the
+  player's active monster is none of these species, and at once when a capsule
+  is thrown at it then, before any capture roll and whether it can act or not;
+  the thrown capsule is spent, and `wild_fled` names it (`item`). With one of them
+  out it never flees, and a capsule rolls as usual. A switch resolves before its
+  action (section 3), so switching to a partner keeps it and switching away from
+  one makes it flee in that turn. The check reads the active monster's species
+  in battle, not its skin. 尼奥 (416) has `[77, 78, 79, 310, 311, 312]` (尼尔,
+  菲斯利, 艾斯菲亚 and their 闪光 forms, the official client's list). [sourced:
+  7k7k 2010-08-03 尼奥捕捉指南 「如果你换了别的精灵，尼奥就会马上逃跑的。不换，捉到明天它都
+  不会跑」; 4399 2010-08-02 「用其他精灵来捕捉的话尼奥会逃跑，只有用尼尔来捕捉才不会逃走」;
+  user decision 2026-10-24 (the capsule flee); `design/notes/wild-flee-2026-10-24.md`]
+
+A species' `farewell {line, reply}` is not read by the engine: once its battle
+closes, the scene shows the fled monster saying `line`, with the player's `reply`
+as the one button (尼奥's, from the original's fight module). [sourced]
 
 ## 10. PvE bosses
 

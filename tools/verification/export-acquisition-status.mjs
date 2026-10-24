@@ -16,7 +16,6 @@ await withSsr('export-acquisition-status', async load => {
   const { buildRecruitmentRewards, MAX_RECRUITMENT_PREREQUISITES } = await load('/src/domain/acquisition/recruitment.ts');
   const { getEligibleRecruitmentSPTs } = await load('/src/domain/acquisition/spt-recruitment.ts');
   const { CHALLENGE_CAMPAIGNS } = await load('/src/domain/challenges/challenge-campaigns.ts');
-  const { NIAO_CAPTURE_PARTNERS } = await load('/battle/core/src/capture.ts');
   const { WORLD_PLANETS } = await load('/src/domain/world/world.ts');
   const catalog = await (await load('/src/domain/catalog/catalog.ts')).loadCatalog();
   const unchanged = JSON.stringify(catalog);
@@ -33,7 +32,8 @@ await withSsr('export-acquisition-status', async load => {
   }
 
   // Build the direct seed set from source records, without consulting the production graph.
-  // Recruitment and Niao capture are added only after their prerequisites become reachable.
+  // Recruitment, and the capture of a species that flees unless a partner is out (尼奥, wild_flee.unless_player_active), are
+  // added only after their prerequisites become reachable.
   const seeds = new Map(), conditionalCaptures = [];
   const seed = (id, witness) => { if (byId.has(id) && !NPC_ONLY_SPECIES.has(id) && !seeds.has(id)) seeds.set(id, witness); };
   for (const id of [1, 4, 7]) seed(id, { kind: 'starter' });
@@ -45,7 +45,8 @@ await withSsr('export-acquisition-status', async load => {
     const capture = species.obtain?.includes('wild') && (species.catch_rate ?? 0) > 0;
     if (!capture && !region.creatureLevels?.[id]) continue;
     const witness = { kind: capture ? 'capture' : 'habitat-essence', planetId: planet.id, regionId: region.id };
-    if (capture && id === 416) conditionalCaptures.push({ id, witness });
+    const partners = species.wild_flee?.unless_player_active;
+    if (capture && partners) conditionalCaptures.push({ id, witness, partners });
     else seed(id, witness);
   }
   const bindings = new Map((catalog.items ?? []).filter(item => item.kind === 'essence' && item.hatches !== undefined).map(item => [item.id, item.hatches]));
@@ -86,7 +87,7 @@ await withSsr('export-acquisition-status', async load => {
       closure.add(id); witnesses.push({ id, ...witness }); changed = true;
     };
     for (const encounter of conditionalCaptures) {
-      const partner = NIAO_CAPTURE_PARTNERS.find(id => closure.has(id));
+      const partner = encounter.partners.find(id => closure.has(id));
       if (partner !== undefined) add(encounter.id, { ...encounter.witness, activeSpecies: partner }, true);
     }
     for (const reward of recruitment) {
@@ -190,7 +191,7 @@ await withSsr('export-acquisition-status', async load => {
     recruitmentRewards: recruitmentDependencies.length,
     reachableRecruitmentRewards: recruitmentDependencies.filter(reward => reward.ready).length,
     blockedRecruitmentRewards: recruitmentDependencies.filter(reward => !reward.ready).length,
-    checks: ['complete source partition', 'independent direct seeds and directed executable dependency closure', 'recruitment collection and named-SPT gates', 'map collection entries excluded from direct capture and essence seeds', 'Niao active-partner capture gate', 'source catalog remained unchanged'],
+    checks: ['complete source partition', 'independent direct seeds and directed executable dependency closure', 'recruitment collection and named-SPT gates', 'map collection entries excluded from direct capture and essence seeds', 'Niao active-partner capture (it flees from any other)', 'source catalog remained unchanged'],
   };
   assert.equal(summary.availableSpecies + summary.missingSpecies, summary.eligibleSpecies);
   assert.equal(Object.values(summary.missingCategoryCounts).reduce((sum, count) => sum + count, 0), missing.length);

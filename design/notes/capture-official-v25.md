@@ -66,6 +66,8 @@ A master capsule succeeds without a capture RNG draw, including when the species
 
 ## Implemented correction and verification
 
+**2026-10-24:** the Niao prerequisite below is replaced by the period behaviour (user decision; [wild-flee-2026-10-24](wild-flee-2026-10-24.md), `battle/RULES.md` 9.1): any active species may throw a capsule, but with none of the six partner forms out 尼奥 flees at the capsule (spent, no roll) and at its own action. `NIAO_CAPTURE_PARTNERS`, `meetsWildCapturePrerequisite` and the view's refusal are deleted; the client list above is now `wild_flee.unless_player_active` in `data/monsters/0416.json`, which the acquisition routes read too. `capture-official-v25.ts` checks the six forms' captures and the flee instead of the refusal.
+
 The core's ordinary-wild capture action list now includes the source-proven Niao prerequisite. A nonqualifying active species cannot submit either a normal or master capsule; rejection occurs before inventory mutation. The exported `NIAO_CAPTURE_PARTNERS` and `meetsWildCapturePrerequisite` support the adapter's acquisition explanation. Boss encounters and explicit `no_capture` rules remain blocked.
 
 The core has no official `catchType` input and therefore cannot claim all official encounter blockers. In particular, species CatchRate zero is not substituted for server catchType zero. No unsupported blanket rare-species, level or status rule was added.

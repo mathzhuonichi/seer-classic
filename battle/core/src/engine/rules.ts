@@ -197,13 +197,17 @@ export function checkBossFlee(b: Battle, user: Mon, skill: Skill): void {
 }
 
 /**
- * A wild monster's flee (RULES.md 9.1), its species' `wild_flee`: once `user` can act, it flees instead of its move when the
- * flee is due, and the battle ends with no winner. Returns whether it fled.
+ * A wild monster's flee (RULES.md 9.1), its species' `wild_flee`: at its action once it can act, in place of its move, or at
+ * the `capsule` thrown at it, when the flee is due; the battle then ends with no winner. Returns whether it fled.
  */
-export function checkWildFlee(b: Battle, user: Mon): boolean {
-  const flee = b.sides[user.side].kind === 'wild' ? user.species.wild_flee : undefined;
-  if (!flee || b.turn < flee.from_turn) return false;
-  b.emit({ type: 'wild_fled', side: user.side, slot: user.slot, name: user.name });
+export function checkWildFlee(b: Battle, mon: Mon, capsule?: string): boolean {
+  const flee = b.sides[mon.side].kind === 'wild' ? mon.species.wild_flee : undefined;
+  if (!flee) return false;
+  const due = 'unless_player_active' in flee
+    ? !flee.unless_player_active.includes(b.active((1 - mon.side) as 0 | 1).species.id)
+    : capsule === undefined && b.turn >= flee.from_turn;
+  if (!due) return false;
+  b.emit({ type: 'wild_fled', side: mon.side, slot: mon.slot, name: mon.name, ...(capsule === undefined ? {} : { item: capsule }) });
   finish(b, null, 'wild_fled');
   return true;
 }

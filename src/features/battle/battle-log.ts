@@ -80,6 +80,13 @@ function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContex
   return `${sideLabel(event)}使用了${capsule}，${event.success ? `成功捕捉${target}！` : `${target}挣脱了胶囊，捕捉失败。`}`;
 }
 
+/** A wild monster's flee: at its action, or at the capsule the other side threw, which the line then names first. */
+function wildFledText(event: EventOf<'wild_fled'>, context: BattleLogContext, name: string): string {
+  if (!event.item) return `${name}逃跑了！`;
+  const capsule = context.data.items.get(event.item)?.name?.zh || '精灵胶囊';
+  return `${sideLabel({ side: event.side === 1 ? 0 : 1 })}使用了${capsule}，${name}逃跑了！`;
+}
+
 /**
  * How the battle ended. The result text after it names a loss, a draw or a challenge's win; a wild win's names only the reward,
  * so this line names that win. A capture's, a retreat's or a wild monster's flee's end needs no line: the capsule's or the flee's
@@ -164,7 +171,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'capture_attempt': return captureText(event, context);
     case 'flee': return `${sideLabel(event)}撤离了战斗。`;
     case 'boss_fled': return '对手撤离了战斗。';
-    case 'wild_fled': return `${name}逃跑了！`;
+    case 'wild_fled': return wildFledText(event, context, name);
     case 'boss_trait': return event.trait === 'barrier_broken' ? `${name}的屏障被打破了，攻击恢复有效。` : '';
     case 'battle_end': return battleEndText(event, context);
     case 'say': return event.text.zh;

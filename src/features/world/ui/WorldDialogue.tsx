@@ -14,7 +14,7 @@ export interface WorldDialogueProps {
   onClose: () => void; onToggleDetails: () => void; onChooseStart: () => void;
 }
 
-/** A conversation with a scene contact; its buttons challenge, open pages, or show details. */
+/** A conversation with a scene contact; its buttons challenge, open pages, or show details. A farewell's one button is the answer. */
 export function WorldDialogue(props: WorldDialogueProps) {
   const { view, showDetails, c, onNavigate, onInteract, onClose, onToggleDetails, onChooseStart, onChooseVariant } = props;
   const { portrait, towerTeam, challenge, variantChoice } = view;
@@ -50,11 +50,12 @@ export function WorldDialogue(props: WorldDialogueProps) {
         {showDetails && <p className="world-dialogue-detail">{view.detail}</p>}
       </div>
     </div>
-    <div className="world-dialogue-actions">{challenge ? <>
-      <button className="primary" disabled={challenge.disabled} onClick={onChallenge}>{challenge.label}</button>
-      {challenge.chooseStart && <button onClick={onChooseStart}>选择起点</button>}<button onClick={onDetails}>详情</button>
-    </> : view.facilityActions.map(action =>
-      <button key={action.label} className={action.primary ? 'primary' : undefined} onClick={() => onFacility(action)}>{action.label}</button>)}
-      <button className="subtle" onClick={onClose}>离开</button></div>
+    <div className="world-dialogue-actions">{view.reply ? <button className="primary" onClick={onClose}>{view.reply}</button> : <>
+      {challenge ? <>
+        <button className="primary" disabled={challenge.disabled} onClick={onChallenge}>{challenge.label}</button>
+        {challenge.chooseStart && <button onClick={onChooseStart}>选择起点</button>}<button onClick={onDetails}>详情</button>
+      </> : view.facilityActions.map(action =>
+        <button key={action.label} className={action.primary ? 'primary' : undefined} onClick={() => onFacility(action)}>{action.label}</button>)}
+      <button className="subtle" onClick={onClose}>离开</button></>}</div>
   </section>;
 }

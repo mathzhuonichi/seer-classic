@@ -2,8 +2,8 @@
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
  * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
- * closing notice), a wild monster's flee that pays nothing and leaves the arena, a wild loss after a knockout that pays no pooled
- * experience, a 挣扎 turn that ends a Boss battle (its frames
+ * closing notice), a wild monster's flee that pays nothing and leaves the arena, 尼奥's flee unless a 尼尔-line partner is out and
+ * its farewell, a wild loss after a knockout that pays no pooled experience, a 挣扎 turn that ends a Boss battle (its frames
  * and its settlement), a settlement that outlives a failed presentation, and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
@@ -49,10 +49,7 @@ await withSsr('battle-commands', async load => {
   };
 
   t.check('A capture the view blocks is refused with the reason the view shows, and changes nothing', () => {
-    const blocked = {
-      boss: {type: 'startBattle', bossId: catalog.bosses[0].id}, trainer: {type: 'startFacility', facilityId: 'random'},
-      niao: {type: 'startTraining', species: 416, level: 5},
-    };
+    const blocked = {boss: {type: 'startBattle', bossId: catalog.bosses[0].id}, trainer: {type: 'startFacility', facilityId: 'random'}};
     for (const [name, start] of Object.entries(blocked)) {
       const game = started(start), view = game.snapshot().battle, save = game.exportSave();
       assert.equal(view.canCapture, false, name);
@@ -266,6 +263,43 @@ await withSsr('battle-commands', async load => {
       assert.deepEqual([saved.hp, entry.skills.map(skill => saved.pp[skill.id])], [entry.hp, entry.skills.map(skill => skill.pp)], 'HP and PP as the battle left them');
     }
     assert.ok(ui.sounds.every(sound => sound === 'click'), 'a flee ends without a jingle');
+  });
+
+  /** 尼奥 (416) flees unless one of the 尼尔 line is out (battle/RULES.md 9.1), then says its farewell in the scene. */
+  const NIAO = 416, NIAO_FAREWELL = {species: NIAO, name: '尼奥', line: '我是来找我弟弟的，你看见他了吗？', reply: '你弟弟到底是谁呢？好像我记得有只精灵和你长得很像。'};
+  /** A controller on the stalled journey with a Lv 5 尼尔 (77) in the party, leading when `partnerLeads`, that has met 尼奥. */
+  const niao = partnerLeads => {
+    const game = createGame(stalled, JSON.stringify(base), {idle: () => {}});
+    game.dispatch({type: 'cheatAcquire', species: 77, level: 5});
+    const partner = game.snapshot().monsters.find(mon => mon.species === 77).uid, others = game.snapshot().party.filter(uid => uid !== partner);
+    game.dispatch({type: 'reorderParty', uids: partnerLeads ? [partner, ...others] : [...others, partner]});
+    assert.ok(game.dispatch({type: 'startTraining', species: NIAO, level: 5}).ok);
+    return {game, ui: screen(game), partner, other: others[0]};
+  };
+  /** The flee frames of the settled view and its end: the turn, the reason, the capture, the last dialogue line and the farewell. */
+  const fleeEnd = (view, ui) => ({flees: view.animation.frames.filter(frame => frame.kind === 'flee').map(frame => frame.text), turn: view.turn,
+    reason: view.resultReason, captured: view.captured, said: ui.dialogue.at(-1), farewell: view.farewell});
+  const niaoFled = (turn, line = '尼奥逃跑了！') => ({flees: [line], turn, reason: 'wild_fled', captured: false, said: WILD_FLED_TEXT, farewell: NIAO_FAREWELL});
+
+  t.check('尼奥 flees at its first action with another lead, and at its action after a switch away from 尼尔; each flee leaves its farewell', () => {
+    const led = niao(false), skill = () => ({type: 'move', skillId: led.game.snapshot().battle.player.skills[0].id});
+    assert.deepEqual(fleeEnd(playOut(led.game, led.ui, {action: skill(), turns: 1}), led.ui), niaoFled(1));
+    assert.ok(led.ui.sounds.every(sound => sound === 'click'), 'no end music');
+    const left = niao(true), stay = playOut(left.game, left.ui, {action: {type: 'move', skillId: left.game.snapshot().battle.player.skills[0].id}, turns: 2});
+    assert.deepEqual([stay.finished, stay.turn, stay.farewell], [false, 2, undefined], 'with 尼尔 out it fights on');
+    const view = playOut(left.game, left.ui, {action: {type: 'switch', uid: left.other}, turns: 1});
+    assert.deepEqual(fleeEnd(view, left.ui), niaoFled(3));
+    const kinds = view.animation.frames.map(frame => frame.kind);
+    assert.ok(kinds.indexOf('switch') < kinds.indexOf('flee'), 'the switch comes first, then the flee');
+  });
+
+  t.check('尼奥 flees at a capsule thrown with another lead, with no capture frame; with 尼尔 out a capsule catches it', () => {
+    const thrown = niao(false), view = playOut(thrown.game, thrown.ui, {action: {type: 'capture', itemId: 'item_capsule_basic'}, turns: 1});
+    assert.deepEqual(fleeEnd(view, thrown.ui), niaoFled(1, '我方使用了普通精灵胶囊，尼奥逃跑了！'));
+    assert.ok(!view.animation.frames.some(frame => frame.kind === 'capture'), 'no capsule is rolled');
+    const caught = niao(true), stored = () => JSON.parse(caught.game.exportSave()).storage.length, before = stored();
+    const won = playOut(caught.game, caught.ui, {action: {type: 'capture', itemId: 'item_capsule_master'}, turns: 1});
+    assert.deepEqual([won.captured, won.resultReason, won.farewell, stored()], [true, 'capture', undefined, before + 1]);
   });
 
   t.check('A wild loss after a knockout adds no pooled experience, since the knockout\'s participant fell, and names only the loss', () => {

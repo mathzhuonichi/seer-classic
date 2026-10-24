@@ -1,4 +1,5 @@
 /** The acquisition data model shared by the route index, initial forms and recruitment. */
+import type { WildFlee } from '../../../battle/core/src/types.ts';
 
 /** The user's collection scope excludes both complete NPC-partner families. */
 export const NPC_ONLY_SPECIES: ReadonlySet<number> = new Set([122, 123, 124, 125]);
@@ -28,7 +29,7 @@ export interface AcquisitionRoute {
   fusionRecipeId?: string;
   /** Breeding offspring and their evolved forms remain second-generation. */
   breedingRecipeId?: string;
-  /** One of these reachable forms must be active when attempting this capture. */
+  /** One of these reachable forms must be active when attempting this capture: with any other the monster flees. */
   requiredActiveSpecies?: readonly number[];
   sourceSpecies?: number;
   evolutionChain?: { from: number; to: number; level: number }[];
@@ -59,6 +60,8 @@ export interface AcquisitionSpecies {
   id: number; name: { zh: string }; types?: readonly string[]; obtain?: readonly string[]; catch_rate?: number;
   evolves_from?: number | null;
   evolution: readonly { to: number; method: string; level?: number; automatic?: boolean }[];
+  /** A wild flee (battle/RULES.md 9.1); `unless_player_active` makes a capture wait for one of those species. */
+  wild_flee?: WildFlee;
 }
 export interface AcquisitionEncounter {
   id: string; name?: { zh: string }; category?: string; team: readonly { species: number }[];

@@ -1,7 +1,6 @@
 // Snapshot views of the open battle.
 import type { BattleResult, Mon } from '../../../battle/core/src/index.ts';
-import { meetsWildCapturePrerequisite } from '../../../battle/core/src/capture.ts';
-import type { BattleMonsterView, BattleView } from '../../shared/views.ts';
+import type { BattleMonsterView, BattleView, WildFarewellView } from '../../shared/views.ts';
 import { capacityReason } from '../../kernel/acquire.ts';
 import { concealHp, type BattlePresentationState } from './battle-presentation.ts';
 import type { BattleSession, GameContext, Runtime } from '../../kernel/api.ts';
@@ -37,7 +36,6 @@ export function presentationState(ctx: GameContext, session: BattleSession): Bat
 export function captureBlockedReason(rt: Runtime, session: BattleSession): string | undefined {
   const { battle, encounter } = session;
   if (encounter) return encounter.category === 'trainer' ? '训练师的精灵不可捕捉。' : '首领与招募挑战不可捕捉，胜利后通过精元或任务获取。';
-  if (!meetsWildCapturePrerequisite(battle.active(1).species.id, battle.active(0).species.id)) return '捕捉尼奥需要派出尼尔、菲斯利、艾斯菲亚或其闪光形态。';
   return capacityReason(rt.ctx, rt.save, battle.active(1).species.id);
 }
 
@@ -69,13 +67,21 @@ function outcomeText(session: BattleSession, result: BattleResult): string {
   return `${challenge ? '挑战失败' : '战斗失败'}，${next}`;
 }
 
+/** The fled wild monster's farewell (battle/RULES.md 9.1), which the scene shows once the battle closes. */
+function wildFarewell({ battle }: BattleSession): WildFarewellView | undefined {
+  const fled = battle.result?.reason === 'wild_fled' ? battle.active(1) : undefined, farewell = fled?.species.wild_flee?.farewell;
+  return fled && farewell && { species: fled.species.id, name: fled.name, ...farewell };
+}
+
 export function battleView(rt: Runtime, session: BattleSession): BattleView {
   const { battle } = session, state = presentationState(rt.ctx, session), blocked = captureBlockedReason(rt, session);
+  const farewell = wildFarewell(session);
   return {
     name: session.name, turn: battle.turn, player: state.player, enemy: foeView(session, state.enemy), party: state.party,
     enemyParty: state.enemyParty.map(mon => foeView(session, mon)), log: [...session.logs], finished: !!battle.result, won: !!battle.result?.success,
     resultReason: battle.result?.reason, result: resultText(session), challenge: isChallenge(session), canCapture: !blocked, captureBlockedReason: blocked,
     captured: battle.result?.reason === 'capture', needsSwitch: battle.sides[0].needsReplacement,
     animation: { revision: rt.animation.revision, frames: session.frames }, matchup: typeMatchup(rt.ctx.data.types, state.player, state.enemy),
+    ...(farewell ? { farewell } : {}),
   };
 }

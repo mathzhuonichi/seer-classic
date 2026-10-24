@@ -155,8 +155,12 @@ await withSsr('skins', async load => {
     const save=structuredClone(base),primary=mon(3,1,'fusion-primary'),secondary=mon(29,1,'fusion-secondary');save.storage.push(primary,secondary);const game=make(save);select(game,primary.uid,1);select(game,secondary.uid,27);const before=parse(game);game.dispatch({type:'fuse',recipeId:'fusion-301',primaryUid:primary.uid,secondaryUid:secondary.uid});const after=parse(game);assert.equal(after.items.fusion_bead_301,(before.items.fusion_bead_301??0)+1);assert.deepEqual(after.storage,before.storage);
     const blocked=structuredClone(base),adult=mon(1459,100,'fusion-higher'),partner=mon(166,100,'fusion-partner');blocked.storage.push(adult,partner);const wrong=make(blocked);select(wrong,adult.uid,79);reject(wrong,{type:'fuse',recipeId:'fusion-310',primaryUid:adult.uid,secondaryUid:partner.uid},'Visible form 79 cannot impersonate actual fusion parent 79');
   });
-  check('Niao capture prerequisite examines actual active species, not a permissible Nier skin',()=>{
-    for(const [actual,skin,allowed] of [[79,77,true],[1459,79,false]]){const {game,uid}=fixture(actual);select(game,uid,skin);game.dispatch({type:'startTraining',species:416,level:5});assert(game.snapshot().battle);assert.equal(game.snapshot().battle.canCapture,allowed);if(!allowed)reject(game,{type:'capture',itemId:'item_capsule_master'},'Nier skin on another actual species does not satisfy Niao');}
+  check('Niao\'s partner check examines the actual active species, not a permissible Nier skin: another species\' capsule makes it flee',()=>{
+    for(const [actual,skin,outcome] of [[79,77,'capture'],[1459,79,'wild_fled']]){
+      const {game,uid}=fixture(actual);select(game,uid,skin);game.dispatch({type:'startTraining',species:416,level:5});
+      game.dispatch({type:'capture',itemId:'item_capsule_master'});
+      assert.equal(game.snapshot().battle?.resultReason,outcome,`actual ${actual} under skin ${skin}`);
+    }
   });
   check('Required-species campaign gates keep real identity when a valid ancestor skin matches the requirement',()=>{
     const campaign=CHALLENGE_CAMPAIGNS.find(value=>value.id==='rei-training'),stage=campaign.stages[0],input=structuredClone(catalog);

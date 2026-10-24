@@ -21,6 +21,20 @@
   "growth": "medium",
   "growth_type": 4,
   "catch_rate": 10,
+  "wild_flee": {
+    "unless_player_active": [
+      77,
+      78,
+      79,
+      310,
+      311,
+      312
+    ],
+    "farewell": {
+      "line": "我是来找我弟弟的，你看见他了吗？",
+      "reply": "你弟弟到底是谁呢？好像我记得有只精灵和你长得很像。"
+    }
+  },
   "learnset": [
     {
       "level": 1,

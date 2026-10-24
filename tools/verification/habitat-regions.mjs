@@ -120,11 +120,12 @@ await withSsr('habitat-regions',async load=>{
     const game=createGame(habitat.route==='challenge'?fieldCatalog:catalog,JSON.stringify(baseline));
     game.dispatch({type:'cheatMonster',uid:game.snapshot().party[0],level:100});
     if(id===416){
+      // Without a 尼尔-line partner out, 尼奥 flees from the capsule (battle/RULES.md 9.1); with one out it is caught below.
       game.dispatch({type:'startTraining',species:id,level:habitat.levels[0],planetId:planet.id,regionId:region.id});
-      assert.equal(game.snapshot().battle.canCapture,false,'Niao requires an active partner');
-      const before=game.exportSave();
       game.dispatch({type:'capture',itemId:'item_capsule_master'});
-      assert.equal(game.exportSave(),before,'Missing Niao partner consumes no capsule or RNG');
+      const fled=game.snapshot().battle;
+      assert.deepEqual([fled.finished,fled.resultReason,fled.captured],[true,'wild_fled',false],'Niao flees from a capsule without its partner');
+      assert.equal(fled.farewell?.species,id,'and leaves its farewell for the scene');
       game.importSave(JSON.stringify(baseline));
       game.dispatch({type:'cheatAcquire',species:77,level:5});
       const partner=game.snapshot().monsters.find(mon=>mon.species===77);
@@ -148,7 +149,7 @@ await withSsr('habitat-regions',async load=>{
     if(habitat.route==='challenge')restored.dispatch({type:'useItem',itemId:`essence_recruit_${id}`,uid:restored.snapshot().party[0]});
     assert.deepEqual(newMonsters(restored,existing).map(mon=>mon.species),[id],`${id}: reload and hatch preserve the selected initial form`);
   }
-  // Every subregion habitat, every field challenge and collection, and the partner-gated Niao; other captures share the subregion path.
+  // Every subregion habitat, every field challenge and collection, and the partnered Niao; other captures share the subregion path.
   const subregions=new Set(definitions.regions.map(region=>`${region.planetId}/${region.id}`));
   const acquired=GENERATED_HABITATS.filter(row=>subregions.has(`${row.planetId}/${row.regionId}`)||row.route!=='capture'||row.species===416);
   const counts={capture:0,challenge:0,recruitment:0};

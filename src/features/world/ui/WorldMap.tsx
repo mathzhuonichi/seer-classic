@@ -34,7 +34,7 @@ const sceneClass = ({ planet, official, tower }: WorldSceneView) => `world-scene
 
 export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldMapProps) {
   const bosses=useGame(c,s=>s.bosses),species=useGame(c,s=>s.species),campaigns=useGame(c,s=>s.campaigns),quests=useGame(c,s=>s.quests);
-  const braveTower=useGame(c,s=>s.braveTower),battle=useGame(c,s=>!!s.battle);
+  const braveTower=useGame(c,s=>s.braveTower),battle=useGame(c,s=>!!s.battle),farewell=useGame(c,s=>s.battle?.farewell);
   const world=useMemo(()=>({bosses,species,campaigns,braveTower,quests}),[bosses,species,campaigns,braveTower,quests]);
   const viewport=useRef<HTMLElement>(null);
   const walker=useWorldWalk(),{planet,region,layout,position,motion}=walker;
@@ -56,7 +56,14 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
   function visit(p:WorldPlanet,r:WorldRegion,entry?:ScenePoint){walker.visit(p,r,entry);close();setArrival(true)}
   useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
-  useEffect(()=>{if(battle){walker.stop();close()}},[battle]);
+  // A fled wild monster's farewell waits for its battle to close, then speaks in the scene.
+  const said=useRef(farewell);
+  useEffect(()=>{if(farewell)said.current=farewell},[farewell]);
+  useEffect(()=>{
+    if(battle){walker.stop();close();return}
+    const words=said.current;said.current=undefined;
+    if(words)open({kind:'farewell',farewell:words});
+  },[battle]);
   useTowerLanding(tower,()=>visit(planet,region),()=>{walker.stop({duration:0});close();setArrival(true)});
   useEffect(()=>{
     if(!travelTo)return;
