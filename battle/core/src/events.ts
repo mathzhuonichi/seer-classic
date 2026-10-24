@@ -56,6 +56,8 @@ interface EventFields {
   capture_attempt: { side: 0 | 1; item: string; success: boolean };
   flee: { side: 0 | 1 };
   boss_fled: { side: 1; skill: number };
+  /** A wild monster fled as its action (RULES.md 9.1); the battle ends next, with no winner. */
+  wild_fled: { side: 0 | 1; slot: number; name: string };
   boss_trait: { side: 0 | 1; trait: string };
   phase_triggered: { side: 1; phase: number; slot?: number };
   mechanic_waived: { side: 0 | 1; policy: string };

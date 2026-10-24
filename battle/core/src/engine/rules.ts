@@ -196,6 +196,18 @@ export function checkBossFlee(b: Battle, user: Mon, skill: Skill): void {
   finish(b, null, 'boss_fled');
 }
 
+/**
+ * A wild monster's flee (RULES.md 9.1), its species' `wild_flee`: once `user` can act, it flees instead of its move when the
+ * flee is due, and the battle ends with no winner. Returns whether it fled.
+ */
+export function checkWildFlee(b: Battle, user: Mon): boolean {
+  const flee = b.sides[user.side].kind === 'wild' ? user.species.wild_flee : undefined;
+  if (!flee || b.turn < flee.from_turn) return false;
+  b.emit({ type: 'wild_fled', side: user.side, slot: user.slot, name: user.name });
+  finish(b, null, 'wild_fled');
+  return true;
+}
+
 // ---------- phases ----------
 
 /** Runs the encounter, variant and member phases whose condition holds. Returns true if any phase fired. */
@@ -284,7 +296,9 @@ export function finish(b: Battle, winner: 0 | 1 | null, reason: BattleResult['re
   if (b.result) return;
   const objectives = b.winList.map((o) => ({ kind: o.kind, met: winner === 0 && b.objectiveMet(o) }));
   const success = reason !== 'flee' && winner === 0 && objectives.every((o) => o.met);
-  b.result = { winner, reason, success, objectives: b.encounter ? objectives : undefined, defeated: reason === 'flee' ? [] : b.defeated, turns: b.turn };
+  // A retreat, or a wild monster's flee (RULES.md 9.1), pays no knockout reward.
+  const unrewarded = reason === 'flee' || reason === 'wild_fled';
+  b.result = { winner, reason, success, objectives: b.encounter ? objectives : undefined, defeated: unrewarded ? [] : b.defeated, turns: b.turn };
   if (b.capturedMon) b.result.captured = { species: b.capturedMon.species.id, level: b.capturedMon.level, hp: b.capturedMon.hp };
   b.phase = 'ended';
   for (const side of b.sides) { side.needsReplacement = false; side.pending = null; }

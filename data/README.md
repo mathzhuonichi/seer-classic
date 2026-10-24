@@ -65,6 +65,8 @@ id or any later id, i.e. a month by which the monster certainly existed. All 1,4
   `script` ops named `seer_eff_<n>`, implemented in `battle/core/src/scripts/` under their quoted template text.
   Ops marked `"inferred": true` come from Flash effects with no template text
   (21 counter, 41 fire resistance, 42 charge, 31 without args), read from the skill text.
+- `wild_flee` is remake data from period guides, not from the config tables: how a wild monster of the species flees
+  (battle/RULES.md 9.1). `from_turn` on 该伊 (474, 5) and 尼尔 (77, 10).
 - Every species has at least one level-1 learnset entry. Keep it so: level-1 hatching
   and acquisition give a new monster its level-1 skills, so a species without one
   would start with no skill.

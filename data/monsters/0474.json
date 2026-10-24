@@ -22,6 +22,9 @@
   "growth": "medium",
   "growth_type": 4,
   "catch_rate": 10,
+  "wild_flee": {
+    "from_turn": 5
+  },
   "learnset": [
     {
       "level": 1,

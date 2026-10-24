@@ -17,7 +17,8 @@ this spec requested from the original data model are listed in section 14.
 - When the active monster faints, its owner picks a replacement before the next
   turn. That replacement does not cost a turn. [recalled]
 - A side loses when every monster in its party has fainted. Fleeing always
-  succeeds and counts as a loss for the fleeing side. [chosen]
+  succeeds and counts as a loss for the fleeing side. [chosen] Some wild
+  species flee on their own (section 9.1); the battle then has no winner.
 - HP and PP carry over after battle (the caller writes them back to the save);
   statuses, stat stages and conditions do not. [recalled]
 
@@ -295,6 +296,31 @@ monster was not knocked out, so it is not in `defeated`. The game settles a
 capture as a victory: it counts as a won battle and pays the wild victory's
 coins and pooled experience. [chosen]
 
+### 9.1 Wild monsters that flee
+
+A species with `wild_flee` (its `data/monsters/` file) flees when it is a wild
+monster. The flee is its action: when it is about to use the move it chose and
+can act (section 4, step 1), it flees instead, at its own place in the turn
+order, so a faster foe's move comes first. The `wild_fled` event follows, and
+the battle ends at once, before the turn end: `winner: null`, `reason:
+wild_fled`, no capture and an empty `defeated`, so nothing is paid (no EXP,
+学习力, coins, pooled experience or items). HP and PP carry over as after any
+battle (section 1); the move it chose spends no PP. A turn in which it cannot
+act (麻痹, 害怕, 疲惫, 睡眠, 石化, 冰封, or a script that prevents its move)
+brings no flee. 混乱 does not stop it: the flee is not a move that can fail.
+Only a wild side flees; the same species in a Boss or trainer team fights on.
+
+- `from_turn {n}`: at its action in battle turn n and in every later turn in
+  which it can act. The turns (回合) are the battle's, so the turns it could not
+  act count too: kept asleep through turn n, it flees at its first action once
+  it wakes. 该伊 (474) has `from_turn: 5`, 尼尔 (77) `from_turn: 10`.
+  [sourced: 4399 2010-12-07 仙人掌抓五回合逃跑精灵方法测试 (该伊: 手下留情, a
+  switch and two 香甜气息 take turns 1 to 4, then 催眠粉 lands in turn 5 and
+  alternates with capsules, 「确实，该伊是不会逃跑了」); Zhidao 2011-08-13
+  「该伊5回合后会逃跑」; 7k7k 2010-04-16 尼尔 「现在改到10回合才逃跑」 (8 turns in a
+  2012 answer, a later change); user decision 2026-10-24;
+  `design/notes/wild-flee-2026-10-24.md`]
+
 ## 10. PvE bosses
 
 A boss encounter (`data/bosses/*.json`, shape `BossEncounter` in `core/src/types.ts`) builds side 1
@@ -419,7 +445,7 @@ the choice before the start and settles its rewards (ARCHITECTURE.md, remake
 decisions).
 
 **Result** (`BattleResult`): `winner`, `reason` (`ko`, `flee`, `capture`,
-`objective`, `lose_condition`, `turn_cap`, `boss_fled`), `success`,
+`objective`, `lose_condition`, `turn_cap`, `boss_fled`, `wild_fled`), `success`,
 `objectives`, `captured`, `turns`, and `defeated`: one entry per foe the
 player knocked out, `{ foe: { species, level, boss? }, participants }`, where
 participants are the player monsters (uid, else `slot<n>`) that were on the

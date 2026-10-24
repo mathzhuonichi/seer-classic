@@ -9,7 +9,7 @@ import { STRUGGLE_SKILL } from '../constants.ts';
 import { fire, runHookEffects, skillScripts } from './conditions.ts';
 import { inferTarget } from './effects.ts';
 import { beginHitTrace, recordHit } from './journal.ts';
-import { checkEnd, hasRule, ignoresProtection } from './rules.ts';
+import { checkEnd, checkWildFlee, hasRule, ignoresProtection } from './rules.ts';
 
 export function priority(b: Battle, mon: Mon, skill: Skill): number {
   let p = skill.priority ?? 0;
@@ -54,6 +54,8 @@ function performMove(b: Battle, user: Mon, target: Mon, skill: Skill, actedFirst
     skill = attack === undefined ? STRUGGLE_SKILL : b.skill(attack, user);
   }
   if (!execution && !canAct(b, user, target, skill)) return;
+  // A wild monster's flee is its action, in place of the move it chose (RULES.md 9.1).
+  if (checkWildFlee(b, user)) return;
   spendPp(b, user, target, skill);
   b.emit({ type: 'move_used', side: user.side, skill: skill.id, name: skill.name.zh });
   if (execution) {
