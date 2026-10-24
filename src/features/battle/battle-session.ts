@@ -31,9 +31,28 @@ export function startSession(rt: Runtime, foe: Foe, { roster, hooks = {} }: Sess
   rt.session = session;
   rt.animation.revision++;
   logEvents(rt.ctx, session, openingEvents(setup.battle.initialEvents));
-  const fought = setup.encounter;
-  if (fought && !hooks.unrecorded) save.progress.boss_attempts[fought.id] = (save.progress.boss_attempts[fought.id] ?? 0) + 1;
+  countAttempt(rt, session, 1);
   prepareTurn(rt, setup.battle);
+}
+
+/**
+ * Leaves a battle before its first turn, as when the player leaves its loading screen: the battle never began, so it has no
+ * result and settles nothing (no loss, no boost spent, no challenge progress), and its start's attempt is taken back. A battle
+ * that has begun is left by fleeing.
+ */
+export function abandonSession(rt: Runtime) {
+  const session = requireSession(rt);
+  if (session.battle.turn > 0 || session.battle.result) throw new Error('战斗已经开始，请从战斗中撤离。');
+  countAttempt(rt, session, -1);
+  rt.session = null;
+}
+
+/** Counts the session's fight in its encounter's attempts (`change` 1) or takes it back (-1); a session whose hooks keep no record counts none. */
+function countAttempt({ save }: Runtime, { encounter, hooks }: BattleSession, change: 1 | -1) {
+  if (!encounter || hooks.unrecorded) return;
+  const attempts = save.progress.boss_attempts, count = (attempts[encounter.id] ?? 0) + change;
+  if (count > 0) attempts[encounter.id] = count;
+  else delete attempts[encounter.id];
 }
 
 /**

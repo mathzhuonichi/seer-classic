@@ -143,6 +143,21 @@ await withSsr('boss-evidence-controller-v56',async load=>{
       t.witness(`attempt-start-${count}`,{count,coreLevel:level,nextPreview:next.level,hp:core.active(1).maxHp});
     }
   });
+  check('A battle left before its first turn (its loading screen) counts no attempt and settles nothing; one that has begun is left by fleeing',()=>{
+    const save=structuredClone(base);save.boosts=[{kind:'exp',item:'item_exp_x2',multiplier:2,battles_left:3}];
+    const game=make(save),before=parse(game);
+    start(game,{type:'startBattle',bossId:attemptId});assert.equal(parse(game).progress.boss_attempts[attemptId],1);
+    assert(game.dispatch({type:'abandonBattle'}).ok);assert.equal(game.snapshot().battle,null);
+    const after=parse(game);assert.deepEqual(after.progress,before.progress,'no attempt, loss or clear');
+    assert.deepEqual([after.boosts,after.storage,after.items],[before.boosts,before.storage,before.items],'no boost, HP, PP or item spent');
+    assert.equal(game.snapshot().bosses.find(row=>row.id===attemptId).level,100,'the next fight is still the first');
+    start(game,{type:'startBattle',bossId:attemptId});
+    game.dispatch({type:'move',skillId:game.snapshot().battle.player.skills.find(skill=>skill.pp>0).id});
+    const begun=game.dispatch({type:'abandonBattle'});
+    assert.equal(begun.ok,false);assert.equal(game.snapshot().battle.finished,false,'a begun battle stays open');
+    leave(game);assert.equal(parse(game).progress.boss_attempts[attemptId],1,'and its retreat is a lost attempt');
+    t.witness('abandon-before-first-turn',{attempts:after.progress.boss_attempts,boostsLeft:after.boosts.map(boost=>boost.battles_left),refused:begun.notice});
+  });
   check('An existing count of three starts at 70 after reload and larger counts stop at the inferred floor',()=>{
     for(const [attempts,level] of [[3,70],[9,50]]){
       const save=structuredClone(base);save.progress.boss_attempts[attemptId]=attempts;const game=make(save);assert.equal(game.snapshot().bosses.find(row=>row.id===attemptId).level,level);

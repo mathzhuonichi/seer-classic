@@ -199,6 +199,8 @@ browser's local storage) is the app's choice.
 (recorded fights won, counted when the victory is settled; a capture is a
 victory). A fight with no record (a practice fight, a battle facility) counts
 none of them, and every recorded fight not won, a retreat too, counts as lost.
+A battle left before its first turn (its loading screen left) never began: its
+attempt is taken back, and it is neither lost nor settled.
 The attempt-based Boss level rule reads both counts (`bossEncounterForAttempt`):
 阿洛比斯 drops 10 levels per fight, 洛拉斯克 5 per win and 1 per loss, down to
 level 1. Version 5 added `boss_wins`: an older save starts at one win for each
