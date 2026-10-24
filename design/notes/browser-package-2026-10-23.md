@@ -47,15 +47,26 @@ neither `desktop.ts` nor the save files of the desktop build are in it.
   304; `Cache-Control: no-cache` except the content-hashed `/assets/`, which are immutable; `nosniff`. Other methods get 405.
 - At startup it checks every file of `game/payload.json` for its size (64 at a time) and refuses an incomplete folder with a
   Chinese message: the ZIP puts payload.json last, so an extraction cut short lacks it and is refused too.
+- Answers only a Host whose name is `127.0.0.1` or `localhost` (any port), else 403: a page that rebinds its own name to
+  127.0.0.1 (DNS rebinding) cannot read the game's files. It could never read the save, which is the 127.0.0.1:1426 origin's.
 - `GET /__seer-classic` answers `{"app":"seer-classic","version":…}`. When port 1426 is taken, the server asks it: if this game
   answers, a second start only opens the browser (and says when that game is another version); otherwise it says in Chinese that
   another program holds the port (for example the development server of `test.command`) and waits for a key.
+- When the system refuses the port (`EACCES`, `EADDRNOTAVAIL`) and no game server answers there, it says so in Chinese and waits
+  for a key. On Windows, `EACCES` is WSAEACCES: 1426 inside a range Hyper-V, WSL 2 or Docker reserved (`netsh int ipv4 show
+  excludedportrange protocol=tcp`), or a program holding the port exclusively. As the save's origin fixes the port, the message
+  says a restart usually frees it, or `net stop winnat` and `net start winnat` in an administrator's console.
+- When reading `payload.json` fails with `EPERM` or `EACCES`, the folder is not called incomplete: on macOS, Terminal (which runs
+  node) needs the player's consent for Downloads, Documents and Desktop, and after a denial the message points to 系统设置 >
+  隐私与安全性 > 文件和文件夹 > 终端; elsewhere it asks for a local folder. The README says to allow Terminal's request.
 - Opens the game: on Windows Microsoft Edge as an app window (`msedge --app=`, from Program Files (x86), Program Files or
-  LocalAppData), then `explorer.exe <url>`, which hands it to the default browser; on macOS `open`. It prints where the game runs,
-  where the save lives and that closing the window stops the game, and sets the console title to say so.
+  LocalAppData), then `explorer.exe <url>`, which hands it to the default browser; on macOS Google Chrome, else Microsoft Edge
+  (`open -a`, from the system's or the user's Applications folder), else the default browser (Saves, below). It prints
+  where the game runs, where the save lives and that closing the window stops the game, and sets the console title to say so.
 - Stops on Ctrl+C, SIGTERM and SIGHUP (a closed Terminal window, and on Windows a closed console window, which Node raises as
-  SIGHUP), and Ctrl+Break on Windows. After a failure it has explained and the player acknowledged, it exits with 3, so the
-  Windows launcher does not pause a second time; any other failure makes the launcher show its own message and pause.
+  SIGHUP), and Ctrl+Break on Windows. On Windows the console and the README name only closing the window: after Ctrl+C, cmd asks
+  `终止批处理操作吗(Y/N)?` (either answer closes it). After a failure it has explained and the player acknowledged, it exits with 3,
+  so the Windows launcher does not pause a second time; any other failure makes the launcher show its own message and pause.
 
 ## Saves
 
@@ -65,6 +76,17 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
   it; another browser, a private window or a cleared "browsing data" has none. Edge's app window uses Edge's own profile.
 - 导出存档 and 导入存档 in settings carry a save between browsers and machines; the README asks players to export often.
 - Nothing migrates: the key and format are those of the web build.
+- **Safari.** WebKit's tracking prevention deletes all of a site's script-writable storage, localStorage included, after 7 days of
+  Safari use without the user interacting with the site ([webkit.org/blog/10218](https://webkit.org/blog/10218/)); whether an IP
+  literal such as 127.0.0.1 is exempt is not documented and was not tested. A friend who pauses for a week in Safari could lose the
+  journey, so on macOS the server opens Chrome or Edge when installed, and the README recommends them, warns about Safari, asks a
+  Safari-only player to export after every session and says how to carry a Safari save to Chrome. This Mac's default browser is
+  Chrome, so `test.command` (which opens the default browser) and the package keep using the same save here.
+- **A newer save format.** The package and `test.command` share the origin and the key. Once a later version raises
+  `SAVE_VERSION`, an older folder in the same browser cannot read the save: the shell keeps it aside (设置 > 无法读取的存档,
+  exportable) and starts a new journey in the main slot. The README says to start only the newest version after an update. With
+  the next format change, the new folder should reach the friends at once, and an older folder should not be opened in a browser
+  where a newer version has played.
 
 ## Launchers and the operating systems
 
@@ -74,6 +96,8 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
   none) and no delayed expansion (a `!` in a folder name).
 - `启动游戏-macOS.command` picks `darwin-arm64` when `hw.optional.arm64` is 1, also in a Terminal under Rosetta, else `darwin-x64`,
   and `exec`s node.
+- **Privacy controls (TCC).** Archive Utility extracts next to the ZIP, usually in Downloads, and the README suggests 文稿; reading
+  the game there makes macOS ask once whether Terminal may access that folder (above).
 - **Gatekeeper.** The macOS node binaries are signed `Developer ID Application: Node.js Foundation (HX7739G8FX)` with the hardened
   runtime, and `spctl -t install` reports them as `Notarized Developer ID`. A copy given a browser's quarantine attribute ran from
   the shell (1.4 s for its first start, the online check, then at once), and keeps the attribute: the launcher removes nothing.
@@ -101,7 +125,7 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
 
 Measured (2026-10-23, Apple M4): `releases/SeerClassic-0.9.0-browser.zip` is 2,973,183,804 B (2.77 GiB), 15,668 entries (1,828
 deflated), for 3.10 GiB unpacked (game/ 2.8 GiB, runtime/ 353 MiB). 4 min 50 s with the runtime downloads, 56 s with a warm cache
-(the ZIP itself 42-45 s).
+(the ZIP itself 42-45 s). Rebuilt after the independent check (below): 2,973,185,942 B, the same entries, the ZIP in 43 s.
 
 **Ruffle's own third-party code.** `tools/distribution/ruffle_licenses.mjs --work <scratch>` writes
 `tools/distribution/ruffle-licenses.json` (737 KiB, 161 distinct texts) for the installed Ruffle: a sparse checkout of Ruffle's
@@ -115,9 +139,13 @@ when it is of another Ruffle than the installed one. The desktop notices now car
 ## Checks
 
 - `tools/distribution/browser/server.test.mjs` and `tools/distribution/zip.test.mjs` in `npm test`: the resolver (POSIX and
-  `path.win32`), content types, Range, HEAD, 304s, refusals and the probe through Node's HTTP client and the server over in-memory
-  connections; the startup check; Edge, its fallback and the stop signals with a mocked platform; the ZIP's names, modes, bytes
-  and its refusal of ZIP64. One test, the probe over a real port, is skipped where local TCP connections are refused.
+  `path.win32`), content types, Range, HEAD, 304s, refusals, the Host check and the probe through Node's HTTP client and the
+  server over in-memory connections; the startup check and `payload.json` read, missing, broken or denied; a server whose listen
+  fails with `EACCES` or `EADDRNOTAVAIL`, and the Windows message about it; Edge, its fallback, Chrome or Edge on macOS, the
+  console's lines and the stop signals with a mocked platform; the ZIP's names, modes, bytes and its refusal of ZIP64. One test,
+  the probe over a real port, is skipped where local TCP connections are refused.
+- `main()` itself, run with a preload in place of the system: a listen failing with `EACCES` (on macOS and with the platform set
+  to `win32`), a `payload.json` of mode 0 and a missing one each print their Chinese message and exit with 3.
 - `browser-package` (status `release`), after `npm run package:browser`, on the ZIP as a player gets it: the ZIP's limits, names,
   modes and order; unzipped with `ditto` (Archive Utility's engine), the launchers statically (CRLF, ASCII and code page, quoted
   paths, no `cd`, the exit code), node.exe's PE header and pinned SHA-256, the README, the notices, the node signatures, this Mac's
@@ -133,7 +161,27 @@ when it is of another Ruffle than the installed one. The desktop notices now car
 Results (2026-10-23, through `heavy.sh`): `browser-package` 11 of 11 in 10 min: the smoke in Chrome and WebKit,
 `battle-skill-effects` 9 of 9 and `browser-regressions` 56 of 56 against the package in both engines. In an earlier run, with the
 load average at 8.8, one turn of `battle-skill-effects` at 1920x1080@2 did not settle within its 30 s; it passed in the next run.
-`npm test` runs 254 tests, one skipped here (above).
+
+After the fixes of the independent check (2026-10-24, the rebuilt ZIP): 10 of 11, with `battle-skill-effects` 9 of 9,
+`browser-regressions` 56 of 56 and the WebKit smoke passing. The Chrome smoke's battle did not end within its 30 s after the load
+watchdog had stopped the gate for 91 s at a load of 12.4: every request of the page goes through the stopped process. Rerun with
+`--skip-suites`: 9 of 9, the smoke in both engines. `npm test` runs 260 tests, one skipped here (above).
+
+## Independent check (2026-10-23)
+
+An independent check of the package found two medium and seven low issues. Fixed: the port Windows refuses (a stack trace
+before), Safari's 7-day deletion of the save (Chrome or Edge first on macOS, the README), the folder macOS's privacy controls
+deny (called incomplete before), the Host check, the Windows Ctrl+C question (the console and the README), and the README line
+about keeping to the newest version. Not changed:
+
+- **Symlinks inside `game/` are followed** (`fs.stat` and the read stream): reaching a file outside needs write access to
+  `game/`, and the ZIP has no symlink entries. A `realpath` check per request would walk every path component on Windows, where
+  nothing can be tried here, for no gain against a player's own files.
+- **One WebKit run found no clickable skill within 30 s** at the first turn (load 5-6), and three runs after it passed. If it
+  comes back in this gate, record the command deck's and the battle's state (busy, finished, needsSwitch) on failure.
+- **18 paths in `desktop-payload-exclusions.json` are no longer in the main checkout's `public/`** after its cleanup (the HD map
+  and selector `-4x` files, `maps/hd/726-v44.png`); `stage_desktop_payload.py` warns. The checkout that packed this ZIP was made
+  before the cleanup and still holds them, so the list is pruned in the cleanup lane, where removing an entry cannot ship a file.
 
 ## Open points (untested)
 
@@ -145,7 +193,8 @@ load average at 8.8, one turn of `battle-skill-effects` at 1920x1080@2 did not s
   Authenticode signature was not checked here.
 - **No real port was used.** The sandbox here refuses local TCP connections, so the listening server on 127.0.0.1:1426 with a real
   browser, the probe of a taken port and `main()`'s opening of the browser did not run; the suites reach the same server code over
-  in-memory connections.
-- **macOS.** The Gatekeeper dialog of a quarantined `.command` was not clicked through (no window is opened on this screen); the
-  Intel node was only signature-checked; Firefox was not tried.
+  in-memory connections. A reserved port was only simulated (a listen failing with `EACCES`); `net stop winnat` was not run.
+- **macOS.** The Gatekeeper dialog of a quarantined `.command` was not clicked through (no window is opened on this screen), nor
+  Terminal's request for Downloads or Documents, nor `open -a` with Chrome or Edge; the Intel node was only signature-checked;
+  Firefox was not tried. Whether Safari's 7-day deletion applies to 127.0.0.1 is unknown.
 - The save lives in one browser's site data; clearing it deletes the journey. The README says so and asks for exports.
