@@ -166,6 +166,15 @@ test('missing files, folders, paths out of the root and other methods are refuse
   assert.equal(post.headers.allow, 'GET, HEAD');
 });
 
+test('only the local host names are answered, so a page rebinding its own name to 127.0.0.1 reads nothing', async () => {
+  for (const host of ['127.0.0.1:1426', 'localhost:1426', 'LOCALHOST', '127.0.0.1']) assert.equal((await request('/', {headers: {host}})).status, 200, host);
+  for (const host of ['evil.example:1426', 'evil.example', '127.0.0.1.evil.example:1426', '[::1]:1426']) {
+    const answer = await request('/', {headers: {host}});
+    assert.equal(answer.status, 403, host);
+    assert.doesNotMatch(answer.body.toString(), /doctype/);
+  }
+});
+
 test('the probe path answers with the game and its version', async () => {
   const answer = await request('/__seer-classic');
   assert.equal(answer.headers['cache-control'], 'no-store');

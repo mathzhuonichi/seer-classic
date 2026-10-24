@@ -31,6 +31,8 @@ const LISTED_PROBLEMS = 5;
 /** Content-hashed build files never change under their name; every other answer is revalidated through its ETag. */
 const IMMUTABLE = '/assets/';
 const CACHE_IMMUTABLE = 'public, max-age=31536000, immutable', CACHE_REVALIDATE = 'no-cache';
+/** Host names answered: a page under another name that resolves to 127.0.0.1 (DNS rebinding) gets 403. */
+const LOCAL_NAMES = new Set([HOST, 'localhost']);
 /**
  * listen() errors that mean the system refuses this program the port. On Windows WSAEACCES, reported as EACCES: a range that
  * Hyper-V, WSL 2 or Docker reserved (netsh int ipv4 show excludedportrange protocol=tcp), or a program holding it exclusively.
@@ -125,6 +127,8 @@ function sendFile(request, response, file, stat) {
 /** The game server for `root` (the game/ folder). It never reads a file into memory and answers only GET and HEAD. */
 export function createGameServer(root, version) {
   return http.createServer((request, response) => {
+    const name = (request.headers.host ?? '').toLowerCase().replace(/:\d*$/, '');
+    if (!LOCAL_NAMES.has(name)) return sendText(response, 403, 'forbidden');
     if (request.method !== 'GET' && request.method !== 'HEAD') return sendText(response, 405, 'method not allowed', {Allow: 'GET, HEAD'});
     const pathname = request.url.split(/[?#]/)[0];
     if (pathname === PROBE_PATH) {
