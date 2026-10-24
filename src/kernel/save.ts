@@ -139,6 +139,16 @@ const MIGRATIONS: Record<number, (s: any, context: MigrationContext | undefined)
   1: fromVersion1, 2: fromVersion2, 3: fromVersion3, 4: fromVersion4,
 };
 
+/** The format version a save's text declares, or null when it declares none. */
+export function storedVersion(text: string): number | null {
+  try {
+    const version = JSON.parse(text)?.version;
+    return typeof version === "number" ? version : null;
+  } catch {
+    return null;
+  }
+}
+
 export function migrate(raw: any, context?: MigrationContext): Save {
   let s = raw;
   if (typeof s?.version !== "number") throw new Error("not a Seer Classic save");

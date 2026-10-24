@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import type { GameController } from '../kernel/contract.ts';
 import { partyMonsters } from '../shared/party-order.ts';
 import { useGame } from '../shared/ui/use-game.ts';
 import { TOOLBAR, type ToolbarTool, type WindowKind } from './shell-navigation.ts';
 import AudioSettings from './AudioSettings.tsx';
-import { version } from '../../package.json';
+import { AboutSection } from './AboutSection.tsx';
+import { DESKTOP, toggleWindowFullscreen } from './desktop.ts';
+import { unreadableSaves, type UnreadableSave } from '../kernel/persistence.ts';
 
 export function GameToolbar({ hidden, active, questAlert, onOpen }: {
   hidden: boolean; active: WindowKind | null; questAlert: boolean; onOpen: (kind: WindowKind) => void;
@@ -29,18 +32,31 @@ export function RecoveryConsole({ c, onHeal }: { c: GameController; onHeal: () =
   </section>;
 }
 
-export function SettingsConsole({ inBattle, onExport, onImport, onModifier, onMessage }: {
-  inBattle: boolean; onExport: () => void; onImport: () => void; onModifier: () => void; onMessage: (message: string) => void;
+/** The saves that could not be read, kept beside the save; each can be exported. */
+function UnreadableSaves({ onExport }: { onExport: (save: UnreadableSave) => void }) {
+  const [saves] = useState(unreadableSaves);
+  if (!saves.length) return null;
+  return <><h3>无法读取的存档</h3><p>这些存档无法读取，已原样保留。导出后可交给开发者排查，或在更新版本的游戏中导入。</p>
+    <ul className="unreadable-saves">{saves.map(save => <li key={save.name}><span>{save.name}</span>
+      <button onClick={() => onExport(save)}>导出</button></li>)}</ul></>;
+}
+
+export function SettingsConsole({ inBattle, onExport, onImport, onModifier, onExportUnreadable, onMessage }: {
+  inBattle: boolean; onExport: () => void; onImport: () => void; onModifier: () => void; onExportUnreadable: (save: UnreadableSave) => void;
+  onMessage: (message: string) => void;
 }) {
   function toggleFullscreen() {
-    if (document.fullscreenElement) void document.exitFullscreen();
+    if (DESKTOP) void toggleWindowFullscreen().catch(() => onMessage('窗口无法切换全屏。'));
+    else if (document.fullscreenElement) void document.exitFullscreen();
     else void document.documentElement.requestFullscreen().catch(() => onMessage('当前预览窗口不支持全屏，可扩大游戏窗口。'));
   }
   return <section className="settings-console"><AudioSettings/>
     <h3>航行存档</h3><p>旅程自动保存。导出文件可保留或转移当前进度。</p>
     <div className="action-row"><button onClick={onExport}>导出存档</button><button disabled={inBattle} onClick={onImport}>导入存档</button></div>
+    <UnreadableSaves onExport={onExportUnreadable}/>
     <h3>开发工具</h3><button disabled={inBattle} onClick={onModifier}>修改器</button>
     <h3>画面</h3><button onClick={toggleFullscreen}>切换全屏</button>
-    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p><p className="small muted">开发版本 {version} · 本地单人航行</p>
+    <p className="small muted">Escape 关闭场景窗口 · 点击地面行走 · 方向键移动</p>
+    <AboutSection/>
   </section>;
 }

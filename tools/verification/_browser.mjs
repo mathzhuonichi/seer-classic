@@ -2,7 +2,8 @@
  * Drives the built game in real browsers for the `needs-browser` suites.
  *
  * There is no dev server and no localhost: `buildApp` builds the app with Vite into artifacts/ without public/, and every
- * request to ORIGIN is answered by Playwright request interception, from that build and then from public/.
+ * request to ORIGIN is answered by Playwright request interception, from that build and then from public/, or from the folder
+ * SEER_PUBLIC names: `SEER_PUBLIC=releases/desktop-payload/public` runs the suites against the staged desktop payload.
  * Every page is silent: the game's own mute setting, WebAudio contexts that never run and muted media elements, and Chrome
  * also runs with --mute-audio. Browsers are closed by `withBrowser`, also when a check fails or times out.
  *
@@ -16,7 +17,8 @@ import {chromium, webkit} from 'playwright-core';
 import {root} from './_harness.mjs';
 
 const ORIGIN = 'http://seer.test';
-const PUBLIC = path.join(root, 'public');
+/** The asset folder served beside the build: public/, or the staged desktop payload named by SEER_PUBLIC (relative to the repository). */
+const PUBLIC = path.resolve(root, process.env.SEER_PUBLIC ?? 'public');
 const VIEWPORT = {width: 1280, height: 800};
 /** How long the page load, the first world scene or a battle's first command may take. */
 export const BOOT_TIMEOUT_MS = 60_000;

@@ -40,9 +40,15 @@ Run `typecheck`, `test` and `verify` before committing. `node tools/verification
 ```sh
 npm run build                    # typecheck, then the production bundle in dist/
 npm run preview -- --port 1426   # serve dist/
-npm run desktop                  # Tauri development window
-npm run package                  # macOS .app through Tauri (needs Rust and the Tauri prerequisites)
+npm run desktop                  # Tauri development window (dev server in desktop mode)
+npm run build:desktop            # typecheck, then the desktop app's code only, in dist-desktop/
+npm run stage:desktop            # THIRD-PARTY-NOTICES.txt, then the payload in releases/desktop-payload/public/
+npm run package                  # the macOS app and DMG in releases/ (needs Rust and the Tauri prerequisites)
+npm run package:smoke            # the same app with the smoke driver, under its own identifier
+npm run smoke:macos              # the packaged smoke test, silent and in the background
 ```
+
+The desktop app ([desktop-package-2026-10-23](design/notes/desktop-package-2026-10-23.md)) embeds only the code build; the payload, the files of `public/` the game can request, ships beside the executable and is checked at startup against its `payload.json`. Its saves are files in the app data folder. `npm run package` builds the code, stages the payload, runs the `desktop-payload` release gate, builds the ad-hoc signed arm64 `.app` and packs `releases/SeerClassic-<version>-macos-arm64.dmg` with the player README (`tools/distribution/player-readme.txt`, 请先阅读.txt) and THIRD-PARTY-NOTICES.txt. Windows builds the same shell with the same payload as a portable ZIP; it has not been built yet.
 
 ## Content
 

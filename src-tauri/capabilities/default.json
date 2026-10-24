@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The game window: Tauri's core defaults. The shell's own commands (saves, fullscreen, log lines) are app commands.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

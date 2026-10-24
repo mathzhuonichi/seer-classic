@@ -21,6 +21,10 @@ import {COMPACT_WINDOWS,WINDOW_TITLES,campaignForAction,startsBattle,type Window
 import {readWorldPreference} from '../domain/world/world.ts';
 import {gameAudio} from '../shared/audio/game-audio.ts';
 import {actionSound} from './action-sounds.ts';
+import {GameErrorBoundary} from './GameErrorBoundary.tsx';
+import {SaveProblem} from './SaveProblem.tsx';
+import {exportSaveFile} from './save-files.ts';
+import type {UnreadableSave} from '../kernel/persistence.ts';
 import './app.css';
 import './game-shell.css';
 if(import.meta.env.DEV)void import('./classic-font.css');
@@ -29,12 +33,6 @@ if(import.meta.env.DEV)void import('./classic-font.css');
 function clickSound(event:MouseEvent<HTMLDivElement>){
  const target=event.target as HTMLElement,button=target.closest('button');
  if(button&&!button.disabled&&!target.closest('.battle-layer'))gameAudio.playSfx(target.closest('.game-toolbar')?'tab':'click');
-}
-function downloadSave(json:string){
- const url=URL.createObjectURL(new Blob([json],{type:'application/json'}));const link=document.createElement('a');
- link.href=url;link.download='赛尔号-星际存档.json';link.click();
- // Some browsers fetch the blob well after the click is handled, so the URL outlives it by a generous margin.
- setTimeout(()=>URL.revokeObjectURL(url),40_000);
 }
 
 const NOTICE_MS=3500;
@@ -65,10 +63,16 @@ function useShellState(c:GameController){
  };
 }
 
+/** The screen before the game opens: loading, or why it could not open. */
+export function BootScreen({message}:{message:string}){
+ return <div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{message}</p></div>;
+}
+
 export default function App(){
  const [controller,setController]=useState<GameController|null>(null),[error,setError]=useState('');
  useEffect(()=>{loadCatalog().then(data=>setController(createGame(data))).catch(e=>setError(String(e)))},[]);
- return controller?<Game controller={controller}/>:<div className="boot-screen"><h1>赛尔号 · 经典</h1><div className="boot-pulse"/><p>{error||'正在载入星际档案…'}</p></div>;
+ if(!controller)return <BootScreen message={error||'正在载入星际档案…'}/>;
+ return <GameErrorBoundary onExport={()=>void exportSaveFile(controller.exportSave()).catch(()=>{})}><Game controller={controller}/></GameErrorBoundary>;
 }
 
 export function Game({controller:c}:{controller:GameController}){
@@ -100,7 +104,11 @@ export function Game({controller:c}:{controller:GameController}){
   if(preparation)return;
   toggle(kind);
  }
- function exportSave(){downloadSave(c.exportSave());setMessage('航行存档已导出。')}
+ function exportFile(text:string,fileName?:string){
+  exportSaveFile(text,fileName).then(saved=>{if(saved)setMessage('航行存档已导出。')},error=>setMessage('存档导出失败：'+String(error)));
+ }
+ const exportSave=()=>exportFile(c.exportSave());
+ const exportUnreadable=(save:UnreadableSave)=>exportFile(save.text,`赛尔号-无法读取的存档-${save.name.replace(/\.json$/,'').replace(/[^\w.-]+/g,'-')}.json`);
  async function importSave(event:ChangeEvent<HTMLInputElement>){
   const chosen=event.target.files?.[0];
   if(chosen)try{c.importSave(await chosen.text());setMessage('航行存档已载入。');close()}catch(error){setMessage('存档无法读取：'+String(error))}
@@ -121,10 +129,11 @@ export function Game({controller:c}:{controller:GameController}){
    </div>}
    {preparation&&<BattleLoading state={preparation} onLeave={()=>{battle.leave();close()}}/>}
    {toast&&!preparation&&!battleOpen&&<div className="game-toast" role="status">{toast}</div>}
+   <SaveProblem onExport={exportSave}/>
    {windowKind&&<div className="scene-window-shield" aria-hidden="true" onClick={close}/>}
    {windowKind&&<GameWindow key={windowKind} title={WINDOW_TITLES[windowKind]} compact={COMPACT_WINDOWS.has(windowKind)} onClose={close}>
     <ShellWindowContent kind={windowKind} c={uiController} focus={nav.focus} selected={selected} inBattle={inBattle} navigation={navigation} routes={routes}
-     onSelect={setSelected} onMessage={setMessage} onExportSave={exportSave} onImportSave={()=>file.current?.click()}
+     onSelect={setSelected} onMessage={setMessage} onExportSave={exportSave} onExportUnreadable={exportUnreadable} onImportSave={()=>file.current?.click()}
      onHeal={()=>{c.dispatch({type:'heal'});gameAudio.playSfx('heal');close()}} onModifier={()=>{close();setModifier(true)}}/>
    </GameWindow>}
    <input ref={file} type="file" accept=".json" hidden onChange={importSave}/>

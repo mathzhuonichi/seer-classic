@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 1420",
     "build": "tsc --noEmit && vite build",
+    "build:desktop": "tsc --noEmit && vite build --mode desktop --configLoader native",
     "preview": "vite preview --host 127.0.0.1 --port 1420",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"src/**/*.test.mjs\" \"battle/**/*.test.mjs\" \"raising/**/*.test.mjs\"",
     "verify": "node tools/verification/run.mjs",
     "desktop": "tauri dev",
-    "package": "tauri build --bundles app",
+    "stage:desktop": "node tools/distribution/third-party-notices.mjs && python3 tools/distribution/stage_desktop_payload.py --notices releases/desktop-notices/THIRD-PARTY-NOTICES.txt",
+    "package": "npm run build:desktop && npm run stage:desktop && node tools/verification/desktop-payload.mjs && RUSTFLAGS=\"--remap-path-prefix=$HOME=~\" tauri build --bundles app --config src-tauri/tauri.bundle.conf.json && python3 tools/distribution/pack_macos_dmg.py",
+    "package:smoke": "npm run stage:desktop && RUSTFLAGS=\"--remap-path-prefix=$HOME=~\" tauri build --bundles app --features smoke --config src-tauri/tauri.bundle.conf.json --config src-tauri/tauri.smoke.conf.json",
+    "smoke:macos": "python3 tools/distribution/smoke_macos.py",
     "dev:preview": "vite --host 127.0.0.1 --port 1421"
   },
   "dependencies": {

@@ -1,8 +1,8 @@
 // Creating, loading and writing the game save.
 import { Rng } from '../../battle/core/src/index.ts';
 import { addMonster, createMonster, type Save } from '../../raising/core/index.ts';
-import { deserialize, newSave, serialize, type GameExtras, type GameSave, type MigrationContext } from './save.ts';
-import { backupUnreadableSave, readLocalSave, writeLocalSave } from './persistence.ts';
+import { deserialize, newSave, SAVE_VERSION, serialize, storedVersion, type GameExtras, type GameSave, type MigrationContext } from './save.ts';
+import { backupUnreadableSave, readLocalSave, saveWriteSettled, writeLocalSave } from './persistence.ts';
 import { normalizeBraveTowerProgress } from '../domain/challenges/brave-tower.ts';
 import { CHALLENGE_CAMPAIGNS } from '../domain/challenges/challenge-campaigns.ts';
 import { sanitizeSkin } from '../domain/acquisition/skins.ts';
@@ -77,17 +77,27 @@ export interface OpenedJourney extends Journey {
   durable: boolean;
 }
 
-/** The given or locally stored save; an unreadable one is backed up before a new journey replaces it. */
+/** Why a stored save could not be opened, in the player's words: a newer game's save names its format version. */
+function unreadableNotice(text: string, kept: boolean) {
+  const version = storedVersion(text);
+  const which = version !== null && version > SAVE_VERSION ? `存档来自更新版本的游戏（存档格式 ${version}，本游戏为 ${SAVE_VERSION}）` : '旧存档无法读取';
+  return kept ? `${which}，已另存原存档并创建新存档；可在设置中导出原存档。` : `${which}且无法备份；为保留原存档，本次进度暂不保存。`;
+}
+
+/**
+ * The given or stored save; an unreadable one is kept under its own name before a new journey replaces it. An empty given save
+ * asks for a new journey (the preview does); an empty stored save is unreadable, not absent, so that a save file emptied outside
+ * the game is kept and the player is told.
+ */
 export function openJourney(ctx: GameContext, initialSave?: string): OpenedJourney {
   const previous = initialSave ?? readLocalSave();
-  if (!previous) return { ...startJourney(ctx), notices: [], durable: true };
+  if (previous === null || initialSave === '') return { ...startJourney(ctx), notices: [], durable: true };
   try {
     return { ...loadJourney(ctx, previous), notices: [], durable: true };
   } catch {
     let durable = true;
     try { backupUnreadableSave(previous); } catch { durable = false; }
-    const notice = durable ? '旧存档无法读取，已创建新存档。' : '旧存档无法读取且无法备份；为保留旧存档，本次进度暂不保存。';
-    return { ...startJourney(ctx), notices: [notice], durable };
+    return { ...startJourney(ctx), notices: [unreadableNotice(previous, durable)], durable };
   }
 }
 
@@ -133,9 +143,16 @@ export interface JourneyWriter {
  */
 function createSaveSlot(durable: boolean) {
   let queued: GameSave | null = null, written: string | null = null;
+  // A refused write keeps the last text written, so the next action tries again; the shell shows the failure until then.
   const write = (text: string) => {
     queued = null;
-    if (durable && text !== written) { writeLocalSave(text); written = text; }
+    if (!durable || text === written) return;
+    try {
+      writeLocalSave(text);
+      written = text;
+    } catch (error) {
+      saveWriteSettled(error);
+    }
   };
   const writeQueued = () => { if (queued) write(serialize(queued)); };
   return {
@@ -152,11 +169,12 @@ function createSaveSlot(durable: boolean) {
 }
 
 /**
- * Writes `journey`, the live runtime whose save actions replace, to local storage: at once when it is opened or replaced, and
- * after actions in a microtask, which runs before control returns to the event loop: the actions dispatched before it runs (one
- * synchronous run, such as one event handler) share a write, and each is stored before the page can paint, run another task or
- * be closed. An export writes a pending change at once. A text equal to the last one written is not written again. While
- * `durable` is false (an unreadable stored save that could not be backed up) nothing is written until the journey is replaced.
+ * Writes `journey`, the live runtime whose save actions replace, to the save store (persistence.ts): at once when it is opened
+ * or replaced, and after actions in a microtask, which runs before control returns to the event loop: the actions dispatched
+ * before it runs (one synchronous run, such as one event handler) share a write, and each is handed to the store before the page
+ * can paint, run another task or be closed. An export writes a pending change at once. A text equal to the last one written is
+ * not written again; a refused write is reported and tried again by the next action. While `durable` is false (an unreadable
+ * stored save that could not be backed up) nothing is written until the journey is replaced.
  */
 export function createJourneyWriter(ctx: GameContext, journey: Journey, durable: boolean): JourneyWriter {
   const slot = createSaveSlot(durable);
@@ -166,9 +184,9 @@ export function createJourneyWriter(ctx: GameContext, journey: Journey, durable:
     changed: () => { settle(ctx, journey); slot.queue(journey.save); },
     replaced: () => { slot.makeDurable(); settle(ctx, journey); slot.write(serialize(journey.save)); },
     flush: () => {
+      // An export carries the progress even when storage refuses it.
       const text = serialize(journey.save);
-      // An export carries the progress even when storage refuses it; the next action tries the write again.
-      try { if (slot.pending()) slot.write(text); } catch { /* storage full or unavailable */ }
+      if (slot.pending()) slot.write(text);
       return text;
     },
   };
