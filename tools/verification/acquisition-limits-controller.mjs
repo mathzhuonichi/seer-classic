@@ -19,7 +19,6 @@ await withSsr('acquisition-limits-controller',async load=>{
  const {Rng}=await load('/battle/core/src/rng.ts');
  const {BREEDING_RECIPES}=await load('/src/domain/recipes/breeding.ts');
  const {PARTY_MAX}=await load('/raising/core/storage.ts');
- const {readLocalSave}=await load('/src/kernel/persistence.ts');
  const {default:ProfileTab}=await load('/src/features/raising/ui/raising/ProfileTab.tsx');
  const {SHOP_MAX_QUANTITY,STARTER_LEVEL,STARTER_SPECIES}=await load('/src/domain/economy.ts');
  const {expToNext}=await load('/raising/core/growth.ts');
@@ -53,9 +52,9 @@ await withSsr('acquisition-limits-controller',async load=>{
  const accept=(g,action)=>{const result=g.dispatch(action);assert(result.ok,`${action.type}: ${result.notice}`);};
  /** Each monster `g` gained since the `before` save, as [species, whether it joined the party]. */
  const gained=(g,before)=>{const after=parse(g),old=new Set(before.storage.map(m=>m.uid));return after.storage.filter(m=>!old.has(m.uid)).map(m=>[m.species,after.party.includes(m.uid)]);};
- /** The game writes its save as it exports it, and that save loads again with every monster. */
+ /** The exported save loads again with every monster; save-library.ts writes a larger collection to a save slot. */
  const persisted=g=>{
-  const saved=g.exportSave(),count=JSON.parse(saved).storage.length;assert.equal(readLocalSave(),saved,'The large save is written');
+  const saved=g.exportSave(),count=JSON.parse(saved).storage.length;
   assert.equal(parse(make(JSON.parse(saved))).storage.length,count,`A save of ${count} monsters loads with every one`);
  };
  check('Recruitment counts held creatures and all essence aliases',()=>{

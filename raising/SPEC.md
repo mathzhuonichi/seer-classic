@@ -200,8 +200,26 @@ validate), `validateSave`, `migrate` with a per-version migration table.
 Validation checks ranges (level, 个体, 学习力 caps, exp within level), equipped
 ⊆ learned, 1–4 equipped, party ⊆ storage, unique uids, and with a Dex that every
 species, nature and skill exists. `rng_state` is the sfc32 four-word state
-shared with the battle core. The app only moves strings; the medium (the
-browser's local storage) is the app's choice.
+shared with the battle core. The app only moves strings; the medium is the
+app's choice.
+
+**Save slots** (design/notes/save-slots-2026-10-24.md). The player keeps any
+number of saves, each in a slot of the browser's IndexedDB (database
+`seer-classic-saves`: a record and one save document per slot, and the active
+slot's id); the document is the save text above, unchanged. The game plays and
+writes the active slot only. 设置 > 航行存档 lists the slots (name, last save
+time, monsters, highest level, owned forms, cleared encounters) and offers
+新存档 (a new journey in a new slot 「存档 n」, the others kept), 读取 (another
+slot's save, opened and validated before the switch; the game is rebuilt from
+it alone) and 删除 (a slot other than the active one, after a confirmation).
+新存档, 读取 and an import are refused while a battle is open. An imported file
+opens in a new slot. A slot whose save cannot be opened is kept as it is,
+marked unreadable with the reason and never written; it can be retried,
+exported or deleted. If the active slot is unreadable at start, a new journey
+opens in a new slot. On the first start with slots, the save of the earlier
+versions (`localStorage` key `seer-classic-save-v1`) becomes the active
+存档 1, unchanged, and the unreadable saves kept beside it follow; those keys
+are left as they were.
 
 `progress` records encounters by id: `bosses_cleared` (first clears),
 `boss_attempts` (recorded fights, counted when one starts) and `boss_wins`

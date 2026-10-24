@@ -157,7 +157,7 @@ await withSsr('brave-tower-v53',async load=>{
     for(const file of modes.match(/chains\/[\w.-]*/g)??[])assert(fs.existsSync(path.join(root,'data/bosses',file)),`the mode note cites ${file}`);
   });
   check('The verification stays offline, uses explicit saves, and preserves both catalog inputs',()=>{
-    assert.equal(storageReads,0,'no controller reads any original local save');assert(storageWrites>0,'save writes reached only the installed no-op adapter');assert.equal(networkRequests,0,'no HTTP or remote save requests');
+    assert.equal(storageReads,0,'no controller reads any original local save');assert.equal(storageWrites,0,'a game kept in memory writes no local save');assert.equal(networkRequests,0,'no HTTP or remote save requests');
     assert.equal(JSON.stringify(original),originalBytes);assert.equal(JSON.stringify(catalog),fixtureBytes);
     assert.deepEqual(hashes(),sourceHashes,'controller sources stayed stable during this run');
     fixture={alteredTowerEnemyMembers:alteredMembers,playerSpecies:70,prioritySkill:FAST,storageReads,discardedStorageWrites:storageWrites,networkRequests};

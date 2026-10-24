@@ -3,18 +3,17 @@
  * Playwright WebKit (when installed), every request is answered by the package's own server.mjs in its own Node.js. A journey
  * whose only creature is 丽莎布布 (303) at Lv 100 with 叶绿光束 opens on the world map; the page asks the server for its probe,
  * a missing file, a .gz file and a byte range; a wild battle starts, 叶绿光束 is used and Ruffle draws its effect; the battle
- * ends and writes the save, which is the same after a reload. No page error, console error or unexpected failed request.
+ * ends and writes the save to its slot, which holds the same save after a reload. No page error, console error or unexpected failed request.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {memoryStorage, withSsr} from './_harness.mjs';
-import {BOOT_TIMEOUT_MS, keepDrawingBuffers, openGame, talkToCreature, wait, waitCommands, waitWorld, withBrowser} from './_browser.mjs';
+import {BOOT_TIMEOUT_MS, keepDrawingBuffers, openGame, saveSlots, talkToCreature, wait, waitCommands, waitWorld, withBrowser} from './_browser.mjs';
 
 const NAME = 'browser-package';
 const ENGINES = ['chrome', 'webkit'];
 const SPECIES = 303, LEVEL = 100, BEAM = {id: 11006, name: '叶绿光束'};
-const SAVE_KEY = 'seer-classic-save-v1';
 /** The skill effect host's player element (src/features/battle/skill-effect-host.ts). */
 const PLAYER = 'seer-skill-effect-player';
 /** A sampled pixel of the effect canvas counts as drawn above this alpha; one sample per this many canvas pixels each way. */
@@ -28,8 +27,9 @@ const GZIP_MAGIC = [0x1f, 0x8b];
 /** The silent storage entries and the journey, built with the game's own modules. */
 function fixtures() {
   return withSsr(`${NAME}-smoke`, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, {writeLocalSave}, {gameAudio}] = await Promise.all(['/src/kernel/game.ts',
-      '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/kernel/persistence.ts', '/src/shared/audio/game-audio.ts'].map(load));
+    const [{createGame}, {loadCatalog}, {newSave}, {LEGACY_SAVE_KEY}, {gameAudio}, {SLOT_DATABASE}] = await Promise.all(['/src/kernel/game.ts',
+      '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/kernel/persistence.ts', '/src/shared/audio/game-audio.ts',
+      '/src/kernel/slot-backends.ts'].map(load));
     const catalog = await loadCatalog();
     const entries = fill => { const memory = memoryStorage(); fill(); return Object.fromEntries(memory); };
     const silent = entries(() => gameAudio.updateSettings({muted: true, musicVolume: 0, sfxVolume: 0}));
@@ -37,9 +37,9 @@ function fixtures() {
       const game = createGame(structuredClone(catalog), JSON.stringify(newSave(SPECIES)));
       assert(game.dispatch({type: 'cheatAcquire', species: SPECIES, level: LEVEL}).ok, `cheatAcquire ${SPECIES}`);
       assert(game.dispatch({type: 'equip', uid: game.snapshot().monsters[0].uid, skills: [BEAM.id]}).ok, 'equip');
-      writeLocalSave(game.exportSave());
+      localStorage.setItem(LEGACY_SAVE_KEY, game.exportSave());
     });
-    return {silent, save};
+    return {silent, save, seeded: save[LEGACY_SAVE_KEY], slots: {...SLOT_DATABASE}};
   });
 }
 
@@ -92,11 +92,12 @@ async function smokeIn(browser, fixture, files) {
     assert(drawn, `Ruffle drew no ${BEAM.name} effect`);
     await page.waitForSelector('.battle-layer', {state: 'detached', timeout: TURN_TIMEOUT_MS});
     await waitWorld(page);
-    const saved = await page.evaluate(key => localStorage.getItem(key), SAVE_KEY);
-    assert.notEqual(saved, fixture.save[SAVE_KEY], 'the battle wrote the save');
+    const activeText = async () => { const {active, text} = await saveSlots(page, fixture.slots); return text[active]; };
+    const saved = await activeText();
+    assert.notEqual(saved, fixture.seeded, 'the battle wrote the save');
     await page.reload({waitUntil: 'load', timeout: BOOT_TIMEOUT_MS});
     await waitWorld(page);
-    assert.deepEqual(JSON.parse(await page.evaluate(key => localStorage.getItem(key), SAVE_KEY)), JSON.parse(saved), 'the save after a reload');
+    assert.deepEqual(JSON.parse(await activeText()), JSON.parse(saved), 'the save after a reload');
     assert.deepEqual(errors, [], 'page and console errors');
     assert.deepEqual(failed.filter(entry => !entry.includes(MISSING)), [], 'failed requests');
   } finally {

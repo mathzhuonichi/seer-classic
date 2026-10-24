@@ -3,12 +3,30 @@ import fs from 'node:fs';
 import {createGame} from '../../src/kernel/game.ts';
 import {loadCatalog,type CatalogData} from '../../src/domain/catalog/catalog.ts';
 import type {GameAction} from '../../src/kernel/contract.ts';
-import {readLocalSave,saveWriteProblem,UNREADABLE_SAVE_PREFIX,unreadableSaves,writeLocalSave} from '../../src/kernel/persistence.ts';
+import {saveWriteProblem} from '../../src/kernel/persistence.ts';
+import {openSaveLibrary} from '../../src/kernel/save-library.ts';
+import {openSlotStore,type SlotBackend} from '../../src/kernel/save-slots.ts';
+import {memoryBackend} from '../../src/kernel/slot-backends.ts';
 import {SAVE_VERSION} from '../../src/kernel/save.ts';
 import {memoryStorage} from './_harness.mjs';
 
 /** Resolves once the microtasks queued so far, the save write among them, have run; no other task runs in between. */
 const microtasks=()=>Promise.resolve();
+/** Resolves once the slot writes started so far have settled: the memory backend settles them in microtasks. */
+const settled=()=>new Promise(resolve=>setImmediate(resolve));
+
+/** A save library on `backend` with no pre-slot save, whose active slot holds `save` (a new journey when it is empty). */
+async function slotGame(catalog:CatalogData,save:string,backend:SlotBackend=memoryBackend()){
+  const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
+  memoryStorage();
+  try{
+    const store=await openSlotStore(backend),saves=await openSaveLibrary(catalog,store);
+    if(save)await saves.importSave(save);
+    return {store,saves,stored:()=>store.read(saves.current().slotId!)};
+  }finally{
+    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
+  }
+}
 
 /** Collection caches must follow evolution/import/reset without changing earlier snapshots. */
 export async function verifyControllerSnapshots(){
@@ -190,135 +208,101 @@ function collectionSave(catalog:CatalogData,size:number):string{
 export async function verifyDispatchBudget(){
   const catalog=await loadCatalog(),saves={journey:'',collection:collectionSave(catalog,200)},p95:Record<string,number>={};
   const dispatchP95:Record<string,number>={},ms=(used:NodeJS.CpuUsage)=>(used.user+used.system)/1000;
-  const previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage'),memory=new Map<string,string>();
-  const storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,value);}};
-  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:storage});
-  try{
-    for(const [name,save] of Object.entries(saves)){
-      const game=createGame(catalog,save),uid=game.snapshot().party[0];
-      game.dispatch({type:'cheatResources',coins:1000000});game.dispatch({type:'cheatMonster',uid,level:50});
-      const skills=game.snapshot().monsters.find(mon=>mon.uid===uid)!.skills.map(skill=>skill.id),member=game.snapshot().party.at(-1)!;
-      const mix=(i:number):GameAction=>[{type:'rename',uid,name:`Budget${i%7}`},{type:'dismissNotice'},
-        {type:'equip',uid,skills:i%12<6?[...skills].reverse():skills},{type:'train',uid,stat:'atk',amount:1},{type:'party',uid:member,add:i%12>=6},
-        {type:'buyItem',itemId:'item_level_up_1',quantity:1}][i%6] as GameAction;
-      const rounds:number[]=[],dispatchRounds:number[]=[],at95=(times:number[])=>times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)];
-      for(let round=0;round<3;round++){
-        const times:number[]=[],dispatchTimes:number[]=[];
-        for(let i=0;i<240;i++){
-          const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),dispatched=process.threadCpuUsage(started);
-          await microtasks();
-          const used=process.threadCpuUsage(started);
-          assert(result.ok,`${name} ${action.type}: ${result.notice}`);
-          if(i>=40){times.push(ms(used));dispatchTimes.push(ms(dispatched));}
-        }
-        rounds.push(at95(times));dispatchRounds.push(at95(dispatchTimes));
+  for(const [name,save] of Object.entries(saves)){
+    const slot=await slotGame(catalog,save),game=slot.saves.current().game,uid=game.snapshot().party[0];
+    game.dispatch({type:'cheatResources',coins:1000000});game.dispatch({type:'cheatMonster',uid,level:50});
+    const skills=game.snapshot().monsters.find(mon=>mon.uid===uid)!.skills.map(skill=>skill.id),member=game.snapshot().party.at(-1)!;
+    const mix=(i:number):GameAction=>[{type:'rename',uid,name:`Budget${i%7}`},{type:'dismissNotice'},
+      {type:'equip',uid,skills:i%12<6?[...skills].reverse():skills},{type:'train',uid,stat:'atk',amount:1},{type:'party',uid:member,add:i%12>=6},
+      {type:'buyItem',itemId:'item_level_up_1',quantity:1}][i%6] as GameAction;
+    const rounds:number[]=[],dispatchRounds:number[]=[],at95=(times:number[])=>times.sort((a,b)=>a-b)[Math.floor(times.length*0.95)];
+    for(let round=0;round<3;round++){
+      const times:number[]=[],dispatchTimes:number[]=[];
+      for(let i=0;i<240;i++){
+        const action=mix(i),started=process.threadCpuUsage(),result=game.dispatch(action),dispatched=process.threadCpuUsage(started);
+        await microtasks();
+        const used=process.threadCpuUsage(started);
+        assert(result.ok,`${name} ${action.type}: ${result.notice}`);
+        if(i>=40){times.push(ms(used));dispatchTimes.push(ms(dispatched));}
       }
-      p95[name]=Math.min(...rounds);dispatchP95[name]=Math.min(...dispatchRounds);
-      assert(p95[name]<=4,`${name}: dispatch p95 ${p95[name].toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
-      assert.equal(memory.size,1,`${name}: the save is written to storage.`);memory.clear();
+      rounds.push(at95(times));dispatchRounds.push(at95(dispatchTimes));
     }
-  }finally{
-    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
+    p95[name]=Math.min(...rounds);dispatchP95[name]=Math.min(...dispatchRounds);
+    assert(p95[name]<=4,`${name}: dispatch p95 ${p95[name].toFixed(2)} ms of CPU time exceeds the 4 ms budget.`);
+    await settled();assert.equal(await slot.stored(),game.exportSave(),`${name}: the save is written to its slot.`);
   }
   return {p95,dispatchP95};
 }
 
-/** An unreadable stored save is backed up before a new journey replaces it; version-1 repairs run once, on load. */
+/** Version-1 repairs run once, on load. Unreadable saves are kept by the save library (save-library.ts). */
 export async function verifyControllerSaveRecovery(){
-  const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-  const memory=memoryStorage(),storage=globalThis.localStorage,setItem=storage.setItem;
-  try{
-    writeLocalSave('{"version":99}');
-    const game=createGame(catalog);
-    assert.deepEqual(game.snapshot().notices,[`存档来自更新版本的游戏（存档格式 99，本游戏为 ${SAVE_VERSION}），已另存原存档并创建新存档；可在设置中导出原存档。`],
-      'A newer game\'s save names its format version.');
-    const backups=[...memory.keys()].filter(key=>key.startsWith(UNREADABLE_SAVE_PREFIX));
-    assert.deepEqual(backups.map(key=>memory.get(key)),['{"version":99}'],'The unreadable save is kept under its own key.');
-    assert.deepEqual(unreadableSaves().map(save=>save.text),['{"version":99}'],'Settings lists it for export.');
-    assert.equal(readLocalSave(),game.exportSave(),'The new journey is written under the save key.');
-    memory.clear();writeLocalSave('{"version":5,"party"');
-    assert.deepEqual(createGame(catalog).snapshot().notices,['旧存档无法读取，已另存原存档并创建新存档；可在设置中导出原存档。']);
-    // An emptied save is unreadable, not absent: it is kept and the player is told.
-    memory.clear();writeLocalSave('');
-    assert.deepEqual(createGame(catalog).snapshot().notices,['旧存档无法读取，已另存原存档并创建新存档；可在设置中导出原存档。']);
-    assert.deepEqual(unreadableSaves().map(save=>save.text),[''],'The empty save is kept.');
-    // Without room for a backup, progress stays in memory until the player replaces the save explicitly.
-    memory.clear();writeLocalSave('{"version":99}');
-    storage.setItem=(key:string,value:string)=>{if(key.startsWith(UNREADABLE_SAVE_PREFIX))throw new Error('QuotaExceededError');setItem(key,value);};
-    const unsaved=createGame(catalog);
-    assert.deepEqual(unsaved.snapshot().notices,['存档来自更新版本的游戏（存档格式 99，本游戏为 5）且无法备份；为保留原存档，本次进度暂不保存。'.replace('5',String(SAVE_VERSION))]);
-    unsaved.dispatch({type:'heal'});unsaved.exportSave();await microtasks();
-    assert.equal(readLocalSave(),'{"version":99}','The unreadable save is never overwritten.');
-    unsaved.reset();assert.equal(readLocalSave(),unsaved.exportSave(),'A new journey chosen by the player replaces it.');
-    storage.setItem=setItem;
-    const quest=game.snapshot().quests.find(row=>row.group==='spt-recruitment')!;
-    const legacy=JSON.parse(game.exportSave());
-    delete legacy.items.item_status_cure;legacy.game.quests=[quest.id];legacy.game.recruitmentClaims={};legacy.game.shopUnlocked=[];
-    const migrated=JSON.parse(createGame(catalog,JSON.stringify({...legacy,version:1})).exportSave());
-    assert.equal(migrated.version,SAVE_VERSION);assert.equal(migrated.items.item_status_cure,5);
-    assert.equal(migrated.game.recruitmentClaims[quest.id],1);assert(migrated.game.shopUnlocked.includes(quest.rewardItemId));
-    const current=JSON.parse(createGame(catalog,JSON.stringify(legacy)).exportSave());
-    assert.equal(current.items.item_status_cure,undefined,'A current save is not granted the version-1 supply again.');
-    assert.deepEqual(current.game.recruitmentClaims,{},'A current save is not repaired again.');
-    const output={checks:['unreadable save backed up','new journey written','empty save kept','unbackable save kept in memory only','version-1 supply granted once','version-1 recruitment claims repaired once']};
-    fs.mkdirSync('artifacts/battle-media-v22',{recursive:true});
-    fs.writeFileSync('artifacts/battle-media-v22/controller-save-recovery.json',JSON.stringify(output,null,2)+'\n');
-    return output;
-  }finally{
-    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
-  }
+  const catalog=await loadCatalog(),game=createGame(catalog,'');
+  const quest=game.snapshot().quests.find(row=>row.group==='spt-recruitment')!;
+  const legacy=JSON.parse(game.exportSave());
+  delete legacy.items.item_status_cure;legacy.game.quests=[quest.id];legacy.game.recruitmentClaims={};legacy.game.shopUnlocked=[];
+  const migrated=JSON.parse(createGame(catalog,JSON.stringify({...legacy,version:1})).exportSave());
+  assert.equal(migrated.version,SAVE_VERSION);assert.equal(migrated.items.item_status_cure,5);
+  assert.equal(migrated.game.recruitmentClaims[quest.id],1);assert(migrated.game.shopUnlocked.includes(quest.rewardItemId));
+  const current=JSON.parse(createGame(catalog,JSON.stringify(legacy)).exportSave());
+  assert.equal(current.items.item_status_cure,undefined,'A current save is not granted the version-1 supply again.');
+  assert.deepEqual(current.game.recruitmentClaims,{},'A current save is not repaired again.');
+  const output={checks:['version-1 supply granted once','version-1 recruitment claims repaired once']};
+  fs.mkdirSync('artifacts/battle-media-v22',{recursive:true});
+  fs.writeFileSync('artifacts/battle-media-v22/controller-save-recovery.json',JSON.stringify(output,null,2)+'\n');
+  return output;
 }
 
 /**
- * Saves are written before the task that changed them ends: the actions dispatched in one synchronous run share one write, of
- * the latest state, an action that changes nothing writes nothing, and an export, an import or a new journey writes at once. An
- * export still returns the latest state when storage refuses the write.
+ * Saves are written to the active slot before the task that changed them ends: the actions dispatched in one synchronous run share
+ * one write, of the latest state, an action that changes nothing writes nothing, and an export, an import or a new journey writes
+ * at once. An export still returns the latest state when storage refuses the write, and a game whose first write is refused opens.
  */
 export async function verifyCoalescedSaveWrites(){
-  const catalog=await loadCatalog(),previous=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
-  memoryStorage();
-  const storage=globalThis.localStorage,setItem=storage.setItem;
+  const catalog=await loadCatalog(),inner=memoryBackend();
   let writes=0,full=false;
-  storage.setItem=(key:string,value:string)=>{if(full)throw new Error('QuotaExceededError');writes++;setItem(key,value);};
-  try{
-    const game=createGame(catalog,''),uid=game.snapshot().party[0];
-    const stored=()=>JSON.parse(readLocalSave()!),nicknameIn=(text:string)=>JSON.parse(text).storage.find((mon:{uid:string})=>mon.uid===uid).nickname;
-    const nickname=()=>nicknameIn(readLocalSave()!);
-    assert.equal(writes,1,'A new journey is written at once.');
-    for(let i=0;i<10;i++)game.dispatch({type:'rename',uid,name:`Burst${i}`});
-    game.dispatch({type:'cheatResources',coins:4321});
-    assert.equal(writes,1,'A burst of actions is not written action by action.');
-    // One microtask hop resumes within the same task, so the write it finds was made before the task ended.
-    await microtasks();
-    assert.equal(writes,2,'The burst is written once before its task ends.');assert.equal(nickname(),'Burst9');assert.equal(stored().game.coins,4321);
-    game.dispatch({type:'dismissNotice'});await microtasks();
-    assert.equal(writes,2,'An action that changes nothing writes nothing.');
-    game.dispatch({type:'rename',uid,name:'Export'});
-    const exported=game.exportSave();
-    assert.equal(writes,3);assert.equal(readLocalSave(),exported,'An export writes the latest state first.');
-    await microtasks();game.exportSave();
-    assert.equal(writes,3,'Neither the end of the task nor an export with nothing pending writes again.');
-    full=true;game.dispatch({type:'rename',uid,name:'Full'});
-    assert.equal(nicknameIn(game.exportSave()),'Full','An export returns the latest state when storage refuses the write.');
-    await microtasks();assert.equal(saveWriteProblem(),'QuotaExceededError','A refused write is reported to the shell.');
-    full=false;game.dispatch({type:'rename',uid,name:'Retry'});await microtasks();
-    assert.equal(writes,4,'The next action writes again.');assert.equal(nickname(),'Retry');
-    assert.equal(saveWriteProblem(),null,'A successful write clears the report.');
-    game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
-    assert.equal(writes,5,'A new journey replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());
-    await microtasks();assert.equal(writes,5,'The end of the task writes nothing more.');
-    game.dispatch({type:'rename',uid:game.snapshot().party[0],name:'Import'});game.importSave(exported);
-    assert.equal(writes,6,'An import replaces the pending write at once.');assert.equal(readLocalSave(),game.exportSave());assert.equal(nickname(),'Export');
-    await microtasks();assert.equal(writes,6,'The end of the import\'s task writes nothing more.');
-    full=true;const refused=createGame(catalog,'');full=false;
-    assert.equal(saveWriteProblem(),'QuotaExceededError','A game whose first write is refused still opens, with the report.');
-    const lead=refused.snapshot().party[0];refused.dispatch({type:'rename',uid:lead,name:'Opened'});await microtasks();
-    assert.equal(saveWriteProblem(),null);
-    assert.equal(JSON.parse(readLocalSave()!).storage.find((mon:{uid:string})=>mon.uid===lead).nickname,'Opened','Its next action is written.');
-    return {checks:['burst writes once before its task ends','burst writes the latest state','unchanged save not written','export writes the latest state',
-      'export returns the latest state when storage refuses it','refused write reported until the next write','first write refused',
-      'reset writes at once','import writes at once']};
-  }finally{
-    if(previous)Object.defineProperty(globalThis,'localStorage',previous);else delete (globalThis as {localStorage?:unknown}).localStorage;
-  }
+  // Counts the save writes (changes that store a document) and refuses them while `full` is set.
+  const backend:SlotBackend={...inner,apply:change=>{
+    if(!change.put?.some(({text})=>text!==undefined))return inner.apply(change);
+    if(full)return Promise.reject(new DOMException('','QuotaExceededError'));
+    writes++;return inner.apply(change);
+  }};
+  const {saves,stored}=await slotGame(catalog,'',backend),game=saves.current().game,uid=game.snapshot().party[0],first=saves.current().slotId!;
+  const nicknameIn=(text:string)=>JSON.parse(text).storage.find((mon:{uid:string})=>mon.uid===uid).nickname,nickname=async()=>nicknameIn((await stored())!);
+  await settled();assert.equal(await stored(),game.exportSave(),'A new journey is written at once.');
+  writes=0;
+  for(let i=0;i<10;i++)game.dispatch({type:'rename',uid,name:`Burst${i}`});
+  game.dispatch({type:'cheatResources',coins:4321});
+  assert.equal(writes,0,'A burst of actions is not written action by action.');
+  // One microtask hop resumes within the same task, so the write it finds was made before the task ended.
+  await microtasks();
+  assert.equal(writes,1,'The burst is written once before its task ends.');await settled();
+  assert.equal(await nickname(),'Burst9');assert.equal(JSON.parse((await stored())!).game.coins,4321);
+  game.dispatch({type:'dismissNotice'});await microtasks();
+  assert.equal(writes,1,'An action that changes nothing writes nothing.');
+  game.dispatch({type:'rename',uid,name:'Export'});
+  const exported=game.exportSave();
+  assert.equal(writes,2);await settled();assert.equal(await stored(),exported,'An export writes the latest state first.');
+  await microtasks();game.exportSave();
+  assert.equal(writes,2,'Neither the end of the task nor an export with nothing pending writes again.');
+  full=true;game.dispatch({type:'rename',uid,name:'Full'});
+  assert.equal(nicknameIn(game.exportSave()),'Full','An export returns the latest state when storage refuses the write.');
+  await settled();assert.equal(saveWriteProblem(),'QuotaExceededError','A refused write is reported to the shell.');
+  full=false;game.dispatch({type:'rename',uid,name:'Retry'});await microtasks();
+  assert.equal(writes,3,'The next action writes again.');await settled();assert.equal(await nickname(),'Retry');
+  assert.equal(saveWriteProblem(),null,'A successful write clears the report.');
+  game.dispatch({type:'rename',uid,name:'Reset'});game.reset();
+  assert.equal(writes,4,'A new journey replaces the pending write at once.');await settled();assert.equal(await stored(),game.exportSave());
+  await microtasks();assert.equal(writes,4,'The end of the task writes nothing more.');
+  game.dispatch({type:'rename',uid:game.snapshot().party[0],name:'Import'});game.importSave(exported);
+  assert.equal(writes,5,'An import replaces the pending write at once.');await settled();
+  assert.equal(await stored(),game.exportSave());assert.equal(await nickname(),'Export');
+  await microtasks();assert.equal(writes,5,'The end of the import\'s task writes nothing more.');
+  await saves.newSave();full=true;await saves.load(first);full=false;
+  const opened=saves.current().game;await settled();
+  assert.equal(saveWriteProblem(),'QuotaExceededError','A game whose first write is refused still opens, with the report.');
+  opened.dispatch({type:'rename',uid,name:'Opened'});await microtasks();await settled();
+  assert.equal(saveWriteProblem(),null);assert.equal(await nickname(),'Opened','Its next action is written.');
+  return {checks:['burst writes once before its task ends','burst writes the latest state','unchanged save not written','export writes the latest state',
+    'export returns the latest state when storage refuses it','refused write reported until the next write','first write refused',
+    'reset writes at once','import writes at once']};
 }

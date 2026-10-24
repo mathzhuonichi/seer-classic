@@ -36,7 +36,7 @@ const MIN_FRAMES = 20;
 async function fixtures() {
   memoryStorage();
   return withSsr(NAME, async load => {
-    const [{createGame}, {loadCatalog}, {newSave}, {writeLocalSave}, {gameAudio}]
+    const [{createGame}, {loadCatalog}, {newSave}, {LEGACY_SAVE_KEY}, {gameAudio}]
       = await Promise.all(['/src/kernel/game.ts', '/src/domain/catalog/catalog.ts', '/src/kernel/save.ts', '/src/kernel/persistence.ts',
         '/src/shared/audio/game-audio.ts'].map(load));
     const catalog = await loadCatalog();
@@ -47,7 +47,7 @@ async function fixtures() {
       assert(game.dispatch({type: 'cheatAcquire', species: SPECIES, level: LEVEL}).ok, `cheatAcquire ${SPECIES}`);
       const [lead] = game.snapshot().monsters;
       assert(game.dispatch({type: 'equip', uid: lead.uid, skills: [SKILL.id]}).ok, `equip ${SKILL.name}`);
-      writeLocalSave(game.exportSave());
+      localStorage.setItem(LEGACY_SAVE_KEY, game.exportSave());
     });
     return {silent, save};
   });
