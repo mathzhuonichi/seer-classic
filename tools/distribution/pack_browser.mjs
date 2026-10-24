@@ -7,12 +7,13 @@
  *     runtime/<platform>/node[.exe], LICENSE        the official Node.js pinned in tools/distribution/browser/node-runtime.json
  *     server.mjs                                    tools/distribution/browser/server.mjs
  *     game/                                         the web build (index.html, assets/, ruffle/) and the payload
- *     请先阅读.txt, THIRD-PARTY-NOTICES.txt
+ *     运行说明.md, THIRD-PARTY-NOTICES.txt           the player guide (tools/distribution/browser/运行说明.md) and the notices
  *
  * Steps: the web build without public/ (no source maps); THIRD-PARTY-NOTICES.txt (third-party-notices.mjs);
  * the payload of stage_payload.py (the requestable files of public/, APFS clones) and the payload gate on this build and
  * payload; Node.js from .cache/node-runtime/, downloaded when missing and checked against the pinned SHA-256; the
- * folder; the ZIP (zip.mjs, without ZIP64). The staging folder releases/browser-stage/ is deleted unless --keep is given.
+ * folder; the ZIP (zip.mjs, without ZIP64); the guide again beside the ZIP, to send along. The staging folder
+ * releases/browser-stage/ is deleted unless --keep is given.
  *
  * Usage: node tools/distribution/pack_browser.mjs [--out releases] [--keep]   (NODE_USE_ENV_PROXY=1 behind a proxy)
  */
@@ -34,7 +35,8 @@ const pin = JSON.parse(fs.readFileSync(path.join(browser, 'node-runtime.json'), 
 const cache = path.join(root, '.cache/node-runtime', `v${pin.version}`);
 const BUILD_ENTRIES = ['assets', 'index.html', 'ruffle'];
 const EXECUTABLE = 0o755, READABLE = 0o644, EXECUTE_BITS = 0o111;
-const BOM = '\ufeff';
+/** The player guide, at the package root and beside the ZIP: UTF-8 without a BOM, with CRLF line ends for Notepad. */
+const GUIDE = '运行说明.md';
 /** Longest path inside the ZIP that still extracts below a folder like C:\Users\<name>\Downloads\ within Windows' 260. */
 const MAX_WINDOWS_PATH = 180;
 /** Names Windows cannot create: reserved devices, characters it forbids, trailing dots or spaces. */
@@ -86,8 +88,9 @@ async function buildGame() {
   return outDir;
 }
 
-/** The text of a launcher or README in the line ends of its system. */
+/** The text of a launcher or the guide in the line ends of its system. */
 const withLineEnds = (text, crlf) => (crlf ? text.replace(/\r?\n/g, '\r\n') : text);
+const guide = () => withLineEnds(fs.readFileSync(path.join(browser, GUIDE), 'utf8'), true);
 
 /** Assembles stage/<name>/ from the build, the payload and the runtime; moves the build and the payload into game/. */
 function assemble(buildDir, payloadDir, runtime, notices) {
@@ -110,7 +113,7 @@ function assemble(buildDir, payloadDir, runtime, notices) {
   fs.writeFileSync(path.join(target, '启动游戏-Windows.bat'), withLineEnds(text('launch-windows.bat'), true));
   fs.writeFileSync(path.join(target, '启动游戏-macOS.command'), text('launch-macos.command'), {mode: EXECUTABLE});
   fs.chmodSync(path.join(target, '启动游戏-macOS.command'), EXECUTABLE);
-  fs.writeFileSync(path.join(target, '请先阅读.txt'), BOM + withLineEnds(text('player-readme.txt'), true));
+  fs.writeFileSync(path.join(target, GUIDE), guide());
   return target;
 }
 
@@ -146,6 +149,7 @@ const folder = assemble(buildDir, path.join(stage, 'payload/public'), runtime, n
 const zip = path.join(out, `${name}-browser.zip`), started = performance.now();
 const written = writeZip(`${zip}.part`, entries);
 fs.renameSync(`${zip}.part`, zip);
+fs.writeFileSync(path.join(out, GUIDE), guide());
 const unpacked = entries.reduce((sum, entry) => sum + fs.statSync(entry.source).size, 0);
 console.log(`${path.relative(root, zip)}: ${written.entries} of at most ${MAX_ENTRIES} entries (${written.deflated} deflated), `
   + `${(written.bytes / 2 ** 30).toFixed(2)} GiB (${written.bytes} B) for ${(unpacked / 2 ** 30).toFixed(2)} GiB unpacked, `

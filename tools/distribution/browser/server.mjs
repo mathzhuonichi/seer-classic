@@ -298,7 +298,7 @@ async function main() {
   const problems = await checkFiles(root, payload.entries);
   if (problems.length) {
     return fail([`游戏文件不完整：有 ${problems.length} 个文件缺失或已损坏，例如 ${problems.slice(0, LISTED_PROBLEMS).join('、')}。`,
-      '请删除这个文件夹，把下载的 ZIP 完整解压后再启动（解压时需要约 6 GB 可用磁盘空间）。']);
+      '请删除这个文件夹，把下载的 ZIP 完整解压后再启动（解压时需要约 7 GB 可用磁盘空间）。']);
   }
   const result = await listen(createGameServer(root, payload.version), PORT);
   if (result.refused) return fail(refusedPortLines(process.platform, result.refused));

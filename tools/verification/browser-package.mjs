@@ -3,13 +3,15 @@
  * (tools/distribution/pack_browser.mjs, design/notes/browser-package-2026-10-23.md):
  *
  * - The ZIP: fewer than 65,535 entries and under 4 GiB (no ZIP64), UTF-8 names under one SeerClassic-<version>/ folder, the
- *   .command and the node binaries executable and nothing else, game/payload.json last, no source map, .md or .DS_Store.
+ *   .command and the node binaries executable and nothing else, game/payload.json last, no source map, .DS_Store or .md
+ *   other than the guide.
  * - Unzipped with ditto (Archive Utility's engine), statically, as this Mac cannot run Windows: the .bat has CRLF line ends,
  *   ASCII lines until it switches the console to UTF-8, quoted %~dp0 paths (folders with spaces or Chinese names, no cd for UNC
  *   folders) to runtime\win-x64\node.exe, which is a 64-bit Windows executable of the pinned SHA-256; the .command has LF line
- *   ends; the README has a BOM, CRLF and the asset notice; the notices name Node.js and Ruffle's crates; every runtime has its
- *   LICENSE; the macOS node binaries carry Node.js's Developer ID signature, and this Mac's runs and is the pinned version; every
- *   file of payload.json is present at its size (server.mjs's own startup check).
+ *   ends; the guide (运行说明.md) has no BOM, CRLF, this version, both launchers, the game's address and the asset notice, and
+ *   equals the copy beside the ZIP; the notices name Node.js and Ruffle's crates; every runtime has its LICENSE; the macOS node
+ *   binaries carry Node.js's Developer ID signature, and this Mac's runs and is the pinned version; every file of payload.json
+ *   is present at its size (server.mjs's own startup check).
  * - Smoke, in Chrome and WebKit (when installed) through the package's own server.mjs and Node.js: the world map, a wild battle
  *   whose skill effect Ruffle draws, the save the battle wrote after a reload, the probe, a 404, a .gz file as raw bytes and a
  *   Range request.
@@ -35,7 +37,8 @@ const {values: args} = parseArgs({options: {zip: {type: 'string', default: `rele
   keep: {type: 'boolean', default: false}, 'skip-suites': {type: 'boolean', default: false}}});
 const ZIP = path.resolve(root, args.zip), UNZIPPED = path.join(root, 'artifacts', NAME, 'unzipped'), PACKAGE = path.join(UNZIPPED, folder);
 const pin = JSON.parse(fs.readFileSync(path.join(root, 'tools/distribution/browser/node-runtime.json'), 'utf8'));
-const TOP_LEVEL = ['THIRD-PARTY-NOTICES.txt', 'game', 'runtime', 'server.mjs', '启动游戏-Windows.bat', '启动游戏-macOS.command', '请先阅读.txt'];
+const GUIDE = '运行说明.md', LAUNCHERS = ['启动游戏-Windows.bat', '启动游戏-macOS.command'];
+const TOP_LEVEL = ['THIRD-PARTY-NOTICES.txt', 'game', 'runtime', 'server.mjs', ...LAUNCHERS, GUIDE];
 const EXECUTABLE = 0o755, UTF8_NAMES = 0x0800;
 const SUITES = ['battle-skill-effects.mjs', 'browser-regressions.mjs'];
 /** PE: the "PE\0\0" signature's offset is at 0x3c; the machine field follows it. AMD64 is 0x8664. */
@@ -53,7 +56,8 @@ t.check('the ZIP needs no ZIP64 and keeps UTF-8 names under one folder', () => {
   assert.deepEqual(directory.filter(entry => !(entry.flags & UTF8_NAMES)).map(entry => entry.name), [], 'names without the UTF-8 flag');
   assert.deepEqual(directory.filter(entry => !entry.name.startsWith(`${folder}/`)).map(entry => entry.name), [], `entries outside ${folder}/`);
   assert.deepEqual([...new Set(directory.map(entry => entry.name.split('/')[1]))].sort(), TOP_LEVEL);
-  assert.deepEqual(directory.filter(entry => /\.map$|\.md$|(^|\/)\.DS_Store$/.test(entry.name)).map(entry => entry.name), []);
+  const unwanted = entry => /\.map$|\.md$|(^|\/)\.DS_Store$/.test(entry.name) && entry.name !== `${folder}/${GUIDE}`;
+  assert.deepEqual(directory.filter(unwanted).map(entry => entry.name), []);
   const executable = directory.filter(entry => entry.mode === EXECUTABLE).map(entry => entry.name.slice(folder.length + 1)).sort();
   assert.deepEqual(executable, ['runtime/darwin-arm64/node', 'runtime/darwin-x64/node', 'runtime/win-x64/node.exe', '启动游戏-macOS.command']);
   assert.equal(directory.at(-1).name, `${folder}/game/payload.json`, 'payload.json last: an extraction cut short lacks it');
@@ -92,11 +96,12 @@ t.check('the macOS launcher: LF, a shell script that picks the node of this Mac'
   assert.match(text, /exec "\$node" "\$here\/server\.mjs"/);
   assert.equal(fs.statSync(path.join(PACKAGE, '启动游戏-macOS.command')).mode & EXECUTABLE, EXECUTABLE, 'executable after unzipping');
 });
-t.check('the README and the notices', () => {
-  const readme = read('请先阅读.txt').toString('utf8');
-  assert(readme.startsWith('﻿'), 'a BOM, for Notepad');
-  assert.doesNotMatch(readme, /[^\r]\n/, 'CRLF');
-  assert(readme.includes(notice), 'the asset notice');
+t.check('the guide and the notices', () => {
+  const guide = read(GUIDE), text = guide.toString('utf8');
+  assert(!text.startsWith('\ufeff'), 'UTF-8 without a BOM');
+  assert.doesNotMatch(text, /[^\r]\n/, 'CRLF, for Notepad');
+  for (const part of [`赛尔号经典版 ${version}`, ...LAUNCHERS, 'http://127.0.0.1:1426', notice]) assert(text.includes(part), part);
+  assert.deepEqual(fs.readFileSync(path.join(path.dirname(ZIP), GUIDE)), guide, 'the copy beside the ZIP');
   const notices = read('THIRD-PARTY-NOTICES.txt');
   assert.deepEqual(notices, read('game/THIRD-PARTY-NOTICES.txt'), 'the game serves the same notices in 关于');
   const parts = [notice, `Node.js ${pin.version}`, 'Rust crates in Ruffle\'s WebAssembly', 'symphonia-core 0.5.5', 'JavaScript packages in Ruffle\'s ruffle.js'];
