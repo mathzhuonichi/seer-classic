@@ -5,6 +5,8 @@
  * - The identifier names the folders of the save files and of the web view's storage (the 0.2 app's save is under it), and the
  *   page origin (tauri://localhost, http://tauri.localhost on Windows) holds that storage: changing either, or turning on
  *   useHttpsScheme, would strand every player's earlier data (design/notes/desktop-package-2026-10-23.md).
+ * - The minimum macOS version is the first whose web view runs the game: Safari 16.4 (macOS 13.3) brought DecompressionStream,
+ *   which the battle loader needs.
  * - The asset notice (src/app/asset-notice.txt), shown in 关于, is also in the player README of the package.
  */
 import assert from 'node:assert/strict';
@@ -13,6 +15,8 @@ import path from 'node:path';
 import {root, suite} from './_harness.mjs';
 
 const IDENTIFIER = 'local.chizhuoni.seer-classic';
+/** macOS 13.3 ships Safari 16.4, the first WebKit with DecompressionStream. */
+const MINIMUM_MACOS = '13.3';
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const json = file => JSON.parse(read(file));
 /** The `version = "…"` line of a TOML table whose `name` line comes first. */
@@ -33,6 +37,9 @@ check('the identifier and origin stay', () => {
   for (const file of ['src-tauri/tauri.bundle.conf.json']) assert.equal(json(file).identifier, undefined, `${file} keeps the identifier`);
   assert.doesNotMatch(read('src-tauri/src/main.rs') + read('src-tauri/src/shell.rs'), /register_(asynchronous_)?uri_scheme_protocol/,
     'the page is served by Tauri\'s own protocol');
+});
+check('the minimum macOS version has the web view the game needs', () => {
+  assert.equal(tauri.bundle.macOS.minimumSystemVersion, MINIMUM_MACOS);
 });
 check('the player README and the notices carry the asset notice', () => {
   const notice = read('src/app/asset-notice.txt').trim();

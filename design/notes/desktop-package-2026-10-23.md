@@ -16,6 +16,8 @@ critic produced a merged plan; the coordinator then fixed these points:
 - Windows ships as a portable ZIP. Nothing in this run cross-compiles Windows: that needs `brew install llvm`, which waits for
   the user's approval.
 - Version, minimum macOS version and architecture (arm64) stay as they are until the user answers; the in-game modifier stays.
+  The user then chose version 0.9.0 and macOS 13.3 (with the browser package); the DMG
+  measured below was built before that and still says 0.3.2 and 12.0.
 
 Before this work, `npm run package` would have tried to compile all of `public/` (2.8 GiB) into the executable: Vite copies
 `public/` into the build, and Tauri embeds every file of `frontendDist` (brotli, then `include_bytes!`). The desktop study
@@ -144,8 +146,8 @@ entry point sets.
 ### Identity and notices
 
 - `tauri.conf.json` reads its version from package.json. The `desktop-identity` gate keeps Cargo.toml, Cargo.lock and
-  package-lock.json equal to it, and keeps the identifier, Tauri's own protocol and `useHttpsScheme` off. Versions are unchanged
-  (0.3.2) until the coordinator sets them.
+  package-lock.json equal to it, keeps the identifier, Tauri's own protocol and `useHttpsScheme` off, and keeps the minimum
+  macOS version at 13.3. The version is 0.9.0.
 - `tools/distribution/third-party-notices.mjs` writes THIRD-PARTY-NOTICES.txt (512 KiB) from what ships: the 18 npm packages
   whose modules Rolldown bundles into the desktop build (an in-memory build with the project's configuration, not `npm ls`:
   `@seer-pet-anim/swf-bundle`'s AGPL dependency `@arkntools/unity-js` is not among them), Ruffle with its LICENSE_MIT and
@@ -303,8 +305,8 @@ save.json 是当前存档，backup-1.json 到 backup-3.json 是较早的备份�
 - A save still inside the page (its message not yet received by the shell) is lost at a reload or a quit in the same
   milliseconds. The desktop build blocks reloads, and a player quits long after the last action.
 - Gatekeeper's first check of a quarantined, downloaded DMG on another Mac was not timed.
-- The minimum macOS version stays 12.0, but the build targets Safari 16.4 and the battle loader needs DecompressionStream
-  (Safari 16.4): the critic recommends 13.3. The icon is still the upscaled official favicon. Both wait for the user.
+- The minimum macOS version is 13.3 (Safari 16.4, whose DecompressionStream the battle loader needs), as the critic
+  recommended. The icon is still the upscaled official favicon; it waits for the user.
 - WebKit pauses animation frames while the window cannot be seen, so a battle's loading screen waits while the game is hidden,
   as in a background browser tab; it goes on when the window shows again.
 - A catalog-id stability check against the previous release (gate item 5 of the merged plan) is not built; `golden-saves` covers
