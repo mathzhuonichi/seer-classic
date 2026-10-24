@@ -82,11 +82,11 @@ function captureText(event: EventOf<'capture_attempt'>, context: BattleLogContex
 
 /**
  * How the battle ended. The result text after it names a loss, a draw or a challenge's win; a wild win's names only the reward,
- * so this line names that win. A capture's or a retreat's end needs no line: the capsule's or the flee's line already says how
- * the battle ended. A turn cap ends on the turn the cap allows.
+ * so this line names that win. A capture's, a retreat's or a wild monster's flee's end needs no line: the capsule's or the flee's
+ * line already says how the battle ended. A turn cap ends on the turn the cap allows.
  */
 function battleEndText(event: EventOf<'battle_end'>, context: BattleLogContext): string {
-  if (event.reason === 'capture' || event.reason === 'flee') return '';
+  if (event.reason === 'capture' || event.reason === 'flee' || event.reason === 'wild_fled') return '';
   if (event.reason === 'turn_cap') return `已达到 ${event.turns} 回合上限。`;
   return event.success && !context.challenge ? '战斗胜利！' : '战斗结束。';
 }
@@ -164,6 +164,7 @@ export function battleEventText(event: BattleEvent, context: BattleLogContext): 
     case 'capture_attempt': return captureText(event, context);
     case 'flee': return `${sideLabel(event)}撤离了战斗。`;
     case 'boss_fled': return '对手撤离了战斗。';
+    case 'wild_fled': return `${name}逃跑了！`;
     case 'boss_trait': return event.trait === 'barrier_broken' ? `${name}的屏障被打破了，攻击恢复有效。` : '';
     case 'battle_end': return battleEndText(event, context);
     case 'say': return event.text.zh;
@@ -220,7 +221,7 @@ function battleStepText(step: readonly BattleEvent[], context: BattleLogContext)
  * do not push the turn's first move out of the recent log (`recentBattleLog`, the last two entries).
  */
 const GROUP_STARTS: ReadonlySet<BattleEvent['type']> =
-  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'battle_end']);
+  new Set(['turn_start', 'move_used', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'flee', 'wild_fled', 'battle_end']);
 const continuesSwitch = (event: BattleEvent, previous: BattleEvent | undefined) =>
   event.type === 'switch_in' && previous?.type === 'switch_out' && previous.side === event.side;
 

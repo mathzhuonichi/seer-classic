@@ -30,12 +30,16 @@ export function battleResultTitle(battle: BattleView): string {
   if (battle.won) return '战斗胜利！';
   if (battle.resultReason === 'turn_cap') return '本场平局';
   if (battle.resultReason === 'flee') return '已撤离战斗';
+  if (battle.resultReason === 'wild_fled') return '精灵逃跑了';
   return battle.challenge ? '挑战失败' : '战斗失败';
 }
 
-/** Win or lose jingle once playback settles; captures, retreats and draws stay silent. */
+/** Ends that are neither won nor lost: a retreat, a draw and a wild monster's flee. */
+const UNDECIDED_ENDS: ReadonlySet<string | undefined> = new Set(['flee', 'turn_cap', 'wild_fled']);
+
+/** Win or lose jingle once playback settles; captures, retreats, draws and wild flees stay silent. */
 export function battleEndSound(battle: BattleView): 'win' | 'lose' | null {
-  if (!battle.finished || battle.captured || battle.resultReason === 'flee' || battle.resultReason === 'turn_cap') return null;
+  if (!battle.finished || battle.captured || UNDECIDED_ENDS.has(battle.resultReason)) return null;
   return battle.won ? 'win' : 'lose';
 }
 

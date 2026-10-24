@@ -102,7 +102,7 @@ export interface TypeMatchupView {
  * target, where it shows MISS at the moment the hit would have hurt.
  */
 export interface BattlePresentationFrame {
-  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'miss' | 'heal' | 'switch' | 'capture' | 'message'; text: string;
+  id: number; side: 0 | 1; kind: 'physical' | 'special' | 'status' | 'hit' | 'miss' | 'heal' | 'switch' | 'capture' | 'flee' | 'message'; text: string;
   amount?: number;
   critical?: boolean; captureSuccess?: boolean; capsuleName?: string; skillId?: number; targetSide?: 0 | 1; playerHp: number; enemyHp: number;
   player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[]; matchup: TypeMatchupView;

@@ -47,7 +47,7 @@ export function captureBlockedReason(rt: Runtime, session: BattleSession): strin
  * or another attempt for a challenge and going on exploring for a wild battle. A challenge's own message (a floor passed, a
  * stage completed, an essence or a skill gained) stands for its win. The settlement's notes follow: what the battle paid (a
  * victory's rewards, or the pooled experience a non-win's knockouts still added), and the automatic evolutions made or kept
- * back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the retreat), so it does not name the
+ * back. The log's last line says only how the battle ended (战斗结束。, the turn cap, the retreat or flee), so it does not name the
  * outcome again; only a wild win's end line names the win (战斗胜利！), since this text then names only the reward.
  */
 export function resultText(session: BattleSession): string {
@@ -55,11 +55,15 @@ export function resultText(session: BattleSession): string {
   return result ? outcomeText(session, result) + session.resultNotes.join('') : '';
 }
 
+/** The original's end-of-battle line when a wild monster fled (the fight module's FightOverInfo reason 5, battle/RULES.md 9.1). */
+export const WILD_FLED_TEXT = '很可惜，这只精灵逃跑了！';
+
 function outcomeText(session: BattleSession, result: BattleResult): string {
   if (session.resultMessage) return session.resultMessage;
   const challenge = isChallenge(session);
   if (result.success) return challenge ? '挑战成功，奖励已入账。' : '';
   if (result.reason === 'flee') return '本次撤离不发放战斗奖励。';
+  if (result.reason === 'wild_fled') return WILD_FLED_TEXT;
   const next = challenge ? '可恢复后再次挑战。' : '可恢复精灵后继续探索。';
   if (result.reason === 'turn_cap') return `本场平局，${next}`;
   return `${challenge ? '挑战失败' : '战斗失败'}，${next}`;

@@ -2,7 +2,8 @@
  * The battle screen's commands against real controllers: the capture rule the view and the capture action share, and the
  * production playback player (battle-player.ts) on a manual clock: the command lock, the canAct guard, the capture frames, the
  * forced replacement, the lines a capture and a wild victory say, each once, each outcome named once by the last dialogue line (the
- * closing notice), a wild loss after a knockout that pays no pooled experience, a 挣扎 turn that ends a Boss battle (its frames
+ * closing notice), a wild monster's flee that pays nothing and leaves the arena, a wild loss after a knockout that pays no pooled
+ * experience, a 挣扎 turn that ends a Boss battle (its frames
  * and its settlement), a settlement that outlives a failed presentation, and the hold on turn preparation while a turn plays.
  */
 import assert from 'node:assert/strict';
@@ -91,7 +92,7 @@ await withSsr('battle-commands', async load => {
     const rerender = () => { stop(); stop = player.play(game.snapshot().battle); };
     return {player, clock, dispatched, sounds, events, dialogue, saidAt, idle, rerender};
   }
-  const wild = (input = catalog) => started({type: 'startTraining', species: 22, level: 3}, input);
+  const wild = (input = catalog, species = 22) => started({type: 'startTraining', species, level: 3}, input);
   const failing = structuredClone(catalog);
   failing.species.find(species => species.id === 22).catch_rate = 0;
 
@@ -176,9 +177,11 @@ await withSsr('battle-commands', async load => {
   const isTurnHeader = line => /^第 \d+ 回合$/.test(line);
   /** The dialogue since the last turn header. */
   const lastTurn = ui => ui.dialogue.slice(ui.dialogue.findLastIndex(isTurnHeader));
-  /** Words that name a battle's outcome. The player's own flee line is the retreat itself, not a line about it. */
-  const NAMES_OUTCOME = /胜利|成功|失败|平局|撤离/, FLEE_LINE = '我方撤离了战斗。';
-  const outcomeLines = ui => lastTurn(ui).filter(line => NAMES_OUTCOME.test(line) && line !== FLEE_LINE);
+  /** Words that name a battle's outcome. A flee line (the player's or the wild monster's) is the flee itself, not a line about it. */
+  const NAMES_OUTCOME = /胜利|成功|失败|平局|撤离|逃跑/, FLEE_LINE = '我方撤离了战斗。';
+  /** 该伊 (474) flees from its 5th turn (battle/RULES.md 9.1). */
+  const FLEEING_SPECIES = 474, FLEE_TURN = 5, WILD_FLEE_LINE = '该伊逃跑了！', WILD_FLED_TEXT = '很可惜，这只精灵逃跑了！';
+  const outcomeLines = ui => lastTurn(ui).filter(line => NAMES_OUTCOME.test(line) && line !== FLEE_LINE && line !== WILD_FLEE_LINE);
 
   /** What the settled battle in `game` paid since `before` (its exported save), in the result text's words. */
   const paidText = (game, before) => {
@@ -223,6 +226,7 @@ await withSsr('battle-commands', async load => {
     // ends with what it paid, which the save shows once it has settled.
     const outcomes = {
       'wild retreat': [wild(), '已撤离战斗', [FLEE_LINE, '本次撤离不发放战斗奖励。'], {action: {type: 'flee'}}],
+      'wild flee': [wild(stalled, FLEEING_SPECIES), '精灵逃跑了', [WILD_FLEE_LINE, WILD_FLED_TEXT]],
       'wild loss': [lost({type: 'startTraining', species: 22, level: 100}), '战斗失败', ['战斗结束。', '战斗失败，可恢复精灵后继续探索。']],
       'wild draw': [wild(stalled), '本场平局', [`已达到 ${MAX_TURNS} 回合上限。`, '本场平局，可恢复精灵后继续探索。'], {turns: MAX_TURNS}],
       'challenge loss': [lost({type: 'startBattle', bossId: catalog.bosses[0].id}), '挑战失败', ['战斗结束。', '挑战失败，可恢复后再次挑战。']],
@@ -245,6 +249,23 @@ await withSsr('battle-commands', async load => {
     const challenge = outcomes['challenge loss'][0].snapshot().battle;
     assert.equal(challenge.log[0], `挑战${challenge.name}。`, 'a challenge opens as one');
     t.witness('outcome endings', said);
+  });
+
+  t.check('A wild monster that flees runs off in its turn, pays nothing and keeps the team\'s HP and PP as the battle left them', () => {
+    const game = wild(stalled, FLEEING_SPECIES), ui = screen(game), before = game.exportSave();
+    const view = playOut(game, ui), state = ui.player.state(), save = JSON.parse(game.exportSave());
+    assert.deepEqual([view.finished, view.won, view.resultReason, view.turn, view.captured], [true, false, 'wild_fled', FLEE_TURN, false]);
+    assert.deepEqual(view.animation.frames.filter(frame => frame.kind === 'flee').map(frame => [frame.side, frame.text]), [[1, WILD_FLEE_LINE]]);
+    assert.deepEqual([state.foeFled, state.busy, ui.dialogue.at(-1), view.result], [true, false, WILD_FLED_TEXT, WILD_FLED_TEXT]);
+    const was = JSON.parse(before), lead = was.party[0], mon = save => save.storage.find(entry => entry.uid === lead);
+    const purse = save => [save.game.battlesWon, save.game.coins, save.exp_pool];
+    assert.deepEqual(purse(save), purse(was), 'no victory, coins or pooled experience');
+    assert.deepEqual([save.storage.length, mon(save).exp, mon(save).evs], [was.storage.length, mon(was).exp, mon(was).evs], 'no capture, EXP or 学习力');
+    for (const entry of view.party) {
+      const saved = save.storage.find(m => m.uid === entry.uid);
+      assert.deepEqual([saved.hp, entry.skills.map(skill => saved.pp[skill.id])], [entry.hp, entry.skills.map(skill => skill.pp)], 'HP and PP as the battle left them');
+    }
+    assert.ok(ui.sounds.every(sound => sound === 'click'), 'a flee ends without a jingle');
   });
 
   t.check('A wild loss after a knockout adds no pooled experience, since the knockout\'s participant fell, and names only the loss', () => {

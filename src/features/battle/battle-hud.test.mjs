@@ -40,9 +40,9 @@ test('the item pane falls back to recovery without capture and lists no revival 
 
 test('the result title names the outcome once, and a challenge\'s loss as a challenge\'s', () => {
   const title = extra => battleResultTitle(battle({finished: true, won: false, challenge: false, ...extra}));
-  const outcomes = [{captured: true}, {won: true}, {resultReason: 'turn_cap'}, {resultReason: 'flee'}, {resultReason: 'ko'},
-    {resultReason: 'ko', challenge: true}, {resultReason: 'lose_condition', challenge: true}];
-  assert.deepEqual(outcomes.map(title), ['捕捉成功！', '战斗胜利！', '本场平局', '已撤离战斗', '战斗失败', '挑战失败', '挑战失败']);
+  const outcomes = [{captured: true}, {won: true}, {resultReason: 'turn_cap'}, {resultReason: 'flee'}, {resultReason: 'wild_fled'},
+    {resultReason: 'ko'}, {resultReason: 'ko', challenge: true}, {resultReason: 'lose_condition', challenge: true}];
+  assert.deepEqual(outcomes.map(title), ['捕捉成功！', '战斗胜利！', '本场平局', '已撤离战斗', '精灵逃跑了', '战斗失败', '挑战失败', '挑战失败']);
 });
 
 test('settled dialogue, end sounds and the latest turn log', () => {
@@ -52,7 +52,7 @@ test('settled dialogue, end sounds and the latest turn log', () => {
   assert.equal(settledDialogue(battle()), '请选择下一回合的指令。');
   assert.equal(battleEndSound(battle({finished: true, won: true})), 'win');
   assert.equal(battleEndSound(battle({finished: true, won: false})), 'lose');
-  for (const quiet of [{captured: true}, {resultReason: 'flee'}, {resultReason: 'turn_cap'}, {finished: false}])
+  for (const quiet of [{captured: true}, {resultReason: 'flee'}, {resultReason: 'turn_cap'}, {resultReason: 'wild_fled'}, {finished: false}])
     assert.equal(battleEndSound(battle({finished: true, ...quiet})), null);
   assert.deepEqual(recentBattleLog(['第 1 回合', 'x', '第 2 回合', 'a', 'b', 'c']), ['b', 'c']);
   assert.deepEqual(recentBattleLog(['a']), ['a']);

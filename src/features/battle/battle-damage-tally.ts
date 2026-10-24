@@ -35,7 +35,7 @@ export interface TallyShare {
 /** Events after which a damage event no longer belongs to the move before them: another action, an entry, a tick or the turn's end. */
 const MOVE_ENDS: ReadonlySet<BattleEvent['type']> = new Set([
   'turn_start', 'turn_end', 'item_used', 'capture_attempt', 'switch_out', 'switch_in', 'condition_tick', 'cant_act', 'no_target', 'flee',
-  'battle_end',
+  'wild_fled', 'battle_end',
 ]);
 /** Events that set a creature's HP anew, so the move's next damage to it starts a new number (a Boss's full heal, a life or a phase). */
 const TALLY_ENDS: ReadonlySet<BattleEvent['type']> = new Set(['heal', 'revive', 'faint', 'transform', 'max_hp_changed']);
