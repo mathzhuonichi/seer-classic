@@ -124,6 +124,9 @@
     "browser-regressions.mjs": {
       "status": "needs-browser"
     },
+    "browser-save-slots.mjs": {
+      "status": "needs-browser"
+    },
     "campaign-mechanics.ts": {
       "status": "gate"
     },
