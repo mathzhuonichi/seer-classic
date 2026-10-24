@@ -1,9 +1,7 @@
-// Seer side-effect templates, tail of the list (1–2 skills each). Template
-// text is quoted above each entry. How scripts work: SCRIPTS.md.
+// Seer side-effect templates, tail of the list (1–2 skills each); the gender-only ones are in seer-gender.ts.
+// Template text is quoted above each entry. How scripts work: SCRIPTS.md.
 //
 // Interpretations used throughout:
-// - 性别 (雌性/雄性) does not exist in our data: gender branches never match, so
-//   gender-only templates are no-ops.
 // - "属性相同" without a subject = user and foe share a type (as 401/403 spell out).
 // - "属性技能/属性攻击" = status skills (category 'status').
 // - "N回合内每回合…" effects fire once per counted turn (turn_end, skipping the
@@ -35,7 +33,6 @@ const RANDOM_STATUSES = ['burn', 'freeze', 'poison', 'paralysis', 'fear', 'sleep
 const CLEAR_SCRIPTS = new Set(['seer_eff_85', 'seer_eff_143']);
 let reflecting = false; // seer_eff_191 re-entrancy guard
 
-const NOOP: ScriptEntry = { apply() {} };
 const koByMove = (c: ApplyCtx) => c.foe.fainted && c.battle.lastKo?.target === c.foe && c.battle.lastKo?.by === c.user;
 /** The defense stat a move's category hits (`m` is any context with `skill`). */
 const guardStat = (m: { skill: { category: string } }): StageKey => (m.skill.category === 'physical' ? 'def' : 'spd');
@@ -278,8 +275,6 @@ const ENTRIES: Record<string, ScriptEntry> = {
   seer_eff_422: { apply(c, p) { hitFoe(c, (c.ctx.damageDealt * p[0]) / 100); } },
   // 对手处于睡眠状态时，致命一击率提升{0}%   (arg is x/16: 4 = 25%)
   seer_eff_95: { crit(c, p) { return hasStatus(c.foe, 'sleep') ? { add: p[0] } : undefined; } },
-  // 对方为{0}则附加{1}点伤害   (gender)
-  seer_eff_130: NOOP,
   // 若对手处于能力下降状态则附加{0}点伤害
   seer_eff_167: bonusDamageIf((c) => hasStageDown(c.foe)),
   // 若对手处于异常状态，则{1}%自身{0}等级{2}
@@ -327,12 +322,8 @@ const ENTRIES: Record<string, ScriptEntry> = {
       if (c.point === 'on_hit' && --pool.left <= 0) disarm(c.battle, c.holder.side, 'seer_eff_71');
     },
   },
-  // 自身雄性，下两回合必定先手；自身雌性，下两回合必定致命一击   (gender)
-  seer_eff_83: NOOP,
   // {0}回合内自身造成的伤害为{1}倍
   seer_eff_90: { apply(c, p) { attach(c.battle, c.user, 'seer_eff_90', '伤害加倍', [{ on: 'modify_damage_dealt', multiplier: p[1] }], p[0]); } },
-  // 对方为{0}则免疫当前回合伤害   (gender)
-  seer_eff_131: NOOP,
   // 使对手的能力提升效果反转成能力下降效果
   seer_eff_143: {
     apply(c) { for (const k of STAGES) if (c.foe.stages[k] > 0) c.battle.changeStage(c.foe, k, -2 * c.foe.stages[k], true, moveSkill(c.ctx)); },
@@ -357,8 +348,6 @@ const ENTRIES: Record<string, ScriptEntry> = {
   seer_eff_8: { finalDamage(c, _p, d) { return c.info.kind === 'attack' ? Math.min(d, Math.max(0, c.foe.hp - 1)) : undefined; } },
   // 若没有命中对手则自己失去全部体力
   seer_eff_72: { onMiss(c) { selfLoss(c.battle, c.user, c.user.hp); } },
-  // 目标为雄性，伤害为200%；目标为雌性，伤害为50%   (gender)
-  seer_eff_82: NOOP,
   // 附加额外伤害，自身等级越高，附加的伤害越高   (bonus = level, see ENGINE GAPS)
   seer_eff_111: { apply(c) { hitFoe(c, c.user.level); } },
   // 牺牲全部体力给对手造成250~300点伤害，造成致命伤害时，对手剩下1点体力
@@ -514,8 +503,6 @@ const ENTRIES: Record<string, ScriptEntry> = {
       if (!c.battle.result && !p?.[0]) selfLoss(c.battle, c.user, n);
     },
   },
-  // {0}回合内对雄性精灵的伤害为{1}倍   (gender)
-  seer_eff_98: NOOP,
   // 50%概率对方减血1/{0}，50%概率自己减血1/{0}
   seer_eff_120: {
     apply(c, p) {

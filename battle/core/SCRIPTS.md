@@ -13,6 +13,7 @@ the game adds its own registries (see [Game registries](#game-registries)).
 | `index.ts` | `SEER_SCRIPTS`, the merged registry |
 | `seer-main.ts` | the 42 most used templates (3+ skills each) |
 | `seer-tail.ts` | the other templates, with the interpretations and engine gaps they rely on |
+| `seer-gender.ts` | the gender-only templates, no-ops because our data has no 性别 |
 | `boss.ts` | boss rules (`install`) and phase ops (`apply`); exports `statusOnAttacker` for campaign rules |
 | `builders.ts` | entry factories: `timedScripts`, `ruleScripts` and the template families |
 | `context.ts` | the context type of each entry member (`ApplyCtx`, `HookCtx`, ...) |
