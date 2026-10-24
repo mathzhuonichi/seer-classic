@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
-import {BOOT_TIMEOUT_MS, buildApp, openGame, talkToCreature, wait, waitCommands, waitWorld, withBrowser} from './_browser.mjs';
+import {BOOT_TIMEOUT_MS, buildApp, keepDrawingBuffers, openGame, talkToCreature, wait, waitCommands, waitWorld, withBrowser} from './_browser.mjs';
 
 const NAME = 'battle-hd-display';
 const OUT = path.join(root, 'artifacts', NAME);
@@ -54,14 +54,6 @@ async function fixtures() {
     })]));
     return {silent, saves};
   });
-}
-
-/** Init script: keep every WebGL drawing buffer so the drawn pose can be read back after compositing. */
-function keepDrawingBuffers() {
-  const getContext = HTMLCanvasElement.prototype.getContext;
-  HTMLCanvasElement.prototype.getContext = function (type, attributes) {
-    return getContext.call(this, type, /webgl/.test(type) ? {...attributes, preserveDrawingBuffer: true} : attributes);
-  };
 }
 
 /** Runs in the page: the lead's canvas, its displayed size and the visible alpha box of what it drew, in backing pixels. */

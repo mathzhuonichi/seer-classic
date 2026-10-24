@@ -4,12 +4,15 @@
  * There is no dev server and no localhost: `buildApp` builds the app with Vite into artifacts/ without public/, and every
  * request to ORIGIN is answered by Playwright request interception, from that build and then from public/, or from the folder
  * SEER_PUBLIC names: `SEER_PUBLIC=releases/desktop-payload/public` runs the suites against the staged desktop payload.
+ * `SEER_PACKAGE=<unzipped browser package>` runs them against that package instead: nothing is built, and every request is
+ * answered by the package's own server.mjs, run by its own Node.js for macOS (_package-server.mjs, over an IPC channel).
  * Every page is silent: the game's own mute setting, WebAudio contexts that never run and muted media elements, and Chrome
  * also runs with --mute-audio. Browsers are closed by `withBrowser`, also when a check fails or times out.
  *
  * Chrome is the system Google Chrome (Playwright's `chrome` channel) or the executable named by SEER_CHROME. Playwright
  * WebKit stands in for the Tauri WKWebView and runs only when installed (`npx playwright-core install webkit`).
  */
+import {spawn} from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import {build} from 'vite';
@@ -19,6 +22,8 @@ import {root} from './_harness.mjs';
 const ORIGIN = 'http://seer.test';
 /** The asset folder served beside the build: public/, or the staged desktop payload named by SEER_PUBLIC (relative to the repository). */
 const PUBLIC = path.resolve(root, process.env.SEER_PUBLIC ?? 'public');
+/** An unzipped browser package (tools/distribution/pack_browser.mjs) whose own server answers every request, or null. */
+const PACKAGE = process.env.SEER_PACKAGE ? path.resolve(root, process.env.SEER_PACKAGE) : null;
 const VIEWPORT = {width: 1280, height: 800};
 /** How long the page load, the first world scene or a battle's first command may take. */
 export const BOOT_TIMEOUT_MS = 60_000;
@@ -28,6 +33,7 @@ export const BOOT_TIMEOUT_MS = 60_000;
  * config is imported natively: the default loader writes a bundled copy into node_modules/, which a worktree links.
  */
 export async function buildApp(outDir) {
+  if (PACKAGE) return;
   await build({root, configLoader: 'native', logLevel: 'error', build: {outDir, emptyOutDir: true, copyPublicDir: false}});
 }
 
@@ -68,6 +74,53 @@ function fileFor(dist, pathname) {
   return null;
 }
 
+/** Response headers of one HTTP connection that a fulfilled route must not repeat. */
+const HOP_BY_HOP = new Set(['connection', 'keep-alive', 'transfer-encoding', 'date']);
+let packageServer = null;
+
+/**
+ * Starts the package's server in its own Node.js (Apple silicon or Intel) and returns `ask(request)`, which resolves to the
+ * server's answer ({status, headers, body}). The child never keeps this process alive and is killed when it exits.
+ */
+function startPackageServer() {
+  const node = path.join(PACKAGE, 'runtime', process.arch === 'arm64' ? 'darwin-arm64' : 'darwin-x64', 'node');
+  const child = spawn(node, [path.join(root, 'tools/verification/_package-server.mjs'), PACKAGE],
+    {stdio: ['ignore', 'inherit', 'inherit', 'ipc'], serialization: 'advanced'});
+  const pending = new Map();
+  let next = 0, ready;
+  const started = new Promise((resolve, reject) => { ready = {resolve, reject}; });
+  child.on('message', ({id, ready: version, ...answer}) => {
+    if (version) return ready.resolve(version);
+    pending.get(id)?.resolve(answer);
+    pending.delete(id);
+  });
+  child.on('exit', code => {
+    const error = new Error(`the package server exited with ${code}`);
+    ready.reject(error);
+    for (const {reject} of pending.values()) reject(error);
+    pending.clear();
+  });
+  child.unref();
+  child.channel.unref();
+  process.on('exit', () => child.kill());
+  return async request => {
+    await started;
+    return new Promise((resolve, reject) => {
+      const id = next++;
+      pending.set(id, {resolve, reject});
+      child.send({id, ...request});
+    });
+  };
+}
+
+/** A route answered by the package's server, with the request's method, path, query and headers. */
+async function packageRoute(route) {
+  packageServer ??= startPackageServer();
+  const request = route.request(), url = new URL(request.url());
+  const {status, headers, body} = await packageServer({method: request.method(), path: url.pathname + url.search, headers: await request.allHeaders()});
+  await route.fulfill({status, body: Buffer.from(body), headers: Object.fromEntries(Object.entries(headers).filter(([name]) => !HOP_BY_HOP.has(name)))});
+}
+
 /** Runs in every page before its scripts: storage entries (the game's mute setting), silent WebAudio and muted media. */
 function silence(entries) {
   for (const [key, value] of Object.entries(entries)) try { localStorage.setItem(key, value); } catch { /* storage may be blocked */ }
@@ -82,6 +135,14 @@ function silence(entries) {
   }
   const play = HTMLMediaElement.prototype.play;
   HTMLMediaElement.prototype.play = function (...args) { this.muted = true; this.volume = 0; return play.apply(this, args); };
+}
+
+/** Init script: keep every WebGL drawing buffer so drawn frames can be read back after compositing. */
+export function keepDrawingBuffers() {
+  const getContext = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, attributes) {
+    return getContext.call(this, type, /webgl/.test(type) ? {...attributes, preserveDrawingBuffer: true} : attributes);
+  };
 }
 
 /** Seeds storage entries (a save) before the first load only, so a reload keeps what the game wrote since. */
@@ -100,7 +161,7 @@ export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT
   const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion: 'reduce'});
   const errors = [], failed = [];
   try {
-    await context.route(`${ORIGIN}/**`, async route => {
+    await context.route(`${ORIGIN}/**`, PACKAGE ? packageRoute : async route => {
       const file = fileFor(dist, new URL(route.request().url()).pathname);
       await (file ? route.fulfill({path: file}) : route.fulfill({status: 404, body: 'not found'}));
     });
