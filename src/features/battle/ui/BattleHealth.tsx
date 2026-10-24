@@ -7,8 +7,10 @@ import { hpPercent } from '../../../shared/view-helpers.ts';
 import BattleTeamStrip from './BattleTeamStrip.tsx';
 import TypeIcon from '../../../shared/ui/TypeIcon.tsx';
 
-/** One side's health panel: portrait, type, level, HP bar, conditions and team strip. */
-export default function BattleHealth({ monster, team, enemy }: { monster: BattleMonsterView; team: BattleMonsterView[]; enemy?: boolean }) {
+/** One side's health panel: portrait, type, level, HP bar, conditions and team strip; `acting`: its creature is acting its move. */
+export default function BattleHealth({ monster, team, enemy, acting }: {
+  monster: BattleMonsterView; team: BattleMonsterView[]; enemy?: boolean; acting: boolean;
+}) {
   const appearance = appearanceOf(monster);
   const summary = conditionSummary(monster);
   const level = encounterLevel(monster.level, monster.levelMasked);
@@ -28,7 +30,7 @@ export default function BattleHealth({ monster, team, enemy }: { monster: Battle
           {chip.label}{chip.value > 0 ? '↑' : '↓'}{Math.abs(chip.value)}
         </span>)}
       </div>
-      <BattleTeamStrip team={team} activeUid={monster.uid} enemy={enemy}/>
+      <BattleTeamStrip team={team} activeUid={monster.uid} enemy={enemy} acting={acting}/>
     </div>
   </section>;
 }

@@ -46,6 +46,20 @@ export interface FramePlan {
 export interface SkillEffectTiming { startMs: number; durationMs: number; hurtMs: number }
 
 export const isMoveFrame = (frame: BattlePresentationFrame) => frame.kind === 'physical' || frame.kind === 'special' || frame.kind === 'status';
+
+type Shown = BattlePresentationFrame | null | undefined;
+/** The frame `side`'s creature plays: the move whose original clip still plays on that side (`action`), else the frame on screen. */
+export const sideAction = (side: 0 | 1, frame: Shown, action: Shown) => action?.side === side ? action : frame?.side === side ? frame : null;
+/** `side`'s creature is acting its move (`sideAction`): its clip may still be at the target. */
+export function isActing(side: 0 | 1, frame: Shown, action: Shown): boolean {
+  const acted = sideAction(side, frame, action);
+  return !!acted && isMoveFrame(acted);
+}
+/**
+ * A creature shows as down (greyed out, and counted out on its team strip) at 0 HP once it is not acting its move: a counter can
+ * take it to 0 while its clip is still at the target, and it goes down when it is home.
+ */
+export const shownDown = (hp: number, acting: boolean) => hp <= 0 && !acting;
 /** The move reaches its target here: a hit, or a miss that shows MISS where the hit would have hurt. */
 const strikes = (frame: BattlePresentationFrame | undefined) => frame?.kind === 'hit' || frame?.kind === 'miss';
 
