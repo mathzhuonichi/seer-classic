@@ -196,16 +196,20 @@ BOM, and CRLF keeps older Notepad's lines apart. It reads the same rendered and 
 and `-` lists, one line each, with no table, HTML or emphasis.
 
 It covers what the game is and needs (Windows 10/11 64-bit or macOS 13.5 and later; about 7 GB free for a ZIP and a folder of
-about 3 GB each, the ZIP deletable after unzipping), unzipping the whole ZIP (全部解压缩 on Windows), the Windows launcher
+about 3 GB each, the ZIP deletable after unzipping), unzipping the whole ZIP (全部解压缩 on Windows, which puts the folder inside
+one named after the ZIP and may take over ten minutes (not timed), or another unzip program; Safari may have unzipped it), the
+Windows launcher
 (SmartScreen's 更多信息 > 仍要运行, the attachment warning, Edge's app window, the console that must stay open, Ctrl+C's Y/N
 question), the macOS launcher (Control-click > 打开 on macOS 13 and 14, 系统设置 > 隐私与安全性 > 仍要打开 on 15 and later,
 Terminal's folder request, Chrome, Edge or the default browser, closing Terminal), the save (the browser's site data for
-http://127.0.0.1:1426, 设置 > 导出存档 and 导入存档, clearing browser data, Safari's 7-day deletion, updating, 0.0.1 replacing
-0.9.0), and what to do on each message of `server.mjs` and the launchers, with a screenshot for whoever gave the game. Every
+http://127.0.0.1:1426, 设置 > 导出存档 and 导入存档, which replaces the browser's save without asking, clearing browser data,
+Safari's 7-day deletion, updating and 0.0.1 replacing 0.9.0 after closing the old console), and what to do on each message of
+`server.mjs` and the launchers and on an antivirus program's block, with a screenshot for whoever gave the game. Every
 message and label it quotes is copied from `server.mjs`, the launchers or the settings panel (`ShellPanels.tsx`), so a change to
 one of them changes the guide in the same commit. The release gate checks its version, the launchers' names, the game's address,
 the asset notice and that the copy beside the ZIP is the same file. The macOS 15 and Windows dialogs it names were not clicked
-through here (open points).
+through here (open points). Neither Windows 10 nor macOS has a default app for `.md` files, so the message that sends the ZIP
+says how to open it: `运行说明.md 用记事本（Mac：文本编辑）打开`.
 
 ## The Tauri app's removal (2026-10-24)
 
