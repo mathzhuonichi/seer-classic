@@ -178,15 +178,27 @@ export function edgeCandidates(env) {
 }
 
 /**
+ * Google Chrome's and Microsoft Edge's usual places on macOS. Safari deletes a site's script-writable storage, the save
+ * included, after 7 days of Safari use without a visit to the site (WebKit's tracking prevention).
+ */
+export function macBrowserCandidates(env) {
+  const folders = ['/Applications', ...(env.HOME ? [path.posix.join(env.HOME, 'Applications')] : [])];
+  return ['Google Chrome.app', 'Microsoft Edge.app'].flatMap(app => folders.map(folder => path.posix.join(folder, app)));
+}
+
+/**
  * The commands that open `url`, tried in order until one starts: on Windows Microsoft Edge as an app window, then the default
- * browser (explorer.exe hands a URL to it); on macOS the default browser. Elsewhere none: the console shows the address.
+ * browser (explorer.exe hands a URL to it); on macOS Google Chrome, else Microsoft Edge, else the default browser. Elsewhere
+ * none: the console shows the address.
  */
 export function browserCommands(url, {platform = process.platform, env = process.env, exists = fs.existsSync} = {}) {
   if (platform === 'win32') {
     const edge = edgeCandidates(env).find(candidate => exists(candidate));
     return [...(edge ? [{command: edge, args: [`--app=${url}`]}] : []), {command: 'explorer.exe', args: [url]}];
   }
-  return platform === 'darwin' ? [{command: 'open', args: [url]}] : [];
+  if (platform !== 'darwin') return [];
+  const app = macBrowserCandidates(env).find(candidate => exists(candidate));
+  return [{command: 'open', args: app ? ['-a', app, url] : [url]}];
 }
 
 /** Starts a command on its own; `onError` runs when it cannot start. */
@@ -251,6 +263,15 @@ export function refusedPortLines(platform, code) {
     '依次输入 net stop winnat 和 net start winnat（每行输完按回车），然后关闭那个窗口，再启动游戏。'];
 }
 
+/** What the console says once the game runs. Ctrl+C makes cmd ask whether to end the batch job, so Windows names the window only. */
+export function runningLines(version, url, platform) {
+  const browsers = platform === 'darwin' ? 'Chrome 或 Edge（Safari 可能在一周不玩后删除存档）' : 'Edge 或 Chrome';
+  return [`赛尔经典 · Seer Classic ${version}`, '', `游戏正在运行：${url}`,
+    `正在浏览器中打开游戏。如果浏览器没有自动打开，请把上面的地址复制到 ${browsers} 的地址栏。`,
+    `存档保存在这个浏览器的 ${url} 网站数据中，请一直用同一个浏览器玩。`, '',
+    `关闭这个窗口${platform === 'win32' ? '' : '（或按 Ctrl+C）'}即可停止游戏。玩游戏时请不要关闭它。`];
+}
+
 async function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'game'), url = `http://${HOST}:${PORT}/`;
   process.title = '赛尔经典 · 游戏服务（关闭这个窗口即停止游戏）';
@@ -274,10 +295,7 @@ async function main() {
     return;
   }
   for (const signal of stopSignals(process.platform)) process.on(signal, () => { result.server.closeAllConnections(); process.exit(0); });
-  console.log([`赛尔经典 · Seer Classic ${payload.version}`, '', `游戏正在运行：${url}`,
-    '正在浏览器中打开游戏。如果浏览器没有自动打开，请把上面的地址复制到 Edge、Chrome 或 Safari 的地址栏。',
-    `存档保存在这个浏览器的 ${url} 网站数据中，请一直用同一个浏览器玩。`, '',
-    '关闭这个窗口（或按 Ctrl+C）即可停止游戏。玩游戏时请不要关闭它。'].join('\n'));
+  console.log(runningLines(payload.version, url, process.platform).join('\n'));
   if (!await openBrowser(browserCommands(url))) console.log('没能自动打开浏览器，请手动打开上面的地址。');
 }
 

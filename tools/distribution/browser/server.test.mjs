@@ -9,7 +9,7 @@ import {after, before, test} from 'node:test';
 import zlib from 'node:zlib';
 import {
   APP, MIME, browserCommands, checkFiles, contentType, createGameServer, listen, openBrowser, parseRange, probe, refusedPortLines, resolvePath,
-  stopSignals,
+  runningLines, stopSignals,
 } from './server.mjs';
 
 const VERSION = '9.9.9';
@@ -235,8 +235,25 @@ test('on Windows the game opens in Edge as an app window, else in the default br
   const local = 'C:\\Users\\玩家\\AppData\\Local\\Microsoft\\Edge\\Application\\msedge.exe';
   assert.equal(browserCommands(url, {platform: 'win32', env, exists: file => file === local})[0].command, local);
   assert.deepEqual(browserCommands(url, {platform: 'win32', env: {}, exists: () => true}), [{command: 'explorer.exe', args: [url]}]);
-  assert.deepEqual(browserCommands(url, {platform: 'darwin', env, exists: () => false}), [{command: 'open', args: [url]}]);
   assert.deepEqual(browserCommands(url, {platform: 'linux', env, exists: () => true}), []);
+});
+
+test('on macOS the game opens in Chrome, else Edge (Safari may delete the save), else the default browser', () => {
+  const url = 'http://127.0.0.1:1426/', env = {HOME: '/Users/player'};
+  const chrome = '/Applications/Google Chrome.app', edge = '/Users/player/Applications/Microsoft Edge.app';
+  const open = installed => browserCommands(url, {platform: 'darwin', env, exists: file => installed.includes(file)});
+  assert.deepEqual(open([chrome, edge]), [{command: 'open', args: ['-a', chrome, url]}]);
+  assert.deepEqual(open([edge]), [{command: 'open', args: ['-a', edge, url]}]);
+  assert.deepEqual(open([]), [{command: 'open', args: [url]}]);
+  assert.deepEqual(browserCommands(url, {platform: 'darwin', env: {}, exists: file => file === edge}), [{command: 'open', args: [url]}]);
+});
+
+test('the running console names the browsers to use, and Ctrl+C only where it stops the game without a question', () => {
+  const url = 'http://127.0.0.1:1426/', text = platform => runningLines('9.9.9', url, platform).join('\n');
+  assert.match(text('darwin'), /Chrome 或 Edge（Safari 可能在一周不玩后删除存档）/);
+  assert.match(text('darwin'), /按 Ctrl\+C/);
+  assert.doesNotMatch(text('win32'), /Ctrl\+C|Safari/);
+  for (const platform of ['darwin', 'win32']) assert(text(platform).includes(url), platform);
 });
 
 test('a browser that cannot start hands over to the next command', async () => {
