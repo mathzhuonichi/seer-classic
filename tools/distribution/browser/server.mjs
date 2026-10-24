@@ -282,6 +282,16 @@ export function runningLines(version, url, platform) {
     `关闭这个窗口${platform === 'win32' ? '' : '（或按 Ctrl+C）'}即可停止游戏。玩游戏时请不要关闭它。`];
 }
 
+/**
+ * What the console says when the game server answering on the port is of another version (listen's {running: version}). The
+ * browser is not opened, as it would show that other version, and the console waits for a key: on Windows a start that exits
+ * at once closes its window before anyone can read it.
+ */
+export function otherVersionLines(running, version) {
+  return [`无法启动：赛尔经典 ${running} 已经在另一个窗口中运行，不是这个文件夹的 ${version} 版。`,
+    `要玩 ${version} 版，请先关闭那个窗口（Windows 上是黑色窗口，Mac 上是“终端”窗口），再启动这个文件夹里的游戏。`];
+}
+
 /** What the console says when the system denies reading the game files (readPayload's {denied: code}). */
 export function deniedLines(platform, code) {
   if (platform !== 'darwin') return [`系统拒绝读取游戏文件（${code}）。`, '请把整个游戏文件夹移到本地文件夹（例如 C:\\Games）后再启动。'];
@@ -306,9 +316,9 @@ async function main() {
     return fail([`无法启动：端口 ${PORT} 已被其他程序占用（例如开发版的 test.command 或另一个程序）。`,
       `请关闭占用端口 ${PORT} 的程序后再启动。`, SAVE_ORIGIN_LINE]);
   }
+  if (result.running && result.running !== payload.version) return fail(otherVersionLines(result.running, payload.version));
   if (result.running) {
-    const other = result.running === payload.version ? '' : `（不是这个文件夹的 ${payload.version} 版：要玩这一版，请先关闭那个窗口再启动）`;
-    console.log(`赛尔经典 ${result.running} 已经在另一个窗口中运行，正在打开浏览器…${other}`);
+    console.log(`赛尔经典 ${result.running} 已经在另一个窗口中运行，正在打开浏览器…`);
     await openBrowser(browserCommands(url));
     return;
   }

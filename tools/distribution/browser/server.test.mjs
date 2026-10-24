@@ -8,8 +8,8 @@ import {duplexPair} from 'node:stream';
 import {after, before, test} from 'node:test';
 import zlib from 'node:zlib';
 import {
-  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, deniedLines, listen, openBrowser, parseRange, probe, readPayload,
-  refusedPortLines, resolvePath, runningLines, stopSignals,
+  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, deniedLines, listen, openBrowser, otherVersionLines, parseRange, probe,
+  readPayload, refusedPortLines, resolvePath, runningLines, stopSignals,
 } from './server.mjs';
 
 const VERSION = '9.9.9';
@@ -281,6 +281,12 @@ test('the running console names the browsers to use, and Ctrl+C only where it st
   assert.match(text('darwin'), /按 Ctrl\+C/);
   assert.doesNotMatch(text('win32'), /Ctrl\+C|Safari/);
   for (const platform of ['darwin', 'win32']) assert(text(platform).includes(url), platform);
+});
+
+test('another version already running is named with this folder\'s, and the player is told to close its window', () => {
+  const text = otherVersionLines('0.9.0', VERSION).join('\n');
+  assert.match(text, /赛尔经典 0\.9\.0 已经在另一个窗口中运行，不是这个文件夹的 9\.9\.9 版/);
+  assert.match(text, /请先关闭那个窗口/);
 });
 
 test('a browser that cannot start hands over to the next command', async () => {

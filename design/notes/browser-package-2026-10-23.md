@@ -53,8 +53,10 @@ and the `payload` gate proves every path the build can request is staged and non
 - Answers only a Host whose name is `127.0.0.1` or `localhost` (any port), else 403: a page that rebinds its own name to
   127.0.0.1 (DNS rebinding) cannot read the game's files. It could never read the save, which is the 127.0.0.1:1426 origin's.
 - `GET /__seer-classic` answers `{"app":"seer-classic","version":…}`. When port 1426 is taken, the server asks it: if this game
-  answers, a second start only opens the browser (and says when that game is another version); otherwise it says in Chinese that
-  another program holds the port (for example the development server of `test.command`) and waits for a key.
+  of the same version answers, a second start only opens the browser (on Windows its console closes at once, which the guide
+  says); if another version answers, it names both versions, says to close that window first and waits for a key, without
+  opening the browser, which would show the other version; otherwise it says in Chinese that another program holds the port
+  (for example the development server of `test.command`) and waits for a key.
 - When the system refuses the port (`EACCES`, `EADDRNOTAVAIL`) and no game server answers there, it says so in Chinese and waits
   for a key. On Windows, `EACCES` is WSAEACCES: 1426 inside a range Hyper-V, WSL 2 or Docker reserved (`netsh int ipv4 show
   excludedportrange protocol=tcp`), or a program holding the port exclusively. As the save's origin fixes the port, the message
