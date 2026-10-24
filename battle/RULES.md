@@ -458,10 +458,10 @@ smart trainer plans first and may restore PP with an item instead.
   (`idle-moves.ts`: a stage not yet at its cap and not refused, a heal when
   hurt, a status the target neither has nor is immune to, something to clear
   or cure, a condition that can be added again; any other effect, such as a
-  script, counts as a change), one RNG value decides: below
-  `BOSS_STATUS_CHANCE` (0.2, the same for every Boss) it picks among those
-  skills, scaled to their number; otherwise it uses the highest expected
-  damage. With no such skill there is no draw and it uses the highest
+  script, counts as a change, except 药剂反噬 while the foe is under it), one
+  RNG value decides: below `BOSS_STATUS_CHANCE` (0.2, the same for every Boss)
+  it picks among those skills, scaled to their number; otherwise it uses the
+  highest expected damage. With no such skill there is no draw and it uses the highest
   expected damage. Remaining ties go to the higher single-hit estimate, then
   to skill order. [chosen: the community model of the Boss AI, BWIKI
   赛尔号PVE概论 and jiangshibiao PVE百科全书, which period guides fit: 「他强化
@@ -474,9 +474,13 @@ smart trainer plans first and may restore PP with an item instead.
   none is left; so once its attacks are spent, 哈莫雷特 uses 龙之意志 until it
   too is at 0 PP, and then stands still (section 4). Per-Boss exceptions are
   data: 奈尼芬多 re-casts 药剂反噬 whenever the foe is not under it, through
-  two `set_ai` phases with `once: false` (10.2) keyed on `foe_condition`. It
-  never switches voluntarily, and a fainted active is replaced by the first
-  living team member.
+  two `set_ai` phases with `once: false` (10.2) keyed on `foe_condition`, so
+  also the turn after it expires and the first turn of a foe that switched in
+  or replaced a fainted one (a fainted monster keeps no conditions, and the
+  turn-end phase check sees it); while it is in
+  place, the status chance never picks it, because renewing its turns changes
+  nothing (user rule, 2026-10-21). It never switches voluntarily, and a
+  fainted active is replaced by the first living team member.
 - **Trainer sides: the engine-simulated search planner** (`search-ai.ts`,
   `search/`; [trainer-search-ai-v58](../design/notes/trainer-search-ai-v58.md)).
   Every legal move, item and voluntary switch (after two active turns; HP

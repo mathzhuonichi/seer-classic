@@ -1,7 +1,7 @@
 // A read-only check of what a move would change at this moment, for the Boss policy (RULES.md 10.4): whether it provably changes
 // nothing, so that the Boss neither picks it as a status move nor spends a no-damage turn on it. It follows the engine's own
 // refusals (effects.ts changeStage, conditions.ts applyStatus and addCondition); what it does not model, such as script effects
-// and scripted refusals, counts as a change.
+// and scripted refusals, counts as a change, except 药剂反噬 while it is in place.
 
 import type { ConditionDef, EffectOp, Skill, StageKey } from '../../core/src/types.ts';
 import type { Battle } from '../../core/src/engine/battle.ts';
@@ -10,6 +10,12 @@ import { STAGE_MAX, STAGE_MIN } from '../../core/src/constants.ts';
 import { typeImmune } from '../../core/src/engine/conditions.ts';
 import { defaultTarget, MODIFIER_OPS, stageDropRefused } from '../../core/src/engine/effects.ts';
 import { findRule, hasRule } from '../../core/src/engine/rules.ts';
+
+/**
+ * 药剂反噬's script, which puts its own condition on the foe. Casting it again while the foe is under it only renews the turns,
+ * which by the user's rule changes nothing: 奈尼芬多 re-casts it whenever the foe is not under it (decision 2026-10-21).
+ */
+const BACKFIRE_SCRIPT = 'seer_eff_69';
 
 const effectOps = (skill: Skill): EffectOp[] => (skill.effects ?? []).filter((op) => !MODIFIER_OPS.has(op.op));
 const targetOf = (user: Mon, foe: Mon, op: EffectOp): Mon => ((op.target ?? defaultTarget(op.op)) === 'self' ? user : foe);
@@ -38,6 +44,8 @@ function opChangesSomething(b: Battle, user: Mon, target: Mon, op: EffectOp, ski
       const def = b.data.conditions.get(op.condition);
       return !!def && !target.fainted && !repeatFails(target, def);
     }
+    case 'script':
+      return op.id !== BACKFIRE_SCRIPT || !target.conditions.some((c) => c.id === BACKFIRE_SCRIPT);
     default:
       return true;
   }
