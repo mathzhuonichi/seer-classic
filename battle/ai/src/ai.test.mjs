@@ -9,13 +9,18 @@ import {emptyCtx} from '../../core/src/engine/state.ts';
 import {SEER_SCRIPTS} from '../../core/src/scripts/index.ts';
 import {AI_POLICY, chooseAiAction} from './ai.ts';
 
-const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11, backfire: 12};
+const S = {light: 1, normal: 2, boost: 3, heal: 4, poison: 5, leech: 6, wait: 7, sure: 8, wild: 9, multi: 10, big: 11, backfire: 12, crit: 13,
+  guard: 14, shield: 15, wing: 16, regrow: 17, mirror: 18};
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const skill = (id, extra = {}) => ({id, name: {zh: `fixture ${id}`}, type: 'normal', category: 'special', power: 0, accuracy: null, pp: 20, priority: 0,
   effects: [], ...extra});
 const status = (id, effects, target = 'foe') => skill(id, {category: 'status', target, effects});
 const boosts = {atk: 1, def: 1, spa: 1, spd: 1, spe: 1};
+const buff = (id, hook) => ({id, name: {zh: id}, kind: 'buff', stack: 'refresh', hooks: [hook]});
+const self = (condition, extra) => ({op: 'add_condition', target: 'self', condition, ...extra});
 const data = () => buildDataSet({
+  conditions: [buff('fixture_crit', {on: 'modify_crit_rate', force_crit: true}),
+    buff('fixture_guard', {on: 'modify_damage_taken', multiplier: 0, consume_charge: true})],
   types: {chart: {light: {grass: 0}, normal: {}}},
   species: [{id: 1, name: {zh: 'light boss'}, types: ['light'], base}, {id: 2, name: {zh: 'grass foe'}, types: ['grass'], base},
     {id: 3, name: {zh: 'normal foe'}, types: ['normal'], base}],
@@ -24,7 +29,12 @@ const data = () => buildDataSet({
     status(S.poison, [{op: 'status', target: 'foe', status: 'poison'}]), status(S.leech, [{op: 'status', target: 'foe', status: 'leech'}]),
     status(S.wait, [], 'self'), skill(S.sure, {power: 70, accuracy: 100}), skill(S.wild, {power: 100, accuracy: 50}),
     skill(S.multi, {power: 40, effects: [{op: 'multi_hit', min: 3, max: 3}]}), skill(S.big, {power: 200, accuracy: 50}),
-    status(S.backfire, [{op: 'script', id: 'seer_eff_69', params: [5]}])],
+    status(S.backfire, [{op: 'script', id: 'seer_eff_69', params: [5]}]),
+    // 圣光气, 保护 and 水神护体; 魔化羽翼 (a boost and a condition); 光合作用's scripted heal; 镜影术.
+    status(S.crit, [self('fixture_crit', {turns: 2})], 'self'), status(S.guard, [self('fixture_guard', {charges: 2})], 'self'),
+    status(S.shield, [{op: 'script', id: 'seer_eff_49', params: [60]}], 'self'),
+    status(S.wing, [{op: 'stat_stage', target: 'self', stats: {spe: 2}}, self('fixture_crit', {turns: 1})], 'self'),
+    status(S.regrow, [{op: 'script', id: 'seer_eff_201', params: [0, 3]}], 'self'), status(S.mirror, [{op: 'script', id: 'seer_eff_63'}])],
 });
 const mon = (species, skills) => ({species, level: 50, skills, stats: {...base, hp: 5000}});
 function battle({kind = 'boss', skills, foe = 2, seed = 7}) {
@@ -34,6 +44,16 @@ function battle({kind = 'boss', skills, foe = 2, seed = 7}) {
   ]});
 }
 const decide = b => chooseAiAction(b, b.sides[1]).skill;
+/** Six decisions of a Boss with `skills` against the normal foe, after `setup`: the moves picked and the RNG draws made. */
+const run = (skills, setup = () => {}) => {
+  const b = battle({skills, foe: 3});
+  setup(b);
+  const picks = new Set();
+  for (let i = 0; i < 6; i++) picks.add(decide(b));
+  return {picks: [...picks], draws: b.rng.draws};
+};
+/** The Boss has used `id`. */
+const cast = id => b => b.runEffects(b.skill(id).effects, b.active(1), b.active(0), emptyCtx());
 
 test('a Boss whose attacks cannot hurt the foe boosts until every boosted stage is capped, then uses any move', () => {
   for (let seed = 1; seed <= 8; seed++) {
@@ -106,13 +126,6 @@ test('with an attack that hurts, a Boss uses a status move that changes somethin
 });
 
 test('a Boss draws nothing without a real choice: a knockout, no status move, or none that changes something', () => {
-  const run = (skills, setup = () => {}) => {
-    const b = battle({skills, foe: 3});
-    setup(b);
-    const picks = new Set();
-    for (let i = 0; i < 6; i++) picks.add(decide(b));
-    return {picks: [...picks], draws: b.rng.draws};
-  };
   assert.deepEqual(run([S.normal, S.boost], b => { b.active(0).hp = 1; }), {picks: [S.normal], draws: 0}, 'a knockout first');
   assert.deepEqual(run([S.normal, S.sure]), {picks: [S.normal], draws: 0}, 'attacks only');
   assert.deepEqual(run([S.normal, S.boost], b => Object.assign(b.active(1).stages, boosts, {atk: 6, def: 6, spa: 6, spd: 6, spe: 6})),
@@ -120,9 +133,29 @@ test('a Boss draws nothing without a real choice: a knockout, no status move, or
   assert.deepEqual(run([S.normal, S.poison], b => b.applyStatus(b.active(0), 'poison', {turns: 3})), {picks: [S.normal], draws: 0}, 'already poisoned');
   assert.deepEqual(run([S.normal, S.poison], b => b.sides[0].rules.push({rule: 'immune_status'})), {picks: [S.normal], draws: 0}, 'immune');
   assert.deepEqual(run([S.normal, S.heal, S.wait]), {picks: [S.normal], draws: 0}, 'unhurt, and a move without effects');
-  const backfire = b => b.runEffects(b.skill(S.backfire).effects, b.active(1), b.active(0), emptyCtx());
-  assert.deepEqual(run([S.normal, S.backfire], backfire), {picks: [S.normal], draws: 0}, '药剂反噬 is still in place');
+  assert.deepEqual(run([S.normal, S.backfire], cast(S.backfire)), {picks: [S.normal], draws: 0}, '药剂反噬 is still in place');
   assert.equal(run([S.normal, S.backfire]).draws, 6, 'without it, 药剂反噬 changes something');
+});
+
+test('a condition, shield or charge already in place changes nothing, whatever its remaining turns or counts', () => {
+  // Each about to run out: one turn and one charge left, a shield with 1 HP to absorb.
+  const worn = b => { for (const c of b.active(1).conditions) Object.assign(c, {turns: 1}, c.charges ? {charges: 1} : {}, c.data ? {data: {left: 1}} : {}); };
+  for (const id of [S.crit, S.guard, S.shield]) {
+    const name = b => b.skill(id).effects[0].condition ?? b.skill(id).effects[0].id;
+    assert.deepEqual(run([S.normal, id], b => { cast(id)(b); worn(b); assert(b.active(1).conditions.some(c => c.id === name(b))); }),
+      {picks: [S.normal], draws: 0}, `${id}: in place`);
+    assert.equal(run([S.normal, id]).draws, 6, `${id}: not in place, it changes something`);
+  }
+  assert.equal(run([S.normal, S.wing], cast(S.wing)).draws, 6, 'a move with several effects changes something if one does: speed below +6');
+  assert.deepEqual(run([S.normal, S.wing], b => { cast(S.wing)(b); b.active(1).stages.spe = 6; }), {picks: [S.normal], draws: 0}, 'speed at +6');
+  assert.deepEqual(run([S.normal, S.regrow]), {picks: [S.normal], draws: 0}, 'a scripted heal changes nothing at full HP');
+  assert.equal(run([S.normal, S.regrow], b => { b.active(1).hp = 1000; }).draws, 6, 'and something when hurt');
+  assert.deepEqual(run([S.normal, S.mirror]), {picks: [S.normal], draws: 0}, '镜影术 without a stage drop to pass on');
+  assert.equal(run([S.normal, S.mirror], b => { b.active(1).stages.def = -1; }).draws, 6, '镜影术 with one');
+  const b = battle({skills: [S.normal, S.crit], foe: 3});
+  cast(S.crit)(b);
+  b.active(1).pp[S.normal] = 0;
+  assert.equal(decide(b), S.crit, 'with every other move at 0 PP, a move in place is still spent');
 });
 
 test('with no attack PP left, a Boss uses a status move that changes something, else spends any status move', () => {

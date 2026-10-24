@@ -1,8 +1,9 @@
 /**
  * Hold every Boss to the pre-tactical policy of d7e87e9, apart from its refinements (2026-10-19: attacks ranked by expected
  * damage, no turn wasted on an attack that cannot hurt while a move that changes something is left; 2026-10-21: the "裸伤"
- * model's status chance in place of "each status move once", a spent sequence decided by the Boss policy), and test the
- * Boss/trainer category boundaries, the status chance against real Bosses and a Boss at 0 PP.
+ * model's status chance in place of "each status move once", a spent sequence decided by the Boss policy; 2026-10-24: no
+ * status move re-cast while its effect is in place), and test the Boss/trainer category boundaries, the status chance against
+ * real Bosses and a Boss at 0 PP.
  */
 import assert from 'node:assert/strict';
 import {sha256File,suite,withSsr} from './_harness.mjs';
@@ -105,11 +106,11 @@ const t=suite('boss-ai-isolation-v56'),{check}=t,bossCases=[],facilityCases=[];
 await withSsr('boss-ai-isolation-v56',async load=>{
   const [{createBattle},{STRUGGLE_SKILL},{buildDataSet},{chooseAiAction,chooseAiReplacement},{loadCatalog},{SEER_SCRIPTS},{traitScripts},
     {campaignScripts},{npcTrainingScripts},{createFacilityEncounter},{Rng},{lastSearchDecision},{dealsDamage},{changesSomething},
-    {BOSS_STATUS_CHANCE}]=await Promise.all([
+    {BOSS_STATUS_CHANCE,STAGE_MAX,STAGE_MIN},{MODIFIER_OPS,defaultTarget}]=await Promise.all([
     '/tools/verification/_battle.ts','/battle/core/src/constants.ts','/battle/core/src/data.ts','/battle/ai/src/ai.ts',
     '/src/domain/catalog/catalog.ts','/battle/core/src/scripts/index.ts','/src/domain/traits.ts','/src/domain/challenges/campaign-rules.ts',
     '/src/domain/challenges/npc-training-scripts.ts','/src/domain/challenges/battle-facilities.ts','/battle/core/src/rng.ts','/battle/ai/src/search-ai.ts',
-    '/battle/core/src/engine/move.ts','/battle/ai/src/idle-moves.ts','/battle/core/src/constants.ts',
+    '/battle/core/src/engine/move.ts','/battle/ai/src/idle-moves.ts','/battle/core/src/constants.ts','/battle/core/src/engine/effects.ts',
   ].map(load));
   const catalog=await loadCatalog(),data=buildDataSet(catalog);
   const scripts={...SEER_SCRIPTS,...traitScripts,...campaignScripts,...npcTrainingScripts};
@@ -238,7 +239,7 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     }
   });
   /** A sturdy foe that only heals itself (木之振奋): it undoes none of a Boss's boosts, statuses or conditions. */
-  const PASSIVE_SKILL=20416,SWEEP_TURNS=30,SWEEP_SEEDS=2,passiveFoe={species:6,level:100,iv:31,skills:[PASSIVE_SKILL],hp_override:20000};
+  const PASSIVE_SKILL=20416,SWEEP_TURNS=30,SWEEP_SEEDS=3,passiveFoe={species:6,level:100,iv:31,skills:[PASSIVE_SKILL],hp_override:20000};
   /** The passive foe's move, or once its PP is spent its first legal action (Struggle). */
   const passiveAction=b=>{const legal=b.legalActions(0);return legal.find(a=>a.kind==='move'&&a.skill===PASSIVE_SKILL)??legal[0];};
   /** A Boss's status moves that would change something now, while one of its attacks can hurt the foe: the status chance applies. */
@@ -412,6 +413,58 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     }
     assert(counts.recasts>0&&counts.afterSwitch>0&&counts.afterFaint>0&&counts.underTurns>=100,JSON.stringify(counts));
     t.witness('nainifenduoBackfire',counts);
+  });
+  /*
+   * The 2026-10-24 rule, read independently of idle-moves.ts: a move is in place when each of its effects is a condition already on
+   * its target (an add_condition op, or a script whose condition, named after the script, the Boss or its foe carries) or a stage
+   * change at its cap, and one of them is a condition. A move with any other effect (a heal, a status, a script that places
+   * nothing) never counts as in place here; ai.test.mjs covers those. The passive foe removes nothing, so effects stay in place.
+   */
+  const has=(mon,id)=>mon.conditions.some(c=>c.id===id);
+  function opInPlace(b,boss,op){
+    const target=(op.target??defaultTarget(op.op))==='self'?boss:b.foeOf(boss);
+    if(op.op==='add_condition')return has(target,op.condition);
+    if(op.op==='script')return has(boss,op.id)||has(b.foeOf(boss),op.id);
+    if(op.op==='stat_stage')return Object.entries(op.stats).every(([stat,delta])=>delta>0?target.stages[stat]>=STAGE_MAX:target.stages[stat]<=STAGE_MIN);
+    return false;
+  }
+  const effectsOf=skill=>(skill.effects??[]).filter(op=>!MODIFIER_OPS.has(op.op));
+  const placesConditions=skill=>effectsOf(skill).some(op=>op.op==='add_condition'||op.op==='script');
+  const inPlace=(b,boss,skill)=>placesConditions(skill)&&effectsOf(skill).every(op=>opInPlace(b,boss,op));
+  /** The moves the decision named: 谱尼's 圣光气, 白虎's 冲天霸气 and 勇者之塔's 光之壁, 充电, 白雾 and 水神护体. */
+  const NAMED_IN_PLACE=[20500,20854,20024,20006,20012,20095],IN_PLACE_SEEDS=8;
+  check('No Boss re-casts a status move whose effect is still in place while one of its attacks can hurt the foe, and it re-casts once the effect ends',()=>{
+    const counts={members:0,battles:0,turns:0,recasts:0},byMove={};
+    const holders=encounter=>{
+      const probe=bossBattle(encounter,0,1),carries=id=>!dealsDamage(probe,data.skills.get(id))&&placesConditions(data.skills.get(id));
+      return encounter.team.flatMap((m,lead)=>m.skills.some(carries)?[lead]:[]);
+    };
+    const variants=encounter=>encounter.variants?.length?encounter.variants.map(row=>row.id):[undefined];
+    for(const encounter of catalog.bosses)for(const lead of holders(encounter)){
+      counts.members++;
+      for(const variant of variants(encounter))for(let seed=1;seed<=IN_PLACE_SEEDS;seed++){
+        const b=createBattle({data,scripts,seed:6100+counts.battles++,variant,encounter:structuredClone(encounter),sides:[{kind:'player',team:[structuredClone(passiveFoe)]}]});
+        if(lead)b.switchIn(b.sides[1],lead);
+        const boss=b.active(1),cast=new Set();
+        for(let turn=0;turn<SWEEP_TURNS&&!b.result&&b.active(1)===boss;turn++){
+          const usable=boss.skills.filter(id=>boss.pp[id]>0),skill=id=>b.skill(id,boss);
+          const statusMoves=usable.filter(id=>!dealsDamage(b,skill(id))&&placesConditions(skill(id)));
+          const placed=statusMoves.filter(id=>inPlace(b,boss,skill(id))),hurts=usable.some(id=>dealsDamage(b,skill(id))&&b.estimateDamage(boss,b.active(0),skill(id))>0);
+          const decided=bossPolicy(b,boss)==='smart'&&hurts;
+          b.submit(0,passiveAction(b));
+          const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${encounter.id}/${variant??''}/${lead}/${seed}/turn ${turn}`;
+          if(decided)for(const id of placed){
+            const name=data.skills.get(id).name.zh;byMove[name]=(byMove[name]??0)+1;counts.turns++;
+            assert.notEqual(used,id,`${label}: ${name} is still in place`);
+          }
+          if(statusMoves.includes(used)&&!placed.includes(used)&&cast.has(used))counts.recasts++;
+          if(used!==undefined)cast.add(used);
+        }
+      }
+    }
+    for(const id of NAMED_IN_PLACE)assert(byMove[data.skills.get(id).name.zh]>0,`${data.skills.get(id).name.zh} was in place: ${JSON.stringify(byMove)}`);
+    assert(counts.turns>=1000&&counts.recasts>0,JSON.stringify(counts));
+    t.witness('noRecastInPlace',{...counts,byMove});
   });
   // The member as the Boss fields it, its 3000 HP included. Without that HP it cannot last against 20000, every action of the planner
   // scores a certain loss, and its uniform mix picks a light attack on about one turn in ten.

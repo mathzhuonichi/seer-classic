@@ -13,6 +13,7 @@ the game adds its own registries (see [Game registries](#game-registries)).
 | `index.ts` | `SEER_SCRIPTS`, the merged registry |
 | `seer-main.ts` | the 42 most used templates (3+ skills each) |
 | `seer-tail.ts` | the other templates, with the interpretations and engine gaps they rely on |
+| `seer-gender.ts` | the gender-only templates, no-ops because our data has no 性别 |
 | `boss.ts` | boss rules (`install`) and phase ops (`apply`); exports `statusOnAttacker` for campaign rules |
 | `builders.ts` | entry factories: `timedScripts`, `ruleScripts` and the template families |
 | `context.ts` | the context type of each entry member (`ApplyCtx`, `HookCtx`, ...) |
@@ -54,6 +55,7 @@ in `context.ts`, so what a script emits (`battle.emit`) is checked against the `
 | `onMiss(c, p)` | the skill missed | `battle, user, foe, skill, ctx` | ignored |
 | `install(c, p)` | boss rule, once per matching team member at battle start | `battle, mon, side` | ignored |
 | `objective(c, p)` | a `script` win or lose objective | `battle` | `true` when met |
+| `changes(c, p)` | read-only, by the Boss policy for a move that deals no damage (RULES.md 10.4): **no RNG draws, no state change** | `battle, user, foe, skill` | `false` when `apply` would change nothing now |
 | `hook(c, p)` | a condition hook `{ on, script: id, params }` fired | see below | see below |
 
 `ctx` (MoveCtx): `skill, hit, crit, damageDealt` (total this move), `effectiveness, actedFirst`, `sureHit` (the move is 必中:
@@ -68,7 +70,8 @@ Most templates are one of two table shapes, so an entry only states its data:
   Each is `{ name, on, hook }`: the skill attaches condition `<id>` (the script id) to the user for `p[0]` turns,
   and `hook(c, p)` runs at the `on` points with the skill's params. Options: `foe` (attach to the foe, kind
   `debuff`), `kind`, `turns(p)`, `when(c, p)` (attach only if), `data(c, p)` (initial `cond.data`), `cover`
-  (this turn counts as the first one). Families such as `evade`, `hurtStatus`, `drain`, `boostEachTurn`,
+  (this turn counts as the first one). Each also gets `changes`: casting it again while its condition is on its holder
+  changes nothing, whatever the turns or counts left. Families such as `evade`, `hurtStatus`, `drain`, `boostEachTurn`,
   `dropEachTurn`, `hurtDropsFoe` and `foeDamageEachTurn` return ready-made specs; `evade` lets a 必中 move
   (`ctx.sureHit`) through unless its `sureHitToo` is set (圣洁).
 - **Rule conditions** (boss, campaign and NPC rules) are `{ on, hook }` tables turned into `install` + `hook`
@@ -89,7 +92,9 @@ attach(battle, user, 'seer_eff_142', '血之狂躁', scriptHooks(['modify_priori
 `attach(battle, mon, id, name, hooks, turns?, { kind, persist, data, cover })` adds the condition or refreshes
 its turns (a refresh keeps the first definition and merges `data`), and returns the active condition.
 `ruleCondition` is the permanent, switch-proof form used by encounter rules; `armBench`/`disarm` arm the
-next monster to switch in.
+next monster to switch in. An entry whose `apply` puts a condition on its user declares
+`changes: placesCondition(id)` (`placesCondition(id, true)` for the foe), so that the Boss policy does not cast it again while
+it is in place; a script without `changes` counts as a change.
 
 The hook's `c` has `battle, point, holder` (the monster carrying the condition),
 `cond` (the ActiveCondition: `turns`, `charges`, `data` for your own state), `hook`,
