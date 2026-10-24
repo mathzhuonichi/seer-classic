@@ -66,7 +66,13 @@ export async function indexedDbBackend(factory: IDBFactory = indexedDB): Promise
   return {
     async apply(change) {
       const transaction = db.transaction(STORES, 'readwrite'), done = settled(transaction);
-      put(transaction, change);
+      try {
+        put(transaction, change);
+      } catch (error) {
+        // A request refused as it is made would leave the others to commit alone.
+        transaction.abort();
+        throw error;
+      }
       transaction.commit?.();
       return done;
     },

@@ -102,7 +102,7 @@ async function readSlot(ctx: GameContext, store: SlotStore, id: string): Promise
 
 /**
  * The first game: the active slot's, or a new journey in a new slot when there is none or the active one cannot be read. When
- * storage refuses the new slot, the journey stays in memory and the refusal is reported (slot store), so the player can export.
+ * storage refuses the new slot, the journey stays in memory and the refusal is reported to the shell, so the player can export.
  */
 async function openAtStart(ctx: GameContext, store: SlotStore, begin: (journey: Journey, slotId: string | null, notices: string[]) => void) {
   const active = store.activeId(), opened = active === null ? null : await readSlot(ctx, store, active);
