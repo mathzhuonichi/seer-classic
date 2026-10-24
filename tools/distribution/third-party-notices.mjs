@@ -1,10 +1,12 @@
 /**
- * Writes THIRD-PARTY-NOTICES.txt for the desktop package: the asset notice, then every npm package whose code is in the
- * desktop build (the modules Rolldown actually bundles, not `npm ls`: @seer-pet-anim/swf-bundle's AGPL dependency, for one, is
- * never bundled), Ruffle (emitted as files), and every Rust crate the app executable links for the target, each with its
- * license texts. Identical texts are printed once.
+ * Writes THIRD-PARTY-NOTICES.txt for a package: the asset notice, then every npm package whose code is in the package's build
+ * (the modules Rolldown actually bundles, not `npm ls`: @seer-pet-anim/swf-bundle's AGPL dependency, for one, is never bundled),
+ * Ruffle (emitted as files) with the Rust crates of its WebAssembly and the npm packages of its ruffle.js
+ * (tools/distribution/ruffle-licenses.json), and then for the desktop package every Rust crate the app executable links for the
+ * target, for the browser package the Node.js runtime with its LICENSE. Each license text is printed once.
  *
  * Usage: node tools/distribution/third-party-notices.mjs [--target aarch64-apple-darwin] [--out releases/desktop-notices/THIRD-PARTY-NOTICES.txt]
+ *        node tools/distribution/third-party-notices.mjs --package browser --node-license <Node's LICENSE> --out <file>
  */
 import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
@@ -15,8 +17,12 @@ import {build} from 'vite';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const {values: args} = parseArgs({options: {target: {type: 'string', default: 'aarch64-apple-darwin'},
-  out: {type: 'string', default: 'releases/desktop-notices/THIRD-PARTY-NOTICES.txt'}}});
-const {target} = args, out = path.resolve(root, args.out);
+  out: {type: 'string', default: 'releases/desktop-notices/THIRD-PARTY-NOTICES.txt'}, package: {type: 'string', default: 'desktop'},
+  'node-license': {type: 'string'}}});
+const {target} = args, out = path.resolve(root, args.out), browser = args.package === 'browser';
+if (!['desktop', 'browser'].includes(args.package) || browser !== Boolean(args['node-license'])) {
+  throw new Error('usage: --package desktop [--target T], or --package browser --node-license <file>');
+}
 const LICENSE_FILE = /^(licen[cs]e|copying|notice|unlicense)/i;
 /** Packages whose code the bundler injects through virtual modules, and Ruffle, which the build copies as files. */
 const VIRTUAL = [[/^\0vite\//, 'vite'], [/^\0rolldown\//, 'rolldown']];
@@ -41,9 +47,10 @@ function licenseFiles(dir, name) {
     .map(file => ({file, text: (OWN_PART[name] ?? (text => text))(fs.readFileSync(path.join(dir, file), 'utf8')).trim()}));
 }
 
-/** The npm packages with code in the desktop build: an in-memory build with the project's desktop configuration. */
+/** The npm packages with code in the package's build: an in-memory build with the project's configuration in its mode. */
 async function bundledPackages() {
-  const output = await build({root, mode: 'desktop', configLoader: 'native', logLevel: 'error', build: {write: false}});
+  const mode = browser ? 'production' : 'desktop';
+  const output = await build({root, mode, configLoader: 'native', logLevel: 'error', build: {write: false, copyPublicDir: false}});
   const names = new Set(EMITTED);
   for (const chunk of [output].flat().flatMap(result => result.output)) {
     for (const id of chunk.type === 'chunk' ? chunk.moduleIds : []) {
@@ -75,6 +82,22 @@ function linkedCrates() {
   return [...reached].map(id => packages.get(id)).sort((a, b) => a.name.localeCompare(b.name) || a.version.localeCompare(b.version))
     .map(crate => ({name: crate.name, version: crate.version, license: crate.license, authors: crate.authors ?? [],
       repository: crate.repository, texts: licenseFiles(path.dirname(crate.manifest_path), crate.name)}));
+}
+
+/** Ruffle's crates and bundled packages, as recorded for the installed Ruffle by tools/distribution/ruffle_licenses.mjs. */
+function ruffleThirdParty() {
+  const data = JSON.parse(fs.readFileSync(path.join(root, 'tools/distribution/ruffle-licenses.json'), 'utf8'));
+  const installed = JSON.parse(fs.readFileSync(path.join(root, 'node_modules/@ruffle-rs/ruffle/package.json'), 'utf8')).version;
+  if (data.ruffle !== installed) throw new Error(`ruffle-licenses.json is of Ruffle ${data.ruffle}, not ${installed}: run ruffle_licenses.mjs`);
+  const unpack = entries => entries.map(entry => ({...entry, texts: entry.texts.map(([file, index]) => ({file, text: data.texts[index]}))}));
+  return {crates: unpack(data.crates), packages: unpack(data.packages), target: data.target};
+}
+
+/** The Node.js runtime of the browser package (tools/distribution/browser/node-runtime.json) with its LICENSE. */
+function nodeRuntime() {
+  const {version} = JSON.parse(fs.readFileSync(path.join(root, 'tools/distribution/browser/node-runtime.json'), 'utf8'));
+  return [{name: 'Node.js', version, license: 'MIT, with the licenses of the components it bundles (in its LICENSE)',
+    repository: 'https://github.com/nodejs/node', authors: [], texts: [{file: 'LICENSE', text: fs.readFileSync(args['node-license'], 'utf8').trim()}]}];
 }
 
 /**
@@ -117,8 +140,11 @@ function render(sections) {
   return lines.join('\n') + '\n';
 }
 
+const ruffle = ruffleThirdParty();
 const sections = [['JavaScript packages in the game code', fillMissing(await bundledPackages())],
-  [`Rust crates in the app executable (${target})`, fillMissing(linkedCrates())]];
+  [`Rust crates in Ruffle's WebAssembly (${ruffle.target})`, fillMissing(ruffle.crates)],
+  ['JavaScript packages in Ruffle\'s ruffle.js', fillMissing(ruffle.packages)],
+  browser ? ['Node.js runtime (runtime/, runs server.mjs)', nodeRuntime()] : [`Rust crates in the app executable (${target})`, fillMissing(linkedCrates())]];
 fs.mkdirSync(path.dirname(out), {recursive: true});
 fs.writeFileSync(out, render(sections));
 console.log(`${path.relative(root, out)}: ${sections.map(([title, entries]) => `${entries.length} ${title.split(' ')[0]}`).join(', ')}, `
