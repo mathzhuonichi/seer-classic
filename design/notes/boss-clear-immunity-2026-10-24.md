@@ -3,7 +3,7 @@
 Status: current. Follows the user decision of 2026-10-24 in [handoff-2026-10-22](handoff-2026-10-22.md): 「哪有boss无法消强，我认为是你的错误」.
 The five `stages_unclearable` rules were recorded in `data/boss-evidence-v56.json` as inferred and unverified, with no source.
 Rule: remove each unless a 2009-2013 mainland source says outright that the player could not clear that Boss's boosts; model a
-narrower statement exactly. Checks: `boss-rules-v56`.
+narrower statement exactly. Section 5 records the 必中 change of the same day. Checks: `boss-rules-v56`, `campaign-mechanics`.
 
 ## 1. Where the five rules came from
 
@@ -69,7 +69,25 @@ Clear immunity was a period trait, not a remake invention: besides these, 4399 2
 
 - **战虎's MISS.** The 2011 report says 「消强化技能MISS」 and 百科 「（除必中外）会MISS」; 7k7k gives 日月皆伤 「一定的命中几率」. Read
   literally, a clearing move misses 战虎 entirely, damage included, unless it is 必中. The remake refuses only the clear and keeps the
-  damage (a status clear is the same either way). Returned to the user as a decision.
+  damage (a status clear is the same either way). **User decision 2026-10-24: keep it so.** A clearing move is refused only its
+  clear and still deals its damage; there is no whole-move MISS (`battle/RULES.md` section 10.1, `stages_unclearable`).
 - **伊索里's drops.** Both guides say 「伊索亚不吃属性弱化技能」 (status moves' drops fail), while the Boss has the full
-  `immune_stage_down`; outside this question.
+  `immune_stage_down`. **User decision 2026-10-24: 伊索里 keeps the full `immune_stage_down`.**
 - **Effect 85 steals** still bypass `on_stage_incoming` (user 2026-10-24: leave the bypass).
+
+## 5. 必中 in the Boss rules
+
+User decision of 2026-10-24 (option b of [boss-ai-engine-2026-10-24](boss-ai-engine-2026-10-24.md) section 5): 虚无封印
+(`only_sure_hit_moves_land`), `damage_only_from {sure_hit}` and `stages_unclearable {except_sure_hit}` read the engine's one 必中,
+`ctx.sureHit` (`isSureHit` in `engine/move.ts`: accuracy null, or a force-hit effect such as `cond_sure_hit` or the rule
+`always_hit`). Before, each tested the skill's own `accuracy === null`.
+
+- `DamageInfo.sureHit` carries it from the move into its damage: the attack hit, the effect ops `fixed_damage`, `pct_damage` and
+  `ohko`, the scripted riders (`hitFoe`, effect 34) and the AI's damage probe. Damage outside a move (statuses, reflection, hooks)
+  carries none, as before.
+- A move's clear, the critical-hit defence clear included, passes its move context to `on_stage_incoming`.
+- Effect: an attack after 气机锁定, 光能蓄积, 冰霜锁定 or another of the 15 `cond_sure_hit` skills lands on 谱尼第一封印 and on
+  谱尼真身's first and fifth lives, and deals its damage and its fixed or percent riders; without the boost it still misses. Under
+  the boost, a clear such as 金光闪烁 (accuracy 100) works on 战虎.
+- Checks: `boss-rules-v56` ("After 气机锁定 a move is 必中 ...", on the real Bosses and skills) and `campaign-mechanics` (the rule
+  pair on a fixture). Rules: `battle/RULES.md` section 4 step 3 and section 10.1.

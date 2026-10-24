@@ -12940,7 +12940,7 @@
       "id": "boss_puni_seal1",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_seal1.json",
-      "sourceSha256": "8f3e6e5ee8073234535756eec78efdc117adb3b515a9c9f0122aaa99eceb5625",
+      "sourceSha256": "0d0b900e56d4f626982fccab3aaae3346859415055c4ba6e917e50322034b8b0",
       "sourceNoteSha256": "367817ceffa89377be3b1443058679fec5709668a7d55d6c80ec2b0e193b6523",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-14-78876.html",
@@ -14607,7 +14607,7 @@
       "id": "boss_puni_zhenshen",
       "category": "legendary",
       "sourceFile": "data/bosses/boss_puni_zhenshen.json",
-      "sourceSha256": "a147203495d63b36b6dc62b68be4b1acbf75b3022a1e9216afe29e82f1e27277",
+      "sourceSha256": "5a1d117904bcc22f140249175685ee2f1bd00f43b322ed8132f5340f6f662339",
       "sourceNoteSha256": "5f206eb1dda1976ba43829b66e88591b8f4cab093eb8998518926dbc1bfb7d03",
       "sourceUrls": [
         "https://news.4399.com/seer/pngl/201010-16-78986.html",

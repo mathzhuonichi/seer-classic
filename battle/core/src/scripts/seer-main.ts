@@ -244,7 +244,7 @@ const ENTRIES: ScriptRegistry = {
       c.battle.emit({ type: 'move_failed', side: c.user.side, reason: 'nothing_to_counter' });
       return;
     }
-    c.battle.dealDamage(c.foe, lt.amount * p[0], { kind: 'fixed', source: c.user, skill: c.ctx.skill });
+    c.battle.dealDamage(c.foe, lt.amount * p[0], { kind: 'fixed', source: c.user, skill: c.ctx.skill, sureHit: c.ctx.sureHit });
   },
 
   // 自身在烧伤、冻伤、中毒状态下造成的伤害反而加倍

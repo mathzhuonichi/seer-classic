@@ -120,7 +120,7 @@ foe, skill)` that ranks against the foe's last move (a plain move before its fir
 `estimateDamage` and the minimum-roll probe pass it only for order-reading skills; and `random_priority` first gets a read-only
 answer for estimates (it also makes the Boss policy's knockout ranking roll a separate priority per skill, see Open points).
 
-## 5. 虚无封印 and `ctx.sureHit`: not changed, behaviour would change
+## 5. 虚无封印 and `ctx.sureHit`: changed by user decision (option b)
 
 `only_sure_hit_moves_land` (虚无封印, `src/domain/challenges/campaign-rules.ts`, on 谱尼's first seal and the first life of
 谱尼真身) misses every move whose skill is not 必中 by its own accuracy (`accuracy !== null`). `ctx.sureHit`, the engine's one
@@ -132,6 +132,13 @@ the player has such an effect, and the player can: 15 skills add `cond_sure_hit`
 apply, unless that filter changed too; `stages_unclearable {except_sure_hit}` (`scripts/boss.ts`) is a third such test. No
 period source says whether a force-hit buff got through 谱尼's 虚无; the 2010 guides speak of 必中技能 such as 龙王波. Left
 unchanged, returned to the user as a decision.
+
+**Decision and change** (user, 2026-10-24: option b): all three read `ctx.sureHit`. `isSureHit` in `engine/move.ts` stays the one
+definition; `DamageInfo.sureHit` carries it into the damage of the move and of its effects (fixed, percent, OHKO, the scripted
+riders), and a move's clear passes its context to `on_stage_incoming`. An attack after 气机锁定 now lands on 谱尼第一封印 and on
+谱尼真身's first and fifth lives, with its damage and its damage riders, and a clear under it works on 战虎. Rules in
+`battle/RULES.md` section 4 step 3 and section 10.1; checks in `boss-rules-v56` and `campaign-mechanics`; record in
+[boss-clear-immunity-2026-10-24](boss-clear-immunity-2026-10-24.md) section 5.
 
 ## Open points
 

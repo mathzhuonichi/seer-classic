@@ -23,10 +23,17 @@ const skills: Skill[] = [
   {id: 13, name: {zh: 'Finish'}, type: 'normal', category: 'physical', power: 0, accuracy: null, pp: 20, effects: [{op: 'fixed_damage', amount: 5000}]},
   {id: 16, name: {zh: 'Zero accuracy'}, type: 'normal', category: 'physical', power: 100, accuracy: 0, pp: 20, crit_rate: 0},
   {id: 17, name: {zh: 'Special'}, type: 'normal', category: 'special', power: 100, accuracy: null, pp: 20, crit_rate: 0},
+  {id: 18, name: {zh: 'Lock'}, type: 'normal', category: 'status', power: 0, accuracy: null, pp: 20, target: 'self',
+    effects: [{op: 'add_condition', target: 'self', turns: 3, condition: 'cond_sure_hit'}]},
+  {id: 19, name: {zh: 'Rider'}, type: 'normal', category: 'physical', power: 100, accuracy: 100, pp: 20, crit_rate: 0,
+    effects: [{op: 'fixed_damage', amount: 50}]},
 ];
+const sureHit = {id: 'cond_sure_hit', name: {zh: '攻击必定命中'}, kind: 'buff' as const, hooks: [{on: 'modify_accuracy' as const, force_hit: true}]};
 const script = (id: string, params = {}): BossRule => ({rule: 'script', id, params});
 function fixture(options: {rules?: BossRule[]; memberRules?: BossRule[]; phases?: Phase[]; members?: MonsterInput[]; win?: Objective[]; playerSkills?: number[]; bossSkills?: number[]; hp?: number} = {}) {
-  const data = buildDataSet({species: [{id: 1, name: {zh: 'Player'}, types: ['normal'], base: stats}, {id: 2, name: {zh: 'Guardian'}, types: ['normal'], base: stats}], skills, types: {chart: {normal: {normal: 1}}}, items: [{id: 'potion', battle_effects: [{op: 'heal', amount: 200}]}]});
+  const species = [{id: 1, name: {zh: 'Player'}, types: ['normal'], base: stats}, {id: 2, name: {zh: 'Guardian'}, types: ['normal'], base: stats}];
+  const items = [{id: 'potion', battle_effects: [{op: 'heal' as const, amount: 200}]}];
+  const data = buildDataSet({species, skills, conditions: [sureHit], types: {chart: {normal: {normal: 1}}}, items});
   const encounter: BossEncounter = {id: 'fixture', team: options.members ?? [{species: 2, level: 50, skills: options.bossSkills ?? [7], stats: {...stats, hp: options.hp ?? 2000, spe: 1}, member_rules: options.memberRules ?? [], member_phases: options.phases ?? []}], rules: options.rules ?? [], win: options.win ?? [{kind: 'ko_all'}], ai: {kind: 'sequence', skills: options.bossSkills ?? [7]}};
   const battle = createBattle({data, seed: 17, encounter, scripts: {...SEER_SCRIPTS, ...campaignScripts}, sides: [{kind: 'player', items: {potion: 2}, team: [{species: 1, level: 50, stats, skills: options.playerSkills ?? [2, 3, 4, 13]}]}]});
   return {battle, data, run: (skill: number) => {battle.submit(0, {kind: 'move', skill}); return battle.resolveTurn();}};
@@ -43,6 +50,14 @@ for (const [id, rejected, accepted] of [['only_sure_hit_moves_land', 1, 2], ['st
   assert.equal(f.battle.warnings.length, 0);
   passed.push(`${id}: foe-targeting restriction permits self-targeted boosts`);
 }
+// 必中 is the engine's one notion (user 2026-10-24): a force-hit effect lets an accurate attack and its fixed rider through 虚无.
+const locked = fixture({memberRules: [script('only_sure_hit_moves_land'), {rule: 'damage_only_from', sure_hit: true}], playerSkills: [18, 19]});
+assert(locked.run(19).some(event => event.type === 'miss' && event.side === 0));
+locked.run(18);
+const lockedHit = locked.run(19), lockedDamage = lockedHit.filter(event => event.type === 'damage' && event.side === 1 && event.amount > 0);
+assert(!lockedHit.some(event => event.type === 'miss' && event.side === 0));
+assert.deepEqual(lockedDamage.map(event => event.type === 'damage' && event.kind), ['attack', 'fixed']);
+passed.push('only_sure_hit_moves_land and damage_only_from {sure_hit} take a force-hit effect as 必中, the fixed rider included');
 
 const phases: Phase[] = [{when: {first_turn: true}, once: true, do: [{op: 'stat_stage', target: 'self', stats: {def: 2}}]}];
 const local = fixture({members: Array.from({length: 6}, (_, index) => ({species: 2, level: 50, skills: [7], stats: {...stats, hp: 100, spe: 1}, member_rules: index === 0 ? [script('status_moves_always_miss')] : [], member_phases: phases}))});

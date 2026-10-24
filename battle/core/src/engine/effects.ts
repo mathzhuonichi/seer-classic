@@ -57,8 +57,7 @@ const OPS: Record<string, OpHandler> = {
   cure_status: (b, op, { tgt }) => {
     for (const c of [...tgt.conditions]) if (c.def.kind === 'status' && (!op.statuses || op.statuses.includes(c.id))) b.removeCondition(tgt, c.id);
   },
-  // a move's context names its user; outside a move (emptyCtx) no skill does the clearing
-  clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, moveSkill(ctx)),
+  clear_stages: (b, op, { user, ctx, tgt }) => clearStages(b, tgt, op.which ?? 'all', tgt !== user, ctx),
   heal: (b, op, { ctx, tgt }) => { b.heal(tgt, healAmount(op, tgt, ctx.damageDealt), { item: b.usingItem }); },
   restore_pp: (b, op, { tgt }) => {
     const ids = op.skill ? [op.skill] : tgt.skills;
@@ -75,12 +74,12 @@ const OPS: Record<string, OpHandler> = {
     const amt = op.pct_max_hp ? (user.maxHp * op.pct_max_hp) / 100 : (ctx.damageDealt * (op.pct_damage_dealt ?? 0)) / 100;
     if (amt > 0) b.dealDamage(user, Math.max(1, Math.floor(amt)), { kind: 'fixed' });
   },
-  fixed_damage: (b, op, { user, ctx, tgt }) => { b.dealDamage(tgt, op.amount, { kind: 'fixed', source: user, skill: ctx.skill }); },
+  fixed_damage: (b, op, { user, ctx, tgt }) => { b.dealDamage(tgt, op.amount, { kind: 'fixed', source: user, skill: ctx.skill, sureHit: ctx.sureHit }); },
   pct_damage: (b, op, { user, ctx, tgt }) => {
     const amt = op.pct_max_hp ? (tgt.maxHp * op.pct_max_hp) / 100 : (tgt.hp * (op.pct_current_hp ?? 0)) / 100;
-    b.dealDamage(tgt, Math.max(1, Math.floor(amt)), { kind: 'percent', source: user, skill: ctx.skill });
+    b.dealDamage(tgt, Math.max(1, Math.floor(amt)), { kind: 'percent', source: user, skill: ctx.skill, sureHit: ctx.sureHit });
   },
-  ohko: (b, _op, { user, ctx, tgt }) => { b.dealDamage(tgt, tgt.hp, { kind: 'true', source: user, skill: ctx.skill, ohko: true }); },
+  ohko: (b, _op, { user, ctx, tgt }) => { b.dealDamage(tgt, tgt.hp, { kind: 'true', source: user, skill: ctx.skill, ohko: true, sureHit: ctx.sureHit }); },
   add_condition: (b, op, { tgt }) => {
     const def = b.data.conditions.get(op.condition);
     if (!def) return b.warn(`unknown condition ${op.condition}`);
@@ -196,13 +195,17 @@ export function changeStage(b: Battle, mon: Mon, stat: StageKey, delta: number, 
   b.emit({ type: 'stat_stage', side: mon.side, stat, delta: after - before, stage: after, capped: after - before !== delta });
 }
 
-/** Clears `mon`'s stages; a move's clear passes its `skill` to `on_stage_incoming`. */
-export function clearStages(b: Battle, mon: Mon, which: 'up' | 'down' | 'all', byFoe: boolean, skill?: Skill): void {
+/**
+ * Clears `mon`'s stages. A move's clear passes its context to `on_stage_incoming`, with its skill; outside a move (`emptyCtx`,
+ * which names no user) no skill does the clearing.
+ */
+export function clearStages(b: Battle, mon: Mon, which: 'up' | 'down' | 'all', byFoe: boolean, ctx?: MoveCtx): void {
+  const skill = ctx && moveSkill(ctx);
   let changed = false;
   for (const k of STAGES) {
     const v = mon.stages[k];
     if (!((which !== 'down' && v > 0) || (which !== 'up' && v < 0))) continue;
-    if (byFoe && b.fire(mon, 'on_stage_incoming', { stat: k, delta: -v, byFoe, clear: true, skill }).includes(false)) continue;
+    if (byFoe && b.fire(mon, 'on_stage_incoming', { stat: k, delta: -v, byFoe, clear: true, skill, ctx }).includes(false)) continue;
     mon.stages[k] = 0;
     changed = true;
   }
