@@ -24,6 +24,8 @@ const PUBLIC = path.join(root, 'public');
 /** An unzipped browser package (tools/distribution/pack_browser.mjs) whose own server answers every request, or null. */
 const PACKAGE = process.env.SEER_PACKAGE ? path.resolve(root, process.env.SEER_PACKAGE) : null;
 const VIEWPORT = {width: 1280, height: 800};
+/** The reasons engines give for a request the page cancels itself (a reload, an image dropped before it loaded): not a failed answer. */
+const CANCELLED = /^net::ERR_ABORTED$|cancelled|NS_BINDING_ABORTED/i;
 /** How long the page load, the first world scene or a battle's first command may take. */
 export const BOOT_TIMEOUT_MS = 60_000;
 
@@ -154,7 +156,7 @@ function seedOnce(entries) {
 /**
  * Opens the game in a fresh context and waits for the page load. `silent` holds the mute entries set on every load, `seed` the
  * entries set before the first load, `viewport` the page size (1280x800 by default). Page errors and console errors are
- * collected in `errors`, failed requests in `failed`.
+ * collected in `errors`, failed requests with the engine's reason in `failed` (not those the page cancels itself).
  */
 export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT}) {
   const context = await browser.newContext({viewport, deviceScaleFactor: 1, reducedMotion: 'reduce'});
@@ -169,7 +171,10 @@ export async function openGame(browser, {dist, silent, seed, viewport = VIEWPORT
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`pageerror: ${error.message}`));
     page.on('console', message => { if (message.type() === 'error') errors.push(`console: ${message.text()}`); });
-    page.on('requestfailed', request => failed.push(request.url()));
+    page.on('requestfailed', request => {
+      const reason = request.failure()?.errorText ?? '';
+      if (!CANCELLED.test(reason)) failed.push(`${request.url()} ${reason}`);
+    });
     page.on('response', response => { if (response.status() >= 400) failed.push(`${response.status()} ${response.url()}`); });
     await page.goto(`${ORIGIN}/`, {waitUntil: 'load', timeout: BOOT_TIMEOUT_MS});
     return {context, page, errors, failed};
