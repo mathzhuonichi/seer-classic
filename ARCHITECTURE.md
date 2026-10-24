@@ -59,7 +59,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers, development data that no screen shows); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate). |
 | `public/` | Runtime assets. Large ones are ignored by Git and travel in a separate asset archive. |
 | `src-tauri/` | The Tauri desktop shell. |
-| `design/` | Design notes ([index](design/notes/INDEX.md)), preserved source snapshots and `approved-plan.json`, the user's decisions through revision 50. |
+| `design/` | Design notes ([index](design/notes/INDEX.md)), preserved source snapshots, the official logos and favicon (`branding/`) and `approved-plan.json`, the user's decisions through revision 50. |
 
 ## Data flow
 
