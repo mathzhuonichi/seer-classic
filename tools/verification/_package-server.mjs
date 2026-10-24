@@ -13,7 +13,7 @@ import {pathToFileURL} from 'node:url';
 
 const [packageDir] = process.argv.slice(2);
 const {createGameServer, readPayload} = await import(pathToFileURL(path.join(packageDir, 'server.mjs')).href);
-const root = path.join(packageDir, 'game'), server = createGameServer(root, readPayload(root).version);
+const root = path.join(packageDir, 'game'), {version} = readPayload(root).payload, server = createGameServer(root, version);
 /** Bad Gateway: the request did not get through the HTTP client. */
 const FAILED = 502;
 
@@ -33,4 +33,4 @@ process.on('message', ({id, method, path: target, headers}) => {
   request.end();
 });
 process.on('disconnect', () => process.exit(0));
-process.send({ready: readPayload(root).version});
+process.send({ready: version});

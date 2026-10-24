@@ -114,7 +114,7 @@ t.check('the macOS node binaries are signed by the Node.js Foundation, and this 
   assert.equal(execFileSync(own, ['--version'], {encoding: 'utf8'}).trim(), `v${pin.version}`);
 });
 await t.checkAsync('every file of payload.json is present at its size, and the payload is of this version', async () => {
-  const payload = readPayload(path.join(PACKAGE, 'game'));
+  const {payload} = readPayload(path.join(PACKAGE, 'game'));
   assert.equal(payload.version, version);
   assert.deepEqual(await checkFiles(path.join(PACKAGE, 'game'), payload.entries), []);
   t.witness('payload', {files: payload.files, gibibytes: +(payload.bytes / 2 ** 30).toFixed(2)});

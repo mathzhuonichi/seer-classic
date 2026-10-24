@@ -8,8 +8,8 @@ import {duplexPair} from 'node:stream';
 import {after, before, test} from 'node:test';
 import zlib from 'node:zlib';
 import {
-  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, listen, openBrowser, parseRange, probe, refusedPortLines, resolvePath,
-  runningLines, stopSignals,
+  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, deniedLines, listen, openBrowser, parseRange, probe, readPayload,
+  refusedPortLines, resolvePath, runningLines, stopSignals,
 } from './server.mjs';
 
 const VERSION = '9.9.9';
@@ -224,6 +224,24 @@ test('a port the system refuses (on Windows a reserved range) is told apart from
 test('the startup check finds missing and changed files', async () => {
   const entries = {'ruffle/core.wasm': [16, 'x'], 'audio/bgm.m4a': [15, 'x'], 'maps/gone.webp': [3, 'x']};
   assert.deepEqual(await checkFiles(root, entries), ['audio/bgm.m4a', 'maps/gone.webp']);
+});
+
+const asRoot = process.getuid?.() === 0 && 'root reads every file';
+test('payload.json read, missing or unreadable, and denied by the system (macOS privacy protection)', {skip: asRoot}, () => {
+  const game = fs.mkdtempSync(path.join(os.tmpdir(), 'seer-payload-test-')), payload = path.join(game, 'payload.json');
+  try {
+    assert.deepEqual(readPayload(game), {});
+    fs.writeFileSync(payload, '{"version":');
+    assert.deepEqual(readPayload(game), {});
+    fs.writeFileSync(payload, JSON.stringify({version: VERSION, entries: {}}));
+    assert.deepEqual(readPayload(game), {payload: {version: VERSION, entries: {}}});
+    fs.chmodSync(payload, 0);
+    assert.deepEqual(readPayload(game), {denied: 'EACCES'});
+  } finally {
+    fs.rmSync(game, {recursive: true, force: true});
+  }
+  assert.match(deniedLines('darwin', 'EPERM').join('\n'), /系统设置 > 隐私与安全性 > 文件和文件夹 > 终端/);
+  assert.doesNotMatch(deniedLines('win32', 'EPERM').join('\n'), /终端/);
 });
 
 test('on Windows the game opens in Edge as an app window, else in the default browser', () => {

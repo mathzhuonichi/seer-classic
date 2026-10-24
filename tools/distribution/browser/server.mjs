@@ -36,6 +36,8 @@ const CACHE_IMMUTABLE = 'public, max-age=31536000, immutable', CACHE_REVALIDATE 
  * Hyper-V, WSL 2 or Docker reserved (netsh int ipv4 show excludedportrange protocol=tcp), or a program holding it exclusively.
  */
 const PORT_REFUSED = new Set(['EACCES', 'EADDRNOTAVAIL']);
+/** Read errors that mean the system denies access: on macOS, Terminal not allowed into Downloads, Documents or Desktop. */
+const READ_DENIED = new Set(['EPERM', 'EACCES']);
 
 /** Content types by extension. `.gz` files are served as their own bytes, with no Content-Encoding: the game inflates them. */
 export const MIME = {
@@ -155,9 +157,13 @@ export function probe(port, host = HOST) {
   });
 }
 
-/** game/payload.json, or null when it is missing or unreadable. */
+/** game/payload.json as {payload}; {denied: code} when the system denies reading it; {} when it is missing or unreadable. */
 export function readPayload(root) {
-  try { return JSON.parse(fs.readFileSync(path.join(root, PAYLOAD), 'utf8')); } catch { return null; }
+  try {
+    return {payload: JSON.parse(fs.readFileSync(path.join(root, PAYLOAD), 'utf8'))};
+  } catch (error) {
+    return READ_DENIED.has(error.code) ? {denied: error.code} : {};
+  }
 }
 
 /** The listed files that are missing or of another size than payload.json says, and the page itself when it is missing. */
@@ -272,10 +278,18 @@ export function runningLines(version, url, platform) {
     `关闭这个窗口${platform === 'win32' ? '' : '（或按 Ctrl+C）'}即可停止游戏。玩游戏时请不要关闭它。`];
 }
 
+/** What the console says when the system denies reading the game files (readPayload's {denied: code}). */
+export function deniedLines(platform, code) {
+  if (platform !== 'darwin') return [`系统拒绝读取游戏文件（${code}）。`, '请把整个游戏文件夹移到本地文件夹（例如 C:\\Games）后再启动。'];
+  return [`macOS 不允许“终端”读取游戏文件（${code}）：可能是之前询问是否允许访问这个文件夹时点了“不允许”。`,
+    '请打开“系统设置 > 隐私与安全性 > 文件和文件夹 > 终端”，打开游戏文件夹所在位置（例如“下载”或“文稿”）的开关，再启动游戏。'];
+}
+
 async function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'game'), url = `http://${HOST}:${PORT}/`;
   process.title = '赛尔经典 · 游戏服务（关闭这个窗口即停止游戏）';
-  const payload = readPayload(root);
+  const {payload, denied} = readPayload(root);
+  if (denied) return fail(deniedLines(process.platform, denied));
   if (!payload) return fail(['找不到游戏文件（game 文件夹不完整）。', '请删除这个文件夹，把下载的 ZIP 完整解压后再启动。']);
   const problems = await checkFiles(root, payload.entries);
   if (problems.length) {
