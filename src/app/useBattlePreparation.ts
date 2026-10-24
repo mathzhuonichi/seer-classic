@@ -74,10 +74,10 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
       if (abort.current === loading) abort.current = null;
     }
   }
-  /** Abandon a loading battle: flee and close it. */
+  /** Leave a loading battle: it never began, so it counts no attempt or loss and settles nothing. */
   function leave() {
     latest.current++; abort.current?.abort(); abort.current = null;
-    c.dispatch({ type: 'flee' }); c.dispatch({ type: 'closeBattle' });
+    c.dispatch({ type: 'abandonBattle' });
     setPreparation(null); preparing.current = false;
     clearIdleBattleAnimations();
   }

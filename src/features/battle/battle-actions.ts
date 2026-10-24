@@ -1,5 +1,5 @@
 // Action handlers that play and close battles; features/challenges and features/world start them.
-import { playTurn } from './battle-session.ts';
+import { abandonSession, playTurn } from './battle-session.ts';
 import { captureBlockedReason } from './battle-view.ts';
 import { battleInProgress, requireSession, type Feature } from '../../kernel/api.ts';
 import type { BattleAction } from './feature.ts';
@@ -21,6 +21,7 @@ export const battleActions = {
     playTurn(rt, { kind: 'capture', item: action.itemId });
   },
   flee: rt => playTurn(rt, { kind: 'flee' }),
+  abandonBattle: abandonSession,
   closeBattle: rt => {
     if (battleInProgress(rt)) throw new Error('请先结束战斗。');
     rt.session = null;

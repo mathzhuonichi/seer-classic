@@ -42,7 +42,8 @@ const session = new SkillEffectSession({
   data,
   start: () => startSkillEffectHost(park()),
   park,
-  url: (path, skillId, version) => new URL(`${path.replace('<skillId>', String(skillId))}?v=${version}`, document.baseURI).href,
+  url: (path, skillId, version, attempt) =>
+    new URL(`${path.replace('<skillId>', String(skillId))}?v=${version}${attempt > 1 ? `&attempt=${attempt}` : ''}`, document.baseURI).href,
   hidden: () => document.hidden,
   onHidden(listener) {
     const changed = () => { if (document.hidden) listener(); };
