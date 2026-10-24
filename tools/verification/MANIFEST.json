@@ -48,6 +48,9 @@
     "battle-display-lifecycle.mjs": {
       "status": "gate"
     },
+    "battle-entry-longtask.mjs": {
+      "status": "needs-browser"
+    },
     "battle-facilities.mjs": {
       "status": "gate"
     },

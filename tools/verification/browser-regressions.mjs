@@ -407,7 +407,7 @@ async function battleDetailsEscape({page}) {
   await waitWorld(page);
   await talkToCreature(page);
   await page.click('.world-dialogue button.primary');
-  await page.waitForFunction(() => document.querySelector('.classic-command-deck')?.getAttribute('aria-busy') === 'false', null, {timeout: BOOT_TIMEOUT_MS});
+  await waitCommands(page);
   await page.click('.classic-command-tabs button[aria-label="精灵"]');
   await page.click('.classic-party-actions button:text-is("详情")');
   await page.waitForSelector('.classic-creature-details');

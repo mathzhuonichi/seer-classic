@@ -21,7 +21,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {memoryStorage, root, suite, withSsr} from './_harness.mjs';
-import {BOOT_TIMEOUT_MS, buildApp, keepDrawingBuffers, openGame, talkToCreature, wait, waitWorld, withBrowser} from './_browser.mjs';
+import {BOOT_TIMEOUT_MS, buildApp, keepDrawingBuffers, openGame, talkToCreature, wait, waitCommands, waitWorld, withBrowser} from './_browser.mjs';
 
 const NAME = 'battle-skill-effects';
 const OUT = path.join(root, 'artifacts', NAME);
@@ -90,10 +90,12 @@ async function fixtures() {
  */
 function watchHost(tag) {
   const host = window.__host = {instances: [], steps: [], reveals: []}, log = console.log;
+  // The battle shows once the loading screen, which mounts its layer hidden from the deploy step, has gone.
+  const shown = () => !!document.querySelector('.battle-layer') && !document.querySelector('.battle-loading');
   console.log = function (...args) {
     const text = args.map(String).join(' ');
     const kind = /New Ruffle instance created/.test(text) ? 'created' : /Ruffle instance destroyed/.test(text) ? 'destroyed' : null;
-    if (kind) host.instances.push({kind, loading: !!document.querySelector('.battle-loading'), battle: !!document.querySelector('.battle-layer')});
+    if (kind) host.instances.push({kind, loading: !!document.querySelector('.battle-loading'), battle: shown()});
     return log.apply(this, args);
   };
   let step = null, reveal = null;
@@ -102,7 +104,7 @@ function watchHost(tag) {
     if (progress !== null && progress !== step) host.steps.push({progress: Number(progress), t: now});
     step = progress;
     const layer = document.querySelector('.battle-layer .battle-skill-effects');
-    if (!layer) reveal = null;
+    if (!layer || !shown()) reveal = null;
     else if (!reveal) host.reveals.push(reveal = {t: now, inLayer: !!layer.querySelector(`:scope > ${tag}`), sizedMs: null});
     const canvas = layer?.querySelector(`:scope > ${tag}`)?.shadowRoot?.querySelector('canvas');
     if (reveal && reveal.sizedMs === null && canvas && Math.abs(canvas.width - parseFloat(layer.style.width) * devicePixelRatio) <= 2) {
@@ -272,8 +274,7 @@ async function enterBattle(page) {
   await talkToCreature(page);
   const from = await page.evaluate(() => ({t: performance.now(), steps: window.__host.steps.length, reveals: window.__host.reveals.length}));
   await page.click('.world-dialogue button.primary');
-  await page.waitForFunction(() => document.querySelector('.classic-command-deck')?.getAttribute('aria-busy') === 'false', null,
-    {timeout: BOOT_TIMEOUT_MS});
+  await waitCommands(page);
   await wait(SIZED_MS);
   return page.evaluate(from => {
     const reveal = window.__host.reveals[from.reveals], last = window.__host.steps.slice(from.steps).find(step => step.progress === 90);

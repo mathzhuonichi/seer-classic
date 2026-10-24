@@ -47,8 +47,11 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
     abort.current = loading;
     events.onBattle(battle);
     const campaign = action.type === 'startCampaignStage' ? CHALLENGE_CAMPAIGNS.find(entry => entry.id === action.campaignId) : undefined;
-    const initial: BattlePreparation = { name: battle.name, species: battle.enemy.species, location: campaign?.location ?? scene.name, progress: 0, step: '连接战斗场景…' };
-    const report = (progress: number, step: string) => setPreparation({ ...initial, progress, step });
+    const initial: BattlePreparation = {
+      name: battle.name, species: battle.enemy.species, location: campaign?.location ?? scene.name, progress: 0, step: '连接战斗场景…',
+      deploying: false,
+    };
+    const report = (progress: number, step: string, deploying = false) => setPreparation({ ...initial, progress, step, deploying });
     setPreparation(initial);
     try {
       await nextPaint();
@@ -59,13 +62,15 @@ export function useBattlePreparation(c: GameController, backdrops: { current: Ba
       report(80, '准备精灵动作…');
       await preloadBattleAnimations([appearanceOf(battle.player), appearanceOf(battle.enemy)], { signal });
       if (!current()) return;
-      report(90, '部署出战精灵…');
+      // From here the battle mounts hidden behind the screen: each creature's whole atlas uploads in this step's pause, not as the
+      // battle shows (design/notes/battle-entry-longtask-2026-10-24.md).
+      report(90, '部署出战精灵…', true);
       // The skill effects load in the screen's own last pauses, once the art and animations are in, so that they slow neither:
       // the page's effect host starts here on the first battle. They hold the screen at most SKILL_EFFECTS_WAIT_MS (3 s); leaving
       // is handled by the pauses' waits.
       const effects = prepareSkillEffects(battle);
       await waitForBattleLoad(DEPLOY_MS, signal);
-      report(100, '战斗开始！');
+      report(100, '战斗开始！', true);
       await Promise.all([waitForBattleLoad(START_MS, signal), effects]);
       if (current()) { setPreparation(null); preparing.current = false; }
     } catch (error) {

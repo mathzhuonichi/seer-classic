@@ -134,7 +134,8 @@ function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}
    </div>
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}
     onLeave={leaveCampaign} onManage={()=>show('monsters')}/>}
-   {battleOpen&&!preparation&&<div className="battle-layer">
+   {/* Mounted hidden behind the loading screen from its deploy step; the same layer then shows, so the battle is not mounted again. */}
+   {battleOpen&&(!preparation||preparation.deploying)&&<div className={`battle-layer${preparation?' is-deploying':''}`} inert={!!preparation}>
     <Battle c={uiController} background={battle.backdrop.src}
      onSettings={()=>openTool('settings')}/>
    </div>}

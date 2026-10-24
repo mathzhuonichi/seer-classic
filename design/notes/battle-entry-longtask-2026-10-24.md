@@ -1,6 +1,6 @@
 # Battle-entry long task: how common it is, and the options
 
-Status: current. Measurement only, 2026-10-24 (the user asked for it on 2026-10-24); the fix is not chosen. Measured on a
+Status: current. Measured 2026-10-24 at the user's request; the user then chose the fix, (c3) prewarm, built as section 9 says. Measured on a
 throwaway worktree at a48f2d8 plus five measurement hooks (switched by localStorage keys), not committed. The battle-entry path
 (`battle-animation.ts`, `ui/creature-animation-mount.ts`, `useBattlePreparation.ts`) is unchanged between a48f2d8 and b0f2827,
 and the one `App.tsx` line the warm-up variant touches (`{battleOpen&&!preparation&&<div className="battle-layer">`) is also
@@ -250,3 +250,21 @@ as the tables cite them. Rerunning needs a worktree at a48f2d8 with the hooks ag
   `webkit-1920`, `webkit-1920-big`; `upload-micro`, the idle spot check `idle-1280`, two Chrome traces. The morning's
   `opp-1280` (taken under load) is superseded.
 - **Inventory:** 1,483 atlases and the world's encounters, generated from the runtime indexes.
+
+## 9. Built: the battle mounts behind the deploy step (user, 2026-10-24)
+
+- `BattlePreparation.deploying` names the stage: `useBattlePreparation` sets it with the 90 % step 「部署出战精灵…」 and keeps it
+  through 「战斗开始！」. From then `App.tsx` renders the battle layer behind the loading screen with the class `is-deploying`
+  (`visibility: hidden`, not `display: none`, so the renderers have the layer's size) and `inert`; when the screen goes, the same
+  element shows, so React does not mount the battle again.
+- Nothing in the battle had to wait for the reveal. A new battle has no presentation frames (`animation.frames` is empty until the
+  first turn), so the playback starts nothing; the battle screen plays no sound and listens to no key on mount; the idle clips
+  start unseen; the skill-effect host moves into the hidden layer as it did into the shown one. Leaving during the step
+  dispatches `abandonBattle`, which unmounts the hidden battle with its renderers.
+- `tools/verification/battle-entry-longtask.mjs` (`needs-browser`, Chrome and WebKit) plays with 502 (256 MiB) as the lead. A
+  mutation observer stamps the moment the loading screen goes. The suite checks that the layer then shown was mounted behind
+  the screen and that both clips were ready. In Chrome it also checks that no long task runs in the 1.5 s after, on the first
+  battle and the next. It also checks that leaving during the deploy step leaves no clip behind and that the next battle starts.
+- Two suites that took the command deck's `aria-busy` as the sign of a shown battle now also wait for the loading screen to go
+  (`waitCommands`): `browser-regressions` (creature details) and `battle-skill-effects`, whose battle's first frame is now the one
+  after the loading screen.

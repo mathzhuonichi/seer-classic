@@ -15,6 +15,8 @@ html,body,#root{height:100%;overflow:hidden}
 .exploration-layer,.battle-layer{height:100%;width:100%;min-height:0}
 .exploration-layer[hidden]{display:none}
 .battle-layer{position:absolute;inset:0}
+/* Hidden, not display:none: the creatures' renderers take the layer's size while the battle mounts behind the loading screen. */
+.battle-layer.is-deploying{visibility:hidden}
 .game-shell.is-in-battle{grid-template-rows:minmax(0,1fr)}
 .game-hud[hidden]{display:none}
 .game-hud{position:relative;z-index:12;min-height:0;background:#0b82d4;container-type:size}

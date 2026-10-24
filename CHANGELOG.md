@@ -2,6 +2,11 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Battle entry without the long task (2026-10-24, evening)
+
+- **Battle entry.** The battle mounts hidden behind its loading screen from the 「部署出战精灵…」 step, so both creatures' HD atlases upload there and not as the battle shows. In Chrome the measured battles show with no long task and no frame over 16.8 ms. Before, a task of 50-195 ms came at about 95 MiB of atlas at 1280x800 and at about 60 MiB at 1920x1080@2: 4-23 % of wild encounters, and every battle of a lead of 100 MiB or more. Each session's first battle also loses its ~105 ms frame from the battle-UI SVGs. The loading time is unchanged; a pet switched in mid-battle still uploads as it shows ([battle-entry-longtask-2026-10-24](design/notes/battle-entry-longtask-2026-10-24.md)).
+- **Checks.** `npm test` 307 tests; `npm run verify` 77/77 (`--jobs 2`); new `needs-browser` suite `battle-entry-longtask` (Chrome and WebKit); `browser-regressions` 66, `battle-skill-effects` 10, `battle-hd-display` 12, `battle-move-clips` 6, `battle-attack-reach` 3 and `browser-save-slots` 4 pass.
+
 ## Save slots, map music, fleeing monsters and Boss rules (2026-10-24, later)
 
 - **Save slots.** 设置 › 航行存档 lists every save with its summary: 新存档, 读取 and 删除 (never the active save, after a confirmation); an imported file becomes a new save. Saves live in IndexedDB, one record and one document per slot (a 3,000-monster save is about 1.4 M characters, and local storage holds only three); the save of earlier versions is adopted unchanged as 「存档 1」 and its local-storage keys are deleted once it is stored ([save-slots-2026-10-24](design/notes/save-slots-2026-10-24.md)).
