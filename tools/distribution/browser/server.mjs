@@ -24,6 +24,8 @@ const PAYLOAD = 'payload.json';
 const PROBE_TIMEOUT_MS = 2000;
 /** Files whose sizes are checked at once at startup. */
 const CHECK_BATCH = 64;
+/** The exit code after a failure the console has explained and the player has acknowledged (the Windows launcher reads it). */
+export const EXIT_EXPLAINED = 3;
 /** Shown files of a failed startup check. */
 const LISTED_PROBLEMS = 5;
 /** Content-hashed build files never change under their name; every other answer is revalidated through its ETag. */
@@ -230,11 +232,12 @@ function exitAfterKey(code) {
 
 function fail(lines) {
   console.error(['', ...lines, ''].join('\n'));
-  exitAfterKey(1);
+  exitAfterKey(EXIT_EXPLAINED);
 }
 
 async function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'game'), url = `http://${HOST}:${PORT}/`;
+  process.title = '赛尔经典 · 游戏服务（关闭这个窗口即停止游戏）';
   const payload = readPayload(root);
   if (!payload) return fail(['找不到游戏文件（game 文件夹不完整）。', '请删除这个文件夹，把下载的 ZIP 完整解压后再启动。']);
   const problems = await checkFiles(root, payload.entries);

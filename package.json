@@ -16,6 +16,7 @@
     "package": "npm run build:desktop && npm run stage:desktop && node tools/verification/desktop-payload.mjs && RUSTFLAGS=\"--remap-path-prefix=$HOME=~\" tauri build --bundles app --config src-tauri/tauri.bundle.conf.json && python3 tools/distribution/pack_macos_dmg.py",
     "package:smoke": "npm run stage:desktop && RUSTFLAGS=\"--remap-path-prefix=$HOME=~\" tauri build --bundles app --features smoke --config src-tauri/tauri.bundle.conf.json --config src-tauri/tauri.smoke.conf.json",
     "smoke:macos": "python3 tools/distribution/smoke_macos.py",
+    "package:browser": "tsc --noEmit && node tools/distribution/pack_browser.mjs",
     "dev:preview": "vite --host 127.0.0.1 --port 1421"
   },
   "dependencies": {
