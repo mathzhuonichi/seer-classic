@@ -2,6 +2,13 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Cleanup and the desktop package (2026-10-23)
+
+- **Cleanup.** Dead exports and functions, the runtime Boss evidence ledger, the dead and needs-cache verification scripts, the mobile and Store icons, `public/laboratory`, the browser playtest package and the source packer are gone; `public/branding` moved to `src-tauri/icons/source` and `approved-plan.json` to `design/`.
+- **Desktop app.** The executable holds only the code (about 20 MiB); the files of `public/` the game can request ship beside it as a checked payload, served through Tauri's own protocol so the page keeps the origin of the 0.2 app. `npm run package` builds the arm64 macOS `.app` and a 2.7 GiB DMG with a player README and THIRD-PARTY-NOTICES.txt; Windows is not built yet ([desktop-package-2026-10-23](design/notes/desktop-package-2026-10-23.md)).
+- **Saves.** On the desktop, saves are files with atomic writes and three backups, and the 0.2 app's save is imported once. Both builds show a lasting notice when a write is refused, keep unreadable saves for export, name the version of a newer save and catch render errors with 导出存档 and 重新载入. Settings has a 关于 section with the version and the notices.
+- **Checks.** `npm run verify` gates 76 suites; `npm test` 239 tests; `cargo test` 16 tests in the shell; new statuses `release` (the `desktop-payload` gate run by `npm run package`) and `needs-rust`; a silent packaged macOS smoke test (`npm run smoke:macos`).
+
 ## Battle rules, Boss AI and move clips (2026-10-21 to 2026-10-23)
 
 - **Battle screen.** Creatures are drawn at their original native size, so 哈莫雷特 is no longer as small as 丽莎布布 ([battle-native-size](design/notes/battle-native-size.md)). Battle items act on the creature in battle with one click.
