@@ -93,3 +93,18 @@ This checks the pinned input hashes, retains generated PNG bytes and registers t
 ## Item and engraving icons
 
 `download_item_icons_v50.py` (Pillow required) pins the official per-id icons of every runtime item and engraving. It first runs `collect_item_icons_v50.mjs`, which lists through the real controller, without a browser or a player save, every item a screen can show (catalog items, Boss and recruitment essences, fusion beads) into ignored `.cache/item-icons-v50/runtime-items.json`. It resolves essence and soul-bead ids through `../analysis/seer-data-a00bcdd/items.json`, downloads the PNGs to `public/item-icons/original/`, writes the authored category fallbacks to `public/item-icons/fallback/`, and writes `public/item-icons/manifest.json` and `src/shared/item-icon-assets.json`. See [item-icons-access-v50](../../design/notes/item-icons-access-v50.md).
+
+## HD battle atlases and deleted caches
+
+The HD battle builders (`recover_battle_shapes.py`, the `build_battle_hd_*atlases.py` family, `publish_battle_hd_atlases.py`, `build_battle_ai_910.py`
+and their calibration, morph and audit helpers) document how the published atlases in `public/battle-animations/hd/` were made; see the
+`battle-animation-hd-*` design notes. Their caches `.cache/battle-hd-v44`, `-v59`, `-v60`, `-v61` and `-v62` were deleted on 2026-10-23 at the user's
+request, without a backup, so these builders cannot rebuild or re-verify the published atlases as they are. A rebuild starts again from
+`.cache/portrait-v44/sources` and makes new atlases; the V60 model output is not byte-reproducible. The V62 stroke calibration is kept as
+`battle_hd_stroke_calibration_v62.json`.
+
+The same day the regenerable workspace files went too: the portrait-v44 intermediates (`full`, the render and candidate folders,
+`mixed-classification`, `pilot`, `retained-*`), the FFDec XML, frame and SVG exports and previews in `.cache/hd-ui-v44` (its SWFs, AI inputs,
+registrations and JSON records stay), the download archives in `.cache/tools` and `.cache/portrait-v44/toolchain` and
+`.cache/tools/skill-effects-venv` (the extracted tools stay),
+`.cache/tower-v54`, `.cache/station-atlas-v53` and `artifacts/`. Rerun the export tools above to recreate an export before a builder that reads it.

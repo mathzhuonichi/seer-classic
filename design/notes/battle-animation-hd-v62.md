@@ -121,6 +121,19 @@ The decoded size of the 52 atlases fell from 4,068 to 3,897 MiB, because pages a
 - The model output and therefore the publisher's model check are byte-reproducible on this machine only; transfer the V62 atlases, metadata and cache reports together.
 - The species with an original-size budget exception (375, 382, 431, 498, 502, 811, 1202) and the 346 prototype are unchanged. The V44 cache provenance gap described in the V59 note is unchanged.
 
+## Caches deleted (2026-10-23)
+
+At the user's request, and without a backup, the HD battle caches `.cache/battle-hd-v44`, `-v59`, `-v60`, `-v61` and `-v62`
+(3,400 MiB) and all of `artifacts/`, including the evidence listed above, were deleted on 2026-10-23. With them went the two
+review tools that only read those caches, `tools/verification/battle-hd-ai-crops.py` and `battle-hd-stroke-sheets.py`.
+
+- Kept: the published atlases, metadata and runtime index; the tracked manifest and provenance files (their `reportPath` rows now
+  name deleted files, and their digests remain as the record); the stroke calibration (`tools/assets/battle_hd_stroke_calibration_v62.json`)
+  and review; the official SWFs in `.cache/portrait-v44/sources`, the `.cache/battle-ai-910` and `.cache/battle-vector-prototype-346` caches.
+- The builders in `tools/assets/` stay as the record of how the published atlases were made, but they cannot rebuild or re-verify
+  them as they are. A rebuild starts again from the SWFs and makes new atlases; the V60 model output is not byte-reproducible.
+- The reproduction steps below, and those in the V44 to V61 notes, describe the state before the deletion.
+
 ## Reproduction
 
 ```sh
