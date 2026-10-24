@@ -19,7 +19,7 @@ import {locationBackdrop, type BattleBackdrop} from '../features/battle/index.ts
 import {useGameDisplay} from '../shared/game-display.ts';
 import {battleActive,questAlert} from '../shared/view-helpers.ts';
 import {COMPACT_WINDOWS,WINDOW_TITLES,campaignForAction,startsBattle,type WindowKind} from './shell-navigation.ts';
-import {readWorldPreference} from '../domain/world/world.ts';
+import {readWorldPreference,type WorldLocationId} from '../domain/world/world.ts';
 import {gameAudio} from '../shared/audio/game-audio.ts';
 import {actionSound} from './action-sounds.ts';
 import {GameErrorBoundary} from './GameErrorBoundary.tsx';
@@ -91,7 +91,8 @@ function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}
   battleOpen,inBattle,questReady,activeCampaign,modifierTarget,backdrops,rememberScene,toast}=useShellState(c);
  const {nav,show,close,toggle,leaveCampaign}=navigation;
  const battle=useBattlePreparation(c,backdrops,battleOpen,{onStart(){close();setMessage('')},onBattle:started=>audio.track(started)});
- const audio=useShellAudio(c,!!battle.preparation);
+ const audio=useShellAudio(c,!!battle.preparation,nav.campaignId),{showScene}=audio;
+ const sceneShown=useCallback((scene:BattleBackdrop&WorldLocationId)=>{rememberScene(scene);showScene(scene)},[rememberScene,showScene]);
  const routes=shellRoutes({c,navigation,backdrops,setMessage,setSelected});
  const {preparation}=battle,{windowKind}=nav;
  // Components receive this controller: battles start behind the loading screen, campaign
@@ -128,7 +129,7 @@ function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}
   <div className="game-stage">
    {/* Inert under a window, the modifier or the loading screen, so focus and keys cannot reach exits and creatures behind them. */}
    <div className="exploration-layer" hidden={battleOpen||!!activeCampaign} inert={!!windowKind||modifier||!!preparation}>
-    <WorldMap c={uiController} onNavigate={routes.navigate} travelTo={nav.travelTo} onSceneChange={rememberScene}
+    <WorldMap c={uiController} onNavigate={routes.navigate} travelTo={nav.travelTo} onSceneChange={sceneShown}
      onInteract={event=>{if(event.kind==='species')show('dex',{dexSpecies:event.species});else show('quests',{questId:event.questId})}}/>
    </div>
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}

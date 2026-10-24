@@ -1,5 +1,9 @@
 # Official battle audio integration
 
+Music outside battle, the world theme of each map, came later: [bgm-2026-10-24](bgm-2026-10-24.md). Since then the music
+volume covers both themes, the world theme fades out when a battle begins and starts over when it ends, and `GameAudio` lives
+in `src/shared/audio/`.
+
 The application now plays the recovered official `FightBg_Sound` battle theme while the battle layer is visible, together with a small set of original interface, healing, acquisition and result cues. This pass leaves exploration scenes and their assets unchanged and introduces no battle countdown or command deadline.
 
 ## Source selection and mappings

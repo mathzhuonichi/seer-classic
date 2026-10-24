@@ -1,6 +1,6 @@
 {
   "packageVersion": "20260930181402",
-  "selectionPolicy": "Official battle theme and eight short interaction cues only. Capture/reward/level-up assignments use named official effects as remake mappings; exact historical controller bindings are not certified.",
+  "selectionPolicy": "Official battle theme and eight short interaction cues (bundles, files), and the world themes outside battle (sceneMusic). Capture/reward/level-up assignments use named official effects as remake mappings; exact historical controller bindings are not certified.",
   "bundles": [
     {
       "packageVersion": "20260930181402",
@@ -286,5 +286,910 @@
       "encoding": "Original MP3 copied unchanged",
       "sha256": "207954de0f29d4bbed72edd461f37676498d7929b82fd10b271c17b7507bfd24"
     }
-  ]
+  ],
+  "sceneMusic": {
+    "selectionPolicy": "Each map's world theme as the 2013-07-06 client map table names it (data/scene-music.json; three later maps from the current official table), fetched from the official Flash resource server under its period name and copied unchanged. No archived 2009-2013 copy exists to prove byte identity; see design/notes/bgm-2026-10-24.md.",
+    "files": [
+      {
+        "track": "BGM_001A",
+        "file": "scene/BGM_001A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_001A.mp3",
+        "bytes": 1088809,
+        "durationSeconds": 68.049,
+        "format": "MP3, 2 ch, 44100 Hz, 128 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "052dfd37bc8e6d901505a66d1e5b03d64f0a94e444fc161384940cd828782289"
+      },
+      {
+        "track": "BGM_003A",
+        "file": "scene/BGM_003A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_003A.mp3",
+        "bytes": 1447000,
+        "durationSeconds": 90.436,
+        "format": "MP3, 2 ch, 44100 Hz, 128 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "45f257a90ff1cc75e3da22aa33526124b60b8fcffbfc72bf5f717551acfeaae0"
+      },
+      {
+        "track": "BGM_004",
+        "file": "scene/BGM_004.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_004.mp3",
+        "bytes": 215901,
+        "durationSeconds": 26.985,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c2f7fa5321f9fc91f2ec95757b44deb634f5bcbb5e292cf4900d6254a9f46d38"
+      },
+      {
+        "track": "BGM_005A",
+        "file": "scene/BGM_005A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_005A.mp3",
+        "bytes": 552149,
+        "durationSeconds": 69.016,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "b77b2ad100676d3f471c486a87b05b79adbdeed7d18e2dd787f2ceb6e98b1bab"
+      },
+      {
+        "track": "BGM_006",
+        "file": "scene/BGM_006.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_006.mp3",
+        "bytes": 392071,
+        "durationSeconds": 49.006,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "34f31b60bc58e96d1c7ef68491685581e2a4389095a8734b59a71b165fddcc37"
+      },
+      {
+        "track": "BGM_007",
+        "file": "scene/BGM_007.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_007.mp3",
+        "bytes": 223424,
+        "durationSeconds": 27.925,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "27aed00427ef8148d313a632576fa83670f7e72cd5fdb995a8e1467989aa586c"
+      },
+      {
+        "track": "BGM_008A",
+        "file": "scene/BGM_008A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_008A.mp3",
+        "bytes": 205034,
+        "durationSeconds": 25.626,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "68d81684de60353ee4ab8b3a9efca206de49492c48908d19defad94421d5c494"
+      },
+      {
+        "track": "BGM_008B",
+        "file": "scene/BGM_008B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_008B.mp3",
+        "bytes": 140250,
+        "durationSeconds": 17.528,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "b9d3ac9b3fddec778656e24999471f6f2b2edc5f26e51ea1ffc73050ed8c260d"
+      },
+      {
+        "track": "BGM_009A",
+        "file": "scene/BGM_009A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_009A.mp3",
+        "bytes": 240352,
+        "durationSeconds": 30.041,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "bb2e64f3575a3c217c623b72d523bddfe3f1b94b6edf7e7583251bd8c175cb66"
+      },
+      {
+        "track": "BGM_009B",
+        "file": "scene/BGM_009B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_009B.mp3",
+        "bytes": 239934,
+        "durationSeconds": 29.989,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "2bffa01791fd87a693bc336d6b7dc49a4b474acc9f4621552030dad743cb75d4"
+      },
+      {
+        "track": "BGM_009C",
+        "file": "scene/BGM_009C.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_009C.mp3",
+        "bytes": 285073,
+        "durationSeconds": 35.631,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "0c0bffff6b050d352fd681b0802e13dfa0861b39afd49cb844c88c4ac8cbb70a"
+      },
+      {
+        "track": "BGM_010A",
+        "file": "scene/BGM_010A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_010A.mp3",
+        "bytes": 224260,
+        "durationSeconds": 28.029,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "f8731343f585aceacccf631488b8e7cc56ccf1eba14b0392c8553eba2aaa87d5"
+      },
+      {
+        "track": "BGM_010B",
+        "file": "scene/BGM_010B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_010B.mp3",
+        "bytes": 242441,
+        "durationSeconds": 30.302,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e324f8fe796a6295a7a3b49719133474a76cb4279e83bfd9ca297f37d4976f0e"
+      },
+      {
+        "track": "BGM_011",
+        "file": "scene/BGM_011.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_011.mp3",
+        "bytes": 238262,
+        "durationSeconds": 29.78,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "fd53133fc1f8f0fb8e8c2908c44b048e5ce25c491515c433027b1133e2e7eb02"
+      },
+      {
+        "track": "BGM_012",
+        "file": "scene/BGM_012.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_012.mp3",
+        "bytes": 256861,
+        "durationSeconds": 32.105,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "046eea6c7c594e3b2bf2c32667806cc8fb652ec680a0e52835d460bec34c51d8"
+      },
+      {
+        "track": "BGM_013",
+        "file": "scene/BGM_013.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_013.mp3",
+        "bytes": 256861,
+        "durationSeconds": 32.105,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "cb4ffb7285ccd9dbee5f463cd5741175eed03aa1507297847308d8ca565720ae"
+      },
+      {
+        "track": "BGM_015A",
+        "file": "scene/BGM_015A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_015A.mp3",
+        "bytes": 342334,
+        "durationSeconds": 42.789,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "50dfb09d9d89a5d023f89e921804e88ba4659e9718dbaf8fce864c235b2d1dd7"
+      },
+      {
+        "track": "BGM_016",
+        "file": "scene/BGM_016.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_016.mp3",
+        "bytes": 335437,
+        "durationSeconds": 41.926,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "668e4ecbb86f56743bb8d2c2334eabe83e7084f7116358cfbf546832aac19e8c"
+      },
+      {
+        "track": "BGM_017",
+        "file": "scene/BGM_017.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_017.mp3",
+        "bytes": 280894,
+        "durationSeconds": 35.109,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "fc0906eeb93e41be7c5328d578aff404f4b49e361092f475ba213242668dc3f4"
+      },
+      {
+        "track": "BGM_018",
+        "file": "scene/BGM_018.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_018.mp3",
+        "bytes": 171388,
+        "durationSeconds": 21.42,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "540e113ed36ef6a31590ecb7b184e9f81905284806e27bd2b70e59bd031b6587"
+      },
+      {
+        "track": "BGM_019A",
+        "file": "scene/BGM_019A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_019A.mp3",
+        "bytes": 346513,
+        "durationSeconds": 43.311,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "ea263f77fb2bf1abefef34c1e6c48204462fed6808da58596657994cbe611c7c"
+      },
+      {
+        "track": "BGM_019C",
+        "file": "scene/BGM_019C.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_019C.mp3",
+        "bytes": 383712,
+        "durationSeconds": 47.961,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "0d80dd160155c2082f7e44889e629eea9b7d2cf2f48fe3aff68b425aac2de710"
+      },
+      {
+        "track": "BGM_020A",
+        "file": "scene/BGM_020A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_020A.mp3",
+        "bytes": 350693,
+        "durationSeconds": 43.834,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "ad6fd6ea2c85ec1e657b6541e814ca5f4c4ce1c57c63e77ec56729bfa98f1635"
+      },
+      {
+        "track": "BGM_020C",
+        "file": "scene/BGM_020C.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_020C.mp3",
+        "bytes": 350693,
+        "durationSeconds": 43.834,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e948d0b107c0d68953777d811584f2d5a2aa0eaf2713e8c5ef56644372aa90c8"
+      },
+      {
+        "track": "BGM_021A",
+        "file": "scene/BGM_021A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_021A.mp3",
+        "bytes": 240352,
+        "durationSeconds": 30.041,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "45b9a34269e5b04f5cad85d0bf12d7b971b5a613b32e53919f35cd5411b5edbb"
+      },
+      {
+        "track": "BGM_021B",
+        "file": "scene/BGM_021B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_021B.mp3",
+        "bytes": 360933,
+        "durationSeconds": 45.114,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "33db5c67ee5d6fbf0d9e4829ac56b24bace1050f66909e42c9b490666c45a64a"
+      },
+      {
+        "track": "BGM_022A",
+        "file": "scene/BGM_022A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_022A.mp3",
+        "bytes": 320809,
+        "durationSeconds": 40.098,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d13f5ea1f4dc647a129236c8eaa2539f5e19bf7694cf4602572585867d85d386"
+      },
+      {
+        "track": "BGM_023",
+        "file": "scene/BGM_023.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_023.mp3",
+        "bytes": 296149,
+        "durationSeconds": 37.016,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "93fe1eadbe1bd3c3ee083a6b8d54a79503adb853b65b147809b1693798088a50"
+      },
+      {
+        "track": "BGM_024",
+        "file": "scene/BGM_024.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_024.mp3",
+        "bytes": 25312,
+        "durationSeconds": 3.161,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e16fcf7d84f51b8c6000e45e8a95d809f02be6fbc2335483b31183c9de821679"
+      },
+      {
+        "track": "BGM_025A",
+        "file": "scene/BGM_025A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_025A.mp3",
+        "bytes": 368665,
+        "durationSeconds": 46.08,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "cb79b5e099157b22d47ccce176630d36d64abce5a8264cd73ab34c94a9a12bc7"
+      },
+      {
+        "track": "BGM_025B",
+        "file": "scene/BGM_025B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_025B.mp3",
+        "bytes": 356544,
+        "durationSeconds": 44.565,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "3b924826020444262abd43520e8a1619ef683484ec8b314ca5ce7572a09456b8"
+      },
+      {
+        "track": "BGM_025C",
+        "file": "scene/BGM_025C.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_025C.mp3",
+        "bytes": 472110,
+        "durationSeconds": 59.011,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "1905fc9b5b3ba3e6766e709add2d2b80d6c1a9c72007d2093a1cb60b53560522"
+      },
+      {
+        "track": "BGM_027A",
+        "file": "scene/BGM_027A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_027A.mp3",
+        "bytes": 354036,
+        "durationSeconds": 44.251,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "76d0849b719148bcc0bb571472eeaac59b6deb6c02db5ffb648826d819764f79"
+      },
+      {
+        "track": "BGM_027B",
+        "file": "scene/BGM_027B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_027B.mp3",
+        "bytes": 431359,
+        "durationSeconds": 53.917,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d28df846e45d510bfa0c06205a72f74d905cda2ea986b5d9a74ed9cbc75746ac"
+      },
+      {
+        "track": "BGM_028",
+        "file": "scene/BGM_028.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_028.mp3",
+        "bytes": 383712,
+        "durationSeconds": 47.961,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "cafb55b91d1f38841081aaf73ee848e32ae35e31887ac0254f1e3737421c8b26"
+      },
+      {
+        "track": "BGM_029",
+        "file": "scene/BGM_029.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_029.mp3",
+        "bytes": 356544,
+        "durationSeconds": 44.565,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "0f22430e50d41b9dbf77d0200f8a8f61973c28eedd7c52b2f7b1faa65053f055"
+      },
+      {
+        "track": "BGM_030",
+        "file": "scene/BGM_030.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_030.mp3",
+        "bytes": 438255,
+        "durationSeconds": 54.779,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e5aa6d4db2eba08c29e80f0c0002b394e4de8dfff502564efd8574eb7986ee50"
+      },
+      {
+        "track": "BGM_031A",
+        "file": "scene/BGM_031A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_031A.mp3",
+        "bytes": 479006,
+        "durationSeconds": 59.873,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "5ad8fedc064a8599246b58c9d05fd0caf434b8dd537478453bcd9e120c3e2160"
+      },
+      {
+        "track": "BGM_032",
+        "file": "scene/BGM_032.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_032.mp3",
+        "bytes": 437628,
+        "durationSeconds": 54.7,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "a43418d5ebc205b5915a0ad2f19dfdd53e4b729ad1d92ac540937d3cb4267a85"
+      },
+      {
+        "track": "BGM_033",
+        "file": "scene/BGM_033.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_033.mp3",
+        "bytes": 383085,
+        "durationSeconds": 47.883,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "f488a97fb6969f1bb22300c247505f007c131221ec96e81b960364d126eb3506"
+      },
+      {
+        "track": "BGM_034A",
+        "file": "scene/BGM_034A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_034A.mp3",
+        "bytes": 383712,
+        "durationSeconds": 47.961,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c3a8014a4d1009ff6627df009dcfb6056c0f63fe0910b66551df39eddc87e22b"
+      },
+      {
+        "track": "BGM_034B",
+        "file": "scene/BGM_034B.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_034B.mp3",
+        "bytes": 295522,
+        "durationSeconds": 36.937,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "528dbaa77652f18734a09b626a999689392754672534094364e76a4c6aa318d5"
+      },
+      {
+        "track": "BGM_036",
+        "file": "scene/BGM_036.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_036.mp3",
+        "bytes": 274833,
+        "durationSeconds": 34.351,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c614d5f8a0b807fe7153f061a5d85f9d01ae7fc4530272160b6174bd55b51aa7"
+      },
+      {
+        "track": "BGM_037",
+        "file": "scene/BGM_037.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_037.mp3",
+        "bytes": 240561,
+        "durationSeconds": 30.067,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "f6c28acefefded88ea335c225a2055348ab3f290919e5a650501c6e8f695ca96"
+      },
+      {
+        "track": "BGM_039",
+        "file": "scene/BGM_039.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_039.mp3",
+        "bytes": 396459,
+        "durationSeconds": 49.554,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "df5aa8d589779ccf204e06ef59bf1d039a46bc9dedca0571dcd27cf015caa534"
+      },
+      {
+        "track": "BGM_040",
+        "file": "scene/BGM_040.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_040.mp3",
+        "bytes": 320391,
+        "durationSeconds": 40.046,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d497ac4d2ddc6784b1b8d877de41a90e15369a2dcae06f1c7576ff36f307cd7f"
+      },
+      {
+        "track": "BGM_041",
+        "file": "scene/BGM_041.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_041.mp3",
+        "bytes": 272116,
+        "durationSeconds": 34.011,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d7c6e47a33af54ae02c05f91ea2e75d7ba9199425fba7a9b5e95a21cf9e47778"
+      },
+      {
+        "track": "BGM_047",
+        "file": "scene/BGM_047.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_047.mp3",
+        "bytes": 138787,
+        "durationSeconds": 34.691,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c7375ac39d12dc6ffe0841243aeae4a9ab865b6d70a2c2aba43053cd526d9092"
+      },
+      {
+        "track": "BGM_050",
+        "file": "scene/BGM_050.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_050.mp3",
+        "bytes": 207751,
+        "durationSeconds": 51.931,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "6b4362fa4b8e6584f575c16f473704a6aceb4dc2c2f8803ef070abb814a745e6"
+      },
+      {
+        "track": "BGM_051",
+        "file": "scene/BGM_051.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_051.mp3",
+        "bytes": 155088,
+        "durationSeconds": 38.766,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d9973ef2e3b2ca6e37e883e921d3481f4626ac88878a00403632ead9a39b8f0c"
+      },
+      {
+        "track": "BGM_055",
+        "file": "scene/BGM_055.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_055.mp3",
+        "bytes": 121651,
+        "durationSeconds": 30.407,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d3a030ef41f3d40c858f09ac7cdc7d08b2b46cc01183e685a5003e339c07df6f"
+      },
+      {
+        "track": "BGM_059",
+        "file": "scene/BGM_059.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_059.mp3",
+        "bytes": 145475,
+        "durationSeconds": 36.362,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "2423bb70f11458bbc3f804569cf618df4adcec75c37fb809b03e49bff12e82c3"
+      },
+      {
+        "track": "BGM_066",
+        "file": "scene/BGM_066.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_066.mp3",
+        "bytes": 129592,
+        "durationSeconds": 32.392,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "ea9d89ec467cb42df463edf620b4c775cdc1ab3c271b1564c1f9fb9ea7021a8b"
+      },
+      {
+        "track": "BGM_068",
+        "file": "scene/BGM_068.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_068.mp3",
+        "bytes": 145475,
+        "durationSeconds": 36.362,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e80108b2813a5721484adab454dad417f0701327f3dc9721bf9dd3406620c9b4"
+      },
+      {
+        "track": "BGM_074",
+        "file": "scene/BGM_074.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_074.mp3",
+        "bytes": 124995,
+        "durationSeconds": 31.242,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "e94f2c913423738256b08376255d55f66611c7e8ff76843ffa42aed75676cf5b"
+      },
+      {
+        "track": "BGM_077",
+        "file": "scene/BGM_077.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_077.mp3",
+        "bytes": 129592,
+        "durationSeconds": 32.392,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "f3308e859c6c8f650575dde488a6d4104c7d9a9f180bda3b34daf03683eb5ff8"
+      },
+      {
+        "track": "BGM_084",
+        "file": "scene/BGM_084.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_084.mp3",
+        "bytes": 129592,
+        "durationSeconds": 32.392,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "78847e36b0403e539067a8aa227f735a6fe83390c640af9a88d1aaeb86f05be9"
+      },
+      {
+        "track": "BGM_090",
+        "file": "scene/BGM_090.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_090.mp3",
+        "bytes": 110784,
+        "durationSeconds": 27.69,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "538345aabd9f1c0b2e86872bfe251b7be964f37613f747f54c1312c00f69c509"
+      },
+      {
+        "track": "BGM_092",
+        "file": "scene/BGM_092.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_092.mp3",
+        "bytes": 150699,
+        "durationSeconds": 37.669,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "3d2e69f9035c823a4966868e0dd261b02ee163bd7c37d67bbbe0d96a30d5a876"
+      },
+      {
+        "track": "BGM_094",
+        "file": "scene/BGM_094.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_094.mp3",
+        "bytes": 116845,
+        "durationSeconds": 29.205,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "611ca9cf8cf9e23a31838a0e8b54744eddd66fecf7ba6bc1f6f951971e29045e"
+      },
+      {
+        "track": "BGM_095",
+        "file": "scene/BGM_095.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_095.mp3",
+        "bytes": 155088,
+        "durationSeconds": 38.766,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "2347d3df4e52a271c18c51e0cbc1faa07b6df1bd878651d93ce7adb49acb7c91"
+      },
+      {
+        "track": "BGM_097",
+        "file": "scene/BGM_097.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_097.mp3",
+        "bytes": 129592,
+        "durationSeconds": 32.392,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "44498a4b8a02cf5ab4eff15055bc9377d4d79ba27fe62ef285efc3cfb83fc896"
+      },
+      {
+        "track": "BGM_098",
+        "file": "scene/BGM_098.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_098.mp3",
+        "bytes": 138787,
+        "durationSeconds": 34.691,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "2473f2865b88d861bb6069887500418a60075df22569570543ee4a6037f6a468"
+      },
+      {
+        "track": "BGM_099",
+        "file": "scene/BGM_099.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_099.mp3",
+        "bytes": 126249,
+        "durationSeconds": 31.556,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "389257245cd7ee169a32e8abedd1535f5655c64c91e00d1c66ad2e33c0e7182e"
+      },
+      {
+        "track": "BGM_100",
+        "file": "scene/BGM_100.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_100.mp3",
+        "bytes": 121442,
+        "durationSeconds": 30.354,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "dbc23f79cfaffced0de3b3346dcf2450f4c0c1677e5d0bd2e01b7ba4f4192472"
+      },
+      {
+        "track": "BGM_10032",
+        "file": "scene/BGM_10032.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_10032.mp3",
+        "bytes": 500632,
+        "durationSeconds": 62.067,
+        "format": "MP3, 2 ch, 44100 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d9d0bae0cee6f16f496ba34de3350fc0453f66d15fdd69182fa056a30d13c0fb"
+      },
+      {
+        "track": "BGM_104",
+        "file": "scene/BGM_104.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_104.mp3",
+        "bytes": 175568,
+        "durationSeconds": 43.886,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "049d3e6b2578056ae2ed540c3c984d1848a37f26999794eed096fb181215bbb9"
+      },
+      {
+        "track": "BGM_105",
+        "file": "scene/BGM_105.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_105.mp3",
+        "bytes": 129383,
+        "durationSeconds": 32.34,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "a941a88c362761e36c2d5f91ef762e0ad41f78ee3c0de816f8a5d2a96816fe77"
+      },
+      {
+        "track": "BGM_106",
+        "file": "scene/BGM_106.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_106.mp3",
+        "bytes": 133354,
+        "durationSeconds": 33.332,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c86280d1d6b1ea813bff1904c810258d405f534297728ed7c5430ac5fc48a682"
+      },
+      {
+        "track": "BGM_109",
+        "file": "scene/BGM_109.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_109.mp3",
+        "bytes": 133354,
+        "durationSeconds": 33.332,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "79935d0a2533bd5231a42ef3ae6a2a820a5a3e96b4f8932af5b983ca5450f3bc"
+      },
+      {
+        "track": "BGM_111",
+        "file": "scene/BGM_111.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_111.mp3",
+        "bytes": 134399,
+        "durationSeconds": 33.593,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "934030736fa7d0f236d676465b83ce6bc7e064016090b0e05b3e9535d7bb6aab"
+      },
+      {
+        "track": "BGM_115",
+        "file": "scene/BGM_115.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_115.mp3",
+        "bytes": 158641,
+        "durationSeconds": 39.654,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c4e46f5573ea0b5a1d9bd54f21c0976f1793ee2deeafedef95bf6c74040a2edd"
+      },
+      {
+        "track": "BGM_116",
+        "file": "scene/BGM_116.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_116.mp3",
+        "bytes": 121988,
+        "durationSeconds": 30.459,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "1b1fd7aa7be900787eacb5b304fe4a20615737db4d51db253adeaaaef4feaefd"
+      },
+      {
+        "track": "BGM_117",
+        "file": "scene/BGM_117.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_117.mp3",
+        "bytes": 121233,
+        "durationSeconds": 30.302,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "1216e7613c1919bb1a266f209982a9f8bbea28306dabb8431e1d48bbf1490983"
+      },
+      {
+        "track": "BGM_120",
+        "file": "scene/BGM_120.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_120.mp3",
+        "bytes": 151953,
+        "durationSeconds": 37.982,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "34b4ec60786d486719b59e29d8db258fb184285e117607709c95a77a4666a48f"
+      },
+      {
+        "track": "BGM_121",
+        "file": "scene/BGM_121.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_121.mp3",
+        "bytes": 121024,
+        "durationSeconds": 30.25,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d63bd3d5ab14847399d2902a544ff82e29865658968a6cca253ca34b204f6bf8"
+      },
+      {
+        "track": "BGM_123",
+        "file": "scene/BGM_123.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_123.mp3",
+        "bytes": 169313,
+        "durationSeconds": 42.266,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "d22ea389663e6c3b92104f50f4ba8ea45006a40c9704a186f9357785039aafe4"
+      },
+      {
+        "track": "BGM_126",
+        "file": "scene/BGM_126.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_126.mp3",
+        "bytes": 138578,
+        "durationSeconds": 34.638,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "9230e1765ee7653444ee81509a6ca16b8aaaabe821d18dcd67c310bf5179f805"
+      },
+      {
+        "track": "BGM_127",
+        "file": "scene/BGM_127.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_127.mp3",
+        "bytes": 171597,
+        "durationSeconds": 42.893,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "c368da89d434ffe38d223f0134eecc26db5b2f9ee62a3c9448eccde4b122c278"
+      },
+      {
+        "track": "BGM_128",
+        "file": "scene/BGM_128.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_128.mp3",
+        "bytes": 193122,
+        "durationSeconds": 48.274,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "1c188143916f8245abf7aecc25e1eecbc4fa5d5be2d5e52214dedaa030e35b80"
+      },
+      {
+        "track": "BGM_132",
+        "file": "scene/BGM_132.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_132.mp3",
+        "bytes": 163656,
+        "durationSeconds": 40.908,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "38d1548d2794b84094e9b8b0f96505c6d1ae18b1964e0177a338bff743a78fe6"
+      },
+      {
+        "track": "BGM_133",
+        "file": "scene/BGM_133.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_133.mp3",
+        "bytes": 145490,
+        "durationSeconds": 36.31,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "945530394a00fff8e4ecde5948478c30353123ec30e3cecf28ae69726253a3b6"
+      },
+      {
+        "track": "BGM_138",
+        "file": "scene/BGM_138.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_138.mp3",
+        "bytes": 209551,
+        "durationSeconds": 52.349,
+        "format": "MP3, 2 ch, 11025 Hz, 32 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "934966ebd8f8afcc018acf302ea834f209b3ac2d056f49cc2fd5ade6e5baa412"
+      },
+      {
+        "track": "BGM_143A",
+        "file": "scene/BGM_143A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_143A.mp3",
+        "bytes": 616724,
+        "durationSeconds": 77.087,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "cb95887687caddcd2b6cd6712d0d83edf0fc6ae740dcb8cf30c0f00c65761ff4"
+      },
+      {
+        "track": "BGM_148A",
+        "file": "scene/BGM_148A.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_148A.mp3",
+        "bytes": 560717,
+        "durationSeconds": 70.087,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "7aa3799bff8850cc7a5ed9adb87b1f1437e25151e9906431b690777df2df2c58"
+      },
+      {
+        "track": "BGM_161",
+        "file": "scene/BGM_161.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_161.mp3",
+        "bytes": 399803,
+        "durationSeconds": 49.972,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "11de44e135c22f5cf7d6384506e1a474499fcf4d8b41afd8f473f9af81d68e6f"
+      },
+      {
+        "track": "BGM_162",
+        "file": "scene/BGM_162.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_162.mp3",
+        "bytes": 587467,
+        "durationSeconds": 73.43,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "ff144b88620da366b4e9d371c0ae61a3a4ebfdde21b4edac89985fcd48ea7166"
+      },
+      {
+        "track": "BGM_170",
+        "file": "scene/BGM_170.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_170.mp3",
+        "bytes": 558209,
+        "durationSeconds": 69.773,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "dea57209fada676351c8048c67dbbf3996ca2406ffab3553f5c61e25f1bccd2e"
+      },
+      {
+        "track": "BGM_178",
+        "file": "scene/BGM_178.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_178.mp3",
+        "bytes": 460407,
+        "durationSeconds": 57.548,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "146ca5f1b81ae21ad613a1fb9f31d20258b2c017ce180de5a1782e1cef326c32"
+      },
+      {
+        "track": "BGM_180",
+        "file": "scene/BGM_180.mp3",
+        "officialUrl": "https://seer.61.com/resource/map/sound/BGM_180.mp3",
+        "bytes": 412969,
+        "durationSeconds": 51.618,
+        "format": "MP3, 2 ch, 22050 Hz, 64 kbps",
+        "encoding": "Original MP3 copied unchanged",
+        "sha256": "42ff2315b03c5e992bdab67573e7461824899e39c8a87d4ea4469538b0f36ead"
+      }
+    ]
+  }
 }

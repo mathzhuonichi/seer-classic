@@ -7,7 +7,9 @@ import {
   buildWorldDialogue, buildWorldScene, sceneTitle, type SceneEquipment, type WorldSceneView, type WorldSelection,
 } from '../world-scene.ts';
 import { ARROW_STEPS, visiblePlayerPoint } from '../world-walk.ts';
-import { BRAVE_TOWER_LOCATION, findChallengeLocation, isWorldLocation, resolveWorldLocation, type WorldPlanet, type WorldRegion } from '../../../domain/world/world.ts';
+import {
+  BRAVE_TOWER_LOCATION, findChallengeLocation, isWorldLocation, resolveWorldLocation, type WorldLocationId, type WorldPlanet, type WorldRegion,
+} from '../../../domain/world/world.ts';
 import { useGame } from '../../../shared/ui/use-game.ts';
 import ClassicRobot from './ClassicRobot.tsx';
 import { nameplateClass } from './nameplate.ts';
@@ -24,7 +26,8 @@ export interface WorldMapProps {
   /** `variant`: the Boss variant picked in the challenge archive, preselected in its dialogue (null: the practice fight). */
   travelTo?: { planetId: string; regionId?: string; bossId?: string; variant?: string | null; requestId?: number };
   onInteract?: (event: WorldInteraction) => void;
-  onSceneChange?: (scene: {src:string;name:string}) => void;
+  /** The scene on screen: its background and name, and the location it shows. */
+  onSceneChange?: (scene: {src:string;name:string}&WorldLocationId) => void;
 }
 /** Wildlife shown per scene, before scarce species stay single. */
 const SCENE_POPULATION = 6;
@@ -54,7 +57,8 @@ export function WorldMap({c,onNavigate,travelTo,onInteract,onSceneChange}:WorldM
 
   function walkTo(x:number,y:number,after?:()=>void){close();walker.walkTo(x,y,after)}
   function visit(p:WorldPlanet,r:WorldRegion,entry?:ScenePoint){walker.visit(p,r,entry);close();setArrival(true)}
-  useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name}),[scene.background,scene.name,onSceneChange]);
+  useEffect(()=>onSceneChange?.({src:scene.background,name:scene.name,planetId:planet.id,regionId:region.id}),
+    [scene.background,scene.name,planet.id,region.id,onSceneChange]);
   useEffect(()=>{if(!arrival)return;const timer=setTimeout(()=>setArrival(false),ARRIVAL_FLASH_MS);return()=>clearTimeout(timer)},[arrival]);
   // A fled wild monster's farewell waits for its battle to close, then speaks in the scene.
   const said=useRef(farewell);

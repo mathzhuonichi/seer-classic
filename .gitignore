@@ -30,5 +30,6 @@ __pycache__/
 /public/portraits/hd/*.png
 /public/audio/*.m4a
 /public/audio/*.mp3
+/public/audio/scene/*.mp3
 .claude/
 /public/battle-effects/swf/*.swf
