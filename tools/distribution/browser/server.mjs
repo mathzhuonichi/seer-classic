@@ -31,6 +31,11 @@ const LISTED_PROBLEMS = 5;
 /** Content-hashed build files never change under their name; every other answer is revalidated through its ETag. */
 const IMMUTABLE = '/assets/';
 const CACHE_IMMUTABLE = 'public, max-age=31536000, immutable', CACHE_REVALIDATE = 'no-cache';
+/**
+ * listen() errors that mean the system refuses this program the port. On Windows WSAEACCES, reported as EACCES: a range that
+ * Hyper-V, WSL 2 or Docker reserved (netsh int ipv4 show excludedportrange protocol=tcp), or a program holding it exclusively.
+ */
+const PORT_REFUSED = new Set(['EACCES', 'EADDRNOTAVAIL']);
 
 /** Content types by extension. `.gz` files are served as their own bytes, with no Content-Encoding: the game inflates them. */
 export const MIME = {
@@ -208,14 +213,15 @@ export function openBrowser(commands, run = launch) {
 export const stopSignals = platform => ['SIGINT', 'SIGTERM', 'SIGHUP', ...(platform === 'win32' ? ['SIGBREAK'] : [])];
 
 /**
- * Listens on `port`, or finds it taken: resolves to {server}, {running: version} when a game server already answers there, or
- * {taken: true} when another program holds it.
+ * Listens on `port`, or finds it taken: resolves to {server}, {running: version} when a game server already answers there,
+ * {taken: true} when another program holds it, or {refused: code} when the system refuses the port (PORT_REFUSED).
  */
 export function listen(server, port, host = HOST) {
   return new Promise((resolve, reject) => {
     server.once('error', error => {
-      if (error.code !== 'EADDRINUSE') return reject(error);
-      probe(port, host).then(answer => resolve(answer ? {running: answer.version} : {taken: true}));
+      if (error.code !== 'EADDRINUSE' && !PORT_REFUSED.has(error.code)) return reject(error);
+      probe(port, host).then(answer => resolve(answer ? {running: answer.version}
+        : error.code === 'EADDRINUSE' ? {taken: true} : {refused: error.code}));
     });
     server.listen(port, host, () => resolve({server}));
   });
@@ -235,6 +241,16 @@ function fail(lines) {
   exitAfterKey(EXIT_EXPLAINED);
 }
 
+const SAVE_ORIGIN_LINE = `存档保存在浏览器的 http://${HOST}:${PORT} 网站数据中，必须使用这个端口。`;
+
+/** What the console says when the system refuses port PORT (listen's {refused: code}). */
+export function refusedPortLines(platform, code) {
+  if (platform !== 'win32') return [`无法启动：系统不允许游戏使用端口 ${PORT}（${code}）。请重启电脑后再试。`, SAVE_ORIGIN_LINE];
+  return [`无法启动：Windows 不允许游戏使用端口 ${PORT}（${code}）。Hyper-V、WSL 或 Docker 有时会保留这个端口，另一个程序也可能独占了它。`,
+    SAVE_ORIGIN_LINE, '重启电脑通常就能解决。如果重启后仍然这样：在开始菜单中搜索“cmd”，右键点“以管理员身份运行”，',
+    '依次输入 net stop winnat 和 net start winnat（每行输完按回车），然后关闭那个窗口，再启动游戏。'];
+}
+
 async function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'game'), url = `http://${HOST}:${PORT}/`;
   process.title = '赛尔经典 · 游戏服务（关闭这个窗口即停止游戏）';
@@ -246,9 +262,10 @@ async function main() {
       '请删除这个文件夹，把下载的 ZIP 完整解压后再启动（解压时需要约 6 GB 可用磁盘空间）。']);
   }
   const result = await listen(createGameServer(root, payload.version), PORT);
+  if (result.refused) return fail(refusedPortLines(process.platform, result.refused));
   if (result.taken) {
     return fail([`无法启动：端口 ${PORT} 已被其他程序占用（例如开发版的 test.command 或另一个程序）。`,
-      `请关闭占用端口 ${PORT} 的程序后再启动。存档保存在浏览器的 ${url} 网站数据中，必须使用这个端口。`]);
+      `请关闭占用端口 ${PORT} 的程序后再启动。`, SAVE_ORIGIN_LINE]);
   }
   if (result.running) {
     const other = result.running === payload.version ? '' : `（不是这个文件夹的 ${payload.version} 版：要玩这一版，请先关闭那个窗口再启动）`;

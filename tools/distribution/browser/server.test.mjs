@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {EventEmitter} from 'node:events';
 import fs from 'node:fs';
 import http from 'node:http';
 import os from 'node:os';
@@ -7,7 +8,8 @@ import {duplexPair} from 'node:stream';
 import {after, before, test} from 'node:test';
 import zlib from 'node:zlib';
 import {
-  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, listen, openBrowser, parseRange, probe, resolvePath, stopSignals,
+  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, listen, openBrowser, parseRange, probe, refusedPortLines, resolvePath,
+  stopSignals,
 } from './server.mjs';
 
 const VERSION = '9.9.9';
@@ -197,6 +199,26 @@ test('a taken port is told apart: this game already running, or another program'
     other.close();
     game.close();
   }
+});
+
+/** A server whose listen fails with `code`, as the system's own refusals of a port do. */
+const failingServer = code => Object.assign(new EventEmitter(), {
+  listen() { process.nextTick(() => this.emit('error', Object.assign(new Error(`listen ${code}: permission denied`), {code}))); },
+});
+
+test('a port the system refuses (on Windows a reserved range) is told apart from a taken one, and Windows says how to free it', async () => {
+  // The probe of the refused port meets another program (or, in the sandbox, no connection): no game server answers there.
+  const other = http.createServer((_, response) => response.end('<!doctype html>'));
+  await new Promise(resolve => other.listen(0, '127.0.0.1', resolve));
+  try {
+    for (const code of ['EACCES', 'EADDRNOTAVAIL']) assert.deepEqual(await listen(failingServer(code), other.address().port), {refused: code});
+    await assert.rejects(listen(failingServer('EINVAL'), other.address().port), {code: 'EINVAL'});
+  } finally {
+    other.close();
+  }
+  const windows = refusedPortLines('win32', 'EACCES').join('\n');
+  for (const part of ['1426', 'EACCES', 'Hyper-V', '重启电脑', '以管理员身份运行', 'net stop winnat', 'net start winnat']) assert(windows.includes(part), part);
+  assert.doesNotMatch(refusedPortLines('darwin', 'EACCES').join('\n'), /winnat/);
 });
 
 test('the startup check finds missing and changed files', async () => {
