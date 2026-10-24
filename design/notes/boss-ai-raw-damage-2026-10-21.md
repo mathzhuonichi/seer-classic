@@ -123,7 +123,8 @@ Before is the 2026-10-19 policy; after is this one. Headless engine runs.
   re-cast it while it was in place (40 times in the witness), spending PP. Fixed on 2026-10-24: renewing it changes nothing
   ([boss-ai-engine-2026-10-24](boss-ai-engine-2026-10-24.md) section 2).
 - After a faint replacement the re-cast probably comes one turn late: phases run at turn end before the replacement, and at
-  turn start after actions are chosen. The voluntary-switch case is tested; the faint case is not.
+  turn start after actions are chosen. The voluntary-switch case is tested; the faint case is not. Checked on 2026-10-24: it
+  comes on time ([boss-ai-engine-2026-10-24](boss-ai-engine-2026-10-24.md) section 3).
 - The `once: false` phases of 奈尼芬多 emit `phase_triggered` at every check. The UI skips empty message frames, so only the
   log grows.
 - The spent-sequence fallback affects every `sequence` AI; in data that is `boss_rei_training5` and 奈尼芬多.

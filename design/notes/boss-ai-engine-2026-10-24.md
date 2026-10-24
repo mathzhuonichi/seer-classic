@@ -56,3 +56,17 @@ named for this one script; the general question (any condition already in place)
 **Checks.** `boss-ai-isolation-v56`: over 16 battles of both 奈尼芬多 encounters, 224 turns under 药剂反噬 with another move
 left and no re-cast in place (the old policy fails on the first battle, turn 4); 32 re-casts on expiry and 32 after a switch,
 each on the first turn it is not in place. `ai.test.mjs`: in place, a Boss with an attack and 药剂反噬 attacks without a draw.
+
+## 3. After a faint replacement, 药剂反噬 comes on time
+
+**Suspicion** (2026-10-21 note): phases run at turn end, before the replacement, and at turn start, after the actions are
+chosen, so 奈尼芬多 would re-cast 药剂反噬 one turn late against a monster that replaced a fainted one.
+
+**Reproduced, not a bug.** A scripted battle with a 40 HP lead: 奈尼芬多 casts 药剂反噬 on turn 1, knocks the lead out on turn
+2, the player sends the second monster, and on turn 3 奈尼芬多 casts 药剂反噬 again, in both encounters and on every seed. A
+fainted monster keeps no conditions (`damage.ts` `handleFaint` clears them), and the turn-end phase check (`turn.ts`
+`endOfTurn`) still runs for the living Boss against it, so the `not foe_condition` phase sets the sequence before the
+replacement arrives. The same holds when the lead faints at turn end, since damage over time ticks before that phase check.
+
+**Check.** The 奈尼芬多 check of `boss-ai-isolation-v56` gained a fainting team: in all 16 battles the replacement's first turn
+is 药剂反噬 (`afterFaint` 16), and the not-under assertion covers it. No engine change.

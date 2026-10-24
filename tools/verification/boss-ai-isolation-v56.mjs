@@ -385,28 +385,32 @@ await withSsr('boss-ai-isolation-v56',async load=>{
     t.witness('tiyasiFleeTurns',fleeTurns);
   });
   // With 药剂反噬 its only status move, the old status chance re-cast it on one turn in five while it was in place (40 times here).
-  check('奈尼芬多 uses 药剂反噬 whenever the foe is not under it (at the start, once it expires, after a switch) and never while it is',()=>{
-    const BACKFIRE=20314,counts={recasts:0,afterSwitch:0,underTurns:0,whileStanding:0};
-    for(const id of ['boss_spt_nainifenduo','boss_campaign_qinglong_guardians'])for(let seed=1;seed<=8;seed++){
+  // A lead of FAINTING_HP falls to 奈尼芬多's first attack. The turn-end phase check sees the fainted lead, which keeps no
+  // conditions, so 药剂反噬 comes on the replacement's first turn, not one turn late.
+  const FAINTING_HP=40;
+  check('奈尼芬多 uses 药剂反噬 whenever the foe is not under it (at the start, once it expires, after a switch or a faint) and never while it is',()=>{
+    const BACKFIRE=20314,counts={recasts:0,afterSwitch:0,afterFaint:0,underTurns:0,whileStanding:0};
+    const teams={switching:[passiveFoe,passiveFoe],fainting:[{...passiveFoe,hp_override:FAINTING_HP},passiveFoe]};
+    for(const id of ['boss_spt_nainifenduo','boss_campaign_qinglong_guardians'])for(const [kind,team] of Object.entries(teams))for(let seed=1;seed<=8;seed++){
       const encounter=catalog.bosses.find(row=>row.id===id);
-      const b=createBattle({data,scripts,seed,encounter:structuredClone(encounter),
-        sides:[{kind:'player',team:[structuredClone(passiveFoe),structuredClone(passiveFoe)]}]});
-      let switched=false;
+      const b=createBattle({data,scripts,seed,encounter:structuredClone(encounter),sides:[{kind:'player',team:structuredClone(team)}]});
+      let entered=null;
       for(let turn=0;turn<30&&!b.result;turn++){
-        const boss=b.active(1),under=b.active(0).conditions.some(c=>c.id==='seer_eff_69'),left=boss.pp[BACKFIRE]>0,switching=turn%7===6;
+        if(b.phase==='replace'){b.submit(0,{kind:'switch',slot:b.sides[0].team.findIndex(m=>!m.fainted)});b.resolveTurn();entered='afterFaint';continue;}
+        const boss=b.active(1),under=b.active(0).conditions.some(c=>c.id==='seer_eff_69'),left=boss.pp[BACKFIRE]>0,switching=kind==='switching'&&turn%7===6;
         b.submit(0,switching?{kind:'switch',slot:1-b.sides[0].active}:passiveAction(b));
-        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${id}/${seed}/turn ${turn}`;
+        const used=b.resolveTurn().find(e=>e.type==='move_used'&&e.side===1)?.skill,label=`${id}/${kind}/${seed}/turn ${turn}`;
         if(boss.species.id===264&&used!==undefined){
-          if(!under&&left){assert.equal(used,BACKFIRE,label);if(turn)counts[switched?'afterSwitch':'recasts']++;}
+          if(!under&&left){assert.equal(used,BACKFIRE,label);if(turn)counts[entered??'recasts']++;}
           // Only a Boss with nothing else left to use casts it again in place, as any move with PP (RULES.md 10.4).
           const otherLeft=boss.skills.some(skill=>skill!==BACKFIRE&&boss.pp[skill]>0);
           if(under&&otherLeft){counts.underTurns++;assert.notEqual(used,BACKFIRE,`${label}: still in place`);}
           if(under&&used===BACKFIRE)counts.whileStanding++;
         }
-        switched=switching;
+        entered=switching?'afterSwitch':null;
       }
     }
-    assert(counts.recasts>0&&counts.afterSwitch>0&&counts.underTurns>=100,JSON.stringify(counts));
+    assert(counts.recasts>0&&counts.afterSwitch>0&&counts.afterFaint>0&&counts.underTurns>=100,JSON.stringify(counts));
     t.witness('nainifenduoBackfire',counts);
   });
   // The member as the Boss fields it, its 3000 HP included. Without that HP it cannot last against 20000, every action of the planner
