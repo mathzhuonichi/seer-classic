@@ -13,7 +13,7 @@ at the true render's multiplier and compared with the true render (aligned as ca
 so the report shows how the gate treats redraws that are close to and far from the vector truth. The four hairline
 speed lines of species 166 are measured as the reference case: their V61 redraws, and renders of the original shapes
 the V44 matcher selected for them (which failed its source gate), against the V60 and the stroke gate.
-Writes artifacts/battle-hd-v62/stroke-calibration.json. Read-only for published assets.
+Writes tools/assets/battle_hd_stroke_calibration_v62.json. Read-only for published assets.
 """
 from __future__ import annotations
 
@@ -169,11 +169,11 @@ def main():
     parser.add_argument('--per-species', type=int, default=3)
     parser.add_argument('--max-side', type=int, default=1024)
     parser.add_argument('--seed', default='v62-stroke-gate')
-    parser.add_argument('--output', type=Path, default=ROOT/'artifacts/battle-hd-v62/stroke-calibration.json')
+    parser.add_argument('--output', type=Path, default=ROOT/'tools/assets/battle_hd_stroke_calibration_v62.json')
     parser.add_argument('--reference-only', action='store_true', help='Only measure the 166 reference case against the pinned gates')
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    scratch = Path(tempfile.mkdtemp(prefix='stroke-calibration-', dir=args.output.parent))
+    scratch = Path(tempfile.mkdtemp(prefix='stroke-calibration-'))
     try:
         if args.reference_only:
             print(json.dumps(reference_case(scratch), indent=1))

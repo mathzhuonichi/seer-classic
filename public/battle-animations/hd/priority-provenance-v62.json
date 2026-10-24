@@ -54,7 +54,7 @@
   },
   "strokeShareMinimum": 0.5,
   "calibration": {
-    "path": "artifacts/battle-hd-v62/stroke-calibration.json",
+    "path": "tools/assets/battle_hd_stroke_calibration_v62.json",
     "sha256": "14f90c9517b7529906a3537161a8692d0d6da511389a45987da2b856c175ddb0"
   },
   "review": {

@@ -26,7 +26,7 @@ STROKE_SHARE_MINIMUM = .5
 # Skeleton pixels of a thin part below which it is a dot, not a line.
 STROKE_MINIMUM_LENGTH = 4
 STROKE_CLASSES = ('flat', 'shaded')
-# From artifacts/battle-hd-v62/stroke-calibration.json (calibrate_battle_hd_stroke_gate.py, seed v62-stroke-gate):
+# From battle_hd_stroke_calibration_v62.json (calibrate_battle_hd_stroke_gate.py, seed v62-stroke-gate):
 # 400 true vector renders of thin-stroke cells from 226 species; the 2.5th/97.5th percentiles of the calibration half
 # (200 cells) pass 95% of it on every check at once, and 93.5% of the held-out half (V60's gate: 58.8% of all 400).
 GATE = {'alphaIoU16Minimum': 0.7001, 'premultipliedRgbaMaeMaximum': 46.3354, 'blockErrorMaximum': 70.4406,

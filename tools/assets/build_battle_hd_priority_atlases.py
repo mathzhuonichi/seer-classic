@@ -63,6 +63,7 @@ VECTOR_SCALES = (2, 4, 8, 16, 32)
 TIERS = ('stroke', 'v59-raise', 'ai-or-redraw', 'first-pose')
 SHAPE_RENDERER = ROOT/'tools/assets/render_battle_shape_candidates.mjs'
 REVIEW = ROOT/'tools/assets/battle_hd_stroke_review_v62.json'
+CALIBRATION = ROOT/'tools/assets/battle_hd_stroke_calibration_v62.json'
 
 
 def policy():
@@ -690,7 +691,6 @@ def audit_ids(path):
 def write_provenance(args):
     """Compact tracked provenance of every published V62 species, bound to its cache report by digest."""
     published = read_json(HD_INDEX)['species']
-    calibration = ROOT/'artifacts/battle-hd-v62/stroke-calibration.json'
     species, totals = {}, collections.Counter()
     for sid, entry in sorted(published.items(), key=lambda item: int(item[0])):
         if not entry['atlas'].endswith(f'-{OUTPUT_TAG}.webp'):
@@ -715,7 +715,7 @@ def write_provenance(args):
         totals['strokeGateCells'] += len(report['strokeGateCells'])
     result = {'revision': REVISION, 'kind': KIND, 'policy': policy(), 'gates': {'v60': ai.GATE, 'stroke': sg.GATE},
               'strokeShareMinimum': sg.STROKE_SHARE_MINIMUM,
-              'calibration': {'path': os.path.relpath(calibration, ROOT), 'sha256': sha(calibration.read_bytes())},
+              'calibration': {'path': os.path.relpath(CALIBRATION, ROOT), 'sha256': sha(CALIBRATION.read_bytes())},
               'review': {'path': os.path.relpath(REVIEW, ROOT), 'sha256': sha(REVIEW.read_bytes())},
               'scope': 'Within the 128 MiB decoded budget, first standby pose cells reach one texel per device pixel at the reference '
                        'display before any other cell keeps a raise above its V44 multiplier; thin-stroke redraws are held to the '
