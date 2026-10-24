@@ -1,14 +1,12 @@
 // Imperative lifecycle of one combatant's original clip: WebGL renderer, player, clock and context loss.
 import type {SwfPlayer} from '@seer-pet-anim/swf-renderer';
 import type {Container, WebGLRenderer} from 'pixi.js';
-import {
-  battleAnimationHitFrames, originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation,
-} from '../battle-animation.ts';
+import {originalAction, retainBattleAnimation, type PreparedBattleAnimation, type RetainedBattleAnimation} from '../battle-animation.ts';
 import {battleRuntimeClock} from '../battle-runtime-clock.ts';
 import {
   canvasMargins, fixedAnimationTransform, standbyMeshBounds, visibleStandbyBounds, type AnimationBounds, type CanvasMargins,
 } from '../battle-animation-registration.ts';
-import {OPEN_ROOM, containPath, sequencePaths, type SequencePath} from '../battle-animation-path.ts';
+import {OPEN_ROOM, containPath, type SequencePath} from '../battle-animation-path.ts';
 import {clipAtlasBytes} from '../battle-offline-clip.ts';
 import {getDisplayResolution, observeDisplayResolution} from '../../../shared/display-resolution.ts';
 import {prefersReducedMotion} from '../../../shared/ui/reduced-motion.ts';
@@ -218,7 +216,7 @@ class CreatureAnimationMount implements CreatureAnimation {
   private ownedDriver: ClockDriver | null = null;
   private live: {player: SwfPlayer; driver: ClockDriver} | null = null;
   /** Each sequence's path, the playing one, and where the clip and each of its frames sit in the canvas. */
-  private paths = new Map<string, SequencePath>();
+  private paths: ReadonlyMap<string, SequencePath> = new Map();
   private sequence: string | undefined;
   private placement: Placement | null = null;
   private layout = () => {};
@@ -330,7 +328,7 @@ class CreatureAnimationMount implements CreatureAnimation {
     const onDrawError = () => this.lost(new Event('webglcontextlost', {cancelable: true}));
     const driver = this.ownedDriver = this.deps.clock.attach(player, onDrawError, clipAtlasBytes(prepared.clip));
     const home = standbyMeshBounds(prepared.clip), bounds = registrationBounds(player, host, home);
-    this.paths = sequencePaths(prepared.clip, home, battleAnimationHitFrames(this.options.species));
+    this.paths = prepared.paths;
     const layout = this.layout = () => {
       if (!this.live || this.contextLost) return;
       const {room, mirrored = false, extent} = this.options, path = this.sequence === undefined ? undefined : this.paths.get(this.sequence);

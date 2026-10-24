@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {FORWARD_KEPT_SHARE, OFFSET_CREEP, OPEN_ROOM, containPath, limitRate, sequencePaths} from './battle-animation-path.ts';
+import {FORWARD_KEPT_SHARE, OFFSET_CREEP, OPEN_ROOM, containPath, limitRate, sequencePaths as eachPath} from './battle-animation-path.ts';
 import {EMPTY_BOUNDS} from './battle-animation-registration.ts';
 
 const box = (minX, maxX, minY, maxY) => ({minX, maxX, minY, maxY});
@@ -8,6 +8,8 @@ const HOME = box(-1, 1, -1, 1);
 /** Home is 2 units across: the creep per frame in mesh units. */
 const CREEP = OFFSET_CREEP * 2;
 const FREE = {x: Infinity, y: Infinity}, STILL = {x: 0, y: 0};
+/** Each sequence's path, by name. */
+const sequencePaths = (...args) => new Map(eachPath(...args));
 /** No limit on an offset; and bands that reach at least as far as each target in its direction (a zero target asks nothing). */
 const ANY = {low: -Infinity, high: Infinity};
 const reaching = targets => targets.map(target => ({low: target > 0 ? target : -Infinity, high: target < 0 ? target : Infinity}));

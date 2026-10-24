@@ -1,4 +1,4 @@
-# Move clips, 2026-10-24: teleporting bodies and hit markers
+# Move clips, 2026-10-24: teleporting bodies, load cost and hit markers
 
 This note follows up the open points of [battle-move-clips-audit-2026-10-21](battle-move-clips-audit-2026-10-21.md), as the [2026-10-22 handoff](handoff-2026-10-22.md) lists them. That note stays current for how a move clip plays, the creature's own sprites and the audit method; the body and the rate limit are as amended below.
 
@@ -46,3 +46,21 @@ This note follows up the open points of [battle-move-clips-audit-2026-10-21](bat
 At live sizes 18 sequences no longer leave the arena and none leaves it further. Over all sizes 400 do better and 12 worse, all at sizes larger than their own (2 creature boxes, and 1380 attack at 1.4), none at its live size. The 19 left at live sizes are 165 cp, which flies out of the top and must end at rest, and bodies that grow or reach out at once while the creature barely moves (132, 343 and 504, for example), which the offset may still only follow at the creep, as on 2026-10-21. No offset step exceeds the allowed limit by more than the creep (0.020 sizes); 306 sa is not moved; 166 attack keeps 0.9 of its own sprites inside; every move starts and ends at rest.
 
 **Checks.** `battle-move-clips.mjs` now checks the jump limit against what a frame shows moving on or, where the body leads, the body's motion (`bodyMotions`), and checks that the 10 sequences keep their body inside the arena at their live size and smaller. It reports, as witnesses, the steps where the body leads (1,331 frames over all its sizes and rooms, the largest 3.98 sizes) and the 19 sequences whose body still leaves the arena at live size. The unit tests cover a creature that vanishes and reappears, one that dashes past its copies, a thrown part, a copy and a part taking the body over, and the bands. `battle-attack-reach` (Chrome at 1000x650 and 1920x1080, WebKit at 1280x800) passes its floor of 0.8, and `battle-hd-display` passes 12 of 12.
+
+## Load cost
+
+`sequencePaths` ran in the creature's mount, once per clip, as one main-thread task: about 69 ms for 169 in the 2026-10-21 audit. The teleport rule made it far slower (about 390 ms for 169), mostly by pairing copies nearest first with a sort of every pair. Two changes make clip load cheap again:
+
+- **A cheaper algorithm, with identical output.** Atlas regions are numbered instead of keyed by strings, pieces are grouped with typed arrays, the weighted median sorts indices with a stable merge sort, a frame's link motion is computed once and reused where a subset keeps every link, and copies are paired by following mutual nearest neighbours (a pair that is each other's nearest, by distance and then by place, is one the greedy order takes) instead of sorting every pair. The frame pieces moved to `battle-clip-pieces.ts`. Every species' paths are deep-equal to the teleport rule's module, with typed and plain mesh arrays.
+- **Computed with the clip, one sequence per task.** `sequencePaths` now yields one sequence's path at a time. The clip pool (`battle-animation.ts`) computes them when it loads a clip, waiting for the next task after each, and hands them to the mount with the clip (`PreparedBattleAnimation.paths`). Each battle's loading screen preloads the opening pair's clips (at 准备精灵动作…), so their paths are ready when the battle appears; the step takes that much longer, about a millisecond for the median species and 60 ms of short tasks for 169. A clip that loads mid-battle spreads the work over its sequences, and a clip reused from the pool computes nothing.
+
+Measured in Node 26 with `nice -n 10`, on clips decoded to typed arrays as the game does (`Float32Array`, `Uint16Array`). "First" is the first call in a fresh process, as at a battle's first mount; "warm" the best of later calls.
+
+| | 2026-10-21 (1a6cc11) | teleport rule | now |
+| --- | ---: | ---: | ---: |
+| 169, all sequences, first / warm | 74-82 / 57-60 ms | 410-420 / 380-395 ms | 53-59 / 36-45 ms |
+| 1400, all sequences, first / warm | 40 / 26 ms | 151 / 134 ms | 37 / 20-24 ms |
+| Catalog, warm, median / 90th percentile / total | 1.4 / 4.4 ms / 3.4 s | 1.8 / 5.9 ms / 6.1 s | 0.9 / 2.4 ms / 2.0 s |
+| Longest single task for 169 | 74-82 ms, at mount | 410-420 ms, at mount | 23-30 ms, its attack, at load |
+
+The mount itself no longer computes a path. With the paths coming from the pool, `battle-display-lifecycle` (12 of 12), `battle-animation-hd-loader`, `battle-hd-memory`, `battle-attack-reach` (3 of 3), `battle-hd-display` (12 of 12) and `battle-skill-effects` (9 of 9) pass.

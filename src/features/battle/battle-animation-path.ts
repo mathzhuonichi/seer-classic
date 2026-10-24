@@ -102,33 +102,39 @@ function bodyMotion(body: Body | null, last: Body | null, linked: Link[], motion
   return sized(movedOf(linked, motion, ([, piece]) => pieces.has(piece))) ?? STILL;
 }
 /**
- * Each sequence's path, by sequence name; `home` is the standby extent, whose size scales BODY_REACH, and `hitFrames` each
- * sequence's hit frame by name (battleAnimationHitFrames; a sequence it lacks has none). A frame's body is its own pieces
- * (all it draws when it draws none, as a move that redraws the whole creature does), followed from frame to frame. What a
- * frame shows moved on as the pieces of the creature's regions did, copies included, as they all show it; else as any
- * piece both frames draw did; else, for a creature redrawn frame by frame, as its largest piece did, and without limit
- * when the drawings do not overlap. Its body can move farther (bodyMotion).
+ * One sequence's path. A frame's body is its own pieces (all it draws when it draws none, as a move that redraws the whole
+ * creature does), followed from frame to frame. What a frame shows moved on as the pieces of the creature's regions did,
+ * copies included, as they all show it; else as any piece both frames draw did; else, for a creature redrawn frame by
+ * frame, as its largest piece did, and without limit when the drawings do not overlap. Its body can move farther
+ * (bodyMotion).
  */
-export function sequencePaths(clip: Clip, home: AnimationBounds, hitFrames: ReadonlyMap<string, number>): Map<string, SequencePath> {
+function sequencePath(frames: Clip['sequences'][number]['frames'], atlas: Regions, regions: Map<number, OwnRegion>, reach: number,
+  hitFrame: number): SequencePath {
+  let before = new Map<number, Piece[]>(), previous: Body | null = null;
+  const drawn = frames.map(frame => framePieces(frame.mesh, atlas)), creature = drawn.map(pieces => pieces.filter(piece => regions.has(piece.region)));
+  const linked = creature.map((pieces, i) => i ? links(creature[i - 1], pieces) : []), shifts = linked.map(moved);
+  const tracked = drawn.map((pieces, i) => {
+    const own = ownPieces(creature[i], regions, before);
+    if (own.length) before = byRegion(own);
+    const body = pieces.length ? bodyAmong(own.length ? own : pieces, own.length > 0, previous, linked[i], shifts[i], reach) : null;
+    return previous = body?.pieces.length ? body : null;
+  });
+  const motions = drawn.map((pieces, i) => !i ? STILL : !pieces.length || !drawn[i - 1].length ? FREE
+    : sized(shifts[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
+  return {
+    bodies: tracked.map(body => body ? extentOf(body.pieces) : EMPTY_BOUNDS), owned: tracked.map(body => !!body?.own), motions,
+    bodyMotions: tracked.map((body, i) => i ? bodyMotion(body, tracked[i - 1], linked[i], shifts[i]) : STILL),
+    extents: frames.map(frameMeshBounds), hitFrame,
+  };
+}
+/**
+ * Each sequence's path with its name, computed as it is asked for, so a caller can spread the work; `home` is the standby
+ * extent, whose size scales BODY_REACH, and `hitFrames` each sequence's hit frame by name (battleAnimationHitFrames; a
+ * sequence it lacks has none).
+ */
+export function* sequencePaths(clip: Clip, home: AnimationBounds, hitFrames: ReadonlyMap<string, number>): Generator<[string, SequencePath]> {
   const atlas = new Regions(), regions = creatureRegions(clip, atlas), reach = BODY_REACH * Math.max(home.maxX - home.minX, home.maxY - home.minY);
-  return new Map(clip.sequences.filter(s => s.frames.length).map(s => {
-    let before = new Map<number, Piece[]>(), previous: Body | null = null;
-    const drawn = s.frames.map(frame => framePieces(frame.mesh, atlas)), creature = drawn.map(pieces => pieces.filter(piece => regions.has(piece.region)));
-    const linked = creature.map((pieces, i) => i ? links(creature[i - 1], pieces) : []), shifts = linked.map(moved);
-    const tracked = drawn.map((pieces, i) => {
-      const own = ownPieces(creature[i], regions, before);
-      if (own.length) before = byRegion(own);
-      const body = pieces.length ? bodyAmong(own.length ? own : pieces, own.length > 0, previous, linked[i], shifts[i], reach) : null;
-      return previous = body?.pieces.length ? body : null;
-    });
-    const motions = drawn.map((pieces, i) => !i ? STILL : !pieces.length || !drawn[i - 1].length ? FREE
-      : sized(shifts[i]) ?? shift(drawn[i - 1], pieces) ?? redrawn(drawn[i - 1], pieces));
-    return [s.name, {
-      bodies: tracked.map(body => body ? extentOf(body.pieces) : EMPTY_BOUNDS), owned: tracked.map(body => !!body?.own), motions,
-      bodyMotions: tracked.map((body, i) => i ? bodyMotion(body, tracked[i - 1], linked[i], shifts[i]) : STILL),
-      extents: s.frames.map(frameMeshBounds), hitFrame: hitFrames.get(s.name) ?? -1,
-    }];
-  }));
+  for (const {name, frames} of clip.sequences) if (frames.length) yield [name, sequencePath(frames, atlas, regions, reach, hitFrames.get(name) ?? -1)];
 }
 
 /** How far each body reaches beyond the home extent on one side (0 for a body inside it or an empty one). */

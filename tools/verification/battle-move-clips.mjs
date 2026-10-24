@@ -154,7 +154,7 @@ await withSsr(NAME, async load => {
   for (const id of Object.keys(index)) {
     const clip = loadClip(id), home = standbyMeshBounds(clip), size = Math.max(home.maxX - home.minX, home.maxY - home.minY);
     const standby = clip.sequences.find(s => s.name === 'standby') ?? clip.sequences[0];
-    const own = new Set(standby.frames.flatMap(f => quads(f).map(q => q.region))), paths = sequencePaths(clip, home, battleAnimationHitFrames(+id));
+    const own = new Set(standby.frames.flatMap(f => quads(f).map(q => q.region))), paths = new Map(sequencePaths(clip, home, battleAnimationHitFrames(+id)));
     const live = battleCreatureExtent(+id) * size / index[id].standbySize, extents = [...EXTENTS, live];
     if (live > widest.extent) widest = {extent: live, species: +id};
     for (const sequence of clip.sequences.filter(s => MOVES.includes(s.name) && s.frames.length)) {

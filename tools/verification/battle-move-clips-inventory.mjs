@@ -75,7 +75,7 @@ function speciesRecord(id, {sequencePaths, standbyMeshBounds, battleAnimationHit
     own.add(region);
     copies.set(region, Math.max(copies.get(region) ?? 0, list.length));
   }
-  const paths = sequencePaths(clip, home, battleAnimationHitFrames(+id));
+  const paths = new Map(sequencePaths(clip, home, battleAnimationHitFrames(+id)));
   const size = Math.max(home.maxX - home.minX, home.maxY - home.minY), data = monster(id);
   const special = [...new Set((data?.learnset ?? []).map(entry => entry.skill))].filter(skill => skills.get(skill)?.category === 'special');
   const moves = Object.fromEntries(MOVES.map(name => {
